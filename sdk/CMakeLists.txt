@@ -104,14 +104,25 @@ if(WIN32 AND MSVC)
     set(CARES_LIB_DIR "${CMAKE_SOURCE_DIR}/third_party/cares/windows/$<IF:$<CONFIG:Debug>,debug_64,release_64>")
     set(RE2_LIB_DIR "${CMAKE_SOURCE_DIR}/third_party/re2/windows/$<IF:$<CONFIG:Debug>,debug_64,release_64>")
     
-    # Link with all required third-party libraries
+    # Add CURL library directory
+    set(CURL_LIB_DIR "${CMAKE_SOURCE_DIR}/third_party/curl/windows/$<IF:$<CONFIG:Debug>,debug_64,release_64>")
+    
+    # Link with ALL available third-party libraries for comprehensive coverage
     target_link_libraries(octane_sdk
         PUBLIC
-            # gRPC libraries
+            # gRPC libraries - ALL available
             "${GRPC_LIB_DIR}/grpc++.lib"
             "${GRPC_LIB_DIR}/grpc.lib"
             "${GRPC_LIB_DIR}/gpr.lib"
             "${GRPC_LIB_DIR}/address_sorting.lib"
+            "${GRPC_LIB_DIR}/grpc++_alts.lib"
+            "${GRPC_LIB_DIR}/grpc++_error_details.lib"
+            "${GRPC_LIB_DIR}/grpc++_reflection.lib"
+            "${GRPC_LIB_DIR}/grpc++_unsecure.lib"
+            "${GRPC_LIB_DIR}/grpc_unsecure.lib"
+            "${GRPC_LIB_DIR}/grpc_authorization_provider.lib"
+            "${GRPC_LIB_DIR}/grpc_plugin_support.lib"
+            "${GRPC_LIB_DIR}/grpcpp_channelz.lib"
             # UPB libraries (required by gRPC)
             "${GRPC_LIB_DIR}/upb_base_lib.lib"
             "${GRPC_LIB_DIR}/upb_mem_lib.lib"
@@ -121,34 +132,54 @@ if(WIN32 AND MSVC)
             "${GRPC_LIB_DIR}/upb_textformat_lib.lib"
             "${GRPC_LIB_DIR}/upb_wire_lib.lib"
             "${GRPC_LIB_DIR}/utf8_range_lib.lib"
-            # Protobuf libraries
+            # Protobuf libraries - ALL available
             "${PROTOBUF_LIB_DIR}/libprotobuf.lib"
+            "${PROTOBUF_LIB_DIR}/libprotobuf-lite.lib"
+            "${PROTOBUF_LIB_DIR}/libprotoc.lib"
             "${PROTOBUF_LIB_DIR}/utf8_range.lib"
             "${PROTOBUF_LIB_DIR}/utf8_validity.lib"
-            # Abseil libraries - comprehensive set to resolve all link errors
-            # Core libraries
+            # Abseil libraries - ALL available for comprehensive coverage
+            "${ABSL_LIB_DIR}/absl_bad_any_cast_impl.lib"
+            "${ABSL_LIB_DIR}/absl_bad_optional_access.lib"
+            "${ABSL_LIB_DIR}/absl_bad_variant_access.lib"
             "${ABSL_LIB_DIR}/absl_base.lib"
-            "${ABSL_LIB_DIR}/absl_spinlock_wait.lib"
-            "${ABSL_LIB_DIR}/absl_malloc_internal.lib"
-            "${ABSL_LIB_DIR}/absl_throw_delegate.lib"
-            "${ABSL_LIB_DIR}/absl_raw_logging_internal.lib"
-            # String libraries
-            "${ABSL_LIB_DIR}/absl_strings.lib"
-            "${ABSL_LIB_DIR}/absl_strings_internal.lib"
-            "${ABSL_LIB_DIR}/absl_str_format_internal.lib"
-            # Random libraries
-            "${ABSL_LIB_DIR}/absl_random_distributions.lib"
-            "${ABSL_LIB_DIR}/absl_random_internal_platform.lib"
-            "${ABSL_LIB_DIR}/absl_random_internal_pool_urbg.lib"
-            "${ABSL_LIB_DIR}/absl_random_internal_randen.lib"
-            "${ABSL_LIB_DIR}/absl_random_internal_randen_hwaes.lib"
-            "${ABSL_LIB_DIR}/absl_random_internal_randen_hwaes_impl.lib"
-            "${ABSL_LIB_DIR}/absl_random_internal_randen_slow.lib"
-            "${ABSL_LIB_DIR}/absl_random_internal_seed_material.lib"
-            "${ABSL_LIB_DIR}/absl_random_seed_gen_exception.lib"
-            "${ABSL_LIB_DIR}/absl_random_seed_sequences.lib"
-            # Logging libraries
-            "${ABSL_LIB_DIR}/absl_log_severity.lib"
+            "${ABSL_LIB_DIR}/absl_city.lib"
+            "${ABSL_LIB_DIR}/absl_civil_time.lib"
+            "${ABSL_LIB_DIR}/absl_cord.lib"
+            "${ABSL_LIB_DIR}/absl_cord_internal.lib"
+            "${ABSL_LIB_DIR}/absl_cordz_functions.lib"
+            "${ABSL_LIB_DIR}/absl_cordz_handle.lib"
+            "${ABSL_LIB_DIR}/absl_cordz_info.lib"
+            "${ABSL_LIB_DIR}/absl_cordz_sample_token.lib"
+            "${ABSL_LIB_DIR}/absl_crc32c.lib"
+            "${ABSL_LIB_DIR}/absl_crc_cord_state.lib"
+            "${ABSL_LIB_DIR}/absl_crc_cpu_detect.lib"
+            "${ABSL_LIB_DIR}/absl_crc_internal.lib"
+            "${ABSL_LIB_DIR}/absl_debugging_internal.lib"
+            "${ABSL_LIB_DIR}/absl_decode_rust_punycode.lib"
+            "${ABSL_LIB_DIR}/absl_demangle_internal.lib"
+            "${ABSL_LIB_DIR}/absl_demangle_rust.lib"
+            "${ABSL_LIB_DIR}/absl_die_if_null.lib"
+            "${ABSL_LIB_DIR}/absl_examine_stack.lib"
+            "${ABSL_LIB_DIR}/absl_exponential_biased.lib"
+            "${ABSL_LIB_DIR}/absl_failure_signal_handler.lib"
+            "${ABSL_LIB_DIR}/absl_flags_commandlineflag.lib"
+            "${ABSL_LIB_DIR}/absl_flags_commandlineflag_internal.lib"
+            "${ABSL_LIB_DIR}/absl_flags_config.lib"
+            "${ABSL_LIB_DIR}/absl_flags_internal.lib"
+            "${ABSL_LIB_DIR}/absl_flags_marshalling.lib"
+            "${ABSL_LIB_DIR}/absl_flags_parse.lib"
+            "${ABSL_LIB_DIR}/absl_flags_private_handle_accessor.lib"
+            "${ABSL_LIB_DIR}/absl_flags_program_name.lib"
+            "${ABSL_LIB_DIR}/absl_flags_reflection.lib"
+            "${ABSL_LIB_DIR}/absl_flags_usage.lib"
+            "${ABSL_LIB_DIR}/absl_flags_usage_internal.lib"
+            "${ABSL_LIB_DIR}/absl_graphcycles_internal.lib"
+            "${ABSL_LIB_DIR}/absl_hash.lib"
+            "${ABSL_LIB_DIR}/absl_hashtablez_sampler.lib"
+            "${ABSL_LIB_DIR}/absl_int128.lib"
+            "${ABSL_LIB_DIR}/absl_kernel_timeout_internal.lib"
+            "${ABSL_LIB_DIR}/absl_leak_check.lib"
             "${ABSL_LIB_DIR}/absl_log_entry.lib"
             "${ABSL_LIB_DIR}/absl_log_flags.lib"
             "${ABSL_LIB_DIR}/absl_log_globals.lib"
@@ -162,61 +193,50 @@ if(WIN32 AND MSVC)
             "${ABSL_LIB_DIR}/absl_log_internal_message.lib"
             "${ABSL_LIB_DIR}/absl_log_internal_nullguard.lib"
             "${ABSL_LIB_DIR}/absl_log_internal_proto.lib"
+            "${ABSL_LIB_DIR}/absl_log_severity.lib"
             "${ABSL_LIB_DIR}/absl_log_sink.lib"
-            "${ABSL_LIB_DIR}/absl_vlog_config_internal.lib"
-            # Synchronization libraries
-            "${ABSL_LIB_DIR}/absl_synchronization.lib"
-            # Time libraries
-            "${ABSL_LIB_DIR}/absl_time.lib"
-            "${ABSL_LIB_DIR}/absl_time_zone.lib"
-            "${ABSL_LIB_DIR}/absl_civil_time.lib"
-            # Status libraries
+            "${ABSL_LIB_DIR}/absl_low_level_hash.lib"
+            "${ABSL_LIB_DIR}/absl_malloc_internal.lib"
+            "${ABSL_LIB_DIR}/absl_periodic_sampler.lib"
+            "${ABSL_LIB_DIR}/absl_poison.lib"
+            "${ABSL_LIB_DIR}/absl_random_distributions.lib"
+            "${ABSL_LIB_DIR}/absl_random_internal_distribution_test_util.lib"
+            "${ABSL_LIB_DIR}/absl_random_internal_platform.lib"
+            "${ABSL_LIB_DIR}/absl_random_internal_pool_urbg.lib"
+            "${ABSL_LIB_DIR}/absl_random_internal_randen.lib"
+            "${ABSL_LIB_DIR}/absl_random_internal_randen_hwaes.lib"
+            "${ABSL_LIB_DIR}/absl_random_internal_randen_hwaes_impl.lib"
+            "${ABSL_LIB_DIR}/absl_random_internal_randen_slow.lib"
+            "${ABSL_LIB_DIR}/absl_random_internal_seed_material.lib"
+            "${ABSL_LIB_DIR}/absl_random_seed_gen_exception.lib"
+            "${ABSL_LIB_DIR}/absl_random_seed_sequences.lib"
+            "${ABSL_LIB_DIR}/absl_raw_hash_set.lib"
+            "${ABSL_LIB_DIR}/absl_raw_logging_internal.lib"
+            "${ABSL_LIB_DIR}/absl_scoped_set_env.lib"
+            "${ABSL_LIB_DIR}/absl_spinlock_wait.lib"
+            "${ABSL_LIB_DIR}/absl_stacktrace.lib"
             "${ABSL_LIB_DIR}/absl_status.lib"
             "${ABSL_LIB_DIR}/absl_statusor.lib"
-            # Flags libraries
-            "${ABSL_LIB_DIR}/absl_flags_commandlineflag.lib"
-            "${ABSL_LIB_DIR}/absl_flags_commandlineflag_internal.lib"
-            "${ABSL_LIB_DIR}/absl_flags_config.lib"
-            "${ABSL_LIB_DIR}/absl_flags_internal.lib"
-            "${ABSL_LIB_DIR}/absl_flags_marshalling.lib"
-            "${ABSL_LIB_DIR}/absl_flags_parse.lib"
-            "${ABSL_LIB_DIR}/absl_flags_private_handle_accessor.lib"
-            "${ABSL_LIB_DIR}/absl_flags_program_name.lib"
-            "${ABSL_LIB_DIR}/absl_flags_reflection.lib"
-            "${ABSL_LIB_DIR}/absl_flags_usage.lib"
-            "${ABSL_LIB_DIR}/absl_flags_usage_internal.lib"
-            # Container libraries
-            "${ABSL_LIB_DIR}/absl_hashtablez_sampler.lib"
-            # Cord libraries
-            "${ABSL_LIB_DIR}/absl_cord.lib"
-            "${ABSL_LIB_DIR}/absl_cord_internal.lib"
-            "${ABSL_LIB_DIR}/absl_cordz_functions.lib"
-            "${ABSL_LIB_DIR}/absl_cordz_handle.lib"
-            "${ABSL_LIB_DIR}/absl_cordz_info.lib"
-            "${ABSL_LIB_DIR}/absl_cordz_sample_token.lib"
-            # CRC libraries
-            "${ABSL_LIB_DIR}/absl_crc32c.lib"
-            "${ABSL_LIB_DIR}/absl_crc_cord_state.lib"
-            "${ABSL_LIB_DIR}/absl_crc_cpu_detect.lib"
-            "${ABSL_LIB_DIR}/absl_crc_internal.lib"
-            # Hash libraries
-            "${ABSL_LIB_DIR}/absl_hash.lib"
-            "${ABSL_LIB_DIR}/absl_city.lib"
-            "${ABSL_LIB_DIR}/absl_low_level_hash.lib"
-            # Debugging libraries
-            "${ABSL_LIB_DIR}/absl_stacktrace.lib"
+            "${ABSL_LIB_DIR}/absl_str_format_internal.lib"
+            "${ABSL_LIB_DIR}/absl_strerror.lib"
+            "${ABSL_LIB_DIR}/absl_string_view.lib"
+            "${ABSL_LIB_DIR}/absl_strings.lib"
+            "${ABSL_LIB_DIR}/absl_strings_internal.lib"
             "${ABSL_LIB_DIR}/absl_symbolize.lib"
-            "${ABSL_LIB_DIR}/absl_debugging_internal.lib"
-            "${ABSL_LIB_DIR}/absl_demangle_internal.lib"
-            # Numeric libraries
-            "${ABSL_LIB_DIR}/absl_int128.lib"
+            "${ABSL_LIB_DIR}/absl_synchronization.lib"
+            "${ABSL_LIB_DIR}/absl_throw_delegate.lib"
+            "${ABSL_LIB_DIR}/absl_time.lib"
+            "${ABSL_LIB_DIR}/absl_time_zone.lib"
+            "${ABSL_LIB_DIR}/absl_utf8_for_code_point.lib"
+            "${ABSL_LIB_DIR}/absl_vlog_config_internal.lib"
             # OpenSSL libraries
             "${OPENSSL_LIB_DIR}/libssl.lib"
             "${OPENSSL_LIB_DIR}/libcrypto.lib"
-            # Other libraries
+            # Other third-party libraries
             "${ZLIB_LIB_DIR}/zlib.lib"
             "${CARES_LIB_DIR}/cares.lib"
             "${RE2_LIB_DIR}/re2.lib"
+            "${CURL_LIB_DIR}/libcurl.lib"
             # Windows system libraries
             ws2_32.lib
             crypt32.lib
