@@ -15,14 +15,19 @@ file(GLOB_RECURSE PROTOC_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/protoc/*.cc"
 )
 
-# Collect all gRPC-related source files
-file(GLOB_RECURSE GRPC_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/*.cpp"
+# Collect only essential gRPC source files (exclude problematic client and converter files)
+file(GLOB GRPC_CORE_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpcsettings.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpcbase.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/stringmgr.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/objectmgr.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/convertmatrix.cpp"
 )
+# Note: Excluding grpccallbacks.cpp due to missing libjuce.h dependency
 
-# Include all protoc and gRPC sources
+# Include protoc sources and essential gRPC sources only
 list(APPEND SDK_SOURCES ${PROTOC_SOURCES})
-list(APPEND SDK_SOURCES ${GRPC_SOURCES})
+list(APPEND SDK_SOURCES ${GRPC_CORE_SOURCES})
 
 # Exclude octanewrappers.cpp if it exists
 list(REMOVE_ITEM SDK_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/octanewrappers.cpp")
