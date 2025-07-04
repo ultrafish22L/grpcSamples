@@ -36,6 +36,10 @@ target_include_directories(simpleGL
         ${CMAKE_SOURCE_DIR}/third_party/glfw/include
         ${CMAKE_SOURCE_DIR}/third_party/glm
         ${CMAKE_SOURCE_DIR}/sdk
+        # Add third_party headers for gRPC dependencies in SDK
+        ${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include
+        ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/include
+        ${CMAKE_SOURCE_DIR}/third_party/absl/windows/include
 )
 
 target_include_directories(simpleGL_demo
@@ -44,6 +48,10 @@ target_include_directories(simpleGL_demo
         ${CMAKE_SOURCE_DIR}/third_party/glfw/include
         ${CMAKE_SOURCE_DIR}/third_party/glm
         ${CMAKE_SOURCE_DIR}/sdk
+        # Add third_party headers for gRPC dependencies in SDK
+        ${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include
+        ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/include
+        ${CMAKE_SOURCE_DIR}/third_party/absl/windows/include
 )
 
 target_include_directories(simpleGL_test
@@ -51,6 +59,10 @@ target_include_directories(simpleGL_test
         ${CMAKE_SOURCE_DIR}/third_party/glew/include
         ${CMAKE_SOURCE_DIR}/third_party/glfw/include
         ${CMAKE_SOURCE_DIR}/sdk
+        # Add third_party headers for gRPC dependencies in SDK
+        ${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include
+        ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/include
+        ${CMAKE_SOURCE_DIR}/third_party/absl/windows/include
 )
 
 # Add gRPC compile definitions if enabled
