@@ -68,8 +68,12 @@ endif()
 
 # SDK folder organization is handled in sdk/CMakeLists.txt
 
+# Generate protobuf files before building SDK
+include(cmake/protobuf_generation.cmake)
+
 # Add SDK
 add_subdirectory(sdk)
 
 # Add main projects
 add_subdirectory(simpleGL)
+add_subdirectory(simpleGlGrpc)

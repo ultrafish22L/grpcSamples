@@ -35,6 +35,11 @@ list(REMOVE_ITEM SDK_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/octanewrappers.cpp")
 # Create the SDK library
 add_library(octane_sdk STATIC ${SDK_SOURCES} ${SDK_HEADERS})
 
+# Add dependency on protobuf generation if it exists
+if(TARGET protobuf_all)
+    add_dependencies(octane_sdk protobuf_all)
+endif()
+
 # Set include directories
 target_include_directories(octane_sdk
     PUBLIC
@@ -42,6 +47,7 @@ target_include_directories(octane_sdk
         ${CMAKE_CURRENT_SOURCE_DIR}/src
         ${CMAKE_CURRENT_SOURCE_DIR}/src/api
         ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/protoc
 )
 
 # Set C++ standard

@@ -8,9 +8,7 @@
 #include "octanematrix.h"
 
 // Include gRPC settings for connection management
-#ifdef OCTANE_GRPC_ENABLED
-#include "src/api/grpc/grpcsettings.h"
-#endif
+#include "grpc_settings.h"
 
 OctaneCameraSync::OctaneCameraSync()
     : m_initialized(false)
@@ -38,7 +36,7 @@ bool OctaneCameraSync::connectToServer(const std::string& serverAddress) {
         settings.setServerAddress(unixAddress);
         
         // Get the channel to test connection
-        auto& channel = settings.getChannel();
+        auto channel = settings.getChannel();
         if (channel) {
             std::cout << "Successfully connected to Octane server via Unix socket" << std::endl;
             return true;

@@ -35,3 +35,10 @@ Thumbs.db
 *.tmp
 *.swp
 *.swo
+
+# Generated protobuf files
+sdk/src/api/grpc/protoc/
+*.pb.h
+*.pb.cc
+*.grpc.pb.h
+*.grpc.pb.cc
