@@ -151,19 +151,67 @@ function(configure_simpleGlGrpc_target target_name)
             # Windows: Use third_party libraries
             target_link_libraries(${target_name}
                 PRIVATE
+                    # gRPC libraries
                     ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/release_64/grpc++.lib
                     ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/release_64/grpc.lib
                     ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/release_64/gpr.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/release_64/address_sorting.lib
+                    # UPB libraries (required by gRPC)
+                    ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/release_64/upb_base_lib.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/release_64/upb_mem_lib.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/release_64/upb_message_lib.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/release_64/upb_mini_descriptor_lib.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/release_64/upb_json_lib.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/release_64/upb_textformat_lib.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/release_64/upb_wire_lib.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/release_64/utf8_range_lib.lib
+                    # Protobuf libraries
                     ${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/release_64/libprotobuf.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/release_64/utf8_range.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/release_64/utf8_validity.lib
+                    # Absl libraries
                     ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_base.lib
                     ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_strings.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_strings_internal.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_str_format_internal.lib
                     ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_synchronization.lib
                     ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_time.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_time_zone.lib
                     ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_log_internal_message.lib
                     ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_log_internal_check_op.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_log_internal_format.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_log_internal_globals.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_log_severity.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_raw_logging_internal.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_cord.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_cord_internal.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_cordz_functions.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_cordz_handle.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_cordz_info.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_crc32c.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_crc_cord_state.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_crc_cpu_detect.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_crc_internal.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_hash.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_hashtablez_sampler.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_low_level_hash.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_raw_hash_set.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_status.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_statusor.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_throw_delegate.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_int128.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_spinlock_wait.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_malloc_internal.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_debugging_internal.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_demangle_internal.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_stacktrace.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_symbolize.lib
+                    # OpenSSL libraries
                     ${CMAKE_SOURCE_DIR}/third_party/openssl/windows/release_64/libssl.lib
                     ${CMAKE_SOURCE_DIR}/third_party/openssl/windows/release_64/libcrypto.lib
+                    # Zlib library
                     ${CMAKE_SOURCE_DIR}/third_party/zlib/win/x64_release/zlib.lib
+                    # Windows system libraries
                     ws2_32 crypt32
             )
         else()
