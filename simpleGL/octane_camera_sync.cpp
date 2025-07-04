@@ -6,10 +6,13 @@
 #include "apirender.h"
 #include "octanevectypes.h"
 #include "octanematrix.h"
+#include "octaneenums.h"
 
-// Include gRPC settings for connection management
+// Include gRPC settings and client headers for connection management
 #ifdef OCTANE_GRPC_ENABLED
 #include "src/api/grpc/grpcsettings.h"
+#include "src/api/grpc/client/apirenderengineclient.h"
+#include "src/api/grpc/client/apinodeclient.h"
 #endif
 
 OctaneCameraSync::OctaneCameraSync()
@@ -193,22 +196,22 @@ glm::vec3 OctaneCameraSync::octaneToGlm(const OctaneVec::float3& v) const {
 }
 
 Octane::ApiNode* OctaneCameraSync::getRenderCameraNode() {
-    // This would normally call the SDK function
-    // Since gRPC is disabled, we simulate the call
-    
+#ifdef OCTANE_GRPC_ENABLED
     try {
-        // This is the actual SDK call that would be made:
-        // return Octane::ApiRenderEngine::getRenderCameraNode();
-        
-        // Since gRPC functionality is not available, return nullptr
-        std::cout << "  [SIMULATION] Calling Octane::ApiRenderEngine::getRenderCameraNode()" << std::endl;
-        std::cout << "  [SIMULATION] gRPC functionality disabled - returning nullptr" << std::endl;
-        return nullptr;
+        // Use the actual SDK call when gRPC is enabled
+        std::cout << "  Calling Octane::ApiRenderEngine::getRenderCameraNode()" << std::endl;
+        return Octane::ApiRenderEngine::getRenderCameraNode();
         
     } catch (const std::exception& e) {
         std::cerr << "Error getting render camera node: " << e.what() << std::endl;
         return nullptr;
     }
+#else
+    // Simulation mode when gRPC is disabled
+    std::cout << "  [SIMULATION] Calling Octane::ApiRenderEngine::getRenderCameraNode()" << std::endl;
+    std::cout << "  [SIMULATION] gRPC functionality disabled - returning nullptr" << std::endl;
+    return nullptr;
+#endif
 }
 
 bool OctaneCameraSync::setCameraTransform(Octane::ApiNode* node, const OctaneVec::float4x4& transform) {
@@ -217,9 +220,38 @@ bool OctaneCameraSync::setCameraTransform(Octane::ApiNode* node, const OctaneVec
     }
     
     try {
-        // This would normally call SDK methods to set the camera transform
-        // Since gRPC is disabled, we simulate the operation
+#ifdef OCTANE_GRPC_ENABLED
+        // Extract position and target from transform matrix
+        // Position is the translation component (last column)
+        OctaneVec::float3 position;
+        position.x = transform.m[0][3];
+        position.y = transform.m[1][3];
+        position.z = transform.m[2][3];
         
+        // Calculate target point by moving forward from camera position
+        // Forward vector is -Z axis of the transform (negative third column)
+        OctaneVec::float3 forward;
+        forward.x = -transform.m[0][2];
+        forward.y = -transform.m[1][2];
+        forward.z = -transform.m[2][2];
+        
+        // Target is position + forward direction (at some distance)
+        float targetDistance = 5.0f; // Default target distance
+        OctaneVec::float3 target;
+        target.x = position.x + forward.x * targetDistance;
+        target.y = position.y + forward.y * targetDistance;
+        target.z = position.z + forward.z * targetDistance;
+        
+        std::cout << "  Setting camera position: (" << position.x << ", " << position.y << ", " << position.z << ")" << std::endl;
+        std::cout << "  Setting camera target: (" << target.x << ", " << target.y << ", " << target.z << ")" << std::endl;
+        
+        // Set camera position and target using SDK calls
+        node->setPinValue(Octane::P_POSITION, position, true);
+        node->setPinValue(Octane::P_TARGET, target, true);
+        
+        return true;
+#else
+        // Simulation mode when gRPC is disabled
         std::cout << "  [SIMULATION] Setting camera transform matrix:" << std::endl;
         for (int row = 0; row < 3; ++row) {
             std::cout << "    [" << transform.m[row][0] << ", " 
@@ -228,11 +260,28 @@ bool OctaneCameraSync::setCameraTransform(Octane::ApiNode* node, const OctaneVec
                       << transform.m[row][3] << "]" << std::endl;
         }
         
-        // Actual SDK calls would be something like:
-        // node->setTransform(transform);
-        // or node->setPosition(position) and node->setOrientation(orientation);
+        // Extract and display position and target for simulation
+        OctaneVec::float3 position;
+        position.x = transform.m[0][3];
+        position.y = transform.m[1][3];
+        position.z = transform.m[2][3];
+        
+        OctaneVec::float3 forward;
+        forward.x = -transform.m[0][2];
+        forward.y = -transform.m[1][2];
+        forward.z = -transform.m[2][2];
+        
+        float targetDistance = 5.0f;
+        OctaneVec::float3 target;
+        target.x = position.x + forward.x * targetDistance;
+        target.y = position.y + forward.y * targetDistance;
+        target.z = position.z + forward.z * targetDistance;
+        
+        std::cout << "  [SIMULATION] Would set camera position: (" << position.x << ", " << position.y << ", " << position.z << ")" << std::endl;
+        std::cout << "  [SIMULATION] Would set camera target: (" << target.x << ", " << target.y << ", " << target.z << ")" << std::endl;
         
         return true;
+#endif
         
     } catch (const std::exception& e) {
         std::cerr << "Error setting camera transform: " << e.what() << std::endl;

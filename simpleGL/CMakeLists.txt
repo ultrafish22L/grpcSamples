@@ -53,6 +53,13 @@ target_include_directories(simpleGL_test
         ${CMAKE_SOURCE_DIR}/sdk
 )
 
+# Add gRPC compile definitions if enabled
+if(ENABLE_OCTANE_GRPC)
+    target_compile_definitions(simpleGL PRIVATE OCTANE_GRPC_ENABLED)
+    target_compile_definitions(simpleGL_demo PRIVATE OCTANE_GRPC_ENABLED)
+    target_compile_definitions(simpleGL_test PRIVATE OCTANE_GRPC_ENABLED)
+endif()
+
 # Find OpenGL
 find_package(OpenGL REQUIRED)
 
