@@ -42,6 +42,11 @@ target_include_directories(octane_sdk
 # Set C++ standard
 target_compile_features(octane_sdk PUBLIC cxx_std_17)
 
+# Add Windows-specific compiler flags
+if(WIN32 AND MSVC)
+    target_compile_options(octane_sdk PRIVATE /bigobj)
+endif()
+
 # Windows MSVC specific configurations
 if(MSVC)
     # Enable parallel compilation

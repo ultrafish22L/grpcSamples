@@ -106,6 +106,10 @@ function(configure_simpleGlGrpc_target target_name)
             ${CMAKE_SOURCE_DIR}/sdk/src/api/grpc/client
             ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_CURRENT_SOURCE_DIR}/generated
+            # Add third_party protobuf, gRPC, and absl headers for all platforms
+            ${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include
+            ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/include
+            ${CMAKE_SOURCE_DIR}/third_party/absl/windows/include
     )
     
     # Add dependency on protobuf generation
@@ -180,6 +184,9 @@ function(configure_simpleGlGrpc_target target_name)
         # Set runtime library to match project settings
         set_property(TARGET ${target_name} PROPERTY
             MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+        
+        # Add /bigobj flag for large object files
+        target_compile_options(${target_name} PRIVATE /bigobj)
     endif()
 endfunction()
 
