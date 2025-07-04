@@ -6,8 +6,7 @@
 #include <iostream>
 #include <cmath>
 
-// Octane SDK integration
-#include "octane_camera_sync.h"
+// Simple OpenGL demo without SDK integration
 
 // Window dimensions
 const int WINDOW_WIDTH = 800;
@@ -43,7 +42,6 @@ struct MouseState {
 
 Camera camera;
 MouseState mouse;
-OctaneCameraSync octaneSync;
 
 // Vertex shader source
 const char* vertexShaderSource = R"(
@@ -197,9 +195,7 @@ void cursorPosCallback(GLFWwindow* window, double xpos, double ypos) {
         // Clamp phi to prevent flipping
         camera.phi = glm::clamp(camera.phi, -1.5f, 1.5f);
         
-        // Update Octane camera to match GL camera
-        glm::vec3 position = camera.getPosition();
-        octaneSync.updateCamera(position, camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
+        // Camera updated (no external sync needed)
         
         mouse.lastX = xpos;
         mouse.lastY = ypos;
@@ -212,9 +208,7 @@ void scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
     camera.radius -= yoffset * 0.5f;
     camera.radius = glm::clamp(camera.radius, 1.0f, 20.0f);
     
-    // Update Octane camera when zoom changes
-    glm::vec3 position = camera.getPosition();
-    octaneSync.updateCamera(position, camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
+    // Camera zoom updated (no external sync needed)
 }
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
@@ -259,18 +253,7 @@ int main() {
     // Enable depth testing
     glEnable(GL_DEPTH_TEST);
     
-    // Connect to Octane server and initialize camera sync
-    if (!octaneSync.connectToServer("/tmp/octane_server.sock")) {
-        std::cerr << "Warning: Failed to connect to Octane server" << std::endl;
-    }
-    
-    if (!octaneSync.initialize()) {
-        std::cerr << "Warning: Failed to initialize Octane camera sync" << std::endl;
-    }
-    
-    // Set initial camera position in Octane
-    glm::vec3 initialPosition = camera.getPosition();
-    octaneSync.updateCamera(initialPosition, camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
+    // Simple OpenGL demo - no external SDK integration needed
     
     // Create shader program
     GLuint shaderProgram = createShaderProgram();

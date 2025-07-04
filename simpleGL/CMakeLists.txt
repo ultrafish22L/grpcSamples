@@ -16,13 +16,11 @@ set(SOURCES
 # Create the main executable
 add_executable(simpleGL
     main.cpp
-    octane_camera_sync.cpp
 )
 
 # Create additional executables for demo and test
 add_executable(simpleGL_demo
     demo.cpp
-    octane_camera_sync.cpp
 )
 
 add_executable(simpleGL_test
@@ -35,11 +33,6 @@ target_include_directories(simpleGL
         ${CMAKE_SOURCE_DIR}/third_party/glew/include
         ${CMAKE_SOURCE_DIR}/third_party/glfw/include
         ${CMAKE_SOURCE_DIR}/third_party/glm
-        ${CMAKE_SOURCE_DIR}/sdk
-        # Add third_party headers for gRPC dependencies in SDK
-        ${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include
-        ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/include
-        ${CMAKE_SOURCE_DIR}/third_party/absl/windows/include
 )
 
 target_include_directories(simpleGL_demo
@@ -47,22 +40,12 @@ target_include_directories(simpleGL_demo
         ${CMAKE_SOURCE_DIR}/third_party/glew/include
         ${CMAKE_SOURCE_DIR}/third_party/glfw/include
         ${CMAKE_SOURCE_DIR}/third_party/glm
-        ${CMAKE_SOURCE_DIR}/sdk
-        # Add third_party headers for gRPC dependencies in SDK
-        ${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include
-        ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/include
-        ${CMAKE_SOURCE_DIR}/third_party/absl/windows/include
 )
 
 target_include_directories(simpleGL_test
     PRIVATE
         ${CMAKE_SOURCE_DIR}/third_party/glew/include
         ${CMAKE_SOURCE_DIR}/third_party/glfw/include
-        ${CMAKE_SOURCE_DIR}/sdk
-        # Add third_party headers for gRPC dependencies in SDK
-        ${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include
-        ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/include
-        ${CMAKE_SOURCE_DIR}/third_party/absl/windows/include
 )
 
 # Add gRPC compile definitions if enabled
@@ -78,7 +61,6 @@ find_package(OpenGL REQUIRED)
 # Link libraries for main executable
 target_link_libraries(simpleGL
     PRIVATE
-        octane_sdk
         glew
         glfw
         glm
@@ -92,7 +74,6 @@ target_link_libraries(simpleGL
 # Link libraries for test executable
 target_link_libraries(simpleGL_test
     PRIVATE
-        octane_sdk
         glew
         glfw
         ${OPENGL_LIBRARIES}
@@ -105,7 +86,6 @@ target_link_libraries(simpleGL_test
 # Link libraries for demo executable
 target_link_libraries(simpleGL_demo
     PRIVATE
-        octane_sdk
         glew
         glfw
         glm

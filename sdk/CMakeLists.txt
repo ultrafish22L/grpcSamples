@@ -15,14 +15,16 @@ file(GLOB_RECURSE PROTOC_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/protoc/*.cc"
 )
 
-# Only include the minimal necessary gRPC file for missing symbols
-set(GRPC_ESSENTIAL_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpcsettings.cpp"
-)
-
-# Include protoc sources and only essential gRPC source
+# Include protoc sources (protobuf-generated files)
 list(APPEND SDK_SOURCES ${PROTOC_SOURCES})
-list(APPEND SDK_SOURCES ${GRPC_ESSENTIAL_SOURCES})
+
+# Only include gRPC sources on Windows (Linux simpleGL doesn't need gRPC)
+if(WIN32)
+    set(GRPC_ESSENTIAL_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpcsettings.cpp"
+    )
+    list(APPEND SDK_SOURCES ${GRPC_ESSENTIAL_SOURCES})
+endif()
 
 # Exclude octanewrappers.cpp if it exists
 list(REMOVE_ITEM SDK_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/octanewrappers.cpp")
@@ -41,10 +43,10 @@ target_include_directories(octane_sdk
         ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client
         ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/converters
     PRIVATE
-        # Use third_party protobuf, gRPC, and absl headers for all platforms
-        ${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include
-        ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/include
-        ${CMAKE_SOURCE_DIR}/third_party/absl/windows/include
+        # Use third_party headers only on Windows
+        $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include>
+        $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/third_party/grpc/windows/include>
+        $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/third_party/absl/windows/include>
 )
 
 # Set C++ standard

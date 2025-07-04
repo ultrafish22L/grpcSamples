@@ -9,8 +9,7 @@
 #include <cmath>
 #include <glm/glm.hpp>
 
-// Octane SDK integration
-#include "octane_camera_sync.h"
+// Simple OpenGL demo without SDK integration
 
 // Simplified Camera class to demonstrate the spherical coordinate system
 class Camera {
@@ -63,22 +62,9 @@ int main() {
     std::cout << "====================================\n\n";
     
     Camera camera;
-    OctaneCameraSync octaneSync;
     
-    // Connect to Octane server and initialize camera sync
-    std::cout << "Connecting to Octane server...\n";
-    if (octaneSync.connectToServer("/tmp/octane_server.sock")) {
-        std::cout << "Connected to Octane server successfully\n";
-    } else {
-        std::cout << "Warning: Failed to connect to Octane server\n";
-    }
-    
-    std::cout << "Initializing Octane SDK integration...\n";
-    if (octaneSync.initialize()) {
-        std::cout << "Octane camera sync initialized successfully\n\n";
-    } else {
-        std::cout << "Warning: Octane camera sync initialization failed\n\n";
-    }
+    // Simple camera demo without external SDK integration
+    std::cout << "Camera system demo - no external dependencies\n";
     
     std::cout << "Initial camera state:\n";
     camera.printStatus();
@@ -87,29 +73,19 @@ int main() {
     camera.orbitHorizontal(0.5f);
     camera.printStatus();
     
-    // Update Octane camera
-    Camera::Vec3 pos = camera.getPosition();
-    glm::vec3 position(pos.x, pos.y, pos.z);
-    glm::vec3 center(camera.center.x, camera.center.y, camera.center.z);
-    octaneSync.updateCamera(position, center, glm::vec3(0.0f, 1.0f, 0.0f));
+    // Camera updated (no external sync needed)
     
     std::cout << "Orbiting vertically (simulating mouse drag up):\n";
     camera.orbitVertical(0.3f);
     camera.printStatus();
     
-    // Update Octane camera
-    pos = camera.getPosition();
-    position = glm::vec3(pos.x, pos.y, pos.z);
-    octaneSync.updateCamera(position, center, glm::vec3(0.0f, 1.0f, 0.0f));
+    // Camera updated (no external sync needed)
     
     std::cout << "Zooming in (simulating mouse wheel scroll):\n";
     camera.zoom(-2.0f);
     camera.printStatus();
     
-    // Update Octane camera
-    pos = camera.getPosition();
-    position = glm::vec3(pos.x, pos.y, pos.z);
-    octaneSync.updateCamera(position, center, glm::vec3(0.0f, 1.0f, 0.0f));
+    // Camera updated (no external sync needed)
     
     std::cout << "Zooming out:\n";
     camera.zoom(4.0f);
