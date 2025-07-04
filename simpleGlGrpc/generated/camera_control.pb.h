@@ -10,9 +10,13 @@
 
 #include <google/protobuf/port_def.inc>
 // Version compatibility check - supports both 3.21.x and 5.28.x
-#if PROTOBUF_VERSION < 3021000 && PROTOBUF_VERSION != 5028003
+#if PROTOBUF_VERSION < 3021000
+#error This file requires protobuf version 3.21.0 or higher, or version 5.28.3
+#error Please update your protobuf headers.
+#endif
+#if PROTOBUF_VERSION > 3021999 && PROTOBUF_VERSION < 5028003
 #error This file was generated for protobuf versions 3.21.x or 5.28.3
-#error Please use compatible protobuf headers.
+#error Your version is not supported. Please use 3.21.x or 5.28.3.
 #endif
 
 #include <google/protobuf/port_undef.inc>
