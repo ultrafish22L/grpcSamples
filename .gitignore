@@ -37,7 +37,7 @@ Thumbs.db
 *.swo
 
 # Generated protobuf files
-sdk/src/api/grpc/protoc/
+#sdk/src/api/grpc/protoc/
 *.pb.h
 *.pb.cc
 *.grpc.pb.h

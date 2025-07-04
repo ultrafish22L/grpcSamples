@@ -15,7 +15,7 @@
 #include <grpcpp/support/method_handler.h>
 #include <grpcpp/impl/rpc_service_method.h>
 #include <grpcpp/support/server_callback.h>
-#include <grpcpp/impl/codegen/server_callback_handlers.h>
+#include <grpcpp/impl/server_callback_handlers.h>
 #include <grpcpp/server_context.h>
 #include <grpcpp/impl/service_type.h>
 #include <grpcpp/support/sync_stream.h>
@@ -26,6 +26,7 @@ static const char* ApiNodePinInfoExService_method_names[] = {
   "/octaneapi.ApiNodePinInfoExService/createApiNodePinInfo",
   "/octaneapi.ApiNodePinInfoExService/deleteApiNodePinInfo",
   "/octaneapi.ApiNodePinInfoExService/updateApiNodePinInfo",
+  "/octaneapi.ApiNodePinInfoExService/getApiNodePinInfo",
 };
 
 std::unique_ptr< ApiNodePinInfoExService::Stub> ApiNodePinInfoExService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -39,6 +40,7 @@ ApiNodePinInfoExService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterf
   , rpcmethod_createApiNodePinInfo_(ApiNodePinInfoExService_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_deleteApiNodePinInfo_(ApiNodePinInfoExService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_updateApiNodePinInfo_(ApiNodePinInfoExService_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_getApiNodePinInfo_(ApiNodePinInfoExService_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status ApiNodePinInfoExService::Stub::createApiNodePinInfoArray(::grpc::ClientContext* context, const ::octaneapi::ApiNodePinInfoEx_CreateNodePinInfoArrayRequest& request, ::octaneapi::ApiNodePinInfoEx_CreateNodePinInfoArrayResponse* response) {
@@ -133,6 +135,29 @@ void ApiNodePinInfoExService::Stub::async::updateApiNodePinInfo(::grpc::ClientCo
   return result;
 }
 
+::grpc::Status ApiNodePinInfoExService::Stub::getApiNodePinInfo(::grpc::ClientContext* context, const ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoRequest& request, ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoRequest, ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_getApiNodePinInfo_, context, request, response);
+}
+
+void ApiNodePinInfoExService::Stub::async::getApiNodePinInfo(::grpc::ClientContext* context, const ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoRequest* request, ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoRequest, ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getApiNodePinInfo_, context, request, response, std::move(f));
+}
+
+void ApiNodePinInfoExService::Stub::async::getApiNodePinInfo(::grpc::ClientContext* context, const ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoRequest* request, ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getApiNodePinInfo_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse>* ApiNodePinInfoExService::Stub::PrepareAsyncgetApiNodePinInfoRaw(::grpc::ClientContext* context, const ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse, ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_getApiNodePinInfo_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse>* ApiNodePinInfoExService::Stub::AsyncgetApiNodePinInfoRaw(::grpc::ClientContext* context, const ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncgetApiNodePinInfoRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 ApiNodePinInfoExService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ApiNodePinInfoExService_method_names[0],
@@ -174,6 +199,16 @@ ApiNodePinInfoExService::Service::Service() {
              ::octaneapi::ApiNodePinInfoEx_UpdateNodePinInfoResponse* resp) {
                return service->updateApiNodePinInfo(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      ApiNodePinInfoExService_method_names[4],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< ApiNodePinInfoExService::Service, ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoRequest, ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](ApiNodePinInfoExService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoRequest* req,
+             ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse* resp) {
+               return service->getApiNodePinInfo(ctx, req, resp);
+             }, this)));
 }
 
 ApiNodePinInfoExService::Service::~Service() {
@@ -201,6 +236,13 @@ ApiNodePinInfoExService::Service::~Service() {
 }
 
 ::grpc::Status ApiNodePinInfoExService::Service::updateApiNodePinInfo(::grpc::ServerContext* context, const ::octaneapi::ApiNodePinInfoEx_UpdateNodePinInfoRequest* request, ::octaneapi::ApiNodePinInfoEx_UpdateNodePinInfoResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status ApiNodePinInfoExService::Service::getApiNodePinInfo(::grpc::ServerContext* context, const ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoRequest* request, ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse* response) {
   (void) context;
   (void) request;
   (void) response;

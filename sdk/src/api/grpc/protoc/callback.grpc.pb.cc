@@ -15,7 +15,7 @@
 #include <grpcpp/support/method_handler.h>
 #include <grpcpp/impl/rpc_service_method.h>
 #include <grpcpp/support/server_callback.h>
-#include <grpcpp/impl/codegen/server_callback_handlers.h>
+#include <grpcpp/impl/server_callback_handlers.h>
 #include <grpcpp/server_context.h>
 #include <grpcpp/impl/service_type.h>
 #include <grpcpp/support/sync_stream.h>
@@ -2067,44 +2067,45 @@ std::unique_ptr< StreamCallbackService::Stub> StreamCallbackService::NewStub(con
 }
 
 StreamCallbackService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
-  : channel_(channel), rpcmethod_callbackChannel_(StreamCallbackService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::BIDI_STREAMING, channel)
+  : channel_(channel), rpcmethod_callbackChannel_(StreamCallbackService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
   {}
 
-::grpc::ClientReaderWriter< ::octaneapi::StreamCallbackResponse, ::octaneapi::StreamCallbackRequest>* StreamCallbackService::Stub::callbackChannelRaw(::grpc::ClientContext* context) {
-  return ::grpc::internal::ClientReaderWriterFactory< ::octaneapi::StreamCallbackResponse, ::octaneapi::StreamCallbackRequest>::Create(channel_.get(), rpcmethod_callbackChannel_, context);
+::grpc::ClientReader< ::octaneapi::StreamCallbackRequest>* StreamCallbackService::Stub::callbackChannelRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::octaneapi::StreamCallbackRequest>::Create(channel_.get(), rpcmethod_callbackChannel_, context, request);
 }
 
-void StreamCallbackService::Stub::async::callbackChannel(::grpc::ClientContext* context, ::grpc::ClientBidiReactor< ::octaneapi::StreamCallbackResponse,::octaneapi::StreamCallbackRequest>* reactor) {
-  ::grpc::internal::ClientCallbackReaderWriterFactory< ::octaneapi::StreamCallbackResponse,::octaneapi::StreamCallbackRequest>::Create(stub_->channel_.get(), stub_->rpcmethod_callbackChannel_, context, reactor);
+void StreamCallbackService::Stub::async::callbackChannel(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::grpc::ClientReadReactor< ::octaneapi::StreamCallbackRequest>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::octaneapi::StreamCallbackRequest>::Create(stub_->channel_.get(), stub_->rpcmethod_callbackChannel_, context, request, reactor);
 }
 
-::grpc::ClientAsyncReaderWriter< ::octaneapi::StreamCallbackResponse, ::octaneapi::StreamCallbackRequest>* StreamCallbackService::Stub::AsynccallbackChannelRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
-  return ::grpc::internal::ClientAsyncReaderWriterFactory< ::octaneapi::StreamCallbackResponse, ::octaneapi::StreamCallbackRequest>::Create(channel_.get(), cq, rpcmethod_callbackChannel_, context, true, tag);
+::grpc::ClientAsyncReader< ::octaneapi::StreamCallbackRequest>* StreamCallbackService::Stub::AsynccallbackChannelRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::octaneapi::StreamCallbackRequest>::Create(channel_.get(), cq, rpcmethod_callbackChannel_, context, request, true, tag);
 }
 
-::grpc::ClientAsyncReaderWriter< ::octaneapi::StreamCallbackResponse, ::octaneapi::StreamCallbackRequest>* StreamCallbackService::Stub::PrepareAsynccallbackChannelRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncReaderWriterFactory< ::octaneapi::StreamCallbackResponse, ::octaneapi::StreamCallbackRequest>::Create(channel_.get(), cq, rpcmethod_callbackChannel_, context, false, nullptr);
+::grpc::ClientAsyncReader< ::octaneapi::StreamCallbackRequest>* StreamCallbackService::Stub::PrepareAsynccallbackChannelRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::octaneapi::StreamCallbackRequest>::Create(channel_.get(), cq, rpcmethod_callbackChannel_, context, request, false, nullptr);
 }
 
 StreamCallbackService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       StreamCallbackService_method_names[0],
-      ::grpc::internal::RpcMethod::BIDI_STREAMING,
-      new ::grpc::internal::BidiStreamingHandler< StreamCallbackService::Service, ::octaneapi::StreamCallbackResponse, ::octaneapi::StreamCallbackRequest>(
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< StreamCallbackService::Service, ::google::protobuf::Empty, ::octaneapi::StreamCallbackRequest>(
           [](StreamCallbackService::Service* service,
              ::grpc::ServerContext* ctx,
-             ::grpc::ServerReaderWriter<::octaneapi::StreamCallbackRequest,
-             ::octaneapi::StreamCallbackResponse>* stream) {
-               return service->callbackChannel(ctx, stream);
+             const ::google::protobuf::Empty* req,
+             ::grpc::ServerWriter<::octaneapi::StreamCallbackRequest>* writer) {
+               return service->callbackChannel(ctx, req, writer);
              }, this)));
 }
 
 StreamCallbackService::Service::~Service() {
 }
 
-::grpc::Status StreamCallbackService::Service::callbackChannel(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::octaneapi::StreamCallbackRequest, ::octaneapi::StreamCallbackResponse>* stream) {
+::grpc::Status StreamCallbackService::Service::callbackChannel(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::grpc::ServerWriter< ::octaneapi::StreamCallbackRequest>* writer) {
   (void) context;
-  (void) stream;
+  (void) request;
+  (void) writer;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
