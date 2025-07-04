@@ -33,21 +33,65 @@ if(WIN32)
         message(STATUS "simpleGlGrpc: Using third_party gRPC libraries")
     endif()
 else()
-    # Linux: Use system gRPC and protobuf libraries
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(GRPC REQUIRED grpc++)
-    pkg_check_modules(PROTOBUF REQUIRED protobuf)
-    
-    if(GRPC_FOUND AND PROTOBUF_FOUND)
-        set(GRPC_AVAILABLE ON)
-        set(GRPC_LIBRARIES ${GRPC_LIBRARIES} ${PROTOBUF_LIBRARIES})
-        set(GRPC_INCLUDE_DIRS ${GRPC_INCLUDE_DIRS} ${PROTOBUF_INCLUDE_DIRS})
-        message(STATUS "simpleGlGrpc: Using system gRPC and protobuf libraries")
-    endif()
+    # Linux: Disable gRPC functionality due to protobuf version conflicts
+    message(STATUS "simpleGlGrpc: gRPC functionality disabled on Linux due to protobuf version conflicts")
+    set(GRPC_AVAILABLE OFF)
 endif()
 
 if(GRPC_AVAILABLE)
     message(STATUS "simpleGlGrpc: gRPC functionality enabled")
+    
+    # Generate protobuf and gRPC files if they don't exist
+    set(PROTO_FILE "${CMAKE_CURRENT_SOURCE_DIR}/camera_control.proto")
+    set(GENERATED_DIR "${CMAKE_CURRENT_SOURCE_DIR}/generated")
+    set(PROTOBUF_GENERATED_FILES
+        "${GENERATED_DIR}/camera_control.pb.h"
+        "${GENERATED_DIR}/camera_control.pb.cc"
+    )
+    set(GRPC_GENERATED_FILES
+        "${GENERATED_DIR}/camera_control.grpc.pb.h"
+        "${GENERATED_DIR}/camera_control.grpc.pb.cc"
+    )
+    
+    # Create generated directory if it doesn't exist
+    file(MAKE_DIRECTORY ${GENERATED_DIR})
+    
+    # Generate protobuf files
+    add_custom_command(
+        OUTPUT ${PROTOBUF_GENERATED_FILES}
+        COMMAND ${PROTOC_EXECUTABLE}
+        ARGS --cpp_out=${GENERATED_DIR}
+             --proto_path=${CMAKE_CURRENT_SOURCE_DIR}
+             ${PROTO_FILE}
+        DEPENDS ${PROTO_FILE}
+        COMMENT "Generating protobuf files"
+        VERBATIM
+    )
+    
+    # Generate gRPC files if plugin is available
+    if(GRPC_CPP_PLUGIN)
+        add_custom_command(
+            OUTPUT ${GRPC_GENERATED_FILES}
+            COMMAND ${PROTOC_EXECUTABLE}
+            ARGS --grpc_out=${GENERATED_DIR}
+                 --plugin=protoc-gen-grpc=${GRPC_CPP_PLUGIN}
+                 --proto_path=${CMAKE_CURRENT_SOURCE_DIR}
+                 ${PROTO_FILE}
+            DEPENDS ${PROTO_FILE}
+            COMMENT "Generating gRPC files"
+            VERBATIM
+        )
+        
+        # Create a target for all generated files
+        add_custom_target(generate_grpc_files
+            DEPENDS ${PROTOBUF_GENERATED_FILES} ${GRPC_GENERATED_FILES}
+        )
+    else()
+        # Create a target for protobuf files only
+        add_custom_target(generate_grpc_files
+            DEPENDS ${PROTOBUF_GENERATED_FILES}
+        )
+    endif()
 else()
     message(STATUS "simpleGlGrpc: gRPC functionality disabled (libraries not found)")
 endif()
@@ -62,10 +106,21 @@ set(GRPC_HEADERS
 set(COMMON_SOURCES
     grpc_camera_sync.cpp
     grpc_settings.cpp
-    # Add generated protobuf files for camera control
-    generated/camera_control.pb.cc
-    generated/camera_control.grpc.pb.cc
 )
+
+# Add generated protobuf files if gRPC is available
+if(GRPC_AVAILABLE)
+    list(APPEND COMMON_SOURCES
+        generated/camera_control.pb.cc
+    )
+    
+    # Add gRPC files if plugin is available
+    if(GRPC_CPP_PLUGIN)
+        list(APPEND COMMON_SOURCES
+            generated/camera_control.grpc.pb.cc
+        )
+    endif()
+endif()
 
 # Add SDK-dependent files only on Windows
 if(WIN32)
@@ -118,6 +173,11 @@ function(configure_simpleGlGrpc_target target_name)
     # Add dependency on protobuf generation
     if(TARGET protobuf_all)
         add_dependencies(${target_name} protobuf_all)
+    endif()
+    
+    # Add dependency on gRPC file generation
+    if(TARGET generate_grpc_files)
+        add_dependencies(${target_name} generate_grpc_files)
     endif()
 
     # Add gRPC include directories if available
