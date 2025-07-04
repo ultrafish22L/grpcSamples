@@ -1,3 +1,11 @@
+// Fix Windows APIENTRY macro redefinition warning
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#ifndef APIENTRY
+#define APIENTRY __stdcall
+#endif
+#endif
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
