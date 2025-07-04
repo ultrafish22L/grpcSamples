@@ -1,6 +1,8 @@
 // Fix Windows APIENTRY macro redefinition warning
 #ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
+#endif
 #ifndef APIENTRY
 #define APIENTRY __stdcall
 #endif
