@@ -42,7 +42,6 @@ target_include_directories(octane_sdk
         ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/protoc
         ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client
         ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/converters
-    PRIVATE
         # Use third_party headers only on Windows
         $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include>
         $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/third_party/grpc/windows/include>
@@ -91,7 +90,7 @@ if(WIN32 AND MSVC)
     # Windows-specific library linking
     # Link with octane_standalone.lib
     target_link_libraries(octane_sdk
-        PRIVATE
+        PUBLIC
             "${CMAKE_CURRENT_SOURCE_DIR}/octane_standalone.lib"
     )
     
@@ -105,16 +104,9 @@ if(WIN32 AND MSVC)
     set(CARES_LIB_DIR "${CMAKE_SOURCE_DIR}/third_party/cares/windows/$<IF:$<CONFIG:Debug>,debug_64,release_64>")
     set(RE2_LIB_DIR "${CMAKE_SOURCE_DIR}/third_party/re2/windows/$<IF:$<CONFIG:Debug>,debug_64,release_64>")
     
-    # Add include directories for Windows libraries
-    target_include_directories(octane_sdk
-        PRIVATE
-            "${CMAKE_SOURCE_DIR}/third_party/grpc/windows/include"
-            "${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include"
-    )
-    
     # Link with all required third-party libraries
     target_link_libraries(octane_sdk
-        PRIVATE
+        PUBLIC
             # gRPC libraries
             "${GRPC_LIB_DIR}/grpc++.lib"
             "${GRPC_LIB_DIR}/grpc.lib"
