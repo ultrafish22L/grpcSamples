@@ -6,25 +6,9 @@ project(simpleGL)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Source files
-set(SOURCES
-    main.cpp
-    demo.cpp
-    test_gl.cpp
-)
-
 # Create the main executable
 add_executable(simpleGL
     main.cpp
-)
-
-# Create additional executables for demo and test
-add_executable(simpleGL_demo
-    demo.cpp
-)
-
-add_executable(simpleGL_test
-    test_gl.cpp
 )
 
 # Include directories
@@ -35,24 +19,9 @@ target_include_directories(simpleGL
         ${CMAKE_SOURCE_DIR}/third_party/glm
 )
 
-target_include_directories(simpleGL_demo
-    PRIVATE
-        ${CMAKE_SOURCE_DIR}/third_party/glew/include
-        ${CMAKE_SOURCE_DIR}/third_party/glfw/include
-        ${CMAKE_SOURCE_DIR}/third_party/glm
-)
-
-target_include_directories(simpleGL_test
-    PRIVATE
-        ${CMAKE_SOURCE_DIR}/third_party/glew/include
-        ${CMAKE_SOURCE_DIR}/third_party/glfw/include
-)
-
 # Add gRPC compile definitions if enabled
 if(ENABLE_OCTANE_GRPC)
     target_compile_definitions(simpleGL PRIVATE OCTANE_GRPC_ENABLED)
-    target_compile_definitions(simpleGL_demo PRIVATE OCTANE_GRPC_ENABLED)
-    target_compile_definitions(simpleGL_test PRIVATE OCTANE_GRPC_ENABLED)
 endif()
 
 # Find OpenGL
@@ -71,44 +40,11 @@ target_link_libraries(simpleGL
         $<$<PLATFORM_ID:Windows>:shell32>
 )
 
-# Link libraries for test executable
-target_link_libraries(simpleGL_test
-    PRIVATE
-        glew
-        glfw
-        ${OPENGL_LIBRARIES}
-        # Windows-specific system libraries
-        $<$<PLATFORM_ID:Windows>:user32>
-        $<$<PLATFORM_ID:Windows>:gdi32>
-        $<$<PLATFORM_ID:Windows>:shell32>
-)
-
-# Link libraries for demo executable
-target_link_libraries(simpleGL_demo
-    PRIVATE
-        glew
-        glfw
-        glm
-        ${OPENGL_LIBRARIES}
-        # Windows-specific system libraries
-        $<$<PLATFORM_ID:Windows>:user32>
-        $<$<PLATFORM_ID:Windows>:gdi32>
-        $<$<PLATFORM_ID:Windows>:shell32>
-)
-
 # Set Visual Studio folder organization
 set_target_properties(simpleGL PROPERTIES FOLDER "Applications")
-set_target_properties(simpleGL_demo PROPERTIES FOLDER "Applications")
-set_target_properties(simpleGL_test PROPERTIES FOLDER "Applications")
 
 # Set working directory for debugging in Visual Studio
 set_target_properties(simpleGL PROPERTIES
-    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin"
-)
-set_target_properties(simpleGL_test PROPERTIES
-    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin"
-)
-set_target_properties(simpleGL_demo PROPERTIES
     VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin"
 )
 
@@ -118,18 +54,8 @@ if(MSVC)
     set_target_properties(simpleGL PROPERTIES
         LINK_FLAGS "/SUBSYSTEM:CONSOLE"
     )
-    set_target_properties(simpleGL_test PROPERTIES
-        LINK_FLAGS "/SUBSYSTEM:CONSOLE"
-    )
-    set_target_properties(simpleGL_demo PROPERTIES
-        LINK_FLAGS "/SUBSYSTEM:CONSOLE"
-    )
     
     # Set runtime library to match third_party libraries (static runtime)
     set_property(TARGET simpleGL PROPERTY
-        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-    set_property(TARGET simpleGL_test PROPERTY
-        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-    set_property(TARGET simpleGL_demo PROPERTY
         MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
