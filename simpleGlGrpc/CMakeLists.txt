@@ -147,21 +147,31 @@ function(configure_simpleGlGrpc_target target_name)
     
     # Add gRPC libraries if available
     if(GRPC_AVAILABLE)
-        target_link_libraries(${target_name}
-            PRIVATE
-                ${GRPC_LIBRARIES}
-        )
-        
-        # Try to find and link protobuf library
-        find_package(Protobuf QUIET)
-        if(Protobuf_FOUND)
+        if(WIN32)
+            # Windows: Use third_party libraries
             target_link_libraries(${target_name}
                 PRIVATE
-                    ${Protobuf_LIBRARIES}
+                    ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/release_64/grpc++.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/release_64/grpc.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/release_64/gpr.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/release_64/libprotobuf.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_base.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_strings.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_synchronization.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_time.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_log_internal_message.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/absl/windows/release_64/absl_log_internal_check_op.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/openssl/windows/release_64/libssl.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/openssl/windows/release_64/libcrypto.lib
+                    ${CMAKE_SOURCE_DIR}/third_party/zlib/win/x64_release/zlib.lib
+                    ws2_32 crypt32
             )
-            target_include_directories(${target_name}
+        else()
+            # Linux: Use system libraries
+            target_link_libraries(${target_name}
                 PRIVATE
-                    ${Protobuf_INCLUDE_DIRS}
+                    ${GRPC_LIBRARIES}
+                    protobuf
             )
         endif()
     endif()
