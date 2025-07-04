@@ -225,52 +225,38 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_apicaches_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\017apicaches.proto\022\toctaneapi\032\014common.pro"
-    "to\032\033google/protobuf/empty.proto\032\025apinode"
-    "system_1.proto\032\025apinodesystem_2.proto\032\025a"
-    "pinodesystem_3.proto\032\025apinodesystem_4.pr"
-    "oto\032\025apinodesystem_5.proto\032\025apinodesyste"
-    "m_6.proto\032\025apinodesystem_7.proto\032\025apinod"
-    "esystem_8.proto\"\311\001\n\tApiCaches\032\034\n\032getMesh"
-    "letCacheSizeRequest\032-\n\033getMeshletCacheSi"
-    "zeResponse\022\016\n\006result\030\001 \001(\004\032 \n\036getMeshlet"
-    "CacheUsedSizeRequest\0321\n\037getMeshletCacheU"
-    "sedSizeResponse\022\016\n\006result\030\001 \001(\004\032\032\n\030clear"
-    "MeshletCacheRequest2\357\002\n\020ApiCachesService"
-    "\022x\n\023getMeshletCacheSize\022/.octaneapi.ApiC"
-    "aches.getMeshletCacheSizeRequest\0320.octan"
-    "eapi.ApiCaches.getMeshletCacheSizeRespon"
-    "se\022\204\001\n\027getMeshletCacheUsedSize\0223.octanea"
-    "pi.ApiCaches.getMeshletCacheUsedSizeRequ"
-    "est\0324.octaneapi.ApiCaches.getMeshletCach"
-    "eUsedSizeResponse\022Z\n\021clearMeshletCache\022-"
-    ".octaneapi.ApiCaches.clearMeshletCacheRe"
-    "quest\032\026.google.protobuf.EmptyB\002H\002b\006proto"
-    "3"
+    "\n\017apicaches.proto\022\toctaneapi\032\033google/pro"
+    "tobuf/empty.proto\"\311\001\n\tApiCaches\032\034\n\032getMe"
+    "shletCacheSizeRequest\032-\n\033getMeshletCache"
+    "SizeResponse\022\016\n\006result\030\001 \001(\004\032 \n\036getMeshl"
+    "etCacheUsedSizeRequest\0321\n\037getMeshletCach"
+    "eUsedSizeResponse\022\016\n\006result\030\001 \001(\004\032\032\n\030cle"
+    "arMeshletCacheRequest2\357\002\n\020ApiCachesServi"
+    "ce\022x\n\023getMeshletCacheSize\022/.octaneapi.Ap"
+    "iCaches.getMeshletCacheSizeRequest\0320.oct"
+    "aneapi.ApiCaches.getMeshletCacheSizeResp"
+    "onse\022\204\001\n\027getMeshletCacheUsedSize\0223.octan"
+    "eapi.ApiCaches.getMeshletCacheUsedSizeRe"
+    "quest\0324.octaneapi.ApiCaches.getMeshletCa"
+    "cheUsedSizeResponse\022Z\n\021clearMeshletCache"
+    "\022-.octaneapi.ApiCaches.clearMeshletCache"
+    "Request\032\026.google.protobuf.EmptyB\002H\002b\006pro"
+    "to3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apicaches_2eproto_deps[10] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apicaches_2eproto_deps[1] =
     {
-        &::descriptor_table_apinodesystem_5f1_2eproto,
-        &::descriptor_table_apinodesystem_5f2_2eproto,
-        &::descriptor_table_apinodesystem_5f3_2eproto,
-        &::descriptor_table_apinodesystem_5f4_2eproto,
-        &::descriptor_table_apinodesystem_5f5_2eproto,
-        &::descriptor_table_apinodesystem_5f6_2eproto,
-        &::descriptor_table_apinodesystem_5f7_2eproto,
-        &::descriptor_table_apinodesystem_5f8_2eproto,
-        &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
 static ::absl::once_flag descriptor_table_apicaches_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apicaches_2eproto = {
     false,
     false,
-    841,
+    643,
     descriptor_table_protodef_apicaches_2eproto,
     "apicaches.proto",
     &descriptor_table_apicaches_2eproto_once,
     descriptor_table_apicaches_2eproto_deps,
-    10,
+    1,
     6,
     schemas,
     file_default_instances,

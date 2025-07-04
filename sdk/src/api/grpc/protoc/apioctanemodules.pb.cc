@@ -487,61 +487,57 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apioctanemodules_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\026apioctanemodules.proto\022\toctaneapi\032\014com"
-    "mon.proto\032\033google/protobuf/empty.proto\032\027"
-    "octanemodulesinfo.proto\032\016apiarray.proto\""
-    "\341\004\n\020ApiOctaneModules\032&\n\023setDirectoryRequ"
-    "est\022\017\n\007newPath\030\001 \001(\t\032&\n\024setDirectoryResp"
-    "onse\022\016\n\006result\030\001 \001(\010\032\025\n\023getDirectoryRequ"
-    "est\032&\n\024getDirectoryResponse\022\016\n\006result\030\001 "
-    "\001(\t\032>\n\024getModuleInfoRequest\022&\n\010moduleId\030"
-    "\001 \001(\0132\024.octaneapi.ModuleIdT\032=\n\025getModule"
-    "InfoResponse\022$\n\006result\030\001 \001(\0132\024.octaneapi"
-    ".ObjectRef\032\034\n\032getNodegraphModulesRequest"
-    "\032K\n\033getNodegraphModulesResponse\022,\n\006resul"
-    "t\030\001 \001(\0132\034.octaneapi.ApiArrayModuleIdT\032\032\n"
-    "\030getCommandModulesRequest\032I\n\031getCommandM"
-    "odulesResponse\022,\n\006result\030\001 \001(\0132\034.octanea"
-    "pi.ApiArrayModuleIdT\032A\n\027runCommandModule"
-    "Request\022&\n\010moduleId\030\001 \001(\0132\024.octaneapi.Mo"
-    "duleIdT\032*\n\030runCommandModuleResponse\022\016\n\006r"
-    "esult\030\001 \001(\0102\200\006\n\027ApiOctaneModulesService\022"
-    "q\n\014setDirectory\022/.octaneapi.ApiOctaneMod"
-    "ules.setDirectoryRequest\0320.octaneapi.Api"
-    "OctaneModules.setDirectoryResponse\022q\n\014ge"
-    "tDirectory\022/.octaneapi.ApiOctaneModules."
-    "getDirectoryRequest\0320.octaneapi.ApiOctan"
-    "eModules.getDirectoryResponse\022t\n\rgetModu"
-    "leInfo\0220.octaneapi.ApiOctaneModules.getM"
-    "oduleInfoRequest\0321.octaneapi.ApiOctaneMo"
-    "dules.getModuleInfoResponse\022\206\001\n\023getNodeg"
-    "raphModules\0226.octaneapi.ApiOctaneModules"
-    ".getNodegraphModulesRequest\0327.octaneapi."
-    "ApiOctaneModules.getNodegraphModulesResp"
-    "onse\022\200\001\n\021getCommandModules\0224.octaneapi.A"
-    "piOctaneModules.getCommandModulesRequest"
-    "\0325.octaneapi.ApiOctaneModules.getCommand"
-    "ModulesResponse\022}\n\020runCommandModule\0223.oc"
-    "taneapi.ApiOctaneModules.runCommandModul"
-    "eRequest\0324.octaneapi.ApiOctaneModules.ru"
-    "nCommandModuleResponseB\002H\002b\006proto3"
+    "mon.proto\"\341\004\n\020ApiOctaneModules\032&\n\023setDir"
+    "ectoryRequest\022\017\n\007newPath\030\001 \001(\t\032&\n\024setDir"
+    "ectoryResponse\022\016\n\006result\030\001 \001(\010\032\025\n\023getDir"
+    "ectoryRequest\032&\n\024getDirectoryResponse\022\016\n"
+    "\006result\030\001 \001(\t\032>\n\024getModuleInfoRequest\022&\n"
+    "\010moduleId\030\001 \001(\0132\024.octaneapi.ModuleIdT\032=\n"
+    "\025getModuleInfoResponse\022$\n\006result\030\001 \001(\0132\024"
+    ".octaneapi.ObjectRef\032\034\n\032getNodegraphModu"
+    "lesRequest\032K\n\033getNodegraphModulesRespons"
+    "e\022,\n\006result\030\001 \001(\0132\034.octaneapi.ApiArrayMo"
+    "duleIdT\032\032\n\030getCommandModulesRequest\032I\n\031g"
+    "etCommandModulesResponse\022,\n\006result\030\001 \001(\013"
+    "2\034.octaneapi.ApiArrayModuleIdT\032A\n\027runCom"
+    "mandModuleRequest\022&\n\010moduleId\030\001 \001(\0132\024.oc"
+    "taneapi.ModuleIdT\032*\n\030runCommandModuleRes"
+    "ponse\022\016\n\006result\030\001 \001(\0102\200\006\n\027ApiOctaneModul"
+    "esService\022q\n\014setDirectory\022/.octaneapi.Ap"
+    "iOctaneModules.setDirectoryRequest\0320.oct"
+    "aneapi.ApiOctaneModules.setDirectoryResp"
+    "onse\022q\n\014getDirectory\022/.octaneapi.ApiOcta"
+    "neModules.getDirectoryRequest\0320.octaneap"
+    "i.ApiOctaneModules.getDirectoryResponse\022"
+    "t\n\rgetModuleInfo\0220.octaneapi.ApiOctaneMo"
+    "dules.getModuleInfoRequest\0321.octaneapi.A"
+    "piOctaneModules.getModuleInfoResponse\022\206\001"
+    "\n\023getNodegraphModules\0226.octaneapi.ApiOct"
+    "aneModules.getNodegraphModulesRequest\0327."
+    "octaneapi.ApiOctaneModules.getNodegraphM"
+    "odulesResponse\022\200\001\n\021getCommandModules\0224.o"
+    "ctaneapi.ApiOctaneModules.getCommandModu"
+    "lesRequest\0325.octaneapi.ApiOctaneModules."
+    "getCommandModulesResponse\022}\n\020runCommandM"
+    "odule\0223.octaneapi.ApiOctaneModules.runCo"
+    "mmandModuleRequest\0324.octaneapi.ApiOctane"
+    "Modules.runCommandModuleResponseB\002H\002b\006pr"
+    "oto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apioctanemodules_2eproto_deps[4] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apioctanemodules_2eproto_deps[1] =
     {
-        &::descriptor_table_apiarray_2eproto,
         &::descriptor_table_common_2eproto,
-        &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
-        &::descriptor_table_octanemodulesinfo_2eproto,
 };
 static ::absl::once_flag descriptor_table_apioctanemodules_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apioctanemodules_2eproto = {
     false,
     false,
-    1514,
+    1444,
     descriptor_table_protodef_apioctanemodules_2eproto,
     "apioctanemodules.proto",
     &descriptor_table_apioctanemodules_2eproto_once,
     descriptor_table_apioctanemodules_2eproto_deps,
-    4,
+    1,
     13,
     schemas,
     file_default_instances,

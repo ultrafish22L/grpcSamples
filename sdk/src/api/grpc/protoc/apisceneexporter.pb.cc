@@ -612,73 +612,60 @@ const char descriptor_table_protodef_apisceneexporter_2eproto[] ABSL_ATTRIBUTE_S
     protodesc_cold) = {
     "\n\026apisceneexporter.proto\022\toctaneapi\032\014com"
     "mon.proto\032\033google/protobuf/empty.proto\032\033"
-    "octanereferenceexport.proto\032\025apinodesyst"
-    "em_1.proto\032\025apinodesystem_2.proto\032\025apino"
-    "desystem_3.proto\032\025apinodesystem_4.proto\032"
-    "\025apinodesystem_5.proto\032\025apinodesystem_6."
-    "proto\032\025apinodesystem_7.proto\032\025apinodesys"
-    "tem_8.proto\032\021octaneenums.proto\032\020octaneti"
-    "me.proto\"\360\010\n\020ApiSceneExporter\032\024\n\022isSuppo"
-    "rtedRequest\032%\n\023isSupportedResponse\022\016\n\006re"
-    "sult\030\001 \001(\010\032\340\002\n\rcreateRequest\022\021\n\tsceneFil"
-    "e\030\001 \001(\t\022-\n\trootNodes\030\002 \001(\0132\032.octaneapi.O"
-    "bjectRefArrayT\022\025\n\rrootNodesSize\030\003 \001(\r\022+\n"
-    "\021timeSamplesPeriod\030\004 \001(\0132\020.octaneapi.Tim"
-    "eT\022*\n\013timeSamples\030\005 \001(\0132\025.octaneapi.Time"
-    "ArrayT\022\027\n\017timeSamplesSize\030\006 \001(\r\0227\n\016geome"
-    "tryFormat\030\007 \001(\0162\037.octaneapi.GeometryExpo"
-    "rtFormat\022K\n\030referencePackageSettings\030\010 \001"
-    "(\0132).octaneapi.ReferencePackageExportSet"
-    "tings\0326\n\016createResponse\022$\n\006result\030\001 \001(\0132"
-    "\024.octaneapi.ObjectRef\0329\n\016destroyRequest\022"
-    "\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef"
-    "\0327\n\014stateRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.oc"
-    "taneapi.ObjectRef\0327\n\rstateResponse\022&\n\006re"
-    "sult\030\001 \001(\0162\026.octaneapi.ExportState\032f\n\023ex"
-    "portSampleRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.o"
-    "ctaneapi.ObjectRef\022&\n\010interval\030\002 \001(\0132\024.o"
-    "ctaneapi.TimeSpanT\032:\n\017sampleIxRequest\022\'\n"
-    "\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\032\""
-    "\n\020sampleIxResponse\022\016\n\006result\030\001 \001(\r\032\212\001\n\rf"
-    "inishRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octane"
-    "api.ObjectRef\022\027\n\017framesPerSecond\030\002 \001(\002\022\036"
-    "\n\026deleteUnconnectedNodes\030\003 \001(\010\022\027\n\017create"
-    "OcsString\030\004 \001(\010\032 \n\016finishResponse\022\016\n\006res"
-    "ult\030\001 \001(\010\032;\n\020ocsStringRequest\022\'\n\tobjectP"
-    "tr\030\001 \001(\0132\024.octaneapi.ObjectRef\032#\n\021ocsStr"
-    "ingResponse\022\016\n\006result\030\001 \001(\t2\242\006\n\027ApiScene"
-    "ExporterService\022n\n\013isSupported\022..octanea"
-    "pi.ApiSceneExporter.isSupportedRequest\032/"
-    ".octaneapi.ApiSceneExporter.isSupportedR"
-    "esponse\022_\n\006create\022).octaneapi.ApiSceneEx"
-    "porter.createRequest\032*.octaneapi.ApiScen"
-    "eExporter.createResponse\022M\n\007destroy\022*.oc"
-    "taneapi.ApiSceneExporter.destroyRequest\032"
-    "\026.google.protobuf.Empty\022\\\n\005state\022(.octan"
-    "eapi.ApiSceneExporter.stateRequest\032).oct"
-    "aneapi.ApiSceneExporter.stateResponse\022W\n"
-    "\014exportSample\022/.octaneapi.ApiSceneExport"
-    "er.exportSampleRequest\032\026.google.protobuf"
-    ".Empty\022e\n\010sampleIx\022+.octaneapi.ApiSceneE"
-    "xporter.sampleIxRequest\032,.octaneapi.ApiS"
-    "ceneExporter.sampleIxResponse\022_\n\006finish\022"
-    ").octaneapi.ApiSceneExporter.finishReque"
-    "st\032*.octaneapi.ApiSceneExporter.finishRe"
-    "sponse\022h\n\tocsString\022,.octaneapi.ApiScene"
-    "Exporter.ocsStringRequest\032-.octaneapi.Ap"
-    "iSceneExporter.ocsStringResponseB\002H\002b\006pr"
-    "oto3"
+    "octanereferenceexport.proto\032\021octaneenums"
+    ".proto\032\020octanetime.proto\"\360\010\n\020ApiSceneExp"
+    "orter\032\024\n\022isSupportedRequest\032%\n\023isSupport"
+    "edResponse\022\016\n\006result\030\001 \001(\010\032\340\002\n\rcreateReq"
+    "uest\022\021\n\tsceneFile\030\001 \001(\t\022-\n\trootNodes\030\002 \001"
+    "(\0132\032.octaneapi.ObjectRefArrayT\022\025\n\rrootNo"
+    "desSize\030\003 \001(\r\022+\n\021timeSamplesPeriod\030\004 \001(\013"
+    "2\020.octaneapi.TimeT\022*\n\013timeSamples\030\005 \001(\0132"
+    "\025.octaneapi.TimeArrayT\022\027\n\017timeSamplesSiz"
+    "e\030\006 \001(\r\0227\n\016geometryFormat\030\007 \001(\0162\037.octane"
+    "api.GeometryExportFormat\022K\n\030referencePac"
+    "kageSettings\030\010 \001(\0132).octaneapi.Reference"
+    "PackageExportSettings\0326\n\016createResponse\022"
+    "$\n\006result\030\001 \001(\0132\024.octaneapi.ObjectRef\0329\n"
+    "\016destroyRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.oct"
+    "aneapi.ObjectRef\0327\n\014stateRequest\022\'\n\tobje"
+    "ctPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\0327\n\rsta"
+    "teResponse\022&\n\006result\030\001 \001(\0162\026.octaneapi.E"
+    "xportState\032f\n\023exportSampleRequest\022\'\n\tobj"
+    "ectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022&\n\010in"
+    "terval\030\002 \001(\0132\024.octaneapi.TimeSpanT\032:\n\017sa"
+    "mpleIxRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octan"
+    "eapi.ObjectRef\032\"\n\020sampleIxResponse\022\016\n\006re"
+    "sult\030\001 \001(\r\032\212\001\n\rfinishRequest\022\'\n\tobjectPt"
+    "r\030\001 \001(\0132\024.octaneapi.ObjectRef\022\027\n\017framesP"
+    "erSecond\030\002 \001(\002\022\036\n\026deleteUnconnectedNodes"
+    "\030\003 \001(\010\022\027\n\017createOcsString\030\004 \001(\010\032 \n\016finis"
+    "hResponse\022\016\n\006result\030\001 \001(\010\032;\n\020ocsStringRe"
+    "quest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Obj"
+    "ectRef\032#\n\021ocsStringResponse\022\016\n\006result\030\001 "
+    "\001(\t2\242\006\n\027ApiSceneExporterService\022n\n\013isSup"
+    "ported\022..octaneapi.ApiSceneExporter.isSu"
+    "pportedRequest\032/.octaneapi.ApiSceneExpor"
+    "ter.isSupportedResponse\022_\n\006create\022).octa"
+    "neapi.ApiSceneExporter.createRequest\032*.o"
+    "ctaneapi.ApiSceneExporter.createResponse"
+    "\022M\n\007destroy\022*.octaneapi.ApiSceneExporter"
+    ".destroyRequest\032\026.google.protobuf.Empty\022"
+    "\\\n\005state\022(.octaneapi.ApiSceneExporter.st"
+    "ateRequest\032).octaneapi.ApiSceneExporter."
+    "stateResponse\022W\n\014exportSample\022/.octaneap"
+    "i.ApiSceneExporter.exportSampleRequest\032\026"
+    ".google.protobuf.Empty\022e\n\010sampleIx\022+.oct"
+    "aneapi.ApiSceneExporter.sampleIxRequest\032"
+    ",.octaneapi.ApiSceneExporter.sampleIxRes"
+    "ponse\022_\n\006finish\022).octaneapi.ApiSceneExpo"
+    "rter.finishRequest\032*.octaneapi.ApiSceneE"
+    "xporter.finishResponse\022h\n\tocsString\022,.oc"
+    "taneapi.ApiSceneExporter.ocsStringReques"
+    "t\032-.octaneapi.ApiSceneExporter.ocsString"
+    "ResponseB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apisceneexporter_2eproto_deps[13] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apisceneexporter_2eproto_deps[5] =
     {
-        &::descriptor_table_apinodesystem_5f1_2eproto,
-        &::descriptor_table_apinodesystem_5f2_2eproto,
-        &::descriptor_table_apinodesystem_5f3_2eproto,
-        &::descriptor_table_apinodesystem_5f4_2eproto,
-        &::descriptor_table_apinodesystem_5f5_2eproto,
-        &::descriptor_table_apinodesystem_5f6_2eproto,
-        &::descriptor_table_apinodesystem_5f7_2eproto,
-        &::descriptor_table_apinodesystem_5f8_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
         &::descriptor_table_octaneenums_2eproto,
@@ -689,12 +676,12 @@ static ::absl::once_flag descriptor_table_apisceneexporter_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apisceneexporter_2eproto = {
     false,
     false,
-    2284,
+    2100,
     descriptor_table_protodef_apisceneexporter_2eproto,
     "apisceneexporter.proto",
     &descriptor_table_apisceneexporter_2eproto_once,
     descriptor_table_apisceneexporter_2eproto_deps,
-    13,
+    5,
     15,
     schemas,
     file_default_instances,

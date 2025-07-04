@@ -651,57 +651,54 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apipackage_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\020apipackage.proto\022\toctaneapi\032\014common.pr"
-    "oto\032\033google/protobuf/empty.proto\032\016apiarr"
-    "ay.proto\032\021apifilename.proto\"\351\007\n\nApiPacka"
-    "ge\032:\n\021freeBufferRequest\022%\n\006buffer\030\001 \001(\0132"
-    "\025.octaneapi.ByteArrayT\032@\n\020freeArrayReque"
-    "st\022,\n\013stringArray\030\001 \001(\0132\027.octaneapi.Stri"
-    "ngArrayT\032\"\n\013openRequest\022\023\n\013packagePath\030\001"
-    " \001(\t\0324\n\014openResponse\022$\n\006result\030\001 \001(\0132\024.o"
-    "ctaneapi.ObjectRef\0327\n\014closeRequest\022\'\n\tob"
-    "jectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\032N\n\022g"
-    "etFileListRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.o"
-    "ctaneapi.ObjectRef\022\017\n\007regExpr\030\002 \001(\t\032@\n\023g"
-    "etFileListResponse\022)\n\010fileList\030\001 \001(\0132\027.o"
-    "ctaneapi.StringArrayT\032J\n\021fileExistsReque"
+    "oto\032\033google/protobuf/empty.proto\"\351\007\n\nApi"
+    "Package\032:\n\021freeBufferRequest\022%\n\006buffer\030\001"
+    " \001(\0132\025.octaneapi.ByteArrayT\032@\n\020freeArray"
+    "Request\022,\n\013stringArray\030\001 \001(\0132\027.octaneapi"
+    ".StringArrayT\032\"\n\013openRequest\022\023\n\013packageP"
+    "ath\030\001 \001(\t\0324\n\014openResponse\022$\n\006result\030\001 \001("
+    "\0132\024.octaneapi.ObjectRef\0327\n\014closeRequest\022"
+    "\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef"
+    "\032N\n\022getFileListRequest\022\'\n\tobjectPtr\030\001 \001("
+    "\0132\024.octaneapi.ObjectRef\022\017\n\007regExpr\030\002 \001(\t"
+    "\032@\n\023getFileListResponse\022)\n\010fileList\030\001 \001("
+    "\0132\027.octaneapi.StringArrayT\032J\n\021fileExists"
+    "Request\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.O"
+    "bjectRef\022\014\n\004path\030\002 \001(\t\032$\n\022fileExistsResp"
+    "onse\022\016\n\006result\030\001 \001(\010\032a\n\022fileExists1Reque"
     "st\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Object"
-    "Ref\022\014\n\004path\030\002 \001(\t\032$\n\022fileExistsResponse\022"
-    "\016\n\006result\030\001 \001(\010\032a\n\022fileExists1Request\022\'\n"
-    "\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022\""
-    "\n\004path\030\002 \001(\0132\024.octaneapi.ObjectRef\032%\n\023fi"
-    "leExists1Response\022\016\n\006result\030\001 \001(\010\032H\n\017rea"
-    "dFileRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octane"
-    "api.ObjectRef\022\014\n\004path\030\002 \001(\t\032G\n\020readFileR"
-    "esponse\022\016\n\006result\030\001 \001(\010\022#\n\004data\030\002 \001(\0132\025."
-    "octaneapi.ByteArrayT\032_\n\020readFile1Request"
-    "\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRe"
-    "f\022\"\n\004path\030\002 \001(\0132\024.octaneapi.ObjectRef\032H\n"
-    "\021readFile1Response\022\016\n\006result\030\001 \001(\010\022#\n\004da"
-    "ta\030\002 \001(\0132\025.octaneapi.ByteArrayT2\326\005\n\021ApiP"
-    "ackageService\022K\n\tfreeArray\022&.octaneapi.A"
-    "piPackage.freeArrayRequest\032\026.google.prot"
-    "obuf.Empty\022M\n\004open\022!.octaneapi.ApiPackag"
-    "e.openRequest\032\".octaneapi.ApiPackage.ope"
-    "nResponse\022C\n\005close\022\".octaneapi.ApiPackag"
-    "e.closeRequest\032\026.google.protobuf.Empty\022b"
-    "\n\013getFileList\022(.octaneapi.ApiPackage.get"
-    "FileListRequest\032).octaneapi.ApiPackage.g"
-    "etFileListResponse\022_\n\nfileExists\022\'.octan"
-    "eapi.ApiPackage.fileExistsRequest\032(.octa"
-    "neapi.ApiPackage.fileExistsResponse\022b\n\013f"
-    "ileExists1\022(.octaneapi.ApiPackage.fileEx"
-    "ists1Request\032).octaneapi.ApiPackage.file"
-    "Exists1Response\022Y\n\010readFile\022%.octaneapi."
-    "ApiPackage.readFileRequest\032&.octaneapi.A"
-    "piPackage.readFileResponse\022\\\n\treadFile1\022"
-    "&.octaneapi.ApiPackage.readFile1Request\032"
-    "\'.octaneapi.ApiPackage.readFile1Response"
-    "B\002H\002b\006proto3"
+    "Ref\022\"\n\004path\030\002 \001(\0132\024.octaneapi.ObjectRef\032"
+    "%\n\023fileExists1Response\022\016\n\006result\030\001 \001(\010\032H"
+    "\n\017readFileRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.o"
+    "ctaneapi.ObjectRef\022\014\n\004path\030\002 \001(\t\032G\n\020read"
+    "FileResponse\022\016\n\006result\030\001 \001(\010\022#\n\004data\030\002 \001"
+    "(\0132\025.octaneapi.ByteArrayT\032_\n\020readFile1Re"
+    "quest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Obj"
+    "ectRef\022\"\n\004path\030\002 \001(\0132\024.octaneapi.ObjectR"
+    "ef\032H\n\021readFile1Response\022\016\n\006result\030\001 \001(\010\022"
+    "#\n\004data\030\002 \001(\0132\025.octaneapi.ByteArrayT2\326\005\n"
+    "\021ApiPackageService\022K\n\tfreeArray\022&.octane"
+    "api.ApiPackage.freeArrayRequest\032\026.google"
+    ".protobuf.Empty\022M\n\004open\022!.octaneapi.ApiP"
+    "ackage.openRequest\032\".octaneapi.ApiPackag"
+    "e.openResponse\022C\n\005close\022\".octaneapi.ApiP"
+    "ackage.closeRequest\032\026.google.protobuf.Em"
+    "pty\022b\n\013getFileList\022(.octaneapi.ApiPackag"
+    "e.getFileListRequest\032).octaneapi.ApiPack"
+    "age.getFileListResponse\022_\n\nfileExists\022\'."
+    "octaneapi.ApiPackage.fileExistsRequest\032("
+    ".octaneapi.ApiPackage.fileExistsResponse"
+    "\022b\n\013fileExists1\022(.octaneapi.ApiPackage.f"
+    "ileExists1Request\032).octaneapi.ApiPackage"
+    ".fileExists1Response\022Y\n\010readFile\022%.octan"
+    "eapi.ApiPackage.readFileRequest\032&.octane"
+    "api.ApiPackage.readFileResponse\022\\\n\treadF"
+    "ile1\022&.octaneapi.ApiPackage.readFile1Req"
+    "uest\032\'.octaneapi.ApiPackage.readFile1Res"
+    "ponseB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apipackage_2eproto_deps[4] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apipackage_2eproto_deps[2] =
     {
-        &::descriptor_table_apiarray_2eproto,
-        &::descriptor_table_apifilename_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -709,12 +706,12 @@ static ::absl::once_flag descriptor_table_apipackage_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apipackage_2eproto = {
     false,
     false,
-    1852,
+    1817,
     descriptor_table_protodef_apipackage_2eproto,
     "apipackage.proto",
     &descriptor_table_apipackage_2eproto_once,
     descriptor_table_apipackage_2eproto_deps,
-    4,
+    2,
     16,
     schemas,
     file_default_instances,

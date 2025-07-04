@@ -155,37 +155,33 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apitimesampling_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\025apitimesampling.proto\022\toctaneapi\032\014comm"
-    "on.proto\032\033google/protobuf/empty.proto\032\021o"
-    "ctaneenums.proto\032\020octanetime.proto\"\201\002\n\017A"
-    "piTimeSampling\022&\n\007pattern\030\001 \001(\0132\025.octane"
-    "api.TimeArrayT\022\023\n\013patternSize\030\002 \001(\r\022 \n\006p"
-    "eriod\030\003 \001(\0132\020.octaneapi.TimeT\022/\n\ranimati"
-    "onType\030\004 \001(\0162\030.octaneapi.AnimationType\022!"
-    "\n\007endTime\030\005 \001(\0132\020.octaneapi.TimeT\032\024\n\022end"
-    "TimeAutoRequest\032%\n\023endTimeAutoResponse\022\016"
-    "\n\006result\030\001 \001(\0022\206\001\n\026ApiTimeSamplingServic"
-    "e\022l\n\013endTimeAuto\022-.octaneapi.ApiTimeSamp"
-    "ling.endTimeAutoRequest\032..octaneapi.ApiT"
-    "imeSampling.endTimeAutoResponseB\002H\002b\006pro"
-    "to3"
+    "on.proto\032\021octaneenums.proto\"\201\002\n\017ApiTimeS"
+    "ampling\022&\n\007pattern\030\001 \001(\0132\025.octaneapi.Tim"
+    "eArrayT\022\023\n\013patternSize\030\002 \001(\r\022 \n\006period\030\003"
+    " \001(\0132\020.octaneapi.TimeT\022/\n\ranimationType\030"
+    "\004 \001(\0162\030.octaneapi.AnimationType\022!\n\007endTi"
+    "me\030\005 \001(\0132\020.octaneapi.TimeT\032\024\n\022endTimeAut"
+    "oRequest\032%\n\023endTimeAutoResponse\022\016\n\006resul"
+    "t\030\001 \001(\0022\206\001\n\026ApiTimeSamplingService\022l\n\013en"
+    "dTimeAuto\022-.octaneapi.ApiTimeSampling.en"
+    "dTimeAutoRequest\032..octaneapi.ApiTimeSamp"
+    "ling.endTimeAutoResponseB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apitimesampling_2eproto_deps[4] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apitimesampling_2eproto_deps[2] =
     {
         &::descriptor_table_common_2eproto,
-        &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
         &::descriptor_table_octaneenums_2eproto,
-        &::descriptor_table_octanetime_2eproto,
 };
 static ::absl::once_flag descriptor_table_apitimesampling_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apitimesampling_2eproto = {
     false,
     false,
-    523,
+    476,
     descriptor_table_protodef_apitimesampling_2eproto,
     "apitimesampling.proto",
     &descriptor_table_apitimesampling_2eproto_once,
     descriptor_table_apitimesampling_2eproto_deps,
-    4,
+    2,
     3,
     schemas,
     file_default_instances,

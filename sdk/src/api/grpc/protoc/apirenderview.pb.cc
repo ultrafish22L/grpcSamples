@@ -180,21 +180,20 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apirenderview_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\023apirenderview.proto\022\toctaneapi\032\014common"
-    ".proto\032\033google/protobuf/empty.proto\032\025api"
-    "guicomponent.proto\"\250\001\n\rApiRenderView\0329\n\016"
-    "destroyRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octa"
-    "neapi.ObjectRef\032$\n\rcreateRequest\022\023\n\013priv"
-    "ateData\030\001 \001(\004\0326\n\016createResponse\022$\n\006resul"
-    "t\030\001 \001(\0132\024.octaneapi.ObjectRef2\275\001\n\024ApiRen"
-    "derViewService\022J\n\007destroy\022\'.octaneapi.Ap"
-    "iRenderView.destroyRequest\032\026.google.prot"
-    "obuf.Empty\022Y\n\006create\022&.octaneapi.ApiRend"
-    "erView.createRequest\032\'.octaneapi.ApiRend"
-    "erView.createResponseB\002H\002b\006proto3"
+    ".proto\032\033google/protobuf/empty.proto\"\250\001\n\r"
+    "ApiRenderView\0329\n\016destroyRequest\022\'\n\tobjec"
+    "tPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\032$\n\rcrea"
+    "teRequest\022\023\n\013privateData\030\001 \001(\004\0326\n\016create"
+    "Response\022$\n\006result\030\001 \001(\0132\024.octaneapi.Obj"
+    "ectRef2\275\001\n\024ApiRenderViewService\022J\n\007destr"
+    "oy\022\'.octaneapi.ApiRenderView.destroyRequ"
+    "est\032\026.google.protobuf.Empty\022Y\n\006create\022&."
+    "octaneapi.ApiRenderView.createRequest\032\'."
+    "octaneapi.ApiRenderView.createResponseB\002"
+    "H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apirenderview_2eproto_deps[3] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apirenderview_2eproto_deps[2] =
     {
-        &::descriptor_table_apiguicomponent_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -202,12 +201,12 @@ static ::absl::once_flag descriptor_table_apirenderview_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apirenderview_2eproto = {
     false,
     false,
-    473,
+    450,
     descriptor_table_protodef_apirenderview_2eproto,
     "apirenderview.proto",
     &descriptor_table_apirenderview_2eproto_once,
     descriptor_table_apirenderview_2eproto_deps,
-    3,
+    2,
     4,
     schemas,
     file_default_instances,

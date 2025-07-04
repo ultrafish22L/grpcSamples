@@ -390,62 +390,60 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_octanenet_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\017octanenet.proto\022\toctaneapi\032\014common.pro"
-    "to\032\033google/protobuf/empty.proto\032\024octanev"
-    "ectypes.proto\"H\n\020NetInterfaceInfo\022\021\n\tada"
-    "pterIP\030\001 \001(\r\022\023\n\013baseAddress\030\002 \001(\r\022\014\n\004mas"
-    "k\030\003 \001(\r\"\216\001\n\rSocketAddress\022\021\n\tipAddress\030\001"
-    " \001(\r\022\014\n\004port\030\002 \001(\r\0329\n\016isValidRequest\022\'\n\t"
-    "objectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\032!\n"
-    "\017isValidResponse\022\016\n\006result\030\001 \001(\010\"\230\002\n\017Net"
-    "RenderStatus\022\025\n\rnetSlaveCount\030\001 \001(\r\022\035\n\025u"
-    "pdatingNetSlaveCount\030\002 \001(\r\022\034\n\024updatedNet"
-    "SlaveCount\030\003 \001(\r\022\023\n\013pendingSize\030\004 \001(\r\022\021\n"
-    "\ttotalSize\030\005 \001(\r\022\023\n\013netGpuCount\030\006 \001(\r\022\030\n"
-    "\020inUseNetGpuCount\030\007 \001(\r\022!\n\031canRenderUsin"
-    "gRenderNodes\030\010 \001(\010\0327\n\014clearRequest\022\'\n\tob"
-    "jectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\"\321\001\n\r"
-    "NetDaemonInfo\022\021\n\tipAddress\030\001 \001(\r\022\014\n\004name"
-    "\030\002 \001(\t\022(\n\005state\030\003 \001(\0162\031.octaneapi.NetDae"
-    "monState\022\020\n\010gpuCount\030\004 \001(\r\022\024\n\014slaveVersi"
-    "on\030\005 \001(\r\0224\n\022boundMasterAddress\030\006 \001(\0132\030.o"
-    "ctaneapi.SocketAddress\022\027\n\017boundMasterNam"
-    "e\030\007 \001(\t\"\353\001\n\021NetRenderSettings\022\022\n\nmasterP"
-    "ort\030\001 \001(\r\022\022\n\ndaemonPort\030\002 \001(\r\0223\n\024daemonS"
-    "earchAdapters\030\003 \001(\0132\025.octaneapi.UintArra"
-    "yT\022 \n\030daemonSearchAdapterCount\030\004 \001(\r\0225\n\024"
-    "daemonSearchAdresses\030\005 \001(\0132\027.octaneapi.S"
-    "tringArrayT\022 \n\030daemonSearchAddressCount\030"
-    "\006 \001(\r*\376\001\n\016NetDaemonState\022\030\n\024DAEMON_STATE"
-    "_UNKNOWN\020\000\022$\n DAEMON_SLAVE_HAS_INVALID_V"
-    "ERSION\020\001\022\030\n\024DAEMON_SLAVE_UNBOUND\020\002\022\037\n\033DA"
-    "EMON_SLAVE_BOUND_TO_OTHER\020\003\022\037\n\033DAEMON_SL"
-    "AVE_AUTHENTICATING\020\004\022\030\n\024DAEMON_SLAVE_RUN"
-    "NING\020\005\022\034\n\030DAEMON_SLAVE_DEACTIVATED\020\006\022\030\n\024"
-    "DAEMON_SLAVE_CRASHED\020\007*$\n\020NetTransportMo"
-    "de\022\020\n\014NET_MODE_TCP\020\0002b\n\026NetRenderStatusS"
-    "ervice\022H\n\005clear\022\'.octaneapi.NetRenderSta"
-    "tus.clearRequest\032\026.google.protobuf.Empty"
-    "2t\n\024SocketAddressService\022\\\n\007isValid\022\'.oc"
-    "taneapi.SocketAddress.isValidRequest\032(.o"
-    "ctaneapi.SocketAddress.isValidResponseB\002"
-    "H\002b\006proto3"
+    "to\032\033google/protobuf/empty.proto\"H\n\020NetIn"
+    "terfaceInfo\022\021\n\tadapterIP\030\001 \001(\r\022\023\n\013baseAd"
+    "dress\030\002 \001(\r\022\014\n\004mask\030\003 \001(\r\"\216\001\n\rSocketAddr"
+    "ess\022\021\n\tipAddress\030\001 \001(\r\022\014\n\004port\030\002 \001(\r\0329\n\016"
+    "isValidRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octa"
+    "neapi.ObjectRef\032!\n\017isValidResponse\022\016\n\006re"
+    "sult\030\001 \001(\010\"\230\002\n\017NetRenderStatus\022\025\n\rnetSla"
+    "veCount\030\001 \001(\r\022\035\n\025updatingNetSlaveCount\030\002"
+    " \001(\r\022\034\n\024updatedNetSlaveCount\030\003 \001(\r\022\023\n\013pe"
+    "ndingSize\030\004 \001(\r\022\021\n\ttotalSize\030\005 \001(\r\022\023\n\013ne"
+    "tGpuCount\030\006 \001(\r\022\030\n\020inUseNetGpuCount\030\007 \001("
+    "\r\022!\n\031canRenderUsingRenderNodes\030\010 \001(\010\0327\n\014"
+    "clearRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octane"
+    "api.ObjectRef\"\321\001\n\rNetDaemonInfo\022\021\n\tipAdd"
+    "ress\030\001 \001(\r\022\014\n\004name\030\002 \001(\t\022(\n\005state\030\003 \001(\0162"
+    "\031.octaneapi.NetDaemonState\022\020\n\010gpuCount\030\004"
+    " \001(\r\022\024\n\014slaveVersion\030\005 \001(\r\0224\n\022boundMaste"
+    "rAddress\030\006 \001(\0132\030.octaneapi.SocketAddress"
+    "\022\027\n\017boundMasterName\030\007 \001(\t\"\353\001\n\021NetRenderS"
+    "ettings\022\022\n\nmasterPort\030\001 \001(\r\022\022\n\ndaemonPor"
+    "t\030\002 \001(\r\0223\n\024daemonSearchAdapters\030\003 \001(\0132\025."
+    "octaneapi.UintArrayT\022 \n\030daemonSearchAdap"
+    "terCount\030\004 \001(\r\0225\n\024daemonSearchAdresses\030\005"
+    " \001(\0132\027.octaneapi.StringArrayT\022 \n\030daemonS"
+    "earchAddressCount\030\006 \001(\r*\376\001\n\016NetDaemonSta"
+    "te\022\030\n\024DAEMON_STATE_UNKNOWN\020\000\022$\n DAEMON_S"
+    "LAVE_HAS_INVALID_VERSION\020\001\022\030\n\024DAEMON_SLA"
+    "VE_UNBOUND\020\002\022\037\n\033DAEMON_SLAVE_BOUND_TO_OT"
+    "HER\020\003\022\037\n\033DAEMON_SLAVE_AUTHENTICATING\020\004\022\030"
+    "\n\024DAEMON_SLAVE_RUNNING\020\005\022\034\n\030DAEMON_SLAVE"
+    "_DEACTIVATED\020\006\022\030\n\024DAEMON_SLAVE_CRASHED\020\007"
+    "*$\n\020NetTransportMode\022\020\n\014NET_MODE_TCP\020\0002b"
+    "\n\026NetRenderStatusService\022H\n\005clear\022\'.octa"
+    "neapi.NetRenderStatus.clearRequest\032\026.goo"
+    "gle.protobuf.Empty2t\n\024SocketAddressServi"
+    "ce\022\\\n\007isValid\022\'.octaneapi.SocketAddress."
+    "isValidRequest\032(.octaneapi.SocketAddress"
+    ".isValidResponseB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_octanenet_2eproto_deps[3] =
+static const ::_pbi::DescriptorTable* const descriptor_table_octanenet_2eproto_deps[2] =
     {
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
-        &::descriptor_table_octanevectypes_2eproto,
 };
 static ::absl::once_flag descriptor_table_octanenet_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_octanenet_2eproto = {
     false,
     false,
-    1570,
+    1548,
     descriptor_table_protodef_octanenet_2eproto,
     "octanenet.proto",
     &descriptor_table_octanenet_2eproto_once,
     descriptor_table_octanenet_2eproto_deps,
-    3,
+    2,
     8,
     schemas,
     file_default_instances,

@@ -335,39 +335,34 @@ const char descriptor_table_protodef_apiprojectworkspace_2eproto[] ABSL_ATTRIBUT
     protodesc_cold) = {
     "\n\031apiprojectworkspace.proto\022\toctaneapi\032\014"
     "common.proto\032\033google/protobuf/empty.prot"
-    "o\032\030apinodegrapheditor.proto\032\016apiarray.pr"
-    "oto\032\025apiguicomponent.proto\"\316\003\n\023ApiProjec"
-    "tWorkspace\032E\n\032getNodeGraphEditorsRequest"
-    "\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRe"
-    "f\032I\n\033getNodeGraphEditorsResponse\022*\n\006resu"
-    "lt\030\001 \001(\0132\032.octaneapi.ObjectRefArrayT\032=\n\022"
-    "resetLayoutRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024."
-    "octaneapi.ObjectRef\032R\n\021loadLayoutRequest"
-    "\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRe"
-    "f\022\024\n\014layoutString\030\002 \001(\t\032$\n\022loadLayoutRes"
-    "ponse\022\016\n\006result\030\001 \001(\010\032A\n\026serializeLayout"
-    "Request\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.O"
-    "bjectRef\032)\n\027serializeLayoutResponse\022\016\n\006r"
-    "esult\030\001 \001(\t2\373\003\n\032ApiProjectWorkspaceServi"
-    "ce\022\214\001\n\023getNodeGraphEditors\0229.octaneapi.A"
-    "piProjectWorkspace.getNodeGraphEditorsRe"
-    "quest\032:.octaneapi.ApiProjectWorkspace.ge"
-    "tNodeGraphEditorsResponse\022X\n\013resetLayout"
-    "\0221.octaneapi.ApiProjectWorkspace.resetLa"
-    "youtRequest\032\026.google.protobuf.Empty\022q\n\nl"
-    "oadLayout\0220.octaneapi.ApiProjectWorkspac"
-    "e.loadLayoutRequest\0321.octaneapi.ApiProje"
-    "ctWorkspace.loadLayoutResponse\022\200\001\n\017seria"
-    "lizeLayout\0225.octaneapi.ApiProjectWorkspa"
-    "ce.serializeLayoutRequest\0326.octaneapi.Ap"
-    "iProjectWorkspace.serializeLayoutRespons"
-    "eB\002H\002b\006proto3"
+    "o\"\316\003\n\023ApiProjectWorkspace\032E\n\032getNodeGrap"
+    "hEditorsRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.oct"
+    "aneapi.ObjectRef\032I\n\033getNodeGraphEditorsR"
+    "esponse\022*\n\006result\030\001 \001(\0132\032.octaneapi.Obje"
+    "ctRefArrayT\032=\n\022resetLayoutRequest\022\'\n\tobj"
+    "ectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\032R\n\021lo"
+    "adLayoutRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.oct"
+    "aneapi.ObjectRef\022\024\n\014layoutString\030\002 \001(\t\032$"
+    "\n\022loadLayoutResponse\022\016\n\006result\030\001 \001(\010\032A\n\026"
+    "serializeLayoutRequest\022\'\n\tobjectPtr\030\001 \001("
+    "\0132\024.octaneapi.ObjectRef\032)\n\027serializeLayo"
+    "utResponse\022\016\n\006result\030\001 \001(\t2\373\003\n\032ApiProjec"
+    "tWorkspaceService\022\214\001\n\023getNodeGraphEditor"
+    "s\0229.octaneapi.ApiProjectWorkspace.getNod"
+    "eGraphEditorsRequest\032:.octaneapi.ApiProj"
+    "ectWorkspace.getNodeGraphEditorsResponse"
+    "\022X\n\013resetLayout\0221.octaneapi.ApiProjectWo"
+    "rkspace.resetLayoutRequest\032\026.google.prot"
+    "obuf.Empty\022q\n\nloadLayout\0220.octaneapi.Api"
+    "ProjectWorkspace.loadLayoutRequest\0321.oct"
+    "aneapi.ApiProjectWorkspace.loadLayoutRes"
+    "ponse\022\200\001\n\017serializeLayout\0225.octaneapi.Ap"
+    "iProjectWorkspace.serializeLayoutRequest"
+    "\0326.octaneapi.ApiProjectWorkspace.seriali"
+    "zeLayoutResponseB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apiprojectworkspace_2eproto_deps[5] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apiprojectworkspace_2eproto_deps[2] =
     {
-        &::descriptor_table_apiarray_2eproto,
-        &::descriptor_table_apiguicomponent_2eproto,
-        &::descriptor_table_apinodegrapheditor_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -375,12 +370,12 @@ static ::absl::once_flag descriptor_table_apiprojectworkspace_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apiprojectworkspace_2eproto = {
     false,
     false,
-    1133,
+    1068,
     descriptor_table_protodef_apiprojectworkspace_2eproto,
     "apiprojectworkspace.proto",
     &descriptor_table_apiprojectworkspace_2eproto_once,
     descriptor_table_apiprojectworkspace_2eproto_deps,
-    5,
+    2,
     8,
     schemas,
     file_default_instances,

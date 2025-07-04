@@ -93,31 +93,6 @@ struct ApiNodePinInfoExDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiNodePinInfoExDefaultTypeInternal _ApiNodePinInfoEx_default_instance_;
 
-inline constexpr ApiNodePinInfoEx_GetNodePinInfoRequest::Impl_::Impl_(
-    ::_pbi::ConstantInitialized) noexcept
-      : _cached_size_{0},
-        nodepininforef_{nullptr} {}
-
-template <typename>
-PROTOBUF_CONSTEXPR ApiNodePinInfoEx_GetNodePinInfoRequest::ApiNodePinInfoEx_GetNodePinInfoRequest(::_pbi::ConstantInitialized)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(_class_data_.base()),
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(),
-#endif  // PROTOBUF_CUSTOM_VTABLE
-      _impl_(::_pbi::ConstantInitialized()) {
-}
-struct ApiNodePinInfoEx_GetNodePinInfoRequestDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ApiNodePinInfoEx_GetNodePinInfoRequestDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ApiNodePinInfoEx_GetNodePinInfoRequestDefaultTypeInternal() {}
-  union {
-    ApiNodePinInfoEx_GetNodePinInfoRequest _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiNodePinInfoEx_GetNodePinInfoRequestDefaultTypeInternal _ApiNodePinInfoEx_GetNodePinInfoRequest_default_instance_;
-
 inline constexpr ApiNodePinInfoEx_DeleteNodePinInfoRequest::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
@@ -218,32 +193,6 @@ struct ApiNodePinInfoEx_UpdateNodePinInfoRequestDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiNodePinInfoEx_UpdateNodePinInfoRequestDefaultTypeInternal _ApiNodePinInfoEx_UpdateNodePinInfoRequest_default_instance_;
-
-inline constexpr ApiNodePinInfoEx_GetNodePinInfoResponse::Impl_::Impl_(
-    ::_pbi::ConstantInitialized) noexcept
-      : _cached_size_{0},
-        nodepininfo_{nullptr},
-        success_{false} {}
-
-template <typename>
-PROTOBUF_CONSTEXPR ApiNodePinInfoEx_GetNodePinInfoResponse::ApiNodePinInfoEx_GetNodePinInfoResponse(::_pbi::ConstantInitialized)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(_class_data_.base()),
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(),
-#endif  // PROTOBUF_CUSTOM_VTABLE
-      _impl_(::_pbi::ConstantInitialized()) {
-}
-struct ApiNodePinInfoEx_GetNodePinInfoResponseDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ApiNodePinInfoEx_GetNodePinInfoResponseDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ApiNodePinInfoEx_GetNodePinInfoResponseDefaultTypeInternal() {}
-  union {
-    ApiNodePinInfoEx_GetNodePinInfoResponse _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiNodePinInfoEx_GetNodePinInfoResponseDefaultTypeInternal _ApiNodePinInfoEx_GetNodePinInfoResponse_default_instance_;
 
 inline constexpr ApiNodePinInfoEx_CreateNodePinInfoRequest::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -380,28 +329,6 @@ const ::uint32_t
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiNodePinInfoEx_UpdateNodePinInfoResponse, _impl_.success_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiNodePinInfoEx_GetNodePinInfoRequest, _impl_._has_bits_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiNodePinInfoEx_GetNodePinInfoRequest, _internal_metadata_),
-        ~0u,  // no _extensions_
-        ~0u,  // no _oneof_case_
-        ~0u,  // no _weak_field_map_
-        ~0u,  // no _inlined_string_donated_
-        ~0u,  // no _split_
-        ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiNodePinInfoEx_GetNodePinInfoRequest, _impl_.nodepininforef_),
-        0,
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse, _impl_._has_bits_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse, _internal_metadata_),
-        ~0u,  // no _extensions_
-        ~0u,  // no _oneof_case_
-        ~0u,  // no _weak_field_map_
-        ~0u,  // no _inlined_string_donated_
-        ~0u,  // no _split_
-        ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse, _impl_.success_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse, _impl_.nodepininfo_),
-        ~0u,
-        0,
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiNodePinInfoEx, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -422,9 +349,7 @@ static const ::_pbi::MigrationSchema
         {48, -1, -1, sizeof(::octaneapi::ApiNodePinInfoEx_DeleteNodePinInfoResponse)},
         {57, 67, -1, sizeof(::octaneapi::ApiNodePinInfoEx_UpdateNodePinInfoRequest)},
         {69, -1, -1, sizeof(::octaneapi::ApiNodePinInfoEx_UpdateNodePinInfoResponse)},
-        {78, 87, -1, sizeof(::octaneapi::ApiNodePinInfoEx_GetNodePinInfoRequest)},
-        {88, 98, -1, sizeof(::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse)},
-        {100, -1, -1, sizeof(::octaneapi::ApiNodePinInfoEx)},
+        {78, -1, -1, sizeof(::octaneapi::ApiNodePinInfoEx)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::octaneapi::_ApiNodePinInfoEx_CreateNodePinInfoArrayRequest_default_instance_._instance,
@@ -435,14 +360,12 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::octaneapi::_ApiNodePinInfoEx_DeleteNodePinInfoResponse_default_instance_._instance,
     &::octaneapi::_ApiNodePinInfoEx_UpdateNodePinInfoRequest_default_instance_._instance,
     &::octaneapi::_ApiNodePinInfoEx_UpdateNodePinInfoResponse_default_instance_._instance,
-    &::octaneapi::_ApiNodePinInfoEx_GetNodePinInfoRequest_default_instance_._instance,
-    &::octaneapi::_ApiNodePinInfoEx_GetNodePinInfoResponse_default_instance_._instance,
     &::octaneapi::_ApiNodePinInfoEx_default_instance_._instance,
 };
 const char descriptor_table_protodef_apinodepininfohelper_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\032apinodepininfohelper.proto\022\toctaneapi\032"
-    "\021octaneinfos.proto\032\014common.proto\"\215\006\n\020Api"
+    "\021octaneinfos.proto\032\014common.proto\"\353\004\n\020Api"
     "NodePinInfoEx\032O\n\035CreateNodePinInfoArrayR"
     "equest\022.\n\013nodePinInfo\030\001 \003(\0132\031.octaneapi."
     "ApiNodePinInfo\032O\n\036CreateNodePinInfoArray"
@@ -458,29 +381,22 @@ const char descriptor_table_protodef_apinodepininfohelper_2eproto[] ABSL_ATTRIBU
     "dePinInfoRef\030\001 \001(\0132\024.octaneapi.ObjectRef"
     "\022.\n\013nodePinInfo\030\002 \001(\0132\031.octaneapi.ApiNod"
     "ePinInfo\032,\n\031UpdateNodePinInfoResponse\022\017\n"
-    "\007success\030\001 \001(\010\032E\n\025GetNodePinInfoRequest\022"
-    ",\n\016nodePinInfoRef\030\001 \001(\0132\024.octaneapi.Obje"
-    "ctRef\032Y\n\026GetNodePinInfoResponse\022\017\n\007succe"
-    "ss\030\001 \001(\010\022.\n\013nodePinInfo\030\002 \001(\0132\031.octaneap"
-    "i.ApiNodePinInfo2\274\005\n\027ApiNodePinInfoExSer"
-    "vice\022\222\001\n\031createApiNodePinInfoArray\0229.oct"
-    "aneapi.ApiNodePinInfoEx.CreateNodePinInf"
-    "oArrayRequest\032:.octaneapi.ApiNodePinInfo"
-    "Ex.CreateNodePinInfoArrayResponse\022\203\001\n\024cr"
-    "eateApiNodePinInfo\0224.octaneapi.ApiNodePi"
-    "nInfoEx.CreateNodePinInfoRequest\0325.octan"
-    "eapi.ApiNodePinInfoEx.CreateNodePinInfoR"
-    "esponse\022\203\001\n\024deleteApiNodePinInfo\0224.octan"
-    "eapi.ApiNodePinInfoEx.DeleteNodePinInfoR"
-    "equest\0325.octaneapi.ApiNodePinInfoEx.Dele"
-    "teNodePinInfoResponse\022\203\001\n\024updateApiNodeP"
-    "inInfo\0224.octaneapi.ApiNodePinInfoEx.Upda"
-    "teNodePinInfoRequest\0325.octaneapi.ApiNode"
-    "PinInfoEx.UpdateNodePinInfoResponse\022z\n\021g"
-    "etApiNodePinInfo\0221.octaneapi.ApiNodePinI"
-    "nfoEx.GetNodePinInfoRequest\0322.octaneapi."
-    "ApiNodePinInfoEx.GetNodePinInfoResponseB"
-    "\002H\002b\006proto3"
+    "\007success\030\001 \001(\0102\300\004\n\027ApiNodePinInfoExServi"
+    "ce\022\222\001\n\031createApiNodePinInfoArray\0229.octan"
+    "eapi.ApiNodePinInfoEx.CreateNodePinInfoA"
+    "rrayRequest\032:.octaneapi.ApiNodePinInfoEx"
+    ".CreateNodePinInfoArrayResponse\022\203\001\n\024crea"
+    "teApiNodePinInfo\0224.octaneapi.ApiNodePinI"
+    "nfoEx.CreateNodePinInfoRequest\0325.octanea"
+    "pi.ApiNodePinInfoEx.CreateNodePinInfoRes"
+    "ponse\022\203\001\n\024deleteApiNodePinInfo\0224.octanea"
+    "pi.ApiNodePinInfoEx.DeleteNodePinInfoReq"
+    "uest\0325.octaneapi.ApiNodePinInfoEx.Delete"
+    "NodePinInfoResponse\022\203\001\n\024updateApiNodePin"
+    "Info\0224.octaneapi.ApiNodePinInfoEx.Update"
+    "NodePinInfoRequest\0325.octaneapi.ApiNodePi"
+    "nInfoEx.UpdateNodePinInfoResponseB\002H\002b\006p"
+    "roto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_apinodepininfohelper_2eproto_deps[2] =
     {
@@ -491,13 +407,13 @@ static ::absl::once_flag descriptor_table_apinodepininfohelper_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apinodepininfohelper_2eproto = {
     false,
     false,
-    1571,
+    1285,
     descriptor_table_protodef_apinodepininfohelper_2eproto,
     "apinodepininfohelper.proto",
     &descriptor_table_apinodepininfohelper_2eproto_once,
     descriptor_table_apinodepininfohelper_2eproto_deps,
     2,
-    11,
+    9,
     schemas,
     file_default_instances,
     TableStruct_apinodepininfohelper_2eproto::offsets,
@@ -1554,296 +1470,6 @@ void ApiNodePinInfoEx_UpdateNodePinInfoResponse::InternalSwap(ApiNodePinInfoEx_U
   GetReflection()->Swap(this, other);}
 
 ::google::protobuf::Metadata ApiNodePinInfoEx_UpdateNodePinInfoResponse::GetMetadata() const {
-  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
-}
-// ===================================================================
-
-class ApiNodePinInfoEx_GetNodePinInfoRequest::_Internal {
- public:
-  using HasBits =
-      decltype(std::declval<ApiNodePinInfoEx_GetNodePinInfoRequest>()._impl_._has_bits_);
-  static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(ApiNodePinInfoEx_GetNodePinInfoRequest, _impl_._has_bits_);
-};
-
-void ApiNodePinInfoEx_GetNodePinInfoRequest::clear_nodepininforef() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.nodepininforef_ != nullptr) _impl_.nodepininforef_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-ApiNodePinInfoEx_GetNodePinInfoRequest::ApiNodePinInfoEx_GetNodePinInfoRequest(::google::protobuf::Arena* arena)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, _class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiNodePinInfoEx.GetNodePinInfoRequest)
-}
-inline PROTOBUF_NDEBUG_INLINE ApiNodePinInfoEx_GetNodePinInfoRequest::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
-    const Impl_& from, const ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoRequest& from_msg)
-      : _has_bits_{from._has_bits_},
-        _cached_size_{0} {}
-
-ApiNodePinInfoEx_GetNodePinInfoRequest::ApiNodePinInfoEx_GetNodePinInfoRequest(
-    ::google::protobuf::Arena* arena,
-    const ApiNodePinInfoEx_GetNodePinInfoRequest& from)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, _class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  ApiNodePinInfoEx_GetNodePinInfoRequest* const _this = this;
-  (void)_this;
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
-  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
-  _impl_.nodepininforef_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::octaneapi::ObjectRef>(
-                              arena, *from._impl_.nodepininforef_)
-                        : nullptr;
-
-  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiNodePinInfoEx.GetNodePinInfoRequest)
-}
-inline PROTOBUF_NDEBUG_INLINE ApiNodePinInfoEx_GetNodePinInfoRequest::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility,
-    ::google::protobuf::Arena* arena)
-      : _cached_size_{0} {}
-
-inline void ApiNodePinInfoEx_GetNodePinInfoRequest::SharedCtor(::_pb::Arena* arena) {
-  new (&_impl_) Impl_(internal_visibility(), arena);
-  _impl_.nodepininforef_ = {};
-}
-ApiNodePinInfoEx_GetNodePinInfoRequest::~ApiNodePinInfoEx_GetNodePinInfoRequest() {
-  // @@protoc_insertion_point(destructor:octaneapi.ApiNodePinInfoEx.GetNodePinInfoRequest)
-  _internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
-  SharedDtor();
-}
-inline void ApiNodePinInfoEx_GetNodePinInfoRequest::SharedDtor() {
-  ABSL_DCHECK(GetArena() == nullptr);
-  delete _impl_.nodepininforef_;
-  _impl_.~Impl_();
-}
-
-PROTOBUF_CONSTINIT
-PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::google::protobuf::MessageLite::ClassDataFull
-    ApiNodePinInfoEx_GetNodePinInfoRequest::_class_data_ = {
-        ::google::protobuf::Message::ClassData{
-            &_ApiNodePinInfoEx_GetNodePinInfoRequest_default_instance_._instance,
-            &_table_.header,
-            nullptr,  // OnDemandRegisterArenaDtor
-            nullptr,  // IsInitialized
-            &ApiNodePinInfoEx_GetNodePinInfoRequest::MergeImpl,
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-            ::google::protobuf::Message::GetDeleteImpl<ApiNodePinInfoEx_GetNodePinInfoRequest>(),
-            ::google::protobuf::Message::GetNewImpl<ApiNodePinInfoEx_GetNodePinInfoRequest>(),
-            ::google::protobuf::Message::ClearImpl, ::google::protobuf::Message::ByteSizeLongImpl,
-                ::google::protobuf::Message::_InternalSerializeImpl,
-#endif  // PROTOBUF_CUSTOM_VTABLE
-            PROTOBUF_FIELD_OFFSET(ApiNodePinInfoEx_GetNodePinInfoRequest, _impl_._cached_size_),
-            false,
-        },
-        &ApiNodePinInfoEx_GetNodePinInfoRequest::kDescriptorMethods,
-        &descriptor_table_apinodepininfohelper_2eproto,
-        nullptr,  // tracker
-};
-const ::google::protobuf::MessageLite::ClassData* ApiNodePinInfoEx_GetNodePinInfoRequest::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
-  return _class_data_.base();
-}
-PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 1, 1, 0, 2> ApiNodePinInfoEx_GetNodePinInfoRequest::_table_ = {
-  {
-    PROTOBUF_FIELD_OFFSET(ApiNodePinInfoEx_GetNodePinInfoRequest, _impl_._has_bits_),
-    0, // no _extensions_
-    1, 0,  // max_field_number, fast_idx_mask
-    offsetof(decltype(_table_), field_lookup_table),
-    4294967294,  // skipmap
-    offsetof(decltype(_table_), field_entries),
-    1,  // num_field_entries
-    1,  // num_aux_entries
-    offsetof(decltype(_table_), aux_entries),
-    _class_data_.base(),
-    nullptr,  // post_loop_handler
-    ::_pbi::TcParser::GenericFallback,  // fallback
-    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::octaneapi::ApiNodePinInfoEx_GetNodePinInfoRequest>(),  // to_prefetch
-    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
-  }, {{
-    // .octaneapi.ObjectRef nodePinInfoRef = 1;
-    {::_pbi::TcParser::FastMtS1,
-     {10, 0, 0, PROTOBUF_FIELD_OFFSET(ApiNodePinInfoEx_GetNodePinInfoRequest, _impl_.nodepininforef_)}},
-  }}, {{
-    65535, 65535
-  }}, {{
-    // .octaneapi.ObjectRef nodePinInfoRef = 1;
-    {PROTOBUF_FIELD_OFFSET(ApiNodePinInfoEx_GetNodePinInfoRequest, _impl_.nodepininforef_), _Internal::kHasBitsOffset + 0, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
-  }}, {{
-    {::_pbi::TcParser::GetTable<::octaneapi::ObjectRef>()},
-  }}, {{
-  }},
-};
-
-void ApiNodePinInfoEx_GetNodePinInfoRequest::InternalSwap(ApiNodePinInfoEx_GetNodePinInfoRequest* PROTOBUF_RESTRICT other) {
-  using std::swap;
-  GetReflection()->Swap(this, other);}
-
-::google::protobuf::Metadata ApiNodePinInfoEx_GetNodePinInfoRequest::GetMetadata() const {
-  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
-}
-// ===================================================================
-
-class ApiNodePinInfoEx_GetNodePinInfoResponse::_Internal {
- public:
-  using HasBits =
-      decltype(std::declval<ApiNodePinInfoEx_GetNodePinInfoResponse>()._impl_._has_bits_);
-  static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(ApiNodePinInfoEx_GetNodePinInfoResponse, _impl_._has_bits_);
-};
-
-void ApiNodePinInfoEx_GetNodePinInfoResponse::clear_nodepininfo() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.nodepininfo_ != nullptr) _impl_.nodepininfo_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-ApiNodePinInfoEx_GetNodePinInfoResponse::ApiNodePinInfoEx_GetNodePinInfoResponse(::google::protobuf::Arena* arena)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, _class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiNodePinInfoEx.GetNodePinInfoResponse)
-}
-inline PROTOBUF_NDEBUG_INLINE ApiNodePinInfoEx_GetNodePinInfoResponse::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
-    const Impl_& from, const ::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse& from_msg)
-      : _has_bits_{from._has_bits_},
-        _cached_size_{0} {}
-
-ApiNodePinInfoEx_GetNodePinInfoResponse::ApiNodePinInfoEx_GetNodePinInfoResponse(
-    ::google::protobuf::Arena* arena,
-    const ApiNodePinInfoEx_GetNodePinInfoResponse& from)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, _class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  ApiNodePinInfoEx_GetNodePinInfoResponse* const _this = this;
-  (void)_this;
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
-  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
-  _impl_.nodepininfo_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::octaneapi::ApiNodePinInfo>(
-                              arena, *from._impl_.nodepininfo_)
-                        : nullptr;
-  _impl_.success_ = from._impl_.success_;
-
-  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiNodePinInfoEx.GetNodePinInfoResponse)
-}
-inline PROTOBUF_NDEBUG_INLINE ApiNodePinInfoEx_GetNodePinInfoResponse::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility,
-    ::google::protobuf::Arena* arena)
-      : _cached_size_{0} {}
-
-inline void ApiNodePinInfoEx_GetNodePinInfoResponse::SharedCtor(::_pb::Arena* arena) {
-  new (&_impl_) Impl_(internal_visibility(), arena);
-  ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, nodepininfo_),
-           0,
-           offsetof(Impl_, success_) -
-               offsetof(Impl_, nodepininfo_) +
-               sizeof(Impl_::success_));
-}
-ApiNodePinInfoEx_GetNodePinInfoResponse::~ApiNodePinInfoEx_GetNodePinInfoResponse() {
-  // @@protoc_insertion_point(destructor:octaneapi.ApiNodePinInfoEx.GetNodePinInfoResponse)
-  _internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
-  SharedDtor();
-}
-inline void ApiNodePinInfoEx_GetNodePinInfoResponse::SharedDtor() {
-  ABSL_DCHECK(GetArena() == nullptr);
-  delete _impl_.nodepininfo_;
-  _impl_.~Impl_();
-}
-
-PROTOBUF_CONSTINIT
-PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::google::protobuf::MessageLite::ClassDataFull
-    ApiNodePinInfoEx_GetNodePinInfoResponse::_class_data_ = {
-        ::google::protobuf::Message::ClassData{
-            &_ApiNodePinInfoEx_GetNodePinInfoResponse_default_instance_._instance,
-            &_table_.header,
-            nullptr,  // OnDemandRegisterArenaDtor
-            nullptr,  // IsInitialized
-            &ApiNodePinInfoEx_GetNodePinInfoResponse::MergeImpl,
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-            ::google::protobuf::Message::GetDeleteImpl<ApiNodePinInfoEx_GetNodePinInfoResponse>(),
-            ::google::protobuf::Message::GetNewImpl<ApiNodePinInfoEx_GetNodePinInfoResponse>(),
-            ::google::protobuf::Message::ClearImpl, ::google::protobuf::Message::ByteSizeLongImpl,
-                ::google::protobuf::Message::_InternalSerializeImpl,
-#endif  // PROTOBUF_CUSTOM_VTABLE
-            PROTOBUF_FIELD_OFFSET(ApiNodePinInfoEx_GetNodePinInfoResponse, _impl_._cached_size_),
-            false,
-        },
-        &ApiNodePinInfoEx_GetNodePinInfoResponse::kDescriptorMethods,
-        &descriptor_table_apinodepininfohelper_2eproto,
-        nullptr,  // tracker
-};
-const ::google::protobuf::MessageLite::ClassData* ApiNodePinInfoEx_GetNodePinInfoResponse::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
-  return _class_data_.base();
-}
-PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 2, 1, 0, 2> ApiNodePinInfoEx_GetNodePinInfoResponse::_table_ = {
-  {
-    PROTOBUF_FIELD_OFFSET(ApiNodePinInfoEx_GetNodePinInfoResponse, _impl_._has_bits_),
-    0, // no _extensions_
-    2, 8,  // max_field_number, fast_idx_mask
-    offsetof(decltype(_table_), field_lookup_table),
-    4294967292,  // skipmap
-    offsetof(decltype(_table_), field_entries),
-    2,  // num_field_entries
-    1,  // num_aux_entries
-    offsetof(decltype(_table_), aux_entries),
-    _class_data_.base(),
-    nullptr,  // post_loop_handler
-    ::_pbi::TcParser::GenericFallback,  // fallback
-    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::octaneapi::ApiNodePinInfoEx_GetNodePinInfoResponse>(),  // to_prefetch
-    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
-  }, {{
-    // .octaneapi.ApiNodePinInfo nodePinInfo = 2;
-    {::_pbi::TcParser::FastMtS1,
-     {18, 0, 0, PROTOBUF_FIELD_OFFSET(ApiNodePinInfoEx_GetNodePinInfoResponse, _impl_.nodepininfo_)}},
-    // bool success = 1;
-    {::_pbi::TcParser::FastV8S1,
-     {8, 63, 0, PROTOBUF_FIELD_OFFSET(ApiNodePinInfoEx_GetNodePinInfoResponse, _impl_.success_)}},
-  }}, {{
-    65535, 65535
-  }}, {{
-    // bool success = 1;
-    {PROTOBUF_FIELD_OFFSET(ApiNodePinInfoEx_GetNodePinInfoResponse, _impl_.success_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kBool)},
-    // .octaneapi.ApiNodePinInfo nodePinInfo = 2;
-    {PROTOBUF_FIELD_OFFSET(ApiNodePinInfoEx_GetNodePinInfoResponse, _impl_.nodepininfo_), _Internal::kHasBitsOffset + 0, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
-  }}, {{
-    {::_pbi::TcParser::GetTable<::octaneapi::ApiNodePinInfo>()},
-  }}, {{
-  }},
-};
-
-void ApiNodePinInfoEx_GetNodePinInfoResponse::InternalSwap(ApiNodePinInfoEx_GetNodePinInfoResponse* PROTOBUF_RESTRICT other) {
-  using std::swap;
-  GetReflection()->Swap(this, other);}
-
-::google::protobuf::Metadata ApiNodePinInfoEx_GetNodePinInfoResponse::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================

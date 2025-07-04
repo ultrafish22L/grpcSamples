@@ -271,38 +271,30 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_apibase64_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\017apibase64.proto\022\toctaneapi\032\014common.pro"
-    "to\032\033google/protobuf/empty.proto\032\016apiarra"
-    "y.proto\"\237\002\n\tApiBase64\032&\n\024cleanupResultRe"
-    "quest\022\016\n\006result\030\001 \001(\t\032A\n\rencodeRequest\022\014"
-    "\n\004data\030\001 \001(\t\022\014\n\004size\030\002 \001(\r\022\024\n\014useBase64U"
-    "rl\030\003 \001(\010\0321\n\016encodeResponse\022\016\n\006result\030\001 \001"
-    "(\010\022\017\n\007encoded\030\002 \001(\t\032A\n\rdecodeRequest\022\014\n\004"
-    "data\030\001 \001(\t\022\014\n\004size\030\002 \001(\r\022\024\n\014useBase64Url"
-    "\030\003 \001(\010\0321\n\016decodeResponse\022\016\n\006result\030\001 \001(\010"
-    "\022\017\n\007decoded\030\002 \001(\0142\270\001\n\020ApiBase64Service\022Q"
-    "\n\006encode\022\".octaneapi.ApiBase64.encodeReq"
-    "uest\032#.octaneapi.ApiBase64.encodeRespons"
-    "e\022Q\n\006decode\022\".octaneapi.ApiBase64.decode"
-    "Request\032#.octaneapi.ApiBase64.decodeResp"
-    "onseB\002H\002b\006proto3"
-};
-static const ::_pbi::DescriptorTable* const descriptor_table_apibase64_2eproto_deps[3] =
-    {
-        &::descriptor_table_apiarray_2eproto,
-        &::descriptor_table_common_2eproto,
-        &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
+    "\n\017apibase64.proto\022\toctaneapi\"\237\002\n\tApiBase"
+    "64\032&\n\024cleanupResultRequest\022\016\n\006result\030\001 \001"
+    "(\t\032A\n\rencodeRequest\022\014\n\004data\030\001 \001(\t\022\014\n\004siz"
+    "e\030\002 \001(\r\022\024\n\014useBase64Url\030\003 \001(\010\0321\n\016encodeR"
+    "esponse\022\016\n\006result\030\001 \001(\010\022\017\n\007encoded\030\002 \001(\t"
+    "\032A\n\rdecodeRequest\022\014\n\004data\030\001 \001(\t\022\014\n\004size\030"
+    "\002 \001(\r\022\024\n\014useBase64Url\030\003 \001(\010\0321\n\016decodeRes"
+    "ponse\022\016\n\006result\030\001 \001(\010\022\017\n\007decoded\030\002 \001(\0142\270"
+    "\001\n\020ApiBase64Service\022Q\n\006encode\022\".octaneap"
+    "i.ApiBase64.encodeRequest\032#.octaneapi.Ap"
+    "iBase64.encodeResponse\022Q\n\006decode\022\".octan"
+    "eapi.ApiBase64.decodeRequest\032#.octaneapi"
+    ".ApiBase64.decodeResponseB\002H\002b\006proto3"
 };
 static ::absl::once_flag descriptor_table_apibase64_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apibase64_2eproto = {
     false,
     false,
-    576,
+    517,
     descriptor_table_protodef_apibase64_2eproto,
     "apibase64.proto",
     &descriptor_table_apibase64_2eproto_once,
-    descriptor_table_apibase64_2eproto_deps,
-    3,
+    nullptr,
+    0,
     6,
     schemas,
     file_default_instances,

@@ -101,32 +101,29 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_octanemodulesinfo_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\027octanemodulesinfo.proto\022\toctaneapi\032\014co"
-    "mmon.proto\032\033google/protobuf/empty.proto\032"
-    "\017octaneids.proto\032\021octaneenums.proto\"\321\001\n\023"
-    "ApiOctaneModuleInfo\022&\n\010moduleId\030\001 \001(\0132\024."
-    "octaneapi.ModuleIdT\022#\n\004type\030\002 \001(\0162\025.octa"
-    "neapi.ModuleType\022\024\n\014maxInstances\030\003 \001(\r\022\025"
-    "\n\rversionNumber\030\004 \001(\r\022\021\n\tshortName\030\005 \001(\t"
-    "\022\023\n\013description\030\006 \001(\t\022\030\n\020canDisplayInMen"
-    "u\030\007 \001(\010B\002H\002b\006proto3"
+    "mmon.proto\032\021octaneenums.proto\"\321\001\n\023ApiOct"
+    "aneModuleInfo\022&\n\010moduleId\030\001 \001(\0132\024.octane"
+    "api.ModuleIdT\022#\n\004type\030\002 \001(\0162\025.octaneapi."
+    "ModuleType\022\024\n\014maxInstances\030\003 \001(\r\022\025\n\rvers"
+    "ionNumber\030\004 \001(\r\022\021\n\tshortName\030\005 \001(\t\022\023\n\013de"
+    "scription\030\006 \001(\t\022\030\n\020canDisplayInMenu\030\007 \001("
+    "\010B\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_octanemodulesinfo_2eproto_deps[4] =
+static const ::_pbi::DescriptorTable* const descriptor_table_octanemodulesinfo_2eproto_deps[2] =
     {
         &::descriptor_table_common_2eproto,
-        &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
         &::descriptor_table_octaneenums_2eproto,
-        &::descriptor_table_octaneids_2eproto,
 };
 static ::absl::once_flag descriptor_table_octanemodulesinfo_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_octanemodulesinfo_2eproto = {
     false,
     false,
-    339,
+    293,
     descriptor_table_protodef_octanemodulesinfo_2eproto,
     "octanemodulesinfo.proto",
     &descriptor_table_octanemodulesinfo_2eproto_once,
     descriptor_table_octanemodulesinfo_2eproto_deps,
-    4,
+    2,
     1,
     schemas,
     file_default_instances,

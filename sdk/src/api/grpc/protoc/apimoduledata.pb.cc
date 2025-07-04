@@ -223,39 +223,38 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apimoduledata_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\023apimoduledata.proto\022\toctaneapi\032\014common"
-    ".proto\032\033google/protobuf/empty.proto\"\315\002\n\r"
-    "ApiModuleData\032D\n\032loadApplicationDataRequ"
-    "est\022&\n\010moduleId\030\001 \001(\0132\024.octaneapi.Module"
-    "IdT\032Z\n\033loadApplicationDataResponse\022$\n\006re"
-    "sult\030\001 \001(\0132\024.octaneapi.ObjectRef\022\025\n\rocta"
-    "neVersion\030\002 \001(\r\032j\n\033storeApplicationDataR"
-    "equest\022&\n\010moduleId\030\001 \001(\0132\024.octaneapi.Mod"
-    "uleIdT\022#\n\005table\030\002 \001(\0132\024.octaneapi.Object"
-    "Ref\032.\n\034storeApplicationDataResponse\022\016\n\006r"
-    "esult\030\001 \001(\0102\237\002\n\024ApiModuleDataService\022\200\001\n"
-    "\023loadApplicationData\0223.octaneapi.ApiModu"
-    "leData.loadApplicationDataRequest\0324.octa"
-    "neapi.ApiModuleData.loadApplicationDataR"
-    "esponse\022\203\001\n\024storeApplicationData\0224.octan"
-    "eapi.ApiModuleData.storeApplicationDataR"
-    "equest\0325.octaneapi.ApiModuleData.storeAp"
-    "plicationDataResponseB\002H\002b\006proto3"
+    ".proto\"\315\002\n\rApiModuleData\032D\n\032loadApplicat"
+    "ionDataRequest\022&\n\010moduleId\030\001 \001(\0132\024.octan"
+    "eapi.ModuleIdT\032Z\n\033loadApplicationDataRes"
+    "ponse\022$\n\006result\030\001 \001(\0132\024.octaneapi.Object"
+    "Ref\022\025\n\roctaneVersion\030\002 \001(\r\032j\n\033storeAppli"
+    "cationDataRequest\022&\n\010moduleId\030\001 \001(\0132\024.oc"
+    "taneapi.ModuleIdT\022#\n\005table\030\002 \001(\0132\024.octan"
+    "eapi.ObjectRef\032.\n\034storeApplicationDataRe"
+    "sponse\022\016\n\006result\030\001 \001(\0102\237\002\n\024ApiModuleData"
+    "Service\022\200\001\n\023loadApplicationData\0223.octane"
+    "api.ApiModuleData.loadApplicationDataReq"
+    "uest\0324.octaneapi.ApiModuleData.loadAppli"
+    "cationDataResponse\022\203\001\n\024storeApplicationD"
+    "ata\0224.octaneapi.ApiModuleData.storeAppli"
+    "cationDataRequest\0325.octaneapi.ApiModuleD"
+    "ata.storeApplicationDataResponseB\002H\002b\006pr"
+    "oto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apimoduledata_2eproto_deps[2] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apimoduledata_2eproto_deps[1] =
     {
         &::descriptor_table_common_2eproto,
-        &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
 static ::absl::once_flag descriptor_table_apimoduledata_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apimoduledata_2eproto = {
     false,
     false,
-    713,
+    684,
     descriptor_table_protodef_apimoduledata_2eproto,
     "apimoduledata.proto",
     &descriptor_table_apimoduledata_2eproto_once,
     descriptor_table_apimoduledata_2eproto_deps,
-    2,
+    1,
     5,
     schemas,
     file_default_instances,

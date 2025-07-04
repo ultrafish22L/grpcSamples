@@ -304,34 +304,32 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apicolorswatch_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\024apicolorswatch.proto\022\toctaneapi\032\014commo"
-    "n.proto\032\033google/protobuf/empty.proto\032\025ap"
-    "iguicomponent.proto\"\344\003\n\016ApiColorSwatch\032v"
-    "\n\rcreateRequest\022\036\n\026disableGammaCorrectio"
-    "n\030\001 \001(\010\0220\n\016changeCallback\030\002 \001(\0132\030.octane"
-    "api.ColorChangedT\022\023\n\013privateData\030\003 \001(\004\032J"
-    "\n\016createResponse\022$\n\006result\030\001 \001(\0132\024.octan"
-    "eapi.ObjectRef\022\022\n\ncallbackId\030\002 \001(\r\0329\n\016de"
-    "stroyRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octane"
-    "api.ObjectRef\032a\n\017setColorRequest\022\'\n\tobje"
-    "ctPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022%\n\005col"
-    "or\030\002 \001(\0132\026.octaneapi.ApiColorHdr\0327\n\014colo"
-    "rRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi."
-    "ObjectRef\0327\n\rcolorResponse\022&\n\006result\030\001 \001"
-    "(\0132\026.octaneapi.ApiColorHdr2\352\002\n\025ApiColorS"
-    "watchService\022[\n\006create\022\'.octaneapi.ApiCo"
-    "lorSwatch.createRequest\032(.octaneapi.ApiC"
-    "olorSwatch.createResponse\022K\n\007destroy\022(.o"
-    "ctaneapi.ApiColorSwatch.destroyRequest\032\026"
-    ".google.protobuf.Empty\022M\n\010setColor\022).oct"
-    "aneapi.ApiColorSwatch.setColorRequest\032\026."
-    "google.protobuf.Empty\022X\n\005color\022&.octanea"
-    "pi.ApiColorSwatch.colorRequest\032\'.octanea"
-    "pi.ApiColorSwatch.colorResponseB\002H\002b\006pro"
-    "to3"
+    "n.proto\032\033google/protobuf/empty.proto\"\344\003\n"
+    "\016ApiColorSwatch\032v\n\rcreateRequest\022\036\n\026disa"
+    "bleGammaCorrection\030\001 \001(\010\0220\n\016changeCallba"
+    "ck\030\002 \001(\0132\030.octaneapi.ColorChangedT\022\023\n\013pr"
+    "ivateData\030\003 \001(\004\032J\n\016createResponse\022$\n\006res"
+    "ult\030\001 \001(\0132\024.octaneapi.ObjectRef\022\022\n\ncallb"
+    "ackId\030\002 \001(\r\0329\n\016destroyRequest\022\'\n\tobjectP"
+    "tr\030\001 \001(\0132\024.octaneapi.ObjectRef\032a\n\017setCol"
+    "orRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi"
+    ".ObjectRef\022%\n\005color\030\002 \001(\0132\026.octaneapi.Ap"
+    "iColorHdr\0327\n\014colorRequest\022\'\n\tobjectPtr\030\001"
+    " \001(\0132\024.octaneapi.ObjectRef\0327\n\rcolorRespo"
+    "nse\022&\n\006result\030\001 \001(\0132\026.octaneapi.ApiColor"
+    "Hdr2\352\002\n\025ApiColorSwatchService\022[\n\006create\022"
+    "\'.octaneapi.ApiColorSwatch.createRequest"
+    "\032(.octaneapi.ApiColorSwatch.createRespon"
+    "se\022K\n\007destroy\022(.octaneapi.ApiColorSwatch"
+    ".destroyRequest\032\026.google.protobuf.Empty\022"
+    "M\n\010setColor\022).octaneapi.ApiColorSwatch.s"
+    "etColorRequest\032\026.google.protobuf.Empty\022X"
+    "\n\005color\022&.octaneapi.ApiColorSwatch.color"
+    "Request\032\'.octaneapi.ApiColorSwatch.color"
+    "ResponseB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apicolorswatch_2eproto_deps[3] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apicolorswatch_2eproto_deps[2] =
     {
-        &::descriptor_table_apiguicomponent_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -339,12 +337,12 @@ static ::absl::once_flag descriptor_table_apicolorswatch_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apicolorswatch_2eproto = {
     false,
     false,
-    963,
+    940,
     descriptor_table_protodef_apicolorswatch_2eproto,
     "apicolorswatch.proto",
     &descriptor_table_apicolorswatch_2eproto_once,
     descriptor_table_apicolorswatch_2eproto_deps,
-    3,
+    2,
     7,
     schemas,
     file_default_instances,

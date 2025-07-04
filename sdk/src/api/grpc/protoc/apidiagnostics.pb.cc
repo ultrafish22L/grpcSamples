@@ -107,30 +107,29 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_apidiagnostics_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\024apidiagnostics.proto\022\toctaneapi\032\014commo"
-    "n.proto\032\033google/protobuf/empty.proto\"Y\n\016"
-    "ApiDiagnostics\032G\n\030diagnosticCommandReque"
-    "st\022\023\n\013commandType\030\001 \001(\r\022\026\n\016delayInSecond"
-    "s\030\002 \001(\r2x\n\025ApiDiagnosticsService\022_\n\021diag"
-    "nosticCommand\0222.octaneapi.ApiDiagnostics"
-    ".diagnosticCommandRequest\032\026.google.proto"
-    "buf.EmptyB\002H\002b\006proto3"
+    "\n\024apidiagnostics.proto\022\toctaneapi\032\033googl"
+    "e/protobuf/empty.proto\"Y\n\016ApiDiagnostics"
+    "\032G\n\030diagnosticCommandRequest\022\023\n\013commandT"
+    "ype\030\001 \001(\r\022\026\n\016delayInSeconds\030\002 \001(\r2x\n\025Api"
+    "DiagnosticsService\022_\n\021diagnosticCommand\022"
+    "2.octaneapi.ApiDiagnostics.diagnosticCom"
+    "mandRequest\032\026.google.protobuf.EmptyB\002H\002b"
+    "\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apidiagnostics_2eproto_deps[2] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apidiagnostics_2eproto_deps[1] =
     {
-        &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
 static ::absl::once_flag descriptor_table_apidiagnostics_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apidiagnostics_2eproto = {
     false,
     false,
-    301,
+    287,
     descriptor_table_protodef_apidiagnostics_2eproto,
     "apidiagnostics.proto",
     &descriptor_table_apidiagnostics_2eproto_once,
     descriptor_table_apidiagnostics_2eproto_deps,
-    2,
+    1,
     2,
     schemas,
     file_default_instances,

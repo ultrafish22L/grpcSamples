@@ -603,86 +603,69 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apireferencegraph_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\027apireferencegraph.proto\022\toctaneapi\032\014co"
-    "mmon.proto\032\033google/protobuf/empty.proto\032"
-    "\025apinodesystem_1.proto\032\025apinodesystem_2."
-    "proto\032\025apinodesystem_3.proto\032\025apinodesys"
-    "tem_4.proto\032\025apinodesystem_5.proto\032\025apin"
-    "odesystem_6.proto\032\025apinodesystem_7.proto"
-    "\032\025apinodesystem_8.proto\032\021octaneenums.pro"
-    "to\032\020octanetime.proto\"\326\007\n\021ApiReferenceGra"
-    "ph\0329\n\rcreateRequest\022(\n\nownerGraph\030\001 \001(\0132"
-    "\024.octaneapi.ObjectRef\0326\n\016createResponse\022"
-    "$\n\006result\030\001 \001(\0132\024.octaneapi.ObjectRef\0328\n"
-    "\robtainRequest\022\'\n\tnodeGraph\030\001 \001(\0132\024.octa"
-    "neapi.ObjectRef\0326\n\016obtainResponse\022$\n\006res"
-    "ult\030\001 \001(\0132\024.octaneapi.ObjectRef\032=\n\022hasAa"
-    "bbDataRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octan"
-    "eapi.ObjectRef\032%\n\023hasAabbDataResponse\022\016\n"
-    "\006result\030\001 \001(\010\032B\n\027totalAabbEntriesRequest"
-    "\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRe"
-    "f\032*\n\030totalAabbEntriesResponse\022\016\n\006result\030"
-    "\001 \001(\r\032T\n\025fetchAllBoundsRequest\022\'\n\tobject"
-    "Ptr\030\001 \001(\0132\024.octaneapi.ObjectRef\022\022\n\nbuffe"
-    "rSize\030\002 \001(\r\032P\n\026fetchAllBoundsResponse\022\016\n"
-    "\006result\030\001 \001(\r\022&\n\006buffer\030\002 \001(\0132\026.octaneap"
-    "i.AABBFArrayT\032`\n totalAabbEntriesForOutp"
-    "utRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi"
-    ".ObjectRef\022\023\n\013outputIndex\030\002 \001(\r\0323\n!total"
-    "AabbEntriesForOutputResponse\022\016\n\006result\030\001"
-    " \001(\r\032o\n\033fetchBoundsForOutputRequest\022\'\n\to"
-    "bjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022\023\n\013"
-    "outputIndex\030\002 \001(\r\022\022\n\nbufferSize\030\003 \001(\r\032V\n"
-    "\034fetchBoundsForOutputResponse\022\016\n\006result\030"
-    "\001 \001(\r\022&\n\006buffer\030\002 \001(\0132\026.octaneapi.AABBFA"
-    "rrayT2\371\006\n\030ApiReferenceGraphService\022a\n\006cr"
-    "eate\022*.octaneapi.ApiReferenceGraph.creat"
-    "eRequest\032+.octaneapi.ApiReferenceGraph.c"
-    "reateResponse\022a\n\006obtain\022*.octaneapi.ApiR"
-    "eferenceGraph.obtainRequest\032+.octaneapi."
-    "ApiReferenceGraph.obtainResponse\022p\n\013hasA"
-    "abbData\022/.octaneapi.ApiReferenceGraph.ha"
-    "sAabbDataRequest\0320.octaneapi.ApiReferenc"
-    "eGraph.hasAabbDataResponse\022\177\n\020totalAabbE"
-    "ntries\0224.octaneapi.ApiReferenceGraph.tot"
-    "alAabbEntriesRequest\0325.octaneapi.ApiRefe"
-    "renceGraph.totalAabbEntriesResponse\022y\n\016f"
-    "etchAllBounds\0222.octaneapi.ApiReferenceGr"
-    "aph.fetchAllBoundsRequest\0323.octaneapi.Ap"
-    "iReferenceGraph.fetchAllBoundsResponse\022\232"
-    "\001\n\031totalAabbEntriesForOutput\022=.octaneapi"
-    ".ApiReferenceGraph.totalAabbEntriesForOu"
-    "tputRequest\032>.octaneapi.ApiReferenceGrap"
-    "h.totalAabbEntriesForOutputResponse\022\213\001\n\024"
-    "fetchBoundsForOutput\0228.octaneapi.ApiRefe"
-    "renceGraph.fetchBoundsForOutputRequest\0329"
-    ".octaneapi.ApiReferenceGraph.fetchBounds"
-    "ForOutputResponseB\002H\002b\006proto3"
+    "mmon.proto\"\326\007\n\021ApiReferenceGraph\0329\n\rcrea"
+    "teRequest\022(\n\nownerGraph\030\001 \001(\0132\024.octaneap"
+    "i.ObjectRef\0326\n\016createResponse\022$\n\006result\030"
+    "\001 \001(\0132\024.octaneapi.ObjectRef\0328\n\robtainReq"
+    "uest\022\'\n\tnodeGraph\030\001 \001(\0132\024.octaneapi.Obje"
+    "ctRef\0326\n\016obtainResponse\022$\n\006result\030\001 \001(\0132"
+    "\024.octaneapi.ObjectRef\032=\n\022hasAabbDataRequ"
+    "est\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Objec"
+    "tRef\032%\n\023hasAabbDataResponse\022\016\n\006result\030\001 "
+    "\001(\010\032B\n\027totalAabbEntriesRequest\022\'\n\tobject"
+    "Ptr\030\001 \001(\0132\024.octaneapi.ObjectRef\032*\n\030total"
+    "AabbEntriesResponse\022\016\n\006result\030\001 \001(\r\032T\n\025f"
+    "etchAllBoundsRequest\022\'\n\tobjectPtr\030\001 \001(\0132"
+    "\024.octaneapi.ObjectRef\022\022\n\nbufferSize\030\002 \001("
+    "\r\032P\n\026fetchAllBoundsResponse\022\016\n\006result\030\001 "
+    "\001(\r\022&\n\006buffer\030\002 \001(\0132\026.octaneapi.AABBFArr"
+    "ayT\032`\n totalAabbEntriesForOutputRequest\022"
+    "\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef"
+    "\022\023\n\013outputIndex\030\002 \001(\r\0323\n!totalAabbEntrie"
+    "sForOutputResponse\022\016\n\006result\030\001 \001(\r\032o\n\033fe"
+    "tchBoundsForOutputRequest\022\'\n\tobjectPtr\030\001"
+    " \001(\0132\024.octaneapi.ObjectRef\022\023\n\013outputInde"
+    "x\030\002 \001(\r\022\022\n\nbufferSize\030\003 \001(\r\032V\n\034fetchBoun"
+    "dsForOutputResponse\022\016\n\006result\030\001 \001(\r\022&\n\006b"
+    "uffer\030\002 \001(\0132\026.octaneapi.AABBFArrayT2\371\006\n\030"
+    "ApiReferenceGraphService\022a\n\006create\022*.oct"
+    "aneapi.ApiReferenceGraph.createRequest\032+"
+    ".octaneapi.ApiReferenceGraph.createRespo"
+    "nse\022a\n\006obtain\022*.octaneapi.ApiReferenceGr"
+    "aph.obtainRequest\032+.octaneapi.ApiReferen"
+    "ceGraph.obtainResponse\022p\n\013hasAabbData\022/."
+    "octaneapi.ApiReferenceGraph.hasAabbDataR"
+    "equest\0320.octaneapi.ApiReferenceGraph.has"
+    "AabbDataResponse\022\177\n\020totalAabbEntries\0224.o"
+    "ctaneapi.ApiReferenceGraph.totalAabbEntr"
+    "iesRequest\0325.octaneapi.ApiReferenceGraph"
+    ".totalAabbEntriesResponse\022y\n\016fetchAllBou"
+    "nds\0222.octaneapi.ApiReferenceGraph.fetchA"
+    "llBoundsRequest\0323.octaneapi.ApiReference"
+    "Graph.fetchAllBoundsResponse\022\232\001\n\031totalAa"
+    "bbEntriesForOutput\022=.octaneapi.ApiRefere"
+    "nceGraph.totalAabbEntriesForOutputReques"
+    "t\032>.octaneapi.ApiReferenceGraph.totalAab"
+    "bEntriesForOutputResponse\022\213\001\n\024fetchBound"
+    "sForOutput\0228.octaneapi.ApiReferenceGraph"
+    ".fetchBoundsForOutputRequest\0329.octaneapi"
+    ".ApiReferenceGraph.fetchBoundsForOutputR"
+    "esponseB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apireferencegraph_2eproto_deps[12] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apireferencegraph_2eproto_deps[1] =
     {
-        &::descriptor_table_apinodesystem_5f1_2eproto,
-        &::descriptor_table_apinodesystem_5f2_2eproto,
-        &::descriptor_table_apinodesystem_5f3_2eproto,
-        &::descriptor_table_apinodesystem_5f4_2eproto,
-        &::descriptor_table_apinodesystem_5f5_2eproto,
-        &::descriptor_table_apinodesystem_5f6_2eproto,
-        &::descriptor_table_apinodesystem_5f7_2eproto,
-        &::descriptor_table_apinodesystem_5f8_2eproto,
         &::descriptor_table_common_2eproto,
-        &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
-        &::descriptor_table_octaneenums_2eproto,
-        &::descriptor_table_octanetime_2eproto,
 };
 static ::absl::once_flag descriptor_table_apireferencegraph_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apireferencegraph_2eproto = {
     false,
     false,
-    2189,
+    1939,
     descriptor_table_protodef_apireferencegraph_2eproto,
     "apireferencegraph.proto",
     &descriptor_table_apireferencegraph_2eproto_once,
     descriptor_table_apireferencegraph_2eproto_deps,
-    12,
+    1,
     15,
     schemas,
     file_default_instances,

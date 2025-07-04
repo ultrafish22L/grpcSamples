@@ -308,32 +308,31 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apicheckbox_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\021apicheckbox.proto\022\toctaneapi\032\014common.p"
-    "roto\032\033google/protobuf/empty.proto\032\025apigu"
-    "icomponent.proto\"\273\003\n\013ApiCheckBox\032a\n\rcrea"
-    "teRequest\022\014\n\004text\030\001 \001(\t\022-\n\010callback\030\002 \001("
-    "\0132\033.octaneapi.CheckedCallbackT\022\023\n\013privat"
-    "eData\030\003 \001(\004\032J\n\016createResponse\022$\n\006result\030"
-    "\001 \001(\0132\024.octaneapi.ObjectRef\022\022\n\ncallbackI"
-    "d\030\002 \001(\r\0329\n\016destroyRequest\022\'\n\tobjectPtr\030\001"
-    " \001(\0132\024.octaneapi.ObjectRef\032`\n\021setChecked"
-    "Request\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.O"
-    "bjectRef\022\017\n\007checked\030\002 \001(\010\022\021\n\tsendEvent\030\003"
-    " \001(\010\032;\n\020isCheckedRequest\022\'\n\tobjectPtr\030\001 "
-    "\001(\0132\024.octaneapi.ObjectRef\032#\n\021isCheckedRe"
-    "sponse\022\016\n\006result\030\001 \001(\0102\345\002\n\022ApiCheckBoxSe"
-    "rvice\022U\n\006create\022$.octaneapi.ApiCheckBox."
-    "createRequest\032%.octaneapi.ApiCheckBox.cr"
-    "eateResponse\022H\n\007destroy\022%.octaneapi.ApiC"
-    "heckBox.destroyRequest\032\026.google.protobuf"
-    ".Empty\022N\n\nsetChecked\022(.octaneapi.ApiChec"
-    "kBox.setCheckedRequest\032\026.google.protobuf"
-    ".Empty\022^\n\tisChecked\022\'.octaneapi.ApiCheck"
-    "Box.isCheckedRequest\032(.octaneapi.ApiChec"
-    "kBox.isCheckedResponseB\002H\002b\006proto3"
+    "roto\032\033google/protobuf/empty.proto\"\273\003\n\013Ap"
+    "iCheckBox\032a\n\rcreateRequest\022\014\n\004text\030\001 \001(\t"
+    "\022-\n\010callback\030\002 \001(\0132\033.octaneapi.CheckedCa"
+    "llbackT\022\023\n\013privateData\030\003 \001(\004\032J\n\016createRe"
+    "sponse\022$\n\006result\030\001 \001(\0132\024.octaneapi.Objec"
+    "tRef\022\022\n\ncallbackId\030\002 \001(\r\0329\n\016destroyReque"
+    "st\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Object"
+    "Ref\032`\n\021setCheckedRequest\022\'\n\tobjectPtr\030\001 "
+    "\001(\0132\024.octaneapi.ObjectRef\022\017\n\007checked\030\002 \001"
+    "(\010\022\021\n\tsendEvent\030\003 \001(\010\032;\n\020isCheckedReques"
+    "t\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectR"
+    "ef\032#\n\021isCheckedResponse\022\016\n\006result\030\001 \001(\0102"
+    "\345\002\n\022ApiCheckBoxService\022U\n\006create\022$.octan"
+    "eapi.ApiCheckBox.createRequest\032%.octanea"
+    "pi.ApiCheckBox.createResponse\022H\n\007destroy"
+    "\022%.octaneapi.ApiCheckBox.destroyRequest\032"
+    "\026.google.protobuf.Empty\022N\n\nsetChecked\022(."
+    "octaneapi.ApiCheckBox.setCheckedRequest\032"
+    "\026.google.protobuf.Empty\022^\n\tisChecked\022\'.o"
+    "ctaneapi.ApiCheckBox.isCheckedRequest\032(."
+    "octaneapi.ApiCheckBox.isCheckedResponseB"
+    "\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apicheckbox_2eproto_deps[3] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apicheckbox_2eproto_deps[2] =
     {
-        &::descriptor_table_apiguicomponent_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -341,12 +340,12 @@ static ::absl::once_flag descriptor_table_apicheckbox_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apicheckbox_2eproto = {
     false,
     false,
-    914,
+    891,
     descriptor_table_protodef_apicheckbox_2eproto,
     "apicheckbox.proto",
     &descriptor_table_apicheckbox_2eproto_once,
     descriptor_table_apicheckbox_2eproto_deps,
-    3,
+    2,
     7,
     schemas,
     file_default_instances,

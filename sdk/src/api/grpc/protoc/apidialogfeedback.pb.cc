@@ -33,28 +33,22 @@ static constexpr ::_pbi::MigrationSchema* schemas = nullptr;
 static constexpr ::_pb::Message* const* file_default_instances = nullptr;
 const char descriptor_table_protodef_apidialogfeedback_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\027apidialogfeedback.proto\022\toctaneapi\032\014co"
-    "mmon.proto\032\033google/protobuf/empty.proto*"
-    ",\n\013MessageType\022\r\n\tTYPE_INFO\020\000\022\016\n\nTYPE_ER"
-    "ROR\020\001*U\n\014DialogResult\022\025\n\021DIALOG_RESULT_Y"
-    "ES\020\000\022\024\n\020DIALOG_RESULT_NO\020\001\022\030\n\024DIALOG_RES"
-    "ULT_CANCEL\020\002B\002H\002b\006proto3"
-};
-static const ::_pbi::DescriptorTable* const descriptor_table_apidialogfeedback_2eproto_deps[2] =
-    {
-        &::descriptor_table_common_2eproto,
-        &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
+    "\n\027apidialogfeedback.proto\022\toctaneapi*,\n\013"
+    "MessageType\022\r\n\tTYPE_INFO\020\000\022\016\n\nTYPE_ERROR"
+    "\020\001*U\n\014DialogResult\022\025\n\021DIALOG_RESULT_YES\020"
+    "\000\022\024\n\020DIALOG_RESULT_NO\020\001\022\030\n\024DIALOG_RESULT"
+    "_CANCEL\020\002B\002H\002b\006proto3"
 };
 static ::absl::once_flag descriptor_table_apidialogfeedback_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apidialogfeedback_2eproto = {
     false,
     false,
-    224,
+    181,
     descriptor_table_protodef_apidialogfeedback_2eproto,
     "apidialogfeedback.proto",
     &descriptor_table_apidialogfeedback_2eproto_once,
-    descriptor_table_apidialogfeedback_2eproto_deps,
-    2,
+    nullptr,
+    0,
     0,
     schemas,
     file_default_instances,

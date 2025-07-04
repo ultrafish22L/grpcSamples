@@ -309,32 +309,30 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apitextbutton_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\023apitextbutton.proto\022\toctaneapi\032\014common"
-    ".proto\032\033google/protobuf/empty.proto\032\025api"
-    "guicomponent.proto\"\245\003\n\rApiTextButton\032l\n\r"
-    "createRequest\022\014\n\004text\030\001 \001(\t\0228\n\rclickCall"
-    "back\030\002 \001(\0132!.octaneapi.ButtonClickedCall"
-    "backT\022\023\n\013privateData\030\003 \001(\004\032J\n\016createResp"
-    "onse\022$\n\006result\030\001 \001(\0132\024.octaneapi.ObjectR"
-    "ef\022\022\n\ncallbackId\030\002 \001(\r\0329\n\016destroyRequest"
-    "\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRe"
-    "f\032G\n\016setTextRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024"
-    ".octaneapi.ObjectRef\022\014\n\004text\030\002 \001(\t\0326\n\013te"
-    "xtRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi"
-    ".ObjectRef\032\036\n\014textResponse\022\016\n\006result\030\001 \001"
-    "(\t2\336\002\n\024ApiTextButtonService\022Y\n\006create\022&."
-    "octaneapi.ApiTextButton.createRequest\032\'."
-    "octaneapi.ApiTextButton.createResponse\022J"
-    "\n\007destroy\022\'.octaneapi.ApiTextButton.dest"
-    "royRequest\032\026.google.protobuf.Empty\022J\n\007se"
-    "tText\022\'.octaneapi.ApiTextButton.setTextR"
-    "equest\032\026.google.protobuf.Empty\022S\n\004text\022$"
-    ".octaneapi.ApiTextButton.textRequest\032%.o"
-    "ctaneapi.ApiTextButton.textResponseB\002H\002b"
-    "\006proto3"
+    ".proto\032\033google/protobuf/empty.proto\"\245\003\n\r"
+    "ApiTextButton\032l\n\rcreateRequest\022\014\n\004text\030\001"
+    " \001(\t\0228\n\rclickCallback\030\002 \001(\0132!.octaneapi."
+    "ButtonClickedCallbackT\022\023\n\013privateData\030\003 "
+    "\001(\004\032J\n\016createResponse\022$\n\006result\030\001 \001(\0132\024."
+    "octaneapi.ObjectRef\022\022\n\ncallbackId\030\002 \001(\r\032"
+    "9\n\016destroyRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.o"
+    "ctaneapi.ObjectRef\032G\n\016setTextRequest\022\'\n\t"
+    "objectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022\014\n"
+    "\004text\030\002 \001(\t\0326\n\013textRequest\022\'\n\tobjectPtr\030"
+    "\001 \001(\0132\024.octaneapi.ObjectRef\032\036\n\014textRespo"
+    "nse\022\016\n\006result\030\001 \001(\t2\336\002\n\024ApiTextButtonSer"
+    "vice\022Y\n\006create\022&.octaneapi.ApiTextButton"
+    ".createRequest\032\'.octaneapi.ApiTextButton"
+    ".createResponse\022J\n\007destroy\022\'.octaneapi.A"
+    "piTextButton.destroyRequest\032\026.google.pro"
+    "tobuf.Empty\022J\n\007setText\022\'.octaneapi.ApiTe"
+    "xtButton.setTextRequest\032\026.google.protobu"
+    "f.Empty\022S\n\004text\022$.octaneapi.ApiTextButto"
+    "n.textRequest\032%.octaneapi.ApiTextButton."
+    "textResponseB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apitextbutton_2eproto_deps[3] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apitextbutton_2eproto_deps[2] =
     {
-        &::descriptor_table_apiguicomponent_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -342,12 +340,12 @@ static ::absl::once_flag descriptor_table_apitextbutton_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apitextbutton_2eproto = {
     false,
     false,
-    887,
+    864,
     descriptor_table_protodef_apitextbutton_2eproto,
     "apitextbutton.proto",
     &descriptor_table_apitextbutton_2eproto_once,
     descriptor_table_apitextbutton_2eproto_deps,
-    3,
+    2,
     7,
     schemas,
     file_default_instances,

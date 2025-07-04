@@ -600,103 +600,89 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apichangemanager_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\026apichangemanager.proto\022\toctaneapi\032\014com"
-    "mon.proto\032\033google/protobuf/empty.proto\032\025"
-    "apinodesystem_1.proto\032\025apinodesystem_2.p"
-    "roto\032\025apinodesystem_3.proto\032\025apinodesyst"
-    "em_4.proto\032\025apinodesystem_5.proto\032\025apino"
-    "desystem_6.proto\032\025apinodesystem_7.proto\032"
-    "\025apinodesystem_8.proto\032\021octaneenums.prot"
-    "o\"\377\r\n\020ApiChangeManager\032\365\004\n\034ApiChangeMana"
-    "ger_ChangeEvent\022K\n\004type\030\001 \001(\0162=.octaneap"
-    "i.ApiChangeManager.ApiChangeManager_Chan"
-    "geEvent.Type\022*\n\014changedOwner\030\002 \001(\0132\024.oct"
-    "aneapi.ObjectRef\022\031\n\021changedOwnerPinIx\030\003 "
-    "\001(\r\022)\n\013changedItem\030\004 \001(\0132\024.octaneapi.Obj"
-    "ectRef\022\024\n\014changedPinIx\030\005 \001(\r\022-\n\016changedI"
-    "ndices\030\006 \001(\0132\025.octaneapi.UIntArrayT\022\032\n\022c"
-    "hangedIndicesSize\030\007 \001(\r\"\264\002\n\004Type\022\024\n\020Type"
-    "_UNSPECIFIED\020\000\022\016\n\nITEM_ADDED\020\001\022\017\n\013ITEM_D"
-    "ELETE\020\002\022\026\n\022CONNECTION_CHANGED\020\004\022\025\n\021DESTI"
-    "NATION_ADDED\020\010\022\020\n\014PINS_CHANGED\020\020\022\026\n\022ITEM"
-    "_VALUE_CHANGED\020 \022\026\n\022ITEM_INPUT_CHANGED\020@"
-    "\022\026\n\021ITEM_NAME_CHANGED\020\200\001\022\017\n\nITEM_MOVED\020\200"
-    "\002\022\031\n\024LINKER_ORDER_CHANGED\020\200\004\022#\n\036ITEM_UI_"
-    "OPERATION_FLAG_CHANGED\020\200\010\022\033\n\026TIME_TRANSF"
-    "ORM_CHANGED\020\200\020\032U\n\031ApiChangeManager_Obser"
-    "ver\022&\n\010callback\030\001 \001(\0132\024.octaneapi.OnChan"
-    "geT\022\020\n\010userData\030\002 \001(\004\032\344\001\n\032ApiChangeManag"
-    "er_TimeEvent\022I\n\004type\030\001 \001(\0162;.octaneapi.A"
-    "piChangeManager.ApiChangeManager_TimeEve"
-    "nt.Type\022\'\n\trootGraph\030\002 \001(\0132\024.octaneapi.O"
-    "bjectRef\"R\n\004Type\022\026\n\022GRAPH_TIME_CHANGED\020\000"
-    "\022\032\n\026GRAPH_INTERVAL_CHANGED\020\001\022\026\n\022FRAME_RA"
-    "TE_CHANGED\020\002\032Y\n\035ApiChangeManager_TimeObs"
-    "erver\022&\n\010callback\030\001 \001(\0132\024.octaneapi.OnCh"
-    "angeT\022\020\n\010userData\030\002 \001(\004\032\200\001\n\025observeApiIt"
-    "emRequest\022\"\n\004item\030\001 \001(\0132\024.octaneapi.Obje"
-    "ctRef\0220\n\010observer\030\002 \001(\0132\036.octaneapi.GRPC"
-    "ChangeObserverT\022\021\n\teventMask\030\003 \001(\005\032,\n\026ob"
-    "serveApiItemResponse\022\022\n\ncallbackId\030\001 \001(\r"
-    "\032l\n\024stopObservingRequest\022\"\n\004item\030\001 \001(\0132\024"
-    ".octaneapi.ObjectRef\0220\n\010observer\030\002 \001(\0132\036"
-    ".octaneapi.GRPCChangeObserverT\032I\n\025stopOb"
-    "serving1Request\0220\n\010observer\030\001 \001(\0132\036.octa"
-    "neapi.GRPCChangeObserverT\032\027\n\025stopObservi"
-    "ng2Request\032\017\n\rupdateRequest\032{\n\026addTimeOb"
-    "serverRequest\0224\n\010observer\030\001 \001(\0132\".octane"
-    "api.GRPCChangeTimeObserverT\022+\n\rrootNodeG"
-    "raph\030\002 \001(\0132\024.octaneapi.ObjectRef\032-\n\027addT"
-    "imeObserverResponse\022\022\n\ncallbackId\030\001 \001(\r\032"
-    "~\n\031removeTimeObserverRequest\0224\n\010observer"
-    "\030\001 \001(\0132\".octaneapi.GRPCChangeTimeObserve"
-    "rT\022+\n\rrootNodeGraph\030\002 \001(\0132\024.octaneapi.Ob"
-    "jectRef\032\032\n\030stopObservingTimeRequest2\270\006\n\027"
-    "ApiChangeManagerService\022w\n\016observeApiIte"
-    "m\0221.octaneapi.ApiChangeManager.observeAp"
-    "iItemRequest\0322.octaneapi.ApiChangeManage"
-    "r.observeApiItemResponse\022Y\n\rstopObservin"
-    "g\0220.octaneapi.ApiChangeManager.stopObser"
-    "vingRequest\032\026.google.protobuf.Empty\022[\n\016s"
-    "topObserving1\0221.octaneapi.ApiChangeManag"
-    "er.stopObserving1Request\032\026.google.protob"
-    "uf.Empty\022[\n\016stopObserving2\0221.octaneapi.A"
-    "piChangeManager.stopObserving2Request\032\026."
-    "google.protobuf.Empty\022K\n\006update\022).octane"
-    "api.ApiChangeManager.updateRequest\032\026.goo"
-    "gle.protobuf.Empty\022z\n\017addTimeObserver\0222."
-    "octaneapi.ApiChangeManager.addTimeObserv"
-    "erRequest\0323.octaneapi.ApiChangeManager.a"
-    "ddTimeObserverResponse\022c\n\022removeTimeObse"
-    "rver\0225.octaneapi.ApiChangeManager.remove"
-    "TimeObserverRequest\032\026.google.protobuf.Em"
-    "pty\022a\n\021stopObservingTime\0224.octaneapi.Api"
-    "ChangeManager.stopObservingTimeRequest\032\026"
-    ".google.protobuf.EmptyB\002H\002b\006proto3"
+    "mon.proto\032\033google/protobuf/empty.proto\"\377"
+    "\r\n\020ApiChangeManager\032\365\004\n\034ApiChangeManager"
+    "_ChangeEvent\022K\n\004type\030\001 \001(\0162=.octaneapi.A"
+    "piChangeManager.ApiChangeManager_ChangeE"
+    "vent.Type\022*\n\014changedOwner\030\002 \001(\0132\024.octane"
+    "api.ObjectRef\022\031\n\021changedOwnerPinIx\030\003 \001(\r"
+    "\022)\n\013changedItem\030\004 \001(\0132\024.octaneapi.Object"
+    "Ref\022\024\n\014changedPinIx\030\005 \001(\r\022-\n\016changedIndi"
+    "ces\030\006 \001(\0132\025.octaneapi.UIntArrayT\022\032\n\022chan"
+    "gedIndicesSize\030\007 \001(\r\"\264\002\n\004Type\022\024\n\020Type_UN"
+    "SPECIFIED\020\000\022\016\n\nITEM_ADDED\020\001\022\017\n\013ITEM_DELE"
+    "TE\020\002\022\026\n\022CONNECTION_CHANGED\020\004\022\025\n\021DESTINAT"
+    "ION_ADDED\020\010\022\020\n\014PINS_CHANGED\020\020\022\026\n\022ITEM_VA"
+    "LUE_CHANGED\020 \022\026\n\022ITEM_INPUT_CHANGED\020@\022\026\n"
+    "\021ITEM_NAME_CHANGED\020\200\001\022\017\n\nITEM_MOVED\020\200\002\022\031"
+    "\n\024LINKER_ORDER_CHANGED\020\200\004\022#\n\036ITEM_UI_OPE"
+    "RATION_FLAG_CHANGED\020\200\010\022\033\n\026TIME_TRANSFORM"
+    "_CHANGED\020\200\020\032U\n\031ApiChangeManager_Observer"
+    "\022&\n\010callback\030\001 \001(\0132\024.octaneapi.OnChangeT"
+    "\022\020\n\010userData\030\002 \001(\004\032\344\001\n\032ApiChangeManager_"
+    "TimeEvent\022I\n\004type\030\001 \001(\0162;.octaneapi.ApiC"
+    "hangeManager.ApiChangeManager_TimeEvent."
+    "Type\022\'\n\trootGraph\030\002 \001(\0132\024.octaneapi.Obje"
+    "ctRef\"R\n\004Type\022\026\n\022GRAPH_TIME_CHANGED\020\000\022\032\n"
+    "\026GRAPH_INTERVAL_CHANGED\020\001\022\026\n\022FRAME_RATE_"
+    "CHANGED\020\002\032Y\n\035ApiChangeManager_TimeObserv"
+    "er\022&\n\010callback\030\001 \001(\0132\024.octaneapi.OnChang"
+    "eT\022\020\n\010userData\030\002 \001(\004\032\200\001\n\025observeApiItemR"
+    "equest\022\"\n\004item\030\001 \001(\0132\024.octaneapi.ObjectR"
+    "ef\0220\n\010observer\030\002 \001(\0132\036.octaneapi.GRPCCha"
+    "ngeObserverT\022\021\n\teventMask\030\003 \001(\005\032,\n\026obser"
+    "veApiItemResponse\022\022\n\ncallbackId\030\001 \001(\r\032l\n"
+    "\024stopObservingRequest\022\"\n\004item\030\001 \001(\0132\024.oc"
+    "taneapi.ObjectRef\0220\n\010observer\030\002 \001(\0132\036.oc"
+    "taneapi.GRPCChangeObserverT\032I\n\025stopObser"
+    "ving1Request\0220\n\010observer\030\001 \001(\0132\036.octanea"
+    "pi.GRPCChangeObserverT\032\027\n\025stopObserving2"
+    "Request\032\017\n\rupdateRequest\032{\n\026addTimeObser"
+    "verRequest\0224\n\010observer\030\001 \001(\0132\".octaneapi"
+    ".GRPCChangeTimeObserverT\022+\n\rrootNodeGrap"
+    "h\030\002 \001(\0132\024.octaneapi.ObjectRef\032-\n\027addTime"
+    "ObserverResponse\022\022\n\ncallbackId\030\001 \001(\r\032~\n\031"
+    "removeTimeObserverRequest\0224\n\010observer\030\001 "
+    "\001(\0132\".octaneapi.GRPCChangeTimeObserverT\022"
+    "+\n\rrootNodeGraph\030\002 \001(\0132\024.octaneapi.Objec"
+    "tRef\032\032\n\030stopObservingTimeRequest2\270\006\n\027Api"
+    "ChangeManagerService\022w\n\016observeApiItem\0221"
+    ".octaneapi.ApiChangeManager.observeApiIt"
+    "emRequest\0322.octaneapi.ApiChangeManager.o"
+    "bserveApiItemResponse\022Y\n\rstopObserving\0220"
+    ".octaneapi.ApiChangeManager.stopObservin"
+    "gRequest\032\026.google.protobuf.Empty\022[\n\016stop"
+    "Observing1\0221.octaneapi.ApiChangeManager."
+    "stopObserving1Request\032\026.google.protobuf."
+    "Empty\022[\n\016stopObserving2\0221.octaneapi.ApiC"
+    "hangeManager.stopObserving2Request\032\026.goo"
+    "gle.protobuf.Empty\022K\n\006update\022).octaneapi"
+    ".ApiChangeManager.updateRequest\032\026.google"
+    ".protobuf.Empty\022z\n\017addTimeObserver\0222.oct"
+    "aneapi.ApiChangeManager.addTimeObserverR"
+    "equest\0323.octaneapi.ApiChangeManager.addT"
+    "imeObserverResponse\022c\n\022removeTimeObserve"
+    "r\0225.octaneapi.ApiChangeManager.removeTim"
+    "eObserverRequest\032\026.google.protobuf.Empty"
+    "\022a\n\021stopObservingTime\0224.octaneapi.ApiCha"
+    "ngeManager.stopObservingTimeRequest\032\026.go"
+    "ogle.protobuf.EmptyB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apichangemanager_2eproto_deps[11] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apichangemanager_2eproto_deps[2] =
     {
-        &::descriptor_table_apinodesystem_5f1_2eproto,
-        &::descriptor_table_apinodesystem_5f2_2eproto,
-        &::descriptor_table_apinodesystem_5f3_2eproto,
-        &::descriptor_table_apinodesystem_5f4_2eproto,
-        &::descriptor_table_apinodesystem_5f5_2eproto,
-        &::descriptor_table_apinodesystem_5f6_2eproto,
-        &::descriptor_table_apinodesystem_5f7_2eproto,
-        &::descriptor_table_apinodesystem_5f8_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
-        &::descriptor_table_octaneenums_2eproto,
 };
 static ::absl::once_flag descriptor_table_apichangemanager_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apichangemanager_2eproto = {
     false,
     false,
-    2914,
+    2711,
     descriptor_table_protodef_apichangemanager_2eproto,
     "apichangemanager.proto",
     &descriptor_table_apichangemanager_2eproto_once,
     descriptor_table_apichangemanager_2eproto_deps,
-    11,
+    2,
     15,
     schemas,
     file_default_instances,

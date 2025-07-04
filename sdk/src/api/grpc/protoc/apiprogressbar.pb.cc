@@ -327,34 +327,32 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apiprogressbar_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\024apiprogressbar.proto\022\toctaneapi\032\014commo"
-    "n.proto\032\033google/protobuf/empty.proto\032\025ap"
-    "iguicomponent.proto\"\221\003\n\016ApiProgressBar\032\017"
-    "\n\rcreateRequest\0326\n\016createResponse\022$\n\006res"
-    "ult\030\001 \001(\0132\024.octaneapi.ObjectRef\0329\n\016destr"
-    "oyRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi"
-    ".ObjectRef\032O\n\022setProgressRequest\022\'\n\tobje"
-    "ctPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022\020\n\010new"
-    "Value\030\002 \001(\001\032:\n\017progressRequest\022\'\n\tobject"
-    "Ptr\030\001 \001(\0132\024.octaneapi.ObjectRef\032\"\n\020progr"
-    "essResponse\022\016\n\006result\030\001 \001(\001\032J\n\016setTextRe"
-    "quest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Obj"
-    "ectRef\022\017\n\007newText\030\002 \001(\t2\306\003\n\025ApiProgressB"
-    "arService\022[\n\006create\022\'.octaneapi.ApiProgr"
-    "essBar.createRequest\032(.octaneapi.ApiProg"
-    "ressBar.createResponse\022K\n\007destroy\022(.octa"
-    "neapi.ApiProgressBar.destroyRequest\032\026.go"
-    "ogle.protobuf.Empty\022S\n\013setProgress\022,.oct"
-    "aneapi.ApiProgressBar.setProgressRequest"
-    "\032\026.google.protobuf.Empty\022a\n\010progress\022).o"
-    "ctaneapi.ApiProgressBar.progressRequest\032"
-    "*.octaneapi.ApiProgressBar.progressRespo"
-    "nse\022K\n\007setText\022(.octaneapi.ApiProgressBa"
-    "r.setTextRequest\032\026.google.protobuf.Empty"
-    "B\002H\002b\006proto3"
+    "n.proto\032\033google/protobuf/empty.proto\"\221\003\n"
+    "\016ApiProgressBar\032\017\n\rcreateRequest\0326\n\016crea"
+    "teResponse\022$\n\006result\030\001 \001(\0132\024.octaneapi.O"
+    "bjectRef\0329\n\016destroyRequest\022\'\n\tobjectPtr\030"
+    "\001 \001(\0132\024.octaneapi.ObjectRef\032O\n\022setProgre"
+    "ssRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi"
+    ".ObjectRef\022\020\n\010newValue\030\002 \001(\001\032:\n\017progress"
+    "Request\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.O"
+    "bjectRef\032\"\n\020progressResponse\022\016\n\006result\030\001"
+    " \001(\001\032J\n\016setTextRequest\022\'\n\tobjectPtr\030\001 \001("
+    "\0132\024.octaneapi.ObjectRef\022\017\n\007newText\030\002 \001(\t"
+    "2\306\003\n\025ApiProgressBarService\022[\n\006create\022\'.o"
+    "ctaneapi.ApiProgressBar.createRequest\032(."
+    "octaneapi.ApiProgressBar.createResponse\022"
+    "K\n\007destroy\022(.octaneapi.ApiProgressBar.de"
+    "stroyRequest\032\026.google.protobuf.Empty\022S\n\013"
+    "setProgress\022,.octaneapi.ApiProgressBar.s"
+    "etProgressRequest\032\026.google.protobuf.Empt"
+    "y\022a\n\010progress\022).octaneapi.ApiProgressBar"
+    ".progressRequest\032*.octaneapi.ApiProgress"
+    "Bar.progressResponse\022K\n\007setText\022(.octane"
+    "api.ApiProgressBar.setTextRequest\032\026.goog"
+    "le.protobuf.EmptyB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apiprogressbar_2eproto_deps[3] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apiprogressbar_2eproto_deps[2] =
     {
-        &::descriptor_table_apiguicomponent_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -362,12 +360,12 @@ static ::absl::once_flag descriptor_table_apiprogressbar_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apiprogressbar_2eproto = {
     false,
     false,
-    972,
+    949,
     descriptor_table_protodef_apiprogressbar_2eproto,
     "apiprogressbar.proto",
     &descriptor_table_apiprogressbar_2eproto_once,
     descriptor_table_apiprogressbar_2eproto_deps,
-    3,
+    2,
     8,
     schemas,
     file_default_instances,

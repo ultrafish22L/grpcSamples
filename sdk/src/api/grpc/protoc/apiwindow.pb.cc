@@ -452,44 +452,43 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apiwindow_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\017apiwindow.proto\022\toctaneapi\032\014common.pro"
-    "to\032\033google/protobuf/empty.proto\032\025apiguic"
-    "omponent.proto\"\256\005\n\tApiWindow\032m\n\rcreateRe"
-    "quest\022\r\n\005title\030\001 \001(\t\0228\n\rcloseCallback\030\002 "
-    "\001(\0132!.octaneapi.OnWindowCloseCallbackT\022\023"
-    "\n\013privateData\030\003 \001(\004\032J\n\016createResponse\022$\n"
-    "\006result\030\001 \001(\0132\024.octaneapi.ObjectRef\022\022\n\nc"
-    "allbackId\030\002 \001(\r\0329\n\016destroyRequest\022\'\n\tobj"
-    "ectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\032u\n\032ad"
-    "dContentComponentRequest\022\'\n\tobjectPtr\030\001 "
-    "\001(\0132\024.octaneapi.ObjectRef\022.\n\020contentComp"
-    "onent\030\002 \001(\0132\024.octaneapi.ObjectRef\0326\n\013sho"
-    "wRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi."
-    "ObjectRef\0326\n\013hideRequest\022\'\n\tobjectPtr\030\001 "
-    "\001(\0132\024.octaneapi.ObjectRef\0329\n\016visibleRequ"
-    "est\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Objec"
-    "tRef\032!\n\017visibleResponse\022\016\n\006result\030\001 \001(\010\032"
-    ">\n\023nativeHandleRequest\022\'\n\tobjectPtr\030\001 \001("
-    "\0132\024.octaneapi.ObjectRef\032&\n\024nativeHandleR"
-    "esponse\022\016\n\006result\030\001 \001(\0042\314\004\n\020ApiWindowSer"
-    "vice\022Q\n\006create\022\".octaneapi.ApiWindow.cre"
-    "ateRequest\032#.octaneapi.ApiWindow.createR"
-    "esponse\022F\n\007destroy\022#.octaneapi.ApiWindow"
-    ".destroyRequest\032\026.google.protobuf.Empty\022"
-    "^\n\023addContentComponent\022/.octaneapi.ApiWi"
-    "ndow.addContentComponentRequest\032\026.google"
-    ".protobuf.Empty\022@\n\004show\022 .octaneapi.ApiW"
-    "indow.showRequest\032\026.google.protobuf.Empt"
-    "y\022@\n\004hide\022 .octaneapi.ApiWindow.hideRequ"
-    "est\032\026.google.protobuf.Empty\022T\n\007visible\022#"
-    ".octaneapi.ApiWindow.visibleRequest\032$.oc"
-    "taneapi.ApiWindow.visibleResponse\022c\n\014nat"
-    "iveHandle\022(.octaneapi.ApiWindow.nativeHa"
-    "ndleRequest\032).octaneapi.ApiWindow.native"
-    "HandleResponseB\002H\002b\006proto3"
+    "to\032\033google/protobuf/empty.proto\"\256\005\n\tApiW"
+    "indow\032m\n\rcreateRequest\022\r\n\005title\030\001 \001(\t\0228\n"
+    "\rcloseCallback\030\002 \001(\0132!.octaneapi.OnWindo"
+    "wCloseCallbackT\022\023\n\013privateData\030\003 \001(\004\032J\n\016"
+    "createResponse\022$\n\006result\030\001 \001(\0132\024.octanea"
+    "pi.ObjectRef\022\022\n\ncallbackId\030\002 \001(\r\0329\n\016dest"
+    "royRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneap"
+    "i.ObjectRef\032u\n\032addContentComponentReques"
+    "t\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectR"
+    "ef\022.\n\020contentComponent\030\002 \001(\0132\024.octaneapi"
+    ".ObjectRef\0326\n\013showRequest\022\'\n\tobjectPtr\030\001"
+    " \001(\0132\024.octaneapi.ObjectRef\0326\n\013hideReques"
+    "t\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectR"
+    "ef\0329\n\016visibleRequest\022\'\n\tobjectPtr\030\001 \001(\0132"
+    "\024.octaneapi.ObjectRef\032!\n\017visibleResponse"
+    "\022\016\n\006result\030\001 \001(\010\032>\n\023nativeHandleRequest\022"
+    "\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef"
+    "\032&\n\024nativeHandleResponse\022\016\n\006result\030\001 \001(\004"
+    "2\314\004\n\020ApiWindowService\022Q\n\006create\022\".octane"
+    "api.ApiWindow.createRequest\032#.octaneapi."
+    "ApiWindow.createResponse\022F\n\007destroy\022#.oc"
+    "taneapi.ApiWindow.destroyRequest\032\026.googl"
+    "e.protobuf.Empty\022^\n\023addContentComponent\022"
+    "/.octaneapi.ApiWindow.addContentComponen"
+    "tRequest\032\026.google.protobuf.Empty\022@\n\004show"
+    "\022 .octaneapi.ApiWindow.showRequest\032\026.goo"
+    "gle.protobuf.Empty\022@\n\004hide\022 .octaneapi.A"
+    "piWindow.hideRequest\032\026.google.protobuf.E"
+    "mpty\022T\n\007visible\022#.octaneapi.ApiWindow.vi"
+    "sibleRequest\032$.octaneapi.ApiWindow.visib"
+    "leResponse\022c\n\014nativeHandle\022(.octaneapi.A"
+    "piWindow.nativeHandleRequest\032).octaneapi"
+    ".ApiWindow.nativeHandleResponseB\002H\002b\006pro"
+    "to3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apiwindow_2eproto_deps[3] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apiwindow_2eproto_deps[2] =
     {
-        &::descriptor_table_apiguicomponent_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -497,12 +496,12 @@ static ::absl::once_flag descriptor_table_apiwindow_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apiwindow_2eproto = {
     false,
     false,
-    1386,
+    1363,
     descriptor_table_protodef_apiwindow_2eproto,
     "apiwindow.proto",
     &descriptor_table_apiwindow_2eproto_once,
     descriptor_table_apiwindow_2eproto_deps,
-    3,
+    2,
     11,
     schemas,
     file_default_instances,

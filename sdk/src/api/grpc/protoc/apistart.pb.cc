@@ -34,27 +34,18 @@ static constexpr ::_pbi::MigrationSchema* schemas = nullptr;
 static constexpr ::_pb::Message* const* file_default_instances = nullptr;
 const char descriptor_table_protodef_apistart_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\016apistart.proto\022\toctaneapi\032\014common.prot"
-    "o\032\033google/protobuf/empty.proto\032\021octaneen"
-    "ums.proto\032\016apiarray.protoB\002H\002b\006proto3"
-};
-static const ::_pbi::DescriptorTable* const descriptor_table_apistart_2eproto_deps[4] =
-    {
-        &::descriptor_table_apiarray_2eproto,
-        &::descriptor_table_common_2eproto,
-        &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
-        &::descriptor_table_octaneenums_2eproto,
+    "\n\016apistart.proto\022\toctaneapiB\002H\002b\006proto3"
 };
 static ::absl::once_flag descriptor_table_apistart_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apistart_2eproto = {
     false,
     false,
-    117,
+    39,
     descriptor_table_protodef_apistart_2eproto,
     "apistart.proto",
     &descriptor_table_apistart_2eproto_once,
-    descriptor_table_apistart_2eproto_deps,
-    4,
+    nullptr,
+    0,
     0,
     schemas,
     file_default_instances,

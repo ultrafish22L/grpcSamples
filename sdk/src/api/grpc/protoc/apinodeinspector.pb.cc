@@ -172,34 +172,20 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apinodeinspector_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\026apinodeinspector.proto\022\toctaneapi\032\014com"
-    "mon.proto\032\033google/protobuf/empty.proto\032\025"
-    "apiguicomponent.proto\032\025apinodesystem_1.p"
-    "roto\032\025apinodesystem_2.proto\032\025apinodesyst"
-    "em_3.proto\032\025apinodesystem_4.proto\032\025apino"
-    "desystem_5.proto\032\025apinodesystem_6.proto\032"
-    "\025apinodesystem_7.proto\032\025apinodesystem_8."
-    "proto\"\226\001\n\020ApiNodeInspector\0329\n\016destroyReq"
-    "uest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Obje"
-    "ctRef\032\017\n\rcreateRequest\0326\n\016createResponse"
-    "\022$\n\006result\030\001 \001(\0132\024.octaneapi.ObjectRef2\311"
-    "\001\n\027ApiNodeInspectorService\022M\n\007destroy\022*."
-    "octaneapi.ApiNodeInspector.destroyReques"
-    "t\032\026.google.protobuf.Empty\022_\n\006create\022).oc"
-    "taneapi.ApiNodeInspector.createRequest\032*"
-    ".octaneapi.ApiNodeInspector.createRespon"
-    "seB\002H\002b\006proto3"
+    "mon.proto\032\033google/protobuf/empty.proto\"\226"
+    "\001\n\020ApiNodeInspector\0329\n\016destroyRequest\022\'\n"
+    "\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\032\017"
+    "\n\rcreateRequest\0326\n\016createResponse\022$\n\006res"
+    "ult\030\001 \001(\0132\024.octaneapi.ObjectRef2\311\001\n\027ApiN"
+    "odeInspectorService\022M\n\007destroy\022*.octanea"
+    "pi.ApiNodeInspector.destroyRequest\032\026.goo"
+    "gle.protobuf.Empty\022_\n\006create\022).octaneapi"
+    ".ApiNodeInspector.createRequest\032*.octane"
+    "api.ApiNodeInspector.createResponseB\002H\002b"
+    "\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apinodeinspector_2eproto_deps[11] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apinodeinspector_2eproto_deps[2] =
     {
-        &::descriptor_table_apiguicomponent_2eproto,
-        &::descriptor_table_apinodesystem_5f1_2eproto,
-        &::descriptor_table_apinodesystem_5f2_2eproto,
-        &::descriptor_table_apinodesystem_5f3_2eproto,
-        &::descriptor_table_apinodesystem_5f4_2eproto,
-        &::descriptor_table_apinodesystem_5f5_2eproto,
-        &::descriptor_table_apinodesystem_5f6_2eproto,
-        &::descriptor_table_apinodesystem_5f7_2eproto,
-        &::descriptor_table_apinodesystem_5f8_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -207,12 +193,12 @@ static ::absl::once_flag descriptor_table_apinodeinspector_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apinodeinspector_2eproto = {
     false,
     false,
-    654,
+    447,
     descriptor_table_protodef_apinodeinspector_2eproto,
     "apinodeinspector.proto",
     &descriptor_table_apinodeinspector_2eproto_once,
     descriptor_table_apinodeinspector_2eproto_deps,
-    11,
+    2,
     4,
     schemas,
     file_default_instances,

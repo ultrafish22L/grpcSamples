@@ -304,46 +304,32 @@ const char descriptor_table_protodef_apinodegrapheditor_2eproto[] ABSL_ATTRIBUTE
     protodesc_cold) = {
     "\n\030apinodegrapheditor.proto\022\toctaneapi\032\014c"
     "ommon.proto\032\033google/protobuf/empty.proto"
-    "\032\025apiguicomponent.proto\032\025apinodesystem_1"
-    ".proto\032\025apinodesystem_2.proto\032\025apinodesy"
-    "stem_3.proto\032\025apinodesystem_4.proto\032\025api"
-    "nodesystem_5.proto\032\025apinodesystem_6.prot"
-    "o\032\025apinodesystem_7.proto\032\025apinodesystem_"
-    "8.proto\"D\n\025NodeGraphEditorArrayT\022+\n\004data"
-    "\030\001 \003(\0132\035.octaneapi.ApiNodeGraphEditor\"\255\003"
-    "\n\022ApiNodeGraphEditor\032[\n\rcreateRequest\022%\n"
-    "\007content\030\001 \001(\0132\024.octaneapi.ObjectRef\022\016\n\006"
-    "unfold\030\002 \001(\010\022\023\n\013privateData\030\003 \001(\004\0326\n\016cre"
-    "ateResponse\022$\n\006result\030\001 \001(\0132\024.octaneapi."
-    "ObjectRef\0329\n\016destroyRequest\022\'\n\tobjectPtr"
-    "\030\001 \001(\0132\024.octaneapi.ObjectRef\032f\n\026setConte"
-    "ntGraphRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octa"
-    "neapi.ObjectRef\022#\n\005graph\030\002 \001(\0132\024.octanea"
-    "pi.ObjectRef\032_\n\017addGraphRequest\022\'\n\tobjec"
-    "tPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022#\n\005grap"
-    "h\030\002 \001(\0132\024.octaneapi.ObjectRef2\205\003\n\031ApiNod"
-    "eGraphEditorService\022c\n\006create\022+.octaneap"
-    "i.ApiNodeGraphEditor.createRequest\032,.oct"
-    "aneapi.ApiNodeGraphEditor.createResponse"
-    "\022O\n\007destroy\022,.octaneapi.ApiNodeGraphEdit"
-    "or.destroyRequest\032\026.google.protobuf.Empt"
-    "y\022_\n\017setContentGraph\0224.octaneapi.ApiNode"
-    "GraphEditor.setContentGraphRequest\032\026.goo"
-    "gle.protobuf.Empty\022Q\n\010addGraph\022-.octanea"
-    "pi.ApiNodeGraphEditor.addGraphRequest\032\026."
-    "google.protobuf.EmptyB\002H\002b\006proto3"
+    "\"D\n\025NodeGraphEditorArrayT\022+\n\004data\030\001 \003(\0132"
+    "\035.octaneapi.ApiNodeGraphEditor\"\255\003\n\022ApiNo"
+    "deGraphEditor\032[\n\rcreateRequest\022%\n\007conten"
+    "t\030\001 \001(\0132\024.octaneapi.ObjectRef\022\016\n\006unfold\030"
+    "\002 \001(\010\022\023\n\013privateData\030\003 \001(\004\0326\n\016createResp"
+    "onse\022$\n\006result\030\001 \001(\0132\024.octaneapi.ObjectR"
+    "ef\0329\n\016destroyRequest\022\'\n\tobjectPtr\030\001 \001(\0132"
+    "\024.octaneapi.ObjectRef\032f\n\026setContentGraph"
+    "Request\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.O"
+    "bjectRef\022#\n\005graph\030\002 \001(\0132\024.octaneapi.Obje"
+    "ctRef\032_\n\017addGraphRequest\022\'\n\tobjectPtr\030\001 "
+    "\001(\0132\024.octaneapi.ObjectRef\022#\n\005graph\030\002 \001(\013"
+    "2\024.octaneapi.ObjectRef2\205\003\n\031ApiNodeGraphE"
+    "ditorService\022c\n\006create\022+.octaneapi.ApiNo"
+    "deGraphEditor.createRequest\032,.octaneapi."
+    "ApiNodeGraphEditor.createResponse\022O\n\007des"
+    "troy\022,.octaneapi.ApiNodeGraphEditor.dest"
+    "royRequest\032\026.google.protobuf.Empty\022_\n\017se"
+    "tContentGraph\0224.octaneapi.ApiNodeGraphEd"
+    "itor.setContentGraphRequest\032\026.google.pro"
+    "tobuf.Empty\022Q\n\010addGraph\022-.octaneapi.ApiN"
+    "odeGraphEditor.addGraphRequest\032\026.google."
+    "protobuf.EmptyB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apinodegrapheditor_2eproto_deps[11] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apinodegrapheditor_2eproto_deps[2] =
     {
-        &::descriptor_table_apiguicomponent_2eproto,
-        &::descriptor_table_apinodesystem_5f1_2eproto,
-        &::descriptor_table_apinodesystem_5f2_2eproto,
-        &::descriptor_table_apinodesystem_5f3_2eproto,
-        &::descriptor_table_apinodesystem_5f4_2eproto,
-        &::descriptor_table_apinodesystem_5f5_2eproto,
-        &::descriptor_table_apinodesystem_5f6_2eproto,
-        &::descriptor_table_apinodesystem_5f7_2eproto,
-        &::descriptor_table_apinodesystem_5f8_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -351,12 +337,12 @@ static ::absl::once_flag descriptor_table_apinodegrapheditor_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apinodegrapheditor_2eproto = {
     false,
     false,
-    1193,
+    986,
     descriptor_table_protodef_apinodegrapheditor_2eproto,
     "apinodegrapheditor.proto",
     &descriptor_table_apinodegrapheditor_2eproto_once,
     descriptor_table_apinodegrapheditor_2eproto_deps,
-    11,
+    2,
     7,
     schemas,
     file_default_instances,

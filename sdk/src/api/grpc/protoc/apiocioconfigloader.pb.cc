@@ -450,62 +450,57 @@ const char descriptor_table_protodef_apiocioconfigloader_2eproto[] ABSL_ATTRIBUT
     protodesc_cold) = {
     "\n\031apiocioconfigloader.proto\022\toctaneapi\032\014"
     "common.proto\032\033google/protobuf/empty.prot"
-    "o\032\023apiocioconfig.proto\032\030octanerenderpass"
-    "es.proto\032\027octaneimageexport.proto\"\314\005\n\023Ap"
-    "iOcioConfigLoader\032\017\n\rcreateRequest\0326\n\016cr"
-    "eateResponse\022$\n\006result\030\001 \001(\0132\024.octaneapi"
-    ".ObjectRef\0329\n\016destroyRequest\022\'\n\tobjectPt"
-    "r\030\001 \001(\0132\024.octaneapi.ObjectRef\032z\n\022addCall"
-    "backRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octanea"
-    "pi.ObjectRef\022&\n\010callback\030\002 \001(\0132\024.octanea"
-    "pi.CallbackT\022\023\n\013privateData\030\003 \001(\004\032)\n\023add"
-    "CallbackResponse\022\022\n\ncallbackId\030\001 \001(\r\032}\n\025"
-    "removeCallbackRequest\022\'\n\tobjectPtr\030\001 \001(\013"
-    "2\024.octaneapi.ObjectRef\022&\n\010callback\030\002 \001(\013"
-    "2\024.octaneapi.CallbackT\022\023\n\013privateData\030\003 "
-    "\001(\004\032,\n\026removeCallbackResponse\022\022\n\ncallbac"
-    "kId\030\001 \001(\r\032H\n\013loadRequest\022\'\n\tobjectPtr\030\001 "
-    "\001(\0132\024.octaneapi.ObjectRef\022\020\n\010filename\030\002 "
-    "\001(\t\032U\n\023createConfigRequest\022\'\n\tobjectPtr\030"
-    "\001 \001(\0132\024.octaneapi.ObjectRef\022\025\n\rwaitIfLoa"
-    "ding\030\002 \001(\010\032<\n\024createConfigResponse\022$\n\006re"
-    "sult\030\001 \001(\0132\024.octaneapi.ObjectRef2\217\005\n\032Api"
-    "OcioConfigLoaderService\022e\n\006create\022,.octa"
-    "neapi.ApiOcioConfigLoader.createRequest\032"
-    "-.octaneapi.ApiOcioConfigLoader.createRe"
-    "sponse\022P\n\007destroy\022-.octaneapi.ApiOcioCon"
-    "figLoader.destroyRequest\032\026.google.protob"
-    "uf.Empty\022t\n\013addCallback\0221.octaneapi.ApiO"
-    "cioConfigLoader.addCallbackRequest\0322.oct"
-    "aneapi.ApiOcioConfigLoader.addCallbackRe"
-    "sponse\022}\n\016removeCallback\0224.octaneapi.Api"
-    "OcioConfigLoader.removeCallbackRequest\0325"
-    ".octaneapi.ApiOcioConfigLoader.removeCal"
-    "lbackResponse\022J\n\004load\022*.octaneapi.ApiOci"
-    "oConfigLoader.loadRequest\032\026.google.proto"
-    "buf.Empty\022w\n\014createConfig\0222.octaneapi.Ap"
-    "iOcioConfigLoader.createConfigRequest\0323."
-    "octaneapi.ApiOcioConfigLoader.createConf"
-    "igResponseB\002H\002b\006proto3"
+    "o\"\314\005\n\023ApiOcioConfigLoader\032\017\n\rcreateReque"
+    "st\0326\n\016createResponse\022$\n\006result\030\001 \001(\0132\024.o"
+    "ctaneapi.ObjectRef\0329\n\016destroyRequest\022\'\n\t"
+    "objectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\032z\n"
+    "\022addCallbackRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024"
+    ".octaneapi.ObjectRef\022&\n\010callback\030\002 \001(\0132\024"
+    ".octaneapi.CallbackT\022\023\n\013privateData\030\003 \001("
+    "\004\032)\n\023addCallbackResponse\022\022\n\ncallbackId\030\001"
+    " \001(\r\032}\n\025removeCallbackRequest\022\'\n\tobjectP"
+    "tr\030\001 \001(\0132\024.octaneapi.ObjectRef\022&\n\010callba"
+    "ck\030\002 \001(\0132\024.octaneapi.CallbackT\022\023\n\013privat"
+    "eData\030\003 \001(\004\032,\n\026removeCallbackResponse\022\022\n"
+    "\ncallbackId\030\001 \001(\r\032H\n\013loadRequest\022\'\n\tobje"
+    "ctPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022\020\n\010fil"
+    "ename\030\002 \001(\t\032U\n\023createConfigRequest\022\'\n\tob"
+    "jectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022\025\n\rw"
+    "aitIfLoading\030\002 \001(\010\032<\n\024createConfigRespon"
+    "se\022$\n\006result\030\001 \001(\0132\024.octaneapi.ObjectRef"
+    "2\217\005\n\032ApiOcioConfigLoaderService\022e\n\006creat"
+    "e\022,.octaneapi.ApiOcioConfigLoader.create"
+    "Request\032-.octaneapi.ApiOcioConfigLoader."
+    "createResponse\022P\n\007destroy\022-.octaneapi.Ap"
+    "iOcioConfigLoader.destroyRequest\032\026.googl"
+    "e.protobuf.Empty\022t\n\013addCallback\0221.octane"
+    "api.ApiOcioConfigLoader.addCallbackReque"
+    "st\0322.octaneapi.ApiOcioConfigLoader.addCa"
+    "llbackResponse\022}\n\016removeCallback\0224.octan"
+    "eapi.ApiOcioConfigLoader.removeCallbackR"
+    "equest\0325.octaneapi.ApiOcioConfigLoader.r"
+    "emoveCallbackResponse\022J\n\004load\022*.octaneap"
+    "i.ApiOcioConfigLoader.loadRequest\032\026.goog"
+    "le.protobuf.Empty\022w\n\014createConfig\0222.octa"
+    "neapi.ApiOcioConfigLoader.createConfigRe"
+    "quest\0323.octaneapi.ApiOcioConfigLoader.cr"
+    "eateConfigResponseB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apiocioconfigloader_2eproto_deps[5] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apiocioconfigloader_2eproto_deps[2] =
     {
-        &::descriptor_table_apiocioconfig_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
-        &::descriptor_table_octaneimageexport_2eproto,
-        &::descriptor_table_octanerenderpasses_2eproto,
 };
 static ::absl::once_flag descriptor_table_apiocioconfigloader_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apiocioconfigloader_2eproto = {
     false,
     false,
-    1542,
+    1470,
     descriptor_table_protodef_apiocioconfigloader_2eproto,
     "apiocioconfigloader.proto",
     &descriptor_table_apiocioconfigloader_2eproto_once,
     descriptor_table_apiocioconfigloader_2eproto_deps,
-    5,
+    2,
     11,
     schemas,
     file_default_instances,

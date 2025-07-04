@@ -182,22 +182,20 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apititlecomponent_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\027apititlecomponent.proto\022\toctaneapi\032\014co"
-    "mmon.proto\032\033google/protobuf/empty.proto\032"
-    "\025apiguicomponent.proto\"\245\001\n\021ApiTitleCompo"
-    "nent\032\035\n\rcreateRequest\022\014\n\004text\030\001 \001(\t\0326\n\016c"
-    "reateResponse\022$\n\006result\030\001 \001(\0132\024.octaneap"
-    "i.ObjectRef\0329\n\016destroyRequest\022\'\n\tobjectP"
-    "tr\030\001 \001(\0132\024.octaneapi.ObjectRef2\315\001\n\030ApiTi"
-    "tleComponentService\022a\n\006create\022*.octaneap"
-    "i.ApiTitleComponent.createRequest\032+.octa"
-    "neapi.ApiTitleComponent.createResponse\022N"
-    "\n\007destroy\022+.octaneapi.ApiTitleComponent."
-    "destroyRequest\032\026.google.protobuf.EmptyB\002"
-    "H\002b\006proto3"
+    "mmon.proto\032\033google/protobuf/empty.proto\""
+    "\245\001\n\021ApiTitleComponent\032\035\n\rcreateRequest\022\014"
+    "\n\004text\030\001 \001(\t\0326\n\016createResponse\022$\n\006result"
+    "\030\001 \001(\0132\024.octaneapi.ObjectRef\0329\n\016destroyR"
+    "equest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Ob"
+    "jectRef2\315\001\n\030ApiTitleComponentService\022a\n\006"
+    "create\022*.octaneapi.ApiTitleComponent.cre"
+    "ateRequest\032+.octaneapi.ApiTitleComponent"
+    ".createResponse\022N\n\007destroy\022+.octaneapi.A"
+    "piTitleComponent.destroyRequest\032\026.google"
+    ".protobuf.EmptyB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apititlecomponent_2eproto_deps[3] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apititlecomponent_2eproto_deps[2] =
     {
-        &::descriptor_table_apiguicomponent_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -205,12 +203,12 @@ static ::absl::once_flag descriptor_table_apititlecomponent_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apititlecomponent_2eproto = {
     false,
     false,
-    490,
+    467,
     descriptor_table_protodef_apititlecomponent_2eproto,
     "apititlecomponent.proto",
     &descriptor_table_apititlecomponent_2eproto_once,
     descriptor_table_apititlecomponent_2eproto_deps,
-    3,
+    2,
     4,
     schemas,
     file_default_instances,

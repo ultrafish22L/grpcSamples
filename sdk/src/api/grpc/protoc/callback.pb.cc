@@ -109,6 +109,39 @@ struct TriggerFuncRequestDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TriggerFuncRequestDefaultTypeInternal _TriggerFuncRequest_default_instance_;
 
+inline constexpr StreamCallbackResponse::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : request_id_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        stringvalue_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        success_{false},
+        boolvalue_{false},
+        intvalue_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR StreamCallbackResponse::StreamCallbackResponse(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct StreamCallbackResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR StreamCallbackResponseDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~StreamCallbackResponseDefaultTypeInternal() {}
+  union {
+    StreamCallbackResponse _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StreamCallbackResponseDefaultTypeInternal _StreamCallbackResponse_default_instance_;
+
 inline constexpr StopResponse::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : success_{false},
@@ -1619,7 +1652,10 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 
 inline constexpr StreamCallbackRequest::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
-      : payload_{},
+      : request_id_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        payload_{},
         _cached_size_{0},
         _oneof_case_{} {}
 
@@ -1650,6 +1686,19 @@ const ::uint32_t
     TableStruct_callback_2eproto::offsets[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
         protodesc_cold) = {
         ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::octaneapi::StreamCallbackResponse, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::octaneapi::StreamCallbackResponse, _impl_.request_id_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::StreamCallbackResponse, _impl_.success_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::StreamCallbackResponse, _impl_.stringvalue_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::StreamCallbackResponse, _impl_.intvalue_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::StreamCallbackResponse, _impl_.boolvalue_),
+        ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::octaneapi::StreamCallbackRequest, _internal_metadata_),
         ~0u,  // no _extensions_
         PROTOBUF_FIELD_OFFSET(::octaneapi::StreamCallbackRequest, _impl_._oneof_case_[0]),
@@ -1657,9 +1706,7 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        ::_pbi::kInvalidFieldOffsetTag,
-        ::_pbi::kInvalidFieldOffsetTag,
-        ::_pbi::kInvalidFieldOffsetTag,
+        PROTOBUF_FIELD_OFFSET(::octaneapi::StreamCallbackRequest, _impl_.request_id_),
         ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::octaneapi::StreamCallbackRequest, _impl_.payload_),
         ~0u,  // no _has_bits_
@@ -2364,64 +2411,66 @@ const ::uint32_t
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, -1, -1, sizeof(::octaneapi::StreamCallbackRequest)},
-        {13, -1, -1, sizeof(::octaneapi::LoadRenderStateProjectRequest)},
-        {27, 36, -1, sizeof(::octaneapi::LoadRenderStateProjectResponse)},
-        {37, -1, -1, sizeof(::octaneapi::DaemonUpdateRequest)},
-        {49, 61, -1, sizeof(::octaneapi::StatusUpdateRequest)},
-        {65, -1, -1, sizeof(::octaneapi::TriggerFuncRequest)},
-        {76, -1, -1, sizeof(::octaneapi::EvaluateFuncRequest)},
-        {87, -1, -1, sizeof(::octaneapi::CleanupFuncRequest)},
-        {98, -1, -1, sizeof(::octaneapi::DestroyFuncRequest)},
-        {109, 121, -1, sizeof(::octaneapi::ColorChangedRequest)},
-        {125, 136, -1, sizeof(::octaneapi::CreateFuncRequest)},
-        {139, -1, -1, sizeof(::octaneapi::CreateFuncResponse)},
-        {148, 159, -1, sizeof(::octaneapi::InitFuncRequest)},
-        {162, -1, -1, sizeof(::octaneapi::InitFuncResponse)},
-        {171, -1, -1, sizeof(::octaneapi::IsReadyRequest)},
-        {179, -1, -1, sizeof(::octaneapi::IsReadyResponse)},
-        {188, -1, -1, sizeof(::octaneapi::StartRequest)},
-        {199, -1, -1, sizeof(::octaneapi::StartResponse)},
-        {208, -1, -1, sizeof(::octaneapi::StopRequest)},
-        {216, -1, -1, sizeof(::octaneapi::StopResponse)},
-        {225, 235, -1, sizeof(::octaneapi::TimeChangeEvent)},
-        {237, 249, -1, sizeof(::octaneapi::ChangeManagerTimeObserverRequest)},
-        {253, 267, -1, sizeof(::octaneapi::ChangeEvent)},
-        {273, 285, -1, sizeof(::octaneapi::ChangeManagerObserverRequest)},
-        {289, -1, -1, sizeof(::octaneapi::ObserverRequest)},
-        {300, 313, -1, sizeof(::octaneapi::NotificationRequest)},
-        {318, -1, -1, sizeof(::octaneapi::NotificationResponse)},
-        {327, -1, -1, sizeof(::octaneapi::CallbackAck)},
-        {336, -1, -1, sizeof(::octaneapi::BasicCallbackRequest)},
-        {347, -1, -1, sizeof(::octaneapi::CommandModuleRunFuncRequest)},
-        {358, -1, -1, sizeof(::octaneapi::ObserverCallbackRequest)},
-        {371, -1, -1, sizeof(::octaneapi::DbViewLoadedRequest)},
-        {383, -1, -1, sizeof(::octaneapi::FinishRequest)},
-        {399, 411, -1, sizeof(::octaneapi::OnNewImageRequest)},
-        {415, -1, -1, sizeof(::octaneapi::OnOcioErrorRequest)},
-        {428, -1, -1, sizeof(::octaneapi::NextChunkRequest)},
-        {439, -1, -1, sizeof(::octaneapi::NextChunkResponse)},
-        {450, 462, -1, sizeof(::octaneapi::CheckedRequest)},
-        {466, 478, -1, sizeof(::octaneapi::ComboBoxChangedRequest)},
-        {482, -1, -1, sizeof(::octaneapi::ApiLogRequest)},
-        {494, 508, -1, sizeof(::octaneapi::MouseEventRequest)},
-        {514, 526, -1, sizeof(::octaneapi::NumericBoxChangedRequest)},
-        {530, 543, -1, sizeof(::octaneapi::Callback1Request)},
-        {548, 561, -1, sizeof(::octaneapi::Callback2Request)},
-        {566, -1, -1, sizeof(::octaneapi::AssetMissingRequest)},
-        {578, -1, -1, sizeof(::octaneapi::AssetMissingResponse)},
-        {587, -1, -1, sizeof(::octaneapi::UpdateRequest)},
-        {599, -1, -1, sizeof(::octaneapi::UpdateResponse)},
-        {608, -1, -1, sizeof(::octaneapi::AsyncUpdateRequest)},
-        {620, -1, -1, sizeof(::octaneapi::NumRowsResponse)},
-        {629, -1, -1, sizeof(::octaneapi::ContentRequest)},
-        {642, -1, -1, sizeof(::octaneapi::ContentResponse)},
-        {651, 663, -1, sizeof(::octaneapi::ButtonClickedRequest)},
-        {667, -1, -1, sizeof(::octaneapi::SelectionChangedRequest)},
-        {679, 691, -1, sizeof(::octaneapi::TextEditorChangedRequest)},
-        {695, 707, -1, sizeof(::octaneapi::OnWindowCloseRequest)},
+        {0, -1, -1, sizeof(::octaneapi::StreamCallbackResponse)},
+        {13, -1, -1, sizeof(::octaneapi::StreamCallbackRequest)},
+        {24, -1, -1, sizeof(::octaneapi::LoadRenderStateProjectRequest)},
+        {38, 47, -1, sizeof(::octaneapi::LoadRenderStateProjectResponse)},
+        {48, -1, -1, sizeof(::octaneapi::DaemonUpdateRequest)},
+        {60, 72, -1, sizeof(::octaneapi::StatusUpdateRequest)},
+        {76, -1, -1, sizeof(::octaneapi::TriggerFuncRequest)},
+        {87, -1, -1, sizeof(::octaneapi::EvaluateFuncRequest)},
+        {98, -1, -1, sizeof(::octaneapi::CleanupFuncRequest)},
+        {109, -1, -1, sizeof(::octaneapi::DestroyFuncRequest)},
+        {120, 132, -1, sizeof(::octaneapi::ColorChangedRequest)},
+        {136, 147, -1, sizeof(::octaneapi::CreateFuncRequest)},
+        {150, -1, -1, sizeof(::octaneapi::CreateFuncResponse)},
+        {159, 170, -1, sizeof(::octaneapi::InitFuncRequest)},
+        {173, -1, -1, sizeof(::octaneapi::InitFuncResponse)},
+        {182, -1, -1, sizeof(::octaneapi::IsReadyRequest)},
+        {190, -1, -1, sizeof(::octaneapi::IsReadyResponse)},
+        {199, -1, -1, sizeof(::octaneapi::StartRequest)},
+        {210, -1, -1, sizeof(::octaneapi::StartResponse)},
+        {219, -1, -1, sizeof(::octaneapi::StopRequest)},
+        {227, -1, -1, sizeof(::octaneapi::StopResponse)},
+        {236, 246, -1, sizeof(::octaneapi::TimeChangeEvent)},
+        {248, 260, -1, sizeof(::octaneapi::ChangeManagerTimeObserverRequest)},
+        {264, 278, -1, sizeof(::octaneapi::ChangeEvent)},
+        {284, 296, -1, sizeof(::octaneapi::ChangeManagerObserverRequest)},
+        {300, -1, -1, sizeof(::octaneapi::ObserverRequest)},
+        {311, 324, -1, sizeof(::octaneapi::NotificationRequest)},
+        {329, -1, -1, sizeof(::octaneapi::NotificationResponse)},
+        {338, -1, -1, sizeof(::octaneapi::CallbackAck)},
+        {347, -1, -1, sizeof(::octaneapi::BasicCallbackRequest)},
+        {358, -1, -1, sizeof(::octaneapi::CommandModuleRunFuncRequest)},
+        {369, -1, -1, sizeof(::octaneapi::ObserverCallbackRequest)},
+        {382, -1, -1, sizeof(::octaneapi::DbViewLoadedRequest)},
+        {394, -1, -1, sizeof(::octaneapi::FinishRequest)},
+        {410, 422, -1, sizeof(::octaneapi::OnNewImageRequest)},
+        {426, -1, -1, sizeof(::octaneapi::OnOcioErrorRequest)},
+        {439, -1, -1, sizeof(::octaneapi::NextChunkRequest)},
+        {450, -1, -1, sizeof(::octaneapi::NextChunkResponse)},
+        {461, 473, -1, sizeof(::octaneapi::CheckedRequest)},
+        {477, 489, -1, sizeof(::octaneapi::ComboBoxChangedRequest)},
+        {493, -1, -1, sizeof(::octaneapi::ApiLogRequest)},
+        {505, 519, -1, sizeof(::octaneapi::MouseEventRequest)},
+        {525, 537, -1, sizeof(::octaneapi::NumericBoxChangedRequest)},
+        {541, 554, -1, sizeof(::octaneapi::Callback1Request)},
+        {559, 572, -1, sizeof(::octaneapi::Callback2Request)},
+        {577, -1, -1, sizeof(::octaneapi::AssetMissingRequest)},
+        {589, -1, -1, sizeof(::octaneapi::AssetMissingResponse)},
+        {598, -1, -1, sizeof(::octaneapi::UpdateRequest)},
+        {610, -1, -1, sizeof(::octaneapi::UpdateResponse)},
+        {619, -1, -1, sizeof(::octaneapi::AsyncUpdateRequest)},
+        {631, -1, -1, sizeof(::octaneapi::NumRowsResponse)},
+        {640, -1, -1, sizeof(::octaneapi::ContentRequest)},
+        {653, -1, -1, sizeof(::octaneapi::ContentResponse)},
+        {662, 674, -1, sizeof(::octaneapi::ButtonClickedRequest)},
+        {678, -1, -1, sizeof(::octaneapi::SelectionChangedRequest)},
+        {690, 702, -1, sizeof(::octaneapi::TextEditorChangedRequest)},
+        {706, 718, -1, sizeof(::octaneapi::OnWindowCloseRequest)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
+    &::octaneapi::_StreamCallbackResponse_default_instance_._instance,
     &::octaneapi::_StreamCallbackRequest_default_instance_._instance,
     &::octaneapi::_LoadRenderStateProjectRequest_default_instance_._instance,
     &::octaneapi::_LoadRenderStateProjectResponse_default_instance_._instance,
@@ -2484,253 +2533,252 @@ const char descriptor_table_protodef_callback_2eproto[] ABSL_ATTRIBUTE_SECTION_V
     "\n\016callback.proto\022\toctaneapi\032\014common.prot"
     "o\032\017apirender.proto\032\026apimouselistener.pro"
     "to\032\021octaneenums.proto\032\017octanenet.proto\032\033"
-    "google/protobuf/empty.proto\"\212\002\n\025StreamCa"
-    "llbackRequest\0220\n\010newImage\030\n \001(\0132\034.octane"
-    "api.OnNewImageRequestH\000\0228\n\rrenderFailure"
-    "\030\013 \001(\0132\037.octaneapi.BasicCallbackRequestH"
-    "\000\0228\n\rnewStatistics\030\014 \001(\0132\037.octaneapi.Bas"
-    "icCallbackRequestH\000\022@\n\025projectManagerCha"
-    "nged\030\r \001(\0132\037.octaneapi.BasicCallbackRequ"
-    "estH\000B\t\n\007payload\"\255\001\n\035LoadRenderStateProj"
-    "ectRequest\022\023\n\013callback_id\030\001 \001(\005\022\035\n\025custo"
-    "mProjectFileName\030\002 \001(\t\022\031\n\021customProjectT"
-    "ime\030\003 \001(\002\022\025\n\rcustomVersion\030\004 \001(\004\022\023\n\013cust"
-    "om_data\030\005 \001(\014\022\021\n\tuser_data\030\006 \001(\004\"O\n\036Load"
-    "RenderStateProjectResponse\022-\n\017moduleNode"
-    "Graph\030\002 \001(\0132\024.octaneapi.ObjectRef\"\211\001\n\023Da"
-    "emonUpdateRequest\022\027\n\017callback_source\030\001 \001"
-    "(\t\022\023\n\013callback_id\030\002 \001(\005\0221\n\017daemonInfoArr"
-    "ay\030\003 \003(\0132\030.octaneapi.NetDaemonInfo\022\021\n\tus"
-    "er_data\030\004 \001(\004\"\202\001\n\023StatusUpdateRequest\022\027\n"
-    "\017callback_source\030\001 \001(\t\022\023\n\013callback_id\030\002 "
-    "\001(\005\022*\n\006status\030\003 \001(\0132\032.octaneapi.NetRende"
-    "rStatus\022\021\n\tuser_data\030\004 \001(\004\"U\n\022TriggerFun"
-    "cRequest\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013cal"
-    "lback_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\"V\n\023Eva"
-    "luateFuncRequest\022\027\n\017callback_source\030\001 \001("
-    "\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001("
-    "\004\"U\n\022CleanupFuncRequest\022\027\n\017callback_sour"
-    "ce\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_da"
-    "ta\030\003 \001(\004\"U\n\022DestroyFuncRequest\022\027\n\017callba"
-    "ck_source\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\t"
-    "user_data\030\003 \001(\004\"\204\001\n\023ColorChangedRequest\022"
-    "\027\n\017callback_source\030\001 \001(\t\022\023\n\013callback_id\030"
-    "\002 \001(\005\022,\n\016apiColorSwatch\030\003 \001(\0132\024.octaneap"
-    "i.ObjectRef\022\021\n\tuser_data\030\004 \001(\004\"p\n\021Create"
-    "FuncRequest\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013"
-    "callback_id\030\002 \001(\005\022-\n\017moduleNodeGraph\030\003 \001"
-    "(\0132\024.octaneapi.ObjectRef\"\'\n\022CreateFuncRe"
-    "sponse\022\021\n\tuser_data\030\001 \001(\004\"l\n\017InitFuncReq"
-    "uest\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013callbac"
-    "k_id\030\002 \001(\005\022+\n\rapiGridLayout\030\003 \001(\0132\024.octa"
-    "neapi.ObjectRef\"%\n\020InitFuncResponse\022\021\n\tu"
-    "ser_data\030\001 \001(\004\"\020\n\016IsReadyRequest\"\"\n\017IsRe"
-    "adyResponse\022\017\n\007success\030\001 \001(\010\"Y\n\014StartReq"
-    "uest\022\026\n\016callbackSource\030\001 \001(\t\022\031\n\021displayi"
-    "ngEnglish\030\002 \001(\010\022\026\n\016secondLanguage\030\003 \001(\005\""
-    " \n\rStartResponse\022\017\n\007success\030\001 \001(\010\"\r\n\013Sto"
-    "pRequest\"\037\n\014StopResponse\022\017\n\007success\030\001 \001("
-    "\010\"b\n\017TimeChangeEvent\022&\n\004type\030\001 \001(\0162\030.oct"
-    "aneapi.TimeEventType\022\'\n\trootGraph\030\002 \001(\0132"
-    "\024.octaneapi.ObjectRef\"\222\001\n ChangeManagerT"
-    "imeObserverRequest\022\027\n\017callback_source\030\001 "
-    "\001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_data\030\003 "
-    "\001(\004\022-\n\teventData\030\004 \001(\0132\032.octaneapi.TimeC"
-    "hangeEvent\"\364\003\n\013ChangeEvent\022)\n\004type\030\001 \001(\016"
-    "2\033.octaneapi.ChangeEvent.Type\022*\n\014changed"
-    "Owner\030\002 \001(\0132\024.octaneapi.ObjectRef\022\031\n\021cha"
-    "ngedOwnerPinIx\030\003 \001(\r\022)\n\013changedItem\030\004 \001("
-    "\0132\024.octaneapi.ObjectRef\022\024\n\014changedPinIx\030"
-    "\005 \001(\r\022\026\n\016changedIndices\030\006 \003(\r\"\231\002\n\004Type\022\016"
-    "\n\nITEM_ADDED\020\000\022\017\n\013ITEM_DELETE\020\001\022\026\n\022CONNE"
-    "CTION_CHANGED\020\002\022\025\n\021DESTINATION_ADDED\020\003\022\020"
-    "\n\014PINS_CHANGED\020\004\022\026\n\022ITEM_VALUE_CHANGED\020\005"
-    "\022\026\n\022ITEM_INPUT_CHANGED\020\006\022\025\n\021ITEM_NAME_CH"
-    "ANGED\020\007\022\016\n\nITEM_MOVED\020\010\022\030\n\024LINKER_ORDER_"
-    "CHANGED\020\t\022\"\n\036ITEM_UI_OPERATION_FLAG_CHAN"
-    "GED\020\n\022\032\n\026TIME_TRANSFORM_CHANGED\020\013\"\212\001\n\034Ch"
-    "angeManagerObserverRequest\022\027\n\017callback_s"
-    "ource\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser"
-    "_data\030\003 \001(\004\022)\n\teventData\030\004 \001(\0132\026.octanea"
-    "pi.ChangeEvent\"R\n\017ObserverRequest\022\027\n\017cal"
-    "lback_source\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022"
-    "\021\n\tuser_data\030\003 \001(\004\"\240\001\n\023NotificationReque"
-    "st\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013callback_"
-    "id\030\002 \001(\005\022\027\n\017notification_id\030\003 \001(\t\022\017\n\007mes"
-    "sage\030\004 \001(\t\0221\n\006images\030\005 \001(\0132!.octaneapi.A"
-    "piArrayApiRenderImage\"&\n\024NotificationRes"
-    "ponse\022\016\n\006status\030\001 \001(\t\"\036\n\013CallbackAck\022\017\n\007"
-    "success\030\001 \001(\010\"W\n\024BasicCallbackRequest\022\027\n"
-    "\017callback_source\030\001 \001(\t\022\023\n\013callback_id\030\002 "
-    "\001(\005\022\021\n\tuser_data\030\003 \001(\004\"^\n\033CommandModuleR"
-    "unFuncRequest\022\027\n\017callback_source\030\001 \001(\t\022\023"
-    "\n\013callback_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\"v"
-    "\n\027ObserverCallbackRequest\022\027\n\017callback_so"
-    "urce\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_"
-    "data\030\003 \001(\004\022\014\n\004type\030\004 \001(\005\022\014\n\004path\030\005 \001(\t\"f"
-    "\n\023DbViewLoadedRequest\022\027\n\017callback_source"
-    "\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_data"
-    "\030\003 \001(\004\022\016\n\006origin\030\004 \001(\005\"\257\001\n\rFinishRequest"
-    "\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013callback_id"
-    "\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\022\017\n\007success\030\004 \001"
-    "(\010\022\021\n\terror_msg\030\005 \001(\t\022\022\n\nscene_guid\030\006 \001("
-    "\t\022\021\n\troot_guid\030\007 \001(\t\022\022\n\nscene_name\030\010 \001(\t"
-    "\"\216\001\n\021OnNewImageRequest\022\027\n\017callback_sourc"
-    "e\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_dat"
-    "a\030\003 \001(\004\0228\n\rrender_images\030\004 \001(\0132!.octanea"
-    "pi.ApiArrayApiRenderImage\"z\n\022OnOcioError"
-    "Request\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013call"
-    "back_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\022\020\n\010mess"
-    "ages\030\004 \003(\t\022\021\n\thas_error\030\005 \001(\010\"S\n\020NextChu"
-    "nkRequest\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013ca"
-    "llback_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\"T\n\021Ne"
-    "xtChunkResponse\022\027\n\017callback_source\030\001 \001(\t"
-    "\022\022\n\nchunk_size\030\002 \001(\004\022\022\n\ndata_chunk\030\003 \001(\014"
-    "\"w\n\016CheckedRequest\022\027\n\017callback_source\030\001 "
-    "\001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_data\030\003 "
-    "\001(\004\022$\n\006button\030\004 \001(\0132\024.octaneapi.ObjectRe"
-    "f\"\202\001\n\026ComboBoxChangedRequest\022\027\n\017callback"
-    "_source\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tus"
-    "er_data\030\003 \001(\004\022\'\n\tcombo_box\030\004 \001(\0132\024.octan"
-    "eapi.ObjectRef\"`\n\rApiLogRequest\022\027\n\017callb"
-    "ack_source\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\020\n"
-    "\010log_type\030\003 \001(\005\022\017\n\007message\030\004 \001(\t\"\311\001\n\021Mou"
-    "seEventRequest\022\027\n\017callback_source\030\001 \001(\t\022"
-    "\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\022"
-    "\022\n\nevent_type\030\004 \001(\005\022\'\n\005event\030\005 \001(\0132\030.oct"
-    "aneapi.ApiMouseEvent\0226\n\rwheel_details\030\006 "
-    "\001(\0132\037.octaneapi.ApiMouseWheelDetails\"\206\001\n"
-    "\030NumericBoxChangedRequest\022\027\n\017callback_so"
-    "urce\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_"
-    "data\030\003 \001(\004\022)\n\013numeric_box\030\004 \001(\0132\024.octane"
-    "api.ObjectRef\"\212\001\n\020Callback1Request\022\027\n\017ca"
-    "llback_source\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005"
-    "\022\021\n\tuser_data\030\003 \001(\004\022\017\n\007loading\030\004 \001(\010\022$\n\006"
-    "config\030\005 \001(\0132\024.octaneapi.ObjectRef\"\221\001\n\020C"
-    "allback2Request\022\027\n\017callback_source\030\001 \001(\t"
-    "\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004"
-    "\022$\n\006config\030\004 \001(\0132\024.octaneapi.ObjectRef\022\026"
-    "\n\016context_usable\030\005 \001(\010\"i\n\023AssetMissingRe"
-    "quest\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013callba"
-    "ck_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\022\021\n\tfile_n"
-    "ame\030\004 \001(\t\"2\n\024AssetMissingResponse\022\032\n\022res"
-    "olved_file_path\030\001 \001(\t\"a\n\rUpdateRequest\022\027"
-    "\n\017callback_source\030\001 \001(\t\022\023\n\013callback_id\030\002"
-    " \001(\005\022\021\n\tuser_data\030\003 \001(\004\022\017\n\007percent\030\004 \001(\002"
-    "\"(\n\016UpdateResponse\022\026\n\016continueUpload\030\001 \001"
-    "(\010\"k\n\022AsyncUpdateRequest\022\027\n\017callback_sou"
-    "rce\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_d"
-    "ata\030\003 \001(\004\022\024\n\014change_level\030\004 \001(\004\"#\n\017NumRo"
-    "wsResponse\022\020\n\010num_rows\030\001 \001(\005\"n\n\016ContentR"
+    "google/protobuf/empty.proto\"w\n\026StreamCal"
+    "lbackResponse\022\022\n\nrequest_id\030\001 \001(\t\022\017\n\007suc"
+    "cess\030\002 \001(\010\022\023\n\013stringValue\030\003 \001(\t\022\020\n\010intVa"
+    "lue\030\004 \001(\005\022\021\n\tboolValue\030\005 \001(\010\"h\n\025StreamCa"
+    "llbackRequest\022\022\n\nrequest_id\030\001 \001(\t\0220\n\010new"
+    "Image\030\n \001(\0132\034.octaneapi.OnNewImageReques"
+    "tH\000B\t\n\007payload\"\255\001\n\035LoadRenderStateProjec"
+    "tRequest\022\023\n\013callback_id\030\001 \001(\005\022\035\n\025customP"
+    "rojectFileName\030\002 \001(\t\022\031\n\021customProjectTim"
+    "e\030\003 \001(\002\022\025\n\rcustomVersion\030\004 \001(\004\022\023\n\013custom"
+    "_data\030\005 \001(\014\022\021\n\tuser_data\030\006 \001(\004\"O\n\036LoadRe"
+    "nderStateProjectResponse\022-\n\017moduleNodeGr"
+    "aph\030\002 \001(\0132\024.octaneapi.ObjectRef\"\211\001\n\023Daem"
+    "onUpdateRequest\022\027\n\017callback_source\030\001 \001(\t"
+    "\022\023\n\013callback_id\030\002 \001(\005\0221\n\017daemonInfoArray"
+    "\030\003 \003(\0132\030.octaneapi.NetDaemonInfo\022\021\n\tuser"
+    "_data\030\004 \001(\004\"\202\001\n\023StatusUpdateRequest\022\027\n\017c"
+    "allback_source\030\001 \001(\t\022\023\n\013callback_id\030\002 \001("
+    "\005\022*\n\006status\030\003 \001(\0132\032.octaneapi.NetRenderS"
+    "tatus\022\021\n\tuser_data\030\004 \001(\004\"U\n\022TriggerFuncR"
     "equest\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013callb"
-    "ack_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\022\013\n\003row\030\004"
-    " \001(\005\022\016\n\006column\030\005 \001(\005\"\"\n\017ContentResponse\022"
-    "\017\n\007content\030\001 \001(\t\"\202\001\n\024ButtonClickedReques"
-    "t\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013callback_i"
-    "d\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\022)\n\013text_butto"
-    "n\030\004 \001(\0132\024.octaneapi.ObjectRef\"u\n\027Selecti"
-    "onChangedRequest\022\027\n\017callback_source\030\001 \001("
+    "ack_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\"V\n\023Evalu"
+    "ateFuncRequest\022\027\n\017callback_source\030\001 \001(\t\022"
+    "\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\""
+    "U\n\022CleanupFuncRequest\022\027\n\017callback_source"
+    "\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_data"
+    "\030\003 \001(\004\"U\n\022DestroyFuncRequest\022\027\n\017callback"
+    "_source\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tus"
+    "er_data\030\003 \001(\004\"\204\001\n\023ColorChangedRequest\022\027\n"
+    "\017callback_source\030\001 \001(\t\022\023\n\013callback_id\030\002 "
+    "\001(\005\022,\n\016apiColorSwatch\030\003 \001(\0132\024.octaneapi."
+    "ObjectRef\022\021\n\tuser_data\030\004 \001(\004\"p\n\021CreateFu"
+    "ncRequest\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013ca"
+    "llback_id\030\002 \001(\005\022-\n\017moduleNodeGraph\030\003 \001(\013"
+    "2\024.octaneapi.ObjectRef\"\'\n\022CreateFuncResp"
+    "onse\022\021\n\tuser_data\030\001 \001(\004\"l\n\017InitFuncReque"
+    "st\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013callback_"
+    "id\030\002 \001(\005\022+\n\rapiGridLayout\030\003 \001(\0132\024.octane"
+    "api.ObjectRef\"%\n\020InitFuncResponse\022\021\n\tuse"
+    "r_data\030\001 \001(\004\"\020\n\016IsReadyRequest\"\"\n\017IsRead"
+    "yResponse\022\017\n\007success\030\001 \001(\010\"Y\n\014StartReque"
+    "st\022\026\n\016callbackSource\030\001 \001(\t\022\031\n\021displaying"
+    "English\030\002 \001(\010\022\026\n\016secondLanguage\030\003 \001(\005\" \n"
+    "\rStartResponse\022\017\n\007success\030\001 \001(\010\"\r\n\013StopR"
+    "equest\"\037\n\014StopResponse\022\017\n\007success\030\001 \001(\010\""
+    "b\n\017TimeChangeEvent\022&\n\004type\030\001 \001(\0162\030.octan"
+    "eapi.TimeEventType\022\'\n\trootGraph\030\002 \001(\0132\024."
+    "octaneapi.ObjectRef\"\222\001\n ChangeManagerTim"
+    "eObserverRequest\022\027\n\017callback_source\030\001 \001("
     "\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001("
-    "\004\022\031\n\021last_row_selected\030\004 \001(\005\"\204\001\n\030TextEdi"
-    "torChangedRequest\022\027\n\017callback_source\030\001 \001"
-    "(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001"
-    "(\004\022\'\n\ttext_edit\030\004 \001(\0132\024.octaneapi.Object"
-    "Ref\"}\n\024OnWindowCloseRequest\022\027\n\017callback_"
-    "source\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuse"
-    "r_data\030\003 \001(\004\022$\n\006window\030\004 \001(\0132\024.octaneapi"
-    ".ObjectRef2\373\033\n\017CallbackHandler\022:\n\005Start\022"
-    "\027.octaneapi.StartRequest\032\030.octaneapi.Sta"
-    "rtResponse\0227\n\004Stop\022\026.octaneapi.StopReque"
-    "st\032\027.octaneapi.StopResponse\022A\n\017PerformBl"
-    "ocking\022\026.google.protobuf.Empty\032\026.octanea"
-    "pi.CallbackAck\022m\n\026LoadRenderStateProject"
-    "\022(.octaneapi.LoadRenderStateProjectReque"
-    "st\032).octaneapi.LoadRenderStateProjectRes"
-    "ponse\022H\n\016OnDaemonUpdate\022\036.octaneapi.Daem"
-    "onUpdateRequest\032\026.octaneapi.CallbackAck\022"
-    "H\n\016OnStatusUpdate\022\036.octaneapi.StatusUpda"
-    "teRequest\032\026.octaneapi.CallbackAck\022D\n\013Tri"
-    "ggerFunc\022\035.octaneapi.TriggerFuncRequest\032"
-    "\026.octaneapi.CallbackAck\022F\n\014EvaluateFunc\022"
-    "\036.octaneapi.EvaluateFuncRequest\032\026.octane"
-    "api.CallbackAck\022D\n\013CleanupFunc\022\035.octanea"
-    "pi.CleanupFuncRequest\032\026.octaneapi.Callba"
-    "ckAck\022D\n\013DestroyFunc\022\035.octaneapi.Destroy"
-    "FuncRequest\032\026.octaneapi.CallbackAck\022F\n\014C"
-    "olorChanged\022\036.octaneapi.ColorChangedRequ"
-    "est\032\026.octaneapi.CallbackAck\022I\n\nCreateFun"
-    "c\022\034.octaneapi.CreateFuncRequest\032\035.octane"
-    "api.CreateFuncResponse\022C\n\010InitFunc\022\032.oct"
-    "aneapi.InitFuncRequest\032\033.octaneapi.InitF"
-    "uncResponse\022X\n\025ChangeManagerObserver\022\'.o"
-    "ctaneapi.ChangeManagerObserverRequest\032\026."
-    "octaneapi.CallbackAck\022`\n\031ChangeManagerTi"
-    "meObserver\022+.octaneapi.ChangeManagerTime"
-    "ObserverRequest\032\026.octaneapi.CallbackAck\022"
-    "L\n\026ProjectManagerObserver\022\032.octaneapi.Ob"
-    "serverRequest\032\026.octaneapi.CallbackAck\022N\n"
-    "\030SelectionManagerObserver\022\032.octaneapi.Ob"
-    "serverRequest\032\026.octaneapi.CallbackAck\022@\n"
-    "\007IsReady\022\031.octaneapi.IsReadyRequest\032\032.oc"
-    "taneapi.IsReadyResponse\022I\n\006Notify\022\036.octa"
-    "neapi.NotificationRequest\032\037.octaneapi.No"
-    "tificationResponse\022V\n\024CommandModuleRunFu"
-    "nc\022&.octaneapi.CommandModuleRunFuncReque"
-    "st\032\026.octaneapi.CallbackAck\022N\n\020ObserverCa"
-    "llback\022\".octaneapi.ObserverCallbackReque"
-    "st\032\026.octaneapi.CallbackAck\022F\n\014DbViewLoad"
-    "ed\022\036.octaneapi.DbViewLoadedRequest\032\026.oct"
-    "aneapi.CallbackAck\022:\n\006Finish\022\030.octaneapi"
-    ".FinishRequest\032\026.octaneapi.CallbackAck\022H"
-    "\n\rOnTileBlended\022\037.octaneapi.BasicCallbac"
-    "kRequest\032\026.octaneapi.CallbackAck\022J\n\017OnNe"
-    "wStatistics\022\037.octaneapi.BasicCallbackReq"
-    "uest\032\026.octaneapi.CallbackAck\022B\n\nOnNewIma"
-    "ge\022\034.octaneapi.OnNewImageRequest\032\026.octan"
-    "eapi.CallbackAck\022D\n\013OnOcioError\022\035.octane"
-    "api.OnOcioErrorRequest\032\026.octaneapi.Callb"
-    "ackAck\022J\n\017OnRenderFailure\022\037.octaneapi.Ba"
-    "sicCallbackRequest\032\026.octaneapi.CallbackA"
-    "ck\022F\n\tNextChunk\022\033.octaneapi.NextChunkReq"
-    "uest\032\034.octaneapi.NextChunkResponse\022<\n\007Ch"
-    "ecked\022\031.octaneapi.CheckedRequest\032\026.octan"
-    "eapi.CallbackAck\022L\n\017ComboBoxChanged\022!.oc"
-    "taneapi.ComboBoxChangedRequest\032\026.octanea"
-    "pi.CallbackAck\022:\n\006ApiLog\022\030.octaneapi.Api"
-    "LogRequest\032\026.octaneapi.CallbackAck\022L\n\021On"
-    "MainWindowClose\022\037.octaneapi.BasicCallbac"
-    "kRequest\032\026.octaneapi.CallbackAck\022B\n\nMous"
-    "eEvent\022\034.octaneapi.MouseEventRequest\032\026.o"
-    "ctaneapi.CallbackAck\022H\n\rDbViewClosing\022\037."
-    "octaneapi.BasicCallbackRequest\032\026.octanea"
-    "pi.CallbackAck\022P\n\021NumericBoxChanged\022#.oc"
-    "taneapi.NumericBoxChangedRequest\032\026.octan"
-    "eapi.CallbackAck\022@\n\tCallback1\022\033.octaneap"
-    "i.Callback1Request\032\026.octaneapi.CallbackA"
-    "ck\022@\n\tCallback2\022\033.octaneapi.Callback2Req"
-    "uest\032\026.octaneapi.CallbackAck\022a\n\036ApiProje"
-    "ctManager_AssetMissing\022\036.octaneapi.Asset"
-    "MissingRequest\032\037.octaneapi.AssetMissingR"
-    "esponse\022=\n\006Update\022\030.octaneapi.UpdateRequ"
-    "est\032\031.octaneapi.UpdateResponse\022G\n\013AsyncU"
-    "pdate\022\035.octaneapi.AsyncUpdateRequest\032\031.o"
-    "ctaneapi.UpdateResponse\022O\n\014AssetMissing\022"
-    "\036.octaneapi.AssetMissingRequest\032\037.octane"
-    "api.AssetMissingResponse\022F\n\007NumRows\022\037.oc"
-    "taneapi.BasicCallbackRequest\032\032.octaneapi"
-    ".NumRowsResponse\022@\n\007Content\022\031.octaneapi."
-    "ContentRequest\032\032.octaneapi.ContentRespon"
-    "se\022H\n\rButtonClicked\022\037.octaneapi.ButtonCl"
-    "ickedRequest\032\026.octaneapi.CallbackAck\022N\n\020"
-    "SelectionChanged\022\".octaneapi.SelectionCh"
-    "angedRequest\032\026.octaneapi.CallbackAck\022P\n\021"
-    "TextEditorChanged\022#.octaneapi.TextEditor"
-    "ChangedRequest\032\026.octaneapi.CallbackAck\022H"
-    "\n\rOnWindowClose\022\037.octaneapi.OnWindowClos"
-    "eRequest\032\026.octaneapi.CallbackAck2f\n\025Stre"
-    "amCallbackService\022M\n\017callbackChannel\022\026.g"
-    "oogle.protobuf.Empty\032 .octaneapi.StreamC"
-    "allbackRequest0\001B\002H\002b\006proto3"
+    "\004\022-\n\teventData\030\004 \001(\0132\032.octaneapi.TimeCha"
+    "ngeEvent\"\364\003\n\013ChangeEvent\022)\n\004type\030\001 \001(\0162\033"
+    ".octaneapi.ChangeEvent.Type\022*\n\014changedOw"
+    "ner\030\002 \001(\0132\024.octaneapi.ObjectRef\022\031\n\021chang"
+    "edOwnerPinIx\030\003 \001(\r\022)\n\013changedItem\030\004 \001(\0132"
+    "\024.octaneapi.ObjectRef\022\024\n\014changedPinIx\030\005 "
+    "\001(\r\022\026\n\016changedIndices\030\006 \003(\r\"\231\002\n\004Type\022\016\n\n"
+    "ITEM_ADDED\020\000\022\017\n\013ITEM_DELETE\020\001\022\026\n\022CONNECT"
+    "ION_CHANGED\020\002\022\025\n\021DESTINATION_ADDED\020\003\022\020\n\014"
+    "PINS_CHANGED\020\004\022\026\n\022ITEM_VALUE_CHANGED\020\005\022\026"
+    "\n\022ITEM_INPUT_CHANGED\020\006\022\025\n\021ITEM_NAME_CHAN"
+    "GED\020\007\022\016\n\nITEM_MOVED\020\010\022\030\n\024LINKER_ORDER_CH"
+    "ANGED\020\t\022\"\n\036ITEM_UI_OPERATION_FLAG_CHANGE"
+    "D\020\n\022\032\n\026TIME_TRANSFORM_CHANGED\020\013\"\212\001\n\034Chan"
+    "geManagerObserverRequest\022\027\n\017callback_sou"
+    "rce\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_d"
+    "ata\030\003 \001(\004\022)\n\teventData\030\004 \001(\0132\026.octaneapi"
+    ".ChangeEvent\"R\n\017ObserverRequest\022\027\n\017callb"
+    "ack_source\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n"
+    "\tuser_data\030\003 \001(\004\"\240\001\n\023NotificationRequest"
+    "\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013callback_id"
+    "\030\002 \001(\005\022\027\n\017notification_id\030\003 \001(\t\022\017\n\007messa"
+    "ge\030\004 \001(\t\0221\n\006images\030\005 \001(\0132!.octaneapi.Api"
+    "ArrayApiRenderImage\"&\n\024NotificationRespo"
+    "nse\022\016\n\006status\030\001 \001(\t\"\036\n\013CallbackAck\022\017\n\007su"
+    "ccess\030\001 \001(\010\"W\n\024BasicCallbackRequest\022\027\n\017c"
+    "allback_source\030\001 \001(\t\022\023\n\013callback_id\030\002 \001("
+    "\005\022\021\n\tuser_data\030\003 \001(\004\"^\n\033CommandModuleRun"
+    "FuncRequest\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013"
+    "callback_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\"v\n\027"
+    "ObserverCallbackRequest\022\027\n\017callback_sour"
+    "ce\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_da"
+    "ta\030\003 \001(\004\022\014\n\004type\030\004 \001(\005\022\014\n\004path\030\005 \001(\t\"f\n\023"
+    "DbViewLoadedRequest\022\027\n\017callback_source\030\001"
+    " \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_data\030\003"
+    " \001(\004\022\016\n\006origin\030\004 \001(\005\"\257\001\n\rFinishRequest\022\027"
+    "\n\017callback_source\030\001 \001(\t\022\023\n\013callback_id\030\002"
+    " \001(\005\022\021\n\tuser_data\030\003 \001(\004\022\017\n\007success\030\004 \001(\010"
+    "\022\021\n\terror_msg\030\005 \001(\t\022\022\n\nscene_guid\030\006 \001(\t\022"
+    "\021\n\troot_guid\030\007 \001(\t\022\022\n\nscene_name\030\010 \001(\t\"\216"
+    "\001\n\021OnNewImageRequest\022\027\n\017callback_source\030"
+    "\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_data\030"
+    "\003 \001(\004\0228\n\rrender_images\030\004 \001(\0132!.octaneapi"
+    ".ApiArrayApiRenderImage\"z\n\022OnOcioErrorRe"
+    "quest\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013callba"
+    "ck_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\022\020\n\010messag"
+    "es\030\004 \003(\t\022\021\n\thas_error\030\005 \001(\010\"S\n\020NextChunk"
+    "Request\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013call"
+    "back_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\"T\n\021Next"
+    "ChunkResponse\022\027\n\017callback_source\030\001 \001(\t\022\022"
+    "\n\nchunk_size\030\002 \001(\004\022\022\n\ndata_chunk\030\003 \001(\014\"w"
+    "\n\016CheckedRequest\022\027\n\017callback_source\030\001 \001("
+    "\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001("
+    "\004\022$\n\006button\030\004 \001(\0132\024.octaneapi.ObjectRef\""
+    "\202\001\n\026ComboBoxChangedRequest\022\027\n\017callback_s"
+    "ource\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser"
+    "_data\030\003 \001(\004\022\'\n\tcombo_box\030\004 \001(\0132\024.octanea"
+    "pi.ObjectRef\"`\n\rApiLogRequest\022\027\n\017callbac"
+    "k_source\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\020\n\010l"
+    "og_type\030\003 \001(\005\022\017\n\007message\030\004 \001(\t\"\311\001\n\021Mouse"
+    "EventRequest\022\027\n\017callback_source\030\001 \001(\t\022\023\n"
+    "\013callback_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\022\022\n"
+    "\nevent_type\030\004 \001(\005\022\'\n\005event\030\005 \001(\0132\030.octan"
+    "eapi.ApiMouseEvent\0226\n\rwheel_details\030\006 \001("
+    "\0132\037.octaneapi.ApiMouseWheelDetails\"\206\001\n\030N"
+    "umericBoxChangedRequest\022\027\n\017callback_sour"
+    "ce\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_da"
+    "ta\030\003 \001(\004\022)\n\013numeric_box\030\004 \001(\0132\024.octaneap"
+    "i.ObjectRef\"\212\001\n\020Callback1Request\022\027\n\017call"
+    "back_source\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021"
+    "\n\tuser_data\030\003 \001(\004\022\017\n\007loading\030\004 \001(\010\022$\n\006co"
+    "nfig\030\005 \001(\0132\024.octaneapi.ObjectRef\"\221\001\n\020Cal"
+    "lback2Request\022\027\n\017callback_source\030\001 \001(\t\022\023"
+    "\n\013callback_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\022$"
+    "\n\006config\030\004 \001(\0132\024.octaneapi.ObjectRef\022\026\n\016"
+    "context_usable\030\005 \001(\010\"i\n\023AssetMissingRequ"
+    "est\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013callback"
+    "_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\022\021\n\tfile_nam"
+    "e\030\004 \001(\t\"2\n\024AssetMissingResponse\022\032\n\022resol"
+    "ved_file_path\030\001 \001(\t\"a\n\rUpdateRequest\022\027\n\017"
+    "callback_source\030\001 \001(\t\022\023\n\013callback_id\030\002 \001"
+    "(\005\022\021\n\tuser_data\030\003 \001(\004\022\017\n\007percent\030\004 \001(\002\"("
+    "\n\016UpdateResponse\022\026\n\016continueUpload\030\001 \001(\010"
+    "\"k\n\022AsyncUpdateRequest\022\027\n\017callback_sourc"
+    "e\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_dat"
+    "a\030\003 \001(\004\022\024\n\014change_level\030\004 \001(\004\"#\n\017NumRows"
+    "Response\022\020\n\010num_rows\030\001 \001(\005\"n\n\016ContentReq"
+    "uest\022\027\n\017callback_source\030\001 \001(\t\022\023\n\013callbac"
+    "k_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\022\013\n\003row\030\004 \001"
+    "(\005\022\016\n\006column\030\005 \001(\005\"\"\n\017ContentResponse\022\017\n"
+    "\007content\030\001 \001(\t\"\202\001\n\024ButtonClickedRequest\022"
+    "\027\n\017callback_source\030\001 \001(\t\022\023\n\013callback_id\030"
+    "\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\022)\n\013text_button\030"
+    "\004 \001(\0132\024.octaneapi.ObjectRef\"u\n\027Selection"
+    "ChangedRequest\022\027\n\017callback_source\030\001 \001(\t\022"
+    "\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004\022"
+    "\031\n\021last_row_selected\030\004 \001(\005\"\204\001\n\030TextEdito"
+    "rChangedRequest\022\027\n\017callback_source\030\001 \001(\t"
+    "\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_data\030\003 \001(\004"
+    "\022\'\n\ttext_edit\030\004 \001(\0132\024.octaneapi.ObjectRe"
+    "f\"}\n\024OnWindowCloseRequest\022\027\n\017callback_so"
+    "urce\030\001 \001(\t\022\023\n\013callback_id\030\002 \001(\005\022\021\n\tuser_"
+    "data\030\003 \001(\004\022$\n\006window\030\004 \001(\0132\024.octaneapi.O"
+    "bjectRef2\373\033\n\017CallbackHandler\022:\n\005Start\022\027."
+    "octaneapi.StartRequest\032\030.octaneapi.Start"
+    "Response\0227\n\004Stop\022\026.octaneapi.StopRequest"
+    "\032\027.octaneapi.StopResponse\022A\n\017PerformBloc"
+    "king\022\026.google.protobuf.Empty\032\026.octaneapi"
+    ".CallbackAck\022m\n\026LoadRenderStateProject\022("
+    ".octaneapi.LoadRenderStateProjectRequest"
+    "\032).octaneapi.LoadRenderStateProjectRespo"
+    "nse\022H\n\016OnDaemonUpdate\022\036.octaneapi.Daemon"
+    "UpdateRequest\032\026.octaneapi.CallbackAck\022H\n"
+    "\016OnStatusUpdate\022\036.octaneapi.StatusUpdate"
+    "Request\032\026.octaneapi.CallbackAck\022D\n\013Trigg"
+    "erFunc\022\035.octaneapi.TriggerFuncRequest\032\026."
+    "octaneapi.CallbackAck\022F\n\014EvaluateFunc\022\036."
+    "octaneapi.EvaluateFuncRequest\032\026.octaneap"
+    "i.CallbackAck\022D\n\013CleanupFunc\022\035.octaneapi"
+    ".CleanupFuncRequest\032\026.octaneapi.Callback"
+    "Ack\022D\n\013DestroyFunc\022\035.octaneapi.DestroyFu"
+    "ncRequest\032\026.octaneapi.CallbackAck\022F\n\014Col"
+    "orChanged\022\036.octaneapi.ColorChangedReques"
+    "t\032\026.octaneapi.CallbackAck\022I\n\nCreateFunc\022"
+    "\034.octaneapi.CreateFuncRequest\032\035.octaneap"
+    "i.CreateFuncResponse\022C\n\010InitFunc\022\032.octan"
+    "eapi.InitFuncRequest\032\033.octaneapi.InitFun"
+    "cResponse\022X\n\025ChangeManagerObserver\022\'.oct"
+    "aneapi.ChangeManagerObserverRequest\032\026.oc"
+    "taneapi.CallbackAck\022`\n\031ChangeManagerTime"
+    "Observer\022+.octaneapi.ChangeManagerTimeOb"
+    "serverRequest\032\026.octaneapi.CallbackAck\022L\n"
+    "\026ProjectManagerObserver\022\032.octaneapi.Obse"
+    "rverRequest\032\026.octaneapi.CallbackAck\022N\n\030S"
+    "electionManagerObserver\022\032.octaneapi.Obse"
+    "rverRequest\032\026.octaneapi.CallbackAck\022@\n\007I"
+    "sReady\022\031.octaneapi.IsReadyRequest\032\032.octa"
+    "neapi.IsReadyResponse\022I\n\006Notify\022\036.octane"
+    "api.NotificationRequest\032\037.octaneapi.Noti"
+    "ficationResponse\022V\n\024CommandModuleRunFunc"
+    "\022&.octaneapi.CommandModuleRunFuncRequest"
+    "\032\026.octaneapi.CallbackAck\022N\n\020ObserverCall"
+    "back\022\".octaneapi.ObserverCallbackRequest"
+    "\032\026.octaneapi.CallbackAck\022F\n\014DbViewLoaded"
+    "\022\036.octaneapi.DbViewLoadedRequest\032\026.octan"
+    "eapi.CallbackAck\022:\n\006Finish\022\030.octaneapi.F"
+    "inishRequest\032\026.octaneapi.CallbackAck\022H\n\r"
+    "OnTileBlended\022\037.octaneapi.BasicCallbackR"
+    "equest\032\026.octaneapi.CallbackAck\022J\n\017OnNewS"
+    "tatistics\022\037.octaneapi.BasicCallbackReque"
+    "st\032\026.octaneapi.CallbackAck\022B\n\nOnNewImage"
+    "\022\034.octaneapi.OnNewImageRequest\032\026.octanea"
+    "pi.CallbackAck\022D\n\013OnOcioError\022\035.octaneap"
+    "i.OnOcioErrorRequest\032\026.octaneapi.Callbac"
+    "kAck\022J\n\017OnRenderFailure\022\037.octaneapi.Basi"
+    "cCallbackRequest\032\026.octaneapi.CallbackAck"
+    "\022F\n\tNextChunk\022\033.octaneapi.NextChunkReque"
+    "st\032\034.octaneapi.NextChunkResponse\022<\n\007Chec"
+    "ked\022\031.octaneapi.CheckedRequest\032\026.octanea"
+    "pi.CallbackAck\022L\n\017ComboBoxChanged\022!.octa"
+    "neapi.ComboBoxChangedRequest\032\026.octaneapi"
+    ".CallbackAck\022:\n\006ApiLog\022\030.octaneapi.ApiLo"
+    "gRequest\032\026.octaneapi.CallbackAck\022L\n\021OnMa"
+    "inWindowClose\022\037.octaneapi.BasicCallbackR"
+    "equest\032\026.octaneapi.CallbackAck\022B\n\nMouseE"
+    "vent\022\034.octaneapi.MouseEventRequest\032\026.oct"
+    "aneapi.CallbackAck\022H\n\rDbViewClosing\022\037.oc"
+    "taneapi.BasicCallbackRequest\032\026.octaneapi"
+    ".CallbackAck\022P\n\021NumericBoxChanged\022#.octa"
+    "neapi.NumericBoxChangedRequest\032\026.octanea"
+    "pi.CallbackAck\022@\n\tCallback1\022\033.octaneapi."
+    "Callback1Request\032\026.octaneapi.CallbackAck"
+    "\022@\n\tCallback2\022\033.octaneapi.Callback2Reque"
+    "st\032\026.octaneapi.CallbackAck\022a\n\036ApiProject"
+    "Manager_AssetMissing\022\036.octaneapi.AssetMi"
+    "ssingRequest\032\037.octaneapi.AssetMissingRes"
+    "ponse\022=\n\006Update\022\030.octaneapi.UpdateReques"
+    "t\032\031.octaneapi.UpdateResponse\022G\n\013AsyncUpd"
+    "ate\022\035.octaneapi.AsyncUpdateRequest\032\031.oct"
+    "aneapi.UpdateResponse\022O\n\014AssetMissing\022\036."
+    "octaneapi.AssetMissingRequest\032\037.octaneap"
+    "i.AssetMissingResponse\022F\n\007NumRows\022\037.octa"
+    "neapi.BasicCallbackRequest\032\032.octaneapi.N"
+    "umRowsResponse\022@\n\007Content\022\031.octaneapi.Co"
+    "ntentRequest\032\032.octaneapi.ContentResponse"
+    "\022H\n\rButtonClicked\022\037.octaneapi.ButtonClic"
+    "kedRequest\032\026.octaneapi.CallbackAck\022N\n\020Se"
+    "lectionChanged\022\".octaneapi.SelectionChan"
+    "gedRequest\032\026.octaneapi.CallbackAck\022P\n\021Te"
+    "xtEditorChanged\022#.octaneapi.TextEditorCh"
+    "angedRequest\032\026.octaneapi.CallbackAck\022H\n\r"
+    "OnWindowClose\022\037.octaneapi.OnWindowCloseR"
+    "equest\032\026.octaneapi.CallbackAck2s\n\025Stream"
+    "CallbackService\022Z\n\017callbackChannel\022!.oct"
+    "aneapi.StreamCallbackResponse\032 .octaneap"
+    "i.StreamCallbackRequest(\0010\001B\002H\002b\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_callback_2eproto_deps[6] =
     {
@@ -2745,13 +2793,13 @@ static ::absl::once_flag descriptor_table_callback_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_callback_2eproto = {
     false,
     false,
-    9988,
+    9959,
     descriptor_table_protodef_callback_2eproto,
     "callback.proto",
     &descriptor_table_callback_2eproto_once,
     descriptor_table_callback_2eproto_deps,
     6,
-    56,
+    57,
     schemas,
     file_default_instances,
     TableStruct_callback_2eproto::offsets,
@@ -2791,6 +2839,179 @@ constexpr int ChangeEvent::Type_ARRAYSIZE;
         // (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
 // ===================================================================
 
+class StreamCallbackResponse::_Internal {
+ public:
+};
+
+StreamCallbackResponse::StreamCallbackResponse(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:octaneapi.StreamCallbackResponse)
+}
+inline PROTOBUF_NDEBUG_INLINE StreamCallbackResponse::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::octaneapi::StreamCallbackResponse& from_msg)
+      : request_id_(arena, from.request_id_),
+        stringvalue_(arena, from.stringvalue_),
+        _cached_size_{0} {}
+
+StreamCallbackResponse::StreamCallbackResponse(
+    ::google::protobuf::Arena* arena,
+    const StreamCallbackResponse& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  StreamCallbackResponse* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, success_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, success_),
+           offsetof(Impl_, intvalue_) -
+               offsetof(Impl_, success_) +
+               sizeof(Impl_::intvalue_));
+
+  // @@protoc_insertion_point(copy_constructor:octaneapi.StreamCallbackResponse)
+}
+inline PROTOBUF_NDEBUG_INLINE StreamCallbackResponse::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : request_id_(arena),
+        stringvalue_(arena),
+        _cached_size_{0} {}
+
+inline void StreamCallbackResponse::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, success_),
+           0,
+           offsetof(Impl_, intvalue_) -
+               offsetof(Impl_, success_) +
+               sizeof(Impl_::intvalue_));
+}
+StreamCallbackResponse::~StreamCallbackResponse() {
+  // @@protoc_insertion_point(destructor:octaneapi.StreamCallbackResponse)
+  _internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  SharedDtor();
+}
+inline void StreamCallbackResponse::SharedDtor() {
+  ABSL_DCHECK(GetArena() == nullptr);
+  _impl_.request_id_.Destroy();
+  _impl_.stringvalue_.Destroy();
+  _impl_.~Impl_();
+}
+
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::MessageLite::ClassDataFull
+    StreamCallbackResponse::_class_data_ = {
+        ::google::protobuf::Message::ClassData{
+            &_StreamCallbackResponse_default_instance_._instance,
+            &_table_.header,
+            nullptr,  // OnDemandRegisterArenaDtor
+            nullptr,  // IsInitialized
+            &StreamCallbackResponse::MergeImpl,
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+            ::google::protobuf::Message::GetDeleteImpl<StreamCallbackResponse>(),
+            ::google::protobuf::Message::GetNewImpl<StreamCallbackResponse>(),
+            ::google::protobuf::Message::ClearImpl, ::google::protobuf::Message::ByteSizeLongImpl,
+                ::google::protobuf::Message::_InternalSerializeImpl,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+            PROTOBUF_FIELD_OFFSET(StreamCallbackResponse, _impl_._cached_size_),
+            false,
+        },
+        &StreamCallbackResponse::kDescriptorMethods,
+        &descriptor_table_callback_2eproto,
+        nullptr,  // tracker
+};
+const ::google::protobuf::MessageLite::ClassData* StreamCallbackResponse::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<3, 5, 0, 62, 2> StreamCallbackResponse::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    5, 56,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967264,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    5,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::octaneapi::StreamCallbackResponse>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // string request_id = 1;
+    {::_pbi::TcParser::FastUS1,
+     {10, 63, 0, PROTOBUF_FIELD_OFFSET(StreamCallbackResponse, _impl_.request_id_)}},
+    // bool success = 2;
+    {::_pbi::TcParser::FastV8S1,
+     {16, 63, 0, PROTOBUF_FIELD_OFFSET(StreamCallbackResponse, _impl_.success_)}},
+    // string stringValue = 3;
+    {::_pbi::TcParser::FastUS1,
+     {26, 63, 0, PROTOBUF_FIELD_OFFSET(StreamCallbackResponse, _impl_.stringvalue_)}},
+    // int32 intValue = 4;
+    {::_pbi::TcParser::FastV32S1,
+     {32, 63, 0, PROTOBUF_FIELD_OFFSET(StreamCallbackResponse, _impl_.intvalue_)}},
+    // bool boolValue = 5;
+    {::_pbi::TcParser::FastV8S1,
+     {40, 63, 0, PROTOBUF_FIELD_OFFSET(StreamCallbackResponse, _impl_.boolvalue_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // string request_id = 1;
+    {PROTOBUF_FIELD_OFFSET(StreamCallbackResponse, _impl_.request_id_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // bool success = 2;
+    {PROTOBUF_FIELD_OFFSET(StreamCallbackResponse, _impl_.success_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kBool)},
+    // string stringValue = 3;
+    {PROTOBUF_FIELD_OFFSET(StreamCallbackResponse, _impl_.stringvalue_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // int32 intValue = 4;
+    {PROTOBUF_FIELD_OFFSET(StreamCallbackResponse, _impl_.intvalue_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+    // bool boolValue = 5;
+    {PROTOBUF_FIELD_OFFSET(StreamCallbackResponse, _impl_.boolvalue_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kBool)},
+  }},
+  // no aux_entries
+  {{
+    "\40\12\0\13\0\0\0\0"
+    "octaneapi.StreamCallbackResponse"
+    "request_id"
+    "stringValue"
+  }},
+};
+
+void StreamCallbackResponse::InternalSwap(StreamCallbackResponse* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  GetReflection()->Swap(this, other);}
+
+::google::protobuf::Metadata StreamCallbackResponse::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
 class StreamCallbackRequest::_Internal {
  public:
   static constexpr ::int32_t kOneofCaseOffset =
@@ -2810,45 +3031,6 @@ void StreamCallbackRequest::set_allocated_newimage(::octaneapi::OnNewImageReques
   }
   // @@protoc_insertion_point(field_set_allocated:octaneapi.StreamCallbackRequest.newImage)
 }
-void StreamCallbackRequest::set_allocated_renderfailure(::octaneapi::BasicCallbackRequest* renderfailure) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  clear_payload();
-  if (renderfailure) {
-    ::google::protobuf::Arena* submessage_arena = renderfailure->GetArena();
-    if (message_arena != submessage_arena) {
-      renderfailure = ::google::protobuf::internal::GetOwnedMessage(message_arena, renderfailure, submessage_arena);
-    }
-    set_has_renderfailure();
-    _impl_.payload_.renderfailure_ = renderfailure;
-  }
-  // @@protoc_insertion_point(field_set_allocated:octaneapi.StreamCallbackRequest.renderFailure)
-}
-void StreamCallbackRequest::set_allocated_newstatistics(::octaneapi::BasicCallbackRequest* newstatistics) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  clear_payload();
-  if (newstatistics) {
-    ::google::protobuf::Arena* submessage_arena = newstatistics->GetArena();
-    if (message_arena != submessage_arena) {
-      newstatistics = ::google::protobuf::internal::GetOwnedMessage(message_arena, newstatistics, submessage_arena);
-    }
-    set_has_newstatistics();
-    _impl_.payload_.newstatistics_ = newstatistics;
-  }
-  // @@protoc_insertion_point(field_set_allocated:octaneapi.StreamCallbackRequest.newStatistics)
-}
-void StreamCallbackRequest::set_allocated_projectmanagerchanged(::octaneapi::BasicCallbackRequest* projectmanagerchanged) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  clear_payload();
-  if (projectmanagerchanged) {
-    ::google::protobuf::Arena* submessage_arena = projectmanagerchanged->GetArena();
-    if (message_arena != submessage_arena) {
-      projectmanagerchanged = ::google::protobuf::internal::GetOwnedMessage(message_arena, projectmanagerchanged, submessage_arena);
-    }
-    set_has_projectmanagerchanged();
-    _impl_.payload_.projectmanagerchanged_ = projectmanagerchanged;
-  }
-  // @@protoc_insertion_point(field_set_allocated:octaneapi.StreamCallbackRequest.projectManagerChanged)
-}
 StreamCallbackRequest::StreamCallbackRequest(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -2861,7 +3043,8 @@ StreamCallbackRequest::StreamCallbackRequest(::google::protobuf::Arena* arena)
 inline PROTOBUF_NDEBUG_INLINE StreamCallbackRequest::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
     const Impl_& from, const ::octaneapi::StreamCallbackRequest& from_msg)
-      : payload_{},
+      : request_id_(arena, from.request_id_),
+        payload_{},
         _cached_size_{0},
         _oneof_case_{from._oneof_case_[0]} {}
 
@@ -2884,15 +3067,6 @@ StreamCallbackRequest::StreamCallbackRequest(
       case kNewImage:
         _impl_.payload_.newimage_ = ::google::protobuf::Message::CopyConstruct<::octaneapi::OnNewImageRequest>(arena, *from._impl_.payload_.newimage_);
         break;
-      case kRenderFailure:
-        _impl_.payload_.renderfailure_ = ::google::protobuf::Message::CopyConstruct<::octaneapi::BasicCallbackRequest>(arena, *from._impl_.payload_.renderfailure_);
-        break;
-      case kNewStatistics:
-        _impl_.payload_.newstatistics_ = ::google::protobuf::Message::CopyConstruct<::octaneapi::BasicCallbackRequest>(arena, *from._impl_.payload_.newstatistics_);
-        break;
-      case kProjectManagerChanged:
-        _impl_.payload_.projectmanagerchanged_ = ::google::protobuf::Message::CopyConstruct<::octaneapi::BasicCallbackRequest>(arena, *from._impl_.payload_.projectmanagerchanged_);
-        break;
   }
 
   // @@protoc_insertion_point(copy_constructor:octaneapi.StreamCallbackRequest)
@@ -2900,7 +3074,8 @@ StreamCallbackRequest::StreamCallbackRequest(
 inline PROTOBUF_NDEBUG_INLINE StreamCallbackRequest::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
-      : payload_{},
+      : request_id_(arena),
+        payload_{},
         _cached_size_{0},
         _oneof_case_{} {}
 
@@ -2914,6 +3089,7 @@ StreamCallbackRequest::~StreamCallbackRequest() {
 }
 inline void StreamCallbackRequest::SharedDtor() {
   ABSL_DCHECK(GetArena() == nullptr);
+  _impl_.request_id_.Destroy();
   if (has_payload()) {
     clear_payload();
   }
@@ -2929,30 +3105,6 @@ void StreamCallbackRequest::clear_payload() {
         delete _impl_.payload_.newimage_;
       } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
         ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.newimage_);
-      }
-      break;
-    }
-    case kRenderFailure: {
-      if (GetArena() == nullptr) {
-        delete _impl_.payload_.renderfailure_;
-      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.renderfailure_);
-      }
-      break;
-    }
-    case kNewStatistics: {
-      if (GetArena() == nullptr) {
-        delete _impl_.payload_.newstatistics_;
-      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.newstatistics_);
-      }
-      break;
-    }
-    case kProjectManagerChanged: {
-      if (GetArena() == nullptr) {
-        delete _impl_.payload_.projectmanagerchanged_;
-      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.projectmanagerchanged_);
       }
       break;
     }
@@ -2993,16 +3145,16 @@ const ::google::protobuf::MessageLite::ClassData* StreamCallbackRequest::GetClas
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 4, 4, 0, 2> StreamCallbackRequest::_table_ = {
+const ::_pbi::TcParseTable<0, 2, 1, 50, 2> StreamCallbackRequest::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    13, 0,  // max_field_number, fast_idx_mask
+    10, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294959615,  // skipmap
+    4294966782,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    4,  // num_field_entries
-    4,  // num_aux_entries
+    2,  // num_field_entries
+    1,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -3011,28 +3163,24 @@ const ::_pbi::TcParseTable<0, 4, 4, 0, 2> StreamCallbackRequest::_table_ = {
     ::_pbi::TcParser::GetTable<::octaneapi::StreamCallbackRequest>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    {::_pbi::TcParser::MiniParse, {}},
+    // string request_id = 1;
+    {::_pbi::TcParser::FastUS1,
+     {10, 63, 0, PROTOBUF_FIELD_OFFSET(StreamCallbackRequest, _impl_.request_id_)}},
   }}, {{
     65535, 65535
   }}, {{
+    // string request_id = 1;
+    {PROTOBUF_FIELD_OFFSET(StreamCallbackRequest, _impl_.request_id_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
     // .octaneapi.OnNewImageRequest newImage = 10;
     {PROTOBUF_FIELD_OFFSET(StreamCallbackRequest, _impl_.payload_.newimage_), _Internal::kOneofCaseOffset + 0, 0,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
-    // .octaneapi.BasicCallbackRequest renderFailure = 11;
-    {PROTOBUF_FIELD_OFFSET(StreamCallbackRequest, _impl_.payload_.renderfailure_), _Internal::kOneofCaseOffset + 0, 1,
-    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
-    // .octaneapi.BasicCallbackRequest newStatistics = 12;
-    {PROTOBUF_FIELD_OFFSET(StreamCallbackRequest, _impl_.payload_.newstatistics_), _Internal::kOneofCaseOffset + 0, 2,
-    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
-    // .octaneapi.BasicCallbackRequest projectManagerChanged = 13;
-    {PROTOBUF_FIELD_OFFSET(StreamCallbackRequest, _impl_.payload_.projectmanagerchanged_), _Internal::kOneofCaseOffset + 0, 3,
-    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::octaneapi::OnNewImageRequest>()},
-    {::_pbi::TcParser::GetTable<::octaneapi::BasicCallbackRequest>()},
-    {::_pbi::TcParser::GetTable<::octaneapi::BasicCallbackRequest>()},
-    {::_pbi::TcParser::GetTable<::octaneapi::BasicCallbackRequest>()},
   }}, {{
+    "\37\12\0\0\0\0\0\0"
+    "octaneapi.StreamCallbackRequest"
+    "request_id"
   }},
 };
 

@@ -422,76 +422,62 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apirendercloudmanager_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\033apirendercloudmanager.proto\022\toctaneapi"
-    "\032\014common.proto\032\033google/protobuf/empty.pr"
-    "oto\032\025apinodesystem_1.proto\032\025apinodesyste"
-    "m_2.proto\032\025apinodesystem_3.proto\032\025apinod"
-    "esystem_4.proto\032\025apinodesystem_5.proto\032\025"
-    "apinodesystem_6.proto\032\025apinodesystem_7.p"
-    "roto\032\025apinodesystem_8.proto\"\325\007\n\025ApiRende"
-    "rCloudManager\032z\n&ApiRenderCloudManager_S"
-    "ubscriptionInfo\022\022\n\nsubscribed\030\001 \001(\010\022\036\n\026a"
-    "vailableCreditBalance\030\002 \001(\002\022\034\n\024available"
-    "RndrBalance\030\003 \001(\002\032\035\n\033userSubscriptionInf"
-    "oRequest\032\221\001\n\034userSubscriptionInfoRespons"
-    "e\022\016\n\006result\030\001 \001(\010\022a\n\020subscriptionInfo\030\002 "
-    "\001(\0132G.octaneapi.ApiRenderCloudManager.Ap"
-    "iRenderCloudManager_SubscriptionInfo\032\263\001\n"
-    "\033uploadCurrentProjectRequest\022\"\n\010rootGuid"
-    "\030\001 \001(\0132\020.octaneapi.GuidT\022,\n\010onUpdate\030\002 \001"
-    "(\0132\032.octaneapi.UpdateCallbackT\022,\n\010onFini"
-    "sh\030\003 \001(\0132\032.octaneapi.FinishCallbackT\022\024\n\014"
-    "callbackData\030\004 \001(\004\032G\n\034uploadCurrentProje"
-    "ctResponse\022\022\n\ncallbackId\030\001 \001(\r\022\023\n\013callba"
-    "ckId2\030\002 \001(\r\032\337\001\n\032uploadRootNodeGraphReque"
-    "st\022+\n\rrootNodeGraph\030\001 \001(\0132\024.octaneapi.Ob"
-    "jectRef\022\"\n\010rootGuid\030\002 \001(\0132\020.octaneapi.Gu"
-    "idT\022,\n\010onUpdate\030\003 \001(\0132\032.octaneapi.Update"
-    "CallbackT\022,\n\010onFinish\030\004 \001(\0132\032.octaneapi."
-    "FinishCallbackT\022\024\n\014callbackData\030\005 \001(\004\032F\n"
-    "\033uploadRootNodeGraphResponse\022\022\n\ncallback"
-    "Id\030\001 \001(\r\022\023\n\013callbackId2\030\002 \001(\r\032;\n\024newRend"
-    "erTaskRequest\022#\n\tsceneGuid\030\001 \001(\0132\020.octan"
-    "eapi.GuidT\032\'\n\025newRenderTaskResponse\022\016\n\006r"
-    "esult\030\001 \001(\0102\335\004\n\034ApiRenderCloudManagerSer"
-    "vice\022\223\001\n\024userSubscriptionInfo\022<.octaneap"
-    "i.ApiRenderCloudManager.userSubscription"
-    "InfoRequest\032=.octaneapi.ApiRenderCloudMa"
-    "nager.userSubscriptionInfoResponse\022\223\001\n\024u"
-    "ploadCurrentProject\022<.octaneapi.ApiRende"
-    "rCloudManager.uploadCurrentProjectReques"
-    "t\032=.octaneapi.ApiRenderCloudManager.uplo"
-    "adCurrentProjectResponse\022\220\001\n\023uploadRootN"
-    "odeGraph\022;.octaneapi.ApiRenderCloudManag"
-    "er.uploadRootNodeGraphRequest\032<.octaneap"
-    "i.ApiRenderCloudManager.uploadRootNodeGr"
-    "aphResponse\022~\n\rnewRenderTask\0225.octaneapi"
-    ".ApiRenderCloudManager.newRenderTaskRequ"
-    "est\0326.octaneapi.ApiRenderCloudManager.ne"
-    "wRenderTaskResponseB\002H\002b\006proto3"
+    "\032\014common.proto\"\325\007\n\025ApiRenderCloudManager"
+    "\032z\n&ApiRenderCloudManager_SubscriptionIn"
+    "fo\022\022\n\nsubscribed\030\001 \001(\010\022\036\n\026availableCredi"
+    "tBalance\030\002 \001(\002\022\034\n\024availableRndrBalance\030\003"
+    " \001(\002\032\035\n\033userSubscriptionInfoRequest\032\221\001\n\034"
+    "userSubscriptionInfoResponse\022\016\n\006result\030\001"
+    " \001(\010\022a\n\020subscriptionInfo\030\002 \001(\0132G.octanea"
+    "pi.ApiRenderCloudManager.ApiRenderCloudM"
+    "anager_SubscriptionInfo\032\263\001\n\033uploadCurren"
+    "tProjectRequest\022\"\n\010rootGuid\030\001 \001(\0132\020.octa"
+    "neapi.GuidT\022,\n\010onUpdate\030\002 \001(\0132\032.octaneap"
+    "i.UpdateCallbackT\022,\n\010onFinish\030\003 \001(\0132\032.oc"
+    "taneapi.FinishCallbackT\022\024\n\014callbackData\030"
+    "\004 \001(\004\032G\n\034uploadCurrentProjectResponse\022\022\n"
+    "\ncallbackId\030\001 \001(\r\022\023\n\013callbackId2\030\002 \001(\r\032\337"
+    "\001\n\032uploadRootNodeGraphRequest\022+\n\rrootNod"
+    "eGraph\030\001 \001(\0132\024.octaneapi.ObjectRef\022\"\n\010ro"
+    "otGuid\030\002 \001(\0132\020.octaneapi.GuidT\022,\n\010onUpda"
+    "te\030\003 \001(\0132\032.octaneapi.UpdateCallbackT\022,\n\010"
+    "onFinish\030\004 \001(\0132\032.octaneapi.FinishCallbac"
+    "kT\022\024\n\014callbackData\030\005 \001(\004\032F\n\033uploadRootNo"
+    "deGraphResponse\022\022\n\ncallbackId\030\001 \001(\r\022\023\n\013c"
+    "allbackId2\030\002 \001(\r\032;\n\024newRenderTaskRequest"
+    "\022#\n\tsceneGuid\030\001 \001(\0132\020.octaneapi.GuidT\032\'\n"
+    "\025newRenderTaskResponse\022\016\n\006result\030\001 \001(\0102\335"
+    "\004\n\034ApiRenderCloudManagerService\022\223\001\n\024user"
+    "SubscriptionInfo\022<.octaneapi.ApiRenderCl"
+    "oudManager.userSubscriptionInfoRequest\032="
+    ".octaneapi.ApiRenderCloudManager.userSub"
+    "scriptionInfoResponse\022\223\001\n\024uploadCurrentP"
+    "roject\022<.octaneapi.ApiRenderCloudManager"
+    ".uploadCurrentProjectRequest\032=.octaneapi"
+    ".ApiRenderCloudManager.uploadCurrentProj"
+    "ectResponse\022\220\001\n\023uploadRootNodeGraph\022;.oc"
+    "taneapi.ApiRenderCloudManager.uploadRoot"
+    "NodeGraphRequest\032<.octaneapi.ApiRenderCl"
+    "oudManager.uploadRootNodeGraphResponse\022~"
+    "\n\rnewRenderTask\0225.octaneapi.ApiRenderClo"
+    "udManager.newRenderTaskRequest\0326.octanea"
+    "pi.ApiRenderCloudManager.newRenderTaskRe"
+    "sponseB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apirendercloudmanager_2eproto_deps[10] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apirendercloudmanager_2eproto_deps[1] =
     {
-        &::descriptor_table_apinodesystem_5f1_2eproto,
-        &::descriptor_table_apinodesystem_5f2_2eproto,
-        &::descriptor_table_apinodesystem_5f3_2eproto,
-        &::descriptor_table_apinodesystem_5f4_2eproto,
-        &::descriptor_table_apinodesystem_5f5_2eproto,
-        &::descriptor_table_apinodesystem_5f6_2eproto,
-        &::descriptor_table_apinodesystem_5f7_2eproto,
-        &::descriptor_table_apinodesystem_5f8_2eproto,
         &::descriptor_table_common_2eproto,
-        &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
 static ::absl::once_flag descriptor_table_apirendercloudmanager_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apirendercloudmanager_2eproto = {
     false,
     false,
-    1871,
+    1658,
     descriptor_table_protodef_apirendercloudmanager_2eproto,
     "apirendercloudmanager.proto",
     &descriptor_table_apirendercloudmanager_2eproto_once,
     descriptor_table_apirendercloudmanager_2eproto_deps,
-    10,
+    1,
     10,
     schemas,
     file_default_instances,

@@ -424,40 +424,38 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apicombobox_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\021apicombobox.proto\022\toctaneapi\032\014common.p"
-    "roto\032\033google/protobuf/empty.proto\032\025apigu"
-    "icomponent.proto\"+\n\017ApiComboBoxItem\022\n\n\002i"
-    "d\030\001 \001(\005\022\014\n\004text\030\002 \001(\t\"\323\004\n\013ApiComboBox\032\231\001"
-    "\n\rcreateRequest\022)\n\005items\030\001 \001(\0132\032.octanea"
-    "pi.ComboItemArrayT\022\021\n\tnbOfItems\030\002 \001(\r\0225\n"
-    "\010callback\030\003 \001(\0132#.octaneapi.ComboBoxChan"
-    "gedCallbackT\022\023\n\013privateData\030\004 \001(\004\032J\n\016cre"
-    "ateResponse\022$\n\006result\030\001 \001(\0132\024.octaneapi."
-    "ObjectRef\022\022\n\ncallbackId\030\002 \001(\r\0329\n\016destroy"
-    "Request\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.O"
-    "bjectRef\032e\n\024setSelectedIdRequest\022\'\n\tobje"
-    "ctPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022\021\n\tnew"
-    "ItemId\030\002 \001(\005\022\021\n\tsendEvent\030\003 \001(\010\032<\n\021selec"
-    "tedIdRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octane"
-    "api.ObjectRef\032$\n\022selectedIdResponse\022\016\n\006r"
-    "esult\030\001 \001(\005\0326\n\013textRequest\022\'\n\tobjectPtr\030"
-    "\001 \001(\0132\024.octaneapi.ObjectRef\032\036\n\014textRespo"
-    "nse\022\016\n\006result\030\001 \001(\t2\277\003\n\022ApiComboBoxServi"
-    "ce\022U\n\006create\022$.octaneapi.ApiComboBox.cre"
-    "ateRequest\032%.octaneapi.ApiComboBox.creat"
-    "eResponse\022H\n\007destroy\022%.octaneapi.ApiComb"
-    "oBox.destroyRequest\032\026.google.protobuf.Em"
-    "pty\022T\n\rsetSelectedId\022+.octaneapi.ApiComb"
-    "oBox.setSelectedIdRequest\032\026.google.proto"
-    "buf.Empty\022a\n\nselectedId\022(.octaneapi.ApiC"
-    "omboBox.selectedIdRequest\032).octaneapi.Ap"
-    "iComboBox.selectedIdResponse\022O\n\004text\022\".o"
-    "ctaneapi.ApiComboBox.textRequest\032#.octan"
-    "eapi.ApiComboBox.textResponseB\002H\002b\006proto"
-    "3"
+    "roto\032\033google/protobuf/empty.proto\"+\n\017Api"
+    "ComboBoxItem\022\n\n\002id\030\001 \001(\005\022\014\n\004text\030\002 \001(\t\"\323"
+    "\004\n\013ApiComboBox\032\231\001\n\rcreateRequest\022)\n\005item"
+    "s\030\001 \001(\0132\032.octaneapi.ComboItemArrayT\022\021\n\tn"
+    "bOfItems\030\002 \001(\r\0225\n\010callback\030\003 \001(\0132#.octan"
+    "eapi.ComboBoxChangedCallbackT\022\023\n\013private"
+    "Data\030\004 \001(\004\032J\n\016createResponse\022$\n\006result\030\001"
+    " \001(\0132\024.octaneapi.ObjectRef\022\022\n\ncallbackId"
+    "\030\002 \001(\r\0329\n\016destroyRequest\022\'\n\tobjectPtr\030\001 "
+    "\001(\0132\024.octaneapi.ObjectRef\032e\n\024setSelected"
+    "IdRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi"
+    ".ObjectRef\022\021\n\tnewItemId\030\002 \001(\005\022\021\n\tsendEve"
+    "nt\030\003 \001(\010\032<\n\021selectedIdRequest\022\'\n\tobjectP"
+    "tr\030\001 \001(\0132\024.octaneapi.ObjectRef\032$\n\022select"
+    "edIdResponse\022\016\n\006result\030\001 \001(\005\0326\n\013textRequ"
+    "est\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Objec"
+    "tRef\032\036\n\014textResponse\022\016\n\006result\030\001 \001(\t2\277\003\n"
+    "\022ApiComboBoxService\022U\n\006create\022$.octaneap"
+    "i.ApiComboBox.createRequest\032%.octaneapi."
+    "ApiComboBox.createResponse\022H\n\007destroy\022%."
+    "octaneapi.ApiComboBox.destroyRequest\032\026.g"
+    "oogle.protobuf.Empty\022T\n\rsetSelectedId\022+."
+    "octaneapi.ApiComboBox.setSelectedIdReque"
+    "st\032\026.google.protobuf.Empty\022a\n\nselectedId"
+    "\022(.octaneapi.ApiComboBox.selectedIdReque"
+    "st\032).octaneapi.ApiComboBox.selectedIdRes"
+    "ponse\022O\n\004text\022\".octaneapi.ApiComboBox.te"
+    "xtRequest\032#.octaneapi.ApiComboBox.textRe"
+    "sponseB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apicombobox_2eproto_deps[3] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apicombobox_2eproto_deps[2] =
     {
-        &::descriptor_table_apiguicomponent_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -465,12 +463,12 @@ static ::absl::once_flag descriptor_table_apicombobox_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apicombobox_2eproto = {
     false,
     false,
-    1201,
+    1178,
     descriptor_table_protodef_apicombobox_2eproto,
     "apicombobox.proto",
     &descriptor_table_apicombobox_2eproto_once,
     descriptor_table_apicombobox_2eproto_deps,
-    3,
+    2,
     10,
     schemas,
     file_default_instances,

@@ -172,21 +172,20 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apisceneoutliner_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\026apisceneoutliner.proto\022\toctaneapi\032\014com"
-    "mon.proto\032\033google/protobuf/empty.proto\032\025"
-    "apiguicomponent.proto\"\226\001\n\020ApiSceneOutlin"
-    "er\032\017\n\rcreateRequest\0326\n\016createResponse\022$\n"
-    "\006result\030\001 \001(\0132\024.octaneapi.ObjectRef\0329\n\016d"
-    "estroyRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octan"
-    "eapi.ObjectRef2\311\001\n\027ApiSceneOutlinerServi"
-    "ce\022_\n\006create\022).octaneapi.ApiSceneOutline"
-    "r.createRequest\032*.octaneapi.ApiSceneOutl"
-    "iner.createResponse\022M\n\007destroy\022*.octanea"
-    "pi.ApiSceneOutliner.destroyRequest\032\026.goo"
-    "gle.protobuf.EmptyB\002H\002b\006proto3"
+    "mon.proto\032\033google/protobuf/empty.proto\"\226"
+    "\001\n\020ApiSceneOutliner\032\017\n\rcreateRequest\0326\n\016"
+    "createResponse\022$\n\006result\030\001 \001(\0132\024.octanea"
+    "pi.ObjectRef\0329\n\016destroyRequest\022\'\n\tobject"
+    "Ptr\030\001 \001(\0132\024.octaneapi.ObjectRef2\311\001\n\027ApiS"
+    "ceneOutlinerService\022_\n\006create\022).octaneap"
+    "i.ApiSceneOutliner.createRequest\032*.octan"
+    "eapi.ApiSceneOutliner.createResponse\022M\n\007"
+    "destroy\022*.octaneapi.ApiSceneOutliner.des"
+    "troyRequest\032\026.google.protobuf.EmptyB\002H\002b"
+    "\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apisceneoutliner_2eproto_deps[3] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apisceneoutliner_2eproto_deps[2] =
     {
-        &::descriptor_table_apiguicomponent_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -194,12 +193,12 @@ static ::absl::once_flag descriptor_table_apisceneoutliner_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apisceneoutliner_2eproto = {
     false,
     false,
-    470,
+    447,
     descriptor_table_protodef_apisceneoutliner_2eproto,
     "apisceneoutliner.proto",
     &descriptor_table_apisceneoutliner_2eproto_once,
     descriptor_table_apisceneoutliner_2eproto_deps,
-    3,
+    2,
     4,
     schemas,
     file_default_instances,

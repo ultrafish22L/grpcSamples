@@ -674,83 +674,67 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apimainwindow_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\023apimainwindow.proto\022\toctaneapi\032\014common"
-    ".proto\032\033google/protobuf/empty.proto\032\025api"
-    "nodesystem_1.proto\032\025apinodesystem_2.prot"
-    "o\032\025apinodesystem_3.proto\032\025apinodesystem_"
-    "4.proto\032\025apinodesystem_5.proto\032\025apinodes"
-    "ystem_6.proto\032\025apinodesystem_7.proto\032\025ap"
-    "inodesystem_8.proto\032\031apiprojectworkspace"
-    ".proto\032\025apiguicomponent.proto\"\371\010\n\rApiMai"
-    "nWindow\032t\n\034fetchOrCreateInstanceRequest\022"
-    "7\n\010callback\030\001 \001(\0132%.octaneapi.OnMainWind"
-    "owCloseCallbackT\022\033\n\023callbackPrivateData\030"
-    "\002 \001(\004\032Y\n\035fetchOrCreateInstanceResponse\022$"
-    "\n\006result\030\001 \001(\0132\024.octaneapi.ObjectRef\022\022\n\n"
-    "callbackId\030\002 \001(\r\032-\n\033runDispatchLoopUntil"
-    "Request\022\016\n\006millis\030\001 \001(\005\032\034\n\rsetDpiRequest"
-    "\022\013\n\003dpi\030\001 \001(\r\032u\n\032addContentComponentRequ"
-    "est\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Objec"
-    "tRef\022.\n\020contentComponent\030\002 \001(\0132\024.octanea"
-    "pi.ObjectRef\032B\n\027projectWorkspaceRequest\022"
-    "\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef"
-    "\032@\n\030projectWorkspaceResponse\022$\n\006result\030\001"
-    " \001(\0132\024.octaneapi.ObjectRef\032C\n\030projectWor"
-    "kspace1Request\022\'\n\tobjectPtr\030\001 \001(\0132\024.octa"
-    "neapi.ObjectRef\032A\n\031projectWorkspace1Resp"
+    ".proto\032\033google/protobuf/empty.proto\"\371\010\n\r"
+    "ApiMainWindow\032t\n\034fetchOrCreateInstanceRe"
+    "quest\0227\n\010callback\030\001 \001(\0132%.octaneapi.OnMa"
+    "inWindowCloseCallbackT\022\033\n\023callbackPrivat"
+    "eData\030\002 \001(\004\032Y\n\035fetchOrCreateInstanceResp"
     "onse\022$\n\006result\030\001 \001(\0132\024.octaneapi.ObjectR"
-    "ef\032I\n\013showRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.o"
-    "ctaneapi.ObjectRef\022\021\n\tmaximized\030\002 \001(\010\0326\n"
-    "\013hideRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octane"
-    "api.ObjectRef\0329\n\016visibleRequest\022\'\n\tobjec"
-    "tPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\032!\n\017visi"
-    "bleResponse\022\016\n\006result\030\001 \001(\010\032f\n\026setDefaul"
-    "tGraphRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octan"
-    "eapi.ObjectRef\022#\n\005graph\030\002 \001(\0132\024.octaneap"
-    "i.ObjectRef\032>\n\023defaultGraphRequest\022\'\n\tob"
-    "jectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\032<\n\024d"
-    "efaultGraphResponse\022$\n\006result\030\001 \001(\0132\024.oc"
-    "taneapi.ObjectRef2\333\010\n\024ApiMainWindowServi"
-    "ce\022\206\001\n\025fetchOrCreateInstance\0225.octaneapi"
-    ".ApiMainWindow.fetchOrCreateInstanceRequ"
-    "est\0326.octaneapi.ApiMainWindow.fetchOrCre"
-    "ateInstanceResponse\022d\n\024runDispatchLoopUn"
-    "til\0224.octaneapi.ApiMainWindow.runDispatc"
-    "hLoopUntilRequest\032\026.google.protobuf.Empt"
-    "y\022H\n\006setDpi\022&.octaneapi.ApiMainWindow.se"
-    "tDpiRequest\032\026.google.protobuf.Empty\022b\n\023a"
-    "ddContentComponent\0223.octaneapi.ApiMainWi"
-    "ndow.addContentComponentRequest\032\026.google"
-    ".protobuf.Empty\022w\n\020projectWorkspace\0220.oc"
-    "taneapi.ApiMainWindow.projectWorkspaceRe"
-    "quest\0321.octaneapi.ApiMainWindow.projectW"
-    "orkspaceResponse\022z\n\021projectWorkspace1\0221."
-    "octaneapi.ApiMainWindow.projectWorkspace"
-    "1Request\0322.octaneapi.ApiMainWindow.proje"
-    "ctWorkspace1Response\022D\n\004show\022$.octaneapi"
-    ".ApiMainWindow.showRequest\032\026.google.prot"
-    "obuf.Empty\022D\n\004hide\022$.octaneapi.ApiMainWi"
-    "ndow.hideRequest\032\026.google.protobuf.Empty"
-    "\022\\\n\007visible\022\'.octaneapi.ApiMainWindow.vi"
-    "sibleRequest\032(.octaneapi.ApiMainWindow.v"
-    "isibleResponse\022Z\n\017setDefaultGraph\022/.octa"
-    "neapi.ApiMainWindow.setDefaultGraphReque"
-    "st\032\026.google.protobuf.Empty\022k\n\014defaultGra"
-    "ph\022,.octaneapi.ApiMainWindow.defaultGrap"
-    "hRequest\032-.octaneapi.ApiMainWindow.defau"
-    "ltGraphResponseB\002H\002b\006proto3"
+    "ef\022\022\n\ncallbackId\030\002 \001(\r\032-\n\033runDispatchLoo"
+    "pUntilRequest\022\016\n\006millis\030\001 \001(\005\032\034\n\rsetDpiR"
+    "equest\022\013\n\003dpi\030\001 \001(\r\032u\n\032addContentCompone"
+    "ntRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi"
+    ".ObjectRef\022.\n\020contentComponent\030\002 \001(\0132\024.o"
+    "ctaneapi.ObjectRef\032B\n\027projectWorkspaceRe"
+    "quest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Obj"
+    "ectRef\032@\n\030projectWorkspaceResponse\022$\n\006re"
+    "sult\030\001 \001(\0132\024.octaneapi.ObjectRef\032C\n\030proj"
+    "ectWorkspace1Request\022\'\n\tobjectPtr\030\001 \001(\0132"
+    "\024.octaneapi.ObjectRef\032A\n\031projectWorkspac"
+    "e1Response\022$\n\006result\030\001 \001(\0132\024.octaneapi.O"
+    "bjectRef\032I\n\013showRequest\022\'\n\tobjectPtr\030\001 \001"
+    "(\0132\024.octaneapi.ObjectRef\022\021\n\tmaximized\030\002 "
+    "\001(\010\0326\n\013hideRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024."
+    "octaneapi.ObjectRef\0329\n\016visibleRequest\022\'\n"
+    "\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\032!"
+    "\n\017visibleResponse\022\016\n\006result\030\001 \001(\010\032f\n\026set"
+    "DefaultGraphRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024"
+    ".octaneapi.ObjectRef\022#\n\005graph\030\002 \001(\0132\024.oc"
+    "taneapi.ObjectRef\032>\n\023defaultGraphRequest"
+    "\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRe"
+    "f\032<\n\024defaultGraphResponse\022$\n\006result\030\001 \001("
+    "\0132\024.octaneapi.ObjectRef2\333\010\n\024ApiMainWindo"
+    "wService\022\206\001\n\025fetchOrCreateInstance\0225.oct"
+    "aneapi.ApiMainWindow.fetchOrCreateInstan"
+    "ceRequest\0326.octaneapi.ApiMainWindow.fetc"
+    "hOrCreateInstanceResponse\022d\n\024runDispatch"
+    "LoopUntil\0224.octaneapi.ApiMainWindow.runD"
+    "ispatchLoopUntilRequest\032\026.google.protobu"
+    "f.Empty\022H\n\006setDpi\022&.octaneapi.ApiMainWin"
+    "dow.setDpiRequest\032\026.google.protobuf.Empt"
+    "y\022b\n\023addContentComponent\0223.octaneapi.Api"
+    "MainWindow.addContentComponentRequest\032\026."
+    "google.protobuf.Empty\022w\n\020projectWorkspac"
+    "e\0220.octaneapi.ApiMainWindow.projectWorks"
+    "paceRequest\0321.octaneapi.ApiMainWindow.pr"
+    "ojectWorkspaceResponse\022z\n\021projectWorkspa"
+    "ce1\0221.octaneapi.ApiMainWindow.projectWor"
+    "kspace1Request\0322.octaneapi.ApiMainWindow"
+    ".projectWorkspace1Response\022D\n\004show\022$.oct"
+    "aneapi.ApiMainWindow.showRequest\032\026.googl"
+    "e.protobuf.Empty\022D\n\004hide\022$.octaneapi.Api"
+    "MainWindow.hideRequest\032\026.google.protobuf"
+    ".Empty\022\\\n\007visible\022\'.octaneapi.ApiMainWin"
+    "dow.visibleRequest\032(.octaneapi.ApiMainWi"
+    "ndow.visibleResponse\022Z\n\017setDefaultGraph\022"
+    "/.octaneapi.ApiMainWindow.setDefaultGrap"
+    "hRequest\032\026.google.protobuf.Empty\022k\n\014defa"
+    "ultGraph\022,.octaneapi.ApiMainWindow.defau"
+    "ltGraphRequest\032-.octaneapi.ApiMainWindow"
+    ".defaultGraphResponseB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apimainwindow_2eproto_deps[12] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apimainwindow_2eproto_deps[2] =
     {
-        &::descriptor_table_apiguicomponent_2eproto,
-        &::descriptor_table_apinodesystem_5f1_2eproto,
-        &::descriptor_table_apinodesystem_5f2_2eproto,
-        &::descriptor_table_apinodesystem_5f3_2eproto,
-        &::descriptor_table_apinodesystem_5f4_2eproto,
-        &::descriptor_table_apinodesystem_5f5_2eproto,
-        &::descriptor_table_apinodesystem_5f6_2eproto,
-        &::descriptor_table_apinodesystem_5f7_2eproto,
-        &::descriptor_table_apinodesystem_5f8_2eproto,
-        &::descriptor_table_apiprojectworkspace_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -758,12 +742,12 @@ static ::absl::once_flag descriptor_table_apimainwindow_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apimainwindow_2eproto = {
     false,
     false,
-    2587,
+    2353,
     descriptor_table_protodef_apimainwindow_2eproto,
     "apimainwindow.proto",
     &descriptor_table_apimainwindow_2eproto_once,
     descriptor_table_apimainwindow_2eproto_deps,
-    12,
+    2,
     17,
     schemas,
     file_default_instances,

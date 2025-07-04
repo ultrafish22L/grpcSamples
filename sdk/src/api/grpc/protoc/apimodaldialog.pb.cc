@@ -594,63 +594,61 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apimodaldialog_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\024apimodaldialog.proto\022\toctaneapi\032\014commo"
-    "n.proto\032\033google/protobuf/empty.proto\032\025ap"
-    "iguicomponent.proto\"\270\010\n\016ApiModalDialog\032$"
-    "\n\rcreateRequest\022\023\n\013dialogTitle\030\001 \001(\t\0326\n\016"
-    "createResponse\022$\n\006result\030\001 \001(\0132\024.octanea"
-    "pi.ObjectRef\0329\n\016destroyRequest\022\'\n\tobject"
-    "Ptr\030\001 \001(\0132\024.octaneapi.ObjectRef\032u\n\032addCo"
-    "ntentComponentRequest\022\'\n\tobjectPtr\030\001 \001(\013"
-    "2\024.octaneapi.ObjectRef\022.\n\020contentCompone"
-    "nt\030\002 \001(\0132\024.octaneapi.ObjectRef\0326\n\013showRe"
-    "quest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Obj"
-    "ectRef\032\036\n\014showResponse\022\016\n\006result\030\001 \001(\005\032I"
-    "\n\014closeRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octa"
-    "neapi.ObjectRef\022\020\n\010retValue\030\002 \001(\005\032H\n\034sho"
-    "wInfoMessageDialogRequest\022\023\n\013dialogTitle"
-    "\030\001 \001(\t\022\023\n\013infoMessage\030\002 \001(\t\032J\n\035showError"
-    "MessageDialogRequest\022\023\n\013dialogTitle\030\001 \001("
-    "\t\022\024\n\014errorMessage\030\002 \001(\t\032q\n\031showOkCancelD"
-    "ialogRequest\022\023\n\013dialogTitle\030\001 \001(\t\022\017\n\007mes"
-    "sage\030\002 \001(\t\022\024\n\014okButtonText\030\003 \001(\t\022\030\n\020canc"
-    "elButtonText\030\004 \001(\t\032,\n\032showOkCancelDialog"
-    "Response\022\016\n\006result\030\001 \001(\010\032\213\001\n\034showYesNoCa"
-    "ncelDialogRequest\022\023\n\013dialogTitle\030\001 \001(\t\022\017"
-    "\n\007message\030\002 \001(\t\022\025\n\ryesButtonText\030\003 \001(\t\022\024"
-    "\n\014noButtonText\030\004 \001(\t\022\030\n\020cancelButtonText"
-    "\030\005 \001(\t\032W\n\035showYesNoCancelDialogResponse\022"
-    "6\n\006result\030\001 \001(\0162&.octaneapi.ApiModalDial"
-    "og.DialogResult\"U\n\014DialogResult\022\025\n\021DIALO"
-    "G_RESULT_YES\020\000\022\024\n\020DIALOG_RESULT_NO\020\001\022\030\n\024"
-    "DIALOG_RESULT_CANCEL\020\0022\246\007\n\025ApiModalDialo"
-    "gService\022[\n\006create\022\'.octaneapi.ApiModalD"
-    "ialog.createRequest\032(.octaneapi.ApiModal"
-    "Dialog.createResponse\022K\n\007destroy\022(.octan"
-    "eapi.ApiModalDialog.destroyRequest\032\026.goo"
-    "gle.protobuf.Empty\022c\n\023addContentComponen"
-    "t\0224.octaneapi.ApiModalDialog.addContentC"
-    "omponentRequest\032\026.google.protobuf.Empty\022"
-    "U\n\004show\022%.octaneapi.ApiModalDialog.showR"
-    "equest\032&.octaneapi.ApiModalDialog.showRe"
-    "sponse\022G\n\005close\022&.octaneapi.ApiModalDial"
-    "og.closeRequest\032\026.google.protobuf.Empty\022"
-    "g\n\025showInfoMessageDialog\0226.octaneapi.Api"
-    "ModalDialog.showInfoMessageDialogRequest"
-    "\032\026.google.protobuf.Empty\022i\n\026showErrorMes"
-    "sageDialog\0227.octaneapi.ApiModalDialog.sh"
-    "owErrorMessageDialogRequest\032\026.google.pro"
-    "tobuf.Empty\022\177\n\022showOkCancelDialog\0223.octa"
-    "neapi.ApiModalDialog.showOkCancelDialogR"
-    "equest\0324.octaneapi.ApiModalDialog.showOk"
-    "CancelDialogResponse\022\210\001\n\025showYesNoCancel"
-    "Dialog\0226.octaneapi.ApiModalDialog.showYe"
-    "sNoCancelDialogRequest\0327.octaneapi.ApiMo"
-    "dalDialog.showYesNoCancelDialogResponseB"
-    "\002H\002b\006proto3"
+    "n.proto\032\033google/protobuf/empty.proto\"\270\010\n"
+    "\016ApiModalDialog\032$\n\rcreateRequest\022\023\n\013dial"
+    "ogTitle\030\001 \001(\t\0326\n\016createResponse\022$\n\006resul"
+    "t\030\001 \001(\0132\024.octaneapi.ObjectRef\0329\n\016destroy"
+    "Request\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.O"
+    "bjectRef\032u\n\032addContentComponentRequest\022\'"
+    "\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022"
+    ".\n\020contentComponent\030\002 \001(\0132\024.octaneapi.Ob"
+    "jectRef\0326\n\013showRequest\022\'\n\tobjectPtr\030\001 \001("
+    "\0132\024.octaneapi.ObjectRef\032\036\n\014showResponse\022"
+    "\016\n\006result\030\001 \001(\005\032I\n\014closeRequest\022\'\n\tobjec"
+    "tPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022\020\n\010retV"
+    "alue\030\002 \001(\005\032H\n\034showInfoMessageDialogReque"
+    "st\022\023\n\013dialogTitle\030\001 \001(\t\022\023\n\013infoMessage\030\002"
+    " \001(\t\032J\n\035showErrorMessageDialogRequest\022\023\n"
+    "\013dialogTitle\030\001 \001(\t\022\024\n\014errorMessage\030\002 \001(\t"
+    "\032q\n\031showOkCancelDialogRequest\022\023\n\013dialogT"
+    "itle\030\001 \001(\t\022\017\n\007message\030\002 \001(\t\022\024\n\014okButtonT"
+    "ext\030\003 \001(\t\022\030\n\020cancelButtonText\030\004 \001(\t\032,\n\032s"
+    "howOkCancelDialogResponse\022\016\n\006result\030\001 \001("
+    "\010\032\213\001\n\034showYesNoCancelDialogRequest\022\023\n\013di"
+    "alogTitle\030\001 \001(\t\022\017\n\007message\030\002 \001(\t\022\025\n\ryesB"
+    "uttonText\030\003 \001(\t\022\024\n\014noButtonText\030\004 \001(\t\022\030\n"
+    "\020cancelButtonText\030\005 \001(\t\032W\n\035showYesNoCanc"
+    "elDialogResponse\0226\n\006result\030\001 \001(\0162&.octan"
+    "eapi.ApiModalDialog.DialogResult\"U\n\014Dial"
+    "ogResult\022\025\n\021DIALOG_RESULT_YES\020\000\022\024\n\020DIALO"
+    "G_RESULT_NO\020\001\022\030\n\024DIALOG_RESULT_CANCEL\020\0022"
+    "\246\007\n\025ApiModalDialogService\022[\n\006create\022\'.oc"
+    "taneapi.ApiModalDialog.createRequest\032(.o"
+    "ctaneapi.ApiModalDialog.createResponse\022K"
+    "\n\007destroy\022(.octaneapi.ApiModalDialog.des"
+    "troyRequest\032\026.google.protobuf.Empty\022c\n\023a"
+    "ddContentComponent\0224.octaneapi.ApiModalD"
+    "ialog.addContentComponentRequest\032\026.googl"
+    "e.protobuf.Empty\022U\n\004show\022%.octaneapi.Api"
+    "ModalDialog.showRequest\032&.octaneapi.ApiM"
+    "odalDialog.showResponse\022G\n\005close\022&.octan"
+    "eapi.ApiModalDialog.closeRequest\032\026.googl"
+    "e.protobuf.Empty\022g\n\025showInfoMessageDialo"
+    "g\0226.octaneapi.ApiModalDialog.showInfoMes"
+    "sageDialogRequest\032\026.google.protobuf.Empt"
+    "y\022i\n\026showErrorMessageDialog\0227.octaneapi."
+    "ApiModalDialog.showErrorMessageDialogReq"
+    "uest\032\026.google.protobuf.Empty\022\177\n\022showOkCa"
+    "ncelDialog\0223.octaneapi.ApiModalDialog.sh"
+    "owOkCancelDialogRequest\0324.octaneapi.ApiM"
+    "odalDialog.showOkCancelDialogResponse\022\210\001"
+    "\n\025showYesNoCancelDialog\0226.octaneapi.ApiM"
+    "odalDialog.showYesNoCancelDialogRequest\032"
+    "7.octaneapi.ApiModalDialog.showYesNoCanc"
+    "elDialogResponseB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apimodaldialog_2eproto_deps[3] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apimodaldialog_2eproto_deps[2] =
     {
-        &::descriptor_table_apiguicomponent_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -658,12 +656,12 @@ static ::absl::once_flag descriptor_table_apimodaldialog_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apimodaldialog_2eproto = {
     false,
     false,
-    2131,
+    2108,
     descriptor_table_protodef_apimodaldialog_2eproto,
     "apimodaldialog.proto",
     &descriptor_table_apimodaldialog_2eproto_once,
     descriptor_table_apimodaldialog_2eproto_deps,
-    3,
+    2,
     14,
     schemas,
     file_default_instances,

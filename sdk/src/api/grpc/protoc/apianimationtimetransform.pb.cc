@@ -464,47 +464,45 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apianimationtimetransform_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\037apianimationtimetransform.proto\022\toctan"
-    "eapi\032\014common.proto\032\033google/protobuf/empt"
-    "y.proto\032\021octaneenums.proto\032\020octanetime.p"
-    "roto\"\232\001\n\031ApiAnimationTimeTransform\0326\n\013ty"
-    "peRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi"
-    ".ObjectRef\032E\n\014typeResponse\0225\n\006result\030\001 \001"
-    "(\0162%.octaneapi.AnimationTimeTransformTyp"
-    "e\"\314\003\n\026ApiLinearTimeTransform\0327\n\014delayReq"
-    "uest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Obje"
-    "ctRef\032\037\n\rdelayResponse\022\016\n\006result\030\001 \001(\002\0329"
-    "\n\016speedUpRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.oc"
-    "taneapi.ObjectRef\032!\n\017speedUpResponse\022\016\n\006"
-    "result\030\001 \001(\002\032G\n\034customIntervalEnabledReq"
-    "uest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Obje"
-    "ctRef\032/\n\035customIntervalEnabledResponse\022\016"
-    "\n\006result\030\001 \001(\010\032@\n\025customIntervalRequest\022"
-    "\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef"
-    "\032>\n\026customIntervalResponse\022$\n\006result\030\001 \001"
-    "(\0132\024.octaneapi.TimeSpanT2\217\001\n ApiAnimatio"
-    "nTimeTransformService\022k\n\004type\0220.octaneap"
-    "i.ApiAnimationTimeTransform.typeRequest\032"
-    "1.octaneapi.ApiAnimationTimeTransform.ty"
-    "peResponse2\232\004\n\035ApiLinearTimeTransformSer"
-    "vice\022h\n\005delay\022..octaneapi.ApiLinearTimeT"
-    "ransform.delayRequest\032/.octaneapi.ApiLin"
-    "earTimeTransform.delayResponse\022n\n\007speedU"
-    "p\0220.octaneapi.ApiLinearTimeTransform.spe"
-    "edUpRequest\0321.octaneapi.ApiLinearTimeTra"
-    "nsform.speedUpResponse\022\230\001\n\025customInterva"
-    "lEnabled\022>.octaneapi.ApiLinearTimeTransf"
-    "orm.customIntervalEnabledRequest\032\?.octan"
-    "eapi.ApiLinearTimeTransform.customInterv"
-    "alEnabledResponse\022\203\001\n\016customInterval\0227.o"
-    "ctaneapi.ApiLinearTimeTransform.customIn"
-    "tervalRequest\0328.octaneapi.ApiLinearTimeT"
-    "ransform.customIntervalResponseB\002H\002b\006pro"
-    "to3"
+    "eapi\032\014common.proto\032\021octaneenums.proto\032\020o"
+    "ctanetime.proto\"\232\001\n\031ApiAnimationTimeTran"
+    "sform\0326\n\013typeRequest\022\'\n\tobjectPtr\030\001 \001(\0132"
+    "\024.octaneapi.ObjectRef\032E\n\014typeResponse\0225\n"
+    "\006result\030\001 \001(\0162%.octaneapi.AnimationTimeT"
+    "ransformType\"\314\003\n\026ApiLinearTimeTransform\032"
+    "7\n\014delayRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.oct"
+    "aneapi.ObjectRef\032\037\n\rdelayResponse\022\016\n\006res"
+    "ult\030\001 \001(\002\0329\n\016speedUpRequest\022\'\n\tobjectPtr"
+    "\030\001 \001(\0132\024.octaneapi.ObjectRef\032!\n\017speedUpR"
+    "esponse\022\016\n\006result\030\001 \001(\002\032G\n\034customInterva"
+    "lEnabledRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.oct"
+    "aneapi.ObjectRef\032/\n\035customIntervalEnable"
+    "dResponse\022\016\n\006result\030\001 \001(\010\032@\n\025customInter"
+    "valRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneap"
+    "i.ObjectRef\032>\n\026customIntervalResponse\022$\n"
+    "\006result\030\001 \001(\0132\024.octaneapi.TimeSpanT2\217\001\n "
+    "ApiAnimationTimeTransformService\022k\n\004type"
+    "\0220.octaneapi.ApiAnimationTimeTransform.t"
+    "ypeRequest\0321.octaneapi.ApiAnimationTimeT"
+    "ransform.typeResponse2\232\004\n\035ApiLinearTimeT"
+    "ransformService\022h\n\005delay\022..octaneapi.Api"
+    "LinearTimeTransform.delayRequest\032/.octan"
+    "eapi.ApiLinearTimeTransform.delayRespons"
+    "e\022n\n\007speedUp\0220.octaneapi.ApiLinearTimeTr"
+    "ansform.speedUpRequest\0321.octaneapi.ApiLi"
+    "nearTimeTransform.speedUpResponse\022\230\001\n\025cu"
+    "stomIntervalEnabled\022>.octaneapi.ApiLinea"
+    "rTimeTransform.customIntervalEnabledRequ"
+    "est\032\?.octaneapi.ApiLinearTimeTransform.c"
+    "ustomIntervalEnabledResponse\022\203\001\n\016customI"
+    "nterval\0227.octaneapi.ApiLinearTimeTransfo"
+    "rm.customIntervalRequest\0328.octaneapi.Api"
+    "LinearTimeTransform.customIntervalRespon"
+    "seB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apianimationtimetransform_2eproto_deps[4] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apianimationtimetransform_2eproto_deps[3] =
     {
         &::descriptor_table_common_2eproto,
-        &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
         &::descriptor_table_octaneenums_2eproto,
         &::descriptor_table_octanetime_2eproto,
 };
@@ -512,12 +510,12 @@ static ::absl::once_flag descriptor_table_apianimationtimetransform_2eproto_once
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apianimationtimetransform_2eproto = {
     false,
     false,
-    1443,
+    1414,
     descriptor_table_protodef_apianimationtimetransform_2eproto,
     "apianimationtimetransform.proto",
     &descriptor_table_apianimationtimetransform_2eproto_once,
     descriptor_table_apianimationtimetransform_2eproto_deps,
-    4,
+    3,
     12,
     schemas,
     file_default_instances,

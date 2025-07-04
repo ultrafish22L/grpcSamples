@@ -302,29 +302,27 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apilabel_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\016apilabel.proto\022\toctaneapi\032\014common.prot"
-    "o\032\033google/protobuf/empty.proto\032\025apiguico"
-    "mponent.proto\"\323\002\n\010ApiLabel\032\035\n\rcreateRequ"
-    "est\022\014\n\004text\030\001 \001(\t\0326\n\016createResponse\022$\n\006r"
-    "esult\030\001 \001(\0132\024.octaneapi.ObjectRef\0329\n\016des"
-    "troyRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octanea"
-    "pi.ObjectRef\0326\n\013textRequest\022\'\n\tobjectPtr"
-    "\030\001 \001(\0132\024.octaneapi.ObjectRef\032\036\n\014textResp"
-    "onse\022\016\n\006result\030\001 \001(\t\032]\n\016setTextRequest\022\'"
-    "\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022"
-    "\017\n\007newText\030\002 \001(\t\022\021\n\tsendEvent\030\003 \001(\0102\273\002\n\017"
-    "ApiLabelService\022O\n\006create\022!.octaneapi.Ap"
-    "iLabel.createRequest\032\".octaneapi.ApiLabe"
-    "l.createResponse\022E\n\007destroy\022\".octaneapi."
-    "ApiLabel.destroyRequest\032\026.google.protobu"
-    "f.Empty\022I\n\004text\022\037.octaneapi.ApiLabel.tex"
-    "tRequest\032 .octaneapi.ApiLabel.textRespon"
-    "se\022E\n\007setText\022\".octaneapi.ApiLabel.setTe"
-    "xtRequest\032\026.google.protobuf.EmptyB\002H\002b\006p"
-    "roto3"
+    "o\032\033google/protobuf/empty.proto\"\323\002\n\010ApiLa"
+    "bel\032\035\n\rcreateRequest\022\014\n\004text\030\001 \001(\t\0326\n\016cr"
+    "eateResponse\022$\n\006result\030\001 \001(\0132\024.octaneapi"
+    ".ObjectRef\0329\n\016destroyRequest\022\'\n\tobjectPt"
+    "r\030\001 \001(\0132\024.octaneapi.ObjectRef\0326\n\013textReq"
+    "uest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Obje"
+    "ctRef\032\036\n\014textResponse\022\016\n\006result\030\001 \001(\t\032]\n"
+    "\016setTextRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.oct"
+    "aneapi.ObjectRef\022\017\n\007newText\030\002 \001(\t\022\021\n\tsen"
+    "dEvent\030\003 \001(\0102\273\002\n\017ApiLabelService\022O\n\006crea"
+    "te\022!.octaneapi.ApiLabel.createRequest\032\"."
+    "octaneapi.ApiLabel.createResponse\022E\n\007des"
+    "troy\022\".octaneapi.ApiLabel.destroyRequest"
+    "\032\026.google.protobuf.Empty\022I\n\004text\022\037.octan"
+    "eapi.ApiLabel.textRequest\032 .octaneapi.Ap"
+    "iLabel.textResponse\022E\n\007setText\022\".octanea"
+    "pi.ApiLabel.setTextRequest\032\026.google.prot"
+    "obuf.EmptyB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apilabel_2eproto_deps[3] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apilabel_2eproto_deps[2] =
     {
-        &::descriptor_table_apiguicomponent_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -332,12 +330,12 @@ static ::absl::once_flag descriptor_table_apilabel_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apilabel_2eproto = {
     false,
     false,
-    765,
+    742,
     descriptor_table_protodef_apilabel_2eproto,
     "apilabel.proto",
     &descriptor_table_apilabel_2eproto_once,
     descriptor_table_apilabel_2eproto_deps,
-    3,
+    2,
     7,
     schemas,
     file_default_instances,

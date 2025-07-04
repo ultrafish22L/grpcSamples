@@ -100,33 +100,30 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_octanereferenceexport_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\033octanereferenceexport.proto\022\toctaneapi"
-    "\032\014common.proto\032\033google/protobuf/empty.pr"
-    "oto\032\020octanetime.proto\"\277\002\n\036ReferencePacka"
-    "geExportSettings\022\035\n\025mergeScatterInstance"
-    "s\030\001 \001(\010\022!\n\031includeInstancePercentage\030\002 \001"
-    "(\002\022#\n\033ignoreSmallObjectPercentage\030\003 \001(\002\022"
-    "\027\n\017exportAnimation\030\004 \001(\010\022\032\n\022animationFra"
-    "merate\030\005 \001(\002\022%\n\035enableCustomAnimationTim"
-    "espan\030\006 \001(\010\0225\n\027customAnimationTimespan\030\007"
-    " \001(\0132\024.octaneapi.TimeSpanT\022#\n\033exportNest"
-    "edReferenceGraphs\030\010 \001(\010B\002H\002b\006proto3"
+    "\032\020octanetime.proto\"\277\002\n\036ReferencePackageE"
+    "xportSettings\022\035\n\025mergeScatterInstances\030\001"
+    " \001(\010\022!\n\031includeInstancePercentage\030\002 \001(\002\022"
+    "#\n\033ignoreSmallObjectPercentage\030\003 \001(\002\022\027\n\017"
+    "exportAnimation\030\004 \001(\010\022\032\n\022animationFramer"
+    "ate\030\005 \001(\002\022%\n\035enableCustomAnimationTimesp"
+    "an\030\006 \001(\010\0225\n\027customAnimationTimespan\030\007 \001("
+    "\0132\024.octaneapi.TimeSpanT\022#\n\033exportNestedR"
+    "eferenceGraphs\030\010 \001(\010B\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_octanereferenceexport_2eproto_deps[3] =
+static const ::_pbi::DescriptorTable* const descriptor_table_octanereferenceexport_2eproto_deps[1] =
     {
-        &::descriptor_table_common_2eproto,
-        &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
         &::descriptor_table_octanetime_2eproto,
 };
 static ::absl::once_flag descriptor_table_octanereferenceexport_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_octanereferenceexport_2eproto = {
     false,
     false,
-    435,
+    392,
     descriptor_table_protodef_octanereferenceexport_2eproto,
     "octanereferenceexport.proto",
     &descriptor_table_octanereferenceexport_2eproto_once,
     descriptor_table_octanereferenceexport_2eproto_deps,
-    3,
+    1,
     1,
     schemas,
     file_default_instances,

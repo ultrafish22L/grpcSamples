@@ -301,35 +301,33 @@ const char descriptor_table_protodef_apicollapsiblepanelstack_2eproto[] ABSL_ATT
     protodesc_cold) = {
     "\n\036apicollapsiblepanelstack.proto\022\toctane"
     "api\032\014common.proto\032\033google/protobuf/empty"
-    ".proto\032\025apiguicomponent.proto\"\264\003\n\030ApiCol"
-    "lapsiblePanelStack\032\017\n\rcreateRequest\0326\n\016c"
-    "reateResponse\022$\n\006result\030\001 \001(\0132\024.octaneap"
-    "i.ObjectRef\0329\n\016destroyRequest\022\'\n\tobjectP"
-    "tr\030\001 \001(\0132\024.octaneapi.ObjectRef\032\202\001\n\017addPa"
-    "nelRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneap"
-    "i.ObjectRef\022\017\n\007caption\030\002 \001(\t\022\'\n\tcomponen"
-    "t\030\003 \001(\0132\024.octaneapi.ObjectRef\022\014\n\004open\030\004 "
-    "\001(\010\032V\n\016setOpenRequest\022\'\n\tobjectPtr\030\001 \001(\013"
-    "2\024.octaneapi.ObjectRef\022\r\n\005index\030\002 \001(\005\022\014\n"
-    "\004open\030\003 \001(\010\0327\n\014clearRequest\022\'\n\tobjectPtr"
-    "\030\001 \001(\0132\024.octaneapi.ObjectRef2\354\003\n\037ApiColl"
-    "apsiblePanelStackService\022o\n\006create\0221.oct"
-    "aneapi.ApiCollapsiblePanelStack.createRe"
-    "quest\0322.octaneapi.ApiCollapsiblePanelSta"
-    "ck.createResponse\022U\n\007destroy\0222.octaneapi"
-    ".ApiCollapsiblePanelStack.destroyRequest"
-    "\032\026.google.protobuf.Empty\022W\n\010addPanel\0223.o"
-    "ctaneapi.ApiCollapsiblePanelStack.addPan"
-    "elRequest\032\026.google.protobuf.Empty\022U\n\007set"
-    "Open\0222.octaneapi.ApiCollapsiblePanelStac"
-    "k.setOpenRequest\032\026.google.protobuf.Empty"
-    "\022Q\n\005clear\0220.octaneapi.ApiCollapsiblePane"
-    "lStack.clearRequest\032\026.google.protobuf.Em"
-    "ptyB\002H\002b\006proto3"
+    ".proto\"\264\003\n\030ApiCollapsiblePanelStack\032\017\n\rc"
+    "reateRequest\0326\n\016createResponse\022$\n\006result"
+    "\030\001 \001(\0132\024.octaneapi.ObjectRef\0329\n\016destroyR"
+    "equest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Ob"
+    "jectRef\032\202\001\n\017addPanelRequest\022\'\n\tobjectPtr"
+    "\030\001 \001(\0132\024.octaneapi.ObjectRef\022\017\n\007caption\030"
+    "\002 \001(\t\022\'\n\tcomponent\030\003 \001(\0132\024.octaneapi.Obj"
+    "ectRef\022\014\n\004open\030\004 \001(\010\032V\n\016setOpenRequest\022\'"
+    "\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022"
+    "\r\n\005index\030\002 \001(\005\022\014\n\004open\030\003 \001(\010\0327\n\014clearReq"
+    "uest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Obje"
+    "ctRef2\354\003\n\037ApiCollapsiblePanelStackServic"
+    "e\022o\n\006create\0221.octaneapi.ApiCollapsiblePa"
+    "nelStack.createRequest\0322.octaneapi.ApiCo"
+    "llapsiblePanelStack.createResponse\022U\n\007de"
+    "stroy\0222.octaneapi.ApiCollapsiblePanelSta"
+    "ck.destroyRequest\032\026.google.protobuf.Empt"
+    "y\022W\n\010addPanel\0223.octaneapi.ApiCollapsible"
+    "PanelStack.addPanelRequest\032\026.google.prot"
+    "obuf.Empty\022U\n\007setOpen\0222.octaneapi.ApiCol"
+    "lapsiblePanelStack.setOpenRequest\032\026.goog"
+    "le.protobuf.Empty\022Q\n\005clear\0220.octaneapi.A"
+    "piCollapsiblePanelStack.clearRequest\032\026.g"
+    "oogle.protobuf.EmptyB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apicollapsiblepanelstack_2eproto_deps[3] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apicollapsiblepanelstack_2eproto_deps[2] =
     {
-        &::descriptor_table_apiguicomponent_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -337,12 +335,12 @@ static ::absl::once_flag descriptor_table_apicollapsiblepanelstack_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apicollapsiblepanelstack_2eproto = {
     false,
     false,
-    1055,
+    1032,
     descriptor_table_protodef_apicollapsiblepanelstack_2eproto,
     "apicollapsiblepanelstack.proto",
     &descriptor_table_apicollapsiblepanelstack_2eproto_once,
     descriptor_table_apicollapsiblepanelstack_2eproto_deps,
-    3,
+    2,
     7,
     schemas,
     file_default_instances,

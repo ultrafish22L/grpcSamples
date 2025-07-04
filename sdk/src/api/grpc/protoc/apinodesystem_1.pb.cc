@@ -482,70 +482,53 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apinodesystem_5f1_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\025apinodesystem_1.proto\022\toctaneapi\032\014comm"
-    "on.proto\032\033google/protobuf/empty.proto\032\025a"
-    "pitimesampling.proto\032\035apioutputcolorspac"
-    "einfo.proto\032\030octanerenderpasses.proto\032\027o"
-    "ctaneimageexport.proto\032\037apianimationtime"
-    "transform.proto\032\016apiarray.proto\032\021octanee"
-    "nums.proto\032\017octaneids.proto\032\020octanetime."
-    "proto\032\024octanevectypes.proto\032\021octaneinfos"
-    ".proto\"\211\005\n\014ApiItemArray\0328\n\rbegin1Request"
-    "\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRe"
-    "f\032<\n\016begin1Response\022*\n\006result\030\001 \001(\0132\032.oc"
-    "taneapi.ObjectRefArrayT\0326\n\013end1Request\022\'"
-    "\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\032"
-    ":\n\014end1Response\022*\n\006result\030\001 \001(\0132\032.octane"
-    "api.ObjectRefArrayT\032D\n\ngetRequest\022\'\n\tobj"
-    "ectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022\r\n\005in"
-    "dex\030\002 \001(\r\0323\n\013getResponse\022$\n\006result\030\001 \001(\013"
-    "2\024.octaneapi.ObjectRef\032D\n\013initRequest\022\'\n"
-    "\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022\014"
-    "\n\004size\030\002 \001(\r\0327\n\014itemsRequest\022\'\n\tobjectPt"
-    "r\030\001 \001(\0132\024.octaneapi.ObjectRef\032;\n\ritemsRe"
+    "on.proto\032\033google/protobuf/empty.proto\"\211\005"
+    "\n\014ApiItemArray\0328\n\rbegin1Request\022\'\n\tobjec"
+    "tPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\032<\n\016begi"
+    "n1Response\022*\n\006result\030\001 \001(\0132\032.octaneapi.O"
+    "bjectRefArrayT\0326\n\013end1Request\022\'\n\tobjectP"
+    "tr\030\001 \001(\0132\024.octaneapi.ObjectRef\032:\n\014end1Re"
     "sponse\022*\n\006result\030\001 \001(\0132\032.octaneapi.Objec"
-    "tRefArrayT\0326\n\013sizeRequest\022\'\n\tobjectPtr\030\001"
-    " \001(\0132\024.octaneapi.ObjectRef\032\036\n\014sizeRespon"
-    "se\022\016\n\006result\030\001 \001(\r2\200\004\n\023ApiItemArrayServi"
-    "ce\022Q\n\004size\022#.octaneapi.ApiItemArray.size"
-    "Request\032$.octaneapi.ApiItemArray.sizeRes"
-    "ponse\022O\n\004get1\022\".octaneapi.ApiItemArray.g"
-    "etRequest\032#.octaneapi.ApiItemArray.getRe"
-    "sponse\022T\n\005items\022$.octaneapi.ApiItemArray"
-    ".itemsRequest\032%.octaneapi.ApiItemArray.i"
-    "temsResponse\022W\n\006begin1\022%.octaneapi.ApiIt"
-    "emArray.begin1Request\032&.octaneapi.ApiIte"
-    "mArray.begin1Response\022Q\n\004end1\022#.octaneap"
-    "i.ApiItemArray.end1Request\032$.octaneapi.A"
-    "piItemArray.end1Response\022C\n\004init\022#.octan"
-    "eapi.ApiItemArray.initRequest\032\026.google.p"
-    "rotobuf.EmptyB\002H\002b\006proto3"
+    "tRefArrayT\032D\n\ngetRequest\022\'\n\tobjectPtr\030\001 "
+    "\001(\0132\024.octaneapi.ObjectRef\022\r\n\005index\030\002 \001(\r"
+    "\0323\n\013getResponse\022$\n\006result\030\001 \001(\0132\024.octane"
+    "api.ObjectRef\032D\n\013initRequest\022\'\n\tobjectPt"
+    "r\030\001 \001(\0132\024.octaneapi.ObjectRef\022\014\n\004size\030\002 "
+    "\001(\r\0327\n\014itemsRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024"
+    ".octaneapi.ObjectRef\032;\n\ritemsResponse\022*\n"
+    "\006result\030\001 \001(\0132\032.octaneapi.ObjectRefArray"
+    "T\0326\n\013sizeRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.oc"
+    "taneapi.ObjectRef\032\036\n\014sizeResponse\022\016\n\006res"
+    "ult\030\001 \001(\r2\200\004\n\023ApiItemArrayService\022Q\n\004siz"
+    "e\022#.octaneapi.ApiItemArray.sizeRequest\032$"
+    ".octaneapi.ApiItemArray.sizeResponse\022O\n\004"
+    "get1\022\".octaneapi.ApiItemArray.getRequest"
+    "\032#.octaneapi.ApiItemArray.getResponse\022T\n"
+    "\005items\022$.octaneapi.ApiItemArray.itemsReq"
+    "uest\032%.octaneapi.ApiItemArray.itemsRespo"
+    "nse\022W\n\006begin1\022%.octaneapi.ApiItemArray.b"
+    "egin1Request\032&.octaneapi.ApiItemArray.be"
+    "gin1Response\022Q\n\004end1\022#.octaneapi.ApiItem"
+    "Array.end1Request\032$.octaneapi.ApiItemArr"
+    "ay.end1Response\022C\n\004init\022#.octaneapi.ApiI"
+    "temArray.initRequest\032\026.google.protobuf.E"
+    "mptyB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apinodesystem_5f1_2eproto_deps[13] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apinodesystem_5f1_2eproto_deps[2] =
     {
-        &::descriptor_table_apianimationtimetransform_2eproto,
-        &::descriptor_table_apiarray_2eproto,
-        &::descriptor_table_apioutputcolorspaceinfo_2eproto,
-        &::descriptor_table_apitimesampling_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
-        &::descriptor_table_octaneenums_2eproto,
-        &::descriptor_table_octaneids_2eproto,
-        &::descriptor_table_octaneimageexport_2eproto,
-        &::descriptor_table_octaneinfos_2eproto,
-        &::descriptor_table_octanerenderpasses_2eproto,
-        &::descriptor_table_octanetime_2eproto,
-        &::descriptor_table_octanevectypes_2eproto,
 };
 static ::absl::once_flag descriptor_table_apinodesystem_5f1_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apinodesystem_5f1_2eproto = {
     false,
     false,
-    1505,
+    1256,
     descriptor_table_protodef_apinodesystem_5f1_2eproto,
     "apinodesystem_1.proto",
     &descriptor_table_apinodesystem_5f1_2eproto_once,
     descriptor_table_apinodesystem_5f1_2eproto_deps,
-    13,
+    2,
     12,
     schemas,
     file_default_instances,

@@ -731,104 +731,90 @@ const char descriptor_table_protodef_apigeometryexporter_2eproto[] ABSL_ATTRIBUT
     protodesc_cold) = {
     "\n\031apigeometryexporter.proto\022\toctaneapi\032\014"
     "common.proto\032\033google/protobuf/empty.prot"
-    "o\032\025apinodesystem_1.proto\032\025apinodesystem_"
-    "2.proto\032\025apinodesystem_3.proto\032\025apinodes"
-    "ystem_4.proto\032\025apinodesystem_5.proto\032\025ap"
-    "inodesystem_6.proto\032\025apinodesystem_7.pro"
-    "to\032\025apinodesystem_8.proto\032\021octaneinfos.p"
-    "roto\032\025apitimesampling.proto\032\021octaneenums"
-    ".proto\032\020octanetime.proto\"\333\n\n\023ApiGeometry"
-    "Exporter\032\024\n\022isSupportedRequest\032%\n\023isSupp"
-    "ortedResponse\022\016\n\006result\030\001 \001(\010\032\216\001\n\rcreate"
-    "Request\022\020\n\010fileName\030\001 \001(\t\022\023\n\013description"
-    "\030\002 \001(\t\0225\n\014exportFormat\030\003 \001(\0162\037.octaneapi"
-    ".GeometryExportFormat\022\037\n\027exportGenerated"
-    "Geometry\030\004 \001(\010\0326\n\016createResponse\022$\n\006resu"
-    "lt\030\001 \001(\0132\024.octaneapi.ObjectRef\032O\n\025setAsp"
-    "ectRatioRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.oct"
-    "aneapi.ObjectRef\022\r\n\005ratio\030\002 \001(\002\032\316\001\n\024setF"
-    "bxOptionsRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.oc"
-    "taneapi.ObjectRef\022\031\n\021fastScatterExport\030\002"
-    " \001(\010\022\026\n\016exportMaterial\030\003 \001(\010\022\032\n\022asStingr"
-    "ayMaterial\030\004 \001(\010\022\023\n\013renderSizeX\030\005 \001(\r\022\023\n"
-    "\013renderSizeY\030\006 \001(\r\022\024\n\014writeOcsData\030\007 \001(\010"
-    "\032]\n\016addItemRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024."
-    "octaneapi.ObjectRef\022\"\n\004item\030\002 \001(\0132\024.octa"
-    "neapi.ObjectRef\032!\n\017addItemResponse\022\016\n\006re"
-    "sult\030\001 \001(\010\032d\n\021writeFrameRequest\022\'\n\tobjec"
-    "tPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022&\n\010inte"
-    "rval\030\002 \001(\0132\024.octaneapi.TimeSpanT\032$\n\022writ"
-    "eFrameResponse\022\016\n\006result\030\001 \001(\010\032=\n\022writeF"
-    "rame1Request\022\'\n\tobjectPtr\030\001 \001(\0132\024.octane"
-    "api.ObjectRef\032%\n\023writeFrame1Response\022\016\n\006"
-    "result\030\001 \001(\010\032n\n\030writeTimeSamplingRequest"
-    "\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRe"
-    "f\022)\n\005times\030\002 \001(\0132\032.octaneapi.ApiTimeSamp"
-    "ling\032+\n\031writeTimeSamplingResponse\022\016\n\006res"
-    "ult\030\001 \001(\010\032\210\001\n\034createGeometryArchiveReque"
-    "st\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Object"
-    "Ref\022#\n\005owner\030\002 \001(\0132\024.octaneapi.ObjectRef"
-    "\022\032\n\022createObjectInputs\030\003 \001(\010\032E\n\035createGe"
-    "ometryArchiveResponse\022$\n\006result\030\001 \001(\0132\024."
-    "octaneapi.ObjectRef\0329\n\016destroyRequest\022\'\n"
-    "\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef2\372"
-    "\010\n\032ApiGeometryExporterService\022t\n\013isSuppo"
-    "rted\0221.octaneapi.ApiGeometryExporter.isS"
-    "upportedRequest\0322.octaneapi.ApiGeometryE"
-    "xporter.isSupportedResponse\022e\n\006create\022,."
-    "octaneapi.ApiGeometryExporter.createRequ"
-    "est\032-.octaneapi.ApiGeometryExporter.crea"
-    "teResponse\022^\n\016setAspectRatio\0224.octaneapi"
-    ".ApiGeometryExporter.setAspectRatioReque"
-    "st\032\026.google.protobuf.Empty\022\\\n\rsetFbxOpti"
-    "ons\0223.octaneapi.ApiGeometryExporter.setF"
-    "bxOptionsRequest\032\026.google.protobuf.Empty"
-    "\022h\n\007addItem\022-.octaneapi.ApiGeometryExpor"
-    "ter.addItemRequest\032..octaneapi.ApiGeomet"
-    "ryExporter.addItemResponse\022q\n\nwriteFrame"
-    "\0220.octaneapi.ApiGeometryExporter.writeFr"
-    "ameRequest\0321.octaneapi.ApiGeometryExport"
-    "er.writeFrameResponse\022t\n\013writeFrame1\0221.o"
-    "ctaneapi.ApiGeometryExporter.writeFrame1"
-    "Request\0322.octaneapi.ApiGeometryExporter."
-    "writeFrame1Response\022\206\001\n\021writeTimeSamplin"
-    "g\0227.octaneapi.ApiGeometryExporter.writeT"
-    "imeSamplingRequest\0328.octaneapi.ApiGeomet"
-    "ryExporter.writeTimeSamplingResponse\022\222\001\n"
-    "\025createGeometryArchive\022;.octaneapi.ApiGe"
-    "ometryExporter.createGeometryArchiveRequ"
-    "est\032<.octaneapi.ApiGeometryExporter.crea"
-    "teGeometryArchiveResponse\022P\n\007destroy\022-.o"
-    "ctaneapi.ApiGeometryExporter.destroyRequ"
-    "est\032\026.google.protobuf.EmptyB\002H\002b\006proto3"
+    "o\032\025apitimesampling.proto\032\021octaneenums.pr"
+    "oto\032\020octanetime.proto\"\333\n\n\023ApiGeometryExp"
+    "orter\032\024\n\022isSupportedRequest\032%\n\023isSupport"
+    "edResponse\022\016\n\006result\030\001 \001(\010\032\216\001\n\rcreateReq"
+    "uest\022\020\n\010fileName\030\001 \001(\t\022\023\n\013description\030\002 "
+    "\001(\t\0225\n\014exportFormat\030\003 \001(\0162\037.octaneapi.Ge"
+    "ometryExportFormat\022\037\n\027exportGeneratedGeo"
+    "metry\030\004 \001(\010\0326\n\016createResponse\022$\n\006result\030"
+    "\001 \001(\0132\024.octaneapi.ObjectRef\032O\n\025setAspect"
+    "RatioRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octane"
+    "api.ObjectRef\022\r\n\005ratio\030\002 \001(\002\032\316\001\n\024setFbxO"
+    "ptionsRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octan"
+    "eapi.ObjectRef\022\031\n\021fastScatterExport\030\002 \001("
+    "\010\022\026\n\016exportMaterial\030\003 \001(\010\022\032\n\022asStingrayM"
+    "aterial\030\004 \001(\010\022\023\n\013renderSizeX\030\005 \001(\r\022\023\n\013re"
+    "nderSizeY\030\006 \001(\r\022\024\n\014writeOcsData\030\007 \001(\010\032]\n"
+    "\016addItemRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.oct"
+    "aneapi.ObjectRef\022\"\n\004item\030\002 \001(\0132\024.octanea"
+    "pi.ObjectRef\032!\n\017addItemResponse\022\016\n\006resul"
+    "t\030\001 \001(\010\032d\n\021writeFrameRequest\022\'\n\tobjectPt"
+    "r\030\001 \001(\0132\024.octaneapi.ObjectRef\022&\n\010interva"
+    "l\030\002 \001(\0132\024.octaneapi.TimeSpanT\032$\n\022writeFr"
+    "ameResponse\022\016\n\006result\030\001 \001(\010\032=\n\022writeFram"
+    "e1Request\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi"
+    ".ObjectRef\032%\n\023writeFrame1Response\022\016\n\006res"
+    "ult\030\001 \001(\010\032n\n\030writeTimeSamplingRequest\022\'\n"
+    "\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\022)"
+    "\n\005times\030\002 \001(\0132\032.octaneapi.ApiTimeSamplin"
+    "g\032+\n\031writeTimeSamplingResponse\022\016\n\006result"
+    "\030\001 \001(\010\032\210\001\n\034createGeometryArchiveRequest\022"
+    "\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef"
+    "\022#\n\005owner\030\002 \001(\0132\024.octaneapi.ObjectRef\022\032\n"
+    "\022createObjectInputs\030\003 \001(\010\032E\n\035createGeome"
+    "tryArchiveResponse\022$\n\006result\030\001 \001(\0132\024.oct"
+    "aneapi.ObjectRef\0329\n\016destroyRequest\022\'\n\tob"
+    "jectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef2\372\010\n\032"
+    "ApiGeometryExporterService\022t\n\013isSupporte"
+    "d\0221.octaneapi.ApiGeometryExporter.isSupp"
+    "ortedRequest\0322.octaneapi.ApiGeometryExpo"
+    "rter.isSupportedResponse\022e\n\006create\022,.oct"
+    "aneapi.ApiGeometryExporter.createRequest"
+    "\032-.octaneapi.ApiGeometryExporter.createR"
+    "esponse\022^\n\016setAspectRatio\0224.octaneapi.Ap"
+    "iGeometryExporter.setAspectRatioRequest\032"
+    "\026.google.protobuf.Empty\022\\\n\rsetFbxOptions"
+    "\0223.octaneapi.ApiGeometryExporter.setFbxO"
+    "ptionsRequest\032\026.google.protobuf.Empty\022h\n"
+    "\007addItem\022-.octaneapi.ApiGeometryExporter"
+    ".addItemRequest\032..octaneapi.ApiGeometryE"
+    "xporter.addItemResponse\022q\n\nwriteFrame\0220."
+    "octaneapi.ApiGeometryExporter.writeFrame"
+    "Request\0321.octaneapi.ApiGeometryExporter."
+    "writeFrameResponse\022t\n\013writeFrame1\0221.octa"
+    "neapi.ApiGeometryExporter.writeFrame1Req"
+    "uest\0322.octaneapi.ApiGeometryExporter.wri"
+    "teFrame1Response\022\206\001\n\021writeTimeSampling\0227"
+    ".octaneapi.ApiGeometryExporter.writeTime"
+    "SamplingRequest\0328.octaneapi.ApiGeometryE"
+    "xporter.writeTimeSamplingResponse\022\222\001\n\025cr"
+    "eateGeometryArchive\022;.octaneapi.ApiGeome"
+    "tryExporter.createGeometryArchiveRequest"
+    "\032<.octaneapi.ApiGeometryExporter.createG"
+    "eometryArchiveResponse\022P\n\007destroy\022-.octa"
+    "neapi.ApiGeometryExporter.destroyRequest"
+    "\032\026.google.protobuf.EmptyB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apigeometryexporter_2eproto_deps[14] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apigeometryexporter_2eproto_deps[5] =
     {
-        &::descriptor_table_apinodesystem_5f1_2eproto,
-        &::descriptor_table_apinodesystem_5f2_2eproto,
-        &::descriptor_table_apinodesystem_5f3_2eproto,
-        &::descriptor_table_apinodesystem_5f4_2eproto,
-        &::descriptor_table_apinodesystem_5f5_2eproto,
-        &::descriptor_table_apinodesystem_5f6_2eproto,
-        &::descriptor_table_apinodesystem_5f7_2eproto,
-        &::descriptor_table_apinodesystem_5f8_2eproto,
         &::descriptor_table_apitimesampling_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
         &::descriptor_table_octaneenums_2eproto,
-        &::descriptor_table_octaneinfos_2eproto,
         &::descriptor_table_octanetime_2eproto,
 };
 static ::absl::once_flag descriptor_table_apigeometryexporter_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apigeometryexporter_2eproto = {
     false,
     false,
-    2879,
+    2676,
     descriptor_table_protodef_apigeometryexporter_2eproto,
     "apigeometryexporter.proto",
     &descriptor_table_apigeometryexporter_2eproto_once,
     descriptor_table_apigeometryexporter_2eproto_deps,
-    14,
+    5,
     18,
     schemas,
     file_default_instances,

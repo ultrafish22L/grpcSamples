@@ -355,38 +355,36 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apinumericbox_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\023apinumericbox.proto\022\toctaneapi\032\014common"
-    ".proto\032\033google/protobuf/empty.proto\032\025api"
-    "guicomponent.proto\"\314\004\n\rApiNumericBox\032k\n\r"
-    "createRequest\022\014\n\004step\030\001 \001(\001\0227\n\010callback\030"
-    "\002 \001(\0132%.octaneapi.NumericBoxChangedCallb"
-    "ackT\022\023\n\013privateData\030\003 \001(\004\032J\n\016createRespo"
-    "nse\022$\n\006result\030\001 \001(\0132\024.octaneapi.ObjectRe"
-    "f\022\022\n\ncallbackId\030\002 \001(\r\0329\n\016destroyRequest\022"
-    "\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef"
-    "\0327\n\014valueRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.oc"
-    "taneapi.ObjectRef\032\037\n\rvalueResponse\022\016\n\006re"
-    "sult\030\001 \001(\001\032_\n\017setValueRequest\022\'\n\tobjectP"
-    "tr\030\001 \001(\0132\024.octaneapi.ObjectRef\022\020\n\010newVal"
-    "ue\030\002 \001(\001\022\021\n\tsendEvent\030\003 \001(\010\032\213\001\n\020setLimit"
-    "sRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi."
-    "ObjectRef\022\017\n\007minimum\030\002 \001(\001\022\017\n\007maximum\030\003 "
-    "\001(\001\022\025\n\rsliderMinimum\030\004 \001(\001\022\025\n\rsliderMaxi"
-    "mum\030\005 \001(\0012\263\003\n\024ApiNumericBoxService\022Y\n\006cr"
-    "eate\022&.octaneapi.ApiNumericBox.createReq"
-    "uest\032\'.octaneapi.ApiNumericBox.createRes"
-    "ponse\022J\n\007destroy\022\'.octaneapi.ApiNumericB"
-    "ox.destroyRequest\032\026.google.protobuf.Empt"
-    "y\022V\n\005value\022%.octaneapi.ApiNumericBox.val"
-    "ueRequest\032&.octaneapi.ApiNumericBox.valu"
-    "eResponse\022L\n\010setValue\022(.octaneapi.ApiNum"
-    "ericBox.setValueRequest\032\026.google.protobu"
-    "f.Empty\022N\n\tsetLimits\022).octaneapi.ApiNume"
-    "ricBox.setLimitsRequest\032\026.google.protobu"
-    "f.EmptyB\002H\002b\006proto3"
+    ".proto\032\033google/protobuf/empty.proto\"\314\004\n\r"
+    "ApiNumericBox\032k\n\rcreateRequest\022\014\n\004step\030\001"
+    " \001(\001\0227\n\010callback\030\002 \001(\0132%.octaneapi.Numer"
+    "icBoxChangedCallbackT\022\023\n\013privateData\030\003 \001"
+    "(\004\032J\n\016createResponse\022$\n\006result\030\001 \001(\0132\024.o"
+    "ctaneapi.ObjectRef\022\022\n\ncallbackId\030\002 \001(\r\0329"
+    "\n\016destroyRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.oc"
+    "taneapi.ObjectRef\0327\n\014valueRequest\022\'\n\tobj"
+    "ectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\032\037\n\rva"
+    "lueResponse\022\016\n\006result\030\001 \001(\001\032_\n\017setValueR"
+    "equest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Ob"
+    "jectRef\022\020\n\010newValue\030\002 \001(\001\022\021\n\tsendEvent\030\003"
+    " \001(\010\032\213\001\n\020setLimitsRequest\022\'\n\tobjectPtr\030\001"
+    " \001(\0132\024.octaneapi.ObjectRef\022\017\n\007minimum\030\002 "
+    "\001(\001\022\017\n\007maximum\030\003 \001(\001\022\025\n\rsliderMinimum\030\004 "
+    "\001(\001\022\025\n\rsliderMaximum\030\005 \001(\0012\263\003\n\024ApiNumeri"
+    "cBoxService\022Y\n\006create\022&.octaneapi.ApiNum"
+    "ericBox.createRequest\032\'.octaneapi.ApiNum"
+    "ericBox.createResponse\022J\n\007destroy\022\'.octa"
+    "neapi.ApiNumericBox.destroyRequest\032\026.goo"
+    "gle.protobuf.Empty\022V\n\005value\022%.octaneapi."
+    "ApiNumericBox.valueRequest\032&.octaneapi.A"
+    "piNumericBox.valueResponse\022L\n\010setValue\022("
+    ".octaneapi.ApiNumericBox.setValueRequest"
+    "\032\026.google.protobuf.Empty\022N\n\tsetLimits\022)."
+    "octaneapi.ApiNumericBox.setLimitsRequest"
+    "\032\026.google.protobuf.EmptyB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apinumericbox_2eproto_deps[3] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apinumericbox_2eproto_deps[2] =
     {
-        &::descriptor_table_apiguicomponent_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -394,12 +392,12 @@ static ::absl::once_flag descriptor_table_apinumericbox_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apinumericbox_2eproto = {
     false,
     false,
-    1139,
+    1116,
     descriptor_table_protodef_apinumericbox_2eproto,
     "apinumericbox.proto",
     &descriptor_table_apinumericbox_2eproto_once,
     descriptor_table_apinumericbox_2eproto_deps,
-    3,
+    2,
     8,
     schemas,
     file_default_instances,

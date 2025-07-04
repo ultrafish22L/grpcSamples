@@ -533,50 +533,48 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_apitexteditor_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\023apitexteditor.proto\022\toctaneapi\032\014common"
-    ".proto\032\033google/protobuf/empty.proto\032\025api"
-    "guicomponent.proto\"\223\006\n\rApiTextEditor\032p\n\r"
-    "createRequest\022\021\n\tnbOfLines\030\001 \001(\r\0227\n\010call"
-    "back\030\002 \001(\0132%.octaneapi.TextEditorChanged"
-    "CallbackT\022\023\n\013privateData\030\003 \001(\004\032J\n\016create"
-    "Response\022$\n\006result\030\001 \001(\0132\024.octaneapi.Obj"
-    "ectRef\022\022\n\ncallbackId\030\002 \001(\r\0329\n\016destroyReq"
-    "uest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Obje"
-    "ctRef\0326\n\013textRequest\022\'\n\tobjectPtr\030\001 \001(\0132"
-    "\024.octaneapi.ObjectRef\032\036\n\014textResponse\022\016\n"
-    "\006result\030\001 \001(\t\0329\n\016isEmptyRequest\022\'\n\tobjec"
-    "tPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\032!\n\017isEm"
-    "ptyResponse\022\016\n\006result\030\001 \001(\010\032]\n\016setTextRe"
-    "quest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Obj"
-    "ectRef\022\017\n\007newText\030\002 \001(\t\022\021\n\tsendEvent\030\003 \001"
-    "(\010\0327\n\014clearRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024."
-    "octaneapi.ObjectRef\032W\n\022setReadOnlyReques"
-    "t\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectR"
-    "ef\022\030\n\020shouldBeReadOnly\030\002 \001(\010\032<\n\021isReadOn"
-    "lyRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi"
-    ".ObjectRef\032$\n\022isReadOnlyResponse\022\016\n\006resu"
-    "lt\030\001 \001(\0102\277\005\n\024ApiTextEditorService\022Y\n\006cre"
-    "ate\022&.octaneapi.ApiTextEditor.createRequ"
-    "est\032\'.octaneapi.ApiTextEditor.createResp"
-    "onse\022J\n\007destroy\022\'.octaneapi.ApiTextEdito"
-    "r.destroyRequest\032\026.google.protobuf.Empty"
-    "\022S\n\004text\022$.octaneapi.ApiTextEditor.textR"
-    "equest\032%.octaneapi.ApiTextEditor.textRes"
-    "ponse\022\\\n\007isEmpty\022\'.octaneapi.ApiTextEdit"
-    "or.isEmptyRequest\032(.octaneapi.ApiTextEdi"
-    "tor.isEmptyResponse\022J\n\007setText\022\'.octanea"
-    "pi.ApiTextEditor.setTextRequest\032\026.google"
-    ".protobuf.Empty\022F\n\005clear\022%.octaneapi.Api"
-    "TextEditor.clearRequest\032\026.google.protobu"
-    "f.Empty\022R\n\013setReadOnly\022+.octaneapi.ApiTe"
-    "xtEditor.setReadOnlyRequest\032\026.google.pro"
-    "tobuf.Empty\022e\n\nisReadOnly\022*.octaneapi.Ap"
-    "iTextEditor.isReadOnlyRequest\032+.octaneap"
-    "i.ApiTextEditor.isReadOnlyResponseB\002H\002b\006"
-    "proto3"
+    ".proto\032\033google/protobuf/empty.proto\"\223\006\n\r"
+    "ApiTextEditor\032p\n\rcreateRequest\022\021\n\tnbOfLi"
+    "nes\030\001 \001(\r\0227\n\010callback\030\002 \001(\0132%.octaneapi."
+    "TextEditorChangedCallbackT\022\023\n\013privateDat"
+    "a\030\003 \001(\004\032J\n\016createResponse\022$\n\006result\030\001 \001("
+    "\0132\024.octaneapi.ObjectRef\022\022\n\ncallbackId\030\002 "
+    "\001(\r\0329\n\016destroyRequest\022\'\n\tobjectPtr\030\001 \001(\013"
+    "2\024.octaneapi.ObjectRef\0326\n\013textRequest\022\'\n"
+    "\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\032\036"
+    "\n\014textResponse\022\016\n\006result\030\001 \001(\t\0329\n\016isEmpt"
+    "yRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi."
+    "ObjectRef\032!\n\017isEmptyResponse\022\016\n\006result\030\001"
+    " \001(\010\032]\n\016setTextRequest\022\'\n\tobjectPtr\030\001 \001("
+    "\0132\024.octaneapi.ObjectRef\022\017\n\007newText\030\002 \001(\t"
+    "\022\021\n\tsendEvent\030\003 \001(\010\0327\n\014clearRequest\022\'\n\to"
+    "bjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\032W\n\022"
+    "setReadOnlyRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024."
+    "octaneapi.ObjectRef\022\030\n\020shouldBeReadOnly\030"
+    "\002 \001(\010\032<\n\021isReadOnlyRequest\022\'\n\tobjectPtr\030"
+    "\001 \001(\0132\024.octaneapi.ObjectRef\032$\n\022isReadOnl"
+    "yResponse\022\016\n\006result\030\001 \001(\0102\277\005\n\024ApiTextEdi"
+    "torService\022Y\n\006create\022&.octaneapi.ApiText"
+    "Editor.createRequest\032\'.octaneapi.ApiText"
+    "Editor.createResponse\022J\n\007destroy\022\'.octan"
+    "eapi.ApiTextEditor.destroyRequest\032\026.goog"
+    "le.protobuf.Empty\022S\n\004text\022$.octaneapi.Ap"
+    "iTextEditor.textRequest\032%.octaneapi.ApiT"
+    "extEditor.textResponse\022\\\n\007isEmpty\022\'.octa"
+    "neapi.ApiTextEditor.isEmptyRequest\032(.oct"
+    "aneapi.ApiTextEditor.isEmptyResponse\022J\n\007"
+    "setText\022\'.octaneapi.ApiTextEditor.setTex"
+    "tRequest\032\026.google.protobuf.Empty\022F\n\005clea"
+    "r\022%.octaneapi.ApiTextEditor.clearRequest"
+    "\032\026.google.protobuf.Empty\022R\n\013setReadOnly\022"
+    "+.octaneapi.ApiTextEditor.setReadOnlyReq"
+    "uest\032\026.google.protobuf.Empty\022e\n\nisReadOn"
+    "ly\022*.octaneapi.ApiTextEditor.isReadOnlyR"
+    "equest\032+.octaneapi.ApiTextEditor.isReadO"
+    "nlyResponseB\002H\002b\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_apitexteditor_2eproto_deps[3] =
+static const ::_pbi::DescriptorTable* const descriptor_table_apitexteditor_2eproto_deps[2] =
     {
-        &::descriptor_table_apiguicomponent_2eproto,
         &::descriptor_table_common_2eproto,
         &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
@@ -584,12 +582,12 @@ static ::absl::once_flag descriptor_table_apitexteditor_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apitexteditor_2eproto = {
     false,
     false,
-    1606,
+    1583,
     descriptor_table_protodef_apitexteditor_2eproto,
     "apitexteditor.proto",
     &descriptor_table_apitexteditor_2eproto_once,
     descriptor_table_apitexteditor_2eproto_deps,
-    3,
+    2,
     13,
     schemas,
     file_default_instances,
