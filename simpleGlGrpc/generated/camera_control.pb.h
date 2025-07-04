@@ -10,8 +10,8 @@
 #include <google/protobuf/port_def.inc>
 // Cross-platform protobuf version compatibility
 // Support both Linux (3.21.x) and Windows (5.28.x) versions
-#if PROTOBUF_VERSION < 3021000 && PROTOBUF_VERSION < 5028000
-#error This file requires protobuf version 3.21.0 or higher, or 5.28.x
+#if PROTOBUF_VERSION < 3021000 && PROTOBUF_VERSION != 5028003
+#error This file requires protobuf version 3.21.0 or higher, or exactly 5.28.3
 #error Please update your protobuf headers.
 #endif
 // Skip PROTOBUF_MIN_PROTOC_VERSION check for cross-platform compatibility
