@@ -86,6 +86,19 @@ struct Vector3DefaultTypeInternal;
 extern Vector3DefaultTypeInternal _Vector3_default_instance_;
 }  // namespace octaneapi
 PROTOBUF_NAMESPACE_OPEN
+// Cross-platform Arena API compatibility
+#ifdef PROTOBUF_VERSION
+#if PROTOBUF_VERSION >= 5000000
+// protobuf 5.x uses Create instead of CreateMaybeMessage
+template<> ::octaneapi::CameraPositionRequest* Arena::Create<::octaneapi::CameraPositionRequest>(Arena*);
+template<> ::octaneapi::CameraPositionResponse* Arena::Create<::octaneapi::CameraPositionResponse>(Arena*);
+template<> ::octaneapi::CameraTargetRequest* Arena::Create<::octaneapi::CameraTargetRequest>(Arena*);
+template<> ::octaneapi::CameraTargetResponse* Arena::Create<::octaneapi::CameraTargetResponse>(Arena*);
+template<> ::octaneapi::CameraUpRequest* Arena::Create<::octaneapi::CameraUpRequest>(Arena*);
+template<> ::octaneapi::CameraUpResponse* Arena::Create<::octaneapi::CameraUpResponse>(Arena*);
+template<> ::octaneapi::Vector3* Arena::Create<::octaneapi::Vector3>(Arena*);
+#else
+// protobuf 3.x uses CreateMaybeMessage
 template<> ::octaneapi::CameraPositionRequest* Arena::CreateMaybeMessage<::octaneapi::CameraPositionRequest>(Arena*);
 template<> ::octaneapi::CameraPositionResponse* Arena::CreateMaybeMessage<::octaneapi::CameraPositionResponse>(Arena*);
 template<> ::octaneapi::CameraTargetRequest* Arena::CreateMaybeMessage<::octaneapi::CameraTargetRequest>(Arena*);
@@ -93,6 +106,8 @@ template<> ::octaneapi::CameraTargetResponse* Arena::CreateMaybeMessage<::octane
 template<> ::octaneapi::CameraUpRequest* Arena::CreateMaybeMessage<::octaneapi::CameraUpRequest>(Arena*);
 template<> ::octaneapi::CameraUpResponse* Arena::CreateMaybeMessage<::octaneapi::CameraUpResponse>(Arena*);
 template<> ::octaneapi::Vector3* Arena::CreateMaybeMessage<::octaneapi::Vector3>(Arena*);
+#endif
+#endif
 PROTOBUF_NAMESPACE_CLOSE
 namespace octaneapi {
 
