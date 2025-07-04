@@ -15,8 +15,14 @@ file(GLOB_RECURSE PROTOC_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/protoc/*.cc"
 )
 
-# Include all protoc sources
+# Collect all gRPC-related source files
+file(GLOB_RECURSE GRPC_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/*.cpp"
+)
+
+# Include all protoc and gRPC sources
 list(APPEND SDK_SOURCES ${PROTOC_SOURCES})
+list(APPEND SDK_SOURCES ${GRPC_SOURCES})
 
 # Exclude octanewrappers.cpp if it exists
 list(REMOVE_ITEM SDK_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/octanewrappers.cpp")

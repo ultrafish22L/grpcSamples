@@ -239,9 +239,9 @@ function(configure_simpleGlGrpc_target target_name)
             LINK_FLAGS "/SUBSYSTEM:CONSOLE"
         )
         
-        # Set runtime library to match project settings
+        # Set runtime library to match third_party libraries (static runtime)
         set_property(TARGET ${target_name} PROPERTY
-            MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+            MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
         
         # Add /bigobj flag for large object files
         target_compile_options(${target_name} PRIVATE /bigobj)
