@@ -20,8 +20,8 @@ if(MSVC)
     # Enable proper exception handling
     add_compile_options(/EHsc)
     
-    # Set runtime library to dynamic linking
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+    # Set runtime library to static linking (to match third_party libraries)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     
     # Add Windows-specific definitions
     add_compile_definitions(WIN32_LEAN_AND_MEAN NOMINMAX)

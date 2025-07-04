@@ -67,9 +67,9 @@ if(MSVC)
     # Enable proper exception handling
     target_compile_options(octane_sdk PRIVATE /EHsc)
     
-    # Set runtime library to match project settings
+    # Set runtime library to static (to match third_party libraries)
     set_property(TARGET octane_sdk PROPERTY
-        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 
 # Set folder for Visual Studio organization

@@ -34,19 +34,7 @@ if(WIN32)
     endif()
 endif()
 
-# Fallback to system gRPC
-if(NOT GRPC_AVAILABLE)
-    find_package(PkgConfig QUIET)
-    if(PkgConfig_FOUND)
-        pkg_check_modules(GRPC QUIET grpc++)
-        if(GRPC_FOUND)
-            set(GRPC_AVAILABLE ON)
-            set(GRPC_LIBRARIES ${GRPC_LIBRARIES})
-            set(GRPC_INCLUDE_DIR ${GRPC_INCLUDE_DIRS})
-            message(STATUS "simpleGlGrpc: Using system gRPC libraries")
-        endif()
-    endif()
-endif()
+# No system gRPC fallback - only use third_party libraries
 
 if(GRPC_AVAILABLE)
     message(STATUS "simpleGlGrpc: gRPC functionality enabled")
@@ -253,34 +241,5 @@ configure_simpleGlGrpc_target(simpleGlGrpc)
 configure_simpleGlGrpc_target(simpleGlGrpc_demo)
 configure_simpleGlGrpc_target(simpleGlGrpc_test)
 
-# Add gRPC libraries if available (optional)
-find_package(PkgConfig QUIET)
-if(PkgConfig_FOUND)
-    pkg_check_modules(GRPC QUIET grpc++)
-    pkg_check_modules(PROTOBUF QUIET protobuf)
-    
-    if(GRPC_FOUND AND PROTOBUF_FOUND)
-        # Apply gRPC configuration to all targets
-        foreach(target simpleGlGrpc simpleGlGrpc_demo simpleGlGrpc_test)
-            target_link_libraries(${target}
-                PRIVATE
-                    ${GRPC_LIBRARIES}
-                    ${PROTOBUF_LIBRARIES}
-            )
-            target_include_directories(${target}
-                PRIVATE
-                    ${GRPC_INCLUDE_DIRS}
-                    ${PROTOBUF_INCLUDE_DIRS}
-            )
-            target_compile_definitions(${target}
-                PRIVATE
-                    OCTANE_GRPC_ENABLED
-            )
-        endforeach()
-        message(STATUS "simpleGlGrpc: gRPC functionality enabled")
-    else()
-        message(STATUS "simpleGlGrpc: gRPC functionality disabled (libraries not found)")
-    endif()
-else()
-    message(STATUS "simpleGlGrpc: gRPC functionality disabled (PkgConfig not found)")
-endif()
+# gRPC functionality is provided by third_party libraries only
+# No system gRPC dependencies
