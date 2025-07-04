@@ -71,8 +71,12 @@ endif()
 # Generate protobuf files before building SDK
 # include(cmake/protobuf_generation.cmake)  # Disabled - using existing protoc files
 
-# Add SDK
-add_subdirectory(sdk)
+# Add SDK (Windows only - Linux has protobuf version conflicts)
+if(WIN32)
+    add_subdirectory(sdk)
+else()
+    message(STATUS "SDK build disabled on Linux due to protobuf version conflicts")
+endif()
 
 # Add main projects
 add_subdirectory(simpleGL)
