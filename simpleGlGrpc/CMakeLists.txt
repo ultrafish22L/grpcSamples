@@ -6,7 +6,7 @@ project(simpleGlGrpc)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Check for gRPC availability - prefer third_party, fallback to system
+# Check for gRPC availability
 set(GRPC_AVAILABLE OFF)
 
 # Try to use third_party gRPC libraries for Windows
@@ -32,9 +32,19 @@ if(WIN32)
         )
         message(STATUS "simpleGlGrpc: Using third_party gRPC libraries")
     endif()
+else()
+    # Linux: Use system gRPC and protobuf libraries
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(GRPC REQUIRED grpc++)
+    pkg_check_modules(PROTOBUF REQUIRED protobuf)
+    
+    if(GRPC_FOUND AND PROTOBUF_FOUND)
+        set(GRPC_AVAILABLE ON)
+        set(GRPC_LIBRARIES ${GRPC_LIBRARIES} ${PROTOBUF_LIBRARIES})
+        set(GRPC_INCLUDE_DIRS ${GRPC_INCLUDE_DIRS} ${PROTOBUF_INCLUDE_DIRS})
+        message(STATUS "simpleGlGrpc: Using system gRPC and protobuf libraries")
+    endif()
 endif()
-
-# No system gRPC fallback - only use third_party libraries
 
 if(GRPC_AVAILABLE)
     message(STATUS "simpleGlGrpc: gRPC functionality enabled")
@@ -48,15 +58,19 @@ set(GRPC_HEADERS
     octane_camera_sync.h
 )
 
-# Source files for all executables (simplified - removed problematic SDK-dependent files)
+# Source files for all executables
 set(COMMON_SOURCES
     grpc_camera_sync.cpp
-    octane_camera_sync.cpp
     grpc_settings.cpp
     # Add generated protobuf files for camera control
     generated/camera_control.pb.cc
     generated/camera_control.grpc.pb.cc
 )
+
+# Add SDK-dependent files only on Windows
+if(WIN32)
+    list(APPEND COMMON_SOURCES octane_camera_sync.cpp)
+endif()
 
 # Create the main executable with direct gRPC integration
 add_executable(simpleGlGrpc
@@ -87,17 +101,18 @@ function(configure_simpleGlGrpc_target target_name)
             ${CMAKE_SOURCE_DIR}/third_party/glew/include
             ${CMAKE_SOURCE_DIR}/third_party/glfw/include
             ${CMAKE_SOURCE_DIR}/third_party/glm
-            ${CMAKE_SOURCE_DIR}/sdk
-            ${CMAKE_SOURCE_DIR}/sdk/src/api/grpc/protodef
-            ${CMAKE_SOURCE_DIR}/sdk/src/api/grpc/protoc
-            ${CMAKE_SOURCE_DIR}/sdk/src/api/grpc
-            ${CMAKE_SOURCE_DIR}/sdk/src/api/grpc/client
+            # Only include SDK headers on Windows due to protobuf version conflicts on Linux
+            $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/sdk>
+            $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/sdk/src/api/grpc/protodef>
+            $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/sdk/src/api/grpc/protoc>
+            $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/sdk/src/api/grpc>
+            $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/sdk/src/api/grpc/client>
             ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_CURRENT_SOURCE_DIR}/generated
-            # Add third_party protobuf, gRPC, and absl headers for all platforms
-            ${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include
-            ${CMAKE_SOURCE_DIR}/third_party/grpc/windows/include
-            ${CMAKE_SOURCE_DIR}/third_party/absl/windows/include
+            # Add third_party headers for Windows
+            $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include>
+            $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/third_party/grpc/windows/include>
+            $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/third_party/absl/windows/include>
     )
     
     # Add dependency on protobuf generation
@@ -107,10 +122,18 @@ function(configure_simpleGlGrpc_target target_name)
 
     # Add gRPC include directories if available
     if(GRPC_AVAILABLE)
-        target_include_directories(${target_name}
-            PRIVATE
-                ${GRPC_INCLUDE_DIR}
-        )
+        if(WIN32)
+            target_include_directories(${target_name}
+                PRIVATE
+                    ${GRPC_INCLUDE_DIR}
+            )
+        else()
+            # Linux: Add system gRPC include directories
+            target_include_directories(${target_name}
+                PRIVATE
+                    ${GRPC_INCLUDE_DIRS}
+            )
+        endif()
         
         # Add compile definition for gRPC support
         target_compile_definitions(${target_name}
@@ -122,7 +145,8 @@ function(configure_simpleGlGrpc_target target_name)
     # Link libraries
     target_link_libraries(${target_name}
         PRIVATE
-            octane_sdk
+            # Only link octane_sdk on Windows due to protobuf version conflicts on Linux
+            $<$<PLATFORM_ID:Windows>:octane_sdk>
             glew
             glfw
             glm
@@ -256,7 +280,6 @@ function(configure_simpleGlGrpc_target target_name)
             target_link_libraries(${target_name}
                 PRIVATE
                     ${GRPC_LIBRARIES}
-                    protobuf
             )
         endif()
     endif()
