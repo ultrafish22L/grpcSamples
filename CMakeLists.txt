@@ -69,7 +69,7 @@ endif()
 # SDK folder organization is handled in sdk/CMakeLists.txt
 
 # Generate protobuf files before building SDK
-include(cmake/protobuf_generation.cmake)
+# include(cmake/protobuf_generation.cmake)  # Disabled - using existing protoc files
 
 # Add SDK
 add_subdirectory(sdk)
