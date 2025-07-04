@@ -27,7 +27,7 @@ Alternatively, you can build manually:
 mkdir build
 mkdir build\win-vs2022
 cd build\win-vs2022
-cmake -G "Visual Studio 17 2022" ../../
+cmake -G "Visual Studio 17 2022" -A x64 ../../
 cmake --build . --config Release
 ```
 
@@ -79,11 +79,26 @@ All executables and libraries are placed in the `bin/` directory for easy deploy
 
 ## SDK Library
 
-The SDK is built as a static library (`liboctane_sdk.a` / `octane_sdk.lib`) and linked with simpleGL applications. Currently, the gRPC-dependent portions of the SDK are excluded from the build.
+The SDK is built as a static library (`liboctane_sdk.a` / `octane_sdk.lib`) and linked with simpleGL applications. The gRPC functionality is disabled by default and can be enabled by setting the CMake option `ENABLE_OCTANE_GRPC=ON`.
 
-### Missing gRPC Libraries
+### Windows MSVC Optimizations
 
-To enable the full SDK functionality, the following gRPC libraries need to be added to `third_party/grpc/windows/release_64/`:
+The build system has been optimized for Windows MSVC with the following features:
+
+**Compiler Optimizations:**
+- Parallel compilation enabled (`/MP`)
+- Appropriate warning levels and disabled common third-party warnings
+- Proper exception handling (`/EHsc`)
+- Dynamic runtime library linking for better compatibility
+
+**Library Configuration:**
+- Static linking for all third-party libraries (GLEW, GLFW, GLM)
+- Proper Windows system library linking (user32, gdi32, shell32)
+- WIN32_LEAN_AND_MEAN and NOMINMAX definitions for cleaner Windows builds
+
+### Enabling gRPC Libraries (Optional)
+
+To enable the full SDK functionality, set `ENABLE_OCTANE_GRPC=ON` and ensure the following gRPC libraries are available:
 
 **Core gRPC Libraries:**
 - grpc++.lib, grpc.lib, gpr.lib
@@ -98,12 +113,18 @@ To enable the full SDK functionality, the following gRPC libraries need to be ad
 **Windows System Libraries:**
 - ws2_32.lib, crypt32.lib, advapi32.lib
 
-Once these libraries are added, remove the gRPC exclusion in `sdk/CMakeLists.txt` to build the complete SDK with all 268 source files.
+To enable gRPC functionality:
+```cmd
+cmake -G "Visual Studio 17 2022" -A x64 -DENABLE_OCTANE_GRPC=ON ../../
+```
 
 ## Notes
 
 - The project is configured to use C++17 standard
-- All third-party libraries are built from source to ensure compatibility
+- All third-party libraries are built from source to ensure MSVC compatibility
 - The solution uses proper folder organization for Visual Studio
 - Debug working directory is set to the bin folder for easy asset loading
-- SDK currently builds 31 wrapper files; 236 gRPC client files and octanewrappers.cpp are excluded pending library availability
+- MSVC-specific optimizations include parallel compilation and proper runtime library linking
+- SDK currently builds 31 wrapper files; gRPC functionality is disabled by default
+- Console subsystem is used for all executables to ensure proper debugging experience
+- Windows system libraries are automatically linked when building on Windows

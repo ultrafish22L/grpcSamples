@@ -64,6 +64,10 @@ target_link_libraries(simpleGL
         glfw
         glm
         ${OPENGL_LIBRARIES}
+        # Windows-specific system libraries
+        $<$<PLATFORM_ID:Windows>:user32>
+        $<$<PLATFORM_ID:Windows>:gdi32>
+        $<$<PLATFORM_ID:Windows>:shell32>
 )
 
 # Link libraries for test executable
@@ -73,6 +77,10 @@ target_link_libraries(simpleGL_test
         glew
         glfw
         ${OPENGL_LIBRARIES}
+        # Windows-specific system libraries
+        $<$<PLATFORM_ID:Windows>:user32>
+        $<$<PLATFORM_ID:Windows>:gdi32>
+        $<$<PLATFORM_ID:Windows>:shell32>
 )
 
 # Link libraries for demo executable
@@ -83,6 +91,10 @@ target_link_libraries(simpleGL_demo
         glfw
         glm
         ${OPENGL_LIBRARIES}
+        # Windows-specific system libraries
+        $<$<PLATFORM_ID:Windows>:user32>
+        $<$<PLATFORM_ID:Windows>:gdi32>
+        $<$<PLATFORM_ID:Windows>:shell32>
 )
 
 # Set Visual Studio folder organization
@@ -97,3 +109,28 @@ set_target_properties(simpleGL PROPERTIES
 set_target_properties(simpleGL_test PROPERTIES
     VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin"
 )
+set_target_properties(simpleGL_demo PROPERTIES
+    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin"
+)
+
+# Windows MSVC specific configurations for executables
+if(MSVC)
+    # Set subsystem to console for all executables
+    set_target_properties(simpleGL PROPERTIES
+        LINK_FLAGS "/SUBSYSTEM:CONSOLE"
+    )
+    set_target_properties(simpleGL_test PROPERTIES
+        LINK_FLAGS "/SUBSYSTEM:CONSOLE"
+    )
+    set_target_properties(simpleGL_demo PROPERTIES
+        LINK_FLAGS "/SUBSYSTEM:CONSOLE"
+    )
+    
+    # Set runtime library to match project settings
+    set_property(TARGET simpleGL PROPERTY
+        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+    set_property(TARGET simpleGL_test PROPERTY
+        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+    set_property(TARGET simpleGL_demo PROPERTY
+        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+endif()

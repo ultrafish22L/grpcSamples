@@ -10,7 +10,7 @@ if not exist build\win-vs2022 mkdir build\win-vs2022
 cd build\win-vs2022
 
 echo Generating Visual Studio 2022 solution...
-cmake -G "Visual Studio 17 2022" ../../
+cmake -G "Visual Studio 17 2022" -A x64 ../../
 
 if %ERRORLEVEL% EQU 0 (
     echo.

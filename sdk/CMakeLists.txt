@@ -1,8 +1,8 @@
 # SDK CMakeLists.txt
 cmake_minimum_required(VERSION 3.10)
 
-# Option to enable gRPC functionality
-option(ENABLE_OCTANE_GRPC "Enable Octane gRPC functionality" ON)
+# Option to enable gRPC functionality (disabled by default until libraries are available)
+option(ENABLE_OCTANE_GRPC "Enable Octane gRPC functionality" OFF)
 
 # Collect all source files, excluding gRPC-dependent files for now
 file(GLOB SDK_SOURCES
@@ -47,13 +47,33 @@ target_include_directories(octane_sdk
 # Set C++ standard
 target_compile_features(octane_sdk PUBLIC cxx_std_17)
 
+# Windows MSVC specific configurations
+if(MSVC)
+    # Enable parallel compilation
+    target_compile_options(octane_sdk PRIVATE /MP)
+    
+    # Set warning level and disable specific warnings
+    target_compile_options(octane_sdk PRIVATE /W3)
+    target_compile_options(octane_sdk PRIVATE /wd4996)  # Disable deprecated function warnings
+    
+    # Enable proper exception handling
+    target_compile_options(octane_sdk PRIVATE /EHsc)
+    
+    # Set runtime library to match project settings
+    set_property(TARGET octane_sdk PROPERTY
+        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+endif()
+
 # Set folder for Visual Studio organization
 set_target_properties(octane_sdk PROPERTIES FOLDER "SDK")
 
-# Add compile definitions if needed
+# Add compile definitions
 target_compile_definitions(octane_sdk
     PRIVATE
-        # Add any necessary definitions here
+        # Windows-specific definitions
+        $<$<PLATFORM_ID:Windows>:WIN32_LEAN_AND_MEAN>
+        $<$<PLATFORM_ID:Windows>:NOMINMAX>
+        # Add any other necessary definitions here
 )
 
 # Add gRPC-specific definitions when enabled

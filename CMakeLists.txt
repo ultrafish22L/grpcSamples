@@ -4,6 +4,29 @@ project(GrpcSamples)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Windows MSVC specific configurations
+if(MSVC)
+    # Enable parallel compilation for all targets
+    add_compile_options(/MP)
+    
+    # Set warning level
+    add_compile_options(/W3)
+    
+    # Disable specific warnings that are common in third-party code
+    add_compile_options(/wd4996)  # Deprecated function warnings
+    add_compile_options(/wd4267)  # Size_t conversion warnings
+    add_compile_options(/wd4244)  # Type conversion warnings
+    
+    # Enable proper exception handling
+    add_compile_options(/EHsc)
+    
+    # Set runtime library to dynamic linking
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+    
+    # Add Windows-specific definitions
+    add_compile_definitions(WIN32_LEAN_AND_MEAN NOMINMAX)
+endif()
+
 # Enable solution folders in Visual Studio
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
