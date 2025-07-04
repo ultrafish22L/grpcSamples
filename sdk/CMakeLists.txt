@@ -38,6 +38,8 @@ target_include_directories(octane_sdk
         ${CMAKE_CURRENT_SOURCE_DIR}/src/api
         ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc
         ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/protoc
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/converters
     PRIVATE
         # Use third_party protobuf, gRPC, and absl headers for all platforms
         ${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include
