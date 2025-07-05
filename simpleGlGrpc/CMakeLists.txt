@@ -56,20 +56,24 @@ if(GRPC_AVAILABLE)
     # Create generated directory if it doesn't exist
     file(MAKE_DIRECTORY ${GENERATED_DIR})
     
-    # Generate protobuf files
-    add_custom_command(
-        OUTPUT ${PROTOBUF_GENERATED_FILES}
-        COMMAND ${PROTOC_EXECUTABLE}
-        ARGS --cpp_out=${GENERATED_DIR}
-             --proto_path=${CMAKE_CURRENT_SOURCE_DIR}
-             ${PROTO_FILE}
-        DEPENDS ${PROTO_FILE}
-        COMMENT "Generating protobuf files"
-        VERBATIM
-    )
-    
-    # Generate gRPC files if plugin is available
-    if(GRPC_CPP_PLUGIN)
+    if(WIN32)
+        # Windows: Use third_party protoc and grpc_cpp_plugin
+        set(PROTOC_EXECUTABLE "${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/bin/protoc.exe")
+        set(GRPC_CPP_PLUGIN "${CMAKE_SOURCE_DIR}/third_party/grpc/windows/bin/grpc_cpp_plugin.exe")
+        
+        # Generate protobuf files
+        add_custom_command(
+            OUTPUT ${PROTOBUF_GENERATED_FILES}
+            COMMAND ${PROTOC_EXECUTABLE}
+            ARGS --cpp_out=${GENERATED_DIR}
+                 --proto_path=${CMAKE_CURRENT_SOURCE_DIR}
+                 ${PROTO_FILE}
+            DEPENDS ${PROTO_FILE}
+            COMMENT "Generating protobuf files with ${PROTOC_EXECUTABLE}"
+            VERBATIM
+        )
+        
+        # Generate gRPC files
         add_custom_command(
             OUTPUT ${GRPC_GENERATED_FILES}
             COMMAND ${PROTOC_EXECUTABLE}
@@ -78,7 +82,7 @@ if(GRPC_AVAILABLE)
                  --proto_path=${CMAKE_CURRENT_SOURCE_DIR}
                  ${PROTO_FILE}
             DEPENDS ${PROTO_FILE}
-            COMMENT "Generating gRPC files"
+            COMMENT "Generating gRPC files with ${GRPC_CPP_PLUGIN}"
             VERBATIM
         )
         
@@ -87,10 +91,48 @@ if(GRPC_AVAILABLE)
             DEPENDS ${PROTOBUF_GENERATED_FILES} ${GRPC_GENERATED_FILES}
         )
     else()
-        # Create a target for protobuf files only
-        add_custom_target(generate_grpc_files
-            DEPENDS ${PROTOBUF_GENERATED_FILES}
-        )
+        # Linux: Use system protoc and grpc_cpp_plugin (if available)
+        find_program(PROTOC_EXECUTABLE protoc)
+        find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin)
+        
+        if(PROTOC_EXECUTABLE)
+            # Generate protobuf files
+            add_custom_command(
+                OUTPUT ${PROTOBUF_GENERATED_FILES}
+                COMMAND ${PROTOC_EXECUTABLE}
+                ARGS --cpp_out=${GENERATED_DIR}
+                     --proto_path=${CMAKE_CURRENT_SOURCE_DIR}
+                     ${PROTO_FILE}
+                DEPENDS ${PROTO_FILE}
+                COMMENT "Generating protobuf files"
+                VERBATIM
+            )
+            
+            # Generate gRPC files if plugin is available
+            if(GRPC_CPP_PLUGIN)
+                add_custom_command(
+                    OUTPUT ${GRPC_GENERATED_FILES}
+                    COMMAND ${PROTOC_EXECUTABLE}
+                    ARGS --grpc_out=${GENERATED_DIR}
+                         --plugin=protoc-gen-grpc=${GRPC_CPP_PLUGIN}
+                         --proto_path=${CMAKE_CURRENT_SOURCE_DIR}
+                         ${PROTO_FILE}
+                    DEPENDS ${PROTO_FILE}
+                    COMMENT "Generating gRPC files"
+                    VERBATIM
+                )
+                
+                # Create a target for all generated files
+                add_custom_target(generate_grpc_files
+                    DEPENDS ${PROTOBUF_GENERATED_FILES} ${GRPC_GENERATED_FILES}
+                )
+            else()
+                # Create a target for protobuf files only
+                add_custom_target(generate_grpc_files
+                    DEPENDS ${PROTOBUF_GENERATED_FILES}
+                )
+            endif()
+        endif()
     endif()
 else()
     message(STATUS "simpleGlGrpc: gRPC functionality disabled (libraries not found)")
