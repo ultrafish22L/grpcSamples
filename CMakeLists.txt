@@ -23,6 +23,36 @@ if(MSVC)
     # Set runtime library to static linking (to match third_party libraries)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     
+    # Explicitly set runtime library flags to ensure static linking
+    # Debug: /MTd (MultiThreaded Debug Static)
+    # Release: /MT (MultiThreaded Static)
+    
+    # Replace any existing /MD flags with /MT flags in CMAKE_CXX_FLAGS
+    foreach(flag_var CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+        if(${flag_var} MATCHES "/MD")
+            string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
+        endif()
+        if(${flag_var} MATCHES "/MDd")
+            string(REGEX REPLACE "/MDd" "/MTd" ${flag_var} "${${flag_var}}")
+        endif()
+    endforeach()
+    
+    # Force static runtime library flags
+    add_compile_options(
+        $<$<CONFIG:Debug>:/MTd>
+        $<$<CONFIG:Release>:/MT>
+        $<$<CONFIG:RelWithDebInfo>:/MT>
+        $<$<CONFIG:MinSizeRel>:/MT>
+    )
+    
+    # Add linker flags to ignore conflicting runtime libraries
+    add_link_options(
+        $<$<CONFIG:Debug>:/NODEFAULTLIB:msvcrt>
+        $<$<CONFIG:Debug>:/NODEFAULTLIB:msvcprt>
+        $<$<CONFIG:Release>:/NODEFAULTLIB:msvcrtd>
+        $<$<CONFIG:Release>:/NODEFAULTLIB:msvcprtd>
+    )
+    
     # Add Windows-specific definitions
     add_compile_definitions(WIN32_LEAN_AND_MEAN NOMINMAX)
 endif()
