@@ -386,9 +386,6 @@ function(configure_simpleGlGrpc_target target_name)
         endif()
     endif()
     
-    # Set Visual Studio folder organization
-    set_target_properties(${target_name} PROPERTIES FOLDER "Applications")
-
     # Set working directory for debugging in Visual Studio
     set_target_properties(${target_name} PROPERTIES
         VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin"

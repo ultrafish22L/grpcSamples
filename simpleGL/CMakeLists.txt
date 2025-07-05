@@ -40,9 +40,6 @@ target_link_libraries(simpleGL
         $<$<PLATFORM_ID:Windows>:shell32>
 )
 
-# Set Visual Studio folder organization
-set_target_properties(simpleGL PROPERTIES FOLDER "Applications")
-
 # Set working directory for debugging in Visual Studio
 set_target_properties(simpleGL PROPERTIES
     VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin"
