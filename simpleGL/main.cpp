@@ -5,12 +5,16 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <cmath>
+#include <vector>
+#include <string>
 
-// Simple OpenGL demo without SDK integration
+#include "../shared_rendering.h"
+
+// Modern 3D Cube Viewer with enhanced graphics
 
 // Window dimensions
-const int WINDOW_WIDTH = 800;
-const int WINDOW_HEIGHT = 600;
+const int WINDOW_WIDTH = 1200;
+const int WINDOW_HEIGHT = 800;
 
 // Camera parameters
 struct Camera {
@@ -42,130 +46,7 @@ struct MouseState {
 
 Camera camera;
 MouseState mouse;
-
-// Vertex shader source
-const char* vertexShaderSource = R"(
-#version 330 core
-layout (location = 0) in vec3 aPos;
-layout (location = 1) in vec3 aColor;
-
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
-
-out vec3 vertexColor;
-
-void main()
-{
-    gl_Position = projection * view * model * vec4(aPos, 1.0);
-    vertexColor = aColor;
-}
-)";
-
-// Fragment shader source
-const char* fragmentShaderSource = R"(
-#version 330 core
-in vec3 vertexColor;
-out vec4 FragColor;
-
-void main()
-{
-    FragColor = vec4(vertexColor, 1.0);
-}
-)";
-
-// Cube vertices with colors
-float vertices[] = {
-    // Front face (red)
-    -0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
-     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
-    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
-    
-    // Back face (green)
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-     0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-    
-    // Left face (blue)
-    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
-    
-    // Right face (yellow)
-     0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 0.0f,
-     0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 0.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,
-    
-    // Top face (magenta)
-    -0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 1.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,
-    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,
-    
-    // Bottom face (cyan)
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
-     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
-     0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f
-};
-
-unsigned int indices[] = {
-    // Front face
-    0, 1, 2,   2, 3, 0,
-    // Back face
-    4, 5, 6,   6, 7, 4,
-    // Left face
-    8, 9, 10,  10, 11, 8,
-    // Right face
-    12, 13, 14, 14, 15, 12,
-    // Top face
-    16, 17, 18, 18, 19, 16,
-    // Bottom face
-    20, 21, 22, 22, 23, 20
-};
-
-GLuint compileShader(GLenum type, const char* source) {
-    GLuint shader = glCreateShader(type);
-    glShaderSource(shader, 1, &source, NULL);
-    glCompileShader(shader);
-    
-    int success;
-    char infoLog[512];
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-    if (!success) {
-        glGetShaderInfoLog(shader, 512, NULL, infoLog);
-        std::cerr << "Shader compilation failed: " << infoLog << std::endl;
-    }
-    
-    return shader;
-}
-
-GLuint createShaderProgram() {
-    GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderSource);
-    GLuint fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
-    
-    GLuint shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-    
-    int success;
-    char infoLog[512];
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if (!success) {
-        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        std::cerr << "Shader program linking failed: " << infoLog << std::endl;
-    }
-    
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-    
-    return shaderProgram;
-}
+ModernRendering::ModernRenderer renderer;
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
     (void)mods; // Suppress unused parameter warning
@@ -223,13 +104,17 @@ int main() {
         return -1;
     }
     
-    // Configure GLFW
+    // Configure GLFW with modern settings
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_SAMPLES, 4); // 4x MSAA for anti-aliasing
+    glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
+    glfwWindowHint(GLFW_DEPTH_BITS, 24);
+    glfwWindowHint(GLFW_STENCIL_BITS, 8);
     
-    // Create window
-    GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "3D Cube Viewer", NULL, NULL);
+    // Create window with modern styling
+    GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "✨ Shiny 3D Cube Viewer - Modern Edition", NULL, NULL);
     if (!window) {
         std::cerr << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -250,40 +135,14 @@ int main() {
     glfwSetCursorPosCallback(window, cursorPosCallback);
     glfwSetScrollCallback(window, scrollCallback);
     
-    // Enable depth testing
+    // Enable depth testing and other modern OpenGL features
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_MULTISAMPLE); // Anti-aliasing
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
-    // Simple OpenGL demo - no external SDK integration needed
-    
-    // Create shader program
-    GLuint shaderProgram = createShaderProgram();
-    
-    // Create VAO, VBO, and EBO
-    GLuint VAO, VBO, EBO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-    
-    glBindVertexArray(VAO);
-    
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-    
-    // Position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    
-    // Color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-    
-    // Get uniform locations
-    GLint modelLoc = glGetUniformLocation(shaderProgram, "model");
-    GLint viewLoc = glGetUniformLocation(shaderProgram, "view");
-    GLint projLoc = glGetUniformLocation(shaderProgram, "projection");
+    // Initialize modern renderer
+    renderer.initialize();
     
     // Main render loop
     while (!glfwWindowShouldClose(window)) {
@@ -294,41 +153,28 @@ int main() {
             glfwSetWindowShouldClose(window, true);
         }
         
-        // Clear screen
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        // Clear screen with a subtle dark color
+        glClearColor(0.05f, 0.05f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-        // Use shader program
-        glUseProgram(shaderProgram);
+        float currentTime = (float)glfwGetTime();
         
         // Create transformation matrices
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::rotate(model, (float)glfwGetTime() * 0.5f, glm::vec3(0.5f, 1.0f, 0.0f));
-        
         glm::mat4 view = camera.getViewMatrix();
-        
         glm::mat4 projection = glm::perspective(glm::radians(45.0f), 
                                                (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 
                                                0.1f, 100.0f);
+        glm::vec3 viewPos = camera.getPosition();
         
-        // Set uniforms
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-        glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-        
-        // Draw cube
-        glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+        // Render using modern renderer
+        renderer.render(view, projection, viewPos, currentTime);
         
         // Swap buffers
         glfwSwapBuffers(window);
     }
     
     // Cleanup
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
-    glDeleteProgram(shaderProgram);
+    renderer.cleanup();
     
     glfwTerminate();
     return 0;

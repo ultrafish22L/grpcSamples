@@ -12,8 +12,10 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+#include "../shared_rendering.h"
+
 int main() {
-    std::cout << "Testing OpenGL setup...\n";
+    std::cout << "✨ Testing Modern OpenGL setup...\n";
     
     // Initialize GLFW
     if (!glfwInit()) {
@@ -23,10 +25,14 @@ int main() {
     
     std::cout << "GLFW initialized successfully\n";
     
-    // Configure GLFW for OpenGL 3.3 Core
+    // Configure GLFW for Modern OpenGL 3.3 Core with enhanced features
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_SAMPLES, 4); // 4x MSAA for anti-aliasing
+    glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
+    glfwWindowHint(GLFW_DEPTH_BITS, 24);
+    glfwWindowHint(GLFW_STENCIL_BITS, 8);
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // Don't show window
     
     // Create a hidden window for context

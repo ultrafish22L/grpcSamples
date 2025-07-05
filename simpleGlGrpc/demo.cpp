@@ -1,13 +1,15 @@
 /*
- * 3D Cube Viewer Demo
+ * ✨ Modern 3D Cube Viewer Demo
  * 
  * This is a simplified version showing the key concepts used in the main application.
- * It demonstrates the camera system and basic OpenGL setup.
+ * It demonstrates the camera system, modern OpenGL rendering with lighting, and gRPC integration.
  */
 
 #include <iostream>
 #include <cmath>
 #include <glm/glm.hpp>
+
+#include "../shared_rendering.h"
 
 // Direct gRPC integration
 #include "grpc_camera_sync.h"
