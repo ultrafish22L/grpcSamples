@@ -56,6 +56,11 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "Build the GLFW test programs")
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "Build the GLFW documentation")
 set(GLFW_INSTALL OFF CACHE BOOL "Generate installation target")
 
+# Configure GLFW to use static runtime library (to match our project settings)
+if(MSVC)
+    set(USE_MSVC_RUNTIME_LIBRARY_DLL OFF CACHE BOOL "Use MSVC runtime library DLL")
+endif()
+
 add_subdirectory(third_party/glew)
 add_subdirectory(third_party/glfw)
 add_subdirectory(third_party/glm)

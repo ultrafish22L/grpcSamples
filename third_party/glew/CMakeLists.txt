@@ -33,7 +33,7 @@ set_target_properties(glew PROPERTIES FOLDER "ThirdParty")
 if(MSVC)
     # Set runtime library to match project settings
     set_property(TARGET glew PROPERTY
-        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
         
     # Disable specific warnings for GLEW
     target_compile_options(glew PRIVATE /wd4996 /wd4267 /wd4244)
