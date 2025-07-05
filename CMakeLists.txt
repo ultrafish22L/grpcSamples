@@ -30,6 +30,9 @@ endif()
 # Enable solution folders in Visual Studio
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+# Set simpleGL as the default startup project in Visual Studio
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT simpleGL)
+
 # Set OpenGL preference to avoid warnings
 if(POLICY CMP0072)
     cmake_policy(SET CMP0072 NEW)
