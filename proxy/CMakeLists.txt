@@ -106,9 +106,58 @@ add_custom_target(grpc_proxy_server
     VERBATIM
 )
 
+# Visual Studio configuration for proxy targets
+if(WIN32)
+    # Create a simple executable that triggers protobuf generation
+    # This provides a concrete build target that Visual Studio can handle
+    add_executable(python_protobuf_builder
+        "${CMAKE_CURRENT_SOURCE_DIR}/proxy_build_helper.cpp"
+    )
+    
+    # Make the executable depend on protobuf generation
+    add_dependencies(python_protobuf_builder python_protobuf_generation)
+    
+    # Set properties for Visual Studio
+    set_target_properties(python_protobuf_builder PROPERTIES
+        FOLDER "Proxy"
+        OUTPUT_NAME "protobuf_generator"
+        EXCLUDE_FROM_DEFAULT_BUILD FALSE  # Include in default build
+    )
+    
+    # Set protobuf generation properties
+    set_target_properties(python_protobuf_generation PROPERTIES
+        EXCLUDE_FROM_DEFAULT_BUILD FALSE
+        EXCLUDE_FROM_ALL FALSE
+    )
+    
+    # Proxy server target (for manual execution)
+    set_target_properties(grpc_proxy_server PROPERTIES
+        EXCLUDE_FROM_DEFAULT_BUILD TRUE  # Don't run automatically
+        EXCLUDE_FROM_ALL FALSE
+    )
+    
+    message(STATUS "Visual Studio: Use 'python_protobuf_builder' target to generate Python files")
+    message(STATUS "Visual Studio: Use 'grpc_proxy_server' target to run proxy server")
+else()
+    # Linux: Custom targets work normally
+    set_target_properties(python_protobuf_generation PROPERTIES
+        EXCLUDE_FROM_DEFAULT_BUILD FALSE
+        EXCLUDE_FROM_ALL FALSE
+    )
+    set_target_properties(grpc_proxy_server PROPERTIES
+        EXCLUDE_FROM_DEFAULT_BUILD FALSE
+        EXCLUDE_FROM_ALL FALSE
+    )
+endif()
+
 # Set folder organization in Visual Studio
 set_target_properties(python_protobuf_generation PROPERTIES FOLDER "Proxy")
 set_target_properties(grpc_proxy_server PROPERTIES FOLDER "Proxy")
+
+# Set folder for Windows-specific target
+if(WIN32 AND TARGET python_protobuf_builder)
+    set_target_properties(python_protobuf_builder PROPERTIES FOLDER "Proxy")
+endif()
 
 # Add installation rules for Python files (optional)
 if(WIN32)

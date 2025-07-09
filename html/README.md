@@ -87,8 +87,12 @@ python grpc_proxy.py
 
 **Alternative: Use CMake target**:
 ```bash
-# From build directory
+# Linux/Command Line
 cmake --build . --target grpc_proxy_server
+
+# Windows Visual Studio: First build protobuf files, then run proxy
+cmake --build . --target python_protobuf_builder  # Generates Python files
+cmake --build . --target grpc_proxy_server         # Runs proxy server
 ```
 
 ### Step 3: Start Web Server
@@ -200,6 +204,12 @@ shared/generated/           # Generated Python protobuf files
 2. ✅ Check CMake finds protobuf and grpc
 3. ✅ Verify Python has grpcio-tools installed
 4. ✅ Run `cmake --build . --target python_protobuf_generation`
+
+**Visual Studio specific issues**:
+1. ✅ If "grpc_proxy_server" is skipped: Build `python_protobuf_builder` first
+2. ✅ Check that Python is found by CMake (`find_package(Python3)`)
+3. ✅ Ensure protoc.exe exists in `third_party/protobuf/windows/bin/`
+4. ✅ Use "Build Solution" to generate all protobuf files automatically
 
 ### Debug Tools
 
