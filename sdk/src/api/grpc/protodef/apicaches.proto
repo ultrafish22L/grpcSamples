@@ -1,0 +1,56 @@
+//////////////////////////////////////////////////////////////////////////////
+// WARNING: This code is machine generated. Manual changes will be overridden.
+
+syntax = "proto3";
+
+package octaneapi;
+
+option optimize_for = CODE_SIZE;
+
+import "google/protobuf/empty.proto";
+
+ // GRPC proto definitions for 'ApiCaches' class from 'apicaches.h'
+message ApiCaches
+{
+    // Request packet corresponding to '[in] parameters in ApiCaches::getMeshletCacheSize'
+    message getMeshletCacheSizeRequest
+    {
+    }
+
+    // Response packet corresponding to '[out] parameters in 'ApiCaches::getMeshletCacheSize'
+    message getMeshletCacheSizeResponse
+    {
+        
+        uint64 result = 1;
+    }
+
+    // Request packet corresponding to '[in] parameters in ApiCaches::getMeshletCacheUsedSize'
+    message getMeshletCacheUsedSizeRequest
+    {
+    }
+
+    // Response packet corresponding to '[out] parameters in 'ApiCaches::getMeshletCacheUsedSize'
+    message getMeshletCacheUsedSizeResponse
+    {
+        
+        uint64 result = 1;
+    }
+
+    // Request packet corresponding to '[in] parameters in ApiCaches::clearMeshletCache'
+    message clearMeshletCacheRequest
+    {
+    }
+
+}
+
+
+// GRPC interface definition for class 'ApiCaches' from 'apicaches.h'
+service ApiCachesService
+{
+    /// Returns the maximum size of the meshlet cache in bytes
+    rpc getMeshletCacheSize(ApiCaches.getMeshletCacheSizeRequest) returns (ApiCaches.getMeshletCacheSizeResponse);
+    /// Returns the amount data stored in the meshlet cache in number of bytes
+    rpc getMeshletCacheUsedSize(ApiCaches.getMeshletCacheUsedSizeRequest) returns (ApiCaches.getMeshletCacheUsedSizeResponse);
+    /// Deletes all meshlet cache files that are currently not in use
+    rpc clearMeshletCache(ApiCaches.clearMeshletCacheRequest) returns (google.protobuf.Empty);
+}

@@ -1,0 +1,44 @@
+# Build directories
+build/
+bin/
+obj/
+
+.svn
+
+# Executables
+*.exe
+*.out
+
+# Object files
+*.o
+*.obj
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile.cmake
+
+# IDE files
+.vscode/
+.vs/
+*.vcxproj*
+*.sln
+*.pdb
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*~
+*.tmp
+*.swp
+*.swo
+
+# Generated protobuf files
+#sdk/src/api/grpc/protoc/
+*.pb.h
+*.pb.cc
+*.grpc.pb.h
+*.grpc.pb.ccserver.log

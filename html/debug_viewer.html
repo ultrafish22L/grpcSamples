@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Viewer</title>
+    <script src="livelink.js"></script>
+</head>
+<body>
+    <h1>Debug Viewer</h1>
+    <button onclick="testViewer()">Test Viewer</button>
+    <div id="output"></div>
+    
+    <script>
+        class OctaneGrpcSync {
+            constructor() {
+                this.liveLink = new LiveLinkManager('ws://127.0.0.1:51022');
+                console.log('OctaneGrpcSync created');
+            }
+            
+            connect() {
+                console.log('Connect method called');
+                document.getElementById('output').innerHTML += '<p>Connect method called!</p>';
+            }
+        }
+        
+        let viewer;
+        
+        window.addEventListener('load', () => {
+            console.log('Window loaded');
+            viewer = new OctaneGrpcSync();
+            console.log('Viewer created:', viewer);
+            document.getElementById('output').innerHTML += '<p>Viewer created successfully</p>';
+        });
+        
+        function testViewer() {
+            console.log('Testing viewer:', viewer);
+            document.getElementById('output').innerHTML += '<p>Testing viewer...</p>';
+            if (viewer) {
+                viewer.connect();
+            } else {
+                document.getElementById('output').innerHTML += '<p>ERROR: viewer is undefined!</p>';
+            }
+        }
+    </script>
+</body>
+</html>

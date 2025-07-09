@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiveLink.js Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #0a0a0f;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .section {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .highlight {
+            color: #4fc3f7;
+            font-weight: bold;
+        }
+        
+        button {
+            background: rgba(76, 175, 80, 0.8);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background: rgba(76, 175, 80, 1);
+        }
+        
+        button:disabled {
+            background: rgba(100, 100, 100, 0.5);
+            cursor: not-allowed;
+        }
+        
+        input {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 300px;
+            margin: 5px;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        
+        .status-connected {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+        }
+        
+        .status-disconnected {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.5);
+        }
+        
+        .status-connecting {
+            background: rgba(255, 152, 0, 0.2);
+            border: 1px solid rgba(255, 152, 0, 0.5);
+        }
+        
+        .log {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+        
+        .log-entry {
+            margin: 2px 0;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+        
+        .log-info {
+            color: #4fc3f7;
+        }
+        
+        .log-success {
+            color: #4caf50;
+        }
+        
+        .log-error {
+            color: #f44336;
+        }
+        
+        .log-warning {
+            color: #ff9800;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 LiveLink.js Test Interface</h1>
+        
+        <div class="section">
+            <div class="highlight">Connection</div>
+            <div>
+                <input type="text" id="serverUrl" placeholder="WebSocket URL" value="ws://127.0.0.1:51022">
+                <button id="connectBtn" onclick="connect()">Connect</button>
+                <button id="disconnectBtn" onclick="disconnect()" disabled>Disconnect</button>
+            </div>
+            <div id="connectionStatus" class="status status-disconnected">
+                Status: Disconnected
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="highlight">LiveLink Operations</div>
+            <div>
+                <button id="getMeshesBtn" onclick="getMeshes()" disabled>Get Meshes</button>
+                <button id="getCameraBtn" onclick="getCamera()" disabled>Get Camera</button>
+                <button id="setCameraBtn" onclick="setTestCamera()" disabled>Set Test Camera</button>
+                <button id="startSyncBtn" onclick="toggleCameraSync()" disabled>Start Camera Sync</button>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="highlight">Test Camera Controls</div>
+            <div>
+                Position: 
+                <input type="number" id="posX" value="5" step="0.1" style="width: 80px;">
+                <input type="number" id="posY" value="3" step="0.1" style="width: 80px;">
+                <input type="number" id="posZ" value="5" step="0.1" style="width: 80px;">
+            </div>
+            <div>
+                Target: 
+                <input type="number" id="targetX" value="0" step="0.1" style="width: 80px;">
+                <input type="number" id="targetY" value="0" step="0.1" style="width: 80px;">
+                <input type="number" id="targetZ" value="0" step="0.1" style="width: 80px;">
+            </div>
+            <div>
+                FOV: <input type="number" id="fov" value="45" step="1" style="width: 80px;">°
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="highlight">Statistics</div>
+            <div id="stats">
+                <div>Calls: <span id="callCount">0</span></div>
+                <div>Avg Response Time: <span id="avgResponseTime">--</span>ms</div>
+                <div>Connection State: <span id="connState">disconnected</span></div>
+                <div>Sync Active: <span id="syncActive">false</span></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="highlight">Activity Log</div>
+            <div id="log" class="log"></div>
+            <button onclick="clearLog()">Clear Log</button>
+        </div>
+    </div>
+
+    <!-- Include LiveLink.js library -->
+    <script src="livelink.js"></script>
+    
+    <script>
+        let liveLink = null;
+        let syncActive = false;
+        let testCameraAngle = 0;
+        
+        function log(message, type = 'info') {
+            const logDiv = document.getElementById('log');
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logDiv.appendChild(entry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+        
+        function updateStatus(status, className) {
+            const statusDiv = document.getElementById('connectionStatus');
+            statusDiv.textContent = `Status: ${status}`;
+            statusDiv.className = `status status-${className}`;
+        }
+        
+        function updateButtons(connected) {
+            document.getElementById('connectBtn').disabled = connected;
+            document.getElementById('disconnectBtn').disabled = !connected;
+            document.getElementById('getMeshesBtn').disabled = !connected;
+            document.getElementById('getCameraBtn').disabled = !connected;
+            document.getElementById('setCameraBtn').disabled = !connected;
+            document.getElementById('startSyncBtn').disabled = !connected;
+        }
+        
+        function updateStats() {
+            if (!liveLink) return;
+            
+            const stats = liveLink.getStats();
+            document.getElementById('callCount').textContent = stats.client.callCount;
+            document.getElementById('avgResponseTime').textContent = 
+                stats.client.avgResponseTime ? stats.client.avgResponseTime.toFixed(1) : '--';
+            document.getElementById('connState').textContent = stats.client.connectionState;
+            document.getElementById('syncActive').textContent = stats.sync.active;
+        }
+        
+        async function connect() {
+            const serverUrl = document.getElementById('serverUrl').value;
+            
+            try {
+                updateStatus('Connecting...', 'connecting');
+                log('Connecting to ' + serverUrl, 'info');
+                
+                liveLink = new LiveLinkManager(serverUrl);
+                
+                // Setup event handlers
+                liveLink.client.on('connected', () => {
+                    updateStatus('Connected', 'connected');
+                    updateButtons(true);
+                    log('Connected to Octane LiveLink server', 'success');
+                });
+                
+                liveLink.client.on('disconnected', () => {
+                    updateStatus('Disconnected', 'disconnected');
+                    updateButtons(false);
+                    log('Disconnected from server', 'warning');
+                });
+                
+                liveLink.client.on('error', (error) => {
+                    log('Error: ' + error.message, 'error');
+                });
+                
+                await liveLink.connect();
+                
+            } catch (error) {
+                updateStatus('Connection Failed', 'disconnected');
+                log('Connection failed: ' + error.message, 'error');
+            }
+        }
+        
+        function disconnect() {
+            if (liveLink) {
+                liveLink.disconnect();
+                liveLink = null;
+            }
+            updateStatus('Disconnected', 'disconnected');
+            updateButtons(false);
+            log('Disconnected', 'info');
+        }
+        
+        async function getMeshes() {
+            if (!liveLink) return;
+            
+            try {
+                log('Requesting meshes from Octane...', 'info');
+                const meshes = await liveLink.getMeshes();
+                log(`Received ${meshes.length} meshes`, 'success');
+                
+                meshes.forEach((mesh, index) => {
+                    log(`  ${index + 1}. ${mesh.name} (ID: ${mesh.id})`, 'info');
+                });
+                
+                if (meshes.length === 0) {
+                    log('No meshes found in scene', 'warning');
+                }
+                
+            } catch (error) {
+                log('Failed to get meshes: ' + error.message, 'error');
+            }
+        }
+        
+        async function getCamera() {
+            if (!liveLink) return;
+            
+            try {
+                log('Requesting camera state from Octane...', 'info');
+                const camera = await liveLink.getCamera();
+                log('Received camera state', 'success');
+                
+                if (camera.position) {
+                    log(`  Position: (${camera.position.x.toFixed(2)}, ${camera.position.y.toFixed(2)}, ${camera.position.z.toFixed(2)})`, 'info');
+                }
+                if (camera.target) {
+                    log(`  Target: (${camera.target.x.toFixed(2)}, ${camera.target.y.toFixed(2)}, ${camera.target.z.toFixed(2)})`, 'info');
+                }
+                if (camera.fov) {
+                    log(`  FOV: ${camera.fov.toFixed(1)}°`, 'info');
+                }
+                
+            } catch (error) {
+                log('Failed to get camera: ' + error.message, 'error');
+            }
+        }
+        
+        async function setTestCamera() {
+            if (!liveLink) return;
+            
+            try {
+                const position = {
+                    x: parseFloat(document.getElementById('posX').value),
+                    y: parseFloat(document.getElementById('posY').value),
+                    z: parseFloat(document.getElementById('posZ').value)
+                };
+                
+                const target = {
+                    x: parseFloat(document.getElementById('targetX').value),
+                    y: parseFloat(document.getElementById('targetY').value),
+                    z: parseFloat(document.getElementById('targetZ').value)
+                };
+                
+                const up = { x: 0, y: 1, z: 0 };
+                const fov = parseFloat(document.getElementById('fov').value);
+                
+                log(`Setting camera: pos(${position.x}, ${position.y}, ${position.z}) target(${target.x}, ${target.y}, ${target.z}) fov(${fov})`, 'info');
+                
+                await liveLink.setCamera(position, target, up, fov);
+                log('Camera set successfully', 'success');
+                
+            } catch (error) {
+                log('Failed to set camera: ' + error.message, 'error');
+            }
+        }
+        
+        function toggleCameraSync() {
+            if (!liveLink) return;
+            
+            syncActive = !syncActive;
+            const button = document.getElementById('startSyncBtn');
+            
+            if (syncActive) {
+                // Start animated camera sync
+                liveLink.startCameraSync(() => getAnimatedCamera());
+                button.textContent = 'Stop Camera Sync';
+                log('Started animated camera sync', 'success');
+            } else {
+                liveLink.stopCameraSync();
+                button.textContent = 'Start Camera Sync';
+                log('Stopped camera sync', 'warning');
+            }
+        }
+        
+        function getAnimatedCamera() {
+            // Create a simple orbiting camera for demonstration
+            testCameraAngle += 0.02;
+            const radius = 8;
+            
+            return {
+                position: {
+                    x: Math.cos(testCameraAngle) * radius,
+                    y: 4,
+                    z: Math.sin(testCameraAngle) * radius
+                },
+                target: { x: 0, y: 0, z: 0 },
+                up: { x: 0, y: 1, z: 0 },
+                fov: 45
+            };
+        }
+        
+        // Update stats periodically
+        setInterval(updateStats, 1000);
+        
+        // Initialize
+        log('LiveLink.js Test Interface ready', 'info');
+        log('Enter server URL and click Connect to start', 'info');
+    </script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP/gRPC Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background-color: #2a2a2a;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 3px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .log {
+            background-color: #000;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 3px;
+            font-family: monospace;
+            height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+        .error { color: #f44; }
+        .success { color: #4f4; }
+        .info { color: #44f; }
+    </style>
+</head>
+<body>
+    <h1>🌐 HTTP/gRPC Connection Test</h1>
+    
+    <div class="test-section">
+        <h3>Test HTTP Endpoints</h3>
+        <button onclick="testHttp('http://127.0.0.1:51022')">Test http://127.0.0.1:51022</button>
+        <button onclick="testHttp('http://127.0.0.1:51022/health')">Test /health</button>
+        <button onclick="testHttp('http://127.0.0.1:51022/status')">Test /status</button>
+        <button onclick="testHttp('http://127.0.0.1:51022/livelink')">Test /livelink</button>
+        <br>
+        <button onclick="testHttp('https://127.0.0.1:51022')">Test https://127.0.0.1:51022</button>
+        <button onclick="clearLog()">Clear Log</button>
+    </div>
+
+    <div class="test-section">
+        <h3>Test Different Ports (HTTP)</h3>
+        <button onclick="testHttp('http://127.0.0.1:51021')">Test Port 51021</button>
+        <button onclick="testHttp('http://127.0.0.1:51023')">Test Port 51023</button>
+        <button onclick="testHttp('http://127.0.0.1:8080')">Test Port 8080</button>
+        <button onclick="testHttp('http://127.0.0.1:3000')">Test Port 3000</button>
+        <button onclick="testHttp('http://127.0.0.1:9090')">Test Port 9090</button>
+    </div>
+
+    <div class="test-section">
+        <h3>gRPC-Web Test</h3>
+        <button onclick="testGrpcWeb()">Test gRPC-Web Connection</button>
+        <p><small>Note: This tests if the server supports gRPC-Web protocol</small></p>
+    </div>
+
+    <div class="test-section">
+        <h3>Connection Log</h3>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        function log(message, type = 'info') {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = type;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logDiv.appendChild(logEntry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        async function testHttp(url) {
+            log(`Testing HTTP connection to: ${url}`, 'info');
+            
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
+                
+                const response = await fetch(url, {
+                    method: 'GET',
+                    signal: controller.signal,
+                    mode: 'cors'
+                });
+                
+                clearTimeout(timeoutId);
+                
+                log(`✅ HTTP Response: ${response.status} ${response.statusText}`, 'success');
+                log(`Content-Type: ${response.headers.get('content-type') || 'unknown'}`, 'info');
+                
+                // Try to read response text (limited)
+                try {
+                    const text = await response.text();
+                    const preview = text.substring(0, 200);
+                    log(`Response preview: ${preview}${text.length > 200 ? '...' : ''}`, 'info');
+                } catch (e) {
+                    log(`Could not read response body: ${e.message}`, 'error');
+                }
+                
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    log(`❌ HTTP Request timeout for ${url}`, 'error');
+                } else {
+                    log(`❌ HTTP Request failed: ${error.message}`, 'error');
+                }
+            }
+        }
+
+        async function testGrpcWeb() {
+            log('Testing gRPC-Web connection...', 'info');
+            
+            const grpcUrl = 'http://127.0.0.1:51022';
+            
+            try {
+                // Test gRPC-Web with a simple request
+                const response = await fetch(grpcUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/grpc-web+proto',
+                        'Accept': 'application/grpc-web+proto'
+                    },
+                    body: new Uint8Array([0, 0, 0, 0, 0]) // Empty gRPC message
+                });
+                
+                log(`✅ gRPC-Web Response: ${response.status} ${response.statusText}`, 'success');
+                log(`Headers: ${JSON.stringify(Object.fromEntries(response.headers.entries()))}`, 'info');
+                
+            } catch (error) {
+                log(`❌ gRPC-Web test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Initial log message
+        log('HTTP/gRPC Connection Test ready. Testing if Octane server is running on HTTP instead of WebSocket.', 'info');
+    </script>
+</body>
+</html>

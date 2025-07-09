@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple LiveLink Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fafafa;
+        }
+        button {
+            background: #007cba;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #005a8b;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .status.connected { background: #d4edda; color: #155724; }
+        .status.disconnected { background: #f8d7da; color: #721c24; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .log {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+        .success { color: #68d391; }
+        .error { color: #fc8181; }
+        .info { color: #63b3ed; }
+        .warning { color: #f6e05e; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 Simple LiveLink Test</h1>
+        
+        <div class="test-section">
+            <h3>Connection Test</h3>
+            <div id="status" class="status disconnected">Disconnected</div>
+            <button onclick="testConnection()">Test Connection</button>
+            <button onclick="clearLog()">Clear Log</button>
+        </div>
+
+        <div class="test-section">
+            <h3>Camera Test</h3>
+            <button onclick="testCamera()" disabled id="cameraBtn">Test Camera Operations</button>
+        </div>
+
+        <div class="test-section">
+            <h3>Activity Log</h3>
+            <div id="log" class="log"></div>
+        </div>
+    </div>
+
+    <!-- Include gRPC-Web dependencies -->
+    <script src="https://unpkg.com/google-protobuf@3.21.2/google-protobuf.js"></script>
+    <script src="https://unpkg.com/grpc-web@1.4.2/index.js"></script>
+    
+    <!-- Module loader for browser compatibility -->
+    <script src="module-loader.js"></script>
+    
+    <!-- Include generated gRPC-Web files -->
+    <script src="generated/livelink_pb.js"></script>
+    <script src="generated/livelink_grpc_web_pb.js"></script>
+    
+    <!-- Include our LiveLink client -->
+    <script src="livelink.js"></script>
+
+    <script>
+        let client = null;
+
+        function log(message, type = 'info') {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = type;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logDiv.appendChild(logEntry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        function updateStatus(status) {
+            const statusDiv = document.getElementById('status');
+            const cameraBtn = document.getElementById('cameraBtn');
+            
+            statusDiv.className = `status ${status}`;
+            
+            switch (status) {
+                case 'connected':
+                    statusDiv.textContent = 'Connected ✅';
+                    cameraBtn.disabled = false;
+                    break;
+                case 'disconnected':
+                    statusDiv.textContent = 'Disconnected ❌';
+                    cameraBtn.disabled = true;
+                    break;
+                case 'error':
+                    statusDiv.textContent = 'Connection Error ⚠️';
+                    cameraBtn.disabled = true;
+                    break;
+                default:
+                    statusDiv.textContent = status;
+                    cameraBtn.disabled = true;
+            }
+        }
+
+        async function testConnection() {
+            try {
+                log('🔄 Starting connection test...', 'info');
+                
+                // Get LiveLink client
+                client = liveLinkManager.getClient('http://127.0.0.1:8080');
+                log('✅ LiveLink client created', 'success');
+                
+                // Set up event listeners
+                client.on('connected', () => {
+                    log('🎉 Connected to Octane server!', 'success');
+                    updateStatus('connected');
+                });
+                
+                client.on('connectionStateChanged', (state) => {
+                    log(`📡 Connection state: ${state}`, 'info');
+                });
+                
+                client.on('error', (error) => {
+                    log(`❌ Connection error: ${error.message}`, 'error');
+                    updateStatus('error');
+                });
+                
+                // Test proto classes
+                log('🧪 Testing proto classes...', 'info');
+                if (typeof proto !== 'undefined' && proto.livelinkapi) {
+                    log('✅ Proto classes available:', 'success');
+                    const classes = Object.keys(proto.livelinkapi);
+                    log(`   Classes: ${classes.join(', ')}`, 'info');
+                    
+                    // Test creating a camera state
+                    const cameraState = new proto.livelinkapi.CameraState();
+                    const position = new proto.livelinkapi.Vec3();
+                    position.setX(1);
+                    position.setY(2);
+                    position.setZ(3);
+                    cameraState.setPosition(position);
+                    log('✅ CameraState object created successfully', 'success');
+                } else {
+                    log('❌ Proto classes not available', 'error');
+                }
+                
+                // Test gRPC client creation
+                log('🔧 Testing gRPC client creation...', 'info');
+                if (proto.livelinkapi.LiveLinkServiceClient) {
+                    const grpcClient = new proto.livelinkapi.LiveLinkServiceClient('http://127.0.0.1:8080');
+                    log('✅ gRPC client created successfully', 'success');
+                } else {
+                    log('❌ LiveLinkServiceClient not available', 'error');
+                }
+                
+                // Attempt connection (will fail with expected error)
+                log('🌐 Attempting connection to server...', 'info');
+                try {
+                    await client.connect();
+                    log('✅ Connection successful!', 'success');
+                    updateStatus('connected');
+                } catch (error) {
+                    if (error.message.includes('rpcCall is not a function')) {
+                        log('⚠️ Expected error: Minimal gRPC-Web implementation', 'warning');
+                        log('   This would work with a real gRPC-Web server', 'info');
+                        updateStatus('error');
+                    } else {
+                        log(`❌ Unexpected error: ${error.message}`, 'error');
+                        updateStatus('error');
+                    }
+                }
+                
+                log('🏁 Connection test completed', 'info');
+                
+            } catch (error) {
+                log(`💥 Test failed: ${error.message}`, 'error');
+                updateStatus('error');
+            }
+        }
+
+        async function testCamera() {
+            if (!client) {
+                log('❌ No client available. Run connection test first.', 'error');
+                return;
+            }
+            
+            try {
+                log('📷 Testing camera operations...', 'info');
+                
+                // Create test camera state
+                const cameraState = {
+                    position: { x: 5, y: 3, z: 8 },
+                    target: { x: 0, y: 0, z: 0 },
+                    up: { x: 0, y: 1, z: 0 },
+                    fov: 45
+                };
+                
+                log('🎯 Created test camera state:', 'info');
+                log(`   Position: (${cameraState.position.x}, ${cameraState.position.y}, ${cameraState.position.z})`, 'info');
+                log(`   Target: (${cameraState.target.x}, ${cameraState.target.y}, ${cameraState.target.z})`, 'info');
+                log(`   FOV: ${cameraState.fov}°`, 'info');
+                
+                // Test camera message creation
+                const message = client.createCameraStateMessage(cameraState);
+                log('✅ Camera message created successfully', 'success');
+                
+                // Test camera operations (will fail with expected error)
+                try {
+                    await client.setCamera(cameraState);
+                    log('✅ Camera set successfully', 'success');
+                } catch (error) {
+                    if (error.message.includes('rpcCall is not a function')) {
+                        log('⚠️ Expected error: Would work with real server', 'warning');
+                    } else {
+                        log(`❌ Camera error: ${error.message}`, 'error');
+                    }
+                }
+                
+                log('📷 Camera test completed', 'info');
+                
+            } catch (error) {
+                log(`💥 Camera test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize
+        log('🚀 Simple LiveLink Test initialized', 'info');
+        log('Click "Test Connection" to start', 'info');
+        updateStatus('disconnected');
+    </script>
+</body>
+</html>

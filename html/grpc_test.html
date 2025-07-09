@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<!-- 
+    LiveLink gRPC-Web Test Page
+    Technical testing interface for gRPC-Web connection debugging
+    Provides detailed connection diagnostics and error handling testing
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiveLink gRPC-Web Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background-color: #2a2a2a;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 3px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+        .log {
+            background-color: #000;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 3px;
+            font-family: monospace;
+            height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+        .error { color: #f44; }
+        .success { color: #4f4; }
+        .info { color: #44f; }
+        .warning { color: #fa4; }
+        .status {
+            padding: 10px;
+            border-radius: 3px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .status.connected { background-color: #2d5a2d; }
+        .status.disconnected { background-color: #5a2d2d; }
+        .status.error { background-color: #5a2d2d; }
+    </style>
+</head>
+<body>
+    <h1>🔗 LiveLink gRPC-Web Test</h1>
+    
+    <div class="test-section">
+        <h3>Connection Status</h3>
+        <div id="status" class="status disconnected">Disconnected</div>
+        <button id="connectBtn" onclick="testConnection()">Connect to Octane</button>
+        <button onclick="disconnect()">Disconnect</button>
+    </div>
+
+    <div class="test-section">
+        <h3>LiveLink Operations</h3>
+        <button onclick="testGetCamera()">Get Camera</button>
+        <button onclick="testSetCamera()">Set Camera</button>
+        <button onclick="testGetMeshes()">Get Meshes</button>
+        <button onclick="testGetMesh()">Get Mesh</button>
+        <button onclick="clearLog()">Clear Log</button>
+    </div>
+
+    <div class="test-section">
+        <h3>Performance Stats</h3>
+        <div id="stats">
+            <div>Calls: <span id="callCount">0</span></div>
+            <div>Last Response Time: <span id="lastTime">0</span>ms</div>
+            <div>Average Response Time: <span id="avgTime">0</span>ms</div>
+            <div>Mode: <span id="mode">Unknown</span></div>
+        </div>
+        <button onclick="updateStats()">Refresh Stats</button>
+    </div>
+
+    <div class="test-section">
+        <h3>Activity Log</h3>
+        <div id="log" class="log"></div>
+    </div>
+
+    <!-- Include gRPC-Web dependencies -->
+    <script src="https://unpkg.com/google-protobuf@3.21.2/google-protobuf.js"></script>
+    <script src="https://unpkg.com/grpc-web@1.4.2/index.js"></script>
+    
+    <!-- Module loader for browser compatibility -->
+    <script src="module-loader.js"></script>
+    
+    <!-- Include generated gRPC-Web files -->
+    <script src="generated/livelink_pb.js"></script>
+    <script src="generated/livelink_grpc_web_pb.js"></script>
+    
+    <!-- Setup proto namespace -->
+    <script src="proto-setup.js"></script>
+    
+    <!-- Include our LiveLink client -->
+    <script src="livelink.js"></script>
+    <script>
+        // Debug what's available after loading
+        console.log('After loading all scripts:');
+        console.log('typeof proto:', typeof proto);
+        console.log('window.proto:', window.proto);
+        console.log('proto.livelinkapi:', window.proto?.livelinkapi);
+        console.log('LiveLinkServiceClient:', window.proto?.livelinkapi?.LiveLinkServiceClient);
+        
+        if (typeof debugProto === 'function') {
+            debugProto();
+        }
+        
+        // Try to manually check what's in the global scope
+        console.log('Checking global scope for proto-related objects:');
+        for (let key in window) {
+            if (key.includes('proto') || key.includes('LiveLink') || key.includes('grpc')) {
+                console.log('Found:', key, '=', window[key]);
+            }
+        }
+        
+        // Add debug info to the page
+        const debugDiv = document.createElement('div');
+        debugDiv.style.cssText = 'background: #333; color: #fff; padding: 10px; margin: 10px 0; font-family: monospace; font-size: 12px;';
+        debugDiv.innerHTML = `
+            <h4>Debug Info:</h4>
+            <p>typeof proto: ${typeof proto}</p>
+            <p>window.proto: ${window.proto ? 'exists' : 'undefined'}</p>
+            <p>proto.livelinkapi: ${window.proto?.livelinkapi ? 'exists' : 'undefined'}</p>
+            <p>LiveLinkServiceClient: ${window.proto?.livelinkapi?.LiveLinkServiceClient ? 'exists' : 'undefined'}</p>
+            <p>grpc: ${typeof grpc}</p>
+            <p>window.grpc: ${window.grpc ? 'exists' : 'undefined'}</p>
+            <p>grpc.web: ${window.grpc?.web ? 'exists' : 'undefined'}</p>
+        `;
+        document.body.appendChild(debugDiv);
+    </script>
+    <script>
+        let client = null;
+
+        function log(message, type = 'info') {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = type;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logDiv.appendChild(logEntry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        function updateStatus(status, mode = '') {
+            const statusDiv = document.getElementById('status');
+            const connectBtn = document.getElementById('connectBtn');
+            
+            statusDiv.className = `status ${status}`;
+            
+            switch (status) {
+                case 'connected':
+                    statusDiv.textContent = `Connected (${mode})`;
+                    connectBtn.textContent = 'Reconnect';
+                    break;
+                case 'disconnected':
+                    statusDiv.textContent = 'Disconnected';
+                    connectBtn.textContent = 'Connect to Octane';
+                    break;
+                case 'error':
+                    statusDiv.textContent = 'Connection Error';
+                    connectBtn.textContent = 'Retry Connection';
+                    break;
+                default:
+                    statusDiv.textContent = status;
+            }
+        }
+
+        function updateStats() {
+            if (!client) return;
+            
+            const stats = client.getStats();
+            document.getElementById('callCount').textContent = stats.callCount || 0;
+            document.getElementById('lastTime').textContent = Math.round(stats.lastCallTime || 0);
+            document.getElementById('avgTime').textContent = Math.round(stats.avgResponseTime || 0);
+            document.getElementById('mode').textContent = stats.connected ? 'Live' : 'Disconnected';
+        }
+
+        async function testConnection() {
+            try {
+                log('Getting LiveLink client...', 'info');
+                client = liveLinkManager.getClient('http://127.0.0.1:8080');
+                console.log('LiveLink client obtained:', client);
+                
+                // Setup event handlers
+                log('Setting up event handlers...', 'info');
+                client.on('connected', () => {
+                    console.log('Connected event fired');
+                    log('✅ Connected to live Octane server!', 'success');
+                    updateStatus('connected', 'Live');
+                    updateStats();
+                });
+                
+                client.on('disconnected', () => {
+                    console.log('Disconnected event fired');
+                    log('Disconnected from server', 'info');
+                    updateStatus('disconnected');
+                    updateStats();
+                });
+                
+                client.on('connectionStateChanged', (state) => {
+                    log(`Connection state: ${state}`, 'info');
+                });
+                
+                client.on('error', (error) => {
+                    console.log('Error event fired:', error);
+                    log(`❌ Connection error: ${error.message}`, 'error');
+                    updateStatus('error');
+                    updateStats();
+                });
+                
+                log('Attempting to connect to Octane gRPC-Web server...', 'info');
+                await client.connect();
+                
+                // Check connection result
+                const stats = client.getStats();
+                if (stats.connected) {
+                    log('✅ Connected to live server!', 'success');
+                    updateStatus('connected', 'Live');
+                } else {
+                    log('❌ Connection failed', 'error');
+                    updateStatus('error');
+                }
+                updateStats();
+                
+            } catch (error) {
+                console.error('Connection error:', error);
+                log(`❌ Connection error: ${error.message}`, 'error');
+                updateStatus('disconnected');
+            }
+        }
+
+        async function disconnect() {
+            console.log('Disconnect called, client:', client);
+            if (client) {
+                console.log('Calling client.disconnect()...');
+                await client.disconnect();
+                log('Disconnected from server', 'info');
+                updateStatus('disconnected');
+                updateStats();
+            } else {
+                console.log('No client object to disconnect');
+                log('No connection to disconnect', 'warning');
+            }
+        }
+
+        async function testGetCamera() {
+            if (!client || !client.isReady()) {
+                log('❌ Not connected. Please connect first.', 'error');
+                return;
+            }
+            
+            try {
+                log('Getting camera state...', 'info');
+                const camera = await client.getCamera();
+                
+                log('✅ Camera retrieved:', 'success');
+                if (camera.position) {
+                    log(`Position: (${camera.position.x.toFixed(2)}, ${camera.position.y.toFixed(2)}, ${camera.position.z.toFixed(2)})`, 'info');
+                }
+                if (camera.target) {
+                    log(`Target: (${camera.target.x.toFixed(2)}, ${camera.target.y.toFixed(2)}, ${camera.target.z.toFixed(2)})`, 'info');
+                }
+                if (camera.up) {
+                    log(`Up: (${camera.up.x.toFixed(2)}, ${camera.up.y.toFixed(2)}, ${camera.up.z.toFixed(2)})`, 'info');
+                }
+                if (camera.fov) {
+                    log(`FOV: ${camera.fov.toFixed(1)}°`, 'info');
+                }
+                
+                updateStats();
+                
+            } catch (error) {
+                log(`❌ Get camera error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testSetCamera() {
+            if (!client || !client.isReady()) {
+                log('❌ Not connected. Please connect first.', 'error');
+                return;
+            }
+            
+            try {
+                const cameraState = {
+                    position: { x: Math.random() * 10 - 5, y: Math.random() * 10 - 5, z: 5 },
+                    target: { x: 0, y: 0, z: 0 },
+                    up: { x: 0, y: 1, z: 0 },
+                    fov: 45
+                };
+                
+                log('Setting camera position...', 'info');
+                log(`New position: (${cameraState.position.x.toFixed(2)}, ${cameraState.position.y.toFixed(2)}, ${cameraState.position.z.toFixed(2)})`, 'info');
+                
+                await client.setCamera(cameraState);
+                log('✅ Camera set successfully', 'success');
+                
+                updateStats();
+                
+            } catch (error) {
+                log(`❌ Set camera error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testGetMeshes() {
+            if (!client || !client.isReady()) {
+                log('❌ Not connected. Please connect first.', 'error');
+                return;
+            }
+            
+            try {
+                log('Getting available meshes...', 'info');
+                const result = await client.getMeshes();
+                const meshes = result.meshes || [];
+                
+                log(`✅ Received ${meshes.length} meshes:`, 'success');
+                meshes.forEach((mesh, index) => {
+                    log(`${index + 1}. ${mesh.name || 'Unnamed'} (ID: ${mesh.id || 'N/A'}, Handle: ${mesh.objectHandle || 'N/A'})`, 'info');
+                });
+                
+                if (meshes.length === 0) {
+                    log('No meshes found in scene', 'warning');
+                }
+                
+                updateStats();
+                
+            } catch (error) {
+                log(`❌ Get meshes error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testGetMesh() {
+            if (!client || !client.isReady()) {
+                log('❌ Not connected. Please connect first.', 'error');
+                return;
+            }
+            
+            try {
+                const meshId = 1001; // Test with demo mesh handle
+                log(`Getting mesh data for handle: ${meshId}`, 'info');
+                
+                const mesh = await client.getMesh(meshId);
+                
+                if (mesh) {
+                    log('✅ Mesh retrieved:', 'success');
+                    log(`Name: ${mesh.name || 'Unnamed'}`, 'info');
+                    if (mesh.positions) log(`Positions: ${mesh.positions.length} vertices`, 'info');
+                    if (mesh.normals) log(`Normals: ${mesh.normals.length} normals`, 'info');
+                    if (mesh.vertsPerPoly) log(`Polygons: ${mesh.vertsPerPoly.length} polygons`, 'info');
+                    if (mesh.windingOrder !== undefined) log(`Winding order: ${mesh.windingOrder}`, 'info');
+                } else {
+                    log(`⚠️ Mesh not found: ${meshId}`, 'warning');
+                }
+                
+                updateStats();
+                
+            } catch (error) {
+                log(`❌ Get mesh error: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize
+        log('LiveLink gRPC-Web Test ready. Click "Connect to Octane" to start.', 'info');
+        updateStatus('disconnected');
+    </script>
+</body>
+</html>
