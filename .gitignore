@@ -9,6 +9,9 @@ obj/
 *.exe
 *.out
 
+# Built binaries
+html/protoc-gen-grpc-web
+
 # Object files
 *.o
 *.obj
