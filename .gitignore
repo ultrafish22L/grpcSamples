@@ -20,6 +20,9 @@ third_party/**/*.lib
 third_party/**/*.a
 third_party/**/*.dylib
 third_party/**/*.exe
+grpc_generator.cc
+third_party\absl\windows\debug_64\*.*
+third_party\absl\windows\release_64\*.*
 
 # CMake files
 CMakeCache.txt
