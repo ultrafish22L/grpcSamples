@@ -12,6 +12,11 @@ obj/
 # Object files
 *.o
 *.obj
+sdk/*.lib
+third_party/**/*.lib
+third_party/**/*.a
+third_party/**/*.dylib
+third_party/**/*.exe
 
 # CMake files
 CMakeCache.txt
