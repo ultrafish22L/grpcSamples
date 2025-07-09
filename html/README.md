@@ -2,7 +2,45 @@
 
 This folder contains HTML demos for connecting to Octane Render via gRPC-Web protocol. These demos require a **gRPC proxy server** to translate HTTP requests to gRPC calls.
 
-## 🏗️ Building and Setup
+## 🚀 Windows Quick Start (Batch Files)
+
+For Windows users, we provide convenient batch files that handle all setup automatically:
+
+### Automated Setup (Recommended)
+```cmd
+cd html
+start_proxy_server.bat    # Terminal 1: Builds dependencies and starts proxy
+start_http_server.bat     # Terminal 2: Starts web server for demos
+```
+
+**What the batch files do**:
+- ✅ Install Python dependencies (`grpcio`, `grpcio-tools`, `aiohttp`)
+- ✅ Generate protobuf files using CMake or fallback methods
+- ✅ Start gRPC proxy server on `http://127.0.0.1:51023`
+- ✅ Start HTTP server on `http://localhost:8000`
+- ✅ Provide clear error messages and troubleshooting
+
+**Then open in browser**:
+- 🧪 **Debug Tool**: http://localhost:8000/grpc_test.html
+- 🎮 **3D Demo**: http://localhost:8000/web3d_octane_sync.html
+
+### Visual Studio IDE Workflow
+
+For developers using Visual Studio IDE, the proxy components are organized in the **"Proxy"** solution folder:
+
+1. **Build `proxy_setup_and_run`**: 
+   - Right-click → Build
+   - Installs Python dependencies and generates protobuf files
+   - Shows setup completion message with next steps
+
+2. **Build `run_proxy_server`**:
+   - Right-click → Build  
+   - Starts the gRPC proxy server on port 51023
+   - Connects to Octane on port 51022
+
+3. **Alternative**: Use `grpc_proxy_server` target for the original proxy behavior
+
+## 🏗️ Manual Building and Setup
 
 ### Prerequisites
 
@@ -90,9 +128,10 @@ python grpc_proxy.py
 # Linux/Command Line
 cmake --build . --target grpc_proxy_server
 
-# Windows Visual Studio: First build protobuf files, then run proxy
-cmake --build . --target python_protobuf_builder  # Generates Python files
-cmake --build . --target grpc_proxy_server         # Runs proxy server
+# Windows Visual Studio: Multiple options available
+cmake --build . --target proxy_setup_and_run      # Installs deps + generates files
+cmake --build . --target run_proxy_server          # Runs proxy server
+cmake --build . --target grpc_proxy_server         # Original proxy target
 ```
 
 ### Step 3: Start Web Server
@@ -210,6 +249,13 @@ shared/generated/           # Generated Python protobuf files
 2. ✅ Check that Python is found by CMake (`find_package(Python3)`)
 3. ✅ Ensure protoc.exe exists in `third_party/protobuf/windows/bin/`
 4. ✅ Use "Build Solution" to generate all protobuf files automatically
+
+**Batch file issues (Windows)**:
+1. ✅ **"This script must be run from the html/ directory"**: Navigate to `html/` folder first
+2. ✅ **Python not found**: Install Python and add to PATH, or use full path in batch file
+3. ✅ **CMake protobuf generation failed**: Batch file will try manual generation as fallback
+4. ✅ **Port already in use**: Stop existing servers with Ctrl+C before restarting
+5. ✅ **Permission denied**: Run Command Prompt as Administrator if needed
 
 ### Debug Tools
 

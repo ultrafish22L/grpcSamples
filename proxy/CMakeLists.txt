@@ -108,20 +108,41 @@ add_custom_target(grpc_proxy_server
 
 # Visual Studio configuration for proxy targets
 if(WIN32)
-    # Create a simple executable that triggers protobuf generation
-    # This provides a concrete build target that Visual Studio can handle
-    add_executable(python_protobuf_builder
+    # Create a comprehensive proxy setup executable for Visual Studio
+    add_executable(proxy_setup_and_run
         "${CMAKE_CURRENT_SOURCE_DIR}/proxy_build_helper.cpp"
     )
     
+    # Add custom command to install Python dependencies and run proxy
+    add_custom_command(TARGET proxy_setup_and_run POST_BUILD
+        COMMAND ${Python3_EXECUTABLE} -m pip install grpcio grpcio-tools aiohttp
+        COMMAND ${CMAKE_COMMAND} -E echo "Python dependencies installed successfully"
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMENT "Installing Python dependencies for gRPC proxy"
+        VERBATIM
+    )
+    
     # Make the executable depend on protobuf generation
-    add_dependencies(python_protobuf_builder python_protobuf_generation)
+    add_dependencies(proxy_setup_and_run python_protobuf_generation)
     
     # Set properties for Visual Studio
-    set_target_properties(python_protobuf_builder PROPERTIES
+    set_target_properties(proxy_setup_and_run PROPERTIES
         FOLDER "Proxy"
-        OUTPUT_NAME "protobuf_generator"
+        OUTPUT_NAME "proxy_setup"
         EXCLUDE_FROM_DEFAULT_BUILD FALSE  # Include in default build
+    )
+    
+    # Create a separate target that actually runs the proxy server
+    add_custom_target(run_proxy_server
+        COMMAND ${CMAKE_COMMAND} -E echo "Starting gRPC proxy server..."
+        COMMAND ${CMAKE_COMMAND} -E echo "Server will run on: http://127.0.0.1:51023"
+        COMMAND ${CMAKE_COMMAND} -E echo "Octane connection: 127.0.0.1:51022"
+        COMMAND ${CMAKE_COMMAND} -E echo "Press Ctrl+C to stop the server"
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/grpc_proxy.py"
+        DEPENDS proxy_setup_and_run
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMENT "Run gRPC proxy server (requires Octane running on port 51022)"
+        VERBATIM
     )
     
     # Set protobuf generation properties
@@ -130,14 +151,23 @@ if(WIN32)
         EXCLUDE_FROM_ALL FALSE
     )
     
-    # Proxy server target (for manual execution)
+    # Original proxy server target (for backward compatibility)
     set_target_properties(grpc_proxy_server PROPERTIES
         EXCLUDE_FROM_DEFAULT_BUILD TRUE  # Don't run automatically
         EXCLUDE_FROM_ALL FALSE
     )
     
-    message(STATUS "Visual Studio: Use 'python_protobuf_builder' target to generate Python files")
-    message(STATUS "Visual Studio: Use 'grpc_proxy_server' target to run proxy server")
+    # Set properties for the new run target
+    set_target_properties(run_proxy_server PROPERTIES
+        FOLDER "Proxy"
+        EXCLUDE_FROM_DEFAULT_BUILD TRUE  # Available but not automatic
+        EXCLUDE_FROM_ALL FALSE
+    )
+    
+    message(STATUS "Visual Studio Proxy Targets:")
+    message(STATUS "  - 'proxy_setup_and_run': Installs dependencies and generates protobuf files")
+    message(STATUS "  - 'run_proxy_server': Runs the gRPC proxy server")
+    message(STATUS "  - 'grpc_proxy_server': Original proxy server target")
 else()
     # Linux: Custom targets work normally
     set_target_properties(python_protobuf_generation PROPERTIES
@@ -154,9 +184,14 @@ endif()
 set_target_properties(python_protobuf_generation PROPERTIES FOLDER "Proxy")
 set_target_properties(grpc_proxy_server PROPERTIES FOLDER "Proxy")
 
-# Set folder for Windows-specific target
-if(WIN32 AND TARGET python_protobuf_builder)
-    set_target_properties(python_protobuf_builder PROPERTIES FOLDER "Proxy")
+# Set folder for Windows-specific targets
+if(WIN32)
+    if(TARGET proxy_setup_and_run)
+        set_target_properties(proxy_setup_and_run PROPERTIES FOLDER "Proxy")
+    endif()
+    if(TARGET run_proxy_server)
+        set_target_properties(run_proxy_server PROPERTIES FOLDER "Proxy")
+    endif()
 endif()
 
 # Add installation rules for Python files (optional)
