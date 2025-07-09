@@ -197,19 +197,18 @@
         </div>
     </div>
 
-    <!-- Include gRPC-Web dependencies -->
-    <script src="https://unpkg.com/google-protobuf@3.21.2/google-protobuf.js"></script>
-    <script src="https://unpkg.com/grpc-web@1.4.2/index.js"></script>
+    <!-- Using custom gRPC-Web implementation - no external dependencies needed -->
+    <!-- <script src="https://unpkg.com/google-protobuf@3.21.2/google-protobuf.js"></script> -->
     
-    <!-- Module loader for browser compatibility -->
-    <script src="module-loader.js"></script>
+    <!-- Module loader disabled - using standalone implementation -->
+    <!-- <script src="module-loader.js"></script> -->
     
-    <!-- Include generated gRPC-Web files -->
-    <script src="generated/livelink_pb.js"></script>
-    <script src="generated/livelink_grpc_web_pb.js"></script>
+    <!-- Generated gRPC-Web files disabled for now - using custom implementation -->
+    <!-- <script src="generated/livelink_pb.js"></script> -->
+    <!-- <script src="generated/livelink_grpc_web_pb.js"></script> -->
     
-    <!-- Setup proto namespace -->
-    <script src="proto-setup.js"></script>
+    <!-- Proto namespace setup disabled - using custom implementation -->
+    <!-- <script src="proto-setup.js"></script> -->
     
     <!-- Include our LiveLink client -->
     <script src="livelink.js"></script>
@@ -222,7 +221,7 @@
         // Initialize the demo
         function init() {
             log('Demo initialized');
-            log('Generated files loaded: ' + (typeof proto !== 'undefined' ? 'Yes' : 'No'));
+            log('Using custom gRPC-Web implementation');
             updateStatus();
         }
 
@@ -259,6 +258,10 @@
                     updateStatus();
                     document.getElementById('connect-btn').disabled = false;
                     document.getElementById('disconnect-btn').disabled = true;
+                });
+                
+                client.on('debug', (message) => {
+                    log(`🐛 DEBUG: ${message}`);
                 });
                 
                 await client.connect();

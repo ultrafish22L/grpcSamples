@@ -11,6 +11,8 @@ The gRPC-Web plugin (`protoc-gen-grpc-web`) is a tool that generates JavaScript 
 - Octane SDK integration
 - Any C++ gRPC functionality
 
+**Update (July 2025)**: The HTML demos now use a custom HTTP-based gRPC-Web implementation that doesn't require generated files. The plugin is still available for advanced use cases, but the demos work without it.
+
 ## Windows Build (Automatic)
 
 On Windows, the plugin is automatically built when you configure the project with CMake:
@@ -56,10 +58,12 @@ Or manually (from the html directory):
 
 ### Using Generated Files in HTML
 
-The generated JavaScript files go in the `html/generated/` directory and are used by:
+The generated JavaScript files go in the `html/generated/` directory and can be used by:
 - `html/grpc_test.html` - Basic connectivity testing
 - `html/web3d_octane_sync.html` - 3D visualization with LiveLink
-- `html/livelink.js` - Main JavaScript library
+- Custom implementations requiring protobuf classes
+
+**Note**: The current HTML demos use a custom implementation in `html/livelink.js` that doesn't require generated files, providing better compatibility and reliability.
 
 ## Project Isolation
 

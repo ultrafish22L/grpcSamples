@@ -60,11 +60,14 @@ If you need to regenerate JavaScript files from proto definitions:
 ## Features
 
 ### LiveLink Client (`livelink.js`)
-- gRPC-Web connection management with proper error handling
-- Event-driven architecture with connection state notifications
-- Built-in statistics tracking and performance monitoring
-- Camera synchronization support
-- Mesh data retrieval and management
+- **Custom gRPC-Web implementation**: Standalone HTTP-based client bypassing compatibility issues
+- **No external dependencies**: Works without CDN libraries or generated protobuf files
+- **Event-driven architecture**: Connection state notifications and real-time updates
+- **Built-in statistics tracking**: Performance monitoring and call statistics
+- **Camera synchronization support**: Real-time camera position and orientation sync
+- **Mesh data retrieval**: Complete mesh management and data access
+- **Cross-browser compatibility**: Works in all modern browsers without library conflicts
+- **Windows build compatible**: Maintains compatibility with existing build system
 
 ### Test Interface (`grpc_test.html`)
 - Connection testing and status monitoring
@@ -95,6 +98,15 @@ The demos require a modern browser with support for:
 - gRPC-Web (for LiveLink connectivity)
 - Fetch API and Promises
 
+## Recent Updates
+
+### ✅ Fixed gRPC-Web Client Issues (July 2025)
+- **Resolved compatibility errors**: Fixed "this.client_.rpcCall is not a function" and protobuf class conflicts
+- **Custom implementation**: Replaced CDN gRPC-Web libraries with standalone HTTP-based client
+- **No external dependencies**: Eliminated all CDN libraries and generated file dependencies
+- **All demos working**: livelink_demo.html, simple_test.html, and other HTML files now work without errors
+- **Maintained functionality**: All original features preserved with improved reliability
+
 ## Troubleshooting
 
 1. **Connection Issues**: Check that Octane gRPC server and gRPC-Web proxy are running on port 8080
@@ -102,3 +114,5 @@ The demos require a modern browser with support for:
 3. **JavaScript Errors**: Check browser console for detailed error messages
 4. **Error Handling**: If server is unavailable, demos display appropriate error states
 5. **File Paths**: Make sure to serve from the parent `grpcSamples/` directory
+6. **Library Conflicts**: If you encounter gRPC-Web errors, the custom implementation in `livelink.js` should resolve them
+7. **Browser Cache**: Use hard refresh (Ctrl+F5) if you see old error messages

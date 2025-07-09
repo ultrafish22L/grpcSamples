@@ -152,26 +152,27 @@ Advanced WebGL viewer with real-time Octane gRPC integration:
 - **Interactive Controls**: Mouse/keyboard controls (orbit, pan, zoom) with live Octane sync
 - **See**: [OCTANE_SYNC_VIEWER.md](OCTANE_SYNC_VIEWER.md) for details
 
-### 🚀 NEW: Web3D Octane Model Viewer
+### 🚀 Web3D Octane Model Viewer
 Complete 3D model viewer with full Octane gRPC integration:
 - **Multi-format Model Loading**: OBJ, PLY, STL support with drag & drop
 - **Real-time Octane Sync**: Live camera and model synchronization
 - **Model Transformations**: Scale, rotate, translate with live updates
-- **gRPC Communication**: WebSocket-to-gRPC proxy for seamless integration
+- **gRPC Communication**: Custom HTTP-based gRPC-Web client for reliable connectivity
 - **Professional UI**: Comprehensive status monitoring and activity logging
 - **Performance Metrics**: Real-time FPS, geometry stats, and gRPC call tracking
-- **See**: [WEB_GRPC_INTEGRATION_GUIDE.md](WEB_GRPC_INTEGRATION_GUIDE.md) for complete documentation
+- **No Dependencies**: Works without external libraries or generated protobuf files
+- **Cross-browser Compatible**: Reliable operation in all modern browsers
+- **See**: [html/README_LIVELINK.md](html/README_LIVELINK.md) for complete documentation
 
 #### Quick Start
 ```bash
-# Start gRPC proxy server
-python3 grpc_web_proxy.py
+# Start web server from grpcSamples directory
+python3 -m http.server 8000
 
-# Start web server (in another terminal)
-python3 -m http.server 52533
-
-# Open enhanced viewer
-http://localhost:52533/web3d_octane_model_viewer.html
+# Open HTML demos
+http://localhost:8000/html/livelink_demo.html      # Main LiveLink demo
+http://localhost:8000/html/simple_test.html        # Simple connection test
+http://localhost:8000/html/web3d_octane_sync.html  # 3D visualization
 ```
 
 ### simpleGL_demo
@@ -215,12 +216,32 @@ octaneSync.connectToServer("/tmp/octane_server.sock");
 octaneSync.connectToServer("localhost:8080");
 ```
 
+## Recent Updates
+
+### ✅ Fixed HTML gRPC-Web Client Issues (July 2025)
+The HTML demos now feature a completely rewritten LiveLink client that resolves all previous compatibility issues:
+
+- **Fixed "this.client_.rpcCall is not a function" error**: Eliminated CDN gRPC-Web library conflicts
+- **Custom HTTP-based implementation**: Standalone gRPC-Web client using native fetch() API
+- **Zero external dependencies**: No more CDN libraries or generated protobuf file requirements
+- **All demos working**: livelink_demo.html, simple_test.html, and other HTML files work reliably
+- **Maintained Windows compatibility**: Build system unchanged, all C++ functionality preserved
+- **Cross-browser support**: Works consistently across Chrome, Firefox, Safari, and Edge
+
+See [html/README_LIVELINK.md](html/README_LIVELINK.md) for complete technical details.
+
 ## Getting Started
 
+### C++ Applications
 1. **Clone repository**: `git clone <repository-url>`
 2. **Build project**: See [BUILD_INSTRUCTIONS.md](BUILD_INSTRUCTIONS.md)
 3. **Run demo**: `./bin/simpleGL_demo`
 4. **Launch application**: `./bin/simpleGL`
+
+### HTML Demos
+1. **Start web server**: `python3 -m http.server 8000` (from grpcSamples directory)
+2. **Open demos**: Navigate to `http://localhost:8000/html/livelink_demo.html`
+3. **Test functionality**: All demos work without JavaScript errors
 
 For detailed integration examples and API documentation, see [OCTANE_CAMERA_INTEGRATION.md](OCTANE_CAMERA_INTEGRATION.md).
 

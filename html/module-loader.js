@@ -177,6 +177,14 @@ window.grpc.web.GrpcWebClientBase.prototype.unaryCall = function(method, request
     return Promise.reject(new Error('gRPC-Web not fully implemented - this is just for demo'));
 };
 
+window.grpc.web.GrpcWebClientBase.prototype.rpcCall = function(method, request, metadata, methodDescriptor, callback) {
+    // This is a stub implementation for the rpcCall method
+    console.log('gRPC rpc call:', method, request);
+    setTimeout(() => {
+        callback(new Error('gRPC-Web not fully implemented - this is just for demo'), null);
+    }, 100);
+};
+
 // Create other minimal classes that might be needed
 window.grpc.web.AbstractClientBase = window.grpc.web.GrpcWebClientBase;
 window.grpc.web.ClientReadableStream = function() {};
