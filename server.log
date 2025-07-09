@@ -1,5 +1,4 @@
 Serving HTTP on 0.0.0.0 port 54573 (http://0.0.0.0:54573/) ...
-127.0.0.1 - - [09/Jul/2025 19:23:28] "GET /html/grpc_test.html HTTP/1.1" 200 -
-127.0.0.1 - - [09/Jul/2025 19:23:28] "GET /html/livelink.js HTTP/1.1" 304 -
-127.0.0.1 - - [09/Jul/2025 19:23:40] "GET /html/debug_test.html HTTP/1.1" 200 -
-127.0.0.1 - - [09/Jul/2025 19:23:49] "GET /html/simple_test.html HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jul/2025 20:03:01] "GET /html/ HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jul/2025 20:03:06] "GET /html/grpc_test.html HTTP/1.1" 304 -
+127.0.0.1 - - [09/Jul/2025 20:03:15] "GET /html/web3d_octane_sync.html HTTP/1.1" 304 -
