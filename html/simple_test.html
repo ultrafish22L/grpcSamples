@@ -79,6 +79,10 @@
         
         <div class="test-section">
             <h3>Connection Test</h3>
+            <div>
+                <label for="serverAddress">Server Address:</label>
+                <input type="text" id="serverAddress" value="http://127.0.0.1:51022" placeholder="http://127.0.0.1:51022" style="width: 200px; margin: 5px;">
+            </div>
             <div id="status" class="status disconnected">Disconnected</div>
             <button onclick="testConnection()">Test Connection</button>
             <button onclick="clearLog()">Clear Log</button>
@@ -153,10 +157,11 @@
 
         async function testConnection() {
             try {
+                const serverAddress = document.getElementById('serverAddress').value;
                 log('🔄 Starting connection test...', 'info');
                 
                 // Get LiveLink client
-                client = liveLinkManager.getClient('http://127.0.0.1:8080');
+                client = liveLinkManager.getClient(serverAddress);
                 log('✅ LiveLink client created', 'success');
                 
                 // Set up event listeners
@@ -196,7 +201,7 @@
                 // Test gRPC client creation
                 log('🔧 Testing gRPC client creation...', 'info');
                 if (proto.livelinkapi.LiveLinkServiceClient) {
-                    const grpcClient = new proto.livelinkapi.LiveLinkServiceClient('http://127.0.0.1:8080');
+                    const grpcClient = new proto.livelinkapi.LiveLinkServiceClient(serverAddress);
                     log('✅ gRPC client created successfully', 'success');
                 } else {
                     log('❌ LiveLinkServiceClient not available', 'error');

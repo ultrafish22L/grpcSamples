@@ -71,6 +71,10 @@
     
     <div class="test-section">
         <h3>Connection Status</h3>
+        <div>
+            <label for="serverAddress">Server Address:</label>
+            <input type="text" id="serverAddress" value="http://127.0.0.1:51022" placeholder="http://127.0.0.1:51022" style="width: 200px; margin: 5px;">
+        </div>
         <div id="status" class="status disconnected">Disconnected</div>
         <button id="connectBtn" onclick="testConnection()">Connect to Octane</button>
         <button onclick="disconnect()">Disconnect</button>
@@ -196,8 +200,9 @@
 
         async function testConnection() {
             try {
+                const serverAddress = document.getElementById('serverAddress').value;
                 log('Getting LiveLink client...', 'info');
-                client = liveLinkManager.getClient('http://127.0.0.1:8080');
+                client = liveLinkManager.getClient(serverAddress);
                 console.log('LiveLink client obtained:', client);
                 
                 // Setup event handlers
