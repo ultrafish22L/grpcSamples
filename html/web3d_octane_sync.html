@@ -160,7 +160,7 @@
             <div>• Real-time LiveLink protocol communication</div>
         </div>
         <div style="margin-top: 10px;">
-            <input type="text" id="serverAddress" placeholder="http://127.0.0.1:51022" value="http://127.0.0.1:51022">
+            <input type="text" id="serverAddress" placeholder="http://127.0.0.1:51023" value="http://127.0.0.1:51023">
         </div>
     </div>
     
@@ -244,7 +244,7 @@
                 this.frameTime = 0;
                 
                 // LiveLink state - using gRPC-Web client
-                this.liveLink = liveLinkManager.getClient('http://127.0.0.1:51022');
+                this.liveLink = liveLinkManager.getClient('http://127.0.0.1:51023');
                 this.connected = false;
                 this.octaneReady = false;
                 this.cameraSync = false;

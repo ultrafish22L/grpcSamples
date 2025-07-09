@@ -354,6 +354,9 @@ endif()
 add_subdirectory(shared)
 add_subdirectory(sdk)
 
+# Add Python proxy server support (generates protobuf files for proxy)
+add_subdirectory(proxy)
+
 # Add main projects
 add_subdirectory(simpleGL)
 add_subdirectory(simpleGlGrpc)

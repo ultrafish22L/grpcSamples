@@ -14,7 +14,7 @@ import sys
 import os
 
 # Add the generated protobuf path
-sys.path.append(os.path.join(os.path.dirname(__file__), 'shared', 'generated'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'shared', 'generated'))
 
 try:
     import livelink_pb2
