@@ -44,7 +44,7 @@ target_include_directories(octane_sdk
         ${CMAKE_CURRENT_SOURCE_DIR}/client
         ${CMAKE_CURRENT_SOURCE_DIR}/protoc
         ${CMAKE_CURRENT_SOURCE_DIR}/converters
-#        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/../../..
 
         $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/../third_party/protobuf/windows/include>
@@ -115,10 +115,6 @@ elseif(APPLE)
             ${MACOS_OPENSSL_LIBS}
             ${MACOS_ZLIB_LIBS}
     )
-    target_compile_definitions(octane_sdk
-        PUBLIC
-            OCTANE_SDK_ENABLED
-    )
 else()
     # Linux: Use ALL available third_party libraries
     file(GLOB LINUX_GRPC_LIBS "${CMAKE_SOURCE_DIR}/third_party/grpc/linux/*.a")
@@ -135,10 +131,6 @@ else()
             ${LINUX_ZLIB_LIBS}
             # Linux system libraries
             pthread dl
-    )
-    target_compile_definitions(octane_sdk
-        PUBLIC
-            OCTANE_SDK_ENABLED
     )
 endif()
 

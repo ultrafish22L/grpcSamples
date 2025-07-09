@@ -45,7 +45,7 @@ function(configure_simpleGlSdk_target target_name)
             ${CMAKE_SOURCE_DIR}/sdk/src/api/grpc
             ${CMAKE_SOURCE_DIR}/sdk/src/api/grpc/client
             ${CMAKE_CURRENT_SOURCE_DIR}
-            ${CMAKE_CURRENT_SOURCE_DIR}/generated
+            ${CMAKE_CURRENT_SOURCE_DIR}/protos
     )
     
     # Add dependency on protobuf generation

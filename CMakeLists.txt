@@ -4,8 +4,7 @@ project(GrpcSamples)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Enable Octane SDK integration
-add_compile_definitions(OCTANE_SDK_ENABLED)
+set(OCTANE_SDK_ENABLED OFF)
 
 # Find OpenGL
 find_package(OpenGL REQUIRED)

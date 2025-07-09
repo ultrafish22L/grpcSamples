@@ -17,7 +17,7 @@
 #include <grpcpp/client_context.h>
 #include <grpcpp/create_channel.h>
 #include <grpcpp/security/credentials.h>
-#include "generated/camera_control.grpc.pb.h"
+#include "protos/camera_control.grpc.pb.h"
 
 /**
  * @brief Direct gRPC-based camera synchronization with Octane

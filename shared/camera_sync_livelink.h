@@ -7,8 +7,8 @@
 #include "camera_sync_base.h"
 
 #include <grpcpp/grpcpp.h>
-#include "generated/livelink.grpc.pb.h"
-#include "generated/livelink.pb.h"
+#include "protos/livelink.grpc.pb.h"
+#include "protos/livelink.pb.h"
 
 class CameraSyncLiveLink : public CameraSyncBase {
 public:
