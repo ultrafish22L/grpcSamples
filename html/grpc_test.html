@@ -102,37 +102,31 @@
     </div>
 
     <!-- Include gRPC-Web dependencies -->
-    <script src="https://unpkg.com/google-protobuf@3.21.2/google-protobuf.js"></script>
-    <script src="https://unpkg.com/grpc-web@1.4.2/index.js"></script>
+    <!-- <script src="https://unpkg.com/google-protobuf@3.21.2/google-protobuf.js"></script> -->
+    <!-- <script src="https://unpkg.com/grpc-web@1.4.2/index.js"></script> -->
     
     <!-- Module loader for browser compatibility -->
-    <script src="module-loader.js"></script>
+    <!-- <script src="module-loader.js"></script> -->
     
     <!-- Include generated gRPC-Web files -->
-    <script src="generated/livelink_pb.js"></script>
-    <script src="generated/livelink_grpc_web_pb.js"></script>
+    <!-- <script src="generated/livelink_pb.js"></script> -->
+    <!-- <script src="generated/livelink_grpc_web_pb.js"></script> -->
     
     <!-- Setup proto namespace -->
-    <script src="proto-setup.js"></script>
+    <!-- <script src="proto-setup.js"></script> -->
     
     <!-- Include our LiveLink client -->
     <script src="livelink.js"></script>
     <script>
         // Debug what's available after loading
         console.log('After loading all scripts:');
-        console.log('typeof proto:', typeof proto);
-        console.log('window.proto:', window.proto);
-        console.log('proto.livelinkapi:', window.proto?.livelinkapi);
-        console.log('LiveLinkServiceClient:', window.proto?.livelinkapi?.LiveLinkServiceClient);
-        
-        if (typeof debugProto === 'function') {
-            debugProto();
-        }
+        console.log('typeof LiveLinkClient:', typeof LiveLinkClient);
+        console.log('typeof LiveLinkManager:', typeof LiveLinkManager);
         
         // Try to manually check what's in the global scope
-        console.log('Checking global scope for proto-related objects:');
+        console.log('Checking global scope for LiveLink-related objects:');
         for (let key in window) {
-            if (key.includes('proto') || key.includes('LiveLink') || key.includes('grpc')) {
+            if (key.includes('LiveLink')) {
                 console.log('Found:', key, '=', window[key]);
             }
         }
@@ -142,12 +136,9 @@
         debugDiv.style.cssText = 'background: #333; color: #fff; padding: 10px; margin: 10px 0; font-family: monospace; font-size: 12px;';
         debugDiv.innerHTML = `
             <h4>Debug Info:</h4>
-            <p>typeof proto: ${typeof proto}</p>
-            <p>window.proto: ${window.proto ? 'exists' : 'undefined'}</p>
-            <p>proto.livelinkapi: ${window.proto?.livelinkapi ? 'exists' : 'undefined'}</p>
-            <p>LiveLinkServiceClient: ${window.proto?.livelinkapi?.LiveLinkServiceClient ? 'exists' : 'undefined'}</p>
-            <p>grpc: ${typeof grpc}</p>
-            <p>window.grpc: ${window.grpc ? 'exists' : 'undefined'}</p>
+            <p>LiveLinkClient: ${typeof LiveLinkClient}</p>
+            <p>LiveLinkManager: ${typeof LiveLinkManager}</p>
+            <p>Custom gRPC-Web implementation loaded successfully</p>
             <p>grpc.web: ${window.grpc?.web ? 'exists' : 'undefined'}</p>
         `;
         document.body.appendChild(debugDiv);

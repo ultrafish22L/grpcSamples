@@ -8,11 +8,14 @@
     <div id="output"></div>
 
     <!-- Load dependencies in order -->
-    <script src="https://unpkg.com/google-protobuf@3.21.2/google-protobuf.js"></script>
-    <script src="https://unpkg.com/grpc-web@1.5.0/index.js"></script>
+    <!-- <script src="https://unpkg.com/google-protobuf@3.21.2/google-protobuf.js"></script> -->
+    <!-- <script src="https://unpkg.com/grpc-web@1.5.0/index.js"></script> -->
     
     <!-- Module loader -->
-    <script src="module-loader.js"></script>
+    <!-- <script src="module-loader.js"></script> -->
+    
+    <!-- Use custom LiveLink implementation -->
+    <script src="livelink.js"></script>
     <script>
         function log(message) {
             const output = document.getElementById('output');
@@ -21,60 +24,34 @@
         }
         
         log('Starting debug test...');
-        log('typeof grpc: ' + typeof grpc);
-        log('typeof proto: ' + typeof proto);
-        log('window.grpc: ' + (window.grpc ? 'exists' : 'undefined'));
-        log('window.proto: ' + (window.proto ? 'exists' : 'undefined'));
+        log('typeof LiveLinkClient: ' + typeof LiveLinkClient);
+        log('typeof LiveLinkManager: ' + typeof LiveLinkManager);
+        log('Custom LiveLink implementation loaded');
         
-        // Check what the gRPC-Web CDN actually provides
-        log('window.grpcWeb: ' + (window.grpcWeb ? 'exists' : 'undefined'));
-        log('window.grpc_web: ' + (window.grpc_web ? 'exists' : 'undefined'));
-        log('window.GrpcWebClientBase: ' + (window.GrpcWebClientBase ? 'exists' : 'undefined'));
+        // List all global variables that might be related to LiveLink
+        const liveLinkRelated = Object.keys(window).filter(k => k.includes('LiveLink'));
+        log('LiveLink-related globals: ' + liveLinkRelated.join(', '));
         
-        // List all global variables that might be related to grpc
-        const grpcRelated = Object.keys(window).filter(k => k.toLowerCase().includes('grpc'));
-        log('gRPC-related globals: ' + grpcRelated.join(', '));
-        
-        // Check if grpc-web objects are available directly
-        log('window.grpc: ' + (window.grpc ? JSON.stringify(Object.keys(window.grpc)) : 'undefined'));
-        if (window.grpc && window.grpc.web) {
-            log('grpc.web keys: ' + Object.keys(window.grpc.web).join(', '));
-            log('grpc.web.MethodDescriptor: ' + (window.grpc.web.MethodDescriptor ? 'exists' : 'undefined'));
+        // Test LiveLink functionality
+        if (typeof LiveLinkClient !== 'undefined') {
+            log('Testing LiveLink client creation...');
+            try {
+                const testClient = new LiveLinkClient();
+                log('LiveLink client created successfully');
+                log('Client methods: ' + Object.getOwnPropertyNames(Object.getPrototypeOf(testClient)).join(', '));
+            } catch (error) {
+                log('Error creating LiveLink client: ' + error.message);
+            }
         }
         
-        // Test goog functions
-        log('typeof goog: ' + typeof goog);
-        log('typeof goog.provide: ' + typeof goog.provide);
-        log('typeof goog.require: ' + typeof goog.require);
-        log('typeof goog.scope: ' + typeof goog.scope);
-        
-        // Test creating a namespace
-        if (typeof goog !== 'undefined' && goog.provide) {
-            log('Testing goog.provide...');
-            goog.provide('test.namespace.TestClass');
-            log('test.namespace.TestClass created: ' + (window.test && window.test.namespace && window.test.namespace.TestClass ? 'yes' : 'no'));
-        }
-    </script>
-    
-    <!-- Load generated files -->
-    <script>
-        window.addEventListener('error', function(e) {
-            log('JavaScript Error: ' + e.message + ' at ' + e.filename + ':' + e.lineno);
-        });
-    </script>
-    <script src="generated/livelink_pb.js"></script>
-    <script>log('livelink_pb.js loaded');</script>
-    <script src="generated/livelink_grpc_web_pb.js"></script>
-    <script>log('livelink_grpc_web_pb.js loaded');</script>
-    
-    <script>
-        log('After loading generated files...');
-        log('window.proto: ' + (window.proto ? 'exists' : 'undefined'));
-        log('window.proto.livelinkapi: ' + (window.proto && window.proto.livelinkapi ? 'exists' : 'undefined'));
-        
-        if (window.proto && window.proto.livelinkapi) {
-            log('proto.livelinkapi keys: ' + Object.keys(window.proto.livelinkapi).join(', '));
-            log('LiveLinkServiceClient: ' + (window.proto.livelinkapi.LiveLinkServiceClient ? 'exists' : 'undefined'));
+        if (typeof LiveLinkManager !== 'undefined') {
+            log('Testing LiveLink manager...');
+            try {
+                const manager = new LiveLinkManager();
+                log('LiveLink manager created successfully');
+            } catch (error) {
+                log('Error creating LiveLink manager: ' + error.message);
+            }
         }
     </script>
 </body>

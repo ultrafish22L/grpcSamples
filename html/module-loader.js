@@ -29,7 +29,7 @@ window.proto = window.proto || {};
 window.proto.livelinkapi = window.proto.livelinkapi || {};
 
 // Override module.exports to also set global proto
-const originalModuleExports = window.module.exports;
+let originalModuleExports = window.module.exports;
 Object.defineProperty(window.module, 'exports', {
     get: function() { return originalModuleExports; },
     set: function(value) {
