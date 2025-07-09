@@ -87,6 +87,8 @@
         <button onclick="testGetMeshes()">Get Meshes</button>
         <button onclick="testGetMesh()">Get Mesh</button>
         <button onclick="clearLog()">Clear Log</button>
+        <button onclick="exportDebugInfo()">Export Debug Info</button>
+        <button onclick="showSystemInfo()">Show System Info</button>
     </div>
 
     <div class="test-section">
@@ -96,8 +98,11 @@
             <div>Last Response Time: <span id="lastTime">0</span>ms</div>
             <div>Average Response Time: <span id="avgTime">0</span>ms</div>
             <div>Mode: <span id="mode">Unknown</span></div>
+            <div>Connection Attempts: <span id="connectionAttempts">0</span></div>
+            <div>Error Count: <span id="errorCount">0</span></div>
         </div>
         <button onclick="updateStats()">Refresh Stats</button>
+        <button onclick="showDebugInfo()">Show Debug Info</button>
     </div>
 
     <div class="test-section">
@@ -150,18 +155,32 @@
     <script>
         let client = null;
 
-        function log(message, type = 'info') {
+        function log(message, type = 'info', details = null) {
             const logDiv = document.getElementById('log');
             const timestamp = new Date().toLocaleTimeString();
             const logEntry = document.createElement('div');
             logEntry.className = type;
-            logEntry.textContent = `[${timestamp}] ${message}`;
+            
+            if (details) {
+                logEntry.innerHTML = `
+                    <div>[${timestamp}] ${message}</div>
+                    <div style="margin-left: 20px; font-size: 0.9em; color: #ccc;">
+                        ${typeof details === 'object' ? JSON.stringify(details, null, 2) : details}
+                    </div>
+                `;
+            } else {
+                logEntry.textContent = `[${timestamp}] ${message}`;
+            }
+            
             logDiv.appendChild(logEntry);
             logDiv.scrollTop = logDiv.scrollHeight;
         }
 
         function clearLog() {
             document.getElementById('log').innerHTML = '';
+            if (client) {
+                client.clearDebugHistory();
+            }
         }
 
         function updateStatus(status, mode = '') {
@@ -192,10 +211,48 @@
             if (!client) return;
             
             const stats = client.getStats();
+            const debugInfo = client.getDebugInfo();
+            
             document.getElementById('callCount').textContent = stats.callCount || 0;
             document.getElementById('lastTime').textContent = Math.round(stats.lastCallTime || 0);
             document.getElementById('avgTime').textContent = Math.round(stats.avgResponseTime || 0);
-            document.getElementById('mode').textContent = stats.connected ? 'Live' : 'Disconnected';
+            document.getElementById('mode').textContent = client.connected ? 'Live' : 'Disconnected';
+            document.getElementById('connectionAttempts').textContent = debugInfo.client.connectionAttempts || 0;
+            document.getElementById('errorCount').textContent = debugInfo.history.errorHistory.length || 0;
+        }
+
+        function exportDebugInfo() {
+            if (!client) {
+                log('No client available for debug export', 'error');
+                return;
+            }
+            
+            try {
+                client.exportDebugInfo();
+                log('Debug information exported successfully', 'success');
+            } catch (error) {
+                log(`Failed to export debug info: ${error.message}`, 'error');
+            }
+        }
+
+        function showSystemInfo() {
+            if (!client) {
+                log('No client available for system info', 'error');
+                return;
+            }
+            
+            const systemInfo = client.getSystemInfo();
+            log('System Information:', 'info', systemInfo);
+        }
+
+        function showDebugInfo() {
+            if (!client) {
+                log('No client available for debug info', 'error');
+                return;
+            }
+            
+            const debugInfo = client.getDebugInfo();
+            log('Debug Information:', 'info', debugInfo);
         }
 
         async function testConnection() {
@@ -207,6 +264,11 @@
                 
                 // Setup event handlers
                 log('Setting up event handlers...', 'info');
+                
+                client.on('log', (logEntry) => {
+                    log(logEntry.message, logEntry.level, logEntry.details);
+                });
+                
                 client.on('connected', () => {
                     console.log('Connected event fired');
                     log('✅ Connected to live Octane server!', 'success');
@@ -223,11 +285,17 @@
                 
                 client.on('connectionStateChanged', (state) => {
                     log(`Connection state: ${state}`, 'info');
+                    updateStats();
                 });
                 
                 client.on('error', (error) => {
                     console.log('Error event fired:', error);
-                    log(`❌ Connection error: ${error.message}`, 'error');
+                    const errorDetails = {
+                        message: error.message,
+                        name: error.name,
+                        analysis: error.analysis || 'No analysis available'
+                    };
+                    log(`❌ Connection error: ${error.message}`, 'error', errorDetails);
                     updateStatus('error');
                     updateStats();
                 });
@@ -294,7 +362,17 @@
                 updateStats();
                 
             } catch (error) {
-                log(`❌ Get camera error: ${error.message}`, 'error');
+                const errorDetails = {
+                    message: error.message,
+                    name: error.name,
+                    callId: error.callId,
+                    method: error.method,
+                    duration: error.duration,
+                    status: error.status,
+                    statusText: error.statusText
+                };
+                log(`❌ Get camera error: ${error.message}`, 'error', errorDetails);
+                updateStats();
             }
         }
 
@@ -321,7 +399,18 @@
                 updateStats();
                 
             } catch (error) {
-                log(`❌ Set camera error: ${error.message}`, 'error');
+                const errorDetails = {
+                    message: error.message,
+                    name: error.name,
+                    callId: error.callId,
+                    method: error.method,
+                    duration: error.duration,
+                    status: error.status,
+                    statusText: error.statusText,
+                    cameraState: cameraState
+                };
+                log(`❌ Set camera error: ${error.message}`, 'error', errorDetails);
+                updateStats();
             }
         }
 
@@ -348,7 +437,17 @@
                 updateStats();
                 
             } catch (error) {
-                log(`❌ Get meshes error: ${error.message}`, 'error');
+                const errorDetails = {
+                    message: error.message,
+                    name: error.name,
+                    callId: error.callId,
+                    method: error.method,
+                    duration: error.duration,
+                    status: error.status,
+                    statusText: error.statusText
+                };
+                log(`❌ Get meshes error: ${error.message}`, 'error', errorDetails);
+                updateStats();
             }
         }
 
@@ -378,7 +477,18 @@
                 updateStats();
                 
             } catch (error) {
-                log(`❌ Get mesh error: ${error.message}`, 'error');
+                const errorDetails = {
+                    message: error.message,
+                    name: error.name,
+                    callId: error.callId,
+                    method: error.method,
+                    duration: error.duration,
+                    status: error.status,
+                    statusText: error.statusText,
+                    meshId: meshId
+                };
+                log(`❌ Get mesh error: ${error.message}`, 'error', errorDetails);
+                updateStats();
             }
         }
 

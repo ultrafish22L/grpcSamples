@@ -632,8 +632,14 @@
             // === LIVELINK INTEGRATION METHODS ===
             
             setupLiveLinkEvents() {
+                // Enhanced logging event handler
+                this.liveLink.on('log', (logEntry) => {
+                    this.log(logEntry.message, logEntry.level, logEntry.details);
+                });
+                
                 this.liveLink.on('connectionStateChanged', (state) => {
                     this.updateConnectionStatus(state, state);
+                    this.log(`Connection state changed: ${state}`, 'info');
                 });
                 
                 this.liveLink.on('connected', () => {
@@ -656,7 +662,13 @@
                 });
                 
                 this.liveLink.on('error', (error) => {
-                    this.log('LiveLink error: ' + error.message, 'error');
+                    const errorDetails = {
+                        message: error.message,
+                        name: error.name,
+                        analysis: error.analysis || 'No analysis available',
+                        troubleshooting: error.troubleshooting || 'No troubleshooting available'
+                    };
+                    this.log('LiveLink error: ' + error.message, 'error', errorDetails);
                     // Fallback to demo mode on connection error
                     this.simulateConnection();
                 });
@@ -673,7 +685,13 @@
                 try {
                     await this.liveLink.connect();
                 } catch (error) {
-                    this.log('Failed to connect: ' + error.message, 'error');
+                    const errorDetails = {
+                        message: error.message,
+                        name: error.name,
+                        analysis: error.analysis || 'Connection failed',
+                        troubleshooting: error.troubleshooting || 'Check server address and ensure Octane is running'
+                    };
+                    this.log('Failed to connect: ' + error.message, 'error', errorDetails);
                     // Simulate connection for demo purposes
                     this.simulateConnection();
                 }
@@ -973,11 +991,21 @@
                 }
             }
             
-            log(message, type = 'info') {
+            log(message, type = 'info', details = null) {
                 const logElement = document.getElementById('activityLog');
                 const entry = document.createElement('div');
                 entry.className = `log-entry log-${type}`;
-                entry.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+                
+                if (details) {
+                    entry.innerHTML = `
+                        <div>${new Date().toLocaleTimeString()}: ${message}</div>
+                        <div style="margin-left: 15px; font-size: 0.85em; color: #aaa; white-space: pre-wrap;">
+                            ${typeof details === 'object' ? JSON.stringify(details, null, 2) : details}
+                        </div>
+                    `;
+                } else {
+                    entry.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+                }
                 
                 logElement.appendChild(entry);
                 logElement.scrollTop = logElement.scrollHeight;
@@ -986,6 +1014,10 @@
                 while (logElement.children.length > 20) {
                     logElement.removeChild(logElement.firstChild);
                 }
+                
+                // Also log to console with color coding
+                const consoleMethod = type === 'error' ? 'error' : type === 'warning' ? 'warn' : 'log';
+                console[consoleMethod](`[3D Viewer] ${message}`, details || '');
             }
             
             // === EVENT HANDLERS ===
