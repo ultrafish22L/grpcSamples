@@ -1,46 +1,80 @@
 # Octane gRPC Samples Repository
 
 ## Purpose
-This repository provides code samples demonstrating Octane Render's gRPC connection service and SDK integration. It showcases practical examples of connecting to Octane Render via gRPC and implementing real-time camera synchronization between external applications and Octane's render engine. The repository serves as a comprehensive demonstration platform for developers integrating with Octane's LiveLink service and SDK.
+
+This repository provides comprehensive code samples demonstrating Octane Render's gRPC connection service and SDK integration. It enables real-time camera synchronization and 3D model interaction between external applications (C++, HTML/WebGL) and Octane's render engine through various connection methods including gRPC, WebSocket, and direct SDK integration.
 
 ## General Setup
-The repository is built using CMake with C++17 and supports cross-platform development (Windows, Linux, macOS). It includes:
 
-- **Build System**: CMake 3.10+ with Visual Studio 2022 support on Windows
-- **Dependencies**: All third-party libraries are included in `third_party/` directory (OpenGL, gRPC, protobuf, GLFW, GLEW, GLM)
-- **Configuration Options**: 
-  - `ENABLE_OCTANE_GRPC=ON/OFF` for gRPC functionality
-  - Automatic SDK detection on Windows
-  - Simulation mode for development without full Octane installation
-- **Web Components**: HTML demos with custom gRPC-Web implementation for browser-based integration
-- **Cross-platform**: Native file dialogs, OpenGL rendering, and consistent UI across platforms
+The repository is designed as a cross-platform development environment supporting:
+
+- **Build System**: CMake-based configuration for Windows, Linux, and macOS
+- **Dependencies**: Self-contained third-party libraries (OpenGL, gRPC, protobuf, etc.)
+- **Development Modes**: 
+  - Full gRPC connectivity (requires gRPC libraries)
+  - Simulation mode (standalone development)
+- **Connection Methods**: Unix domain sockets, TCP connections, HTTP-based gRPC-Web
+- **Default Server**: `127.0.0.1:51022` for gRPC-Web HTML demos
+
+### Key Components
+- **C++ Applications**: Native desktop viewers with OpenGL rendering
+- **HTML/WebGL Demos**: Browser-based 3D viewers with custom gRPC-Web client
+- **Octane SDK Integration**: Direct API access for production workflows
+- **Shared Libraries**: Common functionality for file dialogs, model loading, camera controls
 
 ## Repository Structure
 
-### Core Applications
-- **`simpleGL/`** - Standalone interactive 3D model viewer with comprehensive file loading (OBJ/PLY/STL)
-- **`simpleGlGrpc/`** - Pure gRPC network synchronization without SDK dependencies
-- **`simpleGlSdk/`** - Direct Octane SDK integration with real-time camera synchronization
+```
+grpcSamples/
+├── html/                          # 🌐 Web-based demos and gRPC-Web client
+│   ├── livelink.js               # Custom HTTP-based gRPC-Web implementation
+│   ├── livelink_demo.html        # Main LiveLink demo with camera/mesh control
+│   ├── simple_test.html          # Basic connection testing
+│   ├── grpc_test.html           # gRPC functionality testing
+│   ├── web3d_*.html             # 3D WebGL viewers with Octane sync
+│   └── generated/               # Protobuf-generated JavaScript files
+│
+├── simpleGL/                      # 🎯 Standalone 3D model viewer
+│   └── main.cpp                  # Interactive viewer with file loading
+│
+├── simpleGlGrpc/                  # 🌐 Pure gRPC network synchronization
+│   └── main.cpp                  # Network-focused implementation (no SDK)
+│
+├── simpleGlSdk/                   # 🚀 Direct Octane SDK integration
+│   └── main.cpp                  # Production-ready with full SDK access
+│
+├── shared/                        # 🔧 Common helper libraries
+│   ├── camera_sync_*.h/.cpp      # Camera synchronization implementations
+│   ├── file_dialog.h             # Cross-platform file dialogs
+│   ├── model_loader.h            # 3D model loading (OBJ/PLY/STL)
+│   └── protos/                   # Protocol buffer definitions
+│
+├── sdk/                           # Octane SDK wrapper library
+│   ├── octanewrap*.h/.cpp        # SDK wrapper classes
+│   ├── grpc-examples/            # gRPC integration examples
+│   └── src/                      # Core SDK implementation
+│
+├── third_party/                   # External dependencies
+│   ├── grpc/                     # gRPC framework
+│   ├── protobuf/                 # Protocol buffers
+│   ├── glfw/, glew/, glm/        # OpenGL libraries
+│   └── openssl/, curl/, etc.     # Supporting libraries
+│
+├── test_models/                   # Sample 3D models for testing
+├── ORBX/                         # Octane scene files
+├── cmake/                        # Build system configuration
+└── win-vs2022.bat               # Windows build script
+```
 
-### Shared Libraries
-- **`shared/`** - Common helper libraries for file dialogs, model loading, camera controls, and model management
-- **`sdk/`** - Octane SDK wrapper library with gRPC connectivity and API wrappers
-
-### Web Integration
-- **`html/`** - Browser-based 3D viewers with WebGL and custom gRPC-Web implementation
-  - LiveLink demos with real-time Octane synchronization
-  - Model viewers with drag-and-drop support
-  - Connection testing and debugging interfaces
-
-### Supporting Components
-- **`third_party/`** - External dependencies (OpenGL libraries, gRPC framework, protobuf)
-- **`test_models/`** - Sample 3D models for testing (PLY, STL formats)
-- **`ORBX/`** - Octane scene files for testing
-- **Build scripts** - Platform-specific build configurations and automation
+### Application Types
+1. **HTML Demos**: Browser-based with custom gRPC-Web client (no external dependencies)
+2. **C++ Viewers**: Native applications with OpenGL rendering and mouse controls
+3. **SDK Integration**: Direct Octane API access for production workflows
+4. **Network Sync**: Pure gRPC implementations for distributed rendering
 
 ### Key Features
-- **Camera Synchronization**: Real-time position/orientation sync with mouse controls (orbit, zoom, pan)
-- **Multi-format Model Loading**: Support for OBJ, PLY, STL files with cross-platform file dialogs
-- **gRPC Integration**: Unix domain socket and TCP connections with graceful fallback
-- **Web Compatibility**: Custom HTTP-based gRPC-Web client eliminating CDN dependencies
-- **Development Support**: Simulation mode, comprehensive logging, and configurable build options
+- Real-time camera synchronization between applications and Octane
+- Multi-format 3D model loading (OBJ, PLY, STL)
+- Cross-platform file dialogs and UI components
+- Graceful fallback to simulation mode when Octane unavailable
+- Comprehensive logging and debugging support
