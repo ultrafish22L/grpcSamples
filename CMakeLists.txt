@@ -11,6 +11,8 @@ find_package(OpenGL REQUIRED)
 
 # Windows MSVC specific configurations
 if(WIN32)
+    set(OCTANE_SDK_ENABLED ON)
+    
     # Enable parallel compilation for all targets
     add_compile_options(/MP)
     

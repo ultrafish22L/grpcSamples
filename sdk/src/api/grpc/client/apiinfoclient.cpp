@@ -21,7 +21,7 @@
 #include "apinodeclient.h"
 #include "apiimageclient.h"
 #include "apiattributeinfoclient.h"
-#include "../grpcapinodeinfo.h"
+#include "apinodeinfoclient.h"
 #include "stringmgr.h"
 #include "convertmatrix.h"
 #include "grpcsettings.h"
