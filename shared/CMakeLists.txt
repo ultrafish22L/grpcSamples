@@ -26,11 +26,23 @@ if(WIN32)
         "${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/bin/protoc.exe"
         "${CMAKE_SOURCE_DIR}/tools/protoc.exe"
         "C:/tools/protobuf/bin/protoc.exe"
+        "C:/Program Files/protobuf/bin/protoc.exe"
+        "C:/Program Files (x86)/protobuf/bin/protoc.exe"
+        "C:/vcpkg/installed/x64-windows/tools/protobuf/protoc.exe"
+        "C:/vcpkg/installed/x86-windows/tools/protobuf/protoc.exe"
+        "$ENV{PROTOBUF_ROOT}/bin/protoc.exe"
+        "$ENV{PROTOC_ROOT}/bin/protoc.exe"
     )
     set(GRPC_PLUGIN_PATHS
         "${CMAKE_SOURCE_DIR}/third_party/grpc/windows/bin/grpc_cpp_plugin.exe"
         "${CMAKE_SOURCE_DIR}/tools/grpc_cpp_plugin.exe"
         "C:/tools/grpc/bin/grpc_cpp_plugin.exe"
+        "C:/Program Files/grpc/bin/grpc_cpp_plugin.exe"
+        "C:/Program Files (x86)/grpc/bin/grpc_cpp_plugin.exe"
+        "C:/vcpkg/installed/x64-windows/tools/grpc/grpc_cpp_plugin.exe"
+        "C:/vcpkg/installed/x86-windows/tools/grpc/grpc_cpp_plugin.exe"
+        "$ENV{GRPC_ROOT}/bin/grpc_cpp_plugin.exe"
+        "$ENV{GRPC_CPP_PLUGIN_ROOT}/bin/grpc_cpp_plugin.exe"
     )
     
     # Find protoc executable
@@ -86,54 +98,68 @@ else()
     message(STATUS "Using existing generated files only")
 endif()
 
-if(GRPC_AVAILABLE)
+# grpc proto definition files - always process these
+get_filename_component(ABS_PROTO_DIR "${CMAKE_CURRENT_SOURCE_DIR}/protos" ABSOLUTE)
+get_filename_component(ABS_PROTO_OUT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/generated" ABSOLUTE)
+file(GLOB PROTO_FILES "${ABS_PROTO_DIR}/*.proto")
+message(STATUS "Proto files: ${PROTO_FILES}")
 
-    message(STATUS "add proto file build custom commands")
-   
-    # grpc proto definition files
-    get_filename_component(ABS_PROTO_DIR "${CMAKE_CURRENT_SOURCE_DIR}/protos" ABSOLUTE)
-    get_filename_component(ABS_PROTO_OUT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/generated" ABSOLUTE)
-    file(GLOB PROTO_FILES "${ABS_PROTO_DIR}/*.proto")
-    message(STATUS "Proto files: ${PROTO_FILES}")
+# Create generated directory if it doesn't exist
+file(MAKE_DIRECTORY ${ABS_PROTO_OUT_DIR})
 
-    # Create generated directory if it doesn't exist
-    file(MAKE_DIRECTORY ${ABS_PROTO_OUT_DIR})
-    
-    # Check if generated files already exist, if so use them directly
-    # Otherwise set up custom commands to generate them
-    foreach(FIL ${PROTO_FILES})
-        get_filename_component(ABS_FIL ${FIL} ABSOLUTE)
-        get_filename_component(FIL_PATH ${FIL} PATH)
-        get_filename_component(FIL_WE ${FIL} NAME_WE)
+# Always populate the expected generated file lists
+foreach(FIL ${PROTO_FILES})
+    get_filename_component(ABS_FIL ${FIL} ABSOLUTE)
+    get_filename_component(FIL_PATH ${FIL} PATH)
+    get_filename_component(FIL_WE ${FIL} NAME_WE)
 
-        set(PROTO_SRC "${ABS_PROTO_OUT_DIR}/${FIL_WE}.pb.cc")
-        set(PROTO_HEADER "${ABS_PROTO_OUT_DIR}/${FIL_WE}.pb.h")
-        set(GRPC_SRC "${ABS_PROTO_OUT_DIR}/${FIL_WE}.grpc.pb.cc")
-        set(GRPC_HEADER "${ABS_PROTO_OUT_DIR}/${FIL_WE}.grpc.pb.h")
+    set(PROTO_SRC "${ABS_PROTO_OUT_DIR}/${FIL_WE}.pb.cc")
+    set(PROTO_HEADER "${ABS_PROTO_OUT_DIR}/${FIL_WE}.pb.h")
+    set(GRPC_SRC "${ABS_PROTO_OUT_DIR}/${FIL_WE}.grpc.pb.cc")
+    set(GRPC_HEADER "${ABS_PROTO_OUT_DIR}/${FIL_WE}.grpc.pb.h")
 
-        list(APPEND PROTO_SRCS ${PROTO_SRC} ${PROTO_HEADER})
-        list(APPEND GRPC_SRCS ${GRPC_SRC} ${GRPC_HEADER})
+    list(APPEND PROTO_SRCS ${PROTO_SRC} ${PROTO_HEADER})
+    list(APPEND GRPC_SRCS ${GRPC_SRC} ${GRPC_HEADER})
 
-        # Only add custom command if files don't exist
-        if(NOT EXISTS "${PROTO_SRC}" OR NOT EXISTS "${PROTO_HEADER}" OR 
-           NOT EXISTS "${GRPC_SRC}" OR NOT EXISTS "${GRPC_HEADER}")
-            add_custom_command(
-                OUTPUT "${PROTO_SRC}" "${PROTO_HEADER}" "${GRPC_SRC}" "${GRPC_HEADER}"
-                COMMAND ${PROTOC_EXECUTABLE}
-                ARGS --grpc_out="${ABS_PROTO_OUT_DIR}"
-                     --cpp_out="${ABS_PROTO_OUT_DIR}"
-                     -I"${ABS_PROTO_DIR}"
-                     -I"${ABS_PROTO_INC_DIR}"
-                     --plugin=protoc-gen-grpc="${GRPC_CPP_PLUGIN}"
-                     "${ABS_FIL}"
-                DEPENDS "${ABS_FIL}"
-                COMMENT "Generating gRPC files for ${FIL_WE}"
-                VERBATIM
-            )
-        else()
-            message(STATUS "Using existing generated files for ${FIL_WE}")
-        endif()
-    endforeach()
+    # Check if files need to be generated
+    set(NEED_GENERATION FALSE)
+    if(NOT EXISTS "${PROTO_SRC}" OR NOT EXISTS "${PROTO_HEADER}" OR 
+       NOT EXISTS "${GRPC_SRC}" OR NOT EXISTS "${GRPC_HEADER}")
+        set(NEED_GENERATION TRUE)
+    endif()
+
+    # Only add custom command if gRPC tools are available AND files need generation
+    if(GRPC_AVAILABLE AND NEED_GENERATION)
+        message(STATUS "Setting up protobuf generation for ${FIL_WE}")
+        add_custom_command(
+            OUTPUT "${PROTO_SRC}" "${PROTO_HEADER}" "${GRPC_SRC}" "${GRPC_HEADER}"
+            COMMAND ${PROTOC_EXECUTABLE}
+            ARGS --grpc_out="${ABS_PROTO_OUT_DIR}"
+                 --cpp_out="${ABS_PROTO_OUT_DIR}"
+                 -I"${ABS_PROTO_DIR}"
+                 -I"${ABS_PROTO_INC_DIR}"
+                 --plugin=protoc-gen-grpc="${GRPC_CPP_PLUGIN}"
+                 "${ABS_FIL}"
+            DEPENDS "${ABS_FIL}"
+            COMMENT "Generating gRPC files for ${FIL_WE}"
+            VERBATIM
+        )
+        # Add to list of files that need generation
+        list(APPEND PROTO_GENERATION_OUTPUTS "${PROTO_SRC}" "${PROTO_HEADER}" "${GRPC_SRC}" "${GRPC_HEADER}")
+    elseif(NEED_GENERATION AND NOT GRPC_AVAILABLE)
+        message(WARNING "Proto files need generation but protoc/grpc_cpp_plugin not found for ${FIL_WE}")
+        message(WARNING "Build may fail if generated files are missing")
+    else()
+        message(STATUS "Using existing generated files for ${FIL_WE}")
+    endif()
+endforeach()
+
+# Create a custom target for protobuf generation if needed
+if(PROTO_GENERATION_OUTPUTS)
+    add_custom_target(generate_protos
+        DEPENDS ${PROTO_GENERATION_OUTPUTS}
+        COMMENT "Generating protobuf files"
+    )
 endif()
 
 # Collect all Shared source files
@@ -149,21 +175,17 @@ file(GLOB SHARED_HEADERS
 list(REMOVE_ITEM SHARED_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/camera_sync_sdk.h")
 list(REMOVE_ITEM SHARED_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/camera_sync_sdk_simple.h")
 
-# Collect all existing protoc files (no compilation needed)
-file(GLOB_RECURSE PROTOC_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/generated/*.*"
-)
-
-# Include protoc sources (protobuf-generated files)
-list(APPEND SHARED_SOURCES ${PROTOC_SOURCES})
-
-# Add generated sources if gRPC is available
-if(GRPC_AVAILABLE)
-    list(APPEND SHARED_SOURCES ${PROTO_SRCS} ${GRPC_SRCS})
-endif()
+# Always include the expected protobuf generated sources
+# These will either exist already or be generated by custom commands
+list(APPEND SHARED_SOURCES ${PROTO_SRCS} ${GRPC_SRCS})
 
 # Create the shared library
 add_library(shared_lib STATIC ${SHARED_SOURCES} ${SHARED_HEADERS} ${PROTO_FILES})
+
+# Make sure protobuf files are generated before building the library
+if(TARGET generate_protos)
+    add_dependencies(shared_lib generate_protos)
+endif()
 
 # Set include directories
 target_include_directories(shared_lib
