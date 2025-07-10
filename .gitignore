@@ -46,7 +46,8 @@ Thumbs.db
 *.swo
 
 # Generated protobuf files
-#sdk/src/api/grpc/protoc/
+**/generated/
+**/__pycache__/
 *.pb.h
 *.pb.cc
 *.grpc.pb.h
