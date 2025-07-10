@@ -108,6 +108,10 @@ echo ------------------------------------
 echo Server will run on: http://127.0.0.1:51023
 echo Octane connection: 127.0.0.1:51022
 echo.
+echo ⚠️  IMPORTANT: You also need the HTTP server for HTML demos!
+echo    Open another terminal and run: start_http_server.bat
+echo    Then visit: http://localhost:8000/grpc_test.html
+echo.
 echo Press Ctrl+C to stop the server
 echo.
 

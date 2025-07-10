@@ -7,11 +7,27 @@ This folder contains HTML demos for connecting to Octane Render via gRPC-Web pro
 For Windows users, we provide convenient batch files that handle all setup automatically:
 
 ### Automated Setup (Recommended)
+
+**Option A: One-Click Setup (Easiest)**
 ```cmd
 cd html
-start_proxy_server.bat    # Terminal 1: Builds dependencies and starts proxy
-start_http_server.bat     # Terminal 2: Starts web server for demos
+start_both_servers.bat    # Starts both servers automatically in separate windows
 ```
+
+**Option B: Manual Two-Terminal Setup**
+```cmd
+# Terminal 1: Start the gRPC proxy server
+cd html
+start_proxy_server.bat
+
+# Terminal 2: Start the HTTP server for HTML files  
+cd html
+start_http_server.bat
+```
+
+**⚠️ IMPORTANT**: Both servers must be running at the same time:
+- **Proxy Server**: Translates browser HTTP → Octane gRPC (port 51023)
+- **HTTP Server**: Serves HTML files to your browser (port 8000)
 
 **What the batch files do**:
 - ✅ Install Python dependencies (`grpcio`, `grpcio-tools`, `aiohttp`)
@@ -256,6 +272,17 @@ shared/generated/           # Generated Python protobuf files
 3. ✅ **CMake protobuf generation failed**: Batch file will try manual generation as fallback
 4. ✅ **Port already in use**: Stop existing servers with Ctrl+C before restarting
 5. ✅ **Permission denied**: Run Command Prompt as Administrator if needed
+
+**Connection errors in browser**:
+1. ✅ **`net::ERR_CONNECTION_REFUSED` on port 51023**: Proxy server not running
+   - Run `start_proxy_server.bat` or `start_both_servers.bat`
+   - Check that proxy server window shows "Server running on port 51023"
+2. ✅ **`net::ERR_CONNECTION_REFUSED` on port 8000**: HTTP server not running
+   - Run `start_http_server.bat` or `start_both_servers.bat`
+   - Access demos via `http://localhost:8000/` not `file://`
+3. ✅ **Proxy connects but gRPC calls fail**: Octane LiveLink not enabled
+   - Enable LiveLink in Octane Render settings
+   - Verify Octane is listening on port 51022
 
 ### Debug Tools
 
