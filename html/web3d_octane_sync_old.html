@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 WebGL-Octane LiveLink Sync Viewer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a0a0f;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            color: white;
+        }
+        
+        #canvas {
+            display: block;
+            cursor: grab;
+        }
+        
+        #canvas:active {
+            cursor: grabbing;
+        }
+        
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.4;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 350px;
+        }
+        
+        #controls {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        #grpc-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: 200px;
+        }
+        
+        #performance {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .highlight {
+            color: #4fc3f7;
+            font-weight: bold;
+        }
+        
+        .status-connected {
+            color: #4caf50;
+        }
+        
+        .status-disconnected {
+            color: #f44336;
+        }
+        
+        .status-connecting {
+            color: #ff9800;
+        }
+        
+        button {
+            background: rgba(76, 175, 80, 0.8);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 2px;
+            font-size: 11px;
+        }
+        
+        button:hover {
+            background: rgba(76, 175, 80, 1);
+        }
+        
+        button:disabled {
+            background: rgba(100, 100, 100, 0.5);
+            cursor: not-allowed;
+        }
+        
+        input {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            width: 150px;
+        }
+        
+        .log-entry {
+            margin: 2px 0;
+            padding: 2px 4px;
+            border-radius: 2px;
+            font-size: 10px;
+        }
+        
+        .log-info {
+            background: rgba(33, 150, 243, 0.2);
+        }
+        
+        .log-success {
+            background: rgba(76, 175, 80, 0.2);
+        }
+        
+        .log-error {
+            background: rgba(244, 67, 54, 0.2);
+        }
+        
+        .log-warning {
+            background: rgba(255, 152, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div id="info">
+        <div class="highlight">🚀 WebGL-Octane LiveLink Sync Viewer</div>
+        <div>Real-time camera synchronization with Octane Render via LiveLink</div>
+        <div style="margin-top: 8px;">
+            <div>• Discover meshes in Octane via LiveLink GetMeshes</div>
+            <div>• Unified camera synchronization with SetCamera</div>
+            <div>• WebGL preview with Octane rendering</div>
+            <div>• Real-time LiveLink protocol communication</div>
+        </div>
+        <div style="margin-top: 10px;">
+            <input type="text" id="serverAddress" placeholder="http://127.0.0.1:51023" value="http://127.0.0.1:51023">
+        </div>
+    </div>
+    
+    <div id="controls">
+        <div class="highlight">Controls:</div>
+        <div>🖱️ <strong>Left Mouse Drag:</strong> Orbit camera (syncs to Octane)</div>
+        <div>🖱️ <strong>Right Mouse Drag:</strong> Pan camera left/right/up/down (syncs to Octane)</div>
+        <div>🎯 <strong>Mouse Wheel:</strong> Zoom in/out (syncs to Octane)</div>
+        <div>⌨️ <strong>ESC:</strong> Reset camera position</div>
+        <div>🔄 <strong>Space:</strong> Toggle auto-rotation</div>
+        <div>🔗 <strong>S:</strong> Force sync camera to Octane</div>
+        
+        <div style="margin-top: 10px;">
+            <div class="highlight">LiveLink Actions:</div>
+            <button id="testBtn" onclick="window.testFunction();" style="margin: 2px; padding: 4px 8px; font-size: 11px; background-color: red;">TEST</button>
+            <button id="connectBtn" onclick="alert('Connect button clicked!'); console.log('Connect button clicked'); if(viewer) { console.log('Viewer exists, calling connect'); viewer.connect(); } else { console.error('Viewer not initialized'); }" style="margin: 2px; padding: 4px 8px; font-size: 11px;">Connect</button>
+            <button id="getMeshesBtn" onclick="viewer.loadTeapot()" style="margin: 2px; padding: 4px 8px; font-size: 11px;">Get Meshes</button>
+            <button id="syncCameraBtn" onclick="console.log('Start Sync button clicked'); if(viewer) { console.log('Viewer exists, calling toggleCameraSync'); viewer.toggleCameraSync(); } else { console.error('Viewer not initialized'); }" disabled style="margin: 2px; padding: 4px 8px; font-size: 11px;">Start Sync</button>
+            <button id="getCameraBtn" onclick="viewer.getCameraFromOctane()" style="margin: 2px; padding: 4px 8px; font-size: 11px;">Get Camera</button>
+        </div>
+    </div>
+    
+    <div id="grpc-status">
+        <div class="highlight">LiveLink Status:</div>
+        <div>Connection: <span id="connectionStatus" class="status-disconnected">Disconnected</span></div>
+        <div>Octane Server: <span id="octaneStatus" class="status-disconnected">Not Ready</span></div>
+        <div>Camera Sync: <span id="syncStatus" class="status-disconnected">Disabled</span></div>
+        <div>Meshes Available: <span id="teapotStatus" class="status-disconnected">No</span></div>
+        <div style="margin-top: 8px; font-size: 10px;">
+            <div class="highlight">Activity Log:</div>
+            <div id="activityLog" style="max-height: 100px; overflow-y: auto;">
+                <div class="log-entry log-info">Ready to connect...</div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="performance">
+        <div>FPS: <span id="fps">--</span></div>
+        <div>Frame Time: <span id="frameTime">--</span>ms</div>
+        <div>LiveLink Calls: <span id="grpcCalls">0</span></div>
+        <div>Sync Rate: <span id="syncRate">--</span>/s</div>
+    </div>
+
+    <!-- Test basic JavaScript -->
+    <script>
+        console.log('Basic JavaScript is working');
+        window.testFunction = function() {
+            alert('Basic test works!');
+        };
+    </script>
+
+    <!-- Include LiveLink.js library -->
+    <script src="livelink.js"></script>
+    
+    <script>
+        // WebGL-Octane LiveLink Synchronization Viewer
+        // Demonstrates real-time camera sync between WebGL and Octane Render using LiveLink protocol
+        
+        class OctaneGrpcSync {
+            constructor() {
+                this.canvas = document.getElementById('canvas');
+                this.gl = null;
+                this.shaderProgram = null;
+                this.skyboxProgram = null;
+                
+                // Camera parameters (matching simpleGL)
+                this.camera = {
+                    radius: 5.0,
+                    theta: 0.0,  // horizontal angle
+                    phi: 0.0,    // vertical angle
+                    center: [0.0, 0.0, 0.0]
+                };
+                
+                // Mouse state
+                this.mouse = {
+                    dragging: false,
+                    panning: false,  // Right mouse button for panning
+                    lastX: 0,
+                    lastY: 0
+                };
+                
+                // Animation state
+                this.autoRotate = true;
+                this.startTime = Date.now();
+                
+                // Performance tracking
+                this.frameCount = 0;
+                this.lastTime = 0;
+                this.fps = 0;
+                this.frameTime = 0;
+                
+                // LiveLink state - using gRPC-Web client
+                this.liveLink = null;
+                try {
+                    if (typeof liveLinkManager !== 'undefined') {
+                        this.liveLink = liveLinkManager.getClient('http://127.0.0.1:51023');
+                    } else {
+                        console.error('liveLinkManager not available');
+                    }
+                } catch (error) {
+                    console.error('Failed to initialize LiveLink client:', error);
+                }
+                this.connected = false;
+                this.octaneReady = false;
+                this.cameraSync = false;
+                this.teapotLoaded = false;
+                this.grpcCallCount = 0;
+                this.syncCallCount = 0;
+                this.lastSyncTime = 0;
+                this.demoMode = false;
+                
+                // Setup LiveLink event handlers
+                this.setupLiveLinkEvents();
+                
+                // WebGL objects
+                this.cubeVAO = null;
+                this.skyboxVAO = null;
+                this.cubeBuffer = null;
+                this.skyboxBuffer = null;
+                this.indexBuffer = null;
+                
+                this.init();
+            }
+            
+            init() {
+                this.setupCanvas();
+                this.initWebGL();
+                this.createShaders();
+                this.createGeometry();
+                this.setupEventListeners();
+                this.render();
+            }
+            
+            // [Previous WebGL setup methods remain the same - setupCanvas, initWebGL, createShaders, createGeometry]
+            setupCanvas() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+                
+                window.addEventListener('resize', () => {
+                    this.canvas.width = window.innerWidth;
+                    this.canvas.height = window.innerHeight;
+                    this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+                });
+            }
+            
+            initWebGL() {
+                this.gl = this.canvas.getContext('webgl2', {
+                    antialias: true,
+                    alpha: false,
+                    depth: true,
+                    stencil: true
+                });
+                
+                if (!this.gl) {
+                    alert('WebGL 2.0 not supported in your browser!');
+                    return;
+                }
+                
+                // Enable features
+                this.gl.enable(this.gl.DEPTH_TEST);
+                this.gl.enable(this.gl.BLEND);
+                this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+                
+                // Set viewport
+                this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+            }
+            
+            createShaders() {
+                // [Same shaders as the original web3d_viewer.html]
+                const cubeVertexShader = `#version 300 es
+                    precision highp float;
+                    
+                    layout (location = 0) in vec3 aPos;
+                    layout (location = 1) in vec3 aNormal;
+                    layout (location = 2) in vec3 aColor;
+                    
+                    uniform mat4 uModel;
+                    uniform mat4 uView;
+                    uniform mat4 uProjection;
+                    uniform mat3 uNormalMatrix;
+                    
+                    out vec3 vFragPos;
+                    out vec3 vNormal;
+                    out vec3 vVertexColor;
+                    
+                    void main() {
+                        vFragPos = vec3(uModel * vec4(aPos, 1.0));
+                        vNormal = uNormalMatrix * aNormal;
+                        vVertexColor = aColor;
+                        
+                        gl_Position = uProjection * uView * vec4(vFragPos, 1.0);
+                    }
+                `;
+                
+                const cubeFragmentShader = `#version 300 es
+                    precision highp float;
+                    
+                    in vec3 vFragPos;
+                    in vec3 vNormal;
+                    in vec3 vVertexColor;
+                    
+                    out vec4 fragColor;
+                    
+                    uniform vec3 uLightPos;
+                    uniform vec3 uLightColor;
+                    uniform vec3 uViewPos;
+                    uniform float uTime;
+                    
+                    void main() {
+                        // Ambient lighting
+                        float ambientStrength = 0.15;
+                        vec3 ambient = ambientStrength * uLightColor;
+                        
+                        // Diffuse lighting
+                        vec3 norm = normalize(vNormal);
+                        vec3 lightDir = normalize(uLightPos - vFragPos);
+                        float diff = max(dot(norm, lightDir), 0.0);
+                        vec3 diffuse = diff * uLightColor;
+                        
+                        // Specular lighting (shiny effect)
+                        float specularStrength = 0.8;
+                        vec3 viewDir = normalize(uViewPos - vFragPos);
+                        vec3 reflectDir = reflect(-lightDir, norm);
+                        float spec = pow(max(dot(viewDir, reflectDir), 0.0), 64.0);
+                        vec3 specular = specularStrength * spec * uLightColor;
+                        
+                        // Add subtle color variation based on time
+                        vec3 baseColor = vVertexColor;
+                        baseColor += 0.1 * sin(uTime + vFragPos.x * 2.0) * vec3(0.2, 0.3, 0.4);
+                        
+                        // Rim lighting for extra shine
+                        float rimPower = 2.0;
+                        float rim = 1.0 - max(dot(viewDir, norm), 0.0);
+                        rim = pow(rim, rimPower);
+                        vec3 rimColor = vec3(0.3, 0.6, 1.0) * rim * 0.5;
+                        
+                        vec3 result = (ambient + diffuse + specular) * baseColor + rimColor;
+                        fragColor = vec4(result, 1.0);
+                    }
+                `;
+                
+                const skyboxVertexShader = `#version 300 es
+                    precision highp float;
+                    
+                    layout (location = 0) in vec3 aPos;
+                    
+                    out vec3 vTexCoords;
+                    
+                    uniform mat4 uProjection;
+                    uniform mat4 uView;
+                    
+                    void main() {
+                        vTexCoords = aPos;
+                        vec4 pos = uProjection * uView * vec4(aPos, 1.0);
+                        gl_Position = pos.xyww;
+                    }
+                `;
+                
+                const skyboxFragmentShader = `#version 300 es
+                    precision highp float;
+                    
+                    out vec4 fragColor;
+                    
+                    in vec3 vTexCoords;
+                    uniform float uTime;
+                    
+                    vec3 getSkyColor(vec3 direction) {
+                        float y = direction.y;
+                        
+                        // Create a beautiful gradient from horizon to zenith
+                        vec3 horizonColor = vec3(1.0, 0.7, 0.4);  // Warm orange
+                        vec3 zenithColor = vec3(0.2, 0.4, 0.8);   // Deep blue
+                        vec3 nadirColor = vec3(0.1, 0.1, 0.2);    // Dark blue-purple
+                        
+                        // Add some dynamic color variation
+                        float timeOffset = sin(uTime * 0.1) * 0.1;
+                        horizonColor += vec3(timeOffset, timeOffset * 0.5, -timeOffset * 0.3);
+                        
+                        // Smooth transitions
+                        float t1 = smoothstep(-0.2, 0.3, y);  // Horizon to zenith
+                        float t2 = smoothstep(-1.0, -0.2, y); // Nadir to horizon
+                        
+                        vec3 color = mix(nadirColor, horizonColor, t2);
+                        color = mix(color, zenithColor, t1);
+                        
+                        // Add some stars/sparkles
+                        float stars = 0.0;
+                        vec3 starPos = direction * 50.0;
+                        stars += smoothstep(0.99, 1.0, sin(starPos.x * 127.1) * sin(starPos.y * 311.7) * sin(starPos.z * 74.7));
+                        stars *= smoothstep(0.2, 1.0, y); // Only show stars in upper hemisphere
+                        
+                        color += vec3(stars * 0.8);
+                        
+                        // Add subtle cloud-like patterns
+                        float clouds = sin(direction.x * 3.0 + uTime * 0.05) * sin(direction.z * 2.0 + uTime * 0.03);
+                        clouds = smoothstep(0.3, 0.7, clouds) * 0.1;
+                        clouds *= smoothstep(-0.1, 0.5, y); // Only in upper part
+                        
+                        color += vec3(clouds);
+                        
+                        return color;
+                    }
+                    
+                    void main() {
+                        vec3 color = getSkyColor(normalize(vTexCoords));
+                        fragColor = vec4(color, 1.0);
+                    }
+                `;
+                
+                this.shaderProgram = this.createShaderProgram(cubeVertexShader, cubeFragmentShader);
+                this.skyboxProgram = this.createShaderProgram(skyboxVertexShader, skyboxFragmentShader);
+            }
+            
+            createShaderProgram(vertexSource, fragmentSource) {
+                const vertexShader = this.compileShader(this.gl.VERTEX_SHADER, vertexSource);
+                const fragmentShader = this.compileShader(this.gl.FRAGMENT_SHADER, fragmentSource);
+                
+                const program = this.gl.createProgram();
+                this.gl.attachShader(program, vertexShader);
+                this.gl.attachShader(program, fragmentShader);
+                this.gl.linkProgram(program);
+                
+                if (!this.gl.getProgramParameter(program, this.gl.LINK_STATUS)) {
+                    console.error('Shader program linking failed:', this.gl.getProgramInfoLog(program));
+                    return null;
+                }
+                
+                this.gl.deleteShader(vertexShader);
+                this.gl.deleteShader(fragmentShader);
+                
+                return program;
+            }
+            
+            compileShader(type, source) {
+                const shader = this.gl.createShader(type);
+                this.gl.shaderSource(shader, source);
+                this.gl.compileShader(shader);
+                
+                if (!this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)) {
+                    console.error('Shader compilation failed:', this.gl.getShaderInfoLog(shader));
+                    this.gl.deleteShader(shader);
+                    return null;
+                }
+                
+                return shader;
+            }
+            
+            createGeometry() {
+                // [Same geometry as original - cube vertices and skybox]
+                const vertices = new Float32Array([
+                    // Front face (warm coral) - Normal: (0, 0, 1)
+                    -0.5, -0.5,  0.5,  0.0, 0.0, 1.0,  1.0, 0.5, 0.3,
+                     0.5, -0.5,  0.5,  0.0, 0.0, 1.0,  1.0, 0.5, 0.3,
+                     0.5,  0.5,  0.5,  0.0, 0.0, 1.0,  1.0, 0.5, 0.3,
+                    -0.5,  0.5,  0.5,  0.0, 0.0, 1.0,  1.0, 0.5, 0.3,
+                    
+                    // Back face (emerald green) - Normal: (0, 0, -1)
+                    -0.5, -0.5, -0.5,  0.0, 0.0, -1.0,  0.2, 0.8, 0.4,
+                     0.5, -0.5, -0.5,  0.0, 0.0, -1.0,  0.2, 0.8, 0.4,
+                     0.5,  0.5, -0.5,  0.0, 0.0, -1.0,  0.2, 0.8, 0.4,
+                    -0.5,  0.5, -0.5,  0.0, 0.0, -1.0,  0.2, 0.8, 0.4,
+                    
+                    // Left face (royal blue) - Normal: (-1, 0, 0)
+                    -0.5, -0.5, -0.5,  -1.0, 0.0, 0.0,  0.2, 0.4, 1.0,
+                    -0.5, -0.5,  0.5,  -1.0, 0.0, 0.0,  0.2, 0.4, 1.0,
+                    -0.5,  0.5,  0.5,  -1.0, 0.0, 0.0,  0.2, 0.4, 1.0,
+                    -0.5,  0.5, -0.5,  -1.0, 0.0, 0.0,  0.2, 0.4, 1.0,
+                    
+                    // Right face (golden yellow) - Normal: (1, 0, 0)
+                     0.5, -0.5, -0.5,  1.0, 0.0, 0.0,  1.0, 0.8, 0.2,
+                     0.5, -0.5,  0.5,  1.0, 0.0, 0.0,  1.0, 0.8, 0.2,
+                     0.5,  0.5,  0.5,  1.0, 0.0, 0.0,  1.0, 0.8, 0.2,
+                     0.5,  0.5, -0.5,  1.0, 0.0, 0.0,  1.0, 0.8, 0.2,
+                    
+                    // Top face (violet purple) - Normal: (0, 1, 0)
+                    -0.5,  0.5, -0.5,  0.0, 1.0, 0.0,  0.8, 0.3, 1.0,
+                     0.5,  0.5, -0.5,  0.0, 1.0, 0.0,  0.8, 0.3, 1.0,
+                     0.5,  0.5,  0.5,  0.0, 1.0, 0.0,  0.8, 0.3, 1.0,
+                    -0.5,  0.5,  0.5,  0.0, 1.0, 0.0,  0.8, 0.3, 1.0,
+                    
+                    // Bottom face (turquoise cyan) - Normal: (0, -1, 0)
+                    -0.5, -0.5, -0.5,  0.0, -1.0, 0.0,  0.2, 0.9, 0.8,
+                     0.5, -0.5, -0.5,  0.0, -1.0, 0.0,  0.2, 0.9, 0.8,
+                     0.5, -0.5,  0.5,  0.0, -1.0, 0.0,  0.2, 0.9, 0.8,
+                    -0.5, -0.5,  0.5,  0.0, -1.0, 0.0,  0.2, 0.9, 0.8
+                ]);
+                
+                const indices = new Uint16Array([
+                    // Front face
+                    0, 1, 2,   2, 3, 0,
+                    // Back face
+                    4, 5, 6,   6, 7, 4,
+                    // Left face
+                    8, 9, 10,  10, 11, 8,
+                    // Right face
+                    12, 13, 14, 14, 15, 12,
+                    // Top face
+                    16, 17, 18, 18, 19, 16,
+                    // Bottom face
+                    20, 21, 22, 22, 23, 20
+                ]);
+                
+                // Skybox vertices
+                const skyboxVertices = new Float32Array([
+                    // positions          
+                    -1.0,  1.0, -1.0,
+                    -1.0, -1.0, -1.0,
+                     1.0, -1.0, -1.0,
+                     1.0, -1.0, -1.0,
+                     1.0,  1.0, -1.0,
+                    -1.0,  1.0, -1.0,
+
+                    -1.0, -1.0,  1.0,
+                    -1.0, -1.0, -1.0,
+                    -1.0,  1.0, -1.0,
+                    -1.0,  1.0, -1.0,
+                    -1.0,  1.0,  1.0,
+                    -1.0, -1.0,  1.0,
+
+                     1.0, -1.0, -1.0,
+                     1.0, -1.0,  1.0,
+                     1.0,  1.0,  1.0,
+                     1.0,  1.0,  1.0,
+                     1.0,  1.0, -1.0,
+                     1.0, -1.0, -1.0,
+
+                    -1.0, -1.0,  1.0,
+                    -1.0,  1.0,  1.0,
+                     1.0,  1.0,  1.0,
+                     1.0,  1.0,  1.0,
+                     1.0, -1.0,  1.0,
+                    -1.0, -1.0,  1.0,
+
+                    -1.0,  1.0, -1.0,
+                     1.0,  1.0, -1.0,
+                     1.0,  1.0,  1.0,
+                     1.0,  1.0,  1.0,
+                    -1.0,  1.0,  1.0,
+                    -1.0,  1.0, -1.0,
+
+                    -1.0, -1.0, -1.0,
+                    -1.0, -1.0,  1.0,
+                     1.0, -1.0, -1.0,
+                     1.0, -1.0, -1.0,
+                    -1.0, -1.0,  1.0,
+                     1.0, -1.0,  1.0
+                ]);
+                
+                // Create cube VAO
+                this.cubeVAO = this.gl.createVertexArray();
+                this.gl.bindVertexArray(this.cubeVAO);
+                
+                this.cubeBuffer = this.gl.createBuffer();
+                this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.cubeBuffer);
+                this.gl.bufferData(this.gl.ARRAY_BUFFER, vertices, this.gl.STATIC_DRAW);
+                
+                this.indexBuffer = this.gl.createBuffer();
+                this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
+                this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, indices, this.gl.STATIC_DRAW);
+                
+                // Position attribute
+                this.gl.vertexAttribPointer(0, 3, this.gl.FLOAT, false, 9 * 4, 0);
+                this.gl.enableVertexAttribArray(0);
+                
+                // Normal attribute
+                this.gl.vertexAttribPointer(1, 3, this.gl.FLOAT, false, 9 * 4, 3 * 4);
+                this.gl.enableVertexAttribArray(1);
+                
+                // Color attribute
+                this.gl.vertexAttribPointer(2, 3, this.gl.FLOAT, false, 9 * 4, 6 * 4);
+                this.gl.enableVertexAttribArray(2);
+                
+                // Create skybox VAO
+                this.skyboxVAO = this.gl.createVertexArray();
+                this.gl.bindVertexArray(this.skyboxVAO);
+                
+                this.skyboxBuffer = this.gl.createBuffer();
+                this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.skyboxBuffer);
+                this.gl.bufferData(this.gl.ARRAY_BUFFER, skyboxVertices, this.gl.STATIC_DRAW);
+                
+                this.gl.vertexAttribPointer(0, 3, this.gl.FLOAT, false, 3 * 4, 0);
+                this.gl.enableVertexAttribArray(0);
+                
+                this.gl.bindVertexArray(null);
+            }
+            
+            // === LIVELINK INTEGRATION METHODS ===
+            
+            setupLiveLinkEvents() {
+                // Remove all existing listeners to prevent duplicates
+                this.liveLink.removeAllListeners();
+                
+                // Enhanced logging event handler - use clean message for activity monitor
+                this.liveLink.on('log', (logEntry) => {
+                    const displayMessage = logEntry.cleanMessage || logEntry.message;
+                    this.log(displayMessage, logEntry.level);
+                });
+                
+                this.liveLink.on('connectionStateChanged', (state) => {
+                    this.updateConnectionStatus(state, state);
+                    this.log(`Connection state changed: ${state}`, 'info');
+                });
+                
+                this.liveLink.on('connected', () => {
+                    this.connected = true;
+                    this.octaneReady = true;
+                    this.updateConnectionStatus('Connected', 'connected');
+                    this.updateOctaneStatus('Ready', 'connected');
+                    this.log('Connected to Octane via LiveLink', 'success');
+                    this.enableButton('loadTeapotBtn');
+                });
+                
+                this.liveLink.on('disconnected', () => {
+                    this.connected = false;
+                    this.octaneReady = false;
+                    this.updateConnectionStatus('Disconnected', 'disconnected');
+                    this.updateOctaneStatus('Not Ready', 'disconnected');
+                    this.log('Disconnected from Octane', 'warning');
+                    this.disableButton('loadTeapotBtn');
+                    this.disableButton('syncCameraBtn');
+                });
+                
+                this.liveLink.on('error', (error) => {
+                    const errorDetails = {
+                        message: error.message,
+                        name: error.name,
+                        analysis: error.analysis || 'No analysis available',
+                        troubleshooting: error.troubleshooting || 'No troubleshooting available'
+                    };
+                    this.log('LiveLink error: ' + error.message, 'error', errorDetails);
+                    // Fallback to demo mode on connection error
+                    this.simulateConnection();
+                });
+            }
+            
+            async connect() {
+                const serverAddress = document.getElementById('serverAddress').value;
+                this.log('Connecting to Octane LiveLink server...', 'info');
+                
+                // Create new LiveLink client with updated server URL
+                this.liveLink = liveLinkManager.getClient(serverAddress);
+                this.setupLiveLinkEvents();
+                
+                try {
+                    await this.liveLink.connect();
+                } catch (error) {
+                    const errorDetails = {
+                        message: error.message,
+                        name: error.name,
+                        analysis: error.analysis || 'Connection failed',
+                        troubleshooting: error.troubleshooting || 'Check server address and ensure Octane is running'
+                    };
+                    this.log('Failed to connect: ' + error.message, 'error', errorDetails);
+                    // Simulate connection for demo purposes
+                    this.simulateConnection();
+                }
+            }
+            
+            simulateConnection() {
+                // For demo purposes when no real gRPC server is available
+                this.log('Simulating Octane connection (demo mode)', 'warning');
+                setTimeout(() => {
+                    this.connected = true;
+                    this.octaneReady = true;
+                    this.updateConnectionStatus('Connected (Demo)', 'connected');
+                    this.updateOctaneStatus('Ready (Demo)', 'connected');
+                    this.enableButton('loadTeapotBtn');
+                    this.log('Demo mode: Octane server ready', 'success');
+                    
+                    // Set demo mode flag
+                    this.demoMode = true;
+                }, 1000);
+            }
+            
+            async loadTeapot() {
+                if (!this.connected) {
+                    this.log('Not connected to Octane server', 'error');
+                    return;
+                }
+                
+                this.log('Getting available meshes from Octane via LiveLink...', 'info');
+                
+                try {
+                    const meshes = await this.liveLink.getMeshes();
+                    this.log(`Received ${meshes.length} meshes from LiveLink`, 'success');
+                    
+                    if (meshes.length > 0) {
+                        this.teapotLoaded = true;
+                        this.updateTeapotStatus('Loaded', 'connected');
+                        this.enableButton('syncCameraBtn');
+                        this.log('Meshes loaded successfully', 'success');
+                        
+                        // Log mesh names for debugging
+                        meshes.forEach((mesh, index) => {
+                            this.log(`Mesh ${index}: ${mesh.name} (ID: ${mesh.id})`, 'info');
+                        });
+                    } else {
+                        this.log('No meshes found in Octane scene', 'warning');
+                        this.simulateTeapotLoad();
+                    }
+                } catch (error) {
+                    this.log('Failed to get meshes: ' + error.message, 'error');
+                    this.simulateTeapotLoad();
+                }
+            }
+            
+            simulateTeapotLoad() {
+                this.log('Simulating teapot.orbx load...', 'info');
+                setTimeout(() => {
+                    this.teapotLoaded = true;
+                    this.updateTeapotStatus('Loaded', 'connected');
+                    this.enableButton('syncCameraBtn');
+                    this.log('Teapot loaded successfully', 'success');
+                }, 1500);
+            }
+            
+            toggleCameraSync() {
+                console.log('toggleCameraSync called, connected:', this.connected);
+                console.log('liveLink object:', this.liveLink);
+                
+                if (!this.connected) {
+                    this.log('Not connected to Octane server', 'error');
+                    return;
+                }
+
+                if (!this.liveLink || typeof this.liveLink.toggleCameraSync !== 'function') {
+                    this.log('LiveLink toggleCameraSync method not available', 'error');
+                    console.error('LiveLink object or toggleCameraSync method missing');
+                    return;
+                }
+
+                try {
+                    const isActive = this.liveLink.toggleCameraSync(() => this.getCurrentCamera());
+                    this.cameraSync = isActive;
+                    console.log('Camera sync toggled, isActive:', isActive);
+
+                    if (this.cameraSync) {
+                        this.updateSyncStatus('Active', 'connected');
+                        this.log('Camera synchronization started', 'success');
+                        document.getElementById('syncCameraBtn').textContent = 'Stop Sync';
+                    } else {
+                        this.updateSyncStatus('Disabled', 'disconnected');
+                        this.log('Camera synchronization stopped', 'warning');
+                        document.getElementById('syncCameraBtn').textContent = 'Start Sync';
+                    }
+                } catch (error) {
+                    this.log('Error toggling camera sync: ' + error.message, 'error');
+                    console.error('toggleCameraSync error:', error);
+                }
+            }
+            
+            getCurrentCamera() {
+                const cameraPos = this.getCameraPosition();
+                return {
+                    position: {
+                        x: cameraPos[0],
+                        y: cameraPos[1],
+                        z: cameraPos[2]
+                    },
+                    target: {
+                        x: this.camera.center[0],
+                        y: this.camera.center[1],
+                        z: this.camera.center[2]
+                    },
+                    up: {
+                        x: 0.0,
+                        y: 1.0,
+                        z: 0.0
+                    },
+                    fov: 45.0
+                };
+            }
+            
+            async getCameraFromOctane() {
+                if (!this.connected) {
+                    this.log('Not connected to Octane server', 'error');
+                    return;
+                }
+                
+                try {
+                    const cameraState = await this.liveLink.getCamera();
+                    this.log('Received camera state from Octane', 'success');
+                    
+                    // Apply camera state to WebGL viewer if needed
+                    if (cameraState.position && cameraState.target) {
+                        // Convert back to spherical coordinates for our camera system
+                        // This is optional - you might want to implement this based on your needs
+                        this.log('Camera position: ' + JSON.stringify(cameraState.position), 'info');
+                        this.log('Camera target: ' + JSON.stringify(cameraState.target), 'info');
+                    }
+                } catch (error) {
+                    this.log('Failed to get camera: ' + error.message, 'error');
+                }
+                
+                this.syncCallCount++;
+                
+                // Update sync rate display
+                const currentTime = Date.now();
+                if (currentTime - this.lastSyncTime > 1000) {
+                    const syncRate = this.syncCallCount;
+                    document.getElementById('syncRate').textContent = syncRate;
+                    this.syncCallCount = 0;
+                    this.lastSyncTime = currentTime;
+                }
+            }
+            
+            updateGrpcCallCount() {
+                this.grpcCallCount++;
+                document.getElementById('grpcCalls').textContent = this.grpcCallCount;
+            }
+            
+            // Update performance metrics
+            updatePerformanceMetrics() {
+                const stats = this.liveLink.getStats();
+                this.grpcCallCount = stats.client.callCount;
+                this.syncCallCount = stats.sync.callCount;
+                
+                document.getElementById('grpcCalls').textContent = this.grpcCallCount;
+                
+                // Update sync rate
+                if (stats.sync.active && stats.sync.lastSyncTime) {
+                    const timeDiff = (Date.now() - stats.sync.lastSyncTime) / 1000;
+                    const syncRate = timeDiff > 0 ? (1 / timeDiff).toFixed(1) : '--';
+                    document.getElementById('syncRate').textContent = syncRate;
+                } else {
+                    document.getElementById('syncRate').textContent = '--';
+                }
+            }
+            
+            // DEPRECATED: Old gRPC message handler - replaced by LiveLinkManager
+
+            // Handle LiveLink mesh list response
+            handleMeshList(meshList) {
+                this.log(`Received ${meshList.meshes ? meshList.meshes.length : 0} meshes from LiveLink`, 'success');
+                if (meshList.meshes && meshList.meshes.length > 0) {
+                    this.teapotLoaded = true;
+                    this.updateTeapotStatus('Meshes Available', 'connected');
+                    this.enableButton('syncCameraBtn');
+                    
+                    // Store mesh list for later use
+                    this.availableMeshes = meshList.meshes;
+                    
+                    // Log available meshes with clickable links
+                    meshList.meshes.forEach((mesh, index) => {
+                        this.log(`Available mesh: ${mesh.name} (ID: ${mesh.id}) - Click to get data`, 'info');
+                        
+                        // Automatically get data for first mesh as example
+                        if (index === 0) {
+                            setTimeout(() => {
+                                this.log(`Getting data for first mesh: ${mesh.name}`, 'info');
+                                this.getMeshData(mesh.id);
+                            }, 1000);
+                        }
+                    });
+                }
+            }
+
+            // Handle LiveLink mesh data response
+            handleMeshData(meshData) {
+                this.log(`Received mesh data: ${meshData.name}`, 'success');
+                this.log(`Vertices: ${meshData.positions ? meshData.positions.length : 0}`, 'info');
+                this.log(`Polygons: ${meshData.vertsPerPoly ? meshData.vertsPerPoly.length : 0}`, 'info');
+                
+                // Could render the mesh here if needed
+                if (meshData.positions && meshData.vertsPerPoly) {
+                    this.log(`Mesh has ${meshData.positions.length} vertices and ${meshData.vertsPerPoly.length} polygons`, 'info');
+                }
+            }
+
+            // Handle LiveLink camera state response
+            handleCameraState(cameraState) {
+                this.log('Received camera state from LiveLink', 'success');
+                
+                if (cameraState.position) {
+                    this.log(`Camera position: (${cameraState.position.x.toFixed(2)}, ${cameraState.position.y.toFixed(2)}, ${cameraState.position.z.toFixed(2)})`, 'info');
+                }
+                
+                if (cameraState.target) {
+                    this.log(`Camera target: (${cameraState.target.x.toFixed(2)}, ${cameraState.target.y.toFixed(2)}, ${cameraState.target.z.toFixed(2)})`, 'info');
+                }
+                
+                if (cameraState.up) {
+                    this.log(`Camera up: (${cameraState.up.x.toFixed(2)}, ${cameraState.up.y.toFixed(2)}, ${cameraState.up.z.toFixed(2)})`, 'info');
+                }
+                
+                if (cameraState.fov) {
+                    this.log(`Camera FOV: ${cameraState.fov.toFixed(2)}°`, 'info');
+                }
+            }
+
+            // Get specific mesh data by ID
+            async getMeshData(meshId) {
+                if (!this.connected) {
+                    this.log('Not connected to server', 'warning');
+                    return;
+                }
+                
+                try {
+                    const meshData = await this.liveLink.getMesh(meshId);
+                    this.log(`Received mesh data: ${meshData.name}`, 'success');
+                    this.log(`Vertices: ${meshData.positions ? meshData.positions.length : 0}`, 'info');
+                    this.log(`Polygons: ${meshData.vertsPerPoly ? meshData.vertsPerPoly.length : 0}`, 'info');
+                    
+                    // Could render the mesh here if needed
+                    if (meshData.positions && meshData.vertsPerPoly) {
+                        this.log(`Mesh has ${meshData.positions.length} vertices and ${meshData.vertsPerPoly.length} polygons`, 'info');
+                    }
+                } catch (error) {
+                    this.log('Failed to get mesh data: ' + error.message, 'error');
+                }
+            }
+            
+            // === UI UPDATE METHODS ===
+            
+            updateConnectionStatus(status, className) {
+                const element = document.getElementById('connectionStatus');
+                element.textContent = status;
+                element.className = 'status-' + className;
+            }
+            
+            updateOctaneStatus(status, className) {
+                const element = document.getElementById('octaneStatus');
+                element.textContent = status;
+                element.className = 'status-' + className;
+            }
+            
+            updateSyncStatus(status, className) {
+                const element = document.getElementById('syncStatus');
+                element.textContent = status;
+                element.className = 'status-' + className;
+            }
+            
+            updateTeapotStatus(status, className) {
+                const element = document.getElementById('teapotStatus');
+                element.textContent = status;
+                element.className = 'status-' + className;
+            }
+            
+            enableButton(buttonId) {
+                const button = document.getElementById(buttonId);
+                if (button) {
+                    button.disabled = false;
+                }
+            }
+            
+            disableButton(buttonId) {
+                const button = document.getElementById(buttonId);
+                if (button) {
+                    button.disabled = true;
+                }
+            }
+            
+            log(message, type = 'info', details = null) {
+                const logElement = document.getElementById('activityLog');
+                const entry = document.createElement('div');
+                entry.className = `log-entry log-${type}`;
+                
+                // Check if message already has a timestamp to avoid duplication
+                const hasTimestamp = message.match(/^\[\d{1,2}:\d{2}:\d{2}\s*(AM|PM)?\]/);
+                const displayMessage = hasTimestamp ? message : `${new Date().toLocaleTimeString()}: ${message}`;
+                
+                if (details) {
+                    entry.innerHTML = `
+                        <div>${displayMessage}</div>
+                        <div style="margin-left: 15px; font-size: 0.85em; color: #aaa; white-space: pre-wrap;">
+                            ${typeof details === 'object' ? JSON.stringify(details, null, 2) : details}
+                        </div>
+                    `;
+                } else {
+                    entry.textContent = displayMessage;
+                }
+                
+                logElement.appendChild(entry);
+                logElement.scrollTop = logElement.scrollHeight;
+                
+                // Keep only last 20 entries
+                while (logElement.children.length > 20) {
+                    logElement.removeChild(logElement.firstChild);
+                }
+                
+                // Also log to console with color coding
+                const consoleMethod = type === 'error' ? 'error' : type === 'warning' ? 'warn' : 'log';
+                console[consoleMethod](`[3D Viewer] ${message}`, details || '');
+            }
+            
+            // === EVENT HANDLERS ===
+            
+            setupEventListeners() {
+                // Mouse controls
+                this.canvas.addEventListener('mousedown', (e) => {
+                    if (e.button === 0) { // Left mouse button
+                        this.mouse.dragging = true;
+                        this.mouse.lastX = e.clientX;
+                        this.mouse.lastY = e.clientY;
+                    } else if (e.button === 2) { // Right mouse button
+                        this.mouse.panning = true;
+                        this.mouse.lastX = e.clientX;
+                        this.mouse.lastY = e.clientY;
+                        e.preventDefault(); // Prevent context menu
+                    }
+                });
+                
+                this.canvas.addEventListener('mouseup', (e) => {
+                    if (e.button === 0) { // Left mouse button
+                        this.mouse.dragging = false;
+                    } else if (e.button === 2) { // Right mouse button
+                        this.mouse.panning = false;
+                    }
+                });
+                
+                this.canvas.addEventListener('mousemove', (e) => {
+                    if (this.mouse.dragging) {
+                        // Left mouse button: orbit camera
+                        const deltaX = e.clientX - this.mouse.lastX;
+                        const deltaY = e.clientY - this.mouse.lastY;
+                        
+                        const sensitivity = 0.01;
+                        
+                        this.camera.theta += deltaX * sensitivity;
+                        this.camera.phi -= deltaY * sensitivity;
+                        
+                        // Clamp phi to prevent flipping
+                        this.camera.phi = Math.max(-1.5, Math.min(1.5, this.camera.phi));
+                        
+                        this.mouse.lastX = e.clientX;
+                        this.mouse.lastY = e.clientY;
+                        
+                        // Sync camera change to Octane if enabled
+                        if (this.cameraSync) {
+                            this.syncCameraToOctane();
+                        }
+                    } else if (this.mouse.panning) {
+                        // Right mouse button: pan camera center
+                        const deltaX = e.clientX - this.mouse.lastX;
+                        const deltaY = e.clientY - this.mouse.lastY;
+                        
+                        // Pan sensitivity (smaller for more precise control)
+                        const panSensitivity = 0.005;
+                        
+                        // Get camera's right and up vectors for proper panning
+                        const position = this.getCameraPosition();
+                        const forward = this.normalize([
+                            this.camera.center[0] - position[0],
+                            this.camera.center[1] - position[1],
+                            this.camera.center[2] - position[2]
+                        ]);
+                        const right = this.normalize(this.cross(forward, [0, 1, 0]));
+                        const up = this.normalize(this.cross(right, forward));
+                        
+                        // Apply panning to camera center
+                        const panAmount = panSensitivity * this.camera.radius;
+                        this.camera.center[0] -= right[0] * deltaX * panAmount;
+                        this.camera.center[1] += up[1] * deltaY * panAmount;
+                        this.camera.center[2] -= right[2] * deltaX * panAmount;
+                        
+                        this.mouse.lastX = e.clientX;
+                        this.mouse.lastY = e.clientY;
+                        
+                        // Sync camera change to Octane if enabled
+                        if (this.cameraSync) {
+                            this.syncCameraToOctane();
+                        }
+                    }
+                });
+
+                // Disable context menu on right click
+                this.canvas.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                });
+                
+                // Zoom controls
+                this.canvas.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    this.camera.radius -= e.deltaY * 0.01;
+                    this.camera.radius = Math.max(1.0, Math.min(20.0, this.camera.radius));
+                    
+                    // Sync camera change to Octane if enabled
+                    if (this.cameraSync) {
+                        this.syncCameraToOctane();
+                    }
+                });
+                
+                // Keyboard controls
+                document.addEventListener('keydown', (e) => {
+                    switch(e.code) {
+                        case 'Escape':
+                            // Reset camera
+                            this.camera.radius = 5.0;
+                            this.camera.theta = 0.0;
+                            this.camera.phi = 0.0;
+                            if (this.cameraSync) {
+                                this.syncCameraToOctane();
+                            }
+                            break;
+                        case 'Space':
+                            e.preventDefault();
+                            this.autoRotate = !this.autoRotate;
+                            break;
+                        case 'KeyS':
+                            e.preventDefault();
+                            if (this.connected) {
+                                this.syncCameraToOctane();
+                                this.log('Manual camera sync triggered', 'info');
+                            }
+                            break;
+                    }
+                });
+            }
+            
+            // === RENDERING METHODS (same as original) ===
+            
+            getCameraPosition() {
+                const x = this.camera.radius * Math.cos(this.camera.phi) * Math.cos(this.camera.theta);
+                const y = this.camera.radius * Math.sin(this.camera.phi);
+                const z = this.camera.radius * Math.cos(this.camera.phi) * Math.sin(this.camera.theta);
+                return [
+                    this.camera.center[0] + x,
+                    this.camera.center[1] + y,
+                    this.camera.center[2] + z
+                ];
+            }
+
+            // Vector math utilities
+            normalize(v) {
+                const length = Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+                return length > 0 ? [v[0] / length, v[1] / length, v[2] / length] : [0, 0, 0];
+            }
+
+            cross(a, b) {
+                return [
+                    a[1] * b[2] - a[2] * b[1],
+                    a[2] * b[0] - a[0] * b[2],
+                    a[0] * b[1] - a[1] * b[0]
+                ];
+            }
+            
+            createMatrix4() {
+                return new Float32Array(16);
+            }
+            
+            identity(out) {
+                out[0] = 1; out[1] = 0; out[2] = 0; out[3] = 0;
+                out[4] = 0; out[5] = 1; out[6] = 0; out[7] = 0;
+                out[8] = 0; out[9] = 0; out[10] = 1; out[11] = 0;
+                out[12] = 0; out[13] = 0; out[14] = 0; out[15] = 1;
+                return out;
+            }
+            
+            perspective(out, fovy, aspect, near, far) {
+                const f = 1.0 / Math.tan(fovy / 2);
+                const nf = 1 / (near - far);
+                
+                out[0] = f / aspect; out[1] = 0; out[2] = 0; out[3] = 0;
+                out[4] = 0; out[5] = f; out[6] = 0; out[7] = 0;
+                out[8] = 0; out[9] = 0; out[10] = (far + near) * nf; out[11] = -1;
+                out[12] = 0; out[13] = 0; out[14] = 2 * far * near * nf; out[15] = 0;
+                return out;
+            }
+            
+            lookAt(out, eye, center, up) {
+                const eyex = eye[0], eyey = eye[1], eyez = eye[2];
+                const upx = up[0], upy = up[1], upz = up[2];
+                const centerx = center[0], centery = center[1], centerz = center[2];
+                
+                let z0 = eyex - centerx, z1 = eyey - centery, z2 = eyez - centerz;
+                let len = 1 / Math.sqrt(z0 * z0 + z1 * z1 + z2 * z2);
+                z0 *= len; z1 *= len; z2 *= len;
+                
+                let x0 = upy * z2 - upz * z1, x1 = upz * z0 - upx * z2, x2 = upx * z1 - upy * z0;
+                len = Math.sqrt(x0 * x0 + x1 * x1 + x2 * x2);
+                if (!len) {
+                    x0 = 0; x1 = 0; x2 = 0;
+                } else {
+                    len = 1 / len;
+                    x0 *= len; x1 *= len; x2 *= len;
+                }
+                
+                let y0 = z1 * x2 - z2 * x1, y1 = z2 * x0 - z0 * x2, y2 = z0 * x1 - z1 * x0;
+                len = Math.sqrt(y0 * y0 + y1 * y1 + y2 * y2);
+                if (!len) {
+                    y0 = 0; y1 = 0; y2 = 0;
+                } else {
+                    len = 1 / len;
+                    y0 *= len; y1 *= len; y2 *= len;
+                }
+                
+                out[0] = x0; out[1] = y0; out[2] = z0; out[3] = 0;
+                out[4] = x1; out[5] = y1; out[6] = z1; out[7] = 0;
+                out[8] = x2; out[9] = y2; out[10] = z2; out[11] = 0;
+                out[12] = -(x0 * eyex + x1 * eyey + x2 * eyez);
+                out[13] = -(y0 * eyex + y1 * eyey + y2 * eyez);
+                out[14] = -(z0 * eyex + z1 * eyey + z2 * eyez);
+                out[15] = 1;
+                return out;
+            }
+            
+            rotateX(out, a, rad) {
+                const s = Math.sin(rad), c = Math.cos(rad);
+                const a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7];
+                const a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11];
+                
+                if (a !== out) {
+                    out[0] = a[0]; out[1] = a[1]; out[2] = a[2]; out[3] = a[3];
+                    out[12] = a[12]; out[13] = a[13]; out[14] = a[14]; out[15] = a[15];
+                }
+                
+                out[4] = a10 * c + a20 * s;
+                out[5] = a11 * c + a21 * s;
+                out[6] = a12 * c + a22 * s;
+                out[7] = a13 * c + a23 * s;
+                out[8] = a20 * c - a10 * s;
+                out[9] = a21 * c - a11 * s;
+                out[10] = a22 * c - a12 * s;
+                out[11] = a23 * c - a13 * s;
+                return out;
+            }
+            
+            rotateY(out, a, rad) {
+                const s = Math.sin(rad), c = Math.cos(rad);
+                const a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3];
+                const a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11];
+                
+                if (a !== out) {
+                    out[4] = a[4]; out[5] = a[5]; out[6] = a[6]; out[7] = a[7];
+                    out[12] = a[12]; out[13] = a[13]; out[14] = a[14]; out[15] = a[15];
+                }
+                
+                out[0] = a00 * c - a20 * s;
+                out[1] = a01 * c - a21 * s;
+                out[2] = a02 * c - a22 * s;
+                out[3] = a03 * c - a23 * s;
+                out[8] = a00 * s + a20 * c;
+                out[9] = a01 * s + a21 * c;
+                out[10] = a02 * s + a22 * c;
+                out[11] = a03 * s + a23 * c;
+                return out;
+            }
+            
+            normalFromMat4(out, a) {
+                const a00 = a[0], a01 = a[1], a02 = a[2];
+                const a10 = a[4], a11 = a[5], a12 = a[6];
+                const a20 = a[8], a21 = a[9], a22 = a[10];
+                
+                const b01 = a22 * a11 - a12 * a21;
+                const b11 = -a22 * a10 + a12 * a20;
+                const b21 = a21 * a10 - a11 * a20;
+                
+                let det = a00 * b01 + a01 * b11 + a02 * b21;
+                if (!det) return null;
+                det = 1.0 / det;
+                
+                out[0] = b01 * det;
+                out[1] = (-a22 * a01 + a02 * a21) * det;
+                out[2] = (a12 * a01 - a02 * a11) * det;
+                out[3] = b11 * det;
+                out[4] = (a22 * a00 - a02 * a20) * det;
+                out[5] = (-a12 * a00 + a02 * a10) * det;
+                out[6] = b21 * det;
+                out[7] = (-a21 * a00 + a01 * a20) * det;
+                out[8] = (a11 * a00 - a01 * a10) * det;
+                return out;
+            }
+            
+            render() {
+                const currentTime = Date.now();
+                const deltaTime = currentTime - this.lastTime;
+                this.lastTime = currentTime;
+                
+                // Update performance metrics
+                this.frameCount++;
+                if (this.frameCount % 60 === 0) {
+                    this.fps = Math.round(1000 / deltaTime);
+                    this.frameTime = deltaTime.toFixed(1);
+                    document.getElementById('fps').textContent = this.fps;
+                    document.getElementById('frameTime').textContent = this.frameTime;
+                }
+                
+                const time = (currentTime - this.startTime) / 1000.0;
+                
+                // Clear screen with a subtle dark color
+                this.gl.clearColor(0.05, 0.05, 0.1, 1.0);
+                this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+                
+                // Create transformation matrices
+                const view = this.createMatrix4();
+                const projection = this.createMatrix4();
+                const model = this.createMatrix4();
+                const normalMatrix = new Float32Array(9);
+                
+                const cameraPos = this.getCameraPosition();
+                this.lookAt(view, cameraPos, this.camera.center, [0, 1, 0]);
+                this.perspective(projection, Math.PI / 4, this.canvas.width / this.canvas.height, 0.1, 100.0);
+                
+                // === RENDER SKYBOX FIRST ===
+                this.gl.depthFunc(this.gl.LEQUAL);
+                this.gl.useProgram(this.skyboxProgram);
+                
+                // Remove translation from view matrix for skybox
+                const skyboxView = new Float32Array(view);
+                skyboxView[12] = skyboxView[13] = skyboxView[14] = 0;
+                
+                this.gl.uniformMatrix4fv(this.gl.getUniformLocation(this.skyboxProgram, 'uView'), false, skyboxView);
+                this.gl.uniformMatrix4fv(this.gl.getUniformLocation(this.skyboxProgram, 'uProjection'), false, projection);
+                this.gl.uniform1f(this.gl.getUniformLocation(this.skyboxProgram, 'uTime'), time);
+                
+                this.gl.bindVertexArray(this.skyboxVAO);
+                this.gl.drawArrays(this.gl.TRIANGLES, 0, 36);
+                this.gl.depthFunc(this.gl.LESS);
+                
+                // === RENDER CUBE ===
+                this.gl.useProgram(this.shaderProgram);
+                
+                this.identity(model);
+                if (this.autoRotate) {
+                    this.rotateY(model, model, time * 0.3);
+                    this.rotateX(model, model, time * 0.2);
+                }
+                
+                this.normalFromMat4(normalMatrix, model);
+                
+                // Dynamic light position
+                const lightPos = [
+                    3.0 * Math.cos(time * 0.5),
+                    2.0 + Math.sin(time * 0.7),
+                    3.0 * Math.sin(time * 0.5)
+                ];
+                const lightColor = [1.0, 0.95, 0.8];
+                
+                this.gl.uniformMatrix4fv(this.gl.getUniformLocation(this.shaderProgram, 'uModel'), false, model);
+                this.gl.uniformMatrix4fv(this.gl.getUniformLocation(this.shaderProgram, 'uView'), false, view);
+                this.gl.uniformMatrix4fv(this.gl.getUniformLocation(this.shaderProgram, 'uProjection'), false, projection);
+                this.gl.uniformMatrix3fv(this.gl.getUniformLocation(this.shaderProgram, 'uNormalMatrix'), false, normalMatrix);
+                this.gl.uniform3fv(this.gl.getUniformLocation(this.shaderProgram, 'uLightPos'), lightPos);
+                this.gl.uniform3fv(this.gl.getUniformLocation(this.shaderProgram, 'uLightColor'), lightColor);
+                this.gl.uniform3fv(this.gl.getUniformLocation(this.shaderProgram, 'uViewPos'), cameraPos);
+                this.gl.uniform1f(this.gl.getUniformLocation(this.shaderProgram, 'uTime'), time);
+                
+                this.gl.bindVertexArray(this.cubeVAO);
+                this.gl.drawElements(this.gl.TRIANGLES, 36, this.gl.UNSIGNED_SHORT, 0);
+                
+                // Update performance metrics periodically
+                if (this.frameCount % 60 === 0) {
+                    this.updatePerformanceMetrics();
+                }
+                
+                requestAnimationFrame(() => this.render());
+            }
+        }
+        
+        // Global instance for button access
+        let viewer;
+        
+        // Initialize the viewer when the page loads
+        window.addEventListener('load', () => {
+            console.log('Page loaded, initializing viewer...');
+            console.log('liveLinkManager available:', typeof liveLinkManager !== 'undefined');
+            try {
+                viewer = new OctaneGrpcSync();
+                console.log('Viewer initialized successfully:', viewer);
+                
+                // Add debug function to window for testing
+                window.debugConnect = function() {
+                    console.log('Debug connect called, viewer:', viewer);
+                    if (viewer && viewer.connect) {
+                        console.log('Calling viewer.connect()...');
+                        viewer.connect().then(() => {
+                            console.log('Connect completed');
+                        }).catch(error => {
+                            console.error('Connect failed:', error);
+                        });
+                    } else {
+                        console.error('Viewer or connect method not available');
+                    }
+                };
+                
+            } catch (error) {
+                console.error('Failed to initialize viewer:', error);
+            }
+        });
+    </script>
+</body>
+</html>
