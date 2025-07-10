@@ -56,7 +56,8 @@ grpcSamples/
 ### Key Features:
 - ✅ **Camera Control** - Real-time camera position, target, up vector, and FOV synchronization
 - ✅ **Mesh Discovery** - Query available meshes in Octane scenes via GetMeshes
-- ✅ **Geometry Access** - Retrieve full mesh data including vertices, normals, and polygons
+- ✅ **Geometry Access** - Retrieve full mesh data including vertices, normals, and polygons via getMesh()
+- ✅ **Fixed getMesh Method** - Resolved "client.getMesh is not a function" error with proper method aliasing
 - ✅ **CORS-compliant** - Enhanced cross-origin support with X-Call-Id and gRPC-Web headers
 - ✅ **Dual URL routing** - Supports both `/LiveLinkService/` and `/livelinkapi.LiveLinkService/` patterns
 - ✅ **Error Handling** - Comprehensive error reporting with detailed debug information
