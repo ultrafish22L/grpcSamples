@@ -124,7 +124,8 @@
     <!-- Setup proto namespace -->
 
     
-    <!-- Include our LiveLink client -->
+    <!-- Include shared utilities and LiveLink client -->
+    <script src="shared-utils.js"></script>
     <script src="livelink.js"></script>
     <script>
         // Debug what's available after loading
@@ -154,8 +155,21 @@
     </script>
     <script>
         let client = null;
+        let logger = null;
+
+        // Initialize shared logger when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            logger = new ActivityLogger('log');
+        });
 
         function log(message, type = 'info', details = null) {
+            // Use shared logger if available, fallback to original implementation
+            if (logger) {
+                logger.log(message, type, details);
+                return;
+            }
+            
+            // Fallback implementation for compatibility
             const logDiv = document.getElementById('log');
             const timestamp = new Date().toLocaleTimeString();
             const logEntry = document.createElement('div');
@@ -181,7 +195,11 @@
         }
 
         function clearLog() {
-            document.getElementById('log').innerHTML = '';
+            if (logger) {
+                logger.clear();
+            } else {
+                document.getElementById('log').innerHTML = '';
+            }
             if (client) {
                 client.clearDebugHistory();
             }
