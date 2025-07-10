@@ -47,11 +47,62 @@ body {
     font-size: 14px;
 }
 
-/* Professional Container */
+/* Professional Container - Responsive */
 .container {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Content Area - Flexible Height */
+.content-area {
+    flex: 1;
+    display: flex;
+    gap: 20px;
+    margin: 20px 0;
+    min-height: 0; /* Allow flex shrinking */
+}
+
+/* Canvas Container - Responsive */
+.canvas-container {
+    flex: 1;
+    min-height: 400px;
+    background: var(--otoy-bg-panel);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: var(--panel-shadow);
+}
+
+.canvas-container canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Info Panel - Flexible */
+.info-panel {
+    flex: 0 0 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Activity Section - Full Height */
+.activity-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.activity-section .activity-log {
+    flex: 1;
+    overflow-y: auto;
+    max-height: none; /* Remove height restriction */
 }
 
 /* OTOY Header - Matching OTOY.com */
@@ -79,7 +130,7 @@ body {
     margin: 0;
 }
 
-/* Ultra-Tight Controls Layout */
+/* Ultra-Tight Controls Layout - Responsive */
 .controls-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -87,6 +138,7 @@ body {
     padding: 15px 0;
     max-width: 1200px;
     margin: 0 auto;
+    flex-shrink: 0; /* Don't shrink controls */
 }
 
 .control-section {
@@ -251,9 +303,8 @@ canvas {
     font-size: 10px;
 }
 
-/* Activity Log - Compact */
+/* Activity Log - Responsive (handled by flex layout above) */
 .activity-log, .log-container {
-    max-height: 150px;
     overflow-y: auto;
     font-size: 10px;
     line-height: 1.3;
@@ -350,42 +401,307 @@ canvas {
     color: var(--otoy-red-light);
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
+/* ========================================
+   RESPONSIVE DESIGN - MOBILE FIRST
+   ======================================== */
+
+/* Touch-friendly button sizing */
+button, input[type="text"], input[type="url"] {
+    min-height: 44px; /* iOS/Android touch target minimum */
+    min-width: 44px;
+}
+
+/* Tablet Breakpoint (768px and down) */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    /* Stack controls vertically on tablet */
     .controls-container {
         grid-template-columns: 1fr;
-        gap: 10px;
+        gap: 12px;
+        padding: 12px 0;
     }
     
+    /* Adjust content area for tablet */
     .content-area {
-        grid-template-columns: 1fr;
-        gap: 10px;
+        flex-direction: column;
+        gap: 15px;
+        margin: 15px 0;
     }
     
+    /* Info panel full width on tablet */
+    .info-panel {
+        flex: none;
+        order: -1; /* Move activity log above canvas on mobile */
+    }
+    
+    /* Canvas adjustments */
+    .canvas-container {
+        min-height: 300px;
+        order: 1;
+    }
+    
+    /* Adjust button groups for tablet */
     .button-group {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        gap: 4px;
+        gap: 8px;
     }
     
-    canvas {
-        height: 300px;
+    .button-group button {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+    
+    /* Footer stats responsive */
+    .footer-stats {
+        gap: 15px;
+        font-size: 11px;
+    }
+    
+    /* Activity log height adjustment */
+    .activity-section .activity-log {
+        max-height: 200px;
+        min-height: 150px;
     }
 }
 
-@media (max-width: 768px) {
-    .footer-stats {
-        gap: 10px;
-        font-size: 9px;
+/* Mobile Breakpoint (480px and down) */
+@media (max-width: 480px) {
+    body {
+        font-size: 13px;
+    }
+    
+    .container {
+        padding: 0 10px;
+    }
+    
+    /* Mobile header */
+    .otoy-branding {
+        padding: 12px 0;
+        flex-direction: column;
+        gap: 8px;
     }
     
     .otoy-branding h1 {
-        font-size: 20px;
+        font-size: 18px;
+        text-align: center;
     }
     
+    /* Mobile controls */
+    .controls-container {
+        gap: 10px;
+        padding: 10px 0;
+    }
+    
+    .control-section {
+        padding: 10px;
+    }
+    
+    .section-title {
+        font-size: 10px;
+        margin-bottom: 8px;
+    }
+    
+    /* Mobile button layout */
     .button-group {
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+    
+    .button-group button {
+        font-size: 11px;
+        padding: 10px 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    /* Single column for some button groups */
+    .button-group:first-child {
+        grid-template-columns: 1fr;
+    }
+    
+    .button-group:first-child input[type="text"] {
+        margin-bottom: 6px;
+    }
+    
+    /* Mobile content area */
+    .content-area {
+        gap: 12px;
+        margin: 12px 0;
+    }
+    
+    /* Mobile canvas */
+    .canvas-container {
+        min-height: 250px;
+    }
+    
+    /* Mobile activity log */
+    .activity-section .activity-log {
+        max-height: 150px;
+        min-height: 120px;
+        font-size: 11px;
+    }
+    
+    .log-entry {
+        font-size: 10px;
+        padding: 3px 0;
+    }
+    
+    /* Mobile footer */
+    .footer-stats {
+        flex-direction: column;
+        gap: 8px;
+        font-size: 10px;
+        text-align: center;
+    }
+    
+    .otoy-footer {
+        padding: 10px;
+    }
+    
+    .otoy-status {
+        font-size: 10px;
+        margin-bottom: 8px;
+    }
+    
+    .otoy-copyright {
+        font-size: 8px;
+        line-height: 1.5;
     }
 }
+
+/* Large Desktop Breakpoint (1200px and up) */
+@media (min-width: 1200px) {
+    .content-area {
+        gap: 25px;
+        margin: 25px 0;
+    }
+    
+    .info-panel {
+        flex: 0 0 400px;
+    }
+    
+    .canvas-container {
+        min-height: 500px;
+    }
+    
+    .activity-section .activity-log {
+        font-size: 12px;
+    }
+    
+    .log-entry {
+        font-size: 11px;
+    }
+}
+
+/* Ultra-wide Desktop (1600px and up) */
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1600px;
+    }
+    
+    .content-area {
+        gap: 30px;
+        margin: 30px 0;
+    }
+    
+    .info-panel {
+        flex: 0 0 450px;
+    }
+    
+    .canvas-container {
+        min-height: 600px;
+    }
+}
+
+/* High DPI / Retina Display Support */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .otoy-logo {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+    
+    .status-led {
+        box-shadow: 0 0 8px currentColor;
+    }
+}
+
+/* Landscape Mobile Optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+    .content-area {
+        flex-direction: row;
+    }
+    
+    .info-panel {
+        flex: 0 0 300px;
+        order: 1;
+    }
+    
+    .canvas-container {
+        order: 0;
+        min-height: 200px;
+    }
+    
+    .activity-section .activity-log {
+        max-height: 180px;
+    }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+    .status-led {
+        animation: none;
+    }
+    
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    :root {
+        --border-subtle: rgba(255, 255, 255, 0.3);
+        --otoy-text-muted: #aaaaaa;
+    }
+    
+    .control-section, .activity-section, .canvas-container {
+        border-width: 2px;
+    }
+}
+
+/* Dark Mode Preference (already dark, but ensure consistency) */
+@media (prefers-color-scheme: dark) {
+    /* Already optimized for dark mode */
+}
+
+/* Print Styles */
+@media print {
+    .container {
+        max-width: none;
+        padding: 0;
+    }
+    
+    .canvas-container {
+        border: 2px solid #000;
+        min-height: 300px;
+    }
+    
+    .activity-section .activity-log {
+        max-height: 200px;
+        overflow: visible;
+    }
+    
+    .otoy-footer {
+        page-break-inside: avoid;
+    }
+}
+
+
 
 /* Professional Glass Panels */
 .glass-panel {
