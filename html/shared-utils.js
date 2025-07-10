@@ -41,20 +41,77 @@ class ActivityLogger {
         };
         
         const emoji = typeEmojis[type] || 'ℹ️';
-        entry.innerHTML = `<span class="log-emoji">${emoji}</span> ${displayMessage}`;
+        let entryContent = `<span class="log-emoji">${emoji}</span> ${displayMessage}`;
         
-        // Add to container (newest first)
-        this.container.insertBefore(entry, this.container.firstChild);
-        
-        // Limit number of entries
-        while (this.container.children.length > this.maxEntries) {
-            this.container.removeChild(this.container.lastChild);
+        // If details are provided, format them nicely
+        if (details && Object.keys(details).length > 0) {
+            const detailsStr = this.formatDetails(details);
+            if (detailsStr) {
+                entryContent += `<div class="log-details">${detailsStr}</div>`;
+            }
         }
+        
+        entry.innerHTML = entryContent;
+        
+        // Add to container (newest last, like a traditional log)
+        this.container.appendChild(entry);
+        
+        // Limit number of entries (remove oldest)
+        while (this.container.children.length > this.maxEntries) {
+            this.container.removeChild(this.container.firstChild);
+        }
+        
+        // Auto-scroll to show the latest entry
+        this.container.scrollTop = this.container.scrollHeight;
         
         // Also log to console for debugging
         const consoleMethod = type === 'error' ? 'error' : 
                              type === 'warning' ? 'warn' : 'log';
         console[consoleMethod](`[Activity] ${displayMessage}`, details || '');
+    }
+
+    /**
+     * Format details object for display in activity log
+     */
+    formatDetails(details) {
+        if (!details || typeof details !== 'object') {
+            return '';
+        }
+
+        try {
+            // Handle different types of details objects
+            if (details.callId || details.method) {
+                // gRPC call details - show key info only
+                const keyInfo = [];
+                if (details.duration) keyInfo.push(`${details.duration}ms`);
+                if (details.status) keyInfo.push(`Status: ${details.status}`);
+                if (details.responseSize) keyInfo.push(`Size: ${details.responseSize}B`);
+                return keyInfo.length > 0 ? `(${keyInfo.join(', ')})` : '';
+            } else if (details.position || details.target) {
+                // Camera data - already formatted
+                return '';
+            } else if (Array.isArray(details)) {
+                // Array data
+                return `[${details.length} items]`;
+            } else {
+                // Generic object - show key-value pairs concisely
+                const entries = Object.entries(details).slice(0, 3); // Show first 3 entries
+                const formatted = entries.map(([key, value]) => {
+                    if (typeof value === 'object') {
+                        return `${key}: [object]`;
+                    } else if (typeof value === 'string' && value.length > 30) {
+                        return `${key}: "${value.substring(0, 30)}..."`;
+                    } else {
+                        return `${key}: ${value}`;
+                    }
+                }).join(', ');
+                
+                const remaining = Object.keys(details).length - entries.length;
+                return formatted + (remaining > 0 ? `, +${remaining} more` : '');
+            }
+        } catch (error) {
+            return '[details formatting error]';
+        }
     }
 
     /**

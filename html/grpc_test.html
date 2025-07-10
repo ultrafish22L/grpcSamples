@@ -61,6 +61,13 @@
         .log-emoji {
             margin-right: 4px;
         }
+        .log-details {
+            font-size: 11px;
+            color: #888;
+            margin-left: 20px;
+            margin-top: 2px;
+            font-style: italic;
+        }
         .log-error { color: #f44; }
         .log-success { color: #4f4; }
         .log-info { color: #44f; }
@@ -156,17 +163,7 @@
             }
         }
         
-        // Add debug info to the page
-        const debugDiv = document.createElement('div');
-        debugDiv.style.cssText = 'background: #333; color: #fff; padding: 10px; margin: 10px 0; font-family: monospace; font-size: 12px;';
-        debugDiv.innerHTML = `
-            <h4>Debug Info:</h4>
-            <p>LiveLinkClient: ${typeof LiveLinkClient}</p>
-            <p>LiveLinkManager: ${typeof LiveLinkManager}</p>
-            <p>Custom gRPC-Web implementation loaded successfully</p>
-            <p>grpc.web: ${window.grpc?.web ? 'exists' : 'undefined'}</p>
-        `;
-        document.body.appendChild(debugDiv);
+        // Debug info is now available via the "Show Debug Info" button in the Activity Log
     </script>
     <script>
         let client = null;
@@ -279,7 +276,29 @@
             }
             
             const systemInfo = client.getSystemInfo();
-            log('System Information:', 'info', systemInfo);
+            log('📊 System Information:', 'info');
+            
+            // Display key system info in a readable format
+            if (systemInfo.browser) {
+                log(`Browser: ${systemInfo.browser.name} ${systemInfo.browser.version}`, 'info');
+                log(`Platform: ${systemInfo.browser.platform}`, 'info');
+            }
+            
+            if (systemInfo.screen) {
+                log(`Screen: ${systemInfo.screen.width}x${systemInfo.screen.height} (${systemInfo.screen.colorDepth}-bit)`, 'info');
+            }
+            
+            if (systemInfo.connection) {
+                log(`Connection: ${systemInfo.connection.effectiveType || 'Unknown'} (${systemInfo.connection.downlink || 'N/A'} Mbps)`, 'info');
+            }
+            
+            if (systemInfo.memory) {
+                const memoryMB = Math.round(systemInfo.memory.usedJSHeapSize / 1024 / 1024);
+                const limitMB = Math.round(systemInfo.memory.jsHeapSizeLimit / 1024 / 1024);
+                log(`Memory: ${memoryMB}MB used / ${limitMB}MB limit`, 'info');
+            }
+            
+            log(`Timestamp: ${systemInfo.timestamp}`, 'info');
         }
 
         function showDebugInfo() {
@@ -289,7 +308,38 @@
             }
             
             const debugInfo = client.getDebugInfo();
-            log('Debug Information:', 'info', debugInfo);
+            log('🔍 Debug Information:', 'info');
+            
+            // Display key debug info in a readable format
+            if (debugInfo.client) {
+                log(`Server URL: ${debugInfo.client.serverUrl}`, 'info');
+                log(`Connected: ${debugInfo.client.connected}`, 'info');
+                log(`Connection State: ${debugInfo.client.connectionState}`, 'info');
+                log(`Connection Attempts: ${debugInfo.client.connectionAttempts}`, 'info');
+            }
+            
+            if (debugInfo.performance) {
+                log(`Total Calls: ${debugInfo.performance.callCount}`, 'info');
+                log(`Last Call Time: ${debugInfo.performance.lastCallTime}ms`, 'info');
+                log(`Avg Response Time: ${debugInfo.performance.avgResponseTime?.toFixed(1)}ms`, 'info');
+            }
+            
+            if (debugInfo.history) {
+                if (debugInfo.history.errorHistory?.length > 0) {
+                    log(`Recent Errors: ${debugInfo.history.errorHistory.length}`, 'warning');
+                    debugInfo.history.errorHistory.slice(-3).forEach((error, index) => {
+                        log(`  ${index + 1}. ${error.message}`, 'warning');
+                    });
+                }
+                
+                if (debugInfo.history.connectionHistory?.length > 0) {
+                    log(`Recent Connections: ${debugInfo.history.connectionHistory.length}`, 'info');
+                }
+            }
+            
+            if (debugInfo.lastError) {
+                log(`Last Error: ${debugInfo.lastError.message}`, 'error');
+            }
         }
 
         async function testConnection() {

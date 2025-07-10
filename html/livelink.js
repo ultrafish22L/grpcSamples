@@ -726,41 +726,74 @@ class LiveLinkClient extends SimpleEventEmitter {
         switch (method) {
             case 'GetCamera':
                 if (data.position && data.target) {
-                    console.log(`🎥 Octane Camera Data:`, {
+                    const cameraInfo = {
                         position: `(${data.position.x?.toFixed(2)}, ${data.position.y?.toFixed(2)}, ${data.position.z?.toFixed(2)})`,
                         target: `(${data.target.x?.toFixed(2)}, ${data.target.y?.toFixed(2)}, ${data.target.z?.toFixed(2)})`,
                         up: data.up ? `(${data.up.x?.toFixed(2)}, ${data.up.y?.toFixed(2)}, ${data.up.z?.toFixed(2)})` : 'N/A',
                         fov: data.fov?.toFixed(2) || 'N/A'
-                    });
+                    };
+                    console.log(`🎥 Octane Camera Data:`, cameraInfo);
+                    
+                    // Also log to Activity Log
+                    this.log(`🎥 Camera Data Retrieved:`, cameraInfo, 'success');
+                    this.log(`Position: ${cameraInfo.position}`, {}, 'info');
+                    this.log(`Target: ${cameraInfo.target}`, {}, 'info');
+                    this.log(`Up: ${cameraInfo.up}`, {}, 'info');
+                    this.log(`FOV: ${cameraInfo.fov}°`, {}, 'info');
                 }
                 break;
                 
             case 'GetMeshes':
                 if (Array.isArray(data)) {
                     console.log(`🔺 Octane Meshes Data: ${data.length} meshes found`);
-                    data.forEach((mesh, index) => {
-                        console.log(`   ${index + 1}. ${mesh.name || mesh.id}: ${mesh.vertices || 0} vertices, ${mesh.faces || 0} faces`);
-                    });
+                    
+                    // Log to Activity Log
+                    this.log(`🔺 Meshes Retrieved: ${data.length} meshes found`, {}, 'success');
+                    
+                    if (data.length === 0) {
+                        this.log(`No meshes found in scene`, {}, 'warning');
+                    } else {
+                        data.slice(0, 10).forEach((mesh, index) => { // Show first 10 meshes
+                            const meshInfo = `${index + 1}. ${mesh.name || mesh.id || 'Unnamed'}: ${mesh.vertices || 0} vertices, ${mesh.faces || 0} faces`;
+                            console.log(`   ${meshInfo}`);
+                            this.log(`${meshInfo}`, {}, 'info');
+                        });
+                        
+                        if (data.length > 10) {
+                            this.log(`... and ${data.length - 10} more meshes`, {}, 'info');
+                        }
+                    }
                 }
                 break;
                 
             case 'GetMesh':
                 if (data.name || data.id) {
-                    console.log(`🔺 Octane Mesh Data:`, {
+                    const meshInfo = {
                         name: data.name || data.id,
                         vertices: data.vertices || 0,
                         faces: data.faces || 0,
                         id: data.id
-                    });
+                    };
+                    console.log(`🔺 Octane Mesh Data:`, meshInfo);
+                    
+                    // Log to Activity Log
+                    this.log(`🔺 Mesh Data Retrieved:`, meshInfo, 'success');
+                    this.log(`Name: ${meshInfo.name}`, {}, 'info');
+                    this.log(`Vertices: ${meshInfo.vertices}`, {}, 'info');
+                    this.log(`Faces: ${meshInfo.faces}`, {}, 'info');
+                    if (meshInfo.id) this.log(`ID: ${meshInfo.id}`, {}, 'info');
                 }
                 break;
                 
             case 'SetCamera':
                 console.log(`🎥 Octane SetCamera: Success`);
+                this.log(`🎥 Camera position updated successfully`, {}, 'success');
                 break;
                 
             default:
-                console.log(`📦 Octane ${method} Response:`, typeof data === 'object' ? Object.keys(data) : data);
+                const responseInfo = typeof data === 'object' ? Object.keys(data) : data;
+                console.log(`📦 Octane ${method} Response:`, responseInfo);
+                this.log(`📦 ${method} Response: ${JSON.stringify(responseInfo)}`, {}, 'info');
         }
     }
 
