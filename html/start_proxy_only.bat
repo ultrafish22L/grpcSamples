@@ -20,7 +20,7 @@ if not exist "grpc_test.html" (
 echo This script starts ONLY the gRPC proxy server for file:// protocol usage.
 echo No HTTP server needed - you can double-click the HTML files directly!
 echo.
-echo ⚠️  Make sure Octane Render is running with LiveLink enabled!
+echo WARNING:  Make sure Octane Render is running with LiveLink enabled!
 echo.
 
 REM Check if Python is available
@@ -48,7 +48,7 @@ echo ---------------------------------
 REM Check if protobuf files already exist
 if exist "..\shared\generated\livelink_pb2.py" (
     if exist "..\shared\generated\livelink_pb2_grpc.py" (
-        echo ✅ Protobuf files already exist, skipping generation
+        echo SUCCESS: Protobuf files already exist, skipping generation
         goto :start_proxy
     )
 )
@@ -68,14 +68,14 @@ python -m grpc_tools.protoc ^
     shared/protos/definitions/camera_control.proto
 
 if errorlevel 1 (
-    echo ❌ Manual protobuf generation failed
+    echo ERROR: Manual protobuf generation failed
     echo Make sure grpcio-tools is installed: pip install grpcio-tools
     echo Please check that protobuf files exist in shared/protos/definitions/
     cd html
     pause
     exit /b 1
 )
-echo ✅ Protobuf generation successful
+echo SUCCESS: Protobuf generation successful
 cd html
 
 :start_proxy

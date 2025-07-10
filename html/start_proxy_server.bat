@@ -45,7 +45,7 @@ echo ------------------------------------------
 REM Check if protobuf files already exist
 if exist "shared\generated\livelink_pb2.py" (
     if exist "shared\generated\livelink_pb2_grpc.py" (
-        echo ✅ Protobuf files already exist, skipping generation
+        echo SUCCESS: Protobuf files already exist, skipping generation
         goto :check_files
     )
 )
@@ -72,7 +72,7 @@ if %ERRORLEVEL% neq 0 (
     exit /b 1
 )
 
-echo ✅ Protobuf generation successful
+echo SUCCESS: Protobuf generation successful
 
 :check_files
 
@@ -103,7 +103,7 @@ echo ------------------------------------
 echo Server will run on: http://127.0.0.1:51023
 echo Octane connection: 127.0.0.1:51022
 echo.
-echo ⚠️  IMPORTANT: You also need the HTTP server for HTML demos!
+echo WARNING:  IMPORTANT: You also need the HTTP server for HTML demos!
 echo    Open another terminal and run: start_http_server.bat
 echo    Then visit: http://localhost:8000/grpc_test.html
 echo.

@@ -21,7 +21,7 @@ echo This script will start both servers required for HTML demos:
 echo   1. gRPC Proxy Server (port 51023) - translates HTTP to gRPC
 echo   2. HTTP Server (port 8000) - serves HTML demo files
 echo.
-echo ⚠️  Make sure Octane Render is running with LiveLink enabled!
+echo WARNING:  Make sure Octane Render is running with LiveLink enabled!
 echo.
 
 REM Start the proxy server in a new window
@@ -37,7 +37,7 @@ echo Starting HTTP server in new window...
 start "HTTP Server" cmd /k "start_http_server.bat"
 
 echo.
-echo ✅ Both servers are starting in separate windows:
+echo SUCCESS: Both servers are starting in separate windows:
 echo   • gRPC Proxy Server: http://127.0.0.1:51023
 echo   • HTTP Server: http://localhost:8000
 echo.

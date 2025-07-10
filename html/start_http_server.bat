@@ -20,7 +20,7 @@ if not exist "grpc_test.html" (
 echo Starting HTTP server for HTML demos...
 echo Server URL: http://localhost:8000
 echo.
-echo ⚠️  IMPORTANT: You also need the gRPC proxy server running!
+echo WARNING:  IMPORTANT: You also need the gRPC proxy server running!
 echo    Open another terminal and run: start_proxy_server.bat
 echo    The proxy server must be running on port 51023
 echo.

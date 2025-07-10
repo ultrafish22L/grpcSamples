@@ -31,18 +31,18 @@ cd html
 start_http_server.bat
 ```
 
-**⚠️ Server Requirements**:
+**WARNING: Server Requirements**:
 - **Option A & C**: Both servers must be running simultaneously
   - **Proxy Server**: Translates browser HTTP → Octane gRPC (port 51023)
   - **HTTP Server**: Serves HTML files to your browser (port 8000)
 - **Option B**: Only proxy server needed (HTML files opened via file://)
 
 **What the batch files do**:
-- ✅ Install Python dependencies (`grpcio`, `grpcio-tools`, `aiohttp`)
-- ✅ Generate protobuf files using CMake or fallback methods
-- ✅ Start gRPC proxy server on `http://127.0.0.1:51023`
-- ✅ Start HTTP server on `http://localhost:8000`
-- ✅ Provide clear error messages and troubleshooting
+- [OK] Install Python dependencies (`grpcio`, `grpcio-tools`, `aiohttp`)
+- [OK] Generate protobuf files using CMake or fallback methods
+- [OK] Start gRPC proxy server on `http://127.0.0.1:51023`
+- [OK] Start HTTP server on `http://localhost:8000`
+- [OK] Provide clear error messages and troubleshooting
 
 **Then open in browser**:
 - 🧪 **Debug Tool**: http://localhost:8000/grpc_test.html
@@ -143,7 +143,7 @@ cd proxy
 python grpc_proxy.py
 
 # Output should show:
-# ✅ Proxy server started on http://127.0.0.1:51023
+# [OK] Proxy server started on http://127.0.0.1:51023
 # Browser requests will be forwarded to Octane at 127.0.0.1:51022
 ```
 
@@ -177,12 +177,12 @@ python serve.py
 **Purpose**: Connection debugging and API testing
 
 **Features**:
-- ✅ Comprehensive connection diagnostics
-- ✅ LiveLink API testing (GetCamera, SetCamera, GetMeshes, GetMesh)
-- ✅ Performance metrics and response time tracking
-- ✅ Detailed error analysis with troubleshooting suggestions
-- ✅ System information collection
-- ✅ Debug information export
+- [OK] Comprehensive connection diagnostics
+- [OK] LiveLink API testing (GetCamera, SetCamera, GetMeshes, GetMesh)
+- [OK] Performance metrics and response time tracking
+- [OK] Detailed error analysis with troubleshooting suggestions
+- [OK] System information collection
+- [OK] Debug information export
 
 **Debugging Features**:
 - Color-coded console logging
@@ -195,12 +195,12 @@ python serve.py
 **Purpose**: Interactive 3D viewer with real-time Octane synchronization
 
 **Features**:
-- ✅ WebGL-based 3D cube rendering
-- ✅ Real-time camera synchronization with Octane
-- ✅ Interactive mouse controls (orbit, pan, zoom)
-- ✅ LiveLink mesh discovery and loading
-- ✅ Performance monitoring (FPS, frame time)
-- ✅ Enhanced logging and error reporting
+- [OK] WebGL-based 3D cube rendering
+- [OK] Real-time camera synchronization with Octane
+- [OK] Interactive mouse controls (orbit, pan, zoom)
+- [OK] LiveLink mesh discovery and loading
+- [OK] Performance monitoring (FPS, frame time)
+- [OK] Enhanced logging and error reporting
 
 **Controls**:
 - **Left Mouse**: Orbit camera (syncs to Octane)
@@ -251,50 +251,50 @@ shared/generated/           # Generated Python protobuf files
 ### Connection Issues
 
 **"Failed to fetch" errors**:
-1. ✅ Verify proxy server is running on port 51023
-2. ✅ Check Octane is running and LiveLink enabled
-3. ✅ Ensure firewall allows connections
-4. ✅ Try different browser (Chrome/Firefox/Edge)
+1. [OK] Verify proxy server is running on port 51023
+2. [OK] Check Octane is running and LiveLink enabled
+3. [OK] Ensure firewall allows connections
+4. [OK] Try different browser (Chrome/Firefox/Edge)
 
 **Proxy connection errors**:
-1. ✅ Verify Octane LiveLink server port (default: 51022)
-2. ✅ Check `netstat -an | grep 51022` shows LISTENING
-3. ✅ Restart Octane and re-enable LiveLink
-4. ✅ Check proxy logs for detailed error messages
+1. [OK] Verify Octane LiveLink server port (default: 51022)
+2. [OK] Check `netstat -an | grep 51022` shows LISTENING
+3. [OK] Restart Octane and re-enable LiveLink
+4. [OK] Check proxy logs for detailed error messages
 
 **Build issues**:
-1. ✅ Ensure all dependencies installed
-2. ✅ Check CMake finds protobuf and grpc
-3. ✅ Verify Python has grpcio-tools installed
-4. ✅ Run `cmake --build . --target python_protobuf_generation`
+1. [OK] Ensure all dependencies installed
+2. [OK] Check CMake finds protobuf and grpc
+3. [OK] Verify Python has grpcio-tools installed
+4. [OK] Run `cmake --build . --target python_protobuf_generation`
 
 **Visual Studio specific issues**:
-1. ✅ If "grpc_proxy_server" is skipped: Build `python_protobuf_builder` first
-2. ✅ Check that Python is found by CMake (`find_package(Python3)`)
-3. ✅ Ensure protoc.exe exists in `third_party/protobuf/windows/bin/`
-4. ✅ Use "Build Solution" to generate all protobuf files automatically
+1. [OK] If "grpc_proxy_server" is skipped: Build `python_protobuf_builder` first
+2. [OK] Check that Python is found by CMake (`find_package(Python3)`)
+3. [OK] Ensure protoc.exe exists in `third_party/protobuf/windows/bin/`
+4. [OK] Use "Build Solution" to generate all protobuf files automatically
 
 **Batch file issues (Windows)**:
-1. ✅ **"This script must be run from the html/ directory"**: Navigate to `html/` folder first
-2. ✅ **Python not found**: Install Python and add to PATH, or use full path in batch file
-3. ✅ **CMake protobuf generation failed**: Batch file will try manual generation as fallback
-4. ✅ **Port already in use**: Stop existing servers with Ctrl+C before restarting
-5. ✅ **Permission denied**: Run Command Prompt as Administrator if needed
+1. [OK] **"This script must be run from the html/ directory"**: Navigate to `html/` folder first
+2. [OK] **Python not found**: Install Python and add to PATH, or use full path in batch file
+3. [OK] **CMake protobuf generation failed**: Batch file will try manual generation as fallback
+4. [OK] **Port already in use**: Stop existing servers with Ctrl+C before restarting
+5. [OK] **Permission denied**: Run Command Prompt as Administrator if needed
 
 **Connection errors in browser**:
-1. ✅ **`net::ERR_CONNECTION_REFUSED` on port 51023**: Proxy server not running
+1. [OK] **`net::ERR_CONNECTION_REFUSED` on port 51023**: Proxy server not running
    - Run `start_proxy_server.bat` or `start_both_servers.bat`
    - Check that proxy server window shows "Server running on port 51023"
-2. ✅ **`net::ERR_CONNECTION_REFUSED` on port 8000**: HTTP server not running
+2. [OK] **`net::ERR_CONNECTION_REFUSED` on port 8000**: HTTP server not running
    - Run `start_http_server.bat` or `start_both_servers.bat`
    - Access demos via `http://localhost:8000/` not `file://`
-3. ✅ **Proxy connects but gRPC calls fail**: Octane LiveLink not enabled
+3. [OK] **Proxy connects but gRPC calls fail**: Octane LiveLink not enabled
    - Enable LiveLink in Octane Render settings
    - Verify Octane is listening on port 51022
 
 **Can I skip the HTTP server and use file:// protocol?**
 
-✅ **YES!** You can run `grpc_test.html` directly by double-clicking it (uses `file://` protocol):
+[OK] **YES!** You can run `grpc_test.html` directly by double-clicking it (uses `file://` protocol):
 
 ```cmd
 # Only need the proxy server running
@@ -310,9 +310,9 @@ start_proxy_server.bat
 - You only need the proxy server (port 51023), not the HTTP server (port 8000)
 
 **Browser compatibility:**
-- ✅ Chrome/Edge: Works perfectly
-- ✅ Firefox: Works with default settings  
-- ⚠️ Safari: May require "Develop" menu → "Disable Cross-Origin Restrictions"
+- [OK] Chrome/Edge: Works perfectly
+- [OK] Firefox: Works with default settings  
+- WARNING: Safari: May require "Develop" menu → "Disable Cross-Origin Restrictions"
 
 ### Debug Tools
 
@@ -334,8 +334,8 @@ start_proxy_server.bat
 tail -f proxy.log
 
 # Look for:
-# ✅ "Proxy server started on http://127.0.0.1:51023"
-# ❌ Connection errors to Octane
+# [OK] "Proxy server started on http://127.0.0.1:51023"
+# [ERROR] Connection errors to Octane
 # 📡 HTTP request handling
 ```
 
