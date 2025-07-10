@@ -317,7 +317,7 @@ bool CameraSyncSdk::setCameraUp(const glm::vec3& up, bool evaluate) {
     try {
         // Set camera up vector via SDK using pin values
         float_3 upVec = {up.x, up.y, up.z};
-        m_cameraNode.setPinValue(Octane::P_UP, upVec);
+        m_cameraNode.setPinValue(Octane::P_UP, upVec, true);
         
         m_lastUp = up;
         logSdkStatus("SetCameraUp", true);
@@ -341,7 +341,7 @@ bool CameraSyncSdk::setCameraFov(float fov, bool evaluate) {
 #ifdef DO_GRPC_SDK_ENABLED
     try {
         // Set camera FOV via SDK using pin values
-        m_cameraNode.setPinValue(Octane::P_FOV, fov);
+        m_cameraNode.setPinValue(Octane::P_FOV, fov, true);
         
         m_lastFov = fov;
         logSdkStatus("SetCameraFov", true);

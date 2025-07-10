@@ -5,6 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "apinodeclient.h"
+#include "apinodeinfoclient.h"
 #include <cassert>
 #include <stdexcept>
 #include "octanerenderpasses.h"

@@ -29,6 +29,7 @@ add_executable(simpleGlSdk
     ../shared/camera_system.h
     ../shared/model_manager.h
 )
+add_dependencies(simpleGlSdk octane_sdk)
 
 # Function to configure a target
 function(configure_simpleGlSdk_target target_name)

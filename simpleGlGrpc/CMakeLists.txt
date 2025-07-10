@@ -11,6 +11,7 @@ add_executable(simpleGlGrpc
     main.cpp
     ${COMMON_SOURCES}
 )
+add_dependencies(simpleGlGrpc shared_lib)
 
 # Function to configure a target
 function(configure_simpleGlGrpc_target target_name)

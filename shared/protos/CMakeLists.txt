@@ -8,7 +8,7 @@ message(STATUS "proto file build")
 if(WIN32)
     # Windows: Try multiple locations for protoc and grpc_cpp_plugin
     set(PROTOC_EXECUTABLE "${CMAKE_SOURCE_DIR}/../../third_party/protobuf/windows/bin/protoc.exe")
-    set(GRPC_CPP_PLUGIN "${CMAKE_SOURCE_DIR}/../third_party/grpc/windows/bin/grpc_cpp_plugin.exe")
+    set(GRPC_CPP_PLUGIN "${CMAKE_SOURCE_DIR}/../../third_party/grpc/windows/bin/grpc_cpp_plugin.exe")
     
     # If not found, try system PATH
     if(NOT PROTOC_EXECUTABLE)
@@ -18,12 +18,12 @@ if(WIN32)
         find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin)
     endif()
     
-    get_filename_component(ABS_PROTO_INC_DIR "${CMAKE_SOURCE_DIR}/../third_party/protobuf/windows/include" ABSOLUTE)
+    get_filename_component(ABS_PROTO_INC_DIR "${CMAKE_SOURCE_DIR}/../../third_party/protobuf/windows/include" ABSOLUTE)
 else()
     # Linux: Use system protoc and grpc_cpp_plugin (if available)
     find_program(PROTOC_EXECUTABLE protoc)
     find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin)
-    get_filename_component(ABS_PROTO_INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../third_party/protobuf/linux/include" ABSOLUTE)
+    get_filename_component(ABS_PROTO_INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../third_party/protobuf/linux/include" ABSOLUTE)
 endif()
 
 
@@ -43,15 +43,6 @@ else()
         endforeach()
     endif()
 endif()
-
-# grpc proto definition files - always process these
-get_filename_component(ABS_PROTO_DIR "${CMAKE_CURRENT_SOURCE_DIR}/definitions" ABSOLUTE)
-get_filename_component(ABS_PROTO_OUT_DIR "${CMAKE_CURRENT_SOURCE_DIR}" ABSOLUTE)
-file(GLOB PROTO_FILES "${ABS_PROTO_DIR}/*.proto")
-#list(APPEND PROTO_FILES  "${ABS_PROTO_DIR}/camera_control.proto")
-#list(APPEND PROTO_FILES  "${ABS_PROTO_DIR}/livelink.proto")
-
-message(STATUS "Proto files: ${PROTO_FILES}")
 
 # Create generated directory if it doesn't exist
 file(MAKE_DIRECTORY ${ABS_PROTO_OUT_DIR})

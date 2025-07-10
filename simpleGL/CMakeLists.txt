@@ -10,6 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(simpleGL
     main.cpp
 )
+add_dependencies(simpleGL shared_lib_base)
 
 # Include directories
 target_include_directories(simpleGL
@@ -19,7 +20,7 @@ target_include_directories(simpleGL
 # Link libraries for main executable
 target_link_libraries(simpleGL
     PUBLIC
-        shared_lib_min
+        shared_lib_base
 )
 
 # Set working directory for debugging in Visual Studio
