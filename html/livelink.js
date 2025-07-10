@@ -588,6 +588,11 @@ class LiveLinkClient extends SimpleEventEmitter {
                     resultKeys: Object.keys(result || {})
                 }, 'success');
                 
+                // Log specific Octane data (without large data blocks)
+                if (result && result.success && result.data) {
+                    this.logOctaneResponse(method, result.data);
+                }
+                
             } catch (parseError) {
                 this.log(`gRPC response parse error: ${method}`, {
                     callId: callId,
@@ -673,6 +678,51 @@ class LiveLinkClient extends SimpleEventEmitter {
      */
     async getMesh(meshId) {
         return this.getMeshData(meshId);
+    }
+
+    /**
+     * Log Octane response data (without large data blocks)
+     */
+    logOctaneResponse(method, data) {
+        switch (method) {
+            case 'GetCamera':
+                if (data.position && data.target) {
+                    console.log(`🎥 Octane Camera Data:`, {
+                        position: `(${data.position.x?.toFixed(2)}, ${data.position.y?.toFixed(2)}, ${data.position.z?.toFixed(2)})`,
+                        target: `(${data.target.x?.toFixed(2)}, ${data.target.y?.toFixed(2)}, ${data.target.z?.toFixed(2)})`,
+                        up: data.up ? `(${data.up.x?.toFixed(2)}, ${data.up.y?.toFixed(2)}, ${data.up.z?.toFixed(2)})` : 'N/A',
+                        fov: data.fov?.toFixed(2) || 'N/A'
+                    });
+                }
+                break;
+                
+            case 'GetMeshes':
+                if (Array.isArray(data)) {
+                    console.log(`🔺 Octane Meshes Data: ${data.length} meshes found`);
+                    data.forEach((mesh, index) => {
+                        console.log(`   ${index + 1}. ${mesh.name || mesh.id}: ${mesh.vertices || 0} vertices, ${mesh.faces || 0} faces`);
+                    });
+                }
+                break;
+                
+            case 'GetMesh':
+                if (data.name || data.id) {
+                    console.log(`🔺 Octane Mesh Data:`, {
+                        name: data.name || data.id,
+                        vertices: data.vertices || 0,
+                        faces: data.faces || 0,
+                        id: data.id
+                    });
+                }
+                break;
+                
+            case 'SetCamera':
+                console.log(`🎥 Octane SetCamera: Success`);
+                break;
+                
+            default:
+                console.log(`📦 Octane ${method} Response:`, typeof data === 'object' ? Object.keys(data) : data);
+        }
     }
 
     /**
