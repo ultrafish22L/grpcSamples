@@ -42,36 +42,41 @@ if errorlevel 1 (
 )
 
 echo.
-echo Step 2: Generating protobuf files...
-echo ------------------------------------
+echo Step 2: Checking protobuf files...
+echo ---------------------------------
 
-REM Try CMake approach first
-if exist "..\build" (
-    echo Attempting CMake protobuf generation...
-    cd ..\build
-    cmake --build . --target python_protobuf_generation
-    if not errorlevel 1 (
-        echo ✅ CMake protobuf generation successful
-        cd ..\html
+REM Check if protobuf files already exist
+if exist "..\shared\generated\livelink_pb2.py" (
+    if exist "..\shared\generated\livelink_pb2_grpc.py" (
+        echo ✅ Protobuf files already exist, skipping generation
         goto :start_proxy
     )
-    echo ⚠️  CMake generation failed, trying manual approach...
-    cd ..\html
 )
 
-REM Manual protobuf generation fallback
-echo Attempting manual protobuf generation...
-cd ..\shared\generated
-python -m grpc_tools.protoc --proto_path=..\proto --python_out=. --grpc_python_out=. ..\proto\livelink.proto
+echo Protobuf files not found, generating them...
+
+REM Manual protobuf generation
+cd ..
+if not exist "shared\generated" mkdir shared\generated
+
+echo Generating protobuf files manually...
+python -m grpc_tools.protoc ^
+    --proto_path=shared/protos/definitions ^
+    --python_out=shared/generated ^
+    --grpc_python_out=shared/generated ^
+    shared/protos/definitions/livelink.proto ^
+    shared/protos/definitions/camera_control.proto
+
 if errorlevel 1 (
     echo ❌ Manual protobuf generation failed
-    echo Please check that protobuf files exist or build the project first
-    cd ..\..\html
+    echo Make sure grpcio-tools is installed: pip install grpcio-tools
+    echo Please check that protobuf files exist in shared/protos/definitions/
+    cd html
     pause
     exit /b 1
 )
-echo ✅ Manual protobuf generation successful
-cd ..\..\html
+echo ✅ Protobuf generation successful
+cd html
 
 :start_proxy
 echo.

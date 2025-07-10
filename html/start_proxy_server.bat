@@ -39,47 +39,42 @@ if %ERRORLEVEL% neq 0 (
 )
 
 echo.
-echo Step 2: Generating Python protobuf files...
-echo -------------------------------------------
+echo Step 2: Checking Python protobuf files...
+echo ------------------------------------------
 
-REM Check if build directory exists
-if not exist "build" (
-    echo Creating build directory...
-    mkdir build
-)
-
-cd build
-
-REM Generate protobuf files using CMake
-echo Running CMake protobuf generation...
-cmake --build . --target python_protobuf_generation
-if %ERRORLEVEL% neq 0 (
-    echo WARNING: CMake protobuf generation failed, trying manual generation...
-    
-    REM Fallback: Manual protobuf generation
-    cd ..
-    if not exist "shared\generated" mkdir shared\generated
-    
-    echo Generating protobuf files manually...
-    python -m grpc_tools.protoc ^
-        --proto_path=shared/protos/definitions ^
-        --python_out=shared/generated ^
-        --grpc_python_out=shared/generated ^
-        shared/protos/definitions/livelink.proto ^
-        shared/protos/definitions/camera_control.proto
-    
-    if %ERRORLEVEL% neq 0 (
-        echo ERROR: Manual protobuf generation also failed
-        echo Check that protobuf files exist in shared/protos/definitions/
-        echo.
-        pause
-        exit /b 1
+REM Check if protobuf files already exist
+if exist "shared\generated\livelink_pb2.py" (
+    if exist "shared\generated\livelink_pb2_grpc.py" (
+        echo ✅ Protobuf files already exist, skipping generation
+        goto :check_files
     )
-    
-    cd build
 )
 
-cd ..
+echo Protobuf files not found, generating them...
+
+REM Try manual protobuf generation
+if not exist "shared\generated" mkdir shared\generated
+
+echo Generating protobuf files manually...
+python -m grpc_tools.protoc ^
+    --proto_path=shared/protos/definitions ^
+    --python_out=shared/generated ^
+    --grpc_python_out=shared/generated ^
+    shared/protos/definitions/livelink.proto ^
+    shared/protos/definitions/camera_control.proto
+
+if %ERRORLEVEL% neq 0 (
+    echo ERROR: Manual protobuf generation failed
+    echo Make sure grpcio-tools is installed: pip install grpcio-tools
+    echo Check that protobuf files exist in shared/protos/definitions/
+    echo.
+    pause
+    exit /b 1
+)
+
+echo ✅ Protobuf generation successful
+
+:check_files
 
 echo.
 echo Step 3: Checking generated files...
