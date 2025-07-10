@@ -632,9 +632,10 @@
             // === LIVELINK INTEGRATION METHODS ===
             
             setupLiveLinkEvents() {
-                // Enhanced logging event handler
+                // Enhanced logging event handler - use clean message for activity monitor
                 this.liveLink.on('log', (logEntry) => {
-                    this.log(logEntry.message, logEntry.level, logEntry.details);
+                    const displayMessage = logEntry.cleanMessage || logEntry.message;
+                    this.log(displayMessage, logEntry.level);
                 });
                 
                 this.liveLink.on('connectionStateChanged', (state) => {

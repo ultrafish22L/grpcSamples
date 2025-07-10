@@ -87,9 +87,25 @@ class LiveLinkClient extends SimpleEventEmitter {
         
         console.log(`%c[${timestamp}] ${level.toUpperCase()}: ${message}`, colors[level] || colors.info, details);
         
-        // Emit for UI logging
-        this.emit('log', logEntry);
-        this.emit('debug', `[${level.toUpperCase()}] ${message}`, details);
+        // Create clean activity monitor message (time only, no date)
+        const timeOnly = new Date().toLocaleTimeString('en-US', { 
+            hour12: true, 
+            hour: 'numeric', 
+            minute: '2-digit', 
+            second: '2-digit' 
+        });
+        
+        // Check if message already has a timestamp to avoid duplication
+        const hasTimestamp = message.match(/^\[\d{1,2}:\d{2}:\d{2}\s*(AM|PM)?\]/);
+        const cleanMessage = hasTimestamp ? message : `[${timeOnly}] ${message}`;
+
+        // Emit clean message for activity monitor UI
+        this.emit('log', {
+            ...logEntry,
+            cleanMessage: cleanMessage,
+            displayMessage: cleanMessage
+        });
+        this.emit('debug', cleanMessage, details);
         
         // Store error history
         if (level === 'error') {

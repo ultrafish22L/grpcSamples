@@ -266,7 +266,9 @@
                 log('Setting up event handlers...', 'info');
                 
                 client.on('log', (logEntry) => {
-                    log(logEntry.message, logEntry.level, logEntry.details);
+                    // Use clean message for activity monitor, detailed console logging remains unchanged
+                    const displayMessage = logEntry.cleanMessage || logEntry.message;
+                    log(displayMessage, logEntry.level);
                 });
                 
                 client.on('connected', () => {

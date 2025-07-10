@@ -1,0 +1,25 @@
+✅ Successfully imported gRPC protobuf modules
+🚀 Starting LiveLink HTTP-to-gRPC Proxy
+🔌 Connecting to Octane gRPC server at 127.0.0.1:51022
+📤 Testing connection with GetCamera request
+❌ Failed to connect to Octane at 127.0.0.1:51022: <AioRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:51022: Failed to connect to remote host: connect: Connection refused (111)"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:51022: Failed to connect to remote host: connect: Connection refused (111)"}"
+>
+⚠️  Could not connect to Octane, but starting proxy anyway (will retry)
+✅ Proxy server started on http://127.0.0.1:51023
+   Browser requests will be forwarded to Octane at 127.0.0.1:51022
+   Press Ctrl+C to stop
+🌐 HTTP Request: GetCamera from 127.0.0.1
+📤 Sending GetCamera request to Octane
+❌ GetCamera failed: <AioRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:51022: Failed to connect to remote host: connect: Connection refused (111)"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:51022: Failed to connect to remote host: connect: Connection refused (111)"}"
+>
+🌐 HTTP Response: GetCamera failed - Failed to get camera: <AioRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:51022: Failed to connect to remote host: connect: Connection refused (111)"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:51022: Failed to connect to remote host: connect: Connection refused (111)"}"
+>
