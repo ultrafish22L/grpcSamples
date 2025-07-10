@@ -35,6 +35,7 @@
                         <div class="button-group">
                             <button id="getCameraBtn" disabled>Get Camera</button>
                             <button id="setCameraBtn" disabled>Set Camera</button>
+                            <button id="testRandomCameraBtn" disabled>Test Random Camera</button>
                             <button id="getMeshesBtn" disabled>Get Meshes</button>
                             <button id="getMeshBtn" disabled>Get Mesh</button>
                             <button id="loadTeapotBtn" disabled>Load Teapot</button>
@@ -112,6 +113,7 @@
     <!-- Include shared utilities -->
     <script src="shared.js"></script>
     <script src="webgl-utils.js"></script>
+    <script src="webgl-common.js"></script>
     <script src="livelink.js"></script>
 
     <script>
@@ -332,6 +334,7 @@
                 document.getElementById('disconnectBtn').addEventListener('click', () => this.disconnect());
                 document.getElementById('getCameraBtn').addEventListener('click', () => this.getCameraFromOctane());
                 document.getElementById('setCameraBtn').addEventListener('click', () => this.setCameraToOctane());
+                document.getElementById('testRandomCameraBtn').addEventListener('click', () => this.testRandomCamera());
                 document.getElementById('getMeshesBtn').addEventListener('click', () => this.getMeshList());
                 document.getElementById('getMeshBtn').addEventListener('click', () => this.getMesh());
                 document.getElementById('loadTeapotBtn').addEventListener('click', () => this.loadTeapot());
@@ -414,28 +417,30 @@
                     this.liveLink = await this.connectionManager.connect(serverAddress);
                     this.connected = this.connectionManager.isConnected();
                     
-                    // Set up event handlers with proper cleanup
-                    if (this.liveLink.removeAllListeners) {
-                        this.liveLink.removeAllListeners();
-                    }
-                    
-                    // Connection state events
-                    this.liveLink.on('connected', () => {
-                        this.connected = true;
-                    });
-                    
-                    this.liveLink.on('disconnected', () => {
-                        this.connected = false;
-                    });
-                    
-                    this.liveLink.on('error', (error) => {
-                        this.performanceTracker.recordError();
-                        ErrorHandler.handleGrpcError(error, this.logger, 'Connection error');
-                    });
+                    // Set up event handlers using common utility
+                    OctaneIntegrationUtils.setupLiveLinkEvents(
+                        this.liveLink,
+                        this.logger,
+                        () => {
+                            this.connected = true;
+                            this.updateConnectionUI();
+                        },
+                        () => {
+                            this.connected = false;
+                            this.updateConnectionUI();
+                        },
+                        (error) => {
+                            this.performanceTracker.recordError();
+                            ErrorHandler.handleGrpcError(error, this.logger, 'Connection error');
+                        }
+                    );
                     
                 } catch (error) {
                     this.performanceTracker.recordError();
                     ErrorHandler.handleGrpcError(error, this.logger, 'Failed to connect');
+                } finally {
+                    // Always update UI after connection attempt
+                    this.updateConnectionUI();
                 }
             }
 
@@ -449,6 +454,9 @@
                     this.connected = false;
                 } catch (error) {
                     ErrorHandler.handleGrpcError(error, this.logger, 'Disconnect error');
+                } finally {
+                    // Always update UI after disconnect attempt
+                    this.updateConnectionUI();
                 }
             }
 
@@ -489,20 +497,37 @@
                 }
 
                 try {
-                    const cameraPos = this.camera.getPosition();
-                    
-                    const cameraState = {
-                        position: { x: cameraPos[0], y: cameraPos[1], z: cameraPos[2] },
-                        target: { x: this.camera.center[0], y: this.camera.center[1], z: this.camera.center[2] },
-                        up: { x: 0, y: 1, z: 0 },
-                        fov: 45.0
-                    };
+                    // Use common utility to convert WebGL camera to Octane format
+                    const cameraState = CameraSyncUtils.webglToOctane(this.camera);
                     
                     await this.grpcOperations.testSetCamera(this.liveLink, cameraState);
                     
                 } catch (error) {
                     this.performanceTracker.recordError();
                     ErrorHandler.handleGrpcError(error, this.logger, 'Failed to set camera');
+                }
+            }
+
+            /**
+             * Test camera with random position (for testing purposes)
+             */
+            async testRandomCamera() {
+                if (!this.connected || !this.liveLink) {
+                    this.logger.log('Not connected to Octane', 'warning');
+                    return;
+                }
+
+                try {
+                    // Generate random camera position for testing using common utility
+                    const cameraState = CameraSyncUtils.generateRandomCamera();
+                    
+                    this.logger.log(`Testing random camera position: (${cameraState.position.x.toFixed(2)}, ${cameraState.position.y.toFixed(2)}, ${cameraState.position.z.toFixed(2)})`, 'info');
+                    
+                    await this.grpcOperations.testSetCamera(this.liveLink, cameraState);
+                    
+                } catch (error) {
+                    this.performanceTracker.recordError();
+                    ErrorHandler.handleGrpcError(error, this.logger, 'Failed to test random camera');
                 }
             }
 
@@ -676,6 +701,60 @@
                     return;
                 }
                 this.debugUtils.refreshStats(this.liveLink, this.statsManager);
+            }
+
+            /**
+             * Update connection UI elements based on current state
+             */
+            updateConnectionUI() {
+                const connectBtn = document.getElementById('connectBtn');
+                const disconnectBtn = document.getElementById('disconnectBtn');
+                const statusText = document.getElementById('statusText');
+                const statusSection = document.getElementById('connectionStatus');
+                
+                // Update button states
+                connectBtn.disabled = this.connected;
+                disconnectBtn.disabled = !this.connected;
+                
+                // Update status display
+                if (this.connected) {
+                    statusText.textContent = 'Connected';
+                    statusSection.className = 'status-section status-connected';
+                } else {
+                    statusText.textContent = 'Disconnected';
+                    statusSection.className = 'status-section status-disconnected';
+                }
+                
+                // Enable/disable operation buttons
+                const operationButtons = [
+                    'getCameraBtn', 'setCameraBtn', 'testRandomCameraBtn', 'getMeshesBtn', 'getMeshBtn',
+                    'loadTeapotBtn', 'syncCameraBtn', 'exportDebugBtn', 
+                    'showSystemInfoBtn', 'showDebugInfoBtn', 'refreshStatsBtn'
+                ];
+                
+                operationButtons.forEach(btnId => {
+                    const btn = document.getElementById(btnId);
+                    if (btn) {
+                        btn.disabled = !this.connected;
+                    }
+                });
+                
+                // Update stats display
+                if (this.liveLink) {
+                    const stats = this.liveLink.getStats();
+                    this.updateStatsDisplay(stats);
+                }
+            }
+
+            /**
+             * Update performance statistics display
+             */
+            updateStatsDisplay(stats) {
+                if (!stats) return;
+                
+                document.getElementById('grpcCallsValue').textContent = stats.totalCalls || 0;
+                document.getElementById('avgResponseValue').textContent = `${stats.averageResponseTime || 0}ms`;
+                document.getElementById('errorCountValue').textContent = stats.errors || 0;
             }
 
             /**
