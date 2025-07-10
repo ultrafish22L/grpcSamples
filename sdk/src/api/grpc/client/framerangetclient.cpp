@@ -59,7 +59,7 @@ Octane::FrameRangeT FrameRangeTProxy::make(
         octaneapi::FrameRangeTService::NewStub(getGRPCSettings().getChannel());
     status = stub->make(context.get(), request, &response);
 
-    Octane::FrameRangeT retVal;
+    Octane::FrameRangeT retVal = { 0,0 };
     if (status.ok())
     {
         /////////////////////////////////////////////////////////////////////

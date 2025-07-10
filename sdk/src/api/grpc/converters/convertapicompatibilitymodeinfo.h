@@ -7,7 +7,7 @@
 namespace Octane { class ApiCompatibilityModeInfo; }
 namespace octaneapi { class ApiCompatibilityModeInfo; }
 
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 class ApiCompatibilityModeInfoConverter
 {
 public:

@@ -7,7 +7,7 @@
 #include "grpcbase.h"
 
 
-struct ApiNodeInfoProxy : public Octane::ApiNodeInfo, GRPCBase
+class ApiNodeInfoProxy : public Octane::ApiNodeInfo, GRPCBase
 {
     std::vector<Octane::ApiCompatibilityModeInfo> mCompatibilityModeInfos;
 };

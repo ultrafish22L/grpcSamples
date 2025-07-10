@@ -7,7 +7,7 @@
 namespace octaneapi { class RunFunctionT; }
 namespace Octane::ApiThread { struct ApiThread::RunFunctionT; }
 
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 class ApiThread_RunFunctionTConverter
 {
 public:

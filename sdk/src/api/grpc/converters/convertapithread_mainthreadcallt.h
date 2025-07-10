@@ -7,7 +7,7 @@
 namespace octaneapi { class MainThreadCallT; }
 namespace Octane::ApiThread { struct ApiThread::MainThreadCallT; }
 
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 class ApiThread_MainThreadCallTConverter
 {
 public:

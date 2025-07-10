@@ -7,7 +7,7 @@
 namespace Octane { struct ApiBitMaskPinInfo; }
 namespace octaneapi { class ApiBitMaskPinInfo; }
 
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 class ApiBitMaskPinInfoConverter
 {
 public:

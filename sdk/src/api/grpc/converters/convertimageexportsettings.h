@@ -7,7 +7,7 @@
 namespace Octane { struct ImageExportSettings; }
 namespace octaneapi { class ImageExportSettings; }
 
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 class ImageExportSettingsConverter
 {
 public:

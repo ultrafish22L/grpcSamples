@@ -7,7 +7,7 @@
 namespace Octane { struct ApiDeviceSharedSurfaceInfo; }
 namespace octaneapi { class ApiDeviceSharedSurfaceInfo; }
 
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 class ApiDeviceSharedSurfaceInfoConverter
 {
 public:

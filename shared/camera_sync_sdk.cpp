@@ -20,10 +20,6 @@ CameraSyncSdk::CameraSyncSdk()
     , m_lastFov(45.0f)
     , m_moduleReady(true)
     , m_moduleStarted(false)
-#ifdef DO_GRPC_SDK_ENABLED
-    , m_renderEngine(nullptr)
-    , m_cameraNode(nullptr)
-#endif
 {
     std::cout << "[SDK] CameraSyncSdk created" << std::endl;
 }
@@ -86,7 +82,7 @@ void CameraSyncSdk::initialize() {
         // Get the current camera node from the render engine
         m_cameraNode = ::ApiRenderEngineProxy::getRenderCameraNode();
         
-        if (m_cameraNode) {
+        if (!m_cameraNode.isNull()) {
             m_cameraAvailable = true;
             m_initialized = true;
             std::cout << "[SDK] Camera control initialized successfully" << std::endl;
@@ -142,13 +138,6 @@ void CameraSyncSdk::shutdown() {
     if (m_connected) {
         std::cout << "[SDK] Shutting down Octane SDK connection..." << std::endl;
         
-#ifdef DO_GRPC_SDK_ENABLED
-        // Clean up SDK resources
-        // Note: ApiRenderEngine is typically a singleton, so we don't delete it
-        m_renderEngine = nullptr;
-        m_cameraNode = nullptr;
-#endif
-        
         m_connected = false;
         m_initialized = false;
         m_cameraAvailable = false;
@@ -159,17 +148,17 @@ void CameraSyncSdk::shutdown() {
 
 void CameraSyncSdk::getCurrentCameraState(glm::vec3& pos, glm::vec3& target, glm::vec3& up) const {
 #ifdef DO_GRPC_SDK_ENABLED
-    if (m_cameraAvailable && m_cameraNode) {
+    if (m_cameraAvailable && !m_cameraNode.isNull()) {
         try {
             // Get current camera state from SDK using pin values
-            float_3 pos, tgt, upVec;
-            m_cameraNode.getPinValue(Octane::P_POSITION, pos);
-            m_cameraNode.getPinValue(Octane::P_TARGET, tgt);
-            m_cameraNode.getPinValue(Octane::P_UP, upVec);
+            float_3 p, t, u;
+            m_cameraNode.getPinValue(Octane::P_POSITION, p);
+            m_cameraNode.getPinValue(Octane::P_TARGET, t);
+            m_cameraNode.getPinValue(Octane::P_UP, u);
             
-            pos = glm::vec3(pos.x, pos.y, pos.z);
-            target = glm::vec3(tgt.x, tgt.y, tgt.z);
-            up = glm::vec3(upVec.x, upVec.y, upVec.z);
+            pos = glm::vec3(p.x, p.y, p.z);
+            target = glm::vec3(t.x, t.y, t.z);
+            up = glm::vec3(u.x, u.y, u.z);
             
         } catch (const std::exception& e) {
             std::cout << "[SDK] Exception getting camera state: " << e.what() << std::endl;
@@ -256,8 +245,8 @@ bool CameraSyncSdk::setCameraPosition(const glm::vec3& pos, bool evaluate) {
 #ifdef DO_GRPC_SDK_ENABLED
     try {
         // Set camera pos via SDK using pin values
-        float_3 pos = {pos.x, pos.y, pos.z};
-        m_cameraNode.setPinValue(Octane::P_POSITION, pos);
+        float_3 p = {pos.x, pos.y, pos.z};
+        m_cameraNode.setPinValue(Octane::P_POSITION, p, true);
         
         m_lastPosition = pos;
         logSdkStatus("SetCameraPosition", true);
