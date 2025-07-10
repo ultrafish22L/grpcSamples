@@ -8,212 +8,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LiveLink gRPC-Web Test</title>
+    <title>🔍 LiveLink gRPC Test Interface</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        /* Test-specific overrides */
+        .container {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            height: auto;
+            min-height: 100vh;
+        }
+        
+        .main-content {
             max-width: 1000px;
             margin: 0 auto;
-            padding: 20px;
-            background-color: #1a1a1a;
-            color: #ffffff;
         }
-        .test-section {
-            margin: 20px 0;
-            padding: 15px;
-            border: 1px solid #333;
-            border-radius: 5px;
-            background-color: #2a2a2a;
-        }
-        button {
-            padding: 8px 16px;
-            margin: 5px;
-            border: none;
-            border-radius: 3px;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        button:disabled {
-            background-color: #666;
-            cursor: not-allowed;
-        }
-        .log {
-            background-color: #000;
-            color: #0f0;
-            padding: 10px;
-            border-radius: 3px;
-            font-family: monospace;
-            height: 200px;
-            overflow-y: auto;
-            margin-top: 10px;
-        }
-        .log-entry {
-            margin: 2px 0;
-            padding: 2px 0;
-            font-family: monospace;
-            font-size: 13px;
-            line-height: 1.4;
-        }
-        .log-emoji {
-            margin-right: 4px;
-        }
-        .log-details {
-            font-size: 11px;
-            color: #888;
-            margin-left: 20px;
-            margin-top: 2px;
-            font-style: italic;
-        }
-        .log-error { color: #f44; }
-        .log-success { color: #4f4; }
-        .log-info { color: #44f; }
-        .log-warning { color: #fa4; }
-        .log-debug { color: #ccc; }
-        .error { color: #f44; }
-        .success { color: #4f4; }
-        .info { color: #44f; }
-        .warning { color: #fa4; }
-        .status {
-            padding: 10px;
-            border-radius: 3px;
-            margin: 10px 0;
-            font-weight: bold;
-        }
-        .status.connected { background-color: #2d5a2d; }
-        .status.disconnected { background-color: #5a2d2d; }
-        .status.error { background-color: #5a2d2d; }
     </style>
 </head>
 <body>
-    <h1>🔗 LiveLink gRPC-Web Test</h1>
-    
-    <div class="test-section">
-        <h3>Connection Status</h3>
-        <div>
-            <label for="serverAddress">Server Address:</label>
-            <input type="text" id="serverAddress" value="http://127.0.0.1:51023" placeholder="http://127.0.0.1:51023" style="width: 200px; margin: 5px;">
+    <div class="container">
+        <div class="main-content">
+            <h1>🔍 LiveLink gRPC Test Interface</h1>
+            
+            <div class="test-section">
+                <div class="section-title">Connection</div>
+                <div class="input-group">
+                    <input type="text" id="serverAddress" value="http://127.0.0.1:51023" placeholder="Server address">
+                    <button id="connectBtn" onclick="testConnection()">Connect</button>
+                    <button onclick="disconnect()">Disconnect</button>
+                </div>
+                <div id="status" class="status-section status-disconnected">
+                    <div>Disconnected</div>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <div class="section-title">LiveLink Operations</div>
+                <div class="button-group">
+                    <button onclick="testGetCamera()">Get Camera</button>
+                    <button onclick="testSetCamera()">Set Camera</button>
+                    <button onclick="testGetMeshes()">Get Meshes</button>
+                    <button onclick="testGetMesh()">Get Mesh</button>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <div class="section-title">Debug & Testing</div>
+                <div class="button-group">
+                    <button onclick="exportDebugInfo()">Export Debug</button>
+                    <button onclick="showSystemInfo()">System Info</button>
+                    <button onclick="showDebugInfo()">Debug Info</button>
+                    <button onclick="updateStats()">Refresh Stats</button>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <div class="section-title">Performance Statistics</div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">Calls:</span>
+                        <span class="stat-value" id="callCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Last Response:</span>
+                        <span class="stat-value" id="lastTime">0ms</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Avg Response:</span>
+                        <span class="stat-value" id="avgTime">0ms</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Mode:</span>
+                        <span class="stat-value" id="mode">Unknown</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Attempts:</span>
+                        <span class="stat-value" id="connectionAttempts">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Errors:</span>
+                        <span class="stat-value" id="errorCount">0</span>
+                    </div>
+                </div>
+                <div class="button-group" style="margin-top: 10px;">
+                    <button onclick="clearLog()">Clear Log</button>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <div class="section-title">Activity Log</div>
+                <div id="log" class="log"></div>
+            </div>
         </div>
-        <div id="status" class="status disconnected">Disconnected</div>
-        <button id="connectBtn" onclick="testConnection()">Connect to Octane</button>
-        <button onclick="disconnect()">Disconnect</button>
     </div>
 
-    <div class="test-section">
-        <h3>LiveLink Operations</h3>
-        <button onclick="testGetCamera()">Get Camera</button>
-        <button onclick="testSetCamera()">Set Camera</button>
-        <button onclick="testGetMeshes()">Get Meshes</button>
-        <button onclick="testGetMesh()">Get Mesh</button>
-        <button onclick="clearLog()">Clear Log</button>
-        <button onclick="exportDebugInfo()">Export Debug Info</button>
-        <button onclick="showSystemInfo()">Show System Info</button>
-    </div>
-
-    <div class="test-section">
-        <h3>Performance Stats</h3>
-        <div id="stats">
-            <div>Calls: <span id="callCount">0</span></div>
-            <div>Last Response Time: <span id="lastTime">0</span>ms</div>
-            <div>Average Response Time: <span id="avgTime">0</span>ms</div>
-            <div>Mode: <span id="mode">Unknown</span></div>
-            <div>Connection Attempts: <span id="connectionAttempts">0</span></div>
-            <div>Error Count: <span id="errorCount">0</span></div>
-        </div>
-        <button onclick="updateStats()">Refresh Stats</button>
-        <button onclick="showDebugInfo()">Show Debug Info</button>
-    </div>
-
-    <div class="test-section">
-        <h3>Activity Log</h3>
-        <div id="log" class="log"></div>
-    </div>
-
-    <!-- Include gRPC-Web dependencies -->
-    <!-- <script src="https://unpkg.com/google-protobuf@3.21.2/google-protobuf.js"></script> -->
-    <!-- <script src="https://unpkg.com/grpc-web@1.4.2/index.js"></script> -->
-    
-    <!-- Module loader for browser compatibility -->
-    <!-- <script src="module-loader.js"></script> -->
-    
-    <!-- Include generated gRPC-Web files -->
-    <!-- <script src="generated/livelink_pb.js"></script> -->
-    <!-- <script src="generated/livelink_grpc_web_pb.js"></script> -->
-    
-    <!-- Setup proto namespace -->
-
-    
     <!-- Include shared utilities and LiveLink client -->
-    <script src="shared-utils.js"></script>
+    <script src="shared.js"></script>
     <script src="livelink.js"></script>
     <script>
-        // Debug what's available after loading
-        console.log('After loading all scripts:');
-        console.log('typeof LiveLinkClient:', typeof LiveLinkClient);
-        console.log('typeof LiveLinkManager:', typeof LiveLinkManager);
+        /**
+         * LiveLink gRPC Test Interface
+         * Simplified testing interface using shared utilities
+         */
         
-        // Try to manually check what's in the global scope
-        console.log('Checking global scope for LiveLink-related objects:');
-        for (let key in window) {
-            if (key.includes('LiveLink')) {
-                console.log('Found:', key, '=', window[key]);
-            }
-        }
-        
-        // Debug info is now available via the "Show Debug Info" button in the Activity Log
-    </script>
-    <script>
+        // Application state
         let client = null;
         let logger = null;
+        let statsManager = null;
+        let grpcOperations = null;
+        let debugUtils = null;
 
-        // Initialize shared logger when page loads
+        // Initialize application when page loads
         document.addEventListener('DOMContentLoaded', () => {
             logger = new ActivityLogger('log');
+            statsManager = new StatsDisplayManager();
+            grpcOperations = new GrpcTestOperations(logger, statsManager);
+            debugUtils = new DebugUtils(logger);
+            
+            logger.log('🔍 LiveLink gRPC Test Interface initialized', 'info');
         });
 
-        function log(message, type = 'info', details = null) {
-            // Use shared logger if available, fallback to original implementation
-            if (logger) {
-                logger.log(message, type, details);
-                return;
-            }
-            
-            // Fallback implementation for compatibility
-            const logDiv = document.getElementById('log');
-            const timestamp = new Date().toLocaleTimeString();
-            const logEntry = document.createElement('div');
-            logEntry.className = type;
-            
-            // Check if message already has a timestamp to avoid duplication
-            const hasTimestamp = message.match(/^\[\d{1,2}:\d{2}:\d{2}\s*(AM|PM)?\]/);
-            const displayMessage = hasTimestamp ? message : `[${timestamp}] ${message}`;
-            
-            if (details) {
-                logEntry.innerHTML = `
-                    <div>${displayMessage}</div>
-                    <div style="margin-left: 20px; font-size: 0.9em; color: #ccc;">
-                        ${typeof details === 'object' ? JSON.stringify(details, null, 2) : details}
-                    </div>
-                `;
-            } else {
-                logEntry.textContent = displayMessage;
-            }
-            
-            logDiv.appendChild(logEntry);
-            logDiv.scrollTop = logDiv.scrollHeight;
-        }
-
+        // Simplified utility functions using shared classes
         function clearLog() {
             if (logger) {
                 logger.clear();
-            } else {
-                document.getElementById('log').innerHTML = '';
-            }
-            if (client) {
-                client.clearDebugHistory();
+                logger.log('Activity log cleared', 'info');
             }
         }
 
@@ -221,378 +140,139 @@
             const statusDiv = document.getElementById('status');
             const connectBtn = document.getElementById('connectBtn');
             
-            statusDiv.className = `status ${status}`;
+            statusDiv.className = `status-section status-${status}`;
             
             switch (status) {
                 case 'connected':
-                    statusDiv.textContent = `Connected (${mode})`;
+                    statusDiv.innerHTML = `<div>Connected${mode ? ` (${mode})` : ''}</div>`;
                     connectBtn.textContent = 'Reconnect';
                     break;
                 case 'disconnected':
-                    statusDiv.textContent = 'Disconnected';
-                    connectBtn.textContent = 'Connect to Octane';
+                    statusDiv.innerHTML = '<div>Disconnected</div>';
+                    connectBtn.textContent = 'Connect';
                     break;
                 case 'error':
-                    statusDiv.textContent = 'Connection Error';
-                    connectBtn.textContent = 'Retry Connection';
+                    statusDiv.innerHTML = '<div>Connection Error</div>';
+                    connectBtn.textContent = 'Retry';
                     break;
                 default:
-                    statusDiv.textContent = status;
+                    statusDiv.innerHTML = `<div>${status}</div>`;
             }
         }
 
         function updateStats() {
-            if (!client) return;
-            
-            const stats = client.getStats();
-            const debugInfo = client.getDebugInfo();
-            
-            document.getElementById('callCount').textContent = stats.callCount || 0;
-            document.getElementById('lastTime').textContent = Math.round(stats.lastCallTime || 0);
-            document.getElementById('avgTime').textContent = Math.round(stats.avgResponseTime || 0);
-            document.getElementById('mode').textContent = client.connected ? 'Live' : 'Disconnected';
-            document.getElementById('connectionAttempts').textContent = debugInfo.client.connectionAttempts || 0;
-            document.getElementById('errorCount').textContent = debugInfo.history.errorHistory.length || 0;
+            if (statsManager && client) {
+                statsManager.updateStats(client);
+            }
         }
 
         function exportDebugInfo() {
-            if (!client) {
-                log('No client available for debug export', 'error');
-                return;
-            }
-            
-            try {
-                client.exportDebugInfo();
-                log('Debug information exported successfully', 'success');
-            } catch (error) {
-                log(`Failed to export debug info: ${error.message}`, 'error');
+            if (debugUtils && client) {
+                debugUtils.exportDebugInfo(client);
             }
         }
 
         function showSystemInfo() {
-            if (!client) {
-                log('No client available for system info', 'error');
-                return;
+            if (debugUtils && client) {
+                debugUtils.showSystemInfo(client);
             }
-            
-            const systemInfo = client.getSystemInfo();
-            log('📊 System Information:', 'info');
-            
-            // Display key system info in a readable format
-            if (systemInfo.browser) {
-                log(`Browser: ${systemInfo.browser.name} ${systemInfo.browser.version}`, 'info');
-                log(`Platform: ${systemInfo.browser.platform}`, 'info');
-            }
-            
-            if (systemInfo.screen) {
-                log(`Screen: ${systemInfo.screen.width}x${systemInfo.screen.height} (${systemInfo.screen.colorDepth}-bit)`, 'info');
-            }
-            
-            if (systemInfo.connection) {
-                log(`Connection: ${systemInfo.connection.effectiveType || 'Unknown'} (${systemInfo.connection.downlink || 'N/A'} Mbps)`, 'info');
-            }
-            
-            if (systemInfo.memory) {
-                const memoryMB = Math.round(systemInfo.memory.usedJSHeapSize / 1024 / 1024);
-                const limitMB = Math.round(systemInfo.memory.jsHeapSizeLimit / 1024 / 1024);
-                log(`Memory: ${memoryMB}MB used / ${limitMB}MB limit`, 'info');
-            }
-            
-            log(`Timestamp: ${systemInfo.timestamp}`, 'info');
         }
 
         function showDebugInfo() {
-            if (!client) {
-                log('No client available for debug info', 'error');
-                return;
-            }
-            
-            const debugInfo = client.getDebugInfo();
-            log('🔍 Debug Information:', 'info');
-            
-            // Display key debug info in a readable format
-            if (debugInfo.client) {
-                log(`Server URL: ${debugInfo.client.serverUrl}`, 'info');
-                log(`Connected: ${debugInfo.client.connected}`, 'info');
-                log(`Connection State: ${debugInfo.client.connectionState}`, 'info');
-                log(`Connection Attempts: ${debugInfo.client.connectionAttempts}`, 'info');
-            }
-            
-            if (debugInfo.performance) {
-                log(`Total Calls: ${debugInfo.performance.callCount}`, 'info');
-                log(`Last Call Time: ${debugInfo.performance.lastCallTime}ms`, 'info');
-                log(`Avg Response Time: ${debugInfo.performance.avgResponseTime?.toFixed(1)}ms`, 'info');
-            }
-            
-            if (debugInfo.history) {
-                if (debugInfo.history.errorHistory?.length > 0) {
-                    log(`Recent Errors: ${debugInfo.history.errorHistory.length}`, 'warning');
-                    debugInfo.history.errorHistory.slice(-3).forEach((error, index) => {
-                        log(`  ${index + 1}. ${error.message}`, 'warning');
-                    });
-                }
-                
-                if (debugInfo.history.connectionHistory?.length > 0) {
-                    log(`Recent Connections: ${debugInfo.history.connectionHistory.length}`, 'info');
-                }
-            }
-            
-            if (debugInfo.lastError) {
-                log(`Last Error: ${debugInfo.lastError.message}`, 'error');
+            if (debugUtils && client) {
+                debugUtils.showDebugInfo(client);
             }
         }
 
         async function testConnection() {
             try {
                 const serverAddress = document.getElementById('serverAddress').value;
-                log('Getting LiveLink client...', 'info');
+                logger.log('🔗 Connecting to Octane LiveLink...', 'info');
+                
                 client = liveLinkManager.getClient(serverAddress);
-                console.log('LiveLink client obtained:', client);
                 
                 // Setup event handlers
-                log('Setting up event handlers...', 'info');
-                
-                // Remove all existing listeners to prevent duplicates
                 client.removeAllListeners();
                 
                 client.on('log', (logEntry) => {
-                    // Use clean message for activity monitor, detailed console logging remains unchanged
                     const displayMessage = logEntry.cleanMessage || logEntry.message;
-                    log(displayMessage, logEntry.level);
+                    logger.log(displayMessage, logEntry.level);
                 });
                 
                 client.on('connected', () => {
-                    console.log('Connected event fired');
-                    log('✅ Connected to live Octane server!', 'success');
+                    logger.log('✅ Connected to Octane LiveLink!', 'success');
                     updateStatus('connected', 'Live');
                     updateStats();
                 });
                 
                 client.on('disconnected', () => {
-                    console.log('Disconnected event fired');
-                    log('Disconnected from server', 'info');
+                    logger.log('Disconnected from server', 'info');
                     updateStatus('disconnected');
                     updateStats();
                 });
                 
-                client.on('connectionStateChanged', (state) => {
-                    log(`Connection state: ${state}`, 'info');
-                    updateStats();
-                });
-                
                 client.on('error', (error) => {
-                    console.log('Error event fired:', error);
-                    const errorDetails = {
-                        message: error.message,
-                        name: error.name,
-                        analysis: error.analysis || 'No analysis available'
-                    };
-                    log(`❌ Connection error: ${error.message}`, 'error', errorDetails);
-                    
-                    // Only update status to error if we're not already connected
-                    const stats = client.getStats();
-                    if (!stats.connected) {
-                        updateStatus('error');
-                    }
+                    logger.log(`❌ Connection error: ${error.message}`, 'error');
+                    updateStatus('error');
                     updateStats();
                 });
                 
-                log('Attempting to connect to Octane gRPC-Web server...', 'info');
                 await client.connect();
                 
-                // Check connection result
                 const stats = client.getStats();
                 if (stats.connected) {
-                    log('✅ Connected to live server!', 'success');
                     updateStatus('connected', 'Live');
                 } else {
-                    log('❌ Connection failed', 'error');
                     updateStatus('error');
                 }
                 updateStats();
                 
             } catch (error) {
-                console.error('Connection error:', error);
-                log(`❌ Connection error: ${error.message}`, 'error');
+                logger.log(`❌ Connection error: ${error.message}`, 'error');
                 updateStatus('disconnected');
             }
         }
 
         async function disconnect() {
-            console.log('Disconnect called, client:', client);
             if (client) {
-                console.log('Calling client.disconnect()...');
                 await client.disconnect();
-                log('Disconnected from server', 'info');
+                logger.log('Disconnected from server', 'info');
                 updateStatus('disconnected');
                 updateStats();
             } else {
-                console.log('No client object to disconnect');
-                log('No connection to disconnect', 'warning');
+                logger.log('No connection to disconnect', 'warning');
             }
         }
 
         async function testGetCamera() {
-            if (!client || !client.isReady()) {
-                log('❌ Not connected. Please connect first.', 'error');
-                return;
-            }
-            
-            try {
-                log('Getting camera state...', 'info');
-                const camera = await client.getCamera();
-                
-                log('✅ Camera retrieved:', 'success');
-                if (camera.position) {
-                    log(`Position: (${camera.position.x.toFixed(2)}, ${camera.position.y.toFixed(2)}, ${camera.position.z.toFixed(2)})`, 'info');
-                }
-                if (camera.target) {
-                    log(`Target: (${camera.target.x.toFixed(2)}, ${camera.target.y.toFixed(2)}, ${camera.target.z.toFixed(2)})`, 'info');
-                }
-                if (camera.up) {
-                    log(`Up: (${camera.up.x.toFixed(2)}, ${camera.up.y.toFixed(2)}, ${camera.up.z.toFixed(2)})`, 'info');
-                }
-                if (camera.fov) {
-                    log(`FOV: ${camera.fov.toFixed(1)}°`, 'info');
-                }
-                
-                updateStats();
-                
-            } catch (error) {
-                const errorDetails = {
-                    message: error.message,
-                    name: error.name,
-                    callId: error.callId,
-                    method: error.method,
-                    duration: error.duration,
-                    status: error.status,
-                    statusText: error.statusText
-                };
-                log(`❌ Get camera error: ${error.message}`, 'error', errorDetails);
-                updateStats();
+            if (grpcOperations && client) {
+                await grpcOperations.testGetCamera(client);
             }
         }
 
         async function testSetCamera() {
-            if (!client || !client.isReady()) {
-                log('❌ Not connected. Please connect first.', 'error');
-                return;
-            }
-            
-            try {
+            if (grpcOperations && client) {
                 const cameraState = {
                     position: { x: Math.random() * 10 - 5, y: Math.random() * 10 - 5, z: 5 },
                     target: { x: 0, y: 0, z: 0 },
                     up: { x: 0, y: 1, z: 0 },
                     fov: 45
                 };
-                
-                log('Setting camera position...', 'info');
-                log(`New position: (${cameraState.position.x.toFixed(2)}, ${cameraState.position.y.toFixed(2)}, ${cameraState.position.z.toFixed(2)})`, 'info');
-                
-                await client.setCamera(cameraState);
-                log('✅ Camera set successfully', 'success');
-                
-                updateStats();
-                
-            } catch (error) {
-                const errorDetails = {
-                    message: error.message,
-                    name: error.name,
-                    callId: error.callId,
-                    method: error.method,
-                    duration: error.duration,
-                    status: error.status,
-                    statusText: error.statusText,
-                    cameraState: cameraState
-                };
-                log(`❌ Set camera error: ${error.message}`, 'error', errorDetails);
-                updateStats();
+                await grpcOperations.testSetCamera(client, cameraState);
             }
         }
 
         async function testGetMeshes() {
-            if (!client || !client.isReady()) {
-                log('❌ Not connected. Please connect first.', 'error');
-                return;
-            }
-            
-            try {
-                log('Getting available meshes...', 'info');
-                const result = await client.getMeshes();
-                const meshes = result.meshes || [];
-                
-                log(`✅ Received ${meshes.length} meshes:`, 'success');
-                meshes.forEach((mesh, index) => {
-                    log(`${index + 1}. ${mesh.name || 'Unnamed'} (ID: ${mesh.id || 'N/A'}, Handle: ${mesh.objectHandle || 'N/A'})`, 'info');
-                });
-                
-                if (meshes.length === 0) {
-                    log('No meshes found in scene', 'warning');
-                }
-                
-                updateStats();
-                
-            } catch (error) {
-                const errorDetails = {
-                    message: error.message,
-                    name: error.name,
-                    callId: error.callId,
-                    method: error.method,
-                    duration: error.duration,
-                    status: error.status,
-                    statusText: error.statusText
-                };
-                log(`❌ Get meshes error: ${error.message}`, 'error', errorDetails);
-                updateStats();
+            if (grpcOperations && client) {
+                await grpcOperations.testGetMeshes(client);
             }
         }
 
         async function testGetMesh() {
-            if (!client || !client.isReady()) {
-                log('❌ Not connected. Please connect first.', 'error');
-                return;
-            }
-            
-            const meshId = 1001; // Test with demo mesh handle
-            
-            try {
-                log(`Getting mesh data for handle: ${meshId}`, 'info');
-                
-                const mesh = await client.getMesh(meshId);
-                
-                if (mesh) {
-                    log('✅ Mesh retrieved:', 'success');
-                    log(`Name: ${mesh.name || 'Unnamed'}`, 'info');
-                    if (mesh.positions) log(`Positions: ${mesh.positions.length} vertices`, 'info');
-                    if (mesh.normals) log(`Normals: ${mesh.normals.length} normals`, 'info');
-                    if (mesh.vertsPerPoly) log(`Polygons: ${mesh.vertsPerPoly.length} polygons`, 'info');
-                    if (mesh.windingOrder !== undefined) log(`Winding order: ${mesh.windingOrder}`, 'info');
-                } else {
-                    log(`⚠️ Mesh not found: ${meshId}`, 'warning');
-                }
-                
-                updateStats();
-                
-            } catch (error) {
-                const errorDetails = {
-                    message: error.message,
-                    name: error.name,
-                    callId: error.callId,
-                    method: error.method,
-                    duration: error.duration,
-                    status: error.status,
-                    statusText: error.statusText,
-                    meshId: meshId
-                };
-                log(`❌ Get mesh error: ${error.message}`, 'error', errorDetails);
-                updateStats();
+            if (grpcOperations && client) {
+                await grpcOperations.testGetMesh(client);
             }
         }
-
-        // Initialize
-        log('LiveLink gRPC-Web Test ready. Click "Connect to Octane" to start.', 'info');
-        updateStatus('disconnected');
     </script>
 </body>
 </html>
