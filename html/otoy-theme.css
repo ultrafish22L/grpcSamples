@@ -748,6 +748,8 @@ button, input[type="text"], input[type="url"] {
     backdrop-filter: blur(10px);
     border: 1px solid var(--border-subtle);
     box-shadow: var(--panel-shadow);
+    padding: 12px;
+    border-radius: 6px;
 }
 
 /* Status Indicators */
