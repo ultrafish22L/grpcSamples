@@ -19,21 +19,21 @@
             <h1>🧪 Octane LiveLink Test Interface</h1>
         </div>
         
-        <!-- Controls at top in 2 rows -->
+        <!-- Ultra-Tight Controls Layout -->
         <div class="controls-container">
             <div class="control-section">
-                <div class="section-title">Connection</div>
+                <div class="section-title">Connection & Debug</div>
                 <div class="button-group">
-                    <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023" style="flex: 1; margin-right: 10px;">
+                    <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023">
                     <button id="connectBtn" onclick="testConnection()">Connect</button>
                     <button onclick="disconnect()">Disconnect</button>
+                    <button onclick="exportDebugInfo()">Export</button>
                 </div>
                 <div class="button-group">
-                    <button onclick="exportDebugInfo()">Export Debug</button>
-                    <button onclick="showSystemInfo()">System Info</button>
-                    <button onclick="showDebugInfo()">Debug Info</button>
-                    <button onclick="refreshStats()">Refresh Stats</button>
-                    <button onclick="clearLog()">Clear Log</button>
+                    <button onclick="showSystemInfo()">System</button>
+                    <button onclick="showDebugInfo()">Debug</button>
+                    <button onclick="refreshStats()">Stats</button>
+                    <button onclick="clearLog()">Clear</button>
                 </div>
             </div>
             
@@ -41,9 +41,11 @@
                 <div class="section-title">LiveLink Operations</div>
                 <div class="button-group">
                     <button onclick="testGetCamera()">Get Camera</button>
-                    <button onclick="testSetCamera()">Test Random Camera</button>
+                    <button onclick="testSetCamera()">Set Camera</button>
                     <button onclick="testGetMeshes()">Get Meshes</button>
                     <button onclick="testGetMesh()">Get Mesh</button>
+                </div>
+                <div class="button-group">
                     <button onclick="testLoadTeapot()">Load Teapot</button>
                 </div>
             </div>
@@ -51,41 +53,11 @@
         
 
         
-        <!-- Stats and Activity Log below -->
+        <!-- Activity Log Only -->
         <div class="content-area">
-            <div class="stats-section glass-panel">
-                <div class="stats-title">Performance Statistics</div>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <span class="stat-label">gRPC Calls:</span>
-                        <span class="stat-value" id="callCount">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Last Response:</span>
-                        <span class="stat-value" id="lastTime">0ms</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Avg Response:</span>
-                        <span class="stat-value" id="avgTime">0ms</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Connection Mode:</span>
-                        <span class="stat-value" id="mode">Unknown</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Attempts:</span>
-                        <span class="stat-value" id="connectionAttempts">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Errors:</span>
-                        <span class="stat-value" id="errorCount">0</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="log-section glass-panel">
-                <div class="log-title">Activity Log</div>
-                <div id="log" class="log-container"></div>
+            <div class="activity-section glass-panel">
+                <div class="activity-title">Activity Log</div>
+                <div id="log" class="activity-log"></div>
             </div>
         </div>
     </div>
