@@ -193,6 +193,14 @@
             margin-right: 6px;
         }
 
+        .log-details {
+            font-size: 11px;
+            color: #888;
+            margin-left: 20px;
+            margin-top: 2px;
+            font-style: italic;
+        }
+
         .input-group {
             display: flex;
             gap: 5px;
@@ -258,8 +266,19 @@
                             <button id="getCameraBtn" disabled>Get Camera</button>
                             <button id="setCameraBtn" disabled>Set Camera</button>
                             <button id="getMeshesBtn" disabled>Get Meshes</button>
+                            <button id="getMeshBtn" disabled>Get Mesh</button>
                             <button id="loadTeapotBtn" disabled>Load Teapot</button>
                             <button id="syncCameraBtn" disabled>Start Sync</button>
+                        </div>
+                    </div>
+                    
+                    <div class="control-section">
+                        <div class="section-title">Debug & Testing</div>
+                        <div class="button-group">
+                            <button id="exportDebugBtn" disabled>Export Debug</button>
+                            <button id="showSystemInfoBtn" disabled>System Info</button>
+                            <button id="showDebugInfoBtn" disabled>Debug Info</button>
+                            <button id="refreshStatsBtn" disabled>Refresh Stats</button>
                         </div>
                     </div>
                     
@@ -322,6 +341,7 @@
 
     <!-- Include shared utilities -->
     <script src="shared-utils.js"></script>
+    <script src="grpc-test-utils.js"></script>
     <script src="webgl-utils.js"></script>
     <script src="livelink.js"></script>
 
@@ -342,7 +362,13 @@
                 // Initialize logging and UI utilities
                 this.logger = new ActivityLogger('activityLog');
                 this.performanceTracker = new PerformanceTracker();
-                this.connectionState = new ConnectionStateManager('statusText', this.logger);
+                this.connectionState = new EnhancedConnectionStateManager('statusText', this.logger);
+                
+                // Initialize testing utilities
+                this.statsManager = new StatsDisplayManager();
+                this.grpcOperations = new GrpcTestOperations(this.logger, this.statsManager);
+                this.debugUtils = new DebugUtils(this.logger);
+                this.connectionManager = new ConnectionManager(this.logger, this.connectionState);
                 
                 // WebGL and rendering state
                 this.canvas = document.getElementById('canvas');
@@ -538,8 +564,17 @@
                 document.getElementById('getCameraBtn').addEventListener('click', () => this.getCameraFromOctane());
                 document.getElementById('setCameraBtn').addEventListener('click', () => this.setCameraToOctane());
                 document.getElementById('getMeshesBtn').addEventListener('click', () => this.getMeshList());
+                document.getElementById('getMeshBtn').addEventListener('click', () => this.getMesh());
                 document.getElementById('loadTeapotBtn').addEventListener('click', () => this.loadTeapot());
                 document.getElementById('syncCameraBtn').addEventListener('click', () => this.toggleCameraSync());
+                
+                // Debug and testing button handlers
+                document.getElementById('exportDebugBtn').addEventListener('click', () => this.exportDebugInfo());
+                document.getElementById('showSystemInfoBtn').addEventListener('click', () => this.showSystemInfo());
+                document.getElementById('showDebugInfoBtn').addEventListener('click', () => this.showDebugInfo());
+                document.getElementById('refreshStatsBtn').addEventListener('click', () => this.refreshStats());
+                
+                // View control button handlers
                 document.getElementById('autoRotateBtn').addEventListener('click', () => this.toggleAutoRotate());
                 document.getElementById('resetCameraBtn').addEventListener('click', () => this.resetCamera());
                 document.getElementById('clearLogBtn').addEventListener('click', () => this.clearLog());
@@ -551,8 +586,15 @@
                     UIUtils.setButtonEnabled('getCameraBtn', true);
                     UIUtils.setButtonEnabled('setCameraBtn', true);
                     UIUtils.setButtonEnabled('getMeshesBtn', true);
+                    UIUtils.setButtonEnabled('getMeshBtn', true);
                     UIUtils.setButtonEnabled('loadTeapotBtn', true);
                     UIUtils.setButtonEnabled('syncCameraBtn', true);
+                    
+                    // Enable debug and testing buttons
+                    UIUtils.setButtonEnabled('exportDebugBtn', true);
+                    UIUtils.setButtonEnabled('showSystemInfoBtn', true);
+                    UIUtils.setButtonEnabled('showDebugInfoBtn', true);
+                    UIUtils.setButtonEnabled('refreshStatsBtn', true);
                     
                     document.getElementById('connectionStatus').className = 'status-section status-connected';
                 });
@@ -563,8 +605,15 @@
                     UIUtils.setButtonEnabled('getCameraBtn', false);
                     UIUtils.setButtonEnabled('setCameraBtn', false);
                     UIUtils.setButtonEnabled('getMeshesBtn', false);
+                    UIUtils.setButtonEnabled('getMeshBtn', false);
                     UIUtils.setButtonEnabled('loadTeapotBtn', false);
                     UIUtils.setButtonEnabled('syncCameraBtn', false);
+                    
+                    // Disable debug and testing buttons
+                    UIUtils.setButtonEnabled('exportDebugBtn', false);
+                    UIUtils.setButtonEnabled('showSystemInfoBtn', false);
+                    UIUtils.setButtonEnabled('showDebugInfoBtn', false);
+                    UIUtils.setButtonEnabled('refreshStatsBtn', false);
                     
                     document.getElementById('connectionStatus').className = 'status-section status-disconnected';
                     
@@ -584,7 +633,6 @@
              */
             async connect() {
                 try {
-                    this.connectionState.setState('connecting', 'Connecting to Octane...');
                     this.performanceTracker.recordConnectionAttempt();
                     
                     // Get server address
@@ -593,12 +641,9 @@
                         throw new Error('Server address is required');
                     }
                     
-                    // Initialize LiveLink client
-                    if (typeof liveLinkManager === 'undefined') {
-                        throw new Error('LiveLink manager not available');
-                    }
-                    
-                    this.liveLink = liveLinkManager.getClient(serverAddress);
+                    // Use connection manager for connection
+                    this.liveLink = await this.connectionManager.connect(serverAddress);
+                    this.connected = this.connectionManager.isConnected();
                     
                     // Set up event handlers with proper cleanup
                     if (this.liveLink.removeAllListeners) {
@@ -608,27 +653,20 @@
                     // Connection state events
                     this.liveLink.on('connected', () => {
                         this.connected = true;
-                        this.connectionState.setState('connected', 'Connected to Octane successfully');
                     });
                     
                     this.liveLink.on('disconnected', () => {
                         this.connected = false;
-                        this.connectionState.setState('disconnected', 'Disconnected from Octane');
                     });
                     
                     this.liveLink.on('error', (error) => {
                         this.performanceTracker.recordError();
                         ErrorHandler.handleGrpcError(error, this.logger, 'Connection error');
-                        this.connectionState.setState('disconnected');
                     });
-                    
-                    // Attempt connection
-                    await this.liveLink.connect();
                     
                 } catch (error) {
                     this.performanceTracker.recordError();
                     ErrorHandler.handleGrpcError(error, this.logger, 'Failed to connect');
-                    this.connectionState.setState('disconnected');
                 }
             }
 
@@ -637,12 +675,9 @@
              */
             async disconnect() {
                 try {
-                    if (this.liveLink && this.connected) {
-                        await this.liveLink.disconnect();
-                    }
+                    await this.connectionManager.disconnect();
                     this.liveLink = null;
                     this.connected = false;
-                    this.connectionState.setState('disconnected', 'Disconnected from Octane');
                 } catch (error) {
                     ErrorHandler.handleGrpcError(error, this.logger, 'Disconnect error');
                 }
@@ -658,17 +693,9 @@
                 }
 
                 try {
-                    const startTime = Date.now();
-                    const cameraState = await this.liveLink.getCamera();
-                    const responseTime = Date.now() - startTime;
-                    
-                    this.performanceTracker.recordCall(responseTime);
+                    const cameraState = await this.grpcOperations.testGetCamera(this.liveLink);
                     
                     if (cameraState && cameraState.position) {
-                        this.logger.log(`Camera position: (${cameraState.position.x.toFixed(2)}, ${cameraState.position.y.toFixed(2)}, ${cameraState.position.z.toFixed(2)})`, 'success');
-                        this.logger.log(`Camera target: (${cameraState.target.x.toFixed(2)}, ${cameraState.target.y.toFixed(2)}, ${cameraState.target.z.toFixed(2)})`, 'info');
-                        this.logger.log(`Camera FOV: ${cameraState.fov.toFixed(2)}°`, 'info');
-                        
                         // Update our camera to match Octane's camera
                         this.camera.setFromOctaneCamera(
                             [cameraState.position.x, cameraState.position.y, cameraState.position.z],
@@ -693,7 +720,6 @@
                 }
 
                 try {
-                    const startTime = Date.now();
                     const cameraPos = this.camera.getPosition();
                     
                     const cameraState = {
@@ -703,11 +729,7 @@
                         fov: 45.0
                     };
                     
-                    await this.liveLink.setCamera(cameraState);
-                    const responseTime = Date.now() - startTime;
-                    
-                    this.performanceTracker.recordCall(responseTime);
-                    this.logger.log('Camera sent to Octane successfully', 'success');
+                    await this.grpcOperations.testSetCamera(this.liveLink, cameraState);
                     
                 } catch (error) {
                     this.performanceTracker.recordError();
@@ -725,18 +747,7 @@
                 }
 
                 try {
-                    const startTime = Date.now();
-                    const meshList = await this.liveLink.getMeshes();
-                    const responseTime = Date.now() - startTime;
-                    
-                    this.performanceTracker.recordCall(responseTime);
-                    this.logger.log(`Received ${meshList.meshes ? meshList.meshes.length : 0} meshes from Octane`, 'success');
-                    
-                    if (meshList.meshes && meshList.meshes.length > 0) {
-                        meshList.meshes.forEach((mesh, index) => {
-                            this.logger.log(`Mesh ${index + 1}: ${mesh.name} (ID: ${mesh.id})`, 'info');
-                        });
-                    }
+                    await this.grpcOperations.testGetMeshes(this.liveLink);
                 } catch (error) {
                     this.performanceTracker.recordError();
                     ErrorHandler.handleGrpcError(error, this.logger, 'Failed to get meshes');
@@ -835,6 +846,67 @@
             clearLog() {
                 this.logger.clear();
                 this.logger.log('Activity log cleared', 'info');
+            }
+
+            /**
+             * Get individual mesh data from Octane
+             */
+            async getMesh() {
+                if (!this.connected || !this.liveLink) {
+                    this.logger.log('Not connected to Octane', 'warning');
+                    return;
+                }
+
+                try {
+                    await this.grpcOperations.testGetMesh(this.liveLink);
+                } catch (error) {
+                    this.performanceTracker.recordError();
+                    ErrorHandler.handleGrpcError(error, this.logger, 'Failed to get mesh');
+                }
+            }
+
+            /**
+             * Export debug information
+             */
+            exportDebugInfo() {
+                if (!this.liveLink) {
+                    this.logger.log('No client available for debug export', 'error');
+                    return;
+                }
+                this.debugUtils.exportDebugInfo(this.liveLink);
+            }
+
+            /**
+             * Show system information
+             */
+            showSystemInfo() {
+                if (!this.liveLink) {
+                    this.logger.log('No client available for system info', 'error');
+                    return;
+                }
+                this.debugUtils.showSystemInfo(this.liveLink);
+            }
+
+            /**
+             * Show debug information
+             */
+            showDebugInfo() {
+                if (!this.liveLink) {
+                    this.logger.log('No client available for debug info', 'error');
+                    return;
+                }
+                this.debugUtils.showDebugInfo(this.liveLink);
+            }
+
+            /**
+             * Refresh performance statistics
+             */
+            refreshStats() {
+                if (!this.liveLink) {
+                    this.logger.log('No client available for stats refresh', 'error');
+                    return;
+                }
+                this.debugUtils.refreshStats(this.liveLink, this.statsManager);
             }
 
             /**
