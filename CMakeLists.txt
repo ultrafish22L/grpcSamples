@@ -4,16 +4,16 @@ project(GrpcSamples)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(DO_GRPC_ENABLED ON)
-set(DO_GRPC_SDK_ENABLED OFF)
+set(DO_GRPC_ENABLED OFF)
+set(DO_GRPC_SDK_ENABLED, OFF)
 
 # Find OpenGL
 find_package(OpenGL REQUIRED)
 
 # Windows MSVC specific configurations
 if(WIN32)
-    set(DO_GRPC_ENABLED ON)
-    add_compile_definitions(DO_GRPC_ENABLED)
+#    set(DO_GRPC_ENABLED ON)
+#    add_compile_definitions(DO_GRPC_ENABLED)
     set(DO_GRPC_SDK_ENABLED OFF)
 
     # Enable parallel compilation for all targets
