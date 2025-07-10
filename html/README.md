@@ -14,7 +14,13 @@ cd html
 start_both_servers.bat    # Starts both servers automatically in separate windows
 ```
 
-**Option B: Manual Two-Terminal Setup**
+**Option B: Proxy Only (file:// protocol)**
+```cmd
+cd html
+start_proxy_only.bat      # Only starts proxy server, double-click HTML files
+```
+
+**Option C: Manual Two-Terminal Setup**
 ```cmd
 # Terminal 1: Start the gRPC proxy server
 cd html
@@ -25,9 +31,11 @@ cd html
 start_http_server.bat
 ```
 
-**⚠️ IMPORTANT**: Both servers must be running at the same time:
-- **Proxy Server**: Translates browser HTTP → Octane gRPC (port 51023)
-- **HTTP Server**: Serves HTML files to your browser (port 8000)
+**⚠️ Server Requirements**:
+- **Option A & C**: Both servers must be running simultaneously
+  - **Proxy Server**: Translates browser HTTP → Octane gRPC (port 51023)
+  - **HTTP Server**: Serves HTML files to your browser (port 8000)
+- **Option B**: Only proxy server needed (HTML files opened via file://)
 
 **What the batch files do**:
 - ✅ Install Python dependencies (`grpcio`, `grpcio-tools`, `aiohttp`)
@@ -283,6 +291,28 @@ shared/generated/           # Generated Python protobuf files
 3. ✅ **Proxy connects but gRPC calls fail**: Octane LiveLink not enabled
    - Enable LiveLink in Octane Render settings
    - Verify Octane is listening on port 51022
+
+**Can I skip the HTTP server and use file:// protocol?**
+
+✅ **YES!** You can run `grpc_test.html` directly by double-clicking it (uses `file://` protocol):
+
+```cmd
+# Only need the proxy server running
+cd html
+start_proxy_server.bat
+
+# Then double-click grpc_test.html or web3d_octane_sync.html
+```
+
+**Why this works:**
+- The gRPC proxy server has CORS configured to allow `file://` origins
+- Modern browsers allow `file://` → `http://localhost` requests
+- You only need the proxy server (port 51023), not the HTTP server (port 8000)
+
+**Browser compatibility:**
+- ✅ Chrome/Edge: Works perfectly
+- ✅ Firefox: Works with default settings  
+- ⚠️ Safari: May require "Develop" menu → "Disable Cross-Origin Restrictions"
 
 ### Debug Tools
 
