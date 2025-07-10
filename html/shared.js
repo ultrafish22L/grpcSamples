@@ -380,6 +380,24 @@ class StatsDisplayManager {
         };
     }
 
+    updateConnectionStatus(connected) {
+        // Update OTOY status LED and text
+        const statusText = document.querySelector('.otoy-status span:not(.status-led)');
+        const statusLed = document.querySelector('.status-led');
+        
+        if (statusText && statusLed) {
+            if (connected) {
+                statusText.textContent = 'All Systems Operational';
+                statusLed.style.background = '#2ecc71';
+                statusLed.style.boxShadow = '0 0 6px #2ecc71';
+            } else {
+                statusText.textContent = 'All Systems Ready';
+                statusLed.style.background = '#f39c12';
+                statusLed.style.boxShadow = '0 0 6px #f39c12';
+            }
+        }
+    }
+
     updateStats(client) {
         if (!client) return;
 
@@ -415,6 +433,9 @@ class StatsDisplayManager {
             if (this.elements.connectionAttempts) {
                 this.elements.connectionAttempts.textContent = debugInfo.client?.connectionAttempts || 0;
             }
+
+            // Update OTOY LED status
+            this.updateConnectionStatus(client.connected);
         } catch (error) {
             console.error('Error updating stats:', error);
         }

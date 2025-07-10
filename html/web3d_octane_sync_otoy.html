@@ -107,6 +107,11 @@
             grpcOperations = new GrpcTestOperations(logger, statsManager);
             debugUtils = new DebugUtils(logger);
             
+            // Initialize LED status to "All Systems Ready"
+            if (statsManager) {
+                statsManager.updateConnectionStatus(false);
+            }
+            
             // Initialize 3D viewer
             initWebGL();
             
@@ -203,26 +208,44 @@
 
         // Connection functions (based on grpc_test.html)
         function updateStatus(status, mode = '') {
-            const statusDiv = document.getElementById('status');
+            const statusSpan = document.getElementById('connectionStatus');
             const connectBtn = document.getElementById('connectBtn');
             
-            statusDiv.className = `status-section status-${status}`;
-            
-            switch (status) {
-                case 'connected':
-                    statusDiv.innerHTML = `<div>Connected${mode ? ` (${mode})` : ''}</div>`;
-                    connectBtn.textContent = 'Reconnect';
-                    break;
-                case 'disconnected':
-                    statusDiv.innerHTML = '<div>Disconnected</div>';
-                    connectBtn.textContent = 'Connect';
-                    break;
-                case 'error':
-                    statusDiv.innerHTML = '<div>Connection Error</div>';
-                    connectBtn.textContent = 'Retry';
-                    break;
-                default:
-                    statusDiv.innerHTML = `<div>${status}</div>`;
+            if (statusSpan) {
+                statusSpan.className = `status-indicator status-${status}`;
+                
+                switch (status) {
+                    case 'connected':
+                        statusSpan.textContent = `Connected${mode ? ` (${mode})` : ''}`;
+                        break;
+                    case 'disconnected':
+                        statusSpan.textContent = 'Disconnected';
+                        break;
+                    case 'error':
+                        statusSpan.textContent = 'Connection Error';
+                        break;
+                    default:
+                        statusSpan.textContent = status;
+                }
+            }
+
+            if (connectBtn) {
+                switch (status) {
+                    case 'connected':
+                        connectBtn.textContent = 'RECONNECT';
+                        break;
+                    case 'disconnected':
+                        connectBtn.textContent = 'CONNECT';
+                        break;
+                    case 'error':
+                        connectBtn.textContent = 'RETRY';
+                        break;
+                }
+            }
+
+            // Update OTOY LED status
+            if (statsManager) {
+                statsManager.updateConnectionStatus(status === 'connected');
             }
         }
 
@@ -415,7 +438,7 @@
     <div class="otoy-footer">
         <div class="otoy-status">
             <span class="status-led"></span>
-            All Systems Operational
+            <span>All Systems Ready</span>
         </div>
         <div class="otoy-copyright">
             © OTOY Inc. – 2020 All Rights Reserved. 
