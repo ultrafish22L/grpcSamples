@@ -666,18 +666,25 @@ class SimpleWebGLRenderer {
             this.camera.up
         );
         
-        // Apply rotation and zoom
-        MatrixUtils.rotateMatrix(modelViewMatrix, this.rotation.x, [1, 0, 0]);
-        MatrixUtils.rotateMatrix(modelViewMatrix, this.rotation.y, [0, 1, 0]);
-        MatrixUtils.scaleMatrix(modelViewMatrix, [this.zoom, this.zoom, this.zoom]);
+        // Update camera position based on rotation and zoom
+        const radius = 5.0 * this.zoom;
+        const x = radius * Math.sin(this.rotation.y) * Math.cos(this.rotation.x);
+        const y = radius * Math.sin(this.rotation.x);
+        const z = radius * Math.cos(this.rotation.y) * Math.cos(this.rotation.x);
         
-        // Create normal matrix
-        const normalMatrix = MatrixUtils.invertMatrix(modelViewMatrix);
-        MatrixUtils.transposeMatrix(normalMatrix);
+        const cameraPos = [x, y, z];
+        const target = [0, 0, 0];
+        const up = [0, 1, 0];
+
+        // Recreate model-view matrix with updated camera position
+        const updatedModelViewMatrix = MatrixUtils.createLookAtMatrix(cameraPos, target, up);
+        
+        // Create simple normal matrix (identity for now)
+        const normalMatrix = MatrixUtils.createIdentityMatrix();
         
         // Set uniforms
         gl.uniformMatrix4fv(this.programInfo.uniformLocations.projectionMatrix, false, this.projectionMatrix);
-        gl.uniformMatrix4fv(this.programInfo.uniformLocations.modelViewMatrix, false, modelViewMatrix);
+        gl.uniformMatrix4fv(this.programInfo.uniformLocations.modelViewMatrix, false, updatedModelViewMatrix);
         gl.uniformMatrix4fv(this.programInfo.uniformLocations.normalMatrix, false, normalMatrix);
         
         // Bind position buffer
