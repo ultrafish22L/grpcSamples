@@ -50,12 +50,13 @@ bool CameraSyncLiveLink::connectToServer(const std::string& serverAddress) {
         std::cerr << "Exception during LiveLink connection: " << e.what() << std::endl;
         return false;
     }
+    m_connected = true;
+    return true;
 }
 
 void CameraSyncLiveLink::disconnect() {
     if (m_connected) {
         std::cout << "Disconnecting from LiveLink gRPC server..." << std::endl;
-        m_stub.reset();
         m_channel.reset();
         m_connected = false;
     }
@@ -65,22 +66,21 @@ bool CameraSyncLiveLink::isConnected() const {
     return m_connected;
 }
 
-bool CameraSyncLiveLink::setCamera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up, float fov) {
+bool CameraSyncLiveLink::setCamera(const glm::vec3& pos, const glm::vec3& target, const glm::vec3& up, float fov, bool evaluate) {
     if (!m_connected || !m_stub) {
-        m_cachedPosition = position;
+        m_cachedPosition = pos;
         m_cachedTarget = target;
         m_cachedUp = up;
         if (fov > 0.0f) m_cachedFov = fov;
         return false;
     }
-
     try {
         grpc::ClientContext context;
         livelinkapi::CameraState request;
         livelinkapi::Empty response;
 
-        // Set position
-        glmToVec3(position, request.mutable_position());
+        // Set pos
+        glmToVec3(pos, request.mutable_position());
         
         // Set target
         glmToVec3(target, request.mutable_target());
@@ -97,7 +97,7 @@ bool CameraSyncLiveLink::setCamera(const glm::vec3& position, const glm::vec3& t
         bool success = status.ok();
         
         if (success) {
-            m_cachedPosition = position;
+            m_cachedPosition = pos;
             m_cachedTarget = target;
             m_cachedUp = up;
             if (fov > 0.0f) m_cachedFov = fov;
@@ -109,11 +109,12 @@ bool CameraSyncLiveLink::setCamera(const glm::vec3& position, const glm::vec3& t
         std::cerr << "Exception in setCamera: " << e.what() << std::endl;
         return false;
     }
+    return true;
 }
 
-bool CameraSyncLiveLink::setCameraPosition(const glm::vec3& position) {
+bool CameraSyncLiveLink::setCameraPosition(const glm::vec3& pos, bool evaluate) {
     if (!m_connected || !m_stub) {
-        m_cachedPosition = position;
+        m_cachedPosition = pos;
         return false;
     }
 
@@ -122,13 +123,13 @@ bool CameraSyncLiveLink::setCameraPosition(const glm::vec3& position) {
         livelinkapi::CameraState request;
         livelinkapi::Empty response;
 
-        glmToVec3(position, request.mutable_position());
+        glmToVec3(pos, request.mutable_position());
 
         auto status = m_stub->SetCamera(&context, request, &response);
         bool success = status.ok();
         
         if (success) {
-            m_cachedPosition = position;
+            m_cachedPosition = pos;
         }
         
         logGrpcStatus("SetCameraPosition", success);
@@ -137,14 +138,14 @@ bool CameraSyncLiveLink::setCameraPosition(const glm::vec3& position) {
         std::cerr << "Exception in setCameraPosition: " << e.what() << std::endl;
         return false;
     }
+    return true;
 }
 
-bool CameraSyncLiveLink::setCameraTarget(const glm::vec3& target) {
+bool CameraSyncLiveLink::setCameraTarget(const glm::vec3& target, bool evaluate) {
     if (!m_connected || !m_stub) {
         m_cachedTarget = target;
         return false;
     }
-
     try {
         grpc::ClientContext context;
         livelinkapi::CameraState request;
@@ -165,14 +166,14 @@ bool CameraSyncLiveLink::setCameraTarget(const glm::vec3& target) {
         std::cerr << "Exception in setCameraTarget: " << e.what() << std::endl;
         return false;
     }
+    return true;
 }
 
-bool CameraSyncLiveLink::setCameraUp(const glm::vec3& up) {
+bool CameraSyncLiveLink::setCameraUp(const glm::vec3& up, bool evaluate) {
     if (!m_connected || !m_stub) {
         m_cachedUp = up;
         return false;
     }
-
     try {
         grpc::ClientContext context;
         livelinkapi::CameraState request;
@@ -193,14 +194,14 @@ bool CameraSyncLiveLink::setCameraUp(const glm::vec3& up) {
         std::cerr << "Exception in setCameraUp: " << e.what() << std::endl;
         return false;
     }
+    return true;
 }
 
-bool CameraSyncLiveLink::setCameraFov(float fov) {
+bool CameraSyncLiveLink::setCameraFov(float fov, bool evaluate) {
     if (!m_connected || !m_stub) {
         m_cachedFov = fov;
         return false;
     }
-
     try {
         grpc::ClientContext context;
         livelinkapi::CameraState request;
@@ -221,17 +222,17 @@ bool CameraSyncLiveLink::setCameraFov(float fov) {
         std::cerr << "Exception in setCameraFov: " << e.what() << std::endl;
         return false;
     }
+    return true;
 }
 
-bool CameraSyncLiveLink::getCamera(glm::vec3& position, glm::vec3& target, glm::vec3& up, float& fov) {
+bool CameraSyncLiveLink::getCamera(glm::vec3& pos, glm::vec3& target, glm::vec3& up, float& fov) {
     if (!m_connected || !m_stub) {
-        position = m_cachedPosition;
+        pos = m_cachedPosition;
         target = m_cachedTarget;
         up = m_cachedUp;
         fov = m_cachedFov;
         return false;
     }
-
     try {
         grpc::ClientContext context;
         livelinkapi::Empty request;
@@ -242,10 +243,10 @@ bool CameraSyncLiveLink::getCamera(glm::vec3& position, glm::vec3& target, glm::
         
         if (success) {
             if (response.has_position()) {
-                position = vec3ToGlm(response.position());
-                m_cachedPosition = position;
+                pos = vec3ToGlm(response.position());
+                m_cachedPosition = pos;
             } else {
-                position = m_cachedPosition;
+                pos = m_cachedPosition;
             }
             
             if (response.has_target()) {
@@ -269,7 +270,7 @@ bool CameraSyncLiveLink::getCamera(glm::vec3& position, glm::vec3& target, glm::
                 fov = m_cachedFov;
             }
         } else {
-            position = m_cachedPosition;
+            pos = m_cachedPosition;
             target = m_cachedTarget;
             up = m_cachedUp;
             fov = m_cachedFov;
@@ -279,19 +280,19 @@ bool CameraSyncLiveLink::getCamera(glm::vec3& position, glm::vec3& target, glm::
         return success;
     } catch (const std::exception& e) {
         std::cerr << "Exception in getCamera: " << e.what() << std::endl;
-        position = m_cachedPosition;
+        pos = m_cachedPosition;
         target = m_cachedTarget;
         up = m_cachedUp;
         fov = m_cachedFov;
         return false;
     }
+    return true;
 }
 
 bool CameraSyncLiveLink::getMeshList(std::vector<MeshInfo>& meshes) {
     if (!m_connected || !m_stub) {
         return false;
     }
-
     try {
         grpc::ClientContext context;
         livelinkapi::Empty request;
@@ -317,13 +318,14 @@ bool CameraSyncLiveLink::getMeshList(std::vector<MeshInfo>& meshes) {
         std::cerr << "Exception in getMeshList: " << e.what() << std::endl;
         return false;
     }
+    return true;
+
 }
 
 bool CameraSyncLiveLink::getMeshData(int32_t objectHandle, MeshData& meshData) {
     if (!m_connected || !m_stub) {
         return false;
     }
-
     try {
         grpc::ClientContext context;
         livelinkapi::MeshRequest request;
@@ -370,8 +372,8 @@ bool CameraSyncLiveLink::getMeshData(int32_t objectHandle, MeshData& meshData) {
         std::cerr << "Exception in getMeshData: " << e.what() << std::endl;
         return false;
     }
+    return true;
 }
-
 void CameraSyncLiveLink::glmToVec3(const glm::vec3& glmVec, livelinkapi::Vec3* protoVec) {
     protoVec->set_x(glmVec.x);
     protoVec->set_y(glmVec.y);

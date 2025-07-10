@@ -93,12 +93,12 @@ int main() {
     
     // Set up gRPC camera sync callback
     cameraController.onCameraUpdate = [&](const glm::vec3& position, const glm::vec3& center, const glm::vec3& up) {
-        cameraSync.updateCamera(position, center, up);
+        cameraSync.setCamera(position, center, up);
     };
     
     // Set initial camera position in Octane
     glm::vec3 initialPosition = cameraController.camera.getPosition();
-    cameraSync.updateCamera(initialPosition, cameraController.camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
+    cameraSync.setCamera(initialPosition, cameraController.camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
     
     // Set initial window title
     modelManager.updateWindowTitle(window, "3D Model Viewer - gRPC Edition");
@@ -145,7 +145,7 @@ int main() {
                                                0.1f, 100.0f);
         glm::vec3 viewPos = cameraController.camera.getPosition();
         
-        cameraSync.updateCamera(viewPos, cameraController.camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
+        cameraSync.setCamera(viewPos, cameraController.camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
 
         // Render using modern renderer
         renderer.render(view, projection, viewPos, currentTime);

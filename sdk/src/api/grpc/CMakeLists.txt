@@ -52,9 +52,6 @@ target_include_directories(octane_sdk
         $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/../third_party/absl/windows/include>
 )
 
-# Set C++ standard
-target_compile_features(octane_sdk PUBLIC cxx_std_17)
-
 # Add Windows-specific compiler flags
 if(WIN32 AND MSVC)
     target_compile_options(octane_sdk PRIVATE /bigobj)

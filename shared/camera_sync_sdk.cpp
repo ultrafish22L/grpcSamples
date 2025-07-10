@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cstring>
 
-#ifdef OCTANE_SDK_ENABLED
+#ifdef DO_GRPC_SDK_ENABLED
 #include "apirender.h"
 #include "apinodesystem.h"
 #include "octaneids.h"
@@ -20,7 +20,7 @@ CameraSyncSdk::CameraSyncSdk()
     , m_lastFov(45.0f)
     , m_moduleReady(true)
     , m_moduleStarted(false)
-#ifdef OCTANE_SDK_ENABLED
+#ifdef DO_GRPC_SDK_ENABLED
     , m_renderEngine(nullptr)
     , m_cameraNode(nullptr)
 #endif
@@ -41,7 +41,7 @@ bool CameraSyncSdk::connectToServer(const std::string& serverAddress) {
     m_serverAddress = serverAddress;
     std::cout << "[SDK] Initializing Octane SDK connection..." << std::endl;
     
-#ifdef OCTANE_SDK_ENABLED
+#ifdef DO_GRPC_SDK_ENABLED
     try {
         // Note: In a real implementation, ApiRenderEngine would be a singleton
         // or obtained through a factory method. For now, we'll assume it's already initialized.
@@ -81,7 +81,7 @@ void CameraSyncSdk::initialize() {
     
     std::cout << "[SDK] Initializing camera control..." << std::endl;
     
-#ifdef OCTANE_SDK_ENABLED
+#ifdef DO_GRPC_SDK_ENABLED
     try {
         // Get the current camera node from the render engine
         m_cameraNode = ::ApiRenderEngineProxy::getRenderCameraNode();
@@ -116,11 +116,11 @@ bool CameraSyncSdk::updateCameraFromViewMatrix(const glm::mat4& viewMatrix) {
         return false;
     }
     
-    // Extract camera position, target, and up vector from view matrix
+    // Extract camera pos, target, and up vector from view matrix
     glm::mat4 cameraTransform = glm::inverse(viewMatrix);
     
-    // Extract position from the 4th column
-    glm::vec3 position = glm::vec3(cameraTransform[3]);
+    // Extract pos from the 4th column
+    glm::vec3 pos = glm::vec3(cameraTransform[3]);
     
     // Extract forward direction (negative Z axis in camera space)
     glm::vec3 forward = -glm::vec3(cameraTransform[2]);
@@ -128,10 +128,10 @@ bool CameraSyncSdk::updateCameraFromViewMatrix(const glm::mat4& viewMatrix) {
     // Extract up direction (Y axis in camera space)
     glm::vec3 up = glm::vec3(cameraTransform[1]);
     
-    // Calculate target point (position + forward direction)
-    glm::vec3 target = position + forward;
+    // Calculate target point (pos + forward direction)
+    glm::vec3 target = pos + forward;
     
-    return updateCameraLegacy(position, target, up);
+    return setCamera(pos, target, up);
 }
 
 bool CameraSyncSdk::isCameraControlAvailable() const {
@@ -142,7 +142,7 @@ void CameraSyncSdk::shutdown() {
     if (m_connected) {
         std::cout << "[SDK] Shutting down Octane SDK connection..." << std::endl;
         
-#ifdef OCTANE_SDK_ENABLED
+#ifdef DO_GRPC_SDK_ENABLED
         // Clean up SDK resources
         // Note: ApiRenderEngine is typically a singleton, so we don't delete it
         m_renderEngine = nullptr;
@@ -157,8 +157,8 @@ void CameraSyncSdk::shutdown() {
     }
 }
 
-void CameraSyncSdk::getCurrentCameraState(glm::vec3& position, glm::vec3& target, glm::vec3& up) const {
-#ifdef OCTANE_SDK_ENABLED
+void CameraSyncSdk::getCurrentCameraState(glm::vec3& pos, glm::vec3& target, glm::vec3& up) const {
+#ifdef DO_GRPC_SDK_ENABLED
     if (m_cameraAvailable && m_cameraNode) {
         try {
             // Get current camera state from SDK using pin values
@@ -167,24 +167,24 @@ void CameraSyncSdk::getCurrentCameraState(glm::vec3& position, glm::vec3& target
             m_cameraNode.getPinValue(Octane::P_TARGET, tgt);
             m_cameraNode.getPinValue(Octane::P_UP, upVec);
             
-            position = glm::vec3(pos.x, pos.y, pos.z);
+            pos = glm::vec3(pos.x, pos.y, pos.z);
             target = glm::vec3(tgt.x, tgt.y, tgt.z);
             up = glm::vec3(upVec.x, upVec.y, upVec.z);
             
         } catch (const std::exception& e) {
             std::cout << "[SDK] Exception getting camera state: " << e.what() << std::endl;
-            position = m_lastPosition;
+            pos = m_lastPosition;
             target = m_lastTarget;
             up = m_lastUp;
         }
     } else {
-        position = m_lastPosition;
+        pos = m_lastPosition;
         target = m_lastTarget;
         up = m_lastUp;
     }
 #else
     // Simulation mode - return cached values
-    position = m_lastPosition;
+    pos = m_lastPosition;
     target = m_lastTarget;
     up = m_lastUp;
 #endif
@@ -214,41 +214,52 @@ bool CameraSyncSdk::isConnected() const {
     return m_connected;
 }
 
-bool CameraSyncSdk::setCamera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up, float fov) {
-    bool result = updateCameraLegacy(position, target, up);
+bool CameraSyncSdk::setCamera(const glm::vec3& pos, const glm::vec3& target, const glm::vec3& up, float fov, bool evaluate)
+{
+    bool result = true;
+    result &= setCameraPosition(pos, false);
+    result &= setCameraTarget(target, false);
+    result &= setCameraUp(up, false);
+
     if (result && fov > 0.0f) {
         setCameraFov(fov);
+    }
+    if (!evaluate)
+    {
+#ifdef DO_GRPC_SDK_ENABLED
+        m_cameraNode.evaluate();
+#endif
     }
     return result;
 }
 
-bool CameraSyncSdk::getCamera(glm::vec3& position, glm::vec3& target, glm::vec3& up, float& fov) {
+bool CameraSyncSdk::getCamera(glm::vec3& pos, glm::vec3& target, glm::vec3& up, float& fov) {
     if (!m_initialized) {
-        position = m_lastPosition;
+        pos = m_lastPosition;
         target = m_lastTarget;
         up = m_lastUp;
         fov = m_lastFov;
         return false;
     }
 
-    getCurrentCameraState(position, target, up);
+    getCurrentCameraState(pos, target, up);
     fov = m_lastFov;
     return true;
 }
 
-bool CameraSyncSdk::setCameraPosition(const glm::vec3& position) {
+bool CameraSyncSdk::setCameraPosition(const glm::vec3& pos, bool evaluate) {
     if (!m_initialized) {
-        m_lastPosition = position;
+        m_lastPosition = pos;
         return false;
     }
 
-#ifdef OCTANE_SDK_ENABLED
+#ifdef DO_GRPC_SDK_ENABLED
     try {
-        // Set camera position via SDK using pin values
-        float_3 pos = {position.x, position.y, position.z};
+        // Set camera pos via SDK using pin values
+        float_3 pos = {pos.x, pos.y, pos.z};
         m_cameraNode.setPinValue(Octane::P_POSITION, pos);
         
-        m_lastPosition = position;
+        m_lastPosition = pos;
         logSdkStatus("SetCameraPosition", true);
         return true;
         
@@ -259,24 +270,24 @@ bool CameraSyncSdk::setCameraPosition(const glm::vec3& position) {
     }
 #else
     // Simulation mode
-    m_lastPosition = position;
-    std::cout << "[SDK] Simulation: Camera position set to (" << position.x << "," << position.y << "," << position.z << ")" << std::endl;
+    m_lastPosition = pos;
+    std::cout << "[SDK] Simulation: Camera pos set to (" << pos.x << "," << pos.y << "," << pos.z << ")" << std::endl;
     logSdkStatus("SetCameraPosition (Simulation)", true);
     return true;
 #endif
 }
 
-bool CameraSyncSdk::setCameraTarget(const glm::vec3& target) {
+bool CameraSyncSdk::setCameraTarget(const glm::vec3& target, bool evaluate) {
     if (!m_initialized) {
         m_lastTarget = target;
         return false;
     }
 
-#ifdef OCTANE_SDK_ENABLED
+#ifdef DO_GRPC_SDK_ENABLED
     try {
         // Set camera target via SDK using pin values
         float_3 tgt = {target.x, target.y, target.z};
-        m_cameraNode.setPinValue(Octane::P_TARGET, tgt);
+        m_cameraNode.setPinValue(Octane::P_TARGET, tgt, evaluate);
         
         m_lastTarget = target;
         logSdkStatus("SetCameraTarget", true);
@@ -296,13 +307,13 @@ bool CameraSyncSdk::setCameraTarget(const glm::vec3& target) {
 #endif
 }
 
-bool CameraSyncSdk::setCameraUp(const glm::vec3& up) {
+bool CameraSyncSdk::setCameraUp(const glm::vec3& up, bool evaluate) {
     if (!m_initialized) {
         m_lastUp = up;
         return false;
     }
 
-#ifdef OCTANE_SDK_ENABLED
+#ifdef DO_GRPC_SDK_ENABLED
     try {
         // Set camera up vector via SDK using pin values
         float_3 upVec = {up.x, up.y, up.z};
@@ -326,8 +337,8 @@ bool CameraSyncSdk::setCameraUp(const glm::vec3& up) {
 #endif
 }
 
-bool CameraSyncSdk::setCameraFov(float fov) {
-#ifdef OCTANE_SDK_ENABLED
+bool CameraSyncSdk::setCameraFov(float fov, bool evaluate) {
+#ifdef DO_GRPC_SDK_ENABLED
     try {
         // Set camera FOV via SDK using pin values
         m_cameraNode.setPinValue(Octane::P_FOV, fov);
@@ -350,10 +361,6 @@ bool CameraSyncSdk::setCameraFov(float fov) {
 #endif
 }
 
-void CameraSyncSdk::updateCamera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up) {
-    updateCameraLegacy(position, target, up);
-}
-
 // Helper functions
 
 void CameraSyncSdk::logSdkStatus(const std::string& operation, bool success) {
@@ -362,55 +369,4 @@ void CameraSyncSdk::logSdkStatus(const std::string& operation, bool success) {
     } else {
         std::cout << "[SDK] " << operation << " - FAILED" << std::endl;
     }
-}
-
-bool CameraSyncSdk::updateCameraLegacy(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up) {
-    if (!m_initialized) {
-        // Cache the values even if not initialized
-        m_lastPosition = position;
-        m_lastTarget = target;
-        m_lastUp = up;
-        return false;
-    }
-
-#ifdef OCTANE_SDK_ENABLED
-    try {
-        // Update all camera parameters via SDK using pin values
-        if (m_cameraNode) {
-            float_3 pos = {position.x, position.y, position.z};
-            float_3 tgt = {target.x, target.y, target.z};
-            float_3 upVec = {up.x, up.y, up.z};
-            
-            m_cameraNode.setPinValue(Octane::P_POSITION, pos);
-            m_cameraNode.setPinValue(Octane::P_TARGET, tgt);
-            m_cameraNode.setPinValue(Octane::P_UP, upVec);
-            
-            // Cache the values
-            m_lastPosition = position;
-            m_lastTarget = target;
-            m_lastUp = up;
-            
-            logSdkStatus("UpdateCameraLegacy", true);
-            return true;
-        } else {
-            logSdkStatus("UpdateCameraLegacy", false);
-            return false;
-        }
-        
-    } catch (const std::exception& e) {
-        std::cout << "[SDK] Exception in updateCameraLegacy: " << e.what() << std::endl;
-        logSdkStatus("UpdateCameraLegacy", false);
-        return false;
-    }
-#else
-    // Simulation mode
-    m_lastPosition = position;
-    m_lastTarget = target;
-    m_lastUp = up;
-    std::cout << "[SDK] Simulation: Camera updated - Pos(" << position.x << "," << position.y << "," << position.z 
-              << ") Target(" << target.x << "," << target.y << "," << target.z 
-              << ") Up(" << up.x << "," << up.y << "," << up.z << ")" << std::endl;
-    logSdkStatus("UpdateCameraLegacy (Simulation)", true);
-    return true;
-#endif
 }

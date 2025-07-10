@@ -21,14 +21,14 @@ public:
     bool isConnected() const override;
 
     // Camera operations
-    bool setCamera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up, float fov = 0.0f) override;
-    bool setCameraPosition(const glm::vec3& position) override;
-    bool setCameraTarget(const glm::vec3& target) override;
-    bool setCameraUp(const glm::vec3& up) override;
-    bool setCameraFov(float fov) override;
+    bool setCamera(const glm::vec3& pos, const glm::vec3& target, const glm::vec3& up, float fov = 0.0f, bool evaluate = true) override;
+    bool setCameraPosition(const glm::vec3& pos, bool evaluate = true) override;
+    bool setCameraTarget(const glm::vec3& target, bool evaluate = true) override;
+    bool setCameraUp(const glm::vec3& up, bool evaluate = true) override;
+    bool setCameraFov(float fov, bool evaluate = true) override;
     
     // Get camera state
-    bool getCamera(glm::vec3& position, glm::vec3& target, glm::vec3& up, float& fov) override;
+    bool getCamera(glm::vec3& pos, glm::vec3& target, glm::vec3& up, float& fov) override;
 
     // Mesh operations
     struct MeshInfo {
@@ -64,7 +64,7 @@ private:
     // Error handling
     void logGrpcStatus(const std::string& operation, bool success);
     
-    bool m_connected;
+    bool m_connected = false;
     
     // Cached values for when gRPC is disabled
     glm::vec3 m_cachedPosition;

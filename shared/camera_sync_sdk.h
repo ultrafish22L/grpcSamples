@@ -11,7 +11,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "camera_sync_base.h"
 
-#ifdef OCTANE_SDK_ENABLED
+#ifdef DO_GRPC_SDK_ENABLED
 //#include "octanegrpcwrappers.h"
 #include "apirenderengineclient.h"
 #include "apinodeinfoclient.h"
@@ -36,14 +36,13 @@ public:
     bool connectToServer(const std::string& serverAddress) override;
     void disconnect() override;
     bool isConnected() const override;
-    bool setCamera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up, float fov = 0.0f) override;
-    bool getCamera(glm::vec3& position, glm::vec3& target, glm::vec3& up, float& fov) override;
-    bool setCameraPosition(const glm::vec3& position) override;
-    bool setCameraTarget(const glm::vec3& target) override;
-    bool setCameraUp(const glm::vec3& up) override;
-    bool setCameraFov(float fov) override;
+    bool setCamera(const glm::vec3& pos, const glm::vec3& target, const glm::vec3& up, float fov = 0.0f, bool evaluate = true) override;
+    bool getCamera(glm::vec3& pos, glm::vec3& target, glm::vec3& up, float& fov) override;
+    bool setCameraPosition(const glm::vec3& pos, bool evaluate = true) override;
+    bool setCameraTarget(const glm::vec3& target, bool evaluate = true) override;
+    bool setCameraUp(const glm::vec3& up, bool evaluate = true) override;
+    bool setCameraFov(float fov, bool evaluate = true) override;
     void initialize() override;
-    void updateCamera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up) override;
     
     /**
      * @brief Update Octane camera using view matrix via direct gRPC
@@ -66,7 +65,7 @@ public:
     /**
      * @brief Get current camera state from Octane server
      */
-    void getCurrentCameraState(glm::vec3& position, glm::vec3& target, glm::vec3& up) const;
+    void getCurrentCameraState(glm::vec3& pos, glm::vec3& target, glm::vec3& up) const;
 
     // Direct gRPC interface methods
     void start(const std::string& callbackSource, const bool displayEnglish, const int secondLanguage);
@@ -81,11 +80,6 @@ private:
      */
     void logSdkStatus(const std::string& operation, bool success);
     
-    /**
-     * @brief Legacy camera update method
-     */
-    bool updateCameraLegacy(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up);
-
 private:
     bool m_initialized;
     bool m_connected;
@@ -93,7 +87,7 @@ private:
     std::string m_serverAddress;
     
     // Octane SDK objects
-#ifdef OCTANE_SDK_ENABLED
+#ifdef DO_GRPC_SDK_ENABLED
     ApiRenderEngineProxy m_renderEngine;
     ApiNodeProxy m_cameraNode;
 #endif

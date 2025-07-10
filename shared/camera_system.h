@@ -24,9 +24,9 @@ struct Camera {
     }
     
     glm::mat4 getViewMatrix() const {
-        glm::vec3 position = getPosition();
+        glm::vec3 pos = getPosition();
         glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-        return glm::lookAt(position, center, up);
+        return glm::lookAt(pos, center, up);
     }
 };
 
@@ -73,7 +73,7 @@ public:
     void processInput(GLFWwindow* window);
     
     /**
-     * Reset camera to default position
+     * Reset camera to default pos
      */
     void resetCamera();
 
@@ -136,8 +136,8 @@ inline void CameraController::resetCamera() {
 
 inline void CameraController::updateCamera() {
     if (onCameraUpdate) {
-        glm::vec3 position = camera.getPosition();
-        onCameraUpdate(position, camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
+        glm::vec3 pos = camera.getPosition();
+        onCameraUpdate(pos, camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
     }
 }
 
@@ -195,8 +195,8 @@ inline void CameraController::cursorPosCallback(GLFWwindow* window, double xpos,
         float panSensitivity = 0.005f;
         
         // Get camera's right and up vectors for proper panning
-        glm::vec3 position = g_cameraController->camera.getPosition();
-        glm::vec3 forward = glm::normalize(g_cameraController->camera.center - position);
+        glm::vec3 pos = g_cameraController->camera.getPosition();
+        glm::vec3 forward = glm::normalize(g_cameraController->camera.center - pos);
         glm::vec3 right = glm::normalize(glm::cross(forward, glm::vec3(0.0f, 1.0f, 0.0f)));
         glm::vec3 up = glm::normalize(glm::cross(right, forward));
         

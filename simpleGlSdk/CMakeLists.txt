@@ -75,7 +75,7 @@ function(configure_simpleGlSdk_target target_name)
     )
     
     # Enable SDK integration for all platforms (using stub implementation)
-    target_compile_definitions(${target_name} PRIVATE OCTANE_SDK_ENABLED)
+    target_compile_definitions(${target_name} PRIVATE DO_GRPC_SDK_ENABLED)
     
     # Set working directory for debugging in Visual Studio
     set_target_properties(${target_name} PROPERTIES

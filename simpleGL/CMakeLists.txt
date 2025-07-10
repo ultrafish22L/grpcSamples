@@ -19,7 +19,7 @@ target_include_directories(simpleGL
 # Link libraries for main executable
 target_link_libraries(simpleGL
     PUBLIC
-        shared_lib
+        shared_lib_min
 )
 
 # Set working directory for debugging in Visual Studio

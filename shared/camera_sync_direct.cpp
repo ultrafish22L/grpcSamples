@@ -67,6 +67,7 @@ bool CameraSyncDirect::connectToServer(const std::string& serverAddress) {
         std::cout << "Exception while connecting to gRPC server: " << e.what() << std::endl;
         return false;
     }
+    return true;
 }
 
 void CameraSyncDirect::initialize() {
@@ -112,7 +113,8 @@ void CameraSyncDirect::initialize() {
     }
 }
 
-bool CameraSyncDirect::updateCameraLegacy(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up) {
+bool CameraSyncDirect::updateCameraLegacy(const glm::vec3& pos, const glm::vec3& target, const glm::vec3& up) {
+
     if (!m_initialized) {
         return false;
     }
@@ -135,17 +137,17 @@ bool CameraSyncDirect::updateCameraLegacy(const glm::vec3& position, const glm::
                 m_cameraAvailable = false;
                 return false;
             }
-            // Update camera position
+            // Update camera pos
             {
                 grpc::ClientContext context;
                 octaneapi::CameraPositionRequest request;
                 google::protobuf::Empty response;
                 
-                glmToVector3(position, request.mutable_position());
+                glmToVector3(pos, request.mutable_position());
                 auto status = m_cameraStub->SetCameraPosition(&context, request, &response);
                 
                 if (!status.ok()) {
-                    std::cout << "Failed to set camera position: " << status.error_message() << std::endl;
+                    std::cout << "Failed to set camera pos: " << status.error_message() << std::endl;
                     return false;
                 }
             }
@@ -181,11 +183,11 @@ bool CameraSyncDirect::updateCameraLegacy(const glm::vec3& position, const glm::
             }
             
             // Cache the values
-            m_lastPosition = position;
+            m_lastPosition = pos;
             m_lastTarget = target;
             m_lastUp = up;
             
-            std::cout << "Camera updated via gRPC - Position(" << position.x << "," << position.y << "," << position.z << ")" 
+            std::cout << "Camera updated via gRPC - Position(" << pos.x << "," << pos.y << "," << pos.z << ")" 
                       << " Target(" << target.x << "," << target.y << "," << target.z << ")"
                       << " Up(" << up.x << "," << up.y << "," << up.z << ")" << std::endl;
             return true;
@@ -197,11 +199,12 @@ bool CameraSyncDirect::updateCameraLegacy(const glm::vec3& position, const glm::
     }
 /*
     // Simulation mode or gRPC not available
-    m_lastPosition = position;
+    m_lastPosition = pos;
     m_lastTarget = target;
     m_lastUp = up;
-    std::cout << "Simulation: Camera updated - Position(" << position.x << "," << position.y << "," << position.z << ")" << std::endl;
+    std::cout << "Simulation: Camera updated - Position(" << pos.x << "," << pos.y << "," << pos.z << ")" << std::endl;
 */
+
     return true;
 }
 
@@ -210,12 +213,12 @@ bool CameraSyncDirect::updateCameraFromViewMatrix(const glm::mat4& viewMatrix) {
         return false;
     }
     
-    // Extract camera position, target, and up vector from view matrix
+    // Extract camera pos, target, and up vector from view matrix
     // View matrix is the inverse of the camera's world transform
     glm::mat4 cameraTransform = glm::inverse(viewMatrix);
     
-    // Extract position from the 4th column
-    glm::vec3 position = glm::vec3(cameraTransform[3]);
+    // Extract pos from the 4th column
+    glm::vec3 pos = glm::vec3(cameraTransform[3]);
     
     // Extract forward direction (negative Z axis in camera space)
     glm::vec3 forward = -glm::vec3(cameraTransform[2]);
@@ -223,11 +226,11 @@ bool CameraSyncDirect::updateCameraFromViewMatrix(const glm::mat4& viewMatrix) {
     // Extract up direction (Y axis in camera space)
     glm::vec3 up = glm::vec3(cameraTransform[1]);
     
-    // Calculate target point (position + forward direction)
-    glm::vec3 target = position + forward;
+    // Calculate target point (pos + forward direction)
+    glm::vec3 target = pos + forward;
     
     // Use the existing updateCameraLegacy method
-    return updateCameraLegacy(position, target, up);
+    return updateCameraLegacy(pos, target, up);
 }
 
 bool CameraSyncDirect::isCameraControlAvailable() const {
@@ -248,10 +251,10 @@ void CameraSyncDirect::shutdown() {
     }
 }
 
-void CameraSyncDirect::getCurrentCameraState(glm::vec3& position, glm::vec3& target, glm::vec3& up) const {
+void CameraSyncDirect::getCurrentCameraState(glm::vec3& pos, glm::vec3& target, glm::vec3& up) const {
     if (m_cameraAvailable && m_cameraStub) {
         try {
-            // Get camera position
+            // Get camera pos
             {
                 grpc::ClientContext context;
                 google::protobuf::Empty request;
@@ -259,9 +262,9 @@ void CameraSyncDirect::getCurrentCameraState(glm::vec3& position, glm::vec3& tar
                 
                 auto status = m_cameraStub->GetCameraPosition(&context, request, &response);
                 if (status.ok() && response.has_position()) {
-                    position = vector3ToGlm(response.position());
+                    pos = vector3ToGlm(response.position());
                 } else {
-                    position = m_lastPosition;
+                    pos = m_lastPosition;
                 }
             }
             
@@ -295,16 +298,17 @@ void CameraSyncDirect::getCurrentCameraState(glm::vec3& position, glm::vec3& tar
         } catch (const std::exception& e) {
             std::cout << "Exception getting camera state: " << e.what() << std::endl;
             // Fallback to cached values
-            position = m_lastPosition;
+            pos = m_lastPosition;
             target = m_lastTarget;
             up = m_lastUp;
         }
     } else {
         // Fallback to cached values
-        position = m_lastPosition;
+        pos = m_lastPosition;
         target = m_lastTarget;
         up = m_lastUp;
     }
+
 }
 
 // GRPCMainInterface implementation
@@ -331,8 +335,8 @@ bool CameraSyncDirect::isConnected() const {
     return m_connected;
 }
 
-bool CameraSyncDirect::setCamera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up, float fov) {
-    bool result = updateCameraLegacy(position, target, up);
+bool CameraSyncDirect::setCamera(const glm::vec3& pos, const glm::vec3& target, const glm::vec3& up, float fov, bool evaluate) {
+    bool result = updateCameraLegacy(pos, target, up);
     if (result && fov > 0.0f) {
         m_lastFov = fov;
         // Note: FOV setting not implemented in octaneapi::CameraControl
@@ -341,17 +345,16 @@ bool CameraSyncDirect::setCamera(const glm::vec3& position, const glm::vec3& tar
     return result;
 }
 
-bool CameraSyncDirect::getCamera(glm::vec3& position, glm::vec3& target, glm::vec3& up, float& fov) {
+bool CameraSyncDirect::getCamera(glm::vec3& pos, glm::vec3& target, glm::vec3& up, float& fov) {
     if (!m_initialized) {
-        position = m_lastPosition;
+        pos = m_lastPosition;
         target = m_lastTarget;
         up = m_lastUp;
         fov = m_lastFov;
         return false;
     }
-
     try {
-        // Get camera position
+        // Get camera pos
         {
             grpc::ClientContext context;
             google::protobuf::Empty request;
@@ -359,10 +362,10 @@ bool CameraSyncDirect::getCamera(glm::vec3& position, glm::vec3& target, glm::ve
             
             auto status = m_cameraStub->GetCameraPosition(&context, request, &response);
             if (status.ok()) {
-                position = vector3ToGlm(response.position());
-                m_lastPosition = position;
+                pos = vector3ToGlm(response.position());
+                m_lastPosition = pos;
             } else {
-                position = m_lastPosition;
+                pos = m_lastPosition;
             }
         }
         
@@ -401,7 +404,7 @@ bool CameraSyncDirect::getCamera(glm::vec3& position, glm::vec3& target, glm::ve
         
     } catch (const std::exception& e) {
         std::cout << "Exception during getCamera: " << e.what() << std::endl;
-        position = m_lastPosition;
+        pos = m_lastPosition;
         target = m_lastTarget;
         up = m_lastUp;
         fov = m_lastFov;
@@ -409,22 +412,21 @@ bool CameraSyncDirect::getCamera(glm::vec3& position, glm::vec3& target, glm::ve
     }
 }
 
-bool CameraSyncDirect::setCameraPosition(const glm::vec3& position) {
+bool CameraSyncDirect::setCameraPosition(const glm::vec3& pos, bool evaluate) {
     if (!m_initialized) {
-        m_lastPosition = position;
+        m_lastPosition = pos;
         return false;
     }
-
     try {
         grpc::ClientContext context;
         octaneapi::CameraPositionRequest request;
         google::protobuf::Empty response;
         
-        glmToVector3(position, request.mutable_position());
+        glmToVector3(pos, request.mutable_position());
         auto status = m_cameraStub->SetCameraPosition(&context, request, &response);
         
         if (status.ok()) {
-            m_lastPosition = position;
+            m_lastPosition = pos;
             logGrpcStatus("SetCameraPosition", true);
             return true;
         } else {
@@ -437,7 +439,7 @@ bool CameraSyncDirect::setCameraPosition(const glm::vec3& position) {
     }
 }
 
-bool CameraSyncDirect::setCameraTarget(const glm::vec3& target) {
+bool CameraSyncDirect::setCameraTarget(const glm::vec3& target, bool evaluate) {
     if (!m_initialized) {
         m_lastTarget = target;
         return false;
@@ -465,7 +467,7 @@ bool CameraSyncDirect::setCameraTarget(const glm::vec3& target) {
     }
 }
 
-bool CameraSyncDirect::setCameraUp(const glm::vec3& up) {
+bool CameraSyncDirect::setCameraUp(const glm::vec3& up, bool evaluate) {
     if (!m_initialized) {
         m_lastUp = up;
         return false;
@@ -491,18 +493,15 @@ bool CameraSyncDirect::setCameraUp(const glm::vec3& up) {
         std::cout << "Exception in setCameraUp: " << e.what() << std::endl;
         return false;
     }
+
 }
 
-bool CameraSyncDirect::setCameraFov(float fov) {
+bool CameraSyncDirect::setCameraFov(float fov, bool evaluate) {
     // FOV setting not implemented in octaneapi::CameraControl
     // This would need to be added to the proto definition
     m_lastFov = fov;
     std::cout << "FOV setting not implemented in octaneapi::CameraControl protocol" << std::endl;
     return false;
-}
-
-void CameraSyncDirect::updateCamera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up) {
-    updateCameraLegacy(position, target, up);
 }
 
 // Helper functions

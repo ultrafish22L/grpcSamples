@@ -17,19 +17,14 @@ public:
     virtual bool isConnected() const = 0;
 
     // Basic camera operations
-    virtual bool setCamera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up, float fov = 0.0f) = 0;
-    virtual bool getCamera(glm::vec3& position, glm::vec3& target, glm::vec3& up, float& fov) = 0;
+    virtual bool setCamera(const glm::vec3& pos, const glm::vec3& target, const glm::vec3& up, float fov = 0.0f, bool evaluate = true) = 0;
+    virtual bool getCamera(glm::vec3& pos, glm::vec3& target, glm::vec3& up, float& fov) = 0;
 
     // Individual camera component setters
-    virtual bool setCameraPosition(const glm::vec3& position) = 0;
-    virtual bool setCameraTarget(const glm::vec3& target) = 0;
-    virtual bool setCameraUp(const glm::vec3& up) = 0;
-    virtual bool setCameraFov(float fov) = 0;
-
-    // Update camera from view matrix (for compatibility with existing code)
-    virtual void updateCamera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up) {
-        setCamera(position, target, up);
-    }
+    virtual bool setCameraPosition(const glm::vec3& pos, bool evaluate = true) = 0;
+    virtual bool setCameraTarget(const glm::vec3& target, bool evaluate = true) = 0;
+    virtual bool setCameraUp(const glm::vec3& up, bool evaluate = true) = 0;
+    virtual bool setCameraFov(float fov, bool evaluate = true) = 0;
 
     // Initialize (for compatibility with existing code)
     virtual void initialize() {}

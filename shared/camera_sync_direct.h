@@ -12,7 +12,6 @@
 #include "camera_sync_base.h"
 
 // Direct gRPC interface - no SDK dependencies
-
 #include <grpcpp/grpcpp.h>
 #include <grpcpp/client_context.h>
 #include <grpcpp/create_channel.h>
@@ -37,14 +36,13 @@ public:
     bool connectToServer(const std::string& serverAddress) override;
     void disconnect() override;
     bool isConnected() const override;
-    bool setCamera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up, float fov = 0.0f) override;
+    bool setCamera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up, float fov = 0.0f, bool evaluate = true) override;
     bool getCamera(glm::vec3& position, glm::vec3& target, glm::vec3& up, float& fov) override;
-    bool setCameraPosition(const glm::vec3& position) override;
-    bool setCameraTarget(const glm::vec3& target) override;
-    bool setCameraUp(const glm::vec3& up) override;
-    bool setCameraFov(float fov) override;
+    bool setCameraPosition(const glm::vec3& position, bool evaluate = true) override;
+    bool setCameraTarget(const glm::vec3& target, bool evaluate = true) override;
+    bool setCameraUp(const glm::vec3& up, bool evaluate = true) override;
+    bool setCameraFov(float fov, bool evaluate = true) override;
     void initialize() override;
-    void updateCamera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up) override;
     
     // Legacy methods for backward compatibility
     /**
@@ -90,7 +88,7 @@ private:
      */
     static void glmToVector3(const glm::vec3& glmVec, octaneapi::Vector3* protoVec);
     static glm::vec3 vector3ToGlm(const octaneapi::Vector3& protoVec);
-    
+
     /**
      * @brief Convert GLM matrix to protobuf format
      */
@@ -102,13 +100,13 @@ private:
     void logGrpcStatus(const std::string& operation, bool success);
 
 private:
+    std::shared_ptr<grpc::Channel> m_channel;
+    std::unique_ptr<octaneapi::CameraControl::Stub> m_cameraStub;
+
     bool m_initialized;
     bool m_connected;
     bool m_cameraAvailable;
     std::string m_serverAddress;
-    
-    std::shared_ptr<grpc::Channel> m_channel;
-    std::unique_ptr<octaneapi::CameraControl::Stub> m_cameraStub;
     
     // Cache for last known camera state
     glm::vec3 m_lastPosition;
