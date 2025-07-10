@@ -491,9 +491,8 @@ class GrpcTestOperations {
             this.logger.log('🔺 Getting mesh list from Octane...', 'info');
             const meshes = await client.getMeshes();
             
-            if (meshes && Array.isArray(meshes)) {
-                this.logger.log(`Retrieved ${meshes.length} meshes`, 'success');
-            } else {
+            // Note: Detailed mesh logging is handled by livelink.js logResponse method
+            if (!meshes || !Array.isArray(meshes)) {
                 this.logger.log('No mesh data received', 'warning');
             }
             
@@ -520,7 +519,18 @@ class GrpcTestOperations {
                     this.logger.log('No meshes available to retrieve', 'warning');
                     return null;
                 }
-                meshId = meshes[0].id || meshes[0].name;
+                
+                const firstMesh = meshes[0];
+                if (!firstMesh) {
+                    this.logger.log('First mesh is undefined', 'error');
+                    return null;
+                }
+                
+                meshId = firstMesh.id || firstMesh.name || firstMesh.objectHandle;
+                if (!meshId) {
+                    this.logger.log('Mesh has no valid identifier (id, name, or objectHandle)', 'error');
+                    return null;
+                }
             }
 
             this.logger.log(`🔺 Getting mesh data for: ${meshId}...`, 'info');
@@ -528,7 +538,10 @@ class GrpcTestOperations {
             
             if (mesh) {
                 this.logger.log(`Mesh retrieved: ${mesh.name || meshId}`, 'success');
-                this.logger.log(`Vertices: ${mesh.vertices || 0}, Faces: ${mesh.faces || 0}`, 'info');
+                // Calculate vertex and face counts from actual mesh data structure
+                const vertexCount = mesh.positions ? mesh.positions.length : 0;
+                const faceCount = mesh.vertsPerPoly ? mesh.vertsPerPoly.length : 0;
+                this.logger.log(`Vertices: ${vertexCount}, Faces: ${faceCount}`, 'info');
             } else {
                 this.logger.log('No mesh data received', 'warning');
             }

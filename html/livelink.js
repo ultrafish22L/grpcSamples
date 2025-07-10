@@ -754,7 +754,8 @@ class LiveLinkClient extends SimpleEventEmitter {
                         this.log(`No meshes found in scene`, {}, 'warning');
                     } else {
                         data.slice(0, 10).forEach((mesh, index) => { // Show first 10 meshes
-                            const meshInfo = `${index + 1}. ${mesh.name || mesh.id || 'Unnamed'}: ${mesh.vertices || 0} vertices, ${mesh.faces || 0} faces`;
+                            // For mesh list, we only have basic info (name, id) - no geometry data yet
+                            const meshInfo = `${index + 1}. ${mesh.name || mesh.id || 'Unnamed'} (ID: ${mesh.id || 'unknown'})`;
                             console.log(`   ${meshInfo}`);
                             this.log(`${meshInfo}`, {}, 'info');
                         });
@@ -767,21 +768,28 @@ class LiveLinkClient extends SimpleEventEmitter {
                 break;
                 
             case 'GetMesh':
-                if (data.name || data.id) {
+                if (data.name || data.positions) {
+                    // Calculate actual vertex and face counts from mesh data structure
+                    const vertexCount = data.positions ? data.positions.length : 0;
+                    const faceCount = data.vertsPerPoly ? data.vertsPerPoly.length : 0;
+                    
                     const meshInfo = {
-                        name: data.name || data.id,
-                        vertices: data.vertices || 0,
-                        faces: data.faces || 0,
-                        id: data.id
+                        name: data.name || 'Unnamed Mesh',
+                        vertices: vertexCount,
+                        faces: faceCount,
+                        hasNormals: data.normals && data.normals.length > 0,
+                        hasIndices: data.polyVertIndices && data.polyVertIndices.length > 0
                     };
                     console.log(`🔺 Octane Mesh Data:`, meshInfo);
                     
                     // Log to Activity Log
-                    this.log(`🔺 Mesh Data Retrieved:`, meshInfo, 'success');
-                    this.log(`Name: ${meshInfo.name}`, {}, 'info');
+                    this.log(`🔺 Mesh Data Retrieved: ${meshInfo.name}`, {}, 'success');
                     this.log(`Vertices: ${meshInfo.vertices}`, {}, 'info');
                     this.log(`Faces: ${meshInfo.faces}`, {}, 'info');
-                    if (meshInfo.id) this.log(`ID: ${meshInfo.id}`, {}, 'info');
+                    if (meshInfo.hasNormals) this.log(`✓ Has vertex normals`, {}, 'info');
+                    if (meshInfo.hasIndices) this.log(`✓ Has polygon indices`, {}, 'info');
+                } else {
+                    this.log(`No mesh data received`, {}, 'warning');
                 }
                 break;
                 
