@@ -130,10 +130,10 @@ body {
     margin: 0;
 }
 
-/* Ultra-Tight Controls Layout - Responsive */
+/* Ultra-Tight Controls Layout - 2 Rows */
 .controls-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     gap: 15px;
     padding: 15px 0;
     max-width: 1200px;
@@ -417,9 +417,9 @@ button, input[type="text"], input[type="url"] {
         padding: 0 15px;
     }
     
-    /* Stack controls vertically on tablet */
+    /* Keep 2 rows on tablet, just reduce spacing */
     .controls-container {
-        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
         gap: 12px;
         padding: 12px 0;
     }
@@ -488,8 +488,10 @@ button, input[type="text"], input[type="url"] {
         text-align: center;
     }
     
-    /* Mobile controls */
+    /* Mobile controls - single column stack */
     .controls-container {
+        grid-template-rows: auto auto;
+        grid-template-columns: 1fr;
         gap: 10px;
         padding: 10px 0;
     }
