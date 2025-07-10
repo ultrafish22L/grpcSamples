@@ -1,67 +1,94 @@
-# grpcSamples Repository
+# Octane gRPC Samples Repository
 
 ## Purpose
-This repository demonstrates **gRPC-Web client integration** with **Octane Render's LiveLink API**. It provides a complete web-based interface for real-time camera synchronization and mesh data exchange between web browsers and Octane Render through gRPC protocol communication.
+This repository provides comprehensive code samples and implementations for connecting to Octane Render via gRPC. It demonstrates real-time camera synchronization, 3D model loading, and web-based integration with Octane's LiveLink service. The repository serves as both a learning resource and production-ready foundation for building applications that integrate with Octane Render.
 
-The main goal is to enable **browser-based applications** to seamlessly integrate with Octane's professional 3D rendering pipeline for camera control, mesh discovery, geometry access, and real-time rendering workflows.
+The main goal is to enable both **desktop applications** (C++/OpenGL) and **browser-based applications** (HTML/JavaScript/WebGL) to seamlessly integrate with Octane's professional 3D rendering pipeline for camera control, mesh discovery, geometry access, and real-time rendering workflows.
 
 ## General Setup
-The repository implements a **proxy-based architecture** to bridge the gap between web browsers (which cannot directly communicate with gRPC servers) and Octane Render's native gRPC LiveLink service:
 
-**Web Client** (JavaScript/HTML) ↔ **HTTP Proxy Server** (Python/aiohttp) ↔ **Octane LiveLink gRPC Service**
+### Core Components
+- **C++ Applications**: Native desktop applications using OpenGL for 3D rendering with gRPC connectivity to Octane
+- **Web Applications**: Browser-based HTML/JavaScript clients using custom gRPC-Web implementation
+- **Proxy Server**: Python-based HTTP-to-gRPC proxy server for web client connectivity with comprehensive logging
+- **Shared Libraries**: Common helper libraries for file dialogs, model loading, and camera controls
+- **Build System**: Cross-platform CMake configuration supporting Windows, Linux, and macOS
 
-### Architecture Components:
-1. **HTML/JavaScript Client** - Browser-based interface with WebGL 3D rendering and LiveLink integration
-2. **HTTP-to-gRPC Proxy** - Python aiohttp server that converts HTTP/JSON requests to native gRPC calls
-3. **Octane gRPC Server** - Octane Render's LiveLink service (external dependency)
+### Architecture Patterns
+**Desktop Applications**: C++ Application ↔ gRPC ↔ Octane LiveLink Service
+**Web Applications**: JavaScript Client ↔ HTTP Proxy Server ↔ gRPC ↔ Octane LiveLink Service
 
-### Key Technologies:
-- **Frontend**: Vanilla JavaScript with WebGL, custom gRPC-Web implementation, real-time 3D rendering
-- **Proxy**: Python with aiohttp, grpcio, comprehensive CORS middleware, and protobuf handling
-- **Protocol**: HTTP/JSON for browser-to-proxy, native gRPC for proxy-to-Octane communication
-- **CORS**: Enhanced cross-origin support including X-Call-Id and gRPC-Web headers
-- **Demo Mode**: Fallback simulation when Octane is not available for development/testing
+### Key Technologies
+- **Desktop**: C++17, OpenGL 3.3+, gRPC, Protocol Buffers, CMake
+- **Web Frontend**: Vanilla JavaScript, WebGL, custom gRPC-Web implementation, real-time 3D rendering
+- **Proxy Server**: Python with aiohttp, grpcio, comprehensive CORS middleware, and enhanced logging
+- **Protocol**: HTTP/JSON for browser-to-proxy, native gRPC for all Octane communication
+- **Development**: Simulation modes and graceful degradation when Octane unavailable
 
 ## Repository Structure
 
 ```
 grpcSamples/
-├── .openhands/microagents/     # Repository documentation
-├── html/                       # Web client applications
-│   ├── grpc_test.html         # Interactive testing interface for LiveLink operations
-│   ├── web3d_octane_sync.html # Real-time 3D WebGL viewer with camera synchronization
-│   ├── livelink.js            # JavaScript client library for LiveLink protocol
-│   └── *.bat                  # Windows batch scripts for easy testing
-├── proxy/                      # HTTP-to-gRPC proxy server
-│   ├── grpc_proxy.py          # Python aiohttp server with CORS and dual routing
-│   ├── livelink_pb2.py        # Generated protobuf message classes
-│   ├── livelink_pb2_grpc.py   # Generated gRPC service stubs
-│   └── *.bat                  # Windows batch scripts for proxy management
-├── shared/                     # Protocol definitions and generated code
-│   ├── protos/definitions/    # LiveLink service protobuf definitions
-│   └── generated/             # Generated protobuf Python bindings
-├── sdk/                        # Octane SDK integration and API definitions
-├── third_party/               # External dependencies (gRPC-Web, protobuf libraries)
-├── batch/                     # Windows batch scripts for building and running
-└── README.md                  # Main repository documentation
+├── shared/                    # 🔧 Common helper libraries
+│   ├── camera_system.h        # Camera controls and input handling
+│   ├── model_loader.h         # 3D model loading (OBJ/PLY/STL)
+│   ├── file_dialog.h          # Cross-platform file dialogs
+│   └── generated/             # Generated protobuf files
+├── simpleGL/                  # 🎯 Standalone 3D model viewer
+│   └── main.cpp               # Interactive viewer with file loading
+├── simpleGlGrpc/              # 🌐 Pure gRPC network synchronization
+│   └── main.cpp               # Network-based camera sync (no SDK)
+├── simpleGlSdk/               # 🚀 Direct Octane SDK integration
+│   └── main.cpp               # Real-time SDK-based synchronization
+├── html/                      # 🌐 Web-based applications
+│   ├── livelink.js            # Custom gRPC-Web client implementation
+│   ├── grpc_test.html         # gRPC functionality testing interface
+│   ├── web3d_octane_sync.html # WebGL viewer with Octane sync
+│   └── README_LIVELINK.md     # Web client documentation
+├── proxy/                     # 🔄 HTTP-to-gRPC proxy server
+│   ├── grpc_proxy.py          # Python proxy with comprehensive logging
+│   ├── livelink_pb2.py        # Generated protobuf Python bindings
+│   └── livelink_pb2_grpc.py   # Generated gRPC Python stubs
+├── sdk/                       # 📚 Octane SDK wrapper library
+│   ├── octane*.h              # Core SDK headers
+│   ├── octanewrap*.h/.cpp     # SDK wrapper classes
+│   └── grpc-examples/         # gRPC integration examples
+├── third_party/               # 📦 External dependencies
+│   ├── grpc/                  # gRPC framework
+│   ├── protobuf/              # Protocol buffers
+│   ├── glfw/                  # Window management
+│   ├── glew/                  # OpenGL extensions
+│   └── glm/                   # Mathematics library
+├── test_models/               # 🎲 Sample 3D models for testing
+├── ORBX/                      # 🎨 Octane scene files
+└── cmake/                     # 🔨 Build system configuration
 ```
 
-### Core Components:
-- **grpc_test.html**: Interactive testing interface with comprehensive LiveLink operation testing
-- **web3d_octane_sync.html**: Real-time 3D WebGL viewer with camera synchronization and demo mode
-- **livelink.js**: JavaScript client library with event-driven architecture and error handling
-- **grpc_proxy.py**: HTTP-to-gRPC proxy server with enhanced CORS support and protobuf handling
-- **livelink.proto**: Complete service definitions for camera, mesh, and geometry operations
+### Application Types
 
-### Key Features:
-- ✅ **Camera Control** - Real-time camera position, target, up vector, and FOV synchronization
-- ✅ **Mesh Discovery** - Query available meshes in Octane scenes via GetMeshes
-- ✅ **Geometry Access** - Retrieve full mesh data including vertices, normals, and polygons via getMesh()
-- ✅ **Fixed getMesh Method** - Resolved "client.getMesh is not a function" error with proper method aliasing
-- ✅ **CORS-compliant** - Enhanced cross-origin support with X-Call-Id and gRPC-Web headers
-- ✅ **Dual URL routing** - Supports both `/LiveLinkService/` and `/livelinkapi.LiveLinkService/` patterns
-- ✅ **Error Handling** - Comprehensive error reporting with detailed debug information
-- ✅ **Demo Mode** - Fallback simulation when Octane is not available
-- ✅ **Performance Monitoring** - Real-time FPS, call statistics, and connection health tracking
-- ✅ **WebGL Integration** - 3D rendering with real-time camera synchronization
-- ✅ **Event-driven Architecture** - Asynchronous client with proper connection state management
+**Desktop Applications (C++)**:
+- `simpleGL`: Standalone 3D viewer with file loading and camera controls
+- `simpleGlGrpc`: Network-based camera synchronization without SDK dependencies
+- `simpleGlSdk`: Full SDK integration with real-time Octane synchronization
+
+**Web Applications (HTML/JavaScript)**:
+- `grpc_test.html`: gRPC connectivity testing and debugging interface
+- `web3d_octane_sync.html`: WebGL 3D viewer with live Octane synchronization
+- Custom gRPC-Web client implementation without external dependencies
+
+**Infrastructure**:
+- Python proxy server for HTTP-to-gRPC translation with comprehensive logging
+- Cross-platform build system supporting multiple development environments
+- Shared helper libraries for common functionality across applications
+
+### Key Features
+- **Real-time Camera Synchronization**: Bidirectional camera sync between applications and Octane
+- **Multi-format 3D Model Loading**: Support for OBJ, PLY, and STL file formats
+- **Cross-platform Compatibility**: Windows, Linux, and macOS support
+- **Web Integration**: Browser-based clients with custom gRPC-Web implementation
+- **Comprehensive Logging**: Detailed request/response logging with emoji indicators (📤 outgoing, 📥 incoming, ❌ errors)
+- **Development-friendly**: Simulation modes and graceful degradation when Octane unavailable
+- **Enhanced Error Handling**: Comprehensive error reporting with detailed debug information
+- **Performance Monitoring**: Real-time FPS, call statistics, and connection health tracking
+- **CORS-compliant**: Enhanced cross-origin support with X-Call-Id and gRPC-Web headers
+- **Event-driven Architecture**: Asynchronous client with proper connection state management
