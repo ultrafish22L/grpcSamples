@@ -2,24 +2,25 @@
 🚀 Starting LiveLink HTTP-to-gRPC Proxy
 🔌 Connecting to Octane gRPC server at 127.0.0.1:51022
 📤 Testing connection with GetCamera request
-❌ Failed to connect to Octane at 127.0.0.1:51022: <AioRpcError of RPC that terminated with:
-	status = StatusCode.UNAVAILABLE
-	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:51022: Failed to connect to remote host: connect: Connection refused (111)"
-	debug_error_string = "UNKNOWN:Error received from peer  {grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:51022: Failed to connect to remote host: connect: Connection refused (111)"}"
->
-⚠️  Could not connect to Octane, but starting proxy anyway (will retry)
-✅ Proxy server started on http://127.0.0.1:51023
-   Browser requests will be forwarded to Octane at 127.0.0.1:51022
-   Press Ctrl+C to stop
-🌐 HTTP Request: GetCamera from 127.0.0.1
-📤 Sending GetCamera request to Octane
-❌ GetCamera failed: <AioRpcError of RPC that terminated with:
-	status = StatusCode.UNAVAILABLE
-	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:51022: Failed to connect to remote host: connect: Connection refused (111)"
-	debug_error_string = "UNKNOWN:Error received from peer  {grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:51022: Failed to connect to remote host: connect: Connection refused (111)"}"
->
-🌐 HTTP Response: GetCamera failed - Failed to get camera: <AioRpcError of RPC that terminated with:
-	status = StatusCode.UNAVAILABLE
-	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:51022: Failed to connect to remote host: connect: Connection refused (111)"
-	debug_error_string = "UNKNOWN:Error received from peer  {grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:51022: Failed to connect to remote host: connect: Connection refused (111)"}"
->
+✅ Successfully connected to Octane LiveLink server at 127.0.0.1:51022
+📥 Initial camera state: pos=(5.06, 3.00, 8.00)
+Traceback (most recent call last):
+  File "/workspace/grpcSamples/proxy/grpc_proxy.py", line 299, in <module>
+    asyncio.run(main())
+  File "/openhands/micromamba/envs/openhands/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/openhands/micromamba/envs/openhands/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/openhands/micromamba/envs/openhands/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/workspace/grpcSamples/proxy/grpc_proxy.py", line 285, in main
+    await site.start()
+  File "/openhands/poetry/openhands-ai-5O4_aCHf-py3.12/lib/python3.12/site-packages/aiohttp/web_runner.py", line 121, in start
+    self._server = await loop.create_server(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/openhands/micromamba/envs/openhands/lib/python3.12/asyncio/base_events.py", line 1584, in create_server
+    raise OSError(err.errno, msg) from None
+OSError: [Errno 98] error while attempting to bind on address ('127.0.0.1', 51023): [errno 98] address already in use

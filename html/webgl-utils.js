@@ -1,6 +1,6 @@
 /**
  * WebGL utilities for 3D rendering
- * Contains common shaders, matrix operations, and WebGL setup functions
+ * Contains common shaders, matrix operations, WebGL setup functions, and 3D renderer
  */
 
 // Matrix operations utility
@@ -421,10 +421,454 @@ class CameraController {
     }
 }
 
+/**
+ * Simple WebGL Renderer for 3D visualization
+ * Simplified version that works with the grpc_test.html connection pattern
+ */
+class SimpleWebGLRenderer {
+    constructor(gl, logger) {
+        this.gl = gl;
+        this.logger = logger;
+        this.program = null;
+        this.buffers = {};
+        this.camera = {
+            position: [0, 0, 5],
+            target: [0, 0, 0],
+            up: [0, 1, 0],
+            fov: 45
+        };
+        this.rotation = { x: 0, y: 0 };
+        this.zoom = 1.0;
+    }
+
+    init() {
+        const gl = this.gl;
+        
+        // Simple WebGL 1.0 compatible shaders
+        const vertexShaderSource = `
+            attribute vec4 aVertexPosition;
+            attribute vec3 aVertexNormal;
+            
+            uniform mat4 uModelViewMatrix;
+            uniform mat4 uProjectionMatrix;
+            uniform mat4 uNormalMatrix;
+            
+            varying vec3 vNormal;
+            varying vec3 vPosition;
+            
+            void main() {
+                gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+                vNormal = (uNormalMatrix * vec4(aVertexNormal, 0.0)).xyz;
+                vPosition = (uModelViewMatrix * aVertexPosition).xyz;
+            }
+        `;
+        
+        const fragmentShaderSource = `
+            precision mediump float;
+            
+            varying vec3 vNormal;
+            varying vec3 vPosition;
+            
+            void main() {
+                vec3 normal = normalize(vNormal);
+                vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
+                float diff = max(dot(normal, lightDir), 0.0);
+                
+                vec3 color = vec3(0.2, 0.6, 1.0);
+                vec3 ambient = color * 0.3;
+                vec3 diffuse = color * diff * 0.7;
+                
+                gl_FragColor = vec4(ambient + diffuse, 1.0);
+            }
+        `;
+        
+        // Create shaders
+        const vertexShader = this.createShader(gl.VERTEX_SHADER, vertexShaderSource);
+        const fragmentShader = this.createShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
+        
+        // Create program
+        this.program = gl.createProgram();
+        gl.attachShader(this.program, vertexShader);
+        gl.attachShader(this.program, fragmentShader);
+        gl.linkProgram(this.program);
+        
+        if (!gl.getProgramParameter(this.program, gl.LINK_STATUS)) {
+            throw new Error('Shader program failed to link: ' + gl.getProgramInfoLog(this.program));
+        }
+        
+        // Get attribute and uniform locations
+        this.programInfo = {
+            attribLocations: {
+                vertexPosition: gl.getAttribLocation(this.program, 'aVertexPosition'),
+                vertexNormal: gl.getAttribLocation(this.program, 'aVertexNormal'),
+            },
+            uniformLocations: {
+                projectionMatrix: gl.getUniformLocation(this.program, 'uProjectionMatrix'),
+                modelViewMatrix: gl.getUniformLocation(this.program, 'uModelViewMatrix'),
+                normalMatrix: gl.getUniformLocation(this.program, 'uNormalMatrix'),
+            },
+        };
+        
+        // Create default cube geometry
+        this.createCubeGeometry();
+        
+        // Enable depth testing
+        gl.enable(gl.DEPTH_TEST);
+        gl.depthFunc(gl.LEQUAL);
+        
+        this.logger.log('WebGL renderer initialized', 'success');
+    }
+
+    createShader(type, source) {
+        const gl = this.gl;
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+            gl.deleteShader(shader);
+            throw new Error('Shader compilation error: ' + gl.getShaderInfoLog(shader));
+        }
+        
+        return shader;
+    }
+
+    createCubeGeometry() {
+        const gl = this.gl;
+        
+        // Cube vertices
+        const positions = [
+            // Front face
+            -1.0, -1.0,  1.0,
+             1.0, -1.0,  1.0,
+             1.0,  1.0,  1.0,
+            -1.0,  1.0,  1.0,
+            
+            // Back face
+            -1.0, -1.0, -1.0,
+            -1.0,  1.0, -1.0,
+             1.0,  1.0, -1.0,
+             1.0, -1.0, -1.0,
+            
+            // Top face
+            -1.0,  1.0, -1.0,
+            -1.0,  1.0,  1.0,
+             1.0,  1.0,  1.0,
+             1.0,  1.0, -1.0,
+            
+            // Bottom face
+            -1.0, -1.0, -1.0,
+             1.0, -1.0, -1.0,
+             1.0, -1.0,  1.0,
+            -1.0, -1.0,  1.0,
+            
+            // Right face
+             1.0, -1.0, -1.0,
+             1.0,  1.0, -1.0,
+             1.0,  1.0,  1.0,
+             1.0, -1.0,  1.0,
+            
+            // Left face
+            -1.0, -1.0, -1.0,
+            -1.0, -1.0,  1.0,
+            -1.0,  1.0,  1.0,
+            -1.0,  1.0, -1.0,
+        ];
+        
+        // Cube normals
+        const normals = [
+            // Front
+             0.0,  0.0,  1.0,
+             0.0,  0.0,  1.0,
+             0.0,  0.0,  1.0,
+             0.0,  0.0,  1.0,
+            
+            // Back
+             0.0,  0.0, -1.0,
+             0.0,  0.0, -1.0,
+             0.0,  0.0, -1.0,
+             0.0,  0.0, -1.0,
+            
+            // Top
+             0.0,  1.0,  0.0,
+             0.0,  1.0,  0.0,
+             0.0,  1.0,  0.0,
+             0.0,  1.0,  0.0,
+            
+            // Bottom
+             0.0, -1.0,  0.0,
+             0.0, -1.0,  0.0,
+             0.0, -1.0,  0.0,
+             0.0, -1.0,  0.0,
+            
+            // Right
+             1.0,  0.0,  0.0,
+             1.0,  0.0,  0.0,
+             1.0,  0.0,  0.0,
+             1.0,  0.0,  0.0,
+            
+            // Left
+            -1.0,  0.0,  0.0,
+            -1.0,  0.0,  0.0,
+            -1.0,  0.0,  0.0,
+            -1.0,  0.0,  0.0,
+        ];
+        
+        // Cube indices
+        const indices = [
+            0,  1,  2,      0,  2,  3,    // front
+            4,  5,  6,      4,  6,  7,    // back
+            8,  9,  10,     8,  10, 11,   // top
+            12, 13, 14,     12, 14, 15,   // bottom
+            16, 17, 18,     16, 18, 19,   // right
+            20, 21, 22,     20, 22, 23,   // left
+        ];
+        
+        // Create buffers
+        this.buffers.position = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.position);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+        
+        this.buffers.normal = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.normal);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normals), gl.STATIC_DRAW);
+        
+        this.buffers.indices = gl.createBuffer();
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buffers.indices);
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
+        
+        this.indexCount = indices.length;
+    }
+
+    updateProjection(width, height) {
+        this.projectionMatrix = MatrixUtils.createPerspectiveMatrix(
+            this.camera.fov * Math.PI / 180, 
+            width / height, 
+            0.1, 
+            100.0
+        );
+    }
+
+    render() {
+        const gl = this.gl;
+        
+        // Clear canvas
+        gl.clearColor(0.1, 0.1, 0.1, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        
+        // Use shader program
+        gl.useProgram(this.program);
+        
+        // Create model-view matrix
+        const modelViewMatrix = MatrixUtils.createLookAtMatrix(
+            this.camera.position, 
+            this.camera.target, 
+            this.camera.up
+        );
+        
+        // Apply rotation and zoom
+        MatrixUtils.rotateMatrix(modelViewMatrix, this.rotation.x, [1, 0, 0]);
+        MatrixUtils.rotateMatrix(modelViewMatrix, this.rotation.y, [0, 1, 0]);
+        MatrixUtils.scaleMatrix(modelViewMatrix, [this.zoom, this.zoom, this.zoom]);
+        
+        // Create normal matrix
+        const normalMatrix = MatrixUtils.invertMatrix(modelViewMatrix);
+        MatrixUtils.transposeMatrix(normalMatrix);
+        
+        // Set uniforms
+        gl.uniformMatrix4fv(this.programInfo.uniformLocations.projectionMatrix, false, this.projectionMatrix);
+        gl.uniformMatrix4fv(this.programInfo.uniformLocations.modelViewMatrix, false, modelViewMatrix);
+        gl.uniformMatrix4fv(this.programInfo.uniformLocations.normalMatrix, false, normalMatrix);
+        
+        // Bind position buffer
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.position);
+        gl.vertexAttribPointer(this.programInfo.attribLocations.vertexPosition, 3, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(this.programInfo.attribLocations.vertexPosition);
+        
+        // Bind normal buffer
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.normal);
+        gl.vertexAttribPointer(this.programInfo.attribLocations.vertexNormal, 3, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(this.programInfo.attribLocations.vertexNormal);
+        
+        // Bind index buffer and draw
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buffers.indices);
+        gl.drawElements(gl.TRIANGLES, this.indexCount, gl.UNSIGNED_SHORT, 0);
+    }
+
+    rotateCamera(deltaX, deltaY = 0) {
+        this.rotation.y += deltaX;
+        this.rotation.x += deltaY;
+        
+        // Clamp X rotation
+        this.rotation.x = Math.max(-Math.PI/2, Math.min(Math.PI/2, this.rotation.x));
+    }
+
+    zoomCamera(delta) {
+        this.zoom *= (1 + delta);
+        this.zoom = Math.max(0.1, Math.min(10.0, this.zoom));
+    }
+
+    resetCamera() {
+        this.camera.position = [0, 0, 5];
+        this.camera.target = [0, 0, 0];
+        this.camera.up = [0, 1, 0];
+        this.rotation = { x: 0, y: 0 };
+        this.zoom = 1.0;
+    }
+
+    getCameraState() {
+        return {
+            position: { x: this.camera.position[0], y: this.camera.position[1], z: this.camera.position[2] },
+            target: { x: this.camera.target[0], y: this.camera.target[1], z: this.camera.target[2] },
+            up: { x: this.camera.up[0], y: this.camera.up[1], z: this.camera.up[2] },
+            fov: this.camera.fov
+        };
+    }
+
+    setCameraFromOctane(cameraData) {
+        if (cameraData.position) {
+            this.camera.position = [cameraData.position.x, cameraData.position.y, cameraData.position.z];
+        }
+        if (cameraData.target) {
+            this.camera.target = [cameraData.target.x, cameraData.target.y, cameraData.target.z];
+        }
+        if (cameraData.up) {
+            this.camera.up = [cameraData.up.x, cameraData.up.y, cameraData.up.z];
+        }
+        if (cameraData.fov) {
+            this.camera.fov = cameraData.fov;
+        }
+    }
+
+    loadMeshData(meshData) {
+        // TODO: Implement mesh loading from Octane data
+        this.logger.log('Mesh loading not yet implemented', 'info');
+    }
+
+    loadModelFile(file) {
+        // TODO: Implement model file loading
+        this.logger.log('Model file loading not yet implemented', 'info');
+    }
+}
+
+/**
+ * Mouse controls utility for 3D viewers
+ */
+class MouseControls {
+    constructor(canvas, renderer, logger) {
+        this.canvas = canvas;
+        this.renderer = renderer;
+        this.logger = logger;
+        this.mouseDown = false;
+        this.lastMouseX = 0;
+        this.lastMouseY = 0;
+        
+        this.setupEventListeners();
+    }
+    
+    setupEventListeners() {
+        this.canvas.addEventListener('mousedown', (e) => {
+            this.mouseDown = true;
+            this.lastMouseX = e.clientX;
+            this.lastMouseY = e.clientY;
+        });
+
+        this.canvas.addEventListener('mouseup', () => {
+            this.mouseDown = false;
+        });
+
+        this.canvas.addEventListener('mousemove', (e) => {
+            if (this.mouseDown && this.renderer) {
+                const deltaX = e.clientX - this.lastMouseX;
+                const deltaY = e.clientY - this.lastMouseY;
+                
+                this.renderer.rotateCamera(deltaX * 0.01, deltaY * 0.01);
+                
+                this.lastMouseX = e.clientX;
+                this.lastMouseY = e.clientY;
+            }
+        });
+
+        this.canvas.addEventListener('wheel', (e) => {
+            if (this.renderer) {
+                this.renderer.zoomCamera(e.deltaY * 0.001);
+            }
+            e.preventDefault();
+        });
+    }
+}
+
+/**
+ * Camera synchronization utility
+ */
+class CameraSyncManager {
+    constructor(renderer, client, logger) {
+        this.renderer = renderer;
+        this.client = client;
+        this.logger = logger;
+        this.syncEnabled = false;
+        this.lastSyncTime = 0;
+        this.syncCount = 0;
+        this.syncRate = 0;
+    }
+    
+    enable() {
+        this.syncEnabled = true;
+        this.logger.log('Camera sync enabled', 'info');
+    }
+    
+    disable() {
+        this.syncEnabled = false;
+        this.logger.log('Camera sync disabled', 'info');
+    }
+    
+    toggle() {
+        if (this.syncEnabled) {
+            this.disable();
+        } else {
+            this.enable();
+        }
+        return this.syncEnabled;
+    }
+    
+    async syncToOctane() {
+        if (!this.syncEnabled || !this.client || !this.client.connected) {
+            return;
+        }
+        
+        const now = Date.now();
+        if (now - this.lastSyncTime < 100) return; // Limit to 10 FPS sync rate
+        
+        try {
+            if (this.renderer) {
+                const cameraState = this.renderer.getCameraState();
+                await this.client.setCamera(cameraState);
+                
+                this.syncCount++;
+                this.lastSyncTime = now;
+                
+                // Update sync rate display
+                if (this.syncCount % 10 === 0) {
+                    this.syncRate = Math.round(10000 / (now - (this.lastSyncTime - 1000)));
+                }
+            }
+        } catch (error) {
+            this.logger.log(`Camera sync error: ${error.message}`, 'error');
+        }
+    }
+    
+    getSyncRate() {
+        return this.syncEnabled ? this.syncRate : 0;
+    }
+}
+
 // Export utilities to global scope
 window.MatrixUtils = MatrixUtils;
 window.ShaderUtils = ShaderUtils;
 window.GeometryUtils = GeometryUtils;
 window.CameraController = CameraController;
+window.SimpleWebGLRenderer = SimpleWebGLRenderer;
+window.MouseControls = MouseControls;
+window.CameraSyncManager = CameraSyncManager;
 
 console.log('WebGL utilities loaded successfully');

@@ -1,0 +1,419 @@
+✅ Successfully imported gRPC protobuf modules
+🎭 Starting Mock Octane gRPC Server
+==================================================
+🎭 Initializing Mock Octane LiveLink Service
+📊 Mock server initialized with 3 mock meshes
+📷 Initial camera: pos=(5.0, 3.0, 8.0)
+🚀 Mock Octane gRPC server starting on 127.0.0.1:51022
+🎯 This server simulates Octane Render's LiveLink gRPC service
+📡 HTML applications can connect via the proxy server
+🔧 Use this for development when Octane Render is not available
+
+✅ Mock server is running and ready for connections!
+📝 Available mock meshes:
+   - Mock Cube (ID: 1001)
+   - Mock Sphere (ID: 1002)
+   - Mock Teapot (ID: 1003)
+
+Press Ctrl+C to stop the server
+==================================================
+📤 GetCamera request #1
+📥 Returning camera: pos=(5.06, 3.00, 8.00)
+📤 GetCamera request #2
+📥 Returning camera: pos=(4.97, 3.00, 8.00)
+
+📊 Mock Octane Server Statistics:
+   Uptime: 31.1s
+   GetCamera calls: 2
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146479.8188305
+📤 GetCamera request #3
+📥 Returning camera: pos=(4.95, 3.00, 8.00)
+
+📊 Mock Octane Server Statistics:
+   Uptime: 62.2s
+   GetCamera calls: 3
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146480.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 93.3s
+   GetCamera calls: 3
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146480.8188305
+📤 GetCamera request #4
+📥 Returning camera: pos=(4.94, 3.00, 8.00)
+📤 GetCamera request #5
+📥 Returning camera: pos=(5.10, 3.00, 8.00)
+
+📊 Mock Octane Server Statistics:
+   Uptime: 124.4s
+   GetCamera calls: 5
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146482.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 155.5s
+   GetCamera calls: 5
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146482.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 186.6s
+   GetCamera calls: 5
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146482.8188305
+📤 GetCamera request #6
+📥 Returning camera: pos=(4.97, 3.00, 8.00)
+
+📊 Mock Octane Server Statistics:
+   Uptime: 217.7s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 248.8s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 279.9s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 311.0s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 342.1s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 373.2s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 404.3s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 435.5s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 466.6s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 497.7s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 528.8s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 560.0s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 591.1s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 622.2s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 653.3s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 684.5s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 715.6s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 746.8s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 777.9s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 809.1s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 840.2s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 871.3s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 902.5s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 933.7s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 964.8s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 995.9s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 1027.1s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 1058.3s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 1089.4s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 1120.6s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 1151.7s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 1182.9s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 1214.0s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 1245.1s
+   GetCamera calls: 6
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146483.8188305
+📤 GetCamera request #7
+📥 Returning camera: pos=(5.01, 3.00, 8.00)
+
+📊 Mock Octane Server Statistics:
+   Uptime: 1276.3s
+   GetCamera calls: 7
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146484.8188305
+📤 GetCamera request #8
+📥 Returning camera: pos=(4.96, 3.00, 8.00)
+
+📊 Mock Octane Server Statistics:
+   Uptime: 1307.4s
+   GetCamera calls: 8
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146485.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 1338.6s
+   GetCamera calls: 8
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146485.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 1369.7s
+   GetCamera calls: 8
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146485.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 1400.9s
+   GetCamera calls: 8
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146485.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 1432.1s
+   GetCamera calls: 8
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146485.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 1463.2s
+   GetCamera calls: 8
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146485.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 1494.4s
+   GetCamera calls: 8
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146485.8188305
