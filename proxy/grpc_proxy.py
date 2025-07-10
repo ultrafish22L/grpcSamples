@@ -67,19 +67,35 @@ class LiveLinkProxy:
         except Exception as e:
             raise Exception(f"Failed to get camera: {e}")
     
-    async def set_camera(self, position, target, up):
+    async def set_camera(self, camera_data):
         """Set camera state in Octane"""
         try:
             request = livelink_pb2.CameraState()
-            request.position.x = position['x']
-            request.position.y = position['y']
-            request.position.z = position['z']
-            request.target.x = target['x']
-            request.target.y = target['y']
-            request.target.z = target['z']
-            request.up.x = up['x']
-            request.up.y = up['y']
-            request.up.z = up['z']
+            
+            # Handle position (oneof field)
+            if 'position' in camera_data:
+                pos = camera_data['position']
+                request.position.x = pos['x']
+                request.position.y = pos['y']
+                request.position.z = pos['z']
+            
+            # Handle target (oneof field)
+            if 'target' in camera_data:
+                target = camera_data['target']
+                request.target.x = target['x']
+                request.target.y = target['y']
+                request.target.z = target['z']
+            
+            # Handle up vector (oneof field)
+            if 'up' in camera_data:
+                up = camera_data['up']
+                request.up.x = up['x']
+                request.up.y = up['y']
+                request.up.z = up['z']
+            
+            # Handle field of view (oneof field)
+            if 'fov' in camera_data:
+                request.fov = camera_data['fov']
             
             response = await self.stub.SetCamera(request)
             return True
@@ -160,7 +176,7 @@ async def handle_set_camera(request):
     """Handle SetCamera requests"""
     try:
         data = await request.json()
-        await proxy.set_camera(data['position'], data['target'], data['up'])
+        await proxy.set_camera(data)
         return web.json_response({'success': True})
     except Exception as e:
         return web.json_response({'success': False, 'error': str(e)}, status=500)

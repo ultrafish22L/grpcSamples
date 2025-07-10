@@ -638,6 +638,7 @@ class LiveLinkClient extends SimpleEventEmitter {
         const request = {
             position: cameraState.position || { x: 0, y: 0, z: 5 },
             target: cameraState.target || { x: 0, y: 0, z: 0 },
+            up: cameraState.up || { x: 0, y: 1, z: 0 },
             fov: cameraState.fov || 45
         };
         return this.makeGrpcCall('SetCamera', request);
