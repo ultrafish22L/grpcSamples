@@ -29,6 +29,29 @@ class SimpleEventEmitter {
             });
         }
     }
+    
+    removeAllListeners(event) {
+        if (event) {
+            // Remove listeners for specific event
+            this.listeners.delete(event);
+        } else {
+            // Remove all listeners for all events
+            this.listeners.clear();
+        }
+    }
+    
+    removeListener(event, callback) {
+        if (this.listeners.has(event)) {
+            const callbacks = this.listeners.get(event);
+            const index = callbacks.indexOf(callback);
+            if (index > -1) {
+                callbacks.splice(index, 1);
+                if (callbacks.length === 0) {
+                    this.listeners.delete(event);
+                }
+            }
+        }
+    }
 }
 
 /**

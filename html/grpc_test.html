@@ -288,11 +288,7 @@
                 log('Setting up event handlers...', 'info');
                 
                 // Remove all existing listeners to prevent duplicates
-                if (typeof client.removeAllListeners === 'function') {
-                    client.removeAllListeners();
-                } else {
-                    console.log('removeAllListeners not available on client');
-                }
+                client.removeAllListeners();
                 
                 client.on('log', (logEntry) => {
                     // Use clean message for activity monitor, detailed console logging remains unchanged
