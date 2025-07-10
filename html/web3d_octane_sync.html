@@ -15,49 +15,31 @@
     <div class="container">
         <h1>🔗 WebGL-Octane LiveLink Sync</h1>
         
-        <!-- Controls at top in 2 rows -->
+        <!-- Ultra-Tight Controls Layout - 2 Horizontal Rows -->
         <div class="controls-container">
-            <div class="control-section">
-                <div class="section-title">Connection</div>
-                <div class="button-group">
-                    <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023" style="flex: 1; margin-right: 10px;">
-                    <button id="connectBtn" onclick="testConnection()">Connect</button>
-                    <button onclick="disconnect()">Disconnect</button>
-                </div>
+            <!-- Row 1: Connection & Debug Controls -->
+            <div class="control-row">
+                <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023">
+                <button id="connectBtn" onclick="testConnection()">Connect</button>
+                <button onclick="disconnect()">Disconnect</button>
+                <button onclick="exportDebugInfo()">Export Debug</button>
+                <button onclick="showSystemInfo()">System Info</button>
+                <button onclick="showDebugInfo()">Debug Info</button>
+                <button onclick="updateStats()">Refresh Stats</button>
+                <button onclick="clearLog()">Clear Log</button>
             </div>
             
-            <div class="control-section">
-                <div class="section-title">LiveLink Operations</div>
-                <div class="button-group">
-                    <button onclick="testGetCamera()">Get Camera</button>
-                    <button onclick="testSetCamera()">Set Camera</button>
-                    <button onclick="testGetMeshes()">Get Meshes</button>
-                    <button onclick="testGetMesh()">Get Mesh</button>
-                    <button onclick="testLoadTeapot()">Load Teapot</button>
-                    <button onclick="toggleCameraSync()">Toggle Sync</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="controls-container">
-            <div class="control-section">
-                <div class="section-title">Debug & Testing</div>
-                <div class="button-group">
-                    <button onclick="exportDebugInfo()">Export Debug</button>
-                    <button onclick="showSystemInfo()">System Info</button>
-                    <button onclick="showDebugInfo()">Debug Info</button>
-                    <button onclick="updateStats()">Refresh Stats</button>
-                    <button onclick="clearLog()">Clear Log</button>
-                </div>
-            </div>
-            
-            <div class="control-section">
-                <div class="section-title">View Controls</div>
-                <div class="button-group">
-                    <button onclick="toggleAutoRotate()">Toggle Auto-Rotate</button>
-                    <button onclick="resetCamera()">Reset Camera</button>
-                    <button onclick="loadModel()">Load Model</button>
-                </div>
+            <!-- Row 2: LiveLink & View Controls -->
+            <div class="control-row">
+                <button onclick="testGetCamera()">Get Camera</button>
+                <button onclick="testSetCamera()">Set Camera</button>
+                <button onclick="testGetMeshes()">Get Meshes</button>
+                <button onclick="testGetMesh()">Get Mesh</button>
+                <button onclick="testLoadTeapot()">Load Teapot</button>
+                <button onclick="toggleCameraSync()">Toggle Sync</button>
+                <button onclick="toggleAutoRotate()">Toggle Auto-Rotate</button>
+                <button onclick="resetCamera()">Reset Camera</button>
+                <button onclick="loadModel()">Load Model</button>
             </div>
         </div>
         
