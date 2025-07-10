@@ -8,65 +8,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔍 LiveLink gRPC Test Interface</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        /* Test-specific overrides */
-        .container {
-            grid-template-columns: 1fr;
-            grid-template-rows: auto;
-            height: auto;
-            min-height: 100vh;
-        }
-        
-        .main-content {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-    </style>
+    <title>🧪 gRPC LiveLink Test Interface</title>
+    <link rel="stylesheet" href="tropical-theme.css">
 </head>
 <body>
     <div class="container">
-        <div class="main-content">
-            <h1>🔍 LiveLink gRPC Test Interface</h1>
-            
-            <div class="test-section">
+        <h1>🧪 gRPC LiveLink Test Interface</h1>
+        
+        <!-- Controls at top in 2 rows -->
+        <div class="controls-container">
+            <div class="control-section">
                 <div class="section-title">Connection</div>
-                <div class="input-group">
-                    <input type="text" id="serverAddress" value="http://127.0.0.1:51023" placeholder="Server address">
+                <div class="button-group">
+                    <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023" style="flex: 1; margin-right: 10px;">
                     <button id="connectBtn" onclick="testConnection()">Connect</button>
                     <button onclick="disconnect()">Disconnect</button>
                 </div>
-                <div id="status" class="status-section status-disconnected">
-                    <div>Disconnected</div>
-                </div>
             </div>
-
-            <div class="test-section">
+            
+            <div class="control-section">
                 <div class="section-title">LiveLink Operations</div>
                 <div class="button-group">
                     <button onclick="testGetCamera()">Get Camera</button>
-                    <button onclick="testSetCamera()">Set Camera</button>
+                    <button onclick="testSetCamera()">Test Random Camera</button>
                     <button onclick="testGetMeshes()">Get Meshes</button>
                     <button onclick="testGetMesh()">Get Mesh</button>
+                    <button onclick="testLoadTeapot()">Load Teapot</button>
                 </div>
             </div>
-
-            <div class="test-section">
+        </div>
+        
+        <div class="controls-container">
+            <div class="control-section">
                 <div class="section-title">Debug & Testing</div>
                 <div class="button-group">
                     <button onclick="exportDebugInfo()">Export Debug</button>
                     <button onclick="showSystemInfo()">System Info</button>
                     <button onclick="showDebugInfo()">Debug Info</button>
                     <button onclick="updateStats()">Refresh Stats</button>
+                    <button onclick="clearLog()">Clear Log</button>
                 </div>
             </div>
-
-            <div class="test-section">
-                <div class="section-title">Performance Statistics</div>
+            
+            <div class="control-section">
+                <div class="section-title">Connection Status</div>
+                <div id="status" class="status-section status-disconnected">
+                    <div class="status-text">Disconnected</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats and Activity Log below -->
+        <div class="content-area">
+            <div class="stats-section glass-panel">
+                <div class="stats-title">Performance Statistics</div>
                 <div class="stats-grid">
                     <div class="stat-item">
-                        <span class="stat-label">Calls:</span>
+                        <span class="stat-label">gRPC Calls:</span>
                         <span class="stat-value" id="callCount">0</span>
                     </div>
                     <div class="stat-item">
@@ -78,7 +76,7 @@
                         <span class="stat-value" id="avgTime">0ms</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-label">Mode:</span>
+                        <span class="stat-label">Connection Mode:</span>
                         <span class="stat-value" id="mode">Unknown</span>
                     </div>
                     <div class="stat-item">
@@ -90,14 +88,11 @@
                         <span class="stat-value" id="errorCount">0</span>
                     </div>
                 </div>
-                <div class="button-group" style="margin-top: 10px;">
-                    <button onclick="clearLog()">Clear Log</button>
-                </div>
             </div>
-
-            <div class="test-section">
-                <div class="section-title">Activity Log</div>
-                <div id="log" class="log"></div>
+            
+            <div class="log-section glass-panel">
+                <div class="log-title">Activity Log</div>
+                <div id="log" class="log-container"></div>
             </div>
         </div>
     </div>
@@ -271,6 +266,12 @@
         async function testGetMesh() {
             if (grpcOperations && client) {
                 await grpcOperations.testGetMesh(client);
+            }
+        }
+
+        async function testLoadTeapot() {
+            if (grpcOperations && client) {
+                await grpcOperations.testLoadTeapot(client);
             }
         }
     </script>

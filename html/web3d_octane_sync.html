@@ -4,78 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔗 WebGL-Octane LiveLink Sync</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        /* 3D viewer specific overrides */
-        #canvas {
-            background: #1a1a2e;
-        }
-    </style>
+    <link rel="stylesheet" href="tropical-theme.css">
+
 </head>
 <body>
     <div class="container">
-        <div class="main-content">
-            <h1>🔗 WebGL-Octane LiveLink Sync</h1>
+        <h1>🔗 WebGL-Octane LiveLink Sync</h1>
+        
+        <!-- Controls at top in 2 rows -->
+        <div class="controls-container">
+            <div class="control-section">
+                <div class="section-title">Connection</div>
+                <div class="button-group">
+                    <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023" style="flex: 1; margin-right: 10px;">
+                    <button id="connectBtn">Connect</button>
+                    <button id="disconnectBtn" disabled>Disconnect</button>
+                </div>
+            </div>
             
-            <div class="viewer-container">
-                <canvas id="canvas"></canvas>
-                
-                <div class="controls">
-                    <div class="control-section">
-                        <div class="section-title">Connection</div>
-                        <div class="input-group">
-                            <input type="text" id="serverAddress" value="http://127.0.0.1:51023" placeholder="Server address">
-                            <button id="connectBtn">Connect</button>
-                            <button id="disconnectBtn" disabled>Disconnect</button>
-                        </div>
-                    </div>
-                    
-                    <div class="control-section">
-                        <div class="section-title">LiveLink Operations</div>
-                        <div class="button-group">
-                            <button id="getCameraBtn" disabled>Get Camera</button>
-                            <button id="setCameraBtn" disabled>Set Camera</button>
-                            <button id="testRandomCameraBtn" disabled>Test Random Camera</button>
-                            <button id="getMeshesBtn" disabled>Get Meshes</button>
-                            <button id="getMeshBtn" disabled>Get Mesh</button>
-                            <button id="loadTeapotBtn" disabled>Load Teapot</button>
-                            <button id="syncCameraBtn" disabled>Start Sync</button>
-                        </div>
-                    </div>
-                    
-                    <div class="control-section">
-                        <div class="section-title">Debug & Testing</div>
-                        <div class="button-group">
-                            <button id="exportDebugBtn" disabled>Export Debug</button>
-                            <button id="showSystemInfoBtn" disabled>System Info</button>
-                            <button id="showDebugInfoBtn" disabled>Debug Info</button>
-                            <button id="refreshStatsBtn" disabled>Refresh Stats</button>
-                        </div>
-                    </div>
-                    
-                    <div class="control-section">
-                        <div class="section-title">View Controls</div>
-                        <div class="button-group">
-                            <button id="autoRotateBtn">Toggle Auto-Rotate</button>
-                            <button id="resetCameraBtn">Reset Camera</button>
-                            <button id="clearLogBtn">Clear Log</button>
-                        </div>
-                    </div>
+            <div class="control-section">
+                <div class="section-title">LiveLink Operations</div>
+                <div class="button-group">
+                    <button id="getCameraBtn" disabled>Get Camera</button>
+                    <button id="setCameraBtn" disabled>Set Camera</button>
+                    <button id="testRandomCameraBtn" disabled>Test Random Camera</button>
+                    <button id="getMeshesBtn" disabled>Get Meshes</button>
+                    <button id="getMeshBtn" disabled>Get Mesh</button>
+                    <button id="loadTeapotBtn" disabled>Load Teapot</button>
                 </div>
             </div>
         </div>
-
-        <div class="sidebar">
+        
+        <div class="controls-container">
             <div class="control-section">
-                <div class="section-title">Connection Status</div>
-                <div id="connectionStatus" class="status-section status-disconnected">
-                    <div id="statusText">Disconnected</div>
+                <div class="section-title">Debug & Testing</div>
+                <div class="button-group">
+                    <button id="exportDebugBtn" disabled>Export Debug</button>
+                    <button id="showSystemInfoBtn" disabled>System Info</button>
+                    <button id="showDebugInfoBtn" disabled>Debug Info</button>
+                    <button id="refreshStatsBtn" disabled>Refresh Stats</button>
+                    <button id="syncCameraBtn" disabled>Start Sync</button>
                 </div>
             </div>
-
+            
             <div class="control-section">
-                <div class="section-title">Performance Stats</div>
-                <div class="stats-grid">
+                <div class="section-title">View Controls</div>
+                <div class="button-group">
+                    <button id="autoRotateBtn">Toggle Auto-Rotate</button>
+                    <button id="resetCameraBtn">Reset Camera</button>
+                    <button id="clearLogBtn">Clear Log</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 3D Canvas and Info Panel below -->
+        <div class="content-area">
+            <div class="canvas-container">
+                <canvas id="canvas"></canvas>
+            </div>
+            
+            <div class="info-panel">
+                <div class="status-section status-disconnected" id="statusSection">
+                    <div class="status-title">Connection Status</div>
+                    <div class="status-text" id="statusText">Disconnected</div>
+                </div>
+
+                
+                <div class="stats-section glass-panel">
+                    <div class="stats-title">Performance Statistics</div>
+                    <div class="stats-grid">
                     <div class="stat-item">
                         <span class="stat-label">FPS:</span>
                         <span class="stat-value" id="fpsValue">0</span>
@@ -100,12 +97,13 @@
                         <span class="stat-label">Errors:</span>
                         <span class="stat-value" id="errorCountValue">0</span>
                     </div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="control-section">
-                <div class="section-title">Activity Log</div>
-                <div id="activityLog" class="activity-log"></div>
+                
+                <div class="log-section glass-panel">
+                    <div class="log-title">Activity Log</div>
+                    <div class="log-container" id="logContainer"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -131,7 +129,7 @@
         class OctaneGrpcSync {
             constructor() {
                 // Initialize logging and UI utilities
-                this.logger = new ActivityLogger('activityLog');
+                this.logger = new ActivityLogger('logContainer');
                 this.performanceTracker = new PerformanceTracker();
                 this.connectionState = new EnhancedConnectionStateManager('statusText', this.logger);
                 
@@ -368,7 +366,7 @@
                     UIUtils.setButtonEnabled('showDebugInfoBtn', true);
                     UIUtils.setButtonEnabled('refreshStatsBtn', true);
                     
-                    document.getElementById('connectionStatus').className = 'status-section status-connected';
+                    document.getElementById('statusSection').className = 'status-section status-connected';
                 });
                 
                 this.connectionState.onStateChange('disconnected', () => {
@@ -387,7 +385,7 @@
                     UIUtils.setButtonEnabled('showDebugInfoBtn', false);
                     UIUtils.setButtonEnabled('refreshStatsBtn', false);
                     
-                    document.getElementById('connectionStatus').className = 'status-section status-disconnected';
+                    document.getElementById('statusSection').className = 'status-section status-disconnected';
                     
                     // Stop camera sync if active
                     if (this.cameraSync) {
@@ -396,7 +394,7 @@
                 });
                 
                 this.connectionState.onStateChange('connecting', () => {
-                    document.getElementById('connectionStatus').className = 'status-section status-connecting';
+                    document.getElementById('statusSection').className = 'status-section status-connecting';
                 });
             }
 
@@ -710,7 +708,7 @@
                 const connectBtn = document.getElementById('connectBtn');
                 const disconnectBtn = document.getElementById('disconnectBtn');
                 const statusText = document.getElementById('statusText');
-                const statusSection = document.getElementById('connectionStatus');
+                const statusSection = document.getElementById('statusSection');
                 
                 // Update button states
                 connectBtn.disabled = this.connected;
