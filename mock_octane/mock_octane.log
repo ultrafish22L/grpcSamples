@@ -1493,3 +1493,27 @@ Press Ctrl+C to stop the server
    GetMeshes calls: 0
    GetMesh calls: 0
    Total calls: 1752146491.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 5680.9s
+   GetCamera calls: 14
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146491.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 5712.3s
+   GetCamera calls: 14
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146491.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 5743.6s
+   GetCamera calls: 14
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146491.8188305
