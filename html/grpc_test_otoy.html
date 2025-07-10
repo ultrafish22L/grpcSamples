@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<!-- 
+    LiveLink gRPC-Web Test Page
+    Technical testing interface for gRPC-Web connection debugging
+    Provides detailed connection diagnostics and error handling testing
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTOY gRPC LiveLink Test Interface</title>
+    <link rel="stylesheet" href="otoy-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="otoy-branding">
+            <div class="otoy-logo"></div>
+            <h1>OTOY gRPC LiveLink Test Interface</h1>
+        </div>
+        
+        <!-- Controls at top in 2 rows -->
+        <div class="controls-container">
+            <div class="control-section">
+                <div class="section-title">Connection</div>
+                <div class="button-group">
+                    <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023" style="flex: 1; margin-right: 10px;">
+                    <button id="connectBtn" onclick="testConnection()">Connect</button>
+                    <button onclick="disconnect()">Disconnect</button>
+                </div>
+            </div>
+            
+            <div class="control-section">
+                <div class="section-title">LiveLink Operations</div>
+                <div class="button-group">
+                    <button onclick="testGetCamera()">Get Camera</button>
+                    <button onclick="testSetCamera()">Test Random Camera</button>
+                    <button onclick="testGetMeshes()">Get Meshes</button>
+                    <button onclick="testGetMesh()">Get Mesh</button>
+                    <button onclick="testLoadTeapot()">Load Teapot</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls-container">
+            <div class="control-section">
+                <div class="section-title">Debug & Testing</div>
+                <div class="button-group">
+                    <button onclick="exportDebugInfo()">Export Debug</button>
+                    <button onclick="showSystemInfo()">System Info</button>
+                    <button onclick="showDebugInfo()">Debug Info</button>
+                    <button onclick="updateStats()">Refresh Stats</button>
+                    <button onclick="clearLog()">Clear Log</button>
+                </div>
+            </div>
+            
+            <div class="control-section">
+                <div class="section-title">Connection Status</div>
+                <div id="status" class="status-section status-disconnected">
+                    <div class="status-text">Disconnected</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats and Activity Log below -->
+        <div class="content-area">
+            <div class="stats-section glass-panel">
+                <div class="stats-title">Performance Statistics</div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">gRPC Calls:</span>
+                        <span class="stat-value" id="callCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Last Response:</span>
+                        <span class="stat-value" id="lastTime">0ms</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Avg Response:</span>
+                        <span class="stat-value" id="avgTime">0ms</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Connection Mode:</span>
+                        <span class="stat-value" id="mode">Unknown</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Attempts:</span>
+                        <span class="stat-value" id="connectionAttempts">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Errors:</span>
+                        <span class="stat-value" id="errorCount">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="log-section glass-panel">
+                <div class="log-title">Activity Log</div>
+                <div id="log" class="log-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OTOY Branding -->
+    <div class="otoy-powered">Powered by OTOY</div>
+
+    <!-- Include shared utilities and LiveLink client -->
+    <script src="shared.js"></script>
+    <script src="livelink.js"></script>
+    <script>
+        /**
+         * LiveLink gRPC Test Interface
+         * Simplified testing interface using shared utilities
+         */
+        
+        // Application state
+        let client = null;
+        let logger = null;
+        let statsManager = null;
+        let grpcOperations = null;
+        let debugUtils = null;
+
+        // Initialize application when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            logger = new ActivityLogger('log');
+            statsManager = new StatsDisplayManager();
+            grpcOperations = new GrpcTestOperations(logger, statsManager);
+            debugUtils = new DebugUtils(logger);
+            
+            logger.log('🔍 LiveLink gRPC Test Interface initialized', 'info');
+        });
+
+        // Simplified utility functions using shared classes
+        function clearLog() {
+            if (logger) {
+                logger.clear();
+                logger.log('Activity log cleared', 'info');
+            }
+        }
+
+        function updateStatus(status, mode = '') {
+            const statusDiv = document.getElementById('status');
+            const connectBtn = document.getElementById('connectBtn');
+            
+            statusDiv.className = `status-section status-${status}`;
+            
+            switch (status) {
+                case 'connected':
+                    statusDiv.innerHTML = `<div>Connected${mode ? ` (${mode})` : ''}</div>`;
+                    connectBtn.textContent = 'Reconnect';
+                    break;
+                case 'disconnected':
+                    statusDiv.innerHTML = '<div>Disconnected</div>';
+                    connectBtn.textContent = 'Connect';
+                    break;
+                case 'error':
+                    statusDiv.innerHTML = '<div>Connection Error</div>';
+                    connectBtn.textContent = 'Retry';
+                    break;
+                default:
+                    statusDiv.innerHTML = `<div>${status}</div>`;
+            }
+        }
+
+        function updateStats() {
+            if (statsManager && client) {
+                statsManager.updateStats(client);
+            }
+        }
+
+        function exportDebugInfo() {
+            if (debugUtils && client) {
+                debugUtils.exportDebugInfo(client);
+            }
+        }
+
+        function showSystemInfo() {
+            if (debugUtils && client) {
+                debugUtils.showSystemInfo(client);
+            }
+        }
+
+        function showDebugInfo() {
+            if (debugUtils && client) {
+                debugUtils.showDebugInfo(client);
+            }
+        }
+
+        async function testConnection() {
+            try {
+                const serverAddress = document.getElementById('serverAddress').value;
+                logger.log('🔗 Connecting to Octane LiveLink...', 'info');
+                
+                client = liveLinkManager.getClient(serverAddress);
+                
+                // Setup event handlers
+                client.removeAllListeners();
+                
+                client.on('log', (logEntry) => {
+                    const displayMessage = logEntry.cleanMessage || logEntry.message;
+                    logger.log(displayMessage, logEntry.level);
+                });
+                
+                client.on('connected', () => {
+                    logger.log('✅ Connected to Octane LiveLink!', 'success');
+                    updateStatus('connected', 'Live');
+                    updateStats();
+                });
+                
+                client.on('disconnected', () => {
+                    logger.log('Disconnected from server', 'info');
+                    updateStatus('disconnected');
+                    updateStats();
+                });
+                
+                client.on('error', (error) => {
+                    logger.log(`❌ Connection error: ${error.message}`, 'error');
+                    updateStatus('error');
+                    updateStats();
+                });
+                
+                await client.connect();
+                
+                const stats = client.getStats();
+                if (stats.connected) {
+                    updateStatus('connected', 'Live');
+                } else {
+                    updateStatus('error');
+                }
+                updateStats();
+                
+            } catch (error) {
+                logger.log(`❌ Connection error: ${error.message}`, 'error');
+                updateStatus('disconnected');
+            }
+        }
+
+        async function disconnect() {
+            if (client) {
+                await client.disconnect();
+                logger.log('Disconnected from server', 'info');
+                updateStatus('disconnected');
+                updateStats();
+            } else {
+                logger.log('No connection to disconnect', 'warning');
+            }
+        }
+
+        async function testGetCamera() {
+            if (grpcOperations && client) {
+                await grpcOperations.testGetCamera(client);
+            }
+        }
+
+        async function testSetCamera() {
+            if (grpcOperations && client) {
+                const cameraState = {
+                    position: { x: Math.random() * 10 - 5, y: Math.random() * 10 - 5, z: 5 },
+                    target: { x: 0, y: 0, z: 0 },
+                    up: { x: 0, y: 1, z: 0 },
+                    fov: 45
+                };
+                await grpcOperations.testSetCamera(client, cameraState);
+            }
+        }
+
+        async function testGetMeshes() {
+            if (grpcOperations && client) {
+                await grpcOperations.testGetMeshes(client);
+            }
+        }
+
+        async function testGetMesh() {
+            if (grpcOperations && client) {
+                await grpcOperations.testGetMesh(client);
+            }
+        }
+
+        async function testLoadTeapot() {
+            if (grpcOperations && client) {
+                await grpcOperations.testLoadTeapot(client);
+            }
+        }
+    </script>
+</body>
+</html>
