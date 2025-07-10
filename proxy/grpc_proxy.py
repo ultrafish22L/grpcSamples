@@ -125,7 +125,7 @@ class LiveLinkProxy:
         """Get specific mesh data from Octane"""
         try:
             request = livelink_pb2.MeshRequest()
-            request.meshId = mesh_id
+            request.objecthandle = mesh_id
             
             response = await self.stub.GetMesh(request)
             
@@ -193,7 +193,7 @@ async def handle_get_mesh(request):
     """Handle GetMesh requests"""
     try:
         data = await request.json()
-        mesh_data = await proxy.get_mesh(data['meshId'])
+        mesh_data = await proxy.get_mesh(data['objecthandle'])
         return web.json_response({'success': True, 'data': mesh_data})
     except Exception as e:
         return web.json_response({'success': False, 'error': str(e)}, status=500)

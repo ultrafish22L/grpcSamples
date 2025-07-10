@@ -35,7 +35,7 @@ class SimpleEventEmitter {
  * LiveLink Client for gRPC-Web communication with Octane
  */
 class LiveLinkClient extends SimpleEventEmitter {
-    constructor(serverUrl = 'http://127.0.0.1:51022') {
+    constructor(serverUrl = 'http://127.0.0.1:51023') {
         super();
         this.serverUrl = serverUrl;
         this.connected = false;
@@ -664,8 +664,15 @@ class LiveLinkClient extends SimpleEventEmitter {
      * Get mesh data for a specific mesh
      */
     async getMeshData(meshId) {
-        const request = { meshId: meshId };
-        return this.makeGrpcCall('GetMeshData', request);
+        const request = { objecthandle: meshId };
+        return this.makeGrpcCall('GetMesh', request);
+    }
+
+    /**
+     * Get mesh data by object handle (alias for getMeshData)
+     */
+    async getMesh(meshId) {
+        return this.getMeshData(meshId);
     }
 
     /**
@@ -733,15 +740,22 @@ class LiveLinkClient extends SimpleEventEmitter {
 class LiveLinkManager {
     constructor() {
         this.client = null;
-        this.defaultServerUrl = 'http://127.0.0.1:51022';
+        this.defaultServerUrl = 'http://127.0.0.1:51023';
     }
 
     /**
      * Get or create the LiveLink client
      */
     getClient(serverUrl = null) {
-        if (!this.client) {
-            this.client = new LiveLinkClient(serverUrl || this.defaultServerUrl);
+        const targetUrl = serverUrl || this.defaultServerUrl;
+        
+        // Create new client if none exists or if server URL changed
+        if (!this.client || this.client.serverUrl !== targetUrl) {
+            if (this.client) {
+                // Disconnect old client if it exists
+                this.client.disconnect();
+            }
+            this.client = new LiveLinkClient(targetUrl);
         }
         return this.client;
     }
