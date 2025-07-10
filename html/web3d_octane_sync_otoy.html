@@ -16,7 +16,7 @@
         <!-- OTOY Branding -->
         <div class="otoy-branding">
             <img src="https://home.otoy.com/wp-content/themes/otoy/assets/images/otoy-logo-white.svg" alt="OTOY" class="otoy-logo" style="width: 40px; height: 40px;">
-            <h1>🔗 OTOY WebGL-Octane LiveLink Sync</h1>
+            <h1>🔗 Octane WebGL LiveLink Sync</h1>
         </div>
         
         <!-- Controls at top in 2 rows -->
@@ -27,6 +27,13 @@
                     <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023" style="flex: 1; margin-right: 10px;">
                     <button id="connectBtn" onclick="testConnection()">Connect</button>
                     <button onclick="disconnect()">Disconnect</button>
+                </div>
+                <div class="button-group">
+                    <button onclick="exportDebugInfo()">Export Debug</button>
+                    <button onclick="showSystemInfo()">System Info</button>
+                    <button onclick="showDebugInfo()">Debug Info</button>
+                    <button onclick="refreshStats()">Refresh Stats</button>
+                    <button onclick="clearLog()">Clear Log</button>
                 </div>
             </div>
             
@@ -40,23 +47,6 @@
                     <button onclick="testLoadTeapot()">Load Teapot</button>
                     <button onclick="toggleCameraSync()">Toggle Sync</button>
                 </div>
-            </div>
-        </div>
-        
-        <div class="controls-container">
-            <div class="control-section">
-                <div class="section-title">Debug & Testing</div>
-                <div class="button-group">
-                    <button onclick="exportDebugInfo()">Export Debug</button>
-                    <button onclick="showSystemInfo()">System Info</button>
-                    <button onclick="showDebugInfo()">Debug Info</button>
-                    <button onclick="updateStats()">Refresh Stats</button>
-                    <button onclick="clearLog()">Clear Log</button>
-                </div>
-            </div>
-            
-            <div class="control-section">
-                <div class="section-title">View Controls</div>
                 <div class="button-group">
                     <button onclick="toggleAutoRotate()">Toggle Auto-Rotate</button>
                     <button onclick="resetCamera()">Reset Camera</button>
@@ -64,6 +54,8 @@
                 </div>
             </div>
         </div>
+        
+
         
         <!-- 3D Canvas and Info Panel below -->
         <div class="content-area">
@@ -452,11 +444,30 @@
 
     </script>
     
+    <!-- Status Footer -->
+    <div class="status-footer">
+        <div class="footer-stats">
+            <span>Status: <span id="connectionStatus" class="status-indicator">Disconnected</span></span>
+            <span>FPS: <span id="fps">0</span></span>
+            <span>Frame: <span id="frameTime">0ms</span></span>
+            <span>Calls: <span id="callCount">0</span></span>
+            <span>Response: <span id="lastTime">0ms</span></span>
+            <span>Sync: <span id="syncRate">0/s</span></span>
+            <span>Errors: <span id="errorCount">0</span></span>
+        </div>
+    </div>
+
     <!-- OTOY Footer -->
     <div class="otoy-footer">
-        Powered by <a href="https://otoy.com" target="_blank">OTOY</a> | 
-        <a href="https://home.otoy.com/render/octane-render/" target="_blank">OctaneRender</a> | 
-        <a href="https://home.otoy.com/render/octane-render/octane-render-cloud/" target="_blank">Octane Cloud</a>
+        <div class="otoy-status">
+            <span class="status-led"></span>
+            All Systems Operational
+        </div>
+        <div class="otoy-copyright">
+            © OTOY Inc. – 2020 All Rights Reserved. 
+            <a href="https://otoy.com/terms" target="_blank">Terms & Conditions</a> | 
+            <a href="https://otoy.com/privacy" target="_blank">OTOY Privacy Policy</a>
+        </div>
     </div>
 
 </body>

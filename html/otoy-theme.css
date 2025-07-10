@@ -131,14 +131,71 @@ h1::before {
     transform: scale(1.1);
 }
 
+/* Status Footer */
+.status-footer {
+    background: var(--octane-medium);
+    border-top: 1px solid var(--panel-border);
+    padding: 10px 20px;
+    margin-top: 20px;
+}
+
+.footer-stats {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-size: 0.85rem;
+    color: var(--octane-text-secondary);
+}
+
+.footer-stats span {
+    white-space: nowrap;
+}
+
+.status-indicator {
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: var(--octane-dark);
+}
+
 /* OTOY Footer Branding */
 .otoy-footer {
+    background: var(--octane-dark);
+    border-top: 2px solid var(--otoy-red);
+    padding: 15px 20px;
     text-align: center;
-    margin-top: 30px;
-    padding: 20px;
-    border-top: 1px solid var(--panel-border);
+    font-size: 0.8rem;
     color: var(--octane-text-muted);
-    font-size: 0.9rem;
+}
+
+.otoy-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    color: var(--accent-green);
+    font-weight: 500;
+}
+
+.status-led {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-green);
+    box-shadow: 0 0 8px var(--accent-green);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.otoy-copyright {
+    color: var(--octane-text-muted);
+    font-size: 0.75rem;
 }
 
 .otoy-footer a {
