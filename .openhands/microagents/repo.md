@@ -92,3 +92,5 @@ grpcSamples/
 - **Performance Monitoring**: Real-time FPS, call statistics, and connection health tracking
 - **CORS-compliant**: Enhanced cross-origin support with X-Call-Id and gRPC-Web headers
 - **Event-driven Architecture**: Asynchronous client with proper connection state management
+- **Activity Log System**: Complete detailed operation logging in HTML applications with timestamps and emoji indicators
+- **Zero External Dependencies**: Custom gRPC-Web implementation without CDN libraries or generated protobuf files
