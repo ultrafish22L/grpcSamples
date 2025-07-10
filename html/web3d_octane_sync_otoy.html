@@ -243,9 +243,15 @@
                 }
             }
 
-            // Update OTOY LED status
+            // Update OTOY LED status - detect proxy availability from error type
             if (statsManager) {
-                statsManager.updateConnectionStatus(status === 'connected');
+                const isProxyError = client && client.lastError && 
+                    (client.lastError.message.includes('fetch') || 
+                     client.lastError.message.includes('ERR_CONNECTION_REFUSED') ||
+                     client.lastError.message.includes('ERR_NETWORK_CHANGED'));
+                
+                const proxyAvailable = status !== 'error' || !isProxyError;
+                statsManager.updateConnectionStatus(status === 'connected', proxyAvailable);
             }
         }
 
@@ -330,7 +336,7 @@
                 
             } catch (error) {
                 logger.log(`❌ Connection error: ${error.message}`, 'error');
-                updateStatus('disconnected');
+                updateStatus('error');
             }
         }
 

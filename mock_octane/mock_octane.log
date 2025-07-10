@@ -1063,3 +1063,87 @@ Press Ctrl+C to stop the server
    GetMeshes calls: 0
    GetMesh calls: 0
    Total calls: 1752146488.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 4022.4s
+   GetCamera calls: 11
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146488.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 4053.7s
+   GetCamera calls: 11
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146488.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 4084.9s
+   GetCamera calls: 11
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146488.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 4116.2s
+   GetCamera calls: 11
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146488.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 4147.5s
+   GetCamera calls: 11
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146488.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 4178.7s
+   GetCamera calls: 11
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146488.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 4210.0s
+   GetCamera calls: 11
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146488.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 4241.2s
+   GetCamera calls: 11
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146488.8188305
+
+📊 Mock Octane Server Statistics:
+   Uptime: 4272.5s
+   GetCamera calls: 11
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146488.8188305
+📤 GetCamera request #12
+📥 Returning camera: pos=(4.92, 3.00, 8.00)
+📤 GetCamera request #13
+📥 Returning camera: pos=(4.90, 3.00, 8.00)
+
+📊 Mock Octane Server Statistics:
+   Uptime: 4303.8s
+   GetCamera calls: 13
+   SetCamera calls: 0
+   GetMeshes calls: 0
+   GetMesh calls: 0
+   Total calls: 1752146490.8188305

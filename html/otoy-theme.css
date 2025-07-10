@@ -324,8 +324,8 @@ canvas {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--otoy-orange);
-    box-shadow: 0 0 6px var(--otoy-orange);
+    background: #f1c40f;
+    box-shadow: 0 0 6px #f1c40f;
     animation: pulse 2s infinite;
 }
 

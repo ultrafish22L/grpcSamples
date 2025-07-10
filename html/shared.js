@@ -380,20 +380,24 @@ class StatsDisplayManager {
         };
     }
 
-    updateConnectionStatus(connected) {
+    updateConnectionStatus(connected, proxyAvailable = true) {
         // Update OTOY status LED and text
         const statusText = document.querySelector('.otoy-status span:not(.status-led)');
         const statusLed = document.querySelector('.status-led');
         
         if (statusText && statusLed) {
-            if (connected) {
+            if (!proxyAvailable) {
+                statusText.textContent = 'All Systems Waiting';
+                statusLed.style.background = '#e74c3c';
+                statusLed.style.boxShadow = '0 0 6px #e74c3c';
+            } else if (connected) {
                 statusText.textContent = 'All Systems Operational';
                 statusLed.style.background = '#2ecc71';
                 statusLed.style.boxShadow = '0 0 6px #2ecc71';
             } else {
                 statusText.textContent = 'All Systems Ready';
-                statusLed.style.background = '#f39c12';
-                statusLed.style.boxShadow = '0 0 6px #f39c12';
+                statusLed.style.background = '#f1c40f';
+                statusLed.style.boxShadow = '0 0 6px #f1c40f';
             }
         }
     }
