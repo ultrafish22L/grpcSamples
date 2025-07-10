@@ -121,15 +121,14 @@ class LiveLinkProxy:
             meshes = []
             for mesh in response.meshes:
                 meshes.append({
-                    'id': mesh.name,
+                    'id': mesh.id,
                     'name': mesh.name,
-                    'vertices': len(mesh.positions) if hasattr(mesh, 'positions') else 0,
-                    'faces': len(mesh.polyVertIndices) // 3 if hasattr(mesh, 'polyVertIndices') else 0
+                    'objectHandle': mesh.objectHandle
                 })
             
             print(f"📥 Received GetMeshes response from Octane: {len(meshes)} meshes found")
             for mesh in meshes:
-                print(f"   - {mesh['name']}: {mesh['vertices']} vertices, {mesh['faces']} faces")
+                print(f"   - {mesh['name']} (ID: {mesh['id']}, Handle: {mesh['objectHandle']})")
             return meshes
         except Exception as e:
             print(f"❌ GetMeshes failed: {e}")
@@ -144,13 +143,30 @@ class LiveLinkProxy:
             print(f"📤 Sending GetMesh request to Octane: objecthandle='{mesh_id}'")
             response = await self.stub.GetMesh(request)
             
+            # Convert protobuf Vec3 objects to simple dictionaries
+            positions = []
+            if hasattr(response, 'positions'):
+                for pos in response.positions:
+                    positions.append({'x': pos.x, 'y': pos.y, 'z': pos.z})
+            
+            normals = []
+            if hasattr(response, 'normals'):
+                for norm in response.normals:
+                    normals.append({'x': norm.x, 'y': norm.y, 'z': norm.z})
+            
             mesh_data = {
-                'id': mesh_id,
                 'name': response.name,
-                'vertices': len(response.positions) if hasattr(response, 'positions') else 0,
-                'faces': len(response.polyVertIndices) // 3 if hasattr(response, 'polyVertIndices') else 0
+                'positions': positions,
+                'normals': normals,
+                'vertsPerPoly': list(response.vertsPerPoly) if hasattr(response, 'vertsPerPoly') else [],
+                'polyVertIndices': list(response.polyVertIndices) if hasattr(response, 'polyVertIndices') else [],
+                'polyNormalIndices': list(response.polyNormalIndices) if hasattr(response, 'polyNormalIndices') else [],
+                'windingOrder': response.windingOrder if hasattr(response, 'windingOrder') else 0
             }
-            print(f"📥 Received GetMesh response from Octane: name='{response.name}', {mesh_data['vertices']} vertices, {mesh_data['faces']} faces")
+            
+            vertex_count = len(positions)
+            face_count = len(mesh_data['vertsPerPoly'])
+            print(f"📥 Received GetMesh response from Octane: name='{response.name}', {vertex_count} vertices, {face_count} faces")
             return mesh_data
         except Exception as e:
             print(f"❌ GetMesh failed for '{mesh_id}': {e}")

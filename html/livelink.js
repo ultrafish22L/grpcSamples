@@ -685,7 +685,8 @@ class LiveLinkClient extends SimpleEventEmitter {
             up: cameraState.up || { x: 0, y: 1, z: 0 },
             fov: cameraState.fov || 45
         };
-        return this.makeGrpcCall('SetCamera', request);
+        const result = await this.makeGrpcCall('SetCamera', request);
+        return result && result.success ? result.data : null;
     }
 
     /**
@@ -693,7 +694,8 @@ class LiveLinkClient extends SimpleEventEmitter {
      */
     async getCamera() {
         const request = {};
-        return this.makeGrpcCall('GetCamera', request);
+        const result = await this.makeGrpcCall('GetCamera', request);
+        return result && result.success ? result.data : null;
     }
 
     /**
@@ -701,7 +703,8 @@ class LiveLinkClient extends SimpleEventEmitter {
      */
     async getMeshes() {
         const request = {};
-        return this.makeGrpcCall('GetMeshes', request);
+        const result = await this.makeGrpcCall('GetMeshes', request);
+        return result && result.success ? result.data : null;
     }
 
     /**
@@ -709,7 +712,8 @@ class LiveLinkClient extends SimpleEventEmitter {
      */
     async getMeshData(meshId) {
         const request = { objecthandle: meshId };
-        return this.makeGrpcCall('GetMesh', request);
+        const result = await this.makeGrpcCall('GetMesh', request);
+        return result && result.success ? result.data : null;
     }
 
     /**
