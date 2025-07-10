@@ -130,10 +130,10 @@ body {
     margin: 0;
 }
 
-/* Ultra-Tight Controls Layout - 2 Rows */
+/* Ultra-Tight Controls Layout - 2 Horizontal Rows */
 .controls-container {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 15px;
     padding: 15px 0;
     max-width: 1200px;
@@ -141,12 +141,27 @@ body {
     flex-shrink: 0; /* Don't shrink controls */
 }
 
-.control-section {
+.control-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
     background: var(--otoy-bg-panel);
     border: 1px solid var(--border-subtle);
     border-radius: 6px;
     padding: 12px;
     box-shadow: var(--panel-shadow);
+}
+
+.control-row input[type="text"] {
+    flex: 0 0 200px;
+    margin-right: 10px;
+}
+
+.control-row button {
+    flex: 0 0 auto;
+    min-width: 80px;
 }
 
 .section-title {
@@ -419,9 +434,13 @@ button, input[type="text"], input[type="url"] {
     
     /* Keep 2 rows on tablet, just reduce spacing */
     .controls-container {
-        grid-template-rows: 1fr 1fr;
         gap: 12px;
         padding: 12px 0;
+    }
+    
+    .control-row {
+        gap: 8px;
+        padding: 10px;
     }
     
     /* Adjust content area for tablet */
@@ -490,10 +509,25 @@ button, input[type="text"], input[type="url"] {
     
     /* Mobile controls - single column stack */
     .controls-container {
-        grid-template-rows: auto auto;
-        grid-template-columns: 1fr;
         gap: 10px;
         padding: 10px 0;
+    }
+    
+    .control-row {
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px;
+    }
+    
+    .control-row input[type="text"] {
+        flex: 1;
+        margin-right: 0;
+        margin-bottom: 8px;
+    }
+    
+    .control-row button {
+        flex: 1;
+        min-width: auto;
     }
     
     .control-section {

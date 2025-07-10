@@ -19,35 +19,27 @@
             <h1>🧪 Octane LiveLink Test Interface</h1>
         </div>
         
-        <!-- Ultra-Tight Controls Layout -->
+        <!-- Ultra-Tight Controls Layout - 2 Horizontal Rows -->
         <div class="controls-container">
-            <div class="control-section">
-                <div class="section-title">Connection & Debug</div>
-                <div class="button-group">
-                    <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023">
-                    <button id="connectBtn" onclick="testConnection()">Connect</button>
-                    <button onclick="disconnect()">Disconnect</button>
-                    <button onclick="exportDebugInfo()">Export</button>
-                </div>
-                <div class="button-group">
-                    <button onclick="showSystemInfo()">System</button>
-                    <button onclick="showDebugInfo()">Debug</button>
-                    <button onclick="refreshStats()">Stats</button>
-                    <button onclick="clearLog()">Clear</button>
-                </div>
+            <!-- Row 1: Connection & Debug Controls -->
+            <div class="control-row">
+                <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023">
+                <button id="connectBtn" onclick="testConnection()">Connect</button>
+                <button onclick="disconnect()">Disconnect</button>
+                <button onclick="exportDebugInfo()">Export</button>
+                <button onclick="showSystemInfo()">System</button>
+                <button onclick="showDebugInfo()">Debug</button>
+                <button onclick="refreshStats()">Stats</button>
+                <button onclick="clearLog()">Clear</button>
             </div>
             
-            <div class="control-section">
-                <div class="section-title">LiveLink Operations</div>
-                <div class="button-group">
-                    <button onclick="testGetCamera()">Get Camera</button>
-                    <button onclick="testSetCamera()">Set Camera</button>
-                    <button onclick="testGetMeshes()">Get Meshes</button>
-                    <button onclick="testGetMesh()">Get Mesh</button>
-                </div>
-                <div class="button-group">
-                    <button onclick="testLoadTeapot()">Load Teapot</button>
-                </div>
+            <!-- Row 2: LiveLink Operations -->
+            <div class="control-row">
+                <button onclick="testGetCamera()">Get Camera</button>
+                <button onclick="testSetCamera()">Set Camera</button>
+                <button onclick="testGetMeshes()">Get Meshes</button>
+                <button onclick="testGetMesh()">Get Mesh</button>
+                <button onclick="testLoadTeapot()">Load Teapot</button>
             </div>
         </div>
         
