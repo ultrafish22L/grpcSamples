@@ -42,8 +42,13 @@ grpcSamples/
 │   └── main.cpp               # Real-time SDK-based synchronization
 ├── html/                      # 🌐 Web-based applications
 │   ├── livelink.js            # Custom gRPC-Web client implementation
+│   ├── shared.js              # Common utilities and helper functions
+│   ├── webgl-utils.js         # WebGL rendering and 3D utilities
 │   ├── grpc_test.html         # gRPC functionality testing interface
-│   ├── web3d_octane_sync.html # WebGL viewer with Octane sync
+│   ├── web3d_octane_sync.html # WebGL viewer with Octane sync (REWRITTEN)
+│   ├── grpc_test_otoy.html    # OTOY-branded testing interface
+│   ├── web3d_octane_sync_otoy.html # OTOY-branded 3D viewer
+│   ├── otoy-theme.css         # Professional OTOY branding and styling
 │   └── README_LIVELINK.md     # Web client documentation
 ├── proxy/                     # 🔄 HTTP-to-gRPC proxy server
 │   ├── grpc_proxy.py          # Python proxy with comprehensive logging
@@ -73,8 +78,11 @@ grpcSamples/
 
 **Web Applications (HTML/JavaScript)**:
 - `grpc_test.html`: gRPC connectivity testing and debugging interface
-- `web3d_octane_sync.html`: WebGL 3D viewer with live Octane synchronization
+- `web3d_octane_sync.html`: WebGL 3D viewer with live Octane synchronization (COMPLETELY REWRITTEN)
+- `grpc_test_otoy.html`: Professional OTOY-branded testing interface
+- `web3d_octane_sync_otoy.html`: Professional OTOY-branded 3D viewer with WebGL
 - Custom gRPC-Web client implementation without external dependencies
+- Shared utility libraries for common functionality across all web applications
 
 **Infrastructure**:
 - Python proxy server for HTTP-to-gRPC translation with comprehensive logging
@@ -94,3 +102,16 @@ grpcSamples/
 - **Event-driven Architecture**: Asynchronous client with proper connection state management
 - **Activity Log System**: Complete detailed operation logging in HTML applications with timestamps and emoji indicators
 - **Zero External Dependencies**: Custom gRPC-Web implementation without CDN libraries or generated protobuf files
+- **Professional OTOY Branding**: OTOY-themed versions with professional dark UI matching Octane UX standards
+- **Shared Code Architecture**: Common utilities and WebGL classes to eliminate code duplication
+- **WebGL 1.0 Compatibility**: Enhanced 3D rendering with backward compatibility for older browsers
+- **Modular Design**: Separate utility files for shared functionality across all web applications
+
+### Recent Major Updates (2025)
+- **✅ COMPLETE REWRITE**: `web3d_octane_sync.html` completely rewritten using working `grpc_test.html` patterns
+- **✅ FIXED CONNECTION ISSUES**: Replaced failing ConnectionManager with proven direct client approach
+- **✅ ENHANCED SHARED CODE**: Created `webgl-utils.js` with WebGL 1.0 compatible rendering classes
+- **✅ OTOY PROFESSIONAL BRANDING**: Added OTOY-themed versions with live logo links and professional styling
+- **✅ LAYOUT OPTIMIZATION**: Reorganized UI with debug controls in connection section, stats in footer
+- **✅ WORKING 3D RENDERING**: Fixed WebGL shaders, added complete cube geometry and mouse controls
+- **✅ PROFESSIONAL UX**: Applied OTOY.com styling with red accents, dark panels, and pulsing status LED
