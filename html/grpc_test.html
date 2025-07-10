@@ -276,6 +276,13 @@
                     updateStats();
                 });
                 
+                client.on('connected', () => {
+                    console.log('Connected event fired');
+                    log('✅ Connected to live Octane server!', 'success');
+                    updateStatus('connected', 'Live');
+                    updateStats();
+                });
+                
                 client.on('disconnected', () => {
                     console.log('Disconnected event fired');
                     log('Disconnected from server', 'info');
@@ -296,7 +303,12 @@
                         analysis: error.analysis || 'No analysis available'
                     };
                     log(`❌ Connection error: ${error.message}`, 'error', errorDetails);
-                    updateStatus('error');
+                    
+                    // Only update status to error if we're not already connected
+                    const stats = client.getStats();
+                    if (!stats.connected) {
+                        updateStatus('error');
+                    }
                     updateStats();
                 });
                 

@@ -412,9 +412,10 @@ class LiveLinkClient extends SimpleEventEmitter {
                         // Still resolve as server is reachable
                         resolve();
                     } else if (response.status >= 500) {
-                        this.log('Server error response - server reachable but has internal error', responseDetails, 'warn');
-                        // Still resolve as server is reachable
-                        resolve();
+                        this.log('Server error response - server reachable but has internal error', responseDetails, 'error');
+                        // 500 errors indicate proxy can't connect to Octane - treat as connection failure
+                        const error = new Error(`Server error: ${response.status} ${response.statusText} - Octane may not be running`);
+                        reject(error);
                     } else {
                         this.log('Unexpected response status', responseDetails, 'warn');
                         resolve();
@@ -487,7 +488,11 @@ class LiveLinkClient extends SimpleEventEmitter {
         return {
             callCount: this.callCount,
             avgResponseTime: this.avgResponseTime,
-            lastCallTime: this.lastCallTime
+            lastCallTime: this.lastCallTime,
+            connected: this.connected,
+            connectionState: this.connectionState,
+            connectionAttempts: this.connectionAttempts,
+            errorCount: this.errorCount
         };
     }
 
