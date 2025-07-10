@@ -469,8 +469,9 @@
                 return;
             }
             
+            const meshId = 1001; // Test with demo mesh handle
+            
             try {
-                const meshId = 1001; // Test with demo mesh handle
                 log(`Getting mesh data for handle: ${meshId}`, 'info');
                 
                 const mesh = await client.getMesh(meshId);
