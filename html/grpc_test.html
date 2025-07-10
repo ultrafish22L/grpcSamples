@@ -161,15 +161,19 @@
             const logEntry = document.createElement('div');
             logEntry.className = type;
             
+            // Check if message already has a timestamp to avoid duplication
+            const hasTimestamp = message.match(/^\[\d{1,2}:\d{2}:\d{2}\s*(AM|PM)?\]/);
+            const displayMessage = hasTimestamp ? message : `[${timestamp}] ${message}`;
+            
             if (details) {
                 logEntry.innerHTML = `
-                    <div>[${timestamp}] ${message}</div>
+                    <div>${displayMessage}</div>
                     <div style="margin-left: 20px; font-size: 0.9em; color: #ccc;">
                         ${typeof details === 'object' ? JSON.stringify(details, null, 2) : details}
                     </div>
                 `;
             } else {
-                logEntry.textContent = `[${timestamp}] ${message}`;
+                logEntry.textContent = displayMessage;
             }
             
             logDiv.appendChild(logEntry);
@@ -265,17 +269,13 @@
                 // Setup event handlers
                 log('Setting up event handlers...', 'info');
                 
+                // Remove all existing listeners to prevent duplicates
+                client.removeAllListeners();
+                
                 client.on('log', (logEntry) => {
                     // Use clean message for activity monitor, detailed console logging remains unchanged
                     const displayMessage = logEntry.cleanMessage || logEntry.message;
                     log(displayMessage, logEntry.level);
-                });
-                
-                client.on('connected', () => {
-                    console.log('Connected event fired');
-                    log('✅ Connected to live Octane server!', 'success');
-                    updateStatus('connected', 'Live');
-                    updateStats();
                 });
                 
                 client.on('connected', () => {

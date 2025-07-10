@@ -632,6 +632,9 @@
             // === LIVELINK INTEGRATION METHODS ===
             
             setupLiveLinkEvents() {
+                // Remove all existing listeners to prevent duplicates
+                this.liveLink.removeAllListeners();
+                
                 // Enhanced logging event handler - use clean message for activity monitor
                 this.liveLink.on('log', (logEntry) => {
                     const displayMessage = logEntry.cleanMessage || logEntry.message;
@@ -997,15 +1000,19 @@
                 const entry = document.createElement('div');
                 entry.className = `log-entry log-${type}`;
                 
+                // Check if message already has a timestamp to avoid duplication
+                const hasTimestamp = message.match(/^\[\d{1,2}:\d{2}:\d{2}\s*(AM|PM)?\]/);
+                const displayMessage = hasTimestamp ? message : `${new Date().toLocaleTimeString()}: ${message}`;
+                
                 if (details) {
                     entry.innerHTML = `
-                        <div>${new Date().toLocaleTimeString()}: ${message}</div>
+                        <div>${displayMessage}</div>
                         <div style="margin-left: 15px; font-size: 0.85em; color: #aaa; white-space: pre-wrap;">
                             ${typeof details === 'object' ? JSON.stringify(details, null, 2) : details}
                         </div>
                     `;
                 } else {
-                    entry.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+                    entry.textContent = displayMessage;
                 }
                 
                 logElement.appendChild(entry);
