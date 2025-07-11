@@ -622,9 +622,19 @@
                 
                 // Window resize with debounce to prevent flashing
                 let resizeTimeout;
+                let isResizing = false;
                 window.addEventListener('resize', () => {
                     clearTimeout(resizeTimeout);
-                    resizeTimeout = setTimeout(() => this.resizeCanvas(), 16); // ~60fps
+                    if (!isResizing) {
+                        resizeTimeout = setTimeout(() => {
+                            isResizing = true;
+                            this.resizeCanvas();
+                            // Add small delay to ensure WebGL state settles
+                            setTimeout(() => {
+                                isResizing = false;
+                            }, 50);
+                        }, 100); // Increased debounce to prevent rapid-fire resizes
+                    }
                 });
                 
                 // Button event handlers - using onclick attributes in HTML instead
