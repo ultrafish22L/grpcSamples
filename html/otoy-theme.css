@@ -61,14 +61,15 @@ body {
 
 .content-area {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr auto;
     gap: 5px; /* Match canvas-container padding for consistent spacing */
     padding: 10px; /* Padding for consistent margins */
     min-height: 0; /* Allow shrinking */
     overflow: hidden;
     max-width: 1400px;
-    margin: 0 auto; /* Center the content area */
     height: 100%; /* Fill available vertical space */
+    place-content: center;
+    place-self: center;
 }
 
 /* Controls container for test interfaces */
@@ -88,7 +89,6 @@ body {
 
 /* Canvas Container - Responsive */
 .canvas-container {
-    height: 100%; /* Fill available height from parent grid */
     background: var(--otoy-bg-panel);
     border: 1px solid var(--border-subtle);
     border-radius: 6px;
