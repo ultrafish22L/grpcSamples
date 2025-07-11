@@ -225,8 +225,6 @@ body {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 20px;
-    display: grid;
-    gap: 15px;
 }
 
 .header-top {
@@ -234,10 +232,7 @@ body {
     grid-template-columns: 1fr auto;
     align-items: center;
     gap: 20px;
-    justify-content: space-between;
-    align-items: center;
     padding: 12px 0;
-    border-bottom: 1px solid var(--border-subtle);
 }
 
 .otoy-branding {
@@ -290,15 +285,14 @@ body {
     grid-template-columns: 1fr auto;
     align-items: center;
     gap: 20px;
-    justify-content: space-between;
-    align-items: center;
     padding: 10px 0;
+    border-bottom: 1px solid var(--border-subtle);
 }
 
 .livelink-controls {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(6, auto);
+    gap: 10px;
     align-items: center;
 }
 
