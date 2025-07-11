@@ -21,12 +21,12 @@
                     <a href="https://otoy.com" target="_blank" rel="noopener noreferrer" class="otoy-logo-link" title="Visit OTOY.com">
                         <img src="https://home.otoy.com/wp-content/themes/otoy/assets/images/otoy-logo-white.svg" alt="OTOY" class="otoy-logo" style="width: 32px; height: 32px;">
                     </a>
-                    <h1>🔗 Octane WebGL LiveLink Sync</h1>
+                    <h1>Octane WebGL LiveLink Sync 🔗</h1>
                 </div>
                 <div class="connection-controls">
                     <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023">
                     <button id="connectBtn" onclick="testConnection()">🔌 Connect</button>
-                    <button id="disconnectBtn" onclick="disconnect()">🔌 Disconnect</button>
+                    <button id="disconnectBtn" onclick="disconnect()">⏹️ Disconnect</button>
                 </div>
             </div>
             
@@ -34,28 +34,28 @@
             <div class="header-bottom">
                 <div class="livelink-controls">
                     <div class="control-group">
-                        <span class="group-label">📷 Camera:</span>
-                        <button id="getCameraBtn" onclick="testGetCamera()">Get</button>
-                        <button id="setCameraBtn" onclick="testSetCamera()">Set</button>
-                        <button id="resetCameraBtn" onclick="resetCamera()">Reset</button>
+                        <span class="group-label">📷</span>
+                        <button id="getCameraBtn" onclick="testGetCamera()" class="icon-btn" title="Get Camera">📥</button>
+                        <button id="setCameraBtn" onclick="testSetCamera()" class="icon-btn" title="Set Camera">📤</button>
+                        <button id="resetCameraBtn" onclick="resetCamera()" class="icon-btn" title="Reset Camera">🔄</button>
                     </div>
                     <div class="control-group">
-                        <span class="group-label">🎲 Models:</span>
-                        <button id="getMeshesBtn" onclick="testGetMeshes()">Get Meshes</button>
-                        <button id="loadModelBtn" onclick="loadModel()">Load Model</button>
-                        <button id="loadTeapotBtn" onclick="testLoadTeapot()">Teapot</button>
+                        <span class="group-label">🧊</span>
+                        <button id="getMeshesBtn" onclick="testGetMeshes()" class="icon-btn" title="Get Meshes">📋</button>
+                        <button id="loadModelBtn" onclick="loadModel()" class="icon-btn" title="Load Model">📂</button>
+                        <button id="loadTeapotBtn" onclick="testLoadTeapot()" class="icon-btn" title="Load Teapot">🫖</button>
                     </div>
                 </div>
                 <div class="view-controls">
                     <div class="switch-container">
-                        <label class="switch-label">🔄 Sync</label>
+                        <label class="switch-label" title="Camera Sync">🔄</label>
                         <label class="switch">
                             <input type="checkbox" id="syncCameraToggle" onchange="toggleCameraSync()" checked>
                             <span class="slider"></span>
                         </label>
                     </div>
                     <div class="switch-container">
-                        <label class="switch-label">🔄 Auto-Rotate</label>
+                        <label class="switch-label" title="Auto-Rotate">🔁</label>
                         <label class="switch">
                             <input type="checkbox" id="autoRotateToggle" onchange="toggleAutoRotate()" checked>
                             <span class="slider"></span>

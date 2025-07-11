@@ -243,12 +243,14 @@ canvas {
 }
 
 .group-label {
-    font-size: 10px;
+    font-size: 18px;
     font-weight: 600;
     color: var(--otoy-red);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-right: 4px;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
 }
 
 .view-controls {
@@ -263,6 +265,16 @@ canvas {
     min-width: 70px;
     font-size: 10px;
     padding: 6px 10px;
+}
+
+.header-bar .icon-btn {
+    min-width: 36px;
+    min-height: 36px;
+    font-size: 16px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .connection-controls input[type="text"] {
@@ -581,6 +593,15 @@ input[type="text"]:focus {
     align-items: center;
     justify-content: center;
     min-width: 20px;
+}
+
+.view-controls .switch-label {
+    font-size: 16px;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
 }
 
 /* Status Footer - Ultra Compact */
