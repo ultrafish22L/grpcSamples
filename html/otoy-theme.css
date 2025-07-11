@@ -611,7 +611,7 @@ input[type="text"]:focus {
     background: var(--otoy-bg-header);
     border-top: 1px solid var(--border-subtle);
     padding: 8px 20px;
-    margin-top: 15px;
+    margin-top: 10px; /* Reduced margin for tighter layout */
 }
 
 .footer-stats {
@@ -648,6 +648,7 @@ input[type="text"]:focus {
     text-align: center;
     font-size: 10px;
     color: var(--otoy-text-muted);
+    margin-top: 0; /* No extra margin - tight to content */
 }
 
 .otoy-status {

@@ -1385,17 +1385,18 @@
                     container.style.overflow = 'visible';
                 }
             } else {
-                // Normal screens - allow natural flow with footer visible
+                // Normal screens - tight layout with footer close to content
                 document.body.style.overflow = 'auto';
                 document.body.style.height = 'auto';
                 document.body.style.minHeight = '100vh';
                 if (container) {
                     container.style.height = 'auto';
-                    container.style.minHeight = 'calc(100vh - 100px)'; // Leave space for footer
+                    container.style.minHeight = 'auto'; // Let content determine height
                     container.style.overflow = 'visible';
+                    container.style.paddingBottom = '20px'; // Small gap before footer
                 }
                 
-                // Set reasonable heights for content areas without hiding footer
+                // Set reasonable heights for content areas
                 if (contentArea) {
                     contentArea.style.height = 'auto';
                     contentArea.style.minHeight = '600px';
