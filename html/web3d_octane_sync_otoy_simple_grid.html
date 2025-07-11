@@ -15,8 +15,8 @@
     <!-- Fixed Header -->
     <header class="header-bar">
         <div class="header-content">
-            <!-- Top Row: Branding + Connection -->
-            <div class="header-top">
+            <!-- Single Header Row: Branding + Connection Only -->
+            <div class="header-row">
                 <div class="otoy-branding">
                     <a href="https://otoy.com" target="_blank" rel="noopener noreferrer" class="otoy-logo-link" title="Visit OTOY.com">
                         <img src="https://home.otoy.com/wp-content/themes/otoy/assets/images/otoy-logo-white.svg" alt="OTOY" class="otoy-logo" style="width: 32px; height: 32px;">
@@ -29,36 +29,38 @@
                     <button id="disconnectBtn" onclick="disconnect()" title="Disconnect from Octane LiveLink service">⏹️ Disconnect</button>
                 </div>
             </div>
-            
-            <!-- Bottom Row: LiveLink Controls -->
-            <div class="header-bottom">
-                <div class="livelink-controls">
-                    <button id="getCameraBtn" onclick="testGetCamera()" class="icon-btn" title="Get Camera">📥</button>
-                    <button id="setCameraBtn" onclick="testSetCamera()" class="icon-btn" title="Set Camera">📤</button>
-                    <button id="resetCameraBtn" onclick="resetCamera()" class="icon-btn" title="Reset Camera">🔄</button>
-                    <button id="getMeshesBtn" onclick="testGetMeshes()" class="icon-btn" title="Get Meshes">📋</button>
-                    <button id="loadModelBtn" onclick="loadModel()" class="icon-btn" title="Load Model">📂</button>
-                    <button id="loadTeapotBtn" onclick="testLoadTeapot()" class="icon-btn" title="Load Teapot">🫖</button>
+        </div>
+    </header>
+
+    <!-- Controls Section - Below Header -->
+    <section class="controls-section">
+        <div class="controls-content">
+            <div class="livelink-controls">
+                <button id="getCameraBtn" onclick="testGetCamera()" class="icon-btn" title="Get Camera">📥</button>
+                <button id="setCameraBtn" onclick="testSetCamera()" class="icon-btn" title="Set Camera">📤</button>
+                <button id="resetCameraBtn" onclick="resetCamera()" class="icon-btn" title="Reset Camera">🔄</button>
+                <button id="getMeshesBtn" onclick="testGetMeshes()" class="icon-btn" title="Get Meshes">📋</button>
+                <button id="loadModelBtn" onclick="loadModel()" class="icon-btn" title="Load Model">📂</button>
+                <button id="loadTeapotBtn" onclick="testLoadTeapot()" class="icon-btn" title="Load Teapot">🫖</button>
+            </div>
+            <div class="view-controls">
+                <div class="switch-container">
+                    <label class="switch-label" title="Camera Sync">🔄</label>
+                    <label class="switch" title="Synchronize camera with Octane in real-time">
+                        <input type="checkbox" id="syncCameraToggle" onchange="toggleCameraSync()" checked title="Enable/disable camera synchronization">
+                        <span class="slider"></span>
+                    </label>
                 </div>
-                <div class="view-controls">
-                    <div class="switch-container">
-                        <label class="switch-label" title="Camera Sync">🔄</label>
-                        <label class="switch" title="Synchronize camera with Octane in real-time">
-                            <input type="checkbox" id="syncCameraToggle" onchange="toggleCameraSync()" checked title="Enable/disable camera synchronization">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="switch-container">
-                        <label class="switch-label" title="Auto-Rotate">🔁</label>
-                        <label class="switch" title="Automatically rotate the 3D model">
-                            <input type="checkbox" id="autoRotateToggle" onchange="toggleAutoRotate()" checked title="Enable/disable automatic model rotation">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
+                <div class="switch-container">
+                    <label class="switch-label" title="Auto-Rotate">🔁</label>
+                    <label class="switch" title="Automatically rotate the 3D model">
+                        <input type="checkbox" id="autoRotateToggle" onchange="toggleAutoRotate()" checked title="Enable/disable automatic model rotation">
+                        <span class="slider"></span>
+                    </label>
                 </div>
             </div>
         </div>
-    </header>
+    </section>
 
     <!-- Main Content Area -->
     <main class="main-content">
