@@ -514,26 +514,34 @@ class GrpcTestOperations {
         }
     }
 
-    async testSetCamera(client, cameraData) {
+    async testSetCamera(client, cameraData, suppressLogging = false) {
         if (!client) {
-            this.logger.log('No client available for camera set', 'error');
+            if (!suppressLogging) {
+                this.logger.log('No client available for camera set', 'error');
+            }
             return false;
         }
 
         try {
-            this.logger.log('📤 Setting camera to Octane...', 'info');
+            if (!suppressLogging) {
+                this.logger.log('📤 Setting camera to Octane...', 'info');
+            }
             const result = await client.setCamera(cameraData);
             
-            if (result) {
-                this.logger.log('Camera set successfully', 'success');
-            } else {
-                this.logger.log('Camera set operation completed', 'info');
+            if (!suppressLogging) {
+                if (result) {
+                    this.logger.log('Camera set successfully', 'success');
+                } else {
+                    this.logger.log('Camera set operation completed', 'info');
+                }
             }
             
             this.statsManager.updateStats(client);
             return result;
         } catch (error) {
-            this.logger.log(`Camera set failed: ${error.message}`, 'error');
+            if (!suppressLogging) {
+                this.logger.log(`Camera set failed: ${error.message}`, 'error');
+            }
             this.statsManager.updateStats(client);
             throw error;
         }

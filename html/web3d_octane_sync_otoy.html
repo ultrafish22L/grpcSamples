@@ -87,14 +87,8 @@
                             <button id="exportDebugBtn" onclick="exportDebugInfo()" title="Export debug information">
                                 📤 Export
                             </button>
-                            <button id="refreshStatsBtn" onclick="refreshStats()" title="Refresh statistics">
-                                📊 Stats
-                            </button>
-                            <button id="showSystemInfoBtn" onclick="showSystemInfo()" title="Show system information">
-                                💻 System
-                            </button>
-                            <button id="showDebugInfoBtn" onclick="showDebugInfo()" title="Show debug information">
-                                🔧 Debug
+                            <button id="showInfoBtn" onclick="showInfo()" title="Show system, debug and statistics information">
+                                ℹ️ Info
                             </button>
                         </div>
                         <div class="activity-toggle">
@@ -577,9 +571,7 @@
                     
                     // Enable debug and testing buttons
                     UIUtils.setButtonEnabled('exportDebugBtn', true);
-                    UIUtils.setButtonEnabled('showSystemInfoBtn', true);
-                    UIUtils.setButtonEnabled('showDebugInfoBtn', true);
-                    UIUtils.setButtonEnabled('refreshStatsBtn', true);
+                    UIUtils.setButtonEnabled('showInfoBtn', true);
                     
                     document.getElementById('connectionStatus').className = 'status-section status-connected';
                 });
@@ -596,9 +588,7 @@
                     
                     // Disable debug and testing buttons
                     UIUtils.setButtonEnabled('exportDebugBtn', false);
-                    UIUtils.setButtonEnabled('showSystemInfoBtn', false);
-                    UIUtils.setButtonEnabled('showDebugInfoBtn', false);
-                    UIUtils.setButtonEnabled('refreshStatsBtn', false);
+                    UIUtils.setButtonEnabled('showInfoBtn', false);
                     
                     document.getElementById('connectionStatus').className = 'status-section status-disconnected';
                     
@@ -702,7 +692,7 @@
              */
             async setCameraToOctane() {
                 if (!this.connected || !this.liveLink) {
-                    this.logger.log('Not connected to Octane', 'warning');
+                    // Don't log warning every time - only log once when sync starts
                     return;
                 }
 
@@ -710,7 +700,9 @@
                     // Use common utility to convert WebGL camera to Octane format
                     const cameraState = CameraSyncUtils.webglToOctane(this.camera);
                     
-                    await this.grpcOperations.testSetCamera(this.liveLink, cameraState);
+                    // Only log camera sync operations in console, not in UI (to prevent spam)
+                    console.log('📤 Syncing camera to Octane...');
+                    await this.grpcOperations.testSetCamera(this.liveLink, cameraState, true); // Pass true to suppress UI logging
                     
                 } catch (error) {
                     this.performanceTracker.recordError();
@@ -894,9 +886,9 @@
             }
 
             /**
-             * Show system information
+             * Show combined system and debug information
              */
-            showSystemInfo() {
+            showInfo() {
                 // Show local system info even without connection
                 const systemInfo = {
                     userAgent: navigator.userAgent,
@@ -918,7 +910,7 @@
                     connection: this.liveLink ? 'Connected to Octane' : 'Not connected'
                 };
                 
-                this.logger.log('💻 System Information:', 'info');
+                this.logger.log('ℹ️ System & Debug Information:', 'info');
                 Object.entries(systemInfo).forEach(([key, value]) => {
                     if (typeof value === 'object') {
                         this.logger.log(`  ${key}: ${JSON.stringify(value)}`, 'info');
@@ -926,16 +918,8 @@
                         this.logger.log(`  ${key}: ${value}`, 'info');
                     }
                 });
-            }
 
-            /**
-             * Show debug information
-             */
-            showDebugInfo() {
-                // Show local debug info even without connection
-                this.logger.log('🔧 Debug Information:', 'info');
-                
-                // Check WebGL status more accurately
+                // Debug Information
                 const gl = this.canvas ? this.canvas.getContext('webgl2') || this.canvas.getContext('webgl') : null;
                 const webglVersion = gl ? (gl instanceof WebGL2RenderingContext ? 'WebGL 2.0' : 'WebGL 1.0') : 'Not available';
                 this.logger.log(`  WebGL Version: ${webglVersion}`, 'info');
@@ -946,18 +930,29 @@
                 this.logger.log(`  Connection Status: ${this.liveLink ? 'Connected' : 'Disconnected'}`, 'info');
                 this.logger.log(`  Server Address: ${document.getElementById('serverAddress')?.value || 'Not set'}`, 'info');
                 
-                // Check if render loop is actually running by checking if we have an animation frame ID
                 const renderStatus = this.animationFrameId ? 'Running' : 'Stopped';
                 this.logger.log(`  Render Loop: ${renderStatus}`, 'info');
                 
+                // Performance Statistics
                 if (this.statsManager) {
                     const stats = this.statsManager.getStats();
-                    this.logger.log(`  FPS: ${stats.fps || 0}`, 'info');
-                    this.logger.log(`  Frame Time: ${stats.frameTime || 0}ms`, 'info');
-                    this.logger.log(`  Total Calls: ${stats.totalCalls || 0}`, 'info');
+                    this.logger.log(`  Current FPS: ${stats.fps || 0}`, 'info');
+                    this.logger.log(`  Average Frame Time: ${stats.frameTime || 0}ms`, 'info');
+                    this.logger.log(`  Total API Calls: ${stats.totalCalls || 0}`, 'info');
+                    this.logger.log(`  Average Response Time: ${stats.avgResponseTime || 0}ms`, 'info');
+                    this.logger.log(`  Sync Rate: ${stats.syncRate || 0}/s`, 'info');
+                    this.logger.log(`  Error Count: ${stats.errorCount || 0}`, 'info');
+                } else {
+                    this.logger.log(`  Stats Manager: Not initialized`, 'info');
+                }
+
+                // Memory usage if available
+                if (performance && performance.memory) {
+                    const memory = performance.memory;
+                    this.logger.log(`  Memory Used: ${Math.round(memory.usedJSHeapSize / 1024 / 1024)}MB`, 'info');
+                    this.logger.log(`  Memory Limit: ${Math.round(memory.jsHeapSizeLimit / 1024 / 1024)}MB`, 'info');
                 }
                 
-                // Get WebGL renderer info directly
                 if (gl) {
                     const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
                     if (debugInfo) {
@@ -970,55 +965,9 @@
                 }
             }
 
-            /**
-             * Refresh performance statistics
-             */
-            refreshStats() {
-                try {
-                    this.logger.log('📊 Performance Statistics:', 'info');
-                    
-                    // Show local stats even without connection
-                    if (this.statsManager) {
-                        const stats = this.statsManager.getStats();
-                        this.logger.log(`  Current FPS: ${stats.fps || 0}`, 'info');
-                        this.logger.log(`  Average Frame Time: ${stats.frameTime || 0}ms`, 'info');
-                        this.logger.log(`  Total API Calls: ${stats.totalCalls || 0}`, 'info');
-                        this.logger.log(`  Average Response Time: ${stats.avgResponseTime || 0}ms`, 'info');
-                        this.logger.log(`  Sync Rate: ${stats.syncRate || 0}/s`, 'info');
-                        this.logger.log(`  Error Count: ${stats.errorCount || 0}`, 'info');
-                    } else {
-                        this.logger.log('  Stats Manager: Not initialized', 'info');
-                    }
-                    
-                    // Show connection status
-                    this.logger.log(`  Connection Status: ${this.liveLink ? 'Connected' : 'Disconnected'}`, 'info');
-                    
-                    // Show render loop status
-                    const renderStatus = this.animationFrameId ? 'Running' : 'Stopped';
-                    this.logger.log(`  Render Loop: ${renderStatus}`, 'info');
-                    
-                    // Show WebGL performance if available
-                    const gl = this.canvas ? this.canvas.getContext('webgl2') || this.canvas.getContext('webgl') : null;
-                    if (gl) {
-                        this.logger.log(`  WebGL Context: Active`, 'info');
-                        this.logger.log(`  Canvas Resolution: ${this.canvas.width}x${this.canvas.height}`, 'info');
-                        this.logger.log(`  Device Pixel Ratio: ${window.devicePixelRatio || 1}`, 'info');
-                    } else {
-                        this.logger.log(`  WebGL Context: Not available`, 'warning');
-                    }
-                    
-                    // Show memory usage if available
-                    if (performance && performance.memory) {
-                        const memory = performance.memory;
-                        this.logger.log(`  Memory Used: ${Math.round(memory.usedJSHeapSize / 1024 / 1024)}MB`, 'info');
-                        this.logger.log(`  Memory Limit: ${Math.round(memory.jsHeapSizeLimit / 1024 / 1024)}MB`, 'info');
-                    }
-                    
-                } catch (error) {
-                    this.logger.log(`📊 Error getting stats: ${error.message}`, 'error');
-                    console.error('Stats error:', error);
-                }
-            }
+
+
+
 
             /**
              * Update connection UI elements based on current state
@@ -1046,7 +995,7 @@
                 const operationButtons = [
                     'getCameraBtn', 'setCameraBtn', 'testRandomCameraBtn', 'getMeshesBtn', 'getMeshBtn',
                     'loadTeapotBtn', 'syncCameraBtn', 'exportDebugBtn', 
-                    'showSystemInfoBtn', 'showDebugInfoBtn', 'refreshStatsBtn'
+                    'showInfoBtn'
                 ];
                 
                 operationButtons.forEach(btnId => {
@@ -1407,9 +1356,7 @@
         window.loadModel = () => viewer?.loadModel();
         window.testLoadTeapot = () => viewer?.loadTeapot();
         window.exportDebugInfo = () => viewer?.exportDebugInfo();
-        window.showSystemInfo = () => viewer?.showSystemInfo();
-        window.showDebugInfo = () => viewer?.showDebugInfo();
-        window.refreshStats = () => viewer?.refreshStats();
+        window.showInfo = () => viewer?.showInfo();
         window.clearLog = () => viewer?.clearLog();
 
     </script>
