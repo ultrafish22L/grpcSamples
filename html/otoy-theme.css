@@ -162,13 +162,25 @@ canvas {
     border-bottom: 2px solid var(--otoy-red);
     box-shadow: var(--panel-shadow);
     flex-shrink: 0;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 .header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 20px;
+    padding: 12px 0;
     border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -215,7 +227,7 @@ canvas {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 10px 0;
 }
 
 .livelink-controls {
