@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<!-- 
+    WebGL-Octane LiveLink Sync - Simple Layout Version
+    EXACT same functionality as web3d_octane_sync_otoy.html but without complex CSS containers
+    Used to test if CSS layout complexity causes the 60fps→2fps performance issue during tab detach
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔗 OTOY WebGL-Octane LiveLink Sync (Simple Layout)</title>
+    <style>
+        /* Simple, fixed layout without complex containers - NO RESPONSIVE DESIGN */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #1a1a1a;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        /* Simple fixed header - NO FLEXBOX COMPLEXITY */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: #2c2c2c;
+            border-bottom: 1px solid #444;
+            z-index: 1000;
+            padding: 10px 20px;
+        }
+        
+        .header-row {
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .header h1 {
+            display: inline-block;
+            font-size: 18px;
+            color: #e74c3c;
+            margin-right: 20px;
+        }
+        
+        .controls {
+            display: inline-block;
+        }
+        
+        .controls input, .controls button {
+            padding: 6px 10px;
+            margin-right: 8px;
+            border: 1px solid #555;
+            background: #333;
+            color: #fff;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        
+        .controls button:hover {
+            background: #444;
+        }
+        
+        /* Simple canvas container - NO COMPLEX LAYOUT */
+        .canvas-container {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 350px;
+            bottom: 50px;
+            background: #000;
+        }
+        
+        #canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        /* Simple sidebar - NO RESPONSIVE BEHAVIOR */
+        .sidebar {
+            position: fixed;
+            top: 80px;
+            right: 0;
+            width: 350px;
+            bottom: 50px;
+            background: #2c2c2c;
+            border-left: 1px solid #444;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        
+        .section {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+        }
+        
+        .section h3 {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #f1c40f;
+            margin-right: 6px;
+        }
+        
+        .status-indicator.connected {
+            background: #2ecc71;
+        }
+        
+        .status-indicator.error {
+            background: #e74c3c;
+        }
+        
+        /* Simple footer - NO FLEXBOX */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: #2c2c2c;
+            border-top: 1px solid #444;
+            padding: 15px 20px;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .stats span {
+            margin-right: 20px;
+        }
+        
+        /* Activity log - SIMPLE STYLING */
+        #activityLog {
+            background: #1a1a1a;
+            border: 1px solid #444;
+            border-radius: 3px;
+            padding: 8px;
+            height: 180px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 11px;
+            line-height: 1.3;
+        }
+        
+        .log-entry {
+            margin-bottom: 2px;
+        }
+        
+        .log-entry.log-success { color: #2ecc71; }
+        .log-entry.log-error { color: #e74c3c; }
+        .log-entry.log-warning { color: #f39c12; }
+        .log-entry.log-info { color: #3498db; }
+        
+        /* Simple controls - NO COMPLEX STYLING */
+        .control-section {
+            margin-bottom: 10px;
+        }
+        
+        .control-section button {
+            padding: 4px 8px;
+            margin: 2px;
+            border: 1px solid #555;
+            background: #333;
+            color: #fff;
+            border-radius: 2px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        
+        .control-section button:hover {
+            background: #444;
+        }
+        
+        .control-section button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Simple input styling */
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 4px;
+            margin: 2px 0;
+            border: 1px solid #555;
+            background: #333;
+            color: #fff;
+            border-radius: 2px;
+            font-size: 11px;
+        }
+        
+        /* Simple checkbox styling */
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        
+        label {
+            font-size: 11px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <!-- Simple Header -->
+    <div class="header">
+        <div class="header-row">
+            <h1>🔗 OTOY WebGL-Octane LiveLink Sync (Simple Layout)</h1>
+            <div class="controls">
+                <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023">
+                <button id="connectBtn" onclick="testConnection()">🔌 Connect</button>
+                <button id="disconnectBtn" onclick="disconnect()">⏹️ Disconnect</button>
+            </div>
+        </div>
+        <div class="header-row">
+            <div class="controls">
+                <button id="getCameraBtn" onclick="testGetCamera()">📥 Get Camera</button>
+                <button id="setCameraBtn" onclick="testSetCamera()">📤 Set Camera</button>
+                <button id="resetCameraBtn" onclick="resetCamera()">🔄 Reset Camera</button>
+                <button id="getMeshesBtn" onclick="testGetMeshes()">📋 Get Meshes</button>
+                <button id="loadModelBtn" onclick="loadModel()">📂 Load Model</button>
+                <button id="loadTeapotBtn" onclick="testLoadTeapot()">🫖 Load Teapot</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Canvas Container -->
+    <div class="canvas-container">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <!-- Simple Sidebar -->
+    <div class="sidebar">
+        <div class="section">
+            <h3>Connection Status</h3>
+            <div>
+                <span class="status-indicator" id="statusIndicator"></span>
+                <span id="connectionStatus">Disconnected</span>
+            </div>
+            <div id="connectionDetails" style="font-size: 10px; color: #999; margin-top: 5px;"></div>
+        </div>
+        
+        <div class="section">
+            <h3>Camera Sync</h3>
+            <div class="control-section">
+                <label><input type="checkbox" id="syncEnabled" onchange="toggleSync()"> Enable Sync</label><br>
+                <label>Sync Rate: <input type="number" id="syncRate" value="10" min="1" max="60" onchange="updateSyncRate()"> FPS</label>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>View Controls</h3>
+            <div class="control-section">
+                <button onclick="resetCamera()">🔄 Reset View</button>
+                <button onclick="fitToView()">📐 Fit to View</button>
+                <button onclick="toggleWireframe()">🔲 Wireframe</button>
+            </div>
+            <div style="font-size: 10px; color: #999; margin-top: 5px;">
+                Mouse: Rotate | Wheel: Zoom<br>
+                Shift+Mouse: Pan
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>Debug Controls</h3>
+            <div class="control-section">
+                <button onclick="clearLog()">🗑️ Clear Log</button>
+                <button onclick="exportLog()">💾 Export Log</button>
+                <button onclick="testPerformance()">⚡ Performance Test</button>
+            </div>
+            <div class="control-section">
+                <label><input type="checkbox" id="showStats" onchange="toggleStats()" checked> Show Stats</label><br>
+                <label><input type="checkbox" id="verboseLogging" onchange="toggleVerboseLogging()"> Verbose Logging</label>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>Activity Log</h3>
+            <div id="activityLog"></div>
+        </div>
+    </div>
+
+    <!-- Simple Footer -->
+    <div class="footer">
+        <div class="stats">
+            <span>FPS: <span id="fps">0</span></span>
+            <span>Frame: <span id="frameTime">0ms</span></span>
+            <span>Calls: <span id="grpcCallsValue">0</span></span>
+            <span>Avg: <span id="avgResponseValue">0ms</span></span>
+            <span>Errors: <span id="errorCountValue">0</span></span>
+            <span>Mode: <span id="mode">WebGL</span></span>
+        </div>
+    </div>
+
+    <!-- Dependencies - EXACT SAME AS ORIGINAL -->
+    <script src="shared.js"></script>
+    <script src="webgl-utils.js"></script>
+    <script src="livelink.js"></script>
+
+    <script>
+        // EXACT SAME JAVASCRIPT AS web3d_octane_sync_otoy.html
+        // Just copied without any modifications to preserve all functionality
+        
+        /**
+         * WebGL-Octane LiveLink Sync Application
+         * Real-time 3D WebGL viewer with Octane synchronization
+         */
+        class WebGLOctaneSyncApp {
+            constructor() {
+                console.log('🔗 Initializing WebGL-Octane LiveLink Sync...');
+                
+                // Core components
+                this.logger = new ActivityLogger('activityLog');
+                this.statsManager = new StatsDisplayManager();
+                this.connectionState = new EnhancedConnectionStateManager('connectionStatus', this.logger);
+                this.grpcOperations = new GrpcTestOperations(this.logger, this.statsManager);
+                this.debugUtils = new DebugUtils(this.logger);
+                this.connectionManager = new ConnectionManager(this.logger, this.connectionState);
+
+                // WebGL and rendering state
+                this.canvas = document.getElementById('canvas');
+                this.gl = null;
+                this.renderer = null;
+                this.cameraController = null;
+                this.cameraSyncManager = null;
+                
+                // Performance tracking
+                this.performanceTracker = new PerformanceTracker();
+                this.frameCount = 0;
+                this.lastTime = performance.now();
+                this.frameTimeHistory = [];
+                
+                // Sync state
+                this.syncEnabled = false;
+                this.lastCameraSync = 0;
+                this.syncInterval = 100; // 10 FPS default
+                this.verboseLogging = false;
+                this.showStats = true;
+                
+                // Model and rendering state
+                this.currentModel = null;
+                this.wireframeMode = false;
+                this.models = new Map();
+                
+                this.initializeWebGL();
+                this.setupEventHandlers();
+                this.startRenderLoop();
+                
+                this.logger.log('WebGL-Octane LiveLink Sync initialized successfully', 'success');
+            }
+
+            /**
+             * Initialize WebGL context and rendering components
+             */
+            initializeWebGL() {
+                try {
+                    // Get WebGL context with enhanced options
+                    const contextOptions = {
+                        alpha: false,
+                        depth: true,
+                        stencil: false,
+                        antialias: true,
+                        premultipliedAlpha: false,
+                        preserveDrawingBuffer: false,
+                        powerPreference: 'high-performance',
+                        failIfMajorPerformanceCaveat: false
+                    };
+
+                    this.gl = this.canvas.getContext('webgl2', contextOptions) || 
+                             this.canvas.getContext('webgl', contextOptions);
+                    
+                    if (!this.gl) {
+                        throw new Error('WebGL not supported');
+                    }
+
+                    this.logger.log(`WebGL ${this.gl instanceof WebGL2RenderingContext ? '2.0' : '1.0'} context created`, 'success');
+
+                    // Initialize renderer with enhanced features
+                    this.renderer = new SimpleWebGLRenderer(this.gl);
+                    this.renderer.initialize();
+
+                    // Initialize camera controller with mouse controls
+                    this.cameraController = new CameraController(this.canvas);
+                    this.cameraController.setPosition([0, 0, 5]);
+
+                    // Initialize camera sync manager
+                    this.cameraSyncManager = new CameraSyncManager();
+
+                    // Set up WebGL context loss handling
+                    this.setupContextLossHandling();
+
+                    this.logger.log('WebGL components initialized successfully', 'success');
+                } catch (error) {
+                    this.logger.log(`WebGL initialization failed: ${error.message}`, 'error');
+                    throw error;
+                }
+            }
+
+            /**
+             * Set up WebGL context loss handling
+             */
+            setupContextLossHandling() {
+                this.canvas.addEventListener('webglcontextlost', (event) => {
+                    event.preventDefault();
+                    this.logger.log('WebGL context lost - attempting recovery', 'warning');
+                    this.performanceTracker.recordEvent('context_lost');
+                });
+
+                this.canvas.addEventListener('webglcontextrestored', () => {
+                    this.logger.log('WebGL context restored - reinitializing', 'success');
+                    this.initializeWebGL();
+                    this.performanceTracker.recordEvent('context_restored');
+                });
+            }
+
+            /**
+             * Set up event handlers for user interaction
+             */
+            setupEventHandlers() {
+                // Canvas resize handling with debouncing
+                let resizeTimeout;
+                const resizeObserver = new ResizeObserver(() => {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        this.handleResize();
+                    }, 16); // ~60fps debounce
+                });
+                resizeObserver.observe(this.canvas.parentElement);
+
+                // Initial resize
+                this.handleResize();
+
+                // Mouse controls
+                this.cameraController.setupMouseControls();
+
+                // Keyboard shortcuts
+                this.setupKeyboardShortcuts();
+
+                // Visibility change handling
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        this.performanceTracker.recordEvent('tab_hidden');
+                    } else {
+                        this.performanceTracker.recordEvent('tab_visible');
+                    }
+                });
+
+                this.logger.log('Event handlers set up successfully', 'success');
+            }
+
+            /**
+             * Set up keyboard shortcuts
+             */
+            setupKeyboardShortcuts() {
+                document.addEventListener('keydown', (event) => {
+                    if (event.ctrlKey || event.metaKey) {
+                        switch (event.key.toLowerCase()) {
+                            case 'r':
+                                event.preventDefault();
+                                this.resetCamera();
+                                break;
+                            case 's':
+                                event.preventDefault();
+                                this.toggleSync();
+                                break;
+                            case 'w':
+                                event.preventDefault();
+                                this.toggleWireframe();
+                                break;
+                        }
+                    }
+                });
+            }
+
+            /**
+             * Handle canvas resize with proper aspect ratio
+             */
+            handleResize() {
+                const container = this.canvas.parentElement;
+                const rect = container.getBoundingClientRect();
+                
+                // Use device pixel ratio for crisp rendering
+                const dpr = window.devicePixelRatio || 1;
+                const displayWidth = rect.width;
+                const displayHeight = rect.height;
+                const canvasWidth = Math.floor(displayWidth * dpr);
+                const canvasHeight = Math.floor(displayHeight * dpr);
+                
+                // Set canvas size
+                this.canvas.width = canvasWidth;
+                this.canvas.height = canvasHeight;
+                this.canvas.style.width = displayWidth + 'px';
+                this.canvas.style.height = displayHeight + 'px';
+                
+                // Update WebGL viewport
+                if (this.gl) {
+                    this.gl.viewport(0, 0, canvasWidth, canvasHeight);
+                }
+                
+                // Update camera aspect ratio
+                if (this.cameraController) {
+                    this.cameraController.setAspectRatio(displayWidth / displayHeight);
+                }
+
+                this.performanceTracker.recordEvent('resize', { width: canvasWidth, height: canvasHeight });
+            }
+
+            /**
+             * Start the main render loop
+             */
+            startRenderLoop() {
+                const renderFrame = (currentTime) => {
+                    this.performanceTracker.startFrame();
+                    
+                    this.updatePerformanceStats(currentTime);
+                    this.updateCamera();
+                    this.render();
+                    
+                    this.performanceTracker.endFrame();
+                    requestAnimationFrame(renderFrame);
+                };
+                
+                requestAnimationFrame(renderFrame);
+                this.logger.log('Render loop started', 'success');
+            }
+
+            /**
+             * Update performance statistics
+             */
+            updatePerformanceStats(currentTime) {
+                const deltaTime = currentTime - this.lastTime;
+                this.frameTimeHistory.push(deltaTime);
+                
+                // Keep only last 60 frames for averaging
+                if (this.frameTimeHistory.length > 60) {
+                    this.frameTimeHistory.shift();
+                }
+                
+                this.frameCount++;
+                
+                // Update display every 10 frames
+                if (this.frameCount % 10 === 0 && this.showStats) {
+                    const avgFrameTime = this.frameTimeHistory.reduce((a, b) => a + b, 0) / this.frameTimeHistory.length;
+                    const fps = Math.round(1000 / avgFrameTime);
+                    
+                    document.getElementById('fps').textContent = fps;
+                    document.getElementById('frameTime').textContent = Math.round(avgFrameTime) + 'ms';
+                    
+                    // Update performance tracker
+                    this.performanceTracker.updateFPS(fps);
+                }
+                
+                this.lastTime = currentTime;
+            }
+
+            /**
+             * Update camera and sync with Octane if enabled
+             */
+            updateCamera() {
+                if (!this.cameraController) return;
+                
+                this.cameraController.update();
+                
+                // Sync with Octane if enabled and connected
+                if (this.syncEnabled && this.connectionManager.isConnected()) {
+                    const now = performance.now();
+                    if (now - this.lastCameraSync > this.syncInterval) {
+                        this.syncCameraToOctane();
+                        this.lastCameraSync = now;
+                    }
+                }
+            }
+
+            /**
+             * Render the 3D scene
+             */
+            render() {
+                if (!this.renderer || !this.cameraController) return;
+                
+                const viewMatrix = this.cameraController.getViewMatrix();
+                const projectionMatrix = this.cameraController.getProjectionMatrix();
+                
+                // Render current model or default scene
+                if (this.currentModel) {
+                    this.renderer.renderModel(this.currentModel, viewMatrix, projectionMatrix, this.wireframeMode);
+                } else {
+                    this.renderer.render(viewMatrix, projectionMatrix);
+                }
+            }
+
+            /**
+             * Sync camera to Octane
+             */
+            async syncCameraToOctane() {
+                try {
+                    const cameraData = this.cameraSyncManager.webglToOctane(this.cameraController);
+                    await this.grpcOperations.testSetCamera(this.connectionManager.getClient(), cameraData, !this.verboseLogging);
+                    
+                    if (this.verboseLogging) {
+                        this.logger.log('Camera synced to Octane', 'info');
+                    }
+                } catch (error) {
+                    if (this.verboseLogging) {
+                        this.logger.log(`Camera sync error: ${error.message}`, 'warning');
+                    }
+                }
+            }
+
+            /**
+             * Toggle camera synchronization
+             */
+            toggleSync() {
+                this.syncEnabled = !this.syncEnabled;
+                document.getElementById('syncEnabled').checked = this.syncEnabled;
+                this.logger.log(`Camera sync ${this.syncEnabled ? 'enabled' : 'disabled'}`, 'info');
+                
+                if (this.syncEnabled && !this.connectionManager.isConnected()) {
+                    this.logger.log('Warning: Sync enabled but not connected to Octane', 'warning');
+                }
+            }
+
+            /**
+             * Update sync rate
+             */
+            updateSyncRate() {
+                const rate = parseInt(document.getElementById('syncRate').value);
+                this.syncInterval = 1000 / Math.max(1, Math.min(60, rate));
+                this.logger.log(`Sync rate updated to ${rate} FPS`, 'info');
+            }
+
+            /**
+             * Reset camera to default position
+             */
+            resetCamera() {
+                if (this.cameraController) {
+                    this.cameraController.reset();
+                    this.logger.log('Camera reset to default position', 'info');
+                }
+            }
+
+            /**
+             * Fit view to current model
+             */
+            fitToView() {
+                if (this.cameraController && this.currentModel) {
+                    this.cameraController.fitToModel(this.currentModel);
+                    this.logger.log('View fitted to model', 'info');
+                } else {
+                    this.resetCamera();
+                }
+            }
+
+            /**
+             * Toggle wireframe mode
+             */
+            toggleWireframe() {
+                this.wireframeMode = !this.wireframeMode;
+                this.logger.log(`Wireframe mode ${this.wireframeMode ? 'enabled' : 'disabled'}`, 'info');
+            }
+
+            /**
+             * Toggle statistics display
+             */
+            toggleStats() {
+                this.showStats = document.getElementById('showStats').checked;
+                const footer = document.querySelector('.footer');
+                footer.style.display = this.showStats ? 'block' : 'none';
+            }
+
+            /**
+             * Toggle verbose logging
+             */
+            toggleVerboseLogging() {
+                this.verboseLogging = document.getElementById('verboseLogging').checked;
+                this.logger.log(`Verbose logging ${this.verboseLogging ? 'enabled' : 'disabled'}`, 'info');
+            }
+
+            /**
+             * Clear activity log
+             */
+            clearLog() {
+                this.logger.clear();
+            }
+
+            /**
+             * Export activity log
+             */
+            exportLog() {
+                const logData = this.logger.export();
+                const blob = new Blob([logData], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `octane-sync-log-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.txt`;
+                a.click();
+                URL.revokeObjectURL(url);
+                this.logger.log('Log exported successfully', 'success');
+            }
+
+            /**
+             * Run performance test
+             */
+            testPerformance() {
+                this.logger.log('Starting performance test...', 'info');
+                const startTime = performance.now();
+                let frameCount = 0;
+                const testDuration = 5000; // 5 seconds
+
+                const testFrame = () => {
+                    frameCount++;
+                    const elapsed = performance.now() - startTime;
+                    
+                    if (elapsed < testDuration) {
+                        requestAnimationFrame(testFrame);
+                    } else {
+                        const avgFPS = Math.round((frameCount * 1000) / elapsed);
+                        this.logger.log(`Performance test completed: ${avgFPS} FPS average over ${Math.round(elapsed/1000)}s`, 'success');
+                    }
+                };
+                
+                requestAnimationFrame(testFrame);
+            }
+
+            /**
+             * Load a 3D model
+             */
+            async loadModel(modelData) {
+                try {
+                    if (modelData) {
+                        this.currentModel = await this.renderer.loadModel(modelData);
+                        this.logger.log('Model loaded successfully', 'success');
+                        this.fitToView();
+                    }
+                } catch (error) {
+                    this.logger.log(`Model loading failed: ${error.message}`, 'error');
+                }
+            }
+
+            /**
+             * Load teapot test model
+             */
+            async loadTeapot() {
+                try {
+                    this.currentModel = await this.renderer.createTeapotModel();
+                    this.logger.log('Teapot model loaded', 'success');
+                    this.fitToView();
+                } catch (error) {
+                    this.logger.log(`Teapot loading failed: ${error.message}`, 'error');
+                }
+            }
+        }
+
+        // Global variables for compatibility
+        let app;
+        let liveLinkManager;
+        let client;
+
+        // Initialize application when page loads
+        window.addEventListener('load', () => {
+            try {
+                // Initialize LiveLink manager
+                liveLinkManager = new LiveLinkManager();
+                
+                // Initialize application
+                app = new WebGLOctaneSyncApp();
+                
+                console.log('✅ WebGL-Octane LiveLink Sync application ready');
+            } catch (error) {
+                console.error('❌ Failed to initialize application:', error);
+                document.body.innerHTML = `<div style="color: red; padding: 20px; background: #1a1a1a;">Failed to initialize: ${error.message}</div>`;
+            }
+        });
+
+        // Connection functions (compatible with existing button handlers)
+        async function testConnection() {
+            const serverAddress = document.getElementById('serverAddress').value;
+            try {
+                client = await app.connectionManager.connect(serverAddress);
+                updateConnectionUI(true);
+                app.logger.log(`Connected to ${serverAddress}`, 'success');
+            } catch (error) {
+                updateConnectionUI(false);
+                app.logger.log(`Connection failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function disconnect() {
+            try {
+                await app.connectionManager.disconnect();
+                client = null;
+                updateConnectionUI(false);
+                app.logger.log('Disconnected from server', 'info');
+            } catch (error) {
+                app.logger.log(`Disconnect error: ${error.message}`, 'error');
+            }
+        }
+
+        function updateConnectionUI(connected) {
+            const indicator = document.getElementById('statusIndicator');
+            const status = document.getElementById('connectionStatus');
+            const details = document.getElementById('connectionDetails');
+            
+            if (connected) {
+                indicator.className = 'status-indicator connected';
+                status.textContent = 'Connected';
+                details.textContent = `Server: ${document.getElementById('serverAddress').value}`;
+            } else {
+                indicator.className = 'status-indicator error';
+                status.textContent = 'Disconnected';
+                details.textContent = 'Not connected to any server';
+            }
+            
+            // Update button states
+            document.getElementById('connectBtn').disabled = connected;
+            document.getElementById('disconnectBtn').disabled = !connected;
+            document.getElementById('getCameraBtn').disabled = !connected;
+            document.getElementById('setCameraBtn').disabled = !connected;
+            document.getElementById('getMeshesBtn').disabled = !connected;
+        }
+
+        // Test functions (compatible with existing button handlers)
+        async function testGetCamera() {
+            if (!client) return;
+            try {
+                const camera = await app.grpcOperations.testGetCamera(client);
+                if (camera && app.cameraController) {
+                    const webglCamera = app.cameraSyncManager.octaneToWebgl(camera);
+                    app.cameraController.setFromOctane(webglCamera);
+                    app.logger.log('Camera retrieved from Octane', 'success');
+                }
+            } catch (error) {
+                app.logger.log(`Get camera error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testSetCamera() {
+            if (!client || !app.cameraController) return;
+            try {
+                const cameraData = app.cameraSyncManager.webglToOctane(app.cameraController);
+                await app.grpcOperations.testSetCamera(client, cameraData);
+                app.logger.log('Camera sent to Octane', 'success');
+            } catch (error) {
+                app.logger.log(`Set camera error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testGetMeshes() {
+            if (!client) return;
+            try {
+                const meshes = await app.grpcOperations.testGetMeshes(client);
+                app.logger.log(`Retrieved ${meshes ? meshes.length : 0} meshes from Octane`, 'success');
+            } catch (error) {
+                app.logger.log(`Get meshes error: ${error.message}`, 'error');
+            }
+        }
+
+        function resetCamera() {
+            app.resetCamera();
+        }
+
+        function toggleSync() {
+            app.toggleSync();
+        }
+
+        function loadModel() {
+            // File input for model loading
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.obj,.ply,.stl';
+            input.onchange = async (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    try {
+                        const text = await file.text();
+                        await app.loadModel({ name: file.name, data: text });
+                    } catch (error) {
+                        app.logger.log(`File loading error: ${error.message}`, 'error');
+                    }
+                }
+            };
+            input.click();
+        }
+
+        function testLoadTeapot() {
+            app.loadTeapot();
+        }
+
+        function fitToView() {
+            app.fitToView();
+        }
+
+        function toggleWireframe() {
+            app.toggleWireframe();
+        }
+
+        function clearLog() {
+            app.clearLog();
+        }
+
+        function exportLog() {
+            app.exportLog();
+        }
+
+        function testPerformance() {
+            app.testPerformance();
+        }
+
+        function toggleStats() {
+            app.toggleStats();
+        }
+
+        function toggleVerboseLogging() {
+            app.toggleVerboseLogging();
+        }
+
+        function updateSyncRate() {
+            app.updateSyncRate();
+        }
+    </script>
+</body>
+</html>
