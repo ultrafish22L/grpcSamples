@@ -161,19 +161,20 @@
              * Convert WebGL camera to Octane camera format
              */
             static webglToOctane(camera) {
+                const position = camera.getPosition();
                 return {
                     position: { 
-                        x: camera.position.x, 
-                        y: camera.position.y, 
-                        z: camera.position.z 
+                        x: position[0], 
+                        y: position[1], 
+                        z: position[2] 
                     },
                     target: { 
-                        x: camera.target.x, 
-                        y: camera.target.y, 
-                        z: camera.target.z 
+                        x: camera.center[0], 
+                        y: camera.center[1], 
+                        z: camera.center[2] 
                     },
                     up: { x: 0, y: 1, z: 0 },
-                    fov: camera.fov || 45
+                    fov: 45
                 };
             }
 
@@ -688,23 +689,8 @@
                     this.liveLink = await this.connectionManager.connect(serverAddress);
                     this.connected = this.connectionManager.isConnected();
                     
-                    // Set up event handlers using common utility
-                    OctaneIntegrationUtils.setupLiveLinkEvents(
-                        this.liveLink,
-                        this.logger,
-                        () => {
-                            this.connected = true;
-                            this.updateConnectionUI();
-                        },
-                        () => {
-                            this.connected = false;
-                            this.updateConnectionUI();
-                        },
-                        (error) => {
-                            this.performanceTracker.recordError();
-                            ErrorHandler.handleGrpcError(error, this.logger, 'Connection error');
-                        }
-                    );
+                    // Connection successful
+                    this.connected = true;
                     
                 } catch (error) {
                     this.performanceTracker.recordError();
@@ -1097,9 +1083,12 @@
             updateStatsDisplay(stats) {
                 if (!stats) return;
                 
-                document.getElementById('grpcCallsValue').textContent = stats.totalCalls || 0;
-                document.getElementById('avgResponseValue').textContent = `${stats.averageResponseTime || 0}ms`;
-                document.getElementById('errorCountValue').textContent = stats.errors || 0;
+                // Update stats in footer if elements exist
+                const callCount = document.getElementById('callCount');
+                const responseTime = document.getElementById('responseTime');
+                
+                if (callCount) callCount.textContent = stats.totalCalls || 0;
+                if (responseTime) responseTime.textContent = `${stats.averageResponseTime || 0}ms`;
             }
 
             /**
