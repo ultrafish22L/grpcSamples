@@ -932,7 +932,7 @@
                     serverAddress: document.getElementById('serverAddress')?.value || 'Not set',
                     cameraSync: this.cameraSync,
                     autoRotate: this.autoRotate,
-                    stats: this.statsManager ? this.statsManager.getStats() : 'Stats not available',
+                    stats: this.client ? (this.client.getStats ? this.client.getStats() : 'Client stats not available') : 'Client not initialized',
                     logs: this.logger.getRecentLogs ? this.logger.getRecentLogs(20) : 'Logs not available'
                 };
                 
@@ -996,16 +996,20 @@
                 this.logger.log(`  Render Loop: ${renderStatus}`, 'info');
                 
                 // Performance Statistics
-                if (this.statsManager) {
-                    const stats = this.statsManager.getStats();
-                    this.logger.log(`  Current FPS: ${stats.fps || 0}`, 'info');
-                    this.logger.log(`  Average Frame Time: ${stats.frameTime || 0}ms`, 'info');
-                    this.logger.log(`  Total API Calls: ${stats.totalCalls || 0}`, 'info');
-                    this.logger.log(`  Average Response Time: ${stats.avgResponseTime || 0}ms`, 'info');
-                    this.logger.log(`  Sync Rate: ${stats.syncRate || 0}/s`, 'info');
-                    this.logger.log(`  Error Count: ${stats.errorCount || 0}`, 'info');
+                if (this.client) {
+                    try {
+                        const stats = this.client.getStats();
+                        this.logger.log(`  Current FPS: ${stats.fps || 0}`, 'info');
+                        this.logger.log(`  Average Frame Time: ${stats.frameTime || 0}ms`, 'info');
+                        this.logger.log(`  Total API Calls: ${stats.callCount || 0}`, 'info');
+                        this.logger.log(`  Average Response Time: ${stats.avgResponseTime || 0}ms`, 'info');
+                        this.logger.log(`  Sync Rate: ${stats.syncRate || 0}/s`, 'info');
+                        this.logger.log(`  Error Count: ${stats.errorCount || 0}`, 'info');
+                    } catch (error) {
+                        this.logger.log(`  Stats not available: ${error.message}`, 'warning');
+                    }
                 } else {
-                    this.logger.log(`  Stats Manager: Not initialized`, 'info');
+                    this.logger.log(`  Client: Not initialized`, 'info');
                 }
 
                 // Memory usage if available
