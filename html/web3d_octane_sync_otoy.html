@@ -837,7 +837,10 @@
                 const aspect = this.canvas.width / this.canvas.height;
                 const projectionMatrix = MatrixUtils.createPerspectiveMatrix(Math.PI / 4, aspect, 0.1, 100.0);
                 const viewMatrix = this.camera.getViewMatrix();
-                const modelMatrix = MatrixUtils.createRotationMatrix(time * 0.5, time * 0.3, 0);
+                // Only rotate cube if auto-rotate is enabled
+                const rotationX = this.camera.autoRotate ? time * 0.5 : 0;
+                const rotationY = this.camera.autoRotate ? time * 0.3 : 0;
+                const modelMatrix = MatrixUtils.createRotationMatrix(rotationX, rotationY, 0);
                 const normalMatrix = MatrixUtils.transpose(modelMatrix);
                 
                 // Render skybox first

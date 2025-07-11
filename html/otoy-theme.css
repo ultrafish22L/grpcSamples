@@ -51,6 +51,19 @@ body {
     animation: none !important;
 }
 
+/* Comprehensive anti-flash rules */
+*, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+}
+
+/* Specifically prevent canvas and WebGL flashing */
+canvas {
+    background-color: transparent !important;
+    transition: none !important;
+    animation: none !important;
+}
+
 /* Professional Container - Responsive */
 .container {
     max-width: 1400px;
@@ -70,13 +83,13 @@ body {
     min-height: 0; /* Allow flex shrinking */
     max-width: 1400px;
     margin: 10px auto;
-    height: calc(100vh - 160px); /* Reduced height to show footer */
+    height: calc(100vh - 120px); /* Further reduced to ensure footer visibility */
 }
 
 /* Canvas Container - Responsive */
 .canvas-container {
     flex: 2; /* Give more space to canvas */
-    min-height: 350px;
+    min-height: 280px;
     background: var(--otoy-bg-panel);
     border: 1px solid var(--border-subtle);
     border-radius: 6px;
@@ -528,12 +541,12 @@ input[type="text"]:focus {
     
     .content-area {
         max-width: 1500px;
-        height: calc(100vh - 140px); /* Ensure footer is visible */
+        height: calc(100vh - 100px); /* Ensure footer is visible on desktop */
         gap: 20px;
     }
     
     .canvas-container {
-        min-height: 450px; /* Reasonable canvas size on desktop */
+        min-height: 320px; /* Compact canvas size on desktop */
     }
     
     .controls-container {
@@ -789,7 +802,7 @@ button, input[type="text"], input[type="url"] {
     }
     
     .canvas-container {
-        min-height: 400px;
+        min-height: 300px;
     }
     
     .activity-section .activity-log {
