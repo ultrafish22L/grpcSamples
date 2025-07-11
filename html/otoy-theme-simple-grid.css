@@ -635,7 +635,7 @@ input[type="text"]:focus {
 
 .activity-buttons {
     display: grid;
-    grid-template-columns: repeat(4, auto);
+    grid-template-columns: repeat(3, auto);
     gap: 6px;
     align-items: center;
     justify-content: start;
