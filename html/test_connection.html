@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Connection Test</title>
+</head>
+<body>
+    <h1>Direct Connection Test</h1>
+    <button onclick="testConnection()">Test Connection</button>
+    <div id="results"></div>
+
+    <script>
+        async function testConnection() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<p>Testing connection...</p>';
+            
+            try {
+                console.log('Starting connection test...');
+                
+                const response = await fetch('http://127.0.0.1:51023/livelinkapi.LiveLinkService/GetCamera', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/grpc-web+proto',
+                        'Accept': 'application/grpc-web+proto'
+                    },
+                    body: new Uint8Array([0, 0, 0, 0, 0])
+                });
+                
+                console.log('Response received:', response);
+                console.log('Status:', response.status);
+                console.log('Headers:', Object.fromEntries(response.headers.entries()));
+                
+                if (response.ok) {
+                    const data = await response.arrayBuffer();
+                    console.log('Response data:', new Uint8Array(data));
+                    results.innerHTML = `
+                        <p style="color: green;">✅ Connection successful!</p>
+                        <p>Status: ${response.status}</p>
+                        <p>Headers: ${JSON.stringify(Object.fromEntries(response.headers.entries()), null, 2)}</p>
+                        <p>Data length: ${data.byteLength} bytes</p>
+                    `;
+                } else {
+                    results.innerHTML = `
+                        <p style="color: red;">❌ Connection failed</p>
+                        <p>Status: ${response.status} ${response.statusText}</p>
+                    `;
+                }
+                
+            } catch (error) {
+                console.error('Connection test failed:', error);
+                results.innerHTML = `
+                    <p style="color: red;">❌ Connection test failed</p>
+                    <p>Error: ${error.message}</p>
+                    <p>Type: ${error.name}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+🎭 Starting Mock LiveLink Server
+   This server simulates Octane LiveLink responses for testing
+✅ Mock server started on http://127.0.0.1:51023
+   Available endpoints:
+     GET  /health - Health check
+     POST /LiveLinkService/GetCamera - Get camera state
+     POST /LiveLinkService/SetCamera - Set camera state
+     POST /LiveLinkService/GetMeshes - Get mesh list
+     POST /LiveLinkService/GetMesh - Get mesh data
+   Press Ctrl+C to stop
+📋 Health check requested
+📤 GetCamera request received
+   Content-Type: application/grpc-web+proto
+   Accept: application/grpc-web+proto
+📥 Returning camera: pos=(6.88, 2.03, 4.08)
+📤 Returning gRPC-Web response
+📤 GetCamera request received
+   Content-Type: application/grpc-web+proto
+   Accept: application/grpc-web+proto
+📥 Returning camera: pos=(-2.34, 2.00, 7.65)
+📤 Returning gRPC-Web response

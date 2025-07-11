@@ -724,15 +724,12 @@ class ConnectionManager {
             this.client = this.liveLinkManager.getClient(serverAddress);
             
             this.logger.log('Attempting connection to Octane LiveLink...', 'info');
-            const result = await this.client.connect();
+            await this.client.connect();
             
-            if (result) {
-                this.connectionStateManager.setState('connected');
-                this.logger.log('✅ Connected to Octane LiveLink successfully!', 'success');
-                return this.client;
-            } else {
-                throw new Error('Connection failed - no response from server');
-            }
+            // If we get here without an exception, connection was successful
+            this.connectionStateManager.setState('connected');
+            this.logger.log('✅ Connected to Octane LiveLink successfully!', 'success');
+            return this.client;
         } catch (error) {
             this.connectionStateManager.setState('disconnected');
             this.logger.log(`❌ Connection failed: ${error.message}`, 'error');
