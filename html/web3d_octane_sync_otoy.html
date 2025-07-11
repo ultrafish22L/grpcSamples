@@ -9,55 +9,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔗 OTOY WebGL-Octane LiveLink Sync</title>
-    <link rel="stylesheet" href="otoy-theme.css">
+    <link rel="stylesheet" href="otoy-theme-simple-grid.css">
 </head>
 <body>
     <!-- Fixed Header -->
     <header class="header-bar">
         <div class="header-content">
-            <!-- Top Row: Branding + Connection -->
-            <div class="header-top">
+            <!-- Single Header Row: Branding + Connection Only -->
+            <div class="header-row">
                 <div class="otoy-branding">
                     <a href="https://otoy.com" target="_blank" rel="noopener noreferrer" class="otoy-logo-link" title="Visit OTOY.com">
                         <img src="https://home.otoy.com/wp-content/themes/otoy/assets/images/otoy-logo-white.svg" alt="OTOY" class="otoy-logo" style="width: 32px; height: 32px;">
                     </a>
-                    <h1>Octane WebGL LiveLink Sync 🔗</h1>
+                    <h1>Octane WebGL LiveLink  🔗</h1>
                 </div>
                 <div class="connection-controls">
                     <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023" title="Octane LiveLink server address and port">
-                    <button id="connectBtn" onclick="testConnection()" title="Connect to Octane LiveLink service">🔌 Connect</button>
-                    <button id="disconnectBtn" onclick="disconnect()" title="Disconnect from Octane LiveLink service">⏹️ Disconnect</button>
-                </div>
-            </div>
-            
-            <!-- Bottom Row: LiveLink Controls -->
-            <div class="header-bottom">
-                <div class="livelink-controls">
-                    <div class="control-group">
-                        <span class="group-label">📷</span>
-                        <button id="getCameraBtn" onclick="testGetCamera()" class="icon-btn" title="Get Camera">📥</button>
-                        <button id="setCameraBtn" onclick="testSetCamera()" class="icon-btn" title="Set Camera">📤</button>
-                        <button id="resetCameraBtn" onclick="resetCamera()" class="icon-btn" title="Reset Camera">🔄</button>
-                    </div>
-                    <div class="control-group">
-                        <span class="group-label">🧊</span>
-                        <button id="getMeshesBtn" onclick="testGetMeshes()" class="icon-btn" title="Get Meshes">📋</button>
-                        <button id="loadModelBtn" onclick="loadModel()" class="icon-btn" title="Load Model">📂</button>
-                        <button id="loadTeapotBtn" onclick="testLoadTeapot()" class="icon-btn" title="Load Teapot">🫖</button>
-                    </div>
-                </div>
-                <div class="view-controls">
                     <div class="switch-container">
-                        <label class="switch-label" title="Camera Sync">🔄</label>
-                        <label class="switch" title="Synchronize camera with Octane in real-time">
-                            <input type="checkbox" id="syncCameraToggle" onchange="toggleCameraSync()" checked title="Enable/disable camera synchronization">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="switch-container">
-                        <label class="switch-label" title="Auto-Rotate">🔁</label>
-                        <label class="switch" title="Automatically rotate the 3D model">
-                            <input type="checkbox" id="autoRotateToggle" onchange="toggleAutoRotate()" checked title="Enable/disable automatic model rotation">
+                        <label class="switch-label" title="Connection">🔌</label>
+                        <label class="switch" title="Connect/disconnect from Octane LiveLink service">
+                            <input type="checkbox" id="connectionToggle" onchange="toggleConnection()" title="Toggle connection to Octane LiveLink">
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -65,6 +36,36 @@
             </div>
         </div>
     </header>
+
+    <!-- Controls Section - Below Header -->
+    <section class="controls-section">
+        <div class="controls-content">
+            <div class="livelink-controls">
+                <button id="getCameraBtn" onclick="testGetCamera()" class="icon-btn" title="Get Camera">📥</button>
+                <button id="setCameraBtn" onclick="testSetCamera()" class="icon-btn" title="Set Camera">📤</button>
+                <button id="resetCameraBtn" onclick="resetCamera()" class="icon-btn" title="Reset Camera">🔄</button>
+                <button id="getMeshesBtn" onclick="testGetMeshes()" class="icon-btn" title="Get Meshes">📋</button>
+                <button id="loadModelBtn" onclick="loadModel()" class="icon-btn" title="Load Model">📂</button>
+                <button id="loadTeapotBtn" onclick="testLoadTeapot()" class="icon-btn" title="Load Teapot">🫖</button>
+            </div>
+            <div class="view-controls">
+                <div class="switch-container">
+                    <label class="switch-label" title="Camera Sync">🔄</label>
+                    <label class="switch" title="Synchronize camera with Octane in real-time">
+                        <input type="checkbox" id="syncCameraToggle" onchange="toggleCameraSync()" checked title="Enable/disable camera synchronization">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="switch-container">
+                    <label class="switch-label" title="Auto-Rotate">🔁</label>
+                    <label class="switch" title="Automatically rotate the 3D model">
+                        <input type="checkbox" id="autoRotateToggle" onchange="toggleAutoRotate()" checked title="Enable/disable automatic model rotation">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Main Content Area -->
     <main class="main-content">
@@ -92,7 +93,7 @@
                                 📊
                             </button>
                         </div>
-                        <div class="activity-toggle">
+                        <div class="view-controls">
                             <div class="switch-container">
                                 <label class="switch-label" title="Verbose Logging">📝</label>
                                 <label class="switch" title="Toggle detailed logging output">
@@ -112,10 +113,10 @@
         <!-- Status Footer -->
         <div class="status-footer">
             <div class="footer-stats">
-                <span>Status: <span id="connectionStatus" class="status-indicator">Disconnected</span></span>
+<!--                 <span>Status: <span id="connectionStatus" class="status-indicator">Disconnected</span></span> -->
                 <span>FPS: <span id="fps">0</span></span>
                 <span>Frame: <span id="frameTime">0ms</span></span>
-                <span>Calls: <span id="callCount">0</span></span>
+<!--                <span>Calls: <span id="callCount">0</span></span> -->
                 <span>Response: <span id="responseTime">0ms</span></span>
                 <span>Sync: <span id="syncRate">0/s</span></span>
                 <span>Errors: <span id="errorCount">0</span></span>
@@ -631,8 +632,13 @@
                 
                 // Connection state change handlers
                 this.connectionState.onStateChange('connected', () => {
-                    UIUtils.setButtonEnabled('connectBtn', false);
-                    UIUtils.setButtonEnabled('disconnectBtn', true);
+                    // Update connection toggle
+                    const connectionToggle = document.getElementById('connectionToggle');
+                    if (connectionToggle) connectionToggle.checked = true;
+
+                    // Update LED status indicator
+                    this.uiUtils.updateConnectionStatus(true, true);
+
                     UIUtils.setButtonEnabled('getCameraBtn', true);
                     UIUtils.setButtonEnabled('setCameraBtn', true);
                     UIUtils.setButtonEnabled('getMeshesBtn', true);
@@ -648,8 +654,13 @@
                 });
                 
                 this.connectionState.onStateChange('disconnected', () => {
-                    UIUtils.setButtonEnabled('connectBtn', true);
-                    UIUtils.setButtonEnabled('disconnectBtn', false);
+                    // Update connection toggle
+                    const connectionToggle = document.getElementById('connectionToggle');
+                    if (connectionToggle) connectionToggle.checked = false;
+
+                    // Update LED status indicator
+                    this.uiUtils.updateConnectionStatus(false, true);
+
                     UIUtils.setButtonEnabled('getCameraBtn', false);
                     UIUtils.setButtonEnabled('setCameraBtn', false);
                     UIUtils.setButtonEnabled('getMeshesBtn', false);
@@ -1018,13 +1029,13 @@
              * Update connection UI elements based on current state
              */
             updateConnectionUI() {
-                const connectBtn = document.getElementById('connectBtn');
-                const disconnectBtn = document.getElementById('disconnectBtn');
+                const connectionToggle = document.getElementById('connectionToggle');
                 const connectionStatus = document.getElementById('connectionStatus');
                 
-                // Update button states
-                connectBtn.disabled = this.connected;
-                disconnectBtn.disabled = !this.connected;
+                // Update toggle state
+                if (connectionToggle) {
+                    connectionToggle.checked = this.connected;
+                }
                 
                 // Update status display
                 if (connectionStatus) {
@@ -1401,6 +1412,14 @@
         // Add global functions for compatibility with onclick handlers
         window.testConnection = () => viewer?.connect();
         window.disconnect = () => viewer?.disconnect();
+        window.toggleConnection = () => {
+            const toggle = document.getElementById('connectionToggle');
+            if (toggle.checked) {
+                viewer?.connect();
+            } else {
+                viewer?.disconnect();
+            }
+        };
         window.testGetCamera = () => viewer?.getCameraFromOctane();
         window.testSetCamera = () => viewer?.testRandomCamera();
         window.testGetMeshes = () => viewer?.getMeshList();
