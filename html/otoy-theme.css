@@ -65,9 +65,8 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 0; /* Allow shrinking */
-    overflow: hidden;
-    align-items: center; /* Center content horizontally */
-    justify-content: center; /* Center content vertically */
+    overflow: auto;
+    padding: 20px;
 }
 
 .content-area {
@@ -82,48 +81,22 @@ body {
     margin: 0 auto; /* Center horizontally */
 }
 
+/* Controls container for test interfaces */
+.controls-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
 .footer-container {
     flex-shrink: 0; /* Footer stays fixed size */
 }
 
-/* Allow scrolling only on very small screens */
-@media (max-height: 500px) {
-    body {
-        overflow-y: auto;
-        min-height: 100vh;
-        height: auto;
-    }
-    
-    .container {
-        height: auto;
-        min-height: 100vh;
-        overflow: visible;
-    }
-}
 
-/* Comprehensive anti-flash rules */
-*, *::before, *::after {
-    transition: none !important;
-    animation: none !important;
-}
-
-/* Specifically prevent canvas and WebGL flashing */
-canvas {
-    background-color: transparent !important;
-    transition: none !important;
-    animation: none !important;
-}
-
-/* Legacy container class - now handled by main-content */
-.container {
-    /* This class is no longer used in the new layout */
-    display: none;
-}
-
-/* Content Area - Updated for new layout */
-.content-area {
-    /* Styles now handled by the main layout above */
-}
 
 /* Canvas Container - Responsive */
 .canvas-container {
