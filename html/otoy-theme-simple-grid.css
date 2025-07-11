@@ -631,6 +631,15 @@ input[type="text"]:focus {
 }
 
 .activity-buttons {
+    grid-column: 1; /* Left side */
+}
+
+.activity-controls .view-controls {
+    grid-column: 3; /* Right side */
+    justify-self: end;
+}
+
+.activity-buttons {
     display: grid;
     grid-template-columns: repeat(3, auto);
     gap: 6px;
