@@ -153,6 +153,47 @@
          * - Performance monitoring and logging
          */
 
+        /**
+         * Camera synchronization utilities for converting between WebGL and Octane camera formats
+         */
+        class CameraSyncUtils {
+            /**
+             * Convert WebGL camera to Octane camera format
+             */
+            static webglToOctane(camera) {
+                return {
+                    position: { 
+                        x: camera.position.x, 
+                        y: camera.position.y, 
+                        z: camera.position.z 
+                    },
+                    target: { 
+                        x: camera.target.x, 
+                        y: camera.target.y, 
+                        z: camera.target.z 
+                    },
+                    up: { x: 0, y: 1, z: 0 },
+                    fov: camera.fov || 45
+                };
+            }
+
+            /**
+             * Generate random camera position for testing
+             */
+            static generateRandomCamera() {
+                return {
+                    position: { 
+                        x: Math.random() * 10 - 5, 
+                        y: Math.random() * 10 - 5, 
+                        z: 5 
+                    },
+                    target: { x: 0, y: 0, z: 0 },
+                    up: { x: 0, y: 1, z: 0 },
+                    fov: 45
+                };
+            }
+        }
+
         class OctaneGrpcSync {
             constructor() {
                 // Initialize logging and UI utilities
@@ -1012,20 +1053,21 @@
             updateConnectionUI() {
                 const connectBtn = document.getElementById('connectBtn');
                 const disconnectBtn = document.getElementById('disconnectBtn');
-                const statusText = document.getElementById('statusText');
-                const statusSection = document.getElementById('connectionStatus');
+                const connectionStatus = document.getElementById('connectionStatus');
                 
                 // Update button states
                 connectBtn.disabled = this.connected;
                 disconnectBtn.disabled = !this.connected;
                 
                 // Update status display
-                if (this.connected) {
-                    statusText.textContent = 'Connected';
-                    statusSection.className = 'status-section status-connected';
-                } else {
-                    statusText.textContent = 'Disconnected';
-                    statusSection.className = 'status-section status-disconnected';
+                if (connectionStatus) {
+                    if (this.connected) {
+                        connectionStatus.textContent = 'Connected';
+                        connectionStatus.className = 'status-indicator status-connected';
+                    } else {
+                        connectionStatus.textContent = 'Disconnected';
+                        connectionStatus.className = 'status-indicator status-disconnected';
+                    }
                 }
                 
                 // Enable/disable operation buttons
