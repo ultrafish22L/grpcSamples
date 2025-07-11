@@ -108,7 +108,10 @@ class LiveLinkClient extends SimpleEventEmitter {
             success: 'color: #44ff44; font-weight: bold;'
         };
         
-        console.log(`%c[${timestamp}] ${level.toUpperCase()}: ${message}`, colors[level] || colors.info, details);
+        // Only log to console for errors and warnings (performance optimization)
+        if (level === 'error' || level === 'warn') {
+            console.log(`%c[${timestamp}] ${level.toUpperCase()}: ${message}`, colors[level] || colors.info, details);
+        }
         
         // Create clean activity monitor message (time only, no date)
         const timeOnly = new Date().toLocaleTimeString('en-US', { 
@@ -627,7 +630,8 @@ class LiveLinkClient extends SimpleEventEmitter {
                 //     responseSize: responseText.length,
                 //     resultKeys: Object.keys(result || {})
                 // }, 'success');
-                console.log(`✅ gRPC call successful: ${method} (${responseTime}ms)`);
+                // Console logging removed for performance (high-frequency camera sync operations)
+                // console.log(`✅ gRPC call successful: ${method} (${responseTime}ms)`);
                 
                 // Log specific Octane data (without large data blocks)
                 if (result && result.success && result.data) {
@@ -738,7 +742,8 @@ class LiveLinkClient extends SimpleEventEmitter {
                         up: data.up ? `(${data.up.x?.toFixed(2)}, ${data.up.y?.toFixed(2)}, ${data.up.z?.toFixed(2)})` : 'N/A',
                         fov: data.fov?.toFixed(2) || 'N/A'
                     };
-                    console.log(`🎥 Octane Camera Data:`, cameraInfo);
+                    // Console logging removed for performance optimization
+                    // console.log(`🎥 Octane Camera Data:`, cameraInfo);
                     
                     // Also log to Activity Log
                     this.log(`🎥 Camera Data Retrieved:`, cameraInfo, 'success');
@@ -800,7 +805,8 @@ class LiveLinkClient extends SimpleEventEmitter {
                 break;
                 
             case 'SetCamera':
-                console.log(`🎥 Octane SetCamera: Success`);
+                // Console logging removed for performance (high-frequency camera sync operations)
+                // console.log(`🎥 Octane SetCamera: Success`);
                 this.log(`🎥 Camera position updated successfully`, {}, 'success');
                 break;
                 
