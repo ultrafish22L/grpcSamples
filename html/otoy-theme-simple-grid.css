@@ -72,7 +72,7 @@ body {
     grid-template-columns: 1fr auto;
     gap: 20px;
     padding: 0; /* Remove padding since main-content has padding */
-    min-height: 400px; /* Minimum content height */
+    min-height: 500px; /* Minimum content height - increased for better fit */
     height: 100%; /* Take full height */
     max-width: 1400px;
     width: 100%; /* Take full width up to max-width */
@@ -95,7 +95,8 @@ body {
 
 /* Canvas Container - Responsive */
 .canvas-container {
-    min-height: 280px;
+    min-height: 500px;
+    height: 100%; /* Take full available height */
     background: var(--otoy-bg-panel);
     border: 1px solid var(--border-subtle);
     border-radius: 6px;
@@ -183,6 +184,8 @@ body {
     min-width: 300px;
     max-width: 400px;
     width: 400px; /* Fixed width */
+    min-height: 500px;
+    height: 100%; /* Take full available height */
     display: grid;
     grid-template-rows: 1fr;
     gap: 10px;
@@ -200,8 +203,8 @@ body {
 
 .activity-section .activity-log {
     overflow-y: scroll; /* Always show scrollbar */
-    min-height: 200px; /* Ensure minimum height */
-    max-height: 400px; /* Fixed maximum height - will scroll when exceeded */
+    min-height: 300px; /* Ensure minimum height */
+    max-height: 450px; /* Fixed maximum height - will scroll when exceeded */
     height: auto; /* Auto height up to max */
 }
 
