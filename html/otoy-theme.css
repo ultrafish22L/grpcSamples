@@ -79,6 +79,8 @@ body {
     max-width: 1400px;
     width: 100%; /* Take full width up to max-width */
     margin: 0 auto; /* Center horizontally */
+    justify-content: center; /* Center the content horizontally */
+    align-items: flex-start; /* Align items to top */
 }
 
 /* Controls container for test interfaces */
