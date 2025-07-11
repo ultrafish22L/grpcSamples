@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔗 OTOY WebGL-Octane LiveLink Sync (Simple Grid Layout)</title>
+    <link rel="stylesheet" href="otoy-theme-simple-grid.css">
+</head>
+<body>
+    <!-- Fixed Header -->
+    <header class="header-bar">
+        <div class="header-content">
+            <div class="logo-section">
+                <a href="https://otoy.com" target="_blank" class="logo-link">
+                    <img src="https://otoy.com/wp-content/uploads/2023/01/OTOY_Logo_2023.png" alt="OTOY" class="otoy-logo">
+                </a>
+                <h1>🔗 WebGL-Octane LiveLink Sync</h1>
+            </div>
+            <div class="connection-status">
+                <div class="status-indicator" id="statusLed"></div>
+                <span id="statusText">Ready</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-wrapper">
+            <!-- Left Panel: 3D Viewport -->
+            <div class="viewport-section">
+                <canvas id="webglCanvas" width="800" height="600"></canvas>
+                
+                <!-- Connection Controls -->
+                <div class="connection-panel">
+                    <div class="button-grid">
+                        <button class="test-btn" onclick="testConnection()">🔗 Test Connection</button>
+                        <button class="test-btn" onclick="getCamera()">📷 Get Camera</button>
+                        <button class="test-btn" onclick="setCamera()">📤 Set Camera</button>
+                        <button class="test-btn" onclick="getMeshes()">🎲 Get Meshes</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Activity Log -->
+            <div class="activity-section">
+                <h3>📋 Activity Log</h3>
+                <div class="activity-log" id="activityLog">
+                    <div class="log-entry">
+                        <span class="timestamp">Ready</span>
+                        <span class="message">🚀 System initialized</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Fixed Footer -->
+    <footer class="footer-bar">
+        <div class="stats-container">
+            <span class="stat-item">FPS: <span id="fpsCounter">60</span></span>
+            <span class="stat-item">Calls: <span id="callCounter">0</span></span>
+            <span class="stat-item">Status: <span id="connectionStatus">Ready</span></span>
+        </div>
+    </footer>
+
+    <script src="shared.js"></script>
+    <script src="livelink.js"></script>
+    <script src="webgl-utils.js"></script>
+    <script>
+        // Initialize the application
+        let client, renderer, camera;
+        
+        window.addEventListener('DOMContentLoaded', () => {
+            // Initialize gRPC client
+            client = new LiveLinkClient('http://localhost:8080');
+            
+            // Initialize WebGL renderer
+            const canvas = document.getElementById('webglCanvas');
+            renderer = new WebGLRenderer(canvas);
+            camera = new Camera();
+            
+            // Start render loop
+            animate();
+            
+            console.log('🚀 Application initialized');
+        });
+        
+        function animate() {
+            renderer.render(camera);
+            updateFPS();
+            requestAnimationFrame(animate);
+        }
+        
+        function updateFPS() {
+            // Simple FPS counter
+            const now = performance.now();
+            if (!updateFPS.lastTime) updateFPS.lastTime = now;
+            if (now - updateFPS.lastTime >= 1000) {
+                document.getElementById('fpsCounter').textContent = Math.round(1000 / (now - updateFPS.lastTime));
+                updateFPS.lastTime = now;
+            }
+        }
+        
+        // Test functions
+        async function testConnection() {
+            logActivity('🔗', 'Testing connection...');
+            try {
+                const result = await client.testConnection();
+                logActivity('✅', 'Connection successful');
+                updateStatus('connected', 'Connected');
+            } catch (error) {
+                logActivity('❌', `Connection failed: ${error.message}`);
+                updateStatus('error', 'Connection Failed');
+            }
+        }
+        
+        async function getCamera() {
+            logActivity('📷', 'Getting camera...');
+            try {
+                const camera = await client.getCamera();
+                logActivity('✅', `Camera: pos(${camera.position.x.toFixed(2)}, ${camera.position.y.toFixed(2)}, ${camera.position.z.toFixed(2)})`);
+            } catch (error) {
+                logActivity('❌', `Get camera failed: ${error.message}`);
+            }
+        }
+        
+        async function setCamera() {
+            logActivity('📤', 'Setting camera...');
+            try {
+                await client.setCamera(camera.getState());
+                logActivity('✅', 'Camera set successfully');
+            } catch (error) {
+                logActivity('❌', `Set camera failed: ${error.message}`);
+            }
+        }
+        
+        async function getMeshes() {
+            logActivity('🎲', 'Getting meshes...');
+            try {
+                const meshes = await client.getMeshes();
+                logActivity('✅', `Found ${meshes.length} meshes`);
+            } catch (error) {
+                logActivity('❌', `Get meshes failed: ${error.message}`);
+            }
+        }
+        
+        function logActivity(icon, message) {
+            const log = document.getElementById('activityLog');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `
+                <span class="timestamp">${new Date().toLocaleTimeString()}</span>
+                <span class="message">${icon} ${message}</span>
+            `;
+            log.insertBefore(entry, log.firstChild);
+            
+            // Keep only last 50 entries
+            while (log.children.length > 50) {
+                log.removeChild(log.lastChild);
+            }
+        }
+        
+        function updateStatus(state, text) {
+            const led = document.getElementById('statusLed');
+            const statusText = document.getElementById('statusText');
+            const connectionStatus = document.getElementById('connectionStatus');
+            
+            led.className = `status-indicator ${state}`;
+            statusText.textContent = text;
+            connectionStatus.textContent = text;
+        }
+    </script>
+</body>
+</html>

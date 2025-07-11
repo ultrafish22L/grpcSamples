@@ -1,0 +1,286 @@
+/* OTOY Theme - Simple CSS Grid Layout (No Flexbox) */
+
+:root {
+    --otoy-red: #ff0000;
+    --otoy-red-hover: #cc0000;
+    --otoy-bg-primary: #1a1a1a;
+    --otoy-bg-secondary: #2d2d2d;
+    --otoy-text-primary: #ffffff;
+    --otoy-text-secondary: #cccccc;
+    --otoy-border: #444444;
+    --panel-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* MAIN LAYOUT - Simple CSS Grid */
+body {
+    display: grid;
+    grid-template-rows: auto 1fr auto; /* header, main, footer */
+    height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, var(--otoy-bg-primary) 0%, var(--otoy-bg-secondary) 100%);
+    color: var(--otoy-text-primary);
+    line-height: 1.4;
+    font-size: 14px;
+}
+
+/* HEADER - Sticky at top */
+.header-bar {
+    background: var(--otoy-bg-secondary);
+    border-bottom: 2px solid var(--otoy-red);
+    box-shadow: var(--panel-shadow);
+    padding: 12px 20px;
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo-section {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 15px;
+}
+
+.otoy-logo {
+    height: 32px;
+    width: auto;
+}
+
+.logo-section h1 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--otoy-text-primary);
+}
+
+.connection-status {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ffa500;
+    animation: pulse 2s infinite;
+}
+
+.status-indicator.connected {
+    background: #00ff00;
+    animation: none;
+}
+
+.status-indicator.error {
+    background: #ff0000;
+    animation: none;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* MAIN CONTENT - Takes remaining space */
+.main-content {
+    padding: 20px;
+    overflow: hidden;
+}
+
+.content-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
+}
+
+/* VIEWPORT SECTION */
+.viewport-section {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: 15px;
+    background: var(--otoy-bg-secondary);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: var(--panel-shadow);
+}
+
+#webglCanvas {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    background: #000;
+    border: 1px solid var(--otoy-border);
+}
+
+.connection-panel {
+    text-align: center;
+}
+
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.test-btn {
+    background: linear-gradient(135deg, var(--otoy-red) 0%, var(--otoy-red-hover) 100%);
+    color: white;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.test-btn:hover {
+    background: linear-gradient(135deg, var(--otoy-red-hover) 0%, #990000 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.test-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ACTIVITY SECTION */
+.activity-section {
+    background: var(--otoy-bg-secondary);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: var(--panel-shadow);
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 15px;
+}
+
+.activity-section h3 {
+    color: var(--otoy-text-primary);
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--otoy-border);
+    padding-bottom: 8px;
+}
+
+.activity-log {
+    overflow-y: auto;
+    max-height: 100%;
+}
+
+.log-entry {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 12px;
+}
+
+.log-entry:last-child {
+    border-bottom: none;
+}
+
+.timestamp {
+    color: var(--otoy-text-secondary);
+    font-size: 11px;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.message {
+    color: var(--otoy-text-primary);
+    display: block;
+}
+
+/* FOOTER - Sticky at bottom */
+.footer-bar {
+    background: var(--otoy-bg-secondary);
+    border-top: 1px solid var(--otoy-border);
+    padding: 8px 20px;
+}
+
+.stats-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.stat-item {
+    color: var(--otoy-text-secondary);
+    font-size: 12px;
+    margin: 0 15px;
+}
+
+.stat-item span {
+    color: var(--otoy-text-primary);
+    font-weight: 500;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+    .content-wrapper {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+    }
+    
+    .header-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .logo-section {
+        justify-self: center;
+    }
+    
+    .button-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .stats-container {
+        font-size: 11px;
+    }
+    
+    .stat-item {
+        margin: 0 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 10px;
+    }
+    
+    .viewport-section,
+    .activity-section {
+        padding: 15px;
+    }
+    
+    .button-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .otoy-logo {
+        height: 24px;
+    }
+    
+    .logo-section h1 {
+        font-size: 16px;
+    }
+}
