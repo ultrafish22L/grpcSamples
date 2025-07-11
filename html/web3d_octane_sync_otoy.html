@@ -1156,8 +1156,13 @@
                     // Canvas resize (console logging removed for performance)
 //                    this.logger.log(`🔄 Canvas resize: ${width}x${height}, aspect: ${(width/height).toFixed(2)}`, 'debug');
                     
+                    // Set canvas buffer size (actual rendering resolution)
                     this.canvas.width = width;
                     this.canvas.height = height;
+                    
+                    // Set canvas display size via CSS (prevents stretching)
+                    this.canvas.style.width = width + 'px';
+                    this.canvas.style.height = height + 'px';
 
                     if (this.gl) {
                         this.gl.viewport(0, 0, width, height);

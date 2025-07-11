@@ -178,13 +178,12 @@ body {
 }
 
 .canvas-container canvas {
-    width: 100%;
-    height: 100%;
     display: block;
     /* Prevent canvas flashing */
     background: transparent;
     transition: none !important;
     animation: none !important;
+    /* Let JavaScript handle canvas sizing to prevent buffer/display mismatch */
 }
 
 /* Info Panel - Flexible */
