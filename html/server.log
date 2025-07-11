@@ -1,18 +1,7 @@
-Traceback (most recent call last):
-  File "<frozen runpy>", line 198, in _run_module_as_main
-  File "<frozen runpy>", line 88, in _run_code
-  File "/openhands/micromamba/envs/openhands/lib/python3.12/http/server.py", line 1314, in <module>
-    test(
-  File "/openhands/micromamba/envs/openhands/lib/python3.12/http/server.py", line 1261, in test
-    with ServerClass(addr, HandlerClass) as httpd:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/openhands/micromamba/envs/openhands/lib/python3.12/socketserver.py", line 457, in __init__
-    self.server_bind()
-  File "/openhands/micromamba/envs/openhands/lib/python3.12/http/server.py", line 1308, in server_bind
-    return super().server_bind()
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "/openhands/micromamba/envs/openhands/lib/python3.12/http/server.py", line 136, in server_bind
-    socketserver.TCPServer.server_bind(self)
-  File "/openhands/micromamba/envs/openhands/lib/python3.12/socketserver.py", line 478, in server_bind
-    self.socket.bind(self.server_address)
-OSError: [Errno 98] Address already in use
+Serving HTTP on 0.0.0.0 port 54291 (http://0.0.0.0:54291/) ...
+127.0.0.1 - - [11/Jul/2025 03:16:17] "GET /web3d_octane_sync_otoy.html HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 03:16:17] "GET /otoy-theme.css HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 03:16:17] "GET /shared.js HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2025 03:16:17] "GET /livelink.js HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2025 03:16:17] "GET /webgl-utils.js HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2025 03:16:17] "GET /webgl-common.js HTTP/1.1" 304 -

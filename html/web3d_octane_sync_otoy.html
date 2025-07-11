@@ -26,11 +26,6 @@
                 <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023">
                 <button id="connectBtn" onclick="testConnection()">Connect</button>
                 <button id="disconnectBtn" onclick="disconnect()">Disconnect</button>
-                <button id="exportDebugBtn" onclick="exportDebugInfo()">Export</button>
-                <button id="showSystemInfoBtn" onclick="showSystemInfo()">System</button>
-                <button id="showDebugInfoBtn" onclick="showDebugInfo()">Debug</button>
-                <button id="refreshStatsBtn" onclick="refreshStats()">Stats</button>
-                <button id="clearLogBtn" onclick="clearLog()">Clear</button>
             </div>
             
             <!-- Row 2: LiveLink & View Controls -->
@@ -58,13 +53,7 @@
                             <span class="slider"></span>
                         </label>
                     </div>
-                    <div class="switch-container">
-                        <label class="switch-label">Verbose Logs</label>
-                        <label class="switch">
-                            <input type="checkbox" id="verboseLogsToggle" onchange="toggleVerboseLogs()">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -81,6 +70,36 @@
                 <div class="activity-section glass-panel">
                     <div class="activity-title">Activity Log</div>
                     <div id="activityLog" class="activity-log"></div>
+                    
+                    <!-- Activity Log Controls -->
+                    <div class="activity-controls">
+                        <div class="activity-buttons">
+                            <button id="clearLogBtn" onclick="clearLog()" title="Clear activity log">
+                                🗑️ Clear
+                            </button>
+                            <button id="exportDebugBtn" onclick="exportDebugInfo()" title="Export debug information">
+                                📤 Export
+                            </button>
+                            <button id="refreshStatsBtn" onclick="refreshStats()" title="Refresh statistics">
+                                📊 Stats
+                            </button>
+                            <button id="showSystemInfoBtn" onclick="showSystemInfo()" title="Show system information">
+                                💻 System
+                            </button>
+                            <button id="showDebugInfoBtn" onclick="showDebugInfo()" title="Show debug information">
+                                🔧 Debug
+                            </button>
+                        </div>
+                        <div class="activity-toggle">
+                            <div class="switch-container">
+                                <label class="switch-label">📝 Verbose Logs</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="verboseLogsToggle" onchange="toggleVerboseLogs()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

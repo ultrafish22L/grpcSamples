@@ -455,6 +455,61 @@ input[type="text"]:focus {
     font-size: 9px;
 }
 
+/* Activity Controls - Bottom of Activity Log */
+.activity-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-subtle);
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.activity-buttons {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.activity-buttons button {
+    background: var(--otoy-bg-secondary);
+    border: 1px solid var(--border-subtle);
+    color: var(--otoy-text-primary);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.activity-buttons button:hover {
+    background: var(--otoy-red);
+    border-color: var(--otoy-red);
+    transform: translateY(-1px);
+}
+
+.activity-buttons button:active {
+    transform: translateY(0);
+}
+
+.activity-toggle {
+    display: flex;
+    align-items: center;
+}
+
+.activity-toggle .switch-container {
+    margin: 0;
+}
+
+.activity-toggle .switch-label {
+    font-size: 9px;
+    margin-right: 6px;
+}
+
 /* Status Footer - Ultra Compact */
 .status-footer {
     background: var(--otoy-bg-header);
