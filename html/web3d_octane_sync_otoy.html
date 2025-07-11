@@ -747,7 +747,7 @@
              * Set camera state in Octane
              */
             async setCameraToOctane() {
-                if (!this.connected || !this.client) {
+                if (!this.connected || !this.liveLink) {
                     // Don't log warning every time - only log once when sync starts
                     return;
                 }
@@ -757,7 +757,7 @@
                     const cameraState = CameraSyncUtils.webglToOctane(this.camera);
                     
                     // Sync camera without console logging (performance optimization)
-                    await this.client.setCamera(cameraState);
+                    await this.grpcOperations.testSetCamera(this.liveLink, cameraState, true); // Pass true to suppress UI logging
                     
                 } catch (error) {
                     this.performanceTracker.recordError();
