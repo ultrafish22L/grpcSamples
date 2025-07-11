@@ -21,6 +21,7 @@ third_party/**/*.a
 third_party/**/*.dylib
 third_party/**/*.exe
 grpc_generator.cc
+!third_party/**/protoc.exe
 
 # CMake files
 CMakeCache.txt
