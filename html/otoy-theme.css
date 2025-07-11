@@ -59,22 +59,16 @@ body {
 .header-bar {
 }
 
-.main-content {
-    display: grid;
-    grid-template-rows: 1fr;
-    min-height: 0; /* Allow shrinking */
-    overflow: hidden;
-    padding: 10px; /* Reduced padding for tighter fit */
-    place-content: center;
-}
-
 .content-area {
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 5px; /* Match canvas-container padding for consistent spacing */
-    padding: 0; /* Remove padding since main-content has padding */
-    min-height: 600px; /* Increased height to use more vertical space */
+    padding: 10px; /* Padding for consistent margins */
+    min-height: 0; /* Allow shrinking */
+    overflow: hidden;
     max-width: 1400px;
+    margin: 0 auto; /* Center the content area */
+    height: 100%; /* Fill available vertical space */
 }
 
 /* Controls container for test interfaces */
@@ -221,7 +215,7 @@ body {
 .header-content {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 10px; /* Match main-content padding for consistent margins */
+    padding: 0 10px; /* Match content-area padding for consistent margins */
 }
 
 .header-row {
@@ -285,7 +279,7 @@ body {
 .controls-content {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 10px; /* Match main-content padding for consistent margins */
+    padding: 0 10px; /* Match content-area padding for consistent margins */
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
@@ -714,7 +708,7 @@ input[type="text"]:focus {
 .status-footer {
     background: var(--otoy-bg-header);
     border-top: 1px solid var(--border-subtle);
-    padding: 8px 10px; /* Match main-content padding for consistent margins */
+    padding: 8px 10px; /* Match content-area padding for consistent margins */
     margin-top: 10px; /* Reduced margin for tighter layout */
 }
 
@@ -749,7 +743,7 @@ input[type="text"]:focus {
 .otoy-footer {
     background: var(--otoy-bg-primary);
     border-top: 2px solid var(--otoy-red);
-    padding: 10px; /* Match main-content padding for consistent margins */
+    padding: 10px; /* Match content-area padding for consistent margins */
     text-align: center;
     font-size: 10px;
     color: var(--otoy-text-muted);

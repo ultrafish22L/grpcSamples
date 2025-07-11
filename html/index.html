@@ -68,39 +68,36 @@
     </section>
 
     <!-- Main Content Area -->
-    <main class="main-content">
-        <!-- 3D Canvas and Info Panel below -->
-        <div class="content-area">
-            <div class="canvas-container">
-                <canvas id="canvas"></canvas>
-            </div>
-            
-            <div class="info-panel">
-                <div class="activity-section glass-panel">
-                    <div class="activity-title">Activity Log</div>
-                    <div id="activityLog" class="activity-log"></div>
-                    
-                    <!-- Activity Log Controls -->
-                    <div class="activity-controls">
-                        <div class="activity-buttons">
-                            <button id="clearLogBtn" onclick="clearLog()" title="Clear activity log" class="icon-btn">
-                                🗑️
-                            </button>
-                            <button id="exportDebugBtn" onclick="exportDebugInfo()" title="Export debug information" class="icon-btn">
-                                💾
-                            </button>
-                            <button id="showInfoBtn" onclick="showInfo()" title="Show system, debug and statistics information" class="icon-btn">
-                                📊
-                            </button>
-                        </div>
-                        <div class="view-controls">
-                            <div class="switch-container">
-                                <label class="switch-label" title="Verbose Logging">📝</label>
-                                <label class="switch" title="Toggle detailed logging output">
-                                    <input type="checkbox" id="verboseLogsToggle" onchange="toggleVerboseLogs()" checked title="Enable/disable verbose logging">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
+    <main class="content-area">
+        <div class="canvas-container">
+            <canvas id="canvas"></canvas>
+        </div>
+        
+        <div class="info-panel">
+            <div class="activity-section glass-panel">
+                <div class="activity-title">Activity Log</div>
+                <div id="activityLog" class="activity-log"></div>
+                
+                <!-- Activity Log Controls -->
+                <div class="activity-controls">
+                    <div class="activity-buttons">
+                        <button id="clearLogBtn" onclick="clearLog()" title="Clear activity log" class="icon-btn">
+                            🗑️
+                        </button>
+                        <button id="exportDebugBtn" onclick="exportDebugInfo()" title="Export debug information" class="icon-btn">
+                            💾
+                        </button>
+                        <button id="showInfoBtn" onclick="showInfo()" title="Show system, debug and statistics information" class="icon-btn">
+                            📊
+                        </button>
+                    </div>
+                    <div class="view-controls">
+                        <div class="switch-container">
+                            <label class="switch-label" title="Verbose Logging">📝</label>
+                            <label class="switch" title="Toggle detailed logging output">
+                                <input type="checkbox" id="verboseLogsToggle" onchange="toggleVerboseLogs()" checked title="Enable/disable verbose logging">
+                                <span class="slider"></span>
+                            </label>
                         </div>
                     </div>
                 </div>
