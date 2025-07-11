@@ -747,7 +747,7 @@
              * Set camera state in Octane
              */
             async setCameraToOctane() {
-                if (!this.connected || !this.liveLink) {
+                if (!this.connected || !this.client) {
                     // Don't log warning every time - only log once when sync starts
                     return;
                 }
@@ -757,7 +757,7 @@
                     const cameraState = CameraSyncUtils.webglToOctane(this.camera);
                     
                     // Sync camera without console logging (performance optimization)
-                    await this.grpcOperations.testSetCamera(this.liveLink, cameraState, true); // Pass true to suppress UI logging
+                    await this.client.setCamera(cameraState);
                     
                 } catch (error) {
                     this.performanceTracker.recordError();
@@ -809,29 +809,8 @@
              * Load teapot mesh from Octane
              */
             async loadTeapot() {
-                if (!this.connected || !this.liveLink) {
-                    this.logger.log('Not connected to Octane', 'warning');
-                    return;
-                }
-
-                try {
-                    const startTime = Date.now();
-                    const meshData = await this.liveLink.getMesh({ id: 'teapot' });
-                    const responseTime = Date.now() - startTime;
-                    
-                    this.performanceTracker.recordCall(responseTime);
-                    
-                    if (meshData && meshData.positions) {
-                        this.logger.log(`Loaded teapot: ${meshData.positions.length} vertices, ${meshData.vertsPerPoly ? meshData.vertsPerPoly.length : 0} polygons`, 'success');
-                        this.teapotLoaded = true;
-                        // TODO: Replace cube with teapot geometry
-                    } else {
-                        this.logger.log('No teapot data received', 'warning');
-                    }
-                } catch (error) {
-                    this.performanceTracker.recordError();
-                    ErrorHandler.handleGrpcError(error, this.logger, 'Failed to load teapot');
-                }
+                this.logger.log('🫖 Load Teapot: Work in progress...', 'info');
+                this.logger.log('This feature will load 3D teapot geometry from Octane in a future update', 'info');
             }
 
             /**
