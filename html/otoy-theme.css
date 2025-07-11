@@ -74,9 +74,7 @@ body {
     gap: 5px; /* Match canvas-container padding for consistent spacing */
     padding: 0; /* Remove padding since main-content has padding */
     min-height: 600px; /* Increased height to use more vertical space */
-    height: 100%; /* Take full height */
     max-width: 1400px;
-    width: 100%; /* Take full width up to max-width */
 }
 
 /* Controls container for test interfaces */
