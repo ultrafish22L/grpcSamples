@@ -60,22 +60,20 @@ body {
 }
 
 .main-content {
-    flex: 1; /* Takes remaining space */
-    display: block;
+    display: grid;
+    grid-template-rows: 1fr;
     min-height: 0; /* Allow shrinking */
-    overflow: auto;
+    overflow: hidden;
     padding: 20px;
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
 }
 
 .content-area {
-    flex: 1;
-    display: block;
+    display: grid;
+    grid-template-columns: 1fr auto;
     gap: 20px;
     padding: 0; /* Remove padding since main-content has padding */
     min-height: 400px; /* Minimum content height */
-    overflow: auto; /* Scroll when content is too small */
+    height: 100%; /* Take full height */
     max-width: 1400px;
     width: 100%; /* Take full width up to max-width */
 }
@@ -97,7 +95,6 @@ body {
 
 /* Canvas Container - Responsive */
 .canvas-container {
-    flex: 2; /* Give more space to canvas */
     min-height: 280px;
     background: var(--otoy-bg-panel);
     border: 1px solid var(--border-subtle);
@@ -183,10 +180,11 @@ body {
 
 /* Info Panel - Flexible */
 .info-panel {
-    flex: 1; /* More flexible sizing */
     min-width: 300px;
     max-width: 400px;
-    display: block;
+    width: 400px; /* Fixed width */
+    display: grid;
+    grid-template-rows: 1fr;
     gap: 10px;
 }
 
@@ -203,9 +201,8 @@ body {
 .activity-section .activity-log {
     overflow-y: auto;
     min-height: 200px; /* Ensure minimum height */
-    max-height: none; /* Remove height restriction - will be set by JavaScript */
-    height: 100%; /* Fill available space */
-    grid-row: 1; /* Take up available space in grid */
+    max-height: 400px; /* Fixed maximum height - will scroll when exceeded */
+    height: auto; /* Auto height up to max */
 }
 
 /* Improved Header Bar - Full Width Layout */
