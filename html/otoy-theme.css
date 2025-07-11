@@ -42,13 +42,29 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: linear-gradient(135deg, var(--otoy-bg-primary) 0%, var(--otoy-bg-secondary) 100%);
     color: var(--otoy-text-primary);
-    min-height: 100vh;
+    height: 100vh;
     line-height: 1.4;
     font-size: 14px;
+    overflow: hidden; /* Prevent body scrolling */
     /* Prevent background flashing */
     background-attachment: fixed;
     transition: none !important;
     animation: none !important;
+}
+
+/* Allow scrolling only on very small screens */
+@media (max-height: 500px) {
+    body {
+        overflow-y: auto;
+        min-height: 100vh;
+        height: auto;
+    }
+    
+    .container {
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
 }
 
 /* Comprehensive anti-flash rules */
@@ -85,6 +101,7 @@ canvas {
     max-width: 1400px;
     margin: 10px auto;
     overflow: hidden; /* Prevent content overflow */
+    /* Dynamic height will be set by JavaScript */
 }
 
 /* Canvas Container - Responsive */
@@ -136,7 +153,7 @@ canvas {
     flex: 1;
     overflow-y: auto;
     min-height: 0; /* Allow flex shrinking */
-    max-height: none; /* Remove height restriction */
+    max-height: none; /* Remove height restriction - will be set by JavaScript */
 }
 
 /* Improved Header Bar - Full Width Layout */
