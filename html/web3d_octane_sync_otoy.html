@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="otoy-theme.css">
 </head>
 <body>
-    <!-- Full Width Header Bar -->
-    <div class="header-bar">
+    <!-- Fixed Header -->
+    <header class="header-bar">
         <div class="header-content">
             <!-- Top Row: Branding + Connection -->
             <div class="header-top">
@@ -64,9 +64,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </header>
 
-    <div class="container">
+    <!-- Main Content Area -->
+    <main class="main-content">
         <!-- 3D Canvas and Info Panel below -->
         <div class="content-area">
             <div class="canvas-container">
@@ -104,7 +105,36 @@
                 </div>
             </div>
         </div>
-    </div>
+    </main>
+
+    <!-- Fixed Footer -->
+    <footer class="footer-container">
+        <!-- Status Footer -->
+        <div class="status-footer">
+            <div class="footer-stats">
+                <span>Status: <span id="connectionStatus" class="status-indicator">Disconnected</span></span>
+                <span>FPS: <span id="fps">0</span></span>
+                <span>Frame: <span id="frameTime">0ms</span></span>
+                <span>Calls: <span id="callCount">0</span></span>
+                <span>Response: <span id="responseTime">0ms</span></span>
+                <span>Sync: <span id="syncRate">0/s</span></span>
+                <span>Errors: <span id="errorCount">0</span></span>
+            </div>
+        </div>
+
+        <!-- OTOY Footer -->
+        <div class="otoy-footer">
+            <div class="otoy-status">
+                <span class="status-led"></span>
+                <span>All Systems Ready</span>
+            </div>
+            <div class="otoy-copyright">
+                © OTOY Inc. – 2020 All Rights Reserved.
+                <a href="https://otoy.com/terms" target="_blank">Terms & Conditions</a> |
+                <a href="https://otoy.com/privacy" target="_blank">OTOY Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
 
     <!-- Include shared utilities and LiveLink client -->
     <script src="shared.js"></script>
@@ -1367,84 +1397,9 @@
         window.showInfo = () => viewer?.showInfo();
         window.clearLog = () => viewer?.clearLog();
 
-        // Dynamic viewport height adjustment
-        function adjustLayoutForViewport() {
-            const viewportHeight = window.innerHeight;
-            const container = document.querySelector('.container');
-            const contentArea = document.querySelector('.content-area');
-            const activityLog = document.querySelector('.activity-log');
-            
-            if (viewportHeight < 500) {
-                // Very small screens - allow scrolling
-                document.body.style.overflow = 'auto';
-                document.body.style.height = 'auto';
-                document.body.style.minHeight = '100vh';
-                if (container) {
-                    container.style.height = 'auto';
-                    container.style.minHeight = '100vh';
-                    container.style.overflow = 'visible';
-                }
-            } else {
-                // Normal screens - tight layout with footer close to content
-                document.body.style.overflow = 'auto';
-                document.body.style.height = 'auto';
-                document.body.style.minHeight = '100vh';
-                if (container) {
-                    container.style.height = 'auto';
-                    container.style.minHeight = 'auto'; // Let content determine height
-                    container.style.overflow = 'visible';
-                    container.style.paddingBottom = '20px'; // Small gap before footer
-                }
-                
-                // Set reasonable heights for content areas
-                if (contentArea) {
-                    contentArea.style.height = 'auto';
-                    contentArea.style.minHeight = '600px';
-                    contentArea.style.maxHeight = 'none';
-                }
-                
-                // Set reasonable height for activity log
-                if (activityLog) {
-                    activityLog.style.maxHeight = '400px';
-                    activityLog.style.minHeight = '200px';
-                }
-            }
-        }
-
-        // Apply on load and resize
-        window.addEventListener('load', adjustLayoutForViewport);
-        window.addEventListener('resize', adjustLayoutForViewport);
-        
-        // Apply immediately
-        adjustLayoutForViewport();
+        // Layout is now handled by CSS flexbox - no JavaScript needed
 
     </script>
-
-    <!-- Status Footer -->
-    <div class="status-footer">
-        <div class="footer-stats">
-            <span>Status: <span id="connectionStatus" class="status-indicator">Disconnected</span></span>
-            <span>FPS: <span id="fps">0</span></span>
-            <span>Frame: <span id="frameTime">0ms</span></span>
-            <span>Calls: <span id="callCount">0</span></span>
-            <span>Response: <span id="lastTime">0ms</span></span>
-            <span>Sync: <span id="syncRate">0/s</span></span>
-            <span>Errors: <span id="errorCount">0</span></span>
-        </div>
-    </div>
-
-    <!-- OTOY Footer -->
-    <div class="otoy-footer">
-        <div class="otoy-status">
-            <span class="status-led"></span>
-            <span>All Systems Ready</span>
-        </div>
-        <div class="otoy-copyright">
-            © OTOY Inc. – 2020 All Rights Reserved.
-            <a href="https://otoy.com/terms" target="_blank">Terms & Conditions</a> |
-            <a href="https://otoy.com/privacy" target="_blank">OTOY Privacy Policy</a>
-        </div>
-    </div>
 
 </body>
 </html>

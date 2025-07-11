@@ -45,11 +45,42 @@ body {
     height: 100vh;
     line-height: 1.4;
     font-size: 14px;
-    overflow: hidden; /* Prevent body scrolling */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
     /* Prevent background flashing */
     background-attachment: fixed;
     transition: none !important;
     animation: none !important;
+}
+
+/* Modern Layout Structure */
+.header-bar {
+    flex-shrink: 0; /* Header stays fixed size */
+}
+
+.main-content {
+    flex: 1; /* Takes remaining space */
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* Allow shrinking */
+    overflow: hidden;
+}
+
+.content-area {
+    flex: 1;
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    min-height: 400px; /* Minimum content height */
+    overflow: auto; /* Scroll when content is too small */
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.footer-container {
+    flex-shrink: 0; /* Footer stays fixed size */
 }
 
 /* Allow scrolling only on very small screens */
@@ -80,28 +111,15 @@ canvas {
     animation: none !important;
 }
 
-/* Professional Container - Full Viewport Height */
+/* Legacy container class - now handled by main-content */
 .container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 20px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; /* Prevent scrolling */
+    /* This class is no longer used in the new layout */
+    display: none;
 }
 
-/* Content Area - Flexible Height */
+/* Content Area - Updated for new layout */
 .content-area {
-    flex: 1;
-    display: flex;
-    gap: 15px;
-    margin: 10px 0;
-    min-height: 0; /* Allow flex shrinking */
-    max-width: 1400px;
-    margin: 10px auto;
-    overflow: hidden; /* Prevent content overflow */
-    /* Dynamic height will be set by JavaScript */
+    /* Styles now handled by the main layout above */
 }
 
 /* Canvas Container - Responsive */
