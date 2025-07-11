@@ -139,16 +139,26 @@ canvas {
     max-height: none; /* Remove height restriction */
 }
 
-/* OTOY Header - Matching OTOY.com */
-.otoy-branding {
+/* Improved Header Bar - Full Width Layout */
+.header-bar {
     background: var(--otoy-bg-header);
     border-bottom: 2px solid var(--otoy-red);
-    padding: 15px 0;
+    box-shadow: var(--panel-shadow);
+    flex-shrink: 0;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.otoy-branding {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 15px;
-    box-shadow: var(--panel-shadow);
+    gap: 12px;
 }
 
 .otoy-logo {
@@ -158,57 +168,63 @@ canvas {
 }
 
 .otoy-branding h1 {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 600;
     color: var(--otoy-text-primary);
     margin: 0;
 }
 
-/* Ultra-Tight Controls Layout - 2 Horizontal Rows */
-.controls-container {
+.connection-controls {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 8px 0;
-    max-width: 1400px;
-    margin: 0 auto;
-    flex-shrink: 0; /* Don't shrink controls */
+    align-items: center;
+    gap: 10px;
 }
 
-.control-row {
+.header-bottom {
     display: flex;
-    gap: 8px;
-    align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    background: var(--otoy-bg-panel);
-    border: 1px solid var(--border-subtle);
-    border-radius: 6px;
-    padding: 8px;
-    box-shadow: var(--panel-shadow);
-}
-
-.control-left {
-    display: flex;
-    gap: 8px;
     align-items: center;
-    flex-wrap: wrap;
+    padding: 10px 20px;
 }
 
-.control-right {
+.livelink-controls {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.group-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--otoy-red);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 4px;
+}
+
+.view-controls {
     display: flex;
     gap: 15px;
     align-items: center;
 }
 
-.control-row input[type="text"] {
-    flex: 0 0 200px;
-    margin-right: 10px;
+/* Header buttons styling */
+.header-bar button {
+    flex: 0 0 auto;
+    min-width: 70px;
+    font-size: 10px;
+    padding: 6px 10px;
 }
 
-.control-row button {
-    flex: 0 0 auto;
-    min-width: 80px;
+.connection-controls input[type="text"] {
+    flex: 0 0 180px;
+    margin-right: 8px;
 }
 
 .section-title {

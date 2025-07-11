@@ -13,47 +13,52 @@
 </head>
 <body>
     <div class="container">
-        <!-- OTOY Branding -->
-        <div class="otoy-branding">
-            <img src="https://home.otoy.com/wp-content/themes/otoy/assets/images/otoy-logo-white.svg" alt="OTOY" class="otoy-logo" style="width: 40px; height: 40px;">
-            <h1>🔗 Octane WebGL LiveLink Sync</h1>
-        </div>
-        
-        <!-- Ultra-Tight Controls Layout - 2 Horizontal Rows -->
-        <div class="controls-container">
-            <!-- Row 1: Connection & Debug Controls -->
-            <div class="control-row">
-                <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023">
-                <button id="connectBtn" onclick="testConnection()">Connect</button>
-                <button id="disconnectBtn" onclick="disconnect()">Disconnect</button>
+        <!-- Improved Header Bar - Full Width Layout -->
+        <div class="header-bar">
+            <!-- Top Row: Branding + Connection -->
+            <div class="header-top">
+                <div class="otoy-branding">
+                    <img src="https://home.otoy.com/wp-content/themes/otoy/assets/images/otoy-logo-white.svg" alt="OTOY" class="otoy-logo" style="width: 32px; height: 32px;">
+                    <h1>🔗 Octane WebGL LiveLink Sync</h1>
+                </div>
+                <div class="connection-controls">
+                    <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023">
+                    <button id="connectBtn" onclick="testConnection()">🔌 Connect</button>
+                    <button id="disconnectBtn" onclick="disconnect()">🔌 Disconnect</button>
+                </div>
             </div>
             
-            <!-- Row 2: LiveLink & View Controls -->
-            <div class="control-row">
-                <div class="control-left">
-                    <button id="getCameraBtn" onclick="testGetCamera()">Get Camera</button>
-                    <button id="setCameraBtn" onclick="testSetCamera()">Set Camera</button>
-                    <button id="getMeshesBtn" onclick="testGetMeshes()">Get Meshes</button>
-                    <button id="resetCameraBtn" onclick="resetCamera()">Reset</button>
-                    <button id="loadModelBtn" onclick="loadModel()">Load Model</button>
-                    <button id="loadTeapotBtn" onclick="testLoadTeapot()">Teapot</button>
+            <!-- Bottom Row: LiveLink Controls -->
+            <div class="header-bottom">
+                <div class="livelink-controls">
+                    <div class="control-group">
+                        <span class="group-label">📷 Camera:</span>
+                        <button id="getCameraBtn" onclick="testGetCamera()">Get</button>
+                        <button id="setCameraBtn" onclick="testSetCamera()">Set</button>
+                        <button id="resetCameraBtn" onclick="resetCamera()">Reset</button>
+                    </div>
+                    <div class="control-group">
+                        <span class="group-label">🎲 Models:</span>
+                        <button id="getMeshesBtn" onclick="testGetMeshes()">Get Meshes</button>
+                        <button id="loadModelBtn" onclick="loadModel()">Load Model</button>
+                        <button id="loadTeapotBtn" onclick="testLoadTeapot()">Teapot</button>
+                    </div>
                 </div>
-                <div class="control-right">
+                <div class="view-controls">
                     <div class="switch-container">
-                        <label class="switch-label">Sync</label>
+                        <label class="switch-label">🔄 Sync</label>
                         <label class="switch">
                             <input type="checkbox" id="syncCameraToggle" onchange="toggleCameraSync()" checked>
                             <span class="slider"></span>
                         </label>
                     </div>
                     <div class="switch-container">
-                        <label class="switch-label">Auto-Rotate</label>
+                        <label class="switch-label">🔄 Auto-Rotate</label>
                         <label class="switch">
                             <input type="checkbox" id="autoRotateToggle" onchange="toggleAutoRotate()" checked>
                             <span class="slider"></span>
                         </label>
                     </div>
-
                 </div>
             </div>
         </div>
