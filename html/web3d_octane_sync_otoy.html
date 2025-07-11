@@ -756,8 +756,7 @@
                     // Use common utility to convert WebGL camera to Octane format
                     const cameraState = CameraSyncUtils.webglToOctane(this.camera);
                     
-                    // Only log camera sync operations in console, not in UI (to prevent spam)
-                    console.log('📤 Syncing camera to Octane...');
+                    // Sync camera without console logging (performance optimization)
                     await this.grpcOperations.testSetCamera(this.liveLink, cameraState, true); // Pass true to suppress UI logging
                     
                 } catch (error) {
@@ -1171,7 +1170,7 @@
 
                 // Only resize if dimensions actually changed (prevent unnecessary flashing)
                 if (this.canvas.width !== width || this.canvas.height !== height) {
-                    console.log(`🔄 Resizing canvas: ${this.canvas.width}x${this.canvas.height} → ${width}x${height}`);
+                    // Canvas resize (console logging removed for performance)
                     this.logger.log(`🔄 Canvas resize: ${width}x${height}, aspect: ${(width/height).toFixed(2)}`, 'debug');
                     
                     this.canvas.width = width;
@@ -1180,9 +1179,8 @@
                     if (this.gl) {
                         this.gl.viewport(0, 0, width, height);
                         
-                        // Log the new aspect ratio for debugging
+                        // Calculate new aspect ratio
                         const aspect = width / height;
-                        console.log(`📐 New aspect ratio: ${aspect.toFixed(3)} (${width}x${height})`);
                         
                         // Immediately clear to prevent flash
                         this.gl.clearColor(0.1, 0.1, 0.1, 1.0);
@@ -1213,9 +1211,9 @@
                     const deltaTime = (currentTime - this.lastTime) / 1000.0;
                     this.lastTime = currentTime;
                     
-                    // Debug first frame (console only, no UI logging)
+                    // Track first frame (console logging removed for performance)
                     if (this.frameCount === 0) {
-                        console.log('🎬 First frame rendering...');
+                        // First frame rendered
                     }
                     
                     // Update camera
@@ -1228,9 +1226,9 @@
                         this.fps = (this.frameCount * 1000) / elapsed;
                         this.frameTime = Math.round(deltaTime * 1000);
                         
-                        // Debug: Log render loop activity (console only, no UI logging)
+                        // Track render loop activity (console logging removed for performance)
                         if (this.frameCount === 60) {
-                            console.log('🎬 Render loop running, FPS:', this.fps.toFixed(1));
+                            // Render loop established
                         }
                     }
                     
@@ -1264,9 +1262,8 @@
                 // Create matrices
                 const aspect = this.canvas.width / this.canvas.height;
                 
-                // Track aspect ratio changes for debugging
+                // Track aspect ratio changes (console logging removed for performance)
                 if (!this.lastAspect || Math.abs(this.lastAspect - aspect) > 0.01) {
-                    console.log(`📐 Aspect ratio changed: ${this.lastAspect?.toFixed(3) || 'initial'} → ${aspect.toFixed(3)}`);
                     this.lastAspect = aspect;
                 }
                 
