@@ -12,8 +12,19 @@
     <link rel="stylesheet" href="tropical-theme.css">
 </head>
 <body>
-    <div class="container">
-        <h1>🧪 gRPC LiveLink Test Interface</h1>
+    <!-- Fixed Header -->
+    <header class="header-bar">
+        <div class="header-content">
+            <div class="header-top">
+                <div class="branding">
+                    <h1>🧪 gRPC LiveLink Test Interface</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
         
         <!-- Controls at top in 2 rows -->
         <div class="controls-container">
@@ -275,5 +286,27 @@
             }
         }
     </script>
+    </main>
+
+    <!-- Fixed Footer -->
+    <footer class="footer-container">
+        <!-- Status Footer -->
+        <div class="status-footer">
+            <div class="footer-stats">
+                <span>Status: <span id="connectionStatus" class="status-indicator">Disconnected</span></span>
+                <span>Calls: <span id="callCount">0</span></span>
+                <span>Response: <span id="responseTime">0ms</span></span>
+                <span>Errors: <span id="errorCount">0</span></span>
+            </div>
+        </div>
+
+        <!-- Simple Footer -->
+        <div class="simple-footer">
+            <div class="footer-copyright">
+                gRPC LiveLink Test Interface - Technical Debugging Tool
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>

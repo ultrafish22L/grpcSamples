@@ -8,48 +8,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧪 OTOY LiveLink Test Interface</title>
+    <title>🧪 OTOY gRPC LiveLink Test Interface</title>
     <link rel="stylesheet" href="otoy-theme.css">
 </head>
 <body>
-    <div class="container">
-        <!-- OTOY Branding -->
-        <div class="otoy-branding">
-            <img src="https://home.otoy.com/wp-content/themes/otoy/assets/images/otoy-logo-white.svg" alt="OTOY" class="otoy-logo" style="width: 40px; height: 40px;">
-            <h1>🧪 Octane LiveLink Test Interface</h1>
+    <!-- Fixed Header -->
+    <header class="header-bar">
+        <div class="header-content">
+            <div class="header-top">
+                <div class="otoy-branding">
+                    <a href="https://otoy.com" target="_blank" rel="noopener noreferrer" class="otoy-logo-link" title="Visit OTOY.com">
+                        <img src="https://home.otoy.com/wp-content/themes/otoy/assets/images/otoy-logo-white.svg" alt="OTOY" class="otoy-logo" style="width: 32px; height: 32px;">
+                    </a>
+                    <h1>🧪 OTOY gRPC LiveLink Test Interface</h1>
+                </div>
+            </div>
         </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
         
-        <!-- Ultra-Tight Controls Layout - 2 Horizontal Rows -->
+        <!-- Controls at top in 2 rows -->
         <div class="controls-container">
-            <!-- Row 1: Connection & Debug Controls -->
-            <div class="control-row">
-                <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023">
-                <button id="connectBtn" onclick="testConnection()">Connect</button>
-                <button onclick="disconnect()">Disconnect</button>
-                <button onclick="exportDebugInfo()">Export</button>
-                <button onclick="showSystemInfo()">System</button>
-                <button onclick="showDebugInfo()">Debug</button>
-                <button onclick="refreshStats()">Stats</button>
-                <button onclick="clearLog()">Clear</button>
+            <div class="control-section">
+                <div class="section-title">Connection</div>
+                <div class="button-group">
+                    <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023" style="flex: 1; margin-right: 10px;">
+                    <button id="connectBtn" onclick="testConnection()">Connect</button>
+                    <button onclick="disconnect()">Disconnect</button>
+                </div>
             </div>
             
-            <!-- Row 2: LiveLink Operations -->
-            <div class="control-row">
-                <button onclick="testGetCamera()">Get Camera</button>
-                <button onclick="testSetCamera()">Set Camera</button>
-                <button onclick="testGetMeshes()">Get Meshes</button>
-                <button onclick="testGetMesh()">Get Mesh</button>
-                <button onclick="testLoadTeapot()">Load Teapot</button>
+            <div class="control-section">
+                <div class="section-title">LiveLink Operations</div>
+                <div class="button-group">
+                    <button onclick="testGetCamera()">Get Camera</button>
+                    <button onclick="testSetCamera()">Test Random Camera</button>
+                    <button onclick="testGetMeshes()">Get Meshes</button>
+                    <button onclick="testGetMesh()">Get Mesh</button>
+                    <button onclick="testLoadTeapot()">Load Teapot</button>
+                </div>
             </div>
         </div>
         
-
+        <div class="controls-container">
+            <div class="control-section">
+                <div class="section-title">Debug & Testing</div>
+                <div class="button-group">
+                    <button onclick="exportDebugInfo()">Export Debug</button>
+                    <button onclick="showSystemInfo()">System Info</button>
+                    <button onclick="showDebugInfo()">Debug Info</button>
+                    <button onclick="updateStats()">Refresh Stats</button>
+                    <button onclick="clearLog()">Clear Log</button>
+                </div>
+            </div>
+            
+            <div class="control-section">
+                <div class="section-title">Connection Status</div>
+                <div id="status" class="status-section status-disconnected">
+                    <div class="status-text">Disconnected</div>
+                </div>
+            </div>
+        </div>
         
-        <!-- Activity Log Only -->
+        <!-- Stats and Activity Log below -->
         <div class="content-area">
-            <div class="activity-section glass-panel">
-                <div class="activity-title">Activity Log</div>
-                <div id="log" class="activity-log"></div>
+            <div class="stats-section glass-panel">
+                <div class="stats-title">Performance Statistics</div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">gRPC Calls:</span>
+                        <span class="stat-value" id="callCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Last Response:</span>
+                        <span class="stat-value" id="lastTime">0ms</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Avg Response:</span>
+                        <span class="stat-value" id="avgTime">0ms</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Connection Mode:</span>
+                        <span class="stat-value" id="mode">Unknown</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Attempts:</span>
+                        <span class="stat-value" id="connectionAttempts">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Errors:</span>
+                        <span class="stat-value" id="errorCount">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="log-section glass-panel">
+                <div class="log-title">Activity Log</div>
+                <div id="log" class="log-container"></div>
             </div>
         </div>
     </div>
@@ -77,11 +134,6 @@
             grpcOperations = new GrpcTestOperations(logger, statsManager);
             debugUtils = new DebugUtils(logger);
             
-            // Initialize LED status to "All Systems Ready"
-            if (statsManager) {
-                statsManager.updateConnectionStatus(false);
-            }
-            
             logger.log('🔍 LiveLink gRPC Test Interface initialized', 'info');
         });
 
@@ -94,50 +146,26 @@
         }
 
         function updateStatus(status, mode = '') {
-            const statusSpan = document.getElementById('connectionStatus');
+            const statusDiv = document.getElementById('status');
             const connectBtn = document.getElementById('connectBtn');
             
-            if (statusSpan) {
-                statusSpan.className = `status-indicator status-${status}`;
-                
-                switch (status) {
-                    case 'connected':
-                        statusSpan.textContent = `Connected${mode ? ` (${mode})` : ''}`;
-                        break;
-                    case 'disconnected':
-                        statusSpan.textContent = 'Disconnected';
-                        break;
-                    case 'error':
-                        statusSpan.textContent = 'Connection Error';
-                        break;
-                    default:
-                        statusSpan.textContent = status;
-                }
-            }
-
-            if (connectBtn) {
-                switch (status) {
-                    case 'connected':
-                        connectBtn.textContent = 'RECONNECT';
-                        break;
-                    case 'disconnected':
-                        connectBtn.textContent = 'CONNECT';
-                        break;
-                    case 'error':
-                        connectBtn.textContent = 'RETRY';
-                        break;
-                }
-            }
-
-            // Update OTOY LED status - detect proxy availability from error type
-            if (statsManager) {
-                const isProxyError = client && client.lastError && 
-                    (client.lastError.message.includes('fetch') || 
-                     client.lastError.message.includes('ERR_CONNECTION_REFUSED') ||
-                     client.lastError.message.includes('ERR_NETWORK_CHANGED'));
-                
-                const proxyAvailable = status !== 'error' || !isProxyError;
-                statsManager.updateConnectionStatus(status === 'connected', proxyAvailable);
+            statusDiv.className = `status-section status-${status}`;
+            
+            switch (status) {
+                case 'connected':
+                    statusDiv.innerHTML = `<div>Connected${mode ? ` (${mode})` : ''}</div>`;
+                    connectBtn.textContent = 'Reconnect';
+                    break;
+                case 'disconnected':
+                    statusDiv.innerHTML = '<div>Disconnected</div>';
+                    connectBtn.textContent = 'Connect';
+                    break;
+                case 'error':
+                    statusDiv.innerHTML = '<div>Connection Error</div>';
+                    connectBtn.textContent = 'Retry';
+                    break;
+                default:
+                    statusDiv.innerHTML = `<div>${status}</div>`;
             }
         }
 
@@ -210,7 +238,7 @@
                 
             } catch (error) {
                 logger.log(`❌ Connection error: ${error.message}`, 'error');
-                updateStatus('error');
+                updateStatus('disconnected');
             }
         }
 
@@ -261,30 +289,33 @@
             }
         }
     </script>
-    
-    <!-- Status Footer -->
-    <div class="status-footer">
-        <div class="footer-stats">
-            <span>Status: <span id="connectionStatus" class="status-indicator">Disconnected</span></span>
-            <span>Calls: <span id="callCount">0</span></span>
-            <span>Response: <span id="lastTime">0ms</span></span>
-            <span>Avg: <span id="avgTime">0ms</span></span>
-            <span>Mode: <span id="mode">Unknown</span></span>
-            <span>Errors: <span id="errorCount">0</span></span>
-        </div>
-    </div>
+    </main>
 
-    <!-- OTOY Footer -->
-    <div class="otoy-footer">
-        <div class="otoy-status">
-            <span class="status-led"></span>
-            <span>All Systems Ready</span>
+    <!-- Fixed Footer -->
+    <footer class="footer-container">
+        <!-- Status Footer -->
+        <div class="status-footer">
+            <div class="footer-stats">
+                <span>Status: <span id="connectionStatus" class="status-indicator">Disconnected</span></span>
+                <span>Calls: <span id="callCount">0</span></span>
+                <span>Response: <span id="responseTime">0ms</span></span>
+                <span>Errors: <span id="errorCount">0</span></span>
+            </div>
         </div>
-        <div class="otoy-copyright">
-            © OTOY Inc. – 2020 All Rights Reserved. 
-            <a href="https://otoy.com/terms" target="_blank">Terms & Conditions</a> | 
-            <a href="https://otoy.com/privacy" target="_blank">OTOY Privacy Policy</a>
+
+        <!-- OTOY Footer -->
+        <div class="otoy-footer">
+            <div class="otoy-status">
+                <span class="status-led"></span>
+                <span>All Systems Ready</span>
+            </div>
+            <div class="otoy-copyright">
+                © OTOY Inc. – 2020 All Rights Reserved.
+                <a href="https://otoy.com/terms" target="_blank">Terms & Conditions</a> |
+                <a href="https://otoy.com/privacy" target="_blank">OTOY Privacy Policy</a>
+            </div>
         </div>
-    </div>
+    </footer>
+
 </body>
 </html>

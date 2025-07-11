@@ -33,7 +33,9 @@ body {
     background-size: 400% 400%;
     animation: gradientShift var(--animation-speed) ease infinite;
     color: var(--mint-white);
-    min-height: 100vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
     overflow-x: auto;
 }
 
@@ -56,6 +58,89 @@ body::before {
                 radial-gradient(circle at 40% 40%, rgba(45, 122, 74, 0.1) 0%, transparent 50%);
     pointer-events: none;
     z-index: -1;
+}
+
+/* Modern Layout Structure */
+.header-bar {
+    flex-shrink: 0; /* Header stays fixed size */
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 20px;
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.branding h1 {
+    margin: 0;
+    color: var(--mint-white);
+    font-size: 1.8rem;
+    text-shadow: var(--glow-intensity);
+}
+
+.main-content {
+    flex: 1; /* Takes remaining space */
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* Allow shrinking */
+    overflow: hidden;
+    align-items: center; /* Center content horizontally */
+    justify-content: flex-start; /* Start from top for test interfaces */
+}
+
+.content-area {
+    flex: 1;
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    min-height: 400px; /* Minimum content height */
+    overflow: auto; /* Scroll when content is too small */
+    max-width: 1400px;
+    width: 100%; /* Take full width up to max-width */
+    margin: 0 auto; /* Center horizontally */
+}
+
+.footer-container {
+    flex-shrink: 0; /* Footer stays fixed size */
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--glass-border);
+}
+
+.status-footer {
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.footer-stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.simple-footer {
+    padding: 15px 20px;
+    text-align: center;
+}
+
+.footer-copyright {
+    color: var(--seafoam-light);
+    font-size: 0.9rem;
 }
 
 /* Main container - wider layout */
