@@ -24,9 +24,9 @@
                     <h1>Octane WebGL LiveLink Sync 🔗</h1>
                 </div>
                 <div class="connection-controls">
-                    <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023">
-                    <button id="connectBtn" onclick="testConnection()">🔌 Connect</button>
-                    <button id="disconnectBtn" onclick="disconnect()">⏹️ Disconnect</button>
+                    <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023" title="Octane LiveLink server address and port">
+                    <button id="connectBtn" onclick="testConnection()" title="Connect to Octane LiveLink service">🔌 Connect</button>
+                    <button id="disconnectBtn" onclick="disconnect()" title="Disconnect from Octane LiveLink service">⏹️ Disconnect</button>
                 </div>
             </div>
             
@@ -49,15 +49,15 @@
                 <div class="view-controls">
                     <div class="switch-container">
                         <label class="switch-label" title="Camera Sync">🔄</label>
-                        <label class="switch">
-                            <input type="checkbox" id="syncCameraToggle" onchange="toggleCameraSync()" checked>
+                        <label class="switch" title="Synchronize camera with Octane in real-time">
+                            <input type="checkbox" id="syncCameraToggle" onchange="toggleCameraSync()" checked title="Enable/disable camera synchronization">
                             <span class="slider"></span>
                         </label>
                     </div>
                     <div class="switch-container">
                         <label class="switch-label" title="Auto-Rotate">🔁</label>
-                        <label class="switch">
-                            <input type="checkbox" id="autoRotateToggle" onchange="toggleAutoRotate()" checked>
+                        <label class="switch" title="Automatically rotate the 3D model">
+                            <input type="checkbox" id="autoRotateToggle" onchange="toggleAutoRotate()" checked title="Enable/disable automatic model rotation">
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -93,9 +93,9 @@
                         </div>
                         <div class="activity-toggle">
                             <div class="switch-container">
-                                <label class="switch-label">📝</label>
-                                <label class="switch">
-                                    <input type="checkbox" id="verboseLogsToggle" onchange="toggleVerboseLogs()" checked>
+                                <label class="switch-label" title="Verbose Logging">📝</label>
+                                <label class="switch" title="Toggle detailed logging output">
+                                    <input type="checkbox" id="verboseLogsToggle" onchange="toggleVerboseLogs()" checked title="Enable/disable verbose logging">
                                     <span class="slider"></span>
                                 </label>
                             </div>
