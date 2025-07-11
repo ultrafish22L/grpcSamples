@@ -725,12 +725,12 @@ input[type="text"]:focus {
 
 .footer-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    grid-template-columns: repeat(7, auto); /* Fixed 7 columns for the 7 status items */
     justify-content: center;
     gap: 20px;
     font-size: 10px;
     color: var(--otoy-text-muted);
-    max-width: 1200px;
+    max-width: 800px; /* Reduced max-width to keep items closer together */
     margin: 0 auto;
 }
 
