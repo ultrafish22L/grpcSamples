@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧪 OTOY gRPC LiveLink Test Interface</title>
+    <title>🔗 OTOY WebGL-Octane LiveLink Sync</title>
     <link rel="stylesheet" href="otoy-theme.css">
 </head>
 <body>
@@ -21,7 +21,7 @@
                     <a href="https://otoy.com" target="_blank" rel="noopener noreferrer" class="otoy-logo-link" title="Visit OTOY.com">
                         <img src="https://home.otoy.com/wp-content/themes/otoy/assets/images/otoy-logo-white.svg" alt="OTOY" class="otoy-logo" style="width: 32px; height: 32px;">
                     </a>
-                    <h1>🧪 OTOY gRPC LiveLink Test Interface</h1>
+                    <h1>Octane WebGL LiveLink Sync 🔗</h1>
                 </div>
                 <div class="connection-controls">
                     <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023" title="Octane LiveLink server address and port">
@@ -54,9 +54,12 @@
                             <span class="slider"></span>
                         </label>
                     </div>
-                    <div class="status-led-container">
-                        <div id="statusLed" class="status-led status-ready" title="Connection Status"></div>
-                        <span id="statusText" class="status-text">Ready</span>
+                    <div class="switch-container">
+                        <label class="switch-label" title="Auto-Rotate">🔁</label>
+                        <label class="switch" title="Automatically rotate the 3D model">
+                            <input type="checkbox" id="autoRotateToggle" onchange="toggleAutoRotate()" checked title="Enable/disable automatic model rotation">
+                            <span class="slider"></span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -65,33 +68,10 @@
 
     <!-- Main Content Area -->
     <main class="main-content">
-        <!-- Test Panel and Activity Log -->
+        <!-- 3D Canvas and Info Panel below -->
         <div class="content-area">
-            <div class="test-panel">
-                <div class="panel-header">
-                    <h3>🧪 Test Operations</h3>
-                </div>
-                <div class="test-controls">
-                    <div class="test-section">
-                        <h4>Debug & Testing</h4>
-                        <div class="button-grid">
-                            <button onclick="exportDebugInfo()" class="test-btn" title="Export debug information">📤 Export Debug</button>
-                            <button onclick="showSystemInfo()" class="test-btn" title="Show system information">ℹ️ System Info</button>
-                            <button onclick="showDebugInfo()" class="test-btn" title="Show debug information">🔍 Debug Info</button>
-                            <button onclick="refreshStats()" class="test-btn" title="Refresh performance statistics">🔄 Refresh Stats</button>
-                            <button onclick="clearActivityLog()" class="test-btn" title="Clear activity log">🗑️ Clear Log</button>
-                        </div>
-                    </div>
-                    
-                    <div class="test-section">
-                        <h4>Advanced Operations</h4>
-                        <div class="button-grid">
-                            <button onclick="testGetMesh()" class="test-btn" title="Get specific mesh data">🧊 Get Mesh</button>
-                            <button onclick="testConnection()" class="test-btn" title="Test connection">🔌 Test Connection</button>
-                            <button onclick="disconnect()" class="test-btn" title="Disconnect">⏹️ Disconnect</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="canvas-container">
+                <canvas id="canvas"></canvas>
             </div>
             
             <div class="info-panel">

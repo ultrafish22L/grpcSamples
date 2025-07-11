@@ -67,18 +67,19 @@ body {
     min-height: 0; /* Allow shrinking */
     overflow: auto;
     padding: 20px;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
 }
 
 .content-area {
     flex: 1;
     display: flex;
     gap: 20px;
-    padding: 20px;
+    padding: 0; /* Remove padding since main-content has padding */
     min-height: 400px; /* Minimum content height */
     overflow: auto; /* Scroll when content is too small */
     max-width: 1400px;
     width: 100%; /* Take full width up to max-width */
-    margin: 0 auto; /* Center horizontally */
 }
 
 /* Controls container for test interfaces */
