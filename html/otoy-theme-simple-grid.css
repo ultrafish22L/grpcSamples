@@ -65,7 +65,7 @@ body {
     min-height: 0; /* Allow shrinking */
     overflow: hidden;
     padding: 10px; /* Reduced padding for tighter fit */
-    place-items: center; /* Centers items horizontally and vertically within each cell */
+    place-content: center;
 }
 
 .content-area {
@@ -98,11 +98,14 @@ body {
 .canvas-container {
     min-height: 600px; /* Match content-area height */
     height: 600px; /* Fixed height for exact matching */
-    background:none;
+    background: var(--otoy-bg-panel);
     border: 1px solid var(--border-subtle);
     border-radius: 6px;
     overflow: hidden;
     box-shadow: var(--panel-shadow);
+    /* Prevent flashing during resize */
+    transition: none !important;
+    animation: none !important;
 }
 
 /* Test Panel - Replaces canvas for test interface */
