@@ -165,6 +165,8 @@
                     this.setupEventHandlers();
                     
                     // Start render loop
+                    console.log('🎬 Starting render loop...');
+                    this.logger.log('Starting render loop...', 'info');
                     this.render();
                     
                     // Initialize performance monitoring
@@ -182,26 +184,45 @@
              * Initialize WebGL context and create shaders/geometry
              */
             async initWebGL() {
-                // Get WebGL context
-                this.gl = this.canvas.getContext('webgl2');
+                // Check WebGL availability
+                const webgl2 = this.canvas.getContext('webgl2');
+                const webgl1 = this.canvas.getContext('webgl');
+                
+                console.log('🔍 WebGL Support Check:');
+                console.log('WebGL 2.0 available:', !!webgl2);
+                console.log('WebGL 1.0 available:', !!webgl1);
+                
+                this.logger.log(`WebGL 2.0 available: ${!!webgl2}`, 'info');
+                this.logger.log(`WebGL 1.0 available: ${!!webgl1}`, 'info');
+                
+                // Try WebGL 2.0 first, fall back to WebGL 1.0
+                this.gl = webgl2 || webgl1;
                 if (!this.gl) {
-                    throw new Error('WebGL 2.0 not supported');
+                    throw new Error('WebGL not supported');
                 }
+                
+                const version = this.gl instanceof WebGL2RenderingContext ? '2.0' : '1.0';
+                console.log(`✅ Using WebGL ${version}`);
+                this.logger.log(`Using WebGL ${version}`, 'success');
 
                 // Configure WebGL state
                 this.gl.enable(this.gl.DEPTH_TEST);
                 this.gl.enable(this.gl.CULL_FACE);
                 this.gl.cullFace(this.gl.BACK);
                 this.gl.clearColor(0.1, 0.1, 0.2, 1.0);
+                console.log('✅ WebGL state configured');
 
                 // Create shaders
                 await this.createShaders();
+                console.log('✅ Shaders created successfully');
                 
                 // Create geometry
                 this.createGeometry();
+                console.log('✅ Geometry created successfully');
                 
                 // Set up viewport
                 this.resizeCanvas();
+                console.log('✅ WebGL initialization complete');
             }
 
             /**
@@ -209,25 +230,125 @@
              */
             async createShaders() {
                 const gl = this.gl;
+                const isWebGL2 = gl instanceof WebGL2RenderingContext;
                 
                 try {
-                    // Create main object shaders
-                    const vertexShader = ShaderUtils.createShader(gl, gl.VERTEX_SHADER, ShaderUtils.getStandardVertexShader());
-                    const fragmentShader = ShaderUtils.createShader(gl, gl.FRAGMENT_SHADER, ShaderUtils.getStandardFragmentShader());
-                    this.shaderProgram = ShaderUtils.createProgram(gl, vertexShader, fragmentShader);
+                    if (isWebGL2) {
+                        // Create WebGL 2.0 shaders
+                        const vertexShader = ShaderUtils.createShader(gl, gl.VERTEX_SHADER, ShaderUtils.getStandardVertexShader());
+                        const fragmentShader = ShaderUtils.createShader(gl, gl.FRAGMENT_SHADER, ShaderUtils.getStandardFragmentShader());
+                        this.shaderProgram = ShaderUtils.createProgram(gl, vertexShader, fragmentShader);
+                        
+                        // Create skybox shaders
+                        const skyboxVertexShader = ShaderUtils.createShader(gl, gl.VERTEX_SHADER, ShaderUtils.getSkyboxVertexShader());
+                        const skyboxFragmentShader = ShaderUtils.createShader(gl, gl.FRAGMENT_SHADER, ShaderUtils.getSkyboxFragmentShader());
+                        this.skyboxProgram = ShaderUtils.createProgram(gl, skyboxVertexShader, skyboxFragmentShader);
+                        
+                        // Clean up individual shaders
+                        gl.deleteShader(vertexShader);
+                        gl.deleteShader(fragmentShader);
+                        gl.deleteShader(skyboxVertexShader);
+                        gl.deleteShader(skyboxFragmentShader);
+                    } else {
+                        // Create simple WebGL 1.0 compatible shaders
+                        const vertexShaderSource = `
+                            attribute vec3 aPos;
+                            attribute vec3 aNormal;
+                            attribute vec3 aColor;
+                            
+                            uniform mat4 uModel;
+                            uniform mat4 uView;
+                            uniform mat4 uProjection;
+                            uniform mat3 uNormalMatrix;
+                            
+                            varying vec3 vFragPos;
+                            varying vec3 vNormal;
+                            varying vec3 vVertexColor;
+                            
+                            void main() {
+                                vFragPos = vec3(uModel * vec4(aPos, 1.0));
+                                vNormal = uNormalMatrix * aNormal;
+                                vVertexColor = aColor;
+                                
+                                gl_Position = uProjection * uView * vec4(vFragPos, 1.0);
+                            }
+                        `;
+                        
+                        const fragmentShaderSource = `
+                            precision mediump float;
+                            
+                            varying vec3 vFragPos;
+                            varying vec3 vNormal;
+                            varying vec3 vVertexColor;
+                            
+                            uniform vec3 uLightPos;
+                            uniform vec3 uLightColor;
+                            uniform vec3 uViewPos;
+                            uniform float uTime;
+                            
+                            void main() {
+                                // Simple Phong lighting
+                                vec3 norm = normalize(vNormal);
+                                vec3 lightDir = normalize(uLightPos - vFragPos);
+                                float diff = max(dot(norm, lightDir), 0.0);
+                                vec3 diffuse = diff * uLightColor;
+                                
+                                vec3 ambient = 0.3 * uLightColor;
+                                vec3 result = (ambient + diffuse) * vVertexColor;
+                                
+                                gl_FragColor = vec4(result, 1.0);
+                            }
+                        `;
+                        
+                        const vertexShader = ShaderUtils.createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+                        const fragmentShader = ShaderUtils.createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+                        this.shaderProgram = ShaderUtils.createProgram(gl, vertexShader, fragmentShader);
+                        
+                        // Simple skybox for WebGL 1.0
+                        const skyboxVertexSource = `
+                            attribute vec3 aPos;
+                            uniform mat4 uView;
+                            uniform mat4 uProjection;
+                            varying vec3 vTexCoord;
+                            
+                            void main() {
+                                vTexCoord = aPos;
+                                mat4 rotView = mat4(mat3(uView));
+                                vec4 clipPos = uProjection * rotView * vec4(aPos, 1.0);
+                                gl_Position = clipPos.xyww;
+                            }
+                        `;
+                        
+                        const skyboxFragmentSource = `
+                            precision mediump float;
+                            varying vec3 vTexCoord;
+                            uniform float uTime;
+                            
+                            void main() {
+                                vec3 direction = normalize(vTexCoord);
+                                float gradient = (direction.y + 1.0) * 0.5;
+                                vec3 color = mix(vec3(0.05, 0.05, 0.1), vec3(0.1, 0.1, 0.2), gradient);
+                                gl_FragColor = vec4(color, 1.0);
+                            }
+                        `;
+                        
+                        const skyboxVertexShader = ShaderUtils.createShader(gl, gl.VERTEX_SHADER, skyboxVertexSource);
+                        const skyboxFragmentShader = ShaderUtils.createShader(gl, gl.FRAGMENT_SHADER, skyboxFragmentSource);
+                        this.skyboxProgram = ShaderUtils.createProgram(gl, skyboxVertexShader, skyboxFragmentShader);
+                        
+                        // Clean up individual shaders
+                        gl.deleteShader(vertexShader);
+                        gl.deleteShader(fragmentShader);
+                        gl.deleteShader(skyboxVertexShader);
+                        gl.deleteShader(skyboxFragmentShader);
+                    }
                     
-                    // Create skybox shaders
-                    const skyboxVertexShader = ShaderUtils.createShader(gl, gl.VERTEX_SHADER, ShaderUtils.getSkyboxVertexShader());
-                    const skyboxFragmentShader = ShaderUtils.createShader(gl, gl.FRAGMENT_SHADER, ShaderUtils.getSkyboxFragmentShader());
-                    this.skyboxProgram = ShaderUtils.createProgram(gl, skyboxVertexShader, skyboxFragmentShader);
-                    
-                    // Clean up individual shaders
-                    gl.deleteShader(vertexShader);
-                    gl.deleteShader(fragmentShader);
-                    gl.deleteShader(skyboxVertexShader);
-                    gl.deleteShader(skyboxFragmentShader);
+                    console.log('✅ Shaders created successfully');
+                    this.logger.log('Shaders created successfully', 'success');
                     
                 } catch (error) {
+                    console.error('❌ Shader creation failed:', error);
+                    this.logger.log(`Shader creation failed: ${error.message}`, 'error');
                     throw new Error(`Shader creation failed: ${error.message}`);
                 }
             }
@@ -237,29 +358,43 @@
              */
             createGeometry() {
                 const gl = this.gl;
+                const isWebGL2 = gl instanceof WebGL2RenderingContext;
                 
                 // Create cube geometry
                 const cubeGeometry = GeometryUtils.createCubeGeometry();
                 
-                this.cubeVAO = gl.createVertexArray();
-                gl.bindVertexArray(this.cubeVAO);
+                if (isWebGL2) {
+                    // WebGL 2.0 with VAOs
+                    this.cubeVAO = gl.createVertexArray();
+                    gl.bindVertexArray(this.cubeVAO);
+                } else {
+                    // WebGL 1.0 without VAOs
+                    this.cubeVAO = null;
+                }
                 
                 // Vertex buffer (position, normal, color)
                 this.cubeVertexBuffer = gl.createBuffer();
                 gl.bindBuffer(gl.ARRAY_BUFFER, this.cubeVertexBuffer);
                 gl.bufferData(gl.ARRAY_BUFFER, cubeGeometry.vertices, gl.STATIC_DRAW);
                 
-                // Position attribute (location 0)
-                gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 9 * 4, 0);
-                gl.enableVertexAttribArray(0);
-                
-                // Normal attribute (location 1)
-                gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 9 * 4, 3 * 4);
-                gl.enableVertexAttribArray(1);
-                
-                // Color attribute (location 2)
-                gl.vertexAttribPointer(2, 3, gl.FLOAT, false, 9 * 4, 6 * 4);
-                gl.enableVertexAttribArray(2);
+                if (isWebGL2) {
+                    // Position attribute (location 0)
+                    gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 9 * 4, 0);
+                    gl.enableVertexAttribArray(0);
+                    
+                    // Normal attribute (location 1)
+                    gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 9 * 4, 3 * 4);
+                    gl.enableVertexAttribArray(1);
+                    
+                    // Color attribute (location 2)
+                    gl.vertexAttribPointer(2, 3, gl.FLOAT, false, 9 * 4, 6 * 4);
+                    gl.enableVertexAttribArray(2);
+                } else {
+                    // Store attribute locations for WebGL 1.0
+                    this.aPos = gl.getAttribLocation(this.shaderProgram, 'aPos');
+                    this.aNormal = gl.getAttribLocation(this.shaderProgram, 'aNormal');
+                    this.aColor = gl.getAttribLocation(this.shaderProgram, 'aColor');
+                }
                 
                 // Index buffer
                 this.cubeIndexBuffer = gl.createBuffer();
@@ -269,19 +404,33 @@
                 // Create skybox geometry
                 const skyboxGeometry = GeometryUtils.createSkyboxGeometry();
                 
-                this.skyboxVAO = gl.createVertexArray();
-                gl.bindVertexArray(this.skyboxVAO);
+                if (isWebGL2) {
+                    this.skyboxVAO = gl.createVertexArray();
+                    gl.bindVertexArray(this.skyboxVAO);
+                    
+                    this.skyboxVertexBuffer = gl.createBuffer();
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.skyboxVertexBuffer);
+                    gl.bufferData(gl.ARRAY_BUFFER, skyboxGeometry.vertices, gl.STATIC_DRAW);
+                    
+                    // Position attribute for skybox
+                    gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+                    gl.enableVertexAttribArray(0);
+                    
+                    // Unbind VAO
+                    gl.bindVertexArray(null);
+                } else {
+                    // WebGL 1.0 skybox setup
+                    this.skyboxVAO = null;
+                    this.skyboxVertexBuffer = gl.createBuffer();
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.skyboxVertexBuffer);
+                    gl.bufferData(gl.ARRAY_BUFFER, skyboxGeometry.vertices, gl.STATIC_DRAW);
+                    
+                    // Store skybox attribute location
+                    this.aSkyboxPos = gl.getAttribLocation(this.skyboxProgram, 'aPos');
+                }
                 
-                this.skyboxVertexBuffer = gl.createBuffer();
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.skyboxVertexBuffer);
-                gl.bufferData(gl.ARRAY_BUFFER, skyboxGeometry.vertices, gl.STATIC_DRAW);
-                
-                // Position attribute for skybox
-                gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
-                gl.enableVertexAttribArray(0);
-                
-                // Unbind VAO
-                gl.bindVertexArray(null);
+                console.log('✅ Geometry created successfully');
+                this.logger.log('Geometry created successfully', 'success');
             }
 
             /**
@@ -803,26 +952,45 @@
              * Main render loop
              */
             render() {
-                const currentTime = Date.now();
-                const deltaTime = (currentTime - this.lastTime) / 1000.0;
-                this.lastTime = currentTime;
-                
-                // Update camera
-                this.camera.update(deltaTime);
-                
-                // Calculate performance metrics
-                this.frameCount++;
-                if (this.frameCount % 60 === 0) {
-                    const elapsed = currentTime - this.startTime;
-                    this.fps = (this.frameCount * 1000) / elapsed;
-                    this.frameTime = Math.round(deltaTime * 1000);
+                try {
+                    const currentTime = Date.now();
+                    const deltaTime = (currentTime - this.lastTime) / 1000.0;
+                    this.lastTime = currentTime;
+                    
+                    // Debug first frame
+                    if (this.frameCount === 0) {
+                        console.log('🎬 First frame rendering...');
+                        this.logger.log('First frame rendering...', 'info');
+                    }
+                    
+                    // Update camera
+                    this.camera.update(deltaTime);
+                    
+                    // Calculate performance metrics
+                    this.frameCount++;
+                    if (this.frameCount % 60 === 0) {
+                        const elapsed = currentTime - this.startTime;
+                        this.fps = (this.frameCount * 1000) / elapsed;
+                        this.frameTime = Math.round(deltaTime * 1000);
+                        
+                        // Debug: Log render loop activity
+                        if (this.frameCount === 60) {
+                            console.log('🎬 Render loop running, FPS:', this.fps.toFixed(1));
+                            this.logger.log(`Render loop running, FPS: ${this.fps.toFixed(1)}`, 'success');
+                        }
+                    }
+                    
+                    // Render scene
+                    this.renderScene(currentTime / 1000.0);
+                    
+                    // Continue render loop
+                    requestAnimationFrame(() => this.render());
+                    
+                } catch (error) {
+                    console.error('❌ Render loop error:', error);
+                    this.logger.log(`Render loop error: ${error.message}`, 'error');
+                    // Don't continue render loop on error
                 }
-                
-                // Render scene
-                this.renderScene(currentTime / 1000.0);
-                
-                // Continue render loop
-                requestAnimationFrame(() => this.render());
             }
 
             /**
