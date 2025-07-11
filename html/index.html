@@ -1248,7 +1248,7 @@
                 const gl = this.gl;
                 
                 // Clear buffers
-                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+//                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
                 
                 // Create matrices
                 const aspect = this.canvas.width / this.canvas.height;
@@ -1282,7 +1282,7 @@
                     };
                     console.log('Matrix types:', matrixInfo);
                 }
-                
+/*                
                 // Render skybox first
                 gl.depthMask(false);
                 this.checkWebGLError('depthMask(false)');
@@ -1313,7 +1313,7 @@
                 
                 gl.drawArrays(gl.TRIANGLES, 0, 36);
                 this.checkWebGLError('drawArrays(skybox)');
-                
+*/                
                 // Render main object
                 gl.depthMask(true);
                 this.checkWebGLError('depthMask(true)');

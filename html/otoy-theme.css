@@ -190,13 +190,13 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
+    height: 100%; /* Fill the activity-section */
 }
 
 .activity-section .activity-log {
-    overflow-y: scroll; /* Always show scrollbar */
-    min-height: 400px; /* Increased minimum height */
-    max-height: 520px; /* Increased maximum height to fit taller panel */
-    height: auto; /* Auto height up to max */
+    height: 100%; /* Fill the activity-section */
+    max-height: none; /* Remove artificial limits */
+    min-height: 0; /* Allow shrinking if needed */
 }
 
 /* Improved Header Bar - Full Width Layout */
