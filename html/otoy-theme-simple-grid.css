@@ -225,10 +225,15 @@ body {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 20px;
+    display: grid;
+    gap: 15px;
 }
 
 .header-top {
-    display: block;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 20px;
     justify-content: space-between;
     align-items: center;
     padding: 12px 0;
@@ -236,7 +241,10 @@ body {
 }
 
 .otoy-branding {
-    display: block;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 12px;
     align-items: center;
     gap: 12px;
 }
@@ -269,26 +277,36 @@ body {
 }
 
 .connection-controls {
-    display: block;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 10px;
     align-items: center;
     gap: 10px;
 }
 
 .header-bottom {
-    display: block;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 20px;
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
 }
 
 .livelink-controls {
-    display: block;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
     align-items: center;
 }
 
 .control-group {
-    display: block;
+    display: grid;
+    grid-template-columns: auto repeat(3, 1fr);
+    align-items: center;
+    gap: 8px;
     align-items: center;
     gap: 8px;
 }
@@ -660,7 +678,8 @@ input[type="text"]:focus {
 }
 
 .footer-stats {
-    display: block;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     justify-content: center;
     gap: 20px;
     font-size: 10px;
@@ -671,9 +690,11 @@ input[type="text"]:focus {
 
 .footer-stats span {
     white-space: nowrap;
-    display: block;
+    display: grid;
+    grid-template-columns: auto 1fr;
     align-items: center;
     gap: 4px;
+    text-align: center;
 }
 
 .status-indicator {
