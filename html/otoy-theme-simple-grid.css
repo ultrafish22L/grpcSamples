@@ -96,8 +96,7 @@ body {
 
 /* Canvas Container - Responsive */
 .canvas-container {
-    min-height: 600px; /* Match content-area height */
-    height: 600px; /* Fixed height for exact matching */
+    height: 100%; /* Fill available height from parent grid */
     background: var(--otoy-bg-panel);
     border: 1px solid var(--border-subtle);
     border-radius: 6px;
@@ -185,8 +184,7 @@ body {
     min-width: 300px;
     max-width: 400px;
     width: 400px; /* Fixed width */
-    min-height: 600px; /* Match content-area height */
-    height: 600px; /* Fixed height for exact matching */
+    height: 100%; /* Fill available height from parent grid */
     display: grid;
     grid-template-rows: 1fr;
     gap: 5px; /* Match canvas-container padding for consistent spacing */

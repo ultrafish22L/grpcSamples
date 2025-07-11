@@ -528,6 +528,7 @@ class SimpleWebGLRenderer {
     constructor(gl, logger) {
         this.gl = gl;
         this.logger = logger;
+        this.canvas = gl.canvas; // Store canvas reference for resizing
         this.program = null;
         this.buffers = {};
         this.camera = {
@@ -538,6 +539,50 @@ class SimpleWebGLRenderer {
         };
         this.rotation = { x: 0, y: 0 };
         this.zoom = 1.0;
+        
+        // Set up resize handling
+        this.setupResize();
+    }
+
+    setupResize() {
+        // Bind the resize function to maintain 'this' context
+        this.resizeCanvas = this.resizeCanvas.bind(this);
+        
+        // Call resize initially
+        this.resizeCanvas();
+        
+        // Set up resize listener
+        window.addEventListener('resize', this.resizeCanvas);
+        
+        // Also listen for container size changes (using ResizeObserver if available)
+        if (window.ResizeObserver) {
+            this.resizeObserver = new ResizeObserver(() => {
+                this.resizeCanvas();
+            });
+            this.resizeObserver.observe(this.canvas.parentElement);
+        }
+    }
+
+    resizeCanvas() {
+        const canvas = this.canvas;
+        const gl = this.gl;
+        
+        // Get the actual display size of the canvas in CSS pixels
+        const displayWidth = canvas.clientWidth;
+        const displayHeight = canvas.clientHeight;
+        
+        // Check if the canvas drawing buffer size needs to be updated
+        if (canvas.width !== displayWidth || canvas.height !== displayHeight) {
+            // Resize the WebGL drawing buffer to match the display size
+            canvas.width = displayWidth;
+            canvas.height = displayHeight;
+            
+            // Update the WebGL viewport
+            gl.viewport(0, 0, displayWidth, displayHeight);
+            
+            // Log the resize for debugging
+            this.logger.log(`Canvas resized to ${displayWidth}x${displayHeight}`, 'info');
+        }
     }
 
     init() {
@@ -753,9 +798,13 @@ class SimpleWebGLRenderer {
         gl.clearColor(0.0, 0.0, 0.0, 0.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         
+        // Update projection matrix with current canvas dimensions
+        this.updateProjection(this.canvas.width, this.canvas.height);
+        
         // Debug: Log render call occasionally
         if (Math.random() < 0.01) { // Log 1% of frames
             console.log('Render called, zoom:', this.zoom, 'rotation:', this.rotation);
+            console.log('Canvas size:', this.canvas.width, 'x', this.canvas.height);
         }
         
         // Use shader program
@@ -874,6 +923,18 @@ class SimpleWebGLRenderer {
     loadModelFile(file) {
         // TODO: Implement model file loading
         this.logger.log('Model file loading not yet implemented', 'info');
+    }
+
+    cleanup() {
+        // Remove resize event listener
+        if (this.resizeCanvas) {
+            window.removeEventListener('resize', this.resizeCanvas);
+        }
+        
+        // Disconnect resize observer
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect();
+        }
     }
 }
 
