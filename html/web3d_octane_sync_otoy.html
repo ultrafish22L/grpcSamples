@@ -294,8 +294,12 @@
                 this.canvas.addEventListener('wheel', (e) => this.handleWheel(e));
                 this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
                 
-                // Window resize
-                window.addEventListener('resize', () => this.resizeCanvas());
+                // Window resize with debounce to prevent flashing
+                let resizeTimeout;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => this.resizeCanvas(), 16); // ~60fps
+                });
                 
                 // Button event handlers - using onclick attributes in HTML instead
                 
@@ -756,14 +760,20 @@
              */
             resizeCanvas() {
                 const rect = this.canvas.parentElement.getBoundingClientRect();
-                const width = rect.width - 20; // Account for padding
-                const height = rect.height - 60; // Account for controls
+                const width = Math.floor(rect.width - 20); // Account for padding
+                const height = Math.floor(rect.height - 60); // Account for controls
                 
-                this.canvas.width = width;
-                this.canvas.height = height;
-                
-                if (this.gl) {
-                    this.gl.viewport(0, 0, width, height);
+                // Only resize if dimensions actually changed (prevent unnecessary flashing)
+                if (this.canvas.width !== width || this.canvas.height !== height) {
+                    this.canvas.width = width;
+                    this.canvas.height = height;
+                    
+                    if (this.gl) {
+                        this.gl.viewport(0, 0, width, height);
+                        // Immediately clear to prevent flash
+                        this.gl.clearColor(0.1, 0.1, 0.1, 1.0);
+                        this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+                    }
                 }
             }
 
