@@ -419,6 +419,9 @@ class StatsDisplayManager {
         const statusLed = document.querySelector('.status-led');
         
         if (statusText && statusLed) {
+            // Keep text always white
+            statusText.style.color = '#ffffff';
+            
             if (!proxyAvailable) {
                 statusText.textContent = 'All Systems Waiting';
                 statusLed.style.background = '#e74c3c';
