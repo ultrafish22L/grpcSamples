@@ -21,27 +21,29 @@
             <div class="control-row">
                 <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023">
                 <button id="connectBtn" onclick="testConnection()">Connect</button>
-                <button onclick="disconnect()">Disconnect</button>
-                <button onclick="exportDebugInfo()">Export Debug</button>
-                <button onclick="showSystemInfo()">System Info</button>
-                <button onclick="showDebugInfo()">Debug Info</button>
-                <button onclick="updateStats()">Refresh Stats</button>
-                <button onclick="clearLog()">Clear Log</button>
+                <button id="disconnectBtn" onclick="disconnect()">Disconnect</button>
+                <button id="exportDebugBtn" onclick="exportDebugInfo()">Export Debug</button>
+                <button id="showSystemInfoBtn" onclick="showSystemInfo()">System Info</button>
+                <button id="showDebugInfoBtn" onclick="showDebugInfo()">Debug Info</button>
+                <button id="refreshStatsBtn" onclick="refreshStats()">Refresh Stats</button>
+                <button id="clearLogBtn" onclick="clearLog()">Clear Log</button>
             </div>
             
             <!-- Row 2: LiveLink & View Controls -->
             <div class="control-row">
-                <button onclick="testGetCamera()">Get Camera</button>
-                <button onclick="testSetCamera()">Set Camera</button>
-                <button onclick="testGetMeshes()">Get Meshes</button>
-                <button onclick="testGetMesh()">Get Mesh</button>
-                <button onclick="testLoadTeapot()">Load Teapot</button>
-                <button onclick="toggleCameraSync()">Toggle Sync</button>
-                <button onclick="toggleAutoRotate()">Toggle Auto-Rotate</button>
-                <button onclick="resetCamera()">Reset Camera</button>
-                <button onclick="loadModel()">Load Model</button>
+                <button id="getCameraBtn" onclick="testGetCamera()">Get Camera</button>
+                <button id="setCameraBtn" onclick="testSetCamera()">Set Camera</button>
+                <button id="getMeshesBtn" onclick="testGetMeshes()">Get Meshes</button>
+                <button id="getMeshBtn" onclick="testGetMesh()">Get Mesh</button>
+                <button id="loadTeapotBtn" onclick="testLoadTeapot()">Load Teapot</button>
+                <button id="syncCameraBtn" onclick="toggleCameraSync()">Toggle Sync</button>
+                <button id="autoRotateBtn" onclick="toggleAutoRotate()">Toggle Auto-Rotate</button>
+                <button id="resetCameraBtn" onclick="resetCamera()">Reset Camera</button>
+                <button id="loadModelBtn" onclick="loadModel()">Load Model</button>
             </div>
         </div>
+        
+
         
         <!-- 3D Canvas and Info Panel below -->
         <div class="content-area">
@@ -50,54 +52,9 @@
             </div>
             
             <div class="info-panel">
-                <div class="control-section">
-                    <div class="section-title">Connection Status</div>
-                    <div id="status" class="status-section status-disconnected">
-                        <div class="status-text">Disconnected</div>
-                    </div>
-                </div>
-                
-                <div class="stats-section glass-panel">
-                    <div class="stats-title">Performance Statistics</div>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span class="stat-label">FPS:</span>
-                            <span class="stat-value" id="fpsValue">0</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Frame Time:</span>
-                            <span class="stat-value" id="frameTimeValue">0ms</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">gRPC Calls:</span>
-                            <span class="stat-value" id="callCount">0</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Last Response:</span>
-                            <span class="stat-value" id="lastTime">0ms</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Avg Response:</span>
-                            <span class="stat-value" id="avgTime">0ms</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Sync Rate:</span>
-                            <span class="stat-value" id="syncRate">0/s</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Connection Mode:</span>
-                            <span class="stat-value" id="mode">Unknown</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Errors:</span>
-                            <span class="stat-value" id="errorCount">0</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="log-section glass-panel">
-                    <div class="log-title">Activity Log</div>
-                    <div id="log" class="log-container"></div>
+                <div class="activity-section glass-panel">
+                    <div class="activity-title">Activity Log</div>
+                    <div id="log" class="activity-log"></div>
                 </div>
             </div>
         </div>
@@ -107,329 +64,861 @@
     <script src="shared.js"></script>
     <script src="livelink.js"></script>
     <script src="webgl-utils.js"></script>
+    <script src="webgl-common.js"></script>
     <script>
         /**
-         * WebGL-Octane LiveLink Sync
-         * 3D WebGL viewer with real-time Octane synchronization
-         * Based on grpc_test.html connection logic
+         * WebGL-Octane LiveLink Synchronization Viewer
+         * Demonstrates real-time camera sync between WebGL and Octane Render using LiveLink protocol
+         * 
+         * This application combines:
+         * - WebGL 3D rendering with interactive camera controls
+         * - gRPC-Web communication with Octane Render via proxy server
+         * - Real-time camera synchronization
+         * - Performance monitoring and logging
          */
-        
-        // Application state
-        let client = null;
-        let logger = null;
-        let statsManager = null;
-        let grpcOperations = null;
-        let debugUtils = null;
-        
-        // 3D viewer state
-        let canvas = null;
-        let gl = null;
-        let webglRenderer = null;
-        let mouseControls = null;
-        let cameraSyncManager = null;
-        let autoRotate = false;
-        let lastFrameTime = 0;
-        let frameCount = 0;
-        let fpsUpdateTime = 0;
-        
-        // Initialize application when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            logger = new ActivityLogger('log');
-            statsManager = new StatsDisplayManager();
-            grpcOperations = new GrpcTestOperations(logger, statsManager);
-            debugUtils = new DebugUtils(logger);
-            
-            // Initialize 3D viewer
-            initWebGL();
-            
-            logger.log('🔗 WebGL-Octane LiveLink Sync initialized', 'info');
-        });
 
-        // WebGL initialization and rendering
-        function initWebGL() {
-            canvas = document.getElementById('canvas');
-            if (!canvas) {
-                logger.log('❌ Canvas element not found', 'error');
-                return;
+        class OctaneGrpcSync {
+            constructor() {
+                // Initialize logging and UI utilities
+                this.logger = new ActivityLogger('activityLog');
+                this.performanceTracker = new PerformanceTracker();
+                this.connectionState = new EnhancedConnectionStateManager('statusText', this.logger);
+                
+                // Initialize testing utilities
+                this.statsManager = new StatsDisplayManager();
+                this.grpcOperations = new GrpcTestOperations(this.logger, this.statsManager);
+                this.debugUtils = new DebugUtils(this.logger);
+                this.connectionManager = new ConnectionManager(this.logger, this.connectionState);
+                
+                // WebGL and rendering state
+                this.canvas = document.getElementById('canvas');
+                this.gl = null;
+                this.shaderProgram = null;
+                this.skyboxProgram = null;
+                this.camera = new CameraController();
+                
+                // Geometry and rendering objects
+                this.cubeVAO = null;
+                this.skyboxVAO = null;
+                this.cubeVertexBuffer = null;
+                this.cubeIndexBuffer = null;
+                this.skyboxVertexBuffer = null;
+                
+                // Mouse interaction state
+                this.mouse = {
+                    dragging: false,
+                    panning: false,
+                    lastX: 0,
+                    lastY: 0
+                };
+                
+                // Animation and performance tracking
+                this.startTime = Date.now();
+                this.frameCount = 0;
+                this.lastTime = 0;
+                this.fps = 0;
+                this.frameTime = 0;
+                
+                // LiveLink connection state
+                this.liveLink = null;
+                this.connected = false;
+                this.octaneReady = false;
+                this.cameraSync = false;
+                this.syncInterval = null;
+                this.teapotLoaded = false;
+                
+                // Initialize the application
+                this.init();
             }
-            
-            // Set canvas size
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
-            
-            try {
-                gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-                if (!gl) {
-                    throw new Error('WebGL not supported');
-                }
-                
-                webglRenderer = new SimpleWebGLRenderer(gl, logger);
-                webglRenderer.init();
-                
-                // Setup mouse controls
-                mouseControls = new MouseControls(canvas, webglRenderer, logger);
-                
-                // Setup camera sync manager
-                cameraSyncManager = new CameraSyncManager(webglRenderer, null, logger);
-                
-                // Start render loop
-                requestAnimationFrame(renderLoop);
-                
-                logger.log('✅ WebGL initialized successfully', 'success');
-                
-            } catch (error) {
-                logger.log(`❌ WebGL initialization failed: ${error.message}`, 'error');
-            }
-        }
-        
-        function resizeCanvas() {
-            if (!canvas) return;
-            
-            const container = canvas.parentElement;
-            const rect = container.getBoundingClientRect();
-            
-            canvas.width = rect.width;
-            canvas.height = rect.height;
-            
-            if (gl) {
-                gl.viewport(0, 0, canvas.width, canvas.height);
-            }
-            
-            if (webglRenderer) {
-                webglRenderer.updateProjection(canvas.width, canvas.height);
-            }
-        }
-        
-        function renderLoop(currentTime) {
-            if (webglRenderer) {
-                // Update FPS
-                frameCount++;
-                if (currentTime - fpsUpdateTime >= 1000) {
-                    const fps = Math.round((frameCount * 1000) / (currentTime - fpsUpdateTime));
-                    document.getElementById('fpsValue').textContent = fps;
-                    frameCount = 0;
-                    fpsUpdateTime = currentTime;
-                }
-                
-                // Update frame time
-                const frameTime = currentTime - lastFrameTime;
-                document.getElementById('frameTimeValue').textContent = Math.round(frameTime) + 'ms';
-                lastFrameTime = currentTime;
-                
-                // Auto-rotate if enabled
-                if (autoRotate) {
-                    webglRenderer.rotateCamera(currentTime * 0.001);
-                }
-                
-                // Render frame
-                webglRenderer.render();
-                
-                // Sync camera with Octane if enabled
-                if (cameraSyncManager) {
-                    cameraSyncManager.syncToOctane();
+
+            /**
+             * Initialize the WebGL viewer and set up event handlers
+             */
+            async init() {
+                try {
+                    this.logger.log('Initializing WebGL-Octane LiveLink Sync viewer...', 'info');
+                    
+                    // Initialize WebGL
+                    await this.initWebGL();
+                    
+                    // Set up event handlers
+                    this.setupEventHandlers();
+                    
+                    // Start render loop
+                    this.render();
+                    
+                    // Initialize performance monitoring
+                    this.startPerformanceMonitoring();
+                    
+                    this.logger.log('Viewer initialized successfully. Ready to connect to Octane.', 'success');
+                    
+                } catch (error) {
+                    this.logger.log(`Failed to initialize viewer: ${error.message}`, 'error');
+                    console.error('Initialization error:', error);
                 }
             }
-            
-            requestAnimationFrame(renderLoop);
-        }
 
-        // Connection functions (based on grpc_test.html)
-        function updateStatus(status, mode = '') {
-            const statusDiv = document.getElementById('status');
-            const connectBtn = document.getElementById('connectBtn');
-            
-            statusDiv.className = `status-section status-${status}`;
-            
-            switch (status) {
-                case 'connected':
-                    statusDiv.innerHTML = `<div>Connected${mode ? ` (${mode})` : ''}</div>`;
-                    connectBtn.textContent = 'Reconnect';
-                    break;
-                case 'disconnected':
-                    statusDiv.innerHTML = '<div>Disconnected</div>';
-                    connectBtn.textContent = 'Connect';
-                    break;
-                case 'error':
-                    statusDiv.innerHTML = '<div>Connection Error</div>';
-                    connectBtn.textContent = 'Retry';
-                    break;
-                default:
-                    statusDiv.innerHTML = `<div>${status}</div>`;
-            }
-        }
+            /**
+             * Initialize WebGL context and create shaders/geometry
+             */
+            async initWebGL() {
+                // Get WebGL context
+                this.gl = this.canvas.getContext('webgl2');
+                if (!this.gl) {
+                    throw new Error('WebGL 2.0 not supported');
+                }
 
-        function updateStats() {
-            if (statsManager && client) {
-                statsManager.updateStats(client);
-            }
-        }
+                // Configure WebGL state
+                this.gl.enable(this.gl.DEPTH_TEST);
+                this.gl.enable(this.gl.CULL_FACE);
+                this.gl.cullFace(this.gl.BACK);
+                this.gl.clearColor(0.1, 0.1, 0.2, 1.0);
 
-        function clearLog() {
-            if (logger) {
-                logger.clear();
-                logger.log('Activity log cleared', 'info');
-            }
-        }
-
-        function exportDebugInfo() {
-            if (debugUtils && client) {
-                debugUtils.exportDebugInfo(client);
-            }
-        }
-
-        function showSystemInfo() {
-            if (debugUtils && client) {
-                debugUtils.showSystemInfo(client);
-            }
-        }
-
-        function showDebugInfo() {
-            if (debugUtils && client) {
-                debugUtils.showDebugInfo(client);
-            }
-        }
-
-        async function testConnection() {
-            try {
-                const serverAddress = document.getElementById('serverAddress').value;
-                logger.log('🔗 Connecting to Octane LiveLink...', 'info');
+                // Create shaders
+                await this.createShaders();
                 
-                client = liveLinkManager.getClient(serverAddress);
+                // Create geometry
+                this.createGeometry();
                 
-                // Setup event handlers
-                client.removeAllListeners();
+                // Set up viewport
+                this.resizeCanvas();
+            }
+
+            /**
+             * Create and compile shaders
+             */
+            async createShaders() {
+                const gl = this.gl;
                 
-                client.on('log', (logEntry) => {
-                    const displayMessage = logEntry.cleanMessage || logEntry.message;
-                    logger.log(displayMessage, logEntry.level);
+                try {
+                    // Create main object shaders
+                    const vertexShader = ShaderUtils.createShader(gl, gl.VERTEX_SHADER, ShaderUtils.getStandardVertexShader());
+                    const fragmentShader = ShaderUtils.createShader(gl, gl.FRAGMENT_SHADER, ShaderUtils.getStandardFragmentShader());
+                    this.shaderProgram = ShaderUtils.createProgram(gl, vertexShader, fragmentShader);
+                    
+                    // Create skybox shaders
+                    const skyboxVertexShader = ShaderUtils.createShader(gl, gl.VERTEX_SHADER, ShaderUtils.getSkyboxVertexShader());
+                    const skyboxFragmentShader = ShaderUtils.createShader(gl, gl.FRAGMENT_SHADER, ShaderUtils.getSkyboxFragmentShader());
+                    this.skyboxProgram = ShaderUtils.createProgram(gl, skyboxVertexShader, skyboxFragmentShader);
+                    
+                    // Clean up individual shaders
+                    gl.deleteShader(vertexShader);
+                    gl.deleteShader(fragmentShader);
+                    gl.deleteShader(skyboxVertexShader);
+                    gl.deleteShader(skyboxFragmentShader);
+                    
+                } catch (error) {
+                    throw new Error(`Shader creation failed: ${error.message}`);
+                }
+            }
+
+            /**
+             * Create geometry buffers and VAOs
+             */
+            createGeometry() {
+                const gl = this.gl;
+                
+                // Create cube geometry
+                const cubeGeometry = GeometryUtils.createCubeGeometry();
+                
+                this.cubeVAO = gl.createVertexArray();
+                gl.bindVertexArray(this.cubeVAO);
+                
+                // Vertex buffer (position, normal, color)
+                this.cubeVertexBuffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.cubeVertexBuffer);
+                gl.bufferData(gl.ARRAY_BUFFER, cubeGeometry.vertices, gl.STATIC_DRAW);
+                
+                // Position attribute (location 0)
+                gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 9 * 4, 0);
+                gl.enableVertexAttribArray(0);
+                
+                // Normal attribute (location 1)
+                gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 9 * 4, 3 * 4);
+                gl.enableVertexAttribArray(1);
+                
+                // Color attribute (location 2)
+                gl.vertexAttribPointer(2, 3, gl.FLOAT, false, 9 * 4, 6 * 4);
+                gl.enableVertexAttribArray(2);
+                
+                // Index buffer
+                this.cubeIndexBuffer = gl.createBuffer();
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.cubeIndexBuffer);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, cubeGeometry.indices, gl.STATIC_DRAW);
+                
+                // Create skybox geometry
+                const skyboxGeometry = GeometryUtils.createSkyboxGeometry();
+                
+                this.skyboxVAO = gl.createVertexArray();
+                gl.bindVertexArray(this.skyboxVAO);
+                
+                this.skyboxVertexBuffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.skyboxVertexBuffer);
+                gl.bufferData(gl.ARRAY_BUFFER, skyboxGeometry.vertices, gl.STATIC_DRAW);
+                
+                // Position attribute for skybox
+                gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+                gl.enableVertexAttribArray(0);
+                
+                // Unbind VAO
+                gl.bindVertexArray(null);
+            }
+
+            /**
+             * Set up event handlers for user interaction
+             */
+            setupEventHandlers() {
+                // Canvas mouse events
+                this.canvas.addEventListener('mousedown', (e) => this.handleMouseDown(e));
+                this.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+                this.canvas.addEventListener('mouseup', (e) => this.handleMouseUp(e));
+                this.canvas.addEventListener('wheel', (e) => this.handleWheel(e));
+                this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+                
+                // Window resize
+                window.addEventListener('resize', () => this.resizeCanvas());
+                
+                // Button event handlers - using onclick attributes in HTML instead
+                
+                // Connection state change handlers
+                this.connectionState.onStateChange('connected', () => {
+                    UIUtils.setButtonEnabled('connectBtn', false);
+                    UIUtils.setButtonEnabled('disconnectBtn', true);
+                    UIUtils.setButtonEnabled('getCameraBtn', true);
+                    UIUtils.setButtonEnabled('setCameraBtn', true);
+                    UIUtils.setButtonEnabled('getMeshesBtn', true);
+                    UIUtils.setButtonEnabled('getMeshBtn', true);
+                    UIUtils.setButtonEnabled('loadTeapotBtn', true);
+                    UIUtils.setButtonEnabled('syncCameraBtn', true);
+                    
+                    // Enable debug and testing buttons
+                    UIUtils.setButtonEnabled('exportDebugBtn', true);
+                    UIUtils.setButtonEnabled('showSystemInfoBtn', true);
+                    UIUtils.setButtonEnabled('showDebugInfoBtn', true);
+                    UIUtils.setButtonEnabled('refreshStatsBtn', true);
+                    
+                    document.getElementById('connectionStatus').className = 'status-section status-connected';
                 });
                 
-                client.on('connected', () => {
-                    logger.log('✅ Connected to Octane LiveLink!', 'success');
-                    updateStatus('connected', 'Live');
-                    updateStats();
+                this.connectionState.onStateChange('disconnected', () => {
+                    UIUtils.setButtonEnabled('connectBtn', true);
+                    UIUtils.setButtonEnabled('disconnectBtn', false);
+                    UIUtils.setButtonEnabled('getCameraBtn', false);
+                    UIUtils.setButtonEnabled('setCameraBtn', false);
+                    UIUtils.setButtonEnabled('getMeshesBtn', false);
+                    UIUtils.setButtonEnabled('getMeshBtn', false);
+                    UIUtils.setButtonEnabled('loadTeapotBtn', false);
+                    UIUtils.setButtonEnabled('syncCameraBtn', false);
                     
-                    // Update camera sync manager with client
-                    if (cameraSyncManager) {
-                        cameraSyncManager.client = client;
+                    // Disable debug and testing buttons
+                    UIUtils.setButtonEnabled('exportDebugBtn', false);
+                    UIUtils.setButtonEnabled('showSystemInfoBtn', false);
+                    UIUtils.setButtonEnabled('showDebugInfoBtn', false);
+                    UIUtils.setButtonEnabled('refreshStatsBtn', false);
+                    
+                    document.getElementById('connectionStatus').className = 'status-section status-disconnected';
+                    
+                    // Stop camera sync if active
+                    if (this.cameraSync) {
+                        this.toggleCameraSync();
                     }
                 });
                 
-                client.on('disconnected', () => {
-                    logger.log('Disconnected from server', 'info');
-                    updateStatus('disconnected');
-                    updateStats();
+                this.connectionState.onStateChange('connecting', () => {
+                    document.getElementById('connectionStatus').className = 'status-section status-connecting';
                 });
-                
-                client.on('error', (error) => {
-                    logger.log(`❌ Connection error: ${error.message}`, 'error');
-                    updateStatus('error');
-                    updateStats();
-                });
-                
-                await client.connect();
-                
-                const stats = client.getStats();
-                if (stats.connected) {
-                    updateStatus('connected', 'Live');
-                } else {
-                    updateStatus('error');
+            }
+
+            /**
+             * Connect to Octane via gRPC proxy
+             */
+            async connect() {
+                try {
+                    this.performanceTracker.recordConnectionAttempt();
+                    
+                    // Get server address
+                    const serverAddress = document.getElementById('serverAddress').value.trim();
+                    if (!serverAddress) {
+                        throw new Error('Server address is required');
+                    }
+                    
+                    // Use connection manager for connection
+                    this.liveLink = await this.connectionManager.connect(serverAddress);
+                    this.connected = this.connectionManager.isConnected();
+                    
+                    // Set up event handlers using common utility
+                    OctaneIntegrationUtils.setupLiveLinkEvents(
+                        this.liveLink,
+                        this.logger,
+                        () => {
+                            this.connected = true;
+                            this.updateConnectionUI();
+                        },
+                        () => {
+                            this.connected = false;
+                            this.updateConnectionUI();
+                        },
+                        (error) => {
+                            this.performanceTracker.recordError();
+                            ErrorHandler.handleGrpcError(error, this.logger, 'Connection error');
+                        }
+                    );
+                    
+                } catch (error) {
+                    this.performanceTracker.recordError();
+                    ErrorHandler.handleGrpcError(error, this.logger, 'Failed to connect');
+                } finally {
+                    // Always update UI after connection attempt
+                    this.updateConnectionUI();
                 }
-                updateStats();
+            }
+
+            /**
+             * Disconnect from Octane
+             */
+            async disconnect() {
+                try {
+                    await this.connectionManager.disconnect();
+                    this.liveLink = null;
+                    this.connected = false;
+                } catch (error) {
+                    ErrorHandler.handleGrpcError(error, this.logger, 'Disconnect error');
+                } finally {
+                    // Always update UI after disconnect attempt
+                    this.updateConnectionUI();
+                }
+            }
+
+            /**
+             * Get camera state from Octane
+             */
+            async getCameraFromOctane() {
+                if (!this.connected || !this.liveLink) {
+                    this.logger.log('Not connected to Octane', 'warning');
+                    return;
+                }
+
+                try {
+                    const cameraState = await this.grpcOperations.testGetCamera(this.liveLink);
+                    
+                    if (cameraState && cameraState.position) {
+                        // Update our camera to match Octane's camera
+                        this.camera.setFromOctaneCamera(
+                            [cameraState.position.x, cameraState.position.y, cameraState.position.z],
+                            [cameraState.target.x, cameraState.target.y, cameraState.target.z],
+                            [cameraState.up.x, cameraState.up.y, cameraState.up.z],
+                            cameraState.fov
+                        );
+                    }
+                } catch (error) {
+                    this.performanceTracker.recordError();
+                    ErrorHandler.handleGrpcError(error, this.logger, 'Failed to get camera');
+                }
+            }
+
+            /**
+             * Set camera state in Octane
+             */
+            async setCameraToOctane() {
+                if (!this.connected || !this.liveLink) {
+                    this.logger.log('Not connected to Octane', 'warning');
+                    return;
+                }
+
+                try {
+                    // Use common utility to convert WebGL camera to Octane format
+                    const cameraState = CameraSyncUtils.webglToOctane(this.camera);
+                    
+                    await this.grpcOperations.testSetCamera(this.liveLink, cameraState);
+                    
+                } catch (error) {
+                    this.performanceTracker.recordError();
+                    ErrorHandler.handleGrpcError(error, this.logger, 'Failed to set camera');
+                }
+            }
+
+            /**
+             * Test camera with random position (for testing purposes)
+             */
+            async testRandomCamera() {
+                if (!this.connected || !this.liveLink) {
+                    this.logger.log('Not connected to Octane', 'warning');
+                    return;
+                }
+
+                try {
+                    // Generate random camera position for testing using common utility
+                    const cameraState = CameraSyncUtils.generateRandomCamera();
+                    
+                    this.logger.log(`Testing random camera position: (${cameraState.position.x.toFixed(2)}, ${cameraState.position.y.toFixed(2)}, ${cameraState.position.z.toFixed(2)})`, 'info');
+                    
+                    await this.grpcOperations.testSetCamera(this.liveLink, cameraState);
+                    
+                } catch (error) {
+                    this.performanceTracker.recordError();
+                    ErrorHandler.handleGrpcError(error, this.logger, 'Failed to test random camera');
+                }
+            }
+
+            /**
+             * Get mesh list from Octane
+             */
+            async getMeshList() {
+                if (!this.connected || !this.liveLink) {
+                    this.logger.log('Not connected to Octane', 'warning');
+                    return;
+                }
+
+                try {
+                    await this.grpcOperations.testGetMeshes(this.liveLink);
+                } catch (error) {
+                    this.performanceTracker.recordError();
+                    ErrorHandler.handleGrpcError(error, this.logger, 'Failed to get meshes');
+                }
+            }
+
+            /**
+             * Load teapot mesh from Octane
+             */
+            async loadTeapot() {
+                if (!this.connected || !this.liveLink) {
+                    this.logger.log('Not connected to Octane', 'warning');
+                    return;
+                }
+
+                try {
+                    const startTime = Date.now();
+                    const meshData = await this.liveLink.getMesh({ id: 'teapot' });
+                    const responseTime = Date.now() - startTime;
+                    
+                    this.performanceTracker.recordCall(responseTime);
+                    
+                    if (meshData && meshData.positions) {
+                        this.logger.log(`Loaded teapot: ${meshData.positions.length} vertices, ${meshData.vertsPerPoly ? meshData.vertsPerPoly.length : 0} polygons`, 'success');
+                        this.teapotLoaded = true;
+                        // TODO: Replace cube with teapot geometry
+                    } else {
+                        this.logger.log('No teapot data received', 'warning');
+                    }
+                } catch (error) {
+                    this.performanceTracker.recordError();
+                    ErrorHandler.handleGrpcError(error, this.logger, 'Failed to load teapot');
+                }
+            }
+
+            /**
+             * Toggle camera synchronization with Octane
+             */
+            toggleCameraSync() {
+                if (!this.connected) {
+                    this.logger.log('Not connected to Octane', 'warning');
+                    return;
+                }
+
+                this.cameraSync = !this.cameraSync;
+                const syncBtn = document.getElementById('syncCameraBtn');
+                
+                if (this.cameraSync) {
+                    syncBtn.textContent = 'Stop Sync';
+                    this.logger.log('Camera sync started', 'success');
+                    
+                    // Start sync interval (30 FPS)
+                    this.syncInterval = setInterval(() => {
+                        if (this.connected && this.cameraSync) {
+                            this.setCameraToOctane();
+                        }
+                    }, 1000 / 30);
+                } else {
+                    syncBtn.textContent = 'Start Sync';
+                    this.logger.log('Camera sync stopped', 'info');
+                    
+                    if (this.syncInterval) {
+                        clearInterval(this.syncInterval);
+                        this.syncInterval = null;
+                    }
+                }
+            }
+
+            /**
+             * Toggle auto-rotation
+             */
+            toggleAutoRotate() {
+                this.camera.autoRotate = !this.camera.autoRotate;
+                const btn = document.getElementById('autoRotateBtn');
+                btn.textContent = this.camera.autoRotate ? 'Stop Auto-Rotate' : 'Start Auto-Rotate';
+                this.logger.log(`Auto-rotation ${this.camera.autoRotate ? 'enabled' : 'disabled'}`, 'info');
+            }
+
+            /**
+             * Reset camera to default position
+             */
+            resetCamera() {
+                this.camera.radius = 5.0;
+                this.camera.theta = 0.0;
+                this.camera.phi = 0.0;
+                this.camera.center = [0.0, 0.0, 0.0];
+                this.camera.autoRotate = true;
+                
+                document.getElementById('autoRotateBtn').textContent = 'Stop Auto-Rotate';
+                this.logger.log('Camera reset to default position', 'info');
+            }
+
+            /**
+             * Clear activity log
+             */
+            clearLog() {
+                this.logger.clear();
+                this.logger.log('Activity log cleared', 'info');
+            }
+
+            /**
+             * Get individual mesh data from Octane
+             */
+            async getMesh() {
+                if (!this.connected || !this.liveLink) {
+                    this.logger.log('Not connected to Octane', 'warning');
+                    return;
+                }
+
+                try {
+                    await this.grpcOperations.testGetMesh(this.liveLink);
+                } catch (error) {
+                    this.performanceTracker.recordError();
+                    ErrorHandler.handleGrpcError(error, this.logger, 'Failed to get mesh');
+                }
+            }
+
+            /**
+             * Export debug information
+             */
+            exportDebugInfo() {
+                if (!this.liveLink) {
+                    this.logger.log('No client available for debug export', 'error');
+                    return;
+                }
+                this.debugUtils.exportDebugInfo(this.liveLink);
+            }
+
+            /**
+             * Show system information
+             */
+            showSystemInfo() {
+                if (!this.liveLink) {
+                    this.logger.log('No client available for system info', 'error');
+                    return;
+                }
+                this.debugUtils.showSystemInfo(this.liveLink);
+            }
+
+            /**
+             * Show debug information
+             */
+            showDebugInfo() {
+                if (!this.liveLink) {
+                    this.logger.log('No client available for debug info', 'error');
+                    return;
+                }
+                this.debugUtils.showDebugInfo(this.liveLink);
+            }
+
+            /**
+             * Refresh performance statistics
+             */
+            refreshStats() {
+                if (!this.liveLink) {
+                    this.logger.log('No client available for stats refresh', 'error');
+                    return;
+                }
+                this.debugUtils.refreshStats(this.liveLink, this.statsManager);
+            }
+
+            /**
+             * Update connection UI elements based on current state
+             */
+            updateConnectionUI() {
+                const connectBtn = document.getElementById('connectBtn');
+                const disconnectBtn = document.getElementById('disconnectBtn');
+                const statusText = document.getElementById('statusText');
+                const statusSection = document.getElementById('connectionStatus');
+                
+                // Update button states
+                connectBtn.disabled = this.connected;
+                disconnectBtn.disabled = !this.connected;
+                
+                // Update status display
+                if (this.connected) {
+                    statusText.textContent = 'Connected';
+                    statusSection.className = 'status-section status-connected';
+                } else {
+                    statusText.textContent = 'Disconnected';
+                    statusSection.className = 'status-section status-disconnected';
+                }
+                
+                // Enable/disable operation buttons
+                const operationButtons = [
+                    'getCameraBtn', 'setCameraBtn', 'testRandomCameraBtn', 'getMeshesBtn', 'getMeshBtn',
+                    'loadTeapotBtn', 'syncCameraBtn', 'exportDebugBtn', 
+                    'showSystemInfoBtn', 'showDebugInfoBtn', 'refreshStatsBtn'
+                ];
+                
+                operationButtons.forEach(btnId => {
+                    const btn = document.getElementById(btnId);
+                    if (btn) {
+                        btn.disabled = !this.connected;
+                    }
+                });
+                
+                // Update stats display
+                if (this.liveLink) {
+                    const stats = this.liveLink.getStats();
+                    this.updateStatsDisplay(stats);
+                }
+            }
+
+            /**
+             * Update performance statistics display
+             */
+            updateStatsDisplay(stats) {
+                if (!stats) return;
+                
+                document.getElementById('grpcCallsValue').textContent = stats.totalCalls || 0;
+                document.getElementById('avgResponseValue').textContent = `${stats.averageResponseTime || 0}ms`;
+                document.getElementById('errorCountValue').textContent = stats.errors || 0;
+            }
+
+            /**
+             * Handle mouse down events
+             */
+            handleMouseDown(event) {
+                this.mouse.dragging = event.button === 0; // Left button
+                this.mouse.panning = event.button === 2;  // Right button
+                this.mouse.lastX = event.clientX;
+                this.mouse.lastY = event.clientY;
+                
+                if (this.mouse.dragging || this.mouse.panning) {
+                    this.canvas.style.cursor = this.mouse.panning ? 'move' : 'grabbing';
+                }
+            }
+
+            /**
+             * Handle mouse move events
+             */
+            handleMouseMove(event) {
+                if (this.mouse.dragging || this.mouse.panning) {
+                    const deltaX = event.clientX - this.mouse.lastX;
+                    const deltaY = event.clientY - this.mouse.lastY;
+                    
+                    this.camera.handleMouseMove(deltaX, deltaY, this.mouse.dragging, this.mouse.panning);
+                    
+                    this.mouse.lastX = event.clientX;
+                    this.mouse.lastY = event.clientY;
+                }
+            }
+
+            /**
+             * Handle mouse up events
+             */
+            handleMouseUp(event) {
+                this.mouse.dragging = false;
+                this.mouse.panning = false;
+                this.canvas.style.cursor = 'default';
+            }
+
+            /**
+             * Handle mouse wheel events
+             */
+            handleWheel(event) {
+                event.preventDefault();
+                this.camera.handleWheel(event.deltaY);
+            }
+
+            /**
+             * Resize canvas to match container
+             */
+            resizeCanvas() {
+                const rect = this.canvas.parentElement.getBoundingClientRect();
+                const width = rect.width - 20; // Account for padding
+                const height = rect.height - 60; // Account for controls
+                
+                this.canvas.width = width;
+                this.canvas.height = height;
+                
+                if (this.gl) {
+                    this.gl.viewport(0, 0, width, height);
+                }
+            }
+
+            /**
+             * Start performance monitoring
+             */
+            startPerformanceMonitoring() {
+                setInterval(() => {
+                    const stats = this.performanceTracker.getStats();
+                    
+                    UIUtils.updateElement('fpsValue', Math.round(this.fps));
+                    UIUtils.updateElement('frameTimeValue', `${this.frameTime}ms`);
+                    UIUtils.updateElement('grpcCallsValue', stats.calls);
+                    UIUtils.updateElement('avgResponseValue', `${stats.averageResponseTime}ms`);
+                    UIUtils.updateElement('errorCountValue', stats.errorCount);
+                    
+                    // Calculate sync rate if syncing
+                    const syncRate = this.cameraSync ? '30' : '0';
+                    UIUtils.updateElement('syncRateValue', `${syncRate}/s`);
+                    
+                }, 1000);
+            }
+
+            /**
+             * Main render loop
+             */
+            render() {
+                const currentTime = Date.now();
+                const deltaTime = (currentTime - this.lastTime) / 1000.0;
+                this.lastTime = currentTime;
+                
+                // Update camera
+                this.camera.update(deltaTime);
+                
+                // Calculate performance metrics
+                this.frameCount++;
+                if (this.frameCount % 60 === 0) {
+                    const elapsed = currentTime - this.startTime;
+                    this.fps = (this.frameCount * 1000) / elapsed;
+                    this.frameTime = Math.round(deltaTime * 1000);
+                }
+                
+                // Render scene
+                this.renderScene(currentTime / 1000.0);
+                
+                // Continue render loop
+                requestAnimationFrame(() => this.render());
+            }
+
+            /**
+             * Render the 3D scene
+             */
+            renderScene(time) {
+                const gl = this.gl;
+                
+                // Clear buffers
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+                
+                // Create matrices
+                const aspect = this.canvas.width / this.canvas.height;
+                const projectionMatrix = MatrixUtils.createPerspectiveMatrix(Math.PI / 4, aspect, 0.1, 100.0);
+                const viewMatrix = this.camera.getViewMatrix();
+                const modelMatrix = MatrixUtils.createRotationMatrix(time * 0.5, time * 0.3, 0);
+                const normalMatrix = MatrixUtils.transpose(modelMatrix);
+                
+                // Render skybox first
+                gl.depthMask(false);
+                gl.useProgram(this.skyboxProgram);
+                gl.bindVertexArray(this.skyboxVAO);
+                
+                gl.uniformMatrix4fv(gl.getUniformLocation(this.skyboxProgram, 'uView'), false, viewMatrix);
+                gl.uniformMatrix4fv(gl.getUniformLocation(this.skyboxProgram, 'uProjection'), false, projectionMatrix);
+                gl.uniform1f(gl.getUniformLocation(this.skyboxProgram, 'uTime'), time);
+                
+                gl.drawArrays(gl.TRIANGLES, 0, 36);
+                
+                // Render main object
+                gl.depthMask(true);
+                gl.useProgram(this.shaderProgram);
+                gl.bindVertexArray(this.cubeVAO);
+                
+                // Set uniforms
+                gl.uniformMatrix4fv(gl.getUniformLocation(this.shaderProgram, 'uModel'), false, modelMatrix);
+                gl.uniformMatrix4fv(gl.getUniformLocation(this.shaderProgram, 'uView'), false, viewMatrix);
+                gl.uniformMatrix4fv(gl.getUniformLocation(this.shaderProgram, 'uProjection'), false, projectionMatrix);
+                gl.uniformMatrix3fv(gl.getUniformLocation(this.shaderProgram, 'uNormalMatrix'), false, normalMatrix);
+                
+                // Lighting uniforms
+                const cameraPos = this.camera.getPosition();
+                gl.uniform3fv(gl.getUniformLocation(this.shaderProgram, 'uLightPos'), [5.0, 5.0, 5.0]);
+                gl.uniform3fv(gl.getUniformLocation(this.shaderProgram, 'uLightColor'), [1.0, 1.0, 1.0]);
+                gl.uniform3fv(gl.getUniformLocation(this.shaderProgram, 'uViewPos'), cameraPos);
+                gl.uniform1f(gl.getUniformLocation(this.shaderProgram, 'uTime'), time);
+                
+                // Draw cube
+                gl.drawElements(gl.TRIANGLES, 36, gl.UNSIGNED_SHORT, 0);
+                
+                // Unbind
+                gl.bindVertexArray(null);
+            }
+        }
+
+        // Global viewer instance
+        let viewer;
+
+        // Initialize viewer when page loads
+        window.addEventListener('load', async () => {
+            console.log('Page loaded, initializing WebGL-Octane LiveLink Sync viewer...');
+            
+            try {
+                viewer = new OctaneGrpcSync();
+                console.log('Viewer initialized successfully');
+                
+                // Add global debug functions for testing
+                window.debugViewer = viewer;
+                window.testConnect = () => viewer.connect();
                 
             } catch (error) {
-                logger.log(`❌ Connection error: ${error.message}`, 'error');
-                updateStatus('disconnected');
+                console.error('Failed to initialize viewer:', error);
+                alert(`Failed to initialize viewer: ${error.message}`);
             }
-        }
+        });
 
-        async function disconnect() {
-            if (client) {
-                await client.disconnect();
-                logger.log('Disconnected from server', 'info');
-                updateStatus('disconnected');
-                updateStats();
-            } else {
-                logger.log('No connection to disconnect', 'warning');
+        // Handle page unload
+        window.addEventListener('beforeunload', () => {
+            if (viewer && viewer.connected) {
+                viewer.disconnect();
             }
-        }
+        });
 
-        // LiveLink operations (based on grpc_test.html)
-        async function testGetCamera() {
-            if (grpcOperations && client) {
-                const cameraData = await grpcOperations.testGetCamera(client);
-                if (cameraData && webglRenderer) {
-                    webglRenderer.setCameraFromOctane(cameraData);
-                }
-            }
-        }
-
-        async function testSetCamera() {
-            if (grpcOperations && client && webglRenderer) {
-                const cameraState = webglRenderer.getCameraState();
-                await grpcOperations.testSetCamera(client, cameraState);
-            }
-        }
-
-        async function testGetMeshes() {
-            if (grpcOperations && client) {
-                await grpcOperations.testGetMeshes(client);
-            }
-        }
-
-        async function testGetMesh() {
-            if (grpcOperations && client) {
-                const meshData = await grpcOperations.testGetMesh(client);
-                if (meshData && webglRenderer) {
-                    webglRenderer.loadMeshData(meshData);
-                }
-            }
-        }
-
-        async function testLoadTeapot() {
-            if (grpcOperations && client) {
-                await grpcOperations.testLoadTeapot(client);
-            }
-        }
-
-        // 3D viewer controls
-        function toggleAutoRotate() {
-            autoRotate = !autoRotate;
-            logger.log(`Auto-rotate ${autoRotate ? 'enabled' : 'disabled'}`, 'info');
-        }
-
-        function resetCamera() {
-            if (webglRenderer) {
-                webglRenderer.resetCamera();
-                logger.log('Camera reset to default position', 'info');
-            }
-        }
-
-        function toggleCameraSync() {
-            if (cameraSyncManager) {
-                const enabled = cameraSyncManager.toggle();
-                document.getElementById('syncRate').textContent = enabled ? 'Active' : '0/s';
-            }
-        }
-
-        function loadModel() {
-            // Create file input for model loading
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.obj,.ply,.stl';
-            input.onchange = (e) => {
-                const file = e.target.files[0];
-                if (file && webglRenderer) {
-                    webglRenderer.loadModelFile(file);
-                    logger.log(`Loading model: ${file.name}`, 'info');
-                }
-            };
-            input.click();
-        }
-
+        // Add global functions for compatibility with onclick handlers
+        window.testConnection = () => viewer?.connect();
+        window.disconnect = () => viewer?.disconnect();
+        window.testGetCamera = () => viewer?.getCameraFromOctane();
+        window.testSetCamera = () => viewer?.setCameraToOctane();
+        window.testGetMeshes = () => viewer?.getMeshList();
+        window.toggleCameraSync = () => viewer?.toggleCameraSync();
+        window.toggleAutoRotate = () => viewer?.toggleAutoRotate();
+        window.resetCamera = () => viewer?.resetCamera();
+        window.loadModel = () => viewer?.loadModel();
+        window.testLoadTeapot = () => viewer?.loadTeapot();
+        window.exportDebugInfo = () => viewer?.exportDebugInfo();
+        window.showSystemInfo = () => viewer?.showSystemInfo();
+        window.showDebugInfo = () => viewer?.showDebugInfo();
+        window.refreshStats = () => viewer?.refreshStats();
+        window.clearLog = () => viewer?.clearLog();
 
     </script>
 
+    <!-- Status Footer -->
+    <div class="status-footer">
+        <div class="footer-stats">
+            <span>Status: <span id="connectionStatus" class="status-indicator">Disconnected</span></span>
+            <span>FPS: <span id="fps">0</span></span>
+            <span>Frame: <span id="frameTime">0ms</span></span>
+            <span>Calls: <span id="callCount">0</span></span>
+            <span>Response: <span id="lastTime">0ms</span></span>
+            <span>Sync: <span id="syncRate">0/s</span></span>
+            <span>Errors: <span id="errorCount">0</span></span>
+        </div>
+    </div>
+
+    <!-- OTOY Footer -->
+    <div class="otoy-footer">
+        <div class="otoy-status">
+            <span class="status-led"></span>
+            <span>All Systems Ready</span>
+        </div>
+        <div class="otoy-copyright">
+            © OTOY Inc. – 2020 All Rights Reserved.
+            <a href="https://otoy.com/terms" target="_blank">Terms & Conditions</a> |
+            <a href="https://otoy.com/privacy" target="_blank">OTOY Privacy Policy</a>
+        </div>
+    </div>
 
 </body>
 </html>

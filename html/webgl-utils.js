@@ -447,38 +447,21 @@ class SimpleWebGLRenderer {
         // Simple WebGL 1.0 compatible shaders
         const vertexShaderSource = `
             attribute vec4 aVertexPosition;
-            attribute vec3 aVertexNormal;
             
             uniform mat4 uModelViewMatrix;
             uniform mat4 uProjectionMatrix;
-            uniform mat4 uNormalMatrix;
-            
-            varying vec3 vNormal;
-            varying vec3 vPosition;
             
             void main() {
                 gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-                vNormal = (uNormalMatrix * vec4(aVertexNormal, 0.0)).xyz;
-                vPosition = (uModelViewMatrix * aVertexPosition).xyz;
             }
         `;
         
         const fragmentShaderSource = `
             precision mediump float;
             
-            varying vec3 vNormal;
-            varying vec3 vPosition;
-            
             void main() {
-                vec3 normal = normalize(vNormal);
-                vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
-                float diff = max(dot(normal, lightDir), 0.0);
-                
-                vec3 color = vec3(0.2, 0.6, 1.0);
-                vec3 ambient = color * 0.3;
-                vec3 diffuse = color * diff * 0.7;
-                
-                gl_FragColor = vec4(ambient + diffuse, 1.0);
+                // Bright red for maximum visibility
+                gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
             }
         `;
         
@@ -500,14 +483,20 @@ class SimpleWebGLRenderer {
         this.programInfo = {
             attribLocations: {
                 vertexPosition: gl.getAttribLocation(this.program, 'aVertexPosition'),
-                vertexNormal: gl.getAttribLocation(this.program, 'aVertexNormal'),
             },
             uniformLocations: {
                 projectionMatrix: gl.getUniformLocation(this.program, 'uProjectionMatrix'),
                 modelViewMatrix: gl.getUniformLocation(this.program, 'uModelViewMatrix'),
-                normalMatrix: gl.getUniformLocation(this.program, 'uNormalMatrix'),
             },
         };
+        
+        // Debug: Check if locations were found
+        console.log('Attribute locations:', this.programInfo.attribLocations);
+        console.log('Uniform locations:', this.programInfo.uniformLocations);
+        
+        if (this.programInfo.attribLocations.vertexPosition === -1) {
+            console.error('aVertexPosition attribute not found in shader');
+        }
         
         // Create default cube geometry
         this.createCubeGeometry();
@@ -629,6 +618,10 @@ class SimpleWebGLRenderer {
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.position);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
         
+        // Debug: Log vertex data
+        console.log('Cube positions:', positions.slice(0, 12)); // First 4 vertices
+        console.log('Position buffer created:', this.buffers.position);
+        
         this.buffers.normal = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.normal);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normals), gl.STATIC_DRAW);
@@ -638,6 +631,11 @@ class SimpleWebGLRenderer {
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
         
         this.indexCount = indices.length;
+        
+        // Debug: Log index data
+        console.log('Cube indices:', indices.slice(0, 12)); // First 4 triangles
+        console.log('Index count:', this.indexCount);
+        console.log('Index buffer created:', this.buffers.indices);
     }
 
     updateProjection(width, height) {
@@ -652,9 +650,14 @@ class SimpleWebGLRenderer {
     render() {
         const gl = this.gl;
         
-        // Clear canvas
+        // Clear canvas with dark background
         gl.clearColor(0.1, 0.1, 0.1, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        
+        // Debug: Log render call occasionally
+        if (Math.random() < 0.01) { // Log 1% of frames
+            console.log('Render called, zoom:', this.zoom, 'rotation:', this.rotation);
+        }
         
         // Use shader program
         gl.useProgram(this.program);
@@ -679,27 +682,44 @@ class SimpleWebGLRenderer {
         // Recreate model-view matrix with updated camera position
         const updatedModelViewMatrix = MatrixUtils.createLookAtMatrix(cameraPos, target, up);
         
-        // Create simple normal matrix (identity for now)
-        const normalMatrix = MatrixUtils.createIdentityMatrix();
-        
         // Set uniforms
+        if (!this.projectionMatrix) {
+            console.error('Projection matrix not initialized');
+            return;
+        }
+        
+        // Debug: Log matrices occasionally
+        if (Math.random() < 0.01) {
+            console.log('Camera pos:', cameraPos);
+            console.log('Projection matrix:', this.projectionMatrix);
+            console.log('ModelView matrix:', updatedModelViewMatrix);
+        }
+        
         gl.uniformMatrix4fv(this.programInfo.uniformLocations.projectionMatrix, false, this.projectionMatrix);
         gl.uniformMatrix4fv(this.programInfo.uniformLocations.modelViewMatrix, false, updatedModelViewMatrix);
-        gl.uniformMatrix4fv(this.programInfo.uniformLocations.normalMatrix, false, normalMatrix);
         
         // Bind position buffer
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.position);
         gl.vertexAttribPointer(this.programInfo.attribLocations.vertexPosition, 3, gl.FLOAT, false, 0, 0);
         gl.enableVertexAttribArray(this.programInfo.attribLocations.vertexPosition);
         
-        // Bind normal buffer
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.normal);
-        gl.vertexAttribPointer(this.programInfo.attribLocations.vertexNormal, 3, gl.FLOAT, false, 0, 0);
-        gl.enableVertexAttribArray(this.programInfo.attribLocations.vertexNormal);
-        
         // Bind index buffer and draw
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buffers.indices);
+        
+        // Debug: Log draw call details occasionally
+        if (Math.random() < 0.01) { // Log 1% of frames
+            console.log('Drawing', this.indexCount, 'indices');
+            console.log('Buffers:', this.buffers);
+            console.log('Program info:', this.programInfo);
+        }
+        
         gl.drawElements(gl.TRIANGLES, this.indexCount, gl.UNSIGNED_SHORT, 0);
+        
+        // Debug: Check for WebGL errors
+        const error = gl.getError();
+        if (error !== gl.NO_ERROR) {
+            console.error('WebGL error during draw:', error);
+        }
     }
 
     rotateCamera(deltaX, deltaY = 0) {

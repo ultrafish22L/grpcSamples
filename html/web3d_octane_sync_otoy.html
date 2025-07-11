@@ -25,24 +25,24 @@
             <div class="control-row">
                 <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023">
                 <button id="connectBtn" onclick="testConnection()">Connect</button>
-                <button onclick="disconnect()">Disconnect</button>
-                <button onclick="exportDebugInfo()">Export</button>
-                <button onclick="showSystemInfo()">System</button>
-                <button onclick="showDebugInfo()">Debug</button>
-                <button onclick="refreshStats()">Stats</button>
-                <button onclick="clearLog()">Clear</button>
+                <button id="disconnectBtn" onclick="disconnect()">Disconnect</button>
+                <button id="exportDebugBtn" onclick="exportDebugInfo()">Export</button>
+                <button id="showSystemInfoBtn" onclick="showSystemInfo()">System</button>
+                <button id="showDebugInfoBtn" onclick="showDebugInfo()">Debug</button>
+                <button id="refreshStatsBtn" onclick="refreshStats()">Stats</button>
+                <button id="clearLogBtn" onclick="clearLog()">Clear</button>
             </div>
             
             <!-- Row 2: LiveLink & View Controls -->
             <div class="control-row">
-                <button onclick="testGetCamera()">Get Camera</button>
-                <button onclick="testSetCamera()">Set Camera</button>
-                <button onclick="testGetMeshes()">Get Meshes</button>
-                <button onclick="toggleCameraSync()">Sync</button>
-                <button onclick="toggleAutoRotate()">Auto-Rotate</button>
-                <button onclick="resetCamera()">Reset</button>
-                <button onclick="loadModel()">Load Model</button>
-                <button onclick="testLoadTeapot()">Teapot</button>
+                <button id="getCameraBtn" onclick="testGetCamera()">Get Camera</button>
+                <button id="setCameraBtn" onclick="testSetCamera()">Set Camera</button>
+                <button id="getMeshesBtn" onclick="testGetMeshes()">Get Meshes</button>
+                <button id="syncCameraBtn" onclick="toggleCameraSync()">Sync</button>
+                <button id="autoRotateBtn" onclick="toggleAutoRotate()">Auto-Rotate</button>
+                <button id="resetCameraBtn" onclick="resetCamera()">Reset</button>
+                <button id="loadModelBtn" onclick="loadModel()">Load Model</button>
+                <button id="loadTeapotBtn" onclick="testLoadTeapot()">Teapot</button>
             </div>
         </div>
         
@@ -281,27 +281,7 @@
                 // Window resize
                 window.addEventListener('resize', () => this.resizeCanvas());
                 
-                // Button event handlers
-                document.getElementById('connectBtn').addEventListener('click', () => this.connect());
-                document.getElementById('disconnectBtn').addEventListener('click', () => this.disconnect());
-                document.getElementById('getCameraBtn').addEventListener('click', () => this.getCameraFromOctane());
-                document.getElementById('setCameraBtn').addEventListener('click', () => this.setCameraToOctane());
-                document.getElementById('testRandomCameraBtn').addEventListener('click', () => this.testRandomCamera());
-                document.getElementById('getMeshesBtn').addEventListener('click', () => this.getMeshList());
-                document.getElementById('getMeshBtn').addEventListener('click', () => this.getMesh());
-                document.getElementById('loadTeapotBtn').addEventListener('click', () => this.loadTeapot());
-                document.getElementById('syncCameraBtn').addEventListener('click', () => this.toggleCameraSync());
-                
-                // Debug and testing button handlers
-                document.getElementById('exportDebugBtn').addEventListener('click', () => this.exportDebugInfo());
-                document.getElementById('showSystemInfoBtn').addEventListener('click', () => this.showSystemInfo());
-                document.getElementById('showDebugInfoBtn').addEventListener('click', () => this.showDebugInfo());
-                document.getElementById('refreshStatsBtn').addEventListener('click', () => this.refreshStats());
-                
-                // View control button handlers
-                document.getElementById('autoRotateBtn').addEventListener('click', () => this.toggleAutoRotate());
-                document.getElementById('resetCameraBtn').addEventListener('click', () => this.resetCamera());
-                document.getElementById('clearLogBtn').addEventListener('click', () => this.clearLog());
+                // Button event handlers - using onclick attributes in HTML instead
                 
                 // Connection state change handlers
                 this.connectionState.onStateChange('connected', () => {
@@ -898,9 +878,25 @@
             }
         });
 
+        // Add global functions for compatibility with onclick handlers
+        window.testConnection = () => viewer?.connect();
+        window.disconnect = () => viewer?.disconnect();
+        window.testGetCamera = () => viewer?.getCameraFromOctane();
+        window.testSetCamera = () => viewer?.setCameraToOctane();
+        window.testGetMeshes = () => viewer?.getMeshList();
+        window.toggleCameraSync = () => viewer?.toggleCameraSync();
+        window.toggleAutoRotate = () => viewer?.toggleAutoRotate();
+        window.resetCamera = () => viewer?.resetCamera();
+        window.loadModel = () => viewer?.loadModel();
+        window.testLoadTeapot = () => viewer?.loadTeapot();
+        window.exportDebugInfo = () => viewer?.exportDebugInfo();
+        window.showSystemInfo = () => viewer?.showSystemInfo();
+        window.showDebugInfo = () => viewer?.showDebugInfo();
+        window.refreshStats = () => viewer?.refreshStats();
+        window.clearLog = () => viewer?.clearLog();
+
     </script>
-</body>
-</html>    
+
     <!-- Status Footer -->
     <div class="status-footer">
         <div class="footer-stats">
@@ -921,8 +917,8 @@
             <span>All Systems Ready</span>
         </div>
         <div class="otoy-copyright">
-            © OTOY Inc. – 2020 All Rights Reserved. 
-            <a href="https://otoy.com/terms" target="_blank">Terms & Conditions</a> | 
+            © OTOY Inc. – 2020 All Rights Reserved.
+            <a href="https://otoy.com/terms" target="_blank">Terms & Conditions</a> |
             <a href="https://otoy.com/privacy" target="_blank">OTOY Privacy Policy</a>
         </div>
     </div>
