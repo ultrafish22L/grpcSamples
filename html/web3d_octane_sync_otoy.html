@@ -47,7 +47,7 @@
                     <div class="switch-container">
                         <label class="switch-label">Sync</label>
                         <label class="switch">
-                            <input type="checkbox" id="syncCameraToggle" onchange="toggleCameraSync()">
+                            <input type="checkbox" id="syncCameraToggle" onchange="toggleCameraSync()" checked>
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -150,7 +150,7 @@
                 this.liveLink = null;
                 this.connected = false;
                 this.octaneReady = false;
-                this.cameraSync = false;
+                this.cameraSync = true; // Default to enabled, matching the checked HTML attribute
                 this.syncInterval = null;
                 this.teapotLoaded = false;
                 
@@ -180,6 +180,17 @@
                     this.startPerformanceMonitoring();
                     
                     this.logger.log('Viewer initialized successfully. Ready to connect to Octane.', 'success');
+
+                    // Initialize sync if enabled by default
+                    if (this.cameraSync) {
+                        this.logger.log('Camera sync enabled (will start when connected)', 'info');
+                        // Start sync interval - will only sync when connected
+                        this.syncInterval = setInterval(() => {
+                            if (this.connected && this.cameraSync) {
+                                this.setCameraToOctane();
+                            }
+                        }, 1000 / 30);
+                    }
                     
                 } catch (error) {
                     this.logger.log(`Failed to initialize viewer: ${error.message}`, 'error');
@@ -565,12 +576,7 @@
                     
                     document.getElementById('connectionStatus').className = 'status-section status-disconnected';
                     
-                    // Stop camera sync if active
-                    if (this.cameraSync) {
-                        const syncToggle = document.getElementById('syncCameraToggle');
-                        syncToggle.checked = false;
-                        this.toggleCameraSync();
-                    }
+                    // Note: Keep sync toggle state - it will resume when reconnected
                 });
                 
                 this.connectionState.onStateChange('connecting', () => {
@@ -764,21 +770,19 @@
 
                 if (this.cameraSync) {
                     if (!this.connected) {
-                        this.logger.log('Not connected to Octane - sync disabled', 'warning');
-                        syncToggle.checked = false;
-                        this.cameraSync = false;
-                        return;
+                        this.logger.log('Camera sync enabled (will start when connected)', 'info');
+                    } else {
+                        this.logger.log('Camera sync started', 'success');
                     }
-                    this.logger.log('Camera sync started', 'success');
                     
-                    // Start sync interval (30 FPS)
+                    // Start sync interval (30 FPS) - will only sync when connected
                     this.syncInterval = setInterval(() => {
                         if (this.connected && this.cameraSync) {
                             this.setCameraToOctane();
                         }
                     }, 1000 / 30);
                 } else {
-                    this.logger.log('Camera sync stopped', 'info');
+                    this.logger.log('Camera sync disabled', 'info');
                     
                     if (this.syncInterval) {
                         clearInterval(this.syncInterval);
