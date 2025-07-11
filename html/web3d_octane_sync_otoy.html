@@ -236,6 +236,7 @@
                 this.fps = 0;
                 this.frameTime = 0;
                 this.autoRotate = true; // cube rotation
+                this.isHidden = false; // page visibility tracking
                 
                 // LiveLink connection state
                 this.liveLink = null;
@@ -625,6 +626,35 @@
                 window.addEventListener('resize', () => {
                     clearTimeout(resizeTimeout);
                     resizeTimeout = setTimeout(() => this.resizeCanvas(), 16); // ~60fps
+                });
+                
+                // Handle WebGL context loss/restore
+                this.canvas.addEventListener('webglcontextlost', (e) => {
+                    console.warn('⚠️ WebGL context lost');
+                    this.logger.log('⚠️ WebGL context lost - pausing render loop', 'warning');
+                    e.preventDefault();
+                });
+                
+                this.canvas.addEventListener('webglcontextrestored', (e) => {
+                    console.log('✅ WebGL context restored');
+                    this.logger.log('✅ WebGL context restored - reinitializing', 'info');
+                    // Reinitialize WebGL after context restore
+                    setTimeout(() => {
+                        this.initWebGL();
+                    }, 100);
+                });
+                
+                // Handle page visibility changes (tab detach/attach)
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        console.log('📱 Page hidden - reducing render frequency');
+                        this.isHidden = true;
+                    } else {
+                        console.log('👁️ Page visible - restoring render frequency');
+                        this.isHidden = false;
+                        // Force a canvas resize to ensure proper state
+                        setTimeout(() => this.resizeCanvas(), 50);
+                    }
                 });
                 
                 // Button event handlers - using onclick attributes in HTML instead
@@ -1218,8 +1248,13 @@
                     // Render scene
                     this.renderScene(currentTime / 1000.0);
                     
-                    // Continue render loop
-                    requestAnimationFrame(() => this.render());
+                    // Continue render loop with adaptive frequency
+                    if (this.isHidden) {
+                        // Reduce render frequency when page is hidden
+                        setTimeout(() => this.render(), 100); // 10fps when hidden
+                    } else {
+                        requestAnimationFrame(() => this.render());
+                    }
                     
                 } catch (error) {
                     console.error('❌ Render loop error:', error);
