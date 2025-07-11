@@ -64,15 +64,15 @@ body {
     grid-template-rows: 1fr;
     min-height: 0; /* Allow shrinking */
     overflow: hidden;
-    padding: 20px;
+    padding: 10px; /* Reduced padding for tighter fit */
 }
 
 .content-area {
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 20px;
+    gap: 15px; /* Reduced gap for tighter fit */
     padding: 0; /* Remove padding since main-content has padding */
-    min-height: 500px; /* Minimum content height - increased for better fit */
+    min-height: 600px; /* Increased height to use more vertical space */
     height: 100%; /* Take full height */
     max-width: 1400px;
     width: 100%; /* Take full width up to max-width */
@@ -95,8 +95,8 @@ body {
 
 /* Canvas Container - Responsive */
 .canvas-container {
-    min-height: 500px;
-    height: 100%; /* Take full available height */
+    min-height: 600px; /* Match content-area height */
+    height: 600px; /* Fixed height for exact matching */
     background: var(--otoy-bg-panel);
     border: 1px solid var(--border-subtle);
     border-radius: 6px;
@@ -184,8 +184,8 @@ body {
     min-width: 300px;
     max-width: 400px;
     width: 400px; /* Fixed width */
-    min-height: 500px;
-    height: 100%; /* Take full available height */
+    min-height: 600px; /* Match content-area height */
+    height: 600px; /* Fixed height for exact matching */
     display: grid;
     grid-template-rows: 1fr;
     gap: 10px;
@@ -203,8 +203,8 @@ body {
 
 .activity-section .activity-log {
     overflow-y: scroll; /* Always show scrollbar */
-    min-height: 300px; /* Ensure minimum height */
-    max-height: 450px; /* Fixed maximum height - will scroll when exceeded */
+    min-height: 400px; /* Increased minimum height */
+    max-height: 520px; /* Increased maximum height to fit taller panel */
     height: auto; /* Auto height up to max */
 }
 
@@ -545,7 +545,7 @@ input[type="text"]:focus {
 
 /* Canvas Container - Additional Styling */
 .canvas-container {
-    padding: 10px;
+    padding: 5px; /* Reduced padding for tighter fit */
 }
 
 
