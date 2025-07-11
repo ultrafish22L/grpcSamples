@@ -1148,45 +1148,26 @@
                 const paddingTop = parseFloat(containerStyle.paddingTop) || 0;
                 const paddingBottom = parseFloat(containerStyle.paddingBottom) || 0;
                 
-                // Account for device pixel ratio for crisp rendering
-                const devicePixelRatio = window.devicePixelRatio || 1;
-                const displayWidth = Math.floor(rect.width - paddingLeft - paddingRight);
-                const displayHeight = Math.floor(rect.height - paddingTop - paddingBottom);
-                const canvasWidth = Math.floor(displayWidth * devicePixelRatio);
-                const canvasHeight = Math.floor(displayHeight * devicePixelRatio);
+                const width = Math.floor(rect.width - paddingLeft - paddingRight);
+                const height = Math.floor(rect.height - paddingTop - paddingBottom);
 
                 // Only resize if dimensions actually changed (prevent unnecessary flashing)
-                if (this.canvas.width !== canvasWidth || this.canvas.height !== canvasHeight) {
+                if (this.canvas.width !== width || this.canvas.height !== height) {
                     // Canvas resize (console logging removed for performance)
-//                    this.logger.log(`🔄 Canvas resize: ${canvasWidth}x${canvasHeight} (display: ${displayWidth}x${displayHeight}), DPR: ${devicePixelRatio}`, 'debug');
+//                    this.logger.log(`🔄 Canvas resize: ${width}x${height}, aspect: ${(width/height).toFixed(2)}`, 'debug');
                     
-                    // Set canvas buffer size to actual pixels
-                    this.canvas.width = canvasWidth;
-                    this.canvas.height = canvasHeight;
-                    
-                    // Set canvas display size via CSS
-                    this.canvas.style.width = displayWidth + 'px';
-                    this.canvas.style.height = displayHeight + 'px';
+                    this.canvas.width = width;
+                    this.canvas.height = height;
 
                     if (this.gl) {
-                        // Save current WebGL state
-                        const currentProgram = this.gl.getParameter(this.gl.CURRENT_PROGRAM);
+                        this.gl.viewport(0, 0, width, height);
                         
-                        // Update viewport to match new canvas size
-                        this.gl.viewport(0, 0, canvasWidth, canvasHeight);
+                        // Calculate new aspect ratio
+                        const aspect = width / height;
                         
-                        // Calculate new aspect ratio based on display size
-                        const aspect = displayWidth / displayHeight;
-                        
-                        // Restore WebGL state and clear
-                        this.gl.useProgram(currentProgram);
+                        // Immediately clear to prevent flash
                         this.gl.clearColor(0.1, 0.1, 0.1, 1.0);
                         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-                        
-                        // Force a render to ensure state is properly restored
-                        if (this.renderer) {
-                            this.renderer.render();
-                        }
                         
                         // Check for WebGL errors after resize
                         this.checkWebGLError('Canvas resize');
