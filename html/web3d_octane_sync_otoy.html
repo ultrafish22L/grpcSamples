@@ -1385,38 +1385,27 @@
                     container.style.overflow = 'visible';
                 }
             } else {
-                // Normal screens - allow scrolling to show footer
+                // Normal screens - allow natural flow with footer visible
                 document.body.style.overflow = 'auto';
                 document.body.style.height = 'auto';
                 document.body.style.minHeight = '100vh';
                 if (container) {
                     container.style.height = 'auto';
-                    container.style.minHeight = '100vh';
+                    container.style.minHeight = 'calc(100vh - 100px)'; // Leave space for footer
                     container.style.overflow = 'visible';
                 }
                 
-                // Calculate available space for content
-                const header = document.querySelector('.header-bar');
-                const statusFooter = document.querySelector('.status-footer');
-                const otoyFooter = document.querySelector('.otoy-footer');
-                
-                let availableHeight = viewportHeight;
-                if (header) availableHeight -= header.offsetHeight;
-                if (statusFooter) availableHeight -= statusFooter.offsetHeight;
-                if (otoyFooter) availableHeight -= otoyFooter.offsetHeight;
-                
-                // Reserve some padding
-                availableHeight -= 40;
-                
-                if (contentArea && availableHeight > 200) {
-                    contentArea.style.height = availableHeight + 'px';
-                    contentArea.style.maxHeight = availableHeight + 'px';
+                // Set reasonable heights for content areas without hiding footer
+                if (contentArea) {
+                    contentArea.style.height = 'auto';
+                    contentArea.style.minHeight = '600px';
+                    contentArea.style.maxHeight = 'none';
                 }
                 
-                // Adjust activity log height
-                if (activityLog && availableHeight > 300) {
-                    const maxLogHeight = Math.min(availableHeight * 0.6, 400);
-                    activityLog.style.maxHeight = maxLogHeight + 'px';
+                // Set reasonable height for activity log
+                if (activityLog) {
+                    activityLog.style.maxHeight = '400px';
+                    activityLog.style.minHeight = '200px';
                 }
             }
         }
