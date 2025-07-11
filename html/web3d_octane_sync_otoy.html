@@ -780,6 +780,30 @@
             }
 
             /**
+             * Load model from file dialog
+             */
+            loadModel() {
+                // Create file input element
+                const fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.accept = '.obj,.ply,.stl,.3ds,.fbx';
+                fileInput.style.display = 'none';
+                
+                fileInput.onchange = (event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                        this.logger.log(`Selected file: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`, 'info');
+                        this.logger.log('File loading not yet implemented - this is a placeholder for future 3D model loading functionality', 'warning');
+                        // TODO: Implement actual file parsing and geometry loading
+                    }
+                    document.body.removeChild(fileInput);
+                };
+                
+                document.body.appendChild(fileInput);
+                fileInput.click();
+            }
+
+            /**
              * Toggle camera synchronization with Octane
              */
             toggleCameraSync() {
