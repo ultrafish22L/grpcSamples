@@ -317,7 +317,8 @@ body {
 }
 
 .view-controls {
-    display: block;
+    display: grid;
+    grid-template-columns: repeat(2, auto);
     gap: 15px;
     align-items: center;
 }
