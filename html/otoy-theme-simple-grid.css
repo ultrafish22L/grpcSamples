@@ -224,7 +224,7 @@ body {
 .header-content {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 10px; /* Match main-content padding for consistent margins */
 }
 
 .header-row {
@@ -290,7 +290,7 @@ body {
 .controls-content {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 10px; /* Match main-content padding for consistent margins */
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
@@ -719,7 +719,7 @@ input[type="text"]:focus {
 .status-footer {
     background: var(--otoy-bg-header);
     border-top: 1px solid var(--border-subtle);
-    padding: 8px 20px;
+    padding: 8px 10px; /* Match main-content padding for consistent margins */
     margin-top: 10px; /* Reduced margin for tighter layout */
 }
 
@@ -755,7 +755,7 @@ input[type="text"]:focus {
 .otoy-footer {
     background: var(--otoy-bg-primary);
     border-top: 2px solid var(--otoy-red);
-    padding: 12px 20px;
+    padding: 10px; /* Match main-content padding for consistent margins */
     text-align: center;
     font-size: 10px;
     color: var(--otoy-text-muted);
