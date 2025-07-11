@@ -620,12 +620,14 @@ class LiveLinkClient extends SimpleEventEmitter {
                 const responseText = await response.text();
                 result = JSON.parse(responseText);
                 
-                this.log(`gRPC call successful: ${method}`, {
-                    callId: callId,
-                    duration: responseTime,
-                    responseSize: responseText.length,
-                    resultKeys: Object.keys(result || {})
-                }, 'success');
+                // Commented out to reduce log spam - only log in console
+                // this.log(`gRPC call successful: ${method}`, {
+                //     callId: callId,
+                //     duration: responseTime,
+                //     responseSize: responseText.length,
+                //     resultKeys: Object.keys(result || {})
+                // }, 'success');
+                console.log(`✅ gRPC call successful: ${method} (${responseTime}ms)`);
                 
                 // Log specific Octane data (without large data blocks)
                 if (result && result.success && result.data) {

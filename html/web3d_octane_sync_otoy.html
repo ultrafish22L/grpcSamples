@@ -1176,7 +1176,8 @@
                     
                 } catch (error) {
                     console.error('❌ Render loop error:', error);
-                    this.logger.log(`❌ Render loop error: ${error.message}`, 'error');
+                    // Commented out to reduce log spam - only log in console
+                    // this.logger.log(`❌ Render loop error: ${error.message}`, 'error');
                     
                     // Check for additional WebGL errors
                     this.checkWebGLError('Render loop exception');
@@ -1384,12 +1385,14 @@
                     container.style.overflow = 'visible';
                 }
             } else {
-                // Normal screens - prevent scrolling, ensure footer is visible
-                document.body.style.overflow = 'hidden';
-                document.body.style.height = '100vh';
+                // Normal screens - allow scrolling to show footer
+                document.body.style.overflow = 'auto';
+                document.body.style.height = 'auto';
+                document.body.style.minHeight = '100vh';
                 if (container) {
-                    container.style.height = '100vh';
-                    container.style.overflow = 'hidden';
+                    container.style.height = 'auto';
+                    container.style.minHeight = '100vh';
+                    container.style.overflow = 'visible';
                 }
                 
                 // Calculate available space for content

@@ -42,3 +42,14 @@ Serving HTTP on 0.0.0.0 port 54291 (http://0.0.0.0:54291/) ...
 127.0.0.1 - - [11/Jul/2025 04:06:00] "GET /web3d_octane_sync_otoy.html HTTP/1.1" 200 -
 127.0.0.1 - - [11/Jul/2025 04:06:00] "GET /otoy-theme.css HTTP/1.1" 200 -
 127.0.0.1 - - [11/Jul/2025 04:06:00] "GET /shared.js HTTP/1.1" 304 -
+172.17.0.1 - - [11/Jul/2025 04:06:44] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [11/Jul/2025 04:07:28] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [11/Jul/2025 04:10:14] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [11/Jul/2025 04:11:24] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [11/Jul/2025 04:13:57] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 04:16:03] "GET /web3d_octane_sync_otoy.html HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 04:16:03] "GET /otoy-theme.css HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 04:16:03] "GET /shared.js HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2025 04:16:03] "GET /livelink.js HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 04:16:03] "GET /webgl-utils.js HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2025 04:16:03] "GET /webgl-common.js HTTP/1.1" 304 -

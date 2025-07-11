@@ -152,8 +152,9 @@ canvas {
 .activity-section .activity-log {
     flex: 1;
     overflow-y: auto;
-    min-height: 0; /* Allow flex shrinking */
+    min-height: 200px; /* Ensure minimum height */
     max-height: none; /* Remove height restriction - will be set by JavaScript */
+    height: 100%; /* Fill available space */
 }
 
 /* Improved Header Bar - Full Width Layout */
