@@ -25,8 +25,13 @@
                 </div>
                 <div class="connection-controls">
                     <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023" title="Octane LiveLink server address and port">
-                    <button id="connectBtn" onclick="testConnection()" title="Connect to Octane LiveLink service">🔌 Connect</button>
-                    <button id="disconnectBtn" onclick="disconnect()" title="Disconnect from Octane LiveLink service">⏹️ Disconnect</button>
+                    <div class="switch-container">
+                        <label class="switch-label" title="Connection">🔌</label>
+                        <label class="switch" title="Connect/disconnect from Octane LiveLink service">
+                            <input type="checkbox" id="connectionToggle" onchange="toggleConnection()" title="Toggle connection to Octane LiveLink">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -627,8 +632,9 @@
                 
                 // Connection state change handlers
                 this.connectionState.onStateChange('connected', () => {
-                    UIUtils.setButtonEnabled('connectBtn', false);
-                    UIUtils.setButtonEnabled('disconnectBtn', true);
+                    // Update connection toggle
+                    const connectionToggle = document.getElementById('connectionToggle');
+                    if (connectionToggle) connectionToggle.checked = true;
                     UIUtils.setButtonEnabled('getCameraBtn', true);
                     UIUtils.setButtonEnabled('setCameraBtn', true);
                     UIUtils.setButtonEnabled('getMeshesBtn', true);
@@ -644,8 +650,9 @@
                 });
                 
                 this.connectionState.onStateChange('disconnected', () => {
-                    UIUtils.setButtonEnabled('connectBtn', true);
-                    UIUtils.setButtonEnabled('disconnectBtn', false);
+                    // Update connection toggle
+                    const connectionToggle = document.getElementById('connectionToggle');
+                    if (connectionToggle) connectionToggle.checked = false;
                     UIUtils.setButtonEnabled('getCameraBtn', false);
                     UIUtils.setButtonEnabled('setCameraBtn', false);
                     UIUtils.setButtonEnabled('getMeshesBtn', false);
@@ -1014,13 +1021,13 @@
              * Update connection UI elements based on current state
              */
             updateConnectionUI() {
-                const connectBtn = document.getElementById('connectBtn');
-                const disconnectBtn = document.getElementById('disconnectBtn');
+                const connectionToggle = document.getElementById('connectionToggle');
                 const connectionStatus = document.getElementById('connectionStatus');
                 
-                // Update button states
-                connectBtn.disabled = this.connected;
-                disconnectBtn.disabled = !this.connected;
+                // Update toggle state
+                if (connectionToggle) {
+                    connectionToggle.checked = this.connected;
+                }
                 
                 // Update status display
                 if (connectionStatus) {
@@ -1397,6 +1404,14 @@
         // Add global functions for compatibility with onclick handlers
         window.testConnection = () => viewer?.connect();
         window.disconnect = () => viewer?.disconnect();
+        window.toggleConnection = () => {
+            const toggle = document.getElementById('connectionToggle');
+            if (toggle.checked) {
+                viewer?.connect();
+            } else {
+                viewer?.disconnect();
+            }
+        };
         window.testGetCamera = () => viewer?.getCameraFromOctane();
         window.testSetCamera = () => viewer?.testRandomCamera();
         window.testGetMeshes = () => viewer?.getMeshList();
