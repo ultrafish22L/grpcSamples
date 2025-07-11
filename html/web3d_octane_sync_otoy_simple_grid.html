@@ -635,6 +635,10 @@
                     // Update connection toggle
                     const connectionToggle = document.getElementById('connectionToggle');
                     if (connectionToggle) connectionToggle.checked = true;
+
+                    // Update LED status indicator
+                    this.uiUtils.updateConnectionStatus(true, true);
+
                     UIUtils.setButtonEnabled('getCameraBtn', true);
                     UIUtils.setButtonEnabled('setCameraBtn', true);
                     UIUtils.setButtonEnabled('getMeshesBtn', true);
@@ -653,6 +657,10 @@
                     // Update connection toggle
                     const connectionToggle = document.getElementById('connectionToggle');
                     if (connectionToggle) connectionToggle.checked = false;
+
+                    // Update LED status indicator
+                    this.uiUtils.updateConnectionStatus(false, true);
+
                     UIUtils.setButtonEnabled('getCameraBtn', false);
                     UIUtils.setButtonEnabled('setCameraBtn', false);
                     UIUtils.setButtonEnabled('getMeshesBtn', false);
