@@ -199,7 +199,7 @@ body {
 }
 
 .activity-section .activity-log {
-    overflow-y: auto;
+    overflow-y: scroll; /* Always show scrollbar */
     min-height: 200px; /* Ensure minimum height */
     max-height: 400px; /* Fixed maximum height - will scroll when exceeded */
     height: auto; /* Auto height up to max */
@@ -608,7 +608,7 @@ input[type="text"]:focus {
 
 /* Activity Log - Responsive (handled by flex layout above) */
 .activity-log, .log-container {
-    overflow-y: auto;
+    overflow-y: scroll; /* Always show scrollbar */
     font-size: 10px;
     line-height: 1.3;
 }
