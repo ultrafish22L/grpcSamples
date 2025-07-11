@@ -70,7 +70,7 @@ body {
 .content-area {
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 15px; /* Reduced gap for tighter fit */
+    gap: 5px; /* Match canvas-container padding for consistent spacing */
     padding: 0; /* Remove padding since main-content has padding */
     min-height: 600px; /* Increased height to use more vertical space */
     height: 100%; /* Take full height */
@@ -188,7 +188,7 @@ body {
     height: 600px; /* Fixed height for exact matching */
     display: grid;
     grid-template-rows: 1fr;
-    gap: 10px;
+    gap: 5px; /* Match canvas-container padding for consistent spacing */
 }
 
 /* Activity Section - Full Height */
@@ -562,7 +562,7 @@ input[type="text"]:focus {
     background: var(--otoy-bg-panel);
     border: 1px solid var(--border-subtle);
     border-radius: 6px;
-    padding: 10px;
+    padding: 5px; /* Match canvas-container padding for consistent spacing */
     box-shadow: var(--panel-shadow);
 }
 
@@ -628,9 +628,9 @@ input[type="text"]:focus {
     grid-template-columns: auto 1fr auto;
     align-items: center;
     margin-top: auto; /* Push to bottom */
-    padding-top: 10px;
+    padding-top: 5px; /* Match canvas-container padding for consistent spacing */
     border-top: 1px solid var(--border-subtle);
-    gap: 10px;
+    gap: 5px; /* Match canvas-container padding for consistent spacing */
 }
 
 .activity-buttons {
