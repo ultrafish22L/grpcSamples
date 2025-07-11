@@ -432,16 +432,18 @@ button:hover {
    ======================================== */
 
 .switch-container {
-    display: block;
+    display: grid;
+    grid-template-columns: auto auto;
     align-items: center;
     gap: 8px;
 }
 
 .switch-label {
     color: var(--otoy-text-primary);
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 500;
     white-space: nowrap;
+    display: inline-block;
 }
 
 .switch {
@@ -695,8 +697,8 @@ input[type="text"]:focus {
 
 .view-controls .switch-label {
     font-size: 16px;
-    margin-right: 8px;
-    display: block;
+    margin-right: 0;
+    display: inline-block;
     align-items: center;
     justify-content: center;
     min-width: 24px;
