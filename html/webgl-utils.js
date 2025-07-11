@@ -214,15 +214,15 @@ class ShaderUtils {
             out vec4 FragColor;
             
             void main() {
-                // Create a simple gradient skybox
+                // Create a stable professional gradient skybox
                 vec3 direction = normalize(vTexCoord);
                 
-                // Sky gradient from horizon to zenith
+                // Professional dark gradient from horizon to zenith
                 float t = direction.y * 0.5 + 0.5;
-                vec3 skyColor = mix(vec3(0.5, 0.7, 1.0), vec3(0.1, 0.3, 0.8), t);
+                vec3 skyColor = mix(vec3(0.08, 0.08, 0.12), vec3(0.02, 0.02, 0.08), t);
                 
-                // Add some subtle animation
-                skyColor += 0.1 * sin(uTime * 0.5 + direction.x * 2.0) * vec3(1.0, 0.8, 0.6);
+                // Add very subtle static variation based on direction (no animation)
+                skyColor += 0.02 * (sin(direction.x * 3.0) + cos(direction.z * 2.0)) * vec3(0.1, 0.1, 0.15);
                 
                 FragColor = vec4(skyColor, 1.0);
             }

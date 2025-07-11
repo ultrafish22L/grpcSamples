@@ -64,14 +64,15 @@ body {
     gap: 20px;
     margin: 20px 0;
     min-height: 0; /* Allow flex shrinking */
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 20px auto;
+    height: calc(100vh - 200px); /* Dynamic height based on viewport */
 }
 
 /* Canvas Container - Responsive */
 .canvas-container {
-    flex: 1;
-    height: 400px;
+    flex: 2; /* Give more space to canvas */
+    min-height: 500px;
     background: var(--otoy-bg-panel);
     border: 1px solid var(--border-subtle);
     border-radius: 6px;
@@ -87,7 +88,9 @@ body {
 
 /* Info Panel - Flexible */
 .info-panel {
-    flex: 0 0 350px;
+    flex: 1; /* More flexible sizing */
+    min-width: 300px;
+    max-width: 400px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -139,24 +142,37 @@ body {
 .controls-container {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    padding: 15px 0;
-    max-width: 1200px;
+    gap: 12px;
+    padding: 12px 0;
+    max-width: 1400px;
     margin: 0 auto;
     flex-shrink: 0; /* Don't shrink controls */
 }
 
 .control-row {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     flex-wrap: wrap;
     background: var(--otoy-bg-panel);
     border: 1px solid var(--border-subtle);
     border-radius: 6px;
-    padding: 12px;
+    padding: 10px;
     box-shadow: var(--panel-shadow);
+}
+
+.control-left {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.control-right {
+    display: flex;
+    gap: 15px;
+    align-items: center;
 }
 
 .control-row input[type="text"] {
@@ -216,6 +232,83 @@ button:hover {
     border-color: var(--otoy-red);
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* ========================================
+   SLIDER SWITCHES
+   ======================================== */
+
+.switch-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.switch-label {
+    color: var(--otoy-text-primary);
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #333;
+    border: 1px solid var(--border-subtle);
+    transition: .3s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 2px;
+    bottom: 2px;
+    background-color: var(--otoy-text-secondary);
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--otoy-red);
+    border-color: var(--otoy-red-light);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.3);
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+    background-color: white;
+}
+
+.slider:hover {
+    background-color: #444;
+}
+
+input:checked + .slider:hover {
+    background-color: var(--otoy-red-light);
 }
 
 button:active {
@@ -419,6 +512,42 @@ input[type="text"]:focus {
    RESPONSIVE DESIGN - MOBILE FIRST
    ======================================== */
 
+/* Desktop Optimization (1200px and up) */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1600px;
+        padding: 0 30px;
+    }
+    
+    .content-area {
+        max-width: 1500px;
+        height: calc(100vh - 180px); /* More space on desktop */
+        gap: 25px;
+    }
+    
+    .canvas-container {
+        min-height: 600px; /* Larger canvas on desktop */
+    }
+    
+    .controls-container {
+        max-width: 1500px;
+    }
+    
+    .control-row {
+        gap: 12px;
+        padding: 12px;
+    }
+    
+    .control-row button {
+        min-width: 90px;
+        padding: 8px 14px;
+    }
+    
+    .info-panel {
+        max-width: 450px;
+    }
+}
+
 /* Touch-friendly button sizing */
 button, input[type="text"], input[type="url"] {
     min-height: 44px; /* iOS/Android touch target minimum */
@@ -471,6 +600,24 @@ button, input[type="text"], input[type="url"] {
         padding: 8px 12px;
     }
     
+    /* Control layout adjustments for tablet */
+    .control-left {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+    
+    .control-right {
+        gap: 12px;
+    }
+    
+    .switch-container {
+        gap: 6px;
+    }
+    
+    .switch-label {
+        font-size: 11px;
+    }
+    
     /* Footer stats responsive */
     .footer-stats {
         gap: 15px;
@@ -516,6 +663,21 @@ button, input[type="text"], input[type="url"] {
         flex-direction: column;
         gap: 8px;
         padding: 10px;
+    }
+    
+    .control-left, .control-right {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+    
+    .control-right {
+        align-items: stretch;
+    }
+    
+    .switch-container {
+        justify-content: space-between;
+        padding: 8px 0;
     }
     
     .control-row input[type="text"] {
