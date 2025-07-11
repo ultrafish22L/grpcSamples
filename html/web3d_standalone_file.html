@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<!-- 
+    WebGL-Octane LiveLink Sync - Standalone File Version
+    Works with file:// protocol - all dependencies embedded
+    Same functionality as web3d_octane_sync_otoy.html but without external dependencies
+    Used to test performance issue during tab detach operations
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔗 WebGL-Octane LiveLink Sync (Standalone)</title>
+    <style>
+        /* Simple fixed layout - NO COMPLEX CSS CONTAINERS */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: #1a1a1a;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        /* Simple header - NO FLEXBOX/GRID */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: #2c2c2c;
+            border-bottom: 1px solid #444;
+            z-index: 1000;
+            padding: 10px 20px;
+        }
+        
+        .header h1 {
+            display: inline-block;
+            font-size: 18px;
+            color: #e74c3c;
+            margin-right: 20px;
+        }
+        
+        .controls {
+            display: inline-block;
+        }
+        
+        .controls button {
+            padding: 6px 10px;
+            margin-right: 6px;
+            border: 1px solid #555;
+            background: #333;
+            color: #fff;
+            border-radius: 3px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .controls button:hover { background: #444; }
+        .controls button:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        /* Simple canvas container - NO COMPLEX LAYOUT */
+        .canvas-container {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 350px;
+            bottom: 50px;
+            background: #000;
+        }
+        
+        #canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        /* Simple sidebar - NO RESPONSIVE BEHAVIOR */
+        .sidebar {
+            position: fixed;
+            top: 80px;
+            right: 0;
+            width: 350px;
+            bottom: 50px;
+            background: #2c2c2c;
+            border-left: 1px solid #444;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        
+        .section {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+        }
+        
+        .section h3 {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #f1c40f;
+            margin-right: 6px;
+        }
+        
+        .status-indicator.connected { background: #2ecc71; }
+        .status-indicator.error { background: #e74c3c; }
+        
+        /* Simple footer - NO FLEXBOX */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: #2c2c2c;
+            border-top: 1px solid #444;
+            padding: 15px 20px;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .stats span {
+            margin-right: 20px;
+        }
+        
+        /* Activity log - SIMPLE STYLING */
+        #activityLog {
+            background: #1a1a1a;
+            border: 1px solid #444;
+            border-radius: 3px;
+            padding: 8px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 11px;
+            line-height: 1.3;
+        }
+        
+        .log-entry {
+            margin-bottom: 2px;
+        }
+        
+        .log-entry.log-success { color: #2ecc71; }
+        .log-entry.log-error { color: #e74c3c; }
+        .log-entry.log-warning { color: #f39c12; }
+        .log-entry.log-info { color: #3498db; }
+        
+        /* Simple controls */
+        .control-section {
+            margin-bottom: 10px;
+        }
+        
+        .control-section button {
+            padding: 4px 8px;
+            margin: 2px;
+            border: 1px solid #555;
+            background: #333;
+            color: #fff;
+            border-radius: 2px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        
+        .control-section button:hover { background: #444; }
+        .control-section button:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        input[type="checkbox"] { margin-right: 5px; }
+        label { font-size: 11px; color: #ccc; }
+    </style>
+</head>
+<body>
+    <!-- Simple Header -->
+    <div class="header">
+        <h1>🔗 WebGL-Octane LiveLink Sync (Standalone)</h1>
+        <div class="controls">
+            <button onclick="resetCamera()">🔄 Reset Camera</button>
+            <button onclick="toggleAutoRotate()">🔁 Auto Rotate</button>
+            <button onclick="toggleWireframe()">🔲 Wireframe</button>
+            <button onclick="testPerformance()">⚡ Performance Test</button>
+        </div>
+    </div>
+
+    <!-- Canvas Container -->
+    <div class="canvas-container">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <!-- Simple Sidebar -->
+    <div class="sidebar">
+        <div class="section">
+            <h3>Performance Stats</h3>
+            <div>
+                <span class="status-indicator" id="statusIndicator"></span>
+                <span id="statusText">Initializing...</span>
+            </div>
+            <div style="margin-top: 10px; font-size: 12px;">
+                FPS: <span id="fps">0</span><br>
+                Frame Time: <span id="frameTime">0ms</span><br>
+                Triangles: <span id="triangles">12</span>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>Camera Controls</h3>
+            <div class="control-section">
+                <button onclick="resetCamera()">🔄 Reset View</button>
+                <button onclick="fitToView()">📐 Fit to View</button>
+            </div>
+            <div class="control-section">
+                <label><input type="checkbox" id="autoRotate" onchange="toggleAutoRotate()" checked> Auto Rotate</label><br>
+                <label><input type="checkbox" id="wireframe" onchange="toggleWireframe()"> Wireframe Mode</label>
+            </div>
+            <div style="font-size: 10px; color: #999; margin-top: 5px;">
+                Mouse: Rotate | Wheel: Zoom<br>
+                Shift+Mouse: Pan
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>Debug Controls</h3>
+            <div class="control-section">
+                <button onclick="clearLog()">🗑️ Clear Log</button>
+                <button onclick="exportLog()">💾 Export Log</button>
+                <button onclick="testPerformance()">⚡ Performance Test</button>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>Activity Log</h3>
+            <div id="activityLog"></div>
+        </div>
+    </div>
+
+    <!-- Simple Footer -->
+    <div class="footer">
+        <div class="stats">
+            <span>Status: <span id="appStatus">Loading...</span></span>
+            <span>WebGL: <span id="webglVersion">Unknown</span></span>
+            <span>Renderer: <span id="renderer">Unknown</span></span>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * Standalone WebGL-Octane LiveLink Sync Application
+         * All dependencies embedded - works with file:// protocol
+         */
+        
+        // Simple Activity Logger
+        class ActivityLogger {
+            constructor(containerId) {
+                this.container = document.getElementById(containerId);
+                this.entries = [];
+            }
+            
+            log(message, type = 'info') {
+                const timestamp = new Date().toLocaleTimeString();
+                const entry = `[${timestamp}] ${message}`;
+                this.entries.push({ timestamp, message, type });
+                
+                if (this.container) {
+                    const div = document.createElement('div');
+                    div.className = `log-entry log-${type}`;
+                    
+                    const icon = type === 'success' ? '✅' : 
+                                type === 'error' ? '❌' : 
+                                type === 'warning' ? '⚠️' : 'ℹ️';
+                    
+                    div.innerHTML = `<span style="color: #666;">${icon}</span> ${entry}`;
+                    this.container.appendChild(div);
+                    this.container.scrollTop = this.container.scrollHeight;
+                }
+                
+                console.log(`${type.toUpperCase()}: ${entry}`);
+            }
+            
+            clear() {
+                this.entries = [];
+                if (this.container) {
+                    this.container.innerHTML = '';
+                }
+            }
+            
+            export() {
+                return this.entries.map(e => `[${e.timestamp}] ${e.type.toUpperCase()}: ${e.message}`).join('\n');
+            }
+        }
+        
+        // Matrix utilities
+        class MatrixUtils {
+            static identity() {
+                return [
+                    1, 0, 0, 0,
+                    0, 1, 0, 0,
+                    0, 0, 1, 0,
+                    0, 0, 0, 1
+                ];
+            }
+            
+            static perspective(fov, aspect, near, far) {
+                const f = Math.tan(Math.PI * 0.5 - 0.5 * fov);
+                const rangeInv = 1.0 / (near - far);
+                
+                return [
+                    f / aspect, 0, 0, 0,
+                    0, f, 0, 0,
+                    0, 0, (near + far) * rangeInv, -1,
+                    0, 0, near * far * rangeInv * 2, 0
+                ];
+            }
+            
+            static lookAt(eye, target, up) {
+                const zAxis = this.normalize(this.subtract(eye, target));
+                const xAxis = this.normalize(this.cross(up, zAxis));
+                const yAxis = this.normalize(this.cross(zAxis, xAxis));
+                
+                return [
+                    xAxis[0], xAxis[1], xAxis[2], 0,
+                    yAxis[0], yAxis[1], yAxis[2], 0,
+                    zAxis[0], zAxis[1], zAxis[2], 0,
+                    eye[0], eye[1], eye[2], 1
+                ];
+            }
+            
+            static multiply(a, b) {
+                const result = new Array(16);
+                for (let i = 0; i < 4; i++) {
+                    for (let j = 0; j < 4; j++) {
+                        result[i * 4 + j] = 
+                            a[i * 4 + 0] * b[0 * 4 + j] +
+                            a[i * 4 + 1] * b[1 * 4 + j] +
+                            a[i * 4 + 2] * b[2 * 4 + j] +
+                            a[i * 4 + 3] * b[3 * 4 + j];
+                    }
+                }
+                return result;
+            }
+            
+            static rotateX(angle) {
+                const c = Math.cos(angle);
+                const s = Math.sin(angle);
+                return [
+                    1, 0, 0, 0,
+                    0, c, s, 0,
+                    0, -s, c, 0,
+                    0, 0, 0, 1
+                ];
+            }
+            
+            static rotateY(angle) {
+                const c = Math.cos(angle);
+                const s = Math.sin(angle);
+                return [
+                    c, 0, -s, 0,
+                    0, 1, 0, 0,
+                    s, 0, c, 0,
+                    0, 0, 0, 1
+                ];
+            }
+            
+            static translate(x, y, z) {
+                return [
+                    1, 0, 0, 0,
+                    0, 1, 0, 0,
+                    0, 0, 1, 0,
+                    x, y, z, 1
+                ];
+            }
+            
+            static subtract(a, b) {
+                return [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+            }
+            
+            static cross(a, b) {
+                return [
+                    a[1] * b[2] - a[2] * b[1],
+                    a[2] * b[0] - a[0] * b[2],
+                    a[0] * b[1] - a[1] * b[0]
+                ];
+            }
+            
+            static normalize(v) {
+                const length = Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+                return length > 0 ? [v[0] / length, v[1] / length, v[2] / length] : [0, 0, 0];
+            }
+            
+            static extractNormalMatrix(modelViewMatrix) {
+                // Extract 3x3 from 4x4 matrix for normal transformation
+                return [
+                    modelViewMatrix[0], modelViewMatrix[1], modelViewMatrix[2],
+                    modelViewMatrix[4], modelViewMatrix[5], modelViewMatrix[6],
+                    modelViewMatrix[8], modelViewMatrix[9], modelViewMatrix[10]
+                ];
+            }
+        }
+        
+        // Main Application
+        class StandaloneWebGLApp {
+            constructor() {
+                console.log('🔗 Initializing Standalone WebGL Application...');
+                
+                this.logger = new ActivityLogger('activityLog');
+                this.canvas = document.getElementById('canvas');
+                this.gl = null;
+                
+                // Performance tracking
+                this.frameCount = 0;
+                this.lastTime = performance.now();
+                this.frameTimeHistory = [];
+                
+                // Camera state
+                this.camera = {
+                    position: [0, 0, 5],
+                    rotation: [0, 0, 0],
+                    fov: 45 * Math.PI / 180,
+                    aspect: 1,
+                    near: 0.1,
+                    far: 100
+                };
+                
+                // Mouse control state
+                this.mouse = {
+                    isDown: false,
+                    lastX: 0,
+                    lastY: 0,
+                    sensitivity: 0.01
+                };
+                
+                // Rendering state
+                this.autoRotate = true;
+                this.wireframe = false;
+                this.rotationSpeed = 0.01;
+                
+                this.initializeWebGL();
+                this.setupEventHandlers();
+                this.startRenderLoop();
+                
+                this.logger.log('Standalone WebGL application initialized successfully', 'success');
+                this.updateStatus('Ready', 'connected');
+            }
+            
+            initializeWebGL() {
+                try {
+                    // Get WebGL context
+                    this.gl = this.canvas.getContext('webgl2') || this.canvas.getContext('webgl');
+                    if (!this.gl) {
+                        throw new Error('WebGL not supported');
+                    }
+                    
+                    const isWebGL2 = this.gl instanceof WebGL2RenderingContext;
+                    this.logger.log(`WebGL ${isWebGL2 ? '2.0' : '1.0'} context created`, 'success');
+                    document.getElementById('webglVersion').textContent = isWebGL2 ? '2.0' : '1.0';
+                    
+                    // Get renderer info
+                    const debugInfo = this.gl.getExtension('WEBGL_debug_renderer_info');
+                    if (debugInfo) {
+                        const renderer = this.gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                        document.getElementById('renderer').textContent = renderer.substring(0, 30) + '...';
+                    }
+                    
+                    // Initialize WebGL settings
+                    const gl = this.gl;
+                    gl.enable(gl.DEPTH_TEST);
+                    gl.enable(gl.CULL_FACE);
+                    gl.clearColor(0.1, 0.1, 0.1, 1.0);
+                    
+                    // Create shaders and geometry
+                    this.createShaders();
+                    this.createGeometry();
+                    
+                    this.logger.log('WebGL components initialized successfully', 'success');
+                } catch (error) {
+                    this.logger.log(`WebGL initialization failed: ${error.message}`, 'error');
+                    this.updateStatus('WebGL Error', 'error');
+                    throw error;
+                }
+            }
+            
+            createShaders() {
+                const gl = this.gl;
+                
+                // Vertex shader source
+                const vertexShaderSource = `
+                    attribute vec3 aPosition;
+                    attribute vec3 aNormal;
+                    attribute vec3 aColor;
+                    
+                    uniform mat4 uModel;
+                    uniform mat4 uView;
+                    uniform mat4 uProjection;
+                    uniform mat3 uNormalMatrix;
+                    
+                    varying vec3 vColor;
+                    varying vec3 vNormal;
+                    varying vec3 vPosition;
+                    
+                    void main() {
+                        vec4 worldPosition = uModel * vec4(aPosition, 1.0);
+                        gl_Position = uProjection * uView * worldPosition;
+                        
+                        vColor = aColor;
+                        vNormal = normalize(uNormalMatrix * aNormal);
+                        vPosition = worldPosition.xyz;
+                    }
+                `;
+                
+                // Fragment shader source
+                const fragmentShaderSource = `
+                    precision mediump float;
+                    
+                    varying vec3 vColor;
+                    varying vec3 vNormal;
+                    varying vec3 vPosition;
+                    
+                    void main() {
+                        vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
+                        float diff = max(dot(vNormal, lightDir), 0.0);
+                        vec3 diffuse = diff * vColor;
+                        vec3 ambient = 0.3 * vColor;
+                        
+                        gl_FragColor = vec4(ambient + diffuse, 1.0);
+                    }
+                `;
+                
+                // Create and compile shaders
+                const vertexShader = this.compileShader(gl.VERTEX_SHADER, vertexShaderSource);
+                const fragmentShader = this.compileShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
+                
+                // Create shader program
+                this.shaderProgram = gl.createProgram();
+                gl.attachShader(this.shaderProgram, vertexShader);
+                gl.attachShader(this.shaderProgram, fragmentShader);
+                gl.linkProgram(this.shaderProgram);
+                
+                if (!gl.getProgramParameter(this.shaderProgram, gl.LINK_STATUS)) {
+                    throw new Error('Shader program linking failed: ' + gl.getProgramInfoLog(this.shaderProgram));
+                }
+                
+                // Get attribute and uniform locations
+                this.attributes = {
+                    position: gl.getAttribLocation(this.shaderProgram, 'aPosition'),
+                    normal: gl.getAttribLocation(this.shaderProgram, 'aNormal'),
+                    color: gl.getAttribLocation(this.shaderProgram, 'aColor')
+                };
+                
+                this.uniforms = {
+                    model: gl.getUniformLocation(this.shaderProgram, 'uModel'),
+                    view: gl.getUniformLocation(this.shaderProgram, 'uView'),
+                    projection: gl.getUniformLocation(this.shaderProgram, 'uProjection'),
+                    normalMatrix: gl.getUniformLocation(this.shaderProgram, 'uNormalMatrix')
+                };
+                
+                this.logger.log('Shaders created successfully', 'success');
+            }
+            
+            compileShader(type, source) {
+                const gl = this.gl;
+                const shader = gl.createShader(type);
+                gl.shaderSource(shader, source);
+                gl.compileShader(shader);
+                
+                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                    const error = gl.getShaderInfoLog(shader);
+                    gl.deleteShader(shader);
+                    throw new Error('Shader compilation failed: ' + error);
+                }
+                
+                return shader;
+            }
+            
+            createGeometry() {
+                const gl = this.gl;
+                
+                // Cube vertices with positions, normals, and colors
+                const cubeVertices = new Float32Array([
+                    // Front face (red)
+                    -1.0, -1.0,  1.0,   0.0,  0.0,  1.0,   1.0, 0.0, 0.0,
+                     1.0, -1.0,  1.0,   0.0,  0.0,  1.0,   1.0, 0.0, 0.0,
+                     1.0,  1.0,  1.0,   0.0,  0.0,  1.0,   1.0, 0.0, 0.0,
+                    -1.0,  1.0,  1.0,   0.0,  0.0,  1.0,   1.0, 0.0, 0.0,
+                    
+                    // Back face (green)
+                    -1.0, -1.0, -1.0,   0.0,  0.0, -1.0,   0.0, 1.0, 0.0,
+                    -1.0,  1.0, -1.0,   0.0,  0.0, -1.0,   0.0, 1.0, 0.0,
+                     1.0,  1.0, -1.0,   0.0,  0.0, -1.0,   0.0, 1.0, 0.0,
+                     1.0, -1.0, -1.0,   0.0,  0.0, -1.0,   0.0, 1.0, 0.0,
+                    
+                    // Top face (blue)
+                    -1.0,  1.0, -1.0,   0.0,  1.0,  0.0,   0.0, 0.0, 1.0,
+                    -1.0,  1.0,  1.0,   0.0,  1.0,  0.0,   0.0, 0.0, 1.0,
+                     1.0,  1.0,  1.0,   0.0,  1.0,  0.0,   0.0, 0.0, 1.0,
+                     1.0,  1.0, -1.0,   0.0,  1.0,  0.0,   0.0, 0.0, 1.0,
+                    
+                    // Bottom face (yellow)
+                    -1.0, -1.0, -1.0,   0.0, -1.0,  0.0,   1.0, 1.0, 0.0,
+                     1.0, -1.0, -1.0,   0.0, -1.0,  0.0,   1.0, 1.0, 0.0,
+                     1.0, -1.0,  1.0,   0.0, -1.0,  0.0,   1.0, 1.0, 0.0,
+                    -1.0, -1.0,  1.0,   0.0, -1.0,  0.0,   1.0, 1.0, 0.0,
+                    
+                    // Right face (magenta)
+                     1.0, -1.0, -1.0,   1.0,  0.0,  0.0,   1.0, 0.0, 1.0,
+                     1.0,  1.0, -1.0,   1.0,  0.0,  0.0,   1.0, 0.0, 1.0,
+                     1.0,  1.0,  1.0,   1.0,  0.0,  0.0,   1.0, 0.0, 1.0,
+                     1.0, -1.0,  1.0,   1.0,  0.0,  0.0,   1.0, 0.0, 1.0,
+                    
+                    // Left face (cyan)
+                    -1.0, -1.0, -1.0,  -1.0,  0.0,  0.0,   0.0, 1.0, 1.0,
+                    -1.0, -1.0,  1.0,  -1.0,  0.0,  0.0,   0.0, 1.0, 1.0,
+                    -1.0,  1.0,  1.0,  -1.0,  0.0,  0.0,   0.0, 1.0, 1.0,
+                    -1.0,  1.0, -1.0,  -1.0,  0.0,  0.0,   0.0, 1.0, 1.0
+                ]);
+                
+                // Cube indices
+                const cubeIndices = new Uint16Array([
+                    0,  1,  2,    0,  2,  3,    // front
+                    4,  5,  6,    4,  6,  7,    // back
+                    8,  9,  10,   8,  10, 11,   // top
+                    12, 13, 14,   12, 14, 15,   // bottom
+                    16, 17, 18,   16, 18, 19,   // right
+                    20, 21, 22,   20, 22, 23    // left
+                ]);
+                
+                // Create and bind VAO (if supported)
+                if (gl.createVertexArray) {
+                    this.cubeVAO = gl.createVertexArray();
+                    gl.bindVertexArray(this.cubeVAO);
+                }
+                
+                // Create vertex buffer
+                this.cubeVBO = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.cubeVBO);
+                gl.bufferData(gl.ARRAY_BUFFER, cubeVertices, gl.STATIC_DRAW);
+                
+                // Create index buffer
+                this.cubeEBO = gl.createBuffer();
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.cubeEBO);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, cubeIndices, gl.STATIC_DRAW);
+                
+                // Set up vertex attributes
+                const stride = 9 * 4; // 9 floats per vertex * 4 bytes per float
+                
+                // Position attribute
+                gl.enableVertexAttribArray(this.attributes.position);
+                gl.vertexAttribPointer(this.attributes.position, 3, gl.FLOAT, false, stride, 0);
+                
+                // Normal attribute
+                gl.enableVertexAttribArray(this.attributes.normal);
+                gl.vertexAttribPointer(this.attributes.normal, 3, gl.FLOAT, false, stride, 12);
+                
+                // Color attribute
+                gl.enableVertexAttribArray(this.attributes.color);
+                gl.vertexAttribPointer(this.attributes.color, 3, gl.FLOAT, false, stride, 24);
+                
+                // Unbind VAO
+                if (this.cubeVAO) {
+                    gl.bindVertexArray(null);
+                }
+                
+                this.indexCount = cubeIndices.length;
+                this.logger.log('Geometry created successfully', 'success');
+            }
+            
+            setupEventHandlers() {
+                // Canvas resize handling
+                const resizeObserver = new ResizeObserver(() => {
+                    this.handleResize();
+                });
+                resizeObserver.observe(this.canvas.parentElement);
+                
+                // Initial resize
+                this.handleResize();
+                
+                // Mouse controls for camera rotation
+                this.canvas.addEventListener('mousedown', (e) => {
+                    this.mouse.isDown = true;
+                    this.mouse.lastX = e.clientX;
+                    this.mouse.lastY = e.clientY;
+                    this.autoRotate = false; // Stop auto rotation when user interacts
+                    document.getElementById('autoRotate').checked = false;
+                });
+                
+                this.canvas.addEventListener('mousemove', (e) => {
+                    if (!this.mouse.isDown) return;
+                    
+                    const deltaX = e.clientX - this.mouse.lastX;
+                    const deltaY = e.clientY - this.mouse.lastY;
+                    
+                    this.camera.rotation[1] += deltaX * this.mouse.sensitivity;
+                    this.camera.rotation[0] += deltaY * this.mouse.sensitivity;
+                    
+                    this.mouse.lastX = e.clientX;
+                    this.mouse.lastY = e.clientY;
+                });
+                
+                this.canvas.addEventListener('mouseup', () => {
+                    this.mouse.isDown = false;
+                });
+                
+                this.canvas.addEventListener('mouseleave', () => {
+                    this.mouse.isDown = false;
+                });
+                
+                // Wheel zoom
+                this.canvas.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    this.camera.position[2] += e.deltaY * 0.01;
+                    this.camera.position[2] = Math.max(1, Math.min(20, this.camera.position[2]));
+                });
+                
+                this.logger.log('Event handlers set up successfully', 'success');
+            }
+            
+            handleResize() {
+                const container = this.canvas.parentElement;
+                const rect = container.getBoundingClientRect();
+                
+                // Set canvas size to match container
+                this.canvas.width = rect.width;
+                this.canvas.height = rect.height;
+                
+                // Update WebGL viewport
+                if (this.gl) {
+                    this.gl.viewport(0, 0, rect.width, rect.height);
+                }
+                
+                // Update camera aspect ratio
+                this.camera.aspect = rect.width / rect.height;
+            }
+            
+            startRenderLoop() {
+                const renderFrame = (currentTime) => {
+                    this.updatePerformanceStats(currentTime);
+                    this.updateCamera();
+                    this.render();
+                    
+                    requestAnimationFrame(renderFrame);
+                };
+                
+                requestAnimationFrame(renderFrame);
+                this.logger.log('Render loop started', 'success');
+            }
+            
+            updatePerformanceStats(currentTime) {
+                const deltaTime = currentTime - this.lastTime;
+                this.frameTimeHistory.push(deltaTime);
+                
+                // Keep only last 60 frames for averaging
+                if (this.frameTimeHistory.length > 60) {
+                    this.frameTimeHistory.shift();
+                }
+                
+                this.frameCount++;
+                
+                // Update display every 10 frames
+                if (this.frameCount % 10 === 0) {
+                    const avgFrameTime = this.frameTimeHistory.reduce((a, b) => a + b, 0) / this.frameTimeHistory.length;
+                    const fps = Math.round(1000 / avgFrameTime);
+                    
+                    document.getElementById('fps').textContent = fps;
+                    document.getElementById('frameTime').textContent = Math.round(avgFrameTime) + 'ms';
+                }
+                
+                this.lastTime = currentTime;
+            }
+            
+            updateCamera() {
+                // Auto rotation if enabled
+                if (this.autoRotate) {
+                    this.camera.rotation[1] += this.rotationSpeed;
+                }
+            }
+            
+            render() {
+                if (!this.gl) return;
+                
+                const gl = this.gl;
+                
+                // Clear buffers
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+                
+                // Use shader program
+                gl.useProgram(this.shaderProgram);
+                
+                // Bind geometry
+                if (this.cubeVAO) {
+                    gl.bindVertexArray(this.cubeVAO);
+                } else {
+                    // WebGL 1.0 fallback
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.cubeVBO);
+                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.cubeEBO);
+                    
+                    const stride = 9 * 4;
+                    gl.enableVertexAttribArray(this.attributes.position);
+                    gl.vertexAttribPointer(this.attributes.position, 3, gl.FLOAT, false, stride, 0);
+                    gl.enableVertexAttribArray(this.attributes.normal);
+                    gl.vertexAttribPointer(this.attributes.normal, 3, gl.FLOAT, false, stride, 12);
+                    gl.enableVertexAttribArray(this.attributes.color);
+                    gl.vertexAttribPointer(this.attributes.color, 3, gl.FLOAT, false, stride, 24);
+                }
+                
+                // Calculate matrices
+                const modelMatrix = MatrixUtils.multiply(
+                    MatrixUtils.rotateY(this.camera.rotation[1]),
+                    MatrixUtils.rotateX(this.camera.rotation[0])
+                );
+                
+                const viewMatrix = MatrixUtils.lookAt(
+                    this.camera.position,
+                    [0, 0, 0],
+                    [0, 1, 0]
+                );
+                
+                const projectionMatrix = MatrixUtils.perspective(
+                    this.camera.fov,
+                    this.camera.aspect,
+                    this.camera.near,
+                    this.camera.far
+                );
+                
+                const modelViewMatrix = MatrixUtils.multiply(viewMatrix, modelMatrix);
+                const normalMatrix = MatrixUtils.extractNormalMatrix(modelViewMatrix);
+                
+                // Set uniforms
+                gl.uniformMatrix4fv(this.uniforms.model, false, modelMatrix);
+                gl.uniformMatrix4fv(this.uniforms.view, false, viewMatrix);
+                gl.uniformMatrix4fv(this.uniforms.projection, false, projectionMatrix);
+                gl.uniformMatrix3fv(this.uniforms.normalMatrix, false, normalMatrix);
+                
+                // Draw
+                if (this.wireframe) {
+                    // Draw wireframe (if extension available)
+                    for (let i = 0; i < this.indexCount; i += 3) {
+                        gl.drawElements(gl.LINE_LOOP, 3, gl.UNSIGNED_SHORT, i * 2);
+                    }
+                } else {
+                    gl.drawElements(gl.TRIANGLES, this.indexCount, gl.UNSIGNED_SHORT, 0);
+                }
+                
+                // Unbind
+                if (this.cubeVAO) {
+                    gl.bindVertexArray(null);
+                }
+            }
+            
+            updateStatus(text, type = 'info') {
+                document.getElementById('statusText').textContent = text;
+                document.getElementById('appStatus').textContent = text;
+                
+                const indicator = document.getElementById('statusIndicator');
+                indicator.className = `status-indicator ${type}`;
+            }
+            
+            resetCamera() {
+                this.camera.position = [0, 0, 5];
+                this.camera.rotation = [0, 0, 0];
+                this.logger.log('Camera reset to default position', 'info');
+            }
+            
+            toggleAutoRotate() {
+                this.autoRotate = document.getElementById('autoRotate').checked;
+                this.logger.log(`Auto rotation ${this.autoRotate ? 'enabled' : 'disabled'}`, 'info');
+            }
+            
+            toggleWireframe() {
+                this.wireframe = document.getElementById('wireframe').checked;
+                this.logger.log(`Wireframe mode ${this.wireframe ? 'enabled' : 'disabled'}`, 'info');
+            }
+            
+            testPerformance() {
+                this.logger.log('Starting performance test...', 'info');
+                const startTime = performance.now();
+                let frameCount = 0;
+                const testDuration = 5000; // 5 seconds
+                
+                const testFrame = () => {
+                    frameCount++;
+                    const elapsed = performance.now() - startTime;
+                    
+                    if (elapsed < testDuration) {
+                        requestAnimationFrame(testFrame);
+                    } else {
+                        const avgFPS = Math.round((frameCount * 1000) / elapsed);
+                        this.logger.log(`Performance test completed: ${avgFPS} FPS average over ${Math.round(elapsed/1000)}s`, 'success');
+                    }
+                };
+                
+                requestAnimationFrame(testFrame);
+            }
+            
+            clearLog() {
+                this.logger.clear();
+            }
+            
+            exportLog() {
+                const logData = this.logger.export();
+                const blob = new Blob([logData], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `webgl-performance-log-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.txt`;
+                a.click();
+                URL.revokeObjectURL(url);
+                this.logger.log('Log exported successfully', 'success');
+            }
+        }
+        
+        // Global variables and functions for button handlers
+        let app;
+        
+        // Initialize application when page loads
+        window.addEventListener('load', () => {
+            try {
+                app = new StandaloneWebGLApp();
+                console.log('✅ Standalone WebGL application ready');
+            } catch (error) {
+                console.error('❌ Failed to initialize application:', error);
+                document.body.innerHTML = `<div style="color: red; padding: 20px; background: #1a1a1a;">Failed to initialize: ${error.message}</div>`;
+            }
+        });
+        
+        // Button handler functions
+        function resetCamera() {
+            if (app) app.resetCamera();
+        }
+        
+        function toggleAutoRotate() {
+            if (app) app.toggleAutoRotate();
+        }
+        
+        function toggleWireframe() {
+            if (app) app.toggleWireframe();
+        }
+        
+        function testPerformance() {
+            if (app) app.testPerformance();
+        }
+        
+        function fitToView() {
+            if (app) app.resetCamera();
+        }
+        
+        function clearLog() {
+            if (app) app.clearLog();
+        }
+        
+        function exportLog() {
+            if (app) app.exportLog();
+        }
+    </script>
+</body>
+</html>
