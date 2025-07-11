@@ -526,6 +526,16 @@ input[type="text"]:focus {
     transform: translateY(0);
 }
 
+.activity-buttons .icon-btn {
+    padding: 8px;
+    font-size: 14px;
+    min-width: 32px;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .activity-toggle {
     display: flex;
     align-items: center;
@@ -536,8 +546,12 @@ input[type="text"]:focus {
 }
 
 .activity-toggle .switch-label {
-    font-size: 9px;
-    margin-right: 6px;
+    font-size: 14px;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
 }
 
 /* Status Footer - Ultra Compact */
