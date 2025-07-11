@@ -984,20 +984,40 @@
              * Resize canvas to match container
              */
             resizeCanvas() {
-                const rect = this.canvas.parentElement.getBoundingClientRect();
-                const width = Math.floor(rect.width - 20); // Account for padding
-                const height = Math.floor(rect.height - 60); // Account for controls
+                const container = this.canvas.parentElement;
+                const rect = container.getBoundingClientRect();
                 
+                // Get the actual available space inside the container
+                const containerStyle = window.getComputedStyle(container);
+                const paddingLeft = parseFloat(containerStyle.paddingLeft) || 0;
+                const paddingRight = parseFloat(containerStyle.paddingRight) || 0;
+                const paddingTop = parseFloat(containerStyle.paddingTop) || 0;
+                const paddingBottom = parseFloat(containerStyle.paddingBottom) || 0;
+                
+                const width = Math.floor(rect.width - paddingLeft - paddingRight);
+                const height = Math.floor(rect.height - paddingTop - paddingBottom);
+
                 // Only resize if dimensions actually changed (prevent unnecessary flashing)
                 if (this.canvas.width !== width || this.canvas.height !== height) {
+                    console.log(`🔄 Resizing canvas: ${this.canvas.width}x${this.canvas.height} → ${width}x${height}`);
+                    this.logger.log(`🔄 Canvas resize: ${width}x${height}, aspect: ${(width/height).toFixed(2)}`, 'debug');
+                    
                     this.canvas.width = width;
                     this.canvas.height = height;
-                    
+
                     if (this.gl) {
                         this.gl.viewport(0, 0, width, height);
+                        
+                        // Log the new aspect ratio for debugging
+                        const aspect = width / height;
+                        console.log(`📐 New aspect ratio: ${aspect.toFixed(3)} (${width}x${height})`);
+                        
                         // Immediately clear to prevent flash
                         this.gl.clearColor(0.1, 0.1, 0.1, 1.0);
                         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+                        
+                        // Check for WebGL errors after resize
+                        this.checkWebGLError('Canvas resize');
                     }
                 }
             }
@@ -1082,6 +1102,14 @@
                 
                 // Create matrices
                 const aspect = this.canvas.width / this.canvas.height;
+                
+                // Track aspect ratio changes for debugging
+                if (!this.lastAspect || Math.abs(this.lastAspect - aspect) > 0.01) {
+                    console.log(`📐 Aspect ratio changed: ${this.lastAspect?.toFixed(3) || 'initial'} → ${aspect.toFixed(3)}`);
+                    this.logger.log(`📐 Aspect ratio: ${aspect.toFixed(3)} (${this.canvas.width}x${this.canvas.height})`, 'debug');
+                    this.lastAspect = aspect;
+                }
+                
                 const projectionMatrix = MatrixUtils.createPerspectiveMatrix(Math.PI / 4, aspect, 0.1, 100.0);
                 const viewMatrix = this.camera.getViewMatrix();
                 // Only rotate cube if auto-rotate is enabled
