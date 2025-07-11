@@ -101,7 +101,7 @@
                             <div class="switch-container">
                                 <label class="switch-label">📝 Verbose Logs</label>
                                 <label class="switch">
-                                    <input type="checkbox" id="verboseLogsToggle" onchange="toggleVerboseLogs()">
+                                    <input type="checkbox" id="verboseLogsToggle" onchange="toggleVerboseLogs()" checked>
                                     <span class="slider"></span>
                                 </label>
                             </div>
@@ -870,44 +870,154 @@
              * Export debug information
              */
             exportDebugInfo() {
-                if (!this.liveLink) {
-                    this.logger.log('No client available for debug export', 'error');
-                    return;
-                }
-                this.debugUtils.exportDebugInfo(this.liveLink);
+                // Export local debug info even without connection
+                const debugInfo = {
+                    timestamp: new Date().toISOString(),
+                    webglInfo: this.webglRenderer ? this.webglRenderer.getDebugInfo() : 'WebGL not initialized',
+                    connectionStatus: this.liveLink ? 'Connected' : 'Disconnected',
+                    serverAddress: document.getElementById('serverAddress')?.value || 'Not set',
+                    cameraSync: this.cameraSync,
+                    autoRotate: this.autoRotate,
+                    stats: this.statsManager ? this.statsManager.getStats() : 'Stats not available',
+                    logs: this.logger.getRecentLogs ? this.logger.getRecentLogs(20) : 'Logs not available'
+                };
+                
+                const blob = new Blob([JSON.stringify(debugInfo, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `octane-debug-${Date.now()}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                this.logger.log('📤 Debug information exported successfully', 'success');
             }
 
             /**
              * Show system information
              */
             showSystemInfo() {
-                if (!this.liveLink) {
-                    this.logger.log('No client available for system info', 'error');
-                    return;
-                }
-                this.debugUtils.showSystemInfo(this.liveLink);
+                // Show local system info even without connection
+                const systemInfo = {
+                    userAgent: navigator.userAgent,
+                    platform: navigator.platform,
+                    language: navigator.language,
+                    cookieEnabled: navigator.cookieEnabled,
+                    onLine: navigator.onLine,
+                    screen: {
+                        width: screen.width,
+                        height: screen.height,
+                        colorDepth: screen.colorDepth
+                    },
+                    window: {
+                        innerWidth: window.innerWidth,
+                        innerHeight: window.innerHeight,
+                        devicePixelRatio: window.devicePixelRatio
+                    },
+                    webgl: this.webglRenderer ? this.webglRenderer.getSystemInfo() : 'WebGL not initialized',
+                    connection: this.liveLink ? 'Connected to Octane' : 'Not connected'
+                };
+                
+                this.logger.log('💻 System Information:', 'info');
+                Object.entries(systemInfo).forEach(([key, value]) => {
+                    if (typeof value === 'object') {
+                        this.logger.log(`  ${key}: ${JSON.stringify(value)}`, 'info');
+                    } else {
+                        this.logger.log(`  ${key}: ${value}`, 'info');
+                    }
+                });
             }
 
             /**
              * Show debug information
              */
             showDebugInfo() {
-                if (!this.liveLink) {
-                    this.logger.log('No client available for debug info', 'error');
-                    return;
+                // Show local debug info even without connection
+                this.logger.log('🔧 Debug Information:', 'info');
+                
+                // Check WebGL status more accurately
+                const gl = this.canvas ? this.canvas.getContext('webgl2') || this.canvas.getContext('webgl') : null;
+                const webglVersion = gl ? (gl instanceof WebGL2RenderingContext ? 'WebGL 2.0' : 'WebGL 1.0') : 'Not available';
+                this.logger.log(`  WebGL Version: ${webglVersion}`, 'info');
+                
+                this.logger.log(`  Canvas Size: ${this.canvas ? `${this.canvas.width}x${this.canvas.height}` : 'Not available'}`, 'info');
+                this.logger.log(`  Camera Sync: ${this.cameraSync ? 'Enabled' : 'Disabled'}`, 'info');
+                this.logger.log(`  Auto Rotate: ${this.autoRotate ? 'Enabled' : 'Disabled'}`, 'info');
+                this.logger.log(`  Connection Status: ${this.liveLink ? 'Connected' : 'Disconnected'}`, 'info');
+                this.logger.log(`  Server Address: ${document.getElementById('serverAddress')?.value || 'Not set'}`, 'info');
+                
+                // Check if render loop is actually running by checking if we have an animation frame ID
+                const renderStatus = this.animationFrameId ? 'Running' : 'Stopped';
+                this.logger.log(`  Render Loop: ${renderStatus}`, 'info');
+                
+                if (this.statsManager) {
+                    const stats = this.statsManager.getStats();
+                    this.logger.log(`  FPS: ${stats.fps || 0}`, 'info');
+                    this.logger.log(`  Frame Time: ${stats.frameTime || 0}ms`, 'info');
+                    this.logger.log(`  Total Calls: ${stats.totalCalls || 0}`, 'info');
                 }
-                this.debugUtils.showDebugInfo(this.liveLink);
+                
+                // Get WebGL renderer info directly
+                if (gl) {
+                    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                    if (debugInfo) {
+                        this.logger.log(`  WebGL Renderer: ${gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)}`, 'info');
+                        this.logger.log(`  WebGL Vendor: ${gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL)}`, 'info');
+                    } else {
+                        this.logger.log(`  WebGL Renderer: ${gl.getParameter(gl.RENDERER)}`, 'info');
+                        this.logger.log(`  WebGL Vendor: ${gl.getParameter(gl.VENDOR)}`, 'info');
+                    }
+                }
             }
 
             /**
              * Refresh performance statistics
              */
             refreshStats() {
-                if (!this.liveLink) {
-                    this.logger.log('No client available for stats refresh', 'error');
-                    return;
+                try {
+                    this.logger.log('📊 Performance Statistics:', 'info');
+                    
+                    // Show local stats even without connection
+                    if (this.statsManager) {
+                        const stats = this.statsManager.getStats();
+                        this.logger.log(`  Current FPS: ${stats.fps || 0}`, 'info');
+                        this.logger.log(`  Average Frame Time: ${stats.frameTime || 0}ms`, 'info');
+                        this.logger.log(`  Total API Calls: ${stats.totalCalls || 0}`, 'info');
+                        this.logger.log(`  Average Response Time: ${stats.avgResponseTime || 0}ms`, 'info');
+                        this.logger.log(`  Sync Rate: ${stats.syncRate || 0}/s`, 'info');
+                        this.logger.log(`  Error Count: ${stats.errorCount || 0}`, 'info');
+                    } else {
+                        this.logger.log('  Stats Manager: Not initialized', 'info');
+                    }
+                    
+                    // Show connection status
+                    this.logger.log(`  Connection Status: ${this.liveLink ? 'Connected' : 'Disconnected'}`, 'info');
+                    
+                    // Show render loop status
+                    const renderStatus = this.animationFrameId ? 'Running' : 'Stopped';
+                    this.logger.log(`  Render Loop: ${renderStatus}`, 'info');
+                    
+                    // Show WebGL performance if available
+                    const gl = this.canvas ? this.canvas.getContext('webgl2') || this.canvas.getContext('webgl') : null;
+                    if (gl) {
+                        this.logger.log(`  WebGL Context: Active`, 'info');
+                        this.logger.log(`  Canvas Resolution: ${this.canvas.width}x${this.canvas.height}`, 'info');
+                        this.logger.log(`  Device Pixel Ratio: ${window.devicePixelRatio || 1}`, 'info');
+                    } else {
+                        this.logger.log(`  WebGL Context: Not available`, 'warning');
+                    }
+                    
+                    // Show memory usage if available
+                    if (performance && performance.memory) {
+                        const memory = performance.memory;
+                        this.logger.log(`  Memory Used: ${Math.round(memory.usedJSHeapSize / 1024 / 1024)}MB`, 'info');
+                        this.logger.log(`  Memory Limit: ${Math.round(memory.jsHeapSizeLimit / 1024 / 1024)}MB`, 'info');
+                    }
+                    
+                } catch (error) {
+                    this.logger.log(`📊 Error getting stats: ${error.message}`, 'error');
+                    console.error('Stats error:', error);
                 }
-                this.debugUtils.refreshStats(this.liveLink, this.statsManager);
             }
 
             /**
@@ -1148,8 +1258,8 @@
                 const modelMatrix = MatrixUtils.createModelMatrix([0, 0, 0], [rotationX, rotationY, 0], [1, 1, 1]);
                 const normalMatrix = MatrixUtils.transpose(MatrixUtils.inverse(modelMatrix));
                 
-                // Debug: Check matrix types (only log occasionally to avoid spam)
-                if (Math.random() < 0.001) {
+                // Debug: Check matrix types occasionally (every 1800 frames = ~30 seconds at 60fps)
+                if (this.frameCount % 1800 === 0 && this.frameCount > 0) {
                     const matrixInfo = {
                         projection: projectionMatrix.constructor.name,
                         view: viewMatrix.constructor.name,
@@ -1157,7 +1267,7 @@
                         normal: normalMatrix.constructor.name
                     };
                     console.log('Matrix types:', matrixInfo);
-                    this.logger.log(`Matrix types: ${JSON.stringify(matrixInfo)}`, 'trace');
+                    this.logger.log(`Matrix types: ${JSON.stringify(matrixInfo)}`, 'debug');
                 }
                 
                 // Render skybox first
