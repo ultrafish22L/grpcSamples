@@ -844,13 +844,30 @@
                 const modelMatrix = this.camera.getViewMatrix;
                 const normalMatrix = MatrixUtils.transpose(modelMatrix);
                 
+                // Debug: Check matrix types (only log occasionally to avoid spam)
+                if (Math.random() < 0.001) {
+                    console.log('Matrix types:', {
+                        projection: projectionMatrix.constructor.name,
+                        view: viewMatrix.constructor.name,
+                        model: modelMatrix.constructor.name,
+                        normal: normalMatrix.constructor.name
+                    });
+                }
+                
                 // Render skybox first
                 gl.depthMask(false);
                 gl.useProgram(this.skyboxProgram);
                 gl.bindVertexArray(this.skyboxVAO);
                 
-                gl.uniformMatrix4fv(gl.getUniformLocation(this.skyboxProgram, 'uView'), false, viewMatrix);
-                gl.uniformMatrix4fv(gl.getUniformLocation(this.skyboxProgram, 'uProjection'), false, projectionMatrix);
+                const skyboxUView = gl.getUniformLocation(this.skyboxProgram, 'uView');
+                const skyboxUProjection = gl.getUniformLocation(this.skyboxProgram, 'uProjection');
+                
+                // Ensure matrices are Float32Array for skybox
+                const skyboxViewMat = viewMatrix instanceof Float32Array ? viewMatrix : new Float32Array(viewMatrix);
+                const skyboxProjMat = projectionMatrix instanceof Float32Array ? projectionMatrix : new Float32Array(projectionMatrix);
+                
+                if (skyboxUView) gl.uniformMatrix4fv(skyboxUView, false, skyboxViewMat);
+                if (skyboxUProjection) gl.uniformMatrix4fv(skyboxUProjection, false, skyboxProjMat);
                 gl.uniform1f(gl.getUniformLocation(this.skyboxProgram, 'uTime'), time);
                 
                 gl.drawArrays(gl.TRIANGLES, 0, 36);
@@ -860,11 +877,22 @@
                 gl.useProgram(this.shaderProgram);
                 gl.bindVertexArray(this.cubeVAO);
                 
-                // Set uniforms
-                gl.uniformMatrix4fv(gl.getUniformLocation(this.shaderProgram, 'uModel'), false, modelMatrix);
-                gl.uniformMatrix4fv(gl.getUniformLocation(this.shaderProgram, 'uView'), false, viewMatrix);
-                gl.uniformMatrix4fv(gl.getUniformLocation(this.shaderProgram, 'uProjection'), false, projectionMatrix);
-                gl.uniformMatrix3fv(gl.getUniformLocation(this.shaderProgram, 'uNormalMatrix'), false, normalMatrix);
+                // Set uniforms with error checking and proper matrix conversion
+                const uModel = gl.getUniformLocation(this.shaderProgram, 'uModel');
+                const uView = gl.getUniformLocation(this.shaderProgram, 'uView');
+                const uProjection = gl.getUniformLocation(this.shaderProgram, 'uProjection');
+                const uNormalMatrix = gl.getUniformLocation(this.shaderProgram, 'uNormalMatrix');
+                
+                // Ensure matrices are Float32Array
+                const modelMat = modelMatrix instanceof Float32Array ? modelMatrix : new Float32Array(modelMatrix);
+                const viewMat = viewMatrix instanceof Float32Array ? viewMatrix : new Float32Array(viewMatrix);
+                const projMat = projectionMatrix instanceof Float32Array ? projectionMatrix : new Float32Array(projectionMatrix);
+                const normalMat = normalMatrix instanceof Float32Array ? normalMatrix : new Float32Array(normalMatrix);
+                
+                if (uModel) gl.uniformMatrix4fv(uModel, false, modelMat);
+                if (uView) gl.uniformMatrix4fv(uView, false, viewMat);
+                if (uProjection) gl.uniformMatrix4fv(uProjection, false, projMat);
+                if (uNormalMatrix) gl.uniformMatrix3fv(uNormalMatrix, false, normalMat);
                 
                 // Lighting uniforms
                 const cameraPos = this.camera.getPosition();
