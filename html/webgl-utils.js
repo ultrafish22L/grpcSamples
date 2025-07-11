@@ -370,14 +370,10 @@ class CameraController {
         this.theta = 0.0;  // horizontal angle
         this.phi = 0.0;    // vertical angle
         this.center = [0.0, 0.0, 0.0];
-        this.autoRotate = true;
         this.rotationSpeed = 0.5;
     }
 
     update(deltaTime) {
-        if (this.autoRotate) {
-            this.theta += this.rotationSpeed * deltaTime;
-        }
     }
 
     getPosition() {
@@ -397,7 +393,6 @@ class CameraController {
         if (isDragging) {
             this.theta += deltaX * 0.01;
             this.phi = Math.max(-Math.PI/2 + 0.1, Math.min(Math.PI/2 - 0.1, this.phi + deltaY * 0.01));
-            this.autoRotate = false; // Stop auto-rotation when user interacts
         } else if (isPanning) {
             // Implement panning logic here if needed
         }
@@ -416,8 +411,6 @@ class CameraController {
         // Calculate spherical coordinates
         this.theta = Math.atan2(direction[0], direction[2]);
         this.phi = Math.asin(direction[1] / this.radius);
-        
-        this.autoRotate = false; // Stop auto-rotation when syncing
     }
 }
 

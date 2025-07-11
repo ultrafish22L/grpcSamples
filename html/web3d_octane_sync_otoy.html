@@ -137,6 +137,7 @@
                 this.lastTime = 0;
                 this.fps = 0;
                 this.frameTime = 0;
+                this.autoRotate = true; // cube rotation
                 
                 // LiveLink connection state
                 this.liveLink = null;
@@ -568,8 +569,8 @@
              */
             toggleAutoRotate() {
                 const autoRotateToggle = document.getElementById('autoRotateToggle');
-                this.camera.autoRotate = autoRotateToggle.checked;
-                this.logger.log(`Auto-rotation ${this.camera.autoRotate ? 'enabled' : 'disabled'}`, 'info');
+                this.autoRotate = autoRotateToggle.checked;
+                this.logger.log(`Auto-rotation ${this.autoRotate ? 'enabled' : 'disabled'}`, 'info');
             }
 
             /**
@@ -580,7 +581,7 @@
                 this.camera.theta = 0.0;
                 this.camera.phi = 0.0;
                 this.camera.center = [0.0, 0.0, 0.0];
-                this.camera.autoRotate = true;
+                this.autoRotate = true;
                 
                 const autoRotateToggle = document.getElementById('autoRotateToggle');
                 autoRotateToggle.checked = true;
@@ -838,9 +839,9 @@
                 const projectionMatrix = MatrixUtils.createPerspectiveMatrix(Math.PI / 4, aspect, 0.1, 100.0);
                 const viewMatrix = this.camera.getViewMatrix();
                 // Only rotate cube if auto-rotate is enabled
-                const rotationX = this.camera.autoRotate ? time * 0.5 : 0;
-                const rotationY = this.camera.autoRotate ? time * 0.3 : 0;
-                const modelMatrix = MatrixUtils.createRotationMatrix(rotationX, rotationY, 0);
+                const rotationX = this.autoRotate ? time * 0.5 : 0;
+                const rotationY = this.autoRotate ? time * 0.3 : 0;
+                const modelMatrix = this.camera.getViewMatrix;
                 const normalMatrix = MatrixUtils.transpose(modelMatrix);
                 
                 // Render skybox first
