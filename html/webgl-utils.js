@@ -749,8 +749,8 @@ class SimpleWebGLRenderer {
     render() {
         const gl = this.gl;
         
-        // Clear canvas with dark background
-        gl.clearColor(0.1, 0.1, 0.1, 1.0);
+        // Clear canvas with transparent background (no background rendering)
+        gl.clearColor(0.0, 0.0, 0.0, 0.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         
         // Debug: Log render call occasionally

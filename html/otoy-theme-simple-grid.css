@@ -174,8 +174,8 @@ body {
     width: 100%;
     height: 100%;
     display: block;
-    /* Prevent canvas flashing */
-    background: transparent;
+    /* Prevent canvas flashing - match container background */
+    background: var(--otoy-bg-panel);
     transition: none !important;
     animation: none !important;
 }
