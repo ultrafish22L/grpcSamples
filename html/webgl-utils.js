@@ -786,7 +786,7 @@ class SimpleWebGLRenderer {
         this.projectionMatrix = MatrixUtils.createPerspectiveMatrix(
             this.camera.fov * Math.PI / 180, 
             width / height, 
-            0.1, 
+            0.01, 
             100.0
         );
     }
