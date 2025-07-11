@@ -1191,10 +1191,9 @@
                     const deltaTime = (currentTime - this.lastTime) / 1000.0;
                     this.lastTime = currentTime;
                     
-                    // Debug first frame
+                    // Debug first frame (console only, no UI logging)
                     if (this.frameCount === 0) {
                         console.log('🎬 First frame rendering...');
-                        this.logger.log('🎬 First frame rendering...', 'debug');
                     }
                     
                     // Update camera
@@ -1207,10 +1206,9 @@
                         this.fps = (this.frameCount * 1000) / elapsed;
                         this.frameTime = Math.round(deltaTime * 1000);
                         
-                        // Debug: Log render loop activity
+                        // Debug: Log render loop activity (console only, no UI logging)
                         if (this.frameCount === 60) {
                             console.log('🎬 Render loop running, FPS:', this.fps.toFixed(1));
-                            this.logger.log(`🎬 Render loop running, FPS: ${this.fps.toFixed(1)}`, 'success');
                         }
                     }
                     
@@ -1246,7 +1244,6 @@
                 // Track aspect ratio changes for debugging
                 if (!this.lastAspect || Math.abs(this.lastAspect - aspect) > 0.01) {
                     console.log(`📐 Aspect ratio changed: ${this.lastAspect?.toFixed(3) || 'initial'} → ${aspect.toFixed(3)}`);
-                    this.logger.log(`📐 Aspect ratio: ${aspect.toFixed(3)} (${this.canvas.width}x${this.canvas.height})`, 'debug');
                     this.lastAspect = aspect;
                 }
                 
@@ -1258,7 +1255,7 @@
                 const modelMatrix = MatrixUtils.createModelMatrix([0, 0, 0], [rotationX, rotationY, 0], [1, 1, 1]);
                 const normalMatrix = MatrixUtils.transpose(MatrixUtils.inverse(modelMatrix));
                 
-                // Debug: Check matrix types occasionally (every 1800 frames = ~30 seconds at 60fps)
+                // Debug: Check matrix types occasionally (console only, no UI logging)
                 if (this.frameCount % 1800 === 0 && this.frameCount > 0) {
                     const matrixInfo = {
                         projection: projectionMatrix.constructor.name,
@@ -1267,7 +1264,6 @@
                         normal: normalMatrix.constructor.name
                     };
                     console.log('Matrix types:', matrixInfo);
-                    this.logger.log(`Matrix types: ${JSON.stringify(matrixInfo)}`, 'debug');
                 }
                 
                 // Render skybox first
