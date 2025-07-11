@@ -1257,6 +1257,12 @@
                 const rotationY = this.autoRotate ? time * 0.3 : 0;
                 const modelMatrix = MatrixUtils.createModelMatrix([0, 0, 0], [rotationX, rotationY, 0], [1, 1, 1]);
                 const normalMatrix = MatrixUtils.transpose(MatrixUtils.inverse(modelMatrix));
+                // Extract 3x3 normal matrix from 4x4 matrix for WebGL
+                const normalMatrix3x3 = new Float32Array([
+                    normalMatrix[0], normalMatrix[1], normalMatrix[2],
+                    normalMatrix[4], normalMatrix[5], normalMatrix[6], 
+                    normalMatrix[8], normalMatrix[9], normalMatrix[10]
+                ]);
                 
                 // Debug: Check matrix types occasionally (console only, no UI logging)
                 if (this.frameCount % 1800 === 0 && this.frameCount > 0) {
@@ -1320,7 +1326,8 @@
                 const modelMat = modelMatrix instanceof Float32Array ? modelMatrix : new Float32Array(modelMatrix);
                 const viewMat = viewMatrix instanceof Float32Array ? viewMatrix : new Float32Array(viewMatrix);
                 const projMat = projectionMatrix instanceof Float32Array ? projectionMatrix : new Float32Array(projectionMatrix);
-                const normalMat = normalMatrix instanceof Float32Array ? normalMatrix : new Float32Array(normalMatrix);
+                // Use the 3x3 normal matrix (already Float32Array)
+                const normalMat = normalMatrix3x3;
                 
                 if (uModel) {
                     gl.uniformMatrix4fv(uModel, false, modelMat);
