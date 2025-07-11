@@ -734,8 +734,7 @@ input[type="text"]:focus {
 
 .footer-stats span {
     white-space: nowrap;
-    display: grid;
-    grid-template-columns: auto 1fr;
+    display: flex;
     align-items: center;
     gap: 4px;
     text-align: center;
