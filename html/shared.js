@@ -12,6 +12,34 @@ class ActivityLogger {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
         this.maxEntries = 100; // Limit log entries to prevent memory issues
+        this.verboseMode = false; // Default to minimal logging
+        this.logLevels = {
+            'error': 0,    // Always show errors
+            'warning': 1,  // Show warnings in minimal mode
+            'success': 2,  // Show successes in minimal mode
+            'info': 3,     // Show info only in verbose mode
+            'debug': 4     // Show debug only in verbose mode
+        };
+    }
+
+    /**
+     * Set verbose logging mode
+     */
+    setVerboseMode(verbose) {
+        this.verboseMode = verbose;
+        console.log(`📝 Logging mode: ${verbose ? 'VERBOSE' : 'MINIMAL'}`);
+    }
+
+    /**
+     * Check if message should be logged based on current mode
+     */
+    shouldLog(type) {
+        const level = this.logLevels[type] || 3;
+        if (this.verboseMode) {
+            return true; // Show everything in verbose mode
+        } else {
+            return level <= 2; // Show only error, warning, success in minimal mode
+        }
     }
 
     /**
@@ -21,6 +49,11 @@ class ActivityLogger {
     log(message, type = 'info', details = null) {
         if (!this.container) {
             console.warn('Activity log container not found');
+            return;
+        }
+
+        // Check if this message should be logged based on current mode
+        if (!this.shouldLog(type)) {
             return;
         }
 

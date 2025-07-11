@@ -58,6 +58,13 @@
                             <span class="slider"></span>
                         </label>
                     </div>
+                    <div class="switch-container">
+                        <label class="switch-label">Verbose Logs</label>
+                        <label class="switch">
+                            <input type="checkbox" id="verboseLogsToggle" onchange="toggleVerboseLogs()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -166,7 +173,7 @@
                     
                     // Start render loop
                     console.log('🎬 Starting render loop...');
-                    this.logger.log('Starting render loop...', 'info');
+                    this.logger.log('🎬 Starting render loop...', 'debug');
                     this.render();
                     
                     // Initialize performance monitoring
@@ -211,6 +218,10 @@
                 this.gl.cullFace(this.gl.BACK);
                 this.gl.clearColor(0.1, 0.1, 0.2, 1.0);
                 console.log('✅ WebGL state configured');
+                this.logger.log('WebGL state configured', 'debug');
+                
+                // Set up WebGL error logging
+                this.setupWebGLErrorLogging();
 
                 // Create shaders
                 await this.createShaders();
@@ -223,6 +234,69 @@
                 // Set up viewport
                 this.resizeCanvas();
                 console.log('✅ WebGL initialization complete');
+            }
+
+            /**
+             * Set up WebGL error logging to activity log
+             */
+            setupWebGLErrorLogging() {
+                const gl = this.gl;
+                const originalUniformMatrix4fv = gl.uniformMatrix4fv;
+                
+                gl.uniformMatrix4fv = (location, transpose, value) => {
+                    try {
+                        // Ensure value is Float32Array
+                        if (!(value instanceof Float32Array)) {
+                            console.warn('⚠️ Converting matrix to Float32Array:', typeof value);
+                            this.logger.log(`Converting matrix to Float32Array: ${typeof value}`, 'debug');
+                            value = new Float32Array(value);
+                        }
+                        
+                        originalUniformMatrix4fv.call(gl, location, transpose, value);
+                        
+                        // Check for WebGL errors
+                        const error = gl.getError();
+                        if (error !== gl.NO_ERROR) {
+                            const errorMsg = this.getWebGLErrorString(error);
+                            console.error('❌ WebGL uniformMatrix4fv error:', errorMsg);
+                            this.logger.log(`❌ WebGL uniformMatrix4fv error: ${errorMsg}`, 'error');
+                        }
+                    } catch (e) {
+                        console.error('❌ uniformMatrix4fv exception:', e);
+                        this.logger.log(`uniformMatrix4fv exception: ${e.message}`, 'error');
+                    }
+                };
+            }
+
+            /**
+             * Get human-readable WebGL error string
+             */
+            getWebGLErrorString(error) {
+                const gl = this.gl;
+                switch (error) {
+                    case gl.NO_ERROR: return 'NO_ERROR';
+                    case gl.INVALID_ENUM: return 'INVALID_ENUM';
+                    case gl.INVALID_VALUE: return 'INVALID_VALUE';
+                    case gl.INVALID_OPERATION: return 'INVALID_OPERATION';
+                    case gl.OUT_OF_MEMORY: return 'OUT_OF_MEMORY';
+                    case gl.CONTEXT_LOST_WEBGL: return 'CONTEXT_LOST_WEBGL';
+                    default: return `Unknown error: ${error}`;
+                }
+            }
+
+            /**
+             * Check for WebGL errors and log them
+             */
+            checkWebGLError(operation = 'WebGL operation') {
+                const gl = this.gl;
+                const error = gl.getError();
+                if (error !== gl.NO_ERROR) {
+                    const errorMsg = this.getWebGLErrorString(error);
+                    console.error(`❌ ${operation} error:`, errorMsg);
+                    this.logger.log(`❌ ${operation} error: ${errorMsg}`, 'error');
+                    return true; // Error occurred
+                }
+                return false; // No error
             }
 
             /**
@@ -344,7 +418,7 @@
                     }
                     
                     console.log('✅ Shaders created successfully');
-                    this.logger.log('Shaders created successfully', 'success');
+                    this.logger.log('Shaders created successfully', 'debug');
                     
                 } catch (error) {
                     console.error('❌ Shader creation failed:', error);
@@ -430,7 +504,7 @@
                 }
                 
                 console.log('✅ Geometry created successfully');
-                this.logger.log('Geometry created successfully', 'success');
+                this.logger.log('Geometry created successfully', 'debug');
             }
 
             /**
@@ -960,7 +1034,7 @@
                     // Debug first frame
                     if (this.frameCount === 0) {
                         console.log('🎬 First frame rendering...');
-                        this.logger.log('First frame rendering...', 'info');
+                        this.logger.log('🎬 First frame rendering...', 'debug');
                     }
                     
                     // Update camera
@@ -976,7 +1050,7 @@
                         // Debug: Log render loop activity
                         if (this.frameCount === 60) {
                             console.log('🎬 Render loop running, FPS:', this.fps.toFixed(1));
-                            this.logger.log(`Render loop running, FPS: ${this.fps.toFixed(1)}`, 'success');
+                            this.logger.log(`🎬 Render loop running, FPS: ${this.fps.toFixed(1)}`, 'success');
                         }
                     }
                     
@@ -988,7 +1062,11 @@
                     
                 } catch (error) {
                     console.error('❌ Render loop error:', error);
-                    this.logger.log(`Render loop error: ${error.message}`, 'error');
+                    this.logger.log(`❌ Render loop error: ${error.message}`, 'error');
+                    
+                    // Check for additional WebGL errors
+                    this.checkWebGLError('Render loop exception');
+                    
                     // Don't continue render loop on error
                 }
             }
@@ -1009,23 +1087,30 @@
                 // Only rotate cube if auto-rotate is enabled
                 const rotationX = this.autoRotate ? time * 0.5 : 0;
                 const rotationY = this.autoRotate ? time * 0.3 : 0;
-                const modelMatrix = this.camera.getViewMatrix;
-                const normalMatrix = MatrixUtils.transpose(modelMatrix);
+                const modelMatrix = MatrixUtils.createModelMatrix([0, 0, 0], [rotationX, rotationY, 0], [1, 1, 1]);
+                const normalMatrix = MatrixUtils.transpose(MatrixUtils.inverse(modelMatrix));
                 
                 // Debug: Check matrix types (only log occasionally to avoid spam)
                 if (Math.random() < 0.001) {
-                    console.log('Matrix types:', {
+                    const matrixInfo = {
                         projection: projectionMatrix.constructor.name,
                         view: viewMatrix.constructor.name,
                         model: modelMatrix.constructor.name,
                         normal: normalMatrix.constructor.name
-                    });
+                    };
+                    console.log('Matrix types:', matrixInfo);
+                    this.logger.log(`Matrix types: ${JSON.stringify(matrixInfo)}`, 'trace');
                 }
                 
                 // Render skybox first
                 gl.depthMask(false);
+                this.checkWebGLError('depthMask(false)');
+                
                 gl.useProgram(this.skyboxProgram);
+                this.checkWebGLError('useProgram(skybox)');
+                
                 gl.bindVertexArray(this.skyboxVAO);
+                this.checkWebGLError('bindVertexArray(skybox)');
                 
                 const skyboxUView = gl.getUniformLocation(this.skyboxProgram, 'uView');
                 const skyboxUProjection = gl.getUniformLocation(this.skyboxProgram, 'uProjection');
@@ -1034,16 +1119,29 @@
                 const skyboxViewMat = viewMatrix instanceof Float32Array ? viewMatrix : new Float32Array(viewMatrix);
                 const skyboxProjMat = projectionMatrix instanceof Float32Array ? projectionMatrix : new Float32Array(projectionMatrix);
                 
-                if (skyboxUView) gl.uniformMatrix4fv(skyboxUView, false, skyboxViewMat);
-                if (skyboxUProjection) gl.uniformMatrix4fv(skyboxUProjection, false, skyboxProjMat);
+                if (skyboxUView) {
+                    gl.uniformMatrix4fv(skyboxUView, false, skyboxViewMat);
+                    this.checkWebGLError('uniformMatrix4fv(skybox uView)');
+                }
+                if (skyboxUProjection) {
+                    gl.uniformMatrix4fv(skyboxUProjection, false, skyboxProjMat);
+                    this.checkWebGLError('uniformMatrix4fv(skybox uProjection)');
+                }
                 gl.uniform1f(gl.getUniformLocation(this.skyboxProgram, 'uTime'), time);
+                this.checkWebGLError('uniform1f(skybox uTime)');
                 
                 gl.drawArrays(gl.TRIANGLES, 0, 36);
+                this.checkWebGLError('drawArrays(skybox)');
                 
                 // Render main object
                 gl.depthMask(true);
+                this.checkWebGLError('depthMask(true)');
+                
                 gl.useProgram(this.shaderProgram);
+                this.checkWebGLError('useProgram(main)');
+                
                 gl.bindVertexArray(this.cubeVAO);
+                this.checkWebGLError('bindVertexArray(cube)');
                 
                 // Set uniforms with error checking and proper matrix conversion
                 const uModel = gl.getUniformLocation(this.shaderProgram, 'uModel');
@@ -1057,23 +1155,44 @@
                 const projMat = projectionMatrix instanceof Float32Array ? projectionMatrix : new Float32Array(projectionMatrix);
                 const normalMat = normalMatrix instanceof Float32Array ? normalMatrix : new Float32Array(normalMatrix);
                 
-                if (uModel) gl.uniformMatrix4fv(uModel, false, modelMat);
-                if (uView) gl.uniformMatrix4fv(uView, false, viewMat);
-                if (uProjection) gl.uniformMatrix4fv(uProjection, false, projMat);
-                if (uNormalMatrix) gl.uniformMatrix3fv(uNormalMatrix, false, normalMat);
+                if (uModel) {
+                    gl.uniformMatrix4fv(uModel, false, modelMat);
+                    this.checkWebGLError('uniformMatrix4fv(uModel)');
+                }
+                if (uView) {
+                    gl.uniformMatrix4fv(uView, false, viewMat);
+                    this.checkWebGLError('uniformMatrix4fv(uView)');
+                }
+                if (uProjection) {
+                    gl.uniformMatrix4fv(uProjection, false, projMat);
+                    this.checkWebGLError('uniformMatrix4fv(uProjection)');
+                }
+                if (uNormalMatrix) {
+                    gl.uniformMatrix3fv(uNormalMatrix, false, normalMat);
+                    this.checkWebGLError('uniformMatrix3fv(uNormalMatrix)');
+                }
                 
                 // Lighting uniforms
                 const cameraPos = this.camera.getPosition();
                 gl.uniform3fv(gl.getUniformLocation(this.shaderProgram, 'uLightPos'), [5.0, 5.0, 5.0]);
+                this.checkWebGLError('uniform3fv(uLightPos)');
                 gl.uniform3fv(gl.getUniformLocation(this.shaderProgram, 'uLightColor'), [1.0, 1.0, 1.0]);
+                this.checkWebGLError('uniform3fv(uLightColor)');
                 gl.uniform3fv(gl.getUniformLocation(this.shaderProgram, 'uViewPos'), cameraPos);
+                this.checkWebGLError('uniform3fv(uViewPos)');
                 gl.uniform1f(gl.getUniformLocation(this.shaderProgram, 'uTime'), time);
+                this.checkWebGLError('uniform1f(uTime)');
                 
                 // Draw cube
                 gl.drawElements(gl.TRIANGLES, 36, gl.UNSIGNED_SHORT, 0);
+                this.checkWebGLError('drawElements(cube)');
                 
                 // Unbind
                 gl.bindVertexArray(null);
+                this.checkWebGLError('bindVertexArray(null)');
+                
+                // Final error check for the entire render frame
+                this.checkWebGLError('End of render frame');
             }
         }
 
@@ -1113,6 +1232,13 @@
         window.testGetMeshes = () => viewer?.getMeshList();
         window.toggleCameraSync = () => viewer?.toggleCameraSync();
         window.toggleAutoRotate = () => viewer?.toggleAutoRotate();
+        window.toggleVerboseLogs = () => {
+            const toggle = document.getElementById('verboseLogsToggle');
+            if (viewer && viewer.logger) {
+                viewer.logger.setVerboseMode(toggle.checked);
+                viewer.logger.log(`Logging mode changed to: ${toggle.checked ? 'VERBOSE' : 'MINIMAL'}`, 'info');
+            }
+        };
         window.resetCamera = () => viewer?.resetCamera();
         window.loadModel = () => viewer?.loadModel();
         window.testLoadTeapot = () => viewer?.loadTeapot();
