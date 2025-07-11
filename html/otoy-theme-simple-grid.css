@@ -331,13 +331,17 @@ body {
 }
 
 .header-bar .icon-btn {
-    min-width: 36px;
-    min-height: 36px;
-    font-size: 16px;
-    padding: 8px;
-    display: block;
-    align-items: center;
-    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--otoy-text-primary);
+    min-width: 32px;
+    min-height: 32px;
+    font-size: 20px;
+    padding: 4px;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
 }
 
 .connection-controls input[type="text"] {
@@ -599,7 +603,8 @@ input[type="text"]:focus {
 }
 
 .activity-buttons {
-    display: block;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
     gap: 6px;
 }
 
@@ -627,13 +632,17 @@ input[type="text"]:focus {
 }
 
 .activity-buttons .icon-btn {
-    padding: 8px;
-    font-size: 14px;
-    min-width: 32px;
-    min-height: 32px;
-    display: block;
-    align-items: center;
-    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--otoy-text-primary);
+    padding: 4px;
+    font-size: 16px;
+    min-width: 28px;
+    min-height: 28px;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
 }
 
 .activity-toggle {
