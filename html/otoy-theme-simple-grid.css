@@ -192,8 +192,8 @@ body {
 
 /* Activity Section - Full Height */
 .activity-section {
-    flex: 1;
-    display: block;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
     min-height: 0;
     max-width: 1200px;
     margin: 0 auto;
@@ -201,11 +201,11 @@ body {
 }
 
 .activity-section .activity-log {
-    flex: 1;
     overflow-y: auto;
     min-height: 200px; /* Ensure minimum height */
     max-height: none; /* Remove height restriction - will be set by JavaScript */
     height: 100%; /* Fill available space */
+    grid-row: 1; /* Take up available space in grid */
 }
 
 /* Improved Header Bar - Full Width Layout */
@@ -567,9 +567,9 @@ input[type="text"]:focus {
 }
 
 .activity-section {
-    flex: 1; /* Take remaining space */
-    display: block;
-    min-height: 0; /* Allow flex shrinking */
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 0; /* Allow grid shrinking */
     overflow: hidden; /* Prevent section overflow */
 }
 
@@ -624,8 +624,8 @@ input[type="text"]:focus {
 
 /* Activity Controls - Bottom of Activity Log */
 .activity-controls {
-    display: block;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
     margin-top: auto; /* Push to bottom */
     padding-top: 10px;
