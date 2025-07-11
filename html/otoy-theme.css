@@ -161,10 +161,24 @@ canvas {
     gap: 12px;
 }
 
+.otoy-logo-link {
+    display: inline-block;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+    padding: 2px;
+}
+
+.otoy-logo-link:hover {
+    transform: scale(1.1);
+    background: rgba(231, 76, 60, 0.1);
+    box-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
+}
+
 .otoy-logo {
     width: 32px;
     height: 32px;
     filter: brightness(1.1);
+    display: block;
 }
 
 .otoy-branding h1 {
