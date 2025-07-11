@@ -54,12 +54,9 @@
                             <span class="slider"></span>
                         </label>
                     </div>
-                    <div class="switch-container">
-                        <label class="switch-label" title="Auto-Rotate">🔁</label>
-                        <label class="switch" title="Automatically rotate the 3D model">
-                            <input type="checkbox" id="autoRotateToggle" onchange="toggleAutoRotate()" checked title="Enable/disable automatic model rotation">
-                            <span class="slider"></span>
-                        </label>
+                    <div class="status-led-container">
+                        <div id="statusLed" class="status-led status-ready" title="Connection Status"></div>
+                        <span id="statusText" class="status-text">Ready</span>
                     </div>
                 </div>
             </div>
