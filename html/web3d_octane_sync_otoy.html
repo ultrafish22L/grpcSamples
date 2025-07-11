@@ -1084,11 +1084,27 @@
                 if (!stats) return;
                 
                 // Update stats in footer if elements exist
+                const fpsElement = document.getElementById('fps');
+                const frameTimeElement = document.getElementById('frameTime');
                 const callCount = document.getElementById('callCount');
                 const responseTime = document.getElementById('responseTime');
+                const syncRate = document.getElementById('syncRate');
+                const errorCount = document.getElementById('errorCount');
                 
+                // Update FPS and frame time from render loop
+                if (fpsElement) fpsElement.textContent = Math.round(this.fps || 0);
+                if (frameTimeElement) frameTimeElement.textContent = `${Math.round(this.frameTime || 0)}ms`;
+                
+                // Update gRPC stats
                 if (callCount) callCount.textContent = stats.totalCalls || 0;
                 if (responseTime) responseTime.textContent = `${stats.averageResponseTime || 0}ms`;
+                if (errorCount) errorCount.textContent = stats.errorCount || 0;
+                
+                // Update sync rate based on camera sync state
+                if (syncRate) {
+                    const currentSyncRate = (this.connected && this.cameraSync) ? '30' : '0';
+                    syncRate.textContent = `${currentSyncRate}/s`;
+                }
             }
 
             /**
@@ -1185,17 +1201,7 @@
             startPerformanceMonitoring() {
                 setInterval(() => {
                     const stats = this.performanceTracker.getStats();
-                    
-                    UIUtils.updateElement('fpsValue', Math.round(this.fps));
-                    UIUtils.updateElement('frameTimeValue', `${this.frameTime}ms`);
-                    UIUtils.updateElement('grpcCallsValue', stats.calls);
-                    UIUtils.updateElement('avgResponseValue', `${stats.averageResponseTime}ms`);
-                    UIUtils.updateElement('errorCountValue', stats.errorCount);
-                    
-                    // Calculate sync rate if syncing
-                    const syncRate = this.cameraSync ? '30' : '0';
-                    UIUtils.updateElement('syncRateValue', `${syncRate}/s`);
-                    
+                    this.updateStatsDisplay(stats);
                 }, 1000);
             }
 
