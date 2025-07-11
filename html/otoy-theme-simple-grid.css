@@ -76,6 +76,7 @@ body {
     height: 100%; /* Take full height */
     max-width: 1400px;
     width: 100%; /* Take full width up to max-width */
+    margin: 0 auto; /* Center the content area horizontally */
 }
 
 /* Controls container for test interfaces */
