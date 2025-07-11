@@ -636,8 +636,9 @@ input[type="text"]:focus {
 .activity-buttons {
     display: grid;
     grid-template-columns: repeat(4, auto);
-    gap: 10px;
+    gap: 6px;
     align-items: center;
+    justify-content: start;
 }
 
 .activity-buttons button {
@@ -684,12 +685,13 @@ input[type="text"]:focus {
 
 .activity-toggle .switch-container {
     margin: 0;
+    gap: 4px;
 }
 
 .activity-toggle .switch-label {
     font-size: 14px;
-    margin-right: 8px;
-    display: block;
+    margin-right: 0;
+    display: inline-block;
     align-items: center;
     justify-content: center;
     min-width: 20px;
