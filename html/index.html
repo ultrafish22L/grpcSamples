@@ -41,8 +41,8 @@
     <section class="controls-section">
         <div class="controls-content">
             <div class="livelink-controls">
-                <button id="getCameraBtn" onclick="testGetCamera()" class="icon-btn" title="Get Camera">📥</button>
-                <button id="setCameraBtn" onclick="testSetCamera()" class="icon-btn" title="Set Camera">📤</button>
+                <button id="getCameraBtn" onclick="testGetCamera()" class="icon-btn" title="Get Camera">📷</button>
+                <button id="setCameraBtn" onclick="testSetCamera()" class="icon-btn" title="Set Camera">📸</button>
                 <button id="resetCameraBtn" onclick="resetCamera()" class="icon-btn" title="Reset Camera">🔄</button>
                 <button id="getMeshesBtn" onclick="testGetMeshes()" class="icon-btn" title="Get Meshes">📋</button>
                 <button id="loadModelBtn" onclick="loadModel()" class="icon-btn" title="Load Model">📂</button>
@@ -50,16 +50,16 @@
             </div>
             <div class="view-controls">
                 <div class="switch-container">
-                    <label class="switch-label" title="Camera Sync">🔄</label>
-                    <label class="switch" title="Synchronize camera with Octane in real-time">
-                        <input type="checkbox" id="syncCameraToggle" onchange="toggleCameraSync()" checked title="Enable/disable camera synchronization">
+                    <label class="switch-label" title="Auto-Rotate">🧊</label>
+                    <label class="switch" title="Automatically rotate the 3D model">
+                        <input type="checkbox" id="autoRotateToggle" onchange="toggleAutoRotate()" checked title="Enable/disable automatic model rotation">
                         <span class="slider"></span>
                     </label>
                 </div>
                 <div class="switch-container">
-                    <label class="switch-label" title="Auto-Rotate">🔁</label>
-                    <label class="switch" title="Automatically rotate the 3D model">
-                        <input type="checkbox" id="autoRotateToggle" onchange="toggleAutoRotate()" checked title="Enable/disable automatic model rotation">
+                    <label class="switch-label" title="Camera Sync">🔗</label>
+                    <label class="switch" title="Synchronize camera with Octane in real-time">
+                        <input type="checkbox" id="syncCameraToggle" onchange="toggleCameraSync()" checked title="Enable/disable camera synchronization">
                         <span class="slider"></span>
                     </label>
                 </div>
