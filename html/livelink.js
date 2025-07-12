@@ -69,6 +69,7 @@ class LiveLinkClient extends SimpleEventEmitter {
         this.callCount = 0;
         this.lastCallTime = 0;
         this.avgResponseTime = 0;
+        this.errorCount = 0;
         
         // Enhanced debugging
         this.debugMode = true;
@@ -615,6 +616,7 @@ class LiveLinkClient extends SimpleEventEmitter {
                     duration: responseTime
                 }, 'error');
                 
+                this.errorCount++;
                 throw error;
             }
             
@@ -645,6 +647,7 @@ class LiveLinkClient extends SimpleEventEmitter {
                     duration: responseTime
                 }, 'error');
                 
+                this.errorCount++;
                 throw new Error(`Failed to parse gRPC response: ${parseError.message}`);
             }
             
@@ -677,6 +680,7 @@ class LiveLinkClient extends SimpleEventEmitter {
                 url: url
             }, 'error');
             
+            this.errorCount++;
             throw error;
         }
     }

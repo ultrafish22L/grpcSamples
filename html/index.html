@@ -791,6 +791,10 @@
                     // Sync camera without console logging (performance optimization)
                     await this.grpcOperations.setCamera(this.liveLink, cameraState, suppressLog); // Pass true to suppress UI logging
                     
+                    // Track sync calls for rate calculation
+                    if (!this.syncCallCount) this.syncCallCount = 0;
+                    this.syncCallCount++;
+                    
                 } catch (error) {
                     this.performanceTracker.recordError();
                     ErrorHandler.handleGrpcError(error, this.logger, 'Failed to set camera');
@@ -1087,11 +1091,21 @@
                     }
                 });
                 
-                // Update stats display
-                if (this.liveLink) {
-                    const stats = this.liveLink.getStats();
-                    this.updateStatsDisplay(stats);
+                // Update stats display - get stats from the actual LiveLink manager
+                let stats = { callCount: 0, avgResponseTime: 0, errorCount: 0 };
+                
+                if (this.connectionManager && this.connectionManager.liveLinkManager) {
+                    // Access the actual LiveLink manager that has the response time tracking
+                    const liveLinkClient = this.connectionManager.liveLinkManager;
+                    if (liveLinkClient && typeof liveLinkClient.getStats === 'function') {
+                        stats = liveLinkClient.getStats();
+                    }
+                } else if (this.liveLink && typeof this.liveLink.getStats === 'function') {
+                    // Fallback to the wrapper client if available
+                    stats = this.liveLink.getStats();
                 }
+                
+                this.updateStatsDisplay(stats);
             }
 
             /**
@@ -1112,14 +1126,31 @@
                 if (fpsElement) fpsElement.textContent = Math.round(this.fps || 0);
                 if (frameTimeElement) frameTimeElement.textContent = `${Math.round(this.frameTime || 0)}ms`;
                 
-                // Update gRPC stats
-                if (callCount) callCount.textContent = stats.totalCalls || 0;
-                if (responseTime) responseTime.textContent = `${stats.averageResponseTime || 0}ms`;
+                // Update gRPC stats - use correct property names from livelink.js
+                if (callCount) callCount.textContent = stats.callCount || 0;
+                if (responseTime) responseTime.textContent = `${Math.round(stats.avgResponseTime || 0)}ms`;
                 if (errorCount) errorCount.textContent = stats.errorCount || 0;
                 
-                // Update sync rate based on camera sync state
+                // Update sync rate based on actual camera sync activity
                 if (syncRate) {
-                    const currentSyncRate = (this.connected && this.cameraSync) ? '30' : '0';
+                    let currentSyncRate = 0;
+                    if (this.connected && this.cameraSync) {
+                        // Calculate actual sync rate based on recent camera calls
+                        const now = Date.now();
+                        if (!this.lastSyncTime) this.lastSyncTime = now;
+                        if (!this.syncCallCount) this.syncCallCount = 0;
+                        
+                        // Reset counter every second
+                        if (now - this.lastSyncTime >= 1000) {
+                            currentSyncRate = this.syncCallCount;
+                            this.syncCallCount = 0;
+                            this.lastSyncTime = now;
+                        } else {
+                            // Show last calculated rate
+                            currentSyncRate = this.lastSyncRate || 0;
+                        }
+                        this.lastSyncRate = currentSyncRate;
+                    }
                     syncRate.textContent = `${currentSyncRate}/s`;
                 }
             }
@@ -1216,8 +1247,16 @@
              */
             startPerformanceMonitoring() {
                 setInterval(() => {
-                    const stats = this.performanceTracker.getStats();
-                    this.updateStatsDisplay(stats);
+                    // Get LiveLink stats (gRPC response times) from the actual LiveLink client
+                    let liveLinkStats = { callCount: 0, avgResponseTime: 0, errorCount: 0 };
+                    
+                    // The LiveLink client is stored in this.liveLink
+                    if (this.liveLink && typeof this.liveLink.getStats === 'function') {
+                        liveLinkStats = this.liveLink.getStats();
+                    }
+                    
+                    // Use LiveLink stats directly since they have the correct property names
+                    this.updateStatsDisplay(liveLinkStats);
                 }, 1000);
             }
 
