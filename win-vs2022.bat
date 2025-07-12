@@ -180,6 +180,19 @@ goto :error
 :cmake_setup
 cd ..\..
 
+REM Generate protobuf well-known headers if missing
+echo Checking protobuf well-known headers...
+if not exist "third_party\protobuf\windows\include\google\protobuf\empty.pb.h" goto :generate_protobuf_headers
+echo Protobuf headers already exist - skipping generation
+goto :cmake_configure
+
+:generate_protobuf_headers
+echo Generating missing protobuf well-known headers...
+python generate_wellknown_protos.py
+if %ERRORLEVEL% EQU 0 echo Protobuf headers generated successfully
+if %ERRORLEVEL% NEQ 0 echo Warning: Failed to generate protobuf headers, but continuing...
+
+:cmake_configure
 if not exist build mkdir build
 if not exist build\win-vs2022 mkdir build\win-vs2022
 
