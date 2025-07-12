@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 
 REM Check for arguments
 if "%1"=="clean" (
@@ -27,9 +28,11 @@ if "%1"=="help" (
     echo   ^(none^)   - Build Visual Studio 2022 solution
     echo.
     echo This script will:
-    echo 1. Generate GLEW extensions and source files
-    echo 2. Configure CMake for Visual Studio 2022
-    echo 3. Generate Visual Studio solution files
+    echo 1. Clean any corrupted GLEW artifacts
+    echo 2. Generate GLEW extensions and source files
+    echo 3. Build GLEW library using MSBuild/Visual Studio
+    echo 4. Configure CMake for Visual Studio 2022
+    echo 5. Generate Visual Studio solution files
     echo.
     echo Requirements:
     echo - Visual Studio 2022 with C++ development tools
@@ -143,6 +146,51 @@ if exist auto\Makefile (
     )
     
     echo GLEW files verified successfully
+    
+    REM Build GLEW library using Visual Studio
+    echo Building GLEW library with Visual Studio...
+    if exist build\vc12\glew.sln (
+        echo Found GLEW Visual Studio solution: build\vc12\glew.sln
+        
+        REM Try to find MSBuild in common locations
+        set "MSBUILD_PATH="
+        if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" (
+            set "MSBUILD_PATH=%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe"
+        ) else if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" (
+            set "MSBUILD_PATH=%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe"
+        ) else if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe" (
+            set "MSBUILD_PATH=%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe"
+        ) else if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe" (
+            set "MSBUILD_PATH=%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe"
+        ) else if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe" (
+            set "MSBUILD_PATH=%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe"
+        ) else (
+            echo Warning: MSBuild not found in standard locations, trying PATH...
+            where msbuild >nul 2>&1
+            if %ERRORLEVEL% EQU 0 (
+                set "MSBUILD_PATH=msbuild"
+            ) else (
+                echo Warning: MSBuild not found, GLEW library may not be built
+                echo You may need to build build\vc12\glew.sln manually
+                goto :skip_glew_build
+            )
+        )
+        
+        echo Using MSBuild: !MSBUILD_PATH!
+        "!MSBUILD_PATH!" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
+        if %ERRORLEVEL% EQU 0 (
+            echo ✓ GLEW library built successfully
+        ) else (
+            echo Warning: GLEW library build failed, but continuing...
+            echo You may need to build build\vc12\glew.sln manually in Visual Studio
+        )
+        
+        :skip_glew_build
+    ) else (
+        echo Warning: GLEW Visual Studio solution not found at build\vc12\glew.sln
+        echo GLEW library may not be available for linking
+    )
+    
 ) else (
     echo GLEW auto directory not found, checking for existing files...
     if exist src\glew.c (
