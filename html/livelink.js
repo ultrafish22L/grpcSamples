@@ -71,6 +71,11 @@ class LiveLinkClient extends SimpleEventEmitter {
         this.avgResponseTime = 0;
         this.errorCount = 0;
         
+        // Sync tracking for camera operations
+        this.syncCallCount = 0;
+        this.lastSyncTime = Date.now();
+        this.syncRate = 0;
+        
         // Enhanced debugging
         this.debugMode = true;
         this.connectionAttempts = 0;
@@ -536,7 +541,8 @@ class LiveLinkClient extends SimpleEventEmitter {
             connected: this.connected,
             connectionState: this.connectionState,
             connectionAttempts: this.connectionAttempts,
-            errorCount: this.errorCount
+            errorCount: this.errorCount,
+            syncRate: this.syncRate
         };
     }
 
@@ -696,6 +702,11 @@ class LiveLinkClient extends SimpleEventEmitter {
             up: cameraState.up || { x: 0, y: 1, z: 0 },
             fov: cameraState.fov || 45
         };
+        
+        // Track sync calls for rate calculation
+        this.syncCallCount++;
+        this.updateSyncRate();
+        
         const result = await this.makeGrpcCall('SetCamera', request);
         return result && result.success ? result.data : null;
     }
@@ -732,6 +743,21 @@ class LiveLinkClient extends SimpleEventEmitter {
      */
     async getMesh(meshId) {
         return this.getMeshData(meshId);
+    }
+
+    /**
+     * Update sync rate calculation
+     */
+    updateSyncRate() {
+        const now = Date.now();
+        const timeDiff = (now - this.lastSyncTime) / 1000; // Convert to seconds
+        
+        // Calculate sync rate over the last 5 seconds
+        if (timeDiff >= 5) {
+            this.syncRate = this.syncCallCount / timeDiff;
+            this.syncCallCount = 0;
+            this.lastSyncTime = now;
+        }
     }
 
     /**

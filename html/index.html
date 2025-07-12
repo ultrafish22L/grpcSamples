@@ -1131,26 +1131,9 @@
                 if (responseTime) responseTime.textContent = `${Math.round(stats.avgResponseTime || 0)}ms`;
                 if (errorCount) errorCount.textContent = stats.errorCount || 0;
                 
-                // Update sync rate based on actual camera sync activity
+                // Update sync rate from livelink client
                 if (syncRate) {
-                    let currentSyncRate = 0;
-                    if (this.connected && this.cameraSync) {
-                        // Calculate actual sync rate based on recent camera calls
-                        const now = Date.now();
-                        if (!this.lastSyncTime) this.lastSyncTime = now;
-                        if (!this.syncCallCount) this.syncCallCount = 0;
-                        
-                        // Reset counter every second
-                        if (now - this.lastSyncTime >= 1000) {
-                            currentSyncRate = this.syncCallCount;
-                            this.syncCallCount = 0;
-                            this.lastSyncTime = now;
-                        } else {
-                            // Show last calculated rate
-                            currentSyncRate = this.lastSyncRate || 0;
-                        }
-                        this.lastSyncRate = currentSyncRate;
-                    }
+                    const currentSyncRate = Math.round((stats.syncRate || 0) * 10) / 10; // Round to 1 decimal
                     syncRate.textContent = `${currentSyncRate}/s`;
                 }
             }
