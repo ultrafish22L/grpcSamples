@@ -25,7 +25,7 @@ add_executable(simpleGlSdk
     ../shared/camera_sync_sdk.h
     ../shared/camera_sync_sdk.cpp
     ../shared/camera_sync_base.h
-    ../shared_rendering.h
+    ../shared/shared_rendering.h
     ../shared/camera_system.h
     ../shared/model_manager.h
 )

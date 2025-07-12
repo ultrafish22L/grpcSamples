@@ -9,7 +9,7 @@
 #include <cmath>
 #include <glm/glm.hpp>
 
-#include "../shared_rendering.h"
+#include "../shared/shared_rendering.h"
 
 // Direct SDK integration
 #include "../shared/camera_sync_sdk.h"
