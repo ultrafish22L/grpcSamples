@@ -44,7 +44,7 @@
                 <button id="getCameraBtn" onclick="testGetCamera()" class="icon-btn" title="Get Camera">📷</button>
                 <button id="setCameraBtn" onclick="testSetCamera()" class="icon-btn" title="Set Camera">📸</button>
                 <button id="resetCameraBtn" onclick="resetCamera()" class="icon-btn" title="Reset Camera">🔄</button>
-                <button id="getMeshesBtn" onclick="testGetMeshes()" class="icon-btn" title="Get Meshes">📋</button>
+                <button id="getMeshesBtn" onclick="testGetMeshes()" class="icon-btn" title="Get Meshes">🎬</button>
                 <button id="loadModelBtn" onclick="loadModel()" class="icon-btn" title="Load Model">📂</button>
                 <button id="loadTeapotBtn" onclick="testLoadTeapot()" class="icon-btn" title="Load Teapot">🫖</button>
             </div>
@@ -252,7 +252,7 @@
              */
             async init() {
                 try {
-                    this.logger.log('Initializing WebGL-Octane LiveLink Sync viewer...', 'info');
+                    this.logger.log('Initializing WebGL-Octane LiveLink Sync viewer...', 'status');
                     
                     // Initialize WebGL
                     await this.initWebGL();
@@ -272,7 +272,7 @@
 
                     // Initialize sync if enabled by default
                     if (this.cameraSync) {
-                        this.logger.log('Camera sync enabled (will start when connected)', 'info');
+                        this.logger.log('Camera sync enabled (will start when connected)', 'status');
                         // Start sync interval - will only sync when connected
                         this.syncInterval = setInterval(() => {
                             if (this.connected && this.cameraSync) {
@@ -299,8 +299,8 @@
                 console.log('WebGL 2.0 available:', !!webgl2);
                 console.log('WebGL 1.0 available:', !!webgl1);
                 
-                this.logger.log(`WebGL 2.0 available: ${!!webgl2}`, 'info');
-                this.logger.log(`WebGL 1.0 available: ${!!webgl1}`, 'info');
+                this.logger.log(`WebGL 2.0 available: ${!!webgl2}`, 'status');
+                this.logger.log(`WebGL 1.0 available: ${!!webgl1}`, 'status');
                 
                 // Try WebGL 2.0 first, fall back to WebGL 1.0
                 this.gl = webgl2 || webgl1;
@@ -786,7 +786,7 @@
                     // Generate random camera position for testing using common utility
                     const cameraState = CameraSyncUtils.generateRandomCamera();
                     
-                    this.logger.log(`Testing random camera position: (${cameraState.position.x.toFixed(2)}, ${cameraState.position.y.toFixed(2)}, ${cameraState.position.z.toFixed(2)})`, 'info');
+                    this.logger.log(`Testing random camera position: (${cameraState.position.x.toFixed(2)}, ${cameraState.position.y.toFixed(2)}, ${cameraState.position.z.toFixed(2)})`, 'status');
                     
                     await this.grpcOperations.testSetCamera(this.liveLink, cameraState);
                     
@@ -817,15 +817,14 @@
              * Load teapot mesh from Octane
              */
             async loadTeapot() {
-                this.logger.log('🫖 Load Teapot: Work in progress...', 'info');
-                this.logger.log('This feature will load 3D teapot geometry from Octane in a future update', 'info');
+                this.logger.log('🫖 Load Teapot: Work in progress...', 'status');
             }
 
             /**
              * Load model from file dialog (placeholder)
              */
             loadModel() {
-                this.logger.log('Load Model: Work in progress', 'info');
+                this.logger.log('Load Model: Work in progress', 'status');
             }
 
             /**
@@ -837,7 +836,7 @@
 
                 if (this.cameraSync) {
                     if (!this.connected) {
-                        this.logger.log('Camera sync enabled (will start when connected)', 'info');
+                        this.logger.log('Camera sync enabled (will start when connected)', 'status');
                     } else {
                         this.logger.log('Camera sync started', 'success');
                     }
@@ -849,7 +848,7 @@
                         }
                     }, 1000 / 30);
                 } else {
-                    this.logger.log('Camera sync disabled', 'info');
+                    this.logger.log('Camera sync disabled', 'status');
                     
                     if (this.syncInterval) {
                         clearInterval(this.syncInterval);
@@ -864,7 +863,7 @@
             toggleAutoRotate() {
                 const autoRotateToggle = document.getElementById('autoRotateToggle');
                 this.autoRotate = autoRotateToggle.checked;
-                this.logger.log(`Auto-rotation ${this.autoRotate ? 'enabled' : 'disabled'}`, 'info');
+                this.logger.log(`Auto-rotation ${this.autoRotate ? 'enabled' : 'disabled'}`, 'status');
             }
 
             /**
@@ -879,7 +878,7 @@
                 
                 const autoRotateToggle = document.getElementById('autoRotateToggle');
                 autoRotateToggle.checked = true;
-                this.logger.log('Camera reset to default position', 'info');
+                this.logger.log('Camera reset to default position', 'status');
             }
 
             /**
@@ -887,7 +886,7 @@
              */
             clearLog() {
                 this.logger.clear();
-                this.logger.log('Activity log cleared', 'info');
+                this.logger.log('Activity log cleared', 'status');
             }
 
             /**
@@ -959,61 +958,61 @@
                     connection: this.liveLink ? 'Connected to Octane' : 'Not connected'
                 };
                 
-                this.logger.log('ℹ️ System & Debug Information:', 'info');
+                this.logger.log('ℹ️ System & Debug Information:', 'status');
                 Object.entries(systemInfo).forEach(([key, value]) => {
                     if (typeof value === 'object') {
-                        this.logger.log(`  ${key}: ${JSON.stringify(value)}`, 'info');
+                        this.logger.log(`  ${key}: ${JSON.stringify(value)}`, 'status');
                     } else {
-                        this.logger.log(`  ${key}: ${value}`, 'info');
+                        this.logger.log(`  ${key}: ${value}`, 'status');
                     }
                 });
 
                 // Debug Information
                 const gl = this.canvas ? this.canvas.getContext('webgl2') || this.canvas.getContext('webgl') : null;
                 const webglVersion = gl ? (gl instanceof WebGL2RenderingContext ? 'WebGL 2.0' : 'WebGL 1.0') : 'Not available';
-                this.logger.log(`  WebGL Version: ${webglVersion}`, 'info');
+                this.logger.log(`  WebGL Version: ${webglVersion}`, 'status');
                 
-                this.logger.log(`  Canvas Size: ${this.canvas ? `${this.canvas.width}x${this.canvas.height}` : 'Not available'}`, 'info');
-                this.logger.log(`  Camera Sync: ${this.cameraSync ? 'Enabled' : 'Disabled'}`, 'info');
-                this.logger.log(`  Auto Rotate: ${this.autoRotate ? 'Enabled' : 'Disabled'}`, 'info');
-                this.logger.log(`  Connection Status: ${this.liveLink ? 'Connected' : 'Disconnected'}`, 'info');
-                this.logger.log(`  Server Address: ${document.getElementById('serverAddress')?.value || 'Not set'}`, 'info');
+                this.logger.log(`  Canvas Size: ${this.canvas ? `${this.canvas.width}x${this.canvas.height}` : 'Not available'}`, 'status');
+                this.logger.log(`  Camera Sync: ${this.cameraSync ? 'Enabled' : 'Disabled'}`, 'status');
+                this.logger.log(`  Auto Rotate: ${this.autoRotate ? 'Enabled' : 'Disabled'}`, 'status');
+                this.logger.log(`  Connection Status: ${this.liveLink ? 'Connected' : 'Disconnected'}`, 'status');
+                this.logger.log(`  Server Address: ${document.getElementById('serverAddress')?.value || 'Not set'}`, 'status');
                 
                 const renderStatus = this.animationFrameId ? 'Running' : 'Stopped';
-                this.logger.log(`  Render Loop: ${renderStatus}`, 'info');
+                this.logger.log(`  Render Loop: ${renderStatus}`, 'status');
                 
                 // Performance Statistics
                 if (this.client) {
                     try {
                         const stats = this.client.getStats();
-                        this.logger.log(`  Current FPS: ${stats.fps || 0}`, 'info');
-                        this.logger.log(`  Average Frame Time: ${stats.frameTime || 0}ms`, 'info');
-                        this.logger.log(`  Total API Calls: ${stats.callCount || 0}`, 'info');
-                        this.logger.log(`  Average Response Time: ${stats.avgResponseTime || 0}ms`, 'info');
-                        this.logger.log(`  Sync Rate: ${stats.syncRate || 0}/s`, 'info');
-                        this.logger.log(`  Error Count: ${stats.errorCount || 0}`, 'info');
+                        this.logger.log(`  Current FPS: ${stats.fps || 0}`, 'status');
+                        this.logger.log(`  Average Frame Time: ${stats.frameTime || 0}ms`, 'status');
+                        this.logger.log(`  Total API Calls: ${stats.callCount || 0}`, 'status');
+                        this.logger.log(`  Average Response Time: ${stats.avgResponseTime || 0}ms`, 'status');
+                        this.logger.log(`  Sync Rate: ${stats.syncRate || 0}/s`, 'status');
+                        this.logger.log(`  Error Count: ${stats.errorCount || 0}`, 'status');
                     } catch (error) {
                         this.logger.log(`  Stats not available: ${error.message}`, 'warning');
                     }
                 } else {
-                    this.logger.log(`  Client: Not initialized`, 'info');
+                    this.logger.log(`  Client: Not initialized`, 'status');
                 }
 
                 // Memory usage if available
                 if (performance && performance.memory) {
                     const memory = performance.memory;
-                    this.logger.log(`  Memory Used: ${Math.round(memory.usedJSHeapSize / 1024 / 1024)}MB`, 'info');
-                    this.logger.log(`  Memory Limit: ${Math.round(memory.jsHeapSizeLimit / 1024 / 1024)}MB`, 'info');
+                    this.logger.log(`  Memory Used: ${Math.round(memory.usedJSHeapSize / 1024 / 1024)}MB`, 'status');
+                    this.logger.log(`  Memory Limit: ${Math.round(memory.jsHeapSizeLimit / 1024 / 1024)}MB`, 'status');
                 }
                 
                 if (gl) {
                     const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
                     if (debugInfo) {
-                        this.logger.log(`  WebGL Renderer: ${gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)}`, 'info');
-                        this.logger.log(`  WebGL Vendor: ${gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL)}`, 'info');
+                        this.logger.log(`  WebGL Renderer: ${gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)}`, 'status');
+                        this.logger.log(`  WebGL Vendor: ${gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL)}`, 'status');
                     } else {
-                        this.logger.log(`  WebGL Renderer: ${gl.getParameter(gl.RENDERER)}`, 'info');
-                        this.logger.log(`  WebGL Vendor: ${gl.getParameter(gl.VENDOR)}`, 'info');
+                        this.logger.log(`  WebGL Renderer: ${gl.getParameter(gl.RENDERER)}`, 'status');
+                        this.logger.log(`  WebGL Vendor: ${gl.getParameter(gl.VENDOR)}`, 'status');
                     }
                 }
             }
@@ -1435,7 +1434,7 @@
             const toggle = document.getElementById('verboseLogsToggle');
             if (viewer && viewer.logger) {
                 viewer.logger.setVerboseMode(toggle.checked);
-                viewer.logger.log(`Logging mode changed to: ${toggle.checked ? 'VERBOSE' : 'MINIMAL'}`, 'info');
+                viewer.logger.log(`Logging mode changed to: ${toggle.checked ? 'VERBOSE' : 'MINIMAL'}`, 'status');
             }
         };
         window.resetCamera = () => viewer?.resetCamera();
