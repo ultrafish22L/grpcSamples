@@ -109,7 +109,7 @@ if(MSVC)
     set(USE_MSVC_RUNTIME_LIBRARY_DLL OFF CACHE BOOL "Use MSVC runtime library DLL")
 endif()
 
-add_subdirectory(third_party/glew)
+add_subdirectory(third_party/glew/build/cmake)
 add_subdirectory(third_party/glfw)
 add_subdirectory(third_party/glm)
 
