@@ -53,12 +53,15 @@ echo ^(none^)   - Build Visual Studio 2022 solution (skips GLEW if already built
 echo.
 echo This script will:
 echo 1. Check if GLEW is already built (skip if complete)
-echo 2. Verify GLEW pre-built source files exist (no auto-generation needed)
-echo 3. Build GLEW library using MSBuild/Visual Studio (if needed)
-echo 4. Configure CMake for Visual Studio 2022
-echo 5. Generate Visual Studio solution files
+echo 2. Run GLEW auto-generation from auto/ directory (if make available)
+echo 3. Fall back to pre-built GLEW source files if auto-generation fails
+echo 4. Build GLEW library using MSBuild/Visual Studio (if needed)
+echo 5. Configure CMake for Visual Studio 2022
+echo 6. Generate Visual Studio solution files
 echo.
-echo GLEW Build Optimization:
+echo GLEW Build Process:
+echo - First attempts auto-generation from auto/ directory (preferred)
+echo - Falls back to pre-built source files if make unavailable
 echo - Automatically skips GLEW build if files already exist
 echo - Use 'clean' option to force GLEW rebuild when needed
 echo.
@@ -91,12 +94,43 @@ echo Use 'win-vs2022 clean' to force GLEW rebuild if needed
 goto :cmake_setup
 
 :build_glew_from_scratch
-echo Building GLEW using pre-built source files...
+echo Building GLEW from auto directory then MSVC build...
 
-REM GLEW repository includes pre-generated source files, no auto-generation needed
-echo Using pre-built GLEW source files (skipping auto-generation)
+REM First, generate GLEW files from auto directory if needed
+echo Checking for GLEW auto-generation...
+if exist auto\Makefile goto :run_glew_auto_generation
+echo GLEW auto directory not found, checking for pre-built source files...
+goto :verify_prebuilt_glew
 
-REM Verify that essential GLEW files exist in the repository
+:run_glew_auto_generation
+echo Running GLEW auto-generation from auto directory...
+cd auto
+echo Running make in auto directory to generate GLEW files...
+
+REM Try to run make (requires Unix tools or MSYS2/MinGW)
+where make >nul 2>&1
+if %ERRORLEVEL% EQU 0 goto :run_make_auto
+echo Make not found in PATH, checking for pre-built files instead...
+cd ..
+goto :verify_prebuilt_glew
+
+:run_make_auto
+echo Found make, running auto-generation...
+make
+if %ERRORLEVEL% EQU 0 echo GLEW auto-generation completed successfully
+if %ERRORLEVEL% NEQ 0 echo Warning: GLEW auto-generation failed, will use pre-built files
+cd ..
+goto :verify_generated_glew
+
+:verify_generated_glew
+echo Verifying GLEW files after auto-generation...
+if exist src\glew.c echo GLEW source file found: src\glew.c
+if exist include\GL\glew.h echo GLEW header file found: include\GL\glew.h  
+if exist include\GL\wglew.h echo GLEW Windows header found: include\GL\wglew.h
+goto :check_glew_completeness
+
+:verify_prebuilt_glew
+echo Verifying pre-built GLEW source files...
 if exist src\glew.c echo GLEW source file found: src\glew.c
 if not exist src\glew.c echo Missing GLEW source file: src\glew.c && echo Error: GLEW repository incomplete && goto :error
 
@@ -105,6 +139,7 @@ if not exist include\GL\glew.h echo Missing GLEW header file: include\GL\glew.h 
 if exist include\GL\wglew.h echo GLEW Windows header found: include\GL\wglew.h
 if not exist include\GL\wglew.h echo Missing GLEW Windows header: include\GL\wglew.h && echo Error: GLEW repository incomplete && goto :error
 
+:check_glew_completeness
 echo All GLEW source files verified successfully
     
 REM Build GLEW library using Visual Studio
