@@ -109,6 +109,15 @@ if(MSVC)
     set(USE_MSVC_RUNTIME_LIBRARY_DLL OFF CACHE BOOL "Use MSVC runtime library DLL")
 endif()
 
+# Configure GLEW options
+set(BUILD_UTILS OFF CACHE BOOL "Build GLEW utilities (glewinfo, visualinfo)")
+set(GLEW_X11 OFF CACHE BOOL "Use X11 for GLEW")
+if(WIN32)
+    # On Windows, disable X11 and utilities to avoid path issues
+    set(GLEW_X11 OFF CACHE BOOL "Use X11 for GLEW" FORCE)
+    set(BUILD_UTILS OFF CACHE BOOL "Build GLEW utilities" FORCE)
+endif()
+
 add_subdirectory(third_party/glew/build/cmake)
 add_subdirectory(third_party/glfw)
 add_subdirectory(third_party/glm)
@@ -123,11 +132,17 @@ set(GRPC_WEB_GENERATOR_SOURCE
     "${CMAKE_SOURCE_DIR}/third_party/grpc-web/javascript/net/grpc/web/generator/grpc_generator.cc"
 )
 
-# Create the protoc-gen-grpc-web executable
-add_executable(protoc-gen-grpc-web ${GRPC_WEB_GENERATOR_SOURCE})
+# Create the protoc-gen-grpc-web executable only if source exists
+if(EXISTS "${GRPC_WEB_GENERATOR_SOURCE}")
+    add_executable(protoc-gen-grpc-web ${GRPC_WEB_GENERATOR_SOURCE})
+    set(GRPC_WEB_TARGET_EXISTS TRUE)
+else()
+    message(STATUS "grpc-web generator source not found, skipping protoc-gen-grpc-web target")
+    set(GRPC_WEB_TARGET_EXISTS FALSE)
+endif()
 
 # Platform-specific configuration for grpc-web plugin
-if(WIN32)
+if(GRPC_WEB_TARGET_EXISTS AND WIN32)
     # Windows: Use the same library directories as the main project
     set(GRPC_LIB_DIR "${CMAKE_SOURCE_DIR}/third_party/grpc/windows/$<IF:$<CONFIG:Debug>,debug_64,release_64>")
     set(PROTOBUF_LIB_DIR "${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/$<IF:$<CONFIG:Debug>,debug_64,release_64>")
@@ -241,7 +256,7 @@ if(WIN32)
         /ignore:4099  # Ignore missing pdb warnings
     )
 
-else()
+elseif(GRPC_WEB_TARGET_EXISTS)
     # Linux configuration
     target_compile_options(protoc-gen-grpc-web PRIVATE
         -std=c++17
@@ -302,8 +317,13 @@ set(GRPC_WEB_PATCH_FILE "${CMAKE_SOURCE_DIR}/cmake/grpc-web-protobuf-fix.patch")
 set(GRPC_WEB_SOURCE_FILE "${CMAKE_SOURCE_DIR}/third_party/grpc-web/javascript/net/grpc/web/generator/grpc_generator.cc")
 
 # Check if patch needs to be applied (look for old API usage)
-file(READ "${GRPC_WEB_SOURCE_FILE}" GRPC_WEB_SOURCE_CONTENT)
-string(FIND "${GRPC_WEB_SOURCE_CONTENT}" "real_oneof_decl" NEEDS_PATCH)
+if(EXISTS "${GRPC_WEB_SOURCE_FILE}")
+    file(READ "${GRPC_WEB_SOURCE_FILE}" GRPC_WEB_SOURCE_CONTENT)
+    string(FIND "${GRPC_WEB_SOURCE_CONTENT}" "real_oneof_decl" NEEDS_PATCH)
+else()
+    message(STATUS "grpc_generator.cc not found, skipping protobuf API compatibility patch")
+    set(NEEDS_PATCH -1)
+endif()
 
 if(NOT NEEDS_PATCH EQUAL -1)
     message(STATUS "Applying protobuf API compatibility patch to grpc-web")
@@ -333,13 +353,15 @@ else()
 endif()
 
 # Set output directory to html folder (for HTML demo tools)
-set_target_properties(protoc-gen-grpc-web PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/html"
-    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/html"
-    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/html"
-    RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_SOURCE_DIR}/html"
-    RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_SOURCE_DIR}/html"
-)
+if(GRPC_WEB_TARGET_EXISTS)
+    set_target_properties(protoc-gen-grpc-web PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/html"
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/html"
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/html"
+        RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_SOURCE_DIR}/html"
+        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_SOURCE_DIR}/html"
+    )
+endif()
 
 set(BUILD_GRPC_WEB_PLUGIN ON)
 

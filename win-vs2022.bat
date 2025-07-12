@@ -4,6 +4,21 @@ echo.
 
 pushd .
 
+echo Generating GLEW extensions and source files...
+cd third_party\glew
+if exist auto\Makefile (
+    echo Running GLEW auto-generation...
+    make -C auto
+    if %ERRORLEVEL% NEQ 0 (
+        echo Warning: GLEW auto-generation failed, using existing files
+    ) else (
+        echo GLEW files generated successfully
+    )
+) else (
+    echo GLEW auto directory not found, using existing files
+)
+cd ..\..
+
 if not exist build mkdir build
 if not exist build\win-vs2022 mkdir build\win-vs2022
 
