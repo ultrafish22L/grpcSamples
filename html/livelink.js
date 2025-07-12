@@ -111,6 +111,7 @@ class LiveLinkClient extends SimpleEventEmitter {
         
         // Only log to console for errors and warnings (performance optimization)
         if (level === 'error' || level === 'warn') {
+            // Note: Using console.log here is intentional for debug output
             console.log(`%c[${timestamp}] ${level.toUpperCase()}: ${message}`, colors[level] || colors.info, details);
         }
         
@@ -633,7 +634,7 @@ class LiveLinkClient extends SimpleEventEmitter {
                 //     resultKeys: Object.keys(result || {})
                 // }, 'success');
                 // Console logging removed for performance (high-frequency camera sync operations)
-                // console.log(`✅ gRPC call successful: ${method} (${responseTime}ms)`);
+                // Debug logging disabled for performance
                 
                 // Log specific Octane data (without large data blocks)
                 if (result && result.success && result.data) {
@@ -747,7 +748,7 @@ class LiveLinkClient extends SimpleEventEmitter {
                         fov: data.fov?.toFixed(2) || 'N/A'
                     };
                     // Console logging removed for performance optimization
-                    // console.log(`🎥 Octane Camera Data:`, cameraInfo);
+                    // Camera data logging disabled for performance
                     
                     // Also log to Activity Log
                     this.log(`🎥 Camera Data Retrieved:`, cameraInfo, 'success');
@@ -760,7 +761,8 @@ class LiveLinkClient extends SimpleEventEmitter {
                 
             case 'GetMeshes':
                 if (Array.isArray(data)) {
-                    console.log(`🔺 Octane Meshes Data: ${data.length} meshes found`);
+                    // Log mesh count to activity log instead of console
+                    this.log(`🔺 Octane Meshes Data: ${data.length} meshes found`, {}, 'success');
                     
                     // Log to Activity Log
                     this.log(`🔺 Meshes Retrieved: ${data.length} meshes found`, {}, 'success');
@@ -771,7 +773,7 @@ class LiveLinkClient extends SimpleEventEmitter {
                         data.slice(0, 10).forEach((mesh, index) => { // Show first 10 meshes
                             // For mesh list, we only have basic info (name, id) - no geometry data yet
                             const meshInfo = `${index + 1}. ${mesh.name || mesh.id || 'Unnamed'} (ID: ${mesh.id || 'unknown'})`;
-                            console.log(`   ${meshInfo}`);
+                            // Mesh details logged to activity log instead of console
                             this.log(`${meshInfo}`, {}, 'info');
                         });
                         
@@ -795,7 +797,8 @@ class LiveLinkClient extends SimpleEventEmitter {
                         hasNormals: data.normals && data.normals.length > 0,
                         hasIndices: data.polyVertIndices && data.polyVertIndices.length > 0
                     };
-                    console.log(`🔺 Octane Mesh Data:`, meshInfo);
+                    // Mesh data logged to activity log instead of console
+                    this.log(`🔺 Octane Mesh Data:`, meshInfo, 'success');
                     
                     // Log to Activity Log
                     this.log(`🔺 Mesh Data Retrieved: ${meshInfo.name}`, {}, 'success');
@@ -810,13 +813,14 @@ class LiveLinkClient extends SimpleEventEmitter {
                 
             case 'SetCamera':
                 // Console logging removed for performance (high-frequency camera sync operations)
-                // console.log(`🎥 Octane SetCamera: Success`);
+                // SetCamera success logging disabled for performance
                 this.log(`🎥 Camera position updated successfully`, {}, 'success');
                 break;
                 
             default:
                 const responseInfo = typeof data === 'object' ? Object.keys(data) : data;
-                console.log(`📦 Octane ${method} Response:`, responseInfo);
+                // Generic response logging moved to activity log
+                this.log(`📦 Octane ${method} Response:`, responseInfo, 'info');
                 this.log(`📦 ${method} Response: ${JSON.stringify(responseInfo)}`, {}, 'info');
         }
     }

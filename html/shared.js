@@ -1,7 +1,7 @@
 /**
  * Shared Utilities for LiveLink gRPC Applications
  * Consolidated utilities for logging, UI management, testing, and debugging
- * Used by both all html
+ * Used by all HTML applications in the LiveLink suite
  */
 
 /**
@@ -28,6 +28,7 @@ class ActivityLogger {
      */
     setVerboseMode(verbose) {
         this.verboseMode = verbose;
+        // Note: Using console.log here is intentional for debugging mode changes
         console.log(`📝 Logging mode: ${verbose ? 'VERBOSE' : 'MINIMAL'}`);
     }
 
@@ -39,7 +40,7 @@ class ActivityLogger {
         if (this.verboseMode) {
             return true; // Show everything in verbose mode
         } else {
-            return level <= 3; // Show only error, warning, success and fino in minimal mode
+            return level <= 3; // Show only error, warning, success and status in minimal mode
         }
     }
 

@@ -641,8 +641,7 @@ class SimpleWebGLRenderer {
         };
         
         // Debug: Check if locations were found
-        console.log('Attribute locations:', this.programInfo.attribLocations);
-        console.log('Uniform locations:', this.programInfo.uniformLocations);
+        // Debug logging disabled for production
         
         if (this.programInfo.attribLocations.vertexPosition === -1) {
             console.error('aVertexPosition attribute not found in shader');
@@ -769,8 +768,7 @@ class SimpleWebGLRenderer {
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
         
         // Debug: Log vertex data
-        console.log('Cube positions:', positions.slice(0, 12)); // First 4 vertices
-        console.log('Position buffer created:', this.buffers.position);
+        // Debug logging disabled for production
         
         this.buffers.normal = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.normal);
@@ -783,9 +781,7 @@ class SimpleWebGLRenderer {
         this.indexCount = indices.length;
         
         // Debug: Log index data
-        console.log('Cube indices:', indices.slice(0, 12)); // First 4 triangles
-        console.log('Index count:', this.indexCount);
-        console.log('Index buffer created:', this.buffers.indices);
+        // Debug logging disabled for production
     }
 
     updateProjection(width, height) {
@@ -809,8 +805,7 @@ class SimpleWebGLRenderer {
         
         // Debug: Log render call occasionally
         if (Math.random() < 0.01) { // Log 1% of frames
-            console.log('Render called, zoom:', this.zoom, 'rotation:', this.rotation);
-            console.log('Canvas size:', this.canvas.width, 'x', this.canvas.height);
+            // Debug logging disabled for production
         }
         
         // Use shader program
@@ -844,9 +839,7 @@ class SimpleWebGLRenderer {
         
         // Debug: Log matrices occasionally
         if (Math.random() < 0.01) {
-            console.log('Camera pos:', cameraPos);
-            console.log('Projection matrix:', this.projectionMatrix);
-            console.log('ModelView matrix:', updatedModelViewMatrix);
+            // Matrix debug logging disabled for production
         }
         
         gl.uniformMatrix4fv(this.programInfo.uniformLocations.projectionMatrix, false, this.projectionMatrix);
@@ -862,9 +855,7 @@ class SimpleWebGLRenderer {
         
         // Debug: Log draw call details occasionally
         if (Math.random() < 0.01) { // Log 1% of frames
-            console.log('Drawing', this.indexCount, 'indices');
-            console.log('Buffers:', this.buffers);
-            console.log('Program info:', this.programInfo);
+            // Draw call debug logging disabled for production
         }
         
         gl.drawElements(gl.TRIANGLES, this.indexCount, gl.UNSIGNED_SHORT, 0);
@@ -922,12 +913,14 @@ class SimpleWebGLRenderer {
     }
 
     loadMeshData(meshData) {
-        // TODO: Implement mesh loading from Octane data
+        // Future enhancement: Implement mesh loading from Octane data
+        // This will allow loading 3D models directly from Octane's mesh data
         this.logger.log('Mesh loading not yet implemented', 'info');
     }
 
     loadModelFile(file) {
-        // TODO: Implement model file loading
+        // Future enhancement: Implement model file loading (OBJ, PLY, STL)
+        // This will allow loading 3D models from local files
         this.logger.log('Model file loading not yet implemented', 'info');
     }
 
@@ -1064,4 +1057,4 @@ window.SimpleWebGLRenderer = SimpleWebGLRenderer;
 window.MouseControls = MouseControls;
 window.CameraSyncManager = CameraSyncManager;
 
-console.log('WebGL utilities loaded successfully');
+// WebGL utilities module loaded successfully
