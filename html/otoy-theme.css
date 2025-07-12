@@ -258,6 +258,17 @@ body {
     display: block;
 }
 
+/* Octane Render Gear Logo Styling */
+.octane-gear-logo {
+    color: var(--otoy-red); /* Use OTOY red for the gear */
+    transition: all 0.3s ease;
+}
+
+.octane-gear-logo:hover {
+    color: var(--otoy-red-light);
+    transform: rotate(15deg); /* Subtle gear rotation on hover */
+}
+
 .otoy-branding h1 {
     font-size: 20px;
     font-weight: 600;
