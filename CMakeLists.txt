@@ -116,6 +116,28 @@ if(WIN32)
     # On Windows, disable X11 and utilities to avoid path issues
     set(GLEW_X11 OFF CACHE BOOL "Use X11 for GLEW" FORCE)
     set(BUILD_UTILS OFF CACHE BOOL "Build GLEW utilities" FORCE)
+    
+    # Check if GLEW files exist before trying to build
+    set(GLEW_HEADER_CHECK "${CMAKE_CURRENT_SOURCE_DIR}/third_party/glew/include/GL/glew.h")
+    set(GLEW_SOURCE_CHECK "${CMAKE_CURRENT_SOURCE_DIR}/third_party/glew/src/glew.c")
+    
+    if(NOT EXISTS ${GLEW_HEADER_CHECK})
+        message(FATAL_ERROR "GLEW header file not found: ${GLEW_HEADER_CHECK}\n"
+                           "Please run GLEW auto-generation first:\n"
+                           "  cd third_party/glew\n"
+                           "  make -C auto\n"
+                           "Or ensure the GLEW submodule is properly initialized.")
+    endif()
+    
+    if(NOT EXISTS ${GLEW_SOURCE_CHECK})
+        message(FATAL_ERROR "GLEW source file not found: ${GLEW_SOURCE_CHECK}\n"
+                           "Please run GLEW auto-generation first:\n"
+                           "  cd third_party/glew\n"
+                           "  make -C auto\n"
+                           "Or ensure the GLEW submodule is properly initialized.")
+    endif()
+    
+    message(STATUS "GLEW files verified: headers and sources found")
 endif()
 
 add_subdirectory(third_party/glew/build/cmake)
