@@ -251,9 +251,7 @@ async def handle_static_files(request):
     
     # Security: only allow specific files
     allowed_files = {
-        'index.html', 'grpc_test.html', 'web3d_octane_sync.html', 
-        'grpc_test_otoy.html', 'web3d_octane_sync_otoy.html',
-        'livelink.js', 'shared.js', 'webgl-utils.js', 'otoy-theme.css'
+        'index.html', 'livelink.js', 'shared.js', 'webgl-utils.js', 'otoy-theme.css'
     }
     
     if path not in allowed_files:

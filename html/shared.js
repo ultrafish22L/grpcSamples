@@ -1,7 +1,7 @@
 /**
  * Shared Utilities for LiveLink gRPC Applications
  * Consolidated utilities for logging, UI management, testing, and debugging
- * Used by both grpc_test.html and web3d_octane_sync.html
+ * Used by both all html
  */
 
 /**
@@ -519,22 +519,25 @@ class GrpcTestOperations {
         }
     }
 
-    async testSetCamera(client, cameraData) {
+    async setCamera(client, cameraData, suppressLogs) {
         if (!client) {
             this.logger.log('No client available for camera set', 'error');
             return false;
         }
 
         try {
-            this.logger.log('📤 Setting camera to Octane...', 'info');
+            if (!suppressLogs) {
+//                this.logger.log('📤 Setting camera to Octane...', 'info');
+            }
             const result = await client.setCamera(cameraData);
             
-            if (result) {
-                this.logger.log('Camera set successfully', 'success');
-            } else {
-                this.logger.log('Camera set failed', 'error');
-            }
-            
+            if (!suppressLogs) {
+                if (result) {
+//                    this.logger.log('Camera set successfully', 'success');
+                } else {
+//                    this.logger.log('Camera set failed', 'error');
+                }
+            }            
             this.statsManager.updateStats(client);
             return result;
         } catch (error) {

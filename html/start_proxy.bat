@@ -8,10 +8,10 @@ echo ========================================
 echo.
 
 REM Check if we're in the correct directory
-if not exist "grpc_test.html" (
+if not exist "index.html" (
     echo ERROR: This script must be run from the html/ directory
     echo Current directory: %CD%
-    echo Expected files: grpc_test.html, web3d_octane_sync.html
+    echo Expected files: index.html
     echo.
     pause
     exit /b 1
@@ -48,9 +48,8 @@ echo Server will run on: http://127.0.0.1:51023
 echo Octane connection: 127.0.0.1:51022
 echo.
 echo 🎮 Usage:
-echo   1. Open grpc_test.html in your browser (any HTTP server or file://)
-echo   2. Open web3d_octane_sync.html in your browser
-echo   3. Both applications will connect through this proxy to Octane
+echo   1. Open index.html in your browser (any HTTP server or file://)
+echo   2. Applications will connect through this proxy to Octane
 echo.
 echo Press Ctrl+C to stop the server
 echo.

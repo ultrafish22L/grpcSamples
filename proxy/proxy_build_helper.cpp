@@ -50,8 +50,7 @@ int main() {
     
     std::cout << "🎮 HTML Demos:" << std::endl;
     std::cout << "   Start HTTP server: cd html && python -m http.server 8000" << std::endl;
-    std::cout << "   Debug Tool: http://localhost:8000/grpc_test.html" << std::endl;
-    std::cout << "   3D Demo: http://localhost:8000/web3d_octane_sync.html" << std::endl;
+    std::cout << "   3D Demo: http://localhost:8000/index.html" << std::endl;
     
     return 0;
 }

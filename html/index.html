@@ -2,7 +2,6 @@
 <!-- 
     WebGL-Octane LiveLink Sync
     3D WebGL viewer with real-time Octane synchronization
-    Based on grpc_test.html connection logic with 3D visualization
 -->
 <html lang="en">
 <head>
@@ -42,7 +41,7 @@
         <div class="controls-content">
             <div class="livelink-controls">
                 <button id="getCameraBtn" onclick="testGetCamera()" class="icon-btn" title="Get Camera">📷</button>
-                <button id="setCameraBtn" onclick="testSetCamera()" class="icon-btn" title="Set Camera">📸</button>
+                <button id="setCameraBtn" onclick="setCamera()" class="icon-btn" title="Set Camera">📸</button>
                 <button id="resetCameraBtn" onclick="resetCamera()" class="icon-btn" title="Reset Camera">🔄</button>
                 <button id="getMeshesBtn" onclick="testGetMeshes()" class="icon-btn" title="Get Meshes">🎬</button>
                 <button id="loadModelBtn" onclick="loadModel()" class="icon-btn" title="Load Model">📂</button>
@@ -754,7 +753,7 @@
             /**
              * Set camera state in Octane
              */
-            async setCameraToOctane() {
+            async setCameraToOctane(suppressLog = false) {
                 if (!this.connected || !this.liveLink) {
                     // Don't log warning every time - only log once when sync starts
                     return;
@@ -765,7 +764,7 @@
                     const cameraState = CameraSyncUtils.webglToOctane(this.camera);
                     
                     // Sync camera without console logging (performance optimization)
-                    await this.grpcOperations.testSetCamera(this.liveLink, cameraState, true); // Pass true to suppress UI logging
+                    await this.grpcOperations.setCamera(this.liveLink, cameraState, suppressLog); // Pass true to suppress UI logging
                     
                 } catch (error) {
                     this.performanceTracker.recordError();
@@ -788,7 +787,7 @@
                     
                     this.logger.log(`Testing random camera position: (${cameraState.position.x.toFixed(2)}, ${cameraState.position.y.toFixed(2)}, ${cameraState.position.z.toFixed(2)})`, 'status');
                     
-                    await this.grpcOperations.testSetCamera(this.liveLink, cameraState);
+                    await this.grpcOperations.setCamera(this.liveLink, cameraState);
                     
                 } catch (error) {
                     this.performanceTracker.recordError();
@@ -844,7 +843,7 @@
                     // Start sync interval (30 FPS) - will only sync when connected
                     this.syncInterval = setInterval(() => {
                         if (this.connected && this.cameraSync) {
-                            this.setCameraToOctane();
+                            this.setCameraToOctane(true);
                         }
                     }, 1000 / 30);
                 } else {
@@ -1425,7 +1424,7 @@
             }
         };
         window.testGetCamera = () => viewer?.getCameraFromOctane();
-        window.testSetCamera = () => viewer?.testRandomCamera();
+        window.setCamera = () => viewer?.testRandomCamera();
         window.testGetMeshes = () => viewer?.getMeshList();
         window.toggleCameraSync = () => viewer?.toggleCameraSync();
         window.toggleAutoRotate = () => viewer?.toggleAutoRotate();

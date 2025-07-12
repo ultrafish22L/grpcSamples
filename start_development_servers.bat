@@ -12,8 +12,7 @@ echo   1. Mock Octane gRPC Server (replaces Octane Render)
 echo   2. Proxy Server (translates HTTP to gRPC)
 echo.
 echo After both servers start, you can open:
-echo   - grpc_test.html (gRPC testing interface)
-echo   - web3d_octane_sync.html (WebGL viewer with Octane sync)
+echo   - index.html (WebGL viewer with Octane sync)
 echo.
 
 REM Check if we're in the project root
@@ -44,9 +43,7 @@ echo   🔄 Proxy Server: 127.0.0.1:51023
 echo.
 echo 🎮 Next steps:
 echo   1. Wait for both servers to fully start
-echo   2. Open html/grpc_test.html in your browser
-echo   3. Test connectivity and explore mock data
-echo   4. Open html/web3d_octane_sync.html for 3D viewer
+echo   2. Open html/index.html in your browser
 echo.
 echo Press any key to exit this launcher...
 pause >nul

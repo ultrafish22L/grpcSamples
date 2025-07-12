@@ -63,7 +63,7 @@ echo
 echo "🔧 USAGE:"
 echo "  1. Start this mock server (replaces Octane Render)"
 echo "  2. Start the proxy server: ../html/start_proxy.sh"
-echo "  3. Open HTML applications: grpc_test.html, web3d_octane_sync.html"
+echo "  3. Open HTML applications: index.html
 echo
 echo "Press Ctrl+C to stop the server"
 echo

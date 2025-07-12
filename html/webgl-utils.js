@@ -528,7 +528,7 @@ class CameraController {
 
 /**
  * Simple WebGL Renderer for 3D visualization
- * Simplified version that works with the grpc_test.html connection pattern
+ * Simplified version that works with the index.html connection pattern
  */
 class SimpleWebGLRenderer {
     constructor(gl, logger) {
