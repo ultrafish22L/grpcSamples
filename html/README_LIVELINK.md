@@ -35,16 +35,12 @@ This new implementation completely bypasses these issues by providing a custom H
 ### Core Implementation
 - **`livelink.js`** - Main client implementation with LiveLinkClient and LiveLinkManager classes
 
-### Demo Applications
-- **`livelink_demo.html`** - Full-featured demo with camera control and mesh management
-- **`simple_test.html`** - Simple connection test demo
-- **`debug_viewer.html`** - Debug and testing interface
-- **`grpc_test.html`** - gRPC functionality testing
-- **`livelink_test.html`** - Comprehensive testing interface
-
-### Supporting Files
-- **`web3d_octane_model_viewer.html`** - 3D model viewer with Octane integration
-- **`web3d_octane_sync.html`** - Real-time 3D synchronization demo
+### Main Application
+- **`index.html`** - Complete WebGL 3D viewer with Octane LiveLink integration
+  - Full-featured demo with camera control and real-time synchronization
+  - Interactive 3D rendering with mouse controls
+  - Professional OTOY-branded UI with activity logging
+  - Comprehensive testing interface for all gRPC functionality
 
 ## Usage
 
@@ -135,12 +131,13 @@ The client expects a gRPC-Web proxy server running on the specified URL (default
 
 ## Testing
 
-All HTML demo files can be tested by:
+The main application can be tested by:
 
-1. Starting a local web server in the `html` directory
-2. Opening the demo files in a web browser
-3. Testing connection functionality (will show "Not connected" without a running Octane server)
+1. Starting the development servers: `./start_development_servers.sh`
+2. Opening `http://localhost:51313/index.html` in a web browser
+3. Testing connection functionality (will show "All Systems Ready" without a running Octane server)
 4. Verifying that all UI elements work without JavaScript errors
+5. Testing 3D rendering and mouse controls
 
 ## Compatibility
 

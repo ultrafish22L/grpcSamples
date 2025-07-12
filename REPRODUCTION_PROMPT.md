@@ -27,7 +27,7 @@ This guide provides complete instructions for reproducing the Octane gRPC Sample
 ./start_development_servers.sh
 
 # Open web application
-http://localhost:51313/html/index.html
+http://localhost:51313/index.html
 ```
 
 ### Desktop Applications  

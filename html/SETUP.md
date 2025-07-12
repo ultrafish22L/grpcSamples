@@ -15,15 +15,15 @@ start_proxy.bat
 ./start_proxy.sh
 ```
 
-### 2. Open HTML Applications
-Once the proxy server is running, you can open the HTML applications:
+### 2. Open HTML Application
+Once the proxy server is running, you can open the main HTML application:
 
-- **gRPC Test Interface**: `grpc_test.html` - For testing gRPC connectivity and operations
-- **WebGL-Octane Sync**: `web3d_octane_sync.html` - 3D viewer with live Octane synchronization
+- **WebGL-Octane Sync**: `index.html` - Complete 3D viewer with live Octane synchronization and gRPC testing interface
 
-You can open these files:
-- **Via HTTP server**: `python3 -m http.server 8000` then visit `http://localhost:8000/grpc_test.html`
-- **Directly in browser**: Double-click the HTML files (file:// protocol)
+You can open the application:
+- **Via development servers**: `./start_development_servers.sh` then visit `http://localhost:51313/index.html`
+- **Via HTTP server**: `python3 -m http.server 8000` then visit `http://localhost:8000/index.html`
+- **Directly in browser**: Double-click the HTML file (file:// protocol)
 
 ## Architecture
 
@@ -37,12 +37,11 @@ Browser (HTML/JS) ←→ HTTP Proxy Server ←→ gRPC ←→ Octane Render
 
 ## Files Overview
 
-### Core Applications
-- `grpc_test.html` - gRPC testing and debugging interface
-- `web3d_octane_sync.html` - WebGL 3D viewer with Octane synchronization
+### Main Application
+- `index.html` - Complete WebGL 3D viewer with Octane synchronization and gRPC testing interface
 
-### Shared Libraries
-- `styles.css` - Shared stylesheet with modern design
+### Supporting Libraries
+- `otoy-theme.css` - Professional OTOY-branded stylesheet
 - `shared.js` - Consolidated utility classes and functions
 - `livelink.js` - Core gRPC-Web client implementation
 - `webgl-utils.js` - WebGL utilities for 3D rendering
@@ -73,19 +72,19 @@ Browser (HTML/JS) ←→ HTTP Proxy Server ←→ gRPC ←→ Octane Render
 ### Browser Issues
 1. Use a modern browser with WebGL support
 2. Check browser console for JavaScript errors
-3. Ensure the proxy server is running before opening HTML files
+3. Ensure the proxy server is running before opening the HTML application
 4. Try both HTTP server and file:// protocol access
 
 ### Connection Issues
 1. Verify Octane Render is running and LiveLink is enabled
 2. Check that Octane LiveLink is listening on port 51022
 3. Look at proxy server logs for connection errors
-4. Test with `grpc_test.html` first to verify basic connectivity
+4. Use the connection toggle in `index.html` to test basic connectivity
 
 ## Development
 
-The applications use a shared design system and utility library:
-- **Consistent styling** via `styles.css`
+The application uses a professional design system and utility library:
+- **Professional styling** via `otoy-theme.css`
 - **Shared functionality** via `shared.js`
 - **Modular architecture** with separate concerns
 - **Enhanced logging** with emoji indicators and timestamps
