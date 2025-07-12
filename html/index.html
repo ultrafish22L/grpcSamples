@@ -1321,7 +1321,7 @@
                 // Re-enable face culling for main objects
                 gl.enable(gl.CULL_FACE);
                 this.checkWebGLError('enable(CULL_FACE)');                
-                
+/*                
                 // Render main object
                 gl.depthMask(true);
                 this.checkWebGLError('depthMask(true)');
@@ -1376,6 +1376,7 @@
                 // Draw cube
                 gl.drawElements(gl.TRIANGLES, 36, gl.UNSIGNED_SHORT, 0);
                 this.checkWebGLError('drawElements(cube)');
+*/
                 
                 // Unbind
                 gl.bindVertexArray(null);

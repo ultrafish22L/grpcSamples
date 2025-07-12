@@ -13,8 +13,8 @@ import grpc
 import sys
 import os
 
-# Add the generated protobuf path
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'shared', 'generated'))
+# Add the current directory to path for protobuf imports
+sys.path.append(os.path.dirname(__file__))
 
 try:
     import livelink_pb2
@@ -22,7 +22,7 @@ try:
     print("✅ Successfully imported gRPC protobuf modules")
 except ImportError as e:
     print(f"❌ Failed to import gRPC modules: {e}")
-    print("Note: This proxy requires the generated protobuf files from the C++ build")
+    print("Note: This proxy requires the generated protobuf files (livelink_pb2.py, livelink_pb2_grpc.py)")
     sys.exit(1)
 
 class LiveLinkProxy:
@@ -245,12 +245,47 @@ async def handle_get_mesh(request):
         print(f"🌐 HTTP Response: GetMesh failed - {e}")
         return web.json_response({'success': False, 'error': str(e)}, status=500)
 
+async def handle_static_files(request):
+    """Serve static HTML files"""
+    path = request.match_info.get('path', 'index.html')
+    
+    # Security: only allow specific files
+    allowed_files = {
+        'index.html', 'grpc_test.html', 'web3d_octane_sync.html', 
+        'grpc_test_otoy.html', 'web3d_octane_sync_otoy.html',
+        'livelink.js', 'shared.js', 'webgl-utils.js', 'otoy-theme.css'
+    }
+    
+    if path not in allowed_files:
+        return web.Response(status=404, text="File not found")
+    
+    # Get the HTML directory path
+    html_dir = os.path.join(os.path.dirname(__file__), '..', 'html')
+    file_path = os.path.join(html_dir, path)
+    
+    if not os.path.exists(file_path):
+        return web.Response(status=404, text="File not found")
+    
+    # Determine content type
+    content_type = 'text/html'
+    if path.endswith('.js'):
+        content_type = 'application/javascript'
+    elif path.endswith('.css'):
+        content_type = 'text/css'
+    
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        return web.Response(text=content, content_type=content_type)
+    except Exception as e:
+        print(f"❌ Error serving {path}: {e}")
+        return web.Response(status=500, text="Internal server error")
+
 async def init_app():
     """Initialize the web application"""
     app = web.Application(middlewares=[cors_handler])
     
-    # Add routes
-    app.router.add_options('/{path:.*}', handle_options)
+    # Add specific routes first (more specific routes should come before general ones)
     app.router.add_get('/health', handle_health)
     
     # Support both URL patterns for compatibility
@@ -264,6 +299,13 @@ async def init_app():
     app.router.add_post('/livelinkapi.LiveLinkService/SetCamera', handle_set_camera)
     app.router.add_post('/livelinkapi.LiveLinkService/GetMeshes', handle_get_meshes)
     app.router.add_post('/livelinkapi.LiveLinkService/GetMesh', handle_get_mesh)
+    
+    # Static file serving
+    app.router.add_get('/', handle_static_files)  # Serve index.html by default
+    app.router.add_get('/{path}', handle_static_files)  # Serve specific files
+    
+    # CORS options handler (should be last to catch all)
+    app.router.add_options('/{path:.*}', handle_options)
     
     return app
 
