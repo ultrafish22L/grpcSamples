@@ -56,7 +56,7 @@ echo   ^(none^)   - Build Visual Studio 2022 solution (skips GLEW if already bui
 echo.
 echo This script will:
 echo 1. Check if GLEW is already built (skip if complete)
-echo 2. Generate GLEW extensions and source files (if needed)
+echo 2. Verify GLEW pre-built source files exist (no auto-generation needed)
 echo 3. Build GLEW library using MSBuild/Visual Studio (if needed)
 echo 4. Configure CMake for Visual Studio 2022
 echo 5. Generate Visual Studio solution files
@@ -94,52 +94,21 @@ echo   Use 'win-vs2022 clean' to force GLEW rebuild if needed
 goto :cmake_setup
 
 :build_glew_from_scratch
-echo Building GLEW from scratch...
+echo Building GLEW using pre-built source files...
 
-REM Clean up any existing auto-generation artifacts that might be corrupted
-echo Cleaning up existing GLEW auto-generation artifacts...
-if exist auto\OpenGL-Registry echo Removing OpenGL-Registry... && rmdir /s /q auto\OpenGL-Registry 2>nul
-if exist auto\OpenGL-Registry echo Warning: Trying alternative removal... && rd /s /q auto\OpenGL-Registry 2>nul
-if exist auto\EGL-Registry echo Removing EGL-Registry... && rmdir /s /q auto\EGL-Registry 2>nul  
-if exist auto\EGL-Registry echo Warning: Trying alternative removal... && rd /s /q auto\EGL-Registry 2>nul
-if exist auto\OpenGL-Registry-master echo Removing OpenGL-Registry-master... && rmdir /s /q auto\OpenGL-Registry-master 2>nul
-if exist auto\EGL-Registry-master echo Removing EGL-Registry-master... && rmdir /s /q auto\EGL-Registry-master 2>nul
-if exist auto\glfixes echo Removing glfixes... && rmdir /s /q auto\glfixes 2>nul
-REM Clean up any partial downloads or temporary files
-if exist auto\*.tmp del /q auto\*.tmp 2>nul
-if exist auto\*.zip del /q auto\*.zip 2>nul  
-if exist auto\*.tar del /q auto\*.tar 2>nul
-if exist auto\*.gz del /q auto\*.gz 2>nul
+REM GLEW repository includes pre-generated source files, no auto-generation needed
+echo ✓ Using pre-built GLEW source files (skipping auto-generation)
 
-REM Verify cleanup was successful and try PowerShell as last resort
-if exist auto\OpenGL-Registry echo WARNING: Standard cleanup failed, trying PowerShell... && powershell -Command "if (Test-Path 'auto\OpenGL-Registry') { Remove-Item 'auto\OpenGL-Registry' -Recurse -Force -ErrorAction SilentlyContinue }" 2>nul
-if exist auto\OpenGL-Registry echo ERROR: Failed to clean OpenGL-Registry directory && echo Please manually delete: %CD%\auto\OpenGL-Registry
-if not exist auto\OpenGL-Registry echo ✓ OpenGL-Registry cleanup successful
-if exist auto\EGL-Registry echo WARNING: Standard cleanup failed, trying PowerShell... && powershell -Command "if (Test-Path 'auto\EGL-Registry') { Remove-Item 'auto\EGL-Registry' -Recurse -Force -ErrorAction SilentlyContinue }" 2>nul
-if exist auto\EGL-Registry echo ERROR: Failed to clean EGL-Registry directory && echo Please manually delete: %CD%\auto\EGL-Registry  
-if not exist auto\EGL-Registry echo ✓ EGL-Registry cleanup successful
-
-if exist auto\Makefile goto :run_glew_generation
-echo ✗ GLEW Makefile not found at auto\Makefile
-echo Error: Cannot run GLEW auto-generation
-goto :error
-
-:run_glew_generation
-echo Running GLEW auto-generation...
-make -C auto
-if %ERRORLEVEL% NEQ 0 echo Warning: GLEW auto-generation failed, checking if files exist...
-if %ERRORLEVEL% EQU 0 echo GLEW auto-generation completed
-
-REM Verify that essential GLEW files were generated
+REM Verify that essential GLEW files exist in the repository
 if exist src\glew.c echo ✓ GLEW source file found: src\glew.c
-if not exist src\glew.c echo ✗ Missing GLEW source file: src\glew.c && echo Error: GLEW auto-generation incomplete && goto :error
+if not exist src\glew.c echo ✗ Missing GLEW source file: src\glew.c && echo Error: GLEW repository incomplete && goto :error
 
 if exist include\GL\glew.h echo ✓ GLEW header file found: include\GL\glew.h  
-if not exist include\GL\glew.h echo ✗ Missing GLEW header file: include\GL\glew.h && echo Error: GLEW auto-generation incomplete && goto :error
+if not exist include\GL\glew.h echo ✗ Missing GLEW header file: include\GL\glew.h && echo Error: GLEW repository incomplete && goto :error
 if exist include\GL\wglew.h echo ✓ GLEW Windows header found: include\GL\wglew.h
-if not exist include\GL\wglew.h echo ✗ Missing GLEW Windows header: include\GL\wglew.h && echo Error: GLEW auto-generation incomplete && goto :error
+if not exist include\GL\wglew.h echo ✗ Missing GLEW Windows header: include\GL\wglew.h && echo Error: GLEW repository incomplete && goto :error
 
-echo GLEW files verified successfully
+echo ✓ All GLEW source files verified successfully
     
 REM Build GLEW library using Visual Studio
 echo Building GLEW library with Visual Studio...
@@ -246,11 +215,11 @@ echo.
 echo Build failed due to missing GLEW files.
 echo.
 echo To fix this issue:
-echo 1. Ensure you have 'make' installed (try: winget install GnuWin32.Make)
-echo 2. Or manually run GLEW auto-generation:
-echo    cd third_party\glew
-echo    make -C auto
-echo 3. Or check that the GLEW submodule is properly initialized
+echo 1. Check that the GLEW submodule is properly initialized:
+echo    git submodule update --init --recursive
+echo 2. Verify GLEW source files exist in third_party/glew/src/
+echo 3. If using a custom GLEW version, ensure src/glew.c and include/GL/*.h exist
+echo 4. Try running 'win-vs2022 clean' to reset and rebuild
 echo.
 popd
 pause
