@@ -256,7 +256,7 @@
              */
             async init() {
                 try {
-                    this.logger.log('Initializing WebGL-Octane LiveLink Sync viewer...', 'status');
+                    this.logger.log('Initializing WebGL-Octane LiveLink Sync viewer', 'status');
                     
                     // Initialize WebGL
                     await this.initWebGL();
@@ -272,11 +272,11 @@
                     // Initialize performance monitoring
                     this.startPerformanceMonitoring();
                     
-                    this.logger.log('Viewer initialized successfully. Ready to connect to Octane.', 'success');
+                    this.logger.log('Ready to connect to Octane.', 'success');
 
                     // Initialize sync if enabled by default
                     if (this.cameraSync) {
-                        this.logger.log('Camera sync enabled (will start when connected)', 'status');
+                        this.logger.log('Camera sync enabled', 'status');
                         // Start sync interval - will only sync when connected
                         this.syncInterval = setInterval(() => {
                             if (this.connected && this.cameraSync) {

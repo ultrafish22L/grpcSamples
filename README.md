@@ -2,6 +2,8 @@
 
 Comprehensive code samples demonstrating Octane Render integration via gRPC. Features real-time camera synchronization, 3D visualization, and web-based LiveLink connectivity.
 
+![alt text](livelink.png)
+
 ## Overview
 
 **Web Application**: Professional WebGL 3D viewer with Octane LiveLink integration
