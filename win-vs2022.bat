@@ -1,47 +1,57 @@
 @echo off
 setlocal enabledelayedexpansion
 
-REM Check for arguments
-if "%1"=="clean" (
-    echo Cleaning GLEW auto-generation artifacts...
-    cd third_party\glew
-    if exist auto\OpenGL-Registry rmdir /s /q auto\OpenGL-Registry
-    if exist auto\EGL-Registry rmdir /s /q auto\EGL-Registry
-    if exist auto\OpenGL-Registry-master rmdir /s /q auto\OpenGL-Registry-master
-    if exist auto\EGL-Registry-master rmdir /s /q auto\EGL-Registry-master
-    for %%f in (auto\*.tmp auto\*.zip auto\*.tar auto\*.gz) do if exist "%%f" del /q "%%f"
-    echo GLEW cleanup completed.
-    cd ..\..
-    goto :end
-)
+REM Check for clean argument
+if /i "%~1"=="clean" goto :clean_only
 
-if "%1"=="help" (
-    echo.
-    echo GrpcSamples Windows Build Script
-    echo ================================
-    echo.
-    echo Usage: win-vs2022.bat [option]
-    echo.
-    echo Options:
-    echo   clean    - Clean GLEW auto-generation artifacts only
-    echo   help     - Show this help message
-    echo   ^(none^)   - Build Visual Studio 2022 solution
-    echo.
-    echo This script will:
-    echo 1. Clean any corrupted GLEW artifacts
-    echo 2. Generate GLEW extensions and source files
-    echo 3. Build GLEW library using MSBuild/Visual Studio
-    echo 4. Configure CMake for Visual Studio 2022
-    echo 5. Generate Visual Studio solution files
-    echo.
-    echo Requirements:
-    echo - Visual Studio 2022 with C++ development tools
-    echo - CMake 3.15 or later
-    echo - Git (for GLEW auto-generation)
-    echo - Make utility (winget install GnuWin32.Make)
-    echo.
-    goto :end
-)
+REM Check for help argument  
+if /i "%~1"=="help" goto :show_help
+if /i "%~1"=="/?" goto :show_help
+if /i "%~1"=="-h" goto :show_help
+
+REM If we get here, run the normal build
+goto :main_build
+
+:clean_only
+echo Cleaning GLEW auto-generation artifacts...
+cd third_party\glew
+if exist auto\OpenGL-Registry rmdir /s /q auto\OpenGL-Registry
+if exist auto\EGL-Registry rmdir /s /q auto\EGL-Registry
+if exist auto\OpenGL-Registry-master rmdir /s /q auto\OpenGL-Registry-master
+if exist auto\EGL-Registry-master rmdir /s /q auto\EGL-Registry-master
+for %%f in (auto\*.tmp auto\*.zip auto\*.tar auto\*.gz) do if exist "%%f" del /q "%%f"
+echo GLEW cleanup completed.
+cd ..\..
+goto :end
+
+:show_help
+echo.
+echo GrpcSamples Windows Build Script
+echo ================================
+echo.
+echo Usage: win-vs2022.bat [option]
+echo.
+echo Options:
+echo   clean    - Clean GLEW auto-generation artifacts only
+echo   help     - Show this help message
+echo   ^(none^)   - Build Visual Studio 2022 solution
+echo.
+echo This script will:
+echo 1. Clean any corrupted GLEW artifacts
+echo 2. Generate GLEW extensions and source files
+echo 3. Build GLEW library using MSBuild/Visual Studio
+echo 4. Configure CMake for Visual Studio 2022
+echo 5. Generate Visual Studio solution files
+echo.
+echo Requirements:
+echo - Visual Studio 2022 with C++ development tools
+echo - CMake 3.15 or later
+echo - Git (for GLEW auto-generation)
+echo - Make utility (winget install GnuWin32.Make)
+echo.
+goto :end
+
+:main_build
 
 echo Building GrpcSamples Visual Studio 2022 Solution...
 echo.
