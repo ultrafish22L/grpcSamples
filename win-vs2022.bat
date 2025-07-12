@@ -68,8 +68,13 @@ echo.
 echo Requirements:
 echo - Visual Studio 2022 with C++ development tools
 echo - CMake 3.15 or later
-echo - Git (for GLEW auto-generation)
-echo - Make utility (winget install GnuWin32.Make)
+echo.
+echo For GLEW auto-generation (recommended):
+echo - Git for Windows (includes Git Bash with Unix tools)
+echo - OR MSYS2 (https://www.msys2.org/)
+echo - OR Windows Subsystem for Linux (WSL)
+echo.
+echo Note: GLEW auto-generation requires Unix tools (bash, make, touch, etc.)
 echo.
 goto :end
 
@@ -107,20 +112,69 @@ echo Running GLEW auto-generation from auto directory...
 cd auto
 echo Running make in auto directory to generate GLEW files...
 
-REM Try to run make (requires Unix tools or MSYS2/MinGW)
+REM Check for Unix environment (MSYS2, MinGW, WSL, Git Bash)
+echo Checking for Unix-compatible environment...
+
+REM Try Git Bash first (most common on Windows)
+where bash >nul 2>&1
+if %ERRORLEVEL% EQU 0 goto :try_bash_make
+
+REM Try MSYS2/MinGW make
 where make >nul 2>&1
-if %ERRORLEVEL% EQU 0 goto :run_make_auto
-echo Make not found in PATH, checking for pre-built files instead...
+if %ERRORLEVEL% EQU 0 goto :try_direct_make
+
+REM Try WSL
+where wsl >nul 2>&1
+if %ERRORLEVEL% EQU 0 goto :try_wsl_make
+
+echo ERROR: No Unix environment found (tried Git Bash, MSYS2/MinGW, WSL)
+echo.
+echo GLEW auto-generation requires Unix tools (bash, make, touch, etc.)
+echo.
+echo To fix this, install one of:
+echo 1. Git for Windows (recommended) - includes Git Bash with Unix tools
+echo    Download: https://git-scm.com/download/win
+echo 2. MSYS2 - provides Unix environment on Windows  
+echo    Download: https://www.msys2.org/
+echo 3. Windows Subsystem for Linux (WSL)
+echo    Install: wsl --install
+echo.
+echo After installation, restart your command prompt and try again.
 cd ..
 goto :verify_prebuilt_glew
 
-:run_make_auto
-echo Found make, running auto-generation...
+:try_bash_make
+echo Found bash, trying auto-generation with Git Bash...
+bash -c "make"
+if %ERRORLEVEL% EQU 0 goto :auto_generation_success
+echo Git Bash make failed, trying other methods...
+goto :try_direct_make
+
+:try_direct_make
+echo Trying direct make command...
 make
-if %ERRORLEVEL% EQU 0 echo GLEW auto-generation completed successfully
-if %ERRORLEVEL% NEQ 0 echo Warning: GLEW auto-generation failed, will use pre-built files
+if %ERRORLEVEL% EQU 0 goto :auto_generation_success
+echo Direct make failed, trying WSL...
+goto :try_wsl_make
+
+:try_wsl_make
+echo Trying WSL make...
+wsl make
+if %ERRORLEVEL% EQU 0 goto :auto_generation_success
+echo All auto-generation methods failed
+goto :auto_generation_failed
+
+:auto_generation_success
+echo GLEW auto-generation completed successfully!
 cd ..
 goto :verify_generated_glew
+
+:auto_generation_failed
+echo Warning: GLEW auto-generation failed with all methods
+echo This is normal if Unix tools are not installed
+echo Falling back to pre-built source files...
+cd ..
+goto :verify_prebuilt_glew
 
 :verify_generated_glew
 echo Verifying GLEW files after auto-generation...
@@ -130,14 +184,14 @@ if exist include\GL\wglew.h echo GLEW Windows header found: include\GL\wglew.h
 goto :check_glew_completeness
 
 :verify_prebuilt_glew
-echo Verifying pre-built GLEW source files...
+echo Verifying GLEW source files...
 if exist src\glew.c echo GLEW source file found: src\glew.c
-if not exist src\glew.c echo Missing GLEW source file: src\glew.c && echo Error: GLEW repository incomplete && goto :error
+if not exist src\glew.c echo ERROR: Missing GLEW source file: src\glew.c && echo GLEW auto-generation is required but failed && goto :error
 
 if exist include\GL\glew.h echo GLEW header file found: include\GL\glew.h  
-if not exist include\GL\glew.h echo Missing GLEW header file: include\GL\glew.h && echo Error: GLEW repository incomplete && goto :error
+if not exist include\GL\glew.h echo ERROR: Missing GLEW header file: include\GL\glew.h && echo GLEW auto-generation is required but failed && goto :error
 if exist include\GL\wglew.h echo GLEW Windows header found: include\GL\wglew.h
-if not exist include\GL\wglew.h echo Missing GLEW Windows header: include\GL\wglew.h && echo Error: GLEW repository incomplete && goto :error
+if not exist include\GL\wglew.h echo ERROR: Missing GLEW Windows header: include\GL\wglew.h && echo GLEW auto-generation is required but failed && goto :error
 
 :check_glew_completeness
 echo All GLEW source files verified successfully
@@ -257,14 +311,23 @@ goto :end
 
 :error
 echo.
-echo Build failed due to missing GLEW files.
+echo Build failed due to missing GLEW files or auto-generation failure.
 echo.
 echo To fix this issue:
-echo 1. Check that the GLEW submodule is properly initialized:
-echo  git submodule update --init --recursive
-echo 2. Verify GLEW source files exist in third_party/glew/src/
-echo 3. If using a custom GLEW version, ensure src/glew.c and include/GL/*.h exist
-echo 4. Try running 'win-vs2022 clean' to reset and rebuild
+echo 1. Install Unix tools for GLEW auto-generation:
+echo    - Git for Windows (recommended): https://git-scm.com/download/win
+echo    - MSYS2: https://www.msys2.org/
+echo    - WSL: wsl --install
+echo.
+echo 2. Check that the GLEW submodule is properly initialized:
+echo    git submodule update --init --recursive
+echo.
+echo 3. Try running GLEW auto-generation manually:
+echo    cd third_party/glew/auto
+echo    bash -c "make"
+echo.
+echo 4. Verify GLEW source files exist in third_party/glew/src/ after generation
+echo 5. Try running 'win-vs2022 clean' to reset and rebuild
 echo.
 popd
 pause
