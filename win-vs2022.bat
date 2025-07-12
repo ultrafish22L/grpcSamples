@@ -1,4 +1,45 @@
 @echo off
+
+REM Check for arguments
+if "%1"=="clean" (
+    echo Cleaning GLEW auto-generation artifacts...
+    cd third_party\glew
+    if exist auto\OpenGL-Registry rmdir /s /q auto\OpenGL-Registry
+    if exist auto\EGL-Registry rmdir /s /q auto\EGL-Registry
+    if exist auto\OpenGL-Registry-master rmdir /s /q auto\OpenGL-Registry-master
+    if exist auto\EGL-Registry-master rmdir /s /q auto\EGL-Registry-master
+    for %%f in (auto\*.tmp auto\*.zip auto\*.tar auto\*.gz) do if exist "%%f" del /q "%%f"
+    echo GLEW cleanup completed.
+    cd ..\..
+    goto :end
+)
+
+if "%1"=="help" (
+    echo.
+    echo GrpcSamples Windows Build Script
+    echo ================================
+    echo.
+    echo Usage: win-vs2022.bat [option]
+    echo.
+    echo Options:
+    echo   clean    - Clean GLEW auto-generation artifacts only
+    echo   help     - Show this help message
+    echo   ^(none^)   - Build Visual Studio 2022 solution
+    echo.
+    echo This script will:
+    echo 1. Generate GLEW extensions and source files
+    echo 2. Configure CMake for Visual Studio 2022
+    echo 3. Generate Visual Studio solution files
+    echo.
+    echo Requirements:
+    echo - Visual Studio 2022 with C++ development tools
+    echo - CMake 3.15 or later
+    echo - Git (for GLEW auto-generation)
+    echo - Make utility (winget install GnuWin32.Make)
+    echo.
+    goto :end
+)
+
 echo Building GrpcSamples Visual Studio 2022 Solution...
 echo.
 
@@ -8,13 +49,63 @@ echo Generating GLEW extensions and source files...
 cd third_party\glew
 
 REM Clean up any existing auto-generation artifacts that might be corrupted
+echo Cleaning up existing GLEW auto-generation artifacts...
 if exist auto\OpenGL-Registry (
-    echo Cleaning existing OpenGL-Registry...
-    rmdir /s /q auto\OpenGL-Registry
+    echo Removing OpenGL-Registry...
+    rmdir /s /q auto\OpenGL-Registry 2>nul
+    if exist auto\OpenGL-Registry (
+        echo Warning: Could not remove OpenGL-Registry, trying alternative method...
+        rd /s /q auto\OpenGL-Registry 2>nul
+    )
 )
 if exist auto\EGL-Registry (
-    echo Cleaning existing EGL-Registry...
-    rmdir /s /q auto\EGL-Registry
+    echo Removing EGL-Registry...
+    rmdir /s /q auto\EGL-Registry 2>nul
+    if exist auto\EGL-Registry (
+        echo Warning: Could not remove EGL-Registry, trying alternative method...
+        rd /s /q auto\EGL-Registry 2>nul
+    )
+)
+if exist auto\OpenGL-Registry-master (
+    echo Removing OpenGL-Registry-master...
+    rmdir /s /q auto\OpenGL-Registry-master 2>nul
+)
+if exist auto\EGL-Registry-master (
+    echo Removing EGL-Registry-master...
+    rmdir /s /q auto\EGL-Registry-master 2>nul
+)
+REM Clean up any partial downloads or temporary files
+for %%f in (auto\*.tmp auto\*.zip auto\*.tar auto\*.gz) do (
+    if exist "%%f" (
+        echo Removing %%f...
+        del /q "%%f" 2>nul
+    )
+)
+
+REM Verify cleanup was successful and try PowerShell as last resort
+if exist auto\OpenGL-Registry (
+    echo WARNING: Standard cleanup failed, trying PowerShell force removal...
+    powershell -Command "if (Test-Path 'auto\OpenGL-Registry') { Remove-Item 'auto\OpenGL-Registry' -Recurse -Force -ErrorAction SilentlyContinue }" 2>nul
+    if exist auto\OpenGL-Registry (
+        echo ERROR: Failed to clean OpenGL-Registry directory
+        echo This will cause GLEW auto-generation to fail
+        echo Please manually delete: %CD%\auto\OpenGL-Registry
+        echo Or run as Administrator to allow forced cleanup
+    ) else (
+        echo ✓ PowerShell cleanup successful for OpenGL-Registry
+    )
+)
+if exist auto\EGL-Registry (
+    echo WARNING: Standard cleanup failed, trying PowerShell force removal...
+    powershell -Command "if (Test-Path 'auto\EGL-Registry') { Remove-Item 'auto\EGL-Registry' -Recurse -Force -ErrorAction SilentlyContinue }" 2>nul
+    if exist auto\EGL-Registry (
+        echo ERROR: Failed to clean EGL-Registry directory  
+        echo This will cause GLEW auto-generation to fail
+        echo Please manually delete: %CD%\auto\EGL-Registry
+        echo Or run as Administrator to allow forced cleanup
+    ) else (
+        echo ✓ PowerShell cleanup successful for EGL-Registry
+    )
 )
 
 if exist auto\Makefile (
