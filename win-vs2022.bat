@@ -35,7 +35,7 @@ if exist lib\Debug rmdir /s /q lib\Debug
 if exist bin\Release rmdir /s /q bin\Release
 if exist bin\Debug rmdir /s /q bin\Debug
 
-echo ✓ GLEW cleanup completed - next build will rebuild GLEW library
+echo GLEW cleanup completed - next build will rebuild GLEW library
 cd ..\..
 goto :end
 
@@ -47,9 +47,9 @@ echo.
 echo Usage: win-vs2022.bat [option]
 echo.
 echo Options:
-echo   clean    - Force GLEW library rebuild (removes built libs, keeps source files)
-echo   help     - Show this help message
-echo   ^(none^)   - Build Visual Studio 2022 solution (skips GLEW if already built)
+echo clean    - Force GLEW library rebuild (removes built libs, keeps source files)
+echo help     - Show this help message
+echo ^(none^)   - Build Visual Studio 2022 solution (skips GLEW if already built)
 echo.
 echo This script will:
 echo 1. Check if GLEW is already built (skip if complete)
@@ -85,37 +85,37 @@ if exist src\glew.c if exist include\GL\glew.h if exist include\GL\wglew.h if ex
 goto :build_glew_from_scratch
 
 :glew_already_built
-echo ✓ GLEW already built successfully - skipping GLEW build process
-echo   Found: src\glew.c, include\GL\glew.h, include\GL\wglew.h, lib\Release\x64\glew32.lib
-echo   Use 'win-vs2022 clean' to force GLEW rebuild if needed
+echo GLEW already built successfully - skipping GLEW build process
+echo Found: src\glew.c, include\GL\glew.h, include\GL\wglew.h, lib\Release\x64\glew32.lib
+echo Use 'win-vs2022 clean' to force GLEW rebuild if needed
 goto :cmake_setup
 
 :build_glew_from_scratch
 echo Building GLEW using pre-built source files...
 
 REM GLEW repository includes pre-generated source files, no auto-generation needed
-echo ✓ Using pre-built GLEW source files (skipping auto-generation)
+echo Using pre-built GLEW source files (skipping auto-generation)
 
 REM Verify that essential GLEW files exist in the repository
-if exist src\glew.c echo ✓ GLEW source file found: src\glew.c
-if not exist src\glew.c echo ✗ Missing GLEW source file: src\glew.c && echo Error: GLEW repository incomplete && goto :error
+if exist src\glew.c echo GLEW source file found: src\glew.c
+if not exist src\glew.c echo Missing GLEW source file: src\glew.c && echo Error: GLEW repository incomplete && goto :error
 
-if exist include\GL\glew.h echo ✓ GLEW header file found: include\GL\glew.h  
-if not exist include\GL\glew.h echo ✗ Missing GLEW header file: include\GL\glew.h && echo Error: GLEW repository incomplete && goto :error
-if exist include\GL\wglew.h echo ✓ GLEW Windows header found: include\GL\wglew.h
-if not exist include\GL\wglew.h echo ✗ Missing GLEW Windows header: include\GL\wglew.h && echo Error: GLEW repository incomplete && goto :error
+if exist include\GL\glew.h echo GLEW header file found: include\GL\glew.h  
+if not exist include\GL\glew.h echo Missing GLEW header file: include\GL\glew.h && echo Error: GLEW repository incomplete && goto :error
+if exist include\GL\wglew.h echo GLEW Windows header found: include\GL\wglew.h
+if not exist include\GL\wglew.h echo Missing GLEW Windows header: include\GL\wglew.h && echo Error: GLEW repository incomplete && goto :error
 
-echo ✓ All GLEW source files verified successfully
+echo All GLEW source files verified successfully
     
 REM Build GLEW library using Visual Studio
 echo Building GLEW library with Visual Studio...
-if exist build\vc12\glew.sln goto :build_glew_library
-echo Warning: GLEW Visual Studio solution not found at build\vc12\glew.sln
+if exist build\vc17\glew.sln goto :build_glew_library
+echo Warning: GLEW Visual Studio solution not found at build\vc17\glew.sln
 echo GLEW library may not be available for linking
 goto :continue_cmake
 
 :build_glew_library
-echo Found GLEW Visual Studio solution: build\vc12\glew.sln
+echo Found GLEW Visual Studio solution: build\vc17\glew.sln
 
 REM Try to find MSBuild in common locations
 if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" goto :use_vs2022_pro
@@ -127,27 +127,27 @@ goto :try_path_msbuild
 
 :use_vs2022_pro
 echo Using MSBuild: VS2022 Professional
-"%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
+"%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" build\vc17\glew.sln /p:Configuration=Release /p:Platform=x64 /m
 goto :check_build_result
 
 :use_vs2022_com
 echo Using MSBuild: VS2022 Community
-"%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
+"%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" build\vc17\glew.sln /p:Configuration=Release /p:Platform=x64 /m
 goto :check_build_result
 
 :use_vs2022_ent
 echo Using MSBuild: VS2022 Enterprise
-"%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
+"%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe" build\vc17\glew.sln /p:Configuration=Release /p:Platform=x64 /m
 goto :check_build_result
 
 :use_vs2019_pro
 echo Using MSBuild: VS2019 Professional
-"%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
+"%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe" build\vc17\glew.sln /p:Configuration=Release /p:Platform=x64 /m
 goto :check_build_result
 
 :use_vs2019_com
 echo Using MSBuild: VS2019 Community
-"%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
+"%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe" build\vc17\glew.sln /p:Configuration=Release /p:Platform=x64 /m
 goto :check_build_result
 
 :try_path_msbuild
@@ -155,17 +155,17 @@ echo Warning: MSBuild not found in standard locations, trying PATH...
 where msbuild >nul 2>&1
 if %ERRORLEVEL% NEQ 0 goto :msbuild_not_found
 echo Using MSBuild from PATH
-msbuild build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
+msbuild build\vc17\glew.sln /p:Configuration=Release /p:Platform=x64 /m
 goto :check_build_result
 
 :msbuild_not_found
 echo Warning: MSBuild not found, GLEW library may not be built
-echo You may need to build build\vc12\glew.sln manually
+echo You may need to build build\vc17\glew.sln manually
 goto :continue_cmake
 
 :check_build_result
-if %ERRORLEVEL% EQU 0 echo ✓ GLEW library built successfully
-if %ERRORLEVEL% NEQ 0 echo Warning: GLEW library build failed, but continuing... && echo You may need to build build\vc12\glew.sln manually in Visual Studio
+if %ERRORLEVEL% EQU 0 echo GLEW library built successfully
+if %ERRORLEVEL% NEQ 0 echo Warning: GLEW library build failed, but continuing... && echo You may need to build build\vc17\glew.sln manually in Visual Studio
 
 :continue_cmake
 goto :check_existing_glew
@@ -213,7 +213,7 @@ echo Build failed due to missing GLEW files.
 echo.
 echo To fix this issue:
 echo 1. Check that the GLEW submodule is properly initialized:
-echo    git submodule update --init --recursive
+echo  git submodule update --init --recursive
 echo 2. Verify GLEW source files exist in third_party/glew/src/
 echo 3. If using a custom GLEW version, ensure src/glew.c and include/GL/*.h exist
 echo 4. Try running 'win-vs2022 clean' to reset and rebuild
