@@ -63,30 +63,12 @@ cd third_party\glew
 
 REM Clean up any existing auto-generation artifacts that might be corrupted
 echo Cleaning up existing GLEW auto-generation artifacts...
-if exist auto\OpenGL-Registry (
-    echo Removing OpenGL-Registry...
-    rmdir /s /q auto\OpenGL-Registry 2>nul
-    if exist auto\OpenGL-Registry (
-        echo Warning: Could not remove OpenGL-Registry, trying alternative method...
-        rd /s /q auto\OpenGL-Registry 2>nul
-    )
-)
-if exist auto\EGL-Registry (
-    echo Removing EGL-Registry...
-    rmdir /s /q auto\EGL-Registry 2>nul
-    if exist auto\EGL-Registry (
-        echo Warning: Could not remove EGL-Registry, trying alternative method...
-        rd /s /q auto\EGL-Registry 2>nul
-    )
-)
-if exist auto\OpenGL-Registry-master (
-    echo Removing OpenGL-Registry-master...
-    rmdir /s /q auto\OpenGL-Registry-master 2>nul
-)
-if exist auto\EGL-Registry-master (
-    echo Removing EGL-Registry-master...
-    rmdir /s /q auto\EGL-Registry-master 2>nul
-)
+if exist auto\OpenGL-Registry echo Removing OpenGL-Registry... && rmdir /s /q auto\OpenGL-Registry 2>nul
+if exist auto\OpenGL-Registry echo Warning: Trying alternative removal... && rd /s /q auto\OpenGL-Registry 2>nul
+if exist auto\EGL-Registry echo Removing EGL-Registry... && rmdir /s /q auto\EGL-Registry 2>nul  
+if exist auto\EGL-Registry echo Warning: Trying alternative removal... && rd /s /q auto\EGL-Registry 2>nul
+if exist auto\OpenGL-Registry-master echo Removing OpenGL-Registry-master... && rmdir /s /q auto\OpenGL-Registry-master 2>nul
+if exist auto\EGL-Registry-master echo Removing EGL-Registry-master... && rmdir /s /q auto\EGL-Registry-master 2>nul
 REM Clean up any partial downloads or temporary files
 if exist auto\*.tmp del /q auto\*.tmp 2>nul
 if exist auto\*.zip del /q auto\*.zip 2>nul  
@@ -94,123 +76,106 @@ if exist auto\*.tar del /q auto\*.tar 2>nul
 if exist auto\*.gz del /q auto\*.gz 2>nul
 
 REM Verify cleanup was successful and try PowerShell as last resort
-if exist auto\OpenGL-Registry (
-    echo WARNING: Standard cleanup failed, trying PowerShell force removal...
-    powershell -Command "if (Test-Path 'auto\OpenGL-Registry') { Remove-Item 'auto\OpenGL-Registry' -Recurse -Force -ErrorAction SilentlyContinue }" 2>nul
-    if exist auto\OpenGL-Registry (
-        echo ERROR: Failed to clean OpenGL-Registry directory
-        echo This will cause GLEW auto-generation to fail
-        echo Please manually delete: %CD%\auto\OpenGL-Registry
-        echo Or run as Administrator to allow forced cleanup
-    ) else (
-        echo ✓ PowerShell cleanup successful for OpenGL-Registry
-    )
-)
-if exist auto\EGL-Registry (
-    echo WARNING: Standard cleanup failed, trying PowerShell force removal...
-    powershell -Command "if (Test-Path 'auto\EGL-Registry') { Remove-Item 'auto\EGL-Registry' -Recurse -Force -ErrorAction SilentlyContinue }" 2>nul
-    if exist auto\EGL-Registry (
-        echo ERROR: Failed to clean EGL-Registry directory  
-        echo This will cause GLEW auto-generation to fail
-        echo Please manually delete: %CD%\auto\EGL-Registry
-        echo Or run as Administrator to allow forced cleanup
-    ) else (
-        echo ✓ PowerShell cleanup successful for EGL-Registry
-    )
-)
+if exist auto\OpenGL-Registry echo WARNING: Standard cleanup failed, trying PowerShell... && powershell -Command "if (Test-Path 'auto\OpenGL-Registry') { Remove-Item 'auto\OpenGL-Registry' -Recurse -Force -ErrorAction SilentlyContinue }" 2>nul
+if exist auto\OpenGL-Registry echo ERROR: Failed to clean OpenGL-Registry directory && echo Please manually delete: %CD%\auto\OpenGL-Registry
+if not exist auto\OpenGL-Registry echo ✓ OpenGL-Registry cleanup successful
+if exist auto\EGL-Registry echo WARNING: Standard cleanup failed, trying PowerShell... && powershell -Command "if (Test-Path 'auto\EGL-Registry') { Remove-Item 'auto\EGL-Registry' -Recurse -Force -ErrorAction SilentlyContinue }" 2>nul
+if exist auto\EGL-Registry echo ERROR: Failed to clean EGL-Registry directory && echo Please manually delete: %CD%\auto\EGL-Registry  
+if not exist auto\EGL-Registry echo ✓ EGL-Registry cleanup successful
 
-if exist auto\Makefile (
-    echo Running GLEW auto-generation...
-    make -C auto
-    if %ERRORLEVEL% NEQ 0 (
-        echo Warning: GLEW auto-generation failed, checking if files exist...
-    ) else (
-        echo GLEW auto-generation completed
-    )
+if exist auto\Makefile goto :run_glew_generation
+echo ✗ GLEW Makefile not found at auto\Makefile
+echo Error: Cannot run GLEW auto-generation
+goto :error
+
+:run_glew_generation
+echo Running GLEW auto-generation...
+make -C auto
+if %ERRORLEVEL% NEQ 0 echo Warning: GLEW auto-generation failed, checking if files exist...
+if %ERRORLEVEL% EQU 0 echo GLEW auto-generation completed
+
+REM Verify that essential GLEW files were generated
+if exist src\glew.c echo ✓ GLEW source file found: src\glew.c
+if not exist src\glew.c echo ✗ Missing GLEW source file: src\glew.c && echo Error: GLEW auto-generation incomplete && goto :error
+
+if exist include\GL\glew.h echo ✓ GLEW header file found: include\GL\glew.h  
+if not exist include\GL\glew.h echo ✗ Missing GLEW header file: include\GL\glew.h && echo Error: GLEW auto-generation incomplete && goto :error
+if exist include\GL\wglew.h echo ✓ GLEW Windows header found: include\GL\wglew.h
+if not exist include\GL\wglew.h echo ✗ Missing GLEW Windows header: include\GL\wglew.h && echo Error: GLEW auto-generation incomplete && goto :error
+
+echo GLEW files verified successfully
     
-    REM Verify that essential GLEW files were generated
-    if exist src\glew.c (
-        echo ✓ GLEW source file found: src\glew.c
-    ) else (
-        echo ✗ Missing GLEW source file: src\glew.c
-        echo Error: GLEW auto-generation incomplete
-        goto :error
-    )
-    
-    if exist include\GL\glew.h (
-        echo ✓ GLEW header file found: include\GL\glew.h
-    ) else (
-        echo ✗ Missing GLEW header file: include\GL\glew.h
-        echo Error: GLEW auto-generation incomplete
-        goto :error
-    )
-    
-    if exist include\GL\wglew.h (
-        echo ✓ GLEW Windows header found: include\GL\wglew.h
-    ) else (
-        echo ✗ Missing GLEW Windows header: include\GL\wglew.h
-        echo Error: GLEW auto-generation incomplete
-        goto :error
-    )
-    
-    echo GLEW files verified successfully
-    
-    REM Build GLEW library using Visual Studio
-    echo Building GLEW library with Visual Studio...
-    if exist build\vc12\glew.sln (
-        echo Found GLEW Visual Studio solution: build\vc12\glew.sln
-        
-        REM Try to find MSBuild in common locations
-        if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" (
-            echo Using MSBuild: VS2022 Professional
-            "%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
-        ) else if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" (
-            echo Using MSBuild: VS2022 Community
-            "%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
-        ) else if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe" (
-            echo Using MSBuild: VS2022 Enterprise
-            "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
-        ) else if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe" (
-            echo Using MSBuild: VS2019 Professional
-            "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
-        ) else if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe" (
-            echo Using MSBuild: VS2019 Community
-            "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
-        ) else (
-            echo Warning: MSBuild not found in standard locations, trying PATH...
-            where msbuild >nul 2>&1
-            if %ERRORLEVEL% EQU 0 (
-                echo Using MSBuild from PATH
-                msbuild build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
-            ) else (
-                echo Warning: MSBuild not found, GLEW library may not be built
-                echo You may need to build build\vc12\glew.sln manually
-                goto :skip_glew_build
-            )
-        )
-        if %ERRORLEVEL% EQU 0 (
-            echo ✓ GLEW library built successfully
-        ) else (
-            echo Warning: GLEW library build failed, but continuing...
-            echo You may need to build build\vc12\glew.sln manually in Visual Studio
-        )
-        
-        :skip_glew_build
-    ) else (
-        echo Warning: GLEW Visual Studio solution not found at build\vc12\glew.sln
-        echo GLEW library may not be available for linking
-    )
-    
-) else (
-    echo GLEW auto directory not found, checking for existing files...
-    if exist src\glew.c (
-        echo Using existing GLEW files
-    ) else (
-        echo Error: No GLEW source files found and no auto-generation available
-        echo Please ensure the GLEW submodule is properly initialized
-        goto :error
-    )
-)
+REM Build GLEW library using Visual Studio
+echo Building GLEW library with Visual Studio...
+if exist build\vc12\glew.sln goto :build_glew_library
+echo Warning: GLEW Visual Studio solution not found at build\vc12\glew.sln
+echo GLEW library may not be available for linking
+goto :continue_cmake
+
+:build_glew_library
+echo Found GLEW Visual Studio solution: build\vc12\glew.sln
+
+REM Try to find MSBuild in common locations
+if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" goto :use_vs2022_pro
+if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" goto :use_vs2022_com
+if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe" goto :use_vs2022_ent
+if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe" goto :use_vs2019_pro
+if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe" goto :use_vs2019_com
+goto :try_path_msbuild
+
+:use_vs2022_pro
+echo Using MSBuild: VS2022 Professional
+"%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
+goto :check_build_result
+
+:use_vs2022_com
+echo Using MSBuild: VS2022 Community
+"%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
+goto :check_build_result
+
+:use_vs2022_ent
+echo Using MSBuild: VS2022 Enterprise
+"%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
+goto :check_build_result
+
+:use_vs2019_pro
+echo Using MSBuild: VS2019 Professional
+"%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
+goto :check_build_result
+
+:use_vs2019_com
+echo Using MSBuild: VS2019 Community
+"%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
+goto :check_build_result
+
+:try_path_msbuild
+echo Warning: MSBuild not found in standard locations, trying PATH...
+where msbuild >nul 2>&1
+if %ERRORLEVEL% NEQ 0 goto :msbuild_not_found
+echo Using MSBuild from PATH
+msbuild build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
+goto :check_build_result
+
+:msbuild_not_found
+echo Warning: MSBuild not found, GLEW library may not be built
+echo You may need to build build\vc12\glew.sln manually
+goto :continue_cmake
+
+:check_build_result
+if %ERRORLEVEL% EQU 0 echo ✓ GLEW library built successfully
+if %ERRORLEVEL% NEQ 0 echo Warning: GLEW library build failed, but continuing... && echo You may need to build build\vc12\glew.sln manually in Visual Studio
+
+:continue_cmake
+goto :check_existing_glew
+
+:check_existing_glew
+echo GLEW auto directory not found, checking for existing files...
+if exist src\glew.c echo Using existing GLEW files && goto :cmake_setup
+echo Error: No GLEW source files found and no auto-generation available
+echo Please ensure the GLEW submodule is properly initialized
+goto :error
+
+:cmake_setup
 cd ..\..
 
 if not exist build mkdir build
@@ -221,17 +186,20 @@ cd build\win-vs2022
 echo Generating Visual Studio 2022 solution...
 cmake -G "Visual Studio 17 2022" -A x64 ../../
 
-if %ERRORLEVEL% EQU 0 (
-    echo.
-    echo Success! Visual Studio solution generated at:
-    echo %CD%\GrpcSamples.sln
-    echo.
-    echo You can now open the solution in Visual Studio 2022 and build.
-) else (
-    echo.
-    echo Error: Failed to generate Visual Studio solution.
-    echo Please check that Visual Studio 2022 and CMake are properly installed.
-)
+if %ERRORLEVEL% EQU 0 goto :cmake_success
+echo.
+echo Error: Failed to generate Visual Studio solution.
+echo Please check that Visual Studio 2022 and CMake are properly installed.
+goto :cmake_done
+
+:cmake_success
+echo.
+echo Success! Visual Studio solution generated at:
+echo %CD%\GrpcSamples.sln
+echo.
+echo You can now open the solution in Visual Studio 2022 and build.
+
+:cmake_done
 
 popd
 pause
