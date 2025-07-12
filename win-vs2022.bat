@@ -13,14 +13,31 @@ REM If we get here, run the normal build
 goto :main_build
 
 :clean_only
-echo Cleaning GLEW auto-generation artifacts...
+echo Cleaning GLEW build artifacts and forcing rebuild...
 cd third_party\glew
+
+REM Remove auto-generation artifacts
+echo Removing auto-generation artifacts...
 if exist auto\OpenGL-Registry rmdir /s /q auto\OpenGL-Registry
 if exist auto\EGL-Registry rmdir /s /q auto\EGL-Registry
 if exist auto\OpenGL-Registry-master rmdir /s /q auto\OpenGL-Registry-master
 if exist auto\EGL-Registry-master rmdir /s /q auto\EGL-Registry-master
 for %%f in (auto\*.tmp auto\*.zip auto\*.tar auto\*.gz) do if exist "%%f" del /q "%%f"
-echo GLEW cleanup completed.
+
+REM Remove generated source files
+echo Removing generated source files...
+if exist src\glew.c del /q src\glew.c
+if exist include\GL\glew.h del /q include\GL\glew.h
+if exist include\GL\wglew.h del /q include\GL\wglew.h
+
+REM Remove built library files
+echo Removing built library files...
+if exist lib\Release rmdir /s /q lib\Release
+if exist lib\Debug rmdir /s /q lib\Debug
+if exist bin\Release rmdir /s /q bin\Release
+if exist bin\Debug rmdir /s /q bin\Debug
+
+echo ✓ GLEW cleanup completed - next build will regenerate all GLEW files
 cd ..\..
 goto :end
 
@@ -32,16 +49,20 @@ echo.
 echo Usage: win-vs2022.bat [option]
 echo.
 echo Options:
-echo   clean    - Clean GLEW auto-generation artifacts only
+echo   clean    - Force complete GLEW rebuild (removes all generated files)
 echo   help     - Show this help message
-echo   ^(none^)   - Build Visual Studio 2022 solution
+echo   ^(none^)   - Build Visual Studio 2022 solution (skips GLEW if already built)
 echo.
 echo This script will:
-echo 1. Clean any corrupted GLEW artifacts
-echo 2. Generate GLEW extensions and source files
-echo 3. Build GLEW library using MSBuild/Visual Studio
+echo 1. Check if GLEW is already built (skip if complete)
+echo 2. Generate GLEW extensions and source files (if needed)
+echo 3. Build GLEW library using MSBuild/Visual Studio (if needed)
 echo 4. Configure CMake for Visual Studio 2022
 echo 5. Generate Visual Studio solution files
+echo.
+echo GLEW Build Optimization:
+echo - Automatically skips GLEW build if files already exist
+echo - Use 'clean' option to force GLEW rebuild when needed
 echo.
 echo Requirements:
 echo - Visual Studio 2022 with C++ development tools
@@ -60,6 +81,19 @@ pushd .
 
 echo Generating GLEW extensions and source files...
 cd third_party\glew
+
+REM Check if GLEW is already built successfully
+if exist src\glew.c if exist include\GL\glew.h if exist include\GL\wglew.h if exist lib\Release\x64\glew32.lib goto :glew_already_built
+goto :build_glew_from_scratch
+
+:glew_already_built
+echo ✓ GLEW already built successfully - skipping GLEW build process
+echo   Found: src\glew.c, include\GL\glew.h, include\GL\wglew.h, lib\Release\x64\glew32.lib
+echo   Use 'win-vs2022 clean' to force GLEW rebuild if needed
+goto :cmake_setup
+
+:build_glew_from_scratch
+echo Building GLEW from scratch...
 
 REM Clean up any existing auto-generation artifacts that might be corrupted
 echo Cleaning up existing GLEW auto-generation artifacts...
