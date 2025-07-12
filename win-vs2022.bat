@@ -22,6 +22,7 @@ if exist auto\OpenGL-Registry rmdir /s /q auto\OpenGL-Registry
 if exist auto\EGL-Registry rmdir /s /q auto\EGL-Registry
 if exist auto\OpenGL-Registry-master rmdir /s /q auto\OpenGL-Registry-master
 if exist auto\EGL-Registry-master rmdir /s /q auto\EGL-Registry-master
+if exist auto\glfixes rmdir /s /q auto\glfixes
 for %%f in (auto\*.tmp auto\*.zip auto\*.tar auto\*.gz) do if exist "%%f" del /q "%%f"
 
 REM Remove generated source files
@@ -103,6 +104,7 @@ if exist auto\EGL-Registry echo Removing EGL-Registry... && rmdir /s /q auto\EGL
 if exist auto\EGL-Registry echo Warning: Trying alternative removal... && rd /s /q auto\EGL-Registry 2>nul
 if exist auto\OpenGL-Registry-master echo Removing OpenGL-Registry-master... && rmdir /s /q auto\OpenGL-Registry-master 2>nul
 if exist auto\EGL-Registry-master echo Removing EGL-Registry-master... && rmdir /s /q auto\EGL-Registry-master 2>nul
+if exist auto\glfixes echo Removing glfixes... && rmdir /s /q auto\glfixes 2>nul
 REM Clean up any partial downloads or temporary files
 if exist auto\*.tmp del /q auto\*.tmp 2>nul
 if exist auto\*.zip del /q auto\*.zip 2>nul  
