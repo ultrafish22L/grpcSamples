@@ -1,67 +1,36 @@
 @echo off
-setlocal
+setlocal enabledelayedexpansion
 
-REM Check for clean argument
-if /i "%~1"=="clean" goto :clean_only
+REM Windows Visual Studio 2022 Build Script for gRPC Samples
+REM Builds GLEW using Visual Studio project files (Windows standard approach)
+REM Automatically handles protobuf submodule and header generation
 
-REM Check for help argument  
-if /i "%~1"=="help" goto :show_help
-if /i "%~1"=="/?" goto :show_help
-if /i "%~1"=="-h" goto :show_help
+echo ========================================
+echo gRPC Samples - Windows Build Script
+echo ========================================
+echo.
 
-REM If we get here, run the normal build
+if "%1"=="help" goto :help
+if "%1"=="clean" goto :clean_build
+if "%1"=="/?" goto :help
+if "%1"=="-h" goto :help
+
 goto :main_build
 
-:clean_only
-echo Cleaning GLEW build artifacts and forcing rebuild...
-cd third_party\glew
-
-REM Remove auto-generation artifacts
-echo Removing auto-generation artifacts...
-if exist auto\OpenGL-Registry rmdir /s /q auto\OpenGL-Registry
-if exist auto\EGL-Registry rmdir /s /q auto\EGL-Registry
-if exist auto\OpenGL-Registry-master rmdir /s /q auto\OpenGL-Registry-master
-if exist auto\EGL-Registry-master rmdir /s /q auto\EGL-Registry-master
-if exist auto\glfixes rmdir /s /q auto\glfixes
-for %%f in (auto\*.tmp auto\*.zip auto\*.tar auto\*.gz) do if exist "%%f" del /q "%%f"
-
-REM Note: NOT removing pre-built source files (they are part of the repository)
-echo Keeping pre-built source files (src/glew.c, include/GL/*.h are part of repo)
-
-REM Remove built library files
-echo Removing built library files...
-if exist lib\Release rmdir /s /q lib\Release
-if exist lib\Debug rmdir /s /q lib\Debug
-if exist bin\Release rmdir /s /q bin\Release
-if exist bin\Debug rmdir /s /q bin\Debug
-
-echo GLEW cleanup completed - next build will rebuild GLEW library
-cd ..\..
-goto :end
-
-:show_help
+:help
+echo Usage: win-vs2022.bat [clean^|help]
 echo.
-echo GrpcSamples Windows Build Script
-echo ================================
+echo This script builds the gRPC Samples project for Windows using Visual Studio 2022.
 echo.
-echo Usage: win-vs2022.bat [option]
+echo Commands:
+echo   (no args)  - Build the project (default)
+echo   clean      - Clean all build artifacts and rebuild from scratch
+echo   help       - Show this help message
 echo.
-echo Options:
-echo clean    - Force GLEW library rebuild (removes built libs, keeps source files)
-echo help     - Show this help message
-echo ^(none^)   - Build Visual Studio 2022 solution (skips GLEW if already built)
-echo.
-echo This script will:
-echo 1. Check if GLEW is already built (skip if complete)
-echo 2. Run GLEW auto-generation from auto/ directory (if make available)
-echo 3. Fall back to pre-built GLEW source files if auto-generation fails
-echo 4. Build GLEW library using MSBuild/Visual Studio (if needed)
-echo 5. Configure CMake for Visual Studio 2022
-echo 6. Generate Visual Studio solution files
-echo.
-echo GLEW Build Process:
-echo - First attempts auto-generation from auto/ directory (preferred)
-echo - Falls back to pre-built source files if make unavailable
+echo Features:
+echo - Uses Visual Studio project files for GLEW (Windows standard approach)
+echo - Automatically initializes protobuf submodule
+echo - Generates required protobuf headers
 echo - Automatically skips GLEW build if files already exist
 echo - Use 'clean' option to force GLEW rebuild when needed
 echo.
@@ -69,24 +38,31 @@ echo Requirements:
 echo - Visual Studio 2022 with C++ development tools
 echo - CMake 3.15 or later
 echo.
-echo For GLEW auto-generation (recommended):
-echo - Git for Windows (includes Git Bash with Unix tools)
-echo - OR MSYS2 (https://www.msys2.org/)
-echo - OR Windows Subsystem for Linux (WSL)
-echo.
-echo Note: GLEW auto-generation requires Unix tools (bash, make, touch, etc.)
+echo Note: GLEW is built using official Visual Studio project files (build/vc15/).
+echo This is the recommended Windows approach and does not require Unix tools.
 echo.
 goto :end
 
 :main_build
 
-echo Building GrpcSamples Visual Studio 2022 Solution...
+echo Checking Visual Studio installation...
+where msbuild >nul 2>&1
+if %ERRORLEVEL% NEQ 0 echo Error: MSBuild not found. Please install Visual Studio 2022 with C++ development tools. && goto :error
+
+echo Checking CMake installation...
+where cmake >nul 2>&1
+if %ERRORLEVEL% NEQ 0 echo Error: CMake not found. Please install CMake 3.15 or later. && goto :error
+
+echo Initializing protobuf submodule...
+git submodule update --init --recursive third_party/protobuf
+if %ERRORLEVEL% NEQ 0 echo Warning: Failed to initialize protobuf submodule, but continuing...
+
 echo.
+echo ========================================
+echo Building GLEW
+echo ========================================
 
-pushd .
-
-echo Generating GLEW extensions and source files...
-cd third_party\glew
+pushd third_party\glew
 
 REM Check if GLEW is already built successfully
 if exist src\glew.c if exist include\GL\glew.h if exist include\GL\wglew.h if exist lib\Release\x64\glew32.lib goto :glew_already_built
@@ -99,184 +75,70 @@ echo Use 'win-vs2022 clean' to force GLEW rebuild if needed
 goto :cmake_setup
 
 :build_glew_from_scratch
-echo Building GLEW from auto directory then MSVC build...
+echo Building GLEW using Visual Studio project files (Windows standard approach)...
 
-REM First, generate GLEW files from auto directory if needed
-echo Checking for GLEW auto-generation...
-if exist auto\Makefile goto :run_glew_auto_generation
-echo GLEW auto directory not found, checking for pre-built source files...
-goto :verify_prebuilt_glew
+REM Use Visual Studio project files for Windows (official GLEW recommendation)
+echo Checking for Visual Studio project files...
+if exist build\vc15\glew.sln goto :use_vs_projects
+echo No Visual Studio project files found, checking source files for CMake build...
+goto :verify_glew_sources
 
-:run_glew_auto_generation
-echo Running GLEW auto-generation from auto directory...
-cd auto
-echo Running make in auto directory to generate GLEW files...
+:use_vs_projects
+echo Building GLEW with Visual Studio project files...
+cd build\vc15
 
-REM Check for Unix environment (MSYS2, MinGW, WSL, Git Bash)
-echo Checking for Unix-compatible environment...
+echo Building GLEW static library for x64 Release...
 
-REM Try Git Bash first (most common on Windows)
-where bash >nul 2>&1
-if %ERRORLEVEL% EQU 0 goto :try_bash_make
+REM Try Visual Studio 2022 toolset first
+echo Trying Visual Studio 2022 toolset (v143)...
+msbuild glew_static.vcxproj /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143 /nologo /verbosity:minimal
+if %ERRORLEVEL% EQU 0 goto :glew_vs_success
 
-REM Try MSYS2/MinGW make
-where make >nul 2>&1
-if %ERRORLEVEL% EQU 0 goto :try_direct_make
+echo Visual Studio 2022 toolset not found, trying v142...
+msbuild glew_static.vcxproj /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v142 /nologo /verbosity:minimal
+if %ERRORLEVEL% EQU 0 goto :glew_vs_success
 
-REM Try WSL
-where wsl >nul 2>&1
-if %ERRORLEVEL% EQU 0 goto :try_wsl_make
+echo Visual Studio 2019 toolset not found, trying v141...
+msbuild glew_static.vcxproj /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v141 /nologo /verbosity:minimal
+if %ERRORLEVEL% EQU 0 goto :glew_vs_success
 
-echo ERROR: No Unix environment found (tried Git Bash, MSYS2/MinGW, WSL)
-echo.
-echo GLEW auto-generation requires Unix tools (bash, make, touch, etc.)
-echo.
-echo To fix this, install one of:
-echo 1. Git for Windows (recommended) - includes Git Bash with Unix tools
-echo    Download: https://git-scm.com/download/win
-echo 2. MSYS2 - provides Unix environment on Windows  
-echo    Download: https://www.msys2.org/
-echo 3. Windows Subsystem for Linux (WSL)
-echo    Install: wsl --install
-echo.
-echo After installation, restart your command prompt and try again.
-cd ..
-goto :verify_prebuilt_glew
+echo All Visual Studio toolsets failed
+cd ..\..
+goto :verify_glew_sources
 
-:try_bash_make
-echo Found bash, trying auto-generation with Git Bash...
-bash -c "make"
-if %ERRORLEVEL% EQU 0 goto :auto_generation_success
-echo Git Bash make failed, trying other methods...
-goto :try_direct_make
-
-:try_direct_make
-echo Trying direct make command...
-make
-if %ERRORLEVEL% EQU 0 goto :auto_generation_success
-echo Direct make failed, trying WSL...
-goto :try_wsl_make
-
-:try_wsl_make
-echo Trying WSL make...
-wsl make
-if %ERRORLEVEL% EQU 0 goto :auto_generation_success
-echo All auto-generation methods failed
-goto :auto_generation_failed
-
-:auto_generation_success
-echo GLEW auto-generation completed successfully!
-cd ..
-goto :verify_generated_glew
-
-:auto_generation_failed
-echo Warning: GLEW auto-generation failed with all methods
-echo This is normal if Unix tools are not installed
-echo Falling back to pre-built source files...
-cd ..
-goto :verify_prebuilt_glew
-
-:verify_generated_glew
-echo Verifying GLEW files after auto-generation...
-if exist src\glew.c echo GLEW source file found: src\glew.c
-if exist include\GL\glew.h echo GLEW header file found: include\GL\glew.h  
-if exist include\GL\wglew.h echo GLEW Windows header found: include\GL\wglew.h
+:glew_vs_success
+echo GLEW library built successfully with Visual Studio!
+cd ..\..
 goto :check_glew_completeness
 
-:verify_prebuilt_glew
-echo Verifying GLEW source files...
+:verify_glew_sources
+echo Verifying GLEW source files for CMake build...
 if exist src\glew.c echo GLEW source file found: src\glew.c
-if not exist src\glew.c echo ERROR: Missing GLEW source file: src\glew.c && echo GLEW auto-generation is required but failed && goto :error
+if not exist src\glew.c echo ERROR: Missing GLEW source file: src\glew.c && echo GLEW repository may be incomplete && goto :error
 
 if exist include\GL\glew.h echo GLEW header file found: include\GL\glew.h  
-if not exist include\GL\glew.h echo ERROR: Missing GLEW header file: include\GL\glew.h && echo GLEW auto-generation is required but failed && goto :error
+if not exist include\GL\glew.h echo ERROR: Missing GLEW header file: include\GL\glew.h && echo GLEW repository may be incomplete && goto :error
 if exist include\GL\wglew.h echo GLEW Windows header found: include\GL\wglew.h
-if not exist include\GL\wglew.h echo ERROR: Missing GLEW Windows header: include\GL\wglew.h && echo GLEW auto-generation is required but failed && goto :error
+if not exist include\GL\wglew.h echo ERROR: Missing GLEW Windows header: include\GL\wglew.h && echo GLEW repository may be incomplete && goto :error
 
 :check_glew_completeness
-echo All GLEW source files verified successfully
-    
-REM Build GLEW library using Visual Studio
-echo Building GLEW library with Visual Studio...
-if exist build\vc17\glew.sln goto :build_glew_library
-echo Warning: GLEW Visual Studio solution not found at build\vc17\glew.sln
-echo GLEW library may not be available for linking
-goto :continue_cmake
-
-:build_glew_library
-echo Found GLEW Visual Studio solution: build\vc17\glew.sln
-
-REM Try to find MSBuild in common locations
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" goto :use_vs2022_pro
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" goto :use_vs2022_com
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe" goto :use_vs2022_ent
-if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe" goto :use_vs2019_pro
-if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe" goto :use_vs2019_com
-goto :try_path_msbuild
-
-:use_vs2022_pro
-echo Using MSBuild: VS2022 Professional
-"%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" build\vc17\glew.sln /p:Configuration=Release /p:Platform=x64 /m
-goto :check_build_result
-
-:use_vs2022_com
-echo Using MSBuild: VS2022 Community
-"%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" build\vc17\glew.sln /p:Configuration=Release /p:Platform=x64 /m
-goto :check_build_result
-
-:use_vs2022_ent
-echo Using MSBuild: VS2022 Enterprise
-"%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe" build\vc17\glew.sln /p:Configuration=Release /p:Platform=x64 /m
-goto :check_build_result
-
-:use_vs2019_pro
-echo Using MSBuild: VS2019 Professional
-"%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe" build\vc17\glew.sln /p:Configuration=Release /p:Platform=x64 /m
-goto :check_build_result
-
-:use_vs2019_com
-echo Using MSBuild: VS2019 Community
-"%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe" build\vc17\glew.sln /p:Configuration=Release /p:Platform=x64 /m
-goto :check_build_result
-
-:try_path_msbuild
-echo Warning: MSBuild not found in standard locations, trying PATH...
-where msbuild >nul 2>&1
-if %ERRORLEVEL% NEQ 0 goto :msbuild_not_found
-echo Using MSBuild from PATH
-msbuild build\vc17\glew.sln /p:Configuration=Release /p:Platform=x64 /m
-goto :check_build_result
-
-:msbuild_not_found
-echo Warning: MSBuild not found, GLEW library may not be built
-echo You may need to build build\vc17\glew.sln manually
-goto :continue_cmake
-
-:check_build_result
-if %ERRORLEVEL% EQU 0 echo GLEW library built successfully
-if %ERRORLEVEL% NEQ 0 echo Warning: GLEW library build failed, but continuing... && echo You may need to build build\vc17\glew.sln manually in Visual Studio
-
-:continue_cmake
-goto :check_existing_glew
-
-:check_existing_glew
-echo GLEW auto directory not found, checking for existing files...
-if exist src\glew.c echo Using existing GLEW files && goto :cmake_setup
-echo Error: No GLEW source files found and no auto-generation available
-echo Please ensure the GLEW submodule is properly initialized
-goto :error
+echo All GLEW files verified successfully
 
 :cmake_setup
-cd ..\..
+popd
 
-REM Generate protobuf well-known headers if missing
-echo Checking protobuf well-known headers...
-if not exist "third_party\protobuf\windows\include\google\protobuf\empty.pb.h" goto :generate_protobuf_headers
-echo Protobuf headers already exist - skipping generation
+echo.
+echo ========================================
+echo Generating Protobuf Headers
+echo ========================================
+
+REM Generate protobuf well-known headers if needed
+if exist third_party\protobuf\src\google\protobuf\any.proto goto :generate_protobuf_headers
+echo Protobuf submodule not found, skipping header generation...
 goto :cmake_configure
 
 :generate_protobuf_headers
-echo Generating missing protobuf well-known headers...
+echo Generating protobuf well-known headers...
 python generate_wellknown_protos.py
 if %ERRORLEVEL% EQU 0 echo Protobuf headers generated successfully
 if %ERRORLEVEL% NEQ 0 echo Warning: Failed to generate protobuf headers, but continuing...
@@ -286,6 +148,11 @@ if not exist build mkdir build
 if not exist build\win-vs2022 mkdir build\win-vs2022
 
 cd build\win-vs2022
+
+echo.
+echo ========================================
+echo Generating Visual Studio Solution
+echo ========================================
 
 echo Generating Visual Studio 2022 solution...
 cmake -G "Visual Studio 17 2022" -A x64 ../../
@@ -298,6 +165,10 @@ goto :cmake_done
 
 :cmake_success
 echo.
+echo ========================================
+echo Build Complete!
+echo ========================================
+echo.
 echo Success! Visual Studio solution generated at:
 echo %CD%\GrpcSamples.sln
 echo.
@@ -309,25 +180,29 @@ popd
 pause
 goto :end
 
+:clean_build
+echo Cleaning all build artifacts...
+if exist build rmdir /s /q build
+if exist third_party\glew\lib rmdir /s /q third_party\glew\lib
+if exist third_party\glew\bin rmdir /s /q third_party\glew\bin
+echo Clean complete. Run without arguments to rebuild.
+pause
+goto :end
+
 :error
 echo.
-echo Build failed due to missing GLEW files or auto-generation failure.
+echo ========================================
+echo Build Failed
+echo ========================================
 echo.
-echo To fix this issue:
-echo 1. Install Unix tools for GLEW auto-generation:
-echo    - Git for Windows (recommended): https://git-scm.com/download/win
-echo    - MSYS2: https://www.msys2.org/
-echo    - WSL: wsl --install
+echo Build failed. Please check the error messages above.
 echo.
-echo 2. Check that the GLEW submodule is properly initialized:
+echo Common solutions:
+echo 1. Install Visual Studio 2022 with C++ development tools
+echo 2. Install CMake 3.15 or later
+echo 3. Check that the GLEW submodule is properly initialized:
 echo    git submodule update --init --recursive
-echo.
-echo 3. Try running GLEW auto-generation manually:
-echo    cd third_party/glew/auto
-echo    bash -c "make"
-echo.
-echo 4. Verify GLEW source files exist in third_party/glew/src/ after generation
-echo 5. Try running 'win-vs2022 clean' to reset and rebuild
+echo 4. Try running 'win-vs2022 clean' to reset and rebuild
 echo.
 popd
 pause
