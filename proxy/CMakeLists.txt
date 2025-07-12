@@ -57,38 +57,21 @@ if(WIN32)
     )
     
 else()
-    # Linux: Use system protoc and grpcio-tools
-    find_program(PROTOC_EXECUTABLE protoc)
+    # Linux: Prefer grpcio-tools over system protoc for better compatibility
+    message(STATUS "Using Python grpcio-tools for protobuf generation")
     
-    if(NOT PROTOC_EXECUTABLE)
-        message(STATUS "protoc not found, trying to use Python grpcio-tools")
-        
-        # Use Python grpcio-tools to generate protobuf files
-        add_custom_command(
-            OUTPUT ${GENERATED_PYTHON_FILES}
-            COMMAND ${Python3_EXECUTABLE} -m grpc_tools.protoc
-                --python_out=${PYTHON_PROTO_OUTPUT_DIR}
-                --grpc_python_out=${PYTHON_PROTO_OUTPUT_DIR}
-                --proto_path=${CMAKE_SOURCE_DIR}/shared/protos/definitions
-                ${PROTO_FILES}
-            DEPENDS ${PROTO_FILES}
-            COMMENT "Generating Python protobuf files using grpcio-tools"
-            VERBATIM
-        )
-    else()
-        # Use system protoc
-        add_custom_command(
-            OUTPUT ${GENERATED_PYTHON_FILES}
-            COMMAND ${PROTOC_EXECUTABLE}
-                --python_out=${PYTHON_PROTO_OUTPUT_DIR}
-                --grpc_python_out=${PYTHON_PROTO_OUTPUT_DIR}
-                --proto_path=${CMAKE_SOURCE_DIR}/shared/protos/definitions
-                ${PROTO_FILES}
-            DEPENDS ${PROTO_FILES}
-            COMMENT "Generating Python protobuf files for gRPC proxy server"
-            VERBATIM
-        )
-    endif()
+    # Use Python grpcio-tools to generate protobuf files
+    add_custom_command(
+        OUTPUT ${GENERATED_PYTHON_FILES}
+        COMMAND ${Python3_EXECUTABLE} -m grpc_tools.protoc
+            --python_out=${PYTHON_PROTO_OUTPUT_DIR}
+            --grpc_python_out=${PYTHON_PROTO_OUTPUT_DIR}
+            --proto_path=${CMAKE_SOURCE_DIR}/shared/protos/definitions
+            ${PROTO_FILES}
+        DEPENDS ${PROTO_FILES}
+        COMMENT "Generating Python protobuf files using grpcio-tools"
+        VERBATIM
+    )
 endif()
 
 # Create a custom target that depends on the generated files

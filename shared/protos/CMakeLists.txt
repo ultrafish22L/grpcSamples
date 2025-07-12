@@ -23,7 +23,8 @@ else()
     # Linux: Use system protoc and grpc_cpp_plugin (if available)
     find_program(PROTOC_EXECUTABLE protoc)
     find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin)
-    get_filename_component(ABS_PROTO_INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../third_party/protobuf/linux/include" ABSOLUTE)
+    # Use system protobuf include directory
+    set(ABS_PROTO_INC_DIR "/usr/include")
 endif()
 
 

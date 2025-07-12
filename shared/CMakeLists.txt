@@ -113,7 +113,8 @@ else()
     # Linux: Use system protoc and grpc_cpp_plugin (if available)
     find_program(PROTOC_EXECUTABLE protoc)
     find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin)
-    get_filename_component(ABS_PROTO_INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../third_party/protobuf/linux/include" ABSOLUTE)
+    # Use system protobuf include directory
+    set(ABS_PROTO_INC_DIR "/usr/include")
 endif()
 
 
@@ -380,21 +381,50 @@ endif()
 
 # Linux gRPC libraries (when available)
 if(UNIX AND NOT APPLE)
-    # Only link gRPC libraries if they're available on the system
-    find_library(GRPC_GRPCPP_LIB grpc++)
-    find_library(GRPC_GRPC_LIB grpc)
-    find_library(PROTOBUF_LIB protobuf)
-    
-    if(GRPC_GRPCPP_LIB AND GRPC_GRPC_LIB AND PROTOBUF_LIB)
-        target_link_libraries(shared_lib
-            PUBLIC
-                ${GRPC_GRPCPP_LIB}
-                ${GRPC_GRPC_LIB}
-                ${PROTOBUF_LIB}
-        )
-        message(STATUS "Found and linking system gRPC libraries")
+    # Use pkg-config to find gRPC and all its dependencies
+    find_package(PkgConfig QUIET)
+    if(PKG_CONFIG_FOUND)
+        pkg_check_modules(GRPC QUIET grpc++)
+        pkg_check_modules(PROTOBUF QUIET protobuf)
+        if(GRPC_FOUND AND PROTOBUF_FOUND)
+            target_link_libraries(shared_lib
+                PUBLIC
+                    ${GRPC_LIBRARIES}
+                    ${PROTOBUF_LIBRARIES}
+            )
+            target_include_directories(shared_lib
+                PUBLIC
+                    ${GRPC_INCLUDE_DIRS}
+                    ${PROTOBUF_INCLUDE_DIRS}
+            )
+            target_compile_options(shared_lib
+                PUBLIC
+                    ${GRPC_CFLAGS_OTHER}
+                    ${PROTOBUF_CFLAGS_OTHER}
+            )
+            message(STATUS "Found and linking system gRPC libraries via pkg-config")
+        else()
+            # Fallback to manual library finding
+            find_library(GRPC_GRPCPP_LIB grpc++)
+            find_library(GRPC_GRPC_LIB grpc)
+            find_library(GRPC_GPR_LIB gpr)
+            find_library(PROTOBUF_LIB protobuf)
+            
+            if(GRPC_GRPCPP_LIB AND GRPC_GRPC_LIB AND GRPC_GPR_LIB AND PROTOBUF_LIB)
+                target_link_libraries(shared_lib
+                    PUBLIC
+                        ${GRPC_GRPCPP_LIB}
+                        ${GRPC_GRPC_LIB}
+                        ${GRPC_GPR_LIB}
+                        ${PROTOBUF_LIB}
+                )
+                message(STATUS "Found and linking system gRPC libraries manually")
+            else()
+                message(STATUS "System gRPC libraries not found - building without gRPC support")
+            endif()
+        endif()
     else()
-        message(STATUS "System gRPC libraries not found - building without gRPC support")
+        message(STATUS "pkg-config not found - building without gRPC support")
     endif()
 endif()
 
