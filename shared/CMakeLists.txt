@@ -122,14 +122,28 @@ if(WIN32)
         find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin)
     endif()
     
-    # Set protobuf include directory
-    if(EXISTS "${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include")
-        get_filename_component(ABS_PROTO_INC_DIR "${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include" ABSOLUTE)
-    elseif(EXISTS "${CMAKE_SOURCE_DIR}/third_party/protobuf/include")
-        get_filename_component(ABS_PROTO_INC_DIR "${CMAKE_SOURCE_DIR}/third_party/protobuf/include" ABSOLUTE)
-    else()
-        # Fallback to system include
-        set(ABS_PROTO_INC_DIR "C:/Program Files/protobuf/include")
+    # Set protobuf include directory - try multiple locations
+    set(PROTO_INC_CANDIDATES
+        "${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include"
+        "${CMAKE_SOURCE_DIR}/third_party/protobuf/include"
+        "C:/Program Files/protobuf/include"
+        "C:/vcpkg/installed/x64-windows/include"
+        "C:/tools/protobuf/include"
+    )
+    
+    set(ABS_PROTO_INC_DIR "")
+    foreach(CANDIDATE ${PROTO_INC_CANDIDATES})
+        if(EXISTS "${CANDIDATE}")
+            get_filename_component(ABS_PROTO_INC_DIR "${CANDIDATE}" ABSOLUTE)
+            message(STATUS "Found protobuf include directory: ${ABS_PROTO_INC_DIR}")
+            break()
+        endif()
+    endforeach()
+    
+    # If no include directory found, use a minimal fallback
+    if(NOT ABS_PROTO_INC_DIR)
+        message(WARNING "No protobuf include directory found, using minimal fallback")
+        set(ABS_PROTO_INC_DIR "${CMAKE_SOURCE_DIR}")
     endif()
 else()
     # Linux: Use system protoc and grpc_cpp_plugin (if available)
@@ -176,16 +190,37 @@ if(PROTOC_EXECUTABLE AND GRPC_CPP_PLUGIN)
         list(APPEND PROTO_SRCS ${PROTO_SRC} ${PROTO_HEADER})
         list(APPEND GRPC_SRCS ${GRPC_SRC} ${GRPC_HEADER})
 
+        # Validate paths before creating custom command
+        if(NOT EXISTS "${ABS_PROTO_DIR}")
+            message(FATAL_ERROR "Proto source directory does not exist: ${ABS_PROTO_DIR}")
+        endif()
+        if(NOT EXISTS "${ABS_FIL}")
+            message(FATAL_ERROR "Proto file does not exist: ${ABS_FIL}")
+        endif()
+        
         message(STATUS "Setting up protobuf generation for ${FIL_WE}")
+        message(STATUS "  Proto file: ${ABS_FIL}")
+        message(STATUS "  Output dir: ${ABS_PROTO_OUT_DIR}")
+        message(STATUS "  Proto include: ${ABS_PROTO_INC_DIR}")
+        
+        # Build protoc arguments carefully
+        set(PROTOC_ARGS
+            --grpc_out=${ABS_PROTO_OUT_DIR}
+            --cpp_out=${ABS_PROTO_OUT_DIR}
+            --proto_path=${ABS_PROTO_DIR}
+        )
+        
+        # Only add protobuf include if it exists and is different from proto dir
+        if(EXISTS "${ABS_PROTO_INC_DIR}" AND NOT "${ABS_PROTO_INC_DIR}" STREQUAL "${ABS_PROTO_DIR}")
+            list(APPEND PROTOC_ARGS --proto_path=${ABS_PROTO_INC_DIR})
+        endif()
+        
+        list(APPEND PROTOC_ARGS --plugin=protoc-gen-grpc=${GRPC_CPP_PLUGIN})
+        list(APPEND PROTOC_ARGS ${ABS_FIL})
+        
         add_custom_command(
             OUTPUT "${PROTO_SRC}" "${PROTO_HEADER}" "${GRPC_SRC}" "${GRPC_HEADER}"
-            COMMAND ${PROTOC_EXECUTABLE}
-            ARGS --grpc_out="${ABS_PROTO_OUT_DIR}"
-                    --cpp_out="${ABS_PROTO_OUT_DIR}"
-                    -I"${ABS_PROTO_DIR}"
-                    -I"${ABS_PROTO_INC_DIR}"
-                    --plugin=protoc-gen-grpc="${GRPC_CPP_PLUGIN}"
-                    "${ABS_FIL}"
+            COMMAND ${PROTOC_EXECUTABLE} ${PROTOC_ARGS}
             DEPENDS "${ABS_FIL}"
             COMMENT "Generating gRPC files for ${FIL_WE}"
             VERBATIM
