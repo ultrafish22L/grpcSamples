@@ -1043,6 +1043,11 @@
                     }
                 }
                 
+                // Update OTOY LED status in footer
+                if (this.statsManager) {
+                    this.statsManager.updateConnectionStatus(this.connected, true);
+                }
+                
                 // Enable/disable operation buttons
                 const operationButtons = [
                     'getCameraBtn', 'setCameraBtn', 'testRandomCameraBtn', 'getMeshesBtn', 'getMeshBtn',
