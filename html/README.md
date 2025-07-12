@@ -2,19 +2,34 @@
 
 ## 🚀 QUICKSTART - Get Running in 2 Minutes
 
-### Windows
-```cmd
-cd path\to\grpcSamples\html
-python -m http.server 8000
-```
-Open browser: `http://localhost:8000`
+### Step 1: Start Octane Render
+1. **Launch Octane Render** on your system
+2. **Enable gRPC Server**: Go to Preferences → LiveLink → Enable gRPC Server
+3. **Note the Port**: Default is usually 51023 (check Preferences → LiveLink → Port)
 
-### Linux/macOS
-```bash
-cd /path/to/grpcSamples/html
-python3 -m http.server 8000
+### Step 2: Start the Proxy Server
+
+#### Windows
+```cmd
+cd path\to\grpcSamples\proxy
+pip install grpcio aiohttp aiohttp-cors
+python grpc_proxy.py
 ```
-Open browser: `http://localhost:8000`
+
+#### Linux/macOS
+```bash
+cd /path/to/grpcSamples/proxy
+pip3 install grpcio aiohttp aiohttp-cors
+python3 grpc_proxy.py
+```
+
+### Step 3: Open the Web Application
+Simply **double-click `index.html`** or drag it into your browser.
+
+### Step 4: Configure Connection
+1. **Check Server Address**: Should match your Octane gRPC port (default: `http://127.0.0.1:51023`)
+2. **Toggle Connection**: Click the 🔌 switch to connect to Octane LiveLink
+3. **Verify Connection**: Look for green status indicators and successful connection messages
 
 ### What You'll See
 - **Professional 3D Viewer**: Interactive WebGL cube with mouse controls
@@ -26,8 +41,14 @@ Open browser: `http://localhost:8000`
 ### Basic Usage
 1. **Interact with 3D**: Drag to rotate, scroll to zoom, right-drag to pan
 2. **Toggle Auto-Rotate**: Use the 🧊 switch to enable/disable rotation
-3. **Connect to Octane**: Toggle the 🔌 switch (requires proxy server)
+3. **Connect to Octane**: Toggle the 🔌 switch (requires Octane + proxy)
 4. **Test Functions**: Use toolbar buttons (📷 📸 🔄 🎬 📂 🫖)
+
+### ⚠️ Important Notes
+- **Octane Must Be Running**: The application requires Octane Render to be launched
+- **gRPC Server Enabled**: Check Octane Preferences → LiveLink → Enable gRPC Server
+- **Port Matching**: Server address in web app must match Octane's gRPC port
+- **Proxy Required**: The proxy server translates HTTP requests to gRPC for Octane
 
 ---
 
@@ -58,22 +79,22 @@ Professional WebGL 3D viewer with Octane LiveLink integration featuring real-tim
 - **webgl-utils.js**: WebGL rendering and 3D utilities
 - **otoy-theme.css**: Professional OTOY branding and styling
 
-### Advanced Setup (Optional)
-For full Octane connectivity, also run the proxy server:
+### Development Mode (Optional)
+For development without Octane Render, you can use the mock server:
 
-#### Windows
-```cmd
-cd path\to\grpcSamples\proxy
-pip install grpcio aiohttp aiohttp-cors
-python grpc_proxy.py
+#### Start Mock Octane Server
+```bash
+cd /path/to/grpcSamples/mock_octane
+python3 mock_octane_server.py
 ```
 
-#### Linux/macOS
+#### Start Proxy Server (pointing to mock)
 ```bash
 cd /path/to/grpcSamples/proxy
-pip3 install grpcio aiohttp aiohttp-cors
-python3 grpc_proxy.py
+python3 grpc_proxy.py --target localhost:51023
 ```
+
+This allows testing the web application without requiring Octane Render installation.
 
 ### Testing & Verification
 The application demonstrates:
@@ -93,7 +114,14 @@ The application demonstrates:
 - **JavaScript**: ES6+ support required
 
 ### Troubleshooting
-- **Port conflicts**: Change `8000` to another port (e.g., `8001`, `3000`)
-- **Python not found**: Install from [python.org](https://python.org)
-- **WebGL issues**: Update graphics drivers, try different browser
-- **Connection errors**: Check proxy server is running on port 8080
+- **Connection Failed**: 
+  - Verify Octane Render is running
+  - Check Octane Preferences → LiveLink → Enable gRPC Server is checked
+  - Ensure proxy server is running (`python3 grpc_proxy.py`)
+  - Verify port numbers match between Octane and web app
+- **Python Dependencies**: Install missing packages with `pip install grpcio aiohttp aiohttp-cors`
+- **WebGL Issues**: Update graphics drivers, try different browser
+- **Port Conflicts**: 
+  - Octane gRPC port (default 51023) - change in Octane Preferences
+  - Proxy server port (default 8080) - change in grpc_proxy.py
+  - Update server address in web app to match
