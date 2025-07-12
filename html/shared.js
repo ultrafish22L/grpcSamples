@@ -17,8 +17,9 @@ class ActivityLogger {
             'error': 0,    // Always show errors
             'warning': 1,  // Show warnings in minimal mode
             'success': 2,  // Show successes in minimal mode
-            'info': 3,     // Show info only in verbose mode
-            'debug': 4     // Show debug only in verbose mode
+            'status': 3,   // Show status in minimal mode
+            'debug': 4,    // Show debug only in verbose mode
+            'info': 5      // Show info only in verbose mode
         };
     }
 
@@ -34,11 +35,11 @@ class ActivityLogger {
      * Check if message should be logged based on current mode
      */
     shouldLog(type) {
-        const level = this.logLevels[type] || 3;
+        const level = this.logLevels[type];
         if (this.verboseMode) {
             return true; // Show everything in verbose mode
         } else {
-            return level <= 2; // Show only error, warning, success in minimal mode
+            return level <= 3; // Show only error, warning, success and fino in minimal mode
         }
     }
 
@@ -70,11 +71,12 @@ class ActivityLogger {
         
         // Add emoji indicators for different message types
         const typeEmojis = {
-            'info': 'ℹ️',
             'success': '✅',
             'warning': '⚠️',
             'error': '❌',
-            'debug': '🔍'
+            'debug': '🔍',
+            'status': '🗒️',
+            'info': '✍🏻'
         };
         
         const emoji = typeEmojis[type] || 'ℹ️';
