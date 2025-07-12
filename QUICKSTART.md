@@ -11,10 +11,10 @@ Quick setup instructions for running the OTOY WebGL-Octane LiveLink Sync applica
    restart Octane
 
 2. **Start the proxy server**
-   - double click start_proxy.bat
+   - double click html/start_proxy.bat
 
 2. **View in browser**
-   - double click index.html
+   - double click html/index.html
 
 ### Linux
 
@@ -23,10 +23,10 @@ Quick setup instructions for running the OTOY WebGL-Octane LiveLink Sync applica
    restart Octane
 
 2. **Start the proxy server**
-   - bash start_proxy.sh
+   - bash html/start_proxy.sh
 
 2. **View in browser**
-   - index.html
+   - html/index.html
 
 ## 🎯 Usage
 
@@ -38,7 +38,7 @@ Quick setup instructions for running the OTOY WebGL-Octane LiveLink Sync applica
 
 - **Python 3.6+** (built into most modern systems)
 - **Modern web browser** (Chrome, Firefox, Safari, Edge)
-- **Octane with LiveLink service** (optional, for full functionality)
+- **Octane with LiveLink service** 
 
 ## 🔍 Troubleshooting
 
