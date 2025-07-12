@@ -346,7 +346,7 @@ class ConnectionStateManager {
     getLogType(state) {
         const logTypes = {
             'connected': 'success',
-            'connecting': 'info',
+            'connecting': 'status',
             'disconnected': 'warning',
             'error': 'error'
         };
@@ -519,34 +519,26 @@ class GrpcTestOperations {
         }
     }
 
-    async testSetCamera(client, cameraData, suppressLogging = false) {
+    async testSetCamera(client, cameraData) {
         if (!client) {
-            if (!suppressLogging) {
-                this.logger.log('No client available for camera set', 'error');
-            }
+            this.logger.log('No client available for camera set', 'error');
             return false;
         }
 
         try {
-            if (!suppressLogging) {
-                this.logger.log('📤 Setting camera to Octane...', 'info');
-            }
+            this.logger.log('📤 Setting camera to Octane...', 'info');
             const result = await client.setCamera(cameraData);
             
-            if (!suppressLogging) {
-                if (result) {
-                    this.logger.log('Camera set successfully', 'success');
-                } else {
-                    this.logger.log('Camera set operation completed', 'info');
-                }
+            if (result) {
+                this.logger.log('Camera set successfully', 'success');
+            } else {
+                this.logger.log('Camera set failed', 'error');
             }
             
             this.statsManager.updateStats(client);
             return result;
         } catch (error) {
-            if (!suppressLogging) {
-                this.logger.log(`Camera set failed: ${error.message}`, 'error');
-            }
+            this.logger.log(`Camera set failed: ${error.message}`, 'error');
             this.statsManager.updateStats(client);
             throw error;
         }
@@ -612,7 +604,7 @@ class GrpcTestOperations {
                 // Calculate vertex and face counts from actual mesh data structure
                 const vertexCount = mesh.positions ? mesh.positions.length : 0;
                 const faceCount = mesh.vertsPerPoly ? mesh.vertsPerPoly.length : 0;
-                this.logger.log(`Vertices: ${vertexCount}, Faces: ${faceCount}`, 'info');
+                this.logger.log(`Vertices: ${vertexCount}, Faces: ${faceCount}`, 'status');
             } else {
                 this.logger.log('No mesh data received', 'warning');
             }
@@ -658,29 +650,29 @@ class DebugUtils {
         }
         
         const systemInfo = client.getSystemInfo();
-        this.logger.log('📊 System Information:', 'info');
+        this.logger.log('📊 System Information:', 'status');
         
         // Display key system info in a readable format
         if (systemInfo.browser) {
-            this.logger.log(`Browser: ${systemInfo.browser.name} ${systemInfo.browser.version}`, 'info');
-            this.logger.log(`Platform: ${systemInfo.browser.platform}`, 'info');
+            this.logger.log(`Browser: ${systemInfo.browser.name} ${systemInfo.browser.version}`, 'status');
+            this.logger.log(`Platform: ${systemInfo.browser.platform}`, 'status');
         }
         
         if (systemInfo.screen) {
-            this.logger.log(`Screen: ${systemInfo.screen.width}x${systemInfo.screen.height} (${systemInfo.screen.colorDepth}-bit)`, 'info');
+            this.logger.log(`Screen: ${systemInfo.screen.width}x${systemInfo.screen.height} (${systemInfo.screen.colorDepth}-bit)`, 'status');
         }
         
         if (systemInfo.connection) {
-            this.logger.log(`Connection: ${systemInfo.connection.effectiveType || 'Unknown'} (${systemInfo.connection.downlink || 'N/A'} Mbps)`, 'info');
+            this.logger.log(`Connection: ${systemInfo.connection.effectiveType || 'Unknown'} (${systemInfo.connection.downlink || 'N/A'} Mbps)`, 'status');
         }
         
         if (systemInfo.memory) {
             const memoryMB = Math.round(systemInfo.memory.usedJSHeapSize / 1024 / 1024);
             const limitMB = Math.round(systemInfo.memory.jsHeapSizeLimit / 1024 / 1024);
-            this.logger.log(`Memory: ${memoryMB}MB used / ${limitMB}MB limit`, 'info');
+            this.logger.log(`Memory: ${memoryMB}MB used / ${limitMB}MB limit`, 'status');
         }
         
-        this.logger.log(`Timestamp: ${systemInfo.timestamp}`, 'info');
+        this.logger.log(`Timestamp: ${systemInfo.timestamp}`, 'status');
     }
 
     showDebugInfo(client) {
@@ -690,20 +682,20 @@ class DebugUtils {
         }
         
         const debugInfo = client.getDebugInfo();
-        this.logger.log('🔍 Debug Information:', 'info');
+        this.logger.log('🔍 Debug Information:', 'status');
         
         // Display key debug info in a readable format
         if (debugInfo.client) {
-            this.logger.log(`Server URL: ${debugInfo.client.serverUrl}`, 'info');
-            this.logger.log(`Connected: ${debugInfo.client.connected}`, 'info');
-            this.logger.log(`Connection State: ${debugInfo.client.connectionState}`, 'info');
-            this.logger.log(`Connection Attempts: ${debugInfo.client.connectionAttempts}`, 'info');
+            this.logger.log(`Server URL: ${debugInfo.client.serverUrl}`, 'status');
+            this.logger.log(`Connected: ${debugInfo.client.connected}`, 'status');
+            this.logger.log(`Connection State: ${debugInfo.client.connectionState}`, 'status');
+            this.logger.log(`Connection Attempts: ${debugInfo.client.connectionAttempts}`, 'status');
         }
         
         if (debugInfo.performance) {
-            this.logger.log(`Total Calls: ${debugInfo.performance.callCount}`, 'info');
-            this.logger.log(`Last Call Time: ${debugInfo.performance.lastCallTime}ms`, 'info');
-            this.logger.log(`Avg Response Time: ${debugInfo.performance.avgResponseTime?.toFixed(1)}ms`, 'info');
+            this.logger.log(`Total Calls: ${debugInfo.performance.callCount}`, 'status');
+            this.logger.log(`Last Call Time: ${debugInfo.performance.lastCallTime}ms`, 'status');
+            this.logger.log(`Avg Response Time: ${debugInfo.performance.avgResponseTime?.toFixed(1)}ms`, 'status');
         }
         
         if (debugInfo.history) {
@@ -715,7 +707,7 @@ class DebugUtils {
             }
             
             if (debugInfo.history.connectionHistory?.length > 0) {
-                this.logger.log(`Recent Connections: ${debugInfo.history.connectionHistory.length}`, 'info');
+                this.logger.log(`Recent Connections: ${debugInfo.history.connectionHistory.length}`, 'status');
             }
         }
         
@@ -740,7 +732,7 @@ class DebugUtils {
 
     clearDebugHistory() {
         this.debugHistory = [];
-        this.logger.log('Debug history cleared', 'info');
+        this.logger.log('Debug history cleared', 'status');
     }
 }
 
