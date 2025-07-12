@@ -6,74 +6,39 @@ Quick setup instructions for running the OTOY WebGL-Octane LiveLink Sync applica
 
 ### Windows
 
-1. **Open Command Prompt or PowerShell**
-   ```cmd
-   cd path\to\grpcSamples\html
-   python -m http.server 8000
-   ```
+1. **Start Octane grpc**
+   In Preferences enable grpc server
+   restart Octane
 
-2. **Open your browser**
-   - Navigate to: `http://localhost:8000`
-   - The main application will load automatically
+2. **Start the proxy server**
+   - double click start_proxy.bat
 
-### Linux
-
-1. **Open Terminal**
-   ```bash
-   cd /path/to/grpcSamples/html
-   python3 -m http.server 8000
-   ```
-
-2. **Open your browser**
-   - Navigate to: `http://localhost:8000`
-   - The main application will load automatically
-
-## 🔧 gRPC Proxy Server (Optional)
-
-The proxy server enables communication between the web app and Octane LiveLink service.
-
-### Windows
-
-1. **Install Python dependencies**
-   ```cmd
-   cd path\to\grpcSamples\proxy
-   pip install grpcio aiohttp aiohttp-cors
-   ```
-
-2. **Run the proxy server**
-   ```cmd
-   python grpc_proxy.py
-   ```
-   - Server runs on: `http://localhost:8080`
+2. **View in browser**
+   - double click index.html
 
 ### Linux
 
-1. **Install Python dependencies**
-   ```bash
-   cd /path/to/grpcSamples/proxy
-   pip3 install grpcio aiohttp aiohttp-cors
-   ```
+1. **Start Octane grpc**
+   In Preferences enable grpc server
+   restart Octane
 
-2. **Run the proxy server**
-   ```bash
-   python3 grpc_proxy.py
-   ```
-   - Server runs on: `http://localhost:8080`
+2. **Start the proxy server**
+   - bash start_proxy.sh
+
+2. **View in browser**
+   - index.html
 
 ## 🎯 Usage
 
 1. **Start the web application** (see above)
-2. **Optional**: Start the proxy server for Octane connectivity
-3. **Open browser** to `http://localhost:8000`
-4. **Configure connection** in the web interface:
-   - Default proxy address: `http://127.0.0.1:8080`
-   - Toggle connection switch to connect to Octane LiveLink
+2. **Proxy server**: Start the proxy server for Octane connectivity
+3. **View in browser** to `index.html`
 
 ## 📋 Requirements
 
 - **Python 3.6+** (built into most modern systems)
 - **Modern web browser** (Chrome, Firefox, Safari, Edge)
-- **Octane LiveLink service** (optional, for full functionality)
+- **Octane with LiveLink service** (optional, for full functionality)
 
 ## 🔍 Troubleshooting
 
