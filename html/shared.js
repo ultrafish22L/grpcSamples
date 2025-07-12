@@ -12,7 +12,7 @@ class ActivityLogger {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
         this.maxEntries = 100; // Limit log entries to prevent memory issues
-        this.verboseMode = true; // Default to verbose logging
+        this.verboseMode = false; // Default to minimal logging for better performance
         this.logLevels = {
             'error': 0,    // Always show errors
             'warning': 1,  // Show warnings in minimal mode
