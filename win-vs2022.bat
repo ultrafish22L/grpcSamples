@@ -25,11 +25,8 @@ if exist auto\EGL-Registry-master rmdir /s /q auto\EGL-Registry-master
 if exist auto\glfixes rmdir /s /q auto\glfixes
 for %%f in (auto\*.tmp auto\*.zip auto\*.tar auto\*.gz) do if exist "%%f" del /q "%%f"
 
-REM Remove generated source files
-echo Removing generated source files...
-if exist src\glew.c del /q src\glew.c
-if exist include\GL\glew.h del /q include\GL\glew.h
-if exist include\GL\wglew.h del /q include\GL\wglew.h
+REM Note: NOT removing pre-built source files (they are part of the repository)
+echo Keeping pre-built source files (src/glew.c, include/GL/*.h are part of repo)
 
 REM Remove built library files
 echo Removing built library files...
@@ -38,7 +35,7 @@ if exist lib\Debug rmdir /s /q lib\Debug
 if exist bin\Release rmdir /s /q bin\Release
 if exist bin\Debug rmdir /s /q bin\Debug
 
-echo ✓ GLEW cleanup completed - next build will regenerate all GLEW files
+echo ✓ GLEW cleanup completed - next build will rebuild GLEW library
 cd ..\..
 goto :end
 
@@ -50,7 +47,7 @@ echo.
 echo Usage: win-vs2022.bat [option]
 echo.
 echo Options:
-echo   clean    - Force complete GLEW rebuild (removes all generated files)
+echo   clean    - Force GLEW library rebuild (removes built libs, keeps source files)
 echo   help     - Show this help message
 echo   ^(none^)   - Build Visual Studio 2022 solution (skips GLEW if already built)
 echo.
