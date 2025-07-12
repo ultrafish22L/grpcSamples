@@ -1,5 +1,5 @@
 @echo off
-setlocal enabledelayedexpansion
+setlocal
 
 REM Check for clean argument
 if /i "%~1"=="clean" goto :clean_only
@@ -88,12 +88,10 @@ if exist auto\EGL-Registry-master (
     rmdir /s /q auto\EGL-Registry-master 2>nul
 )
 REM Clean up any partial downloads or temporary files
-for %%f in (auto\*.tmp auto\*.zip auto\*.tar auto\*.gz) do (
-    if exist "%%f" (
-        echo Removing %%f...
-        del /q "%%f" 2>nul
-    )
-)
+if exist auto\*.tmp del /q auto\*.tmp 2>nul
+if exist auto\*.zip del /q auto\*.zip 2>nul  
+if exist auto\*.tar del /q auto\*.tar 2>nul
+if exist auto\*.gz del /q auto\*.gz 2>nul
 
 REM Verify cleanup was successful and try PowerShell as last resort
 if exist auto\OpenGL-Registry (
@@ -163,31 +161,33 @@ if exist auto\Makefile (
         echo Found GLEW Visual Studio solution: build\vc12\glew.sln
         
         REM Try to find MSBuild in common locations
-        set "MSBUILD_PATH="
         if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" (
-            set "MSBUILD_PATH=%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe"
+            echo Using MSBuild: VS2022 Professional
+            "%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
         ) else if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" (
-            set "MSBUILD_PATH=%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe"
+            echo Using MSBuild: VS2022 Community
+            "%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
         ) else if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe" (
-            set "MSBUILD_PATH=%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe"
+            echo Using MSBuild: VS2022 Enterprise
+            "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
         ) else if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe" (
-            set "MSBUILD_PATH=%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe"
+            echo Using MSBuild: VS2019 Professional
+            "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
         ) else if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe" (
-            set "MSBUILD_PATH=%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe"
+            echo Using MSBuild: VS2019 Community
+            "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
         ) else (
             echo Warning: MSBuild not found in standard locations, trying PATH...
             where msbuild >nul 2>&1
             if %ERRORLEVEL% EQU 0 (
-                set "MSBUILD_PATH=msbuild"
+                echo Using MSBuild from PATH
+                msbuild build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
             ) else (
                 echo Warning: MSBuild not found, GLEW library may not be built
                 echo You may need to build build\vc12\glew.sln manually
                 goto :skip_glew_build
             )
         )
-        
-        echo Using MSBuild: !MSBUILD_PATH!
-        "!MSBUILD_PATH!" build\vc12\glew.sln /p:Configuration=Release /p:Platform=x64 /m
         if %ERRORLEVEL% EQU 0 (
             echo ✓ GLEW library built successfully
         ) else (
