@@ -113,10 +113,10 @@ add_subdirectory(third_party/glew)
 add_subdirectory(third_party/glfw)
 add_subdirectory(third_party/glm)
 
-# Add grpc-web plugin for HTML demos (all platforms)
-# Use the pre-built protoc-gen-grpc-web binary instead of building from source
+# Add grpc-web plugin for HTML demos (optional)
+# Use the pre-built protoc-gen-grpc-web binary if available, otherwise skip
 # The plugin is used to generate JavaScript files from proto definitions
-message(STATUS "Using pre-built grpc-web plugin for HTML demos")
+message(STATUS "Checking for grpc-web plugin for HTML demos")
 
 # Check if the pre-built binary exists
 set(GRPC_WEB_BINARY "${CMAKE_SOURCE_DIR}/html/protoc-gen-grpc-web")
@@ -126,14 +126,15 @@ if(EXISTS "${GRPC_WEB_BINARY}")
     add_custom_target(protoc-gen-grpc-web ALL
         COMMENT "Using pre-built protoc-gen-grpc-web binary"
     )
+    set(BUILD_GRPC_WEB_PLUGIN ON)
 else()
-    message(FATAL_ERROR "Pre-built protoc-gen-grpc-web binary not found at: ${GRPC_WEB_BINARY}")
+    message(STATUS "Pre-built protoc-gen-grpc-web binary not found - HTML demos will use system protoc")
+    message(STATUS "This is normal for Linux builds - C++ applications will build normally")
+    set(BUILD_GRPC_WEB_PLUGIN OFF)
 endif()
 
 # No additional configuration needed for pre-built binary
 # The protoc-gen-grpc-web binary is already available in the html/ directory
-
-set(BUILD_GRPC_WEB_PLUGIN ON)
 
 # Set folder organization for third-party libraries in Visual Studio
 set_target_properties(glew PROPERTIES FOLDER "ThirdParty")
