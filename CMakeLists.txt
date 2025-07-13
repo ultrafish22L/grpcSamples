@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
 project(GrpcSamples)
 
+# Cross-platform gRPC samples supporting:
+# - Windows: Uses third_party prebuilt libraries
+# - Linux: Uses system gRPC/protobuf packages
+# - macOS: Uses Homebrew gRPC/protobuf packages (brew install grpc protobuf abseil)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 

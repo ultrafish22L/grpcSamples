@@ -109,6 +109,32 @@ if(WIN32)
     endif()
     
     get_filename_component(ABS_PROTO_INC_DIR "${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include" ABSOLUTE)
+elseif(APPLE)
+    # macOS: Try Homebrew locations first, then system PATH
+    set(HOMEBREW_PREFIX "/opt/homebrew" "/usr/local")
+    
+    # Try to find protoc in Homebrew locations
+    find_program(PROTOC_EXECUTABLE protoc
+        PATHS ${HOMEBREW_PREFIX}
+        PATH_SUFFIXES bin
+        NO_DEFAULT_PATH
+    )
+    find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin
+        PATHS ${HOMEBREW_PREFIX}
+        PATH_SUFFIXES bin
+        NO_DEFAULT_PATH
+    )
+    
+    # If not found in Homebrew, try system PATH
+    if(NOT PROTOC_EXECUTABLE)
+        find_program(PROTOC_EXECUTABLE protoc)
+    endif()
+    if(NOT GRPC_CPP_PLUGIN)
+        find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin)
+    endif()
+    
+    # Set include directory for macOS (use current source for proto includes)
+    get_filename_component(ABS_PROTO_INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/protos/definitions" ABSOLUTE)
 else()
     # Linux: Use system protoc and grpc_cpp_plugin (if available)
     find_program(PROTOC_EXECUTABLE protoc)
@@ -263,6 +289,10 @@ target_include_directories(shared_lib
         # Linux system includes
         $<$<PLATFORM_ID:Linux>:/usr/include>
         $<$<PLATFORM_ID:Linux>:/usr/include/grpcpp>
+        
+        # macOS Homebrew includes
+        $<$<PLATFORM_ID:Darwin>:/opt/homebrew/include>
+        $<$<PLATFORM_ID:Darwin>:/usr/local/include>
 )
 target_link_directories(shared_lib
     PUBLIC
@@ -442,6 +472,123 @@ if(UNIX AND NOT APPLE)
         message(STATUS "  grpc: ${GRPC_GRPC_LIB}")
         message(STATUS "  gpr: ${GRPC_GPR_LIB}")
         message(STATUS "  protobuf: ${PROTOBUF_LIB}")
+    endif()
+endif()
+
+# macOS gRPC libraries (when available)
+if(APPLE)
+    # Try Homebrew locations first, then system libraries
+    set(HOMEBREW_PREFIX "/opt/homebrew" "/usr/local")
+    
+    # Find gRPC libraries in Homebrew locations
+    find_library(GRPC_GRPCPP_LIB grpc++
+        PATHS ${HOMEBREW_PREFIX}
+        PATH_SUFFIXES lib
+        NO_DEFAULT_PATH
+    )
+    find_library(GRPC_GRPC_LIB grpc
+        PATHS ${HOMEBREW_PREFIX}
+        PATH_SUFFIXES lib
+        NO_DEFAULT_PATH
+    )
+    find_library(GRPC_GPR_LIB gpr
+        PATHS ${HOMEBREW_PREFIX}
+        PATH_SUFFIXES lib
+        NO_DEFAULT_PATH
+    )
+    find_library(PROTOBUF_LIB protobuf
+        PATHS ${HOMEBREW_PREFIX}
+        PATH_SUFFIXES lib
+        NO_DEFAULT_PATH
+    )
+    
+    # Find Abseil libraries in Homebrew locations
+    find_library(ABSL_BASE_LIB absl_base
+        PATHS ${HOMEBREW_PREFIX}
+        PATH_SUFFIXES lib
+        NO_DEFAULT_PATH
+    )
+    find_library(ABSL_STRINGS_LIB absl_strings
+        PATHS ${HOMEBREW_PREFIX}
+        PATH_SUFFIXES lib
+        NO_DEFAULT_PATH
+    )
+    find_library(ABSL_STATUS_LIB absl_status
+        PATHS ${HOMEBREW_PREFIX}
+        PATH_SUFFIXES lib
+        NO_DEFAULT_PATH
+    )
+    find_library(ABSL_SYNCHRONIZATION_LIB absl_synchronization
+        PATHS ${HOMEBREW_PREFIX}
+        PATH_SUFFIXES lib
+        NO_DEFAULT_PATH
+    )
+    find_library(ABSL_TIME_LIB absl_time
+        PATHS ${HOMEBREW_PREFIX}
+        PATH_SUFFIXES lib
+        NO_DEFAULT_PATH
+    )
+    find_library(ABSL_CORD_LIB absl_cord
+        PATHS ${HOMEBREW_PREFIX}
+        PATH_SUFFIXES lib
+        NO_DEFAULT_PATH
+    )
+    
+    # If not found in Homebrew, try system locations
+    if(NOT GRPC_GRPCPP_LIB)
+        find_library(GRPC_GRPCPP_LIB grpc++)
+    endif()
+    if(NOT GRPC_GRPC_LIB)
+        find_library(GRPC_GRPC_LIB grpc)
+    endif()
+    if(NOT GRPC_GPR_LIB)
+        find_library(GRPC_GPR_LIB gpr)
+    endif()
+    if(NOT PROTOBUF_LIB)
+        find_library(PROTOBUF_LIB protobuf)
+    endif()
+    if(NOT ABSL_BASE_LIB)
+        find_library(ABSL_BASE_LIB absl_base)
+    endif()
+    if(NOT ABSL_STRINGS_LIB)
+        find_library(ABSL_STRINGS_LIB absl_strings)
+    endif()
+    if(NOT ABSL_STATUS_LIB)
+        find_library(ABSL_STATUS_LIB absl_status)
+    endif()
+    if(NOT ABSL_SYNCHRONIZATION_LIB)
+        find_library(ABSL_SYNCHRONIZATION_LIB absl_synchronization)
+    endif()
+    if(NOT ABSL_TIME_LIB)
+        find_library(ABSL_TIME_LIB absl_time)
+    endif()
+    if(NOT ABSL_CORD_LIB)
+        find_library(ABSL_CORD_LIB absl_cord)
+    endif()
+    
+    if(GRPC_GRPCPP_LIB AND GRPC_GRPC_LIB AND GRPC_GPR_LIB AND PROTOBUF_LIB)
+        target_link_libraries(shared_lib
+            PUBLIC
+                ${GRPC_GRPCPP_LIB}
+                ${GRPC_GRPC_LIB}
+                ${GRPC_GPR_LIB}
+                ${PROTOBUF_LIB}
+                # Add Abseil libraries if available
+                $<$<BOOL:${ABSL_BASE_LIB}>:${ABSL_BASE_LIB}>
+                $<$<BOOL:${ABSL_STRINGS_LIB}>:${ABSL_STRINGS_LIB}>
+                $<$<BOOL:${ABSL_STATUS_LIB}>:${ABSL_STATUS_LIB}>
+                $<$<BOOL:${ABSL_SYNCHRONIZATION_LIB}>:${ABSL_SYNCHRONIZATION_LIB}>
+                $<$<BOOL:${ABSL_TIME_LIB}>:${ABSL_TIME_LIB}>
+                $<$<BOOL:${ABSL_CORD_LIB}>:${ABSL_CORD_LIB}>
+        )
+        message(STATUS "Found and linking macOS gRPC libraries")
+    else()
+        message(STATUS "macOS gRPC libraries not found - building without gRPC support")
+        message(STATUS "  grpc++: ${GRPC_GRPCPP_LIB}")
+        message(STATUS "  grpc: ${GRPC_GRPC_LIB}")
+        message(STATUS "  gpr: ${GRPC_GPR_LIB}")
+        message(STATUS "  protobuf: ${PROTOBUF_LIB}")
+        message(STATUS "Install with: brew install grpc protobuf abseil")
     endif()
 endif()
 
