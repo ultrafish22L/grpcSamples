@@ -97,23 +97,25 @@ message(STATUS "proto file build")
 # Try to use third_party gRPC libraries for Windows
 if(WIN32)
     # Windows: Try multiple locations for protoc and grpc_cpp_plugin
-    set(PROTOC_EXECUTABLE "${CMAKE_SOURCE_DIR}/../../third_party/protobuf/windows/bin/protoc.exe")
-    set(GRPC_CPP_PLUGIN "${CMAKE_SOURCE_DIR}/../../third_party/grpc/windows/bin/grpc_cpp_plugin.exe")
+    set(PROTOC_EXECUTABLE "${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/bin/protoc.exe")
+    set(GRPC_CPP_PLUGIN "${CMAKE_SOURCE_DIR}/third_party/grpc/windows/bin/grpc_cpp_plugin.exe")
     
     # If not found, try system PATH
-    if(NOT PROTOC_EXECUTABLE)
+    if(NOT EXISTS "${PROTOC_EXECUTABLE}")
         find_program(PROTOC_EXECUTABLE protoc)
     endif()
-    if(NOT GRPC_CPP_PLUGIN)
+    if(NOT EXISTS "${GRPC_CPP_PLUGIN}")
         find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin)
     endif()
     
-    get_filename_component(ABS_PROTO_INC_DIR "${CMAKE_SOURCE_DIR}/../../third_party/protobuf/windows/include" ABSOLUTE)
+    get_filename_component(ABS_PROTO_INC_DIR "${CMAKE_SOURCE_DIR}/third_party/protobuf/windows/include" ABSOLUTE)
 else()
     # Linux: Use system protoc and grpc_cpp_plugin (if available)
     find_program(PROTOC_EXECUTABLE protoc)
     find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin)
-    get_filename_component(ABS_PROTO_INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../third_party/protobuf/linux/include" ABSOLUTE)
+    
+    # Set a reasonable include directory for Linux (use current source for proto includes)
+    get_filename_component(ABS_PROTO_INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/protos/definitions" ABSOLUTE)
 endif()
 
 
@@ -152,19 +154,45 @@ foreach(FIL ${PROTO_FILES})
     list(APPEND GRPC_SRCS ${GRPC_SRC} ${GRPC_HEADER})
 
     message(STATUS "Setting up protobuf generation for ${FIL_WE}")
-    add_custom_command(
-        OUTPUT "${PROTO_SRC}" "${PROTO_HEADER}" "${GRPC_SRC}" "${GRPC_HEADER}"
-        COMMAND ${PROTOC_EXECUTABLE}
-        ARGS --grpc_out="${ABS_PROTO_OUT_DIR}"
-                --cpp_out="${ABS_PROTO_OUT_DIR}"
-                -I"${ABS_PROTO_DIR}"
-                -I"${ABS_PROTO_INC_DIR}"
-                --plugin=protoc-gen-grpc="${GRPC_CPP_PLUGIN}"
-                "${ABS_FIL}"
-        DEPENDS "${ABS_FIL}"
-        COMMENT "Generating gRPC files for ${FIL_WE}"
-        VERBATIM
-    )
+    
+    # Build protoc command based on available tools
+    if(PROTOC_EXECUTABLE AND GRPC_CPP_PLUGIN)
+        # Full gRPC generation
+        add_custom_command(
+            OUTPUT "${PROTO_SRC}" "${PROTO_HEADER}" "${GRPC_SRC}" "${GRPC_HEADER}"
+            COMMAND ${PROTOC_EXECUTABLE}
+            ARGS --grpc_out=${ABS_PROTO_OUT_DIR}
+                    --cpp_out=${ABS_PROTO_OUT_DIR}
+                    -I${ABS_PROTO_DIR}
+                    -I${ABS_PROTO_INC_DIR}
+                    --plugin=protoc-gen-grpc=${GRPC_CPP_PLUGIN}
+                    ${ABS_FIL}
+            DEPENDS "${ABS_FIL}"
+            COMMENT "Generating gRPC files for ${FIL_WE}"
+            VERBATIM
+        )
+    elseif(PROTOC_EXECUTABLE)
+        # Protobuf only generation
+        add_custom_command(
+            OUTPUT "${PROTO_SRC}" "${PROTO_HEADER}"
+            COMMAND ${PROTOC_EXECUTABLE}
+            ARGS --cpp_out=${ABS_PROTO_OUT_DIR}
+                    -I${ABS_PROTO_DIR}
+                    -I${ABS_PROTO_INC_DIR}
+                    ${ABS_FIL}
+            DEPENDS "${ABS_FIL}"
+            COMMENT "Generating protobuf files for ${FIL_WE} (gRPC plugin not available)"
+            VERBATIM
+        )
+        # Create empty gRPC files to satisfy dependencies
+        add_custom_command(
+            OUTPUT "${GRPC_SRC}" "${GRPC_HEADER}"
+            COMMAND ${CMAKE_COMMAND} -E touch "${GRPC_SRC}" "${GRPC_HEADER}"
+            COMMENT "Creating empty gRPC files for ${FIL_WE}"
+        )
+    else()
+        message(WARNING "No protoc executable found, skipping ${FIL_WE}")
+    endif()
     # Add to list of files that need generation
     list(APPEND PROTO_GENERATION_OUTPUTS "${PROTO_SRC}" "${PROTO_HEADER}" "${GRPC_SRC}" "${GRPC_HEADER}")
 endforeach()
@@ -383,18 +411,37 @@ if(UNIX AND NOT APPLE)
     # Only link gRPC libraries if they're available on the system
     find_library(GRPC_GRPCPP_LIB grpc++)
     find_library(GRPC_GRPC_LIB grpc)
+    find_library(GRPC_GPR_LIB gpr)
     find_library(PROTOBUF_LIB protobuf)
+    find_library(ABSL_BASE_LIB absl_base)
+    find_library(ABSL_STRINGS_LIB absl_strings)
+    find_library(ABSL_STATUS_LIB absl_status)
+    find_library(ABSL_SYNCHRONIZATION_LIB absl_synchronization)
+    find_library(ABSL_TIME_LIB absl_time)
+    find_library(ABSL_CORD_LIB absl_cord)
     
-    if(GRPC_GRPCPP_LIB AND GRPC_GRPC_LIB AND PROTOBUF_LIB)
+    if(GRPC_GRPCPP_LIB AND GRPC_GRPC_LIB AND GRPC_GPR_LIB AND PROTOBUF_LIB)
         target_link_libraries(shared_lib
             PUBLIC
                 ${GRPC_GRPCPP_LIB}
                 ${GRPC_GRPC_LIB}
+                ${GRPC_GPR_LIB}
                 ${PROTOBUF_LIB}
+                # Add Abseil libraries if available
+                $<$<BOOL:${ABSL_BASE_LIB}>:${ABSL_BASE_LIB}>
+                $<$<BOOL:${ABSL_STRINGS_LIB}>:${ABSL_STRINGS_LIB}>
+                $<$<BOOL:${ABSL_STATUS_LIB}>:${ABSL_STATUS_LIB}>
+                $<$<BOOL:${ABSL_SYNCHRONIZATION_LIB}>:${ABSL_SYNCHRONIZATION_LIB}>
+                $<$<BOOL:${ABSL_TIME_LIB}>:${ABSL_TIME_LIB}>
+                $<$<BOOL:${ABSL_CORD_LIB}>:${ABSL_CORD_LIB}>
         )
         message(STATUS "Found and linking system gRPC libraries")
     else()
         message(STATUS "System gRPC libraries not found - building without gRPC support")
+        message(STATUS "  grpc++: ${GRPC_GRPCPP_LIB}")
+        message(STATUS "  grpc: ${GRPC_GRPC_LIB}")
+        message(STATUS "  gpr: ${GRPC_GPR_LIB}")
+        message(STATUS "  protobuf: ${PROTOBUF_LIB}")
     endif()
 endif()
 
