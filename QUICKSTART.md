@@ -29,7 +29,7 @@ Simply **double-click `index.html`** or drag it into your browser.
 ### Step 4: Configure Connection
 1. **Check Server Address**: Should match your Octane gRPC port (default: `http://127.0.0.1:51023`)
 2. **Toggle Connection**: Click the 🔌 switch to connect to Octane LiveLink
-3. **Verify Connection**: Look for green status indicators and successful connection messages
+3. **Verify Connection**: Look for green connection status indicator in the footer
 
 ### What You'll See
 - **Professional 3D Viewer**: Interactive WebGL cube with mouse controls
