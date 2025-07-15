@@ -19,10 +19,13 @@ sys.path.append(os.path.dirname(__file__))
 try:
     import livelink_pb2
     import livelink_pb2_grpc
+    import apiprojectmanager_pb2
+    import apiprojectmanager_pb2_grpc
+    import common_pb2
     print("✅ Successfully imported gRPC protobuf modules")
 except ImportError as e:
     print(f"❌ Failed to import gRPC modules: {e}")
-    print("Note: This proxy requires the generated protobuf files (livelink_pb2.py, livelink_pb2_grpc.py)")
+    print("Note: This proxy requires the generated protobuf files")
     sys.exit(1)
 
 class LiveLinkProxy:
@@ -30,6 +33,7 @@ class LiveLinkProxy:
         self.octane_address = octane_address
         self.channel = None
         self.stub = None
+        self.project_stub = None
         
     async def connect_to_octane(self):
         """Connect to Octane gRPC server"""
@@ -37,6 +41,7 @@ class LiveLinkProxy:
             print(f"🔌 Connecting to Octane gRPC server at {self.octane_address}")
             self.channel = grpc.aio.insecure_channel(self.octane_address)
             self.stub = livelink_pb2_grpc.LiveLinkServiceStub(self.channel)
+            self.project_stub = apiprojectmanager_pb2_grpc.ApiProjectManagerServiceStub(self.channel)
             
             # Test connection
             print(f"📤 Testing connection with GetCamera request")
@@ -133,6 +138,37 @@ class LiveLinkProxy:
         except Exception as e:
             print(f"❌ GetMeshes failed: {e}")
             raise Exception(f"Failed to get meshes: {e}")
+    
+    async def load_project(self, project_path):
+        """Load project from .orbx file"""
+        try:
+            request = apiprojectmanager_pb2.ApiProjectManager.loadProjectRequest()
+            request.projectPath = project_path
+            request.evaluate = True  # Enable evaluation for full project load
+            
+            # Set empty callback (we don't need asset missing callback for now)
+            request.assetMissingcallback.callbackSource = ""
+            request.assetMissingcallback.callbackId = 0
+            request.assetMissinguserData = 0
+            
+            print(f"📤 Sending LoadProject request to Octane: {project_path}")
+            response = await self.project_stub.loadProject(request)
+            
+            result = {
+                'success': response.result,
+                'callbackId': response.callbackId if hasattr(response, 'callbackId') else 0
+            }
+            
+            if response.result:
+                print(f"📥 LoadProject successful: {project_path}")
+            else:
+                print(f"📥 LoadProject failed: {project_path}")
+                
+            return result
+            
+        except Exception as e:
+            print(f"❌ LoadProject failed: {e}")
+            raise Exception(f"Failed to load project: {e}")
     
     async def get_mesh(self, mesh_id):
         """Get specific mesh data from Octane"""
@@ -245,6 +281,19 @@ async def handle_get_mesh(request):
         print(f"🌐 HTTP Response: GetMesh failed - {e}")
         return web.json_response({'success': False, 'error': str(e)}, status=500)
 
+async def handle_load_project(request):
+    """Handle LoadProject requests"""
+    try:
+        print(f"🌐 HTTP Request: LoadProject from {request.remote}")
+        data = await request.json()
+        project_path = data['projectPath']
+        result = await proxy.load_project(project_path)
+        print(f"🌐 HTTP Response: LoadProject {'success' if result['success'] else 'failed'}")
+        return web.json_response({'success': True, 'data': result})
+    except Exception as e:
+        print(f"🌐 HTTP Response: LoadProject failed - {e}")
+        return web.json_response({'success': False, 'error': str(e)}, status=500)
+
 async def handle_static_files(request):
     """Serve static HTML files"""
     path = request.match_info.get('path', 'index.html')
@@ -292,11 +341,17 @@ async def init_app():
     app.router.add_post('/LiveLinkService/GetMeshes', handle_get_meshes)
     app.router.add_post('/LiveLinkService/GetMesh', handle_get_mesh)
     
+    # ApiProjectManager endpoints
+    app.router.add_post('/ApiProjectManagerService/loadProject', handle_load_project)
+    
     # Also support the livelinkapi prefix that the JavaScript client uses
     app.router.add_post('/livelinkapi.LiveLinkService/GetCamera', handle_get_camera)
     app.router.add_post('/livelinkapi.LiveLinkService/SetCamera', handle_set_camera)
     app.router.add_post('/livelinkapi.LiveLinkService/GetMeshes', handle_get_meshes)
     app.router.add_post('/livelinkapi.LiveLinkService/GetMesh', handle_get_mesh)
+    
+    # ApiProjectManager with octaneapi prefix
+    app.router.add_post('/octaneapi.ApiProjectManagerService/loadProject', handle_load_project)
     
     # Static file serving
     app.router.add_get('/', handle_static_files)  # Serve index.html by default

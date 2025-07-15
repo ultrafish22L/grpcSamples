@@ -6,7 +6,7 @@
 class FileManager {
     constructor() {
         this.supportedFormats = {
-            scene: ['.orbx', '.json'],
+            scene: ['.orbx'],  // Only support .orbx files for Octane projects
             model: ['.obj', '.fbx', '.dae', '.3ds', '.ply', '.stl'],
             texture: ['.jpg', '.jpeg', '.png', '.tiff', '.tga', '.exr', '.hdr'],
             material: ['.mtl', '.mat']
@@ -83,7 +83,7 @@ class FileManager {
                     <div class="drop-indicator-icon">📁</div>
                     <div class="drop-indicator-text">Drop files here</div>
                     <div class="drop-indicator-formats">
-                        Supported: .orbx, .obj, .fbx, .jpg, .png, .exr, .hdr
+                        Supported: .orbx (Octane projects), .obj, .fbx, .jpg, .png, .exr, .hdr
                     </div>
                 </div>
             `;
@@ -190,16 +190,73 @@ class FileManager {
         console.log('Processing scene file:', result.name);
         
         if (result.name.endsWith('.orbx')) {
-            // Handle ORBX files
+            // Handle ORBX files - load via gRPC
             result.metadata = { type: 'orbx', version: '1.0' };
-        } else if (result.name.endsWith('.json')) {
-            // Handle JSON scene files
-            try {
-                result.parsed = JSON.parse(result.data);
-                result.metadata = { type: 'json', objects: result.parsed.objects?.length || 0 };
-            } catch (error) {
-                throw new Error('Invalid JSON scene file');
+            
+            // Attempt to load the project via gRPC if we have a client
+            if (window.octaneClient && window.octaneClient.isConnected) {
+                try {
+                    console.log('Loading ORBX project via gRPC:', result.file.path || result.name);
+                    
+                    // Use the file path if available, otherwise use the name
+                    const projectPath = result.file.path || result.name;
+                    
+                    const loadResult = await this.loadOrbxProject(projectPath);
+                    result.loadResult = loadResult;
+                    result.metadata.loaded = loadResult.success;
+                    
+                    if (loadResult.success) {
+                        console.log('✅ ORBX project loaded successfully');
+                    } else {
+                        console.warn('⚠️ ORBX project load failed:', loadResult.error);
+                    }
+                } catch (error) {
+                    console.error('❌ Failed to load ORBX project:', error);
+                    result.loadResult = { success: false, error: error.message };
+                    result.metadata.loaded = false;
+                }
+            } else {
+                console.warn('⚠️ Octane client not connected - ORBX file processed but not loaded');
+                result.metadata.loaded = false;
+                result.loadResult = { success: false, error: 'Octane client not connected' };
             }
+        }
+    }
+    
+    async loadOrbxProject(projectPath) {
+        /**
+         * Load ORBX project via gRPC ApiProjectManager.loadProject()
+         */
+        try {
+            if (!window.octaneClient) {
+                throw new Error('Octane client not available');
+            }
+            
+            // Make gRPC call to load project
+            const response = await window.octaneClient.makeRequest('/octaneapi.ApiProjectManagerService/loadProject', {
+                method: 'POST',
+                data: {
+                    projectPath: projectPath
+                }
+            });
+            
+            if (response.success && response.data) {
+                return {
+                    success: response.data.success,
+                    callbackId: response.data.callbackId,
+                    projectPath: projectPath
+                };
+            } else {
+                throw new Error(response.error || 'Load project request failed');
+            }
+            
+        } catch (error) {
+            console.error('Failed to load ORBX project:', error);
+            return {
+                success: false,
+                error: error.message,
+                projectPath: projectPath
+            };
         }
     }
     

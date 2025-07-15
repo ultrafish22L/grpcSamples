@@ -436,24 +436,38 @@ class MenuSystem extends OctaneComponent {
     }
     
     async openScene() {
-        console.log('📂 Opening scene file...');
+        console.log('📂 Opening Octane project file...');
         
         try {
             const results = await this.fileManager.openFileDialog({
-                accept: '.orbx,.json',
+                accept: '.orbx',  // Only accept .orbx files
                 multiple: false
             });
             
             if (results.length > 0) {
                 const result = results[0];
-                await this.loadSceneFromFile(result);
-                this.addToRecentFiles(result.name);
-                this.showNotification(`Opened ${result.name}`, 'success');
+                
+                // Check if the project was successfully loaded via gRPC
+                if (result.loadResult && result.loadResult.success) {
+                    await this.loadSceneFromFile(result);
+                    this.addToRecentFiles(result.name);
+                    this.showNotification(`✅ Loaded Octane project: ${result.name}`, 'success');
+                } else if (result.loadResult && !result.loadResult.success) {
+                    // Project file was processed but gRPC load failed
+                    const errorMsg = result.loadResult.error || 'Unknown error';
+                    this.showNotification(`❌ Failed to load project: ${errorMsg}`, 'error');
+                    console.error('Project load failed:', result.loadResult);
+                } else {
+                    // Fallback for when gRPC is not available
+                    await this.loadSceneFromFile(result);
+                    this.addToRecentFiles(result.name);
+                    this.showNotification(`📁 Processed project file: ${result.name} (Octane not connected)`, 'warning');
+                }
             }
             
         } catch (error) {
             console.error('Failed to open scene:', error);
-            this.showNotification('Failed to open scene file', 'error');
+            this.showNotification('Failed to open project file', 'error');
         }
     }
     
