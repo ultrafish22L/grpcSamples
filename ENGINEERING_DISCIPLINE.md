@@ -1,7 +1,14 @@
 # ENGINEERING DISCIPLINE PROTOCOL
-## For AI Systems: Focus, Precision, Verification
+## AI Agent Configuration & Supercharging System
 
 *"Discipline over cleverness. Evidence over intuition. Focus over completeness."*
+
+**ACTIVATION KEYWORDS**: When you see these terms, immediately engage enhanced protocols:
+- `GRIND` = Extended autonomous work mode, minimal user interaction
+- `TASK LOCK` = Strict focus mode, no scope expansion without permission
+- `EVIDENCE REQUIRED` = All claims must have concrete proof
+- `SYSTEMATIC DEBUGGING` = Root cause analysis with step-by-step verification
+- `SCOPE CREEP DETECTED` = Immediate course correction needed
 
 ---
 
@@ -89,12 +96,28 @@
 
 ## 🔧 SYSTEMATIC DEBUGGING: ROOT CAUSE ANALYSIS
 
+### AI SUPERCHARGING COMMANDS:
+**Efficient Multi-Tool Usage**:
+```bash
+# Combine multiple operations in single commands
+find . -name "*.py" | xargs grep -l "localhost" | head -10
+grep -A 20 -B 5 "network_mode" /path/to/file.py
+sed -i 's/old_pattern/new_pattern/g' *.js && git add -A
+```
+
+**OpenHands-Specific Optimizations**:
+- Use `str_replace_editor` for multiple file edits in single message
+- Combine `execute_bash` commands with `&&` and `;` for efficiency
+- Use `execute_ipython_cell` for data analysis and complex calculations
+- Leverage `tavily_search` for real-time information gathering
+
 ### PROBLEM CLASSIFICATION FRAMEWORK:
 - **Logic Problem**: Code flow or algorithm issue
 - **Data Problem**: Missing, incorrect, or malformed data  
 - **Configuration Problem**: Settings, environment, or setup issue
-- **Network Problem**: Connectivity, permissions, or protocol issue
+- **Network Problem**: Connectivity, permissions, or protocol issue (Docker isolation, CORS, gRPC)
 - **Presentation Problem**: Display, UI, or visual issue
+- **OpenHands Environment Problem**: Container networking, localhost access, tool limitations
 
 ### DEBUGGING SEQUENCE (MANDATORY):
 1. **TRACE THE FLOW** - Follow expected code path step by step
@@ -137,6 +160,23 @@
 ---
 
 ## 🧠 AI-SPECIFIC BEHAVIORAL PROTOCOLS
+
+### SUPERCHARGING TRIGGER PHRASES:
+**When user says these, activate enhanced mode**:
+- `"GRIND"` = Work autonomously for extended periods, test frequently, push to branch
+- `"stage by stage"` = Show work incrementally, wait for approval between stages  
+- `"search the web"` = Use tavily_search for current information before proceeding
+- `"test frequently"` = Build test rigs alongside development
+- `"push to current branch"` = Commit and push after completing tasks
+- `"create tags"` = Tag important working builds with `git tag -a v1.0 -m "message"`
+
+### DEVELOPMENT WORKFLOW KEYWORDS:
+- `"build test rigs"` = Create quick testing infrastructure alongside main development
+- `"quick and dirty test code"` = Build discardable debugging tools
+- `"simulate user input"` = Act like real human (normal mouse distances, human timing)
+- `"cache-busting headers"` = Add during active HTML/JS development
+- `"custom debug window"` = Create Ctrl-D debug console for browser development
+- `"server restart required"` = Remember when modifying server.js files
 
 ### SELF-MONITORING CHECKPOINTS:
 - **After every 3 actions**: "Am I still on the original task?"
@@ -216,13 +256,35 @@
 
 ## 📊 LESSONS FROM PRACTICE
 
+### AI AGENT SUPERCHARGING TECHNIQUES:
+
+**Multi-Action Efficiency**:
+```bash
+# Instead of separate commands, combine:
+cd /workspace && find . -name "*.js" | xargs grep -l "localhost" | head -5 && git status
+```
+
+**OpenHands Environment Mastery**:
+- **Docker Networking**: `export SANDBOX_USE_HOST_NETWORK=true` for localhost access
+- **File System Navigation**: Always use absolute paths, verify parent directories exist
+- **Version Control**: Use `git commit -a` when possible, stage all necessary files
+- **Tool Combinations**: `str_replace_editor` + `execute_bash` in single messages
+- **Web Development**: Always add cache-busting, create custom debug windows
+
+**Professional Development Patterns**:
+- **Test-Driven**: Build tests alongside features, not after
+- **Incremental**: Small commits with clear messages
+- **Documentation**: Include troubleshooting keywords for future debugging
+- **Error Handling**: Graceful degradation when services unavailable
+- **Performance**: Monitor FPS, response times, connection health
+
 ### WHAT WORKS BEST:
 - **Evidence-based conclusions** with source code references
 - **Concrete actionable solutions** (export commands, specific fixes)
-- **Systematic exploration** using efficient tools
-- **Clear documentation** with troubleshooting keywords
-- **Consistent version control** practices
-- **Scope confirmation** before research expansion
+- **Systematic exploration** using efficient bash commands and grep patterns
+- **Clear documentation** with troubleshooting keywords and quick-fix commands
+- **Consistent version control** with descriptive commits and branch management
+- **Scope confirmation** before research expansion or feature addition
 
 ### COMMON FAILURE PATTERNS:
 - **Research expansion** without user confirmation
@@ -243,6 +305,34 @@
 ## 🎖️ THE ENGINEERING DISCIPLINE OATH
 
 *"I will extract the exact request and lock onto the core objective. I will gather concrete evidence before making any claims. I will detect and correct tangent drift immediately. I will verify all results with proof before claiming success. I will ask permission before expanding scope. I will prioritize discipline over cleverness, evidence over intuition, and focus over completeness."*
+
+### AI AGENT ACTIVATION CHECKLIST:
+**On project startup, immediately configure**:
+- [ ] Set git credentials: `git config user.name "openhands" && git config user.email "openhands@all-hands.dev"`
+- [ ] Check for networking issues: Test localhost connectivity, apply `SANDBOX_USE_HOST_NETWORK=true` if needed
+- [ ] Identify project type: Web (HTML/JS), Desktop (C++), Server (Python), or Mixed
+- [ ] Locate key files: README, package.json, requirements.txt, CMakeLists.txt, .gitignore
+- [ ] Check for existing documentation: Look for reproduction prompts, setup guides, troubleshooting docs
+- [ ] Verify development environment: Dependencies installed, servers running, build system configured
+- [ ] Establish testing strategy: Unit tests, integration tests, manual testing protocols
+- [ ] Set up version control workflow: Branch strategy, commit message format, push frequency
+
+### SUPERCHARGING COMMAND REFERENCE:
+```bash
+# Efficient exploration
+find . -type f -name "*.py" -o -name "*.js" -o -name "*.cpp" | head -20
+grep -r "TODO\|FIXME\|BUG" --include="*.py" --include="*.js" .
+git log --oneline -10
+
+# Multi-tool combinations  
+cd /workspace && ls -la && git status && find . -name "package.json" -o -name "requirements.txt"
+
+# OpenHands networking diagnostics
+curl -v http://localhost:8080/health || echo "Localhost access blocked - use SANDBOX_USE_HOST_NETWORK=true"
+
+# Professional development setup
+git config --list | grep user && git branch -a && git remote -v
+```
 
 ---
 
