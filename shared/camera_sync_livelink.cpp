@@ -417,7 +417,7 @@ glm::mat4 CameraSyncLiveLink::matrixDToGlm(const livelinkapi::MatrixD& protoMat)
 
 void CameraSyncLiveLink::logGrpcStatus(const std::string& operation, bool success) {
     if (success) {
-        std::cout << "LiveLink " << operation << " succeeded" << std::endl;
+//        std::cout << "LiveLink " << operation << " succeeded" << std::endl;
     } else {
         std::cerr << "LiveLink " << operation << " failed" << std::endl;
     }
