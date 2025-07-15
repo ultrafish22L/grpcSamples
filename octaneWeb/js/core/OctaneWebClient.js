@@ -4,7 +4,14 @@
  * Builds upon the existing LiveLinkClient from livelink.js
  */
 
-class OctaneWebClient extends LiveLinkClient {
+// Define the class after ensuring LiveLinkClient is available
+function createOctaneWebClient() {
+    if (typeof LiveLinkClient === 'undefined') {
+        console.error('LiveLinkClient not available. Make sure livelink.js is loaded first.');
+        return null;
+    }
+
+    class OctaneWebClient extends LiveLinkClient {
     constructor(serverUrl) {
         super(serverUrl);
         
@@ -662,6 +669,12 @@ class OctaneWebClient extends LiveLinkClient {
         return Array.from(this.nodeGraphState.selectedNodes);
     }
 }
+
+    return OctaneWebClient;
+}
+
+// Create and export the class
+const OctaneWebClient = createOctaneWebClient();
 
 // Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
