@@ -290,6 +290,110 @@ html, body {
     font-style: italic;
 }
 
+/* Scene Outliner Tree Styles */
+.scene-outliner-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background-color: var(--octane-bg-secondary);
+    border-bottom: 1px solid var(--octane-border);
+}
+
+.scene-outliner-search {
+    flex: 1;
+    padding: 4px 8px;
+    background-color: var(--octane-bg-primary);
+    border: 1px solid var(--octane-border);
+    border-radius: 3px;
+    color: var(--octane-text-primary);
+    font-size: var(--font-size-small);
+}
+
+.scene-outliner-search:focus {
+    outline: none;
+    border-color: var(--octane-accent);
+}
+
+.scene-tree {
+    flex: 1;
+    overflow-y: auto;
+    background-color: var(--octane-bg-primary);
+}
+
+.tree-node {
+    display: flex;
+    align-items: center;
+    min-height: 20px;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid transparent;
+}
+
+.tree-node:hover {
+    background-color: var(--octane-bg-hover);
+}
+
+.tree-node.selected {
+    background-color: var(--octane-accent) !important;
+    color: var(--octane-text-inverse);
+}
+
+.tree-node-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 2px 4px;
+    gap: 4px;
+}
+
+.tree-toggle {
+    width: 12px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--octane-text-muted);
+    cursor: pointer;
+}
+
+.tree-toggle.has-children:hover {
+    color: var(--octane-text-primary);
+}
+
+.tree-node-icon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.tree-node-name {
+    flex: 1;
+    font-size: var(--font-size-small);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tree-node-visibility {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.tree-node-visibility:hover {
+    opacity: 1;
+}
+
 /* Center Panel - Viewport */
 .center-panel {
     display: flex;
