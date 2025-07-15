@@ -51,4 +51,8 @@ Thumbs.db
 *.pb.h
 *.pb.cc
 *.grpc.pb.h
-*.grpc.pb.ccserver.log
+*.grpc.pb.cc
+
+# Log files
+*.log
+server.log
