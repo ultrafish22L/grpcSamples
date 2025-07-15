@@ -31,6 +31,13 @@ public partial class MainWindow : Window
     // Real-time sync
     private Timer? _syncTimer;
     private readonly object _syncLock = new object();
+    
+    // LiveLink debug logging
+    private int _liveLinkLogLines = 1;
+    private int _liveLinkErrors = 0;
+    private int _liveLinkSyncCount = 0;
+    private DateTime _lastSyncTime = DateTime.Now;
+    private Timer? _performanceTimer;
 
     public MainWindow()
     {
@@ -42,8 +49,14 @@ public partial class MainWindow : Window
     {
         LogMessage("🔥 Octane gRPC Testbed - Professional Edition");
         LogMessage("Ready to connect to Octane LiveLink service...");
+        
+        // Initialize LiveLink debug log
+        LogLiveLinkMessage("🔥 Octane gRPC Testbed - Professional Edition", "System");
+        LogLiveLinkMessage("Ready to connect to Octane LiveLink service...", "System");
+        
         UpdateCameraUI();
         UpdatePerformanceUI();
+        StartPerformanceMonitoring();
     }
 
     private void LogMessage(string message)
@@ -65,6 +78,70 @@ public partial class MainWindow : Window
         });
     }
 
+    private void LogLiveLinkMessage(string message, string category = "Info", bool isError = false)
+    {
+        var timestamp = DateTime.Now.ToString("HH:mm:ss.fff");
+        var icon = GetLogIcon(category, isError);
+        var logEntry = $"{icon} [{timestamp}] {message}\n";
+        
+        if (isError) _liveLinkErrors++;
+        _liveLinkLogLines++;
+        
+        Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            if (LiveLinkLogTextBox != null)
+            {
+                LiveLinkLogTextBox.Text += logEntry;
+                
+                // Auto-scroll to bottom
+                if (LiveLinkLogScrollViewer != null)
+                {
+                    LiveLinkLogScrollViewer.ScrollToEnd();
+                }
+            }
+            
+            // Update log stats
+            UpdateLiveLinkLogStats();
+            
+            // Update error count in performance overlay
+            if (LiveLinkErrorsText != null)
+            {
+                LiveLinkErrorsText.Text = $"Errors: {_liveLinkErrors}";
+            }
+        });
+        
+        // Also log to verbose if enabled
+        if (VerboseLoggingCheckBox?.IsChecked == true)
+        {
+            LogMessage($"[LiveLink] {message}");
+        }
+    }
+
+    private string GetLogIcon(string category, bool isError)
+    {
+        if (isError) return "❌";
+        
+        return category switch
+        {
+            "System" => "🗒️",
+            "Connection" => "🔌",
+            "Camera" => "📷",
+            "Sync" => "🔄",
+            "Success" => "✅",
+            "Warning" => "⚠️",
+            "Performance" => "📊",
+            _ => "🗒️"
+        };
+    }
+
+    private void UpdateLiveLinkLogStats()
+    {
+        if (LogStatsText != null)
+        {
+            LogStatsText.Text = $"Lines: {_liveLinkLogLines}";
+        }
+    }
+
     private async void ConnectButton_Click(object? sender, RoutedEventArgs e)
     {
         if (_isConnected)
@@ -82,8 +159,9 @@ public partial class MainWindow : Window
         var stopwatch = Stopwatch.StartNew();
         try
         {
-            var serverAddress = ServerTextBox?.Text ?? "localhost:8080";
+            var serverAddress = ServerTextBox?.Text ?? "localhost:51022";
             LogMessage($"🔌 Connecting to {serverAddress}...");
+            LogLiveLinkMessage($"Connecting to {serverAddress}...", "Connection");
 
             // Create gRPC channel
             _channel = GrpcChannel.ForAddress($"http://{serverAddress}");
@@ -100,7 +178,8 @@ public partial class MainWindow : Window
             UpdateConnectionStatus();
             UpdatePerformanceStats(stopwatch.ElapsedMilliseconds, null);
             LogMessage("✅ Connected successfully!");
-            LogMessage($"📥 Initial camera position: {response}");
+            LogLiveLinkMessage("✅ Connected to Octane LiveLink successfully!", "Success");
+            LogLiveLinkMessage($"Initial camera position: ({response?.Position?.X:F2}, {response?.Position?.Y:F2}, {response?.Position?.Z:F2})", "Camera");
             
             // Update camera position from response
             if (response?.Position != null)
@@ -119,6 +198,7 @@ public partial class MainWindow : Window
         {
             UpdatePerformanceStats(stopwatch.ElapsedMilliseconds, ex.Message);
             LogMessage($"❌ Connection failed: {ex.Message}");
+            LogLiveLinkMessage($"Connection failed: {ex.Message}", "Connection", true);
             await DisconnectAsync();
         }
     }
@@ -141,11 +221,47 @@ public partial class MainWindow : Window
             _isConnected = false;
             UpdateConnectionStatus();
             LogMessage("🔌 Disconnected");
+            LogLiveLinkMessage("Disconnected from Octane LiveLink", "Connection");
         }
         catch (Exception ex)
         {
             LogMessage($"❌ Disconnect error: {ex.Message}");
+            LogLiveLinkMessage($"Disconnect error: {ex.Message}", "Connection", true);
         }
+    }
+
+    private void StartPerformanceMonitoring()
+    {
+        _performanceTimer = new Timer(_ =>
+        {
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                // Update FPS (simulated for now - would be real in OpenGL implementation)
+                if (LiveLinkFpsText != null)
+                {
+                    var fps = _isConnected ? 60 : 0;
+                    LiveLinkFpsText.Text = $"FPS: {fps}";
+                }
+                
+                // Update sync rate
+                if (LiveLinkSyncText != null)
+                {
+                    var syncRate = CalculateSyncRate();
+                    LiveLinkSyncText.Text = $"Sync: {syncRate:F1}/s";
+                }
+            });
+        }, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(500)); // Update every 500ms
+    }
+
+    private double CalculateSyncRate()
+    {
+        var now = DateTime.Now;
+        var timeDiff = (now - _lastSyncTime).TotalSeconds;
+        if (timeDiff > 0 && _liveLinkSyncCount > 0)
+        {
+            return _liveLinkSyncCount / timeDiff;
+        }
+        return 0.0;
     }
 
     private void UpdateConnectionStatus()
@@ -242,6 +358,8 @@ public partial class MainWindow : Window
             {
                 _cameraPosition = new Vector3(response.Position.X, response.Position.Y, response.Position.Z);
                 UpdateCameraUI();
+                LogLiveLinkMessage($"Camera retrieved: ({response.Position.X:F2}, {response.Position.Y:F2}, {response.Position.Z:F2})", "Camera");
+                _liveLinkSyncCount++;
             }
             
             return $"Position: ({response?.Position?.X:F2}, {response?.Position?.Y:F2}, {response?.Position?.Z:F2})";
@@ -264,6 +382,8 @@ public partial class MainWindow : Window
                 
                 var response = await _cameraClient!.SetCameraPositionAsync(request);
                 _cameraPosition = new Vector3(x, y, z);
+                LogLiveLinkMessage($"Camera set to: ({x:F2}, {y:F2}, {z:F2})", "Camera");
+                _liveLinkSyncCount++;
                 
                 return $"Camera set to: ({x:F2}, {y:F2}, {z:F2})";
             }
@@ -279,6 +399,7 @@ public partial class MainWindow : Window
         _cameraPosition = new Vector3(0, 0, 5);
         _cameraTarget = new Vector3(0, 0, 0);
         UpdateCameraUI();
+        LogLiveLinkMessage("Camera reset to default position", "Camera");
         SetCameraButton_Click(sender, e);
     }
 
@@ -373,5 +494,58 @@ public partial class MainWindow : Window
             LogTextBox.Text = "";
             LogMessage("🗑️ Log cleared");
         }
+    }
+
+    private void LiveLinkClearLogButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (LiveLinkLogTextBox != null)
+        {
+            LiveLinkLogTextBox.Text = "🗒️ [System] LiveLink debug log cleared\n";
+            _liveLinkLogLines = 1;
+            _liveLinkErrors = 0;
+            UpdateLiveLinkLogStats();
+            
+            // Reset error count in performance overlay
+            if (LiveLinkErrorsText != null)
+            {
+                LiveLinkErrorsText.Text = "Errors: 0";
+            }
+        }
+    }
+
+    private async void LiveLinkSaveLogButton_Click(object? sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (LiveLinkLogTextBox?.Text != null)
+            {
+                var timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                var filename = $"LiveLink_Log_{timestamp}.txt";
+                var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                var filepath = System.IO.Path.Combine(desktopPath, filename);
+                
+                await System.IO.File.WriteAllTextAsync(filepath, LiveLinkLogTextBox.Text);
+                LogLiveLinkMessage($"Log saved to: {filepath}", "System");
+            }
+        }
+        catch (Exception ex)
+        {
+            LogLiveLinkMessage($"Failed to save log: {ex.Message}", "System", true);
+        }
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        // Cleanup timers
+        _syncTimer?.Dispose();
+        _performanceTimer?.Dispose();
+        
+        // Cleanup gRPC channel
+        if (_channel != null)
+        {
+            Task.Run(async () => await _channel.ShutdownAsync());
+        }
+        
+        base.OnClosed(e);
     }
 }
