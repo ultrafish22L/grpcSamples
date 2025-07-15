@@ -154,25 +154,107 @@ function createOctaneWebClient() {
         }
     }
     
+    // ==================== GRPC CALL OVERRIDE ====================
+
+    /**
+     * Override makeGrpcCall to handle different service prefixes
+     */
+    async makeGrpcCall(method, request) {
+        const startTime = Date.now();
+        const callId = `${method}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        this.callCount++;
+
+        // Determine the correct URL based on method prefix
+        let url;
+        if (method.startsWith('octaneapi.')) {
+            // Direct octaneapi service call
+            url = `${this.serverUrl}/${method}`;
+        } else if (method.includes('ApiProjectManagerService/') || method.includes('ApiNodeGraphService/')) {
+            // ApiProjectManager or ApiNodeGraph service calls
+            url = `${this.serverUrl}/${method}`;
+        } else {
+            // Default LiveLink service calls
+            url = `${this.serverUrl}/livelinkapi.LiveLinkService/${method}`;
+        }
+
+        this.log(`gRPC call started: ${method}`, {
+            callId: callId,
+            method: method,
+            url: url,
+            request: request,
+            callNumber: this.callCount,
+            connectionState: this.connectionState
+        });
+
+        try {
+            if (!this.isReady()) {
+                throw new Error(`Client not ready for gRPC calls. State: ${this.connectionState}`);
+            }
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => {
+                controller.abort();
+                this.log(`gRPC call timeout: ${method}`, { callId, duration: Date.now() - startTime }, 'error');
+            }, 30000); // 30 second timeout
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Call-Id': callId
+                },
+                body: JSON.stringify(request),
+                signal: controller.signal
+            });
+
+            clearTimeout(timeoutId);
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            const duration = Date.now() - startTime;
+
+            this.log(`gRPC call completed: ${method}`, {
+                callId: callId,
+                duration: duration,
+                success: result.success,
+                dataSize: JSON.stringify(result).length
+            });
+
+            return result;
+
+        } catch (error) {
+            const duration = Date.now() - startTime;
+            this.log(`gRPC call failed: ${method}`, {
+                callId: callId,
+                duration: duration,
+                error: error.message
+            }, 'error');
+            throw error;
+        }
+    }
+
     // ==================== SCENE MANAGEMENT ====================
     
     /**
-     * Get scene data using available LiveLink methods
+     * Get scene data using real Octane scene hierarchy API
      */
     async getSceneData() {
         try {
-            // Get mesh list using LiveLink GetMeshes method
-            console.log('🔍 Calling GetMeshes endpoint...');
-            const meshResponse = await this.makeGrpcCall('GetMeshes', {});
+            // Get real scene hierarchy using buildSceneTree API
+            console.log('🌳 Calling buildSceneTree endpoint for real Octane hierarchy...');
+            const sceneResponse = await this.makeGrpcCall('octaneapi.ApiProjectManagerService/buildSceneTree', {});
             
-            console.log('📥 Raw GetMeshes response:', JSON.stringify(meshResponse, null, 2));
+            console.log('📥 Raw buildSceneTree response:', JSON.stringify(sceneResponse, null, 2));
             
-            if (meshResponse.success && meshResponse.data) {
-                console.log('📊 Mesh data type:', typeof meshResponse.data);
-                console.log('📊 Mesh data content:', meshResponse.data);
+            if (sceneResponse.success && sceneResponse.data && sceneResponse.data.hierarchy) {
+                console.log('🌳 Real scene hierarchy type:', typeof sceneResponse.data.hierarchy);
+                console.log('🌳 Real scene hierarchy content:', sceneResponse.data.hierarchy);
                 
-                // Convert mesh data to scene hierarchy format
-                const sceneHierarchy = this.convertMeshesToHierarchy(meshResponse.data);
+                // Use the real hierarchical data from Octane
+                const sceneHierarchy = sceneResponse.data.hierarchy;
                 
                 // Update scene state
                 this.sceneState.hierarchy = sceneHierarchy;
@@ -181,11 +263,31 @@ function createOctaneWebClient() {
                 this.emit('ui:sceneUpdate', this.sceneState);
                 this.emit('ui:sceneHierarchyUpdate', sceneHierarchy);
                 
-                console.log('Scene data loaded:', sceneHierarchy);
+                console.log('🌳 Real Octane scene data loaded:', sceneHierarchy);
                 return { success: true, hierarchy: sceneHierarchy };
             } else {
-                console.warn('Failed to get mesh data:', meshResponse);
-                return { success: false, error: 'Failed to get mesh data' };
+                console.warn('Failed to get scene hierarchy from buildSceneTree:', sceneResponse);
+                
+                // Fallback to GetMeshes for basic mesh data
+                console.log('🔄 Falling back to GetMeshes endpoint...');
+                const meshResponse = await this.makeGrpcCall('GetMeshes', {});
+                
+                if (meshResponse.success && meshResponse.data) {
+                    // Convert flat mesh data to hierarchical format
+                    const sceneHierarchy = this.convertMeshesToHierarchy(meshResponse.data);
+                    
+                    // Update scene state
+                    this.sceneState.hierarchy = sceneHierarchy;
+                    
+                    // Emit scene update event
+                    this.emit('ui:sceneUpdate', this.sceneState);
+                    this.emit('ui:sceneHierarchyUpdate', sceneHierarchy);
+                    
+                    console.log('📊 Fallback mesh data loaded:', sceneHierarchy);
+                    return { success: true, hierarchy: sceneHierarchy };
+                }
+                
+                return { success: false, error: 'Failed to get scene data from both buildSceneTree and GetMeshes' };
             }
             
         } catch (error) {
