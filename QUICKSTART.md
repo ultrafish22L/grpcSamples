@@ -11,16 +11,12 @@
 
 #### Windows
 ```cmd
-cd path\to\grpcSamples\proxy
-pip install grpcio aiohttp aiohttp-cors
-python grpc_proxy.py
+html/start_proxy.bat
 ```
 
 #### Linux/macOS
 ```bash
-cd /path/to/grpcSamples/proxy
-pip3 install grpcio aiohttp aiohttp-cors
-python3 grpc_proxy.py
+html/start_proxy.sh
 ```
 
 ### Step 3: Open the Web Application

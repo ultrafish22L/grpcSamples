@@ -24,26 +24,32 @@ Comprehensive code samples demonstrating Octane Render integration via gRPC. Fea
 
 ## Quick Start
 
-### Web Application
-```bash
-# Start development servers
-./start_development_servers.sh
+### Step 1: Start Octane Render
+1. **Launch Octane Render** on your system
+2. **Enable gRPC Server**: Go to Preferences → LiveLink → Enable gRPC Server
+3. **Note the Port**: Default is usually 51023 (check Preferences → LiveLink → Port)
 
-# Open web application  
-http://localhost:51313/index.html
+### Step 2: Start the Proxy Server
+
+#### Windows
+```cmd
+html/start_proxy.bat
 ```
 
-### Desktop Applications
+#### Linux/macOS
 ```bash
+html/start_proxy.sh
+```
+
+### Step 3: Open the Web Application
+Simply **double-click `index.html`** or drag it into your browser.
+
+### Desktop Applications
 # Build C++ applications
-mkdir build && cd build
-cmake .. && make
 
 # Run applications
 ./simpleGL        # Standalone viewer
 ./simpleGlGrpc    # Network sync viewer  
-./simpleGlSdk     # SDK integrated viewer
-```
 
 ## Repository Structure
 
