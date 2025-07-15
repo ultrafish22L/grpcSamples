@@ -163,13 +163,3 @@ add_subdirectory(simpleGL)
 add_subdirectory(simpleGlGrpc)
 add_subdirectory(testGrpcApi)
 #add_subdirectory(simpleGlSdk)
-
-# Avalonia .NET project removed - using C++ Dear ImGui testGrpcApi instead
-
-# Add testGrpcApi C++ Dear ImGui application
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/testGrpcApi/CMakeLists.txt")
-    message(STATUS "Adding testGrpcApi C++ Dear ImGui application")
-    add_subdirectory(testGrpcApi)
-else()
-    message(WARNING "testGrpcApi directory not found")
-endif()
