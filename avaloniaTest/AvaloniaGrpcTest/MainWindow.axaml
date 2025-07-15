@@ -2,10 +2,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="1400" d:DesignHeight="900"
+        xmlns:local="clr-namespace:AvaloniaGrpcTest"
+        mc:Ignorable="d" d:DesignWidth="1400" d:DesignHeight="1200"
         x:Class="AvaloniaGrpcTest.MainWindow"
         Title="Octane gRPC Testbed - Professional Edition"
         Background="#2d2d30"
+        Width="1400" Height="1200"
         MinWidth="1200" MinHeight="700">
 
     <Window.Styles>
@@ -105,12 +107,13 @@
                     <!-- 3D Viewport -->
                     <Border Grid.Column="0" Background="#1a1a1a" BorderBrush="#555555" BorderThickness="1" Margin="10">
                         <Grid>
-                            <!-- Placeholder for OpenGL control -->
-                            <Border Name="OpenGLContainer" Background="#000000">
-                                <TextBlock Text="3D Viewport - OpenGL Rendering" 
-                                           HorizontalAlignment="Center" VerticalAlignment="Center"
-                                           Foreground="#666666" FontSize="16"/>
-                            </Border>
+                            <!-- OpenGL 3D Cube Viewport -->
+                            <local:SpinningCubeControl Name="OpenGLCube" Background="#000000"/>
+                            
+                            <!-- 3D Viewport Label -->
+                            <TextBlock Text="3D Viewport - LiveLink Sync" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                                       Foreground="#666666" FontSize="14" Margin="0,0,0,20"/>
                             
                             <!-- Overlay Controls -->
                             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" 

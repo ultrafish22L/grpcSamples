@@ -196,3 +196,11 @@ if(DOTNET_EXECUTABLE)
 else()
     message(WARNING ".NET SDK not found - Avalonia project will not be built")
 endif()
+
+# Add testGrpcApi C++ Dear ImGui application
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/testGrpcApi/CMakeLists.txt")
+    message(STATUS "Adding testGrpcApi C++ Dear ImGui application")
+    add_subdirectory(testGrpcApi)
+else()
+    message(WARNING "testGrpcApi directory not found")
+endif()
