@@ -16,12 +16,11 @@ html/protoc-gen-grpc-web
 *.o
 *.obj
 sdk/*.lib
-third_party/**/*.lib
-third_party/**/*.a
-third_party/**/*.dylib
-third_party/**/*.exe
-grpc_generator.cc
-!third_party/**/protoc.exe
+# exceptions
+!third_party/**/*.lib
+!third_party/**/*.a
+!third_party/**/*.dylib
+!third_party/**/*.exe
 
 # CMake files
 CMakeCache.txt
