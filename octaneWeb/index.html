@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<!--
+    OctaneWeb - Complete Web-Based Octane Render Interface
+    A pixel-perfect recreation of Octane Render Studio in HTML/JavaScript
+    Operating entirely through Octane's gRPC LiveLink API
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OctaneRender Studio - Web Edition</title>
+    
+    <!-- Core Stylesheets -->
+    <link rel="stylesheet" href="css/octane-theme.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/icons/octane-icon.svg">
+</head>
+<body>
+    <!-- Application Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="octane-logo-large">
+                <svg class="octane-gear-logo" viewBox="80 400 160 160" xmlns="http://www.w3.org/2000/svg">
+                    <path d="m 169.12653,414.9594 c -17.66973,19.84435 -24.42202,30.54014 -25.82633,46.56827 -0.0797,-0.0403 -0.14939,-0.0719 -0.23111,-0.11556 -6.49445,-3.72391 -11.68872,-11.28146 -14.79091,-19.00864 l -11.38208,4.44883 c 8.34282,25.2004 14.29208,36.30322 27.44409,45.5283 -0.0845,0.0557 -0.14162,0.11759 -0.23111,0.17324 -6.47223,3.7624 -15.61888,4.52807 -23.86191,3.35107 l -1.84887,12.07539 c 26.04716,5.38577 38.66855,5.8375 53.27042,-0.9822 0.006,0.10131 -0.004,0.18303 0,0.28888 0.0222,7.48631 -3.93015,15.75176 -9.07099,22.30193 l 9.53321,7.62657 c 17.64876,-19.82077 24.35332,-30.51407 25.76857,-46.51051 0.0817,0.0412 0.14717,0.0708 0.23111,0.11556 6.49445,3.72391 11.68873,11.28146 14.79092,19.00864 l 11.38207,-4.44883 c -8.34481,-25.20645 -14.28544,-36.3597 -27.44408,-45.58608 0.0856,-0.0566 0.14032,-0.11685 0.2311,-0.17324 6.47223,-3.7624 15.61888,-4.47029 23.86192,-3.29329 l 1.84886,-12.13317 c -26.0131,-5.37872 -38.63503,-5.80958 -53.21266,0.98221 -0.006,-0.0969 0.004,-0.18794 0,-0.28889 -0.0222,-7.48631 3.93015,-15.75174 9.07101,-22.30191 l -9.53323,-7.62657 z m 0.98221,44.95051 c 8.92834,-0.29403 16.40356,6.72926 16.69758,15.65757 0.29403,8.92832 -6.72925,16.40354 -15.65759,16.69757 -8.92832,0.29402 -16.40354,-6.72926 -16.69756,-15.65758 -0.29403,-8.92832 6.72926,-16.40354 15.65757,-16.69756 z" fill="currentColor" stroke="none" />
+                </svg>
+            </div>
+            <h1>OctaneRender Studio</h1>
+            <p>Web Edition</p>
+            <div class="loading-spinner"></div>
+            <div class="loading-status">Initializing...</div>
+        </div>
+    </div>
+
+    <!-- Main Application Interface -->
+    <div id="app-container" class="app-container" style="display: none;">
+        
+        <!-- Top Menu Bar -->
+        <header class="menu-bar">
+            <nav class="main-menu">
+                <div class="menu-item" data-menu="file">File</div>
+                <div class="menu-item" data-menu="edit">Edit</div>
+                <div class="menu-item" data-menu="script">Script</div>
+                <div class="menu-item" data-menu="module">Module</div>
+                <div class="menu-item" data-menu="cloud">Cloud</div>
+                <div class="menu-item" data-menu="window">Window</div>
+                <div class="menu-item" data-menu="help">Help</div>
+            </nav>
+            
+            <!-- Connection Status -->
+            <div class="connection-status">
+                <div class="status-indicator" id="connection-indicator">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Disconnected</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Application Layout -->
+        <main class="app-layout">
+            
+            <!-- Left Panel: Scene Outliner -->
+            <aside class="left-panel panel">
+                <div class="panel-header">
+                    <h3>Scene outliner</h3>
+                    <div class="panel-controls">
+                        <button class="panel-btn" title="Collapse All">⊟</button>
+                        <button class="panel-btn" title="Expand All">⊞</button>
+                    </div>
+                </div>
+                <div class="panel-content">
+                    <div id="scene-outliner" class="scene-outliner">
+                        <!-- Scene tree will be populated here -->
+                        <div class="scene-loading">Loading scene...</div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center Panel: Render Viewport -->
+            <section class="center-panel">
+                
+                <!-- Viewport Header -->
+                <div class="viewport-header">
+                    <div class="viewport-title">Render viewport - Render target @ 100%</div>
+                    <div class="viewport-controls">
+                        <button class="viewport-btn" title="Fit to Window">⊞</button>
+                        <button class="viewport-btn" title="Actual Size">1:1</button>
+                        <button class="viewport-btn" title="Zoom In">🔍+</button>
+                        <button class="viewport-btn" title="Zoom Out">🔍-</button>
+                    </div>
+                </div>
+                
+                <!-- 3D Viewport -->
+                <div class="viewport-container">
+                    <canvas id="render-viewport" class="render-viewport"></canvas>
+                    <div class="viewport-overlay">
+                        <div class="viewport-info">
+                            <div class="render-stats">
+                                <span id="render-time">0.00s</span>
+                                <span id="render-samples">0 samples</span>
+                                <span id="render-resolution">1920x1080</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Render Controls -->
+                <div class="render-controls">
+                    <div class="playback-controls">
+                        <button class="control-btn" title="First Frame">⏮</button>
+                        <button class="control-btn" title="Previous Frame">⏪</button>
+                        <button class="control-btn" title="Play/Pause">⏯</button>
+                        <button class="control-btn" title="Next Frame">⏩</button>
+                        <button class="control-btn" title="Last Frame">⏭</button>
+                    </div>
+                    <div class="render-info">
+                        <span class="frame-info">Frame 1 of 1</span>
+                        <span class="gpu-info">NVIDIA GeForce RTX 4090 (RT), 1.4...</span>
+                    </div>
+                </div>
+                
+                <!-- Node Graph Editor -->
+                <div class="node-graph-section">
+                    <div class="node-graph-header">
+                        <h3>Node graph editor</h3>
+                        <div class="node-graph-controls">
+                            <button class="node-btn" title="Add Node">+</button>
+                            <button class="node-btn" title="Delete Node">🗑</button>
+                            <button class="node-btn" title="Fit All">⊞</button>
+                        </div>
+                    </div>
+                    <div class="node-graph-container">
+                        <canvas id="node-graph" class="node-graph"></canvas>
+                        <div class="node-palette">
+                            <!-- Node palette will be populated here -->
+                        </div>
+                    </div>
+                </div>
+                
+            </section>
+
+            <!-- Right Panel: Node Inspector -->
+            <aside class="right-panel panel">
+                <div class="panel-header">
+                    <h3>Node inspector</h3>
+                    <div class="panel-controls">
+                        <select class="node-selector">
+                            <option>Render target</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="panel-content">
+                    <div id="node-inspector" class="node-inspector">
+                        <!-- Node parameters will be populated here -->
+                        <div class="inspector-loading">Select a node to inspect...</div>
+                    </div>
+                </div>
+            </aside>
+            
+        </main>
+
+        <!-- Status Bar -->
+        <footer class="status-bar">
+            <div class="status-left">
+                <span class="status-item">Ready</span>
+            </div>
+            <div class="status-right">
+                <span class="status-item">OctaneLive: <span id="octane-status">disconnected</span></span>
+                <span class="status-item">FPS: <span id="fps-counter">0</span></span>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Context Menus -->
+    <div id="context-menus" class="context-menus">
+        <!-- Context menus will be dynamically created here -->
+    </div>
+
+    <!-- Modal Dialogs -->
+    <div id="modal-container" class="modal-container">
+        <!-- Modal dialogs will be dynamically created here -->
+    </div>
+
+    <!-- Core JavaScript Libraries -->
+    <script src="../html/livelink.js"></script>
+    <script src="../html/shared.js"></script>
+    <script src="../html/webgl-utils.js"></script>
+    
+    <!-- OctaneWeb Core -->
+    <script src="js/core/OctaneWebClient.js"></script>
+    <script src="js/core/ComponentSystem.js"></script>
+    <script src="js/core/StateManager.js"></script>
+    <script src="js/core/EventSystem.js"></script>
+    
+    <!-- UI Components -->
+    <script src="js/components/SceneOutliner.js"></script>
+    <script src="js/components/RenderViewport.js"></script>
+    <script src="js/components/NodeInspector.js"></script>
+    <script src="js/components/NodeGraphEditor.js"></script>
+    <script src="js/components/MenuSystem.js"></script>
+    
+    <!-- Utilities -->
+    <script src="js/utils/WebGLRenderer.js"></script>
+    <script src="js/utils/LayoutManager.js"></script>
+    <script src="js/utils/FileManager.js"></script>
+    
+    <!-- Main Application -->
+    <script src="js/app.js"></script>
+    
+</body>
+</html>

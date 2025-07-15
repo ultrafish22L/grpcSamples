@@ -1,0 +1,584 @@
+/**
+ * OctaneWeb Component Styles
+ * Specific styling for individual UI components
+ */
+
+/* Scene Outliner Components */
+.scene-outliner-toolbar {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    background-color: var(--octane-bg-header);
+    border-bottom: 1px solid var(--octane-border);
+}
+
+.scene-outliner-search {
+    flex: 1;
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-primary);
+    padding: 4px 8px;
+    font-size: var(--font-size-small);
+    border-radius: var(--border-radius);
+}
+
+.scene-outliner-search:focus {
+    outline: none;
+    border-color: var(--octane-accent-blue);
+}
+
+.scene-outliner-search::placeholder {
+    color: var(--octane-text-muted);
+}
+
+/* Node Inspector Components */
+.node-inspector-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    background-color: var(--octane-bg-header);
+    border-bottom: 1px solid var(--octane-border);
+}
+
+.node-type-icon {
+    width: 16px;
+    height: 16px;
+    background-color: var(--octane-accent-blue);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: white;
+    font-weight: bold;
+}
+
+.node-name {
+    flex: 1;
+    font-size: var(--font-size-normal);
+    font-weight: var(--font-weight-bold);
+    color: var(--octane-text-primary);
+}
+
+/* Parameter Control Variants */
+.parameter-checkbox {
+    width: 16px;
+    height: 16px;
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: 2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+}
+
+.parameter-checkbox:hover {
+    border-color: var(--octane-accent-blue);
+}
+
+.parameter-checkbox.checked {
+    background-color: var(--octane-accent-blue);
+    border-color: var(--octane-accent-blue);
+}
+
+.parameter-checkbox.checked::after {
+    content: '✓';
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.parameter-dropdown {
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-primary);
+    padding: 4px 8px;
+    font-size: var(--font-size-small);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    width: 100%;
+}
+
+.parameter-dropdown:focus {
+    outline: none;
+    border-color: var(--octane-accent-blue);
+}
+
+.parameter-color {
+    width: 24px;
+    height: 16px;
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.parameter-color::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, #ccc 25%, transparent 25%), 
+                linear-gradient(-45deg, #ccc 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #ccc 75%), 
+                linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-size: 8px 8px;
+    background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+}
+
+.parameter-color-swatch {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+/* Viewport Components */
+.viewport-navigation {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: var(--border-radius);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.viewport-nav-btn {
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-secondary);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.15s ease;
+}
+
+.viewport-nav-btn:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+    border-color: var(--octane-accent-blue);
+}
+
+.viewport-gizmo {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 80px;
+    height: 80px;
+    pointer-events: none;
+}
+
+/* Node Graph Components */
+.node-graph-minimap {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 150px;
+    height: 100px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+}
+
+.node-graph-toolbar {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: flex;
+    gap: 4px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 4px;
+    border-radius: var(--border-radius);
+}
+
+.node-graph-tool {
+    width: 28px;
+    height: 28px;
+    background: none;
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-secondary);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: all 0.15s ease;
+}
+
+.node-graph-tool:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+.node-graph-tool.active {
+    background-color: var(--octane-accent-blue);
+    color: white;
+    border-color: var(--octane-accent-blue);
+}
+
+/* Node Socket Styles */
+.node-socket {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--octane-border);
+    background-color: var(--octane-bg-secondary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    position: relative;
+}
+
+.node-socket:hover {
+    border-color: var(--octane-accent-blue);
+    transform: scale(1.2);
+}
+
+.node-socket.connected {
+    background-color: var(--octane-accent-blue);
+    border-color: var(--octane-accent-blue);
+}
+
+.node-socket.input {
+    margin-right: 8px;
+}
+
+.node-socket.output {
+    margin-left: 8px;
+}
+
+.node-socket-label {
+    font-size: var(--font-size-small);
+    color: var(--octane-text-secondary);
+    white-space: nowrap;
+}
+
+.node-socket.input .node-socket-label {
+    margin-left: 4px;
+}
+
+.node-socket.output .node-socket-label {
+    margin-right: 4px;
+}
+
+/* Context Menu Components */
+.context-menu {
+    position: absolute;
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px var(--octane-shadow);
+    padding: 4px 0;
+    min-width: 150px;
+    z-index: 10000;
+    pointer-events: auto;
+}
+
+.context-menu-item {
+    padding: 6px 12px;
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.15s ease;
+}
+
+.context-menu-item:hover {
+    background-color: var(--octane-bg-hover);
+}
+
+.context-menu-item.disabled {
+    color: var(--octane-text-disabled);
+    cursor: not-allowed;
+}
+
+.context-menu-item.disabled:hover {
+    background-color: transparent;
+}
+
+.context-menu-separator {
+    height: 1px;
+    background-color: var(--octane-border);
+    margin: 4px 0;
+}
+
+.context-menu-icon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.context-menu-shortcut {
+    margin-left: auto;
+    color: var(--octane-text-muted);
+    font-size: 10px;
+}
+
+/* Modal Dialog Components */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    pointer-events: auto;
+}
+
+.modal-dialog {
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 16px var(--octane-shadow);
+    min-width: 300px;
+    max-width: 80vw;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    background-color: var(--octane-bg-header);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--octane-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-title {
+    font-size: var(--font-size-normal);
+    font-weight: var(--font-weight-bold);
+    color: var(--octane-text-primary);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--octane-text-secondary);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px;
+    border-radius: var(--border-radius);
+    transition: all 0.15s ease;
+}
+
+.modal-close:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+.modal-content {
+    padding: 16px;
+    flex: 1;
+    overflow: auto;
+    color: var(--octane-text-primary);
+}
+
+.modal-footer {
+    padding: 12px 16px;
+    border-top: 1px solid var(--octane-border);
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.modal-button {
+    background-color: var(--octane-bg-header);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-primary);
+    padding: 6px 12px;
+    font-size: var(--font-size-small);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.modal-button:hover {
+    background-color: var(--octane-bg-hover);
+}
+
+.modal-button.primary {
+    background-color: var(--octane-accent-blue);
+    border-color: var(--octane-accent-blue);
+    color: white;
+}
+
+.modal-button.primary:hover {
+    background-color: #3a7bc8;
+}
+
+/* Tooltip Components */
+.tooltip {
+    position: absolute;
+    background-color: var(--octane-bg-darker);
+    color: var(--octane-text-primary);
+    padding: 4px 8px;
+    font-size: var(--font-size-small);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--octane-border);
+    box-shadow: 0 2px 4px var(--octane-shadow);
+    z-index: 10001;
+    pointer-events: none;
+    white-space: nowrap;
+    max-width: 200px;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.tooltip::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid var(--octane-border);
+}
+
+.tooltip::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid var(--octane-bg-darker);
+}
+
+/* Progress Components */
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background-color: var(--octane-bg-secondary);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: var(--octane-accent-blue);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    font-size: var(--font-size-small);
+    color: var(--octane-text-secondary);
+    text-align: center;
+    margin-top: 4px;
+}
+
+/* Animation Classes */
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease-in-out;
+}
+
+.slide-in-left {
+    animation: slideInLeft 0.3s ease-out;
+}
+
+.slide-in-right {
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+/* Utility Classes */
+.hidden {
+    display: none !important;
+}
+
+.invisible {
+    visibility: hidden !important;
+}
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.no-select {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.full-width {
+    width: 100% !important;
+}
+
+.full-height {
+    height: 100% !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
