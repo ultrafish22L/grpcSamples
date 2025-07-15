@@ -1,5 +1,26 @@
 # Complete Octane gRPC Samples Repository Reproduction Prompt
 
+## 🚨 CRITICAL NETWORKING SETUP FOR OPENHANDS
+
+**Docker Container Isolation Issue**: By default, OpenHands runs in Docker containers that cannot access host localhost services (like gRPC proxy servers).
+
+**Quick Fix for gRPC Connectivity:**
+```bash
+export SANDBOX_USE_HOST_NETWORK=true
+```
+
+**Alternative for Docker-in-Docker environments:**
+```bash
+export SANDBOX_LOCAL_RUNTIME_URL="http://host.docker.internal"
+```
+
+**Symptoms of networking issues:**
+- Connection refused errors to localhost:8080
+- gRPC proxy timeouts from web applications  
+- "Network unreachable" errors in container logs
+
+**Complete networking guide**: See `OPENHANDS_LOCALHOST_NETWORKING.md` for detailed configuration options and troubleshooting.
+
 ## User Experience Requirements (Non-Technical)
 
 ### Visual Design and Branding

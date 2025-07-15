@@ -1,5 +1,22 @@
 # Octane gRPC Samples Repository
 
+## 🚨 CRITICAL OPENHANDS NETWORKING SETUP
+
+**Docker Container Isolation**: OpenHands cannot access host localhost services by default. For gRPC proxy connectivity:
+
+```bash
+export SANDBOX_USE_HOST_NETWORK=true
+```
+
+**Docker-in-Docker Alternative:**
+```bash
+export SANDBOX_LOCAL_RUNTIME_URL="http://host.docker.internal"
+```
+
+**Troubleshooting Keywords**: `Connection refused`, `localhost:8080`, `gRPC timeout`, `Network unreachable`
+
+**Complete Guide**: See `OPENHANDS_LOCALHOST_NETWORKING.md` for detailed networking configuration.
+
 ## Purpose
 This repository provides comprehensive code samples and implementations for connecting to Octane Render via gRPC. It demonstrates real-time camera synchronization, 3D model loading, and web-based integration with Octane's LiveLink service. The repository serves as both a learning resource and production-ready foundation for building applications that integrate with Octane Render.
 
