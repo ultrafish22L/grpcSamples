@@ -1,0 +1,37 @@
+{
+  "name": "Test Scene",
+  "version": "1.0",
+  "objects": [
+    {
+      "id": "cube1",
+      "type": "mesh",
+      "name": "Test Cube",
+      "position": [0, 0, 0],
+      "rotation": [0, 0, 0],
+      "scale": [1, 1, 1],
+      "geometry": {
+        "type": "box",
+        "width": 2,
+        "height": 2,
+        "depth": 2
+      },
+      "material": {
+        "type": "diffuse",
+        "color": [0.8, 0.2, 0.2]
+      }
+    }
+  ],
+  "camera": {
+    "position": [5, 5, 5],
+    "target": [0, 0, 0],
+    "fov": 45
+  },
+  "lights": [
+    {
+      "type": "directional",
+      "direction": [-1, -1, -1],
+      "intensity": 1.0,
+      "color": [1, 1, 1]
+    }
+  ]
+}

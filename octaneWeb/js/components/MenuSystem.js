@@ -9,10 +9,14 @@ class MenuSystem extends OctaneComponent {
         
         this.activeMenu = null;
         this.menuDefinitions = this.getMenuDefinitions();
+        this.fileManager = new FileManager();
+        this.activeSubmenus = new Set();
     }
     
     async onInitialize() {
         this.setupMenuItems();
+        this.fileManager.initialize();
+        this.updateRecentFilesMenu();
     }
     
     setupEventListeners() {
@@ -88,12 +92,17 @@ class MenuSystem extends OctaneComponent {
         const disabled = item.enabled === false ? 'disabled' : '';
         const shortcut = item.shortcut ? `<span class="context-menu-shortcut">${item.shortcut}</span>` : '';
         const icon = item.icon ? `<span class="context-menu-icon">${item.icon}</span>` : '';
+        const hasSubmenu = item.submenu && item.submenu.length > 0;
+        const submenuArrow = hasSubmenu ? '<span class="context-menu-arrow">▶</span>' : '';
         
         return `
-            <div class="context-menu-item ${disabled}" data-action="${item.action || ''}">
+            <div class="context-menu-item ${disabled} ${hasSubmenu ? 'has-submenu' : ''}" 
+                 data-action="${item.action || ''}" 
+                 data-has-submenu="${hasSubmenu}">
                 ${icon}
                 <span>${item.label}</span>
                 ${shortcut}
+                ${submenuArrow}
             </div>
         `;
     }
@@ -102,13 +111,32 @@ class MenuSystem extends OctaneComponent {
         const items = dropdown.querySelectorAll('.context-menu-item:not(.disabled)');
         
         items.forEach(item => {
-            this.addEventListener(item, 'click', (e) => {
-                const action = item.dataset.action;
-                if (action) {
-                    this.executeMenuAction(action);
-                }
-                this.closeAllMenus();
-            });
+            const hasSubmenu = item.dataset.hasSubmenu === 'true';
+            
+            if (hasSubmenu) {
+                // Handle submenu items
+                this.addEventListener(item, 'mouseenter', (e) => {
+                    this.showSubmenu(item, dropdown);
+                });
+                
+                this.addEventListener(item, 'mouseleave', (e) => {
+                    // Don't hide submenu immediately, let mouse move to submenu
+                    setTimeout(() => {
+                        if (!item.matches(':hover') && !this.isSubmenuHovered(item)) {
+                            this.hideSubmenu(item);
+                        }
+                    }, 100);
+                });
+            } else {
+                // Handle regular menu items
+                this.addEventListener(item, 'click', (e) => {
+                    const action = item.dataset.action;
+                    if (action) {
+                        this.executeMenuAction(action, item.dataset.data);
+                    }
+                    this.closeAllMenus();
+                });
+            }
         });
     }
     
@@ -134,20 +162,96 @@ class MenuSystem extends OctaneComponent {
         }, 0);
     }
     
+    showSubmenu(parentItem, parentDropdown) {
+        // Hide other submenus first
+        this.hideAllSubmenus();
+        
+        // Find submenu definition
+        const menuName = this.activeMenu;
+        const menuDef = this.menuDefinitions[menuName];
+        const parentAction = parentItem.dataset.action;
+        
+        let submenuDef = null;
+        for (const item of menuDef) {
+            if (item.action === parentAction && item.submenu) {
+                submenuDef = item.submenu;
+                break;
+            }
+        }
+        
+        if (!submenuDef) return;
+        
+        // Create submenu
+        const submenu = this.createDropdownMenu(submenuDef);
+        submenu.classList.add('submenu');
+        submenu.dataset.parent = parentAction;
+        
+        // Position submenu
+        this.positionSubmenu(submenu, parentItem);
+        
+        document.body.appendChild(submenu);
+        this.activeSubmenus.add(submenu);
+    }
+    
+    hideSubmenu(parentItem) {
+        const parentAction = parentItem.dataset.action;
+        const submenu = document.querySelector(`.submenu[data-parent="${parentAction}"]`);
+        if (submenu) {
+            submenu.remove();
+            this.activeSubmenus.delete(submenu);
+        }
+    }
+    
+    hideAllSubmenus() {
+        this.activeSubmenus.forEach(submenu => {
+            submenu.remove();
+        });
+        this.activeSubmenus.clear();
+    }
+    
+    isSubmenuHovered(parentItem) {
+        const parentAction = parentItem.dataset.action;
+        const submenu = document.querySelector(`.submenu[data-parent="${parentAction}"]`);
+        return submenu && submenu.matches(':hover');
+    }
+    
+    positionSubmenu(submenu, parentItem) {
+        const parentRect = parentItem.getBoundingClientRect();
+        
+        submenu.style.position = 'fixed';
+        submenu.style.left = `${parentRect.right}px`;
+        submenu.style.top = `${parentRect.top}px`;
+        submenu.style.zIndex = '10001';
+        
+        // Adjust position if submenu would go off-screen
+        setTimeout(() => {
+            const submenuRect = submenu.getBoundingClientRect();
+            
+            if (submenuRect.right > window.innerWidth) {
+                submenu.style.left = `${parentRect.left - submenuRect.width}px`;
+            }
+            
+            if (submenuRect.bottom > window.innerHeight) {
+                submenu.style.top = `${parentRect.bottom - submenuRect.height}px`;
+            }
+        }, 0);
+    }
+
     closeAllMenus() {
         // Remove active state from menu items
         const activeItems = this.element.querySelectorAll('.menu-item.active');
         activeItems.forEach(item => item.classList.remove('active'));
         
-        // Remove dropdown menus
+        // Remove dropdown menus and submenus
         const dropdowns = document.querySelectorAll('.menu-dropdown');
         dropdowns.forEach(dropdown => dropdown.remove());
         
+        this.hideAllSubmenus();
         this.activeMenu = null;
     }
     
-    async executeMenuAction(action) {
-        console.log('Executing menu action:', action);
+    async executeMenuAction(action, data = null) {
+        console.log('Executing menu action:', action, data);
         
         switch (action) {
             case 'file.new':
@@ -156,17 +260,44 @@ class MenuSystem extends OctaneComponent {
             case 'file.open':
                 await this.openScene();
                 break;
+            case 'file.openRecent':
+                await this.openRecentScene(data);
+                break;
+            case 'file.clearRecent':
+                await this.clearRecentFiles();
+                break;
             case 'file.save':
                 await this.saveScene();
                 break;
             case 'file.saveAs':
                 await this.saveSceneAs();
                 break;
-            case 'file.import':
-                await this.importFile();
+            case 'file.saveAsPackage':
+                await this.saveAsPackage();
                 break;
-            case 'file.export':
-                await this.exportFile();
+            case 'file.saveAsPackageSettings':
+                await this.saveAsPackageSettings();
+                break;
+            case 'file.unpackPackage':
+                await this.unpackPackage();
+                break;
+            case 'file.loadRenderState':
+                await this.loadRenderState();
+                break;
+            case 'file.saveRenderState':
+                await this.saveRenderState();
+                break;
+            case 'file.saveAsDefault':
+                await this.saveAsDefault();
+                break;
+            case 'file.preferences':
+                await this.showPreferences();
+                break;
+            case 'file.activationStatus':
+                await this.showActivationStatus();
+                break;
+            case 'file.quit':
+                await this.quitApplication();
                 break;
             case 'edit.undo':
                 await this.undo();
@@ -203,14 +334,34 @@ class MenuSystem extends OctaneComponent {
     getMenuDefinitions() {
         return {
             file: [
-                { label: 'New Scene', action: 'file.new', shortcut: 'Ctrl+N', icon: '📄' },
-                { label: 'Open Scene...', action: 'file.open', shortcut: 'Ctrl+O', icon: '📂' },
+                { label: 'New', action: 'file.new', shortcut: 'Ctrl+N' },
+                { label: 'Open', action: 'file.open', shortcut: 'Ctrl+O' },
+                { 
+                    label: 'Recent projects', 
+                    action: 'file.recent',
+                    submenu: [
+                        { label: 'teapot.orbx', action: 'file.openRecent', data: 'teapot.orbx' },
+                        { label: 'scene_001.orbx', action: 'file.openRecent', data: 'scene_001.orbx' },
+                        { type: 'separator' },
+                        { label: 'Clear Recent', action: 'file.clearRecent' }
+                    ]
+                },
                 { type: 'separator' },
-                { label: 'Save Scene', action: 'file.save', shortcut: 'Ctrl+S', icon: '💾' },
-                { label: 'Save Scene As...', action: 'file.saveAs', shortcut: 'Ctrl+Shift+S', icon: '💾' },
+                { label: 'Save', action: 'file.save', shortcut: 'Ctrl+S' },
+                { label: 'Save as...', action: 'file.saveAs', shortcut: 'Ctrl+Shift+S' },
+                { label: 'Save as package...', action: 'file.saveAsPackage' },
+                { label: 'Save as package settings...', action: 'file.saveAsPackageSettings' },
+                { label: 'Unpack package...', action: 'file.unpackPackage' },
                 { type: 'separator' },
-                { label: 'Import...', action: 'file.import', shortcut: 'Ctrl+I', icon: '📥' },
-                { label: 'Export...', action: 'file.export', shortcut: 'Ctrl+E', icon: '📤' }
+                { label: 'Load render state...', action: 'file.loadRenderState' },
+                { label: 'Save render state...', action: 'file.saveRenderState' },
+                { type: 'separator' },
+                { label: 'Save as default', action: 'file.saveAsDefault' },
+                { type: 'separator' },
+                { label: 'Preferences...', action: 'file.preferences', shortcut: 'Ctrl+,' },
+                { label: 'Activation status...', action: 'file.activationStatus' },
+                { type: 'separator' },
+                { label: 'Quit', action: 'file.quit', shortcut: 'Ctrl+Q' }
             ],
             edit: [
                 { label: 'Undo', action: 'edit.undo', shortcut: 'Ctrl+Z', icon: '↶' },
@@ -262,33 +413,211 @@ class MenuSystem extends OctaneComponent {
     
     // Menu action implementations
     async newScene() {
-        console.log('New scene');
-        // TODO: Implement new scene
+        console.log('🆕 Creating new scene...');
+        
+        try {
+            // Clear current scene
+            if (this.stateManager) {
+                this.stateManager.clearScene();
+            }
+            
+            // Reset viewport
+            if (this.components?.renderViewport) {
+                this.components.renderViewport.reset();
+            }
+            
+            // Update UI
+            this.showNotification('New scene created', 'success');
+            
+        } catch (error) {
+            console.error('Failed to create new scene:', error);
+            this.showNotification('Failed to create new scene', 'error');
+        }
     }
     
     async openScene() {
-        console.log('Open scene');
-        // TODO: Implement open scene
+        console.log('📂 Opening scene file...');
+        
+        try {
+            const results = await this.fileManager.openFileDialog({
+                accept: '.orbx,.json',
+                multiple: false
+            });
+            
+            if (results.length > 0) {
+                const result = results[0];
+                await this.loadSceneFromFile(result);
+                this.addToRecentFiles(result.name);
+                this.showNotification(`Opened ${result.name}`, 'success');
+            }
+            
+        } catch (error) {
+            console.error('Failed to open scene:', error);
+            this.showNotification('Failed to open scene file', 'error');
+        }
+    }
+    
+    async openRecentScene(filename) {
+        console.log('📂 Opening recent scene:', filename);
+        
+        try {
+            // In a real implementation, this would load from a recent files cache
+            // For now, we'll show a placeholder
+            this.showNotification(`Opening ${filename}... (Not implemented yet)`, 'info');
+            
+        } catch (error) {
+            console.error('Failed to open recent scene:', error);
+            this.showNotification('Failed to open recent scene', 'error');
+        }
+    }
+    
+    async clearRecentFiles() {
+        console.log('🗑️ Clearing recent files...');
+        
+        try {
+            // Clear recent files from storage
+            localStorage.removeItem('octaneWeb.recentFiles');
+            this.showNotification('Recent files cleared', 'success');
+            
+        } catch (error) {
+            console.error('Failed to clear recent files:', error);
+            this.showNotification('Failed to clear recent files', 'error');
+        }
     }
     
     async saveScene() {
-        console.log('Save scene');
-        // TODO: Implement save scene
+        console.log('💾 Saving scene...');
+        
+        try {
+            const currentScene = this.getCurrentSceneData();
+            const filename = this.getCurrentSceneFilename() || 'untitled.orbx';
+            
+            await this.fileManager.saveFile(filename, JSON.stringify(currentScene, null, 2), 'application/json');
+            this.showNotification(`Saved ${filename}`, 'success');
+            
+        } catch (error) {
+            console.error('Failed to save scene:', error);
+            this.showNotification('Failed to save scene', 'error');
+        }
     }
     
     async saveSceneAs() {
-        console.log('Save scene as');
-        // TODO: Implement save scene as
+        console.log('💾 Save scene as...');
+        
+        try {
+            const currentScene = this.getCurrentSceneData();
+            const timestamp = new Date().toISOString().split('T')[0];
+            const filename = `scene_${timestamp}.orbx`;
+            
+            await this.fileManager.saveFile(filename, JSON.stringify(currentScene, null, 2), 'application/json');
+            this.setCurrentSceneFilename(filename);
+            this.addToRecentFiles(filename);
+            this.showNotification(`Saved as ${filename}`, 'success');
+            
+        } catch (error) {
+            console.error('Failed to save scene as:', error);
+            this.showNotification('Failed to save scene', 'error');
+        }
     }
     
-    async importFile() {
-        console.log('Import file');
-        // TODO: Implement import
+    async saveAsPackage() {
+        console.log('📦 Save as package...');
+        this.showNotification('Save as package - Not implemented yet', 'info');
     }
     
-    async exportFile() {
-        console.log('Export file');
-        // TODO: Implement export
+    async saveAsPackageSettings() {
+        console.log('⚙️ Save as package settings...');
+        this.showNotification('Save as package settings - Not implemented yet', 'info');
+    }
+    
+    async unpackPackage() {
+        console.log('📦 Unpack package...');
+        
+        try {
+            const results = await this.fileManager.openFileDialog({
+                accept: '.orbx,.zip',
+                multiple: false
+            });
+            
+            if (results.length > 0) {
+                this.showNotification('Package unpacking - Not implemented yet', 'info');
+            }
+            
+        } catch (error) {
+            console.error('Failed to unpack package:', error);
+            this.showNotification('Failed to unpack package', 'error');
+        }
+    }
+    
+    async loadRenderState() {
+        console.log('🎨 Load render state...');
+        
+        try {
+            const results = await this.fileManager.openFileDialog({
+                accept: '.json,.state',
+                multiple: false
+            });
+            
+            if (results.length > 0) {
+                this.showNotification('Render state loading - Not implemented yet', 'info');
+            }
+            
+        } catch (error) {
+            console.error('Failed to load render state:', error);
+            this.showNotification('Failed to load render state', 'error');
+        }
+    }
+    
+    async saveRenderState() {
+        console.log('🎨 Save render state...');
+        
+        try {
+            const renderState = this.getCurrentRenderState();
+            const filename = `render_state_${Date.now()}.json`;
+            
+            await this.fileManager.saveFile(filename, JSON.stringify(renderState, null, 2), 'application/json');
+            this.showNotification(`Render state saved as ${filename}`, 'success');
+            
+        } catch (error) {
+            console.error('Failed to save render state:', error);
+            this.showNotification('Failed to save render state', 'error');
+        }
+    }
+    
+    async saveAsDefault() {
+        console.log('⭐ Save as default...');
+        
+        try {
+            const currentScene = this.getCurrentSceneData();
+            localStorage.setItem('octaneWeb.defaultScene', JSON.stringify(currentScene));
+            this.showNotification('Scene saved as default', 'success');
+            
+        } catch (error) {
+            console.error('Failed to save as default:', error);
+            this.showNotification('Failed to save as default', 'error');
+        }
+    }
+    
+    async showPreferences() {
+        console.log('⚙️ Show preferences...');
+        this.showNotification('Preferences dialog - Not implemented yet', 'info');
+    }
+    
+    async showActivationStatus() {
+        console.log('🔑 Show activation status...');
+        this.showNotification('Activation status - Not implemented yet', 'info');
+    }
+    
+    async quitApplication() {
+        console.log('🚪 Quit application...');
+        
+        if (confirm('Are you sure you want to quit OctaneWeb?')) {
+            // In a real application, this might save state and close gracefully
+            this.showNotification('Goodbye!', 'info');
+            setTimeout(() => {
+                window.close();
+            }, 1000);
+        }
     }
     
     async undo() {
@@ -374,6 +703,166 @@ class MenuSystem extends OctaneComponent {
         `;
         
         document.body.appendChild(modal);
+    }
+    
+    // Helper methods for file operations
+    async loadSceneFromFile(fileResult) {
+        console.log('Loading scene from file:', fileResult.name);
+        
+        try {
+            if (fileResult.type === 'scene') {
+                if (fileResult.parsed) {
+                    // JSON scene file
+                    if (this.stateManager) {
+                        this.stateManager.loadScene(fileResult.parsed);
+                    }
+                } else {
+                    // ORBX file - would need special handling
+                    console.log('ORBX file loading not yet implemented');
+                }
+                
+                this.setCurrentSceneFilename(fileResult.name);
+            }
+        } catch (error) {
+            console.error('Failed to load scene from file:', error);
+            throw error;
+        }
+    }
+    
+    getCurrentSceneData() {
+        // Get current scene data from state manager or create default
+        if (this.stateManager && this.stateManager.getSceneData) {
+            return this.stateManager.getSceneData();
+        }
+        
+        return {
+            version: '1.0',
+            created: new Date().toISOString(),
+            objects: [],
+            materials: [],
+            lights: [],
+            camera: {
+                position: [0, 0, 5],
+                target: [0, 0, 0],
+                up: [0, 1, 0],
+                fov: 45
+            }
+        };
+    }
+    
+    getCurrentRenderState() {
+        // Get current render state
+        return {
+            version: '1.0',
+            timestamp: new Date().toISOString(),
+            settings: {
+                samples: 1000,
+                maxDepth: 8,
+                resolution: [1920, 1080]
+            },
+            camera: this.getCurrentSceneData().camera
+        };
+    }
+    
+    getCurrentSceneFilename() {
+        return this.currentSceneFilename || null;
+    }
+    
+    setCurrentSceneFilename(filename) {
+        this.currentSceneFilename = filename;
+        // Update window title
+        document.title = `${filename} - OctaneRender Studio - Web Edition`;
+    }
+    
+    addToRecentFiles(filename) {
+        try {
+            let recentFiles = JSON.parse(localStorage.getItem('octaneWeb.recentFiles') || '[]');
+            
+            // Remove if already exists
+            recentFiles = recentFiles.filter(f => f !== filename);
+            
+            // Add to beginning
+            recentFiles.unshift(filename);
+            
+            // Keep only last 10
+            recentFiles = recentFiles.slice(0, 10);
+            
+            localStorage.setItem('octaneWeb.recentFiles', JSON.stringify(recentFiles));
+            
+            // Update menu definitions
+            this.updateRecentFilesMenu();
+            
+        } catch (error) {
+            console.error('Failed to add to recent files:', error);
+        }
+    }
+    
+    updateRecentFilesMenu() {
+        try {
+            const recentFiles = JSON.parse(localStorage.getItem('octaneWeb.recentFiles') || '[]');
+            
+            // Update the menu definition
+            const fileMenu = this.menuDefinitions.file;
+            const recentMenuItem = fileMenu.find(item => item.action === 'file.recent');
+            
+            if (recentMenuItem) {
+                recentMenuItem.submenu = [
+                    ...recentFiles.map(filename => ({
+                        label: filename,
+                        action: 'file.openRecent',
+                        data: filename
+                    })),
+                    { type: 'separator' },
+                    { label: 'Clear Recent', action: 'file.clearRecent' }
+                ];
+            }
+            
+        } catch (error) {
+            console.error('Failed to update recent files menu:', error);
+        }
+    }
+    
+    showNotification(message, type = 'info') {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+            <div class="notification-content">
+                <span class="notification-icon">${this.getNotificationIcon(type)}</span>
+                <span class="notification-message">${message}</span>
+                <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+            </div>
+        `;
+        
+        // Add to page
+        let container = document.getElementById('notification-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'notification-container';
+            container.className = 'notification-container';
+            document.body.appendChild(container);
+        }
+        
+        container.appendChild(notification);
+        
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove();
+            }
+        }, 5000);
+        
+        console.log(`${type.toUpperCase()}: ${message}`);
+    }
+    
+    getNotificationIcon(type) {
+        switch (type) {
+            case 'success': return '✅';
+            case 'error': return '❌';
+            case 'warning': return '⚠️';
+            case 'info': 
+            default: return 'ℹ️';
+        }
     }
 }
 
