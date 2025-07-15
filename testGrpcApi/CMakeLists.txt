@@ -46,17 +46,39 @@ target_include_directories(testGrpcApi
         ${CMAKE_CURRENT_SOURCE_DIR}
         "${CMAKE_CURRENT_SOURCE_DIR}/../third_party/imgui"
         "${CMAKE_CURRENT_SOURCE_DIR}/../third_party/imgui/backends"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../shared"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../shared/protos"
 )
 
 # Link libraries - use built targets from third_party
 target_link_libraries(testGrpcApi
     PRIVATE
         shared_lib
+        # Windows-specific libraries for ImGui
+        $<$<PLATFORM_ID:Windows>:opengl32>
+        $<$<PLATFORM_ID:Windows>:gdi32>
+        $<$<PLATFORM_ID:Windows>:user32>
+        $<$<PLATFORM_ID:Windows>:kernel32>
+        $<$<PLATFORM_ID:Windows>:shell32>
+        # Linux-specific libraries
+        $<$<PLATFORM_ID:Linux>:GL>
+        $<$<PLATFORM_ID:Linux>:X11>
+        $<$<PLATFORM_ID:Linux>:pthread>
+        $<$<PLATFORM_ID:Linux>:dl>
 )
     
 # Set working directory for debugging in Visual Studio
 set_target_properties(testGrpcApi PROPERTIES
     VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin"
+)
+
+# Add compile definitions
+target_compile_definitions(testGrpcApi
+    PRIVATE
+        # Platform-specific definitions
+        $<$<PLATFORM_ID:Windows>:WIN32_LEAN_AND_MEAN>
+        $<$<PLATFORM_ID:Windows>:NOMINMAX>
+        $<$<PLATFORM_ID:Windows>:_CRT_SECURE_NO_WARNINGS>
 )
 
 # Windows MSVC specific configurations
@@ -72,6 +94,18 @@ if(MSVC)
         
     # Add /bigobj flag for large object files
     target_compile_options(testGrpcApi PRIVATE /bigobj)
+    
+    # Enable parallel compilation
+    target_compile_options(testGrpcApi PRIVATE /MP)
+    
+    # Set warning level and disable specific warnings
+    target_compile_options(testGrpcApi PRIVATE /W3)
+    target_compile_options(testGrpcApi PRIVATE /wd4996)  # Disable deprecated function warnings
+    target_compile_options(testGrpcApi PRIVATE /wd4267)  # Size_t conversion warnings
+    target_compile_options(testGrpcApi PRIVATE /wd4244)  # Type conversion warnings
+    
+    # Enable proper exception handling
+    target_compile_options(testGrpcApi PRIVATE /EHsc)
 endif()
 
 # Copy resources
