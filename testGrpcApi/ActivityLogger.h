@@ -22,7 +22,7 @@ public:
         STATUS,
         SUCCESS,
         WARNING,
-        ERROR
+        LOG_ERROR
     };
     
     struct LogEntry {
@@ -83,7 +83,7 @@ public:
             ss << "[" << log.timestamp << "] ";
             
             switch (log.level) {
-                case LogLevel::ERROR: ss << "ERROR: "; break;
+                case LogLevel::LOG_ERROR: ss << "ERROR: "; break;
                 case LogLevel::WARNING: ss << "WARNING: "; break;
                 case LogLevel::SUCCESS: ss << "SUCCESS: "; break;
                 case LogLevel::STATUS: ss << "STATUS: "; break;

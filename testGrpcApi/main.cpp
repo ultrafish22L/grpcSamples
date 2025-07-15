@@ -151,7 +151,7 @@ public:
         
         // Initialize renderer (reuse shared rendering system)
         if (!renderer.initialize()) {
-            logger->Log("Failed to initialize renderer", ActivityLogger::LogLevel::ERROR);
+            logger->Log("Failed to initialize renderer", ActivityLogger::LogLevel::LOG_ERROR);
             return false;
         }
         
@@ -499,7 +499,7 @@ public:
             for (const auto& log : logs) {
                 ImVec4 color = OTOYColors::TEXT_PRIMARY;
                 switch (log.level) {
-                    case ActivityLogger::LogLevel::ERROR: color = ImVec4(1.0f, 0.4f, 0.4f, 1.0f); break;
+                    case ActivityLogger::LogLevel::LOG_ERROR: color = ImVec4(1.0f, 0.4f, 0.4f, 1.0f); break;
                     case ActivityLogger::LogLevel::SUCCESS: color = OTOYColors::ACCENT_GREEN; break;
                     case ActivityLogger::LogLevel::WARNING: color = OTOYColors::ACCENT_WARNING; break;
                     case ActivityLogger::LogLevel::STATUS: color = OTOYColors::ACCENT_BLUE; break;
@@ -579,7 +579,7 @@ public:
             if (cameraSync.connectToServer(serverAddress)) {
                 logger->Log("✅ Connected to Octane LiveLink", ActivityLogger::LogLevel::SUCCESS);
             } else {
-                logger->Log("❌ Failed to connect to Octane LiveLink", ActivityLogger::LogLevel::ERROR);
+                logger->Log("❌ Failed to connect to Octane LiveLink", ActivityLogger::LogLevel::LOG_ERROR);
                 connectionToggle = false;
                 errorCount++;
             }
@@ -600,7 +600,7 @@ public:
             logger->Log("Position: (" + std::to_string(pos.x) + ", " + std::to_string(pos.y) + ", " + std::to_string(pos.z) + ")", ActivityLogger::LogLevel::DEBUG);
             logger->Log("Target: (" + std::to_string(target.x) + ", " + std::to_string(target.y) + ", " + std::to_string(target.z) + ")", ActivityLogger::LogLevel::DEBUG);
         } else {
-            logger->Log("❌ Failed to get camera", ActivityLogger::LogLevel::ERROR);
+            logger->Log("❌ Failed to get camera", ActivityLogger::LogLevel::LOG_ERROR);
             errorCount++;
         }
     }
@@ -616,7 +616,7 @@ public:
         if (cameraSync.setCamera(pos, target, up, 45.0f)) {
             logger->Log("✅ Camera set successfully", ActivityLogger::LogLevel::SUCCESS);
         } else {
-            logger->Log("❌ Failed to set camera", ActivityLogger::LogLevel::ERROR);
+            logger->Log("❌ Failed to set camera", ActivityLogger::LogLevel::LOG_ERROR);
             errorCount++;
         }
     }
@@ -648,7 +648,7 @@ public:
                 logger->Log("Mesh: " + mesh.name + " (ID: " + std::to_string(mesh.id) + ")", ActivityLogger::LogLevel::DEBUG);
             }
         } else {
-            logger->Log("❌ Failed to get meshes", ActivityLogger::LogLevel::ERROR);
+            logger->Log("❌ Failed to get meshes", ActivityLogger::LogLevel::LOG_ERROR);
             errorCount++;
         }
     }
