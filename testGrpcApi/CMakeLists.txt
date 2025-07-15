@@ -45,7 +45,7 @@ target_include_directories(testGrpcApi
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
         "${CMAKE_CURRENT_SOURCE_DIR}/../third_party/imgui"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../third_party/imgui/backends)"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../third_party/imgui/backends"
 )
 
 # Link libraries - use built targets from third_party
