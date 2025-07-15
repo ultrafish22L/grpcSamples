@@ -13,17 +13,19 @@ The main goal is to enable both **desktop applications** (C++/OpenGL) and **brow
 - **Proxy Server**: Python-based HTTP-to-gRPC proxy server for web client connectivity with comprehensive logging
 - **Shared Libraries**: Common helper libraries for file dialogs, model loading, and camera controls
 - **Build System**: Cross-platform CMake configuration supporting Windows, Linux, and macOS
+- **Mock Server**: Development-time Octane simulation for testing without live Octane instance
 
 ### Architecture Patterns
 **Desktop Applications**: C++ Application ↔ gRPC ↔ Octane LiveLink Service
 **Web Applications**: JavaScript Client ↔ HTTP Proxy Server ↔ gRPC ↔ Octane LiveLink Service
+**Development Mode**: Applications ↔ Mock Octane Server (for testing without live Octane)
 
 ### Key Technologies
-- **Desktop**: C++17, OpenGL 3.3+, gRPC, Protocol Buffers, CMake
-- **Web Frontend**: Vanilla JavaScript, WebGL, custom gRPC-Web implementation, real-time 3D rendering
+- **Desktop**: C++17, OpenGL 3.3+, gRPC, Protocol Buffers, CMake, ImGui
+- **Web Frontend**: Vanilla JavaScript, WebGL 2.0/1.0, custom gRPC-Web implementation, real-time 3D rendering
 - **Proxy Server**: Python with aiohttp, grpcio, comprehensive CORS middleware, and enhanced logging
 - **Protocol**: HTTP/JSON for browser-to-proxy, native gRPC for all Octane communication
-- **Development**: Simulation modes and graceful degradation when Octane unavailable
+- **Development**: Mock server simulation and graceful degradation when Octane unavailable
 
 ## Repository Structure
 
@@ -40,20 +42,36 @@ grpcSamples/
 │   └── main.cpp               # Network-based camera sync (no SDK)
 ├── simpleGlSdk/               # 🚀 Direct Octane SDK integration
 │   └── main.cpp               # Real-time SDK-based synchronization
-├── html/                      # 🌐 Web-based applications
-│   ├── livelink.js            # Custom gRPC-Web client implementation
-│   ├── shared.js              # Common utilities and helper functions
-│   ├── webgl-utils.js         # WebGL rendering and 3D utilities
-│   ├── grpc_test.html         # gRPC functionality testing interface
-│   ├── web3d_octane_sync.html # WebGL viewer with Octane sync (REWRITTEN)
-│   ├── grpc_test_otoy.html    # OTOY-branded testing interface
-│   ├── web3d_octane_sync_otoy.html # OTOY-branded 3D viewer
-│   ├── otoy-theme.css         # Professional OTOY branding and styling
-│   └── README_LIVELINK.md     # Web client documentation
+├── testGrpcApi/               # 🔬 Advanced gRPC testing application
+│   ├── main.cpp               # ImGui-based gRPC API testing interface
+│   ├── ActivityLogger.h/.cpp  # Comprehensive logging system
+│   └── PerformanceTracker.h/.cpp # Performance monitoring
+├── html/                      # 🌐 Legacy web applications (DEPRECATED)
+│   ├── index.html             # Original LiveLink web interface
+│   ├── start_proxy.sh/.bat    # Proxy server launchers
+│   └── README_LIVELINK.md     # Legacy documentation
+├── octaneWeb/                 # 🚀 Modern web application suite
+│   ├── index.html             # Main web application
+│   ├── js/                    # JavaScript modules
+│   │   ├── OctaneWebClient.js # gRPC-Web client implementation
+│   │   ├── SceneOutliner.js   # Hierarchical scene tree viewer
+│   │   ├── NodeGraphEditor.js # Visual node graph editor
+│   │   ├── DebugConsole.js    # Development debug console
+│   │   └── CacheBuster.js     # Development cache management
+│   ├── css/                   # Styling and themes
+│   │   ├── main.css           # Core application styles
+│   │   └── otoy-theme.css     # Professional OTOY branding
+│   ├── shared/                # Shared web utilities
+│   │   ├── webgl-utils.js     # WebGL rendering classes
+│   │   └── shared.js          # Common helper functions
+│   └── assets/                # Static assets and icons
 ├── proxy/                     # 🔄 HTTP-to-gRPC proxy server
-│   ├── grpc_proxy.py          # Python proxy with comprehensive logging
+│   ├── grpc_proxy.py          # Main proxy server with comprehensive logging
 │   ├── livelink_pb2.py        # Generated protobuf Python bindings
-│   └── livelink_pb2_grpc.py   # Generated gRPC Python stubs
+│   └── *_pb2.py               # Complete Octane API protobuf bindings
+├── mock_octane/               # 🎭 Development mock server
+│   ├── mock_octane_server.py  # Simulates Octane LiveLink for development
+│   └── start_mock_octane.sh/.bat # Mock server launchers
 ├── sdk/                       # 📚 Octane SDK wrapper library
 │   ├── octane*.h              # Core SDK headers
 │   ├── octanewrap*.h/.cpp     # SDK wrapper classes
@@ -63,7 +81,8 @@ grpcSamples/
 │   ├── protobuf/              # Protocol buffers
 │   ├── glfw/                  # Window management
 │   ├── glew/                  # OpenGL extensions
-│   └── glm/                   # Mathematics library
+│   ├── glm/                   # Mathematics library
+│   └── imgui/                 # Immediate mode GUI
 ├── test_models/               # 🎲 Sample 3D models for testing
 ├── ORBX/                      # 🎨 Octane scene files
 └── cmake/                     # 🔨 Build system configuration
@@ -75,27 +94,33 @@ grpcSamples/
 - `simpleGL`: Standalone 3D viewer with file loading and camera controls
 - `simpleGlGrpc`: Network-based camera synchronization without SDK dependencies
 - `simpleGlSdk`: Full SDK integration with real-time Octane synchronization
+- `testGrpcApi`: Advanced ImGui-based gRPC API testing and debugging interface
 
 **Web Applications (HTML/JavaScript)**:
-- `grpc_test.html`: gRPC connectivity testing and debugging interface
-- `web3d_octane_sync.html`: WebGL 3D viewer with live Octane synchronization (COMPLETELY REWRITTEN)
-- `grpc_test_otoy.html`: Professional OTOY-branded testing interface
-- `web3d_octane_sync_otoy.html`: Professional OTOY-branded 3D viewer with WebGL
-- Custom gRPC-Web client implementation without external dependencies
-- Shared utility libraries for common functionality across all web applications
+- `octaneWeb/`: Modern web application suite with comprehensive Octane integration
+  - Scene outliner with hierarchical tree view and visibility controls
+  - Node graph editor with right-click context menus and node creation
+  - Real-time 3D WebGL rendering with camera synchronization
+  - Professional OTOY branding and responsive design
+- `html/`: Legacy web applications (deprecated but functional)
+  - Basic LiveLink connectivity testing
+  - Simple 3D viewer with Octane sync
 
 **Infrastructure**:
 - Python proxy server for HTTP-to-gRPC translation with comprehensive logging
+- Mock Octane server for development without live Octane instance
 - Cross-platform build system supporting multiple development environments
 - Shared helper libraries for common functionality across applications
 
 ### Key Features
 - **Real-time Camera Synchronization**: Bidirectional camera sync between applications and Octane
+- **Scene Outliner**: Hierarchical tree view of Octane scene with expand/collapse and visibility controls
+- **Node Graph Editor**: Visual node creation and editing with right-click context menus
 - **Multi-format 3D Model Loading**: Support for OBJ, PLY, and STL file formats
 - **Cross-platform Compatibility**: Windows, Linux, and macOS support
 - **Web Integration**: Browser-based clients with custom gRPC-Web implementation
 - **Comprehensive Logging**: Detailed request/response logging with emoji indicators (📤 outgoing, 📥 incoming, ❌ errors)
-- **Development-friendly**: Simulation modes and graceful degradation when Octane unavailable
+- **Development-friendly**: Mock server simulation and graceful degradation when Octane unavailable
 - **Enhanced Error Handling**: Comprehensive error reporting with detailed debug information
 - **Performance Monitoring**: Real-time FPS, call statistics, and connection health tracking
 - **CORS-compliant**: Enhanced cross-origin support with X-Call-Id and gRPC-Web headers
@@ -104,20 +129,23 @@ grpcSamples/
 - **Zero External Dependencies**: Custom gRPC-Web implementation without CDN libraries or generated protobuf files
 - **Professional OTOY Branding**: OTOY-themed versions with professional dark UI matching Octane UX standards
 - **Shared Code Architecture**: Common utilities and WebGL classes to eliminate code duplication
-- **WebGL 1.0 Compatibility**: Enhanced 3D rendering with backward compatibility for older browsers
+- **WebGL 2.0/1.0 Compatibility**: Enhanced 3D rendering with backward compatibility for older browsers
 - **Modular Design**: Separate utility files for shared functionality across all web applications
+- **Cache Busting System**: Development-time cache management with visual indicators
+- **Debug Console**: Ctrl-D toggleable debug console for development
 
 ### Recent Major Updates (2025)
-- **✅ COMPLETE REWRITE**: `web3d_octane_sync.html` completely rewritten using working `grpc_test.html` patterns
-- **✅ FIXED CONNECTION ISSUES**: Replaced failing ConnectionManager with proven direct client approach
-- **✅ ENHANCED SHARED CODE**: Created `webgl-utils.js` with WebGL 1.0 compatible rendering classes
-- **✅ OTOY PROFESSIONAL BRANDING**: Added OTOY-themed versions with live logo links and professional styling
-- **✅ LAYOUT OPTIMIZATION**: Reorganized UI with debug controls in connection section, stats in footer
-- **✅ WORKING 3D RENDERING**: Fixed WebGL shaders, added complete cube geometry and mouse controls
-- **✅ PROFESSIONAL UX**: Applied OTOY.com styling with red accents, dark panels, and pulsing status LED
-- **✅ RESPONSIVE DESIGN**: Comprehensive multi-device support with mobile-first approach and touch optimization
-- **✅ DYNAMIC STATUS SYSTEM**: Three-state LED indicator system with real-time connection feedback
-- **✅ ACCESSIBILITY FEATURES**: High contrast support, reduced motion preferences, and touch-friendly interfaces
+- **✅ OCTANEWEB SUITE CREATED**: Complete modern web application replacing legacy html/ applications
+- **✅ SCENE OUTLINER IMPLEMENTED**: Hierarchical tree view with expand/collapse, node icons, and visibility toggles
+- **✅ NODE GRAPH EDITOR COMPLETE**: Right-click context menus, hierarchical node types, and node creation system
+- **✅ REAL API INTEGRATION**: Connected to live Octane APIs including buildSceneTree, GetMeshes, and camera sync
+- **✅ MOCK SERVER DEVELOPMENT**: Complete mock Octane server for development without live Octane instance
+- **✅ ENHANCED PROXY SERVER**: Comprehensive logging, error handling, and API coverage
+- **✅ PROFESSIONAL UX**: Applied OTOY.com styling with red accents, dark panels, and responsive design
+- **✅ DEVELOPMENT TOOLS**: Cache busting system, debug console, and comprehensive error reporting
+- **✅ TESTGRPCAPI ENHANCED**: ImGui-based desktop application for advanced gRPC API testing
+- **✅ CROSS-PLATFORM BUILDS**: Successful Linux, Windows, and macOS build configurations
+- **✅ COMPREHENSIVE DOCUMENTATION**: Updated documentation, setup guides, and reproduction prompts
 
 ## User Experience Design Patterns
 
@@ -140,7 +168,7 @@ The application interfaces follow a **professional dark theme** approach that pr
 **Three-State Visual Feedback System**: The interface uses a color-coded LED system that immediately communicates system health:
 - **Ready State**: Warm yellow indicating system is prepared and waiting
 - **Operational State**: Green indicating active connection and successful operations  
-- **Waiting State**: Red indicating system dependencies are unavailable
+- **Error State**: Red indicating system dependencies are unavailable or errors occurred
 
 **Real-Time Activity Transparency**: All system operations are logged with timestamps and visual indicators, creating a sense of system reliability and allowing users to understand exactly what's happening during complex operations.
 
@@ -172,3 +200,22 @@ The application interfaces follow a **professional dark theme** approach that pr
 **Unified Experience**: Whether accessed on desktop browsers, mobile devices, or tablets, users encounter consistent functionality and visual design, reducing learning curve when switching between devices.
 
 **Platform-Optimized Interactions**: While maintaining visual consistency, interactions are optimized for each platform - touch gestures on mobile, mouse interactions on desktop, with appropriate feedback for each input method.
+
+## Development Environment
+
+### Sandbox Limitations
+**Network Isolation**: Development environments (like OpenHands) may have network isolation that prevents direct connection to localhost services running on the host machine. This affects:
+- Connection to live Octane LiveLink service at 127.0.0.1:51022
+- Proxy server binding to specific ports
+- Real-time testing of live Octane integration
+
+**Workarounds**:
+- Mock server provides full Octane API simulation for development
+- Proxy server includes graceful degradation and retry logic
+- Applications detect connection failures and provide appropriate fallbacks
+
+### Development Workflow
+1. **Mock Development**: Use mock_octane_server.py for initial development and testing
+2. **Proxy Testing**: Test HTTP-to-gRPC translation with comprehensive logging
+3. **Live Integration**: Connect to real Octane LiveLink service for production testing
+4. **Cross-platform Validation**: Build and test on multiple operating systems
