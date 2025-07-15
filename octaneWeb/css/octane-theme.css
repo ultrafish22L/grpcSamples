@@ -603,3 +603,108 @@ html, body {
         --octane-text-muted: #cccccc;
     }
 }
+
+/* Node Graph Context Menu */
+.node-context-menu {
+    position: fixed;
+    background: #3c3c3c !important;
+    border: 1px solid #555555 !important;
+    border-radius: 2px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12px;
+    color: #ffffff !important;
+    min-width: 180px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 10000;
+}
+
+.context-menu-category {
+    position: relative;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--octane-border-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.context-menu-category:hover {
+    background: var(--octane-bg-hover);
+}
+
+.context-menu-category::after {
+    content: '▶';
+    font-size: 10px;
+    color: var(--octane-text-muted);
+}
+
+.context-submenu {
+    display: none;
+    position: fixed;
+    background: #3c3c3c !important;
+    border: 1px solid #555555 !important;
+    border-radius: 2px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    min-width: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 10001;
+}
+
+
+
+.context-menu-item {
+    padding: 6px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--octane-border-dark);
+}
+
+.context-menu-item:last-child {
+    border-bottom: none;
+}
+
+.context-menu-item:hover {
+    background: var(--octane-accent-blue);
+    color: white;
+}
+
+/* Scrollbar styling for context menu */
+.node-context-menu::-webkit-scrollbar,
+.context-submenu::-webkit-scrollbar {
+    width: 8px;
+}
+
+.node-context-menu::-webkit-scrollbar-track,
+.context-submenu::-webkit-scrollbar-track {
+    background: var(--octane-bg-darker);
+}
+
+.node-context-menu::-webkit-scrollbar-thumb,
+.context-submenu::-webkit-scrollbar-thumb {
+    background: var(--octane-border);
+    border-radius: 4px;
+}
+
+.node-context-menu::-webkit-scrollbar-thumb:hover,
+.context-submenu::-webkit-scrollbar-thumb:hover {
+    background: var(--octane-border-light);
+}
+
+/* Node Palette Instructions */
+.palette-instructions {
+    padding: 12px;
+    color: var(--octane-text-secondary);
+    font-size: var(--font-size-small);
+    line-height: 1.4;
+}
+
+.palette-instructions p {
+    margin: 0 0 8px 0;
+}
+
+.palette-instructions p:last-child {
+    margin-bottom: 0;
+}

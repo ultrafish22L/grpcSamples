@@ -16,10 +16,12 @@ class NodeGraphEditor extends OctaneComponent {
         this.isDragging = false;
         this.dragTarget = null;
         this.lastMousePos = { x: 0, y: 0 };
+        this.contextMenu = null;
     }
     
     async onInitialize() {
         this.initCanvas();
+        this.initNodeTypes();
         this.setupControls();
         this.setupToolbarControls(); // Add toolbar button handlers
         this.createSampleNodes(); // Add sample nodes for testing
@@ -41,6 +43,9 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Keyboard events
         this.addEventListener(document, 'keydown', this.handleKeyDown.bind(this));
+        
+        // Window resize
+        this.addEventListener(window, 'resize', this.handleResize.bind(this));
     }
     
     initCanvas() {
@@ -50,14 +55,39 @@ class NodeGraphEditor extends OctaneComponent {
             return;
         }
         
+        // Initial resize
         this.handleResize();
+        
+        // Delayed resize to ensure DOM layout is complete
+        setTimeout(() => {
+            this.handleResize();
+        }, 100);
+        
         console.log('Node graph canvas initialized');
     }
     
     setupControls() {
-        // Prevent context menu
+        // Right-click context menu for node creation
         this.addEventListener(this.canvas, 'contextmenu', (e) => {
             e.preventDefault();
+            const rect = this.canvas.getBoundingClientRect();
+            const x = e.clientX;
+            const y = e.clientY;
+            this.showContextMenu(x, y);
+        });
+        
+        // Hide context menu on click elsewhere
+        this.addEventListener(document, 'click', (e) => {
+            if (this.contextMenu && !this.contextMenu.contains(e.target)) {
+                this.hideContextMenu();
+            }
+        });
+        
+        // Hide context menu on escape
+        this.addEventListener(document, 'keydown', (e) => {
+            if (e.key === 'Escape') {
+                this.hideContextMenu();
+            }
         });
     }
 
@@ -126,6 +156,12 @@ class NodeGraphEditor extends OctaneComponent {
     
     render() {
         if (!this.ctx) return;
+        
+        // Debug: Check if render is being called
+        if (this.renderCount < 3) {
+            console.log('Render called, nodes count:', this.nodes.length);
+            this.renderCount = (this.renderCount || 0) + 1;
+        }
         
         // Clear canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -218,6 +254,12 @@ class NodeGraphEditor extends OctaneComponent {
     drawNode(node) {
         const { x, y, width = 120, height = 80 } = node;
         const isSelected = this.selectedNodes.has(node.id);
+        
+        // Debug: Only log first few draws to avoid spam
+        if (this.drawCount < 5) {
+            console.log('Drawing node at:', x, y, 'size:', width, height);
+            this.drawCount = (this.drawCount || 0) + 1;
+        }
         
         // Node background
         this.ctx.fillStyle = isSelected ? '#4a4a4a' : '#3a3a3a';
@@ -391,90 +433,15 @@ class NodeGraphEditor extends OctaneComponent {
         };
     }
     
-    getSelectedNodeType() {
-        // Get selected node type from slider switches
-        const selectedRadio = document.querySelector('input[name="nodeType"]:checked');
-        return selectedRadio ? selectedRadio.value : 'material';
-    }
 
-    getNodeTemplate(nodeType) {
-        const nodeTemplates = {
-            material: {
-                type: 'material',
-                name: 'Diffuse Material',
-                inputs: [
-                    { name: 'Diffuse', connected: false },
-                    { name: 'Roughness', connected: false },
-                    { name: 'Normal', connected: false }
-                ],
-                outputs: [
-                    { name: 'Material', connected: false }
-                ]
-            },
-            texture: {
-                type: 'texture',
-                name: 'Image Texture',
-                inputs: [
-                    { name: 'UV', connected: false }
-                ],
-                outputs: [
-                    { name: 'Color', connected: false },
-                    { name: 'Alpha', connected: false }
-                ]
-            },
-            geometry: {
-                type: 'geometry',
-                name: 'Mesh Geometry',
-                inputs: [
-                    { name: 'Material', connected: false }
-                ],
-                outputs: [
-                    { name: 'Geometry', connected: false }
-                ]
-            },
-            light: {
-                type: 'light',
-                name: 'Area Light',
-                inputs: [
-                    { name: 'Color', connected: false },
-                    { name: 'Intensity', connected: false }
-                ],
-                outputs: [
-                    { name: 'Light', connected: false }
-                ]
-            }
-        };
-
-        return nodeTemplates[nodeType] || nodeTemplates.material;
-    }
 
     async createNodeAtPosition(x, y) {
-        // Get selected node type from slider switches
-        const selectedType = this.getSelectedNodeType();
-        const nodeTemplate = this.getNodeTemplate(selectedType);
+        // Convert world coordinates to screen coordinates for context menu
+        const screenX = x * this.viewport.zoom + this.viewport.x;
+        const screenY = y * this.viewport.zoom + this.viewport.y;
         
-        const newNode = {
-            id: `node_${Date.now()}`,
-            name: nodeTemplate.name,
-            type: nodeTemplate.type,
-            x: x - 60, // Center on mouse position
-            y: y - 40,
-            width: 120,
-            height: 80,
-            inputs: [...nodeTemplate.inputs],
-            outputs: [...nodeTemplate.outputs]
-        };
-
-        this.nodes.set(newNode.id, newNode);
-        this.selectedNodes.clear();
-        this.selectedNodes.add(newNode.id);
-
-        console.log(`🎨 Created ${newNode.type} node at (${x.toFixed(0)}, ${y.toFixed(0)})`);
-        
-        // Log to debug console
-        if (window.debugConsole) {
-            window.debugConsole.log(`🎨 Created ${newNode.type} node: ${newNode.name}`);
-        }
+        // Show context menu at the calculated screen position
+        this.showContextMenu(screenX, screenY);
     }
     
     async deleteSelectedNodes() {
@@ -624,8 +591,265 @@ class NodeGraphEditor extends OctaneComponent {
         if (!this.canvas) return;
         
         const rect = this.canvas.getBoundingClientRect();
+        console.log('Canvas resize - rect:', rect.width, rect.height);
         this.canvas.width = rect.width;
         this.canvas.height = rect.height;
+        console.log('Canvas actual size:', this.canvas.width, this.canvas.height);
+    }
+    
+    initNodeTypes() {
+        // Octane node type hierarchy based on octaneids.h
+        this.nodeTypes = {
+            'Cameras': {
+                'NT_CAM_THINLENS': { name: 'Thin lens camera', color: '#8B4513' },
+                'NT_CAM_PANORAMIC': { name: 'Panoramic camera', color: '#8B4513' },
+                'NT_CAM_UNIVERSAL': { name: 'Universal camera', color: '#8B4513' },
+                'NT_CAM_BAKING': { name: 'Baking camera', color: '#8B4513' },
+                'NT_CAM_OSL': { name: 'OSL camera', color: '#8B4513' },
+                'NT_CAM_SIMULATED_LENS': { name: 'Simulated lens camera', color: '#8B4513' }
+            },
+            'Displacement': {
+                'NT_DISPLACEMENT': { name: 'Displacement', color: '#FF6B35' }
+            },
+            'Emission': {
+                'NT_EMIS_BLACKBODY': { name: 'Blackbody emission', color: '#FFD700' },
+                'NT_EMIS_TEXTURE': { name: 'Texture emission', color: '#FFD700' }
+            },
+            'Environments': {
+                'NT_ENV_DAYLIGHT': { name: 'Daylight environment', color: '#87CEEB' },
+                'NT_ENV_PLANETARY': { name: 'Planetary environment', color: '#87CEEB' },
+                'NT_ENV_TEXTURE': { name: 'Texture environment', color: '#87CEEB' }
+            },
+            'Geometry': {
+                'NT_GEO_MESH': { name: 'Mesh', color: '#32CD32' },
+                'NT_GEO_GROUP': { name: 'Group', color: '#32CD32' },
+                'NT_GEO_PLACEMENT': { name: 'Placement', color: '#32CD32' },
+                'NT_GEO_SCATTER': { name: 'Scatter', color: '#32CD32' },
+                'NT_GEO_PLANE': { name: 'Plane', color: '#32CD32' },
+                'NT_GEO_VOLUME': { name: 'Volume', color: '#32CD32' },
+                'NT_GEO_OBJECT': { name: 'Object', color: '#32CD32' }
+            },
+            'Input': {
+                'NT_BOOL': { name: 'Boolean', color: '#9370DB' },
+                'NT_FLOAT': { name: 'Float', color: '#9370DB' },
+                'NT_INT': { name: 'Integer', color: '#9370DB' },
+                'NT_ENUM': { name: 'Enum', color: '#9370DB' }
+            },
+            'Kernels': {
+                'NT_KERN_PMC': { name: 'PMC kernel', color: '#FF1493' },
+                'NT_KERN_DIRECTLIGHTING': { name: 'Direct lighting kernel', color: '#FF1493' },
+                'NT_KERN_PATHTRACING': { name: 'Path tracing kernel', color: '#FF1493' },
+                'NT_KERN_INFO': { name: 'Info kernel', color: '#FF1493' }
+            },
+            'Lights': {
+                'NT_LIGHT_QUAD': { name: 'Quad light', color: '#FFFF00' },
+                'NT_LIGHT_SPHERE': { name: 'Sphere light', color: '#FFFF00' },
+                'NT_LIGHT_VOLUME_SPOT': { name: 'Volume spot light', color: '#FFFF00' },
+                'NT_LIGHT_DIRECTIONAL': { name: 'Directional light', color: '#FFFF00' },
+                'NT_LIGHT_ANALYTIC': { name: 'Analytic light', color: '#FFFF00' }
+            },
+            'Materials': {
+                'NT_MAT_DIFFUSE': { name: 'Diffuse material', color: '#4169E1' },
+                'NT_MAT_GLOSSY': { name: 'Glossy material', color: '#4169E1' },
+                'NT_MAT_SPECULAR': { name: 'Specular material', color: '#4169E1' },
+                'NT_MAT_MIX': { name: 'Mix material', color: '#4169E1' },
+                'NT_MAT_PORTAL': { name: 'Portal material', color: '#4169E1' },
+                'NT_MAT_UNIVERSAL': { name: 'Universal material', color: '#4169E1' },
+                'NT_MAT_METAL': { name: 'Metal material', color: '#4169E1' },
+                'NT_MAT_TOON': { name: 'Toon material', color: '#4169E1' }
+            },
+            'Medium': {
+                'NT_MED_ABSORPTION': { name: 'Absorption medium', color: '#8A2BE2' },
+                'NT_MED_SCATTERING': { name: 'Scattering medium', color: '#8A2BE2' },
+                'NT_MED_VOLUME': { name: 'Volume medium', color: '#8A2BE2' },
+                'NT_MED_RANDOMWALK': { name: 'Random walk medium', color: '#8A2BE2' }
+            },
+            'Textures': {
+                'NT_TEX_IMAGE': { name: 'Image texture', color: '#20B2AA' },
+                'NT_TEX_FLOATIMAGE': { name: 'Float image texture', color: '#20B2AA' },
+                'NT_TEX_ALPHAIMAGE': { name: 'Alpha image texture', color: '#20B2AA' },
+                'NT_TEX_RGB': { name: 'RGB texture', color: '#20B2AA' },
+                'NT_TEX_FLOAT': { name: 'Float texture', color: '#20B2AA' },
+                'NT_TEX_NOISE': { name: 'Noise texture', color: '#20B2AA' },
+                'NT_TEX_CHECKS': { name: 'Checks texture', color: '#20B2AA' },
+                'NT_TEX_MARBLE': { name: 'Marble texture', color: '#20B2AA' },
+                'NT_TEX_TURBULENCE': { name: 'Turbulence texture', color: '#20B2AA' },
+                'NT_TEX_MIX': { name: 'Mix texture', color: '#20B2AA' },
+                'NT_TEX_MULTIPLY': { name: 'Multiply texture', color: '#20B2AA' },
+                'NT_TEX_ADD': { name: 'Add texture', color: '#20B2AA' },
+                'NT_TEX_SUBTRACT': { name: 'Subtract texture', color: '#20B2AA' },
+                'NT_TEX_GRADIENT': { name: 'Gradient texture', color: '#20B2AA' },
+                'NT_TEX_FALLOFF': { name: 'Falloff texture', color: '#20B2AA' }
+            }
+        };
+    }
+    
+    showContextMenu(x, y) {
+        this.hideContextMenu();
+        
+        const contextMenu = document.createElement('div');
+        contextMenu.className = 'node-context-menu';
+        contextMenu.style.left = x + 'px';
+        contextMenu.style.top = y + 'px';
+        
+        // Create menu structure
+        Object.keys(this.nodeTypes).forEach(category => {
+            const categoryItem = document.createElement('div');
+            categoryItem.className = 'context-menu-category';
+            categoryItem.textContent = category;
+            
+            const submenu = document.createElement('div');
+            submenu.className = 'context-submenu';
+            
+            Object.keys(this.nodeTypes[category]).forEach(nodeType => {
+                const nodeInfo = this.nodeTypes[category][nodeType];
+                const nodeItem = document.createElement('div');
+                nodeItem.className = 'context-menu-item';
+                nodeItem.textContent = nodeInfo.name;
+                nodeItem.addEventListener('click', () => {
+                    this.createNodeFromType(nodeType, x, y);
+                    this.hideContextMenu();
+                });
+                submenu.appendChild(nodeItem);
+            });
+            
+            // Add hover events for submenu positioning
+            categoryItem.addEventListener('mouseenter', () => {
+                const categoryRect = categoryItem.getBoundingClientRect();
+                submenu.style.left = (categoryRect.right + 2) + 'px';
+                submenu.style.top = categoryRect.top + 'px';
+                
+                // Adjust if submenu goes off screen
+                const submenuRect = submenu.getBoundingClientRect();
+                if (submenuRect.right > window.innerWidth) {
+                    submenu.style.left = (categoryRect.left - submenuRect.width - 2) + 'px';
+                }
+                if (submenuRect.bottom > window.innerHeight) {
+                    submenu.style.top = (window.innerHeight - submenuRect.height) + 'px';
+                }
+                
+                submenu.style.display = 'block';
+            });
+
+            categoryItem.addEventListener('mouseleave', () => {
+                submenu.style.display = 'none';
+            });
+            
+            categoryItem.appendChild(submenu);
+            contextMenu.appendChild(categoryItem);
+        });
+        
+        document.body.appendChild(contextMenu);
+        this.contextMenu = contextMenu;
+        
+        // Position adjustment to keep menu on screen
+        const rect = contextMenu.getBoundingClientRect();
+        if (rect.right > window.innerWidth) {
+            contextMenu.style.left = (x - rect.width) + 'px';
+        }
+        if (rect.bottom > window.innerHeight) {
+            contextMenu.style.top = (y - rect.height) + 'px';
+        }
+    }
+    
+    hideContextMenu() {
+        if (this.contextMenu) {
+            document.body.removeChild(this.contextMenu);
+            this.contextMenu = null;
+        }
+    }
+    
+    createNodeFromType(nodeType, x, y) {
+        console.log('createNodeFromType called with:', nodeType, x, y);
+        
+        const category = this.findNodeCategory(nodeType);
+        console.log('Found category:', category);
+        
+        if (!this.nodeTypes[category] || !this.nodeTypes[category][nodeType]) {
+            console.error('Node type not found:', nodeType, 'in category:', category);
+            return;
+        }
+        
+        const nodeInfo = this.nodeTypes[category][nodeType];
+        console.log('Node info:', nodeInfo);
+        
+        // For now, create nodes at the center of the visible area
+        const centerX = this.canvas.width / 2;
+        const centerY = this.canvas.height / 2;
+        
+        // Convert to world coordinates
+        const worldX = (centerX - this.viewport.x) / this.viewport.zoom;
+        const worldY = (centerY - this.viewport.y) / this.viewport.zoom;
+        
+        console.log('World coordinates:', worldX, worldY);
+        console.log('Viewport:', JSON.stringify(this.viewport));
+        console.log('Canvas size:', this.canvas.width, this.canvas.height);
+        console.log('Center calc:', centerX, centerY);
+        
+        const node = {
+            id: this.nextNodeId++,
+            type: nodeType,
+            name: nodeInfo.name,
+            x: worldX,
+            y: worldY,
+            width: 140,
+            height: 80,
+            color: nodeInfo.color,
+            inputs: this.getNodeInputs(nodeType),
+            outputs: this.getNodeOutputs(nodeType)
+        };
+        
+        console.log('Created node:', node);
+        
+        this.nodes.set(node.id, node);
+        console.log('Total nodes:', this.nodes.size);
+        
+        // Trigger a render to show the new node
+        this.render();
+        
+        // Log the creation
+        if (window.debugConsole) {
+            window.debugConsole.log(`🎨 Created ${nodeInfo.name} node at (${worldX.toFixed(0)}, ${worldY.toFixed(0)})`);
+        }
+    }
+    
+    findNodeCategory(nodeType) {
+        for (const category in this.nodeTypes) {
+            if (this.nodeTypes[category][nodeType]) {
+                return category;
+            }
+        }
+        return 'Other';
+    }
+    
+    getNodeInputs(nodeType) {
+        // Define inputs based on node type
+        const inputMap = {
+            'NT_MAT_DIFFUSE': ['Diffuse', 'Roughness', 'Normal'],
+            'NT_MAT_GLOSSY': ['Diffuse', 'Specular', 'Roughness', 'IOR', 'Normal'],
+            'NT_MAT_UNIVERSAL': ['Albedo', 'Metallic', 'Roughness', 'Specular', 'Normal'],
+            'NT_TEX_IMAGE': ['UV', 'Gamma'],
+            'NT_TEX_NOISE': ['UV', 'Scale', 'Detail'],
+            'NT_TEX_MIX': ['Texture1', 'Texture2', 'Amount'],
+            'NT_LIGHT_QUAD': ['Power', 'Color', 'Size'],
+            'NT_ENV_DAYLIGHT': ['Sun direction', 'Turbidity', 'Power']
+        };
+        return inputMap[nodeType] || ['Input'];
+    }
+    
+    getNodeOutputs(nodeType) {
+        // Define outputs based on node type
+        const outputMap = {
+            'NT_MAT_DIFFUSE': ['Material'],
+            'NT_MAT_GLOSSY': ['Material'],
+            'NT_MAT_UNIVERSAL': ['Material'],
+            'NT_TEX_IMAGE': ['Color', 'Alpha'],
+            'NT_TEX_NOISE': ['Color'],
+            'NT_TEX_MIX': ['Color'],
+            'NT_LIGHT_QUAD': ['Light'],
+            'NT_ENV_DAYLIGHT': ['Environment']
+        };
+        return outputMap[nodeType] || ['Output'];
     }
 }
 

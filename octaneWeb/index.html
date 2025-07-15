@@ -11,7 +11,7 @@
     <title>OctaneRender Studio - Web Edition</title>
     
     <!-- Core Stylesheets -->
-    <link rel="stylesheet" href="css/octane-theme.css">
+    <link rel="stylesheet" href="css/octane-theme.css?v=20250715-1430">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/components.css">
     
@@ -154,36 +154,10 @@
                     <div class="node-graph-container">
                         <canvas id="node-graph" class="node-graph"></canvas>
                         <div class="node-palette">
-                            <div class="palette-header">Node Types</div>
-                            <div class="node-type-selector">
-                                <div class="node-type-item">
-                                    <span class="node-type-label">Material</span>
-                                    <label class="slider-switch">
-                                        <input type="radio" name="nodeType" value="material" checked>
-                                        <span class="slider"></span>
-                                    </label>
-                                </div>
-                                <div class="node-type-item">
-                                    <span class="node-type-label">Texture</span>
-                                    <label class="slider-switch">
-                                        <input type="radio" name="nodeType" value="texture">
-                                        <span class="slider"></span>
-                                    </label>
-                                </div>
-                                <div class="node-type-item">
-                                    <span class="node-type-label">Geometry</span>
-                                    <label class="slider-switch">
-                                        <input type="radio" name="nodeType" value="geometry">
-                                        <span class="slider"></span>
-                                    </label>
-                                </div>
-                                <div class="node-type-item">
-                                    <span class="node-type-label">Light</span>
-                                    <label class="slider-switch">
-                                        <input type="radio" name="nodeType" value="light">
-                                        <span class="slider"></span>
-                                    </label>
-                                </div>
+                            <div class="palette-header">Node Creation</div>
+                            <div class="palette-instructions">
+                                <p>Right-click in the node graph to create nodes</p>
+                                <p>Choose from categories like Materials, Textures, Lights, and more</p>
                             </div>
                         </div>
                     </div>
@@ -249,7 +223,7 @@
     <script src="js/components/SceneOutliner.js?v=20250715-1250"></script>
     <script src="js/components/RenderViewport.js"></script>
     <script src="js/components/NodeInspector.js"></script>
-    <script src="js/components/NodeGraphEditor.js?v=20250715-1320"></script>
+    <script src="js/components/NodeGraphEditor.js?v=20250715-1510"></script>
     <script src="js/components/MenuSystem.js?v=20250715-1300"></script>
     
     <!-- Utilities -->
