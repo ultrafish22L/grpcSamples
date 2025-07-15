@@ -150,9 +150,8 @@ class OctaneWebClient extends LiveLinkClient {
      */
     async syncSceneHierarchy() {
         try {
-            const response = await this.makeRequest('/octane/scene/hierarchy', {
-                method: 'GET'
-            });
+            // Use the parent class's makeGrpcCall method
+            const response = await this.makeGrpcCall('getSceneHierarchy', {});
             
             if (response.success && response.data) {
                 this.updateSceneHierarchy(response.data);
@@ -163,7 +162,8 @@ class OctaneWebClient extends LiveLinkClient {
             
         } catch (error) {
             console.error('Failed to sync scene hierarchy:', error);
-            throw error;
+            // Don't throw error, just log it for now since this is extended functionality
+            return { success: false, error: error.message };
         }
     }
     
