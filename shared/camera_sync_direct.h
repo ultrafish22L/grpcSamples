@@ -1,6 +1,9 @@
 #ifndef GRPC_CAMERA_SYNC_H
 #define GRPC_CAMERA_SYNC_H
 
+// Windows compatibility layer (must come first)
+#include "windows_headers.h"
+
 #include <iostream>
 #include <string>
 #include <memory>

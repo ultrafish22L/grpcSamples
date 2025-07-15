@@ -1,5 +1,8 @@
 #pragma once
 
+// Windows compatibility layer (must come first)
+#include "windows_headers.h"
+
 #include <memory>
 #include <string>
 #include <vector>

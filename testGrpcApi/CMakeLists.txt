@@ -76,9 +76,9 @@ set_target_properties(testGrpcApi PROPERTIES
 target_compile_definitions(testGrpcApi
     PRIVATE
         # Platform-specific definitions
-        $<$<PLATFORM_ID:Windows>:WIN32_LEAN_AND_MEAN>
-        $<$<PLATFORM_ID:Windows>:NOMINMAX>
         $<$<PLATFORM_ID:Windows>:_CRT_SECURE_NO_WARNINGS>
+        $<$<PLATFORM_ID:Windows>:_WIN32_WINNT=0x0601>  # Windows 7 minimum
+        $<$<PLATFORM_ID:Windows>:WINVER=0x0601>        # Windows 7 minimum
 )
 
 # Windows MSVC specific configurations

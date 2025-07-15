@@ -11,6 +11,9 @@
  * - All controls and features from the HTML version
  */
 
+// Windows compatibility layer (must come first)
+#include "../shared/windows_headers.h"
+
 #include <iostream>
 #include <memory>
 #include <string>
@@ -19,7 +22,7 @@
 #include <thread>
 #include <cmath>
 
-// OpenGL and GLFW
+// OpenGL and GLFW (after Windows headers on Windows)
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
