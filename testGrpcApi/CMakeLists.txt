@@ -4,14 +4,6 @@ project(testGrpcApi)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Include directories
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../shared)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../shared/protos)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../third_party/imgui)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../third_party/imgui/backends)
-include_directories(/usr/include/glm)
-
 # Dear ImGui sources
 set(IMGUI_SOURCES
     ../third_party/imgui/imgui.cpp
@@ -23,20 +15,6 @@ set(IMGUI_SOURCES
     ../third_party/imgui/backends/imgui_impl_opengl3.cpp
 )
 
-# Use existing generated protobuf files from shared/protos
-set(PROTO_SOURCES
-    ../shared/protos/livelink.pb.cc
-    ../shared/protos/livelink.grpc.pb.cc
-    ../shared/protos/camera_control.pb.cc
-    ../shared/protos/camera_control.grpc.pb.cc
-)
-
-# Shared component sources
-set(SHARED_SOURCES
-    ../shared/camera_sync_livelink.cpp
-    ../shared/camera_sync_direct.cpp
-)
-
 # Application sources
 set(APP_SOURCES
     main.cpp
@@ -45,29 +23,56 @@ set(APP_SOURCES
 )
 
 # Create executable
-add_executable(${PROJECT_NAME} 
+add_executable(testGrpcApi 
     ${APP_SOURCES}
-    ${SHARED_SOURCES}
     ${IMGUI_SOURCES}
-    ${PROTO_SOURCES}
 )
 
-# Link libraries
-target_link_libraries(${PROJECT_NAME}
-    OpenGL::GL
-    glfw
-    GLEW
-    ${GRPC_LIBRARIES}
-    ${PROTOBUF_LIBRARIES}
-    ${CMAKE_DL_LIBS}
+add_dependencies(testGrpcApi shared_lib)
+
+# Add dependency on protobuf generation
+if(TARGET protobuf_all)
+    add_dependencies(testGrpcApi protobuf_all)
+endif()
+    
+# Add dependency on gRPC file generation
+if(TARGET generate_grpc_files_simpleGlGrpc)
+    add_dependencies(testGrpcApi generate_grpc_files_simpleGlGrpc)
+endif()
+
+# Set include directories
+target_include_directories(testGrpcApi
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        "${CMAKE_CURRENT_SOURCE_DIR}/../third_party/imgui"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../third_party/imgui/backends)"
 )
 
-# Compiler flags
-target_compile_options(${PROJECT_NAME} PRIVATE
-    -Wall -Wextra -Wpedantic
-    ${GRPC_CFLAGS_OTHER}
-    ${PROTOBUF_CFLAGS_OTHER}
+# Link libraries - use built targets from third_party
+target_link_libraries(testGrpcApi
+    PRIVATE
+        shared_lib
 )
+    
+# Set working directory for debugging in Visual Studio
+set_target_properties(testGrpcApi PROPERTIES
+    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin"
+)
+
+# Windows MSVC specific configurations
+if(MSVC)
+    # Set subsystem to console
+    set_target_properties(testGrpcApi PROPERTIES
+        LINK_FLAGS "/SUBSYSTEM:CONSOLE"
+    )
+        
+    # Set runtime library to match third_party libraries (static runtime)
+    set_property(TARGET testGrpcApi PROPERTY
+        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+        
+    # Add /bigobj flag for large object files
+    target_compile_options(testGrpcApi PRIVATE /bigobj)
+endif()
 
 # Copy resources
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/imgui.ini ${CMAKE_CURRENT_BINARY_DIR}/imgui.ini COPYONLY)
