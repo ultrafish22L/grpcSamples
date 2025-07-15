@@ -49,8 +49,18 @@
                 <div class="menu-item" data-menu="help">Help</div>
             </nav>
             
-            <!-- Connection Status -->
+            <!-- Connection Status & Controls -->
             <div class="connection-status">
+                <div class="connection-controls">
+                    <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023" title="Octane LiveLink server address and port">
+                    <div class="switch-container">
+                        <label class="switch-label" title="Connection">🔌</label>
+                        <label class="switch" title="Connect/disconnect from Octane LiveLink service">
+                            <input type="checkbox" id="connectionToggle" onchange="toggleConnection()" title="Toggle connection to Octane LiveLink">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
                 <div class="status-indicator" id="connection-indicator">
                     <span class="status-dot"></span>
                     <span class="status-text">Disconnected</span>

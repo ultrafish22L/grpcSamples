@@ -614,6 +614,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Make app globally available for debugging
         window.octaneWebApp = octaneWebApp;
         
+        // Global functions for HTML event handlers
+        window.toggleConnection = () => {
+            const toggle = document.getElementById('connectionToggle');
+            if (toggle.checked) {
+                const serverAddress = document.getElementById('serverAddress')?.value || 'http://127.0.0.1:51023';
+                octaneWebApp.connectToOctane(serverAddress);
+            } else {
+                octaneWebApp.disconnectFromOctane();
+            }
+        };
+        
     } catch (error) {
         console.error('Failed to start OctaneWeb:', error);
     }

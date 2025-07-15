@@ -3,6 +3,98 @@
  * Specific styling for individual UI components
  */
 
+/* Connection Controls */
+.connection-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 15px;
+}
+
+.connection-controls input[type="text"] {
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-primary);
+    padding: 4px 8px;
+    font-size: var(--font-size-small);
+    border-radius: var(--border-radius);
+    width: 180px;
+}
+
+.connection-controls input[type="text"]:focus {
+    outline: none;
+    border-color: var(--octane-accent-blue);
+}
+
+.connection-controls input[type="text"]::placeholder {
+    color: var(--octane-text-muted);
+}
+
+.switch-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.switch-label {
+    color: var(--octane-text-primary);
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    transition: .3s;
+    border-radius: 20px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 2px;
+    bottom: 2px;
+    background-color: var(--octane-text-secondary);
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--octane-accent-blue);
+    border-color: var(--octane-accent-blue);
+}
+
+input:checked + .slider:before {
+    transform: translateX(18px);
+    background-color: white;
+}
+
+.slider:hover {
+    opacity: 0.8;
+}
+
 /* Scene Outliner Components */
 .scene-outliner-toolbar {
     display: flex;
