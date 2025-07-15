@@ -21,6 +21,8 @@ try:
     import livelink_pb2_grpc
     import apiprojectmanager_pb2
     import apiprojectmanager_pb2_grpc
+    import apinodesystem_pb2
+    import apinodesystem_pb2_grpc
     import common_pb2
     print("✅ Successfully imported gRPC protobuf modules")
 except ImportError as e:
@@ -34,6 +36,9 @@ class LiveLinkProxy:
         self.channel = None
         self.stub = None
         self.project_stub = None
+        self.node_graph_stub = None
+        self.item_array_stub = None
+        self.item_stub = None
         
     async def connect_to_octane(self):
         """Connect to Octane gRPC server"""
@@ -42,6 +47,9 @@ class LiveLinkProxy:
             self.channel = grpc.aio.insecure_channel(self.octane_address)
             self.stub = livelink_pb2_grpc.LiveLinkServiceStub(self.channel)
             self.project_stub = apiprojectmanager_pb2_grpc.ApiProjectManagerServiceStub(self.channel)
+            self.node_graph_stub = apinodesystem_pb2_grpc.ApiNodeGraphServiceStub(self.channel)
+            self.item_array_stub = apinodesystem_pb2_grpc.ApiItemArrayServiceStub(self.channel)
+            self.item_stub = apinodesystem_pb2_grpc.ApiItemServiceStub(self.channel)
             
             # Test connection
             print(f"📤 Testing connection with GetCamera request")
@@ -170,6 +178,226 @@ class LiveLinkProxy:
             print(f"❌ LoadProject failed: {e}")
             raise Exception(f"Failed to load project: {e}")
     
+    async def get_root_node_graph(self):
+        """Get root node graph from Octane project"""
+        try:
+            request = apiprojectmanager_pb2.ApiProjectManager.rootNodeGraphRequest()
+            
+            print(f"📤 Sending RootNodeGraph request to Octane")
+            response = await self.project_stub.rootNodeGraph(request)
+            
+            result = {
+                'success': True,
+                'objectRef': {
+                    'objectId': response.result.objectId,
+                    'objectHandle': response.result.objectHandle
+                }
+            }
+            
+            print(f"📥 RootNodeGraph successful: objectId={response.result.objectId}")
+            return result
+            
+        except Exception as e:
+            print(f"❌ RootNodeGraph failed: {e}")
+            raise Exception(f"Failed to get root node graph: {e}")
+    
+    async def get_node_graph_items(self, node_graph_ref):
+        """Get owned items from a node graph"""
+        try:
+            request = apinodesystem_pb2.ApiNodeGraph.getOwnedItemsRequest()
+            request.objectPtr.CopyFrom(node_graph_ref)
+            
+            print(f"📤 Sending GetOwnedItems request to Octane: objectId={node_graph_ref.objectId}")
+            response = await self.node_graph_stub.getOwnedItems(request)
+            
+            result = {
+                'success': True,
+                'itemArrayRef': {
+                    'objectId': response.list.objectId,
+                    'objectHandle': response.list.objectHandle
+                }
+            }
+            
+            print(f"📥 GetOwnedItems successful: itemArrayId={response.list.objectId}")
+            return result
+            
+        except Exception as e:
+            print(f"❌ GetOwnedItems failed: {e}")
+            raise Exception(f"Failed to get node graph items: {e}")
+    
+    async def get_item_array_size(self, item_array_ref):
+        """Get size of an item array"""
+        try:
+            request = apinodesystem_pb2.ApiItemArray.sizeRequest()
+            request.objectPtr.CopyFrom(item_array_ref)
+            
+            print(f"📤 Sending ItemArray.size request to Octane: objectId={item_array_ref.objectId}")
+            response = await self.item_array_stub.size(request)
+            
+            result = {
+                'success': True,
+                'size': response.result
+            }
+            
+            print(f"📥 ItemArray.size successful: size={response.result}")
+            return result
+            
+        except Exception as e:
+            print(f"❌ ItemArray.size failed: {e}")
+            raise Exception(f"Failed to get item array size: {e}")
+    
+    async def get_item_array_item(self, item_array_ref, index):
+        """Get item at specific index from item array"""
+        try:
+            request = apinodesystem_pb2.ApiItemArray.getRequest()
+            request.objectPtr.CopyFrom(item_array_ref)
+            request.index = index
+            
+            print(f"📤 Sending ItemArray.get request to Octane: objectId={item_array_ref.objectId}, index={index}")
+            response = await self.item_array_stub.get1(request)
+            
+            result = {
+                'success': True,
+                'itemRef': {
+                    'objectId': response.result.objectId,
+                    'objectHandle': response.result.objectHandle,
+                    'type': response.result.type
+                }
+            }
+            
+            print(f"📥 ItemArray.get successful: itemId={response.result.objectId}, type={response.result.type}")
+            return result
+            
+        except Exception as e:
+            print(f"❌ ItemArray.get failed: {e}")
+            raise Exception(f"Failed to get item array item: {e}")
+    
+    async def get_item_name(self, item_ref):
+        """Get name of an item"""
+        try:
+            request = apinodesystem_pb2.ApiItem.nameRequest()
+            request.objectPtr.CopyFrom(item_ref)
+            
+            print(f"📤 Sending Item.name request to Octane: objectId={item_ref.objectId}")
+            response = await self.item_stub.name(request)
+            
+            result = {
+                'success': True,
+                'name': response.result
+            }
+            
+            print(f"📥 Item.name successful: name='{response.result}'")
+            return result
+            
+        except Exception as e:
+            print(f"❌ Item.name failed: {e}")
+            raise Exception(f"Failed to get item name: {e}")
+    
+    async def build_scene_tree(self):
+        """Build complete scene tree hierarchy"""
+        try:
+            print(f"🌳 Building scene tree hierarchy...")
+            
+            # Get root node graph
+            root_result = await self.get_root_node_graph()
+            if not root_result['success']:
+                return {'success': False, 'error': 'Failed to get root node graph'}
+            
+            root_ref = common_pb2.ObjectRef()
+            root_ref.objectId = root_result['objectRef']['objectId']
+            root_ref.objectHandle = root_result['objectRef']['objectHandle']
+            
+            # Build tree recursively
+            tree_data = await self._build_node_tree_recursive(root_ref, "Root", 0)
+            
+            result = {
+                'success': True,
+                'hierarchy': tree_data
+            }
+            
+            print(f"🌳 Scene tree built successfully with {len(tree_data)} root items")
+            return result
+            
+        except Exception as e:
+            print(f"❌ Build scene tree failed: {e}")
+            return {'success': False, 'error': str(e)}
+    
+    async def _build_node_tree_recursive(self, node_ref, name, depth):
+        """Recursively build node tree"""
+        try:
+            if depth > 10:  # Prevent infinite recursion
+                print(f"⚠️  Maximum depth reached for node: {name}")
+                return []
+            
+            # Get items from this node graph
+            items_result = await self.get_node_graph_items(node_ref)
+            if not items_result['success']:
+                return []
+            
+            item_array_ref = common_pb2.ObjectRef()
+            item_array_ref.objectId = items_result['itemArrayRef']['objectId']
+            item_array_ref.objectHandle = items_result['itemArrayRef']['objectHandle']
+            
+            # Get array size
+            size_result = await self.get_item_array_size(item_array_ref)
+            if not size_result['success']:
+                return []
+            
+            items = []
+            for i in range(size_result['size']):
+                try:
+                    # Get item at index
+                    item_result = await self.get_item_array_item(item_array_ref, i)
+                    if not item_result['success']:
+                        continue
+                    
+                    item_ref = common_pb2.ObjectRef()
+                    item_ref.objectId = item_result['itemRef']['objectId']
+                    item_ref.objectHandle = item_result['itemRef']['objectHandle']
+                    item_ref.type = item_result['itemRef']['type']
+                    
+                    # Get item name
+                    name_result = await self.get_item_name(item_ref)
+                    item_name = name_result['name'] if name_result['success'] else f"Item_{i}"
+                    
+                    # Determine item type
+                    item_type = self._get_item_type_string(item_ref.type)
+                    
+                    # Create item data
+                    item_data = {
+                        'id': item_ref.objectId,
+                        'name': item_name,
+                        'type': item_type,
+                        'visible': True,  # Default to visible
+                        'children': []
+                    }
+                    
+                    # If this is a node graph, recursively get its children
+                    if item_ref.type == common_pb2.ObjectRef.ApiNodeGraph:
+                        item_data['children'] = await self._build_node_tree_recursive(item_ref, item_name, depth + 1)
+                    
+                    items.append(item_data)
+                    
+                except Exception as e:
+                    print(f"⚠️  Failed to process item {i}: {e}")
+                    continue
+            
+            return items
+            
+        except Exception as e:
+            print(f"❌ Recursive tree build failed for {name}: {e}")
+            return []
+    
+    def _get_item_type_string(self, object_type):
+        """Convert ObjectRef.ObjectType enum to string"""
+        type_map = {
+            common_pb2.ObjectRef.ApiNode: 'node',
+            common_pb2.ObjectRef.ApiNodeGraph: 'group',
+            common_pb2.ObjectRef.ApiRootNodeGraph: 'root',
+            # Add more mappings as needed
+        }
+        return type_map.get(object_type, 'unknown')
+    
     async def get_mesh(self, mesh_id):
         """Get specific mesh data from Octane"""
         try:
@@ -294,6 +522,28 @@ async def handle_load_project(request):
         print(f"🌐 HTTP Response: LoadProject failed - {e}")
         return web.json_response({'success': False, 'error': str(e)}, status=500)
 
+async def handle_root_node_graph(request):
+    """Handle RootNodeGraph requests"""
+    try:
+        print(f"🌐 HTTP Request: RootNodeGraph from {request.remote}")
+        result = await proxy.get_root_node_graph()
+        print(f"🌐 HTTP Response: RootNodeGraph success")
+        return web.json_response({'success': True, 'data': result})
+    except Exception as e:
+        print(f"🌐 HTTP Response: RootNodeGraph failed - {e}")
+        return web.json_response({'success': False, 'error': str(e)}, status=500)
+
+async def handle_build_scene_tree(request):
+    """Handle BuildSceneTree requests"""
+    try:
+        print(f"🌐 HTTP Request: BuildSceneTree from {request.remote}")
+        result = await proxy.build_scene_tree()
+        print(f"🌐 HTTP Response: BuildSceneTree {'success' if result['success'] else 'failed'}")
+        return web.json_response({'success': True, 'data': result})
+    except Exception as e:
+        print(f"🌐 HTTP Response: BuildSceneTree failed - {e}")
+        return web.json_response({'success': False, 'error': str(e)}, status=500)
+
 async def handle_static_files(request):
     """Serve static HTML files"""
     path = request.match_info.get('path', 'index.html')
@@ -343,6 +593,8 @@ async def init_app():
     
     # ApiProjectManager endpoints
     app.router.add_post('/ApiProjectManagerService/loadProject', handle_load_project)
+    app.router.add_post('/ApiProjectManagerService/rootNodeGraph', handle_root_node_graph)
+    app.router.add_post('/ApiProjectManagerService/buildSceneTree', handle_build_scene_tree)
     
     # Also support the livelinkapi prefix that the JavaScript client uses
     app.router.add_post('/livelinkapi.LiveLinkService/GetCamera', handle_get_camera)
@@ -352,6 +604,8 @@ async def init_app():
     
     # ApiProjectManager with octaneapi prefix
     app.router.add_post('/octaneapi.ApiProjectManagerService/loadProject', handle_load_project)
+    app.router.add_post('/octaneapi.ApiProjectManagerService/rootNodeGraph', handle_root_node_graph)
+    app.router.add_post('/octaneapi.ApiProjectManagerService/buildSceneTree', handle_build_scene_tree)
     
     # Static file serving
     app.router.add_get('/', handle_static_files)  # Serve index.html by default

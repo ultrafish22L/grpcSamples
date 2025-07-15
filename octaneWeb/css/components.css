@@ -842,3 +842,12 @@ body.drag-over .drop-indicator {
     align-items: center;
     justify-content: space-between;
 }
+
+/* Scene Tree Loading States */
+.scene-loading {
+    padding: 20px;
+    text-align: center;
+    color: var(--octane-text-muted);
+    font-style: italic;
+    font-size: var(--font-size-small);
+}

@@ -175,6 +175,28 @@ function createOctaneWebClient() {
     }
     
     /**
+     * Build complete scene tree from Octane project
+     */
+    async buildSceneTree() {
+        try {
+            const response = await this.makeGrpcCall('octaneapi.ApiProjectManagerService/buildSceneTree', {});
+            
+            if (response.success && response.data && response.data.success) {
+                this.updateSceneHierarchy(response.data.hierarchy);
+                this.emit('ui:sceneUpdate', this.sceneState);
+                this.emit('ui:sceneHierarchyUpdate', this.sceneState.hierarchy);
+                return response.data;
+            } else {
+                throw new Error(response.data?.error || 'Failed to build scene tree');
+            }
+            
+        } catch (error) {
+            console.error('Failed to build scene tree:', error);
+            throw error;
+        }
+    }
+    
+    /**
      * Get object details by ID
      */
     async getObjectDetails(objectId) {

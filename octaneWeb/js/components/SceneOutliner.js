@@ -16,6 +16,10 @@ class SceneOutliner extends OctaneComponent {
     async onInitialize() {
         this.render();
         this.setupSearch();
+        this.setupToolbarButtons();
+        
+        // Load initial scene tree
+        await this.loadSceneTree();
     }
     
     setupEventListeners() {
@@ -50,6 +54,54 @@ class SceneOutliner extends OctaneComponent {
                 this.searchTerm = e.target.value.toLowerCase();
                 this.renderTree();
             });
+        }
+    }
+    
+    setupToolbarButtons() {
+        const expandAllBtn = this.element.querySelector('.panel-btn[title="Expand All"]');
+        const collapseAllBtn = this.element.querySelector('.panel-btn[title="Collapse All"]');
+        
+        if (expandAllBtn) {
+            this.addEventListener(expandAllBtn, 'click', () => {
+                this.expandAll();
+            });
+        }
+        
+        if (collapseAllBtn) {
+            this.addEventListener(collapseAllBtn, 'click', () => {
+                this.collapseAll();
+            });
+        }
+    }
+    
+    async loadSceneTree() {
+        try {
+            const treeContainer = this.element.querySelector('#scene-tree');
+            if (treeContainer) {
+                treeContainer.innerHTML = '<div class="scene-loading">Loading scene tree...</div>';
+            }
+            
+            if (this.client.isConnected && typeof this.client.buildSceneTree === 'function') {
+                const result = await this.client.buildSceneTree();
+                if (result.success && result.hierarchy) {
+                    this.sceneData = result.hierarchy;
+                    this.renderTree();
+                } else {
+                    if (treeContainer) {
+                        treeContainer.innerHTML = '<div class="scene-loading">Failed to load scene tree</div>';
+                    }
+                }
+            } else {
+                if (treeContainer) {
+                    treeContainer.innerHTML = '<div class="scene-loading">Not connected to Octane</div>';
+                }
+            }
+        } catch (error) {
+            console.error('Failed to load scene tree:', error);
+            const treeContainer = this.element.querySelector('#scene-tree');
+            if (treeContainer) {
+                treeContainer.innerHTML = '<div class="scene-loading">Error loading scene tree</div>';
+            }
         }
     }
     
@@ -202,6 +254,26 @@ class SceneOutliner extends OctaneComponent {
     showContextMenu(nodeId, x, y) {
         // TODO: Implement context menu
         console.log('Show context menu for node:', nodeId, 'at', x, y);
+    }
+    
+    expandAll() {
+        this.expandedNodes.clear();
+        this._addAllNodeIds(this.sceneData, this.expandedNodes);
+        this.renderTree();
+    }
+    
+    collapseAll() {
+        this.expandedNodes.clear();
+        this.renderTree();
+    }
+    
+    _addAllNodeIds(nodes, set) {
+        nodes.forEach(node => {
+            if (node.children && node.children.length > 0) {
+                set.add(node.id);
+                this._addAllNodeIds(node.children, set);
+            }
+        });
     }
 }
 
