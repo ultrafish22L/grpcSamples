@@ -91,7 +91,7 @@ class OctaneWebApp {
         this.layoutManager = new LayoutManager();
         
         // Initialize gRPC client (not connected yet)
-        this.client = new OctaneWebClient('http://127.0.0.1:51023');
+        this.client = new OctaneWebClient('http://localhost:51023');
         
         // Setup client event handlers
         this.setupClientEventHandlers();
@@ -212,7 +212,7 @@ class OctaneWebApp {
         if (connectionToggle) {
             connectionToggle.addEventListener('change', (e) => {
                 if (e.target.checked) {
-                    const serverAddress = document.getElementById('serverAddress')?.value || 'http://127.0.0.1:51023';
+                    const serverAddress = document.getElementById('serverAddress')?.value || 'http://localhost:51023';
                     this.connectToOctane(serverAddress);
                 } else {
                     this.disconnectFromOctane();
@@ -552,8 +552,17 @@ class OctaneWebApp {
     
     async refreshScene() {
         if (this.isConnected) {
-            await this.client.syncSceneHierarchy();
-            await this.client.syncNodeGraph();
+            // Use working LiveLink methods instead of old sync methods
+            try {
+                await this.client.getSceneData();
+                console.log('🔄 Scene refreshed via LiveLink');
+                
+                // TODO: Implement node graph refresh with working LiveLink method
+                // await this.client.getNodeGraphData(); // When available
+                
+            } catch (error) {
+                console.error('❌ Failed to refresh scene:', error);
+            }
         }
     }
     
@@ -618,12 +627,76 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.toggleConnection = () => {
             const toggle = document.getElementById('connectionToggle');
             if (toggle.checked) {
-                const serverAddress = document.getElementById('serverAddress')?.value || 'http://127.0.0.1:51023';
+                const serverAddress = document.getElementById('serverAddress')?.value || 'http://localhost:51023';
                 octaneWebApp.connectToOctane(serverAddress);
             } else {
                 octaneWebApp.disconnectFromOctane();
             }
         };
+
+        // Debug console functions
+        window.toggleDebugConsole = () => {
+            const console = document.getElementById('debug-console');
+            if (console.style.display === 'none') {
+                console.style.display = 'block';
+            } else {
+                console.style.display = 'none';
+            }
+        };
+
+        window.clearDebugLog = () => {
+            const log = document.getElementById('debug-log');
+            if (log) {
+                log.innerHTML = '';
+            }
+        };
+
+        // Override console methods to capture logs
+        const originalConsole = {
+            log: console.log,
+            error: console.error,
+            warn: console.warn,
+            info: console.info
+        };
+
+        function addToDebugLog(message, type = 'info') {
+            const log = document.getElementById('debug-log');
+            if (log) {
+                const entry = document.createElement('div');
+                entry.className = `log-entry ${type}`;
+                entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+                log.appendChild(entry);
+                log.scrollTop = log.scrollHeight;
+            }
+        }
+
+        console.log = function(...args) {
+            originalConsole.log.apply(console, args);
+            addToDebugLog(args.join(' '), 'info');
+        };
+
+        console.error = function(...args) {
+            originalConsole.error.apply(console, args);
+            addToDebugLog(args.join(' '), 'error');
+        };
+
+        console.warn = function(...args) {
+            originalConsole.warn.apply(console, args);
+            addToDebugLog(args.join(' '), 'warn');
+        };
+
+        console.info = function(...args) {
+            originalConsole.info.apply(console, args);
+            addToDebugLog(args.join(' '), 'info');
+        };
+
+        // Keyboard shortcut for debug console (Ctrl+D)
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'd') {
+                e.preventDefault();
+                window.toggleDebugConsole();
+            }
+        });
         
     } catch (error) {
         console.error('Failed to start OctaneWeb:', error);

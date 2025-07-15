@@ -673,8 +673,17 @@ class MenuSystem extends OctaneComponent {
     
     async refresh() {
         if (this.client && this.client.isConnected) {
-            await this.client.syncSceneHierarchy();
-            await this.client.syncNodeGraph();
+            // Use working LiveLink methods instead of old sync methods
+            try {
+                await this.client.getSceneData();
+                console.log('🔄 Scene data refreshed via LiveLink');
+                
+                // TODO: Implement node graph refresh with working LiveLink method
+                // await this.client.getNodeGraphData(); // When available
+                
+            } catch (error) {
+                console.error('❌ Failed to refresh scene data:', error);
+            }
         }
     }
     

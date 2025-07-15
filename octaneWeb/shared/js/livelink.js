@@ -58,7 +58,7 @@ class SimpleEventEmitter {
  * LiveLink Client for gRPC-Web communication with Octane
  */
 class LiveLinkClient extends SimpleEventEmitter {
-    constructor(serverUrl = 'http://127.0.0.1:51023') {
+    constructor(serverUrl = 'http://localhost:51023') {
         super();
         this.serverUrl = serverUrl;
         this.connected = false;
@@ -419,6 +419,7 @@ class LiveLinkClient extends SimpleEventEmitter {
                 }, 10000);
                 
                 // Create a simple test request
+                console.log('🔍 Starting fetch request to:', testUrl);
                 fetch(testUrl, {
                     method: 'POST',
                     headers: {
@@ -428,6 +429,7 @@ class LiveLinkClient extends SimpleEventEmitter {
                     body: new Uint8Array([0, 0, 0, 0, 0]), // Empty gRPC-Web message
                     signal: controller.signal
                 }).then(response => {
+                    console.log('✅ Fetch response received:', response.status, response.statusText);
                     clearTimeout(timeoutId);
                     const duration = Date.now() - startTime;
                     
@@ -471,6 +473,7 @@ class LiveLinkClient extends SimpleEventEmitter {
                     }
                     
                 }).catch(error => {
+                    console.error('❌ Fetch request failed:', error);
                     clearTimeout(timeoutId);
                     const duration = Date.now() - startTime;
                     

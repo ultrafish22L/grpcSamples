@@ -34,6 +34,16 @@
         </div>
     </div>
 
+    <!-- Debug Console -->
+    <div id="debug-console" class="debug-console" style="display: none;">
+        <div class="debug-header">
+            <h3>Debug Console</h3>
+            <button onclick="clearDebugLog()">Clear</button>
+            <button onclick="toggleDebugConsole()">Close</button>
+        </div>
+        <div id="debug-log" class="debug-log"></div>
+    </div>
+
     <!-- Main Application Interface -->
     <div id="app-container" class="app-container" style="display: none;">
         
@@ -52,7 +62,7 @@
             <!-- Connection Status & Controls -->
             <div class="connection-status">
                 <div class="connection-controls">
-                    <input type="text" id="serverAddress" placeholder="Server address" value="http://127.0.0.1:51023" title="Octane LiveLink server address and port">
+                    <input type="text" id="serverAddress" placeholder="Server address" value="http://localhost:51023" title="Octane LiveLink server address and port">
                     <div class="switch-container">
                         <label class="switch-label" title="Connection">🔌</label>
                         <label class="switch" title="Connect/disconnect from Octane LiveLink service">
@@ -195,22 +205,22 @@
     </div>
 
     <!-- Core JavaScript Libraries -->
-    <script src="shared/js/livelink.js"></script>
-    <script src="shared/js/shared.js"></script>
-    <script src="shared/js/webgl-utils.js"></script>
+    <script src="shared/js/livelink.js?v=20250715-1237"></script>
+    <script src="shared/js/shared.js?v=20250715-1237"></script>
+    <script src="shared/js/webgl-utils.js?v=20250715-1237"></script>
     
     <!-- OctaneWeb Core -->
-    <script src="js/core/OctaneWebClient.js"></script>
+    <script src="js/core/OctaneWebClient.js?v=20250715-1250"></script>
     <script src="js/core/ComponentSystem.js"></script>
     <script src="js/core/StateManager.js"></script>
     <script src="js/core/EventSystem.js"></script>
     
     <!-- UI Components -->
-    <script src="js/components/SceneOutliner.js"></script>
+    <script src="js/components/SceneOutliner.js?v=20250715-1250"></script>
     <script src="js/components/RenderViewport.js"></script>
     <script src="js/components/NodeInspector.js"></script>
     <script src="js/components/NodeGraphEditor.js"></script>
-    <script src="js/components/MenuSystem.js"></script>
+    <script src="js/components/MenuSystem.js?v=20250715-1300"></script>
     
     <!-- Utilities -->
     <script src="js/utils/WebGLRenderer.js"></script>
@@ -218,7 +228,7 @@
     <script src="js/utils/FileManager.js"></script>
     
     <!-- Main Application -->
-    <script src="js/app.js"></script>
+    <script src="js/app.js?v=20250715-1300"></script>
     
 </body>
 </html>

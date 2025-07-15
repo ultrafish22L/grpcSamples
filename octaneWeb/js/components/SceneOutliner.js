@@ -81,14 +81,14 @@ class SceneOutliner extends OctaneComponent {
                 treeContainer.innerHTML = '<div class="scene-loading">Loading scene tree...</div>';
             }
             
-            if (this.client.isConnected && typeof this.client.buildSceneTree === 'function') {
-                const result = await this.client.buildSceneTree();
+            if (this.client.isConnected && typeof this.client.getSceneData === 'function') {
+                const result = await this.client.getSceneData();
                 if (result.success && result.hierarchy) {
                     this.sceneData = result.hierarchy;
                     this.renderTree();
                 } else {
                     if (treeContainer) {
-                        treeContainer.innerHTML = '<div class="scene-loading">Failed to load scene tree</div>';
+                        treeContainer.innerHTML = '<div class="scene-loading">Failed to load scene data</div>';
                     }
                 }
             } else {

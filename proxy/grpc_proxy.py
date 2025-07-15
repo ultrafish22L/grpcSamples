@@ -630,10 +630,10 @@ async def main():
     runner = web.AppRunner(app)
     await runner.setup()
     
-    site = web.TCPSite(runner, '127.0.0.1', 51023)
+    site = web.TCPSite(runner, '0.0.0.0', 51023)
     await site.start()
     
-    print("✅ Proxy server started on http://127.0.0.1:51023")
+    print("✅ Proxy server started on http://0.0.0.0:51023 (accessible via localhost:51023)")
     print("   Browser requests will be forwarded to Octane at 127.0.0.1:51022")
     print("   Press Ctrl+C to stop")
     

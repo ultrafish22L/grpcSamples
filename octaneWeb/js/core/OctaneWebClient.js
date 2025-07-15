@@ -6,8 +6,9 @@
 
 // Define the class after ensuring LiveLinkClient is available
 function createOctaneWebClient() {
+    console.log('🔍 Creating OctaneWebClient, LiveLinkClient available:', typeof LiveLinkClient !== 'undefined');
     if (typeof LiveLinkClient === 'undefined') {
-        console.error('LiveLinkClient not available. Make sure livelink.js is loaded first.');
+        console.error('❌ LiveLinkClient not available. Make sure livelink.js is loaded first.');
         return null;
     }
 
@@ -130,17 +131,20 @@ function createOctaneWebClient() {
      */
     async initializeExtendedFeatures() {
         try {
-            // Get initial scene state
-            await this.syncSceneHierarchy();
+            // Get initial scene state (TODO: implement proper scene tree method)
+            // await this.syncSceneHierarchy();
             
-            // Get initial node graph
-            await this.syncNodeGraph();
+            // Get initial node graph (TODO: implement proper node graph method)
+            // await this.syncNodeGraph();
             
-            // Get render settings
-            await this.syncRenderSettings();
+            // Get render settings (TODO: implement in proxy)
+            // await this.syncRenderSettings();
             
             // Get camera list
             await this.syncCameras();
+            
+            // Get scene data using available methods
+            await this.getSceneData();
             
             console.log('OctaneWeb extended features initialized');
             
@@ -153,12 +157,75 @@ function createOctaneWebClient() {
     // ==================== SCENE MANAGEMENT ====================
     
     /**
+     * Get scene data using available LiveLink methods
+     */
+    async getSceneData() {
+        try {
+            // Get mesh list using LiveLink GetMeshes method
+            const meshResponse = await this.makeGrpcCall('GetMeshes', {});
+            
+            if (meshResponse.success && meshResponse.data) {
+                // Convert mesh data to scene hierarchy format
+                const sceneHierarchy = this.convertMeshesToHierarchy(meshResponse.data);
+                
+                // Update scene state
+                this.sceneState.hierarchy = sceneHierarchy;
+                
+                // Emit scene update event
+                this.emit('ui:sceneUpdate', this.sceneState);
+                this.emit('ui:sceneHierarchyUpdate', sceneHierarchy);
+                
+                console.log('Scene data loaded:', sceneHierarchy);
+                return { success: true, hierarchy: sceneHierarchy };
+            } else {
+                console.warn('Failed to get mesh data:', meshResponse);
+                return { success: false, error: 'Failed to get mesh data' };
+            }
+            
+        } catch (error) {
+            console.error('Failed to get scene data:', error);
+            return { success: false, error: error.message };
+        }
+    }
+    
+    /**
+     * Convert mesh data to scene hierarchy format
+     */
+    convertMeshesToHierarchy(meshData) {
+        // Handle different possible mesh data formats
+        let meshes = [];
+        
+        if (Array.isArray(meshData)) {
+            meshes = meshData;
+        } else if (meshData.meshes && Array.isArray(meshData.meshes)) {
+            meshes = meshData.meshes;
+        } else if (typeof meshData === 'object') {
+            // Single mesh object
+            meshes = [meshData];
+        }
+        
+        // Convert to hierarchy format
+        return meshes.map((mesh, index) => ({
+            id: mesh.id || `mesh_${index}`,
+            name: mesh.name || `Mesh ${index + 1}`,
+            type: 'mesh',
+            visible: mesh.visible !== false,
+            children: [],
+            properties: {
+                vertices: mesh.vertices || 0,
+                faces: mesh.faces || 0,
+                material: mesh.material || 'Default'
+            }
+        }));
+    }
+    
+    /**
      * Synchronize complete scene hierarchy
      */
     async syncSceneHierarchy() {
         try {
             // Use the parent class's makeGrpcCall method
-            const response = await this.makeGrpcCall('getSceneHierarchy', {});
+            const response = await this.makeGrpcCall('ApiProjectManagerService/buildSceneTree', {});
             
             if (response.success && response.data) {
                 this.updateSceneHierarchy(response.data);
@@ -201,7 +268,7 @@ function createOctaneWebClient() {
      */
     async getObjectDetails(objectId) {
         try {
-            const response = await this.makeRequest('/octane/scene/object', {
+            const response = await this.makeGrpcCall('getSceneObject', {
                 method: 'POST',
                 data: { objectId }
             });
@@ -224,7 +291,7 @@ function createOctaneWebClient() {
      */
     async updateObjectProperties(objectId, properties) {
         try {
-            const response = await this.makeRequest('/octane/scene/object/update', {
+            const response = await this.makeGrpcCall('/octane/scene/object/update', {
                 method: 'POST',
                 data: { objectId, properties }
             });
@@ -249,7 +316,7 @@ function createOctaneWebClient() {
      */
     async selectObjects(objectIds) {
         try {
-            const response = await this.makeRequest('/octane/scene/select', {
+            const response = await this.makeGrpcCall('/octane/scene/select', {
                 method: 'POST',
                 data: { objectIds }
             });
@@ -275,9 +342,7 @@ function createOctaneWebClient() {
      */
     async syncNodeGraph() {
         try {
-            const response = await this.makeRequest('/octane/nodegraph/sync', {
-                method: 'GET'
-            });
+            const response = await this.makeGrpcCall('ApiProjectManagerService/rootNodeGraph', {});
             
             if (response.success && response.data) {
                 this.updateNodeGraphState(response.data);
@@ -297,7 +362,7 @@ function createOctaneWebClient() {
      */
     async createNode(nodeType, position) {
         try {
-            const response = await this.makeRequest('/octane/nodegraph/node/create', {
+            const response = await this.makeGrpcCall('/octane/nodegraph/node/create', {
                 method: 'POST',
                 data: { nodeType, position }
             });
@@ -321,7 +386,7 @@ function createOctaneWebClient() {
      */
     async deleteNode(nodeId) {
         try {
-            const response = await this.makeRequest('/octane/nodegraph/node/delete', {
+            const response = await this.makeGrpcCall('/octane/nodegraph/node/delete', {
                 method: 'POST',
                 data: { nodeId }
             });
@@ -345,7 +410,7 @@ function createOctaneWebClient() {
      */
     async connectNodes(outputNodeId, outputSocket, inputNodeId, inputSocket) {
         try {
-            const response = await this.makeRequest('/octane/nodegraph/connect', {
+            const response = await this.makeGrpcCall('/octane/nodegraph/connect', {
                 method: 'POST',
                 data: { outputNodeId, outputSocket, inputNodeId, inputSocket }
             });
@@ -369,7 +434,7 @@ function createOctaneWebClient() {
      */
     async updateNodeParameter(nodeId, parameterName, value) {
         try {
-            const response = await this.makeRequest('/octane/nodegraph/node/parameter', {
+            const response = await this.makeGrpcCall('/octane/nodegraph/node/parameter', {
                 method: 'POST',
                 data: { nodeId, parameterName, value }
             });
@@ -399,7 +464,7 @@ function createOctaneWebClient() {
      */
     async startRender(settings = {}) {
         try {
-            const response = await this.makeRequest('/octane/render/start', {
+            const response = await this.makeGrpcCall('/octane/render/start', {
                 method: 'POST',
                 data: settings
             });
@@ -424,7 +489,7 @@ function createOctaneWebClient() {
      */
     async stopRender() {
         try {
-            const response = await this.makeRequest('/octane/render/stop', {
+            const response = await this.makeGrpcCall('/octane/render/stop', {
                 method: 'POST'
             });
             
@@ -446,7 +511,7 @@ function createOctaneWebClient() {
      */
     async getRenderProgress() {
         try {
-            const response = await this.makeRequest('/octane/render/progress', {
+            const response = await this.makeGrpcCall('/octane/render/progress', {
                 method: 'GET'
             });
             
@@ -468,7 +533,7 @@ function createOctaneWebClient() {
      */
     async syncRenderSettings() {
         try {
-            const response = await this.makeRequest('/octane/render/settings', {
+            const response = await this.makeGrpcCall('/octane/render/settings', {
                 method: 'GET'
             });
             
@@ -492,16 +557,20 @@ function createOctaneWebClient() {
      */
     async syncCameras() {
         try {
-            const response = await this.makeRequest('/octane/cameras/list', {
-                method: 'GET'
-            });
+            const response = await this.makeGrpcCall('GetCamera', {});
             
             if (response.success && response.data) {
                 this.sceneState.cameras.clear();
-                response.data.forEach(camera => {
-                    this.sceneState.cameras.set(camera.id, camera);
-                });
+                // GetCamera returns a single camera object, not an array
+                const camera = {
+                    id: 'main_camera',
+                    position: response.data.position,
+                    target: response.data.target,
+                    up: response.data.up
+                };
+                this.sceneState.cameras.set(camera.id, camera);
                 this.emit('ui:camerasUpdate', this.sceneState.cameras);
+                this.log(`Synced camera: ${JSON.stringify(camera)}`);
             }
             
             return response;
@@ -519,11 +588,12 @@ function createOctaneWebClient() {
      */
     startAutoSync() {
         // Scene sync every 5 seconds
-        this.syncIntervals.scene = setInterval(() => {
-            if (this.isConnected) {
-                this.syncSceneHierarchy().catch(console.error);
-            }
-        }, 5000);
+        // TODO: implement proper scene tree method
+        // this.syncIntervals.scene = setInterval(() => {
+        //     if (this.isConnected) {
+        //         this.syncSceneHierarchy().catch(console.error);
+        //     }
+        // }, 5000);
         
         // Render progress sync every 1 second when rendering
         this.syncIntervals.render = setInterval(() => {
@@ -533,11 +603,12 @@ function createOctaneWebClient() {
         }, 1000);
         
         // Node graph sync every 10 seconds
-        this.syncIntervals.nodeGraph = setInterval(() => {
-            if (this.isConnected) {
-                this.syncNodeGraph().catch(console.error);
-            }
-        }, 10000);
+        // TODO: implement proper node graph method
+        // this.syncIntervals.nodeGraph = setInterval(() => {
+        //     if (this.isConnected) {
+        //         this.syncNodeGraph().catch(console.error);
+        //     }
+        // }, 10000);
     }
     
     /**
@@ -576,13 +647,24 @@ function createOctaneWebClient() {
      * Update scene hierarchy
      */
     updateSceneHierarchy(hierarchyData) {
+        // Ensure hierarchyData is an array
+        if (!Array.isArray(hierarchyData)) {
+            console.warn('updateSceneHierarchy: hierarchyData is not an array:', hierarchyData);
+            this.sceneState.hierarchy = [];
+            return;
+        }
+        
         this.sceneState.hierarchy = hierarchyData;
         
         // Flatten hierarchy to update objects map
         const flattenHierarchy = (nodes) => {
+            if (!Array.isArray(nodes)) {
+                console.warn('flattenHierarchy: nodes is not an array:', nodes);
+                return;
+            }
             nodes.forEach(node => {
                 this.sceneState.objects.set(node.id, node);
-                if (node.children) {
+                if (node.children && Array.isArray(node.children)) {
                     flattenHierarchy(node.children);
                 }
             });
@@ -595,18 +677,22 @@ function createOctaneWebClient() {
      * Update node graph state
      */
     updateNodeGraphState(data) {
-        if (data.nodes) {
+        if (data.nodes && Array.isArray(data.nodes)) {
             this.nodeGraphState.nodes.clear();
             data.nodes.forEach(node => {
                 this.nodeGraphState.nodes.set(node.id, node);
             });
+        } else if (data.nodes) {
+            console.warn('updateNodeGraphState: data.nodes is not an array:', data.nodes);
         }
         
-        if (data.connections) {
+        if (data.connections && Array.isArray(data.connections)) {
             this.nodeGraphState.connections.clear();
             data.connections.forEach(conn => {
                 this.nodeGraphState.connections.set(conn.id, conn);
             });
+        } else if (data.connections) {
+            console.warn('updateNodeGraphState: data.connections is not an array:', data.connections);
         }
     }
     
@@ -697,10 +783,12 @@ function createOctaneWebClient() {
 
 // Create and export the class
 const OctaneWebClient = createOctaneWebClient();
+console.log('🔍 OctaneWebClient created:', OctaneWebClient !== null ? 'SUCCESS' : 'FAILED');
 
 // Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = OctaneWebClient;
 } else if (typeof window !== 'undefined') {
     window.OctaneWebClient = OctaneWebClient;
+    console.log('🔍 OctaneWebClient exported to window:', typeof window.OctaneWebClient);
 }
