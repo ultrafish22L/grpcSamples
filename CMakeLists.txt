@@ -163,3 +163,6 @@ add_subdirectory(simpleGL)
 add_subdirectory(simpleGlGrpc)
 add_subdirectory(testGrpcApi)
 #add_subdirectory(simpleGlSdk)
+
+# Add simple gRPC test (no GUI)
+include(test_grpc_CMakeLists.txt)
