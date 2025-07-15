@@ -98,6 +98,9 @@ if(MSVC)
     # Enable parallel compilation
     target_compile_options(testGrpcApi PRIVATE /MP)
     
+    # Explicitly enable C++17 features for MSVC
+    target_compile_options(testGrpcApi PRIVATE /std:c++17)
+    
     # Set warning level and disable specific warnings
     target_compile_options(testGrpcApi PRIVATE /W3)
     target_compile_options(testGrpcApi PRIVATE /wd4996)  # Disable deprecated function warnings
@@ -106,6 +109,9 @@ if(MSVC)
     
     # Enable proper exception handling
     target_compile_options(testGrpcApi PRIVATE /EHsc)
+    
+    # Enable conformance mode for better C++ standard compliance
+    target_compile_options(testGrpcApi PRIVATE /permissive-)
 endif()
 
 # Copy resources

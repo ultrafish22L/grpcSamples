@@ -5,11 +5,15 @@
 
 #pragma once
 
+// Windows compatibility layer (must come first)
+#include "../shared/windows_headers.h"
+
 #include <string>
 #include <vector>
 #include <chrono>
 #include <sstream>
 #include <iomanip>
+#include <mutex>
 
 class ActivityLogger {
 public:
