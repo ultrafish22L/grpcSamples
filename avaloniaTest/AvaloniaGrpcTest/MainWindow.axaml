@@ -1,0 +1,50 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        x:Class="AvaloniaGrpcTest.MainWindow"
+        Title="Octane gRPC API Tester - Avalonia">
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Title -->
+        <TextBlock Grid.Row="0" Text="Octane gRPC API Tester" 
+                   FontSize="24" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="0,0,0,20"/>
+        
+        <!-- Connection Section -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,20">
+            <TextBlock Text="Server:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <TextBox Name="ServerTextBox" Text="localhost:8080" Width="200" Margin="0,0,10,0"/>
+            <Button Name="ConnectButton" Content="Connect" Click="ConnectButton_Click" Margin="0,0,10,0"/>
+            <TextBlock Name="StatusText" Text="Disconnected" VerticalAlignment="Center" 
+                       Foreground="Red" FontWeight="Bold"/>
+        </StackPanel>
+        
+        <!-- API Test Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,20">
+            <Button Name="GetCameraButton" Content="Get Camera" Click="GetCameraButton_Click" 
+                    Margin="0,0,10,0" IsEnabled="False"/>
+            <Button Name="SetCameraButton" Content="Set Camera" Click="SetCameraButton_Click" 
+                    Margin="0,0,10,0" IsEnabled="False"/>
+            <Button Name="GetMeshesButton" Content="Get Meshes" Click="GetMeshesButton_Click" 
+                    Margin="0,0,10,0" IsEnabled="False"/>
+            <Button Name="ClearLogButton" Content="Clear Log" Click="ClearLogButton_Click"/>
+        </StackPanel>
+        
+        <!-- Log Output -->
+        <ScrollViewer Grid.Row="3">
+            <TextBox Name="LogTextBox" IsReadOnly="True" 
+                     AcceptsReturn="True" TextWrapping="Wrap"
+                     FontFamily="Consolas" FontSize="12"
+                     Background="#1e1e1e" Foreground="#ffffff"/>
+        </ScrollViewer>
+    </Grid>
+</Window>
