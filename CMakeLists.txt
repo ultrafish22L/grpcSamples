@@ -164,38 +164,7 @@ add_subdirectory(simpleGlGrpc)
 add_subdirectory(testGrpcApi)
 #add_subdirectory(simpleGlSdk)
 
-# Add Avalonia .NET project (cross-platform GUI)
-# Check if dotnet is available
-find_program(DOTNET_EXECUTABLE dotnet)
-if(DOTNET_EXECUTABLE)
-    message(STATUS "Found .NET SDK: ${DOTNET_EXECUTABLE}")
-    
-    # Create custom target for Avalonia gRPC test application
-    add_custom_target(AvaloniaGrpcTest
-        COMMAND ${DOTNET_EXECUTABLE} build --configuration Release
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/avaloniaTest/AvaloniaGrpcTest
-        COMMENT "Building Avalonia gRPC Test Application"
-        VERBATIM
-    )
-    
-    # Create custom target for running the Avalonia app (if display is available)
-    add_custom_target(run-avalonia
-        COMMAND ${DOTNET_EXECUTABLE} run --configuration Release
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/avaloniaTest/AvaloniaGrpcTest
-        COMMENT "Running Avalonia gRPC Test Application"
-        VERBATIM
-        DEPENDS AvaloniaGrpcTest
-    )
-    
-    # Add to ALL target so it builds by default
-    add_dependencies(AvaloniaGrpcTest shared_lib)
-    
-    message(STATUS "Added Avalonia gRPC Test Application to build")
-    message(STATUS "  - Build with: make AvaloniaGrpcTest")
-    message(STATUS "  - Run with: make run-avalonia (requires display)")
-else()
-    message(WARNING ".NET SDK not found - Avalonia project will not be built")
-endif()
+# Avalonia .NET project removed - using C++ Dear ImGui testGrpcApi instead
 
 # Add testGrpcApi C++ Dear ImGui application
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/testGrpcApi/CMakeLists.txt")
