@@ -43,8 +43,33 @@ class LiveLinkProxy:
     async def connect_to_octane(self):
         """Connect to Octane gRPC server"""
         try:
-            print(f"🔌 Connecting to Octane gRPC server at {self.octane_address}")
+            print(f"🔌 Attempting to connect to Octane gRPC server at {self.octane_address}")
+            
+            # Test basic connectivity first
+            import socket
+            host, port = self.octane_address.split(':')
+            port = int(port)
+            
+            print(f"🔍 Testing socket connectivity to {host}:{port}")
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(5)
+            try:
+                result = sock.connect_ex((host, port))
+                if result == 0:
+                    print(f"✅ Socket connection successful to {host}:{port}")
+                else:
+                    print(f"❌ Socket connection failed to {host}:{port} - error code: {result}")
+                    return False
+            except Exception as e:
+                print(f"❌ Socket test failed: {e}")
+                return False
+            finally:
+                sock.close()
+            
+            print(f"🔌 Creating gRPC channel to {self.octane_address}")
             self.channel = grpc.aio.insecure_channel(self.octane_address)
+            
+            print(f"🔌 Creating gRPC stubs...")
             self.stub = livelink_pb2_grpc.LiveLinkServiceStub(self.channel)
             self.project_stub = apiprojectmanager_pb2_grpc.ApiProjectManagerServiceStub(self.channel)
             self.node_graph_stub = apinodesystem_pb2_grpc.ApiNodeGraphServiceStub(self.channel)
