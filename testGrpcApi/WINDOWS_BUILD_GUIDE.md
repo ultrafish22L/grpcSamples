@@ -9,6 +9,10 @@ error C4430: missing type specifier - int assumed. Note: C++ does not support de
 error C2146: syntax error: missing ')' before identifier 'LONGLONG'
 error C2065: 'LONGLONG': undeclared identifier
 see previous definition of 'APIENTRY'
+error C2143: syntax error: missing '}' before 'constant'
+error C2059: syntax error: 'constant'
+error C3646: 'level': unknown override specifier
+error C2061: syntax error: identifier 'LogLevel'
 ```
 
 These have been **FIXED** in the latest commit. Simply pull the latest changes:
@@ -72,7 +76,7 @@ The build system automatically links these Windows libraries:
 
 ### Common Issues and Solutions
 
-#### 1. Header Include Errors (imgui_impl_glfw.h, LONGLONG, APIENTRY)
+#### 1. Header Include and C++17 Compilation Errors
 **Status**: ✅ **FIXED** in latest commit
 
 **Solution**: Pull latest changes:
@@ -86,6 +90,9 @@ git pull origin main
 - Resolved gRPC LONGLONG type definition issues
 - Fixed APIENTRY redefinition between Windows and OpenGL headers
 - Added proper Windows type definitions before gRPC headers
+- Added explicit `/std:c++17` and `/permissive-` flags for MSVC
+- Fixed enum class LogLevel compilation errors
+- Enhanced C++17 standard compliance for Windows builds
 
 #### 2. Visual Studio Version Issues
 **Error**: CMake generator not found
