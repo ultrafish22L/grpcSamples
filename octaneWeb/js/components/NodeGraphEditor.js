@@ -21,6 +21,8 @@ class NodeGraphEditor extends OctaneComponent {
     async onInitialize() {
         this.initCanvas();
         this.setupControls();
+        this.setupToolbarControls(); // Add toolbar button handlers
+        this.createSampleNodes(); // Add sample nodes for testing
         this.startRenderLoop();
     }
     
@@ -58,6 +60,61 @@ class NodeGraphEditor extends OctaneComponent {
             e.preventDefault();
         });
     }
+
+    setupToolbarControls() {
+        // Find toolbar buttons
+        const nodeGraphSection = this.canvas.closest('.node-graph-section');
+        if (!nodeGraphSection) return;
+
+        const addButton = nodeGraphSection.querySelector('.node-btn[title="Add Node"]');
+        const deleteButton = nodeGraphSection.querySelector('.node-btn[title="Delete Node"]');
+        const fitButton = nodeGraphSection.querySelector('.node-btn[title="Fit All"]');
+
+        // Add Node button
+        if (addButton) {
+            this.addEventListener(addButton, 'click', () => {
+                // Ensure canvas dimensions are available
+                if (!this.canvas.width || !this.canvas.height) {
+                    this.handleResize();
+                }
+                
+                // Create node at center of viewport
+                const centerX = (-this.viewport.x + this.canvas.width / 2) / this.viewport.zoom;
+                const centerY = (-this.viewport.y + this.canvas.height / 2) / this.viewport.zoom;
+                
+                // Fallback to (0, 0) if calculations result in NaN
+                const nodeX = isNaN(centerX) ? 0 : centerX;
+                const nodeY = isNaN(centerY) ? 0 : centerY;
+                
+                this.createNodeAtPosition(nodeX, nodeY);
+            });
+        }
+
+        // Delete Node button
+        if (deleteButton) {
+            this.addEventListener(deleteButton, 'click', () => {
+                if (this.selectedNodes.size > 0) {
+                    this.deleteSelectedNodes();
+                } else {
+                    if (window.debugConsole) {
+                        window.debugConsole.log('⚠️ No nodes selected for deletion');
+                    }
+                }
+            });
+        }
+
+        // Fit All button
+        if (fitButton) {
+            this.addEventListener(fitButton, 'click', () => {
+                this.frameAll();
+                if (window.debugConsole) {
+                    window.debugConsole.log('🔍 Framed all nodes in viewport');
+                }
+            });
+        }
+
+        console.log('🎛️ Node graph toolbar controls initialized');
+    }
     
     startRenderLoop() {
         const render = () => {
@@ -91,6 +148,11 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Restore context
         this.ctx.restore();
+        
+        // Debug info (outside viewport transform)
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.font = '12px Arial';
+        this.ctx.fillText(`Nodes: ${this.nodes.size}`, 10, 20);
     }
     
     drawGrid() {
@@ -286,13 +348,15 @@ class NodeGraphEditor extends OctaneComponent {
     
     handleDoubleClick(e) {
         const rect = this.canvas.getBoundingClientRect();
-        const mousePos = {
-            x: (e.clientX - rect.left - this.viewport.x) / this.viewport.zoom,
-            y: (e.clientY - rect.top - this.viewport.y) / this.viewport.zoom
-        };
+        const mouseX = (e.clientX - rect.left - this.viewport.x) / this.viewport.zoom;
+        const mouseY = (e.clientY - rect.top - this.viewport.y) / this.viewport.zoom;
+        
+        // Fallback to (0, 0) if calculations result in NaN
+        const nodeX = isNaN(mouseX) ? 0 : mouseX;
+        const nodeY = isNaN(mouseY) ? 0 : mouseY;
         
         // Create new node at mouse position
-        this.createNodeAtPosition(mousePos.x, mousePos.y);
+        this.createNodeAtPosition(nodeX, nodeY);
     }
     
     handleKeyDown(e) {
@@ -327,28 +391,206 @@ class NodeGraphEditor extends OctaneComponent {
         };
     }
     
-    async createNodeAtPosition(x, y) {
-        try {
-            const response = await this.client.createNode('material', { x, y });
-            if (response.success) {
-                console.log('Node created:', response.data);
+    getSelectedNodeType() {
+        // Get selected node type from slider switches
+        const selectedRadio = document.querySelector('input[name="nodeType"]:checked');
+        return selectedRadio ? selectedRadio.value : 'material';
+    }
+
+    getNodeTemplate(nodeType) {
+        const nodeTemplates = {
+            material: {
+                type: 'material',
+                name: 'Diffuse Material',
+                inputs: [
+                    { name: 'Diffuse', connected: false },
+                    { name: 'Roughness', connected: false },
+                    { name: 'Normal', connected: false }
+                ],
+                outputs: [
+                    { name: 'Material', connected: false }
+                ]
+            },
+            texture: {
+                type: 'texture',
+                name: 'Image Texture',
+                inputs: [
+                    { name: 'UV', connected: false }
+                ],
+                outputs: [
+                    { name: 'Color', connected: false },
+                    { name: 'Alpha', connected: false }
+                ]
+            },
+            geometry: {
+                type: 'geometry',
+                name: 'Mesh Geometry',
+                inputs: [
+                    { name: 'Material', connected: false }
+                ],
+                outputs: [
+                    { name: 'Geometry', connected: false }
+                ]
+            },
+            light: {
+                type: 'light',
+                name: 'Area Light',
+                inputs: [
+                    { name: 'Color', connected: false },
+                    { name: 'Intensity', connected: false }
+                ],
+                outputs: [
+                    { name: 'Light', connected: false }
+                ]
             }
-        } catch (error) {
-            console.error('Failed to create node:', error);
+        };
+
+        return nodeTemplates[nodeType] || nodeTemplates.material;
+    }
+
+    async createNodeAtPosition(x, y) {
+        // Get selected node type from slider switches
+        const selectedType = this.getSelectedNodeType();
+        const nodeTemplate = this.getNodeTemplate(selectedType);
+        
+        const newNode = {
+            id: `node_${Date.now()}`,
+            name: nodeTemplate.name,
+            type: nodeTemplate.type,
+            x: x - 60, // Center on mouse position
+            y: y - 40,
+            width: 120,
+            height: 80,
+            inputs: [...nodeTemplate.inputs],
+            outputs: [...nodeTemplate.outputs]
+        };
+
+        this.nodes.set(newNode.id, newNode);
+        this.selectedNodes.clear();
+        this.selectedNodes.add(newNode.id);
+
+        console.log(`🎨 Created ${newNode.type} node at (${x.toFixed(0)}, ${y.toFixed(0)})`);
+        
+        // Log to debug console
+        if (window.debugConsole) {
+            window.debugConsole.log(`🎨 Created ${newNode.type} node: ${newNode.name}`);
         }
     }
     
     async deleteSelectedNodes() {
+        const deletedNodes = [];
+        
         for (const nodeId of this.selectedNodes) {
-            try {
-                await this.client.deleteNode(nodeId);
-            } catch (error) {
-                console.error('Failed to delete node:', error);
+            const node = this.nodes.get(nodeId);
+            if (node) {
+                // Remove connections involving this node
+                const connectionsToRemove = [];
+                this.connections.forEach((connection, connId) => {
+                    if (connection.outputNodeId === nodeId || connection.inputNodeId === nodeId) {
+                        connectionsToRemove.push(connId);
+                    }
+                });
+                
+                connectionsToRemove.forEach(connId => {
+                    this.connections.delete(connId);
+                });
+                
+                // Remove the node
+                this.nodes.delete(nodeId);
+                deletedNodes.push(node.name);
             }
         }
+        
         this.selectedNodes.clear();
+        
+        if (deletedNodes.length > 0) {
+            console.log(`🗑️ Deleted nodes: ${deletedNodes.join(', ')}`);
+            
+            // Log to debug console
+            if (window.debugConsole) {
+                window.debugConsole.log(`🗑️ Deleted ${deletedNodes.length} node(s): ${deletedNodes.join(', ')}`);
+            }
+        }
     }
     
+    createSampleNodes() {
+        // Create sample nodes for testing
+        const sampleNodes = [
+            {
+                id: 'material_1',
+                name: 'Diffuse Material',
+                type: 'material',
+                x: 100,
+                y: 100,
+                width: 140,
+                height: 100,
+                inputs: [
+                    { name: 'Diffuse', connected: false },
+                    { name: 'Roughness', connected: false },
+                    { name: 'Normal', connected: false }
+                ],
+                outputs: [
+                    { name: 'Material', connected: true }
+                ]
+            },
+            {
+                id: 'texture_1',
+                name: 'Image Texture',
+                type: 'texture',
+                x: -150,
+                y: 80,
+                width: 120,
+                height: 80,
+                inputs: [
+                    { name: 'UV', connected: false }
+                ],
+                outputs: [
+                    { name: 'Color', connected: true },
+                    { name: 'Alpha', connected: false }
+                ]
+            },
+            {
+                id: 'geometry_1',
+                name: 'Mesh',
+                type: 'geometry',
+                x: 300,
+                y: 150,
+                width: 100,
+                height: 80,
+                inputs: [
+                    { name: 'Material', connected: true }
+                ],
+                outputs: []
+            }
+        ];
+
+        // Add nodes to the map
+        sampleNodes.forEach(node => {
+            this.nodes.set(node.id, node);
+        });
+
+        // Create sample connection
+        this.connections.set('conn_1', {
+            id: 'conn_1',
+            outputNodeId: 'texture_1',
+            outputSocket: 'Color',
+            inputNodeId: 'material_1',
+            inputSocket: 'Diffuse',
+            selected: false
+        });
+
+        this.connections.set('conn_2', {
+            id: 'conn_2',
+            outputNodeId: 'material_1',
+            outputSocket: 'Material',
+            inputNodeId: 'geometry_1',
+            inputSocket: 'Material',
+            selected: false
+        });
+
+        console.log('🎨 Created sample nodes for node graph editor');
+    }
+
     frameAll() {
         if (this.nodes.size === 0) return;
         

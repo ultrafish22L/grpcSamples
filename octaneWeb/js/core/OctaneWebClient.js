@@ -162,9 +162,15 @@ function createOctaneWebClient() {
     async getSceneData() {
         try {
             // Get mesh list using LiveLink GetMeshes method
+            console.log('🔍 Calling GetMeshes endpoint...');
             const meshResponse = await this.makeGrpcCall('GetMeshes', {});
             
+            console.log('📥 Raw GetMeshes response:', JSON.stringify(meshResponse, null, 2));
+            
             if (meshResponse.success && meshResponse.data) {
+                console.log('📊 Mesh data type:', typeof meshResponse.data);
+                console.log('📊 Mesh data content:', meshResponse.data);
+                
                 // Convert mesh data to scene hierarchy format
                 const sceneHierarchy = this.convertMeshesToHierarchy(meshResponse.data);
                 
