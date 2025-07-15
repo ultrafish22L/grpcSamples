@@ -1,13 +1,17 @@
 # testGrpcApi Windows Build Guide
 
-## Quick Fix for 'imgui_impl_glfw.h' Error
+## Quick Fix for Windows Build Errors
 
-If you're getting the error:
+If you're getting any of these errors:
 ```
 error C1083: Cannot open include file: 'imgui_impl_glfw.h': No such file or directory
+error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+error C2146: syntax error: missing ')' before identifier 'LONGLONG'
+error C2065: 'LONGLONG': undeclared identifier
+see previous definition of 'APIENTRY'
 ```
 
-This has been **FIXED** in the latest commit. Simply pull the latest changes:
+These have been **FIXED** in the latest commit. Simply pull the latest changes:
 
 ```bash
 git pull origin main
@@ -68,7 +72,7 @@ The build system automatically links these Windows libraries:
 
 ### Common Issues and Solutions
 
-#### 1. 'imgui_impl_glfw.h' Not Found
+#### 1. Header Include Errors (imgui_impl_glfw.h, LONGLONG, APIENTRY)
 **Status**: ✅ **FIXED** in latest commit
 
 **Solution**: Pull latest changes:
@@ -77,9 +81,11 @@ git pull origin main
 ```
 
 **Technical Details**: 
-- Fixed include directory path in `CMakeLists.txt`
-- Added proper Windows-specific include paths
-- Enhanced cross-platform compatibility
+- Created `shared/windows_headers.h` compatibility layer
+- Fixed Windows header inclusion order conflicts
+- Resolved gRPC LONGLONG type definition issues
+- Fixed APIENTRY redefinition between Windows and OpenGL headers
+- Added proper Windows type definitions before gRPC headers
 
 #### 2. Visual Studio Version Issues
 **Error**: CMake generator not found
