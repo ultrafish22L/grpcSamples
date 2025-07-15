@@ -76,7 +76,7 @@ private:
     std::unique_ptr<PerformanceTracker> perfTracker;
     
     // Application state matching HTML
-    std::string serverAddress = "127.0.0.1:51023";  // gRPC format, not HTTP
+    std::string serverAddress = "127.0.0.1:51022";  // Direct connection to mock Octane server (like simpleGlGrpc)
     bool connectionToggle = false;
     bool autoRotateToggle = true;
     bool syncCameraToggle = true;

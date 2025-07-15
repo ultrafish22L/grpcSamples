@@ -44,3 +44,48 @@ target_include_directories(test_grpc_bugs PRIVATE
 set_target_properties(test_grpc_bugs PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../bin
 )
+
+# Add the testGrpcApi connection test
+add_executable(test_testGrpcApi_connection test_testGrpcApi_connection.cpp)
+
+# Link with shared library and testGrpcApi components
+target_link_libraries(test_testGrpcApi_connection 
+    shared_lib
+    ${GRPC_LIBRARIES}
+    ${PROTOBUF_LIBRARIES}
+)
+
+# Include directories (including testGrpcApi for ActivityLogger)
+target_include_directories(test_testGrpcApi_connection PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/shared
+    ${CMAKE_CURRENT_SOURCE_DIR}/shared/generated
+    ${CMAKE_CURRENT_SOURCE_DIR}/testGrpcApi
+)
+
+# Set output directory
+set_target_properties(test_testGrpcApi_connection PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../bin
+)
+
+# Add the simpleGlGrpc connection test
+add_executable(test_simpleGlGrpc_connection test_simpleGlGrpc_connection.cpp)
+
+# Link with shared library
+target_link_libraries(test_simpleGlGrpc_connection 
+    shared_lib
+    ${GRPC_LIBRARIES}
+    ${PROTOBUF_LIBRARIES}
+)
+
+# Include directories
+target_include_directories(test_simpleGlGrpc_connection PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/shared
+    ${CMAKE_CURRENT_SOURCE_DIR}/shared/generated
+)
+
+# Set output directory
+set_target_properties(test_simpleGlGrpc_connection PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../bin
+)
