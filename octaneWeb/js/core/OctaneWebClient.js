@@ -544,8 +544,8 @@ function createOctaneWebClient() {
                         if (items && Array.isArray(items) && items.length > 0) {
                             console.log(`${'  '.repeat(depth)}✅ Found ${items.length} child items in array:`, items);
                             
-                            // Recursively process each child item
-                            for (let i = 0; i < items.length && depth < 5; i++) { // Limit depth to prevent infinite recursion
+                            // NO RECURSION - Just process first level items and get their names
+                            for (let i = 0; i < items.length; i++) {
                                 const item = items[i];
                                 console.log(`${'  '.repeat(depth)}🔍 Processing item ${i + 1}:`, item);
                                 
@@ -564,13 +564,37 @@ function createOctaneWebClient() {
                                 }
                                 
                                 if (objectRef) {
-                                    const childName = item.name || `Node_${objectRef.handle}`;
-                                    console.log(`${'  '.repeat(depth)}🌿 Recursing into child: ${childName} (handle=${objectRef.handle}, type=${objectRef.type})`);
+                                    // Get the actual name using .name() API call
+                                    let itemName = item.name || `Node_${objectRef.handle}`;
                                     
-                                    const childNode = await this.buildSceneTreeRecursive(objectRef, childName, depth + 1);
-                                    if (childNode) {
-                                        node.children.push(childNode);
+                                    try {
+                                        console.log(`${'  '.repeat(depth)}📤 Getting name for item handle=${objectRef.handle}, type=${objectRef.type}`);
+                                        const nameResponse = await this.makeGrpcCall('octaneapi.ApiItemService/name', {
+                                            objectPtr: objectRef
+                                        });
+                                        
+                                        if (nameResponse.success && nameResponse.data && nameResponse.data.result) {
+                                            itemName = nameResponse.data.result;
+                                            console.log(`${'  '.repeat(depth)}✅ Got actual name: "${itemName}"`);
+                                        } else {
+                                            console.log(`${'  '.repeat(depth)}⚠️ Failed to get name, using fallback: "${itemName}"`);
+                                        }
+                                    } catch (nameError) {
+                                        console.warn(`${'  '.repeat(depth)}⚠️ Name API call failed, using fallback: "${itemName}"`, nameError);
                                     }
+                                    
+                                    // Create simple child node without recursion
+                                    const childNode = {
+                                        id: `node_${objectRef.handle}`,
+                                        name: itemName,
+                                        type: this.getNodeTypeFromObjectType(objectRef.type),
+                                        visible: true,
+                                        children: [], // No children - no recursion
+                                        objectRef: objectRef
+                                    };
+                                    
+                                    console.log(`${'  '.repeat(depth)}✅ Created child node: ${itemName} (handle=${objectRef.handle}, type=${objectRef.type})`);
+                                    node.children.push(childNode);
                                 } else {
                                     console.log(`${'  '.repeat(depth)}⚠️ Item ${i + 1} has no valid objectRef:`, item);
                                 }
@@ -1315,6 +1339,23 @@ function createOctaneWebClient() {
      */
     getSelectedNodes() {
         return Array.from(this.nodeGraphState.selectedNodes);
+    }
+    
+    /**
+     * Map ObjectRef.ObjectType to display type for scene outliner
+     */
+    getNodeTypeFromObjectType(objectType) {
+        // Map from ObjectRef.ObjectType enum values to display types
+        const typeMap = {
+            16: 'item',        // ApiItem
+            17: 'node',        // ApiNode  
+            18: 'graph',       // ApiRootNodeGraph
+            19: 'reference',   // ApiReferenceGraph
+            20: 'graph',       // ApiNodeGraph
+            25: 'rendertarget' // Based on PT_RENDERTARGET from octaneids.h
+        };
+        
+        return typeMap[objectType] || 'unknown';
     }
 }
 
