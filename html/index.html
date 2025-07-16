@@ -140,7 +140,120 @@
 
     <!-- Include shared utilities and LiveLink client -->
     <script src="../shared/js/shared.js?v=1737000005"></script>
-    <script src="../shared/js/logging.js?v=1737000012"></script>
+    <script>
+        // INLINE ConsoleRouter class to bypass loading issues
+        console.log('INLINE: Defining ConsoleRouter class directly in HTML');
+        
+        class ConsoleRouter {
+            constructor() {
+                this.loggers = [];
+                this.originalConsole = {
+                    log: console.log,
+                    info: console.info,
+                    warn: console.warn,
+                    error: console.error
+                };
+                this.interceptConsole();
+                this.setupErrorHandling();
+            }
+            
+            addLogger(logger) {
+                this.loggers.push(logger);
+            }
+            
+            routeToLoggers(type, args) {
+                this.loggers.forEach(logger => {
+                    if (logger && typeof logger.log === 'function') {
+                        const message = args.join(' ');
+                        if (logger.shouldLog && typeof logger.shouldLog === 'function') {
+                            const originalShouldLog = logger.shouldLog;
+                            if (originalShouldLog) {
+                                logger.shouldLog = () => true;
+                                logger.log(message, type);
+                                logger.shouldLog = originalShouldLog;
+                            } else {
+                                logger.log(message, type);
+                            }
+                        } else {
+                            logger.log(message, type);
+                        }
+                    }
+                });
+            }
+            
+            interceptConsole() {
+                console.log = (...args) => {
+                    this.originalConsole.log.apply(console, args);
+                    this.routeToLoggers('info', args);
+                };
+                
+                console.info = (...args) => {
+                    this.originalConsole.info.apply(console, args);
+                    this.routeToLoggers('info', args);
+                };
+                
+                console.warn = (...args) => {
+                    this.originalConsole.warn.apply(console, args);
+                    this.routeToLoggers('warning', args);
+                };
+                
+                console.error = (...args) => {
+                    this.originalConsole.error.apply(console, args);
+                    this.routeToLoggers('error', args);
+                };
+            }
+            
+            setupErrorHandling() {
+                window.addEventListener('error', (event) => {
+                    const errorMessage = event.error?.message || event.message || 'Unknown error';
+                    const fileName = event.filename || 'Unknown file';
+                    const lineNumber = event.lineno || 'Unknown line';
+                    const columnNumber = event.colno || 'Unknown column';
+                    
+                    this.routeToLoggers('error', [
+                        `❌ JavaScript Error: ${errorMessage}`,
+                        `📁 File: ${fileName}:${lineNumber}:${columnNumber}`,
+                        event.error?.stack ? `📋 Stack: ${event.error.stack}` : ''
+                    ].filter(Boolean));
+                });
+                
+                window.addEventListener('unhandledrejection', (event) => {
+                    this.routeToLoggers('error', [
+                        `❌ Unhandled Promise Rejection: ${event.reason}`
+                    ]);
+                });
+            }
+            
+            restore() {
+                console.log = this.originalConsole.log;
+                console.info = this.originalConsole.info;
+                console.warn = this.originalConsole.warn;
+                console.error = this.originalConsole.error;
+            }
+        }
+        
+        // Make ConsoleRouter globally available
+        window.ConsoleRouter = ConsoleRouter;
+        console.log('INLINE: ConsoleRouter class defined and exported to window');
+    </script>
+    <script>
+        // Debug ConsoleRouter immediately after logging.js loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const activityLog = document.getElementById('activityLog');
+            if (activityLog) {
+                const debugInfo = [
+                    'DEBUG: typeof ConsoleRouter = ' + typeof ConsoleRouter,
+                    'DEBUG: typeof window.ConsoleRouter = ' + typeof window.ConsoleRouter,
+                    'DEBUG: window.ConsoleRouter = ' + window.ConsoleRouter
+                ];
+                debugInfo.forEach(info => {
+                    const logEntry = document.createElement('div');
+                    logEntry.innerHTML = `<span class="timestamp">${new Date().toLocaleTimeString()}</span> <span class="icon">🔍</span> <span class="message">${info}</span>`;
+                    activityLog.appendChild(logEntry);
+                });
+            }
+        });
+    </script>
     <script src="../shared/js/livelink.js?v=1737000005"></script>
     <script src="../shared/js/webgl-utils.js?v=1737000005"></script>
     <script>

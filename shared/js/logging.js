@@ -1,13 +1,18 @@
+console.log('LOGGING.JS: VERY FIRST LINE EXECUTED');
+
 /**
  * Shared Logging System for Web Applications
  * Provides console interception and custom logging capabilities
  * Can be used by any web project that needs enhanced logging
  */
 
+console.log('LOGGING.JS: Script started loading');
+
 /**
  * Console Output Router
  * Captures browser console logs and routes them to custom loggers
  */
+console.log('LOGGING.JS: About to define ConsoleRouter class');
 class ConsoleRouter {
     constructor() {
         this.loggers = [];
@@ -158,6 +163,8 @@ class ConsoleRouter {
     }
 }
 
+console.log('LOGGING.JS: ConsoleRouter class defined successfully');
+
 /**
  * Enhanced Activity Logger with Console Integration
  * Extends the basic ActivityLogger with console routing capabilities
@@ -307,6 +314,15 @@ class DebugUtils {
 
 // Initialize global console router when script loads
 if (typeof window !== 'undefined') {
+    // Debug: Log that we're trying to export ConsoleRouter
+    console.log('LOGGING.JS: Exporting ConsoleRouter class to window');
+    
+    // Make ConsoleRouter class globally available
+    window.ConsoleRouter = ConsoleRouter;
+    
+    // Debug: Confirm export worked
+    console.log('LOGGING.JS: window.ConsoleRouter =', window.ConsoleRouter);
+    
     // Only create if not already exists
     if (!window.consoleRouter) {
         window.consoleRouter = new ConsoleRouter();
