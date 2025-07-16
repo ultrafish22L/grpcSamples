@@ -276,3 +276,134 @@
 ✅ === SUCCESS ===
 ✅ ApiItemArrayService.items completed successfully
 ✅ Response type: <class 'dict'>
+🌐 HTTP Request: GetCamera from 127.0.0.1
+📤 Sending GetCamera request to Octane
+📥 Received GetCamera response from Octane: pos=(0.00, 0.00, 0.00)
+🌐 HTTP Response: GetCamera success
+🌐 HTTP Request: GetCamera from 127.0.0.1
+📤 Sending GetCamera request to Octane
+📥 Received GetCamera response from Octane: pos=(0.00, 0.00, 0.00)
+🌐 HTTP Response: GetCamera success
+🌐 HTTP Request: RootNodeGraph from 127.0.0.1
+
+📤 === GET ROOT NODE GRAPH ===
+📤 Request object: 
+📤 Calling ApiProjectManagerService.rootNodeGraph...
+📥 === ROOT NODE GRAPH RESPONSE ===
+📥 Response type: rootNodeGraphResponse
+📥 Response: result {
+  handle: 1000000
+  type: ApiRootNodeGraph
+}
+
+📥 Result handle: 1000000
+📥 Result type: 18
+📥 Result objectId: N/A
+✅ RootNodeGraph successful: handle=1000000, type=18
+✅ Final result: {
+  "success": true,
+  "objectRef": {
+    "objectId": "",
+    "objectHandle": 1000000,
+    "type": 18
+  }
+}
+🌐 HTTP Response: RootNodeGraph success
+
+🌐 === GENERIC gRPC REQUEST ===
+🌐 Path: /octaneapi.ApiNodeGraphService/getOwnedItems
+🌐 Remote: 127.0.0.1
+🌐 Method: POST
+🌐 Content-Length: 42
+📤 Service: ApiNodeGraphService
+📤 Method: getOwnedItems
+🔌 Getting stub for ApiNodeGraphService...
+✅ Got stub: ApiNodeGraphServiceStub
+✅ Got method: <grpc.aio._channel.UnaryUnaryMultiCallable object at 0x709ce1cf49e0>
+📥 Request data: {
+  "objectPtr": {
+    "handle": 1000000,
+    "type": 20
+  }
+}
+🔍 Getting request class for ApiNodeGraphService.getOwnedItems...
+✅ Got request class: <class 'apinodesystem_pb2.ApiNodeGraph.getOwnedItemsRequest'>
+🏗️ Created gRPC request object: getOwnedItemsRequest
+🔧 Populating request object...
+  🔧 Processing field: objectPtr = {'handle': 1000000, 'type': 20}
+    📦 Nested message field: objectPtr
+      🔧 Setting nested: handle = 1000000
+      🔧 Setting nested: type = 20
+📤 === CALLING OCTANE ===
+📤 Service: ApiNodeGraphService
+📤 Method: getOwnedItems
+📤 Request type: getOwnedItemsRequest
+📤 Request data: objectPtr {
+  handle: 1000000
+  type: ApiNodeGraph
+}
+
+📤   objectPtr.handle: 1000000
+📤   objectPtr.type: 20
+📥 === OCTANE RESPONSE ===
+📥 Response type: getOwnedItemsResponse
+📥 Response data: list {
+  handle: 1000005
+  type: ApiItemArray
+}
+
+📥   list.handle: 1000005
+📥   list.type: 31
+🔄 Converting response to JSON...
+✅ Response converted to dict: <class 'dict'>
+✅ === SUCCESS ===
+✅ ApiNodeGraphService.getOwnedItems completed successfully
+✅ Response type: <class 'dict'>
+
+🌐 === GENERIC gRPC REQUEST ===
+🌐 Path: /octaneapi.ApiItemArrayService/items
+🌐 Remote: 127.0.0.1
+🌐 Method: POST
+🌐 Content-Length: 42
+📤 Service: ApiItemArrayService
+📤 Method: items
+🔌 Getting stub for ApiItemArrayService...
+✅ Got stub: ApiItemArrayServiceStub
+✅ Got method: <grpc.aio._channel.UnaryUnaryMultiCallable object at 0x709ce1cf5340>
+📥 Request data: {
+  "objectPtr": {
+    "handle": 1000005,
+    "type": 31
+  }
+}
+🔍 Getting request class for ApiItemArrayService.items...
+✅ Got request class: <class 'apinodesystem_pb2.ApiItemArray.itemsRequest'>
+🏗️ Created gRPC request object: itemsRequest
+🔧 Populating request object...
+  🔧 Processing field: objectPtr = {'handle': 1000005, 'type': 31}
+    📦 Nested message field: objectPtr
+      🔧 Setting nested: handle = 1000005
+      🔧 Setting nested: type = 31
+📤 === CALLING OCTANE ===
+📤 Service: ApiItemArrayService
+📤 Method: items
+📤 Request type: itemsRequest
+📤 Request data: objectPtr {
+  handle: 1000005
+  type: ApiItemArray
+}
+
+📤   objectPtr.handle: 1000005
+📤   objectPtr.type: 31
+📥 === OCTANE RESPONSE ===
+📥 Response type: itemsResponse
+📥 Response data: result {
+}
+
+📥   result.handle: N/A
+📥   result.type: N/A
+🔄 Converting response to JSON...
+✅ Response converted to dict: <class 'dict'>
+✅ === SUCCESS ===
+✅ ApiItemArrayService.items completed successfully
+✅ Response type: <class 'dict'>

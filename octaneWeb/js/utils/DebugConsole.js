@@ -269,6 +269,13 @@ class DebugConsole {
     async runUnitTests() {
         console.log('🔥 GRIND MODE: Starting comprehensive gRPC unit tests from Debug Console...');
         
+        // Check if the global test function is available
+        if (typeof runAllGrpcTests === 'undefined') {
+            console.error('❌ runAllGrpcTests function not available. Make sure all scripts are loaded.');
+            this.addLog('error', ['❌ runAllGrpcTests function not available. Make sure all scripts are loaded.']);
+            return;
+        }
+        
         // Check if OctaneWeb is available and connected
         if (typeof octaneWebApp === 'undefined' || !octaneWebApp.client) {
             console.error('❌ OctaneWebClient not available. Connect to Octane first.');
@@ -286,7 +293,7 @@ class DebugConsole {
             // Show starting message
             this.addLog('info', ['🔥 Starting comprehensive gRPC unit tests...']);
             
-            // Use the global function instead of client method
+            // Use the global function
             const results = await runAllGrpcTests();
             
             if (results) {
