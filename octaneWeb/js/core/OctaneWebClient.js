@@ -178,14 +178,30 @@ function createOctaneWebClient() {
         }
 
         // Enhanced logging for all gRPC calls
-        console.log(`\n🌐 === gRPC CALL STARTED ===`);
-        console.log(`🌐 Method: ${method}`);
-        console.log(`🌐 URL: ${url}`);
-        console.log(`🌐 Call ID: ${callId}`);
-        console.log(`🌐 Call Number: ${this.callCount}`);
-        console.log(`🌐 Connection State: ${this.connectionState}`);
-        console.log(`🌐 Request:`, request);
-        console.log(`🌐 Request JSON:`, JSON.stringify(request, null, 2));
+        console.log(`\n📤 === gRPC REQUEST ===`);
+        console.log(`📤 Service: ${method.split('/')[0] || 'Unknown'}`);
+        console.log(`📤 Method: ${method.split('/')[1] || method}`);
+        console.log(`📤 Full Method: ${method}`);
+        console.log(`📤 URL: ${url}`);
+        console.log(`📤 Call ID: ${callId}`);
+        console.log(`📤 Request Type: ${typeof request}`);
+        console.log(`📤 Request Data:`, request);
+        
+        // Object pointer details
+        if (request && request.objectPtr) {
+            console.log(`📤 ObjectPtr Details:`);
+            console.log(`📤   Handle: ${request.objectPtr.handle}`);
+            console.log(`📤   Type: ${request.objectPtr.type}`);
+        }
+        
+        // Other common request fields
+        if (request && request.itemPtr) {
+            console.log(`📤 ItemPtr Details:`);
+            console.log(`📤   Handle: ${request.itemPtr.handle}`);
+            console.log(`📤   Type: ${request.itemPtr.type}`);
+        }
+        
+        console.log(`📤 Request JSON:`, JSON.stringify(request, null, 2));
         
         this.log(`gRPC call started: ${method}`, {
             callId: callId,
@@ -227,24 +243,52 @@ function createOctaneWebClient() {
             const duration = Date.now() - startTime;
 
             // Enhanced response logging
-            console.log(`\n📥 === gRPC RESPONSE RECEIVED ===`);
-            console.log(`📥 Method: ${method}`);
+            console.log(`\n📥 === gRPC RESPONSE ===`);
+            console.log(`📥 Service: ${method.split('/')[0] || 'Unknown'}`);
+            console.log(`📥 Method: ${method.split('/')[1] || method}`);
             console.log(`📥 Call ID: ${callId}`);
             console.log(`📥 Duration: ${duration}ms`);
             console.log(`📥 HTTP Status: ${response.status} ${response.statusText}`);
             console.log(`📥 Success: ${result.success}`);
+            console.log(`📥 Response Type: ${typeof result}`);
             console.log(`📥 Data Size: ${JSON.stringify(result).length} bytes`);
-            console.log(`📥 Result:`, result);
-            console.log(`📥 Result JSON:`, JSON.stringify(result, null, 2));
             
+            // Response details
             if (result.success && result.data) {
+                console.log(`📥 Response Data Type: ${typeof result.data}`);
                 console.log(`📥 Response Data:`, result.data);
-                console.log(`📥 Response Data JSON:`, JSON.stringify(result.data, null, 2));
+                
+                // Handle/type details for common response patterns
+                if (result.data.result) {
+                    console.log(`📥 Result Details:`);
+                    console.log(`📥   Handle: ${result.data.result.handle || 'N/A'}`);
+                    console.log(`📥   Type: ${result.data.result.type || 'N/A'}`);
+                }
+                
+                if (result.data.list) {
+                    console.log(`📥 List Details:`);
+                    console.log(`📥   Handle: ${result.data.list.handle || 'N/A'}`);
+                    console.log(`📥   Type: ${result.data.list.type || 'N/A'}`);
+                }
+                
+                if (result.data.items && Array.isArray(result.data.items)) {
+                    console.log(`📥 Items Array: ${result.data.items.length} items`);
+                    result.data.items.forEach((item, index) => {
+                        if (item.handle !== undefined || item.type !== undefined) {
+                            console.log(`📥   Item[${index}]: handle=${item.handle}, type=${item.type}`);
+                        }
+                    });
+                }
             }
             
             if (!result.success && result.error) {
-                console.error(`❌ gRPC Error:`, result.error);
+                console.error(`❌ gRPC Error Details:`);
+                console.error(`❌   Message: ${result.error.message || result.error}`);
+                console.error(`❌   Code: ${result.error.code || 'N/A'}`);
+                console.error(`❌   Full Error:`, result.error);
             }
+            
+            console.log(`📥 Full Response JSON:`, JSON.stringify(result, null, 2));
 
             this.log(`gRPC call completed: ${method}`, {
                 callId: callId,
@@ -260,11 +304,28 @@ function createOctaneWebClient() {
             
             // Enhanced error logging
             console.error(`\n❌ === gRPC CALL FAILED ===`);
-            console.error(`❌ Method: ${method}`);
+            console.error(`❌ Service: ${method.split('/')[0] || 'Unknown'}`);
+            console.error(`❌ Method: ${method.split('/')[1] || method}`);
+            console.error(`❌ Full Method: ${method}`);
             console.error(`❌ Call ID: ${callId}`);
             console.error(`❌ Duration: ${duration}ms`);
             console.error(`❌ Error Type: ${error.constructor.name}`);
             console.error(`❌ Error Message: ${error.message}`);
+            
+            // Show request details that failed
+            if (request && request.objectPtr) {
+                console.error(`❌ Failed ObjectPtr:`);
+                console.error(`❌   Handle: ${request.objectPtr.handle}`);
+                console.error(`❌   Type: ${request.objectPtr.type}`);
+            }
+            
+            if (request && request.itemPtr) {
+                console.error(`❌ Failed ItemPtr:`);
+                console.error(`❌   Handle: ${request.itemPtr.handle}`);
+                console.error(`❌   Type: ${request.itemPtr.type}`);
+            }
+            
+            console.error(`❌ Failed Request:`, request);
             console.error(`❌ Error Stack:`, error.stack);
             console.error(`❌ Full Error:`, error);
             
@@ -431,13 +492,9 @@ function createOctaneWebClient() {
                         graphRef = toGraphResponse.data.result;
                     }
                     
-                    console.log(`${'  '.repeat(depth)}📊 Graph reference:`, graphRef);
-                    
                     const itemsResponse = await this.makeGrpcCall('octaneapi.ApiNodeGraphService/getOwnedItems', {
                         objectPtr: graphRef
                     });
-                
-                console.log(`${'  '.repeat(depth)}📥 getOwnedItems response:`, JSON.stringify(itemsResponse, null, 2));
                 
                 if (itemsResponse.success && itemsResponse.data && itemsResponse.data.list) {
                     const itemsArrayRef = itemsResponse.data.list;
@@ -594,9 +651,11 @@ function createOctaneWebClient() {
     async processNodePins(objectRef, node, name, depth) {
         try {
             const indent = '  '.repeat(depth);
-            console.log(`${indent}📍 Getting pin count for node ${name}...`);
+            console.log(`${indent}📍 Skipping pin count for node ${name} (pinCount crashes Octane)...`);
             
-            // First get the pin count for this node
+            // COMMENTED OUT: pinCount call crashes Octane on certain nodes
+            // TODO: Fix Octane bug with pinCount on handle 1000003 and similar nodes
+            /*
             const pinCountResponse = await this.makeGrpcCall('octaneapi.ApiNodeService/pinCount', {
                 objectPtr: {
                     handle: objectRef.handle || objectRef.objectHandle,
@@ -611,6 +670,15 @@ function createOctaneWebClient() {
                 console.log(`${indent}📍 Node ${name} has ${pinCount} pins`);
                 
                 // Iterate through each pin to get owned items
+                for (let pinIndex = 0; pinIndex < pinCount && depth < 5; pinIndex++) {
+            */
+            
+            // TEMPORARY: Assume 0 pins to avoid Octane crash
+            const pinCount = 0;
+            console.log(`${indent}📍 Node ${name} assumed to have ${pinCount} pins (pinCount disabled)`);
+            
+            if (pinCount > 0) {
+                // This block will never execute with pinCount = 0, but keeping structure
                 for (let pinIndex = 0; pinIndex < pinCount && depth < 5; pinIndex++) {
                     try {
                         console.log(`${indent}  📎 Checking pin ${pinIndex} for owned item...`);

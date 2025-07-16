@@ -860,13 +860,27 @@ async def handle_generic_grpc(request):
         print(f"📤 === CALLING OCTANE ===")
         print(f"📤 Service: {service_name}")
         print(f"📤 Method: {method_name}")
-        print(f"📤 Request: {grpc_request}")
+        print(f"📤 Request type: {type(grpc_request).__name__}")
+        print(f"📤 Request data: {grpc_request}")
+        
+        # Show detailed request fields
+        if hasattr(grpc_request, 'objectPtr') and grpc_request.objectPtr:
+            print(f"📤   objectPtr.handle: {grpc_request.objectPtr.handle}")
+            print(f"📤   objectPtr.type: {grpc_request.objectPtr.type}")
         
         response = await method(grpc_request)
         
         print(f"📥 === OCTANE RESPONSE ===")
         print(f"📥 Response type: {type(response).__name__}")
-        print(f"📥 Response: {response}")
+        print(f"📥 Response data: {response}")
+        
+        # Show detailed response fields
+        if hasattr(response, 'result') and response.result:
+            print(f"📥   result.handle: {getattr(response.result, 'handle', 'N/A')}")
+            print(f"📥   result.type: {getattr(response.result, 'type', 'N/A')}")
+        if hasattr(response, 'list') and response.list:
+            print(f"📥   list.handle: {getattr(response.list, 'handle', 'N/A')}")
+            print(f"📥   list.type: {getattr(response.list, 'type', 'N/A')}")
         
         # Convert protobuf response to JSON
         print(f"🔄 Converting response to JSON...")
