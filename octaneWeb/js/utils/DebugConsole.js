@@ -104,6 +104,8 @@ class DebugConsole {
                 overflow-y: auto;
                 padding: 8px;
                 color: #fff;
+                background: #2a2a2a;
+                border: 1px solid #555;
             }
             
             .debug-log {
