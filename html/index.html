@@ -99,7 +99,7 @@
                         <div class="switch-container">
                             <label class="switch-label" title="Verbose Logging">📝</label>
                             <label class="switch" title="Toggle detailed logging output">
-                                <input type="checkbox" id="verboseLogsToggle" onchange="toggleVerboseLogs()" title="Enable/disable verbose logging">
+                                <input type="checkbox" id="verboseLogsToggle" onchange="toggleVerboseLogs()" checked title="Enable/disable verbose logging">
                                 <span class="slider"></span>
                             </label>
                         </div>
@@ -139,9 +139,10 @@
     </footer>
 
     <!-- Include shared utilities and LiveLink client -->
-    <script src="../shared/js/shared.js"></script>
-    <script src="../shared/js/livelink.js"></script>
-    <script src="../shared/js/webgl-utils.js"></script>
+    <script src="../shared/js/shared.js?v=1737000005"></script>
+    <script src="../shared/js/logging.js?v=1737000005"></script>
+    <script src="../shared/js/livelink.js?v=1737000005"></script>
+    <script src="../shared/js/webgl-utils.js?v=1737000005"></script>
     <script>
         /**
          * WebGL-Octane LiveLink Synchronization Viewer
@@ -198,10 +199,16 @@
 
         class OctaneGrpcSync {
             constructor() {
-                // Initialize logging and UI utilities
+                // Initialize logging and UI utilities (using basic ActivityLogger since EnhancedActivityLogger is not available)
                 this.logger = new ActivityLogger('activityLog');
+                this.logger.setVerboseMode(true); // Default to verbose for debugging
                 this.performanceTracker = new PerformanceTracker();
                 this.connectionState = new EnhancedConnectionStateManager('statusText', this.logger);
+                
+                // Connect debug utils to logger
+                if (window.debugUtils) {
+                    window.debugUtils.setLogger(this.logger);
+                }
                 
                 // Initialize testing utilities
                 this.statsManager = new StatsDisplayManager();
@@ -1423,9 +1430,61 @@
         window.addEventListener('load', async () => {
             console.log('Page loaded, initializing WebGL-Octane LiveLink Sync viewer...');
             
+            // FIRST LOG TEST - Test if activity logger is working at all
             try {
+                const activityLog = document.getElementById('activityLog');
+                if (activityLog) {
+                    const testEntry = document.createElement('div');
+                    testEntry.className = 'activity-entry';
+                    testEntry.innerHTML = `
+                        <span class="activity-time">${new Date().toLocaleTimeString()}</span>
+                        <span class="activity-icon">🚀</span>
+                        <span class="activity-message">INIT TEST: JavaScript initialization started</span>
+                    `;
+                    activityLog.appendChild(testEntry);
+                    activityLog.scrollTop = activityLog.scrollHeight;
+                    console.log('✅ Activity log test entry added successfully');
+                } else {
+                    console.error('❌ Activity log element not found');
+                }
+            } catch (logError) {
+                console.error('❌ Failed to add test log entry:', logError);
+            }
+            
+            try {
+                // Add log before creating viewer
+                const activityLog = document.getElementById('activityLog');
+                const addTestLog = (message, icon = '🔍') => {
+                    if (activityLog) {
+                        const testEntry = document.createElement('div');
+                        testEntry.className = 'activity-entry';
+                        testEntry.innerHTML = `
+                            <span class="activity-time">${new Date().toLocaleTimeString()}</span>
+                            <span class="activity-icon">${icon}</span>
+                            <span class="activity-message">${message}</span>
+                        `;
+                        activityLog.appendChild(testEntry);
+                        activityLog.scrollTop = activityLog.scrollHeight;
+                    }
+                };
+                
+                // Test if required classes are available
+                addTestLog(`ActivityLogger available: ${typeof ActivityLogger !== 'undefined'}`, '🔍');
+                addTestLog(`EnhancedActivityLogger available: ${typeof EnhancedActivityLogger !== 'undefined'}`, '🔍');
+                addTestLog(`OctaneGrpcSync available: ${typeof OctaneGrpcSync !== 'undefined'}`, '🔍');
+                
+                addTestLog('Creating OctaneGrpcSync instance...', '⚙️');
                 viewer = new OctaneGrpcSync();
+                addTestLog('OctaneGrpcSync constructor completed', '✅');
                 console.log('Viewer initialized successfully');
+                
+                // Test if viewer has logger
+                if (viewer.logger) {
+                    addTestLog('Viewer logger found - testing logger.log()', '📝');
+                    viewer.logger.log('Logger test from initialization', 'info');
+                } else {
+                    addTestLog('❌ Viewer logger is null/undefined', '❌');
+                }
                 
                 // Add global debug functions for testing
                 window.debugViewer = viewer;
@@ -1433,6 +1492,21 @@
                 
             } catch (error) {
                 console.error('Failed to initialize viewer:', error);
+                
+                // Add error to activity log
+                const activityLog = document.getElementById('activityLog');
+                if (activityLog) {
+                    const errorEntry = document.createElement('div');
+                    errorEntry.className = 'activity-entry';
+                    errorEntry.innerHTML = `
+                        <span class="activity-time">${new Date().toLocaleTimeString()}</span>
+                        <span class="activity-icon">❌</span>
+                        <span class="activity-message">INIT ERROR: ${error.message}</span>
+                    `;
+                    activityLog.appendChild(errorEntry);
+                    activityLog.scrollTop = activityLog.scrollHeight;
+                }
+                
                 alert(`Failed to initialize viewer: ${error.message}`);
             }
         });

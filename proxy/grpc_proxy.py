@@ -32,6 +32,28 @@ except ImportError as e:
 
 class LiveLinkProxy:
     def __init__(self, octane_address='127.0.0.1:51022'):
+        # Auto-detect Docker environment and use host.docker.internal
+        import socket
+        try:
+            # Test if we can reach 127.0.0.1:51022 directly
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(2)
+            result = sock.connect_ex(('127.0.0.1', 51022))
+            sock.close()
+            
+            if result != 0:
+                # Try host.docker.internal instead
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                sock.settimeout(2)
+                result = sock.connect_ex(('host.docker.internal', 51022))
+                sock.close()
+                
+                if result == 0:
+                    octane_address = 'host.docker.internal:51022'
+                    print("🐳 Docker environment detected - using host.docker.internal:51022")
+        except:
+            pass
+            
         self.octane_address = octane_address
         self.channel = None
         self.stub = None
@@ -466,20 +488,34 @@ proxy = LiveLinkProxy()
 
 @middleware
 async def cors_handler(request, handler):
-    """Handle CORS for browser requests"""
+    """Handle CORS for browser requests including file:// protocol"""
     response = await handler(request)
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Accept, X-Grpc-Web, X-Call-Id'
+    
+    # Handle file:// protocol and localhost origins
+    origin = request.headers.get('Origin', 'null')
+    if origin == 'null' or origin.startswith('file://') or 'localhost' in origin:
+        response.headers['Access-Control-Allow-Origin'] = '*'
+    else:
+        response.headers['Access-Control-Allow-Origin'] = '*'
+    
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS, PUT, DELETE'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Accept, X-Grpc-Web, X-Call-Id, Authorization, X-Requested-With'
+    response.headers['Access-Control-Allow-Credentials'] = 'false'
+    response.headers['Access-Control-Max-Age'] = '86400'
+    
     return response
 
 async def handle_options(request):
-    """Handle CORS preflight requests"""
+    """Handle CORS preflight requests including file:// protocol"""
+    origin = request.headers.get('Origin', 'null')
+    
     return web.Response(
         headers={
             'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, Accept, X-Grpc-Web, X-Call-Id'
+            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE',
+            'Access-Control-Allow-Headers': 'Content-Type, Accept, X-Grpc-Web, X-Call-Id, Authorization, X-Requested-With',
+            'Access-Control-Allow-Credentials': 'false',
+            'Access-Control-Max-Age': '86400'
         }
     )
 
