@@ -377,31 +377,60 @@ function createOctaneWebClient() {
                 objectRef: objectRef
             };
             
-            // Check if this is a node graph using isGraph() API call
-            console.log(`${'  '.repeat(depth)}🔍 Checking if ${name} is a graph...`);
-            const isGraphResponse = await this.makeGrpcCall('octaneapi.ApiItemService/isGraph', {
-                objectPtr: objectRef
-            });
+            // Check if this is a node graph - use known graph types as fallback
+            console.log(`${'  '.repeat(depth)}🔍 Checking if ${name} is a graph (type ${objectRef.type})...`);
             
-            const isGraph = isGraphResponse.success && isGraphResponse.data.result;
-            console.log(`${'  '.repeat(depth)}📊 isGraph result for ${name}: ${isGraph}`);
+            let isGraph = false;
+            
+            // Known graph types from SDK: ApiRootNodeGraph (18), ApiNodeGraph (20), etc.
+            const knownGraphTypes = [18, 20, 31];
+            if (knownGraphTypes.includes(objectRef.type)) {
+                console.log(`${'  '.repeat(depth)}📊 Known graph type ${objectRef.type} - treating as graph`);
+                isGraph = true;
+            } else {
+                // For unknown types, try the API call
+                try {
+                    const isGraphResponse = await this.makeGrpcCall('octaneapi.ApiItemService/isGraph', {
+                        objectPtr: objectRef
+                    });
+                    isGraph = isGraphResponse.success && isGraphResponse.data.result;
+                    console.log(`${'  '.repeat(depth)}📊 isGraph API result for ${name}: ${isGraph}`);
+                } catch (error) {
+                    console.warn(`${'  '.repeat(depth)}⚠️ isGraph API failed for ${name}, assuming not a graph:`, error);
+                    isGraph = false;
+                }
+            }
 
             if (isGraph) {
                 console.log(`${'  '.repeat(depth)}📤 Getting owned items for ${name} (graph supports children)...`);
                 
                 try {
-                    // Convert to graph reference using toGraph()
-                    console.log(`${'  '.repeat(depth)}🔄 Converting ${name} to graph reference...`);
-                    const toGraphResponse = await this.makeGrpcCall('octaneapi.ApiItemService/toGraph', {
-                        objectPtr: objectRef
-                    });
+                    // Convert to graph reference using toGraph() - with fallback for known types
+                    let graphRef = null;
                     
-                    if (!toGraphResponse.success || !toGraphResponse.data.result) {
-                        console.warn(`${'  '.repeat(depth)}⚠️ Failed to convert ${name} to graph reference`);
-                        return node;
+                    if (knownGraphTypes.includes(objectRef.type)) {
+                        // For known graph types, use direct reference with type conversion if needed
+                        const requestType = objectRef.type === 18 ? 20 : objectRef.type;
+                        graphRef = {
+                            handle: objectRef.handle || objectRef.objectHandle,
+                            type: requestType
+                        };
+                        console.log(`${'  '.repeat(depth)}🔄 Using direct graph reference for type ${objectRef.type} → ${requestType}`);
+                    } else {
+                        // For unknown types, try the API conversion
+                        console.log(`${'  '.repeat(depth)}🔄 Converting ${name} to graph reference via API...`);
+                        const toGraphResponse = await this.makeGrpcCall('octaneapi.ApiItemService/toGraph', {
+                            objectPtr: objectRef
+                        });
+                        
+                        if (!toGraphResponse.success || !toGraphResponse.data.result) {
+                            console.warn(`${'  '.repeat(depth)}⚠️ Failed to convert ${name} to graph reference`);
+                            return node;
+                        }
+                        
+                        graphRef = toGraphResponse.data.result;
                     }
                     
-                    const graphRef = toGraphResponse.data.result;
                     console.log(`${'  '.repeat(depth)}📊 Graph reference:`, graphRef);
                     
                     const itemsResponse = await this.makeGrpcCall('octaneapi.ApiNodeGraphService/getOwnedItems', {
@@ -505,28 +534,49 @@ function createOctaneWebClient() {
                     console.warn(`${'  '.repeat(depth)}⚠️ Failed to get owned items for ${name}:`, error);
                 }
             } else {
-                // Check if this is a node using isNode() API call
-                console.log(`${'  '.repeat(depth)}🔍 Checking if ${name} is a node...`);
-                const isNodeResponse = await this.makeGrpcCall('octaneapi.ApiItemService/isNode', {
-                    objectPtr: objectRef
-                });
+                // Check if this is a node - try API call with fallback
+                console.log(`${'  '.repeat(depth)}🔍 Checking if ${name} is a node (type ${objectRef.type})...`);
                 
-                const isNode = isNodeResponse.success && isNodeResponse.data.result;
-                console.log(`${'  '.repeat(depth)}📊 isNode result for ${name}: ${isNode}`);
+                let isNode = false;
                 
-                if (isNode) {
-                    // Convert to node reference using toNode()
-                    console.log(`${'  '.repeat(depth)}🔄 Converting ${name} to node reference...`);
-                    const toNodeResponse = await this.makeGrpcCall('octaneapi.ApiItemService/toNode', {
+                // Try the API call first
+                try {
+                    const isNodeResponse = await this.makeGrpcCall('octaneapi.ApiItemService/isNode', {
                         objectPtr: objectRef
                     });
+                    isNode = isNodeResponse.success && isNodeResponse.data.result;
+                    console.log(`${'  '.repeat(depth)}📊 isNode API result for ${name}: ${isNode}`);
+                } catch (error) {
+                    console.warn(`${'  '.repeat(depth)}⚠️ isNode API failed for ${name}:`, error);
+                    // Fallback: assume non-graph types might be nodes (except known leaf types)
+                    const knownLeafTypes = [16]; // ApiItem base type
+                    isNode = !knownLeafTypes.includes(objectRef.type);
+                    console.log(`${'  '.repeat(depth)}📊 Fallback isNode result for ${name}: ${isNode}`);
+                }
+                
+                if (isNode) {
+                    // Convert to node reference using toNode() - with fallback
+                    let nodeRef = null;
                     
-                    if (toNodeResponse.success && toNodeResponse.data.result) {
-                        const nodeRef = toNodeResponse.data.result;
+                    try {
+                        console.log(`${'  '.repeat(depth)}🔄 Converting ${name} to node reference via API...`);
+                        const toNodeResponse = await this.makeGrpcCall('octaneapi.ApiItemService/toNode', {
+                            objectPtr: objectRef
+                        });
+                        
+                        if (toNodeResponse.success && toNodeResponse.data.result) {
+                            nodeRef = toNodeResponse.data.result;
+                        }
+                    } catch (error) {
+                        console.warn(`${'  '.repeat(depth)}⚠️ toNode API failed, using direct reference:`, error);
+                        nodeRef = objectRef; // Fallback to direct reference
+                    }
+                    
+                    if (nodeRef) {
                         console.log(`${'  '.repeat(depth)}📌 ApiNode: ${name} - checking pins for owned items`);
                         await this.processNodePins(nodeRef, node, name, depth);
                     } else {
-                        console.warn(`${'  '.repeat(depth)}⚠️ Failed to convert ${name} to node reference`);
+                        console.warn(`${'  '.repeat(depth)}⚠️ Failed to get node reference for ${name}`);
                     }
                 } else {
                     console.log(`${'  '.repeat(depth)}📄 Plain ApiItem: ${name} - leaf object`);
