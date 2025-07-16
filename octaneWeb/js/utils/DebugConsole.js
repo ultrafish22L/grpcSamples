@@ -33,8 +33,7 @@ class DebugConsole {
             </div>
         `;
         
-        // Add CSS styles
-        this.addStyles();
+        // CSS styles now in components.css
         
         // Append to body
         document.body.appendChild(this.element);
@@ -43,108 +42,7 @@ class DebugConsole {
         this.element.style.display = 'block';
     }
     
-    addStyles() {
-        const style = document.createElement('style');
-        style.textContent = `
-            #debug-console {
-                position: fixed;
-                top: 50px;
-                right: 20px;
-                width: 600px;
-                height: 400px;
-                background: #1a1a1a;
-                border: 2px solid #333;
-                border-radius: 8px;
-                z-index: 10000;
-                font-family: 'Courier New', monospace;
-                font-size: 12px;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            }
-            
-            .debug-header {
-                background: #333;
-                color: #fff;
-                padding: 8px 12px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border-bottom: 1px solid #555;
-            }
-            
-            .debug-title {
-                font-weight: bold;
-            }
-            
-            .debug-controls {
-                display: flex;
-                gap: 8px;
-            }
-            
-            .debug-btn {
-                background: #555;
-                color: #fff;
-                border: none;
-                padding: 4px 8px;
-                border-radius: 3px;
-                cursor: pointer;
-                font-size: 11px;
-            }
-            
-            .debug-btn:hover {
-                background: #666;
-            }
-            
-            .debug-content {
-                height: calc(100% - 40px);
-                overflow: visible;
-            }
-            
-            .debug-logs {
-                height: 100%;
-                overflow-y: auto;
-                padding: 8px;
-                color: #fff;
-                background: #2a2a2a;
-                border: 1px solid #555;
-            }
-            
-            .debug-log {
-                margin: 2px 0;
-                padding: 2px 4px;
-                border-radius: 2px;
-                word-wrap: break-word;
-            }
-            
-            .debug-log.log {
-                color: #ccc;
-            }
-            
-            .debug-log.info {
-                color: #4a9eff;
-            }
-            
-            .debug-log.warn {
-                color: #ffa500;
-                background: rgba(255, 165, 0, 0.1);
-            }
-            
-            .debug-log.error {
-                color: #ff4444;
-                background: rgba(255, 68, 68, 0.1);
-            }
-            
-            .debug-log.success {
-                color: #4ade80;
-                background: rgba(74, 222, 128, 0.1);
-            }
-            
-            .debug-timestamp {
-                color: #888;
-                font-size: 10px;
-            }
-        `;
-        document.head.appendChild(style);
-    }
+
     
     interceptConsole() {
         // Store original console methods
