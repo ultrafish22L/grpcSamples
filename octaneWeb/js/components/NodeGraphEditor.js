@@ -78,11 +78,23 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     initCanvas() {
+        console.log('🎨 Initializing canvas:', this.canvas);
+        console.log('🎨 Canvas element:', this.canvas.tagName, this.canvas.id, this.canvas.className);
+        console.log('🎨 Canvas size:', this.canvas.width, this.canvas.height);
+        console.log('🎨 Canvas client size:', this.canvas.clientWidth, this.canvas.clientHeight);
+        
         this.ctx = this.canvas.getContext('2d');
         if (!this.ctx) {
-            console.error('Failed to get 2D context');
+            console.error('❌ Failed to get 2D context');
             return;
         }
+        
+        console.log('✅ Got 2D context:', this.ctx);
+        
+        // Test immediate draw
+        this.ctx.fillStyle = '#00ff00';
+        this.ctx.fillRect(0, 0, 50, 50);
+        console.log('🧪 Drew test green rectangle at canvas init');
         
         // Initial resize
         this.handleResize();
@@ -228,8 +240,21 @@ class NodeGraphEditor extends OctaneComponent {
             return;
         }
         
+        // Debug: Log render call with node count
+        if (this.renderCount < 10) {
+            console.log(`🎨 Render call ${this.renderCount || 0}: ${this.nodes.size} nodes, viewport:`, this.viewport);
+            this.renderCount = (this.renderCount || 0) + 1;
+        }
+        
         // Clear canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        // TEST: Draw a simple red rectangle to verify canvas is working
+        this.ctx.fillStyle = '#ff0000';
+        this.ctx.fillRect(10, 10, 100, 50);
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.font = '12px Arial';
+        this.ctx.fillText('TEST CANVAS', 15, 30);
         
         // Save context
         this.ctx.save();
@@ -254,6 +279,7 @@ class NodeGraphEditor extends OctaneComponent {
         this.ctx.fillStyle = '#ffffff';
         this.ctx.font = '12px Arial';
         this.ctx.fillText(`Nodes: ${this.nodes.size}`, 10, 20);
+        this.ctx.fillText(`Viewport: ${this.viewport.x.toFixed(0)}, ${this.viewport.y.toFixed(0)}, ${this.viewport.zoom.toFixed(2)}`, 10, 35);
     }
     
     drawGrid() {
@@ -316,33 +342,100 @@ class NodeGraphEditor extends OctaneComponent {
         });
     }
     
+    // Helper method for drawing rounded rectangles (professional Octane-style nodes)
+    drawRoundedRect(x, y, width, height, radius, color, fill = true, topOnly = false) {
+        this.ctx.beginPath();
+        
+        if (topOnly) {
+            // Only round top corners for headers
+            this.ctx.moveTo(x + radius, y);
+            this.ctx.lineTo(x + width - radius, y);
+            this.ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            this.ctx.lineTo(x + width, y + height);
+            this.ctx.lineTo(x, y + height);
+            this.ctx.lineTo(x, y + radius);
+            this.ctx.quadraticCurveTo(x, y, x + radius, y);
+        } else {
+            // Full rounded rectangle
+            this.ctx.moveTo(x + radius, y);
+            this.ctx.lineTo(x + width - radius, y);
+            this.ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            this.ctx.lineTo(x + width, y + height - radius);
+            this.ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            this.ctx.lineTo(x + radius, y + height);
+            this.ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            this.ctx.lineTo(x, y + radius);
+            this.ctx.quadraticCurveTo(x, y, x + radius, y);
+        }
+        
+        this.ctx.closePath();
+        
+        if (fill) {
+            this.ctx.fillStyle = color;
+            this.ctx.fill();
+        } else {
+            this.ctx.strokeStyle = color;
+            this.ctx.stroke();
+        }
+    }
+    
     drawNode(node) {
         const { x, y, width = 120, height = 80 } = node;
         const isSelected = this.selectedNodes.has(node.id);
         
         // Debug: Only log first few draws to avoid spam
         if (this.drawCount < 5) {
-            console.log('Drawing node at:', x, y, 'size:', width, height);
+            console.log('🎨 Drawing professional node at:', x, y, 'size:', width, height, 'type:', node.type);
             this.drawCount = (this.drawCount || 0) + 1;
         }
         
-        // Node background
-        this.ctx.fillStyle = isSelected ? '#4a4a4a' : '#3a3a3a';
-        this.ctx.strokeStyle = isSelected ? '#4a90e2' : '#555555';
-        this.ctx.lineWidth = 1 / this.viewport.zoom;
-        
-        this.ctx.fillRect(x, y, width, height);
-        this.ctx.strokeRect(x, y, width, height);
-        
-        // Node header
-        this.ctx.fillStyle = '#404040';
-        this.ctx.fillRect(x, y, width, 20);
-        
+        // Professional node colors based on type (matching Octane reference)
+        let nodeColor, headerColor, textColor;
+        switch (node.type.toLowerCase()) {
+            case 'material':
+                nodeColor = '#d4b896';  // Beige/tan like Octane
+                headerColor = '#c4a886';
+                textColor = '#2a2a2a';
+                break;
+            case 'texture':
+                nodeColor = '#7ba7d4';  // Blue like Octane
+                headerColor = '#6b97c4';
+                textColor = '#ffffff';
+                break;
+            case 'mesh':
+            case 'geometry':
+                nodeColor = '#a8c4a2';  // Green like Octane
+                headerColor = '#98b492';
+                textColor = '#2a2a2a';
+                break;
+            default:
+                nodeColor = '#8a8a8a';  // Gray default
+                headerColor = '#7a7a7a';
+                textColor = '#ffffff';
+        }
+
+        // Selection highlight
+        if (isSelected) {
+            this.ctx.strokeStyle = '#4a90e2';
+            this.ctx.lineWidth = 2 / this.viewport.zoom;
+        } else {
+            this.ctx.strokeStyle = '#555555';
+            this.ctx.lineWidth = 1 / this.viewport.zoom;
+        }
+
+        // Draw rounded rectangle for professional look
+        const cornerRadius = 6 / this.viewport.zoom;
+        this.drawRoundedRect(x, y, width, height, cornerRadius, nodeColor, true);
+        this.drawRoundedRect(x, y, width, height, cornerRadius, this.ctx.strokeStyle, false);
+
+        // Node header with rounded top corners
+        this.drawRoundedRect(x, y, width, 24, cornerRadius, headerColor, true, true);
+
         // Node title
-        this.ctx.fillStyle = '#ffffff';
-        this.ctx.font = `${12 / this.viewport.zoom}px Arial`;
+        this.ctx.fillStyle = textColor;
+        this.ctx.font = `${11 / this.viewport.zoom}px Arial`;
         this.ctx.textAlign = 'center';
-        this.ctx.fillText(node.name || node.type, x + width / 2, y + 14);
+        this.ctx.fillText(node.name || node.type, x + width / 2, y + 16);
         
         // Input sockets
         if (node.inputs) {
@@ -552,8 +645,8 @@ class NodeGraphEditor extends OctaneComponent {
                 id: 'material_1',
                 name: 'Diffuse Material',
                 type: 'material',
-                x: 100,
-                y: 100,
+                x: 300,
+                y: 150,
                 width: 140,
                 height: 100,
                 inputs: [
@@ -569,8 +662,8 @@ class NodeGraphEditor extends OctaneComponent {
                 id: 'texture_1',
                 name: 'Image Texture',
                 type: 'texture',
-                x: -150,
-                y: 80,
+                x: 50,
+                y: 120,
                 width: 120,
                 height: 80,
                 inputs: [
@@ -585,7 +678,7 @@ class NodeGraphEditor extends OctaneComponent {
                 id: 'geometry_1',
                 name: 'Mesh',
                 type: 'geometry',
-                x: 300,
+                x: 500,
                 y: 150,
                 width: 100,
                 height: 80,
