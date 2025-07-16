@@ -8,17 +8,17 @@
 🔌 Creating gRPC stubs...
 📤 Testing connection with GetCamera request
 ✅ Successfully connected to Octane LiveLink server at host.docker.internal:51022
-📥 Initial camera state: pos=(1.14, 11.99, 20.61)
+📥 Initial camera state: pos=(0.00, 0.00, 0.00)
 ✅ Proxy server started on http://0.0.0.0:51023 (accessible via localhost:51023)
    Browser requests will be forwarded to Octane at 127.0.0.1:51022
    Press Ctrl+C to stop
 🌐 HTTP Request: GetCamera from 127.0.0.1
 📤 Sending GetCamera request to Octane
-📥 Received GetCamera response from Octane: pos=(1.14, 11.99, 20.61)
+📥 Received GetCamera response from Octane: pos=(0.00, 0.00, 0.00)
 🌐 HTTP Response: GetCamera success
 🌐 HTTP Request: GetCamera from 127.0.0.1
 📤 Sending GetCamera request to Octane
-📥 Received GetCamera response from Octane: pos=(1.14, 11.99, 20.61)
+📥 Received GetCamera response from Octane: pos=(0.00, 0.00, 0.00)
 🌐 HTTP Response: GetCamera success
 🌐 HTTP Request: RootNodeGraph from 127.0.0.1
 
@@ -56,7 +56,7 @@
 🔌 Getting stub for ApiNodeGraphService...
 ✅ Created gRPC stub for ApiNodeGraphService
 ✅ Got stub: ApiNodeGraphServiceStub
-✅ Got method: <grpc.aio._channel.UnaryUnaryMultiCallable object at 0x7e9bea003cb0>
+✅ Got method: <grpc.aio._channel.UnaryUnaryMultiCallable object at 0x709ce1cf49e0>
 📥 Request data: {
   "objectPtr": {
     "handle": 1000000,
@@ -74,18 +74,23 @@
 📤 === CALLING OCTANE ===
 📤 Service: ApiNodeGraphService
 📤 Method: getOwnedItems
-📤 Request: objectPtr {
+📤 Request type: getOwnedItemsRequest
+📤 Request data: objectPtr {
   handle: 1000000
   type: ApiNodeGraph
 }
 
+📤   objectPtr.handle: 1000000
+📤   objectPtr.type: 20
 📥 === OCTANE RESPONSE ===
 📥 Response type: getOwnedItemsResponse
-📥 Response: list {
-  handle: 1000001
+📥 Response data: list {
+  handle: 1000003
   type: ApiItemArray
 }
 
+📥   list.handle: 1000003
+📥   list.type: 31
 🔄 Converting response to JSON...
 ✅ Response converted to dict: <class 'dict'>
 ✅ === SUCCESS ===
@@ -102,10 +107,10 @@
 🔌 Getting stub for ApiItemArrayService...
 ✅ Created gRPC stub for ApiItemArrayService
 ✅ Got stub: ApiItemArrayServiceStub
-✅ Got method: <grpc.aio._channel.UnaryUnaryMultiCallable object at 0x7e9bea024620>
+✅ Got method: <grpc.aio._channel.UnaryUnaryMultiCallable object at 0x709ce1cf5340>
 📥 Request data: {
   "objectPtr": {
-    "handle": 1000001,
+    "handle": 1000003,
     "type": 31
   }
 }
@@ -113,374 +118,30 @@
 ✅ Got request class: <class 'apinodesystem_pb2.ApiItemArray.itemsRequest'>
 🏗️ Created gRPC request object: itemsRequest
 🔧 Populating request object...
-  🔧 Processing field: objectPtr = {'handle': 1000001, 'type': 31}
+  🔧 Processing field: objectPtr = {'handle': 1000003, 'type': 31}
     📦 Nested message field: objectPtr
-      🔧 Setting nested: handle = 1000001
+      🔧 Setting nested: handle = 1000003
       🔧 Setting nested: type = 31
 📤 === CALLING OCTANE ===
 📤 Service: ApiItemArrayService
 📤 Method: items
-📤 Request: objectPtr {
-  handle: 1000001
+📤 Request type: itemsRequest
+📤 Request data: objectPtr {
+  handle: 1000003
   type: ApiItemArray
 }
 
+📤   objectPtr.handle: 1000003
+📤   objectPtr.type: 31
 📥 === OCTANE RESPONSE ===
 📥 Response type: itemsResponse
-📥 Response: result {
-  data {
-    handle: 1000002
-    type: ApiItem
-  }
-  data {
-    handle: 1000003
-    type: ApiItem
-  }
+📥 Response data: result {
 }
 
+📥   result.handle: N/A
+📥   result.type: N/A
 🔄 Converting response to JSON...
 ✅ Response converted to dict: <class 'dict'>
 ✅ === SUCCESS ===
 ✅ ApiItemArrayService.items completed successfully
 ✅ Response type: <class 'dict'>
-
-🌐 === GENERIC gRPC REQUEST ===
-🌐 Path: /octaneapi.ApiItemService/isGraph
-🌐 Remote: 127.0.0.1
-🌐 Method: POST
-🌐 Content-Length: 79
-📤 Service: ApiItemService
-📤 Method: isGraph
-🔌 Getting stub for ApiItemService...
-✅ Created gRPC stub for ApiItemService
-✅ Got stub: ApiItemServiceStub
-✅ Got method: <grpc.aio._channel.UnaryUnaryMultiCallable object at 0x7e9bea024c80>
-📥 Request data: {
-  "objectPtr": {
-    "objectHandle": 1000002,
-    "handle": 1000002,
-    "type": 16,
-    "objectId": ""
-  }
-}
-🔍 Getting request class for ApiItemService.isGraph...
-✅ Got request class: <class 'apinodesystem_pb2.ApiItem.isGraphRequest'>
-🏗️ Created gRPC request object: isGraphRequest
-🔧 Populating request object...
-  🔧 Processing field: objectPtr = {'objectHandle': 1000002, 'handle': 1000002, 'type': 16, 'objectId': ''}
-    📦 Nested message field: objectPtr
-      🔧 Setting nested: objectHandle = 1000002
-      ⚠️ Nested field objectHandle not found
-      🔧 Setting nested: handle = 1000002
-      🔧 Setting nested: type = 16
-      🔧 Setting nested: objectId = 
-      ⚠️ Nested field objectId not found
-📤 === CALLING OCTANE ===
-📤 Service: ApiItemService
-📤 Method: isGraph
-📤 Request: objectPtr {
-  handle: 1000002
-  type: ApiItem
-}
-
-📥 === OCTANE RESPONSE ===
-📥 Response type: isGraphResponse
-📥 Response: 
-🔄 Converting response to JSON...
-✅ Response converted to dict: <class 'dict'>
-✅ === SUCCESS ===
-✅ ApiItemService.isGraph completed successfully
-✅ Response type: <class 'dict'>
-
-🌐 === GENERIC gRPC REQUEST ===
-🌐 Path: /octaneapi.ApiItemService/isNode
-🌐 Remote: 127.0.0.1
-🌐 Method: POST
-🌐 Content-Length: 79
-📤 Service: ApiItemService
-📤 Method: isNode
-🔌 Getting stub for ApiItemService...
-✅ Got stub: ApiItemServiceStub
-✅ Got method: <grpc.aio._channel.UnaryUnaryMultiCallable object at 0x7e9bea024d40>
-📥 Request data: {
-  "objectPtr": {
-    "objectHandle": 1000002,
-    "handle": 1000002,
-    "type": 16,
-    "objectId": ""
-  }
-}
-🔍 Getting request class for ApiItemService.isNode...
-✅ Got request class: <class 'apinodesystem_pb2.ApiItem.isNodeRequest'>
-🏗️ Created gRPC request object: isNodeRequest
-🔧 Populating request object...
-  🔧 Processing field: objectPtr = {'objectHandle': 1000002, 'handle': 1000002, 'type': 16, 'objectId': ''}
-    📦 Nested message field: objectPtr
-      🔧 Setting nested: objectHandle = 1000002
-      ⚠️ Nested field objectHandle not found
-      🔧 Setting nested: handle = 1000002
-      🔧 Setting nested: type = 16
-      🔧 Setting nested: objectId = 
-      ⚠️ Nested field objectId not found
-📤 === CALLING OCTANE ===
-📤 Service: ApiItemService
-📤 Method: isNode
-📤 Request: objectPtr {
-  handle: 1000002
-  type: ApiItem
-}
-
-📥 === OCTANE RESPONSE ===
-📥 Response type: isNodeResponse
-📥 Response: result: true
-
-🔄 Converting response to JSON...
-✅ Response converted to dict: <class 'dict'>
-✅ === SUCCESS ===
-✅ ApiItemService.isNode completed successfully
-✅ Response type: <class 'dict'>
-
-🌐 === GENERIC gRPC REQUEST ===
-🌐 Path: /octaneapi.ApiItemService/toNode
-🌐 Remote: 127.0.0.1
-🌐 Method: POST
-🌐 Content-Length: 79
-📤 Service: ApiItemService
-📤 Method: toNode
-🔌 Getting stub for ApiItemService...
-✅ Got stub: ApiItemServiceStub
-✅ Got method: <grpc.aio._channel.UnaryUnaryMultiCallable object at 0x7e9bea025010>
-📥 Request data: {
-  "objectPtr": {
-    "objectHandle": 1000002,
-    "handle": 1000002,
-    "type": 16,
-    "objectId": ""
-  }
-}
-🔍 Getting request class for ApiItemService.toNode...
-✅ Got request class: <class 'apinodesystem_pb2.ApiItem.toNodeRequest'>
-🏗️ Created gRPC request object: toNodeRequest
-🔧 Populating request object...
-  🔧 Processing field: objectPtr = {'objectHandle': 1000002, 'handle': 1000002, 'type': 16, 'objectId': ''}
-    📦 Nested message field: objectPtr
-      🔧 Setting nested: objectHandle = 1000002
-      ⚠️ Nested field objectHandle not found
-      🔧 Setting nested: handle = 1000002
-      🔧 Setting nested: type = 16
-      🔧 Setting nested: objectId = 
-      ⚠️ Nested field objectId not found
-📤 === CALLING OCTANE ===
-📤 Service: ApiItemService
-📤 Method: toNode
-📤 Request: objectPtr {
-  handle: 1000002
-  type: ApiItem
-}
-
-📥 === OCTANE RESPONSE ===
-📥 Response type: toNodeResponse
-📥 Response: result {
-  handle: 1000002
-  type: ApiNode
-}
-
-🔄 Converting response to JSON...
-✅ Response converted to dict: <class 'dict'>
-✅ === SUCCESS ===
-✅ ApiItemService.toNode completed successfully
-✅ Response type: <class 'dict'>
-
-🌐 === GENERIC gRPC REQUEST ===
-🌐 Path: /octaneapi.ApiNodeService/pinCount
-🌐 Remote: 127.0.0.1
-🌐 Method: POST
-🌐 Content-Length: 42
-📤 Service: ApiNodeService
-📤 Method: pinCount
-🔌 Getting stub for ApiNodeService...
-✅ Created gRPC stub for ApiNodeService
-✅ Got stub: ApiNodeServiceStub
-✅ Got method: <grpc.aio._channel.UnaryUnaryMultiCallable object at 0x7e9bea024140>
-📥 Request data: {
-  "objectPtr": {
-    "handle": 1000002,
-    "type": 17
-  }
-}
-🔍 Getting request class for ApiNodeService.pinCount...
-✅ Got request class: <class 'apinodesystem_pb2.ApiNode.pinCountRequest'>
-🏗️ Created gRPC request object: pinCountRequest
-🔧 Populating request object...
-  🔧 Processing field: objectPtr = {'handle': 1000002, 'type': 17}
-    📦 Nested message field: objectPtr
-      🔧 Setting nested: handle = 1000002
-      🔧 Setting nested: type = 17
-📤 === CALLING OCTANE ===
-📤 Service: ApiNodeService
-📤 Method: pinCount
-📤 Request: objectPtr {
-  handle: 1000002
-  type: ApiNode
-}
-
-📥 === OCTANE RESPONSE ===
-📥 Response type: pinCountResponse
-📥 Response: result: 1
-
-🔄 Converting response to JSON...
-✅ Response converted to dict: <class 'dict'>
-✅ === SUCCESS ===
-✅ ApiNodeService.pinCount completed successfully
-✅ Response type: <class 'dict'>
-
-🌐 === GENERIC gRPC REQUEST ===
-🌐 Path: /octaneapi.ApiItemService/isGraph
-🌐 Remote: 127.0.0.1
-🌐 Method: POST
-🌐 Content-Length: 79
-📤 Service: ApiItemService
-📤 Method: isGraph
-🔌 Getting stub for ApiItemService...
-✅ Got stub: ApiItemServiceStub
-✅ Got method: <grpc.aio._channel.UnaryUnaryMultiCallable object at 0x7e9bea024c80>
-📥 Request data: {
-  "objectPtr": {
-    "objectHandle": 1000003,
-    "handle": 1000003,
-    "type": 16,
-    "objectId": ""
-  }
-}
-🔍 Getting request class for ApiItemService.isGraph...
-✅ Got request class: <class 'apinodesystem_pb2.ApiItem.isGraphRequest'>
-🏗️ Created gRPC request object: isGraphRequest
-🔧 Populating request object...
-  🔧 Processing field: objectPtr = {'objectHandle': 1000003, 'handle': 1000003, 'type': 16, 'objectId': ''}
-    📦 Nested message field: objectPtr
-      🔧 Setting nested: objectHandle = 1000003
-      ⚠️ Nested field objectHandle not found
-      🔧 Setting nested: handle = 1000003
-      🔧 Setting nested: type = 16
-      🔧 Setting nested: objectId = 
-      ⚠️ Nested field objectId not found
-📤 === CALLING OCTANE ===
-📤 Service: ApiItemService
-📤 Method: isGraph
-📤 Request: objectPtr {
-  handle: 1000003
-  type: ApiItem
-}
-
-📥 === OCTANE RESPONSE ===
-📥 Response type: isGraphResponse
-📥 Response: result: true
-
-🔄 Converting response to JSON...
-✅ Response converted to dict: <class 'dict'>
-✅ === SUCCESS ===
-✅ ApiItemService.isGraph completed successfully
-✅ Response type: <class 'dict'>
-
-🌐 === GENERIC gRPC REQUEST ===
-🌐 Path: /octaneapi.ApiItemService/toGraph
-🌐 Remote: 127.0.0.1
-🌐 Method: POST
-🌐 Content-Length: 79
-📤 Service: ApiItemService
-📤 Method: toGraph
-🔌 Getting stub for ApiItemService...
-✅ Got stub: ApiItemServiceStub
-✅ Got method: <grpc.aio._channel.UnaryUnaryMultiCallable object at 0x7e9bea024fb0>
-📥 Request data: {
-  "objectPtr": {
-    "objectHandle": 1000003,
-    "handle": 1000003,
-    "type": 16,
-    "objectId": ""
-  }
-}
-🔍 Getting request class for ApiItemService.toGraph...
-✅ Got request class: <class 'apinodesystem_pb2.ApiItem.toGraphRequest'>
-🏗️ Created gRPC request object: toGraphRequest
-🔧 Populating request object...
-  🔧 Processing field: objectPtr = {'objectHandle': 1000003, 'handle': 1000003, 'type': 16, 'objectId': ''}
-    📦 Nested message field: objectPtr
-      🔧 Setting nested: objectHandle = 1000003
-      ⚠️ Nested field objectHandle not found
-      🔧 Setting nested: handle = 1000003
-      🔧 Setting nested: type = 16
-      🔧 Setting nested: objectId = 
-      ⚠️ Nested field objectId not found
-📤 === CALLING OCTANE ===
-📤 Service: ApiItemService
-📤 Method: toGraph
-📤 Request: objectPtr {
-  handle: 1000003
-  type: ApiItem
-}
-
-📥 === OCTANE RESPONSE ===
-📥 Response type: toGraphResponse
-📥 Response: result {
-  handle: 1000003
-  type: ApiNodeGraph
-}
-
-🔄 Converting response to JSON...
-✅ Response converted to dict: <class 'dict'>
-✅ === SUCCESS ===
-✅ ApiItemService.toGraph completed successfully
-✅ Response type: <class 'dict'>
-
-🌐 === GENERIC gRPC REQUEST ===
-🌐 Path: /octaneapi.ApiNodeGraphService/getOwnedItems
-🌐 Remote: 127.0.0.1
-🌐 Method: POST
-🌐 Content-Length: 42
-📤 Service: ApiNodeGraphService
-📤 Method: getOwnedItems
-🔌 Getting stub for ApiNodeGraphService...
-✅ Got stub: ApiNodeGraphServiceStub
-✅ Got method: <grpc.aio._channel.UnaryUnaryMultiCallable object at 0x7e9bea003cb0>
-📥 Request data: {
-  "objectPtr": {
-    "handle": 1000003,
-    "type": 20
-  }
-}
-🔍 Getting request class for ApiNodeGraphService.getOwnedItems...
-✅ Got request class: <class 'apinodesystem_pb2.ApiNodeGraph.getOwnedItemsRequest'>
-🏗️ Created gRPC request object: getOwnedItemsRequest
-🔧 Populating request object...
-  🔧 Processing field: objectPtr = {'handle': 1000003, 'type': 20}
-    📦 Nested message field: objectPtr
-      🔧 Setting nested: handle = 1000003
-      🔧 Setting nested: type = 20
-📤 === CALLING OCTANE ===
-📤 Service: ApiNodeGraphService
-📤 Method: getOwnedItems
-📤 Request: objectPtr {
-  handle: 1000003
-  type: ApiNodeGraph
-}
-
-❌ === ERROR ===
-❌ Generic gRPC call failed: <AioRpcError of RPC that terminated with:
-	status = StatusCode.UNAVAILABLE
-	details = "Socket closed"
-	debug_error_string = "UNKNOWN:Error received from peer  {grpc_status:14, grpc_message:"Socket closed"}"
->
-❌ Error type: AioRpcError
-❌ Traceback: Traceback (most recent call last):
-  File "/workspace/grpcSamples/proxy/grpc_proxy.py", line 865, in handle_generic_grpc
-    response = await method(grpc_request)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/openhands/poetry/openhands-ai-5O4_aCHf-py3.12/lib/python3.12/site-packages/grpc/aio/_call.py", line 327, in __await__
-    raise _create_rpc_error(
-grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:
-	status = StatusCode.UNAVAILABLE
-	details = "Socket closed"
-	debug_error_string = "UNKNOWN:Error received from peer  {grpc_status:14, grpc_message:"Socket closed"}"
->
-

@@ -270,13 +270,13 @@ class DebugConsole {
         console.log('🔥 GRIND MODE: Starting comprehensive gRPC unit tests from Debug Console...');
         
         // Check if OctaneWeb is available and connected
-        if (typeof octaneWebApp === 'undefined' || !octaneWebApp.octaneClient) {
+        if (typeof octaneWebApp === 'undefined' || !octaneWebApp.client) {
             console.error('❌ OctaneWebClient not available. Connect to Octane first.');
             this.addLog('error', ['❌ OctaneWebClient not available. Connect to Octane first.']);
             return;
         }
         
-        if (!octaneWebApp.octaneClient.isConnected) {
+        if (!octaneWebApp.client.isConnected) {
             console.error('❌ Not connected to Octane. Connect first using the connection toggle.');
             this.addLog('error', ['❌ Not connected to Octane. Connect first using the connection toggle.']);
             return;
@@ -286,8 +286,8 @@ class DebugConsole {
             // Show starting message
             this.addLog('info', ['🔥 Starting comprehensive gRPC unit tests...']);
             
-            // Run the comprehensive tests
-            const results = await octaneWebApp.octaneClient.runComprehensiveGrpcTests();
+            // Use the global function instead of client method
+            const results = await runAllGrpcTests();
             
             if (results) {
                 // Show completion message
