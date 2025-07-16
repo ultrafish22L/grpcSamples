@@ -24,8 +24,37 @@ class NodeGraphEditor extends OctaneComponent {
         this.initNodeTypes();
         this.setupControls();
         this.setupToolbarControls(); // Add toolbar button handlers
-        this.createSampleNodes(); // Add sample nodes for testing
-        this.startRenderLoop();
+        
+        // Wait for canvas to be properly sized before creating nodes
+        setTimeout(() => {
+            this.createSampleNodes(); // Add sample nodes for testing
+            
+            // Ensure canvas is ready before starting render loop
+            if (this.canvas.width > 0 && this.canvas.height > 0) {
+                console.log('🎨 Canvas ready, starting render loop with size:', this.canvas.width, this.canvas.height);
+                this.startRenderLoop();
+            } else {
+                console.log('⚠️ Canvas not ready, forcing resize and starting render loop');
+                this.handleResize();
+                setTimeout(() => this.startRenderLoop(), 100);
+            }
+            
+            // Force multiple renders to ensure visibility
+            setTimeout(() => {
+                console.log('🔄 Force render 1 - Canvas size:', this.canvas.width, this.canvas.height);
+                this.render();
+            }, 100);
+            
+            setTimeout(() => {
+                console.log('🔄 Force render 2 - Canvas size:', this.canvas.width, this.canvas.height);
+                this.render();
+            }, 300);
+            
+            setTimeout(() => {
+                console.log('🔄 Force render 3 - Canvas size:', this.canvas.width, this.canvas.height);
+                this.render();
+            }, 600);
+        }, 200);
     }
     
     setupEventListeners() {
@@ -154,20 +183,49 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     startRenderLoop() {
-        const render = () => {
+        if (this.renderLoopRunning) return;
+        this.renderLoopRunning = true;
+        
+        console.log('🔄 Starting render loop...');
+        
+        // Test: Try calling render directly first
+        console.log('🧪 Testing direct render call...');
+        try {
             this.render();
-            requestAnimationFrame(render);
-        };
-        requestAnimationFrame(render);
+            console.log('✅ Direct render call succeeded');
+        } catch (error) {
+            console.error('❌ Direct render call failed:', error);
+        }
+        
+        // Use setInterval instead of requestAnimationFrame as fallback
+        console.log('🔄 Using setInterval render loop...');
+        this.renderInterval = setInterval(() => {
+            if (!this.renderLoopRunning) {
+                clearInterval(this.renderInterval);
+                return;
+            }
+            try {
+                this.render();
+            } catch (error) {
+                console.error('🚨 Render error:', error);
+                console.error('🚨 Error stack:', error.stack);
+                this.renderLoopRunning = false;
+                clearInterval(this.renderInterval);
+            }
+        }, 16); // ~60 FPS
     }
     
     render() {
-        if (!this.ctx) return;
-        
-        // Debug: Check if render is being called
-        if (this.renderCount < 3) {
-            console.log('Render called, nodes count:', this.nodes.length);
+        // Debug: Check if render is being called FIRST
+        if (this.renderCount < 5) {
+            console.log('🎨 Render called, ctx exists:', !!this.ctx, 'nodes count:', this.nodes.size, 'canvas size:', this.canvas.width, 'x', this.canvas.height);
+            console.log('🎨 Nodes data:', Array.from(this.nodes.keys()));
             this.renderCount = (this.renderCount || 0) + 1;
+        }
+        
+        if (!this.ctx) {
+            console.log('❌ No context, returning early');
+            return;
         }
         
         // Clear canvas
@@ -563,6 +621,18 @@ class NodeGraphEditor extends OctaneComponent {
         });
 
         console.log('🎨 Created sample nodes for node graph editor');
+        
+        // Force immediate render after creating nodes
+        setTimeout(() => {
+            console.log('🔄 Forcing render after node creation');
+            this.render();
+        }, 100);
+        
+        // Also force render after a longer delay to ensure canvas is ready
+        setTimeout(() => {
+            console.log('🔄 Second forced render after node creation');
+            this.render();
+        }, 500);
     }
 
     frameAll() {
@@ -599,6 +669,39 @@ class NodeGraphEditor extends OctaneComponent {
         
         const rect = this.canvas.getBoundingClientRect();
         console.log('Canvas resize - rect:', rect.width, rect.height);
+        
+        // If canvas rect is 0, try to get dimensions from parent container
+        if (rect.width === 0 || rect.height === 0) {
+            const parent = this.canvas.parentElement;
+            if (parent) {
+                const parentRect = parent.getBoundingClientRect();
+                console.log('Parent rect:', parentRect.width, parentRect.height);
+                
+                if (parentRect.width > 0 && parentRect.height > 0) {
+                    this.canvas.width = parentRect.width;
+                    this.canvas.height = parentRect.height;
+                    console.log('Canvas sized from parent:', this.canvas.width, this.canvas.height);
+                    this.render();
+                    return;
+                }
+            }
+            
+            // Fallback: Force minimum dimensions based on CSS
+            const nodeGraphSection = document.querySelector('.node-graph-section');
+            if (nodeGraphSection) {
+                const sectionRect = nodeGraphSection.getBoundingClientRect();
+                console.log('Section rect:', sectionRect.width, sectionRect.height);
+                
+                if (sectionRect.width > 0 && sectionRect.height > 0) {
+                    // Account for header height (approximately 32px)
+                    this.canvas.width = sectionRect.width;
+                    this.canvas.height = Math.max(sectionRect.height - 32, 150);
+                    console.log('Canvas sized from section:', this.canvas.width, this.canvas.height);
+                    this.render();
+                    return;
+                }
+            }
+        }
         
         // Ensure we have valid dimensions
         if (rect.width > 0 && rect.height > 0) {
