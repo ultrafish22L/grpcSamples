@@ -377,16 +377,20 @@ function createOctaneWebClient() {
                 objectRef: objectRef
             };
             
-            // Get owned items for this node using the generic pass-through
-            try {
-                console.log(`${'  '.repeat(depth)}📤 Getting owned items for ${name}...`);
+            // Only try to get owned items for object types that support it
+            // Based on Octane API, only certain types like node graphs (18, 20) support getOwnedItems
+            const supportsOwnedItems = [18, 20, 31].includes(objectRef.type);
+            
+            if (supportsOwnedItems) {
+                console.log(`${'  '.repeat(depth)}📤 Getting owned items for ${name} (type ${objectRef.type} supports children)...`);
                 
-                // Call getOwnedItems API with proper objectPtr structure
-                // Note: Root node graph (type 18) needs to be treated as regular node graph (type 20) for getOwnedItems
-                const requestType = objectRef.type === 18 ? 20 : objectRef.type;
-                console.log(`${'  '.repeat(depth)}🔧 Converting type ${objectRef.type} to ${requestType} for getOwnedItems`);
-                
-                const itemsResponse = await this.makeGrpcCall('octaneapi.ApiNodeGraphService/getOwnedItems', {
+                try {
+                    // Call getOwnedItems API with proper objectPtr structure
+                    // Note: Root node graph (type 18) needs to be treated as regular node graph (type 20) for getOwnedItems
+                    const requestType = objectRef.type === 18 ? 20 : objectRef.type;
+                    console.log(`${'  '.repeat(depth)}🔧 Converting type ${objectRef.type} to ${requestType} for getOwnedItems`);
+                    
+                    const itemsResponse = await this.makeGrpcCall('octaneapi.ApiNodeGraphService/getOwnedItems', {
                     objectPtr: {
                         handle: objectRef.handle || objectRef.objectHandle,
                         type: requestType
@@ -412,20 +416,66 @@ function createOctaneWebClient() {
                         
                         console.log(`${'  '.repeat(depth)}📥 Array items response:`, JSON.stringify(arrayItemsResponse, null, 2));
                         
-                        if (arrayItemsResponse.success && arrayItemsResponse.data && arrayItemsResponse.data.items) {
-                            const items = arrayItemsResponse.data.items;
-                            console.log(`${'  '.repeat(depth)}✅ Found ${items.length} child items in array`);
+                        // Extract items from the nested response structure
+                        let items = null;
+                        if (arrayItemsResponse.success && arrayItemsResponse.data) {
+                            // Try different possible response structures
+                            if (arrayItemsResponse.data.result && arrayItemsResponse.data.result.data) {
+                                items = arrayItemsResponse.data.result.data;
+                            } else if (arrayItemsResponse.data.items) {
+                                items = arrayItemsResponse.data.items;
+                            } else if (Array.isArray(arrayItemsResponse.data)) {
+                                items = arrayItemsResponse.data;
+                            }
+                        }
+                        
+                        console.log(`${'  '.repeat(depth)}🔍 Debug items extraction:`, {
+                            items: items,
+                            isArray: Array.isArray(items),
+                            length: items ? items.length : 'null',
+                            type: typeof items
+                        });
+                        
+                        // More detailed debugging
+                        console.log(`${'  '.repeat(depth)}🔍 Detailed condition check:`, {
+                            'items truthy': !!items,
+                            'is array': Array.isArray(items),
+                            'length > 0': items && items.length > 0,
+                            'full condition': items && Array.isArray(items) && items.length > 0
+                        });
+                        
+                        if (items && Array.isArray(items) && items.length > 0) {
+                            console.log(`${'  '.repeat(depth)}✅ Found ${items.length} child items in array:`, items);
                             
                             // Recursively process each child item
                             for (let i = 0; i < items.length && depth < 5; i++) { // Limit depth to prevent infinite recursion
                                 const item = items[i];
-                                const childName = item.name || `Child ${i + 1}`;
+                                console.log(`${'  '.repeat(depth)}🔍 Processing item ${i + 1}:`, item);
                                 
+                                // Create objectRef from the item data
+                                let objectRef = null;
                                 if (item.objectRef) {
-                                    const childNode = await this.buildSceneTreeRecursive(item.objectRef, childName, depth + 1);
+                                    objectRef = item.objectRef;
+                                } else if (item.handle && item.type) {
+                                    // Convert item to objectRef format
+                                    objectRef = {
+                                        objectHandle: item.handle,
+                                        handle: item.handle,
+                                        type: item.type,
+                                        objectId: item.objectId || ""
+                                    };
+                                }
+                                
+                                if (objectRef) {
+                                    const childName = item.name || `Node_${objectRef.handle}`;
+                                    console.log(`${'  '.repeat(depth)}🌿 Recursing into child: ${childName} (handle=${objectRef.handle}, type=${objectRef.type})`);
+                                    
+                                    const childNode = await this.buildSceneTreeRecursive(objectRef, childName, depth + 1);
                                     if (childNode) {
                                         node.children.push(childNode);
                                     }
+                                } else {
+                                    console.log(`${'  '.repeat(depth)}⚠️ Item ${i + 1} has no valid objectRef:`, item);
                                 }
                             }
                         } else {
@@ -440,8 +490,11 @@ function createOctaneWebClient() {
                     console.log(`${'  '.repeat(depth)}ℹ️ No items array found for ${name}`);
                 }
                 
-            } catch (error) {
-                console.warn(`${'  '.repeat(depth)}⚠️ Failed to get owned items for ${name}:`, error);
+                } catch (error) {
+                    console.warn(`${'  '.repeat(depth)}⚠️ Failed to get owned items for ${name}:`, error);
+                }
+            } else {
+                console.log(`${'  '.repeat(depth)}🍃 Leaf node: ${name} (type ${objectRef.type} doesn't support children)`);
             }
             
             return node;
