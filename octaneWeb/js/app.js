@@ -81,6 +81,9 @@ class OctaneWebApp {
      * Initialize core systems
      */
     async initializeCoreSystems() {
+        // Initialize console error capturing first
+        this.setupConsoleErrorCapture();
+        
         // Initialize event system
         this.eventSystem = new EventSystem();
         
@@ -585,6 +588,39 @@ class OctaneWebApp {
         }
     }
     
+    /**
+     * Setup console error capturing to display all errors in debug console
+     * Ensures errors and warnings are always visible regardless of verbose mode
+     */
+    setupConsoleErrorCapture() {
+        // Create a simple logger that writes to debug console
+        const debugLogger = {
+            log: (message, type) => {
+                // Always show errors and warnings in debug console
+                if (type === 'error' || type === 'warning') {
+                    const debugLog = document.getElementById('debug-log');
+                    if (debugLog) {
+                        const entry = document.createElement('div');
+                        entry.className = `debug-entry debug-${type}`;
+                        const timestamp = new Date().toLocaleTimeString();
+                        const emoji = type === 'error' ? '❌' : '⚠️';
+                        entry.innerHTML = `<span class="debug-time">[${timestamp}]</span> <span class="debug-emoji">${emoji}</span> ${message}`;
+                        debugLog.appendChild(entry);
+                        debugLog.scrollTop = debugLog.scrollHeight;
+                    }
+                }
+            }
+        };
+        
+        // Initialize console router to capture all console errors
+        if (typeof ConsoleRouter !== 'undefined') {
+            this.consoleRouter = new ConsoleRouter();
+            this.consoleRouter.addLogger(debugLogger);
+        } else {
+            console.warn('ConsoleRouter not available - console errors will not be captured');
+        }
+    }
+
     /**
      * Cleanup and shutdown
      */

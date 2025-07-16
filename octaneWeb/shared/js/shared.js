@@ -34,14 +34,35 @@ class ActivityLogger {
 
     /**
      * Check if message should be logged based on current mode
+     * IMPORTANT: Errors and warnings are ALWAYS shown regardless of verbose mode
      */
     shouldLog(type) {
         const level = this.logLevels[type];
+        
+        // ALWAYS show errors and warnings regardless of verbose mode
+        if (type === 'error' || type === 'warning') {
+            return true;
+        }
+        
         if (this.verboseMode) {
             return true; // Show everything in verbose mode
         } else {
             return level <= 3; // Show only error, warning, success and status in minimal mode
         }
+    }
+
+    /**
+     * Force log an error or warning message regardless of verbose mode
+     * Used for critical messages that must always be shown
+     */
+    forceLog(message, type = 'error', details = null) {
+        if (!this.container) {
+            console.warn('Activity log container not found');
+            return;
+        }
+        
+        // Force logging by bypassing shouldLog check
+        this._logInternal(message, type, details);
     }
 
     /**
@@ -58,6 +79,14 @@ class ActivityLogger {
         if (!this.shouldLog(type)) {
             return;
         }
+        
+        this._logInternal(message, type, details);
+    }
+    
+    /**
+     * Internal logging method that handles the actual DOM manipulation
+     */
+    _logInternal(message, type, details) {
 
         // Check if message already has a timestamp to prevent duplicates
         const hasTimestamp = /^\[\d{1,2}:\d{2}:\d{2}\s(?:AM|PM)\]/.test(message);
