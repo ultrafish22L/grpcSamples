@@ -276,7 +276,7 @@ class DebugConsole {
             return;
         }
         
-        if (!octaneWebApp.client.isConnected) {
+        if (!octaneWebApp.client.connected) {
             console.error('❌ Not connected to Octane. Connect first using the connection toggle.');
             this.addLog('error', ['❌ Not connected to Octane. Connect first using the connection toggle.']);
             return;
