@@ -140,7 +140,7 @@
 
     <!-- Include shared utilities and LiveLink client -->
     <script src="../shared/js/shared.js?v=1737000005"></script>
-    <script src="../shared/js/logging.js?v=1737000005"></script>
+    <script src="../shared/js/logging.js?v=1737000012"></script>
     <script src="../shared/js/livelink.js?v=1737000005"></script>
     <script src="../shared/js/webgl-utils.js?v=1737000005"></script>
     <script>
@@ -204,17 +204,9 @@
                 this.logger.setVerboseMode(true); // Default to verbose for debugging
                 
                 // Initialize console router to capture all console errors and warnings
-                try {
-                    if (typeof ConsoleRouter !== 'undefined') {
-                        this.consoleRouter = new ConsoleRouter();
-                        this.consoleRouter.addLogger(this.logger);
-                        this.logger.log('Console error capture enabled', 'success');
-                    } else {
-                        this.logger.log('ConsoleRouter not available - console errors will not be captured', 'warning');
-                    }
-                } catch (error) {
-                    this.logger.log(`Failed to initialize ConsoleRouter: ${error.message}`, 'error');
-                }
+                this.consoleRouter = new ConsoleRouter();
+                this.consoleRouter.addLogger(this.logger);
+                this.logger.log('Console error capture enabled', 'success');
                 
                 this.performanceTracker = new PerformanceTracker();
                 this.connectionState = new EnhancedConnectionStateManager('statusText', this.logger);
