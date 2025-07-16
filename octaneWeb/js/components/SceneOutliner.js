@@ -99,11 +99,11 @@ class SceneOutliner extends OctaneComponent {
                     }
                 }
             } else {
-                // Mock hierarchical data for testing
+                // Extensive mock hierarchical data for realistic testing
                 this.sceneData = [
                     {
                         id: 'scene_root',
-                        name: 'Scene',
+                        name: 'OctaneRender Scene',
                         type: 'group',
                         visible: true,
                         children: [
@@ -113,9 +113,40 @@ class SceneOutliner extends OctaneComponent {
                                 type: 'group',
                                 visible: true,
                                 children: [
-                                    { id: 'cube1', name: 'Cube', type: 'mesh', visible: true },
-                                    { id: 'sphere1', name: 'Sphere', type: 'mesh', visible: true },
-                                    { id: 'teapot1', name: 'Teapot', type: 'mesh', visible: false }
+                                    {
+                                        id: 'buildings_group',
+                                        name: 'Buildings',
+                                        type: 'group',
+                                        visible: true,
+                                        children: [
+                                            { id: 'building_main', name: 'Main Building', type: 'mesh', visible: true },
+                                            { id: 'building_tower', name: 'Tower', type: 'mesh', visible: true },
+                                            { id: 'building_annex', name: 'Annex', type: 'mesh', visible: false }
+                                        ]
+                                    },
+                                    {
+                                        id: 'vehicles_group',
+                                        name: 'Vehicles',
+                                        type: 'group',
+                                        visible: true,
+                                        children: [
+                                            { id: 'car_sports', name: 'Sports Car', type: 'mesh', visible: true },
+                                            { id: 'car_sedan', name: 'Sedan', type: 'mesh', visible: true },
+                                            { id: 'motorcycle', name: 'Motorcycle', type: 'mesh', visible: false }
+                                        ]
+                                    },
+                                    {
+                                        id: 'environment_group',
+                                        name: 'Environment',
+                                        type: 'group',
+                                        visible: true,
+                                        children: [
+                                            { id: 'terrain', name: 'Terrain', type: 'mesh', visible: true },
+                                            { id: 'trees', name: 'Trees', type: 'mesh', visible: true },
+                                            { id: 'rocks', name: 'Rocks', type: 'mesh', visible: true },
+                                            { id: 'water_plane', name: 'Water Surface', type: 'mesh', visible: true }
+                                        ]
+                                    }
                                 ]
                             },
                             {
@@ -124,8 +155,28 @@ class SceneOutliner extends OctaneComponent {
                                 type: 'group',
                                 visible: true,
                                 children: [
-                                    { id: 'sun_light', name: 'Sun Light', type: 'light', visible: true },
-                                    { id: 'area_light', name: 'Area Light', type: 'light', visible: true }
+                                    {
+                                        id: 'sun_lights',
+                                        name: 'Sun Lights',
+                                        type: 'group',
+                                        visible: true,
+                                        children: [
+                                            { id: 'sun_main', name: 'Main Sun', type: 'light', visible: true },
+                                            { id: 'sun_rim', name: 'Rim Sun', type: 'light', visible: true }
+                                        ]
+                                    },
+                                    {
+                                        id: 'area_lights',
+                                        name: 'Area Lights',
+                                        type: 'group',
+                                        visible: true,
+                                        children: [
+                                            { id: 'area_key', name: 'Key Light', type: 'light', visible: true },
+                                            { id: 'area_fill', name: 'Fill Light', type: 'light', visible: true },
+                                            { id: 'area_back', name: 'Back Light', type: 'light', visible: false }
+                                        ]
+                                    },
+                                    { id: 'hdri_env', name: 'HDRI Environment', type: 'light', visible: true }
                                 ]
                             },
                             {
@@ -134,8 +185,22 @@ class SceneOutliner extends OctaneComponent {
                                 type: 'group',
                                 visible: true,
                                 children: [
-                                    { id: 'main_camera', name: 'Main Camera', type: 'camera', visible: true },
-                                    { id: 'ortho_camera', name: 'Orthographic Camera', type: 'camera', visible: false }
+                                    { id: 'cam_hero', name: 'Hero Shot', type: 'camera', visible: true },
+                                    { id: 'cam_wide', name: 'Wide Angle', type: 'camera', visible: true },
+                                    { id: 'cam_close', name: 'Close Up', type: 'camera', visible: false },
+                                    { id: 'cam_ortho', name: 'Orthographic', type: 'camera', visible: false }
+                                ]
+                            },
+                            {
+                                id: 'materials_group',
+                                name: 'Materials',
+                                type: 'group',
+                                visible: true,
+                                children: [
+                                    { id: 'mat_metal', name: 'Brushed Metal', type: 'material', visible: true },
+                                    { id: 'mat_glass', name: 'Clear Glass', type: 'material', visible: true },
+                                    { id: 'mat_concrete', name: 'Concrete', type: 'material', visible: true },
+                                    { id: 'mat_fabric', name: 'Fabric', type: 'material', visible: true }
                                 ]
                             }
                         ]
