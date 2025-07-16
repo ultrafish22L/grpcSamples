@@ -686,6 +686,61 @@ document.addEventListener('DOMContentLoaded', async () => {
                 log.innerHTML = '';
             }
         };
+        
+        // 🔥 GRIND MODE: Global functions for comprehensive gRPC testing
+        window.runAllGrpcTests = async () => {
+            console.log('🔥 GRIND MODE: Starting comprehensive gRPC tests...');
+            if (octaneWebApp && octaneWebApp.octaneClient) {
+                return await octaneWebApp.octaneClient.runComprehensiveGrpcTests();
+            } else {
+                console.error('❌ OctaneWebClient not available. Connect to Octane first.');
+                return null;
+            }
+        };
+        
+        window.testGrpcService = async (serviceName) => {
+            console.log(`🔧 Testing specific service: ${serviceName}`);
+            if (octaneWebApp && octaneWebApp.octaneClient) {
+                return await octaneWebApp.octaneClient.testSpecificGrpcService(serviceName);
+            } else {
+                console.error('❌ OctaneWebClient not available. Connect to Octane first.');
+                return null;
+            }
+        };
+        
+        window.listAllGrpcServices = () => {
+            console.log('📋 Listing all available gRPC services...');
+            if (octaneWebApp && octaneWebApp.octaneClient) {
+                const services = octaneWebApp.octaneClient.getAllGrpcServices();
+                console.log(`📊 Total services: ${services.length}`);
+                services.forEach((service, index) => {
+                    console.log(`${index + 1}. ${service}`);
+                });
+                return services;
+            } else {
+                console.error('❌ OctaneWebClient not available.');
+                return [];
+            }
+        };
+        
+        window.listGrpcServicesByCategory = () => {
+            console.log('📁 Listing gRPC services by category...');
+            if (octaneWebApp && octaneWebApp.octaneClient) {
+                const categories = octaneWebApp.octaneClient.getGrpcServicesByCategory();
+                for (const [category, services] of Object.entries(categories)) {
+                    if (services.length > 0) {
+                        console.log(`\n📁 ${category} (${services.length} services):`);
+                        services.forEach((service, index) => {
+                            console.log(`   ${index + 1}. ${service}`);
+                        });
+                    }
+                }
+                return categories;
+            } else {
+                console.error('❌ OctaneWebClient not available.');
+                return {};
+            }
+        };
 
         // Override console methods to capture logs
         const originalConsole = {

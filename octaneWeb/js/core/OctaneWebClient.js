@@ -1357,6 +1357,94 @@ function createOctaneWebClient() {
         
         return typeMap[objectType] || 'unknown';
     }
+    
+    // ==================== GRIND MODE: COMPREHENSIVE UNIT TESTING ====================
+    
+    /**
+     * 🔥 GRIND MODE: Run comprehensive unit tests on ALL gRPC services
+     * 
+     * This function calls EVERY function in EVERY gRPC service and logs detailed info.
+     * It tests all 118+ services with proper error handling and crash protection.
+     * 
+     * Usage: await octaneWebClient.runComprehensiveGrpcTests();
+     */
+    async runComprehensiveGrpcTests() {
+        console.log('🔥 GRIND MODE: Initializing comprehensive gRPC unit testing...');
+        
+        // Ensure we have the required classes
+        if (typeof GrpcServiceParser === 'undefined') {
+            console.error('❌ GrpcServiceParser not loaded! Include GrpcServiceParser.js first.');
+            return null;
+        }
+        
+        if (typeof GrpcUnitTester === 'undefined') {
+            console.error('❌ GrpcUnitTester not loaded! Include GrpcUnitTester.js first.');
+            return null;
+        }
+        
+        // Check connection
+        if (!this.isConnected) {
+            console.error('❌ Not connected to Octane! Connect first before running tests.');
+            return null;
+        }
+        
+        console.log('✅ Prerequisites met, starting comprehensive testing...');
+        
+        // Create unit tester instance
+        const tester = new GrpcUnitTester(this);
+        
+        // Run all tests
+        const results = await tester.runComprehensiveTests();
+        
+        console.log('🎯 Comprehensive gRPC testing completed!');
+        console.log('📊 Test Summary:', results);
+        
+        return results;
+    }
+    
+    /**
+     * Test a specific gRPC service
+     */
+    async testSpecificGrpcService(serviceName) {
+        if (typeof GrpcUnitTester === 'undefined') {
+            console.error('❌ GrpcUnitTester not loaded!');
+            return null;
+        }
+        
+        if (!this.isConnected) {
+            console.error('❌ Not connected to Octane!');
+            return null;
+        }
+        
+        const tester = new GrpcUnitTester(this);
+        return await tester.testSpecificService(serviceName);
+    }
+    
+    /**
+     * Get list of all available gRPC services
+     */
+    getAllGrpcServices() {
+        if (typeof GrpcServiceParser === 'undefined') {
+            console.error('❌ GrpcServiceParser not loaded!');
+            return [];
+        }
+        
+        const parser = new GrpcServiceParser();
+        return parser.getAllServiceNames();
+    }
+    
+    /**
+     * Get gRPC services organized by category
+     */
+    getGrpcServicesByCategory() {
+        if (typeof GrpcServiceParser === 'undefined') {
+            console.error('❌ GrpcServiceParser not loaded!');
+            return {};
+        }
+        
+        const parser = new GrpcServiceParser();
+        return parser.getServicesByCategory();
+    }
 }
 
     return OctaneWebClient;
