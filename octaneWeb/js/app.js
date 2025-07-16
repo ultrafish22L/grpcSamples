@@ -263,7 +263,7 @@ class OctaneWebApp {
                 connectionToggle.checked = false;
             }
             
-            this.showError('Connection Failed', `Could not connect to Octane server at ${serverUrl}`);
+            // Connection failed dialog removed - not needed for development
         }
     }
     
