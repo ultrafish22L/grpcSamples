@@ -1383,7 +1383,7 @@ function createOctaneWebClient() {
         }
         
         // Check connection
-        if (!this.isConnected) {
+        if (!this.connected) {
             console.error('❌ Not connected to Octane! Connect first before running tests.');
             return null;
         }
@@ -1411,7 +1411,7 @@ function createOctaneWebClient() {
             return null;
         }
         
-        if (!this.isConnected) {
+        if (!this.connected) {
             console.error('❌ Not connected to Octane!');
             return null;
         }
