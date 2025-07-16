@@ -764,7 +764,9 @@
                     if (connectionToggle) connectionToggle.checked = true;
 
                     // Update LED status indicator
-                    this.uiUtils.updateConnectionStatus(true, true);
+                    if (this.uiUtils && this.uiUtils.updateConnectionStatus) {
+                        this.uiUtils.updateConnectionStatus(true, true);
+                    }
 
                     UIUtils.setButtonEnabled('getCameraBtn', true);
                     UIUtils.setButtonEnabled('setCameraBtn', true);
@@ -777,7 +779,11 @@
                     UIUtils.setButtonEnabled('exportDebugBtn', true);
                     UIUtils.setButtonEnabled('showInfoBtn', true);
                     
-                    document.getElementById('connectionStatus').className = 'status-section status-connected';
+                    // Update connection status if element exists
+                    const connectionStatus = document.getElementById('connectionStatus');
+                    if (connectionStatus) {
+                        connectionStatus.className = 'status-section status-connected';
+                    }
                 });
                 
                 this.connectionState.onStateChange('disconnected', () => {
@@ -786,7 +792,9 @@
                     if (connectionToggle) connectionToggle.checked = false;
 
                     // Update LED status indicator
-                    this.uiUtils.updateConnectionStatus(false, true);
+                    if (this.uiUtils && this.uiUtils.updateConnectionStatus) {
+                        this.uiUtils.updateConnectionStatus(false, true);
+                    }
 
                     UIUtils.setButtonEnabled('getCameraBtn', false);
                     UIUtils.setButtonEnabled('setCameraBtn', false);
@@ -799,13 +807,21 @@
                     UIUtils.setButtonEnabled('exportDebugBtn', false);
                     UIUtils.setButtonEnabled('showInfoBtn', false);
                     
-                    document.getElementById('connectionStatus').className = 'status-section status-disconnected';
+                    // Update connection status if element exists
+                    const connectionStatus = document.getElementById('connectionStatus');
+                    if (connectionStatus) {
+                        connectionStatus.className = 'status-section status-disconnected';
+                    }
                     
                     // Note: Keep sync toggle state - it will resume when reconnected
                 });
                 
                 this.connectionState.onStateChange('connecting', () => {
-                    document.getElementById('connectionStatus').className = 'status-section status-connecting';
+                    // Update connection status if element exists
+                    const connectionStatus = document.getElementById('connectionStatus');
+                    if (connectionStatus) {
+                        connectionStatus.className = 'status-section status-connecting';
+                    }
                 });
             }
 
