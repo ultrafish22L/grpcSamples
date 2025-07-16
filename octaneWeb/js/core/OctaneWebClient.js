@@ -494,9 +494,15 @@ function createOctaneWebClient() {
                     console.warn(`${'  '.repeat(depth)}⚠️ Failed to get owned items for ${name}:`, error);
                 }
             } else {
-                // For regular nodes (ApiNode objects), check their pins for owned items
-                console.log(`${'  '.repeat(depth)}📌 Regular node: ${name} (type ${objectRef.type}) - checking pins for owned items`);
-                await this.processNodePins(objectRef, node, name, depth);
+                // Check if this is an ApiNode (has pins) or just an ApiItem (no pins)
+                // Based on SDK: ApiItem (type 16) has no pins, only ApiNode objects have pins
+                if (objectRef.type === 16) {
+                    console.log(`${'  '.repeat(depth)}📄 ApiItem leaf: ${name} (type ${objectRef.type}) - no pins to process`);
+                } else {
+                    // For actual ApiNode objects, check their pins for owned items
+                    console.log(`${'  '.repeat(depth)}📌 ApiNode: ${name} (type ${objectRef.type}) - checking pins for owned items`);
+                    await this.processNodePins(objectRef, node, name, depth);
+                }
             }
             
             return node;
