@@ -871,6 +871,13 @@
                     const cameraState = await this.grpcOperations.testGetCamera(this.liveLink);
                     
                     if (cameraState && cameraState.position) {
+                        // Log the actual camera data returned from Octane with null checks
+                        const pos = cameraState.position || {};
+                        const target = cameraState.target || {};
+                        const fov = cameraState.fov || 45;
+                        
+                        this.logger.log(`📷 Camera data from Octane: pos=(${(pos.x || 0).toFixed(2)}, ${(pos.y || 0).toFixed(2)}, ${(pos.z || 0).toFixed(2)}), target=(${(target.x || 0).toFixed(2)}, ${(target.y || 0).toFixed(2)}, ${(target.z || 0).toFixed(2)}), fov=${fov.toFixed(1)}°`, 'success');
+                        
                         // Update our camera to match Octane's camera
                         this.camera.setFromOctaneCamera(
                             [cameraState.position.x, cameraState.position.y, cameraState.position.z],
@@ -878,6 +885,8 @@
                             [cameraState.up.x, cameraState.up.y, cameraState.up.z],
                             cameraState.fov
                         );
+                    } else {
+                        this.logger.log('📷 No camera data received from Octane', 'warning');
                     }
                 } catch (error) {
                     this.performanceTracker.recordError();
@@ -944,7 +953,24 @@
                 }
 
                 try {
-                    await this.grpcOperations.testGetMeshes(this.liveLink);
+                    const meshes = await this.grpcOperations.testGetMeshes(this.liveLink);
+                    
+                    if (meshes && Array.isArray(meshes)) {
+                        // Log the actual mesh data returned from Octane
+                        this.logger.log(`🎬 Mesh data from Octane: ${meshes.length} meshes found`, 'success');
+                        
+                        // Log details of first few meshes
+                        meshes.slice(0, 5).forEach((mesh, index) => {
+                            const meshInfo = `${index + 1}. ${mesh.name || mesh.id || 'Unnamed'} (ID: ${mesh.id || 'unknown'})`;
+                            this.logger.log(`  ${meshInfo}`, 'info');
+                        });
+                        
+                        if (meshes.length > 5) {
+                            this.logger.log(`  ... and ${meshes.length - 5} more meshes`, 'info');
+                        }
+                    } else {
+                        this.logger.log('🎬 No mesh data received from Octane', 'warning');
+                    }
                 } catch (error) {
                     this.performanceTracker.recordError();
                     ErrorHandler.handleGrpcError(error, this.logger, 'Failed to get meshes');
