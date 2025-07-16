@@ -39,8 +39,8 @@ class ActivityLogger {
     shouldLog(type) {
         const level = this.logLevels[type];
         
-        // ALWAYS show errors and warnings regardless of verbose mode
-        if (type === 'error' || type === 'warning') {
+        // ALWAYS show errors regardless of verbose mode
+        if (type === 'error') {
             return true;
         }
         
