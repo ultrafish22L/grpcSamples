@@ -94,6 +94,95 @@ find . -type f \( -name "*.py" -o -name "*.js" -o -name "*.cpp" \) | head -20
 - Leverage `execute_ipython_cell` for data analysis and calculations
 - Apply `tavily_search` for real-time information when needed
 
+## 🚨 CRITICAL WEB DEVELOPMENT PROTOCOLS
+### ⚠️ THESE ARE NON-NEGOTIABLE - FAILURE REQUIRES USER SUPERVISION ⚠️
+
+**🔥 1. MANDATORY CACHE BUSTING - NO EXCEPTIONS**:
+```javascript
+// 🚨 CRITICAL: ALWAYS add fresh cache busting with EVERY HTML/JS/CSS change
+// 🚨 FAILURE TO DO THIS = STALE CODE = WASTED TIME = USER SUPERVISION REQUIRED
+const timestamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15);
+const cacheBuster = `?v=${timestamp}`;
+
+// ✅ CORRECT: <script src="js/app.js?v=20250716T043000Z"></script>
+// ❌ WRONG: <script src="js/app.js"></script>
+```
+
+**🔥 2. NEVER USE F12 - BUILD CONSOLE CAPTURE ALWAYS**:
+```javascript
+// 🚨 CRITICAL: ALWAYS implement browser console message capture in logging
+// 🚨 NEVER rely on F12 developer tools - build it into the application
+// 🚨 FAILURE = USER MUST DEBUG FOR YOU = SUPERVISION REQUIRED
+class ConsoleCapture {
+    constructor() {
+        this.logs = [];
+        this.interceptConsole();
+        this.setupErrorCapture();
+    }
+    
+    interceptConsole() {
+        const original = console.log;
+        console.log = (...args) => {
+            original.apply(console, args);
+            this.addLog('log', args);
+        };
+    }
+    
+    setupErrorCapture() {
+        window.addEventListener('error', (event) => {
+            this.addLog('error', [event.message, event.filename, `Line: ${event.lineno}`]);
+        });
+    }
+}
+```
+
+**🔥 3. VISUAL VERIFICATION - MOST CRITICAL**:
+```xml
+<!-- 🚨 ULTRA CRITICAL: Always check ACTUAL BROWSER DISPLAY, not just DOM -->
+<!-- 🚨 "EXISTS IN DOM" ≠ "VISUALLY DISPLAYS" -->
+<!-- 🚨 CLAIMING SUCCESS WITHOUT VISUAL CHECK = IMMEDIATE USER SUPERVISION -->
+
+<verification_visual_check>
+SCREENSHOT_REQUIRED: [Take screenshot and verify actual display]
+DOM_VS_VISUAL: [Distinguish between DOM existence and visual rendering]
+USER_PERSPECTIVE: [What does the user actually see on screen?]
+CSS_ISSUES: [Check for height: 0, display: none, overflow: hidden problems]
+</verification_visual_check>
+```
+
+**🔥 4. SCOPE LOCK - LASER FOCUS REQUIRED**:
+```xml
+<!-- 🚨 CRITICAL: Stay locked on EXACT user request -->
+<!-- 🚨 SCOPE CREEP = WASTED EFFORT = USER SUPERVISION REQUIRED -->
+
+<scope_discipline>
+EXACT_REQUEST: [What did user ask for verbatim?]
+NOT_REQUESTED: [What am I tempted to fix that wasn't asked for?]
+PERMISSION_CHECK: [Did user explicitly ask for scope expansion?]
+FOCUS_ANCHOR: [Return to original request every 3 actions]
+</scope_discipline>
+```
+
+**🔥 5. EVIDENCE-BASED CLAIMS ONLY**:
+```xml
+<!-- 🚨 CRITICAL: Never claim success without concrete proof -->
+<!-- 🚨 ASSUMPTIONS = WRONG CONCLUSIONS = USER SUPERVISION REQUIRED -->
+
+<evidence_requirement>
+CONCRETE_PROOF: [Screenshots, command outputs, file contents]
+NO_ASSUMPTIONS: [What can I prove vs what am I guessing?]
+USER_VERIFICATION: [What must user confirm independently?]
+WORKING_DEFINITION: [Define "working" with measurable criteria]
+</evidence_requirement>
+```
+
+**🚨 SUPERVISION TRIGGERS - THESE FAILURES REQUIRE USER OVERSIGHT:**
+- **Cache Busting Failure**: Not implementing fresh timestamps = stale code issues
+- **F12 Dependency**: Relying on developer tools instead of built-in logging
+- **Visual Verification Failure**: Claiming UI works without checking actual display
+- **Scope Creep**: Fixing unrelated issues during focused tasks
+- **Evidence Avoidance**: Making claims without concrete proof
+
 **NETWORKING DIAGNOSTICS** (Critical for OpenHands):
 ```bash
 # Test localhost connectivity
@@ -228,12 +317,16 @@ USER_CONFIRMATION_NEEDED: [what user must validate]
 - **When encountering complexity**: "Am I overcomplicating this?"
 - **Before scope expansion**: "Did the user ask for this in CORE_OBJECTIVE?"
 
-**FAILURE MODE RECOGNITION**:
-- **Scope Creep**: Adding features not in `<task_analysis>CORE_OBJECTIVE`
+**🚨 CRITICAL FAILURE MODE RECOGNITION - SUPERVISION TRIGGERS**:
+- **🔥 Visual Verification Failure**: Claiming UI works without checking actual browser display
+- **🔥 Cache Ignorance**: Not implementing cache busting, causing stale code issues  
+- **🔥 F12 Dependency**: Relying on developer tools instead of built-in console capture
+- **🔥 Scope Creep**: Adding features not in `<task_analysis>CORE_OBJECTIVE`
+- **🔥 Evidence Avoidance**: Making claims without concrete proof
 - **Assumption Cascade**: Building on unverified assumptions  
 - **Premature Success**: Claiming victory without `<verification_results>`
 - **Tangent Drift**: Solving problems not in `<task_analysis>REQUEST`
-- **Evidence Avoidance**: Making claims without concrete proof
+- **Debug Scope Creep**: Fixing unrelated issues during focused debugging tasks
 
 ---
 
@@ -321,7 +414,12 @@ cd /workspace && find . -name "*.js" | xargs grep -l "localhost" | head -5 && gi
 - **Consistent version control** with descriptive commits and branch management
 - **Scope confirmation** before research expansion or feature addition
 
-### COMMON FAILURE PATTERNS:
+### 🚨 CRITICAL FAILURE PATTERNS - REQUIRE USER SUPERVISION:
+- **🔥 VISUAL VERIFICATION FAILURE** - claiming success without checking actual display
+- **🔥 CACHE DEPENDENCY** - not implementing fresh cache busting with every change
+- **🔥 F12 DEPENDENCY** - relying on developer tools instead of built-in logging
+- **🔥 SCOPE CREEP DURING DEBUGGING** - fixing unrelated issues when focused task requested
+- **🔥 EVIDENCE AVOIDANCE** - making claims without concrete proof
 - **Research expansion** without user confirmation
 - **Assumption cascades** about user intent
 - **Over-documentation** when simple answers suffice
@@ -345,5 +443,14 @@ cd /workspace && find . -name "*.js" | xargs grep -l "localhost" | head -5 && gi
 
 **This protocol exists because AI systems excel at systematic execution but struggle with focus drift, assumption cascades, and premature optimization. The XML structure provides the scaffolding for disciplined, evidence-based problem solving. Follow it religiously.**
 
-*Version 2.0 - Refined through practice and failure analysis*
-*Last Updated: 2025-01-15*
+*Version 2.1 - Enhanced with Web Development Critical Protocols*
+*Last Updated: 2025-01-16*
+
+**🚨 CRITICAL ADDITIONS v2.1 - SUPERVISION TRIGGERS:**
+- **🔥 Mandatory Cache Busting**: Fresh timestamps with every HTML/JS/CSS change - FAILURE = USER SUPERVISION
+- **🔥 Built-in Console Capture**: Never rely on F12, always implement logging - FAILURE = USER SUPERVISION  
+- **🔥 Visual Verification Protocol**: Check actual browser display, not just DOM - FAILURE = USER SUPERVISION
+- **🔥 Scope Lock Discipline**: Stay laser-focused on exact user request - FAILURE = USER SUPERVISION
+- **🔥 Evidence-Based Claims**: Never claim success without concrete proof - FAILURE = USER SUPERVISION
+
+**⚠️ WARNING: These failures mean the user must sit over your shoulder and watch everything to prevent real problems.**
