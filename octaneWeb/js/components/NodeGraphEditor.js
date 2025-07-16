@@ -768,7 +768,6 @@ class NodeGraphEditor extends OctaneComponent {
         if (!this.canvas) return;
         
         const rect = this.canvas.getBoundingClientRect();
-        console.log('Canvas resize - rect:', rect.width, rect.height);
         
         // If canvas rect is 0, try to get dimensions from parent container
         if (rect.width === 0 || rect.height === 0) {
@@ -807,7 +806,6 @@ class NodeGraphEditor extends OctaneComponent {
         if (rect.width > 0 && rect.height > 0) {
             this.canvas.width = rect.width;
             this.canvas.height = rect.height;
-            console.log('Canvas actual size:', this.canvas.width, this.canvas.height);
             
             // Trigger a render after resize
             this.render();

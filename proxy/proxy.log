@@ -937,3 +937,15 @@ grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:
 	debug_error_string = "UNKNOWN:Error received from peer  {grpc_status:14, grpc_message:"Socket closed"}"
 >
 
+🌐 HTTP Request: GetCamera from 127.0.0.1
+📤 Sending GetCamera request to Octane
+❌ GetCamera failed: <AioRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:192.168.65.254:51022: Failed to connect to remote host: connect: Connection refused (111)"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNKNOWN: ipv4:192.168.65.254:51022: Failed to connect to remote host: connect: Connection refused (111)"}"
+>
+🌐 HTTP Response: GetCamera failed - Failed to get camera: <AioRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:192.168.65.254:51022: Failed to connect to remote host: connect: Connection refused (111)"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNKNOWN: ipv4:192.168.65.254:51022: Failed to connect to remote host: connect: Connection refused (111)"}"
+>

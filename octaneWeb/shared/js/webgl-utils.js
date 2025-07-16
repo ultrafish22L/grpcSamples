@@ -585,9 +585,6 @@ class SimpleWebGLRenderer {
             
             // Update the WebGL viewport
             gl.viewport(0, 0, displayWidth, displayHeight);
-            
-            // Log the resize for debugging
-            this.logger.log(`Canvas resized to ${displayWidth}x${displayHeight}`, 'info');
         }
     }
 
