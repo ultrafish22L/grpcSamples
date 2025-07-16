@@ -203,9 +203,13 @@
                 this.logger = new ActivityLogger('activityLog');
                 this.logger.setVerboseMode(true); // Default to verbose for debugging
                 
-                // Initialize console router to capture all console errors and warnings
-                this.consoleRouter = new ConsoleRouter();
-                this.consoleRouter.addLogger(this.logger);
+                // Initialize console router to capture all console errors and warnings (if available)
+                if (typeof ConsoleRouter !== 'undefined') {
+                    this.consoleRouter = new ConsoleRouter();
+                    this.consoleRouter.addLogger(this.logger);
+                } else {
+                    this.logger.log('ConsoleRouter not available - console errors will not be captured', 'warning');
+                }
                 
                 this.performanceTracker = new PerformanceTracker();
                 this.connectionState = new EnhancedConnectionStateManager('statusText', this.logger);
