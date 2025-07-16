@@ -494,7 +494,9 @@ function createOctaneWebClient() {
                     console.warn(`${'  '.repeat(depth)}⚠️ Failed to get owned items for ${name}:`, error);
                 }
             } else {
-                console.log(`${'  '.repeat(depth)}🍃 Leaf node: ${name} (type ${objectRef.type} doesn't support children)`);
+                // For regular nodes (ApiNode objects), check their pins for owned items
+                console.log(`${'  '.repeat(depth)}📌 Regular node: ${name} (type ${objectRef.type}) - checking pins for owned items`);
+                await this.processNodePins(objectRef, node, name, depth);
             }
             
             return node;
@@ -502,6 +504,75 @@ function createOctaneWebClient() {
         } catch (error) {
             console.error(`${'  '.repeat(depth)}❌ Error building node ${name}:`, error);
             return null;
+        }
+    }
+
+    async processNodePins(objectRef, node, name, depth) {
+        try {
+            const indent = '  '.repeat(depth);
+            console.log(`${indent}📍 Getting pin count for node ${name}...`);
+            
+            // First get the pin count for this node
+            const pinCountResponse = await this.makeGrpcCall('octaneapi.ApiNodeService/pinCount', {
+                objectPtr: {
+                    handle: objectRef.handle || objectRef.objectHandle,
+                    type: objectRef.type
+                }
+            });
+
+            console.log(`${indent}📥 Pin count response:`, JSON.stringify(pinCountResponse, null, 2));
+
+            if (pinCountResponse.success && pinCountResponse.data && pinCountResponse.data.count > 0) {
+                const pinCount = pinCountResponse.data.count;
+                console.log(`${indent}📍 Node ${name} has ${pinCount} pins`);
+                
+                // Iterate through each pin to get owned items
+                for (let pinIndex = 0; pinIndex < pinCount && depth < 5; pinIndex++) {
+                    try {
+                        console.log(`${indent}  📎 Checking pin ${pinIndex} for owned item...`);
+                        
+                        const ownedItemResponse = await this.makeGrpcCall('octaneapi.ApiNodeService/ownedItemIx', {
+                            objectPtr: {
+                                handle: objectRef.handle || objectRef.objectHandle,
+                                type: objectRef.type
+                            },
+                            pinIndex: pinIndex
+                        });
+
+                        console.log(`${indent}  📥 Pin ${pinIndex} owned item response:`, JSON.stringify(ownedItemResponse, null, 2));
+
+                        if (ownedItemResponse.success && ownedItemResponse.data && ownedItemResponse.data.item) {
+                            const ownedItem = ownedItemResponse.data.item;
+                            console.log(`${indent}  📎 Pin ${pinIndex} owns item:`, ownedItem);
+                            
+                            // Create objectRef for the owned item
+                            const childObjectRef = {
+                                handle: ownedItem.handle,
+                                objectHandle: ownedItem.handle,
+                                type: ownedItem.type,
+                                objectId: ownedItem.objectId || ""
+                            };
+                            
+                            const childName = `Pin${pinIndex}_${ownedItem.handle}`;
+                            console.log(`${indent}  🌿 Recursing into pin-owned item: ${childName}`);
+                            
+                            const childNode = await this.buildSceneTreeRecursive(childObjectRef, childName, depth + 1);
+                            if (childNode) {
+                                node.children.push(childNode);
+                            }
+                        } else {
+                            console.log(`${indent}  📎 Pin ${pinIndex} has no owned item`);
+                        }
+                    } catch (pinError) {
+                        // This is normal for unconnected pins
+                        console.log(`${indent}  ⚠️ Pin ${pinIndex} error (normal for unconnected pins):`, pinError.message);
+                    }
+                }
+            } else {
+                console.log(`${indent}📍 Node ${name} has no pins or pin count unavailable`);
+            }
+        } catch (error) {
+            console.error(`${'  '.repeat(depth)}❌ Error processing pins for ${name}:`, error);
         }
     }
     
