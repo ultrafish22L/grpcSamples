@@ -6,7 +6,7 @@
 
 class DebugConsole {
     constructor() {
-        this.isVisible = false;
+        this.isVisible = true;  // Show debug console by default
         this.logs = [];
         this.maxLogs = 1000;
         this.element = null;
@@ -39,8 +39,8 @@ class DebugConsole {
         // Append to body
         document.body.appendChild(this.element);
         
-        // Initially hidden
-        this.element.style.display = 'none';
+        // Show by default (changed from initially hidden)
+        this.element.style.display = 'block';
     }
     
     addStyles() {
