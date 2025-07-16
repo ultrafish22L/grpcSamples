@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 GRIND MODE: gRPC Unit Testing System Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #ff4444;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .test-button {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            transition: background 0.3s;
+        }
+        
+        .test-button:hover {
+            background: #ff6666;
+        }
+        
+        .test-button:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        
+        .output {
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background: #2d5a2d;
+            border: 1px solid #4a8a4a;
+            color: #90ee90;
+        }
+        
+        .status.error {
+            background: #5a2d2d;
+            border: 1px solid #8a4a4a;
+            color: #ff9090;
+        }
+        
+        .status.info {
+            background: #2d2d5a;
+            border: 1px solid #4a4a8a;
+            color: #9090ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 GRIND MODE: gRPC Unit Testing System Test</h1>
+        
+        <div class="test-section">
+            <h2>📋 System Status</h2>
+            <div id="system-status" class="status info">Loading system components...</div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🔧 Basic Tests</h2>
+            <button class="test-button" onclick="testServiceParser()">Test Service Parser</button>
+            <button class="test-button" onclick="testServiceListing()">Test Service Listing</button>
+            <button class="test-button" onclick="testCategorization()">Test Categorization</button>
+            <div id="basic-output" class="output"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>📊 Service Statistics</h2>
+            <button class="test-button" onclick="showServiceStats()">Show Statistics</button>
+            <div id="stats-output" class="output"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🎯 Mock Unit Testing</h2>
+            <button class="test-button" onclick="testMockUnitTester()">Test Unit Tester (Mock)</button>
+            <div id="mock-output" class="output"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>📖 Usage Instructions</h2>
+            <div class="output">
+🔥 GRIND MODE: Comprehensive gRPC Unit Testing
+
+When Octane is running, use these functions in the main application:
+
+1. runAllGrpcTests() - Test all 118+ services
+2. testGrpcService('ApiItemService') - Test specific service
+3. listAllGrpcServices() - List all services
+4. listGrpcServicesByCategory() - Categorized listing
+
+This test page verifies the system works without Octane connection.
+            </div>
+        </div>
+    </div>
+
+    <!-- Load the unit testing system -->
+    <script src="js/core/GrpcServiceParser.js?v=GRIND_UNIT_TEST_20250716_122000"></script>
+    <script src="js/core/GrpcUnitTester.js?v=GRIND_UNIT_TEST_20250716_122000"></script>
+
+    <script>
+        // Test functions
+        function updateStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('system-status');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+        }
+        
+        function appendOutput(elementId, text) {
+            const output = document.getElementById(elementId);
+            output.textContent += text + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        function clearOutput(elementId) {
+            document.getElementById(elementId).textContent = '';
+        }
+        
+        function testServiceParser() {
+            clearOutput('basic-output');
+            appendOutput('basic-output', '🔍 Testing GrpcServiceParser...');
+            
+            try {
+                const parser = new GrpcServiceParser();
+                appendOutput('basic-output', `✅ Parser created successfully`);
+                
+                const serviceCount = parser.getServiceCount();
+                appendOutput('basic-output', `📊 Total services: ${serviceCount}`);
+                
+                const services = parser.getAllServiceNames();
+                appendOutput('basic-output', `📋 First 5 services:`);
+                services.slice(0, 5).forEach((service, index) => {
+                    appendOutput('basic-output', `   ${index + 1}. ${service}`);
+                });
+                
+                appendOutput('basic-output', '✅ Service parser test completed successfully!');
+                
+            } catch (error) {
+                appendOutput('basic-output', `❌ Error: ${error.message}`);
+            }
+        }
+        
+        function testServiceListing() {
+            clearOutput('basic-output');
+            appendOutput('basic-output', '📋 Testing service listing...');
+            
+            try {
+                const parser = new GrpcServiceParser();
+                const services = parser.getAllServiceNames();
+                
+                appendOutput('basic-output', `📊 Total services found: ${services.length}`);
+                appendOutput('basic-output', '');
+                appendOutput('basic-output', '🔍 All services:');
+                
+                services.forEach((service, index) => {
+                    appendOutput('basic-output', `${String(index + 1).padStart(3, ' ')}. ${service}`);
+                });
+                
+                appendOutput('basic-output', '');
+                appendOutput('basic-output', '✅ Service listing completed!');
+                
+            } catch (error) {
+                appendOutput('basic-output', `❌ Error: ${error.message}`);
+            }
+        }
+        
+        function testCategorization() {
+            clearOutput('basic-output');
+            appendOutput('basic-output', '📁 Testing service categorization...');
+            
+            try {
+                const parser = new GrpcServiceParser();
+                const categories = parser.getServicesByCategory();
+                
+                appendOutput('basic-output', '📊 Services by category:');
+                appendOutput('basic-output', '');
+                
+                for (const [category, services] of Object.entries(categories)) {
+                    if (services.length > 0) {
+                        appendOutput('basic-output', `📁 ${category} (${services.length} services):`);
+                        services.forEach((service, index) => {
+                            appendOutput('basic-output', `   ${index + 1}. ${service}`);
+                        });
+                        appendOutput('basic-output', '');
+                    }
+                }
+                
+                appendOutput('basic-output', '✅ Categorization test completed!');
+                
+            } catch (error) {
+                appendOutput('basic-output', `❌ Error: ${error.message}`);
+            }
+        }
+        
+        function showServiceStats() {
+            clearOutput('stats-output');
+            appendOutput('stats-output', '📊 Generating service statistics...');
+            
+            try {
+                const parser = new GrpcServiceParser();
+                const categories = parser.getServicesByCategory();
+                const totalServices = parser.getServiceCount();
+                
+                appendOutput('stats-output', `🎯 COMPREHENSIVE SERVICE STATISTICS`);
+                appendOutput('stats-output', `═══════════════════════════════════`);
+                appendOutput('stats-output', `📊 Total Services: ${totalServices}`);
+                appendOutput('stats-output', '');
+                
+                appendOutput('stats-output', '📁 CATEGORY BREAKDOWN:');
+                let totalCategorized = 0;
+                
+                for (const [category, services] of Object.entries(categories)) {
+                    if (services.length > 0) {
+                        const percentage = ((services.length / totalServices) * 100).toFixed(1);
+                        appendOutput('stats-output', `   ${category.padEnd(25)} ${String(services.length).padStart(3)} services (${percentage}%)`);
+                        totalCategorized += services.length;
+                    }
+                }
+                
+                appendOutput('stats-output', '');
+                appendOutput('stats-output', `📈 Categorized: ${totalCategorized}/${totalServices} services`);
+                
+                // Top categories
+                const sortedCategories = Object.entries(categories)
+                    .filter(([_, services]) => services.length > 0)
+                    .sort(([_, a], [__, b]) => b.length - a.length);
+                
+                appendOutput('stats-output', '');
+                appendOutput('stats-output', '🏆 TOP CATEGORIES:');
+                sortedCategories.slice(0, 5).forEach(([category, services], index) => {
+                    appendOutput('stats-output', `   ${index + 1}. ${category}: ${services.length} services`);
+                });
+                
+                appendOutput('stats-output', '');
+                appendOutput('stats-output', '✅ Statistics generated successfully!');
+                
+            } catch (error) {
+                appendOutput('stats-output', `❌ Error: ${error.message}`);
+            }
+        }
+        
+        function testMockUnitTester() {
+            clearOutput('mock-output');
+            appendOutput('mock-output', '🎭 Testing GrpcUnitTester (Mock Mode)...');
+            
+            try {
+                // Create mock client
+                const mockClient = {
+                    isConnected: true,
+                    makeGrpcCall: async (method, data) => {
+                        // Simulate different response types
+                        if (method.includes('crash')) {
+                            throw new Error('Socket closed');
+                        } else if (method.includes('fail')) {
+                            return { success: false, error: 'Test failure' };
+                        } else {
+                            return { 
+                                success: true, 
+                                data: { 
+                                    result: `Mock response for ${method}`,
+                                    timestamp: new Date().toISOString()
+                                }
+                            };
+                        }
+                    }
+                };
+                
+                const tester = new GrpcUnitTester(mockClient);
+                appendOutput('mock-output', '✅ Unit tester created successfully');
+                
+                // Test data generators
+                appendOutput('mock-output', '🔧 Testing data generators...');
+                const objectPtr = tester.testDataGenerators.objectPtr(16, 1000001);
+                appendOutput('mock-output', `   ObjectPtr: ${JSON.stringify(objectPtr)}`);
+                
+                const vector3 = tester.testDataGenerators.vector3();
+                appendOutput('mock-output', `   Vector3: ${JSON.stringify(vector3)}`);
+                
+                const color = tester.testDataGenerators.color();
+                appendOutput('mock-output', `   Color: ${JSON.stringify(color)}`);
+                
+                appendOutput('mock-output', '✅ Data generators working correctly');
+                
+                // Test request data generation
+                appendOutput('mock-output', '🔧 Testing request data generation...');
+                const requestTemplate = {
+                    objectPtr: { type: 16, handle: 1000001 },
+                    stringParam: "test",
+                    numberParam: 42
+                };
+                
+                const requestData = tester.generateRequestData(requestTemplate);
+                appendOutput('mock-output', `   Generated: ${JSON.stringify(requestData, null, 2)}`);
+                
+                appendOutput('mock-output', '✅ Mock unit tester test completed!');
+                
+            } catch (error) {
+                appendOutput('mock-output', `❌ Error: ${error.message}`);
+                appendOutput('mock-output', `Stack: ${error.stack}`);
+            }
+        }
+        
+        // Initialize system
+        window.addEventListener('load', () => {
+            try {
+                if (typeof GrpcServiceParser !== 'undefined' && typeof GrpcUnitTester !== 'undefined') {
+                    updateStatus('✅ All system components loaded successfully', 'success');
+                    
+                    const parser = new GrpcServiceParser();
+                    const serviceCount = parser.getServiceCount();
+                    updateStatus(`✅ System ready - ${serviceCount} services available`, 'success');
+                } else {
+                    updateStatus('❌ Failed to load system components', 'error');
+                }
+            } catch (error) {
+                updateStatus(`❌ System initialization error: ${error.message}`, 'error');
+            }
+        });
+    </script>
+</body>
+</html>

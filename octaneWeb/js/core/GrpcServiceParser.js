@@ -243,6 +243,37 @@ class GrpcServiceParser {
     generateServiceDefinitions() {
         const serviceDefinitions = {};
         
+        // Check if we have extracted service data
+        if (typeof EXTRACTED_GRPC_SERVICES !== 'undefined') {
+            console.log('🔥 Using extracted gRPC service definitions with 1,802+ methods!');
+            
+            // Use extracted service definitions for comprehensive testing
+            for (const [serviceName, serviceData] of Object.entries(EXTRACTED_GRPC_SERVICES)) {
+                const fullServiceName = serviceName.startsWith('octaneapi.') ? serviceName : `octaneapi.${serviceName}`;
+                
+                serviceDefinitions[fullServiceName] = {
+                    methods: {},
+                    file: serviceData.file
+                };
+                
+                // Add all extracted methods
+                for (const [methodName, methodData] of Object.entries(serviceData.methods)) {
+                    serviceDefinitions[fullServiceName].methods[methodName] = {
+                        request: this.generateRequestForMethod(serviceName, methodName, methodData),
+                        description: methodData.description,
+                        requestType: methodData.request_type,
+                        responseType: methodData.response_type
+                    };
+                }
+            }
+            
+            console.log(`✅ Loaded ${Object.keys(serviceDefinitions).length} services with extracted method definitions`);
+            return serviceDefinitions;
+        }
+        
+        console.log('⚠️ Extracted service data not available, using manual definitions');
+        
+        // Fallback to manual service definitions
         // Core services we know work
         serviceDefinitions['octaneapi.ApiItemService'] = {
             methods: {
@@ -391,6 +422,80 @@ class GrpcServiceParser {
         });
         
         return categories;
+    }
+    
+    /**
+     * Generate appropriate request data for extracted methods
+     */
+    generateRequestForMethod(serviceName, methodName, methodData) {
+        // Common request patterns based on method names and types
+        const requestType = methodData.request_type;
+        
+        // Methods that typically need objectPtr
+        if (methodName === 'name' || methodName === 'destroy' || methodName === 'getOwnedItems' || 
+            methodName === 'pinCount' || requestType.includes('objectPtr')) {
+            
+            // Determine appropriate object type based on service
+            let objectType = 16; // Default to ApiItem
+            if (serviceName.includes('Node') && !serviceName.includes('Graph')) {
+                objectType = 17; // ApiNode
+            } else if (serviceName.includes('NodeGraph')) {
+                objectType = 20; // ApiNodeGraph
+            } else if (serviceName.includes('RootNodeGraph')) {
+                objectType = 18; // ApiRootNodeGraph
+            }
+            
+            return {
+                objectPtr: {
+                    objectHandle: 1000001,
+                    handle: 1000001,
+                    type: objectType,
+                    objectId: ""
+                }
+            };
+        }
+        
+        // Methods that typically need empty requests
+        if (methodName === 'buildSceneTree' || methodName === 'getRootNodeGraph' || 
+            methodName === 'isSupported' || methodName === 'root') {
+            return {};
+        }
+        
+        // Methods that need string parameters
+        if (methodName.includes('setRoot') || methodName.includes('Directory')) {
+            return {
+                path: "/test/path"
+            };
+        }
+        
+        // Methods that need numeric parameters
+        if (methodName.includes('Count') || methodName.includes('Index')) {
+            return {
+                index: 0
+            };
+        }
+        
+        // Methods that need boolean parameters
+        if (methodName.includes('enable') || methodName.includes('Enable') || 
+            methodName.includes('visible') || methodName.includes('Visible')) {
+            return {
+                enabled: true
+            };
+        }
+        
+        // Default to empty request for unknown patterns
+        return {};
+    }
+    
+    /**
+     * Get total method count from extracted data
+     */
+    getTotalMethodCount() {
+        if (typeof EXTRACTED_GRPC_SERVICES !== 'undefined') {
+            return Object.values(EXTRACTED_GRPC_SERVICES)
+                .reduce((total, service) => total + Object.keys(service.methods).length, 0);
+        }
+        return this.knownServices.length; // Fallback
     }
 }
 

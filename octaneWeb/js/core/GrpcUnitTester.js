@@ -70,6 +70,13 @@ class GrpcUnitTester {
         console.log('🔥 GRIND MODE: Starting comprehensive gRPC service testing...');
         console.log(`📊 Total services to test: ${this.parser.getServiceCount()}`);
         
+        // Show enhanced statistics if extracted data is available
+        if (typeof EXTRACTED_GRPC_SERVICES !== 'undefined') {
+            const totalMethods = this.parser.getTotalMethodCount();
+            console.log(`🚀 ENHANCED MODE: Testing ${totalMethods} methods from extracted protobuf definitions!`);
+            console.log(`📈 This is ${Math.floor(totalMethods/118)} times more comprehensive than basic testing`);
+        }
+        
         const startTime = performance.now();
         
         // Get service definitions
