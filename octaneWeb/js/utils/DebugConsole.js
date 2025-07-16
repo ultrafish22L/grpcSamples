@@ -25,6 +25,7 @@ class DebugConsole {
                 <span class="debug-title">🐛 Debug Console</span>
                 <div class="debug-controls">
                     <button class="debug-btn" onclick="debugConsole.clear()">Clear</button>
+                    <button class="debug-btn unit-test-btn" onclick="debugConsole.runUnitTests()" title="Run comprehensive gRPC unit tests">🔥 Unit Tests</button>
                     <button class="debug-btn" onclick="debugConsole.toggle()">Hide</button>
                 </div>
             </div>
@@ -92,6 +93,16 @@ class DebugConsole {
             
             .debug-btn:hover {
                 background: #666;
+            }
+            
+            .debug-btn.unit-test-btn {
+                background: #ff4444;
+                color: #fff;
+                font-weight: bold;
+            }
+            
+            .debug-btn.unit-test-btn:hover {
+                background: #ff6666;
             }
             
             .debug-content {
@@ -252,6 +263,44 @@ class DebugConsole {
     // Method to add custom success messages
     success(message) {
         this.addLog('success', [message]);
+    }
+    
+    // Method to run comprehensive gRPC unit tests
+    async runUnitTests() {
+        console.log('🔥 GRIND MODE: Starting comprehensive gRPC unit tests from Debug Console...');
+        
+        // Check if OctaneWeb is available and connected
+        if (typeof octaneWebApp === 'undefined' || !octaneWebApp.octaneClient) {
+            console.error('❌ OctaneWebClient not available. Connect to Octane first.');
+            this.addLog('error', ['❌ OctaneWebClient not available. Connect to Octane first.']);
+            return;
+        }
+        
+        if (!octaneWebApp.octaneClient.isConnected) {
+            console.error('❌ Not connected to Octane. Connect first using the connection toggle.');
+            this.addLog('error', ['❌ Not connected to Octane. Connect first using the connection toggle.']);
+            return;
+        }
+        
+        try {
+            // Show starting message
+            this.addLog('info', ['🔥 Starting comprehensive gRPC unit tests...']);
+            
+            // Run the comprehensive tests
+            const results = await octaneWebApp.octaneClient.runComprehensiveGrpcTests();
+            
+            if (results) {
+                // Show completion message
+                this.addLog('success', [`✅ Unit tests completed! Tested ${results.totalTests} methods with ${results.successRate.toFixed(1)}% success rate`]);
+                console.log('🎯 Unit tests completed successfully!', results);
+            } else {
+                this.addLog('error', ['❌ Unit tests failed to complete']);
+            }
+            
+        } catch (error) {
+            console.error('❌ Error running unit tests:', error);
+            this.addLog('error', [`❌ Error running unit tests: ${error.message}`]);
+        }
     }
 }
 
