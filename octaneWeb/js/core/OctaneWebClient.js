@@ -177,6 +177,16 @@ function createOctaneWebClient() {
             url = `${this.serverUrl}/livelinkapi.LiveLinkService/${method}`;
         }
 
+        // Enhanced logging for all gRPC calls
+        console.log(`\n🌐 === gRPC CALL STARTED ===`);
+        console.log(`🌐 Method: ${method}`);
+        console.log(`🌐 URL: ${url}`);
+        console.log(`🌐 Call ID: ${callId}`);
+        console.log(`🌐 Call Number: ${this.callCount}`);
+        console.log(`🌐 Connection State: ${this.connectionState}`);
+        console.log(`🌐 Request:`, request);
+        console.log(`🌐 Request JSON:`, JSON.stringify(request, null, 2));
+        
         this.log(`gRPC call started: ${method}`, {
             callId: callId,
             method: method,
@@ -216,6 +226,26 @@ function createOctaneWebClient() {
             const result = await response.json();
             const duration = Date.now() - startTime;
 
+            // Enhanced response logging
+            console.log(`\n📥 === gRPC RESPONSE RECEIVED ===`);
+            console.log(`📥 Method: ${method}`);
+            console.log(`📥 Call ID: ${callId}`);
+            console.log(`📥 Duration: ${duration}ms`);
+            console.log(`📥 HTTP Status: ${response.status} ${response.statusText}`);
+            console.log(`📥 Success: ${result.success}`);
+            console.log(`📥 Data Size: ${JSON.stringify(result).length} bytes`);
+            console.log(`📥 Result:`, result);
+            console.log(`📥 Result JSON:`, JSON.stringify(result, null, 2));
+            
+            if (result.success && result.data) {
+                console.log(`📥 Response Data:`, result.data);
+                console.log(`📥 Response Data JSON:`, JSON.stringify(result.data, null, 2));
+            }
+            
+            if (!result.success && result.error) {
+                console.error(`❌ gRPC Error:`, result.error);
+            }
+
             this.log(`gRPC call completed: ${method}`, {
                 callId: callId,
                 duration: duration,
@@ -227,6 +257,17 @@ function createOctaneWebClient() {
 
         } catch (error) {
             const duration = Date.now() - startTime;
+            
+            // Enhanced error logging
+            console.error(`\n❌ === gRPC CALL FAILED ===`);
+            console.error(`❌ Method: ${method}`);
+            console.error(`❌ Call ID: ${callId}`);
+            console.error(`❌ Duration: ${duration}ms`);
+            console.error(`❌ Error Type: ${error.constructor.name}`);
+            console.error(`❌ Error Message: ${error.message}`);
+            console.error(`❌ Error Stack:`, error.stack);
+            console.error(`❌ Full Error:`, error);
+            
             this.log(`gRPC call failed: ${method}`, {
                 callId: callId,
                 duration: duration,
@@ -239,37 +280,61 @@ function createOctaneWebClient() {
     // ==================== SCENE MANAGEMENT ====================
     
     /**
-     * Get scene data using real Octane scene hierarchy API
+     * Get scene data using real Octane gRPC APIs via generic pass-through
      */
     async getSceneData() {
         try {
-            // Get real scene hierarchy using buildSceneTree API
-            console.log('🌳 Calling buildSceneTree endpoint for real Octane hierarchy...');
-            const sceneResponse = await this.makeGrpcCall('octaneapi.ApiProjectManagerService/buildSceneTree', {});
+            console.log('🌳 Loading scene tree using real Octane gRPC APIs...');
             
-            console.log('📥 Raw buildSceneTree response:', JSON.stringify(sceneResponse, null, 2));
+            // Step 1: Get the root node graph
+            console.log('📤 Calling rootNodeGraph API...');
+            const rootResponse = await this.makeGrpcCall('octaneapi.ApiProjectManagerService/rootNodeGraph', {});
             
-            if (sceneResponse.success && sceneResponse.data && sceneResponse.data.hierarchy) {
-                console.log('🌳 Real scene hierarchy type:', typeof sceneResponse.data.hierarchy);
-                console.log('🌳 Real scene hierarchy content:', sceneResponse.data.hierarchy);
-                
-                // Use the real hierarchical data from Octane
-                const sceneHierarchy = sceneResponse.data.hierarchy;
-                
+            console.log('📥 rootNodeGraph response:', JSON.stringify(rootResponse, null, 2));
+            
+            if (!rootResponse.success || !rootResponse.data) {
+                console.error('❌ Failed to get root node graph:', rootResponse);
+                return { success: false, error: 'Failed to get root node graph' };
+            }
+            
+            // Extract ObjectRef from response
+            const rootObjectRef = rootResponse.data.objectRef || rootResponse.data.result;
+            if (!rootObjectRef) {
+                console.error('❌ No objectRef in rootNodeGraph response');
+                return { success: false, error: 'No objectRef in root response' };
+            }
+            
+            // Convert objectHandle to handle for protobuf compatibility
+            if (rootObjectRef.objectHandle && !rootObjectRef.handle) {
+                rootObjectRef.handle = rootObjectRef.objectHandle;
+            }
+            
+            console.log('✅ Root ObjectRef:', rootObjectRef);
+            
+            // Step 2: Recursively build the scene tree
+            const sceneHierarchy = await this.buildSceneTreeRecursive(rootObjectRef, 'Root');
+            
+            if (sceneHierarchy) {
                 // Update scene state
-                this.sceneState.hierarchy = sceneHierarchy;
+                this.sceneState.hierarchy = [sceneHierarchy];
                 
                 // Emit scene update event
                 this.emit('ui:sceneUpdate', this.sceneState);
-                this.emit('ui:sceneHierarchyUpdate', sceneHierarchy);
+                this.emit('ui:sceneHierarchyUpdate', [sceneHierarchy]);
                 
-                console.log('🌳 Real Octane scene data loaded:', sceneHierarchy);
-                return { success: true, hierarchy: sceneHierarchy };
+                console.log('🌳 Real Octane scene tree loaded successfully');
+                return { success: true, hierarchy: [sceneHierarchy] };
             } else {
-                console.warn('Failed to get scene hierarchy from buildSceneTree:', sceneResponse);
-                
-                // Fallback to GetMeshes for basic mesh data
-                console.log('🔄 Falling back to GetMeshes endpoint...');
+                console.error('❌ Failed to build scene tree');
+                return { success: false, error: 'Failed to build scene tree' };
+            }
+            
+        } catch (error) {
+            console.error('❌ Error loading scene data:', error);
+            
+            // Fallback to GetMeshes for basic mesh data
+            console.log('🔄 Falling back to GetMeshes endpoint...');
+            try {
                 const meshResponse = await this.makeGrpcCall('GetMeshes', {});
                 
                 if (meshResponse.success && meshResponse.data) {
@@ -288,11 +353,102 @@ function createOctaneWebClient() {
                 }
                 
                 return { success: false, error: 'Failed to get scene data from both buildSceneTree and GetMeshes' };
+            } catch (fallbackError) {
+                console.error('❌ Fallback to GetMeshes also failed:', fallbackError);
+                return { success: false, error: 'Failed to get scene data from both rootNodeGraph and GetMeshes' };
+            }
+        }
+    }
+    
+    /**
+     * Recursively build scene tree from Octane node graph
+     */
+    async buildSceneTreeRecursive(objectRef, name = 'Node', depth = 0) {
+        try {
+            console.log(`${'  '.repeat(depth)}🌿 Building node: ${name} (handle=${objectRef.handle || objectRef.objectHandle})`);
+            
+            // Create the node structure
+            const node = {
+                id: `node_${objectRef.handle || objectRef.objectHandle}`,
+                name: name,
+                type: 'group',
+                visible: true,
+                children: [],
+                objectRef: objectRef
+            };
+            
+            // Get owned items for this node using the generic pass-through
+            try {
+                console.log(`${'  '.repeat(depth)}📤 Getting owned items for ${name}...`);
+                
+                // Call getOwnedItems API with proper objectPtr structure
+                // Note: Root node graph (type 18) needs to be treated as regular node graph (type 20) for getOwnedItems
+                const requestType = objectRef.type === 18 ? 20 : objectRef.type;
+                console.log(`${'  '.repeat(depth)}🔧 Converting type ${objectRef.type} to ${requestType} for getOwnedItems`);
+                
+                const itemsResponse = await this.makeGrpcCall('octaneapi.ApiNodeGraphService/getOwnedItems', {
+                    objectPtr: {
+                        handle: objectRef.handle || objectRef.objectHandle,
+                        type: requestType
+                    }
+                });
+                
+                console.log(`${'  '.repeat(depth)}📥 getOwnedItems response:`, JSON.stringify(itemsResponse, null, 2));
+                
+                if (itemsResponse.success && itemsResponse.data && itemsResponse.data.list) {
+                    const itemsArrayRef = itemsResponse.data.list;
+                    console.log(`${'  '.repeat(depth)}📋 Got items array: handle=${itemsArrayRef.handle}, type=${itemsArrayRef.type}`);
+                    
+                    // Step 2: Get the actual items from the array using ApiItemArrayService/items
+                    try {
+                        console.log(`${'  '.repeat(depth)}📤 Getting items from array...`);
+                        
+                        const arrayItemsResponse = await this.makeGrpcCall('octaneapi.ApiItemArrayService/items', {
+                            objectPtr: {
+                                handle: itemsArrayRef.handle,
+                                type: itemsArrayRef.type
+                            }
+                        });
+                        
+                        console.log(`${'  '.repeat(depth)}📥 Array items response:`, JSON.stringify(arrayItemsResponse, null, 2));
+                        
+                        if (arrayItemsResponse.success && arrayItemsResponse.data && arrayItemsResponse.data.items) {
+                            const items = arrayItemsResponse.data.items;
+                            console.log(`${'  '.repeat(depth)}✅ Found ${items.length} child items in array`);
+                            
+                            // Recursively process each child item
+                            for (let i = 0; i < items.length && depth < 5; i++) { // Limit depth to prevent infinite recursion
+                                const item = items[i];
+                                const childName = item.name || `Child ${i + 1}`;
+                                
+                                if (item.objectRef) {
+                                    const childNode = await this.buildSceneTreeRecursive(item.objectRef, childName, depth + 1);
+                                    if (childNode) {
+                                        node.children.push(childNode);
+                                    }
+                                }
+                            }
+                        } else {
+                            console.log(`${'  '.repeat(depth)}ℹ️ No items found in array`);
+                        }
+                        
+                    } catch (arrayError) {
+                        console.warn(`${'  '.repeat(depth)}⚠️ Failed to get items from array:`, arrayError);
+                    }
+                    
+                } else {
+                    console.log(`${'  '.repeat(depth)}ℹ️ No items array found for ${name}`);
+                }
+                
+            } catch (error) {
+                console.warn(`${'  '.repeat(depth)}⚠️ Failed to get owned items for ${name}:`, error);
             }
             
+            return node;
+            
         } catch (error) {
-            console.error('Failed to get scene data:', error);
-            return { success: false, error: error.message };
+            console.error(`${'  '.repeat(depth)}❌ Error building node ${name}:`, error);
+            return null;
         }
     }
     

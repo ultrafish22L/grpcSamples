@@ -12,6 +12,9 @@ from aiohttp.web import middleware
 import grpc
 import sys
 import os
+import importlib
+import re
+import traceback
 
 # Add the current directory to path for protobuf imports
 sys.path.append(os.path.dirname(__file__))
@@ -197,6 +200,9 @@ class LiveLinkProxy:
     async def load_project(self, project_path):
         """Load project from .orbx file"""
         try:
+            print(f"\n📤 === LOAD PROJECT ===")
+            print(f"📤 Project path: {project_path}")
+            
             request = apiprojectmanager_pb2.ApiProjectManager.loadProjectRequest()
             request.projectPath = project_path
             request.evaluate = True  # Enable evaluation for full project load
@@ -206,8 +212,14 @@ class LiveLinkProxy:
             request.assetMissingcallback.callbackId = 0
             request.assetMissinguserData = 0
             
-            print(f"📤 Sending LoadProject request to Octane: {project_path}")
+            print(f"📤 Request object: {request}")
+            print(f"📤 Calling ApiProjectManagerService.loadProject...")
             response = await self.project_stub.loadProject(request)
+            
+            print(f"📥 === LOAD PROJECT RESPONSE ===")
+            print(f"📥 Response type: {type(response).__name__}")
+            print(f"📥 Response: {response}")
+            print(f"📥 Result: {response.result}")
             
             result = {
                 'success': response.result,
@@ -215,37 +227,56 @@ class LiveLinkProxy:
             }
             
             if response.result:
-                print(f"📥 LoadProject successful: {project_path}")
+                print(f"✅ LoadProject successful: {project_path}")
             else:
-                print(f"📥 LoadProject failed: {project_path}")
+                print(f"❌ LoadProject failed: {project_path}")
                 
+            print(f"✅ Final result: {json.dumps(result, indent=2)}")
             return result
             
         except Exception as e:
+            print(f"❌ === LOAD PROJECT ERROR ===")
             print(f"❌ LoadProject failed: {e}")
+            print(f"❌ Error type: {type(e).__name__}")
+            print(f"❌ Traceback: {traceback.format_exc()}")
             raise Exception(f"Failed to load project: {e}")
     
     async def get_root_node_graph(self):
         """Get root node graph from Octane project"""
         try:
+            print(f"\n📤 === GET ROOT NODE GRAPH ===")
+            
             request = apiprojectmanager_pb2.ApiProjectManager.rootNodeGraphRequest()
             
-            print(f"📤 Sending RootNodeGraph request to Octane")
+            print(f"📤 Request object: {request}")
+            print(f"📤 Calling ApiProjectManagerService.rootNodeGraph...")
             response = await self.project_stub.rootNodeGraph(request)
+            
+            print(f"📥 === ROOT NODE GRAPH RESPONSE ===")
+            print(f"📥 Response type: {type(response).__name__}")
+            print(f"📥 Response: {response}")
+            print(f"📥 Result handle: {response.result.handle}")
+            print(f"📥 Result type: {response.result.type}")
+            print(f"📥 Result objectId: {getattr(response.result, 'objectId', 'N/A')}")
             
             result = {
                 'success': True,
                 'objectRef': {
-                    'objectId': response.result.objectId,
-                    'objectHandle': response.result.objectHandle
+                    'objectId': getattr(response.result, 'objectId', ''),
+                    'objectHandle': response.result.handle,
+                    'type': response.result.type
                 }
             }
             
-            print(f"📥 RootNodeGraph successful: objectId={response.result.objectId}")
+            print(f"✅ RootNodeGraph successful: handle={response.result.handle}, type={response.result.type}")
+            print(f"✅ Final result: {json.dumps(result, indent=2)}")
             return result
             
         except Exception as e:
+            print(f"❌ === ROOT NODE GRAPH ERROR ===")
             print(f"❌ RootNodeGraph failed: {e}")
+            print(f"❌ Error type: {type(e).__name__}")
+            print(f"❌ Traceback: {traceback.format_exc()}")
             raise Exception(f"Failed to get root node graph: {e}")
     
     async def get_node_graph_items(self, node_graph_ref):
@@ -351,8 +382,8 @@ class LiveLinkProxy:
                 return {'success': False, 'error': 'Failed to get root node graph'}
             
             root_ref = common_pb2.ObjectRef()
-            root_ref.objectId = root_result['objectRef']['objectId']
-            root_ref.objectHandle = root_result['objectRef']['objectHandle']
+            root_ref.handle = root_result['objectRef']['objectHandle']
+            root_ref.type = root_result['objectRef']['type']
             
             # Build tree recursively
             tree_data = await self._build_node_tree_recursive(root_ref, "Root", 0)
@@ -639,6 +670,263 @@ async def handle_static_files(request):
         print(f"❌ Error serving {path}: {e}")
         return web.Response(status=500, text="Internal server error")
 
+# ==================== GENERIC GRPC PASS-THROUGH HANDLER ====================
+
+class GrpcServiceRegistry:
+    """Registry for dynamically loading gRPC service stubs"""
+    
+    def __init__(self):
+        self.stubs = {}
+        self.service_modules = {}
+        
+    def get_stub(self, service_name, channel):
+        """Get or create a gRPC stub for the given service"""
+        if service_name in self.stubs:
+            return self.stubs[service_name]
+            
+        try:
+            # Map service names to their module names
+            service_module_map = {
+                'LiveLinkService': 'livelink_pb2_grpc',
+                'ApiProjectManagerService': 'apiprojectmanager_pb2_grpc',
+                'ApiNodeGraphService': 'apinodesystem_pb2_grpc',
+                'ApiItemService': 'apinodesystem_pb2_grpc',
+                'ApiItemArrayService': 'apinodesystem_pb2_grpc',
+                'ApiArrayService': 'apiarray_pb2_grpc',
+                'ApiAnimationTimeTransformService': 'apianimationtimetransform_pb2_grpc',
+                'ApiOutputColorSpaceInfoService': 'apioutputcolorspaceinfo_pb2_grpc',
+                'ApiTimeSamplingService': 'apitimesampling_pb2_grpc',
+                'CameraControlService': 'camera_control_pb2_grpc',
+                'OctaneNetService': 'octanenet_pb2_grpc',
+            }
+            
+            module_name = service_module_map.get(service_name)
+            if not module_name:
+                raise Exception(f"Unknown service: {service_name}")
+                
+            # Import the gRPC module
+            grpc_module = importlib.import_module(module_name)
+            
+            # Get the stub class (convention: ServiceNameStub)
+            stub_class_name = f"{service_name}Stub"
+            stub_class = getattr(grpc_module, stub_class_name)
+            
+            # Create and cache the stub
+            stub = stub_class(channel)
+            self.stubs[service_name] = stub
+            
+            print(f"✅ Created gRPC stub for {service_name}")
+            return stub
+            
+        except Exception as e:
+            print(f"❌ Failed to create stub for {service_name}: {e}")
+            raise
+
+    def get_request_class(self, service_name, method_name):
+        """Get the request class for a specific service method"""
+        try:
+            # Map service names to their protobuf modules
+            service_pb2_map = {
+                'LiveLinkService': 'livelink_pb2',
+                'ApiProjectManagerService': 'apiprojectmanager_pb2',
+                'ApiNodeGraphService': 'apinodesystem_pb2',
+                'ApiItemService': 'apinodesystem_pb2',
+                'ApiItemArrayService': 'apinodesystem_pb2',
+                'ApiArrayService': 'apiarray_pb2',
+                'ApiAnimationTimeTransformService': 'apianimationtimetransform_pb2',
+                'ApiOutputColorSpaceInfoService': 'apioutputcolorspaceinfo_pb2',
+                'ApiTimeSamplingService': 'apitimesampling_pb2',
+                'CameraControlService': 'camera_control_pb2',
+                'OctaneNetService': 'octanenet_pb2',
+            }
+            
+            pb2_module_name = service_pb2_map.get(service_name)
+            if not pb2_module_name:
+                raise Exception(f"Unknown service: {service_name}")
+                
+            # Import the protobuf module
+            pb2_module = importlib.import_module(pb2_module_name)
+            
+            # For nested message classes, we need to navigate the structure
+            if service_name == 'LiveLinkService':
+                # Direct method access for LiveLinkService
+                request_class = getattr(pb2_module, f"{method_name}Request", None)
+                if request_class:
+                    return request_class
+            else:
+                # For API services, methods are nested in the service class
+                service_class = getattr(pb2_module, service_name.replace('Service', ''))
+                request_class = getattr(service_class, f"{method_name}Request", None)
+                if request_class:
+                    return request_class
+                    
+            raise Exception(f"Request class not found for {service_name}.{method_name}")
+            
+        except Exception as e:
+            print(f"❌ Failed to get request class for {service_name}.{method_name}: {e}")
+            raise
+
+# Global service registry
+grpc_registry = GrpcServiceRegistry()
+
+async def handle_generic_grpc(request):
+    """Generic handler for any gRPC service call"""
+    try:
+        # Parse the URL path to extract service and method
+        path = request.path
+        print(f"\n🌐 === GENERIC gRPC REQUEST ===")
+        print(f"🌐 Path: {path}")
+        print(f"🌐 Remote: {request.remote}")
+        print(f"🌐 Method: {request.method}")
+        print(f"🌐 Content-Length: {request.content_length}")
+        
+        # Extract service and method from path
+        # Patterns: /octaneapi.ServiceName/methodName or /livelinkapi.ServiceName/methodName
+        path_match = re.match(r'^/(?:octaneapi\.|livelinkapi\.)?([^/]+)/([^/]+)$', path)
+        if not path_match:
+            print(f"❌ Invalid path format: {path}")
+            return web.json_response({'success': False, 'error': 'Invalid path format'}, status=400)
+            
+        service_name = path_match.group(1)
+        method_name = path_match.group(2)
+        
+        print(f"📤 Service: {service_name}")
+        print(f"📤 Method: {method_name}")
+        
+        # Get the appropriate stub
+        print(f"🔌 Getting stub for {service_name}...")
+        stub = grpc_registry.get_stub(service_name, proxy.channel)
+        print(f"✅ Got stub: {type(stub).__name__}")
+        
+        # Get the method from the stub
+        method = getattr(stub, method_name, None)
+        if not method:
+            print(f"❌ Method {method_name} not found on {service_name}")
+            return web.json_response({'success': False, 'error': f'Method {method_name} not found on {service_name}'}, status=404)
+        print(f"✅ Got method: {method}")
+        
+        # Get request data from HTTP body
+        request_data = {}
+        if request.content_length and request.content_length > 0:
+            try:
+                request_data = await request.json()
+                print(f"📥 Request data: {json.dumps(request_data, indent=2)}")
+            except Exception as json_error:
+                print(f"⚠️ JSON parse error: {json_error}")
+                pass  # Empty or invalid JSON is OK for some requests
+        else:
+            print(f"📥 No request data (empty body)")
+        
+        # Get the request class and create the request
+        print(f"🔍 Getting request class for {service_name}.{method_name}...")
+        request_class = grpc_registry.get_request_class(service_name, method_name)
+        print(f"✅ Got request class: {request_class}")
+        grpc_request = request_class()
+        print(f"🏗️ Created gRPC request object: {type(grpc_request).__name__}")
+        
+        # Populate request fields from JSON data
+        if request_data:
+            print(f"🔧 Populating request object...")
+            for key, value in request_data.items():
+                print(f"  🔧 Processing field: {key} = {value}")
+                if hasattr(grpc_request, key):
+                    field_descriptor = None
+                    for field in grpc_request.DESCRIPTOR.fields:
+                        if field.name == key:
+                            field_descriptor = field
+                            break
+                    
+                    if field_descriptor and field_descriptor.type == field_descriptor.TYPE_MESSAGE:
+                        print(f"    📦 Nested message field: {key}")
+                        # Handle nested message fields
+                        nested_message = getattr(grpc_request, key)
+                        if isinstance(value, dict):
+                            for nested_key, nested_value in value.items():
+                                print(f"      🔧 Setting nested: {nested_key} = {nested_value}")
+                                if hasattr(nested_message, nested_key):
+                                    setattr(nested_message, nested_key, nested_value)
+                                else:
+                                    print(f"      ⚠️ Nested field {nested_key} not found")
+                    else:
+                        print(f"    📝 Simple field: {key}")
+                        # Handle simple fields
+                        setattr(grpc_request, key, value)
+                else:
+                    print(f"    ⚠️ Field {key} not found on request object")
+        
+        # Make the gRPC call
+        print(f"📤 === CALLING OCTANE ===")
+        print(f"📤 Service: {service_name}")
+        print(f"📤 Method: {method_name}")
+        print(f"📤 Request: {grpc_request}")
+        
+        response = await method(grpc_request)
+        
+        print(f"📥 === OCTANE RESPONSE ===")
+        print(f"📥 Response type: {type(response).__name__}")
+        print(f"📥 Response: {response}")
+        
+        # Convert protobuf response to JSON
+        print(f"🔄 Converting response to JSON...")
+        
+        def protobuf_to_dict(obj):
+            """Convert protobuf object to JSON-serializable dict"""
+            if obj is None:
+                return None
+            
+            # Handle RepeatedCompositeContainer and RepeatedScalarContainer
+            if str(type(obj).__name__) in ['RepeatedCompositeContainer', 'RepeatedScalarContainer']:
+                return [protobuf_to_dict(item) for item in obj]
+            
+            # Handle other iterables (but not strings or bytes)
+            if hasattr(obj, '__iter__') and hasattr(obj, '__len__') and not isinstance(obj, (str, bytes)):
+                try:
+                    # Check if it's a protobuf repeated field
+                    if hasattr(obj, '_values') or 'Repeated' in str(type(obj).__name__):
+                        return [protobuf_to_dict(item) for item in obj]
+                except:
+                    pass
+            
+            # Handle protobuf message objects
+            if hasattr(obj, 'DESCRIPTOR'):
+                result = {}
+                for field in obj.DESCRIPTOR.fields:
+                    field_name = field.name
+                    field_value = getattr(obj, field_name)
+                    result[field_name] = protobuf_to_dict(field_value)
+                return result
+            
+            # Handle primitive types and anything else
+            try:
+                # Test if it's JSON serializable
+                import json
+                json.dumps(obj)
+                return obj
+            except (TypeError, ValueError):
+                # If not serializable, convert to string
+                return str(obj)
+        
+        response_dict = protobuf_to_dict(response)
+        print(f"✅ Response converted to dict: {type(response_dict)}")
+        
+        result = {
+            'success': True,
+            'data': response_dict
+        }
+        
+        print(f"✅ === SUCCESS ===")
+        print(f"✅ {service_name}.{method_name} completed successfully")
+        print(f"✅ Response type: {type(response_dict)}")
+        
+        return web.json_response(result)
+        
+    except Exception as e:
+        print(f"❌ === ERROR ===")
+        print(f"❌ Generic gRPC call failed: {e}")
+        print(f"❌ Error type: {type(e).__name__}")
+        print(f"❌ Traceback: {traceback.format_exc()}")
+        return web.json_response({'success': False, 'error': str(e)}, status=500)
+
 async def init_app():
     """Initialize the web application"""
     app = web.Application(middlewares=[cors_handler])
@@ -667,6 +955,11 @@ async def init_app():
     app.router.add_post('/octaneapi.ApiProjectManagerService/loadProject', handle_load_project)
     app.router.add_post('/octaneapi.ApiProjectManagerService/rootNodeGraph', handle_root_node_graph)
     app.router.add_post('/octaneapi.ApiProjectManagerService/buildSceneTree', handle_build_scene_tree)
+    
+    # ==================== GENERIC GRPC PASS-THROUGH ROUTES ====================
+    # These catch-all routes handle any gRPC service call not explicitly defined above
+    # Pattern: /[prefix.]ServiceName/methodName
+    app.router.add_post('/{service:[^/]+}/{method:[^/]+}', handle_generic_grpc)
     
     # Static file serving
     app.router.add_get('/', handle_static_files)  # Serve index.html by default
