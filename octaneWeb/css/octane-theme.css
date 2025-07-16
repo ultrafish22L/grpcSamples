@@ -519,10 +519,11 @@ html, body {
 
 /* Node Graph Section */
 .node-graph-section {
-    height: 200px;
+    height: 300px; /* Increased from 200px for better visibility */
     display: flex;
     flex-direction: column;
     border-top: 1px solid var(--octane-border);
+    min-height: 300px; /* Ensure minimum height */
 }
 
 .node-graph-header {
@@ -566,6 +567,8 @@ html, body {
     flex: 1;
     position: relative;
     background-color: var(--octane-bg-darker);
+    min-height: 250px; /* Ensure container has minimum height */
+    overflow: hidden; /* Prevent scrollbars */
 }
 
 .node-graph {
@@ -573,6 +576,7 @@ html, body {
     height: 100%;
     display: block;
     background-color: var(--octane-bg-darker);
+    min-height: 250px; /* Ensure canvas has minimum height */
 }
 
 .node-palette {
