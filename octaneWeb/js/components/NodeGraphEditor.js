@@ -58,10 +58,17 @@ class NodeGraphEditor extends OctaneComponent {
         // Initial resize
         this.handleResize();
         
-        // Delayed resize to ensure DOM layout is complete
-        setTimeout(() => {
-            this.handleResize();
-        }, 100);
+        // Multiple delayed resizes to ensure DOM layout is complete
+        setTimeout(() => this.handleResize(), 100);
+        setTimeout(() => this.handleResize(), 250);
+        setTimeout(() => this.handleResize(), 500);
+        
+        // Also trigger resize on window load event
+        if (document.readyState === 'loading') {
+            window.addEventListener('load', () => {
+                setTimeout(() => this.handleResize(), 100);
+            });
+        }
         
         console.log('Node graph canvas initialized');
     }
@@ -592,9 +599,20 @@ class NodeGraphEditor extends OctaneComponent {
         
         const rect = this.canvas.getBoundingClientRect();
         console.log('Canvas resize - rect:', rect.width, rect.height);
-        this.canvas.width = rect.width;
-        this.canvas.height = rect.height;
-        console.log('Canvas actual size:', this.canvas.width, this.canvas.height);
+        
+        // Ensure we have valid dimensions
+        if (rect.width > 0 && rect.height > 0) {
+            this.canvas.width = rect.width;
+            this.canvas.height = rect.height;
+            console.log('Canvas actual size:', this.canvas.width, this.canvas.height);
+            
+            // Trigger a render after resize
+            this.render();
+        } else {
+            console.log('Canvas dimensions not ready, retrying...');
+            // Retry after a short delay if dimensions aren't ready
+            setTimeout(() => this.handleResize(), 50);
+        }
     }
     
     initNodeTypes() {

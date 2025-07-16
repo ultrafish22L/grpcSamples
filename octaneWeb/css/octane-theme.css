@@ -396,8 +396,8 @@ html, body {
 
 /* Center Panel - Viewport */
 .center-panel {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: auto 1fr 200px;
     background-color: var(--octane-bg-primary);
 }
 
