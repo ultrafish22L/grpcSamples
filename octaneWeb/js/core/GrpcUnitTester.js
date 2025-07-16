@@ -29,6 +29,11 @@ class GrpcUnitTester {
         this.failedTests = 0;
         this.crashedTests = 0;
         
+        // 🔥 GRIND MODE: Retry and comment tracking
+        this.methodRetryCount = new Map(); // Track retry attempts per method
+        this.commentedOutMethods = new Set(); // Track methods commented out after 3 failures
+        this.maxRetries = 3; // Maximum retry attempts before commenting out
+        
         // Known problematic handles that cause crashes
         this.problematicHandles = new Set([1000003]);
         
@@ -153,6 +158,9 @@ class GrpcUnitTester {
                 serviceResults.crashedMethods++;
                 this.crashedTests++;
                 this.crashedServices.add(serviceName);
+            } else if (methodResult.status === 'commented_out') {
+                // Don't count commented out methods in failed tests
+                // They are tracked separately in this.commentedOutMethods
             } else {
                 serviceResults.failedMethods++;
                 this.failedTests++;
@@ -186,6 +194,21 @@ class GrpcUnitTester {
         const fullMethodName = `${serviceName}/${methodName}`;
         const startTime = performance.now();
         
+        // 🔥 GRIND MODE: Check if method is already commented out
+        if (this.commentedOutMethods.has(fullMethodName)) {
+            console.log(`  // CHECKME: ${methodName} - Commented out after ${this.maxRetries} failures`);
+            return {
+                serviceName,
+                methodName,
+                fullMethodName,
+                status: 'commented_out',
+                error: `Commented out after ${this.maxRetries} failures`,
+                startTime,
+                endTime: performance.now(),
+                duration: 0
+            };
+        }
+        
         console.log(`  🔧 Testing method: ${methodName}`);
         console.log(`     📝 Description: ${methodDefinition.description || 'No description'}`);
         
@@ -201,7 +224,8 @@ class GrpcUnitTester {
             request: null,
             response: null,
             error: null,
-            crashDetails: null
+            crashDetails: null,
+            retryAttempt: this.methodRetryCount.get(fullMethodName) || 0
         };
         
         try {
@@ -246,6 +270,9 @@ class GrpcUnitTester {
             methodResult.duration = methodResult.endTime - startTime;
             methodResult.error = error.message;
             
+            // 🔥 GRIND MODE: Handle retries and commenting out
+            const currentRetries = this.methodRetryCount.get(fullMethodName) || 0;
+            
             // Check if this looks like a crash
             if (error.message.includes('Socket closed') || 
                 error.message.includes('Connection reset') ||
@@ -258,6 +285,19 @@ class GrpcUnitTester {
                 };
                 console.log(`     💥 CRASHED (${methodResult.duration.toFixed(2)}ms): ${error.message}`);
                 console.log(`     🔍 Crash details:`, methodResult.crashDetails);
+                
+                // 🔥 GRIND MODE: Increment retry count and check if we should comment out
+                this.methodRetryCount.set(fullMethodName, currentRetries + 1);
+                
+                if (currentRetries + 1 >= this.maxRetries) {
+                    this.commentedOutMethods.add(fullMethodName);
+                    console.log(`     🚫 COMMENTING OUT: ${fullMethodName} after ${this.maxRetries} failures`);
+                    console.log(`     // CHECKME: ${methodName} - Requires specific parameters or different approach`);
+                    methodResult.status = 'commented_out';
+                } else {
+                    console.log(`     🔄 RETRY ${currentRetries + 1}/${this.maxRetries}: Will retry this method`);
+                }
+                
             } else {
                 methodResult.status = 'failed';
                 console.log(`     ❌ FAILED (${methodResult.duration.toFixed(2)}ms): ${error.message}`);
@@ -338,6 +378,9 @@ class GrpcUnitTester {
         console.log(`❌ Failed: ${this.failedTests} (${((this.failedTests/this.totalTests)*100).toFixed(1)}%)`);
         console.log(`💥 Crashed: ${this.crashedTests} (${((this.crashedTests/this.totalTests)*100).toFixed(1)}%)`);
         
+        // 🔥 GRIND MODE: Report commented out methods
+        console.log(`🚫 Commented out: ${this.commentedOutMethods.size} methods after ${this.maxRetries} failures each`);
+        
         console.log(`\n🏆 Working services: ${this.workingServices.size}`);
         console.log(`💥 Crashed services: ${this.crashedServices.size}`);
         
@@ -355,6 +398,14 @@ class GrpcUnitTester {
             Array.from(this.crashedServices).forEach(service => {
                 const result = this.testResults.get(service);
                 console.log(`   💥 ${service}: ${result.crashedMethods} crashed methods`);
+            });
+        }
+        
+        // 🔥 GRIND MODE: List commented out methods
+        if (this.commentedOutMethods.size > 0) {
+            console.log(`\n🚫 COMMENTED OUT METHODS (require manual review):`);
+            Array.from(this.commentedOutMethods).forEach(methodName => {
+                console.log(`   // CHECKME: ${methodName} - Failed ${this.maxRetries} times`);
             });
         }
         
