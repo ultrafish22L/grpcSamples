@@ -377,25 +377,36 @@ function createOctaneWebClient() {
                 objectRef: objectRef
             };
             
-            // Only try to get owned items for object types that support it
-            // Based on Octane API, only certain types like node graphs (18, 20) support getOwnedItems
-            const supportsOwnedItems = [18, 20, 31].includes(objectRef.type);
+            // Check if this is a node graph using isGraph() API call
+            console.log(`${'  '.repeat(depth)}🔍 Checking if ${name} is a graph...`);
+            const isGraphResponse = await this.makeGrpcCall('octaneapi.ApiItemService/isGraph', {
+                objectPtr: objectRef
+            });
             
-            if (supportsOwnedItems) {
-                console.log(`${'  '.repeat(depth)}📤 Getting owned items for ${name} (type ${objectRef.type} supports children)...`);
+            const isGraph = isGraphResponse.success && isGraphResponse.data.result;
+            console.log(`${'  '.repeat(depth)}📊 isGraph result for ${name}: ${isGraph}`);
+
+            if (isGraph) {
+                console.log(`${'  '.repeat(depth)}📤 Getting owned items for ${name} (graph supports children)...`);
                 
                 try {
-                    // Call getOwnedItems API with proper objectPtr structure
-                    // Note: Root node graph (type 18) needs to be treated as regular node graph (type 20) for getOwnedItems
-                    const requestType = objectRef.type === 18 ? 20 : objectRef.type;
-                    console.log(`${'  '.repeat(depth)}🔧 Converting type ${objectRef.type} to ${requestType} for getOwnedItems`);
+                    // Convert to graph reference using toGraph()
+                    console.log(`${'  '.repeat(depth)}🔄 Converting ${name} to graph reference...`);
+                    const toGraphResponse = await this.makeGrpcCall('octaneapi.ApiItemService/toGraph', {
+                        objectPtr: objectRef
+                    });
+                    
+                    if (!toGraphResponse.success || !toGraphResponse.data.result) {
+                        console.warn(`${'  '.repeat(depth)}⚠️ Failed to convert ${name} to graph reference`);
+                        return node;
+                    }
+                    
+                    const graphRef = toGraphResponse.data.result;
+                    console.log(`${'  '.repeat(depth)}📊 Graph reference:`, graphRef);
                     
                     const itemsResponse = await this.makeGrpcCall('octaneapi.ApiNodeGraphService/getOwnedItems', {
-                    objectPtr: {
-                        handle: objectRef.handle || objectRef.objectHandle,
-                        type: requestType
-                    }
-                });
+                        objectPtr: graphRef
+                    });
                 
                 console.log(`${'  '.repeat(depth)}📥 getOwnedItems response:`, JSON.stringify(itemsResponse, null, 2));
                 
@@ -494,14 +505,31 @@ function createOctaneWebClient() {
                     console.warn(`${'  '.repeat(depth)}⚠️ Failed to get owned items for ${name}:`, error);
                 }
             } else {
-                // Check if this is an ApiNode (has pins) or just an ApiItem (no pins)
-                // Based on SDK: ApiItem (type 16) has no pins, only ApiNode objects have pins
-                if (objectRef.type === 16) {
-                    console.log(`${'  '.repeat(depth)}📄 ApiItem leaf: ${name} (type ${objectRef.type}) - no pins to process`);
+                // Check if this is a node using isNode() API call
+                console.log(`${'  '.repeat(depth)}🔍 Checking if ${name} is a node...`);
+                const isNodeResponse = await this.makeGrpcCall('octaneapi.ApiItemService/isNode', {
+                    objectPtr: objectRef
+                });
+                
+                const isNode = isNodeResponse.success && isNodeResponse.data.result;
+                console.log(`${'  '.repeat(depth)}📊 isNode result for ${name}: ${isNode}`);
+                
+                if (isNode) {
+                    // Convert to node reference using toNode()
+                    console.log(`${'  '.repeat(depth)}🔄 Converting ${name} to node reference...`);
+                    const toNodeResponse = await this.makeGrpcCall('octaneapi.ApiItemService/toNode', {
+                        objectPtr: objectRef
+                    });
+                    
+                    if (toNodeResponse.success && toNodeResponse.data.result) {
+                        const nodeRef = toNodeResponse.data.result;
+                        console.log(`${'  '.repeat(depth)}📌 ApiNode: ${name} - checking pins for owned items`);
+                        await this.processNodePins(nodeRef, node, name, depth);
+                    } else {
+                        console.warn(`${'  '.repeat(depth)}⚠️ Failed to convert ${name} to node reference`);
+                    }
                 } else {
-                    // For actual ApiNode objects, check their pins for owned items
-                    console.log(`${'  '.repeat(depth)}📌 ApiNode: ${name} (type ${objectRef.type}) - checking pins for owned items`);
-                    await this.processNodePins(objectRef, node, name, depth);
+                    console.log(`${'  '.repeat(depth)}📄 Plain ApiItem: ${name} - leaf object`);
                 }
             }
             
