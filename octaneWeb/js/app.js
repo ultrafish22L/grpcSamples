@@ -690,8 +690,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         // 🔥 GRIND MODE: Global functions for comprehensive gRPC testing
         window.runAllGrpcTests = async () => {
             console.log('🔥 GRIND MODE: Starting comprehensive gRPC tests...');
-            if (octaneWebApp && octaneWebApp.octaneClient) {
-                return await octaneWebApp.octaneClient.runComprehensiveGrpcTests();
+            if (octaneWebApp && octaneWebApp.client) {
+                return await octaneWebApp.client.runComprehensiveGrpcTests();
             } else {
                 console.error('❌ OctaneWebClient not available. Connect to Octane first.');
                 return null;
@@ -700,8 +700,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         window.testGrpcService = async (serviceName) => {
             console.log(`🔧 Testing specific service: ${serviceName}`);
-            if (octaneWebApp && octaneWebApp.octaneClient) {
-                return await octaneWebApp.octaneClient.testSpecificGrpcService(serviceName);
+            if (octaneWebApp && octaneWebApp.client) {
+                return await octaneWebApp.client.testSpecificGrpcService(serviceName);
             } else {
                 console.error('❌ OctaneWebClient not available. Connect to Octane first.');
                 return null;
@@ -710,8 +710,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         window.listAllGrpcServices = () => {
             console.log('📋 Listing all available gRPC services...');
-            if (octaneWebApp && octaneWebApp.octaneClient) {
-                const services = octaneWebApp.octaneClient.getAllGrpcServices();
+            if (octaneWebApp && octaneWebApp.client) {
+                const services = octaneWebApp.client.getAllGrpcServices();
                 console.log(`📊 Total services: ${services.length}`);
                 services.forEach((service, index) => {
                     console.log(`${index + 1}. ${service}`);
@@ -725,8 +725,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         window.listGrpcServicesByCategory = () => {
             console.log('📁 Listing gRPC services by category...');
-            if (octaneWebApp && octaneWebApp.octaneClient) {
-                const categories = octaneWebApp.octaneClient.getGrpcServicesByCategory();
+            if (octaneWebApp && octaneWebApp.client) {
+                const categories = octaneWebApp.client.getGrpcServicesByCategory();
                 for (const [category, services] of Object.entries(categories)) {
                     if (services.length > 0) {
                         console.log(`\n📁 ${category} (${services.length} services):`);
