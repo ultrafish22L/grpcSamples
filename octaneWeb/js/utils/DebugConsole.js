@@ -96,7 +96,7 @@ class DebugConsole {
             
             .debug-content {
                 height: calc(100% - 40px);
-                overflow: hidden;
+                overflow: visible;
             }
             
             .debug-logs {
