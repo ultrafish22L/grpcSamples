@@ -15,7 +15,6 @@ class DebugConsole {
         this.interceptConsole();
         this.setupKeyboardShortcut();
     }
-    
     init() {
         // Create debug console HTML structure
         this.element = document.createElement('div');
@@ -24,8 +23,9 @@ class DebugConsole {
             <div class="debug-header">
                 <span class="debug-title">🐛 Debug Console</span>
                 <div class="debug-controls">
-                    <button class="debug-btn" onclick="debugConsole.clear()">Clear</button>
-                    <button class="debug-btn" onclick="debugConsole.toggle()">Hide</button>
+                    <button class="debug-btn" onclick="debugConsole.clear()">🧑‍🚒</button>
+                    <button class="debug-btn" onclick="debugConsole.clear()">🗑️</button>
+                    <button class="debug-btn" onclick="debugConsole.toggle()">✖️</button>
                 </div>
             </div>
             <div class="debug-content">
@@ -77,9 +77,15 @@ class DebugConsole {
             
             .debug-controls {
                 display: flex;
+                justify-content: right;
                 gap: 8px;
             }
-            
+            .debug-controlsL {
+                display: flex;
+                justify-content: left;
+                gap: 8px;
+            }
+
             .debug-btn {
                 background: #555;
                 color: #fff;

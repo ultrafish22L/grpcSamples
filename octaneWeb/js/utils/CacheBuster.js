@@ -9,6 +9,9 @@ class CacheBuster {
         this.loadedFiles = new Set();
         this.failedFiles = new Set();
         
+        // Log cache busting info
+        console.info(`CacheBuster`);
+
         this.init();
     }
     
@@ -31,6 +34,9 @@ class CacheBuster {
     }
     
     addCacheBustingIndicator() {
+        // Log cache busting info
+        console.info(`🔄addCacheBustingIndicator: ${document.URL}`);
+
         // Create visual indicator in the header
         const indicator = document.createElement('div');
         indicator.id = 'cache-bust-indicator';
@@ -125,6 +131,9 @@ class CacheBuster {
         const indicator = document.getElementById('cache-bust-indicator');
         if (!indicator) return;
         
+        // Log cache busting info
+        console.info(`🔄addCacheBustingIndicator: ${document.URL}`);
+
         const totalScripts = document.querySelectorAll('script[src]').length;
         const loadedCount = this.loadedFiles.size;
         const failedCount = this.failedFiles.size;
@@ -146,6 +155,9 @@ class CacheBuster {
     
     // Method to manually bust cache for a specific file
     bustFile(url) {
+        // Log cache busting info
+        console.info(`🔄addCacheBustingIndicator: ${url}`);
+
         const separator = url.includes('?') ? '&' : '?';
         return `${url}${separator}v=${this.version}&cb=${Date.now()}`;
     }

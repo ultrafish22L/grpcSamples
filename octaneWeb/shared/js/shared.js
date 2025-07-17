@@ -661,6 +661,37 @@ class DebugUtils {
         this.logger = logger;
         this.debugHistory = [];
     }
+    
+    /**
+     * Toggle verbose logging if available
+     */
+    toggleVerboseLogging() {
+        const verboseToggle = document.getElementById('verboseLogsToggle');
+        if (verboseToggle) {
+            verboseToggle.checked = !verboseToggle.checked;
+            verboseToggle.dispatchEvent(new Event('change'));
+            
+            if (this.logger) {
+                this.logger.log(`🐛 Verbose logging ${verboseToggle.checked ? 'ENABLED' : 'DISABLED'} (Ctrl-D to toggle)`, 'info');
+            }
+        } else {
+            console.info('🐛 Verbose logging toggle not found (Ctrl-D pressed)');
+        }
+    }
+
+    
+    /**
+     * Check WebGL support
+     */
+    checkWebGLSupport() {
+        try {
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            return gl ? 'Supported' : 'Not supported';
+        } catch (e) {
+            return 'Error checking support';
+        }
+    }
 
     exportDebugInfo(client) {
         if (!client) {
@@ -859,10 +890,230 @@ class ErrorHandler {
     }
 }
 
+/**
+ * Console Output Router
+ * Captures browser console logs and routes them to custom loggers
+ */
+class ConsoleRouter {
+    constructor() {
+        this.loggers = [];
+        this.originalConsole = {
+            log: console.log,
+            info: console.info,
+            warn: console.warn,
+            error: console.error
+        };
+        
+        this.interceptConsole();
+        this.setupErrorHandlers();
+    }
+    
+    /**
+     * Register a logger to receive console output
+     * Logger must have a log(message, type) method
+     */
+    addLogger(logger) {
+        this.loggers.push(logger);
+    }
+    
+    /**
+     * Remove a logger from receiving console output
+     */
+    removeLogger(logger) {
+        const index = this.loggers.indexOf(logger);
+        if (index > -1) {
+            this.loggers.splice(index, 1);
+        }
+    }
+    
+    /**
+     * Route console output to all registered loggers
+     * Errors and warnings are always logged regardless of logger settings
+     */
+    routeToLoggers(type, args) {
+        const message = args.map(arg => 
+            typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+        ).join(' ');
+        
+        this.loggers.forEach(logger => {
+            if (logger && typeof logger.log === 'function') {
+                // For errors and warnings, bypass the logger's shouldLog check
+                if (type === 'error' || type === 'warning') {
+                    // Force logging by temporarily storing original shouldLog
+                    const originalShouldLog = logger.shouldLog;
+                    if (originalShouldLog) {
+                        logger.shouldLog = () => true;
+                        logger.log(message, type);
+                        logger.shouldLog = originalShouldLog;
+                    } else {
+                        logger.log(message, type);
+                    }
+                } else {
+                    logger.log(message, type);
+                }
+            }
+        });
+    }
+    
+    /**
+     * Intercept console methods to route to loggers
+     */
+    interceptConsole() {
+        console.log = (...args) => {
+            this.originalConsole.log.apply(console, args);
+            this.routeToLoggers('info', args);
+        };
+        
+        console.info = (...args) => {
+            this.originalConsole.info.apply(console, args);
+            this.routeToLoggers('info', args);
+        };
+        
+        console.warn = (...args) => {
+            this.originalConsole.warn.apply(console, args);
+            this.routeToLoggers('warning', args);
+        };
+        
+        console.error = (...args) => {
+            this.originalConsole.error.apply(console, args);
+            this.routeToLoggers('error', args);
+        };
+    }
+    
+    /**
+     * Setup global error handlers
+     * All errors are captured and displayed regardless of verbose mode
+     */
+    setupErrorHandlers() {
+        // Capture unhandled JavaScript errors
+        window.addEventListener('error', (event) => {
+            const errorMessage = event.error?.message || event.message || 'Unknown error';
+            const fileName = event.filename || 'Unknown file';
+            const lineNumber = event.lineno || 'Unknown line';
+            const columnNumber = event.colno || 'Unknown column';
+            
+            this.routeToLoggers('error', [
+                `❌ JavaScript Error: ${errorMessage}`,
+                `📁 File: ${fileName}:${lineNumber}:${columnNumber}`,
+                event.error?.stack ? `📋 Stack: ${event.error.stack}` : ''
+            ].filter(Boolean));
+        });
+        
+        // Capture unhandled promise rejections
+        window.addEventListener('unhandledrejection', (event) => {
+            const reason = event.reason;
+            let reasonMessage = 'Unknown rejection reason';
+            
+            if (reason instanceof Error) {
+                reasonMessage = `${reason.name}: ${reason.message}`;
+                if (reason.stack) {
+                    reasonMessage += `\n📋 Stack: ${reason.stack}`;
+                }
+            } else if (typeof reason === 'string') {
+                reasonMessage = reason;
+            } else if (typeof reason === 'object') {
+                reasonMessage = JSON.stringify(reason, null, 2);
+            }
+            
+            this.routeToLoggers('error', [
+                `🚫 Unhandled Promise Rejection:`,
+                reasonMessage
+            ]);
+        });
+        
+        // Capture resource loading errors (images, scripts, etc.)
+        window.addEventListener('error', (event) => {
+            if (event.target !== window && event.target.tagName) {
+                this.routeToLoggers('error', [
+                    `📦 Resource Loading Error:`,
+                    `Element: ${event.target.tagName}`,
+                    `Source: ${event.target.src || event.target.href || 'Unknown source'}`
+                ]);
+            }
+        }, true); // Use capture phase to catch resource errors
+    }
+    
+    /**
+     * Restore original console methods
+     */
+    restore() {
+        console.log = this.originalConsole.log;
+        console.info = this.originalConsole.info;
+        console.warn = this.originalConsole.warn;
+        console.error = this.originalConsole.error;
+    }
+}
+
+/**
+ * Enhanced Activity Logger with Console Integration
+ * Extends the basic ActivityLogger with console routing capabilities
+ */
+
+class EnhancedActivityLogger extends ActivityLogger {
+    constructor(containerId, enableConsoleRouting = true) {
+        super(containerId);
+        
+        this.consoleRouting = enableConsoleRouting;
+        
+        if (this.consoleRouting) {
+            // Get or create global console router
+            if (!window.consoleRouter) {
+                window.consoleRouter = new ConsoleRouter();
+            }
+            
+            // Register this logger with the console router
+            window.consoleRouter.addLogger(this);
+            
+            // Log that console routing is active
+            this.log('🔗 Console output routing enabled', 'info');
+        }
+    }
+    
+    /**
+     * Enable/disable console routing for this logger
+     */
+    setConsoleRouting(enabled) {
+        if (!window.consoleRouter) return;
+        
+        if (enabled && !this.consoleRouting) {
+            window.consoleRouter.addLogger(this);
+            this.consoleRouting = true;
+            this.log('🔗 Console output routing enabled', 'info');
+        } else if (!enabled && this.consoleRouting) {
+            window.consoleRouter.removeLogger(this);
+            this.consoleRouting = false;
+            this.log('🔌 Console output routing disabled', 'info');
+        }
+    }
+    
+    /**
+     * Cleanup when logger is destroyed
+     */
+    destroy() {
+        if (this.consoleRouting && window.consoleRouter) {
+            window.consoleRouter.removeLogger(this);
+        }
+    }
+}
+
+// Initialize global console router when script loads
+if (typeof window !== 'undefined') {
+    // Only create if not already exists
+    if (!window.consoleRouter) {
+        window.consoleRouter = new ConsoleRouter();
+    }
+    
+    // Create global debug utils
+    if (!window.debugUtils) {
+        window.debugUtils = new DebugUtils();
+    }
+}
+
+
 // Export classes for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
-        ActivityLogger,
+        EnhancedActivityLogger,
         UIUtils,
         PerformanceTracker,
         ConnectionStateManager,

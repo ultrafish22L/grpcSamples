@@ -262,8 +262,6 @@ class OctaneWebApp {
             if (connectionToggle) {
                 connectionToggle.checked = false;
             }
-            
-            this.showError('Connection Failed', `Could not connect to Octane server at ${serverUrl}`);
         }
     }
     
@@ -549,7 +547,7 @@ class OctaneWebApp {
     }
     
     async duplicate() {
-        console.log('Duplicate requested');
+//        console.log('Duplicate requested');
         // TODO: Implement duplicate
     }
     
