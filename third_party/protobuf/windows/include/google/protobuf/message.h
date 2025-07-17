@@ -63,12 +63,13 @@
 //     const FieldDescriptor* text_field = descriptor->FindFieldByName("text");
 //     assert(text_field != nullptr);
 //     assert(text_field->type() == FieldDescriptor::TYPE_STRING);
-//     assert(text_field->label() == FieldDescriptor::LABEL_OPTIONAL);
+//     assert(!text_field->is_required());
+//     assert(!text_field->is_repeated());
 //     const FieldDescriptor* numbers_field = descriptor->
 //                                            FindFieldByName("numbers");
 //     assert(numbers_field != nullptr);
 //     assert(numbers_field->type() == FieldDescriptor::TYPE_INT32);
-//     assert(numbers_field->label() == FieldDescriptor::LABEL_REPEATED);
+//     assert(numbers_field->is_repeated());
 //
 //     // Parse the message.
 //     foo->ParseFromString(data);
@@ -97,6 +98,7 @@
 #include "absl/base/attributes.h"
 #include "absl/base/call_once.h"
 #include "absl/base/macros.h"
+#include "absl/base/optimization.h"
 #include "absl/log/absl_check.h"
 #include "absl/memory/memory.h"
 #include "absl/strings/cord.h"
@@ -149,11 +151,18 @@ class ReflectionVisit;
 class SwapFieldHelper;
 class CachedSize;
 struct TailCallTableInfo;
+template <typename MessageT, typename FieldT>
+struct RepeatedEntityDynamicFieldInfoBase;
+template <typename MessageT, typename FieldT>
+struct RepeatedPtrEntityDynamicFieldInfoBase;
 
 namespace field_layout {
 enum TransformValidation : uint16_t;
 }  // namespace field_layout
 
+namespace v2 {
+class V2TableGenTester;
+}  // namespace v2
 }  // namespace internal
 class UnknownFieldSet;  // unknown_field_set.h
 namespace io {
@@ -258,13 +267,9 @@ class PROTOBUF_EXPORT Message : public MessageLite {
 
   // Construct a new instance on the arena. Ownership is passed to the caller
   // if arena is a nullptr.
-#if defined(PROTOBUF_CUSTOM_VTABLE)
   Message* New(Arena* arena) const {
     return static_cast<Message*>(MessageLite::New(arena));
   }
-#else   // PROTOBUF_CUSTOM_VTABLE
-  Message* New(Arena* arena) const override = 0;
-#endif  // PROTOBUF_CUSTOM_VTABLE
 
   // Make this message into a copy of the given message.  The given message
   // must have the same descriptor, but need not necessarily be the same class.
@@ -378,20 +383,20 @@ class PROTOBUF_EXPORT Message : public MessageLite {
   // Get a struct containing the metadata for the Message, which is used in turn
   // to implement GetDescriptor() and GetReflection() above.
   Metadata GetMetadata() const;
-  static Metadata GetMetadataImpl(const ClassDataFull& data);
+  static Metadata GetMetadataImpl(const internal::ClassDataFull& data);
 
   // For CODE_SIZE types
   static bool IsInitializedImpl(const MessageLite&);
 
-  size_t ComputeUnknownFieldsSize(size_t total_size,
-                                  internal::CachedSize* cached_size) const;
-  size_t MaybeComputeUnknownFieldsSize(size_t total_size,
-                                       internal::CachedSize* cached_size) const;
+  size_t ComputeUnknownFieldsSize(
+      size_t total_size, const internal::CachedSize* cached_size) const;
+  size_t MaybeComputeUnknownFieldsSize(
+      size_t total_size, const internal::CachedSize* cached_size) const;
 
   // Reflection based version for reflection based types.
-  static absl::string_view GetTypeNameImpl(const ClassData* data);
+  static absl::string_view GetTypeNameImpl(const internal::ClassData* data);
   static void MergeImpl(MessageLite& to, const MessageLite& from);
-  static void ClearImpl(MessageLite& msg);
+  void ClearImpl();
   static size_t ByteSizeLongImpl(const MessageLite& msg);
   static uint8_t* _InternalSerializeImpl(const MessageLite& msg,
                                          uint8_t* target,
@@ -402,7 +407,7 @@ class PROTOBUF_EXPORT Message : public MessageLite {
 
   static size_t SpaceUsedLongImpl(const MessageLite& msg_lite);
 
-  static const DescriptorMethods kDescriptorMethods;
+  static const internal::DescriptorMethods kDescriptorMethods;
 
 };
 
@@ -480,6 +485,7 @@ class PROTOBUF_EXPORT Reflection final {
 
   // Returns true if the given message is a default message instance.
   bool IsDefaultInstance(const Message& message) const {
+    ABSL_DCHECK_EQ(message.GetReflection(), this);
     return schema_.IsDefaultInstance(message);
   }
 
@@ -515,8 +521,8 @@ class PROTOBUF_EXPORT Reflection final {
   void RemoveLast(Message* message, const FieldDescriptor* field) const;
   // Removes the last element of a repeated message field, and returns the
   // pointer to the caller.  Caller takes ownership of the returned pointer.
-  PROTOBUF_NODISCARD Message* ReleaseLast(Message* message,
-                                          const FieldDescriptor* field) const;
+  [[nodiscard]] Message* ReleaseLast(Message* message,
+                                     const FieldDescriptor* field) const;
 
   // Similar to ReleaseLast() without internal safety and ownershp checks. This
   // method should only be used when the objects are on the same arena or paired
@@ -716,7 +722,7 @@ class PROTOBUF_EXPORT Reflection final {
   // If the field existed (HasField() is true), then the returned pointer will
   // be the same as the pointer returned by MutableMessage().
   // This function has the same effect as ClearField().
-  PROTOBUF_NODISCARD Message* ReleaseMessage(
+  [[nodiscard]] Message* ReleaseMessage(
       Message* message, const FieldDescriptor* field,
       MessageFactory* factory = nullptr) const;
 
@@ -982,6 +988,15 @@ class PROTOBUF_EXPORT Reflection final {
   RepeatedPtrField<T>* MutableRepeatedPtrFieldInternal(
       Message* message, const FieldDescriptor* field) const;
 
+  // REQUIRES: If the field is Cord, then `scratch != nullptr`.
+  absl::string_view GetStringViewImpl(const Message& message,
+                                      const FieldDescriptor* field,
+                                      ScratchSpace* scratch) const;
+  absl::string_view GetRepeatedStringViewImpl(const Message& message,
+                                              const FieldDescriptor* field,
+                                              int index,
+                                              ScratchSpace* scratch) const;
+
   // Obtain a pointer to a Repeated Field Structure and do some type checking:
   //   on field->cpp_type(),
   //   on field->field_option().ctype() (if ctype >= 0)
@@ -1096,6 +1111,10 @@ class PROTOBUF_EXPORT Reflection final {
   friend class RepeatedFieldRef;
   template <typename T, typename Enable>
   friend class MutableRepeatedFieldRef;
+  template <typename MessageT, typename FieldT>
+  friend struct internal::RepeatedEntityDynamicFieldInfoBase;
+  template <typename MessageT, typename FieldT>
+  friend struct internal::RepeatedPtrEntityDynamicFieldInfoBase;
   friend class Message;
   friend class MessageLayoutInspector;
   friend class AssignDescriptorsHelper;
@@ -1133,6 +1152,8 @@ class PROTOBUF_EXPORT Reflection final {
                                  bool is_string) const;
 
   friend class MapReflectionTester;
+  friend class internal::v2::V2TableGenTester;
+
   // Returns true if key is in map. Returns false if key is not in map field.
   bool ContainsMapKey(const Message& message, const FieldDescriptor* field,
                       const MapKey& key) const;
@@ -1180,6 +1201,12 @@ class PROTOBUF_EXPORT Reflection final {
   const internal::MapFieldBase* GetMapData(const Message& message,
                                            const FieldDescriptor* field) const;
 
+  // Check that the type passed for the unsafe cast matches what we expect from
+  // the field.
+  // This makes it easier to catch bugs in callers.
+  template <typename T>
+  void VerifyFieldType(const FieldDescriptor* field) const;
+
   template <class T>
   const T& GetRawNonOneof(const Message& message,
                           const FieldDescriptor* field) const;
@@ -1198,13 +1225,9 @@ class PROTOBUF_EXPORT Reflection final {
 
   template <typename Type>
   Type* MutableRawNonOneof(Message* message,
-                           const FieldDescriptor* field) const {
-    return reinterpret_cast<Type*>(MutableRawNonOneofImpl(message, field));
-  }
+                           const FieldDescriptor* field) const;
   template <typename Type>
-  Type* MutableRaw(Message* message, const FieldDescriptor* field) const {
-    return reinterpret_cast<Type*>(MutableRawImpl(message, field));
-  }
+  Type* MutableRaw(Message* message, const FieldDescriptor* field) const;
 
   template <typename Type>
   const Type& DefaultRaw(const FieldDescriptor* field) const;
@@ -1224,19 +1247,50 @@ class PROTOBUF_EXPORT Reflection final {
   internal::ExtensionSet* MutableExtensionSet(Message* message) const;
 
   const internal::InternalMetadata& GetInternalMetadata(
-      const Message& message) const;
+      const Message& message) const {
+    return message._internal_metadata_;
+  }
 
-  internal::InternalMetadata* MutableInternalMetadata(Message* message) const;
+  internal::InternalMetadata* MutableInternalMetadata(Message* message) const {
+    return &message->_internal_metadata_;
+  }
 
   inline bool IsInlined(const FieldDescriptor* field) const {
     return schema_.IsFieldInlined(field);
   }
 
-  bool HasBit(const Message& message, const FieldDescriptor* field) const;
-  void SetBit(Message* message, const FieldDescriptor* field) const;
-  inline void ClearBit(Message* message, const FieldDescriptor* field) const;
-  inline void SwapBit(Message* message1, Message* message2,
-                      const FieldDescriptor* field) const;
+  inline bool IsMicroString(const FieldDescriptor* field) const {
+    return schema_.IsFieldMicroString(field);
+  }
+
+  // For "proto3 non-optional" primitive fields, aka implicit-presence fields,
+  // returns true if the field is populated, i.e., nonzero. False otherwise.
+  bool IsSingularFieldNonEmpty(const Message& message,
+                               const FieldDescriptor* field) const;
+  // Returns whether the field is present if there are usable hasbits in the
+  // field schema. (Note that in some cases hasbits are merely a hint to
+  // indicate "possible presence", and another empty-check is required).
+  bool IsFieldPresentGivenHasbits(const Message& message,
+                                  const FieldDescriptor* field,
+                                  const uint32_t* hasbits,
+                                  uint32_t hasbit_index) const;
+  // Returns true if the field is considered to be present.
+  // Requires the input to be 'singular' i.e. non-extension, non-oneof, non-weak
+  // field.
+  // For explicit presence fields, a field is present iff the hasbit is set.
+  // For implicit presence fields, a field is present iff it is nonzero.
+  bool HasFieldSingular(const Message& message,
+                        const FieldDescriptor* field) const;
+  void SetHasBit(Message* message, const FieldDescriptor* field) const;
+  inline void ClearHasBit(Message* message, const FieldDescriptor* field) const;
+  // Naively swaps the hasbit without checking for field existence.
+  // For explicit presence fields, the hasbit is swapped normally.
+  // For implicit presence fields, the hasbit is swapped without checking for
+  // field emptiness. That is, the destination message may have hasbit set even
+  // if the field is empty. This should still result in correct behaviour due to
+  // HasbitMode being set to kHintHasbits for implicit presence fields.
+  inline void NaiveSwapHasBit(Message* message1, Message* message2,
+                              const FieldDescriptor* field) const;
 
   inline const uint32_t* GetInlinedStringDonatedArray(
       const Message& message) const;
@@ -1272,6 +1326,10 @@ class PROTOBUF_EXPORT Reflection final {
   template <bool unsafe_shallow_swap>
   void SwapFieldsImpl(Message* message1, Message* message2,
                       const std::vector<const FieldDescriptor*>& fields) const;
+
+  template <bool unsafe_shallow_swap, typename FromType, typename ToType>
+  void InternalMoveOneofField(const FieldDescriptor* field, FromType* from,
+                              ToType* to) const;
 
   template <bool unsafe_shallow_swap>
   void SwapOneofField(Message* lhs, Message* rhs,
@@ -1578,19 +1636,138 @@ bool SplitFieldHasExtraIndirectionStatic(const FieldDescriptor* field) {
 
 inline void MaybePoisonAfterClear(Message* root) {
   if (root == nullptr) return;
-#ifndef PROTOBUF_ASAN
-  root->Clear();
-#else
-  const Reflection* reflection = root->GetReflection();
-  reflection->MaybePoisonAfterClear(*root);
-#endif
+  if constexpr (HasMemoryPoisoning()) {
+    const Reflection* reflection = root->GetReflection();
+    reflection->MaybePoisonAfterClear(*root);
+  } else {
+    root->Clear();
+  }
+}
+
+template <typename T>
+inline constexpr std::false_type IsRepeatedT{};
+template <typename T>
+inline constexpr std::true_type IsRepeatedT<RepeatedField<T>>{};
+template <typename T>
+inline constexpr std::true_type IsRepeatedT<RepeatedPtrField<T>>{};
+template <>
+inline constexpr std::true_type IsRepeatedT<internal::RepeatedPtrFieldBase>{};
+template <>
+inline constexpr std::true_type IsRepeatedT<internal::MapFieldBase>{};
+
+template <typename T>
+constexpr FieldDescriptor::CppType GetCppType() {
+  if constexpr (IsRepeatedT<T>) {
+    return GetCppType<typename T::value_type>();
+  } else {
+    if (std::is_same_v<T, int32_t>) return FieldDescriptor::CPPTYPE_INT32;
+    if (std::is_same_v<T, int64_t>) return FieldDescriptor::CPPTYPE_INT64;
+    if (std::is_same_v<T, uint32_t>) return FieldDescriptor::CPPTYPE_UINT32;
+    if (std::is_same_v<T, uint64_t>) return FieldDescriptor::CPPTYPE_UINT64;
+    if (std::is_same_v<T, float>) return FieldDescriptor::CPPTYPE_FLOAT;
+    if (std::is_same_v<T, double>) return FieldDescriptor::CPPTYPE_DOUBLE;
+    if (std::is_same_v<T, bool>) return FieldDescriptor::CPPTYPE_BOOL;
+
+    using PCV = std::remove_cv_t<std::remove_pointer_t<T>>;
+
+    // strings
+    if (std::is_same_v<PCV, internal::ArenaStringPtr> ||
+        std::is_same_v<PCV, std::string> ||
+        std::is_same_v<PCV, internal::MicroString> ||
+        std::is_same_v<PCV, absl::Cord>) {
+      return FieldDescriptor::CPPTYPE_STRING;
+    }
+
+    // messages
+    if (std::is_same_v<PCV, Message> ||      //
+        std::is_same_v<PCV, MessageLite> ||  //
+        std::is_same_v<PCV, internal::LazyField>) {
+      return FieldDescriptor::CPPTYPE_MESSAGE;
+    }
+  }
+
+  // Return an invalid type to make the caller fail with a nice error message in
+  // case we missed something.
+  return FieldDescriptor::CppType{};
 }
 
 }  // namespace internal
 
+template <typename T>
+void Reflection::VerifyFieldType(const FieldDescriptor* field) const {
+  if constexpr (!internal::PerformDebugChecks()) {
+    return;
+  }
+  if constexpr (std::is_const_v<T>) {
+    return VerifyFieldType<std::remove_const_t<T>>(field);
+  }
+
+  // `char` and `void` are used in places where we don't know the type yet.
+  if constexpr (std::is_same_v<T, char> || std::is_same_v<T, void>) {
+    return;
+  }
+
+  const auto error = [&] {
+    return absl::StrFormat("Invalid cast of %s to type %s.", field->full_name(),
+                           internal::RttiTypeName<T>().value_or("unknown"));
+  };
+
+  ABSL_DCHECK_EQ(field->is_repeated(), internal::IsRepeatedT<T>) << error();
+  if constexpr (std::is_same_v<T, internal::MapFieldBase>) {
+    ABSL_DCHECK(field->is_map()) << error();
+  } else if constexpr (std::is_same_v<T, internal::RepeatedPtrFieldBase>) {
+    // It has to be string or message.
+    ABSL_DCHECK(field->cpp_type() == field->CPPTYPE_STRING ||
+                field->cpp_type() == field->CPPTYPE_MESSAGE)
+        << error();
+  } else {
+    auto cpp_type = field->cpp_type();
+    // Collapse ENUM to INT32 because they are the same through reflection.
+    if (cpp_type == field->CPPTYPE_ENUM) cpp_type = field->CPPTYPE_INT32;
+    ABSL_DCHECK_EQ(+cpp_type, +internal::GetCppType<T>()) << error();
+
+    // Check subfield types for message.
+    if constexpr (internal::GetCppType<T>() ==
+                  FieldDescriptor::CPPTYPE_MESSAGE) {
+      // Singular/oneof messages are by pointer, except non-oneof Lazy.
+      if (!field->is_repeated() &&
+          (!IsLazyField(field) || field->real_containing_oneof() != nullptr)) {
+        ABSL_DCHECK(std::is_pointer_v<T>) << error();
+      }
+    }
+
+    // Check subfield types for string.
+    if constexpr (internal::GetCppType<T>() ==
+                  FieldDescriptor::CPPTYPE_STRING) {
+      switch (field->cpp_string_type()) {
+        case FieldDescriptor::CppStringType::kView:
+        case FieldDescriptor::CppStringType::kString:
+          if (IsMicroString(field)) {
+            ABSL_DCHECK((std::is_same_v<T, internal::MicroString>)) << error();
+          } else {
+            ABSL_DCHECK((std::is_same_v<T, internal::ArenaStringPtr> ||
+                         std::is_same_v<T, RepeatedPtrField<std::string>>))
+                << error();
+          }
+          break;
+        case FieldDescriptor::CppStringType::kCord:
+          if (field->real_containing_oneof() != nullptr) {
+            ABSL_DCHECK((std::is_same_v<T, absl::Cord*>)) << error();
+          } else {
+            ABSL_DCHECK((std::is_same_v<T, absl::Cord> ||
+                         std::is_same_v<T, RepeatedField<absl::Cord>>))
+                << error();
+          }
+          break;
+      }
+    }
+  }
+}
+
 template <typename Type>
 const Type& Reflection::GetRawSplit(const Message& message,
                                     const FieldDescriptor* field) const {
+  VerifyFieldType<Type>(field);
   ABSL_DCHECK(!schema_.InRealOneof(field)) << "Field = " << field->full_name();
 
   const void* split = GetSplitField(&message);
@@ -1604,7 +1781,8 @@ const Type& Reflection::GetRawSplit(const Message& message,
 template <class Type>
 const Type& Reflection::GetRawNonOneof(const Message& message,
                                        const FieldDescriptor* field) const {
-  if (PROTOBUF_PREDICT_FALSE(schema_.IsSplit(field))) {
+  VerifyFieldType<Type>(field);
+  if (ABSL_PREDICT_FALSE(schema_.IsSplit(field))) {
     return GetRawSplit<Type>(message, field);
   }
   const uint32_t field_offset = schema_.GetFieldOffsetNonOneof(field);
@@ -1614,10 +1792,11 @@ const Type& Reflection::GetRawNonOneof(const Message& message,
 template <typename Type>
 const Type& Reflection::GetRaw(const Message& message,
                                const FieldDescriptor* field) const {
+  VerifyFieldType<Type>(field);
   ABSL_DCHECK(!schema_.InRealOneof(field) || HasOneofField(message, field))
       << "Field = " << field->full_name();
 
-  if (PROTOBUF_PREDICT_TRUE(!schema_.InRealOneof(field))) {
+  if (ABSL_PREDICT_TRUE(!schema_.InRealOneof(field))) {
     return GetRawNonOneof<Type>(message, field);
   }
 
@@ -1631,13 +1810,29 @@ const Type& Reflection::GetRaw(const Message& message,
 template <typename T>
 RepeatedFieldRef<T> Reflection::GetRepeatedFieldRef(
     const Message& message, const FieldDescriptor* field) const {
+  ABSL_DCHECK_EQ(message.GetReflection(), this);
   return RepeatedFieldRef<T>(message, field);
 }
 
 template <typename T>
 MutableRepeatedFieldRef<T> Reflection::GetMutableRepeatedFieldRef(
     Message* message, const FieldDescriptor* field) const {
+  ABSL_DCHECK_EQ(message->GetReflection(), this);
   return MutableRepeatedFieldRef<T>(message, field);
+}
+
+template <typename Type>
+Type* Reflection::MutableRawNonOneof(Message* message,
+                                     const FieldDescriptor* field) const {
+  VerifyFieldType<Type>(field);
+  return reinterpret_cast<Type*>(MutableRawNonOneofImpl(message, field));
+}
+
+template <typename Type>
+Type* Reflection::MutableRaw(Message* message,
+                             const FieldDescriptor* field) const {
+  VerifyFieldType<Type>(field);
+  return reinterpret_cast<Type*>(MutableRawImpl(message, field));
 }
 
 

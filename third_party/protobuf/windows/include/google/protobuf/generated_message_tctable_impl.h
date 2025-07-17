@@ -13,10 +13,11 @@
 #include <cstdlib>
 #include <string>
 #include <type_traits>
-#include <utility>
 
 #include "absl/base/optimization.h"
 #include "absl/log/absl_log.h"
+#include "absl/strings/cord.h"
+#include "absl/strings/string_view.h"
 #include "google/protobuf/extension_set.h"
 #include "google/protobuf/generated_message_tctable_decl.h"
 #include "google/protobuf/map.h"
@@ -27,6 +28,7 @@
 #include "google/protobuf/raw_ptr.h"
 #include "google/protobuf/repeated_field.h"
 #include "google/protobuf/repeated_ptr_field.h"
+#include "google/protobuf/serial_arena.h"
 #include "google/protobuf/wire_format_lite.h"
 
 // Must come last:
@@ -132,6 +134,7 @@ enum FieldRep : uint16_t {
   kRepCord     = 2 << kRepShift,  // absl::Cord
   kRepSPiece   = 3 << kRepShift,  // StringPieceField
   kRepSString  = 4 << kRepShift,  // std::string*
+  kRepMString  = 5 << kRepShift,  // MicroString
   // Message types (WT=2 unless otherwise noted):
   kRepMessage  = 0,               // MessageLite*
   kRepGroup    = 1 << kRepShift,  // MessageLite* (WT=3,4)
@@ -250,10 +253,10 @@ enum FieldType : uint16_t {
 }  // namespace field_layout
 
 #ifndef NDEBUG
-PROTOBUF_EXPORT void AlignFail(std::integral_constant<size_t, 4>,
-                               std::uintptr_t address);
-PROTOBUF_EXPORT void AlignFail(std::integral_constant<size_t, 8>,
-                               std::uintptr_t address);
+[[noreturn]] PROTOBUF_EXPORT void AlignFail(std::integral_constant<size_t, 4>,
+                                            std::uintptr_t address);
+[[noreturn]] PROTOBUF_EXPORT void AlignFail(std::integral_constant<size_t, 8>,
+                                            std::uintptr_t address);
 inline void AlignFail(std::integral_constant<size_t, 1>,
                       std::uintptr_t address) {}
 #endif
@@ -714,12 +717,10 @@ class PROTOBUF_EXPORT TcParser final {
 #if !defined(NDEBUG) && !(defined(_MSC_VER) && defined(_M_IX86))
     // Check the alignment in debug mode, except in 32-bit msvc because it does
     // not respect the alignment as expressed by `alignof(T)`
-    if (PROTOBUF_PREDICT_FALSE(
-            reinterpret_cast<uintptr_t>(target) % alignof(T) != 0)) {
+    if (ABSL_PREDICT_FALSE(reinterpret_cast<uintptr_t>(target) % alignof(T) !=
+                           0)) {
       AlignFail(std::integral_constant<size_t, alignof(T)>(),
                 reinterpret_cast<uintptr_t>(target));
-      // Explicit abort to let compilers know this code-path does not return
-      abort();
     }
 #endif
     return *target;
@@ -732,12 +733,10 @@ class PROTOBUF_EXPORT TcParser final {
 #if !defined(NDEBUG) && !(defined(_MSC_VER) && defined(_M_IX86))
     // Check the alignment in debug mode, except in 32-bit msvc because it does
     // not respect the alignment as expressed by `alignof(T)`
-    if (PROTOBUF_PREDICT_FALSE(
-            reinterpret_cast<uintptr_t>(target) % alignof(T) != 0)) {
+    if (ABSL_PREDICT_FALSE(reinterpret_cast<uintptr_t>(target) % alignof(T) !=
+                           0)) {
       AlignFail(std::integral_constant<size_t, alignof(T)>(),
                 reinterpret_cast<uintptr_t>(target));
-      // Explicit abort to let compilers know this code-path does not return
-      abort();
     }
 #endif
     return *target;
@@ -798,32 +797,24 @@ class PROTOBUF_EXPORT TcParser final {
       PROTOBUF_TC_PARAM_DECL);
 
   // For `map` mini parsing generate a type card for the key/value.
-  template <typename MapField>
   static constexpr MapAuxInfo GetMapAuxInfo(bool fail_on_utf8_failure,
                                             bool log_debug_utf8_failure,
                                             bool validated_enum_value,
-                                            int key_type, int value_type) {
-    using MapType = typename MapField::MapType;
-    using Node = typename MapType::Node;
-    static_assert(alignof(Node) == alignof(NodeBase), "");
-    // Verify the assumption made in MpMap, guaranteed by Map<>.
-    assert(PROTOBUF_FIELD_OFFSET(Node, kv.first) == sizeof(NodeBase));
+                                            int key_type, int value_type,
+                                            bool is_lite) {
     return {
-        MakeMapTypeCard(static_cast<WireFormatLite::FieldType>(key_type)),
-        MakeMapTypeCard(static_cast<WireFormatLite::FieldType>(value_type)),
+        MakeMapTypeCard(1, static_cast<WireFormatLite::FieldType>(key_type)),
+        MakeMapTypeCard(2, static_cast<WireFormatLite::FieldType>(value_type)),
         true,
-        !std::is_base_of<MapFieldBaseForParse, MapField>::value,
+        is_lite,
         fail_on_utf8_failure,
         log_debug_utf8_failure,
         validated_enum_value,
-        Node::size_info(),
     };
   }
 
-  template <typename T>
-  static void CreateInArenaStorageCb(Arena* arena, void* p) {
-    Arena::CreateInArenaStorage(static_cast<T*>(p), arena);
-  }
+  static void VerifyHasBitConsistency(const MessageLite* msg,
+                                      const TcParseTableBase* table);
 
  private:
   // Optimized small tag varint parser for int32/int64
@@ -859,7 +850,7 @@ class PROTOBUF_EXPORT TcParser final {
   template <typename TagType>
   PROTOBUF_CC static const char* FastEndGroupImpl(PROTOBUF_TC_PARAM_DECL);
 
-  static inline PROTOBUF_ALWAYS_INLINE void SyncHasbits(
+  static PROTOBUF_ALWAYS_INLINE void SyncHasbits(
       MessageLite* msg, uint64_t hasbits, const TcParseTableBase* table) {
     const uint32_t has_bits_offset = table->has_bits_offset;
     if (has_bits_offset) {
@@ -907,7 +898,7 @@ class PROTOBUF_EXPORT TcParser final {
 
   template <class MessageBaseT, class UnknownFieldsT>
   PROTOBUF_CC static const char* GenericFallbackImpl(PROTOBUF_TC_PARAM_DECL) {
-    if (PROTOBUF_PREDICT_FALSE(ptr == nullptr)) {
+    if (ABSL_PREDICT_FALSE(ptr == nullptr)) {
       // This is the ABI used by GetUnknownFieldOps(). Return the vtable.
       static constexpr UnknownFieldOps kOps = {
           WriteVarintToUnknown<UnknownFieldsT>,
@@ -1007,22 +998,15 @@ class PROTOBUF_EXPORT TcParser final {
 
   static void WriteMapEntryAsUnknown(MessageLite* msg,
                                      const TcParseTableBase* table,
-                                     uint32_t tag, NodeBase* node,
-                                     MapAuxInfo map_info);
+                                     UntypedMapBase& map, uint32_t tag,
+                                     NodeBase* node, MapAuxInfo map_info);
 
-  static void InitializeMapNodeEntry(void* obj, MapTypeCard type_card,
-                                     UntypedMapBase& map,
-                                     const TcParseTableBase::FieldAux* aux,
-                                     bool is_key);
-  PROTOBUF_NOINLINE
-  static void DestroyMapNode(NodeBase* node, MapAuxInfo map_info,
-                             UntypedMapBase& map);
   static const char* ParseOneMapEntry(NodeBase* node, const char* ptr,
                                       ParseContext* ctx,
                                       const TcParseTableBase::FieldAux* aux,
                                       const TcParseTableBase* table,
                                       const TcParseTableBase::FieldEntry& entry,
-                                      Arena* arena);
+                                      UntypedMapBase& map);
 
   // Mini field lookup:
   static const TcParseTableBase::FieldEntry* FindFieldEntry(
@@ -1030,6 +1014,8 @@ class PROTOBUF_EXPORT TcParser final {
   static absl::string_view MessageName(const TcParseTableBase* table);
   static absl::string_view FieldName(const TcParseTableBase* table,
                                      const TcParseTableBase::FieldEntry*);
+  static int FieldNumber(const TcParseTableBase* table,
+                         const TcParseTableBase::FieldEntry*);
   static bool ChangeOneof(const TcParseTableBase* table,
                           const TcParseTableBase::FieldEntry& entry,
                           uint32_t field_num, ParseContext* ctx,
@@ -1097,7 +1083,7 @@ class PROTOBUF_EXPORT TcParser final {
 };
 
 // Dispatch to the designated parse function
-inline PROTOBUF_ALWAYS_INLINE const char* TcParser::TagDispatch(
+PROTOBUF_ALWAYS_INLINE const char* TcParser::TagDispatch(
     PROTOBUF_TC_PARAM_NO_DATA_DECL) {
   const auto coded_tag = UnalignedLoad<uint16_t>(ptr);
   const size_t idx = coded_tag & table->fast_idx_mask;
@@ -1113,7 +1099,7 @@ inline PROTOBUF_ALWAYS_INLINE const char* TcParser::TagDispatch(
 // reliably do this optimization in opt mode, but do not perform this in debug
 // mode. Luckily the structure of the algorithm is such that it's always
 // possible to just return and use the enclosing parse loop as a trampoline.
-inline PROTOBUF_ALWAYS_INLINE const char* TcParser::ToTagDispatch(
+PROTOBUF_ALWAYS_INLINE const char* TcParser::ToTagDispatch(
     PROTOBUF_TC_PARAM_NO_DATA_DECL) {
   constexpr bool always_return = !PROTOBUF_TAILCALL;
   if (always_return || !ctx->DataAvailable(ptr)) {
@@ -1122,14 +1108,14 @@ inline PROTOBUF_ALWAYS_INLINE const char* TcParser::ToTagDispatch(
   PROTOBUF_MUSTTAIL return TagDispatch(PROTOBUF_TC_PARAM_NO_DATA_PASS);
 }
 
-inline PROTOBUF_ALWAYS_INLINE const char* TcParser::ToParseLoop(
+PROTOBUF_ALWAYS_INLINE const char* TcParser::ToParseLoop(
     PROTOBUF_TC_PARAM_NO_DATA_DECL) {
   (void)ctx;
   SyncHasbits(msg, hasbits, table);
   return ptr;
 }
 
-inline PROTOBUF_ALWAYS_INLINE const char* TcParser::ParseLoop(
+PROTOBUF_ALWAYS_INLINE const char* TcParser::ParseLoop(
     MessageLite* msg, const char* ptr, ParseContext* ctx,
     const TcParseTableBase* table) {
   // Note: TagDispatch uses a dispatch table at "&table->fast_entries".
@@ -1154,6 +1140,9 @@ inline PROTOBUF_ALWAYS_INLINE const char* TcParser::ParseLoop(
   table -= 1;
   if (ABSL_PREDICT_FALSE(table->has_post_loop_handler)) {
     return table->post_loop_handler(msg, ptr, ctx);
+  }
+  if (ABSL_PREDICT_FALSE(PerformDebugChecks() && ptr == nullptr)) {
+    VerifyHasBitConsistency(msg, table);
   }
   return ptr;
 }
