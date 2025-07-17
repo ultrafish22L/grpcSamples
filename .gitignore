@@ -8,6 +8,7 @@ obj/
 # Executables
 *.exe
 *.out
+*.lib
 
 # Built binaries
 html/protoc-gen-grpc-web
