@@ -609,14 +609,6 @@ class OctaneWebApp {
                 }
             }
         };
-        
-        // Initialize console router to capture all console errors
-        if (typeof ConsoleRouter !== 'undefined') {
-            this.consoleRouter = new ConsoleRouter();
-            this.consoleRouter.addLogger(debugLogger);
-        } else {
-            console.warn('ConsoleRouter not available - console errors will not be captured');
-        }
     }
 
     /**

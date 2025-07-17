@@ -20,12 +20,14 @@ class DebugConsole {
         this.element = document.createElement('div');
         this.element.id = 'debug-console';
         this.element.innerHTML = `
+        
             <div class="debug-header">
                 <span class="debug-title">🐛 Debug Console</span>
-                <div class="debug-controls">
-                    <button class="debug-btn" onclick="debugConsole.clear()">🧑‍🚒</button>
-                    <button class="debug-btn" onclick="debugConsole.clear()">🗑️</button>
-                    <button class="debug-btn" onclick="debugConsole.toggle()">✖️</button>
+                    <div class="debug-controls">
+                        <button class="debug-btn" title="Start unit testing" onclick="debugConsole.unitTest()">🧑‍🚒</button>
+                        <button class="debug-btn" title="Clear debug console logs" onclick="debugConsole.clear()">🗑️</button>
+                        <button class="debug-btn" title="Close debug console" onclick="debugConsole.toggle()">✖️</button>
+                    </div>
                 </div>
             </div>
             <div class="debug-content">
@@ -51,7 +53,7 @@ class DebugConsole {
                 top: 50px;
                 right: 20px;
                 width: 600px;
-                height: 400px;
+                height: 70%;
                 background: #1a1a1a;
                 border: 2px solid #333;
                 border-radius: 8px;
@@ -74,15 +76,13 @@ class DebugConsole {
             .debug-title {
                 font-weight: bold;
             }
-            
+            .debug-controlbar {
+                background: #333;
+            }
+
             .debug-controls {
                 display: flex;
-                justify-content: right;
-                gap: 8px;
-            }
-            .debug-controlsL {
-                display: flex;
-                justify-content: left;
+                justify-content: flex-end;
                 gap: 8px;
             }
 
@@ -101,21 +101,20 @@ class DebugConsole {
             }
             
             .debug-content {
-                height: calc(100% - 40px);
-                overflow: hidden;
+                height: 100%;
             }
             
             .debug-logs {
                 height: 100%;
-                overflow-y: auto;
-                padding: 8px;
+                overflow-y: hidden;
+                padding: 0px;
                 color: #fff;
             }
             
             .debug-log {
-                margin: 2px 0;
-                padding: 2px 4px;
-                border-radius: 2px;
+                margin: 0px 0;
+                padding: 0px 0px;
+                border-radius: 0px;
                 word-wrap: break-word;
             }
             
@@ -220,11 +219,17 @@ class DebugConsole {
         
         logsContainer.innerHTML = this.logs.map(log => `
             <div class="debug-log ${log.type}">
+                <span class="debug-message">${log.message}</span>
+            </div>
+        `).join('');
+/*        
+        logsContainer.innerHTML = this.logs.map(log => `
+            <div class="debug-log ${log.type}">
                 <span class="debug-timestamp">[${log.timestamp}]</span>
                 <span class="debug-message">${log.message}</span>
             </div>
         `).join('');
-        
+ */       
         // Auto-scroll to bottom
         logsContainer.scrollTop = logsContainer.scrollHeight;
     }
@@ -255,6 +260,10 @@ class DebugConsole {
         console.info('🧹 Debug console cleared');
     }
     
+    unitTest() {
+        console.info('🧑‍🚒 Start unit tests');
+    }
+
     // Method to add custom success messages
     success(message) {
         this.addLog('success', [message]);
