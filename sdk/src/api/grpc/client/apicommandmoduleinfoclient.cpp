@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apicommandmoduleinfoclient.h"
 #include <cassert>
@@ -29,11 +29,11 @@ GRPCSettings & ApiCommandModuleInfoProxy::getGRPCSettings()
 
 
 ApiCommandModuleInfoProxy ApiCommandModuleInfoProxy::create(
-            const Octane::ModuleIdT                   moduleId, //// test821 //// 
-            const char *const                         fullName, //// test821 //// 
-            const char *const                         description, //// test821 //// 
-            const char *const                         author, //// test821 //// 
-            const Octane::VersionT                    versionNumber //// last param ////
+            const Octane::ModuleIdT                   moduleId,
+            const char *const                         fullName,
+            const char *const                         description,
+            const char *const                         author,
+            const Octane::VersionT                    versionNumber
             )
 
 {
@@ -44,33 +44,32 @@ ApiCommandModuleInfoProxy ApiCommandModuleInfoProxy::create(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'moduleId' [in] parameter to the request packet.
-    octaneapi::ModuleIdT * moduleidIn = new octaneapi::ModuleIdT(); //// moduleId type=ModuleIdT;//// ////721////
-    //// ModuleIdT TEST////
+    octaneapi::ModuleIdT * moduleidIn = new octaneapi::ModuleIdT();
     moduleidIn->set_id(moduleId);
-    request.set_allocated_moduleid(moduleidIn);//// 6215 ////
+    request.set_allocated_moduleid(moduleidIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'fullName' [in] parameter to the request packet.
-    std::string * fullnameIn = new std::string(); //// fullName type=string;//// ////721////
+    std::string * fullnameIn = new std::string();
     *fullnameIn = checkString(fullName);
-    request.set_allocated_fullname(fullnameIn);//// 6215 ////
+    request.set_allocated_fullname(fullnameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'description' [in] parameter to the request packet.
-    std::string * descriptionIn = new std::string(); //// description type=string;//// ////721////
+    std::string * descriptionIn = new std::string();
     *descriptionIn = checkString(description);
-    request.set_allocated_description(descriptionIn);//// 6215 ////
+    request.set_allocated_description(descriptionIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'author' [in] parameter to the request packet.
-    std::string * authorIn = new std::string(); //// author type=string;//// ////721////
+    std::string * authorIn = new std::string();
     *authorIn = checkString(author);
-    request.set_allocated_author(authorIn);//// 6215 ////
+    request.set_allocated_author(authorIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'versionNumber' [in] parameter to the request packet.
     uint32_t versionnumberIn;
-    versionnumberIn = versionNumber;////2 const Octane::VersionT////
+    versionnumberIn = versionNumber;
     request.set_versionnumber(versionnumberIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -78,7 +77,7 @@ ApiCommandModuleInfoProxy ApiCommandModuleInfoProxy::create(
     octaneapi::ApiCommandModuleInfo::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCommandModuleInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCommandModuleInfoService::Stub> stub =
         octaneapi::ApiCommandModuleInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -106,7 +105,7 @@ ApiCommandModuleInfoProxy ApiCommandModuleInfoProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiCommandModuleInfoProxy retVal;////714////
+        ApiCommandModuleInfoProxy retVal;
         return retVal;
     }
 };
@@ -123,8 +122,8 @@ void ApiCommandModuleInfoProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCommandModuleInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCommandModuleInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -133,7 +132,7 @@ void ApiCommandModuleInfoProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCommandModuleInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCommandModuleInfoService::Stub> stub =
         octaneapi::ApiCommandModuleInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -157,7 +156,7 @@ void ApiCommandModuleInfoProxy::destroy()
 
 
 void ApiCommandModuleInfoProxy::setRunFunction(
-            CommandModuleRunFuncT                     func //// last param ////
+            CommandModuleRunFuncT                     func
             )
 
 {
@@ -170,28 +169,24 @@ void ApiCommandModuleInfoProxy::setRunFunction(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCommandModuleInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCommandModuleInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'func' [in] parameter to the request packet.
-    octaneapi::CommandModuleRunFuncT * funcIn = new octaneapi::CommandModuleRunFuncT(); //// func type=CommandModuleRunFuncT;//// ////721////
+    octaneapi::CommandModuleRunFuncT * funcIn = new octaneapi::CommandModuleRunFuncT();
     // setup callback function func
-    //int funcCallbackId = GRPCSettings::getNextCallbackId("CommandModuleRunFunc"); 
-    //CallbackStorage::registerCommandModuleRunFunc(funcCallbackId, func);
     funcIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //funcIn->set_callbackid(funcCallbackId);
-    //if(className == "ApiCommandModuleInfo" && method.mName == "setRunFunction") return true;
-    request.set_allocated_func(funcIn);//// 6215 ////
+    request.set_allocated_func(funcIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiCommandModuleInfo::setRunFunctionResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCommandModuleInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCommandModuleInfoService::Stub> stub =
         octaneapi::ApiCommandModuleInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->setRunFunction(context.get(), request, &response);
 
@@ -217,7 +212,7 @@ void ApiCommandModuleInfoProxy::setRunFunction(
 
 
 void ApiCommandModuleInfoProxy::setIcon(
-            const ApiImageProxy *const                icon //// last param ////
+            const ApiImageProxy *const                icon
             )
 
 {
@@ -230,8 +225,8 @@ void ApiCommandModuleInfoProxy::setIcon(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCommandModuleInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCommandModuleInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -239,8 +234,8 @@ void ApiCommandModuleInfoProxy::setIcon(
     // Add the 'icon' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * iconIn = new octaneapi::ObjectRef();////761////
-    iconIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImage);////5////
+    octaneapi::ObjectRef * iconIn = new octaneapi::ObjectRef();
+    iconIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImage);
     iconIn->set_handle(icon->getObjectHandle());
     request.set_allocated_icon(iconIn);
 
@@ -249,7 +244,7 @@ void ApiCommandModuleInfoProxy::setIcon(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCommandModuleInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCommandModuleInfoService::Stub> stub =
         octaneapi::ApiCommandModuleInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->setIcon(context.get(), request, &response);
 
@@ -273,9 +268,9 @@ void ApiCommandModuleInfoProxy::setIcon(
 
 
 void ApiCommandModuleInfoProxy::assignShortcutKey(
-            const char *const                         shortcutGroupName, //// test821 //// 
-            const int                                 shortcutKeyCode, //// test821 //// 
-            const int                                 shortcutModifierKeyFlag //// last param ////
+            const char *const                         shortcutGroupName,
+            const int                                 shortcutKeyCode,
+            const int                                 shortcutModifierKeyFlag
             )
 
 {
@@ -288,27 +283,27 @@ void ApiCommandModuleInfoProxy::assignShortcutKey(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCommandModuleInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCommandModuleInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'shortcutGroupName' [in] parameter to the request packet.
-    std::string * shortcutgroupnameIn = new std::string(); //// shortcutGroupName type=string;//// ////721////
+    std::string * shortcutgroupnameIn = new std::string();
     *shortcutgroupnameIn = checkString(shortcutGroupName);
-    request.set_allocated_shortcutgroupname(shortcutgroupnameIn);//// 6215 ////
+    request.set_allocated_shortcutgroupname(shortcutgroupnameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'shortcutKeyCode' [in] parameter to the request packet.
     int32_t shortcutkeycodeIn;
-    shortcutkeycodeIn = shortcutKeyCode;////2 const int////
+    shortcutkeycodeIn = shortcutKeyCode;
     request.set_shortcutkeycode(shortcutkeycodeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'shortcutModifierKeyFlag' [in] parameter to the request packet.
     int32_t shortcutmodifierkeyflagIn;
-    shortcutmodifierkeyflagIn = shortcutModifierKeyFlag;////2 const int////
+    shortcutmodifierkeyflagIn = shortcutModifierKeyFlag;
     request.set_shortcutmodifierkeyflag(shortcutmodifierkeyflagIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -316,7 +311,7 @@ void ApiCommandModuleInfoProxy::assignShortcutKey(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCommandModuleInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCommandModuleInfoService::Stub> stub =
         octaneapi::ApiCommandModuleInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->assignShortcutKey(context.get(), request, &response);
 

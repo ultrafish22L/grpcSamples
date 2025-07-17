@@ -16,7 +16,7 @@ class ApiItemProxy;
 class ApiNodeProxy;
 class ApiImageProxy;
 class ApiRenderPassInfoProxy;
-class ApiNodeInfoProxy;
+struct ApiNodeInfoProxy;
 
 
 #include "apiinfo.h"
@@ -34,39 +34,39 @@ public:
     /// matching the DLL version against OCTANE_VERSION (from octaneversion.h).
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static int octaneVersion(            );
+    static int octaneVersion();
 
     /// Returns the full name of the Octane DLL build.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static std::string octaneName(            );
+    static std::string octaneName();
 
     /// Returns TRUE if the DLL is a demo version
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool isDemoVersion(            );
+    static bool isDemoVersion();
 
     /// Returns TRUE if the DLL is a subscription version.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool isSubscriptionVersion(            );
+    static bool isSubscriptionVersion();
 
     /// Returns -1 for builds with no tiers or the build tier index (1-3).
-    /// @note Currently only the subscription build supports tiers  
+    /// @note Currently only the subscription build supports tiers
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static int tierIdx(            );
+    static int tierIdx();
 
     /// Returns a string describing the OS version.
     /// (e.g. "Windows Vista 64-bit")
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static std::string osVersionInfo(            );
+    static std::string osVersionInfo();
 
     ///  Returns the driver version string (NVIDIA only)
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static std::string driverVersionInfo(            );
+    static std::string driverVersionInfo();
 
     /// Returns info about the cpu(s).
     ///
@@ -98,7 +98,7 @@ public:
     /// @return
     ///     The absolute path of the texture cache folder.
     ///     NOTE: you don't need to release the returned string
-    static std::string texCacheFolder(            );
+    static std::string texCacheFolder();
 
     /// Returns a sorted list of all attribute types.
     ///
@@ -156,14 +156,14 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static const ApiNodeInfoProxy nodeInfo(
-            const Octane::NodeType                    type
+            const Octane::NodeType   type
             );
 
     /// Returns info for this particular graph type or NULL if no info is available.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static const Octane::ApiNodeGraphInfo graphInfo(
-            Octane::NodeGraphType                     type
+            Octane::NodeGraphType   type
             );
 
     /// Returns an image containing the icon of a given node type
@@ -171,7 +171,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static ApiImageProxy nodeIconImage(
-            const Octane::NodeType                    nodeType
+            const Octane::NodeType   nodeType
             );
 
     /// Returns an image containing the icon of a given graph type
@@ -179,7 +179,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static ApiImageProxy graphIconImage(
-            const Octane::NodeGraphType               nodeGraphType
+            const Octane::NodeGraphType   nodeGraphType
             );
 
     /// Returns info for an attribute available on nodes of the given type or NULL if no info for the
@@ -193,7 +193,7 @@ public:
             );
 
     /// Returns info for an attribute available on nodes of the given type or NULL
-    /// if no info for the attribute is available. 
+    /// if no info for the attribute is available.
     /// @note attrIx is the index of the attribute in the infos of the node, not attribute ID.
     /// @param[out] status
     ///     Contains the status of the gRPC call
@@ -224,112 +224,112 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string getAttributeTypeName(
-            Octane::AttributeType                     type
+            Octane::AttributeType   type
             );
 
     /// Returns the name for a node pin type, e.g. "PT_BOOL" for PT_BOOL.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string getPinTypeName(
-            Octane::NodePinType                       type
+            Octane::NodePinType   type
             );
 
     /// Returns the color for a node pin type (ARGB encoded).
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static uint32_t getPinTypeColor(
-            Octane::NodePinType                       type
+            Octane::NodePinType   type
             );
 
     /// Returns the name for a node graph type, e.g. "GT_STANDARD" for GT_STANDARD.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string getGraphTypeName(
-            Octane::NodeGraphType                     type
+            Octane::NodeGraphType   type
             );
 
     /// Returns the name for a node type, e.g. "NT_TEX_MIX" for NT_TEX_MIX.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string getNodeTypeName(
-            Octane::NodeType                          type
+            Octane::NodeType   type
             );
 
     /// Returns the type name of an api item.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string getItemTypeName(
-            const ApiItemProxy &                      item
+            const ApiItemProxy &   item
             );
 
     /// Returns the name for an attribute ID, e.g. "value" for A_VALUE.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string getAttributeName(
-            Octane::AttributeId                       id
+            Octane::AttributeId   id
             );
 
     /// Returns the ID for an attribute name, e.g. A_VALUE for "value".
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static Octane::AttributeId getAttributeId(
-            const char *                              attributeName
+            const char *   attributeName
             );
 
     /// Returns the enum name for an attribute ID, e.g. "A_VALUE" for A_VALUE.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string getAttributeIdName(
-            Octane::AttributeId                       id
+            Octane::AttributeId   id
             );
 
     /// Returns the enum name for an attribute name, e.g. "A_VALUE" for "value".
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string getAttributeIdName(
-            const char *                              attributeName
+            const char *   attributeName
             );
 
     /// Returns the name for a pin ID, e.g. "diffuse" for P_DIFFUSE.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string getPinName(
-            Octane::PinId                             id
+            Octane::PinId   id
             );
 
     /// Returns the ID for a pin name, e.g. P_DIFFUSE for "diffuse".
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static Octane::PinId getPinId(
-            const char *                              pinName
+            const char *   pinName
             );
 
     /// Returns the enum name for a pin ID, e.g. "P_DIFFUSE" for P_DIFFUSE.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string getPinIdName(
-            Octane::PinId                             id
+            Octane::PinId   id
             );
 
     /// Returns the enum name for a pin name, e.g. "P_DIFFUSE" for "diffuse".
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string getPinIdName(
-            const char *                              pinName
+            const char *   pinName
             );
 
     /// Get the string name of an OSL value type of a given texture value type enum
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string getTextureValueTypeName(
-            Octane::TextureValueType                  textureValueType
+            Octane::TextureValueType   textureValueType
             );
 
     /// Get the OSL value type for a given OSL type name
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static Octane::TextureValueType getTextureValueTypeForOslType(
-            const char *                              oslType
+            const char *   oslType
             );
 
     /// Returns a list of graphs compatible with the output type and a list
@@ -361,14 +361,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static const Octane::ApiRenderPassInfo renderPassInfo(
-            Octane::RenderPassId                      id
-            );
-
-    /// Returns the blending mode name of a render pass
-    /// @param[out] status
-    ///     Contains the status of the gRPC call
-    static std::string renderPassBlendingModeName(
-            Octane::BlendingModeId                    id
+            Octane::RenderPassId   id
             );
 
     /// Returns an array with all the available render pass ids. Usefull for iterating
@@ -382,7 +375,7 @@ public:
     ///     Array of all available render pass ids. This array doesn't change at runtime.
     ///     Don't free up this array it's a static array owned by the API.
     static std::vector<Octane::RenderPassId> getAllRenderPassIds(
-            size_t &                                  length
+            size_t &   length
             );
 
     /// Returns the @ref RenderPassId for the provided render AOV node or @ref RENDER_PASS_UNKNOWN
@@ -390,7 +383,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static Octane::RenderPassId getRenderPassIdFromRenderAovNode(
-            const ApiNodeProxy &                      node
+            const ApiNodeProxy &   node
             );
 
     /// Returns the @ref ApiRenderPassInfo corresponding to the provided render AOV node. If @ref node
@@ -398,7 +391,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static const Octane::ApiRenderPassInfo getRenderAovInfoFromRenderAovNode(
-            const ApiNodeProxy &                      node
+            const ApiNodeProxy &   node
             );
 
     /// Returns the name of the render pass associated with the id.
@@ -406,7 +399,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string renderPassName(
-            Octane::RenderPassId                      id
+            Octane::RenderPassId   id
             );
 
     /// Returns the short (~ abbreviated) name of a render pass.
@@ -414,7 +407,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string renderPassShortName(
-            Octane::RenderPassId                      id
+            Octane::RenderPassId   id
             );
 
     /// Returns the pin id for a render pass.
@@ -422,7 +415,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static Octane::PinId renderPassIdToPinId(
-            Octane::RenderPassId                      id
+            Octane::RenderPassId   id
             );
 
     /// Returns the group name of a render pass
@@ -430,7 +423,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string renderPassGroupName(
-            Octane::RenderPassGroupId                 id
+            Octane::RenderPassGroupId   id
             );
 
     /// Returns the render pass id for a pin id.
@@ -438,7 +431,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static Octane::RenderPassId pinIdToRenderPassId(
-            Octane::PinId                             pinId
+            Octane::PinId   pinId
             );
 
     /// Finds the bool pin used to enable/disable the render pass. Returns FALSE

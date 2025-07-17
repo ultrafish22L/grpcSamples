@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apirenderviewclient.h"
 #include <cassert>
@@ -38,8 +38,8 @@ void ApiRenderViewProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRenderView);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRenderView);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -48,7 +48,7 @@ void ApiRenderViewProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRenderViewService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRenderViewService::Stub> stub =
         octaneapi::ApiRenderViewService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -72,7 +72,7 @@ void ApiRenderViewProxy::destroy()
 
 
 ApiRenderViewProxy ApiRenderViewProxy::create(
-            void *                                    privateData //// last param ////
+            void *                                    privateData
             )
 
 {
@@ -84,7 +84,6 @@ ApiRenderViewProxy ApiRenderViewProxy::create(
     /////////////////////////////////////////////////////////////////////
     // Add the 'privateData' [in] parameter to the request packet.
     uint64_t privatedataIn;
-    //// USER DATA TEST ////
     privatedataIn = reinterpret_cast<uint64_t>(privateData);
     request.set_privatedata(privatedataIn);
 
@@ -93,7 +92,7 @@ ApiRenderViewProxy ApiRenderViewProxy::create(
     octaneapi::ApiRenderView::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRenderViewService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRenderViewService::Stub> stub =
         octaneapi::ApiRenderViewService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -121,7 +120,7 @@ ApiRenderViewProxy ApiRenderViewProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiRenderViewProxy retVal;////714////
+        ApiRenderViewProxy retVal;
         return retVal;
     }
 };

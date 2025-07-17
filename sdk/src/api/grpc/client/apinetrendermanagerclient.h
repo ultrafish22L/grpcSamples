@@ -36,48 +36,48 @@ public:
     ///     TRUE if configuration was successful, FALSE if the configuration
     ///     failed (check to logs to figure out what happened).
     static bool configure(
-            const Octane::NetRenderSettings &         settings
+            const Octane::NetRenderSettings &   settings
             );
 
     /// Returns the current net render configuration.
     /// NOTE: The arrays in the returned structure stay valid until the next call of this function.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static Octane::NetRenderSettings configuration(            );
+    static Octane::NetRenderSettings configuration();
 
     /// Enables/disables network rendering.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void enable(
-            const bool                                enable
+            const bool   enable
             );
 
     /// Returns TRUE if network rendering is supported in this build.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool isSupported(            );
+    static bool isSupported();
 
     /// Checks if network rendering is enabled.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool isEnabled(            );
+    static bool isEnabled();
 
     /// Stores the current network rendering configuration in the application preferences.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static void saveConfiguration(            );
+    static void saveConfiguration();
 
     /// Opens a modal dialog to allow the user to set the network render configuration. When the
     /// the function returns, the dialog has been closed already and the settings have been stored
     /// in the Octane application preferences.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static void openOctanePreferences(            );
+    static void openOctanePreferences();
 
     /// Returns the number of network interfaces available on this computer.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static size_t networkInterfaceCount(            );
+    static size_t networkInterfaceCount();
 
     /// Retrieves info about a specific network interface on this computer.
     ///
@@ -88,7 +88,7 @@ public:
     /// @return
     ///     network interface info
     static Octane::NetInterfaceInfo networkInterface(
-            const size_t                              subnetIx
+            const size_t   subnetIx
             );
 
     /// Registers a status update called. Called every time the status of
@@ -110,7 +110,7 @@ public:
     /// it's recommended to use the callback wherever possible.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static Octane::NetRenderStatus status(            );
+    static Octane::NetRenderStatus status();
 
     /// Register a daemon listeners. Called every time a daemon appears,
     /// disappears or changes it's state.
@@ -137,7 +137,7 @@ public:
     /// @return
     ///     TRUE on success, FALSE on failure.
     static bool bindDaemon(
-            const Octane::IPv4T                       ipAddress
+            const Octane::IPv4T   ipAddress
             );
 
     /// Unbinds a daemon from this master. This means that we allow the render node on
@@ -146,7 +146,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void unbindDaemon(
-            const Octane::IPv4T                       ipAddress
+            const Octane::IPv4T   ipAddress
             );
 
     /// Steals a daemon. The daemon will disconnect from its master and tries to bind it
@@ -159,7 +159,7 @@ public:
     /// @return
     ///     TRUE on success, FALSE if we cannot bind or it is already bound to us.
     static bool stealDaemon(
-            const Octane::IPv4T                       ipAddress
+            const Octane::IPv4T   ipAddress
             );
 
 private:

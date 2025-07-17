@@ -18,7 +18,7 @@ message RenderResultStatistics
     uint32_2 setSize = 1;
     uint32_2 usedSize = 2;
     SubSampleMode subSampleMode = 3;
-    UpSampleMode upSampleMode = 4;
+    float upSamplingRatio = 4;
     TonemapBufferType bufferType = 5;
     NamedColorSpace colorSpace = 6;
     bool isLinear = 7;
@@ -177,8 +177,7 @@ message ApiRenderPassInfo
     string category = 9;
     bool isInfoPass = 10;
     bool isGreyscale = 11;
-    BlendingModeId blendingModeId = 12;
-    RenderPassGroupId renderPassGroupId = 13;
+    RenderPassGroupId renderPassGroupId = 12;
 }
 
 
@@ -192,7 +191,7 @@ service RenderResultStatisticsService
     /// Clears our members and sets the sub sample mode to SUBSAMPLE_NONE and the state to
     /// RSTATE_STOPPED
     rpc clear(RenderResultStatistics.clearRequest) returns (google.protobuf.Empty);
-    /// Returns the internal film resolution
+    /// Returns the internal film resolution which takes the upsampling into account
     rpc internalFilmResolution(RenderResultStatistics.internalFilmResolutionRequest) returns (RenderResultStatistics.internalFilmResolutionResponse);
     /// Returns the type of the channels, this is either float or 8-bit unsigned int
     rpc channelType(RenderResultStatistics.channelTypeRequest) returns (RenderResultStatistics.channelTypeResponse);

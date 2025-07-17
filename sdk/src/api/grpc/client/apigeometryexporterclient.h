@@ -29,13 +29,13 @@ public:
     /// Tells whether @ref ApiGeometryExporter is supported by this build
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool isSupported(            );
+    static bool isSupported();
 
     /// Creates an exporter to export geometry to a file.
-    /// 
+    ///
     /// @param[in] fileName
     ///     file name, encoded as UTF-8. The file name is taken as is, it usually ends with the
-    ///     ".abc" extension. if the filename is relative path, we anchor it with current projet 
+    ///     ".abc" extension. if the filename is relative path, we anchor it with current projet
     ///     directory if a project exits, otherwise with the current working directory.
     /// @param[in] description
     ///     A line of text describing the contents of this file.
@@ -60,13 +60,13 @@ public:
 
     /// Sets the aspect ratio used for exporting cameras. This is needed to export correct lens
     /// shift values. A call to this method affects any camera nodes added afterwards.
-    /// 
+    ///
     /// @param[in] ratio
     ///     film width / film height
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setAspectRatio(
-            float                                     ratio
+            float   ratio
             );
 
     /// Sets additional FBX options
@@ -76,7 +76,7 @@ public:
     ///     So readers of the exported FBX should copy or attach it to all other transform nodes. Otherwise
     ///     the child will be cloned to all transform nodes.
     /// @param[in] exportMaterial
-    ///     If TRUE, basic materials and textures will be exported with geometry. Textures are generated 
+    ///     If TRUE, basic materials and textures will be exported with geometry. Textures are generated
     ///     using preview render
     /// @param[in] asStingrayMaterial
     ///     If TRUE, materials are exported in Stingray format. Read only by Max, Maya and unity applications.
@@ -100,33 +100,33 @@ public:
 
     /// Adds an item to this exporter. Currently any geometry node type, and thin lens cameras are
     /// allowed (or linker nodes with one of those as input node).
-    /// 
-    /// If the item is a node graph, all compatible output linkers are added, and this method 
+    ///
+    /// If the item is a node graph, all compatible output linkers are added, and this method
     /// returns TRUE if at least one node was added successfully.
-    /// 
+    ///
     /// All items should be added before the first frame is exported.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool addItem(
-            ApiItemProxy *                            item
+            ApiItemProxy *   item
             );
 
     /// Write the current state of the node graph to the file. This is then considered one frame of
     /// the animation. This may take some time.
-    /// 
+    ///
     /// Returns FALSE if an error occurs or the node given to create() was destroyed.
-    /// 
+    ///
     /// @param[in] interval
     ///     The interval covered by the current frame.
-    ///     
+    ///
     ///     If an empty interval is given, all objects are exported with one key frame for every
     ///     exported frame, based on current attribute values.
-    ///     
+    ///
     ///     If not empty, geometry with an animator which provides more than one frame within
     ///     the given interval will be exported with a corresponding number of key frames.
     ///     To avoid interpolation between frames, the animator should provide key frames at time
     ///     stamps `interval.begin + i/N * (interval.end - interval.begin), for 0 <= i < N.
-    ///     
+    ///
     ///     Some exporters will not change the key frame rate of an exported object once the
     ///     object is created, therefore you should consistently provide the same number of
     ///     subframes for each object as the export progresses. The last frame may be exported
@@ -135,21 +135,21 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool writeFrame(
-            const Octane::TimeSpanT                   interval
+            const Octane::TimeSpanT   interval
             );
 
     /// Write the current state of the node graph to the file, using an empty interval so no
     /// sub frames will be exported for any object.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool writeFrame(            );
+    bool writeFrame();
 
     /// Saves the time sampling pattern to the file. This determines which time stamp is associated
     /// with every frame written with writeFrame().
-    /// 
+    ///
     /// If this function is not called before the exporter is destroyed, then the time sampling is
     /// derived from the node graph time stamps when the frames were written.
-    /// 
+    ///
     /// @param[in] times
     ///     The time sampling pattern which was used.
     /// @param[out] status
@@ -157,18 +157,18 @@ public:
     /// @return
     ///     TRUE if the given time sampling was valid and can be written to the file.
     bool writeTimeSampling(
-            const Octane::ApiTimeSampling &           times
+            const Octane::ApiTimeSampling &   times
             );
 
     /// Creates a geometry archive node for this exported geometry, containing all the input pins
-    /// which will be created when the exported file is loaded into this node. If the given parent 
+    /// which will be created when the exported file is loaded into this node. If the given parent
     /// node graph also contains the items connected to the material and object layer inputs, then
     /// these will be connected to the created geometry archive.
     ///
     /// NOTE: To be able write the scene into a package (which will copy the exported geometry file
     ///       into the package), the geometry file must be accessible, which means that the
     ///       ApiGeoemtryExporter needs to be destroyed BEFORE you call the export functions.
-    /// 
+    ///
     /// @param[in] owner
     ///     The parent node graph where to place the node graph. Should be the same node graph where
     ///     the materials are located, so they can be connected to the inputs of the created
@@ -190,7 +190,7 @@ public:
     /// exporter is closed.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
 private:
     static GRPCSettings & getGRPCSettings();

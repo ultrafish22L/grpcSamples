@@ -46,10 +46,10 @@ public:
     /// Destroys the component created with create(..).
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Sets the button checked.
-    /// 
+    ///
     /// @param[in]  checked
     ///     TRUE for checked, FALSE for unchecked.
     /// @param[in]  sendEvent
@@ -64,7 +64,7 @@ public:
     /// Checks if the checkbox is checked (ticked).
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isChecked(            ) const;
+    bool isChecked() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

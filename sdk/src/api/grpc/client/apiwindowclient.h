@@ -48,7 +48,7 @@ public:
     /// Destroys this window.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Windows only have a single content component. You don't add to a window by calling
     /// addChildComponent() but using addContentComponent instead.
@@ -63,29 +63,29 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void addContentComponent(
-            ApiGuiComponentProxy &                    contentComponent
+            ApiGuiComponentProxy &   contentComponent
             );
 
     /// Shows this window. The window will pop-up in the centre of the window that is currently
     /// active in the application.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void show(            );
+    void show();
 
     /// Hides this window again.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void hide(            );
+    void hide();
 
     /// Returns whether this window is visible.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool visible(            ) const;
+    bool visible() const;
 
     /// Returns the native window handle of the window.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void * nativeHandle(            );
+    void * nativeHandle();
 
 private:
     static GRPCSettings & getGRPCSettings();

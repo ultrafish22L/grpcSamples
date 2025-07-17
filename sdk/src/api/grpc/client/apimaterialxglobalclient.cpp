@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apimaterialxglobalclient.h"
 #include <cassert>
@@ -32,9 +32,9 @@ GRPCSettings & ApiMaterialXGlobalProxy::getGRPCSettings()
 
 
 ApiNodeGraphProxy ApiMaterialXGlobalProxy::importMaterialXFile(
-            const char *                              materialXFilePath, //// test821 //// 
-            const ApiNodeGraphProxy *                 parentNodeGraph, //// test821 //// 
-            const bool                                useNativeMaterialXNodes //// last param ////
+            const char *                              materialXFilePath,
+            const ApiNodeGraphProxy *                 parentNodeGraph,
+            const bool                                useNativeMaterialXNodes
             )
 
 {
@@ -45,23 +45,23 @@ ApiNodeGraphProxy ApiMaterialXGlobalProxy::importMaterialXFile(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'materialXFilePath' [in] parameter to the request packet.
-    std::string * materialxfilepathIn = new std::string(); //// materialXFilePath type=string;//// ////721////
+    std::string * materialxfilepathIn = new std::string();
     *materialxfilepathIn = checkString(materialXFilePath);
-    request.set_allocated_materialxfilepath(materialxfilepathIn);//// 6215 ////
+    request.set_allocated_materialxfilepath(materialxfilepathIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'parentNodeGraph' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * parentnodegraphIn = new octaneapi::ObjectRef();////761////
-    parentnodegraphIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * parentnodegraphIn = new octaneapi::ObjectRef();
+    parentnodegraphIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     parentnodegraphIn->set_handle(parentNodeGraph->getObjectHandle());
     request.set_allocated_parentnodegraph(parentnodegraphIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'useNativeMaterialXNodes' [in] parameter to the request packet.
     bool usenativematerialxnodesIn;
-    usenativematerialxnodesIn = useNativeMaterialXNodes;////2 const bool////
+    usenativematerialxnodesIn = useNativeMaterialXNodes;
     request.set_usenativematerialxnodes(usenativematerialxnodesIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ ApiNodeGraphProxy ApiMaterialXGlobalProxy::importMaterialXFile(
     octaneapi::ApiMaterialXGlobal::importMaterialXFileResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub =
         octaneapi::ApiMaterialXGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->importMaterialXFile(context.get(), request, &response);
 
@@ -97,7 +97,7 @@ ApiNodeGraphProxy ApiMaterialXGlobalProxy::importMaterialXFile(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiNodeGraphProxy retVal;////714////
+        ApiNodeGraphProxy retVal;
         return retVal;
     }
 };
@@ -115,7 +115,7 @@ std::vector<std::string> ApiMaterialXGlobalProxy::getAllMxNodeCategories()
     octaneapi::ApiMaterialXGlobal::getAllMxNodeCategoriesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub =
         octaneapi::ApiMaterialXGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->getAllMxNodeCategories(context.get(), request, &response);
 
@@ -124,11 +124,10 @@ std::vector<std::string> ApiMaterialXGlobalProxy::getAllMxNodeCategories()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::StringArrayT resultOut = response.result();
-        std::vector<std::string> retVal;////218////
+        std::vector<std::string> retVal;
         retVal.reserve(resultOut.data_size());
         for (int i = 0; i < resultOut.data_size(); i++)
         {
-            //// param.mProtoCppType = StringArrayT param.mType = const Octane::StringArrayT ////
             retVal.push_back(resultOut.data(i));
         }
         return retVal;
@@ -151,7 +150,7 @@ std::vector<std::string> ApiMaterialXGlobalProxy::getAllMxNodeCategories()
 
 
 std::string ApiMaterialXGlobalProxy::getMxNodeCategory(
-            Octane::NodeType                          nodeType //// last param ////
+            Octane::NodeType                          nodeType
             )
 
 {
@@ -171,7 +170,7 @@ std::string ApiMaterialXGlobalProxy::getMxNodeCategory(
     octaneapi::ApiMaterialXGlobal::getMxNodeCategoryResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub =
         octaneapi::ApiMaterialXGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->getMxNodeCategory(context.get(), request, &response);
 
@@ -182,7 +181,7 @@ std::string ApiMaterialXGlobalProxy::getMxNodeCategory(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -202,7 +201,7 @@ std::string ApiMaterialXGlobalProxy::getMxNodeCategory(
 
 
 std::string ApiMaterialXGlobalProxy::getMxNodeCategory(
-            Octane::NodeGraphType                     nodeGraphType //// last param ////
+            Octane::NodeGraphType                     nodeGraphType
             )
 
 {
@@ -222,7 +221,7 @@ std::string ApiMaterialXGlobalProxy::getMxNodeCategory(
     octaneapi::ApiMaterialXGlobal::getMxNodeCategory1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub =
         octaneapi::ApiMaterialXGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->getMxNodeCategory1(context.get(), request, &response);
 
@@ -233,7 +232,7 @@ std::string ApiMaterialXGlobalProxy::getMxNodeCategory(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -253,7 +252,7 @@ std::string ApiMaterialXGlobalProxy::getMxNodeCategory(
 
 
 std::string ApiMaterialXGlobalProxy::getMxValueType(
-            Octane::TextureValueType                  textureValueType //// last param ////
+            Octane::TextureValueType                  textureValueType
             )
 
 {
@@ -273,7 +272,7 @@ std::string ApiMaterialXGlobalProxy::getMxValueType(
     octaneapi::ApiMaterialXGlobal::getMxValueTypeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub =
         octaneapi::ApiMaterialXGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->getMxValueType(context.get(), request, &response);
 
@@ -284,7 +283,7 @@ std::string ApiMaterialXGlobalProxy::getMxValueType(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -304,7 +303,7 @@ std::string ApiMaterialXGlobalProxy::getMxValueType(
 
 
 Octane::TextureValueType ApiMaterialXGlobalProxy::getTextureValueType(
-            const char *                              mxValueTypeName //// last param ////
+            const char *                              mxValueTypeName
             )
 
 {
@@ -315,16 +314,16 @@ Octane::TextureValueType ApiMaterialXGlobalProxy::getTextureValueType(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'mxValueTypeName' [in] parameter to the request packet.
-    std::string * mxvaluetypenameIn = new std::string(); //// mxValueTypeName type=string;//// ////721////
+    std::string * mxvaluetypenameIn = new std::string();
     *mxvaluetypenameIn = checkString(mxValueTypeName);
-    request.set_allocated_mxvaluetypename(mxvaluetypenameIn);//// 6215 ////
+    request.set_allocated_mxvaluetypename(mxvaluetypenameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiMaterialXGlobal::getTextureValueTypeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub =
         octaneapi::ApiMaterialXGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->getTextureValueType(context.get(), request, &response);
 
@@ -354,7 +353,7 @@ Octane::TextureValueType ApiMaterialXGlobalProxy::getTextureValueType(
 
 
 std::string ApiMaterialXGlobalProxy::getMxColorSpace(
-            Octane::NamedColorSpace                   colorSpace //// last param ////
+            Octane::NamedColorSpace                   colorSpace
             )
 
 {
@@ -374,7 +373,7 @@ std::string ApiMaterialXGlobalProxy::getMxColorSpace(
     octaneapi::ApiMaterialXGlobal::getMxColorSpaceResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub =
         octaneapi::ApiMaterialXGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->getMxColorSpace(context.get(), request, &response);
 
@@ -385,7 +384,7 @@ std::string ApiMaterialXGlobalProxy::getMxColorSpace(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -405,7 +404,7 @@ std::string ApiMaterialXGlobalProxy::getMxColorSpace(
 
 
 Octane::NamedColorSpace ApiMaterialXGlobalProxy::getNamedColorSpace(
-            const char *                              mxColorSpace //// last param ////
+            const char *                              mxColorSpace
             )
 
 {
@@ -416,16 +415,16 @@ Octane::NamedColorSpace ApiMaterialXGlobalProxy::getNamedColorSpace(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'mxColorSpace' [in] parameter to the request packet.
-    std::string * mxcolorspaceIn = new std::string(); //// mxColorSpace type=string;//// ////721////
+    std::string * mxcolorspaceIn = new std::string();
     *mxcolorspaceIn = checkString(mxColorSpace);
-    request.set_allocated_mxcolorspace(mxcolorspaceIn);//// 6215 ////
+    request.set_allocated_mxcolorspace(mxcolorspaceIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiMaterialXGlobal::getNamedColorSpaceResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub =
         octaneapi::ApiMaterialXGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->getNamedColorSpace(context.get(), request, &response);
 
@@ -455,7 +454,7 @@ Octane::NamedColorSpace ApiMaterialXGlobalProxy::getNamedColorSpace(
 
 
 std::vector<Octane::NodeType> ApiMaterialXGlobalProxy::getNodeTypes(
-            const char *                              mxNodeCategory //// last param ////
+            const char *                              mxNodeCategory
             )
 
 {
@@ -466,16 +465,16 @@ std::vector<Octane::NodeType> ApiMaterialXGlobalProxy::getNodeTypes(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'mxNodeCategory' [in] parameter to the request packet.
-    std::string * mxnodecategoryIn = new std::string(); //// mxNodeCategory type=string;//// ////721////
+    std::string * mxnodecategoryIn = new std::string();
     *mxnodecategoryIn = checkString(mxNodeCategory);
-    request.set_allocated_mxnodecategory(mxnodecategoryIn);//// 6215 ////
+    request.set_allocated_mxnodecategory(mxnodecategoryIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiMaterialXGlobal::getNodeTypesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub =
         octaneapi::ApiMaterialXGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->getNodeTypes(context.get(), request, &response);
 
@@ -485,7 +484,6 @@ std::vector<Octane::NodeType> ApiMaterialXGlobalProxy::getNodeTypes(
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::NodeTypeArrayT resultOut = response.result();
         // UNTESTED client array code 2
-        //// param.mProtoCppType = NodeTypeArrayT param.mType = ApiArray<Octane::NodeType> retType = std::vector<Octane::NodeType> ////
         std::vector<Octane::NodeType> retVal;
         retVal.reserve(resultOut.data_size());/*214*/
         for (int i = 0; i < resultOut.data_size(); i++)
@@ -512,7 +510,7 @@ std::vector<Octane::NodeType> ApiMaterialXGlobalProxy::getNodeTypes(
 
 
 Octane::NodeGraphType ApiMaterialXGlobalProxy::getGraphType(
-            const char *                              mxNodeCategory //// last param ////
+            const char *                              mxNodeCategory
             )
 
 {
@@ -523,16 +521,16 @@ Octane::NodeGraphType ApiMaterialXGlobalProxy::getGraphType(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'mxNodeCategory' [in] parameter to the request packet.
-    std::string * mxnodecategoryIn = new std::string(); //// mxNodeCategory type=string;//// ////721////
+    std::string * mxnodecategoryIn = new std::string();
     *mxnodecategoryIn = checkString(mxNodeCategory);
-    request.set_allocated_mxnodecategory(mxnodecategoryIn);//// 6215 ////
+    request.set_allocated_mxnodecategory(mxnodecategoryIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiMaterialXGlobal::getGraphTypeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub =
         octaneapi::ApiMaterialXGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->getGraphType(context.get(), request, &response);
 
@@ -562,7 +560,7 @@ Octane::NodeGraphType ApiMaterialXGlobalProxy::getGraphType(
 
 
 std::vector<Octane::ApiMaterialX::MxInput> ApiMaterialXGlobalProxy::getMxInputNamesAndPinIds(
-            Octane::NodeType                          nodeType //// last param ////
+            Octane::NodeType                          nodeType
             )
 
 {
@@ -582,7 +580,7 @@ std::vector<Octane::ApiMaterialX::MxInput> ApiMaterialXGlobalProxy::getMxInputNa
     octaneapi::ApiMaterialXGlobal::getMxInputNamesAndPinIdsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub =
         octaneapi::ApiMaterialXGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->getMxInputNamesAndPinIds(context.get(), request, &response);
 
@@ -591,13 +589,12 @@ std::vector<Octane::ApiMaterialX::MxInput> ApiMaterialXGlobalProxy::getMxInputNa
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ApiArrayMxInputT resultOut = response.result();
-        std::vector<Octane::ApiMaterialX::MxInput> retVal;////218////
+        std::vector<Octane::ApiMaterialX::MxInput> retVal;
         retVal.reserve(resultOut.data_size());
         for (int i = 0; i < resultOut.data_size(); i++)
         {
-            //// param.mProtoCppType = ApiArrayMxInputT param.mType = const ApiArray<Octane::ApiMaterialX::MxInput> ////
             // special ApiArrayMxInputT
-            retVal.push_back( 
+            retVal.push_back(
                 {
                     StringManager::getInstance().addString(resultOut.data(i).mxinputname()),
                     static_cast<Octane::PinId>(resultOut.data(i).pinid())
@@ -624,7 +621,7 @@ std::vector<Octane::ApiMaterialX::MxInput> ApiMaterialXGlobalProxy::getMxInputNa
 
 
 std::vector<std::string> ApiMaterialXGlobalProxy::getGraphMxInputNames(
-            Octane::NodeGraphType                     nodeGraphType //// last param ////
+            Octane::NodeGraphType                     nodeGraphType
             )
 
 {
@@ -644,7 +641,7 @@ std::vector<std::string> ApiMaterialXGlobalProxy::getGraphMxInputNames(
     octaneapi::ApiMaterialXGlobal::getGraphMxInputNamesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub =
         octaneapi::ApiMaterialXGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->getGraphMxInputNames(context.get(), request, &response);
 
@@ -653,11 +650,10 @@ std::vector<std::string> ApiMaterialXGlobalProxy::getGraphMxInputNames(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::StringArrayT resultOut = response.result();
-        std::vector<std::string> retVal;////218////
+        std::vector<std::string> retVal;
         retVal.reserve(resultOut.data_size());
         for (int i = 0; i < resultOut.data_size(); i++)
         {
-            //// param.mProtoCppType = StringArrayT param.mType = const Octane::StringArrayT ////
             retVal.push_back(resultOut.data(i));
         }
         return retVal;
@@ -680,7 +676,7 @@ std::vector<std::string> ApiMaterialXGlobalProxy::getGraphMxInputNames(
 
 
 std::vector<std::string> ApiMaterialXGlobalProxy::getGraphMxOutputNames(
-            Octane::NodeGraphType                     nodeGraphType //// last param ////
+            Octane::NodeGraphType                     nodeGraphType
             )
 
 {
@@ -700,7 +696,7 @@ std::vector<std::string> ApiMaterialXGlobalProxy::getGraphMxOutputNames(
     octaneapi::ApiMaterialXGlobal::getGraphMxOutputNamesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMaterialXGlobalService::Stub> stub =
         octaneapi::ApiMaterialXGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->getGraphMxOutputNames(context.get(), request, &response);
 
@@ -709,11 +705,10 @@ std::vector<std::string> ApiMaterialXGlobalProxy::getGraphMxOutputNames(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::StringArrayT resultOut = response.result();
-        std::vector<std::string> retVal;////218////
+        std::vector<std::string> retVal;
         retVal.reserve(resultOut.data_size());
         for (int i = 0; i < resultOut.data_size(); i++)
         {
-            //// param.mProtoCppType = StringArrayT param.mType = const Octane::StringArrayT ////
             retVal.push_back(resultOut.data(i));
         }
         return retVal;

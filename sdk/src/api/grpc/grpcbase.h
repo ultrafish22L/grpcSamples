@@ -40,7 +40,7 @@ public:
     /// Indicates if the proxy is referencing an object on the server
     /// @return
     ///    TRUE is the object reference is not valid, otherwise FALSE
-    bool isNull() const;
+    bool isNull();
 
     /// Set the object reference of the proxy to null.
     void setNull();

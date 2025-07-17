@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apiselectionmanagerclient.h"
 #include <cassert>
@@ -31,7 +31,7 @@ GRPCSettings & ApiSelectionManagerProxy::getGRPCSettings()
 
 
 bool ApiSelectionManagerProxy::isItemSelected(
-            const ApiItemProxy &                      item //// last param ////
+            const ApiItemProxy &                      item
             )
 
 {
@@ -44,8 +44,8 @@ bool ApiSelectionManagerProxy::isItemSelected(
     // Add the 'item' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * itemIn = new octaneapi::ObjectRef();////761////
-    itemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);////5////
+    octaneapi::ObjectRef * itemIn = new octaneapi::ObjectRef();
+    itemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
     itemIn->set_handle(item.getObjectHandle());
     request.set_allocated_item(itemIn);
 
@@ -54,7 +54,7 @@ bool ApiSelectionManagerProxy::isItemSelected(
     octaneapi::ApiSelectionManager::isItemSelectedResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub =
         octaneapi::ApiSelectionManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->isItemSelected(context.get(), request, &response);
 
@@ -64,7 +64,7 @@ bool ApiSelectionManagerProxy::isItemSelected(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -84,8 +84,8 @@ bool ApiSelectionManagerProxy::isItemSelected(
 
 
 bool ApiSelectionManagerProxy::isPinSelected(
-            const ApiNodeProxy &                      node, //// test821 //// 
-            const Octane::PinId                       pinId //// last param ////
+            const ApiNodeProxy &                      node,
+            const Octane::PinId                       pinId
             )
 
 {
@@ -98,8 +98,8 @@ bool ApiSelectionManagerProxy::isPinSelected(
     // Add the 'node' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * nodeIn = new octaneapi::ObjectRef();////761////
-    nodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * nodeIn = new octaneapi::ObjectRef();
+    nodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     nodeIn->set_handle(node.getObjectHandle());
     request.set_allocated_node(nodeIn);
 
@@ -114,7 +114,7 @@ bool ApiSelectionManagerProxy::isPinSelected(
     octaneapi::ApiSelectionManager::isPinSelectedResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub =
         octaneapi::ApiSelectionManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->isPinSelected(context.get(), request, &response);
 
@@ -124,7 +124,7 @@ bool ApiSelectionManagerProxy::isPinSelected(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -144,8 +144,8 @@ bool ApiSelectionManagerProxy::isPinSelected(
 
 
 bool ApiSelectionManagerProxy::isPinSelected(
-            const ApiNodeProxy &                      node, //// test821 //// 
-            const char *                              pinName //// last param ////
+            const ApiNodeProxy &                      node,
+            const char *                              pinName
             )
 
 {
@@ -158,23 +158,23 @@ bool ApiSelectionManagerProxy::isPinSelected(
     // Add the 'node' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * nodeIn = new octaneapi::ObjectRef();////761////
-    nodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * nodeIn = new octaneapi::ObjectRef();
+    nodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     nodeIn->set_handle(node.getObjectHandle());
     request.set_allocated_node(nodeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinName' [in] parameter to the request packet.
-    std::string * pinnameIn = new std::string(); //// pinName type=string;//// ////721////
+    std::string * pinnameIn = new std::string();
     *pinnameIn = checkString(pinName);
-    request.set_allocated_pinname(pinnameIn);//// 6215 ////
+    request.set_allocated_pinname(pinnameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiSelectionManager::isPinSelected1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub =
         octaneapi::ApiSelectionManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->isPinSelected1(context.get(), request, &response);
 
@@ -184,7 +184,7 @@ bool ApiSelectionManagerProxy::isPinSelected(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -204,8 +204,8 @@ bool ApiSelectionManagerProxy::isPinSelected(
 
 
 bool ApiSelectionManagerProxy::isPinSelectedIx(
-            const ApiNodeProxy &                      node, //// test821 //// 
-            const uint32_t                            pinIx //// last param ////
+            const ApiNodeProxy &                      node,
+            const uint32_t                            pinIx
             )
 
 {
@@ -218,15 +218,15 @@ bool ApiSelectionManagerProxy::isPinSelectedIx(
     // Add the 'node' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * nodeIn = new octaneapi::ObjectRef();////761////
-    nodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * nodeIn = new octaneapi::ObjectRef();
+    nodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     nodeIn->set_handle(node.getObjectHandle());
     request.set_allocated_node(nodeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinIx' [in] parameter to the request packet.
     uint32_t pinixIn;
-    pinixIn = pinIx;////2 const uint32_t////
+    pinixIn = pinIx;
     request.set_pinix(pinixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -234,7 +234,7 @@ bool ApiSelectionManagerProxy::isPinSelectedIx(
     octaneapi::ApiSelectionManager::isPinSelectedIxResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub =
         octaneapi::ApiSelectionManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->isPinSelectedIx(context.get(), request, &response);
 
@@ -244,7 +244,7 @@ bool ApiSelectionManagerProxy::isPinSelectedIx(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -275,7 +275,7 @@ size_t ApiSelectionManagerProxy::selectedItemCount()
     octaneapi::ApiSelectionManager::selectedItemCountResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub =
         octaneapi::ApiSelectionManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->selectedItemCount(context.get(), request, &response);
 
@@ -285,7 +285,7 @@ size_t ApiSelectionManagerProxy::selectedItemCount()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -316,7 +316,7 @@ size_t ApiSelectionManagerProxy::selectedPinCount()
     octaneapi::ApiSelectionManager::selectedPinCountResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub =
         octaneapi::ApiSelectionManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->selectedPinCount(context.get(), request, &response);
 
@@ -326,7 +326,7 @@ size_t ApiSelectionManagerProxy::selectedPinCount()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -346,7 +346,7 @@ size_t ApiSelectionManagerProxy::selectedPinCount()
 
 
 void ApiSelectionManagerProxy::getSelection(
-            std::vector<ApiItemProxy> &               selectedItems //// last param ////
+            std::vector<ApiItemProxy> &               selectedItems
             )
 
 {
@@ -360,7 +360,7 @@ void ApiSelectionManagerProxy::getSelection(
     octaneapi::ApiSelectionManager::getSelectionResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub =
         octaneapi::ApiSelectionManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->getSelection(context.get(), request, &response);
 
@@ -369,13 +369,11 @@ void ApiSelectionManagerProxy::getSelection(
         /////////////////////////////////////////////////////////////////////
         // Process 'selectedItems' [out] parameter from the gRPC response packet
         octaneapi::ObjectRefArrayT selectedItemsOut = response.selecteditems();
-        ////UNTESTED client array code 1////
         selectedItems.reserve(selectedItemsOut.data_size());
         for (int i = 0; i < selectedItemsOut.data_size(); i++)
         {
-            //// using unique_ptr 2 ////
             ApiItemProxy item;
-            item.attachObjectHandle(selectedItemsOut.data().Get(i).handle()); ////211b////
+            item.attachObjectHandle(selectedItemsOut.data().Get(i).handle());
             selectedItems.push_back(item);
         }
     }
@@ -396,7 +394,7 @@ void ApiSelectionManagerProxy::getSelection(
 
 
 void ApiSelectionManagerProxy::getSelection(
-            std::vector<ApiPinSelectionProxy> &       selectedPins //// last param ////
+            std::vector<ApiPinSelectionProxy> &       selectedPins
             )
 
 {
@@ -410,7 +408,7 @@ void ApiSelectionManagerProxy::getSelection(
     octaneapi::ApiSelectionManager::getSelection1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub =
         octaneapi::ApiSelectionManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->getSelection1(context.get(), request, &response);
 
@@ -421,9 +419,7 @@ void ApiSelectionManagerProxy::getSelection(
         octaneapi::PinSelectionArrayT selectedPinsOut = response.selectedpins();
         for (int i = 0; i < selectedPinsOut.data_size(); i++)
         {
-            ////param.mProtoCppType = PinSelectionArrayT param.mType = ApiArray<Octane::ApiSelectionManager::PinSelection> & ////
-            ////special case PinSelectionArrayT 2////
-            ApiPinSelectionProxy item;//// 217 ////
+            ApiPinSelectionProxy item;
             item.mPinIndex = selectedPinsOut.data(i).pinindex();
             item.mNode.attachObjectHandle(selectedPinsOut.data(i).node().handle());
             selectedPins.push_back(std::move(item));
@@ -457,7 +453,7 @@ void ApiSelectionManagerProxy::clearSelection()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub =
         octaneapi::ApiSelectionManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->clearSelection(context.get(), request, &response);
 
@@ -481,9 +477,9 @@ void ApiSelectionManagerProxy::clearSelection()
 
 
 void ApiSelectionManagerProxy::setSelection(
-            Octane::ApiArray<ApiItemProxy *>          selectedItems, //// test821 //// 
-            Octane::ApiArray<ApiPinSelectionProxy *>  selectedPins, //// test821 //// 
-            const bool                                selectDestPins //// last param ////
+            Octane::ApiArray<ApiItemProxy *>          selectedItems,
+            Octane::ApiArray<ApiPinSelectionProxy *>  selectedPins,
+            const bool                                selectDestPins
             )
 
 {
@@ -494,27 +490,22 @@ void ApiSelectionManagerProxy::setSelection(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'selectedItems' [in] parameter to the request packet.
-    octaneapi::ObjectRefArrayT * selecteditemsIn = new octaneapi::ObjectRefArrayT(); //// selectedItems type=ObjectRefArrayT;//// ////721////
-    //// Client Array Type B////
-    //// param.mProtoCppType = ObjectRefArrayT param.mType = const ApiArray<Octane::ApiItem *> & ////
+    octaneapi::ObjectRefArrayT * selecteditemsIn = new octaneapi::ObjectRefArrayT();
     for (int h = 0; h < selectedItems.mSize; h++)
     {
          // The proxy object contains the ID of the remote object. Pass this ID to the server
          // using a `ObjectRef` object.
          auto item = selecteditemsIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);////6////
+         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
          item->set_handle(selectedItems.mData[h]->getObjectHandle());
     }
-    request.set_allocated_selecteditems(selecteditemsIn);//// 6215 ////
+    request.set_allocated_selecteditems(selecteditemsIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'selectedPins' [in] parameter to the request packet.
-    octaneapi::PinSelectionArrayT * selectedpinsIn = new octaneapi::PinSelectionArrayT(); //// selectedPins type=PinSelectionArrayT;//// ////721////
-    //// Client Array Type B////
-    //// param.mProtoCppType = PinSelectionArrayT param.mType = const ApiArray<Octane::ApiSelectionManager::PinSelection> & ////
+    octaneapi::PinSelectionArrayT * selectedpinsIn = new octaneapi::PinSelectionArrayT();
     for (int h = 0; h < selectedPins.mSize; h++)
     {
-         //// special case PinSelectionArrayT 1////
          auto item = selectedpinsIn->add_data();
          item->set_pinindex(selectedPins.mData[h]->mPinIndex);
 
@@ -524,12 +515,12 @@ void ApiSelectionManagerProxy::setSelection(
          node->set_handle(selectedPins.mData[h]->mNode.getObjectHandle());
          item->set_allocated_node(node);
     }
-    request.set_allocated_selectedpins(selectedpinsIn);//// 6215 ////
+    request.set_allocated_selectedpins(selectedpinsIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'selectDestPins' [in] parameter to the request packet.
     bool selectdestpinsIn;
-    selectdestpinsIn = selectDestPins;////2 const bool////
+    selectdestpinsIn = selectDestPins;
     request.set_selectdestpins(selectdestpinsIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -537,7 +528,7 @@ void ApiSelectionManagerProxy::setSelection(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub =
         octaneapi::ApiSelectionManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->setSelection(context.get(), request, &response);
 
@@ -561,8 +552,8 @@ void ApiSelectionManagerProxy::setSelection(
 
 
 void ApiSelectionManagerProxy::select(
-            const ApiItemProxy &                      item, //// test821 //// 
-            const bool                                selectDestPins //// last param ////
+            const ApiItemProxy &                      item,
+            const bool                                selectDestPins
             )
 
 {
@@ -575,15 +566,15 @@ void ApiSelectionManagerProxy::select(
     // Add the 'item' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * itemIn = new octaneapi::ObjectRef();////761////
-    itemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);////5////
+    octaneapi::ObjectRef * itemIn = new octaneapi::ObjectRef();
+    itemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
     itemIn->set_handle(item.getObjectHandle());
     request.set_allocated_item(itemIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'selectDestPins' [in] parameter to the request packet.
     bool selectdestpinsIn;
-    selectdestpinsIn = selectDestPins;////2 const bool////
+    selectdestpinsIn = selectDestPins;
     request.set_selectdestpins(selectdestpinsIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -591,7 +582,7 @@ void ApiSelectionManagerProxy::select(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub =
         octaneapi::ApiSelectionManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->select(context.get(), request, &response);
 
@@ -615,8 +606,8 @@ void ApiSelectionManagerProxy::select(
 
 
 void ApiSelectionManagerProxy::select(
-            ApiPinSelectionProxy                      pinSelection, //// test821 //// 
-            const bool                                selectConnectedItem //// last param ////
+            ApiPinSelectionProxy                      pinSelection,
+            const bool                                selectConnectedItem
             )
 
 {
@@ -629,15 +620,15 @@ void ApiSelectionManagerProxy::select(
     // Add the 'pinSelection' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * pinselectionIn = new octaneapi::ObjectRef();////761////
-    pinselectionIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSelectionManager_PinSelection);////5////
+    octaneapi::ObjectRef * pinselectionIn = new octaneapi::ObjectRef();
+    pinselectionIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSelectionManager_PinSelection);
     pinselectionIn->set_handle(pinSelection.getObjectHandle());
     request.set_allocated_pinselection(pinselectionIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'selectConnectedItem' [in] parameter to the request packet.
     bool selectconnecteditemIn;
-    selectconnecteditemIn = selectConnectedItem;////2 const bool////
+    selectconnecteditemIn = selectConnectedItem;
     request.set_selectconnecteditem(selectconnecteditemIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -645,7 +636,7 @@ void ApiSelectionManagerProxy::select(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub =
         octaneapi::ApiSelectionManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->select1(context.get(), request, &response);
 
@@ -669,7 +660,7 @@ void ApiSelectionManagerProxy::select(
 
 
 void ApiSelectionManagerProxy::deselect(
-            const ApiItemProxy &                      item //// last param ////
+            const ApiItemProxy &                      item
             )
 
 {
@@ -682,8 +673,8 @@ void ApiSelectionManagerProxy::deselect(
     // Add the 'item' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * itemIn = new octaneapi::ObjectRef();////761////
-    itemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);////5////
+    octaneapi::ObjectRef * itemIn = new octaneapi::ObjectRef();
+    itemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
     itemIn->set_handle(item.getObjectHandle());
     request.set_allocated_item(itemIn);
 
@@ -692,7 +683,7 @@ void ApiSelectionManagerProxy::deselect(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub =
         octaneapi::ApiSelectionManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->deselect(context.get(), request, &response);
 
@@ -716,7 +707,7 @@ void ApiSelectionManagerProxy::deselect(
 
 
 void ApiSelectionManagerProxy::deselect(
-            ApiPinSelectionProxy                      pin //// last param ////
+            ApiPinSelectionProxy                      pin
             )
 
 {
@@ -729,8 +720,8 @@ void ApiSelectionManagerProxy::deselect(
     // Add the 'pin' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * pinIn = new octaneapi::ObjectRef();////761////
-    pinIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSelectionManager_PinSelection);////5////
+    octaneapi::ObjectRef * pinIn = new octaneapi::ObjectRef();
+    pinIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSelectionManager_PinSelection);
     pinIn->set_handle(pin.getObjectHandle());
     request.set_allocated_pin(pinIn);
 
@@ -739,7 +730,7 @@ void ApiSelectionManagerProxy::deselect(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub =
         octaneapi::ApiSelectionManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->deselect1(context.get(), request, &response);
 
@@ -763,8 +754,8 @@ void ApiSelectionManagerProxy::deselect(
 
 
 void ApiSelectionManagerProxy::swapSelection(
-            const ApiItemProxy &                      oldItem, //// test821 //// 
-            const ApiItemProxy &                      newItem //// last param ////
+            const ApiItemProxy &                      oldItem,
+            const ApiItemProxy &                      newItem
             )
 
 {
@@ -777,8 +768,8 @@ void ApiSelectionManagerProxy::swapSelection(
     // Add the 'oldItem' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * olditemIn = new octaneapi::ObjectRef();////761////
-    olditemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);////5////
+    octaneapi::ObjectRef * olditemIn = new octaneapi::ObjectRef();
+    olditemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
     olditemIn->set_handle(oldItem.getObjectHandle());
     request.set_allocated_olditem(olditemIn);
 
@@ -786,8 +777,8 @@ void ApiSelectionManagerProxy::swapSelection(
     // Add the 'newItem' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * newitemIn = new octaneapi::ObjectRef();////761////
-    newitemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);////5////
+    octaneapi::ObjectRef * newitemIn = new octaneapi::ObjectRef();
+    newitemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
     newitemIn->set_handle(newItem.getObjectHandle());
     request.set_allocated_newitem(newitemIn);
 
@@ -796,7 +787,7 @@ void ApiSelectionManagerProxy::swapSelection(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub =
         octaneapi::ApiSelectionManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->swapSelection(context.get(), request, &response);
 
@@ -820,7 +811,7 @@ void ApiSelectionManagerProxy::swapSelection(
 
 
 void ApiSelectionManagerProxy::addSelectionObserver(
-            GRPCSelectionManagerObserver             observer //// last param ////
+            GRPCSelectionManagerObserver             observer
             )
 
 {
@@ -831,9 +822,9 @@ void ApiSelectionManagerProxy::addSelectionObserver(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'observer' [in] parameter to the request packet.
-    octaneapi::GRPCSelectionManagerObserverT * observerIn = new octaneapi::GRPCSelectionManagerObserverT(); //// observer type=GRPCSelectionManagerObserverT;//// ////721////
+    octaneapi::GRPCSelectionManagerObserverT * observerIn = new octaneapi::GRPCSelectionManagerObserverT();
     // setup observer function observer
-    //int observerCallbackId = GRPCSettings::getNextCallbackId("GRPCSelectionManagerObserver"); 
+    //int observerCallbackId = GRPCSettings::getNextCallbackId("GRPCSelectionManagerObserver");
     //CallbackStorage::registerGRPCSelectionManagerObserver(observerCallbackId, observer.mCallback);
     //octaneapi::OnChangeT * observerchangeT = new octaneapi::OnChangeT();
     //observerchangeT->set_callbackid(observerCallbackId);
@@ -841,14 +832,14 @@ void ApiSelectionManagerProxy::addSelectionObserver(
     //observerIn->set_callbackid(observerCallbackId);
     observerIn->set_userdata(reinterpret_cast<uint64_t>(observer.mUserData));
     //if(className == "ApiSelectionManager" && method.mName == "addSelectionObserver") return true;
-    request.set_allocated_observer(observerIn);//// 6215 ////
+    request.set_allocated_observer(observerIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiSelectionManager::addSelectionObserverResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub =
         octaneapi::ApiSelectionManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->addSelectionObserver(context.get(), request, &response);
 
@@ -874,7 +865,7 @@ void ApiSelectionManagerProxy::addSelectionObserver(
 
 
 void ApiSelectionManagerProxy::removeSelectionObserver(
-            GRPCSelectionManagerObserver             observer //// last param ////
+            GRPCSelectionManagerObserver             observer
             )
 
 {
@@ -885,21 +876,21 @@ void ApiSelectionManagerProxy::removeSelectionObserver(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'observer' [in] parameter to the request packet.
-    octaneapi::GRPCSelectionManagerObserverT * observerIn = new octaneapi::GRPCSelectionManagerObserverT(); //// observer type=GRPCSelectionManagerObserverT;//// ////721////
+    octaneapi::GRPCSelectionManagerObserverT * observerIn = new octaneapi::GRPCSelectionManagerObserverT();
     // remove observer function observer
     int observerCallbackId = CallbackStorage::unregisterGRPCSelectionManagerObserver(observer.mCallback);
     //octaneapi::OnChangeT * observerchangeT = new octaneapi::OnChangeT();
     //observerchangeT->set_callbackid(observerCallbackId);
     observerIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     observerIn->set_callbackid(observerCallbackId);
-    request.set_allocated_observer(observerIn);//// 6215 ////
+    request.set_allocated_observer(observerIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSelectionManagerService::Stub> stub =
         octaneapi::ApiSelectionManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->removeSelectionObserver(context.get(), request, &response);
 

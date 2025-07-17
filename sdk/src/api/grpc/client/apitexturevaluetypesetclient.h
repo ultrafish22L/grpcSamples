@@ -30,7 +30,7 @@ public:
     ///     Contains the status of the gRPC call
     /// @return
     ///     The number of texture value types, which may be zero.
-    uint32_t size(            ) const;
+    uint32_t size() const;
 
     /// Gets the TextureValueType at a given index (TEXTURE_VALUE_TYPE_UNKNOWN if out of bounds).
     ///
@@ -41,7 +41,7 @@ public:
     /// @return
     ///     The TextureValueType at a given index (TEXTURE_VALUE_TYPE_UNKNOWN if out of bounds).
     Octane::TextureValueType at(
-            uint32_t                                  index
+            uint32_t   index
             ) const;
 
     /// Checks if a given TextureValueType is included in the set.
@@ -53,7 +53,7 @@ public:
     /// @return
     ///     TRUE if the given TextureValueType is included in the set, FALSE otherwise.
     bool contains(
-            Octane::TextureValueType                  textureValueType
+            Octane::TextureValueType   textureValueType
             ) const;
 
     /// Return the bitfield encoding all the texture value types in the set.
@@ -62,7 +62,7 @@ public:
     ///     Contains the status of the gRPC call
     /// @return
     ///     A 32-wide bit field, encoding texture value types (single bit per TextureValueType enum option).
-    uint32_t bitField(            ) const;
+    uint32_t bitField() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

@@ -35,13 +35,13 @@ public:
     /// @return
     ///     Dialog that should be destroyed with destroy().
     static ApiModalDialogProxy create(
-            const char *                              dialogTitle
+            const char *   dialogTitle
             );
 
     /// Destroys the dialog created with create().
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Windows only have a single content component. You don't add to a window by calling
     /// addChildComponent() but using addContentComponent instead.
@@ -56,7 +56,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void addContentComponent(
-            ApiGuiComponentProxy &                    contentComponent
+            ApiGuiComponentProxy &   contentComponent
             );
 
     /// Shows this dialog. This will block until the dialog is closed. When the dialog is already
@@ -66,16 +66,16 @@ public:
     ///     Contains the status of the gRPC call
     /// @return
     ///     Value passed into the close call.
-    int show(            );
+    int show();
 
     /// Closes the dialog. This will unblock the show() call.
-    /// 
+    ///
     /// @param[in]  retValue
     ///     Return value, returned by the show call.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void close(
-            const int                                 retValue
+            const int   retValue
             );
 
     /// Displays an information message in a popup.

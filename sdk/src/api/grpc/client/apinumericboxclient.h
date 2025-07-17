@@ -46,12 +46,12 @@ public:
     /// Destroys this numeric box.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Returns the current value in the box.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    double value(            ) const;
+    double value() const;
 
     /// Sets the value in the box.
     ///

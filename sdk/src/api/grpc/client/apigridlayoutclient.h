@@ -29,12 +29,12 @@ public:
     /// Creates a new ApiGridLayout or returns a NULL pointer when creation failed.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static ApiGridLayoutProxy create(            );
+    static ApiGridLayoutProxy create();
 
     /// Destroys the component created with create().
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Starts the set up phase, where components can be added to the grid.
     ///
@@ -63,7 +63,7 @@ public:
     /// components can be added anymore.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void endSetup(            );
+    void endSetup();
 
     /// Adds a new component to a grid cell.
     ///
@@ -161,7 +161,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setElasticityForAllRows(
-            const float                               elasticity
+            const float   elasticity
             );
 
     /// Sets the elasticity for all the colums in the grid (which is the current active grid, i.e.
@@ -169,7 +169,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setElasticityForAllCols(
-            const float                               elasticity
+            const float   elasticity
             );
 
     /// Starts a new nested grid. All components that will be added after startNestedGrid() will
@@ -211,17 +211,17 @@ public:
     /// Finishes the current nested grid and switches the context back to the parent grid.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void endNestedGrid(            );
+    void endNestedGrid();
 
     /// Returns the current width of the grid in pixels.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    int width(            ) const;
+    int width() const;
 
     /// Returns the current height of the grid in pixels.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    int height(            ) const;
+    int height() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

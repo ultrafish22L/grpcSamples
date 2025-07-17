@@ -29,9 +29,8 @@ struct OCTANEAPI_DECL RenderResultStatistics
     Octane::uint32_2      mUsedSize;
     /// The subsample mode that was used to render the result.
     Octane::SubSampleMode mSubSampleMode;
-    /// The upsample mode  that was used to render the result.
-    /// NOTE: it will always be UPSAMPLEMODE_NONE for info pass
-    Octane::UpSampleMode  mUpSampleMode;
+    /// The upsampling ratio.
+    float                 mUpSamplingRatio;
     /// The format of the result buffer.
     Octane::TonemapBufferType mBufferType;
     /// The color space of the result.
@@ -120,7 +119,7 @@ struct OCTANEAPI_DECL RenderResultStatistics
 
     //--- Extra convenience getters ---
 
-    /// Returns the internal film resolution
+    /// Returns the internal film resolution which takes the upsampling into account.
     uint32_2 internalFilmResolution() const;
 
     /// Returns the type of the channels, this is either float or 8-bit unsigned int
@@ -211,8 +210,6 @@ struct ApiRenderPassInfo
     bool              mIsInfoPass;
     /// TRUE if this pass is rendered as a greyscale image.
     bool              mIsGreyscale;
-    /// blending mode info
-    BlendingModeId    mBlendingModeId;
     /// Render pass group.
     /// @deprecated Use mCategory instead.
     RenderPassGroupId mRenderPassGroupId;

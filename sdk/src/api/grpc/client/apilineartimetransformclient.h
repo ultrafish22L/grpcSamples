@@ -27,24 +27,24 @@ public:
     /// The delay of the animation start time in seconds
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    float delay(            ) const;
+    float delay() const;
 
     /// The scale of the animation playback speed (default is 1).
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    float speedUp(            ) const;
+    float speedUp() const;
 
     /// Returns TRUE when custom interval is enabled.
-    /// The animation outside this interval will be cut out. 
+    /// The animation outside this interval will be cut out.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool customIntervalEnabled(            ) const;
+    bool customIntervalEnabled() const;
 
     /// Returns interval of the animation that should be played.
     /// It is untransformed local time of the animation in seconds.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    Octane::TimeSpanT customInterval(            ) const;
+    Octane::TimeSpanT customInterval() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

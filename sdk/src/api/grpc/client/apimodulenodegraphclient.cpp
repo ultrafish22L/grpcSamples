@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apimodulenodegraphclient.h"
 #include <cassert>
@@ -32,9 +32,9 @@ GRPCSettings & ApiModuleNodeGraphProxy::getGRPCSettings()
 
 
 void ApiModuleNodeGraphProxy::setInputLinkers(
-            const ApiNodePinInfoProxy *const          inputInfos, //// test821 //// 
-            const uint32_t                            inputInfosCount, //// test821 //// 
-            const OctaneVec::uint32_2                 range //// last param ////
+            const ApiNodePinInfoProxy *const          inputInfos,
+            const uint32_t                            inputInfosCount,
+            const OctaneVec::uint32_2                 range
             )
 
 {
@@ -47,45 +47,43 @@ void ApiModuleNodeGraphProxy::setInputLinkers(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'inputInfos' [in] parameter to the request packet.
-    octaneapi::ObjectRefArrayT * inputinfosIn = new octaneapi::ObjectRefArrayT(); //// inputInfos type=ObjectRefArrayT;//// ////721////
-    //// Client Array Type C////
-    //// param.mProtoCppType = ObjectRefArrayT param.mType = const Octane::ApiNodePinInfo *const ////
+    octaneapi::ObjectRefArrayT * inputinfosIn = new octaneapi::ObjectRefArrayT();
     for (uint32_t h = 0; h < inputInfosCount; h++)
     {
          // The proxy object contains the ID of the remote object. Pass this ID to the server
          // using a `ObjectRef` object.
          auto item = inputinfosIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);////4////
+         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);
          item->set_handle(inputInfos[h].getObjectHandle());
     }
-    request.set_allocated_inputinfos(inputinfosIn);//// 6215 ////
+    request.set_allocated_inputinfos(inputinfosIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'inputInfosCount' [in] parameter to the request packet.
     uint32_t inputinfoscountIn;
-    inputinfoscountIn = inputInfosCount;////2 const uint32_t////
+    inputinfoscountIn = inputInfosCount;
     request.set_inputinfoscount(inputinfoscountIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'range' [in] parameter to the request packet.
-    octaneapi::uint32_2 * rangeIn = new octaneapi::uint32_2(); //// range type=uint32_2;//// ////721////
+    octaneapi::uint32_2 * rangeIn = new octaneapi::uint32_2();
     (*rangeIn).set_x(range.x);
     (*rangeIn).set_y(range.y);
-    request.set_allocated_range(rangeIn);//// 6215 ////
+    request.set_allocated_range(rangeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setInputLinkers(context.get(), request, &response);
 
@@ -109,9 +107,9 @@ void ApiModuleNodeGraphProxy::setInputLinkers(
 
 
 void ApiModuleNodeGraphProxy::setOutputLinkers(
-            const ApiNodePinInfoProxy *const          outputInfos, //// test821 //// 
-            const uint32_t                            outputInfosCount, //// test821 //// 
-            const OctaneVec::uint32_2                 range //// last param ////
+            const ApiNodePinInfoProxy *const          outputInfos,
+            const uint32_t                            outputInfosCount,
+            const OctaneVec::uint32_2                 range
             )
 
 {
@@ -124,45 +122,43 @@ void ApiModuleNodeGraphProxy::setOutputLinkers(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'outputInfos' [in] parameter to the request packet.
-    octaneapi::ObjectRefArrayT * outputinfosIn = new octaneapi::ObjectRefArrayT(); //// outputInfos type=ObjectRefArrayT;//// ////721////
-    //// Client Array Type C////
-    //// param.mProtoCppType = ObjectRefArrayT param.mType = const Octane::ApiNodePinInfo *const ////
+    octaneapi::ObjectRefArrayT * outputinfosIn = new octaneapi::ObjectRefArrayT();
     for (uint32_t h = 0; h < outputInfosCount; h++)
     {
          // The proxy object contains the ID of the remote object. Pass this ID to the server
          // using a `ObjectRef` object.
          auto item = outputinfosIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);////4////
+         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);
          item->set_handle(outputInfos[h].getObjectHandle());
     }
-    request.set_allocated_outputinfos(outputinfosIn);//// 6215 ////
+    request.set_allocated_outputinfos(outputinfosIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'outputInfosCount' [in] parameter to the request packet.
     uint32_t outputinfoscountIn;
-    outputinfoscountIn = outputInfosCount;////2 const uint32_t////
+    outputinfoscountIn = outputInfosCount;
     request.set_outputinfoscount(outputinfoscountIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'range' [in] parameter to the request packet.
-    octaneapi::uint32_2 * rangeIn = new octaneapi::uint32_2(); //// range type=uint32_2;//// ////721////
+    octaneapi::uint32_2 * rangeIn = new octaneapi::uint32_2();
     (*rangeIn).set_x(range.x);
     (*rangeIn).set_y(range.y);
-    request.set_allocated_range(rangeIn);//// 6215 ////
+    request.set_allocated_range(rangeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setOutputLinkers(context.get(), request, &response);
 
@@ -186,10 +182,10 @@ void ApiModuleNodeGraphProxy::setOutputLinkers(
 
 
 void ApiModuleNodeGraphProxy::insertLinkers(
-            const ApiNodePinInfoProxy *const          infos, //// test821 //// 
-            const uint32_t                            infosCount, //// test821 //// 
-            const uint32_t                            ix, //// test821 //// 
-            const bool                                isInputLinkers //// last param ////
+            const ApiNodePinInfoProxy *const          infos,
+            const uint32_t                            infosCount,
+            const uint32_t                            ix,
+            const bool                                isInputLinkers
             )
 
 {
@@ -202,42 +198,40 @@ void ApiModuleNodeGraphProxy::insertLinkers(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'infos' [in] parameter to the request packet.
-    octaneapi::ObjectRefArrayT * infosIn = new octaneapi::ObjectRefArrayT(); //// infos type=ObjectRefArrayT;//// ////721////
-    //// Client Array Type C////
-    //// param.mProtoCppType = ObjectRefArrayT param.mType = const Octane::ApiNodePinInfo *const ////
+    octaneapi::ObjectRefArrayT * infosIn = new octaneapi::ObjectRefArrayT();
     for (uint32_t h = 0; h < infosCount; h++)
     {
          // The proxy object contains the ID of the remote object. Pass this ID to the server
          // using a `ObjectRef` object.
          auto item = infosIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);////4////
+         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);
          item->set_handle(infos[h].getObjectHandle());
     }
-    request.set_allocated_infos(infosIn);//// 6215 ////
+    request.set_allocated_infos(infosIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'infosCount' [in] parameter to the request packet.
     uint32_t infoscountIn;
-    infoscountIn = infosCount;////2 const uint32_t////
+    infoscountIn = infosCount;
     request.set_infoscount(infoscountIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = ix;////2 const uint32_t////
+    ixIn = ix;
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'isInputLinkers' [in] parameter to the request packet.
     bool isinputlinkersIn;
-    isinputlinkersIn = isInputLinkers;////2 const bool////
+    isinputlinkersIn = isInputLinkers;
     request.set_isinputlinkers(isinputlinkersIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -245,7 +239,7 @@ void ApiModuleNodeGraphProxy::insertLinkers(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->insertLinkers(context.get(), request, &response);
 
@@ -269,9 +263,9 @@ void ApiModuleNodeGraphProxy::insertLinkers(
 
 
 void ApiModuleNodeGraphProxy::removeLinkers(
-            const ApiNodePinInfoProxy *const          infos, //// test821 //// 
-            const OctaneVec::uint32_2                 range, //// test821 //// 
-            const bool                                isInputLinkers //// last param ////
+            const ApiNodePinInfoProxy *const          infos,
+            const OctaneVec::uint32_2                 range,
+            const bool                                isInputLinkers
             )
 
 {
@@ -284,37 +278,35 @@ void ApiModuleNodeGraphProxy::removeLinkers(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'infos' [in] parameter to the request packet.
-    octaneapi::ObjectRefArrayT * infosIn = new octaneapi::ObjectRefArrayT(); //// infos type=ObjectRefArrayT;//// ////721////
-    //// Client Array Type C////
-    //// param.mProtoCppType = ObjectRefArrayT param.mType = const Octane::ApiNodePinInfo *const ////
+    octaneapi::ObjectRefArrayT * infosIn = new octaneapi::ObjectRefArrayT();
     for (size_t h = range.x; h < range.y; ++h)
     {
          // The proxy object contains the ID of the remote object. Pass this ID to the server
          // using a `ObjectRef` object.
          auto item = infosIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);////4////
+         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);
          item->set_handle(infos[h].getObjectHandle());
     }
-    request.set_allocated_infos(infosIn);//// 6215 ////
+    request.set_allocated_infos(infosIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'range' [in] parameter to the request packet.
-    octaneapi::uint32_2 * rangeIn = new octaneapi::uint32_2(); //// range type=uint32_2;//// ////721////
+    octaneapi::uint32_2 * rangeIn = new octaneapi::uint32_2();
     (*rangeIn).set_x(range.x);
     (*rangeIn).set_y(range.y);
-    request.set_allocated_range(rangeIn);//// 6215 ////
+    request.set_allocated_range(rangeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'isInputLinkers' [in] parameter to the request packet.
     bool isinputlinkersIn;
-    isinputlinkersIn = isInputLinkers;////2 const bool////
+    isinputlinkersIn = isInputLinkers;
     request.set_isinputlinkers(isinputlinkersIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -322,7 +314,7 @@ void ApiModuleNodeGraphProxy::removeLinkers(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->removeLinkers(context.get(), request, &response);
 
@@ -346,8 +338,8 @@ void ApiModuleNodeGraphProxy::removeLinkers(
 
 
 void ApiModuleNodeGraphProxy::setInputInfo(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            const ApiNodePinInfoProxy &               info //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            const ApiNodePinInfoProxy &               info
             )
 
 {
@@ -360,8 +352,8 @@ void ApiModuleNodeGraphProxy::setInputInfo(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -369,8 +361,8 @@ void ApiModuleNodeGraphProxy::setInputInfo(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
@@ -378,8 +370,8 @@ void ApiModuleNodeGraphProxy::setInputInfo(
     // Add the 'info' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * infoIn = new octaneapi::ObjectRef();////761////
-    infoIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);////5////
+    octaneapi::ObjectRef * infoIn = new octaneapi::ObjectRef();
+    infoIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);
     infoIn->set_handle(info.getObjectHandle());
     request.set_allocated_info(infoIn);
 
@@ -388,7 +380,7 @@ void ApiModuleNodeGraphProxy::setInputInfo(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setInputInfo(context.get(), request, &response);
 
@@ -412,7 +404,7 @@ void ApiModuleNodeGraphProxy::setInputInfo(
 
 
 bool ApiModuleNodeGraphProxy::inputWasChanged(
-            const ApiNodeProxy *const                 linkerNode //// last param ////
+            const ApiNodeProxy *const                 linkerNode
             ) const
 
 {
@@ -425,8 +417,8 @@ bool ApiModuleNodeGraphProxy::inputWasChanged(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -434,8 +426,8 @@ bool ApiModuleNodeGraphProxy::inputWasChanged(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
@@ -444,7 +436,7 @@ bool ApiModuleNodeGraphProxy::inputWasChanged(
     octaneapi::ApiModuleNodeGraph::inputWasChangedResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->inputWasChanged(context.get(), request, &response);
 
@@ -454,7 +446,7 @@ bool ApiModuleNodeGraphProxy::inputWasChanged(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -474,8 +466,8 @@ bool ApiModuleNodeGraphProxy::inputWasChanged(
 
 
 bool ApiModuleNodeGraphProxy::getInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            bool &                                    value //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            bool &                                    value
             ) const
 
 {
@@ -488,8 +480,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -497,8 +489,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
@@ -507,7 +499,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     octaneapi::ApiModuleNodeGraph::getInputValueResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getInputValue(context.get(), request, &response);
 
@@ -517,12 +509,12 @@ bool ApiModuleNodeGraphProxy::getInputValue(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         bool valueOut = response.value();
-        value = valueOut;//// SECOND////
+        value = valueOut;
     }
     else
     {
@@ -542,8 +534,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
 
 
 bool ApiModuleNodeGraphProxy::getInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            float &                                   value //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            float &                                   value
             ) const
 
 {
@@ -556,8 +548,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -565,8 +557,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
@@ -575,7 +567,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     octaneapi::ApiModuleNodeGraph::getInputValue1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getInputValue1(context.get(), request, &response);
 
@@ -585,12 +577,12 @@ bool ApiModuleNodeGraphProxy::getInputValue(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         float valueOut = response.value();
-        value = valueOut;//// SECOND////
+        value = valueOut;
     }
     else
     {
@@ -610,8 +602,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
 
 
 bool ApiModuleNodeGraphProxy::getInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            OctaneVec::float_2 &                      value //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            OctaneVec::float_2 &                      value
             ) const
 
 {
@@ -624,8 +616,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -633,8 +625,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
@@ -643,7 +635,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     octaneapi::ApiModuleNodeGraph::getInputValue2Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getInputValue2(context.get(), request, &response);
 
@@ -653,7 +645,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -679,8 +671,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
 
 
 bool ApiModuleNodeGraphProxy::getInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            OctaneVec::float_3 &                      value //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            OctaneVec::float_3 &                      value
             ) const
 
 {
@@ -693,8 +685,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -702,8 +694,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
@@ -712,7 +704,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     octaneapi::ApiModuleNodeGraph::getInputValue3Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getInputValue3(context.get(), request, &response);
 
@@ -722,7 +714,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -749,8 +741,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
 
 
 bool ApiModuleNodeGraphProxy::getInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            OctaneVec::float_4 &                      value //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            OctaneVec::float_4 &                      value
             ) const
 
 {
@@ -763,8 +755,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -772,8 +764,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
@@ -782,7 +774,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     octaneapi::ApiModuleNodeGraph::getInputValue4Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getInputValue4(context.get(), request, &response);
 
@@ -792,7 +784,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -820,8 +812,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
 
 
 bool ApiModuleNodeGraphProxy::getInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            int32_t &                                 value //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            int32_t &                                 value
             ) const
 
 {
@@ -834,8 +826,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -843,8 +835,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
@@ -853,7 +845,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     octaneapi::ApiModuleNodeGraph::getInputValue5Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getInputValue5(context.get(), request, &response);
 
@@ -863,12 +855,12 @@ bool ApiModuleNodeGraphProxy::getInputValue(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         int32_t valueOut = response.value();
-        value = valueOut;//// SECOND////
+        value = valueOut;
     }
     else
     {
@@ -888,8 +880,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
 
 
 bool ApiModuleNodeGraphProxy::getInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            OctaneVec::int32_2 &                      value //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            OctaneVec::int32_2 &                      value
             ) const
 
 {
@@ -902,8 +894,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -911,8 +903,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
@@ -921,7 +913,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     octaneapi::ApiModuleNodeGraph::getInputValue6Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getInputValue6(context.get(), request, &response);
 
@@ -931,7 +923,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -957,8 +949,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
 
 
 bool ApiModuleNodeGraphProxy::getInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            OctaneVec::int32_3 &                      value //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            OctaneVec::int32_3 &                      value
             ) const
 
 {
@@ -971,8 +963,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -980,8 +972,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
@@ -990,7 +982,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     octaneapi::ApiModuleNodeGraph::getInputValue7Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getInputValue7(context.get(), request, &response);
 
@@ -1000,7 +992,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -1027,8 +1019,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
 
 
 bool ApiModuleNodeGraphProxy::getInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            OctaneVec::int32_4 &                      value //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            OctaneVec::int32_4 &                      value
             ) const
 
 {
@@ -1041,8 +1033,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1050,8 +1042,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
@@ -1060,7 +1052,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     octaneapi::ApiModuleNodeGraph::getInputValue8Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getInputValue8(context.get(), request, &response);
 
@@ -1070,7 +1062,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -1098,8 +1090,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
 
 
 bool ApiModuleNodeGraphProxy::getInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            OctaneVec::MatrixF &                      value //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            OctaneVec::MatrixF &                      value
             ) const
 
 {
@@ -1112,8 +1104,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1121,8 +1113,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
@@ -1131,7 +1123,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     octaneapi::ApiModuleNodeGraph::getInputValue9Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getInputValue9(context.get(), request, &response);
 
@@ -1141,12 +1133,11 @@ bool ApiModuleNodeGraphProxy::getInputValue(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         octaneapi::MatrixF valueOut = response.value();
-    //// ::MatrixF TEST 2////
     MatrixConverter::convertMatrixToOctane(valueOut, value);
     }
     else
@@ -1167,8 +1158,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
 
 
 bool ApiModuleNodeGraphProxy::getInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            std::string &                             value //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            std::string &                             value
             ) const
 
 {
@@ -1181,8 +1172,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1190,8 +1181,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
@@ -1200,7 +1191,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     octaneapi::ApiModuleNodeGraph::getInputValue10Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getInputValue10(context.get(), request, &response);
 
@@ -1210,13 +1201,13 @@ bool ApiModuleNodeGraphProxy::getInputValue(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         std::string valueOut = response.value();
         // param.mType = const char *&
-        value =  valueOut;////ex string mgr////
+        value =  valueOut;
     }
     else
     {
@@ -1236,8 +1227,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
 
 
 bool ApiModuleNodeGraphProxy::getInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            Octane::ApiFilePath &                     value //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            Octane::ApiFilePath &                     value
             ) const
 
 {
@@ -1250,8 +1241,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1259,8 +1250,8 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
@@ -1269,7 +1260,7 @@ bool ApiModuleNodeGraphProxy::getInputValue(
     octaneapi::ApiModuleNodeGraph::getInputValue11Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getInputValue11(context.get(), request, &response);
 
@@ -1279,13 +1270,12 @@ bool ApiModuleNodeGraphProxy::getInputValue(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         octaneapi::ApiFilePath valueOut = response.value();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        ApiFilePathConverter::convert(valueOut, value); ////Convert Called type 5223 =ApiFilePath;////
+        ApiFilePathConverter::convert(valueOut, value);
     }
     else
     {
@@ -1305,9 +1295,9 @@ bool ApiModuleNodeGraphProxy::getInputValue(
 
 
 void ApiModuleNodeGraphProxy::setInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            const bool                                value, //// test821 //// 
-            const bool                                evaluate //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            const bool                                value,
+            const bool                                evaluate
             )
 
 {
@@ -1320,8 +1310,8 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1329,21 +1319,21 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     bool valueIn;
-    valueIn = value;////2 const bool////
+    valueIn = value;
     request.set_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'evaluate' [in] parameter to the request packet.
     bool evaluateIn;
-    evaluateIn = evaluate;////2 const bool////
+    evaluateIn = evaluate;
     request.set_evaluate(evaluateIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1351,7 +1341,7 @@ void ApiModuleNodeGraphProxy::setInputValue(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setInputValue(context.get(), request, &response);
 
@@ -1375,9 +1365,9 @@ void ApiModuleNodeGraphProxy::setInputValue(
 
 
 void ApiModuleNodeGraphProxy::setInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            const float                               value, //// test821 //// 
-            const bool                                evaluate //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            const float                               value,
+            const bool                                evaluate
             )
 
 {
@@ -1390,8 +1380,8 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1399,21 +1389,21 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     float valueIn;
-    valueIn = value;////2 const float////
+    valueIn = value;
     request.set_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'evaluate' [in] parameter to the request packet.
     bool evaluateIn;
-    evaluateIn = evaluate;////2 const bool////
+    evaluateIn = evaluate;
     request.set_evaluate(evaluateIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1421,7 +1411,7 @@ void ApiModuleNodeGraphProxy::setInputValue(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setInputValue1(context.get(), request, &response);
 
@@ -1445,9 +1435,9 @@ void ApiModuleNodeGraphProxy::setInputValue(
 
 
 void ApiModuleNodeGraphProxy::setInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            const OctaneVec::float_2                  value, //// test821 //// 
-            const bool                                evaluate //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            const OctaneVec::float_2                  value,
+            const bool                                evaluate
             )
 
 {
@@ -1460,8 +1450,8 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1469,22 +1459,22 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::float_2 * valueIn = new octaneapi::float_2(); //// value type=float_2;//// ////721////
+    octaneapi::float_2 * valueIn = new octaneapi::float_2();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'evaluate' [in] parameter to the request packet.
     bool evaluateIn;
-    evaluateIn = evaluate;////2 const bool////
+    evaluateIn = evaluate;
     request.set_evaluate(evaluateIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1492,7 +1482,7 @@ void ApiModuleNodeGraphProxy::setInputValue(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setInputValue2(context.get(), request, &response);
 
@@ -1516,9 +1506,9 @@ void ApiModuleNodeGraphProxy::setInputValue(
 
 
 void ApiModuleNodeGraphProxy::setInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            const OctaneVec::float_3                  value, //// test821 //// 
-            const bool                                evaluate //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            const OctaneVec::float_3                  value,
+            const bool                                evaluate
             )
 
 {
@@ -1531,8 +1521,8 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1540,23 +1530,23 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::float_3 * valueIn = new octaneapi::float_3(); //// value type=float_3;//// ////721////
+    octaneapi::float_3 * valueIn = new octaneapi::float_3();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'evaluate' [in] parameter to the request packet.
     bool evaluateIn;
-    evaluateIn = evaluate;////2 const bool////
+    evaluateIn = evaluate;
     request.set_evaluate(evaluateIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1564,7 +1554,7 @@ void ApiModuleNodeGraphProxy::setInputValue(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setInputValue3(context.get(), request, &response);
 
@@ -1588,9 +1578,9 @@ void ApiModuleNodeGraphProxy::setInputValue(
 
 
 void ApiModuleNodeGraphProxy::setInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            const OctaneVec::float_4                  value, //// test821 //// 
-            const bool                                evaluate //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            const OctaneVec::float_4                  value,
+            const bool                                evaluate
             )
 
 {
@@ -1603,8 +1593,8 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1612,24 +1602,24 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::float_4 * valueIn = new octaneapi::float_4(); //// value type=float_4;//// ////721////
+    octaneapi::float_4 * valueIn = new octaneapi::float_4();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
     (*valueIn).set_w(value.w);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'evaluate' [in] parameter to the request packet.
     bool evaluateIn;
-    evaluateIn = evaluate;////2 const bool////
+    evaluateIn = evaluate;
     request.set_evaluate(evaluateIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1637,7 +1627,7 @@ void ApiModuleNodeGraphProxy::setInputValue(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setInputValue4(context.get(), request, &response);
 
@@ -1661,9 +1651,9 @@ void ApiModuleNodeGraphProxy::setInputValue(
 
 
 void ApiModuleNodeGraphProxy::setInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            const int32_t                             value, //// test821 //// 
-            const bool                                evaluate //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            const int32_t                             value,
+            const bool                                evaluate
             )
 
 {
@@ -1676,8 +1666,8 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1685,21 +1675,21 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     int32_t valueIn;
-    valueIn = value;////2 const int32_t////
+    valueIn = value;
     request.set_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'evaluate' [in] parameter to the request packet.
     bool evaluateIn;
-    evaluateIn = evaluate;////2 const bool////
+    evaluateIn = evaluate;
     request.set_evaluate(evaluateIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1707,7 +1697,7 @@ void ApiModuleNodeGraphProxy::setInputValue(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setInputValue5(context.get(), request, &response);
 
@@ -1731,9 +1721,9 @@ void ApiModuleNodeGraphProxy::setInputValue(
 
 
 void ApiModuleNodeGraphProxy::setInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            const OctaneVec::int32_2                  value, //// test821 //// 
-            const bool                                evaluate //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            const OctaneVec::int32_2                  value,
+            const bool                                evaluate
             )
 
 {
@@ -1746,8 +1736,8 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1755,22 +1745,22 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::int32_2 * valueIn = new octaneapi::int32_2(); //// value type=int32_2;//// ////721////
+    octaneapi::int32_2 * valueIn = new octaneapi::int32_2();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'evaluate' [in] parameter to the request packet.
     bool evaluateIn;
-    evaluateIn = evaluate;////2 const bool////
+    evaluateIn = evaluate;
     request.set_evaluate(evaluateIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1778,7 +1768,7 @@ void ApiModuleNodeGraphProxy::setInputValue(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setInputValue6(context.get(), request, &response);
 
@@ -1802,9 +1792,9 @@ void ApiModuleNodeGraphProxy::setInputValue(
 
 
 void ApiModuleNodeGraphProxy::setInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            const OctaneVec::int32_3                  value, //// test821 //// 
-            const bool                                evaluate //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            const OctaneVec::int32_3                  value,
+            const bool                                evaluate
             )
 
 {
@@ -1817,8 +1807,8 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1826,23 +1816,23 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::int32_3 * valueIn = new octaneapi::int32_3(); //// value type=int32_3;//// ////721////
+    octaneapi::int32_3 * valueIn = new octaneapi::int32_3();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'evaluate' [in] parameter to the request packet.
     bool evaluateIn;
-    evaluateIn = evaluate;////2 const bool////
+    evaluateIn = evaluate;
     request.set_evaluate(evaluateIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1850,7 +1840,7 @@ void ApiModuleNodeGraphProxy::setInputValue(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setInputValue7(context.get(), request, &response);
 
@@ -1874,9 +1864,9 @@ void ApiModuleNodeGraphProxy::setInputValue(
 
 
 void ApiModuleNodeGraphProxy::setInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            const OctaneVec::int32_4                  value, //// test821 //// 
-            const bool                                evaluate //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            const OctaneVec::int32_4                  value,
+            const bool                                evaluate
             )
 
 {
@@ -1889,8 +1879,8 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1898,24 +1888,24 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::int32_4 * valueIn = new octaneapi::int32_4(); //// value type=int32_4;//// ////721////
+    octaneapi::int32_4 * valueIn = new octaneapi::int32_4();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
     (*valueIn).set_w(value.w);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'evaluate' [in] parameter to the request packet.
     bool evaluateIn;
-    evaluateIn = evaluate;////2 const bool////
+    evaluateIn = evaluate;
     request.set_evaluate(evaluateIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1923,7 +1913,7 @@ void ApiModuleNodeGraphProxy::setInputValue(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setInputValue8(context.get(), request, &response);
 
@@ -1947,9 +1937,9 @@ void ApiModuleNodeGraphProxy::setInputValue(
 
 
 void ApiModuleNodeGraphProxy::setInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            const OctaneVec::MatrixF                  value, //// test821 //// 
-            const bool                                evaluate //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            const OctaneVec::MatrixF                  value,
+            const bool                                evaluate
             )
 
 {
@@ -1962,8 +1952,8 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1971,22 +1961,21 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::MatrixF * valueIn = new octaneapi::MatrixF(); //// value type=MatrixF;//// ////721////
-    //// ::MatrixF TEST////
+    octaneapi::MatrixF * valueIn = new octaneapi::MatrixF();
     MatrixConverter::convertMatrixToProto(value, *valueIn);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'evaluate' [in] parameter to the request packet.
     bool evaluateIn;
-    evaluateIn = evaluate;////2 const bool////
+    evaluateIn = evaluate;
     request.set_evaluate(evaluateIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1994,7 +1983,7 @@ void ApiModuleNodeGraphProxy::setInputValue(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setInputValue9(context.get(), request, &response);
 
@@ -2018,9 +2007,9 @@ void ApiModuleNodeGraphProxy::setInputValue(
 
 
 void ApiModuleNodeGraphProxy::setInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            const char *                              value, //// test821 //// 
-            const bool                                evaluate //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            const char *                              value,
+            const bool                                evaluate
             )
 
 {
@@ -2033,8 +2022,8 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -2042,21 +2031,21 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    std::string * valueIn = new std::string(); //// value type=string;//// ////721////
+    std::string * valueIn = new std::string();
     *valueIn = checkString(value);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'evaluate' [in] parameter to the request packet.
     bool evaluateIn;
-    evaluateIn = evaluate;////2 const bool////
+    evaluateIn = evaluate;
     request.set_evaluate(evaluateIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2064,7 +2053,7 @@ void ApiModuleNodeGraphProxy::setInputValue(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setInputValue10(context.get(), request, &response);
 
@@ -2088,9 +2077,9 @@ void ApiModuleNodeGraphProxy::setInputValue(
 
 
 void ApiModuleNodeGraphProxy::setInputValue(
-            const ApiNodeProxy *const                 linkerNode, //// test821 //// 
-            const Octane::ApiFilePath                 value, //// test821 //// 
-            const bool                                evaluate //// last param ////
+            const ApiNodeProxy *const                 linkerNode,
+            const Octane::ApiFilePath                 value,
+            const bool                                evaluate
             )
 
 {
@@ -2103,8 +2092,8 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -2112,22 +2101,21 @@ void ApiModuleNodeGraphProxy::setInputValue(
     // Add the 'linkerNode' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();////761////
-    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * linkernodeIn = new octaneapi::ObjectRef();
+    linkernodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     linkernodeIn->set_handle(linkerNode->getObjectHandle());
     request.set_allocated_linkernode(linkernodeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::ApiFilePath * valueIn = new octaneapi::ApiFilePath(); //// value type=ApiFilePath;//// ////721////
-    //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST////
-    ApiFilePathConverter::convert(value, *valueIn); //// Convert Called type 1c =ApiFilePath ////
-    request.set_allocated_value(valueIn);//// 6215 ////
+    octaneapi::ApiFilePath * valueIn = new octaneapi::ApiFilePath();
+    ApiFilePathConverter::convert(value, *valueIn);
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'evaluate' [in] parameter to the request packet.
     bool evaluateIn;
-    evaluateIn = evaluate;////2 const bool////
+    evaluateIn = evaluate;
     request.set_evaluate(evaluateIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2135,7 +2123,7 @@ void ApiModuleNodeGraphProxy::setInputValue(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setInputValue11(context.get(), request, &response);
 
@@ -2169,8 +2157,8 @@ void ApiModuleNodeGraphProxy::reset()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -2179,7 +2167,7 @@ void ApiModuleNodeGraphProxy::reset()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->reset(context.get(), request, &response);
 
@@ -2203,8 +2191,8 @@ void ApiModuleNodeGraphProxy::reset()
 
 
 void ApiModuleNodeGraphProxy::setEvaluateTimeChanges(
-            const bool                                shouldEvaluate, //// test821 //// 
-            const OctaneVec::float_2                  timeInterval //// last param ////
+            const bool                                shouldEvaluate,
+            const OctaneVec::float_2                  timeInterval
             )
 
 {
@@ -2217,30 +2205,30 @@ void ApiModuleNodeGraphProxy::setEvaluateTimeChanges(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'shouldEvaluate' [in] parameter to the request packet.
     bool shouldevaluateIn;
-    shouldevaluateIn = shouldEvaluate;////2 const bool////
+    shouldevaluateIn = shouldEvaluate;
     request.set_shouldevaluate(shouldevaluateIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'timeInterval' [in] parameter to the request packet.
-    octaneapi::float_2 * timeintervalIn = new octaneapi::float_2(); //// timeInterval type=float_2;//// ////721////
+    octaneapi::float_2 * timeintervalIn = new octaneapi::float_2();
     (*timeintervalIn).set_x(timeInterval.x);
     (*timeintervalIn).set_y(timeInterval.y);
-    request.set_allocated_timeinterval(timeintervalIn);//// 6215 ////
+    request.set_allocated_timeinterval(timeintervalIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setEvaluateTimeChanges(context.get(), request, &response);
 
@@ -2264,7 +2252,7 @@ void ApiModuleNodeGraphProxy::setEvaluateTimeChanges(
 
 
 void ApiModuleNodeGraphProxy::setIcon(
-            const ApiImageProxy *                     image //// last param ////
+            const ApiImageProxy *                     image
             )
 
 {
@@ -2277,8 +2265,8 @@ void ApiModuleNodeGraphProxy::setIcon(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -2286,8 +2274,8 @@ void ApiModuleNodeGraphProxy::setIcon(
     // Add the 'image' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * imageIn = new octaneapi::ObjectRef();////761////
-    imageIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImage);////5////
+    octaneapi::ObjectRef * imageIn = new octaneapi::ObjectRef();
+    imageIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImage);
     imageIn->set_handle(image->getObjectHandle());
     request.set_allocated_image(imageIn);
 
@@ -2296,7 +2284,7 @@ void ApiModuleNodeGraphProxy::setIcon(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setIcon(context.get(), request, &response);
 
@@ -2330,8 +2318,8 @@ bool ApiModuleNodeGraphProxy::wasTimeChanged() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -2340,7 +2328,7 @@ bool ApiModuleNodeGraphProxy::wasTimeChanged() const
     octaneapi::ApiModuleNodeGraph::wasTimeChangedResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->wasTimeChanged(context.get(), request, &response);
 
@@ -2350,7 +2338,7 @@ bool ApiModuleNodeGraphProxy::wasTimeChanged() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -2370,7 +2358,7 @@ bool ApiModuleNodeGraphProxy::wasTimeChanged() const
 
 
 size_t ApiModuleNodeGraphProxy::appendAsset(
-            const Octane::ApiFilePath &               filePath //// last param ////
+            const Octane::ApiFilePath &               filePath
             )
 
 {
@@ -2383,24 +2371,23 @@ size_t ApiModuleNodeGraphProxy::appendAsset(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'filePath' [in] parameter to the request packet.
-    octaneapi::ApiFilePath * filepathIn = new octaneapi::ApiFilePath(); //// filePath type=ApiFilePath;//// ////721////
-    //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST////
-    ApiFilePathConverter::convert(filePath, *filepathIn); //// Convert Called type 1c =ApiFilePath ////
-    request.set_allocated_filepath(filepathIn);//// 6215 ////
+    octaneapi::ApiFilePath * filepathIn = new octaneapi::ApiFilePath();
+    ApiFilePathConverter::convert(filePath, *filepathIn);
+    request.set_allocated_filepath(filepathIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiModuleNodeGraph::appendAssetResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->appendAsset(context.get(), request, &response);
 
@@ -2410,7 +2397,7 @@ size_t ApiModuleNodeGraphProxy::appendAsset(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -2430,7 +2417,7 @@ size_t ApiModuleNodeGraphProxy::appendAsset(
 
 
 void ApiModuleNodeGraphProxy::removeAsset(
-            const size_t                              index //// last param ////
+            const size_t                              index
             )
 
 {
@@ -2443,15 +2430,15 @@ void ApiModuleNodeGraphProxy::removeAsset(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'index' [in] parameter to the request packet.
     uint32_t indexIn;
-    indexIn = static_cast<uint32_t>(index);////2 const size_t////
+    indexIn = static_cast<uint32_t>(index);
     request.set_index(indexIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2459,7 +2446,7 @@ void ApiModuleNodeGraphProxy::removeAsset(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->removeAsset(context.get(), request, &response);
 
@@ -2483,7 +2470,7 @@ void ApiModuleNodeGraphProxy::removeAsset(
 
 
 Octane::ApiFilePath ApiModuleNodeGraphProxy::getAsset(
-            const size_t                              index //// last param ////
+            const size_t                              index
             ) const
 
 {
@@ -2496,15 +2483,15 @@ Octane::ApiFilePath ApiModuleNodeGraphProxy::getAsset(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'index' [in] parameter to the request packet.
     uint32_t indexIn;
-    indexIn = static_cast<uint32_t>(index);////2 const size_t////
+    indexIn = static_cast<uint32_t>(index);
     request.set_index(indexIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2512,7 +2499,7 @@ Octane::ApiFilePath ApiModuleNodeGraphProxy::getAsset(
     octaneapi::ApiModuleNodeGraph::getAssetResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getAsset(context.get(), request, &response);
 
@@ -2522,8 +2509,7 @@ Octane::ApiFilePath ApiModuleNodeGraphProxy::getAsset(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ApiFilePath resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        ApiFilePathConverter::convert(resultOut, retVal); ////Convert Called type 5223 =ApiFilePath;////
+        ApiFilePathConverter::convert(resultOut, retVal);
     }
     else
     {
@@ -2553,8 +2539,8 @@ size_t ApiModuleNodeGraphProxy::getAssetCount() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -2563,7 +2549,7 @@ size_t ApiModuleNodeGraphProxy::getAssetCount() const
     octaneapi::ApiModuleNodeGraph::getAssetCountResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getAssetCount(context.get(), request, &response);
 
@@ -2573,7 +2559,7 @@ size_t ApiModuleNodeGraphProxy::getAssetCount() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -2593,9 +2579,9 @@ size_t ApiModuleNodeGraphProxy::getAssetCount() const
 
 
 bool ApiModuleNodeGraphProxy::readAsset(
-            const size_t                              index, //// test821 //// 
-            std::string &                             data, //// test821 //// 
-            uint64_t &                                size //// last param ////
+            const size_t                              index,
+            std::string &                             data,
+            uint64_t &                                size
             )
 
 {
@@ -2608,15 +2594,15 @@ bool ApiModuleNodeGraphProxy::readAsset(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'index' [in] parameter to the request packet.
     uint32_t indexIn;
-    indexIn = static_cast<uint32_t>(index);////2 const size_t////
+    indexIn = static_cast<uint32_t>(index);
     request.set_index(indexIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2624,7 +2610,7 @@ bool ApiModuleNodeGraphProxy::readAsset(
     octaneapi::ApiModuleNodeGraph::readAssetResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->readAsset(context.get(), request, &response);
 
@@ -2634,18 +2620,18 @@ bool ApiModuleNodeGraphProxy::readAsset(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'data' [out] parameter from the gRPC response packet
         std::string dataOut = response.data();
         // param.mType = const char *&
-        data =  dataOut;////ex string mgr////
+        data =  dataOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'size' [out] parameter from the gRPC response packet
         uint64_t sizeOut = response.size();
-        size = sizeOut;//// SECOND////
+        size = sizeOut;
     }
     else
     {
@@ -2665,9 +2651,9 @@ bool ApiModuleNodeGraphProxy::readAsset(
 
 
 bool ApiModuleNodeGraphProxy::readAsset(
-            const Octane::ApiFilePath &               path, //// test821 //// 
-            std::string &                             data, //// test821 //// 
-            uint64_t &                                size //// last param ////
+            const Octane::ApiFilePath &               path,
+            std::string &                             data,
+            uint64_t &                                size
             )
 
 {
@@ -2680,24 +2666,23 @@ bool ApiModuleNodeGraphProxy::readAsset(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'path' [in] parameter to the request packet.
-    octaneapi::ApiFilePath * pathIn = new octaneapi::ApiFilePath(); //// path type=ApiFilePath;//// ////721////
-    //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST////
-    ApiFilePathConverter::convert(path, *pathIn); //// Convert Called type 1c =ApiFilePath ////
-    request.set_allocated_path(pathIn);//// 6215 ////
+    octaneapi::ApiFilePath * pathIn = new octaneapi::ApiFilePath();
+    ApiFilePathConverter::convert(path, *pathIn);
+    request.set_allocated_path(pathIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiModuleNodeGraph::readAsset1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->readAsset1(context.get(), request, &response);
 
@@ -2707,18 +2692,18 @@ bool ApiModuleNodeGraphProxy::readAsset(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'data' [out] parameter from the gRPC response packet
         std::string dataOut = response.data();
         // param.mType = const char *&
-        data =  dataOut;////ex string mgr////
+        data =  dataOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'size' [out] parameter from the gRPC response packet
         uint64_t sizeOut = response.size();
-        size = sizeOut;//// SECOND////
+        size = sizeOut;
     }
     else
     {
@@ -2748,8 +2733,8 @@ void ApiModuleNodeGraphProxy::removeAllAssets()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -2758,7 +2743,7 @@ void ApiModuleNodeGraphProxy::removeAllAssets()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->removeAllAssets(context.get(), request, &response);
 
@@ -2782,7 +2767,7 @@ void ApiModuleNodeGraphProxy::removeAllAssets()
 
 
 void ApiModuleNodeGraphProxy::setSaveData(
-            const char *                              data //// last param ////
+            const char *                              data
             )
 
 {
@@ -2795,23 +2780,23 @@ void ApiModuleNodeGraphProxy::setSaveData(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'data' [in] parameter to the request packet.
-    std::string * dataIn = new std::string(); //// data type=string;//// ////721////
+    std::string * dataIn = new std::string();
     *dataIn = checkString(data);
-    request.set_allocated_data(dataIn);//// 6215 ////
+    request.set_allocated_data(dataIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setSaveData(context.get(), request, &response);
 
@@ -2845,8 +2830,8 @@ std::string ApiModuleNodeGraphProxy::getSaveData()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -2855,7 +2840,7 @@ std::string ApiModuleNodeGraphProxy::getSaveData()
     octaneapi::ApiModuleNodeGraph::getSaveDataResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getSaveData(context.get(), request, &response);
 
@@ -2866,7 +2851,7 @@ std::string ApiModuleNodeGraphProxy::getSaveData()
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -2886,7 +2871,7 @@ std::string ApiModuleNodeGraphProxy::getSaveData()
 
 
 void ApiModuleNodeGraphProxy::setCustomData(
-            void *                                    data //// last param ////
+            void *                                    data
             )
 
 {
@@ -2899,15 +2884,14 @@ void ApiModuleNodeGraphProxy::setCustomData(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'data' [in] parameter to the request packet.
     uint64_t dataIn;
-    //// USER DATA TEST ////
     dataIn = reinterpret_cast<uint64_t>(data);
     request.set_data(dataIn);
 
@@ -2916,7 +2900,7 @@ void ApiModuleNodeGraphProxy::setCustomData(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setCustomData(context.get(), request, &response);
 
@@ -2950,8 +2934,8 @@ bool ApiModuleNodeGraphProxy::isTriggerEnabled() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -2960,7 +2944,7 @@ bool ApiModuleNodeGraphProxy::isTriggerEnabled() const
     octaneapi::ApiModuleNodeGraph::isTriggerEnabledResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->isTriggerEnabled(context.get(), request, &response);
 
@@ -2970,7 +2954,7 @@ bool ApiModuleNodeGraphProxy::isTriggerEnabled() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -3000,8 +2984,8 @@ void ApiModuleNodeGraphProxy::trigger() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -3010,7 +2994,7 @@ void ApiModuleNodeGraphProxy::trigger() const
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->trigger(context.get(), request, &response);
 
@@ -3034,7 +3018,7 @@ void ApiModuleNodeGraphProxy::trigger() const
 
 
 void ApiModuleNodeGraphProxy::setTriggerButtonIcon(
-            const ApiImageProxy *                     image //// last param ////
+            const ApiImageProxy *                     image
             )
 
 {
@@ -3047,8 +3031,8 @@ void ApiModuleNodeGraphProxy::setTriggerButtonIcon(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -3056,8 +3040,8 @@ void ApiModuleNodeGraphProxy::setTriggerButtonIcon(
     // Add the 'image' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * imageIn = new octaneapi::ObjectRef();////761////
-    imageIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImage);////5////
+    octaneapi::ObjectRef * imageIn = new octaneapi::ObjectRef();
+    imageIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImage);
     imageIn->set_handle(image->getObjectHandle());
     request.set_allocated_image(imageIn);
 
@@ -3066,7 +3050,7 @@ void ApiModuleNodeGraphProxy::setTriggerButtonIcon(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setTriggerButtonIcon(context.get(), request, &response);
 
@@ -3090,7 +3074,7 @@ void ApiModuleNodeGraphProxy::setTriggerButtonIcon(
 
 
 void ApiModuleNodeGraphProxy::setTriggerButtonTooltip(
-            const char *                              tooltip //// last param ////
+            const char *                              tooltip
             )
 
 {
@@ -3103,23 +3087,23 @@ void ApiModuleNodeGraphProxy::setTriggerButtonTooltip(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'tooltip' [in] parameter to the request packet.
-    std::string * tooltipIn = new std::string(); //// tooltip type=string;//// ////721////
+    std::string * tooltipIn = new std::string();
     *tooltipIn = checkString(tooltip);
-    request.set_allocated_tooltip(tooltipIn);//// 6215 ////
+    request.set_allocated_tooltip(tooltipIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setTriggerButtonTooltip(context.get(), request, &response);
 
@@ -3143,9 +3127,9 @@ void ApiModuleNodeGraphProxy::setTriggerButtonTooltip(
 
 
 void ApiModuleNodeGraphProxy::setProgressState(
-            bool                                      progressBarVisible, //// test821 //// 
-            float                                     progress, //// test821 //// 
-            const char *                              statusText //// last param ////
+            bool                                      progressBarVisible,
+            float                                     progress,
+            const char *                              statusText
             )
 
 {
@@ -3158,35 +3142,35 @@ void ApiModuleNodeGraphProxy::setProgressState(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModuleNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'progressBarVisible' [in] parameter to the request packet.
     bool progressbarvisibleIn;
-    progressbarvisibleIn = progressBarVisible;////2 bool////
+    progressbarvisibleIn = progressBarVisible;
     request.set_progressbarvisible(progressbarvisibleIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'progress' [in] parameter to the request packet.
     float progressIn;
-    progressIn = progress;////2 float////
+    progressIn = progress;
     request.set_progress(progressIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'statusText' [in] parameter to the request packet.
-    std::string * statustextIn = new std::string(); //// statusText type=string;//// ////721////
+    std::string * statustextIn = new std::string();
     *statustextIn = checkString(statusText);
-    request.set_allocated_statustext(statustextIn);//// 6215 ////
+    request.set_allocated_statustext(statustextIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleNodeGraphService::Stub> stub =
         octaneapi::ApiModuleNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setProgressState(context.get(), request, &response);
 

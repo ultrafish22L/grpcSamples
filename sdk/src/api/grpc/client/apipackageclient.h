@@ -25,24 +25,24 @@ class GRPCSettings;
 class ApiPackageProxy : public GRPCBase
 {
 public:
-    /// Deallocates a string array that 
+    /// Deallocates a string array that
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void freeArray(
-            Octane::StringArrayT &                    stringArray
+            Octane::StringArrayT &   stringArray
             );
 
     /// Open a package for reading files. This will keep the package open until close() is called.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static ApiPackageProxy open(
-            const char *const                         packagePath
+            const char *const   packagePath
             );
 
     /// Closes a package. The pointer will be invalid afterwards and can not be used anymore.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void close(            );
+    void close();
 
     /// Creates a list of all files stored in the ORBX package.
     ///
@@ -51,7 +51,7 @@ public:
     ///     @note To avoid leaking memory, you have to free the string array after usage via
     ///           freeArray().
     /// @param[in]  regExpr
-    ///     A regular expression pattern to search for, The regular expression is compared only againt 
+    ///     A regular expression pattern to search for, The regular expression is compared only againt
     ///  base filenames. The function will return all files in the package, if it is set to NULL.
     /// @param[out] status
     ///     Contains the status of the gRPC call
@@ -61,7 +61,7 @@ public:
             ) const;
 
     /// Checks if a file exists in the package.
-    /// 
+    ///
     /// @param[in] path
     ///      The path to the child file, must be a relative path.
     /// @param[out] status
@@ -69,11 +69,11 @@ public:
     /// @return
     ///      TRUE if the file exists, FALSE otherwise.
     bool fileExists(
-            const char *const                         path
+            const char *const   path
             ) const;
 
     /// Checks if a file exists in the package.
-    /// 
+    ///
     /// @param[in] path
     ///      The path to the child file, must be a relative path.
     /// @param[out] status
@@ -81,7 +81,7 @@ public:
     /// @return
     ///      TRUE if the file exists, FALSE otherwise.
     bool fileExists(
-            const ApiFileNameProxy &                  path
+            const ApiFileNameProxy &   path
             ) const;
 
     /// Reads a file from the package.
@@ -94,7 +94,7 @@ public:
     ///      The contents of the file, which needs to be deallocated via freeBuffer() after use.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    /// @return 
+    /// @return
     ///     TRUE if successful, FALSE if path is not a relative path or if the file doesn't exist,
     ///     or an error occurred while opening the file.
     bool readFile(
@@ -102,7 +102,7 @@ public:
             std::vector<uint8_t> &                    data
             ) const;
 
-    /// Reads data from the package as a cstring. 
+    /// Reads data from the package as a cstring.
     ///
     /// @param[in]  path
     ///      A relative path of the file in a package.
@@ -112,7 +112,7 @@ public:
     ///      size of the data.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    /// @return 
+    /// @return
     /// TRUE if successful.
     /// FALSE if path is not a relative path or if the file doesn't exist, or an error occurs while opening the file.
     bool readFile(

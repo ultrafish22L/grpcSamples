@@ -84,9 +84,6 @@ inline bool oisfinite(
 /// OCTANEAPI_DECL is used to decorate API functions which are then either exported or imported -
 /// depending on which side of the API you are operating.
 #if defined(_WIN32)
-#ifdef OCTANEAPI_DECL
-#undef OCTANEAPI_DECL
-#endif
 #   if defined(OCTANE_DLLEXPORT) || defined(OCTANE_STANDALONE)
 #       define OCTANEAPI_DECL __declspec(dllexport)
 #   else

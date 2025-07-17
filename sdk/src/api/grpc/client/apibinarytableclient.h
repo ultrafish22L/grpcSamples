@@ -28,43 +28,43 @@ public:
     /// Create a new binary table. Don't use delete but call destroy() to cleanup.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static ApiBinaryTableProxy create(            );
+    static ApiBinaryTableProxy create();
 
     /// Destroys this binary table. Only do this on tables created via create(). Not on tables
     /// that are returned via get.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Returns TRUE if this table doesn't have any entries.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isEmpty(            ) const;
+    bool isEmpty() const;
 
     /// Returns the number of entries in this table.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    size_t size(            ) const;
+    size_t size() const;
 
     /// Erases the entry with the passed in id. No operation if the entry doen not exist.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void erase(
-            const int32_t                             id
+            const int32_t   id
             );
 
     /// Returns TRUE if there is an entry with the passed in id.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool has(
-            const int32_t                             id
+            const int32_t   id
             ) const;
 
     /// Returns TRUE if the 2 objects refer to the same table internally.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool equals(
-            const ApiBinaryTableProxy &               other
+            const ApiBinaryTableProxy &   other
             ) const;
 
     bool get(
@@ -522,14 +522,14 @@ public:
     /// @return
     ///     TRUE if the operation was successful, FALSE if not.
     bool write(
-            const char *                              path
+            const char *   path
             );
 
     /// Reads an ApiBinaryTable from a file.
     ///
     /// @param[in]  path
     ///     Full path to the input file.
-    /// @param[out] octaneVersion 
+    /// @param[out] octaneVersion
     ///     Octane version number used to write the input file.
     /// @param[out] status
     ///     Contains the status of the gRPC call
@@ -545,7 +545,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void dump(
-            const uint32_t                            indent
+            const uint32_t   indent
             ) const;
 
 private:

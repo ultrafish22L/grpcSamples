@@ -18,7 +18,7 @@
 
 
 /// The official version string.
-#define OCTANE_VERSION_STRING   "2026.1 Alpha 3"
+#define OCTANE_VERSION_STRING   "2026.1 Alpha 5"
 
 /// The copyright string used in octane.rc
 #define OCTANE_COPYRIGHT_YEARS_STRING "2010-2025"
@@ -30,7 +30,7 @@
 /// The patch level of the current Octane version.
 #define OCTANE_VERSION_PATCH    0
 /// The revision of the current Octane version.
-#define OCTANE_VERSION_REVISION 2
+#define OCTANE_VERSION_REVISION 4
 
 /// The version number used in the Windows resource files.
 #define OCTANE_WINRC_VERSION    OCTANE_VERSION_MAJOR,OCTANE_VERSION_MINOR,OCTANE_VERSION_PATCH,OCTANE_VERSION_REVISION

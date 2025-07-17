@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apititlecomponentclient.h"
 #include <cassert>
@@ -28,7 +28,7 @@ GRPCSettings & ApiTitleComponentProxy::getGRPCSettings()
 
 
 ApiTitleComponentProxy ApiTitleComponentProxy::create(
-            const char *                              text //// last param ////
+            const char *                              text
             )
 
 {
@@ -39,16 +39,16 @@ ApiTitleComponentProxy ApiTitleComponentProxy::create(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'text' [in] parameter to the request packet.
-    std::string * textIn = new std::string(); //// text type=string;//// ////721////
+    std::string * textIn = new std::string();
     *textIn = checkString(text);
-    request.set_allocated_text(textIn);//// 6215 ////
+    request.set_allocated_text(textIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiTitleComponent::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTitleComponentService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTitleComponentService::Stub> stub =
         octaneapi::ApiTitleComponentService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -76,7 +76,7 @@ ApiTitleComponentProxy ApiTitleComponentProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiTitleComponentProxy retVal;////714////
+        ApiTitleComponentProxy retVal;
         return retVal;
     }
 };
@@ -93,8 +93,8 @@ void ApiTitleComponentProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTitleComponent);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTitleComponent);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -103,7 +103,7 @@ void ApiTitleComponentProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTitleComponentService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTitleComponentService::Stub> stub =
         octaneapi::ApiTitleComponentService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 

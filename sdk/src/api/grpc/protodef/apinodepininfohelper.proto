@@ -55,7 +55,19 @@ message ApiNodePinInfoEx
     {
         bool success = 1;
     }
+
+    message GetNodePinInfoRequest
+    {
+       ObjectRef nodePinInfoRef = 1;
+    }
+
+    message GetNodePinInfoResponse
+    {
+        bool success = 1;
+        ApiNodePinInfo nodePinInfo = 2;
+    }
 }
+
 
 // GRPC interface definition for class 'ApiWindow' from 'apiwindow.h'
 service ApiNodePinInfoExService
@@ -71,4 +83,7 @@ service ApiNodePinInfoExService
 
     /// Modifies a ApiNodePinInfo object on the server
     rpc updateApiNodePinInfo(ApiNodePinInfoEx.UpdateNodePinInfoRequest) returns (ApiNodePinInfoEx.UpdateNodePinInfoResponse);
+
+    /// Returns a ApiNodePinInfo struct from the server
+    rpc getApiNodePinInfo(ApiNodePinInfoEx.GetNodePinInfoRequest) returns (ApiNodePinInfoEx.GetNodePinInfoResponse);
 }

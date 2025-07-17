@@ -46,19 +46,19 @@ public:
     /// Destroys the component created with create(..).
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Updates the text on the button.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setText(
-            const char *                              text
+            const char *   text
             );
 
     /// Returns the text on the button.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    std::string text(            ) const;
+    std::string text() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

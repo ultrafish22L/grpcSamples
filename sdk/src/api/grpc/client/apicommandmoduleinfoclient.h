@@ -53,21 +53,21 @@ public:
     /// Destroys a ApiCommandModuleInfo object created by create().
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
-    /// Function to set the command module run function. The run function will be called every time 
+    /// Function to set the command module run function. The run function will be called every time
     /// the command is executed.(mandatory)
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setRunFunction(
-            CommandModuleRunFuncT                     func
+            CommandModuleRunFuncT   func
             );
 
     /// Function to set icon for a command module. (optional)
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setIcon(
-            const ApiImageProxy *const                icon
+            const ApiImageProxy *const   icon
             );
 
     /// Function to assign shortcut key for a command module. (optional)
@@ -77,7 +77,7 @@ public:
     /// @param[in]  shortcutKeyCode
     ///     A code that represents the key - this value must be one of special constants listed above
     ///     or an 8-bit character code such as a letter (case is ignored) digit like 'a','c','v'..etc,
-    ///     or a simple key like "," or ".". 
+    ///     or a simple key like "," or ".".
     ///     Only works when this command is associated with the Api work pane.
     /// @param[in]  shortcutModifierKeyFlag
     ///     The modifiers to associate with the shortcut Keycode. The value is a combination of

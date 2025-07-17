@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apinodegraphclient.h"
 #include <cassert>
@@ -41,8 +41,8 @@ GRPCSettings & ApiNodeGraphProxy::getGRPCSettings()
 
 
 ApiNodeGraphProxy ApiNodeGraphProxy::create(
-            const Octane::NodeGraphType               type, //// test821 //// 
-            ApiNodeGraphProxy &                       ownerGraph //// last param ////
+            const Octane::NodeGraphType               type,
+            ApiNodeGraphProxy &                       ownerGraph
             )
 
 {
@@ -61,8 +61,8 @@ ApiNodeGraphProxy ApiNodeGraphProxy::create(
     // Add the 'ownerGraph' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * ownergraphIn = new octaneapi::ObjectRef();////761////
-    ownergraphIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * ownergraphIn = new octaneapi::ObjectRef();
+    ownergraphIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     ownergraphIn->set_handle(ownerGraph.getObjectHandle());
     request.set_allocated_ownergraph(ownergraphIn);
 
@@ -71,7 +71,7 @@ ApiNodeGraphProxy ApiNodeGraphProxy::create(
     octaneapi::ApiNodeGraph::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->create1(context.get(), request, &response);
 
@@ -99,7 +99,7 @@ ApiNodeGraphProxy ApiNodeGraphProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiNodeGraphProxy retVal;////714////
+        ApiNodeGraphProxy retVal;
         return retVal;
     }
 };
@@ -116,8 +116,8 @@ const Octane::ApiNodeGraphInfo ApiNodeGraphProxy::info() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -126,7 +126,7 @@ const Octane::ApiNodeGraphInfo ApiNodeGraphProxy::info() const
     octaneapi::ApiNodeGraph::infoResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->info1(context.get(), request, &response);
 
@@ -136,8 +136,7 @@ const Octane::ApiNodeGraphInfo ApiNodeGraphProxy::info() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ApiNodeGraphInfo resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        ApiNodeGraphInfoConverter::convert(resultOut, retVal); ////Convert Called type 5223 =ApiNodeGraphInfo;////
+        ApiNodeGraphInfoConverter::convert(resultOut, retVal);
     }
     else
     {
@@ -167,8 +166,8 @@ Octane::NodeGraphType ApiNodeGraphProxy::type() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -177,7 +176,7 @@ Octane::NodeGraphType ApiNodeGraphProxy::type() const
     octaneapi::ApiNodeGraph::typeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->type1(context.get(), request, &response);
 
@@ -207,7 +206,7 @@ Octane::NodeGraphType ApiNodeGraphProxy::type() const
 
 
 void ApiNodeGraphProxy::getOwnedItems(
-            ApiItemArrayProxy &                       list //// last param ////
+            ApiItemArrayProxy &                       list
             ) const
 
 {
@@ -220,8 +219,8 @@ void ApiNodeGraphProxy::getOwnedItems(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -230,7 +229,7 @@ void ApiNodeGraphProxy::getOwnedItems(
     octaneapi::ApiNodeGraph::getOwnedItemsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getOwnedItems(context.get(), request, &response);
 
@@ -239,7 +238,7 @@ void ApiNodeGraphProxy::getOwnedItems(
         /////////////////////////////////////////////////////////////////////
         // Process 'list' [out] parameter from the gRPC response packet
         octaneapi::ObjectRef listOut = response.list();
-        list.attachObjectHandle(listOut.handle());////test 80////
+        list.attachObjectHandle(listOut.handle());
     }
     else
     {
@@ -258,7 +257,7 @@ void ApiNodeGraphProxy::getOwnedItems(
 
 
 void ApiNodeGraphProxy::getInputNodes(
-            ApiNodeArrayProxy &                       list //// last param ////
+            ApiNodeArrayProxy &                       list
             ) const
 
 {
@@ -271,8 +270,8 @@ void ApiNodeGraphProxy::getInputNodes(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -281,7 +280,7 @@ void ApiNodeGraphProxy::getInputNodes(
     octaneapi::ApiNodeGraph::getInputNodesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getInputNodes(context.get(), request, &response);
 
@@ -290,7 +289,7 @@ void ApiNodeGraphProxy::getInputNodes(
         /////////////////////////////////////////////////////////////////////
         // Process 'list' [out] parameter from the gRPC response packet
         octaneapi::ObjectRef listOut = response.list();
-        list.attachObjectHandle(listOut.handle());////test 80////
+        list.attachObjectHandle(listOut.handle());
     }
     else
     {
@@ -309,7 +308,7 @@ void ApiNodeGraphProxy::getInputNodes(
 
 
 void ApiNodeGraphProxy::getOutputNodes(
-            ApiNodeArrayProxy &                       list //// last param ////
+            ApiNodeArrayProxy &                       list
             ) const
 
 {
@@ -322,8 +321,8 @@ void ApiNodeGraphProxy::getOutputNodes(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -332,7 +331,7 @@ void ApiNodeGraphProxy::getOutputNodes(
     octaneapi::ApiNodeGraph::getOutputNodesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getOutputNodes(context.get(), request, &response);
 
@@ -341,7 +340,7 @@ void ApiNodeGraphProxy::getOutputNodes(
         /////////////////////////////////////////////////////////////////////
         // Process 'list' [out] parameter from the gRPC response packet
         octaneapi::ObjectRef listOut = response.list();
-        list.attachObjectHandle(listOut.handle());////test 80////
+        list.attachObjectHandle(listOut.handle());
     }
     else
     {
@@ -360,9 +359,9 @@ void ApiNodeGraphProxy::getOutputNodes(
 
 
 void ApiNodeGraphProxy::findNodes(
-            const Octane::NodeType                    type, //// test821 //// 
-            ApiNodeArrayProxy &                       list, //// test821 //// 
-            const bool                                recurse //// last param ////
+            const Octane::NodeType                    type,
+            ApiNodeArrayProxy &                       list,
+            const bool                                recurse
             ) const
 
 {
@@ -375,8 +374,8 @@ void ApiNodeGraphProxy::findNodes(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -389,7 +388,7 @@ void ApiNodeGraphProxy::findNodes(
     /////////////////////////////////////////////////////////////////////
     // Add the 'recurse' [in] parameter to the request packet.
     bool recurseIn;
-    recurseIn = recurse;////2 const bool////
+    recurseIn = recurse;
     request.set_recurse(recurseIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -397,7 +396,7 @@ void ApiNodeGraphProxy::findNodes(
     octaneapi::ApiNodeGraph::findNodesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->findNodes(context.get(), request, &response);
 
@@ -406,7 +405,7 @@ void ApiNodeGraphProxy::findNodes(
         /////////////////////////////////////////////////////////////////////
         // Process 'list' [out] parameter from the gRPC response packet
         octaneapi::ObjectRef listOut = response.list();
-        list.attachObjectHandle(listOut.handle());////test 80////
+        list.attachObjectHandle(listOut.handle());
     }
     else
     {
@@ -425,7 +424,7 @@ void ApiNodeGraphProxy::findNodes(
 
 
 ApiNodeProxy ApiNodeGraphProxy::findFirstNode(
-            const Octane::NodeType                    type //// last param ////
+            const Octane::NodeType                    type
             ) const
 
 {
@@ -438,8 +437,8 @@ ApiNodeProxy ApiNodeGraphProxy::findFirstNode(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -454,7 +453,7 @@ ApiNodeProxy ApiNodeGraphProxy::findFirstNode(
     octaneapi::ApiNodeGraph::findFirstNodeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->findFirstNode(context.get(), request, &response);
 
@@ -482,14 +481,14 @@ ApiNodeProxy ApiNodeGraphProxy::findFirstNode(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiNodeProxy retVal;////714////
+        ApiNodeProxy retVal;
         return retVal;
     }
 };
 
 
 ApiNodeProxy ApiNodeGraphProxy::findFirstOutputNode(
-            const Octane::NodePinType                 pinType //// last param ////
+            const Octane::NodePinType                 pinType
             ) const
 
 {
@@ -502,8 +501,8 @@ ApiNodeProxy ApiNodeGraphProxy::findFirstOutputNode(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -518,7 +517,7 @@ ApiNodeProxy ApiNodeGraphProxy::findFirstOutputNode(
     octaneapi::ApiNodeGraph::findFirstOutputNodeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->findFirstOutputNode(context.get(), request, &response);
 
@@ -546,16 +545,16 @@ ApiNodeProxy ApiNodeGraphProxy::findFirstOutputNode(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiNodeProxy retVal;////714////
+        ApiNodeProxy retVal;
         return retVal;
     }
 };
 
 
 void ApiNodeGraphProxy::findItemsByName(
-            const char *                              name, //// test821 //// 
-            ApiItemArrayProxy &                       list, //// test821 //// 
-            const bool                                recurse //// last param ////
+            const char *                              name,
+            ApiItemArrayProxy &                       list,
+            const bool                                recurse
             ) const
 
 {
@@ -568,21 +567,21 @@ void ApiNodeGraphProxy::findItemsByName(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'name' [in] parameter to the request packet.
-    std::string * nameIn = new std::string(); //// name type=string;//// ////721////
+    std::string * nameIn = new std::string();
     *nameIn = checkString(name);
-    request.set_allocated_name(nameIn);//// 6215 ////
+    request.set_allocated_name(nameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'recurse' [in] parameter to the request packet.
     bool recurseIn;
-    recurseIn = recurse;////2 const bool////
+    recurseIn = recurse;
     request.set_recurse(recurseIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -590,7 +589,7 @@ void ApiNodeGraphProxy::findItemsByName(
     octaneapi::ApiNodeGraph::findItemsByNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->findItemsByName(context.get(), request, &response);
 
@@ -599,7 +598,7 @@ void ApiNodeGraphProxy::findItemsByName(
         /////////////////////////////////////////////////////////////////////
         // Process 'list' [out] parameter from the gRPC response packet
         octaneapi::ObjectRef listOut = response.list();
-        list.attachObjectHandle(listOut.handle());////test 80////
+        list.attachObjectHandle(listOut.handle());
     }
     else
     {
@@ -618,9 +617,9 @@ void ApiNodeGraphProxy::findItemsByName(
 
 
 void ApiNodeGraphProxy::setLinearTimeTransform(
-            const float                               delay, //// test821 //// 
-            const float                               speedUp, //// test821 //// 
-            const Octane::TimeSpanT                   customInterval //// last param ////
+            const float                               delay,
+            const float                               speedUp,
+            const Octane::TimeSpanT                   customInterval
             )
 
 {
@@ -633,37 +632,36 @@ void ApiNodeGraphProxy::setLinearTimeTransform(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'delay' [in] parameter to the request packet.
     float delayIn;
-    delayIn = delay;////2 const float////
+    delayIn = delay;
     request.set_delay(delayIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'speedUp' [in] parameter to the request packet.
     float speedupIn;
-    speedupIn = speedUp;////2 const float////
+    speedupIn = speedUp;
     request.set_speedup(speedupIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'customInterval' [in] parameter to the request packet.
-    octaneapi::TimeSpanT * customintervalIn = new octaneapi::TimeSpanT(); //// customInterval type=TimeSpanT;//// ////721////
-    //// TimeSpanT TEST////
+    octaneapi::TimeSpanT * customintervalIn = new octaneapi::TimeSpanT();
     customintervalIn->mutable_begin()->set_value(static_cast<float>(customInterval.begin));
     customintervalIn->mutable_end()->set_value(static_cast<float>(customInterval.end));
-    request.set_allocated_custominterval(customintervalIn);//// 6215 ////
+    request.set_allocated_custominterval(customintervalIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->setLinearTimeTransform(context.get(), request, &response);
 
@@ -697,8 +695,8 @@ ApiAnimationTimeTransformProxy ApiNodeGraphProxy::timeTransform() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -707,7 +705,7 @@ ApiAnimationTimeTransformProxy ApiNodeGraphProxy::timeTransform() const
     octaneapi::ApiNodeGraph::timeTransformResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->timeTransform(context.get(), request, &response);
 
@@ -735,7 +733,7 @@ ApiAnimationTimeTransformProxy ApiNodeGraphProxy::timeTransform() const
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiAnimationTimeTransformProxy retVal;////714////
+        ApiAnimationTimeTransformProxy retVal;
         return retVal;
     }
 };
@@ -752,8 +750,8 @@ void ApiNodeGraphProxy::clearTimeTransform()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -762,7 +760,7 @@ void ApiNodeGraphProxy::clearTimeTransform()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->clearTimeTransform(context.get(), request, &response);
 
@@ -796,8 +794,8 @@ std::vector<std::string> ApiNodeGraphProxy::getAssetPaths()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -806,7 +804,7 @@ std::vector<std::string> ApiNodeGraphProxy::getAssetPaths()
     octaneapi::ApiNodeGraph::getAssetPathsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->getAssetPaths(context.get(), request, &response);
 
@@ -815,11 +813,10 @@ std::vector<std::string> ApiNodeGraphProxy::getAssetPaths()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::StringArrayT resultOut = response.result();
-        std::vector<std::string> retVal;////218////
+        std::vector<std::string> retVal;
         retVal.reserve(resultOut.data_size());
         for (int i = 0; i < resultOut.data_size(); i++)
         {
-            //// param.mProtoCppType = StringArrayT param.mType = Octane::StringArrayT ////
             retVal.push_back(resultOut.data(i));
         }
         return retVal;
@@ -842,7 +839,7 @@ std::vector<std::string> ApiNodeGraphProxy::getAssetPaths()
 
 
 void ApiNodeGraphProxy::recenter(
-            const OctaneVec::float_2                  center //// last param ////
+            const OctaneVec::float_2                  center
             )
 
 {
@@ -855,24 +852,24 @@ void ApiNodeGraphProxy::recenter(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'center' [in] parameter to the request packet.
-    octaneapi::float_2 * centerIn = new octaneapi::float_2(); //// center type=float_2;//// ////721////
+    octaneapi::float_2 * centerIn = new octaneapi::float_2();
     (*centerIn).set_x(center.x);
     (*centerIn).set_y(center.y);
-    request.set_allocated_center(centerIn);//// 6215 ////
+    request.set_allocated_center(centerIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->recenter(context.get(), request, &response);
 
@@ -906,8 +903,8 @@ void ApiNodeGraphProxy::clear()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -916,7 +913,7 @@ void ApiNodeGraphProxy::clear()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->clear(context.get(), request, &response);
 
@@ -940,10 +937,10 @@ void ApiNodeGraphProxy::clear()
 
 
 void ApiNodeGraphProxy::copyFrom(
-            const ApiNodeGraphProxy &                 source, //// test821 //// 
-            const ApiItemProxy *const *               origItems, //// test821 //// 
-            const size_t                              origItemCount, //// test821 //// 
-            ApiItemArrayProxy *                       copiedItems //// last param ////
+            const ApiNodeGraphProxy &                 source,
+            const ApiItemProxy *const *               origItems,
+            const size_t                              origItemCount,
+            ApiItemArrayProxy *                       copiedItems
             )
 
 {
@@ -956,8 +953,8 @@ void ApiNodeGraphProxy::copyFrom(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -965,30 +962,28 @@ void ApiNodeGraphProxy::copyFrom(
     // Add the 'source' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * sourceIn = new octaneapi::ObjectRef();////761////
-    sourceIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * sourceIn = new octaneapi::ObjectRef();
+    sourceIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     sourceIn->set_handle(source.getObjectHandle());
     request.set_allocated_source(sourceIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'origItems' [in] parameter to the request packet.
-    octaneapi::ObjectRefArrayT * origitemsIn = new octaneapi::ObjectRefArrayT(); //// origItems type=ObjectRefArrayT;//// ////721////
-    //// Client Array Type C////
-    //// param.mProtoCppType = ObjectRefArrayT param.mType = const Octane::ApiItem *const * ////
+    octaneapi::ObjectRefArrayT * origitemsIn = new octaneapi::ObjectRefArrayT();
     for (size_t h = 0; h < origItemCount; h++)
     {
          // The proxy object contains the ID of the remote object. Pass this ID to the server
          // using a `ObjectRef` object.
          auto item = origitemsIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);////4////
+         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
          item->set_handle(origItems[h]->getObjectHandle());
     }
-    request.set_allocated_origitems(origitemsIn);//// 6215 ////
+    request.set_allocated_origitems(origitemsIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'origItemCount' [in] parameter to the request packet.
     uint32_t origitemcountIn;
-    origitemcountIn = static_cast<uint32_t>(origItemCount);////2 const size_t////
+    origitemcountIn = static_cast<uint32_t>(origItemCount);
     request.set_origitemcount(origitemcountIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -996,7 +991,7 @@ void ApiNodeGraphProxy::copyFrom(
     octaneapi::ApiNodeGraph::copyFromResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->copyFrom1(context.get(), request, &response);
 
@@ -1005,7 +1000,7 @@ void ApiNodeGraphProxy::copyFrom(
         /////////////////////////////////////////////////////////////////////
         // Process 'copiedItems' [out] parameter from the gRPC response packet
         octaneapi::ObjectRef copiedItemsOut = response.copieditems();
-        copiedItems->attachObjectHandle(copiedItemsOut.handle());////test 79b////
+        copiedItems->attachObjectHandle(copiedItemsOut.handle());
     }
     else
     {
@@ -1024,7 +1019,7 @@ void ApiNodeGraphProxy::copyFrom(
 
 
 ApiItemProxy ApiNodeGraphProxy::copyFrom(
-            const ApiItemProxy &                      sourceItem //// last param ////
+            const ApiItemProxy &                      sourceItem
             )
 
 {
@@ -1037,8 +1032,8 @@ ApiItemProxy ApiNodeGraphProxy::copyFrom(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1046,8 +1041,8 @@ ApiItemProxy ApiNodeGraphProxy::copyFrom(
     // Add the 'sourceItem' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * sourceitemIn = new octaneapi::ObjectRef();////761////
-    sourceitemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);////5////
+    octaneapi::ObjectRef * sourceitemIn = new octaneapi::ObjectRef();
+    sourceitemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
     sourceitemIn->set_handle(sourceItem.getObjectHandle());
     request.set_allocated_sourceitem(sourceitemIn);
 
@@ -1056,7 +1051,7 @@ ApiItemProxy ApiNodeGraphProxy::copyFrom(
     octaneapi::ApiNodeGraph::copyFrom1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->copyFrom11(context.get(), request, &response);
 
@@ -1084,14 +1079,14 @@ ApiItemProxy ApiNodeGraphProxy::copyFrom(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiItemProxy retVal;////714////
+        ApiItemProxy retVal;
         return retVal;
     }
 };
 
 
 ApiItemProxy ApiNodeGraphProxy::copyItemTree(
-            const ApiItemProxy &                      rootItem //// last param ////
+            const ApiItemProxy &                      rootItem
             )
 
 {
@@ -1104,8 +1099,8 @@ ApiItemProxy ApiNodeGraphProxy::copyItemTree(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1113,8 +1108,8 @@ ApiItemProxy ApiNodeGraphProxy::copyItemTree(
     // Add the 'rootItem' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * rootitemIn = new octaneapi::ObjectRef();////761////
-    rootitemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);////5////
+    octaneapi::ObjectRef * rootitemIn = new octaneapi::ObjectRef();
+    rootitemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
     rootitemIn->set_handle(rootItem.getObjectHandle());
     request.set_allocated_rootitem(rootitemIn);
 
@@ -1123,7 +1118,7 @@ ApiItemProxy ApiNodeGraphProxy::copyItemTree(
     octaneapi::ApiNodeGraph::copyItemTreeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->copyItemTree(context.get(), request, &response);
 
@@ -1151,19 +1146,19 @@ ApiItemProxy ApiNodeGraphProxy::copyItemTree(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiItemProxy retVal;////714////
+        ApiItemProxy retVal;
         return retVal;
     }
 };
 
 
 void ApiNodeGraphProxy::copyFrom(
-            const ApiItemProxy *const *               sourceItems, //// test821 //// 
-            const size_t                              sourceItemsCount, //// test821 //// 
-            ApiItemArrayProxy *                       sourceItemCopies, //// test821 //// 
-            const ApiItemProxy *const *               origItems, //// test821 //// 
-            const size_t                              origItemsCount, //// test821 //// 
-            ApiItemArrayProxy *                       origItemCopies //// last param ////
+            const ApiItemProxy *const *               sourceItems,
+            const size_t                              sourceItemsCount,
+            ApiItemArrayProxy *                       sourceItemCopies,
+            const ApiItemProxy *const *               origItems,
+            const size_t                              origItemsCount,
+            ApiItemArrayProxy *                       origItemCopies
             )
 
 {
@@ -1176,51 +1171,47 @@ void ApiNodeGraphProxy::copyFrom(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'sourceItems' [in] parameter to the request packet.
-    octaneapi::ObjectRefArrayT * sourceitemsIn = new octaneapi::ObjectRefArrayT(); //// sourceItems type=ObjectRefArrayT;//// ////721////
-    //// Client Array Type C////
-    //// param.mProtoCppType = ObjectRefArrayT param.mType = const Octane::ApiItem *const * ////
+    octaneapi::ObjectRefArrayT * sourceitemsIn = new octaneapi::ObjectRefArrayT();
     for (size_t h = 0; h < sourceItemsCount; h++)
     {
          // The proxy object contains the ID of the remote object. Pass this ID to the server
          // using a `ObjectRef` object.
          auto item = sourceitemsIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);////4////
+         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
          item->set_handle(sourceItems[h]->getObjectHandle());
     }
-    request.set_allocated_sourceitems(sourceitemsIn);//// 6215 ////
+    request.set_allocated_sourceitems(sourceitemsIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'sourceItemsCount' [in] parameter to the request packet.
     uint32_t sourceitemscountIn;
-    sourceitemscountIn = static_cast<uint32_t>(sourceItemsCount);////2 const size_t////
+    sourceitemscountIn = static_cast<uint32_t>(sourceItemsCount);
     request.set_sourceitemscount(sourceitemscountIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'origItems' [in] parameter to the request packet.
-    octaneapi::ObjectRefArrayT * origitemsIn = new octaneapi::ObjectRefArrayT(); //// origItems type=ObjectRefArrayT;//// ////721////
-    //// Client Array Type C////
-    //// param.mProtoCppType = ObjectRefArrayT param.mType = const Octane::ApiItem *const * ////
+    octaneapi::ObjectRefArrayT * origitemsIn = new octaneapi::ObjectRefArrayT();
     for (size_t h = 0; h < origItemsCount; h++)
     {
          // The proxy object contains the ID of the remote object. Pass this ID to the server
          // using a `ObjectRef` object.
          auto item = origitemsIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);////4////
+         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
          item->set_handle(origItems[h]->getObjectHandle());
     }
-    request.set_allocated_origitems(origitemsIn);//// 6215 ////
+    request.set_allocated_origitems(origitemsIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'origItemsCount' [in] parameter to the request packet.
     uint32_t origitemscountIn;
-    origitemscountIn = static_cast<uint32_t>(origItemsCount);////2 const size_t////
+    origitemscountIn = static_cast<uint32_t>(origItemsCount);
     request.set_origitemscount(origitemscountIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1228,7 +1219,7 @@ void ApiNodeGraphProxy::copyFrom(
     octaneapi::ApiNodeGraph::copyFrom2Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->copyFrom2(context.get(), request, &response);
 
@@ -1237,12 +1228,12 @@ void ApiNodeGraphProxy::copyFrom(
         /////////////////////////////////////////////////////////////////////
         // Process 'sourceItemCopies' [out] parameter from the gRPC response packet
         octaneapi::ObjectRef sourceItemCopiesOut = response.sourceitemcopies();
-        sourceItemCopies->attachObjectHandle(sourceItemCopiesOut.handle());////test 79b////
+        sourceItemCopies->attachObjectHandle(sourceItemCopiesOut.handle());
 
         /////////////////////////////////////////////////////////////////////
         // Process 'origItemCopies' [out] parameter from the gRPC response packet
         octaneapi::ObjectRef origItemCopiesOut = response.origitemcopies();
-        origItemCopies->attachObjectHandle(origItemCopiesOut.handle());////test 79b////
+        origItemCopies->attachObjectHandle(origItemCopiesOut.handle());
     }
     else
     {
@@ -1261,8 +1252,8 @@ void ApiNodeGraphProxy::copyFrom(
 
 
 ApiNodeGraphProxy ApiNodeGraphProxy::groupItems(
-            ApiItemProxy *const *const                items, //// test821 //// 
-            const size_t                              itemsCount //// last param ////
+            ApiItemProxy *const *const                items,
+            const size_t                              itemsCount
             )
 
 {
@@ -1275,30 +1266,28 @@ ApiNodeGraphProxy ApiNodeGraphProxy::groupItems(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'items' [in] parameter to the request packet.
-    octaneapi::ObjectRefArrayT * itemsIn = new octaneapi::ObjectRefArrayT(); //// items type=ObjectRefArrayT;//// ////721////
-    //// Client Array Type C////
-    //// param.mProtoCppType = ObjectRefArrayT param.mType = Octane::ApiItem *const *const ////
+    octaneapi::ObjectRefArrayT * itemsIn = new octaneapi::ObjectRefArrayT();
     for (size_t h = 0; h < itemsCount; h++)
     {
          // The proxy object contains the ID of the remote object. Pass this ID to the server
          // using a `ObjectRef` object.
          auto item = itemsIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);////4////
+         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
          item->set_handle(items[h]->getObjectHandle());
     }
-    request.set_allocated_items(itemsIn);//// 6215 ////
+    request.set_allocated_items(itemsIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'itemsCount' [in] parameter to the request packet.
     uint32_t itemscountIn;
-    itemscountIn = static_cast<uint32_t>(itemsCount);////2 const size_t////
+    itemscountIn = static_cast<uint32_t>(itemsCount);
     request.set_itemscount(itemscountIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1306,7 +1295,7 @@ ApiNodeGraphProxy ApiNodeGraphProxy::groupItems(
     octaneapi::ApiNodeGraph::groupItemsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->groupItems(context.get(), request, &response);
 
@@ -1334,14 +1323,14 @@ ApiNodeGraphProxy ApiNodeGraphProxy::groupItems(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiNodeGraphProxy retVal;////714////
+        ApiNodeGraphProxy retVal;
         return retVal;
     }
 };
 
 
 void ApiNodeGraphProxy::ungroup(
-            ApiItemArrayProxy *const                  ungroupedItems //// last param ////
+            ApiItemArrayProxy *const                  ungroupedItems
             )
 
 {
@@ -1354,8 +1343,8 @@ void ApiNodeGraphProxy::ungroup(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1364,7 +1353,7 @@ void ApiNodeGraphProxy::ungroup(
     octaneapi::ApiNodeGraph::ungroupResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->ungroup(context.get(), request, &response);
 
@@ -1373,7 +1362,7 @@ void ApiNodeGraphProxy::ungroup(
         /////////////////////////////////////////////////////////////////////
         // Process 'ungroupedItems' [out] parameter from the gRPC response packet
         octaneapi::ObjectRef ungroupedItemsOut = response.ungroupeditems();
-        ungroupedItems->attachObjectHandle(ungroupedItemsOut.handle());////test 79b////
+        ungroupedItems->attachObjectHandle(ungroupedItemsOut.handle());
     }
     else
     {
@@ -1392,7 +1381,7 @@ void ApiNodeGraphProxy::ungroup(
 
 
 void ApiNodeGraphProxy::unfold(
-            const bool                                recursive //// last param ////
+            const bool                                recursive
             )
 
 {
@@ -1405,15 +1394,15 @@ void ApiNodeGraphProxy::unfold(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'recursive' [in] parameter to the request packet.
     bool recursiveIn;
-    recursiveIn = recursive;////2 const bool////
+    recursiveIn = recursive;
     request.set_recursive(recursiveIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1421,7 +1410,7 @@ void ApiNodeGraphProxy::unfold(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->unfold(context.get(), request, &response);
 
@@ -1445,9 +1434,9 @@ void ApiNodeGraphProxy::unfold(
 
 
 std::string ApiNodeGraphProxy::showWindow(
-            const bool                                unfold, //// test821 //// 
-            const char *                              windowState, //// test821 //// 
-            bool                                      alwaysOnTop //// last param ////
+            const bool                                unfold,
+            const char *                              windowState,
+            bool                                      alwaysOnTop
             )
 
 {
@@ -1460,27 +1449,27 @@ std::string ApiNodeGraphProxy::showWindow(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'unfold' [in] parameter to the request packet.
     bool unfoldIn;
-    unfoldIn = unfold;////2 const bool////
+    unfoldIn = unfold;
     request.set_unfold(unfoldIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'windowState' [in] parameter to the request packet.
-    std::string * windowstateIn = new std::string(); //// windowState type=string;//// ////721////
+    std::string * windowstateIn = new std::string();
     *windowstateIn = checkString(windowState);
-    request.set_allocated_windowstate(windowstateIn);//// 6215 ////
+    request.set_allocated_windowstate(windowstateIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'alwaysOnTop' [in] parameter to the request packet.
     bool alwaysontopIn;
-    alwaysontopIn = alwaysOnTop;////2 bool////
+    alwaysontopIn = alwaysOnTop;
     request.set_alwaysontop(alwaysontopIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1488,7 +1477,7 @@ std::string ApiNodeGraphProxy::showWindow(
     octaneapi::ApiNodeGraph::showWindowResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->showWindow(context.get(), request, &response);
 
@@ -1499,7 +1488,7 @@ std::string ApiNodeGraphProxy::showWindow(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -1530,7 +1519,7 @@ void ApiNodeGraphProxy::closeWindow()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->closeWindow(context.get(), request, &response);
 
@@ -1554,10 +1543,10 @@ void ApiNodeGraphProxy::closeWindow()
 
 
 void ApiNodeGraphProxy::showDbWindow(
-            Octane::ApiNodeGraph::DbViewClosingCallbackT * dbViewClosingCallback, //// test821 //// 
-            Octane::ApiNodeGraph::DbViewLoadedCallbackT * dbViewLoadedCallback, //// test821 //// 
-            void *                                    userData, //// test821 //// 
-            const bool                                showLiveDb //// last param ////
+            Octane::ApiNodeGraph::DbViewClosingCallbackT * dbViewClosingCallback,
+            Octane::ApiNodeGraph::DbViewLoadedCallbackT * dbViewLoadedCallback,
+            void *                                    userData,
+            const bool                                showLiveDb
             )
 
 {
@@ -1570,44 +1559,35 @@ void ApiNodeGraphProxy::showDbWindow(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'dbViewClosingCallback' [in] parameter to the request packet.
-    octaneapi::DbViewClosingCallbackT * dbviewclosingcallbackIn = new octaneapi::DbViewClosingCallbackT(); //// dbViewClosingCallback type=DbViewClosingCallbackT;//// ////721////
+    octaneapi::DbViewClosingCallbackT * dbviewclosingcallbackIn = new octaneapi::DbViewClosingCallbackT();
     // setup callback function dbViewClosingCallback
-    //int dbViewClosingCallbackCallbackId = GRPCSettings::getNextCallbackId("DbViewClosingCallback"); 
-    //CallbackStorage::registerDbViewClosingCallback(dbViewClosingCallbackCallbackId, dbViewClosingCallback);
     dbviewclosingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //dbviewclosingcallbackIn->set_callbackid(dbViewClosingCallbackCallbackId);
-    //if(className == "ApiNodeGraph" && method.mName == "showDbWindow") return true;
-    request.set_allocated_dbviewclosingcallback(dbviewclosingcallbackIn);//// 6215 ////
+    request.set_allocated_dbviewclosingcallback(dbviewclosingcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'dbViewLoadedCallback' [in] parameter to the request packet.
-    octaneapi::DbViewLoadedCallbackT * dbviewloadedcallbackIn = new octaneapi::DbViewLoadedCallbackT(); //// dbViewLoadedCallback type=DbViewLoadedCallbackT;//// ////721////
+    octaneapi::DbViewLoadedCallbackT * dbviewloadedcallbackIn = new octaneapi::DbViewLoadedCallbackT();
     // setup callback function dbViewLoadedCallback
-    //int dbViewLoadedCallbackCallbackId = GRPCSettings::getNextCallbackId("DbViewLoadedCallback"); 
-    //CallbackStorage::registerDbViewLoadedCallback(dbViewLoadedCallbackCallbackId, dbViewLoadedCallback);
     dbviewloadedcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //dbviewloadedcallbackIn->set_callbackid(dbViewLoadedCallbackCallbackId);
-    //if(className == "ApiNodeGraph" && method.mName == "showDbWindow") return true;
-    request.set_allocated_dbviewloadedcallback(dbviewloadedcallbackIn);//// 6215 ////
+    request.set_allocated_dbviewloadedcallback(dbviewloadedcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'userData' [in] parameter to the request packet.
     uint64_t userdataIn;
-    //// USER DATA TEST ////
     userdataIn = reinterpret_cast<uint64_t>(userData);
     request.set_userdata(userdataIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'showLiveDb' [in] parameter to the request packet.
     bool showlivedbIn;
-    showlivedbIn = showLiveDb;////2 const bool////
+    showlivedbIn = showLiveDb;
     request.set_showlivedb(showlivedbIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1615,7 +1595,7 @@ void ApiNodeGraphProxy::showDbWindow(
     octaneapi::ApiNodeGraph::showDbWindowResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->showDbWindow(context.get(), request, &response);
 
@@ -1650,7 +1630,7 @@ void ApiNodeGraphProxy::showDbWindow(
 
 
 void ApiNodeGraphProxy::closeDbWindow(
-            bool                                      clearData //// last param ////
+            bool                                      clearData
             )
 
 {
@@ -1662,7 +1642,7 @@ void ApiNodeGraphProxy::closeDbWindow(
     /////////////////////////////////////////////////////////////////////
     // Add the 'clearData' [in] parameter to the request packet.
     bool cleardataIn;
-    cleardataIn = clearData;////2 bool////
+    cleardataIn = clearData;
     request.set_cleardata(cleardataIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1670,7 +1650,7 @@ void ApiNodeGraphProxy::closeDbWindow(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeGraphService::Stub> stub =
         octaneapi::ApiNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->closeDbWindow(context.get(), request, &response);
 

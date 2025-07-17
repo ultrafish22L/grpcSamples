@@ -24,7 +24,7 @@ class GRPCSettings;
 class ApiTimeSamplingProxy : public GRPCBase
 {
 public:
-    static float endTimeAuto(            );
+    static float endTimeAuto();
 
 private:
     static GRPCSettings & getGRPCSettings();

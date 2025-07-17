@@ -27,22 +27,22 @@ public:
     /// Checks if the current layer has alpha data
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool hasTransparency(            ) const;
+    bool hasTransparency() const;
 
     /// Checks if the current layer is gray scale data
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isGrayscale(            ) const;
+    bool isGrayscale() const;
 
     /// Gets the name of this layer
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    std::string name(            ) const;
+    std::string name() const;
 
     /// Gets the type of this layer's data
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    Octane::ImageType type(            ) const;
+    Octane::ImageType type() const;
 
     /// Gets the preferred BC compression type.
         ///
@@ -51,7 +51,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     Octane::ImageType prefCompressType(
-            const bool                                needHQ
+            const bool   needHQ
             ) const;
 
 private:

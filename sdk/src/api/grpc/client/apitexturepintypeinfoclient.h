@@ -33,7 +33,7 @@ public:
     /// @return
     ///     A texture value type for the pin
     Octane::TextureValueType getTextureValueType(
-            const Octane::ApiTextureNodeTypeInfo::Configuration::Parameters & configurationParameters
+            const Octane::ApiTextureNodeTypeInfo::Configuration::Parameters &   configurationParameters
             ) const;
 
 private:

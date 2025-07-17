@@ -11,6 +11,7 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
+#include <memory>
 class ApiNodeProxy;
 class ApiNodeGraphProxy;
 class ApiDBMaterialManagerProxy_DBCategoryArray;
@@ -39,10 +40,10 @@ public:
     ///     TRUE on success, FALSE on failure. This will only fail when the
     ///     categories couldn't be fetched online.
     static bool getCategories(
-            ApiDBMaterialManagerProxy_DBCategoryArray &list
+            ApiDBMaterialManagerProxy_DBCategoryArray &   list
             );
 
-    /// Returns the list of materials for a category. This will fetch the 
+    /// Returns the list of materials for a category. This will fetch the
     /// list online and thus is an expensive operation.
     ///
     /// @param[in]  categoryId
@@ -96,7 +97,7 @@ public:
     ///
     /// @param[in]  materialId
     ///     Id of the material in the live db.
-    /// @param[in]  destinationGraph 
+    /// @param[in]  destinationGraph
     ///     The material graph will be copied into this graph.
     /// @param[out] outputNode
     ///     Optional pointer to the output linker node of the material graph.
@@ -122,7 +123,7 @@ public:
     ///     This directory must exist on disk otherwise the nodes aren't converted.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    /// @return 
+    /// @return
     ///     The material or the texture node. This is the material or texture node in
     ///     the graph connected to the output linker node. Returns NULL when the download
     ///     failed.

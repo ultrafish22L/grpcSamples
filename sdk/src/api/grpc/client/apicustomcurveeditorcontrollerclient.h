@@ -47,7 +47,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void onButtonClick(
-            Octane::ApiCustomCurveEditorController::Button button
+            Octane::ApiCustomCurveEditorController::Button   button
             );
 
     /// Called when a key that works with the editor is pressed when the editor has keyboard focus.
@@ -58,7 +58,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void onKeyPress(
-            Octane::ApiCustomCurveEditorController::Key key
+            Octane::ApiCustomCurveEditorController::Key   key
             );
 
     /// Called when the mouse is moved. If this controller currently thinks a mouse button is down
@@ -72,14 +72,14 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void onMouseMove(
-            OctaneVec::float_2                        mousePosition
+            OctaneVec::float_2   mousePosition
             );
 
     /// Called when the mouse is moved to a position that's definitely not over the editor, so the
     /// last given position is no longer valid.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void onMouseExit(            );
+    void onMouseExit();
 
     /// Called when a mouse button is pressed when the mouse is at a position that's potentially
     /// over the editor.
@@ -109,7 +109,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void onMouseUp(
-            OctaneVec::float_2                        mousePosition
+            OctaneVec::float_2   mousePosition
             );
 
     /// Draws the editor, using the provided drawer.
@@ -120,7 +120,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void draw(
-            ApiCustomCurveEditorControllerProxy_Drawer &drawer
+            ApiCustomCurveEditorControllerProxy_Drawer &   drawer
             ) const;
 
 private:

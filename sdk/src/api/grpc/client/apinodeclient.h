@@ -10,7 +10,7 @@
 #include "octanevectypes.h"
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
-#include "apiinfoclient.h"
+#include "grpcapinodeinfo.h"
 class ApiItemProxy;
 class ApiNodeGraphProxy;
 class ApiRootNodeGraphProxy;
@@ -50,17 +50,17 @@ public:
             );
 
     /// Adds a new dynamic pin to this node.
-    /// 
+    ///
     /// This call should only be used while loading nodes from a scene file, and before
     /// convertAndEvaluate() is called on the parent root graph.
-    /// 
+    ///
     /// This call can fail to add a pin if this node has a type which doesn't contain dynamic pins,
     /// or if it only allows dynamic pins of a different type. Dynamic pins should always added
     /// in the same order as they were when saving the file.
-    /// 
+    ///
     /// If successful the new dynamic pin will always be the last pin on the node, at index
     /// pinCount() - 1.
-    /// 
+    ///
     /// @param[in] type
     ///     The pin type.
     /// @param[in] name
@@ -77,12 +77,12 @@ public:
     /// Returns the info for this node.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    const ApiNodeInfoProxy info(            ) const;
+    const ApiNodeInfoProxy info() const;
 
     /// Returns the type of this node.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    Octane::NodeType type(            ) const;
+    Octane::NodeType type() const;
 
     /// Texture nodes that represent OSL code can defined the texture value type of their output.
     ///
@@ -90,7 +90,7 @@ public:
     ///     Contains the status of the gRPC call
     /// @return
     ///     The TextureValueType of the output texture value (default is TEXTURE_VALUE_TYPE_UNKNOWN).
-    Octane::TextureValueType outputTextureValueType(            ) const;
+    Octane::TextureValueType outputTextureValueType() const;
 
     /// Set the typed texture node to a given texture type configuration
     ///
@@ -110,42 +110,42 @@ public:
     /// Creates default nodes for empty/unconnected pins that have a default node.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void configureEmptyPins(            );
+    void configureEmptyPins();
 
     /// Returns the total (static + dynamic) number of pins of this node.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    uint32_t pinCount(            ) const;
+    uint32_t pinCount() const;
 
     /// Returns the number of static pins.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    uint32_t staticPinCount(            ) const;
+    uint32_t staticPinCount() const;
 
     /// Returns the number of dynamic pins.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    uint32_t dynPinCount(            ) const;
+    uint32_t dynPinCount() const;
 
     /// Returns TRUE if a static pin with the specified ID exists.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool hasPin(
-            const Octane::PinId                       pinId
+            const Octane::PinId   pinId
             ) const;
 
     /// Returns TRUE if a static pin with the specified name exists.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool hasPin(
-            const char *                              pinName
+            const char *   pinName
             ) const;
 
     /// Returns TRUE if a static or dynamic pin with the specified index exists.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool hasPinIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     /// Returns TRUE if a static pin with this ID exists and returns its index in "foundIndex".
@@ -170,7 +170,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     Octane::PinId pinId(
-            const char *                              name
+            const char *   name
             ) const;
 
     /// Returns the pin id of a static pin based on its index. Returns P_UNKNOWN if there's no such
@@ -178,14 +178,14 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     Octane::PinId pinIdIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     /// Returns the name of a static pin based on its ID. Returns "" if no such pin exists.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     std::string pinName(
-            const Octane::PinId                       id
+            const Octane::PinId   id
             ) const;
 
     /// Returns the name of a static or dynamic pin based on its index. Returns "" if no such pin
@@ -193,14 +193,14 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     std::string pinNameIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     /// Returns the label of a static pin specified by its ID. Returns "" if no such pin exists.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     std::string pinLabel(
-            const Octane::PinId                       id
+            const Octane::PinId   id
             ) const;
 
     /// Returns the label of a static or dynamic pin specified by its name. Returns "" if no such
@@ -208,7 +208,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     std::string pinLabel(
-            const char *                              name
+            const char *   name
             ) const;
 
     /// Returns the label of a static or dynamic pin specified by its index. Returns "" if no such
@@ -216,7 +216,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     std::string pinLabelIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     /// Returns the pin type of a static pin based on its pin id. Returns PT_UNKNOWN if no such pin
@@ -224,7 +224,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     Octane::NodePinType pinType(
-            const Octane::PinId                       id
+            const Octane::PinId   id
             ) const;
 
     /// Returns the pin type of the static or dynamic pin with the specified name. Returns
@@ -232,7 +232,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     Octane::NodePinType pinType(
-            const char *                              name
+            const char *   name
             ) const;
 
     /// Returns the pin type of the static or dynamic pin at the specified index. Returns PT_UNKNOWN
@@ -240,7 +240,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     Octane::NodePinType pinTypeIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     /// Texture nodes that represent OSL code can defined the texture value type of their pins.
@@ -253,7 +253,7 @@ public:
     /// @return
     ///     The TextureValueType of the value carried by the provided pin (default is TEXTURE_VALUE_TYPE_UNKNOWN).
     Octane::TextureValueType pinTextureValueType(
-            const char *                              name
+            const char *   name
             ) const;
 
     /// Texture nodes that represent OSL code can defined the texture value type of their pins.
@@ -266,7 +266,7 @@ public:
     /// @return
     ///     The TextureValueType of the value carried by the provided pin (default is TEXTURE_VALUE_TYPE_UNKNOWN).
     Octane::TextureValueType pinTextureValueTypeIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     /// Returns the pin info of a static pin based on its pin id. Returns the fallback pin info
@@ -274,7 +274,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     ApiNodePinInfoProxy pinInfo(
-            const Octane::PinId                       id
+            const Octane::PinId   id
             ) const;
 
     /// Returns the pin info of a static or dynamic pin based on the pin name. Returns the fallback
@@ -283,7 +283,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     ApiNodePinInfoProxy pinInfo(
-            const char *                              name
+            const char *   name
             ) const;
 
     /// Returns the pin info of a static or dynamic pin based on its index. Returns the fallback
@@ -292,33 +292,33 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     ApiNodePinInfoProxy pinInfoIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     /// Returns TRUE if any of the pins are flagged dirty.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool pinsAreDirty(            ) const;
+    bool pinsAreDirty() const;
 
     /// Returns TRUE if the pin is flagged dirty.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool isDirtyPin(
-            const Octane::PinId                       pinId
+            const Octane::PinId   pinId
             ) const;
 
     /// Returns TRUE if the pin is flagged dirty.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool isDirtyPin(
-            const char *                              pinName
+            const char *   pinName
             ) const;
 
     /// Returns TRUE if the pin is flagged dirty.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool isDirtyPinIx(
-            const uint32_t                            pinIx
+            const uint32_t   pinIx
             ) const;
 
     /// Checks if the connection can be made from sourceNode to this node.
@@ -485,12 +485,12 @@ public:
     /// attributes of the linker node into account and applies those to the generated pin info.
     ///
     /// The returned pin info stays valid until the next time this function is called.
-    /// 
+    ///
     /// @param[out] status
     ///     Contains the status of the gRPC call
     /// @return
     ///     A reference of the created pin info.
-    ApiNodePinInfoProxy buildLinkerNodePinInfo(            );
+    ApiNodePinInfoProxy buildLinkerNodePinInfo();
 
     /// Builds a node pin info out of the pin infos of all non-linker destination pins of this node.
     /// These members will not be populated:
@@ -504,32 +504,32 @@ public:
     ///                 mEndVersion
     ///
     /// The returned pin info stays valid until the next time this function is called.
-    /// 
+    ///
     /// @param[out] status
     ///     Contains the status of the gRPC call
     /// @return
     ///     A reference of the created pin info.
-    ApiNodePinInfoProxy buildDestinationPinInfo(            );
+    ApiNodePinInfoProxy buildDestinationPinInfo();
 
     /// Returns the owned item of a pin (Or NULL if the pin owns nothing).
     /// @param[out] status
     ///     Contains the status of the gRPC call
     ApiItemProxy ownedItem(
-            const Octane::PinId                       pinId
+            const Octane::PinId   pinId
             ) const;
 
     /// Same as above but identifies the pin based on name.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     ApiItemProxy ownedItem(
-            const char *                              pinName
+            const char *   pinName
             ) const;
 
     /// Same as above but identifies the pin based on index.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     ApiItemProxy ownedItemIx(
-            const uint32_t                            pinIx
+            const uint32_t   pinIx
             ) const;
 
     /// Creates a node internal a pin. If the pin already owned an item, it will be destroyed.
@@ -655,153 +655,153 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool getPinBool(
-            const Octane::PinId                       id
+            const Octane::PinId   id
             ) const;
 
     float getPinFloat(
-            const Octane::PinId                       id
+            const Octane::PinId   id
             ) const;
 
     OctaneVec::float_2 getPinFloat2(
-            const Octane::PinId                       id
+            const Octane::PinId   id
             ) const;
 
     OctaneVec::float_3 getPinFloat3(
-            const Octane::PinId                       id
+            const Octane::PinId   id
             ) const;
 
     OctaneVec::float_4 getPinFloat4(
-            const Octane::PinId                       id
+            const Octane::PinId   id
             ) const;
 
     int32_t getPinInt(
-            const Octane::PinId                       id
+            const Octane::PinId   id
             ) const;
 
     OctaneVec::int32_2 getPinInt2(
-            const Octane::PinId                       id
+            const Octane::PinId   id
             ) const;
 
     OctaneVec::int32_3 getPinInt3(
-            const Octane::PinId                       id
+            const Octane::PinId   id
             ) const;
 
     OctaneVec::int32_4 getPinInt4(
-            const Octane::PinId                       id
+            const Octane::PinId   id
             ) const;
 
     OctaneVec::MatrixF getPinMatrix(
-            const Octane::PinId                       id
+            const Octane::PinId   id
             ) const;
 
     std::string getPinString(
-            const Octane::PinId                       id
+            const Octane::PinId   id
             ) const;
 
     Octane::ApiFilePath getPinFilePath(
-            const Octane::PinId                       id
+            const Octane::PinId   id
             ) const;
 
     /// Same as above but identifies the pin via name.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool getPinBool(
-            const char *                              name
+            const char *   name
             ) const;
 
     float getPinFloat(
-            const char *                              name
+            const char *   name
             ) const;
 
     OctaneVec::float_2 getPinFloat2(
-            const char *                              name
+            const char *   name
             ) const;
 
     OctaneVec::float_3 getPinFloat3(
-            const char *                              name
+            const char *   name
             ) const;
 
     OctaneVec::float_4 getPinFloat4(
-            const char *                              name
+            const char *   name
             ) const;
 
     int32_t getPinInt(
-            const char *                              name
+            const char *   name
             ) const;
 
     OctaneVec::int32_2 getPinInt2(
-            const char *                              name
+            const char *   name
             ) const;
 
     OctaneVec::int32_3 getPinInt3(
-            const char *                              name
+            const char *   name
             ) const;
 
     OctaneVec::int32_4 getPinInt4(
-            const char *                              name
+            const char *   name
             ) const;
 
     OctaneVec::MatrixF getPinMatrix(
-            const char *                              name
+            const char *   name
             ) const;
 
     std::string getPinString(
-            const char *                              name
+            const char *   name
             ) const;
 
     Octane::ApiFilePath getPinFilePath(
-            const char *                              name
+            const char *   name
             ) const;
 
     /// Same as above but identifies the pin via index.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool getPinBoolIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     float getPinFloatIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     OctaneVec::float_2 getPinFloat2Ix(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     OctaneVec::float_3 getPinFloat3Ix(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     OctaneVec::float_4 getPinFloat4Ix(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     int32_t getPinIntIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     OctaneVec::int32_2 getPinInt2Ix(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     OctaneVec::int32_3 getPinInt3Ix(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     OctaneVec::int32_4 getPinInt4Ix(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     OctaneVec::MatrixF getPinMatrixIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     std::string getPinStringIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     Octane::ApiFilePath getPinFilePathIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     /// Returns the value in an out argument.
@@ -1232,7 +1232,7 @@ public:
     /// @return
     ///     TRUE if the node was stored successfully, FALSE on failure in which case there
     ///     should have been additional error messages on the log.
-    bool storeToDb(            );
+    bool storeToDb();
 
     /// Show the OSL editor window for this node.
     /// If no editor is open yet, then the current node will be shown in a new editor, and this
@@ -1244,7 +1244,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void showOslWindow(
-            bool                                      force
+            bool   force
             );
 
     /// Request closing the OSL editor window
@@ -1255,7 +1255,7 @@ public:
     /// @return
     ///     true if the window was closed, false if the user canceled.
     static bool closeOslWindow(
-            bool                                      force
+            bool   force
             );
 
     /// Unpack all file data of the node that is coming from an ORBX package and optionally the file
@@ -1270,7 +1270,7 @@ public:
     ///     inputs.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    /// @return 
+    /// @return
     ///     TRUE if unpacking succeeded. In the case that any node fails to unpack, we will continue
     ///     trying to unpack the rest (if any).
     bool unpackFileData(

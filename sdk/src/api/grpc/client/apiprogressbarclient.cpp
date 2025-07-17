@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apiprogressbarclient.h"
 #include <cassert>
@@ -39,7 +39,7 @@ ApiProgressBarProxy ApiProgressBarProxy::create()
     octaneapi::ApiProgressBar::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProgressBarService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProgressBarService::Stub> stub =
         octaneapi::ApiProgressBarService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -67,7 +67,7 @@ ApiProgressBarProxy ApiProgressBarProxy::create()
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiProgressBarProxy retVal;////714////
+        ApiProgressBarProxy retVal;
         return retVal;
     }
 };
@@ -84,8 +84,8 @@ void ApiProgressBarProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiProgressBar);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiProgressBar);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -94,7 +94,7 @@ void ApiProgressBarProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProgressBarService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProgressBarService::Stub> stub =
         octaneapi::ApiProgressBarService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -118,7 +118,7 @@ void ApiProgressBarProxy::destroy()
 
 
 void ApiProgressBarProxy::setProgress(
-            const double                              newValue //// last param ////
+            const double                              newValue
             )
 
 {
@@ -131,15 +131,15 @@ void ApiProgressBarProxy::setProgress(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiProgressBar);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiProgressBar);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'newValue' [in] parameter to the request packet.
     double newvalueIn;
-    newvalueIn = newValue;////2 const double////
+    newvalueIn = newValue;
     request.set_newvalue(newvalueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -147,7 +147,7 @@ void ApiProgressBarProxy::setProgress(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProgressBarService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProgressBarService::Stub> stub =
         octaneapi::ApiProgressBarService::NewStub(getGRPCSettings().getChannel());
     status = stub->setProgress(context.get(), request, &response);
 
@@ -181,8 +181,8 @@ double ApiProgressBarProxy::progress() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiProgressBar);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiProgressBar);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -191,7 +191,7 @@ double ApiProgressBarProxy::progress() const
     octaneapi::ApiProgressBar::progressResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProgressBarService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProgressBarService::Stub> stub =
         octaneapi::ApiProgressBarService::NewStub(getGRPCSettings().getChannel());
     status = stub->progress(context.get(), request, &response);
 
@@ -201,7 +201,7 @@ double ApiProgressBarProxy::progress() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         double resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -221,7 +221,7 @@ double ApiProgressBarProxy::progress() const
 
 
 void ApiProgressBarProxy::setText(
-            const char *                              newText //// last param ////
+            const char *                              newText
             )
 
 {
@@ -234,23 +234,23 @@ void ApiProgressBarProxy::setText(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiProgressBar);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiProgressBar);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'newText' [in] parameter to the request packet.
-    std::string * newtextIn = new std::string(); //// newText type=string;//// ////721////
+    std::string * newtextIn = new std::string();
     *newtextIn = checkString(newText);
-    request.set_allocated_newtext(newtextIn);//// 6215 ////
+    request.set_allocated_newtext(newtextIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProgressBarService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProgressBarService::Stub> stub =
         octaneapi::ApiProgressBarService::NewStub(getGRPCSettings().getChannel());
     status = stub->setText(context.get(), request, &response);
 

@@ -28,7 +28,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool isValidFor(
-            const Octane::VersionT                    version
+            const Octane::VersionT   version
             ) const;
 
 private:

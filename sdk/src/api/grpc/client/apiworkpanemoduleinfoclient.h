@@ -52,20 +52,20 @@ public:
     /// Destroys a ApiWorkPaneModuleInfo object created by create().
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Function to set the workpane module create function. (mandatory)
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setInitFunction(
-            GRPCInitFuncT                            func
+            GRPCInitFuncT   func
             );
 
     /// Function to set the workpane module destroy function. (mandatory)
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setCleanupFunction(
-            const Octane::ApiWorkPaneModuleInfo::CleanupFuncT func
+            const Octane::ApiWorkPaneModuleInfo::CleanupFuncT   func
             );
 
     /// Function to a set list of command modules ids that will be displayed in the toolbar

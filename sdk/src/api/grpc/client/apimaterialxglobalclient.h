@@ -32,50 +32,50 @@ public:
             const bool                                useNativeMaterialXNodes
             );
 
-    static std::vector<std::string> getAllMxNodeCategories(            );
+    static std::vector<std::string> getAllMxNodeCategories();
 
     static std::string getMxNodeCategory(
-            Octane::NodeType                          nodeType
+            Octane::NodeType   nodeType
             );
 
     static std::string getMxNodeCategory(
-            Octane::NodeGraphType                     nodeGraphType
+            Octane::NodeGraphType   nodeGraphType
             );
 
     static std::string getMxValueType(
-            Octane::TextureValueType                  textureValueType
+            Octane::TextureValueType   textureValueType
             );
 
     static Octane::TextureValueType getTextureValueType(
-            const char *                              mxValueTypeName
+            const char *   mxValueTypeName
             );
 
     static std::string getMxColorSpace(
-            Octane::NamedColorSpace                   colorSpace
+            Octane::NamedColorSpace   colorSpace
             );
 
     static Octane::NamedColorSpace getNamedColorSpace(
-            const char *                              mxColorSpace
+            const char *   mxColorSpace
             );
 
     static std::vector<Octane::NodeType> getNodeTypes(
-            const char *                              mxNodeCategory
+            const char *   mxNodeCategory
             );
 
     static Octane::NodeGraphType getGraphType(
-            const char *                              mxNodeCategory
+            const char *   mxNodeCategory
             );
 
     static std::vector<Octane::ApiMaterialX::MxInput> getMxInputNamesAndPinIds(
-            Octane::NodeType                          nodeType
+            Octane::NodeType   nodeType
             );
 
     static std::vector<std::string> getGraphMxInputNames(
-            Octane::NodeGraphType                     nodeGraphType
+            Octane::NodeGraphType   nodeGraphType
             );
 
     static std::vector<std::string> getGraphMxOutputNames(
-            Octane::NodeGraphType                     nodeGraphType
+            Octane::NodeGraphType   nodeGraphType
             );
 
 private:

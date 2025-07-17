@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apicomboboxclient.h"
 #include <cassert>
@@ -29,10 +29,10 @@ GRPCSettings & ApiComboBoxProxy::getGRPCSettings()
 
 
 ApiComboBoxProxy ApiComboBoxProxy::create(
-            const Octane::ApiComboBoxItem *           items, //// test821 //// 
-            const size_t                              nbOfItems, //// test821 //// 
-            GRPCComboBoxChangedCallbackT             callback, //// test821 //// 
-            void *                                    privateData //// last param ////
+            const Octane::ApiComboBoxItem *           items,
+            const size_t                              nbOfItems,
+            GRPCComboBoxChangedCallbackT             callback,
+            void *                                    privateData
             )
 
 {
@@ -43,38 +43,31 @@ ApiComboBoxProxy ApiComboBoxProxy::create(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'items' [in] parameter to the request packet.
-    octaneapi::ComboItemArrayT * itemsIn = new octaneapi::ComboItemArrayT(); //// items type=ComboItemArrayT;//// ////721////
-    //// Client Array Type F////
-    //// param.mProtoCppType = ComboItemArrayT param.mType = const Octane::ApiComboBoxItem * ////
+    octaneapi::ComboItemArrayT * itemsIn = new octaneapi::ComboItemArrayT();
     for (size_t h = 0; h < nbOfItems; h++)
     {
         auto item = itemsIn->add_data();
         item->set_id(items[h].mId);
         item->set_text(items[h].mText);
     }
-    request.set_allocated_items(itemsIn);//// 6215 ////
+    request.set_allocated_items(itemsIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'nbOfItems' [in] parameter to the request packet.
     uint32_t nbofitemsIn;
-    nbofitemsIn = static_cast<uint32_t>(nbOfItems);////2 const size_t////
+    nbofitemsIn = static_cast<uint32_t>(nbOfItems);
     request.set_nbofitems(nbofitemsIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'callback' [in] parameter to the request packet.
-    octaneapi::ComboBoxChangedCallbackT * callbackIn = new octaneapi::ComboBoxChangedCallbackT(); //// callback type=ComboBoxChangedCallbackT;//// ////721////
+    octaneapi::ComboBoxChangedCallbackT * callbackIn = new octaneapi::ComboBoxChangedCallbackT();
     // setup callback function callback
-    //int callbackCallbackId = GRPCSettings::getNextCallbackId("GRPCComboBoxChangedCallback"); 
-    //CallbackStorage::registerGRPCComboBoxChangedCallback(callbackCallbackId, callback);
     callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //callbackIn->set_callbackid(callbackCallbackId);
-    //if(className == "ApiComboBox" && method.mName == "create") return true;
-    request.set_allocated_callback(callbackIn);//// 6215 ////
+    request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'privateData' [in] parameter to the request packet.
     uint64_t privatedataIn;
-    //// USER DATA TEST ////
     privatedataIn = reinterpret_cast<uint64_t>(privateData);
     request.set_privatedata(privatedataIn);
 
@@ -83,7 +76,7 @@ ApiComboBoxProxy ApiComboBoxProxy::create(
     octaneapi::ApiComboBox::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiComboBoxService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiComboBoxService::Stub> stub =
         octaneapi::ApiComboBoxService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -117,7 +110,7 @@ ApiComboBoxProxy ApiComboBoxProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiComboBoxProxy retVal;////714////
+        ApiComboBoxProxy retVal;
         return retVal;
     }
 };
@@ -134,8 +127,8 @@ void ApiComboBoxProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiComboBox);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiComboBox);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -144,7 +137,7 @@ void ApiComboBoxProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiComboBoxService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiComboBoxService::Stub> stub =
         octaneapi::ApiComboBoxService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -168,8 +161,8 @@ void ApiComboBoxProxy::destroy()
 
 
 void ApiComboBoxProxy::setSelectedId(
-            const int                                 newItemId, //// test821 //// 
-            const bool                                sendEvent //// last param ////
+            const int                                 newItemId,
+            const bool                                sendEvent
             )
 
 {
@@ -182,21 +175,21 @@ void ApiComboBoxProxy::setSelectedId(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiComboBox);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiComboBox);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'newItemId' [in] parameter to the request packet.
     int32_t newitemidIn;
-    newitemidIn = newItemId;////2 const int////
+    newitemidIn = newItemId;
     request.set_newitemid(newitemidIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'sendEvent' [in] parameter to the request packet.
     bool sendeventIn;
-    sendeventIn = sendEvent;////2 const bool////
+    sendeventIn = sendEvent;
     request.set_sendevent(sendeventIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -204,7 +197,7 @@ void ApiComboBoxProxy::setSelectedId(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiComboBoxService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiComboBoxService::Stub> stub =
         octaneapi::ApiComboBoxService::NewStub(getGRPCSettings().getChannel());
     status = stub->setSelectedId(context.get(), request, &response);
 
@@ -238,8 +231,8 @@ int ApiComboBoxProxy::selectedId() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiComboBox);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiComboBox);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -248,7 +241,7 @@ int ApiComboBoxProxy::selectedId() const
     octaneapi::ApiComboBox::selectedIdResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiComboBoxService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiComboBoxService::Stub> stub =
         octaneapi::ApiComboBoxService::NewStub(getGRPCSettings().getChannel());
     status = stub->selectedId(context.get(), request, &response);
 
@@ -258,7 +251,7 @@ int ApiComboBoxProxy::selectedId() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         int32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -288,8 +281,8 @@ std::string ApiComboBoxProxy::text() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiComboBox);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiComboBox);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -298,7 +291,7 @@ std::string ApiComboBoxProxy::text() const
     octaneapi::ApiComboBox::textResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiComboBoxService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiComboBoxService::Stub> stub =
         octaneapi::ApiComboBoxService::NewStub(getGRPCSettings().getChannel());
     status = stub->text(context.get(), request, &response);
 
@@ -309,7 +302,7 @@ std::string ApiComboBoxProxy::text() const
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {

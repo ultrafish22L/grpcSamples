@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apilocaldb_packageclient.h"
 #include <cassert>
@@ -39,8 +39,8 @@ std::string ApiLocalDBProxy_Package::name() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_Package);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_Package);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -49,7 +49,7 @@ std::string ApiLocalDBProxy_Package::name() const
     octaneapi::ApiLocalDB::ApiLocalDB_Package::nameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLocalDB_PackageService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLocalDB_PackageService::Stub> stub =
         octaneapi::ApiLocalDB_PackageService::NewStub(getGRPCSettings().getChannel());
     status = stub->name1(context.get(), request, &response);
 
@@ -60,7 +60,7 @@ std::string ApiLocalDBProxy_Package::name() const
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -90,8 +90,8 @@ std::string ApiLocalDBProxy_Package::fileName() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_Package);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_Package);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -100,7 +100,7 @@ std::string ApiLocalDBProxy_Package::fileName() const
     octaneapi::ApiLocalDB::ApiLocalDB_Package::fileNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLocalDB_PackageService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLocalDB_PackageService::Stub> stub =
         octaneapi::ApiLocalDB_PackageService::NewStub(getGRPCSettings().getChannel());
     status = stub->fileName1(context.get(), request, &response);
 
@@ -111,7 +111,7 @@ std::string ApiLocalDBProxy_Package::fileName() const
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -141,8 +141,8 @@ bool ApiLocalDBProxy_Package::hasThumbnail() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_Package);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_Package);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -151,7 +151,7 @@ bool ApiLocalDBProxy_Package::hasThumbnail() const
     octaneapi::ApiLocalDB::ApiLocalDB_Package::hasThumbnailResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLocalDB_PackageService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLocalDB_PackageService::Stub> stub =
         octaneapi::ApiLocalDB_PackageService::NewStub(getGRPCSettings().getChannel());
     status = stub->hasThumbnail(context.get(), request, &response);
 
@@ -161,7 +161,7 @@ bool ApiLocalDBProxy_Package::hasThumbnail() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -181,7 +181,7 @@ bool ApiLocalDBProxy_Package::hasThumbnail() const
 
 
 std::string ApiLocalDBProxy_Package::getThumbnail(
-            OctaneVec::uint32_2 &                     size //// last param ////
+            OctaneVec::uint32_2 &                     size
             ) const
 
 {
@@ -194,8 +194,8 @@ std::string ApiLocalDBProxy_Package::getThumbnail(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_Package);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_Package);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -204,7 +204,7 @@ std::string ApiLocalDBProxy_Package::getThumbnail(
     octaneapi::ApiLocalDB::ApiLocalDB_Package::getThumbnailResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLocalDB_PackageService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLocalDB_PackageService::Stub> stub =
         octaneapi::ApiLocalDB_PackageService::NewStub(getGRPCSettings().getChannel());
     status = stub->getThumbnail(context.get(), request, &response);
 
@@ -215,7 +215,7 @@ std::string ApiLocalDBProxy_Package::getThumbnail(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'size' [out] parameter from the gRPC response packet
@@ -241,7 +241,7 @@ std::string ApiLocalDBProxy_Package::getThumbnail(
 
 
 bool ApiLocalDBProxy_Package::loadPackage(
-            ApiNodeGraphProxy &                       destinationGraph //// last param ////
+            ApiNodeGraphProxy &                       destinationGraph
             )
 
 {
@@ -254,8 +254,8 @@ bool ApiLocalDBProxy_Package::loadPackage(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_Package);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_Package);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -263,8 +263,8 @@ bool ApiLocalDBProxy_Package::loadPackage(
     // Add the 'destinationGraph' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * destinationgraphIn = new octaneapi::ObjectRef();////761////
-    destinationgraphIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * destinationgraphIn = new octaneapi::ObjectRef();
+    destinationgraphIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     destinationgraphIn->set_handle(destinationGraph.getObjectHandle());
     request.set_allocated_destinationgraph(destinationgraphIn);
 
@@ -273,7 +273,7 @@ bool ApiLocalDBProxy_Package::loadPackage(
     octaneapi::ApiLocalDB::ApiLocalDB_Package::loadPackageResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLocalDB_PackageService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLocalDB_PackageService::Stub> stub =
         octaneapi::ApiLocalDB_PackageService::NewStub(getGRPCSettings().getChannel());
     status = stub->loadPackage(context.get(), request, &response);
 
@@ -283,7 +283,7 @@ bool ApiLocalDBProxy_Package::loadPackage(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -313,8 +313,8 @@ void ApiLocalDBProxy_Package::free()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_Package);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_Package);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -323,7 +323,7 @@ void ApiLocalDBProxy_Package::free()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLocalDB_PackageService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLocalDB_PackageService::Stub> stub =
         octaneapi::ApiLocalDB_PackageService::NewStub(getGRPCSettings().getChannel());
     status = stub->free1(context.get(), request, &response);
 

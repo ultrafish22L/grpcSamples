@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apilocaldbclient.h"
 #include <cassert>
@@ -42,7 +42,7 @@ bool ApiLocalDBProxy::isSupported()
     octaneapi::ApiLocalDB::isSupportedResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLocalDBService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLocalDBService::Stub> stub =
         octaneapi::ApiLocalDBService::NewStub(getGRPCSettings().getChannel());
     status = stub->isSupported(context.get(), request, &response);
 
@@ -52,7 +52,7 @@ bool ApiLocalDBProxy::isSupported()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -83,7 +83,7 @@ ApiLocalDBProxy_Category ApiLocalDBProxy::root()
     octaneapi::ApiLocalDB::rootResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLocalDBService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLocalDBService::Stub> stub =
         octaneapi::ApiLocalDBService::NewStub(getGRPCSettings().getChannel());
     status = stub->root(context.get(), request, &response);
 
@@ -111,15 +111,15 @@ ApiLocalDBProxy_Category ApiLocalDBProxy::root()
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiLocalDBProxy_Category retVal;////714////
+        ApiLocalDBProxy_Category retVal;
         return retVal;
     }
 };
 
 
 bool ApiLocalDBProxy::setRootDirectory(
-            const char *                              newPath, //// test821 //// 
-            bool                                      moveFiles //// last param ////
+            const char *                              newPath,
+            bool                                      moveFiles
             )
 
 {
@@ -130,14 +130,14 @@ bool ApiLocalDBProxy::setRootDirectory(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'newPath' [in] parameter to the request packet.
-    std::string * newpathIn = new std::string(); //// newPath type=string;//// ////721////
+    std::string * newpathIn = new std::string();
     *newpathIn = checkString(newPath);
-    request.set_allocated_newpath(newpathIn);//// 6215 ////
+    request.set_allocated_newpath(newpathIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'moveFiles' [in] parameter to the request packet.
     bool movefilesIn;
-    movefilesIn = moveFiles;////2 bool////
+    movefilesIn = moveFiles;
     request.set_movefiles(movefilesIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -145,7 +145,7 @@ bool ApiLocalDBProxy::setRootDirectory(
     octaneapi::ApiLocalDB::setRootDirectoryResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLocalDBService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLocalDBService::Stub> stub =
         octaneapi::ApiLocalDBService::NewStub(getGRPCSettings().getChannel());
     status = stub->setRootDirectory(context.get(), request, &response);
 
@@ -155,7 +155,7 @@ bool ApiLocalDBProxy::setRootDirectory(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -175,8 +175,8 @@ bool ApiLocalDBProxy::setRootDirectory(
 
 
 void ApiLocalDBProxy::addObserver(
-            void *                                    opaqueData, //// test821 //// 
-            Octane::ApiLocalDB::ObserverCallback *    callback //// last param ////
+            void *                                    opaqueData,
+            Octane::ApiLocalDB::ObserverCallback *    callback
             )
 
 {
@@ -188,27 +188,22 @@ void ApiLocalDBProxy::addObserver(
     /////////////////////////////////////////////////////////////////////
     // Add the 'opaqueData' [in] parameter to the request packet.
     uint64_t opaquedataIn;
-    //// USER DATA TEST ////
     opaquedataIn = reinterpret_cast<uint64_t>(opaqueData);
     request.set_opaquedata(opaquedataIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'callback' [in] parameter to the request packet.
-    octaneapi::ObserverCallback * callbackIn = new octaneapi::ObserverCallback(); //// callback type=ObserverCallback;//// ////721////
+    octaneapi::ObserverCallback * callbackIn = new octaneapi::ObserverCallback();
     // setup callback function callback
-    //int callbackCallbackId = GRPCSettings::getNextCallbackId("ObserverCallback"); 
-    //CallbackStorage::registerObserverCallback(callbackCallbackId, callback);
     callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //callbackIn->set_callbackid(callbackCallbackId);
-    //if(className == "ApiLocalDB" && method.mName == "addObserver") return true;
-    request.set_allocated_callback(callbackIn);//// 6215 ////
+    request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiLocalDB::addObserverResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLocalDBService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLocalDBService::Stub> stub =
         octaneapi::ApiLocalDBService::NewStub(getGRPCSettings().getChannel());
     status = stub->addObserver(context.get(), request, &response);
 
@@ -234,8 +229,8 @@ void ApiLocalDBProxy::addObserver(
 
 
 void ApiLocalDBProxy::removeObserver(
-            void *                                    opaqueData, //// test821 //// 
-            Octane::ApiLocalDB::ObserverCallback *    callback //// last param ////
+            void *                                    opaqueData,
+            Octane::ApiLocalDB::ObserverCallback *    callback
             )
 
 {
@@ -247,26 +242,23 @@ void ApiLocalDBProxy::removeObserver(
     /////////////////////////////////////////////////////////////////////
     // Add the 'opaqueData' [in] parameter to the request packet.
     uint64_t opaquedataIn;
-    //// USER DATA TEST ////
     opaquedataIn = reinterpret_cast<uint64_t>(opaqueData);
     request.set_opaquedata(opaquedataIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'callback' [in] parameter to the request packet.
-    octaneapi::ObserverCallback * callbackIn = new octaneapi::ObserverCallback(); //// callback type=ObserverCallback;//// ////721////
+    octaneapi::ObserverCallback * callbackIn = new octaneapi::ObserverCallback();
     // setup callback function callback
-    //int callbackCallbackId = GRPCSettings::getNextCallbackId("ObserverCallback"); 
-    //CallbackStorage::registerObserverCallback(callbackCallbackId, callback);
     int callbackCallbackId = CallbackStorage::unregisterObserverCallback(callback);
     callbackIn->set_callbackid(callbackCallbackId);
-    request.set_allocated_callback(callbackIn);//// 6215 ////
+    request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiLocalDB::removeObserverResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLocalDBService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLocalDBService::Stub> stub =
         octaneapi::ApiLocalDBService::NewStub(getGRPCSettings().getChannel());
     status = stub->removeObserver(context.get(), request, &response);
 

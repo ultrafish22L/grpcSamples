@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apitexteditorclient.h"
 #include <cassert>
@@ -28,9 +28,9 @@ GRPCSettings & ApiTextEditorProxy::getGRPCSettings()
 
 
 ApiTextEditorProxy ApiTextEditorProxy::create(
-            const unsigned int                        nbOfLines, //// test821 //// 
-            GRPCTextEditorChangedCallbackT           callback, //// test821 //// 
-            void *                                    privateData //// last param ////
+            const unsigned int                        nbOfLines,
+            GRPCTextEditorChangedCallbackT           callback,
+            void *                                    privateData
             )
 
 {
@@ -42,24 +42,19 @@ ApiTextEditorProxy ApiTextEditorProxy::create(
     /////////////////////////////////////////////////////////////////////
     // Add the 'nbOfLines' [in] parameter to the request packet.
     uint32_t nboflinesIn;
-    nboflinesIn = nbOfLines;////2 const unsigned int////
+    nboflinesIn = nbOfLines;
     request.set_nboflines(nboflinesIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'callback' [in] parameter to the request packet.
-    octaneapi::TextEditorChangedCallbackT * callbackIn = new octaneapi::TextEditorChangedCallbackT(); //// callback type=TextEditorChangedCallbackT;//// ////721////
+    octaneapi::TextEditorChangedCallbackT * callbackIn = new octaneapi::TextEditorChangedCallbackT();
     // setup callback function callback
-    //int callbackCallbackId = GRPCSettings::getNextCallbackId("GRPCTextEditorChangedCallback"); 
-    //CallbackStorage::registerGRPCTextEditorChangedCallback(callbackCallbackId, callback);
     callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //callbackIn->set_callbackid(callbackCallbackId);
-    //if(className == "ApiTextEditor" && method.mName == "create") return true;
-    request.set_allocated_callback(callbackIn);//// 6215 ////
+    request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'privateData' [in] parameter to the request packet.
     uint64_t privatedataIn;
-    //// USER DATA TEST ////
     privatedataIn = reinterpret_cast<uint64_t>(privateData);
     request.set_privatedata(privatedataIn);
 
@@ -68,7 +63,7 @@ ApiTextEditorProxy ApiTextEditorProxy::create(
     octaneapi::ApiTextEditor::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTextEditorService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTextEditorService::Stub> stub =
         octaneapi::ApiTextEditorService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -102,7 +97,7 @@ ApiTextEditorProxy ApiTextEditorProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiTextEditorProxy retVal;////714////
+        ApiTextEditorProxy retVal;
         return retVal;
     }
 };
@@ -119,8 +114,8 @@ void ApiTextEditorProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextEditor);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextEditor);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -129,7 +124,7 @@ void ApiTextEditorProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTextEditorService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTextEditorService::Stub> stub =
         octaneapi::ApiTextEditorService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -163,8 +158,8 @@ std::string ApiTextEditorProxy::text() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextEditor);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextEditor);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -173,7 +168,7 @@ std::string ApiTextEditorProxy::text() const
     octaneapi::ApiTextEditor::textResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTextEditorService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTextEditorService::Stub> stub =
         octaneapi::ApiTextEditorService::NewStub(getGRPCSettings().getChannel());
     status = stub->text(context.get(), request, &response);
 
@@ -184,7 +179,7 @@ std::string ApiTextEditorProxy::text() const
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -214,8 +209,8 @@ bool ApiTextEditorProxy::isEmpty() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextEditor);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextEditor);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -224,7 +219,7 @@ bool ApiTextEditorProxy::isEmpty() const
     octaneapi::ApiTextEditor::isEmptyResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTextEditorService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTextEditorService::Stub> stub =
         octaneapi::ApiTextEditorService::NewStub(getGRPCSettings().getChannel());
     status = stub->isEmpty(context.get(), request, &response);
 
@@ -234,7 +229,7 @@ bool ApiTextEditorProxy::isEmpty() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -254,8 +249,8 @@ bool ApiTextEditorProxy::isEmpty() const
 
 
 void ApiTextEditorProxy::setText(
-            const char *                              newText, //// test821 //// 
-            const bool                                sendEvent //// last param ////
+            const char *                              newText,
+            const bool                                sendEvent
             )
 
 {
@@ -268,21 +263,21 @@ void ApiTextEditorProxy::setText(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextEditor);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextEditor);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'newText' [in] parameter to the request packet.
-    std::string * newtextIn = new std::string(); //// newText type=string;//// ////721////
+    std::string * newtextIn = new std::string();
     *newtextIn = checkString(newText);
-    request.set_allocated_newtext(newtextIn);//// 6215 ////
+    request.set_allocated_newtext(newtextIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'sendEvent' [in] parameter to the request packet.
     bool sendeventIn;
-    sendeventIn = sendEvent;////2 const bool////
+    sendeventIn = sendEvent;
     request.set_sendevent(sendeventIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -290,7 +285,7 @@ void ApiTextEditorProxy::setText(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTextEditorService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTextEditorService::Stub> stub =
         octaneapi::ApiTextEditorService::NewStub(getGRPCSettings().getChannel());
     status = stub->setText(context.get(), request, &response);
 
@@ -324,8 +319,8 @@ void ApiTextEditorProxy::clear()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextEditor);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextEditor);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -334,7 +329,7 @@ void ApiTextEditorProxy::clear()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTextEditorService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTextEditorService::Stub> stub =
         octaneapi::ApiTextEditorService::NewStub(getGRPCSettings().getChannel());
     status = stub->clear(context.get(), request, &response);
 
@@ -358,7 +353,7 @@ void ApiTextEditorProxy::clear()
 
 
 void ApiTextEditorProxy::setReadOnly(
-            const bool                                shouldBeReadOnly //// last param ////
+            const bool                                shouldBeReadOnly
             )
 
 {
@@ -371,15 +366,15 @@ void ApiTextEditorProxy::setReadOnly(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextEditor);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextEditor);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'shouldBeReadOnly' [in] parameter to the request packet.
     bool shouldbereadonlyIn;
-    shouldbereadonlyIn = shouldBeReadOnly;////2 const bool////
+    shouldbereadonlyIn = shouldBeReadOnly;
     request.set_shouldbereadonly(shouldbereadonlyIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -387,7 +382,7 @@ void ApiTextEditorProxy::setReadOnly(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTextEditorService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTextEditorService::Stub> stub =
         octaneapi::ApiTextEditorService::NewStub(getGRPCSettings().getChannel());
     status = stub->setReadOnly(context.get(), request, &response);
 
@@ -421,8 +416,8 @@ bool ApiTextEditorProxy::isReadOnly() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextEditor);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextEditor);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -431,7 +426,7 @@ bool ApiTextEditorProxy::isReadOnly() const
     octaneapi::ApiTextEditor::isReadOnlyResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTextEditorService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTextEditorService::Stub> stub =
         octaneapi::ApiTextEditorService::NewStub(getGRPCSettings().getChannel());
     status = stub->isReadOnly(context.get(), request, &response);
 
@@ -441,7 +436,7 @@ bool ApiTextEditorProxy::isReadOnly() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

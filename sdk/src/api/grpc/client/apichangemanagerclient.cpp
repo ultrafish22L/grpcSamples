@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apichangemanagerclient.h"
 #include <cassert>
@@ -31,9 +31,9 @@ GRPCSettings & ApiChangeManagerProxy::getGRPCSettings()
 
 
 void ApiChangeManagerProxy::observeApiItem(
-            const ApiItemProxy &                      item, //// test821 //// 
-            GRPCChangeObserver                       observer, //// test821 //// 
-            const int                                 eventMask //// last param ////
+            const ApiItemProxy &                      item,
+            GRPCChangeObserver                       observer,
+            const int                                 eventMask
             )
 
 {
@@ -46,16 +46,16 @@ void ApiChangeManagerProxy::observeApiItem(
     // Add the 'item' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * itemIn = new octaneapi::ObjectRef();////761////
-    itemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);////5////
+    octaneapi::ObjectRef * itemIn = new octaneapi::ObjectRef();
+    itemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
     itemIn->set_handle(item.getObjectHandle());
     request.set_allocated_item(itemIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'observer' [in] parameter to the request packet.
-    octaneapi::GRPCChangeObserverT * observerIn = new octaneapi::GRPCChangeObserverT(); //// observer type=GRPCChangeObserverT;//// ////721////
+    octaneapi::GRPCChangeObserverT * observerIn = new octaneapi::GRPCChangeObserverT();
     // setup observer function observer
-    //int observerCallbackId = GRPCSettings::getNextCallbackId("GRPCChangeObserver"); 
+    //int observerCallbackId = GRPCSettings::getNextCallbackId("GRPCChangeObserver");
     //CallbackStorage::registerGRPCChangeObserver(observerCallbackId, observer.mCallback);
     //octaneapi::OnChangeT * observerchangeT = new octaneapi::OnChangeT();
     //observerchangeT->set_callbackid(observerCallbackId);
@@ -63,12 +63,12 @@ void ApiChangeManagerProxy::observeApiItem(
     //observerIn->set_callbackid(observerCallbackId);
     observerIn->set_userdata(reinterpret_cast<uint64_t>(observer.mUserData));
     //if(className == "ApiChangeManager" && method.mName == "observeApiItem") return true;
-    request.set_allocated_observer(observerIn);//// 6215 ////
+    request.set_allocated_observer(observerIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'eventMask' [in] parameter to the request packet.
     int32_t eventmaskIn;
-    eventmaskIn = eventMask;////2 const int////
+    eventmaskIn = eventMask;
     request.set_eventmask(eventmaskIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -76,7 +76,7 @@ void ApiChangeManagerProxy::observeApiItem(
     octaneapi::ApiChangeManager::observeApiItemResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiChangeManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiChangeManagerService::Stub> stub =
         octaneapi::ApiChangeManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->observeApiItem(context.get(), request, &response);
 
@@ -102,8 +102,8 @@ void ApiChangeManagerProxy::observeApiItem(
 
 
 void ApiChangeManagerProxy::stopObserving(
-            const ApiItemProxy &                      item, //// test821 //// 
-            GRPCChangeObserver                       observer //// last param ////
+            const ApiItemProxy &                      item,
+            GRPCChangeObserver                       observer
             )
 
 {
@@ -116,28 +116,28 @@ void ApiChangeManagerProxy::stopObserving(
     // Add the 'item' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * itemIn = new octaneapi::ObjectRef();////761////
-    itemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);////5////
+    octaneapi::ObjectRef * itemIn = new octaneapi::ObjectRef();
+    itemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
     itemIn->set_handle(item.getObjectHandle());
     request.set_allocated_item(itemIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'observer' [in] parameter to the request packet.
-    octaneapi::GRPCChangeObserverT * observerIn = new octaneapi::GRPCChangeObserverT(); //// observer type=GRPCChangeObserverT;//// ////721////
+    octaneapi::GRPCChangeObserverT * observerIn = new octaneapi::GRPCChangeObserverT();
     // remove observer function observer
     int observerCallbackId = CallbackStorage::unregisterGRPCChangeObserver(observer.mCallback);
     //octaneapi::OnChangeT * observerchangeT = new octaneapi::OnChangeT();
     //observerchangeT->set_callbackid(observerCallbackId);
     observerIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     observerIn->set_callbackid(observerCallbackId);
-    request.set_allocated_observer(observerIn);//// 6215 ////
+    request.set_allocated_observer(observerIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiChangeManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiChangeManagerService::Stub> stub =
         octaneapi::ApiChangeManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->stopObserving(context.get(), request, &response);
 
@@ -163,7 +163,7 @@ void ApiChangeManagerProxy::stopObserving(
 
 
 void ApiChangeManagerProxy::stopObserving(
-            GRPCChangeObserver                       observer //// last param ////
+            GRPCChangeObserver                       observer
             )
 
 {
@@ -174,21 +174,21 @@ void ApiChangeManagerProxy::stopObserving(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'observer' [in] parameter to the request packet.
-    octaneapi::GRPCChangeObserverT * observerIn = new octaneapi::GRPCChangeObserverT(); //// observer type=GRPCChangeObserverT;//// ////721////
+    octaneapi::GRPCChangeObserverT * observerIn = new octaneapi::GRPCChangeObserverT();
     // remove observer function observer
     int observerCallbackId = CallbackStorage::unregisterGRPCChangeObserver(observer.mCallback);
     //octaneapi::OnChangeT * observerchangeT = new octaneapi::OnChangeT();
     //observerchangeT->set_callbackid(observerCallbackId);
     observerIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     observerIn->set_callbackid(observerCallbackId);
-    request.set_allocated_observer(observerIn);//// 6215 ////
+    request.set_allocated_observer(observerIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiChangeManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiChangeManagerService::Stub> stub =
         octaneapi::ApiChangeManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->stopObserving1(context.get(), request, &response);
 
@@ -225,7 +225,7 @@ void ApiChangeManagerProxy::stopObserving()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiChangeManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiChangeManagerService::Stub> stub =
         octaneapi::ApiChangeManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->stopObserving2(context.get(), request, &response);
 
@@ -260,7 +260,7 @@ void ApiChangeManagerProxy::update()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiChangeManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiChangeManagerService::Stub> stub =
         octaneapi::ApiChangeManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->update(context.get(), request, &response);
 
@@ -284,8 +284,8 @@ void ApiChangeManagerProxy::update()
 
 
 void ApiChangeManagerProxy::addTimeObserver(
-            GRPCChangeTimeObserver                   observer, //// test821 //// 
-            const ApiRootNodeGraphProxy &             rootNodeGraph //// last param ////
+            GRPCChangeTimeObserver                   observer,
+            const ApiRootNodeGraphProxy &             rootNodeGraph
             )
 
 {
@@ -296,9 +296,9 @@ void ApiChangeManagerProxy::addTimeObserver(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'observer' [in] parameter to the request packet.
-    octaneapi::GRPCChangeTimeObserverT * observerIn = new octaneapi::GRPCChangeTimeObserverT(); //// observer type=GRPCChangeTimeObserverT;//// ////721////
+    octaneapi::GRPCChangeTimeObserverT * observerIn = new octaneapi::GRPCChangeTimeObserverT();
     // setup observer function observer
-    //int observerCallbackId = GRPCSettings::getNextCallbackId("GRPCChangeTimeObserver"); 
+    //int observerCallbackId = GRPCSettings::getNextCallbackId("GRPCChangeTimeObserver");
     //CallbackStorage::registerGRPCChangeTimeObserver(observerCallbackId, observer.mCallback);
     //octaneapi::OnChangeT * observerchangeT = new octaneapi::OnChangeT();
     //observerchangeT->set_callbackid(observerCallbackId);
@@ -306,14 +306,14 @@ void ApiChangeManagerProxy::addTimeObserver(
     //observerIn->set_callbackid(observerCallbackId);
     observerIn->set_userdata(reinterpret_cast<uint64_t>(observer.mUserData));
     //if(className == "ApiChangeManager" && method.mName == "addTimeObserver") return true;
-    request.set_allocated_observer(observerIn);//// 6215 ////
+    request.set_allocated_observer(observerIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'rootNodeGraph' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * rootnodegraphIn = new octaneapi::ObjectRef();////761////
-    rootnodegraphIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);////5////
+    octaneapi::ObjectRef * rootnodegraphIn = new octaneapi::ObjectRef();
+    rootnodegraphIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);
     rootnodegraphIn->set_handle(rootNodeGraph.getObjectHandle());
     request.set_allocated_rootnodegraph(rootnodegraphIn);
 
@@ -322,7 +322,7 @@ void ApiChangeManagerProxy::addTimeObserver(
     octaneapi::ApiChangeManager::addTimeObserverResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiChangeManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiChangeManagerService::Stub> stub =
         octaneapi::ApiChangeManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->addTimeObserver(context.get(), request, &response);
 
@@ -348,8 +348,8 @@ void ApiChangeManagerProxy::addTimeObserver(
 
 
 void ApiChangeManagerProxy::removeTimeObserver(
-            GRPCChangeTimeObserver                   observer, //// test821 //// 
-            const ApiRootNodeGraphProxy *             rootNodeGraph //// last param ////
+            GRPCChangeTimeObserver                   observer,
+            const ApiRootNodeGraphProxy *             rootNodeGraph
             )
 
 {
@@ -360,21 +360,21 @@ void ApiChangeManagerProxy::removeTimeObserver(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'observer' [in] parameter to the request packet.
-    octaneapi::GRPCChangeTimeObserverT * observerIn = new octaneapi::GRPCChangeTimeObserverT(); //// observer type=GRPCChangeTimeObserverT;//// ////721////
+    octaneapi::GRPCChangeTimeObserverT * observerIn = new octaneapi::GRPCChangeTimeObserverT();
     // remove observer function observer
     int observerCallbackId = CallbackStorage::unregisterGRPCChangeTimeObserver(observer.mCallback);
     //octaneapi::OnChangeT * observerchangeT = new octaneapi::OnChangeT();
     //observerchangeT->set_callbackid(observerCallbackId);
     observerIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     observerIn->set_callbackid(observerCallbackId);
-    request.set_allocated_observer(observerIn);//// 6215 ////
+    request.set_allocated_observer(observerIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'rootNodeGraph' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * rootnodegraphIn = new octaneapi::ObjectRef();////761////
-    rootnodegraphIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);////5////
+    octaneapi::ObjectRef * rootnodegraphIn = new octaneapi::ObjectRef();
+    rootnodegraphIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);
     rootnodegraphIn->set_handle(rootNodeGraph->getObjectHandle());
     request.set_allocated_rootnodegraph(rootnodegraphIn);
 
@@ -383,7 +383,7 @@ void ApiChangeManagerProxy::removeTimeObserver(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiChangeManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiChangeManagerService::Stub> stub =
         octaneapi::ApiChangeManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->removeTimeObserver(context.get(), request, &response);
 
@@ -420,7 +420,7 @@ void ApiChangeManagerProxy::stopObservingTime()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiChangeManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiChangeManagerService::Stub> stub =
         octaneapi::ApiChangeManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->stopObservingTime(context.get(), request, &response);
 

@@ -1301,6 +1301,25 @@ inline Matrix<ST> lerp(
 
 }   // namespace OctaneVec
 
+
+namespace std
+{
+    template <class ST>
+    struct hash<OctaneVec::Matrix<ST>>
+    {
+        size_t operator()
+            (const OctaneVec::Matrix<ST> & matrix) const noexcept
+        {
+            std::hash<OctaneVec::Vec4<ST>> stHash;
+            auto h = stHash(matrix[0]);
+            h ^= stHash(matrix[1]) + 0x9e3779b9 + (h << 6) + (h >> 2);
+            h ^= stHash(matrix[2]) + 0x9e3779b9 + (h << 6) + (h >> 2);
+            return h;
+        }
+    };
+}
+
+
 namespace Octane {
     using namespace OctaneVec;
 }

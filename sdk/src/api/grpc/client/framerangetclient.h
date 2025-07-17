@@ -10,7 +10,7 @@
 #include "octanevectypes.h"
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
-#include "apiinfoclient.h"
+#include "grpcapinodeinfo.h"
 
 
 #include "octanetime.h"
@@ -32,7 +32,7 @@ public:
     /// returns the amount of frames
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    uint32_t count(            ) const;
+    uint32_t count() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

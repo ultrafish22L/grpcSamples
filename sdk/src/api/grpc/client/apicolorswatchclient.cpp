@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apicolorswatchclient.h"
 #include <cassert>
@@ -28,9 +28,9 @@ GRPCSettings & ApiColorSwatchProxy::getGRPCSettings()
 
 
 ApiColorSwatchProxy ApiColorSwatchProxy::create(
-            const bool                                disableGammaCorrection, //// test821 //// 
-            GRPCColorChangedT                        changeCallback, //// test821 //// 
-            void *                                    privateData //// last param ////
+            const bool                                disableGammaCorrection,
+            GRPCColorChangedT                        changeCallback,
+            void *                                    privateData
             )
 
 {
@@ -42,24 +42,19 @@ ApiColorSwatchProxy ApiColorSwatchProxy::create(
     /////////////////////////////////////////////////////////////////////
     // Add the 'disableGammaCorrection' [in] parameter to the request packet.
     bool disablegammacorrectionIn;
-    disablegammacorrectionIn = disableGammaCorrection;////2 const bool////
+    disablegammacorrectionIn = disableGammaCorrection;
     request.set_disablegammacorrection(disablegammacorrectionIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'changeCallback' [in] parameter to the request packet.
-    octaneapi::ColorChangedT * changecallbackIn = new octaneapi::ColorChangedT(); //// changeCallback type=ColorChangedT;//// ////721////
+    octaneapi::ColorChangedT * changecallbackIn = new octaneapi::ColorChangedT();
     // setup callback function changeCallback
-    //int changeCallbackCallbackId = GRPCSettings::getNextCallbackId("ColorChanged"); 
-    //CallbackStorage::registerColorChanged(changeCallbackCallbackId, changeCallback);
     changecallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //changecallbackIn->set_callbackid(changeCallbackCallbackId);
-    //if(className == "ApiColorSwatch" && method.mName == "create") return true;
-    request.set_allocated_changecallback(changecallbackIn);//// 6215 ////
+    request.set_allocated_changecallback(changecallbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'privateData' [in] parameter to the request packet.
     uint64_t privatedataIn;
-    //// USER DATA TEST ////
     privatedataIn = reinterpret_cast<uint64_t>(privateData);
     request.set_privatedata(privatedataIn);
 
@@ -68,7 +63,7 @@ ApiColorSwatchProxy ApiColorSwatchProxy::create(
     octaneapi::ApiColorSwatch::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiColorSwatchService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiColorSwatchService::Stub> stub =
         octaneapi::ApiColorSwatchService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -102,7 +97,7 @@ ApiColorSwatchProxy ApiColorSwatchProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiColorSwatchProxy retVal;////714////
+        ApiColorSwatchProxy retVal;
         return retVal;
     }
 };
@@ -119,8 +114,8 @@ void ApiColorSwatchProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiColorSwatch);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiColorSwatch);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -129,7 +124,7 @@ void ApiColorSwatchProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiColorSwatchService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiColorSwatchService::Stub> stub =
         octaneapi::ApiColorSwatchService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -153,7 +148,7 @@ void ApiColorSwatchProxy::destroy()
 
 
 void ApiColorSwatchProxy::setColor(
-            const Octane::ApiColorHdr &               color //// last param ////
+            const Octane::ApiColorHdr &               color
             )
 
 {
@@ -166,26 +161,26 @@ void ApiColorSwatchProxy::setColor(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiColorSwatch);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiColorSwatch);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'color' [in] parameter to the request packet.
-    octaneapi::ApiColorHdr * colorIn = new octaneapi::ApiColorHdr(); //// color type=ApiColorHdr;//// ////721////
+    octaneapi::ApiColorHdr * colorIn = new octaneapi::ApiColorHdr();
     colorIn->set_a(color.a);
     colorIn->set_r(color.r);
     colorIn->set_g(color.g);
     colorIn->set_b(color.b);
-    request.set_allocated_color(colorIn);//// 6215 ////
+    request.set_allocated_color(colorIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiColorSwatchService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiColorSwatchService::Stub> stub =
         octaneapi::ApiColorSwatchService::NewStub(getGRPCSettings().getChannel());
     status = stub->setColor(context.get(), request, &response);
 
@@ -219,8 +214,8 @@ Octane::ApiColorHdr ApiColorSwatchProxy::color() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiColorSwatch);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiColorSwatch);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -229,7 +224,7 @@ Octane::ApiColorHdr ApiColorSwatchProxy::color() const
     octaneapi::ApiColorSwatch::colorResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiColorSwatchService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiColorSwatchService::Stub> stub =
         octaneapi::ApiColorSwatchService::NewStub(getGRPCSettings().getChannel());
     status = stub->color(context.get(), request, &response);
 
@@ -239,7 +234,6 @@ Octane::ApiColorHdr ApiColorSwatchProxy::color() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ApiColorHdr resultOut = response.result();
-        ////ApiColorHdr TEST 2////
         retVal.a = resultOut.a();
         retVal.r = resultOut.r();
         retVal.g = resultOut.g();

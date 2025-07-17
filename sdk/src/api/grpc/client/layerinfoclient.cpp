@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "layerinfoclient.h"
 #include <cassert>
@@ -38,8 +38,8 @@ bool LayerInfoProxy::hasTransparency() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_LayerInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_LayerInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -48,7 +48,7 @@ bool LayerInfoProxy::hasTransparency() const
     octaneapi::LayerInfo::hasTransparencyResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::LayerInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::LayerInfoService::Stub> stub =
         octaneapi::LayerInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->hasTransparency(context.get(), request, &response);
 
@@ -58,7 +58,7 @@ bool LayerInfoProxy::hasTransparency() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -88,8 +88,8 @@ bool LayerInfoProxy::isGrayscale() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_LayerInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_LayerInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -98,7 +98,7 @@ bool LayerInfoProxy::isGrayscale() const
     octaneapi::LayerInfo::isGrayscaleResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::LayerInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::LayerInfoService::Stub> stub =
         octaneapi::LayerInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->isGrayscale(context.get(), request, &response);
 
@@ -108,7 +108,7 @@ bool LayerInfoProxy::isGrayscale() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -138,8 +138,8 @@ std::string LayerInfoProxy::name() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_LayerInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_LayerInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -148,7 +148,7 @@ std::string LayerInfoProxy::name() const
     octaneapi::LayerInfo::nameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::LayerInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::LayerInfoService::Stub> stub =
         octaneapi::LayerInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->name(context.get(), request, &response);
 
@@ -159,7 +159,7 @@ std::string LayerInfoProxy::name() const
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -189,8 +189,8 @@ Octane::ImageType LayerInfoProxy::type() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_LayerInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_LayerInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -199,7 +199,7 @@ Octane::ImageType LayerInfoProxy::type() const
     octaneapi::LayerInfo::typeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::LayerInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::LayerInfoService::Stub> stub =
         octaneapi::LayerInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->type(context.get(), request, &response);
 
@@ -229,7 +229,7 @@ Octane::ImageType LayerInfoProxy::type() const
 
 
 Octane::ImageType LayerInfoProxy::prefCompressType(
-            const bool                                needHQ //// last param ////
+            const bool                                needHQ
             ) const
 
 {
@@ -242,15 +242,15 @@ Octane::ImageType LayerInfoProxy::prefCompressType(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_LayerInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_LayerInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'needHQ' [in] parameter to the request packet.
     bool needhqIn;
-    needhqIn = needHQ;////2 const bool////
+    needhqIn = needHQ;
     request.set_needhq(needhqIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -258,7 +258,7 @@ Octane::ImageType LayerInfoProxy::prefCompressType(
     octaneapi::LayerInfo::prefCompressTypeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::LayerInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::LayerInfoService::Stub> stub =
         octaneapi::LayerInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->prefCompressType(context.get(), request, &response);
 

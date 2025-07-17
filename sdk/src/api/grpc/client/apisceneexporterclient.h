@@ -28,7 +28,7 @@ public:
     /// Tells whether the @ref ApiSceneExporter is supported by this build
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool isSupported(            );
+    static bool isSupported();
 
     /// Starts a new export. If there is still an export going on, it will be cancelled and the
     /// exporter reset.
@@ -39,7 +39,7 @@ public:
     ///     asset directory. If the scene file name is either an .orbx file or empty, the asset
     ///     directory is temporary and will be deleted when destroy() is called.
     /// @param[in]  rootNodes
-    ///     An array of the root nodes that should be tracked. All root nodes must come from the 
+    ///     An array of the root nodes that should be tracked. All root nodes must come from the
     ///     same root node graph. Any node can be a root node, including render targets.
     /// @param[in]  rootNodesSize
     ///     The size of the array specified in rootNodes.
@@ -77,12 +77,12 @@ public:
     /// any temporary asset directory that was created during the export.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Returns the current state of the scene exporter.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    Octane::ExportState state(            ) const;
+    Octane::ExportState state() const;
 
     /// Exports the next time sample. Please check state() afterwards to find out whether an error
     /// occurred. You will be able to continue exporting sample after an error occurred but the
@@ -95,13 +95,13 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void exportSample(
-            const Octane::TimeSpanT                   interval
+            const Octane::TimeSpanT   interval
             );
 
     /// Returns the current sample/frame index of the export.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    uint32_t sampleIx(            ) const;
+    uint32_t sampleIx() const;
 
     /// Finishes the scene export and creates the scene file or creates an OCS string if no
     /// sceneFile.
@@ -135,7 +135,7 @@ public:
     /// finish() wasn't called yet or a sceneFile was specified during create().
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    std::string ocsString(            ) const;
+    std::string ocsString() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

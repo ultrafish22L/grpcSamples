@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apicompatibilitymodeinfoclient.h"
 #include <cassert>
@@ -39,7 +39,7 @@ Octane::VersionT ApiCompatibilityModeInfoProxy::startVersion() const
     octaneapi::ApiCompatibilityModeInfo::startVersionResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCompatibilityModeInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCompatibilityModeInfoService::Stub> stub =
         octaneapi::ApiCompatibilityModeInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->startVersion(context.get(), request, &response);
 
@@ -49,7 +49,7 @@ Octane::VersionT ApiCompatibilityModeInfoProxy::startVersion() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;//// SECOND////
+        retVal = resultOut;
     }
     else
     {
@@ -80,7 +80,7 @@ std::string ApiCompatibilityModeInfoProxy::name() const
     octaneapi::ApiCompatibilityModeInfo::nameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCompatibilityModeInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCompatibilityModeInfoService::Stub> stub =
         octaneapi::ApiCompatibilityModeInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->name(context.get(), request, &response);
 
@@ -91,7 +91,7 @@ std::string ApiCompatibilityModeInfoProxy::name() const
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -122,7 +122,7 @@ std::string ApiCompatibilityModeInfoProxy::description() const
     octaneapi::ApiCompatibilityModeInfo::descriptionResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCompatibilityModeInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCompatibilityModeInfoService::Stub> stub =
         octaneapi::ApiCompatibilityModeInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->description(context.get(), request, &response);
 
@@ -133,7 +133,7 @@ std::string ApiCompatibilityModeInfoProxy::description() const
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {

@@ -31,7 +31,7 @@ public:
     ///     Contains the status of the gRPC call
     /// @return
     ///     The start version, which will always be less than or equal to OCTANE_VERSION.
-    Octane::VersionT startVersion(            ) const;
+    Octane::VersionT startVersion() const;
 
     /// Gets the name of the compatibility mode.
     ///
@@ -40,7 +40,7 @@ public:
     /// @return
     ///     The name, which is not null. The pointer points to a string literal that will never be
     ///     modified or deallocated.
-    std::string name(            ) const;
+    std::string name() const;
 
     /// Gets a brief description of how this behavior differs from the behavior of the current
     /// version of Octane.
@@ -51,7 +51,7 @@ public:
     ///     The description, or null if this mode doesn't have a description because it represents
     ///     the current version of Octane. If not null, the pointer points to a string literal that
     ///     will never be modified or deallocated.
-    std::string description(            ) const;
+    std::string description() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

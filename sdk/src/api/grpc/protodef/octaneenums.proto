@@ -103,16 +103,6 @@ message ApiArrayImageTypeT
         BLEND_REGION_MASK_ALL = 7;
     }
 
-    enum BlendingModeId 
-    {
-        option allow_alias = true;
-        BLENDING_NONE = 0;
-        BLENDING_ALPHA = 1;
-        BLENDING_ADD = 2;
-        BLENDING_DEFAULT = 2;
-        BLENDING_MULTIPLY = 3;
-    }
-
     enum ComponentPickerOperation 
     {
         COMPONENT_PICKER_X = 0;
@@ -500,6 +490,14 @@ message ApiArrayImageTypeT
         CUSTOM_CURVE_MODE_MAX_AND_MIN_CHANNELS_SMOOTH = 5;
     }
 
+    enum CacheStatus 
+    {
+        CACHE_NONE = 0;
+        CACHE_ERROR = 1;
+        CACHE_BUILDING = 2;
+        CACHE_FINISHED = 3;
+    }
+
     enum DaylightModel 
     {
         DAYLIGHTMODEL_PREETHAM = 0;
@@ -648,6 +646,13 @@ message ApiArrayImageTypeT
     {
         FRACTAL_NOISE_MODE_SCALAR = 0;
         FRACTAL_NOISE_MODE_VECTOR = 1;
+    }
+
+    enum GaussianSplatClipMode 
+    {
+        GAUSSIAN_SPLAT_CLIP_MODE_NONE = 0;
+        GAUSSIAN_SPLAT_CLIP_MODE_BOX = 1;
+        GAUSSIAN_SPLAT_CLIP_MODE_ELLIPSOID = 2;
     }
 
     enum GaussianSplatLightingMode 
@@ -813,6 +818,7 @@ message ApiArrayImageTypeT
         IMAGE_MASK_SOURCE_INVERSE_A = 7;
         IMAGE_MASK_SOURCE_LUMINANCE = 8;
         IMAGE_MASK_SOURCE_INVERSE_LUMINANCE = 12;
+        IMAGE_MASK_SOURCE_NO_MASK = 256;
     }
 
     enum ImageSaveFormat 
@@ -1120,6 +1126,12 @@ message ApiArrayImageTypeT
         TEXTURE_PIN_VALUE_TYPE_MODE_DERIVED_AND_MAY_BE_TOGGLED = 3;
     }
 
+    enum UnblendExtractMode 
+    {
+        UNBLEND_EXTRACT_MODE_FOREGROUND = 0;
+        UNBLEND_EXTRACT_MODE_BACKGROUND = 1;
+    }
+
     enum PanoramicCameraMode 
     {
         SPHERICAL_CAMERA = 0;
@@ -1169,6 +1181,7 @@ message ApiArrayImageTypeT
         PREFERENCES_TAB_ID_KEYBOARD_SHORTCUTS = 15;
         PREFERENCES_TAB_ID_MODULES = 16;
         PREFERENCES_TAB_ID_MATERIALX_IMPORT = 17;
+        PREFERENCES_TAB_ID_FILESYSTEM_CACHING = 18;
     }
 
     enum PremultipliedAlphaType 
@@ -1427,6 +1440,15 @@ message ApiArrayImageTypeT
         RENDER_PASS_CAMERA_MASK = 125;
         RENDER_PASS_ALPHA = 126;
         RENDER_PASS_GAUSSIAN_SPLAT = 127;
+        RENDER_PASS_POSTFX_MEDIA_MASK = 128;
+        RENDER_PASS_SCREENSPACE_MOTION = 129;
+        RENDER_PASS_PRIMARY_HIT_DISTANCE = 130;
+        RENDER_PASS_PRIMARY_HIT_NORMAL = 131;
+        RENDER_PASS_DIFFUSE_FILTER_RGB = 132;
+        RENDER_PASS_REFLECTION_FILTER_RGB = 133;
+        RENDER_PASS_PRIMARY_HIT_ROUGHNESS = 134;
+        RENDER_PASS_TRANSPARENCY_MASK = 135;
+        RENDER_PASS_BIAS_CURR_COLOR = 136;
         RENDER_PASS_CUSTOM_OFFSET = 500;
         RENDER_PASS_CUSTOM_1 = 501;
         RENDER_PASS_CUSTOM_2 = 502;
@@ -1909,6 +1931,25 @@ message ApiArrayImageTypeT
         UPSAMPLEMODE_4X4 = 4;
     }
 
+    enum UpSamplerType 
+    {
+        UPSAMPLER_NONE = 0;
+        UPSAMPLER_LINEAR = 1;
+        UPSAMPLER_LEGACY_AI = 2;
+        UPSAMPLER_DLSS = 3;
+        UPSAMPLER_DLSS_RR = 4;
+        UPSAMPLER_FSR = 5;
+    }
+
+    enum UpSampleSourcePercentage 
+    {
+        UPSAMPLE_SOURCE_PERCENTAGE_100 = 0;
+        UPSAMPLE_SOURCE_PERCENTAGE_66 = 1;
+        UPSAMPLE_SOURCE_PERCENTAGE_50 = 2;
+        UPSAMPLE_SOURCE_PERCENTAGE_33 = 3;
+        UPSAMPLE_SOURCE_PERCENTAGE_25 = 4;
+    }
+
     enum UsdDisplayPurpose 
     {
         UsdDisplayPurpose_UNSPECIFIED = 0;
@@ -1927,6 +1968,21 @@ message ApiArrayImageTypeT
         VDB_GRID_VELOCITY_Y = 5;
         VDB_GRID_VELOCITY_Z = 6;
         VDB_GRID_VELOCITY = 7;
+    }
+
+    enum VectronCircleType 
+    {
+        CIRCLE_TYPE_CIRCLE = 0;
+        CIRCLE_TYPE_SLICE = 1;
+        CIRCLE_TYPE_SEGMENT = 2;
+        CIRCLE_TYPE_ARC = 3;
+    }
+
+    enum VectronEdgeType 
+    {
+        EDGE_TYPE_SHARP = 0;
+        EDGE_TYPE_FILLET = 1;
+        EDGE_TYPE_CHAMFER = 2;
     }
 
     enum VirtualTexturingMode 

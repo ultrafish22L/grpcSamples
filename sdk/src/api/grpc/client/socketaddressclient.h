@@ -27,7 +27,7 @@ public:
     /// checks if this address makes sense
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isValid(            ) const;
+    bool isValid() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

@@ -34,7 +34,7 @@ public:
     ///
     /// @param[in]  type
     ///     The type of the graph to create.
-    /// @param[in]  ownerGraph 
+    /// @param[in]  ownerGraph
     ///     Graph that will own the new graph.
     /// @param[out] status
     ///     Contains the status of the gRPC call
@@ -48,12 +48,12 @@ public:
     /// Returns info for this graph.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    const Octane::ApiNodeGraphInfo info(            ) const;
+    const Octane::ApiNodeGraphInfo info() const;
 
     /// Returns this graph's type.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    Octane::NodeGraphType type(            ) const;
+    Octane::NodeGraphType type() const;
 
     /// Returns the owned items of the node graph.
     ///
@@ -63,30 +63,30 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void getOwnedItems(
-            ApiItemArrayProxy &                       list
+            ApiItemArrayProxy &   list
             ) const;
 
     /// Returns the list of input nodes.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void getInputNodes(
-            ApiNodeArrayProxy &                       list
+            ApiNodeArrayProxy &   list
             ) const;
 
     /// Returns the list of output nodes.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void getOutputNodes(
-            ApiNodeArrayProxy &                       list
+            ApiNodeArrayProxy &   list
             ) const;
 
     /// Returns a list with all nodes in the graph of the given type.
     ///
     /// @param[in]  type
     ///     Type of the nodes we'd like to collect.
-    /// @param[out] list 
+    /// @param[out] list
     ///     List of nodes that have the given type.
-    /// @param[in]  recurse 
+    /// @param[in]  recurse
     ///     Recurses into nested graphs to collect the nodes.
     /// @param[out] status
     ///     Contains the status of the gRPC call
@@ -101,7 +101,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     ApiNodeProxy findFirstNode(
-            const Octane::NodeType                    type
+            const Octane::NodeType   type
             ) const;
 
     /// Returns the first output linker of the specified pin type.
@@ -109,16 +109,16 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     ApiNodeProxy findFirstOutputNode(
-            const Octane::NodePinType                 pinType
+            const Octane::NodePinType   pinType
             ) const;
 
     /// Find all items with a given name.
     ///
     /// @param[in]  name
     ///     The name of the items to collect.
-    /// @param[out] list 
+    /// @param[out] list
     ///     List of items that match the given name.
-    /// @param[in]  recurse 
+    /// @param[in]  recurse
     ///     Recurses into nested graphs to collect the nodes.
     /// @param[out] status
     ///     Contains the status of the gRPC call
@@ -135,9 +135,9 @@ public:
     /// @param[in] speedUp
     ///     scale of the animation playback speed (1 is normal playback, 2 is 2x faster)
     /// @param[in] customInterval
-    ///     Start and end time (in seconds) of the untransformed time of the animation that 
-    ///     should be played. The animation outside this interval will be cut out. 
-    ///     E.g. if the start time is 2s and the delay is 0s, then the transformed animation 
+    ///     Start and end time (in seconds) of the untransformed time of the animation that
+    ///     should be played. The animation outside this interval will be cut out.
+    ///     E.g. if the start time is 2s and the delay is 0s, then the transformed animation
     ///     at time 0 will be that of the untransformed animation at time 2s.
     /// @param[out] status
     ///     Contains the status of the gRPC call
@@ -151,23 +151,23 @@ public:
     /// or NULL if it doesn't have one
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    ApiAnimationTimeTransformProxy timeTransform(            ) const;
+    ApiAnimationTimeTransformProxy timeTransform() const;
 
     /// Removes animation time transformation
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void clearTimeTransform(            );
+    void clearTimeTransform();
 
     /// Returns an array of null-terminated strings containing all paths of the assets
     /// currently used by the current node graph
-    /// 
+    ///
     /// @param[out] status
     ///     Contains the status of the gRPC call
     /// @returns
     ///     The list of asset paths in the current node graph.
     ///     NOTE: The contents of this will be valid until this function is called again
     ///           from any node graph.
-    std::vector<std::string> getAssetPaths(            );
+    std::vector<std::string> getAssetPaths();
 
     /// Recenter all items in this graph around the given position.
     ///
@@ -176,7 +176,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void recenter(
-            const OctaneVec::float_2                  center
+            const OctaneVec::float_2   center
             );
 
     /// Clears the node graph, i.e. deletes all nodes stored in it. If you call this function on
@@ -184,7 +184,7 @@ public:
     /// reference to those nodes on the plugin side.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void clear(            );
+    void clear();
 
     /// Copies the items from the source graph into this graph.
     ///
@@ -217,7 +217,7 @@ public:
     /// @return
     ///     Ptr to the copied item or NULL if the item couldn't be copied.
     ApiItemProxy copyFrom(
-            const ApiItemProxy &                      sourceItem
+            const ApiItemProxy &   sourceItem
             );
 
     /// Copies the tree starting at rootItem into this graph.
@@ -232,7 +232,7 @@ public:
     /// @return
     ///     Pointer to the copied item or NULL if the item couldn't be copied.
     ApiItemProxy copyItemTree(
-            const ApiItemProxy &                      rootItem
+            const ApiItemProxy &   rootItem
             );
 
     /// Copies an array of items into the node graph.
@@ -242,7 +242,7 @@ public:
     ///     must have the same owner and that owner can't be NULL.
     /// @param[in]  itemCount
     ///     The size of the array, i.e. the number of items in the array.
-    /// @param[out] sourceItemCopies 
+    /// @param[out] sourceItemCopies
     ///     Optional empty list. This method will fill it with a pointer to the copy for
     ///     each source items in sourceItems. This list has size itemCount. The copies are
     ///     in the same order as the source items.
@@ -253,7 +253,7 @@ public:
     ///     Size of origItems.
     /// @param[out] origItemsCopies
     ///     Optional list with the copies of origItems. This list must be provided if
-    ///     the original items list is provided. 
+    ///     the original items list is provided.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void copyFrom(
@@ -276,7 +276,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     /// @return
-    ///     The nodegraph with the items or NULL. 
+    ///     The nodegraph with the items or NULL.
     ApiNodeGraphProxy groupItems(
             ApiItemProxy *const *const                items,
             const size_t                              itemsCount
@@ -285,12 +285,12 @@ public:
     /// Replaces this node graph with a copy of its content in its parent node graph. This node
     /// graph must be owned by a node graph. This node graph will be gone afterwards.
     ///
-    /// @param[out]  ungroupedItems 
+    /// @param[out]  ungroupedItems
     ///     List of the ungrouped items.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void ungroup(
-            ApiItemArrayProxy *const                  ungroupedItems
+            ApiItemArrayProxy *const   ungroupedItems
             );
 
     /// Unfolds the specified node graph if it's inspectable, i.e. places items in a way that items
@@ -302,11 +302,11 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void unfold(
-            const bool                                recursive
+            const bool   recursive
             );
 
     /// Shows the node graph in a window, allowing the user to edit this node graph. This call
-    /// blocks until the window is closed. Only one window can be shown at any time by 
+    /// blocks until the window is closed. Only one window can be shown at any time by
     /// ApiNodeGraph::showWindow(). If another window is already open, this function does nothing.
     ///
     /// @param unfold
@@ -324,7 +324,7 @@ public:
     ///     Contains the status of the gRPC call
     /// @return
     ///     String with the last window state. This state can be used to restore the last state of
-    ///     the window in the next showWindow() calls. This string is owned by the API and only 
+    ///     the window in the next showWindow() calls. This string is owned by the API and only
     ///     valid till the next call to showWindow().
     std::string showWindow(
             const bool                                unfold,
@@ -332,25 +332,25 @@ public:
             bool                                      alwaysOnTop
             );
 
-    /// Closes the opened node graph editor window (if any). WARNING: calling this before 
+    /// Closes the opened node graph editor window (if any). WARNING: calling this before
     /// showWindow() actually shows the window will not close the window later. This race-condition
     /// is something the plugin should take care of.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static void closeWindow(            );
+    static void closeWindow();
 
     /// Opens a dialog window where the user can import items from liveDB and localDB.
-    /// 
+    ///
     /// If you use this function you must call closeDbWindow() before destroying this
     /// node graph.
-    /// 
+    ///
     /// Do not use this while an ApiMainWindow is open. It may cause deadlocks.
-    /// 
+    ///
     /// The function will open the dialog and return. The dialog is a non-modal dialog.
     /// The user may import one or more entries from liveDB or localDB before dismissing the dialog.
     /// Only one such dialog can be open at a time, if you call this while a dialog is already
     /// open, the existing dialog will be closed first.
-    /// 
+    ///
     /// @param[in]  dbViewClosingCallback
     ///     Called when the dialog is being closed by the user. May be nullptr.
     /// @param[in]  dbViewLoadedCallback
@@ -403,7 +403,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void closeDbWindow(
-            bool                                      clearData
+            bool   clearData
             );
 
 private:

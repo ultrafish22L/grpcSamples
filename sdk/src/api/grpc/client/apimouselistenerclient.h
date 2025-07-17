@@ -32,7 +32,7 @@ public:
     /// Destroys the listener created with create(..).
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
 private:
     static GRPCSettings & getGRPCSettings();

@@ -29,17 +29,17 @@ public:
     /// Creates a new collapsible panel stack that should be destroyed with destroy().
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static ApiCollapsiblePanelStackProxy create(            );
+    static ApiCollapsiblePanelStackProxy create();
 
     /// Destroys the panel stack created with create().
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Adds a new panel to the panel stack. The panel is inserted at the bottom of the stack.
     /// The panel has variable height (scrollable) but will be as wide as the child component that
     /// is embedded.
-    /// 
+    ///
     /// @param[in]  caption
     ///     Caption that appears on the top of the panel.
     /// @param[in]  component
@@ -66,7 +66,7 @@ public:
     /// Clears the panels on this component.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void clear(            );
+    void clear();
 
 private:
     static GRPCSettings & getGRPCSettings();

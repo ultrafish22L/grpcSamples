@@ -46,7 +46,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static bool isItemSelected(
-            const ApiItemProxy &                      item
+            const ApiItemProxy &   item
             );
 
     /// Returns TRUE if the specified pin is currently selected on the specified node.
@@ -76,19 +76,19 @@ public:
     /// Returns the number of selected items.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static size_t selectedItemCount(            );
+    static size_t selectedItemCount();
 
     /// Returns the number of selected pins.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static size_t selectedPinCount(            );
+    static size_t selectedPinCount();
 
     /// Copies the set of currently selected items into the specified array. The array should be
     /// cleaned up via a call to deleteSelectionArray().
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void getSelection(
-            std::vector<ApiItemProxy> &               selectedItems
+            std::vector<ApiItemProxy> &   selectedItems
             );
 
     /// Copies the set of currently selected pins into the specified array. The array should be
@@ -96,14 +96,14 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void getSelection(
-            std::vector<ApiPinSelectionProxy> &       selectedPins
+            std::vector<ApiPinSelectionProxy> &   selectedPins
             );
 
     /// De-selects everything and sends a selection change event if something actually got
     /// deselected.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static void clearSelection(            );
+    static void clearSelection();
 
     /// Replaces the complete current selection with a new item/pin selection and sends a selection
     /// change event.
@@ -148,14 +148,14 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void deselect(
-            const ApiItemProxy &                      item
+            const ApiItemProxy &   item
             );
 
     /// Removes a pin from the current selection and sends a change event if the selection changed.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void deselect(
-            ApiPinSelectionProxy                      pin
+            ApiPinSelectionProxy   pin
             );
 
     /// If the old item was selected, the new item will be selected and the old item deselected.
@@ -168,20 +168,20 @@ public:
 
     /// Adds a selection changed observer. Any module that registers itself MUST remove itself
     /// before the application closes.
-    /// 
+    ///
     /// @param[in]  observer
     ///     Selection change observer.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void addSelectionObserver(
-            GRPCSelectionManagerObserver             observer
+            GRPCSelectionManagerObserver   observer
             );
 
     /// Removes a selection observer.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void removeSelectionObserver(
-            GRPCSelectionManagerObserver             observer
+            GRPCSelectionManagerObserver   observer
             );
 
 private:

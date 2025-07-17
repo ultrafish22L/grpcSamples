@@ -25,9 +25,9 @@ class GRPCSettings;
 class ApiSceneOutlinerProxy : public ApiGuiComponentProxy
 {
 public:
-    static ApiSceneOutlinerProxy create(            );
+    static ApiSceneOutlinerProxy create();
 
-    void destroy(            );
+    void destroy();
 
 private:
     static GRPCSettings & getGRPCSettings();

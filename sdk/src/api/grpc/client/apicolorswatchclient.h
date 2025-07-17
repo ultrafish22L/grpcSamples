@@ -47,19 +47,19 @@ public:
     /// Destroys this color swatch.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Set the color displayed in the color swatch.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setColor(
-            const Octane::ApiColorHdr &               color
+            const Octane::ApiColorHdr &   color
             );
 
     /// Returns the color selected in the color swatch.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    Octane::ApiColorHdr color(            ) const;
+    Octane::ApiColorHdr color() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

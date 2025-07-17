@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apimoduledataclient.h"
 #include <cassert>
@@ -29,8 +29,8 @@ GRPCSettings & ApiModuleDataProxy::getGRPCSettings()
 
 
 ApiBinaryTableProxy ApiModuleDataProxy::loadApplicationData(
-            const Octane::ModuleIdT                   moduleId, //// test821 //// 
-            uint32_t &                                octaneVersion //// last param ////
+            const Octane::ModuleIdT                   moduleId,
+            uint32_t &                                octaneVersion
             )
 
 {
@@ -41,17 +41,16 @@ ApiBinaryTableProxy ApiModuleDataProxy::loadApplicationData(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'moduleId' [in] parameter to the request packet.
-    octaneapi::ModuleIdT * moduleidIn = new octaneapi::ModuleIdT(); //// moduleId type=ModuleIdT;//// ////721////
-    //// ModuleIdT TEST////
+    octaneapi::ModuleIdT * moduleidIn = new octaneapi::ModuleIdT();
     moduleidIn->set_id(moduleId);
-    request.set_allocated_moduleid(moduleidIn);//// 6215 ////
+    request.set_allocated_moduleid(moduleidIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiModuleData::loadApplicationDataResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleDataService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleDataService::Stub> stub =
         octaneapi::ApiModuleDataService::NewStub(getGRPCSettings().getChannel());
     status = stub->loadApplicationData(context.get(), request, &response);
 
@@ -69,7 +68,7 @@ ApiBinaryTableProxy ApiModuleDataProxy::loadApplicationData(
         /////////////////////////////////////////////////////////////////////
         // Process 'octaneVersion' [out] parameter from the gRPC response packet
         uint32_t octaneVersionOut = response.octaneversion();
-        octaneVersion = octaneVersionOut;//// SECOND////
+        octaneVersion = octaneVersionOut;
         return retVal;
     }
     else
@@ -84,15 +83,15 @@ ApiBinaryTableProxy ApiModuleDataProxy::loadApplicationData(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiBinaryTableProxy retVal;////714////
+        ApiBinaryTableProxy retVal;
         return retVal;
     }
 };
 
 
 bool ApiModuleDataProxy::storeApplicationData(
-            const Octane::ModuleIdT                   moduleId, //// test821 //// 
-            const ApiBinaryTableProxy &               table //// last param ////
+            const Octane::ModuleIdT                   moduleId,
+            const ApiBinaryTableProxy &               table
             )
 
 {
@@ -103,17 +102,16 @@ bool ApiModuleDataProxy::storeApplicationData(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'moduleId' [in] parameter to the request packet.
-    octaneapi::ModuleIdT * moduleidIn = new octaneapi::ModuleIdT(); //// moduleId type=ModuleIdT;//// ////721////
-    //// ModuleIdT TEST////
+    octaneapi::ModuleIdT * moduleidIn = new octaneapi::ModuleIdT();
     moduleidIn->set_id(moduleId);
-    request.set_allocated_moduleid(moduleidIn);//// 6215 ////
+    request.set_allocated_moduleid(moduleidIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'table' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * tableIn = new octaneapi::ObjectRef();////761////
-    tableIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryTable);////5////
+    octaneapi::ObjectRef * tableIn = new octaneapi::ObjectRef();
+    tableIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryTable);
     tableIn->set_handle(table.getObjectHandle());
     request.set_allocated_table(tableIn);
 
@@ -122,7 +120,7 @@ bool ApiModuleDataProxy::storeApplicationData(
     octaneapi::ApiModuleData::storeApplicationDataResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleDataService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleDataService::Stub> stub =
         octaneapi::ApiModuleDataService::NewStub(getGRPCSettings().getChannel());
     status = stub->storeApplicationData(context.get(), request, &response);
 
@@ -132,7 +130,7 @@ bool ApiModuleDataProxy::storeApplicationData(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

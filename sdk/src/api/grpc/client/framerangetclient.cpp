@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "framerangetclient.h"
 #include <cassert>
@@ -28,8 +28,8 @@ GRPCSettings & FrameRangeTProxy::getGRPCSettings()
 
 
 Octane::FrameRangeT FrameRangeTProxy::make(
-            const int32_t                             begin, //// test821 //// 
-            const int32_t                             end //// last param ////
+            const int32_t                             begin,
+            const int32_t                             end
             )
 
 {
@@ -41,13 +41,13 @@ Octane::FrameRangeT FrameRangeTProxy::make(
     /////////////////////////////////////////////////////////////////////
     // Add the 'begin' [in] parameter to the request packet.
     int32_t beginIn;
-    beginIn = begin;////2 const int32_t////
+    beginIn = begin;
     request.set_begin(beginIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'end' [in] parameter to the request packet.
     int32_t endIn;
-    endIn = end;////2 const int32_t////
+    endIn = end;
     request.set_end(endIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -55,18 +55,18 @@ Octane::FrameRangeT FrameRangeTProxy::make(
     octaneapi::FrameRangeT::makeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::FrameRangeTService::Stub> stub = 
+    std::unique_ptr<octaneapi::FrameRangeTService::Stub> stub =
         octaneapi::FrameRangeTService::NewStub(getGRPCSettings().getChannel());
     status = stub->make(context.get(), request, &response);
 
-    Octane::FrameRangeT retVal = { 0,0 };
+    Octane::FrameRangeT retVal;
     if (status.ok())
     {
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::FrameRangeT resultOut = response.result();
         // Using Converter 7, type = Octane::FrameRangeT, protoType = FrameRangeT
- //       FrameRangeTConverter::convert(resultOut, retVal); // 22 Convert Called type 4 =FrameRangeT;
+        FrameRangeTConverter::convert(resultOut, retVal); // 22 Convert Called type 4 =FrameRangeT;
     }
     else
     {
@@ -96,8 +96,8 @@ uint32_t FrameRangeTProxy::count() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_FrameRangeT);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_FrameRangeT);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -106,7 +106,7 @@ uint32_t FrameRangeTProxy::count() const
     octaneapi::FrameRangeT::countResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::FrameRangeTService::Stub> stub = 
+    std::unique_ptr<octaneapi::FrameRangeTService::Stub> stub =
         octaneapi::FrameRangeTService::NewStub(getGRPCSettings().getChannel());
     status = stub->count(context.get(), request, &response);
 
@@ -116,7 +116,7 @@ uint32_t FrameRangeTProxy::count() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apicollapsiblepanelstackclient.h"
 #include <cassert>
@@ -40,7 +40,7 @@ ApiCollapsiblePanelStackProxy ApiCollapsiblePanelStackProxy::create()
     octaneapi::ApiCollapsiblePanelStack::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCollapsiblePanelStackService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCollapsiblePanelStackService::Stub> stub =
         octaneapi::ApiCollapsiblePanelStackService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -68,7 +68,7 @@ ApiCollapsiblePanelStackProxy ApiCollapsiblePanelStackProxy::create()
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiCollapsiblePanelStackProxy retVal;////714////
+        ApiCollapsiblePanelStackProxy retVal;
         return retVal;
     }
 };
@@ -85,8 +85,8 @@ void ApiCollapsiblePanelStackProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCollapsiblePanelStack);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCollapsiblePanelStack);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -95,7 +95,7 @@ void ApiCollapsiblePanelStackProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCollapsiblePanelStackService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCollapsiblePanelStackService::Stub> stub =
         octaneapi::ApiCollapsiblePanelStackService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -119,9 +119,9 @@ void ApiCollapsiblePanelStackProxy::destroy()
 
 
 void ApiCollapsiblePanelStackProxy::addPanel(
-            const char *                              caption, //// test821 //// 
-            ApiGuiComponentProxy &                    component, //// test821 //// 
-            const bool                                open //// last param ////
+            const char *                              caption,
+            ApiGuiComponentProxy &                    component,
+            const bool                                open
             )
 
 {
@@ -134,30 +134,30 @@ void ApiCollapsiblePanelStackProxy::addPanel(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCollapsiblePanelStack);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCollapsiblePanelStack);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'caption' [in] parameter to the request packet.
-    std::string * captionIn = new std::string(); //// caption type=string;//// ////721////
+    std::string * captionIn = new std::string();
     *captionIn = checkString(caption);
-    request.set_allocated_caption(captionIn);//// 6215 ////
+    request.set_allocated_caption(captionIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'component' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * componentIn = new octaneapi::ObjectRef();////761////
-    componentIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * componentIn = new octaneapi::ObjectRef();
+    componentIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     componentIn->set_handle(component.getObjectHandle());
     request.set_allocated_component(componentIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'open' [in] parameter to the request packet.
     bool openIn;
-    openIn = open;////2 const bool////
+    openIn = open;
     request.set_open(openIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -165,7 +165,7 @@ void ApiCollapsiblePanelStackProxy::addPanel(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCollapsiblePanelStackService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCollapsiblePanelStackService::Stub> stub =
         octaneapi::ApiCollapsiblePanelStackService::NewStub(getGRPCSettings().getChannel());
     status = stub->addPanel(context.get(), request, &response);
 
@@ -189,8 +189,8 @@ void ApiCollapsiblePanelStackProxy::addPanel(
 
 
 void ApiCollapsiblePanelStackProxy::setOpen(
-            const int                                 index, //// test821 //// 
-            const bool                                open //// last param ////
+            const int                                 index,
+            const bool                                open
             )
 
 {
@@ -203,21 +203,21 @@ void ApiCollapsiblePanelStackProxy::setOpen(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCollapsiblePanelStack);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCollapsiblePanelStack);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'index' [in] parameter to the request packet.
     int32_t indexIn;
-    indexIn = index;////2 const int////
+    indexIn = index;
     request.set_index(indexIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'open' [in] parameter to the request packet.
     bool openIn;
-    openIn = open;////2 const bool////
+    openIn = open;
     request.set_open(openIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -225,7 +225,7 @@ void ApiCollapsiblePanelStackProxy::setOpen(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCollapsiblePanelStackService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCollapsiblePanelStackService::Stub> stub =
         octaneapi::ApiCollapsiblePanelStackService::NewStub(getGRPCSettings().getChannel());
     status = stub->setOpen(context.get(), request, &response);
 
@@ -259,8 +259,8 @@ void ApiCollapsiblePanelStackProxy::clear()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCollapsiblePanelStack);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCollapsiblePanelStack);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -269,7 +269,7 @@ void ApiCollapsiblePanelStackProxy::clear()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCollapsiblePanelStackService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCollapsiblePanelStackService::Stub> stub =
         octaneapi::ApiCollapsiblePanelStackService::NewStub(getGRPCSettings().getChannel());
     status = stub->clear(context.get(), request, &response);
 

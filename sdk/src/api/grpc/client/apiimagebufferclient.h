@@ -116,7 +116,7 @@ public:
     /// Destroys the ApiImageBuffer object created by create()
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Returns the bytes per pixel
         ///
@@ -125,93 +125,93 @@ public:
         /// @return
         ///     The number of bytes of a pixel
         ///     NOTE: for a BC1 compressed image, this value will be 0.5byte/pixel
-    float bytesPerPixel(            ) const;
+    float bytesPerPixel() const;
 
     /// Returns the bytes per pixel channel
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    float bytesPerChannel(            ) const;
+    float bytesPerChannel() const;
 
     /// Returns the number of channels of a pixel
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    uint8_t channelCount(            ) const;
+    uint8_t channelCount() const;
 
     /// Returns the dimensions of the image in pixels
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    OctaneVec::uint32_2 size(            ) const;
+    OctaneVec::uint32_2 size() const;
 
     /// Returns the size in bytes of the image data
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    size_t sizeInBytes(            ) const;
+    size_t sizeInBytes() const;
 
     /// Returns the image buffer's type
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    Octane::ImageType type(            ) const;
+    Octane::ImageType type() const;
 
     /// Returns the image source information string
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    std::string sourceInfo(            ) const;
+    std::string sourceInfo() const;
 
     /// TRUE if the image can wrap in horizontal direction.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool canWrapX(            ) const;
+    bool canWrapX() const;
 
     /// TRUE if the image can wrap in vertical direction.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool canWrapY(            ) const;
+    bool canWrapY() const;
 
     /// TRUE if the image has Y down (currently only for BC compressed images).
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool needsFlip(            ) const;
+    bool needsFlip() const;
 
     /// TRUE for a transparent image
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool hasAlpha(            ) const;
+    bool hasAlpha() const;
 
     /// TRUE for a chormatic image
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool hasColor(            ) const;
+    bool hasColor() const;
 
     /// TRUE for a compressed image
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isCompressed(            ) const;
+    bool isCompressed() const;
 
     /// Checks if this image has data.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isEmpty(            ) const;
+    bool isEmpty() const;
 
     /// TRUE for a 16bits Hdr image
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isHalf(            ) const;
+    bool isHalf() const;
 
     /// TRUE for a Hdr image
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isHdr(            ) const;
+    bool isHdr() const;
 
     /// TRUE for a single channel image
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isMono(            ) const;
+    bool isMono() const;
 
     /// TRUE is the given pixel location is valid
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool isPixelValid(
-            const OctaneVec::uint32_2                 pos
+            const OctaneVec::uint32_2   pos
             ) const;
 
     /// Compresses this image buffer
@@ -222,7 +222,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void compress(
-            const Octane::ApiImageBuffer::ImageCompressType compressType
+            const Octane::ApiImageBuffer::ImageCompressType   compressType
             );
 
     /// Modifies a pixel in a Ldr image buffer
@@ -231,7 +231,7 @@ public:
         ///
         /// @param[in] pos
         ///     the pixel coordinate
-        /// @param[in]  value 
+        /// @param[in]  value
         ///     the pointer to the first component of a Ldr pixel value
         ///     this must be an instance of the pixel type corresponding
         ///     to the type of this image (eg. a uint8_4 for a LDR RGBA image)
@@ -248,7 +248,7 @@ public:
         ///
         /// @param[in] pos
         ///     the pixel coordinate
-        /// @param[in]  value 
+        /// @param[in]  value
         ///     the pointer to the first component of a 16bits Hdr pixel value
         ///     this must be an instance of the pixel type corresponding
         ///     to the type of this image (eg. a uint8_4 for a LDR RGBA image)
@@ -265,7 +265,7 @@ public:
         ///
         /// @param[in] pos
         ///     the pixel coordinate
-        /// @param[in]  value 
+        /// @param[in]  value
         ///     the pointer to the first component of a 32bits Hdr pixel value
         ///     this must be an instance of the pixel type corresponding
         ///     to the type of this image (eg. a uint8_4 for a LDR RGBA image)
@@ -304,12 +304,12 @@ public:
         /// setting the alpha channel to 1.0
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void compositeOnBlack(            );
+    void compositeOnBlack();
 
     /// vertical flip (in place)
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void flipVertical(            );
+    void flipVertical();
 
     /// Convert the current image bufer to another type
         /// NOTE: Only works for uncompressed images
@@ -319,7 +319,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void convert(
-            const Octane::ImageType                   destType
+            const Octane::ImageType   destType
             );
 
     /// Applies gaussian filter to the image
@@ -331,7 +331,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void applyGaussianFilter(
-            const uint8_t                             radius
+            const uint8_t   radius
             );
 
     /// Applies Box filter to the image. A faster algorithm than gaussian filter
@@ -343,7 +343,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void applyBoxFilter(
-            const uint8_t                             radius
+            const uint8_t   radius
             );
 
     /// Applies level correction to the image
@@ -430,14 +430,14 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     std::string pixelAddr(
-            const OctaneVec::uint32_2                 pos
+            const OctaneVec::uint32_2   pos
             ) const;
 
     /// Gets the mutable reference to the memory location of a pixel
     /// @param[out] status
     ///     Contains the status of the gRPC call
     std::string pixelAddr(
-            const OctaneVec::uint32_2                 pos
+            const OctaneVec::uint32_2   pos
             );
 
 private:

@@ -26,8 +26,8 @@ class ApiOctaneModulesProxy : public GRPCBase
 {
 public:
     /// A directory from which modules will be loaded. The alternate method to
-    /// get application preference node and set the path in the A_MODULES_DIRECTORY 
-    /// attribute 
+    /// get application preference node and set the path in the A_MODULES_DIRECTORY
+    /// attribute
     ///
     /// NOTE: Modules are loaded only at start. so if a new path is set then you will have
     /// to restart the octane/app in order to load new modules.
@@ -41,19 +41,19 @@ public:
     ///     Return TRUE if the directory is set successfully. Otherwise FALSE.
     ///     FALSE means the newPath not exist.
     static bool setDirectory(
-            const char *                              newPath
+            const char *   newPath
             );
 
     /// The current directory where the octane loads modules from.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static std::string getDirectory(            );
+    static std::string getDirectory();
 
     /// Returns module information for the moduleId
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static ApiOctaneModuleInfoProxy getModuleInfo(
-            const Octane::ModuleIdT                   moduleId
+            const Octane::ModuleIdT   moduleId
             );
 
     /// Return list of all available ids of node graph modules
@@ -61,12 +61,12 @@ public:
     /// to the ApiNodeGraph::Create function
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static std::vector<Octane::ModuleIdT> getNodegraphModules(            );
+    static std::vector<Octane::ModuleIdT> getNodegraphModules();
 
     /// Return list of all available ids of command modules
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static std::vector<Octane::ModuleIdT> getCommandModules(            );
+    static std::vector<Octane::ModuleIdT> getCommandModules();
 
     /// Execute a command module.
     ///
@@ -76,7 +76,7 @@ public:
     ///     Returns TRUE if the command was successfully executed.
     ///     Otherwise FALSE.
     static bool runCommandModule(
-            const Octane::ModuleIdT                   moduleId
+            const Octane::ModuleIdT   moduleId
             );
 
 private:

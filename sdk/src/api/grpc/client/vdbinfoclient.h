@@ -29,16 +29,16 @@ public:
     /// If the VDB information was loaded successfully, this will return TRUE, otherwise FALSE.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool valid(            ) const;
+    bool valid() const;
 
     /// Returns the number of grids stored in the VDB file.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    uint32_t gridCount(            ) const;
+    uint32_t gridCount() const;
 
     /// Returns a pointer to the VdbGridInfo of the specified index or NULL if the index is invalid
     /// or the VdbInfo wasn't loaded correctly.
-    /// 
+    ///
     /// @param[in] index
     ///     The index of the grid in the VDB file.
     /// @param[out] status
@@ -46,12 +46,12 @@ public:
     /// @returns if index < gridCount() then this returns a pointer to a VdbGridInfo. Otherwise
     ///     NULL.
     VdbGridInfoProxy grid(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     /// Returns a pointer to the VdbGridSampler of the specified index or NULL if the index is invalid
     /// , the current grid is not a float grid or the VdbInfo wasn't loaded correctly.
-    /// 
+    ///
     /// @param[in] index
     ///     The index of the grid in the VDB file.
     /// @param[in] ignoreVdbTransform
@@ -68,9 +68,9 @@ public:
     /// Destroys the single sampler if any
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroySampler(            );
+    void destroySampler();
 
-    /// Convenience function to check whether a grid a) exists, b) is of a suitable type for the 
+    /// Convenience function to check whether a grid a) exists, b) is of a suitable type for the
     /// channel specified. If not, then it will find one that is suitable. If there are none, then
     /// it will return NULL.
     ///
@@ -83,14 +83,14 @@ public:
     ///             A_VOLUME_VELOCITY_ID_Y or       float grid
     ///             A_VOLUME_VELOCITY_ID_Z.         float grid
     /// @param[in] gridName
-    ///     Preferred grid name, perhaps as specified by the end-user. This grid name may be 
+    ///     Preferred grid name, perhaps as specified by the end-user. This grid name may be
     ///     invalid, or specify a name that does not exist in this VDB.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    /// @returns 
+    /// @returns
     ///     If gridName specifies a grid that exists in this VDB, and it is of the correct type for
-    ///     the channel specified in channelAttributeId, then the name will be returned unchanged. 
-    ///     If not, the name of the first grid in the VDB that matches the correct type will be 
+    ///     the channel specified in channelAttributeId, then the name will be returned unchanged.
+    ///     If not, the name of the first grid in the VDB that matches the correct type will be
     ///     returned. In the case that there are none suitable, then this function will return
     ///     NULL.
     std::string findGrid(

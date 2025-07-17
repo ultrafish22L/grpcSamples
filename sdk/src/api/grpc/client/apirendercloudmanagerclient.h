@@ -26,7 +26,7 @@ class ApiRenderCloudManagerProxy : public GRPCBase
 {
 public:
     /// Populates the provided struct with the information for the current user's
-    /// subscription. 
+    /// subscription.
     ///
     /// @note This requires a valid SSO session and will perform a HTTP request
     ///     every time which will block the call until it returns.
@@ -39,7 +39,7 @@ public:
     ///     TRUE if the subscription information could be fetch successfully, FALSE
     ///     otherwise, in which case an error wil also be displayed in the log.
     static bool userSubscriptionInfo(
-            Octane::ApiRenderCloudManager::SubscriptionInfo & subscriptionInfo
+            Octane::ApiRenderCloudManager::SubscriptionInfo &   subscriptionInfo
             );
 
     /// Uploads the current project to the server.
@@ -57,15 +57,15 @@ public:
     /// Has no effect if no user is currently logged in.
     ///
     /// @param[in] rootGuid
-    ///     Scene's root version GUID on the server (this will be ignored if the project 
+    ///     Scene's root version GUID on the server (this will be ignored if the project
     ///     settings graph already contains versioning information)
     /// @param[in] onUpdate
-    ///     Upload progress update callback. It will receive the name of the asset 
+    ///     Upload progress update callback. It will receive the name of the asset
     ///     that is being uploaded plus the total upload progress in percentage. If the
     ///     callback returns FALSE the whole upload will be canceled.
     /// @param[in] onFinish
-    ///     Upon the upload has finished (or failed) this will be called, 
-    ///     providing whether the upload has been successful, in which case will 
+    ///     Upon the upload has finished (or failed) this will be called,
+    ///     providing whether the upload has been successful, in which case will
     ///     provide the guid and name of the newly uploaded project.
     /// @param[in] callbackData
     ///     Optional data passed by the caller that is passed back to the callback functions.
@@ -97,12 +97,12 @@ public:
     ///     Scene's root version GUID on the server (this will be ignored if the project settings
     ///     graph already contains versioning information)
     /// @param[in]  onUpdate
-    ///     Upload progress update callback. It will receive the name of the asset 
+    ///     Upload progress update callback. It will receive the name of the asset
     ///     that is being uploaded plus the total upload progress in percentage. If the
     ///     callback returns FALSE the whole upload will be canceled.
     /// @param[in]  onFinish
-    ///     Upon the upload has finished (or failed) this will be called, 
-    ///     providing whether the upload has been successful, in which case will 
+    ///     Upon the upload has finished (or failed) this will be called,
+    ///     providing whether the upload has been successful, in which case will
     ///     provide the guid and name of the newly uploaded project.
     /// @param[in]  callbackData
     ///     Optional data passed by the caller that is passed back to the callback functions.
@@ -127,7 +127,7 @@ public:
     /// @return
     ///     TRUE if the UI could be open
     static bool newRenderTask(
-            const Octane::ApiRenderCloudManager::GuidT sceneGuid
+            const Octane::ApiRenderCloudManager::GuidT   sceneGuid
             );
 
 private:

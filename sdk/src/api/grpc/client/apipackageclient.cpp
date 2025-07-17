@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apipackageclient.h"
 #include <cassert>
@@ -29,7 +29,7 @@ GRPCSettings & ApiPackageProxy::getGRPCSettings()
 
 
 void ApiPackageProxy::freeArray(
-            Octane::StringArrayT &                    stringArray //// last param ////
+            Octane::StringArrayT &                    stringArray
             )
 
 {
@@ -40,21 +40,19 @@ void ApiPackageProxy::freeArray(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'stringArray' [in] parameter to the request packet.
-    octaneapi::StringArrayT * stringarrayIn = new octaneapi::StringArrayT(); //// stringArray type=StringArrayT;//// ////721////
-    //// Client Array Type D////
-    //// param.mProtoCppType = StringArrayT param.mType = Octane::StringArrayT & ////
+    octaneapi::StringArrayT * stringarrayIn = new octaneapi::StringArrayT();
     for (int h = 0; h < stringArray.mSize; h++)
     {
         stringarrayIn->add_data(stringArray.mData[h]);
     }
-    request.set_allocated_stringarray(stringarrayIn);//// 6215 ////
+    request.set_allocated_stringarray(stringarrayIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiPackageService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiPackageService::Stub> stub =
         octaneapi::ApiPackageService::NewStub(getGRPCSettings().getChannel());
     status = stub->freeArray(context.get(), request, &response);
 
@@ -78,7 +76,7 @@ void ApiPackageProxy::freeArray(
 
 
 ApiPackageProxy ApiPackageProxy::open(
-            const char *const                         packagePath //// last param ////
+            const char *const                         packagePath
             )
 
 {
@@ -89,16 +87,16 @@ ApiPackageProxy ApiPackageProxy::open(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'packagePath' [in] parameter to the request packet.
-    std::string * packagepathIn = new std::string(); //// packagePath type=string;//// ////721////
+    std::string * packagepathIn = new std::string();
     *packagepathIn = checkString(packagePath);
-    request.set_allocated_packagepath(packagepathIn);//// 6215 ////
+    request.set_allocated_packagepath(packagepathIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiPackage::openResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiPackageService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiPackageService::Stub> stub =
         octaneapi::ApiPackageService::NewStub(getGRPCSettings().getChannel());
     status = stub->open(context.get(), request, &response);
 
@@ -126,7 +124,7 @@ ApiPackageProxy ApiPackageProxy::open(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiPackageProxy retVal;////714////
+        ApiPackageProxy retVal;
         return retVal;
     }
 };
@@ -143,8 +141,8 @@ void ApiPackageProxy::close()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiPackage);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiPackage);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -153,7 +151,7 @@ void ApiPackageProxy::close()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiPackageService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiPackageService::Stub> stub =
         octaneapi::ApiPackageService::NewStub(getGRPCSettings().getChannel());
     status = stub->close(context.get(), request, &response);
 
@@ -177,8 +175,8 @@ void ApiPackageProxy::close()
 
 
 void ApiPackageProxy::getFileList(
-            std::vector<std::string> &                fileList, //// test821 //// 
-            const char *const                         regExpr //// last param ////
+            std::vector<std::string> &                fileList,
+            const char *const                         regExpr
             ) const
 
 {
@@ -191,23 +189,23 @@ void ApiPackageProxy::getFileList(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiPackage);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiPackage);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'regExpr' [in] parameter to the request packet.
-    std::string * regexprIn = new std::string(); //// regExpr type=string;//// ////721////
+    std::string * regexprIn = new std::string();
     *regexprIn = checkString(regExpr);
-    request.set_allocated_regexpr(regexprIn);//// 6215 ////
+    request.set_allocated_regexpr(regexprIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiPackage::getFileListResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiPackageService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiPackageService::Stub> stub =
         octaneapi::ApiPackageService::NewStub(getGRPCSettings().getChannel());
     status = stub->getFileList(context.get(), request, &response);
 
@@ -219,7 +217,6 @@ void ApiPackageProxy::getFileList(
         fileList.reserve(fileListOut.data_size());
         for (int i = 0; i < fileListOut.data_size(); i++)
         {
-            //// param.mProtoCppType = StringArrayT param.mType = Octane::StringArrayT & ////
             fileList.push_back(fileListOut.data(i));
         }
     }
@@ -240,7 +237,7 @@ void ApiPackageProxy::getFileList(
 
 
 bool ApiPackageProxy::fileExists(
-            const char *const                         path //// last param ////
+            const char *const                         path
             ) const
 
 {
@@ -253,23 +250,23 @@ bool ApiPackageProxy::fileExists(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiPackage);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiPackage);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'path' [in] parameter to the request packet.
-    std::string * pathIn = new std::string(); //// path type=string;//// ////721////
+    std::string * pathIn = new std::string();
     *pathIn = checkString(path);
-    request.set_allocated_path(pathIn);//// 6215 ////
+    request.set_allocated_path(pathIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiPackage::fileExistsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiPackageService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiPackageService::Stub> stub =
         octaneapi::ApiPackageService::NewStub(getGRPCSettings().getChannel());
     status = stub->fileExists(context.get(), request, &response);
 
@@ -279,7 +276,7 @@ bool ApiPackageProxy::fileExists(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -299,7 +296,7 @@ bool ApiPackageProxy::fileExists(
 
 
 bool ApiPackageProxy::fileExists(
-            const ApiFileNameProxy &                  path //// last param ////
+            const ApiFileNameProxy &                  path
             ) const
 
 {
@@ -312,8 +309,8 @@ bool ApiPackageProxy::fileExists(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiPackage);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiPackage);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -321,8 +318,8 @@ bool ApiPackageProxy::fileExists(
     // Add the 'path' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * pathIn = new octaneapi::ObjectRef();////761////
-    pathIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiFileName);////5////
+    octaneapi::ObjectRef * pathIn = new octaneapi::ObjectRef();
+    pathIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiFileName);
     pathIn->set_handle(path.getObjectHandle());
     request.set_allocated_path(pathIn);
 
@@ -331,7 +328,7 @@ bool ApiPackageProxy::fileExists(
     octaneapi::ApiPackage::fileExists1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiPackageService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiPackageService::Stub> stub =
         octaneapi::ApiPackageService::NewStub(getGRPCSettings().getChannel());
     status = stub->fileExists1(context.get(), request, &response);
 
@@ -341,7 +338,7 @@ bool ApiPackageProxy::fileExists(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -361,8 +358,8 @@ bool ApiPackageProxy::fileExists(
 
 
 bool ApiPackageProxy::readFile(
-            const char *const                         path, //// test821 //// 
-            std::vector<uint8_t> &                    data //// last param ////
+            const char *const                         path,
+            std::vector<uint8_t> &                    data
             ) const
 
 {
@@ -375,23 +372,23 @@ bool ApiPackageProxy::readFile(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiPackage);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiPackage);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'path' [in] parameter to the request packet.
-    std::string * pathIn = new std::string(); //// path type=string;//// ////721////
+    std::string * pathIn = new std::string();
     *pathIn = checkString(path);
-    request.set_allocated_path(pathIn);//// 6215 ////
+    request.set_allocated_path(pathIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiPackage::readFileResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiPackageService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiPackageService::Stub> stub =
         octaneapi::ApiPackageService::NewStub(getGRPCSettings().getChannel());
     status = stub->readFile(context.get(), request, &response);
 
@@ -401,12 +398,11 @@ bool ApiPackageProxy::readFile(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'data' [out] parameter from the gRPC response packet
         octaneapi::ByteArrayT dataOut = response.data();
-        //// ::ByteArrayT TEST 2////
         size_t len = dataOut.data().size();
         data.resize(len);
         std::memcpy(data.data(), dataOut.data().data(), len);
@@ -429,8 +425,8 @@ bool ApiPackageProxy::readFile(
 
 
 bool ApiPackageProxy::readFile(
-            const ApiFileNameProxy &                  path, //// test821 //// 
-            std::vector<uint8_t> &                    data //// last param ////
+            const ApiFileNameProxy &                  path,
+            std::vector<uint8_t> &                    data
             ) const
 
 {
@@ -443,8 +439,8 @@ bool ApiPackageProxy::readFile(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiPackage);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiPackage);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -452,8 +448,8 @@ bool ApiPackageProxy::readFile(
     // Add the 'path' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * pathIn = new octaneapi::ObjectRef();////761////
-    pathIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiFileName);////5////
+    octaneapi::ObjectRef * pathIn = new octaneapi::ObjectRef();
+    pathIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiFileName);
     pathIn->set_handle(path.getObjectHandle());
     request.set_allocated_path(pathIn);
 
@@ -462,7 +458,7 @@ bool ApiPackageProxy::readFile(
     octaneapi::ApiPackage::readFile1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiPackageService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiPackageService::Stub> stub =
         octaneapi::ApiPackageService::NewStub(getGRPCSettings().getChannel());
     status = stub->readFile1(context.get(), request, &response);
 
@@ -472,12 +468,11 @@ bool ApiPackageProxy::readFile(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'data' [out] parameter from the gRPC response packet
         octaneapi::ByteArrayT dataOut = response.data();
-        //// ::ByteArrayT TEST 2////
         size_t len = dataOut.data().size();
         data.resize(len);
         std::memcpy(data.data(), dataOut.data().data(), len);

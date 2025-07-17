@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "timespantclient.h"
 #include <cassert>
@@ -28,8 +28,8 @@ GRPCSettings & TimeSpanTProxy::getGRPCSettings()
 
 
 Octane::TimeSpanT TimeSpanTProxy::make(
-            Octane::TimeT                             begin, //// test821 //// 
-            Octane::TimeT                             end //// last param ////
+            Octane::TimeT                             begin,
+            Octane::TimeT                             end
             )
 
 {
@@ -40,24 +40,22 @@ Octane::TimeSpanT TimeSpanTProxy::make(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'begin' [in] parameter to the request packet.
-    octaneapi::TimeT * beginIn = new octaneapi::TimeT(); //// begin type=TimeT;//// ////721////
-    ////TimeT TEST ////
+    octaneapi::TimeT * beginIn = new octaneapi::TimeT();
     beginIn->set_value(static_cast<float>(begin));
-    request.set_allocated_begin(beginIn);//// 6215 ////
+    request.set_allocated_begin(beginIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'end' [in] parameter to the request packet.
-    octaneapi::TimeT * endIn = new octaneapi::TimeT(); //// end type=TimeT;//// ////721////
-    ////TimeT TEST ////
+    octaneapi::TimeT * endIn = new octaneapi::TimeT();
     endIn->set_value(static_cast<float>(end));
-    request.set_allocated_end(endIn);//// 6215 ////
+    request.set_allocated_end(endIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::TimeSpanT::makeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::TimeSpanTService::Stub> stub = 
+    std::unique_ptr<octaneapi::TimeSpanTService::Stub> stub =
         octaneapi::TimeSpanTService::NewStub(getGRPCSettings().getChannel());
     status = stub->make1(context.get(), request, &response);
 
@@ -67,7 +65,6 @@ Octane::TimeSpanT TimeSpanTProxy::make(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::TimeSpanT resultOut = response.result();
-        //// Octane::TimeSpanT TEST//// 
         retVal.begin = resultOut.begin().value();
         retVal.end   = resultOut.end().value();
     }
@@ -99,8 +96,8 @@ Octane::TimeT TimeSpanTProxy::length() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_TimeSpanT);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_TimeSpanT);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -109,7 +106,7 @@ Octane::TimeT TimeSpanTProxy::length() const
     octaneapi::TimeSpanT::lengthResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::TimeSpanTService::Stub> stub = 
+    std::unique_ptr<octaneapi::TimeSpanTService::Stub> stub =
         octaneapi::TimeSpanTService::NewStub(getGRPCSettings().getChannel());
     status = stub->length(context.get(), request, &response);
 
@@ -119,7 +116,6 @@ Octane::TimeT TimeSpanTProxy::length() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::TimeT resultOut = response.result();
-        ////Octane::TimeT TEST ////
         retVal = resultOut.value();
     }
     else
@@ -150,8 +146,8 @@ bool TimeSpanTProxy::empty() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_TimeSpanT);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_TimeSpanT);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -160,7 +156,7 @@ bool TimeSpanTProxy::empty() const
     octaneapi::TimeSpanT::emptyResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::TimeSpanTService::Stub> stub = 
+    std::unique_ptr<octaneapi::TimeSpanTService::Stub> stub =
         octaneapi::TimeSpanTService::NewStub(getGRPCSettings().getChannel());
     status = stub->empty(context.get(), request, &response);
 
@@ -170,7 +166,7 @@ bool TimeSpanTProxy::empty() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -190,7 +186,7 @@ bool TimeSpanTProxy::empty() const
 
 
 void TimeSpanTProxy::shift(
-            Octane::TimeT                             offset //// last param ////
+            Octane::TimeT                             offset
             )
 
 {
@@ -203,24 +199,23 @@ void TimeSpanTProxy::shift(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_TimeSpanT);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_TimeSpanT);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'offset' [in] parameter to the request packet.
-    octaneapi::TimeT * offsetIn = new octaneapi::TimeT(); //// offset type=TimeT;//// ////721////
-    ////TimeT TEST ////
+    octaneapi::TimeT * offsetIn = new octaneapi::TimeT();
     offsetIn->set_value(static_cast<float>(offset));
-    request.set_allocated_offset(offsetIn);//// 6215 ////
+    request.set_allocated_offset(offsetIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::TimeSpanTService::Stub> stub = 
+    std::unique_ptr<octaneapi::TimeSpanTService::Stub> stub =
         octaneapi::TimeSpanTService::NewStub(getGRPCSettings().getChannel());
     status = stub->shift(context.get(), request, &response);
 
@@ -244,7 +239,7 @@ void TimeSpanTProxy::shift(
 
 
 bool TimeSpanTProxy::contains(
-            const Octane::TimeT                       time //// last param ////
+            const Octane::TimeT                       time
             ) const
 
 {
@@ -257,24 +252,23 @@ bool TimeSpanTProxy::contains(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_TimeSpanT);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_TimeSpanT);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'time' [in] parameter to the request packet.
-    octaneapi::TimeT * timeIn = new octaneapi::TimeT(); //// time type=TimeT;//// ////721////
-    ////TimeT TEST ////
+    octaneapi::TimeT * timeIn = new octaneapi::TimeT();
     timeIn->set_value(static_cast<float>(time));
-    request.set_allocated_time(timeIn);//// 6215 ////
+    request.set_allocated_time(timeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::TimeSpanT::containsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::TimeSpanTService::Stub> stub = 
+    std::unique_ptr<octaneapi::TimeSpanTService::Stub> stub =
         octaneapi::TimeSpanTService::NewStub(getGRPCSettings().getChannel());
     status = stub->contains(context.get(), request, &response);
 
@@ -284,7 +278,7 @@ bool TimeSpanTProxy::contains(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

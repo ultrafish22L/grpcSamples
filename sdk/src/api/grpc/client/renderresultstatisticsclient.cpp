@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "renderresultstatisticsclient.h"
 #include <cassert>
@@ -39,7 +39,7 @@ void RenderResultStatisticsProxy::clear()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub = 
+    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub =
         octaneapi::RenderResultStatisticsService::NewStub(getGRPCSettings().getChannel());
     status = stub->clear(context.get(), request, &response);
 
@@ -74,7 +74,7 @@ OctaneVec::uint32_2 RenderResultStatisticsProxy::internalFilmResolution() const
     octaneapi::RenderResultStatistics::internalFilmResolutionResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub = 
+    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub =
         octaneapi::RenderResultStatisticsService::NewStub(getGRPCSettings().getChannel());
     status = stub->internalFilmResolution(context.get(), request, &response);
 
@@ -116,7 +116,7 @@ Octane::ImageChannelType RenderResultStatisticsProxy::channelType() const
     octaneapi::RenderResultStatistics::channelTypeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub = 
+    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub =
         octaneapi::RenderResultStatisticsService::NewStub(getGRPCSettings().getChannel());
     status = stub->channelType(context.get(), request, &response);
 
@@ -146,7 +146,7 @@ Octane::ImageChannelType RenderResultStatisticsProxy::channelType() const
 
 
 uint32_t RenderResultStatisticsProxy::samplesPerPixel(
-            const Octane::RenderPassId                renderPassId //// last param ////
+            const Octane::RenderPassId                renderPassId
             ) const
 
 {
@@ -166,7 +166,7 @@ uint32_t RenderResultStatisticsProxy::samplesPerPixel(
     octaneapi::RenderResultStatistics::samplesPerPixelResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub = 
+    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub =
         octaneapi::RenderResultStatisticsService::NewStub(getGRPCSettings().getChannel());
     status = stub->samplesPerPixel(context.get(), request, &response);
 
@@ -176,7 +176,7 @@ uint32_t RenderResultStatisticsProxy::samplesPerPixel(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -196,7 +196,7 @@ uint32_t RenderResultStatisticsProxy::samplesPerPixel(
 
 
 uint32_t RenderResultStatisticsProxy::maxSamplesPerPixel(
-            const Octane::RenderPassId                renderPassId //// last param ////
+            const Octane::RenderPassId                renderPassId
             ) const
 
 {
@@ -216,7 +216,7 @@ uint32_t RenderResultStatisticsProxy::maxSamplesPerPixel(
     octaneapi::RenderResultStatistics::maxSamplesPerPixelResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub = 
+    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub =
         octaneapi::RenderResultStatisticsService::NewStub(getGRPCSettings().getChannel());
     status = stub->maxSamplesPerPixel(context.get(), request, &response);
 
@@ -226,7 +226,7 @@ uint32_t RenderResultStatisticsProxy::maxSamplesPerPixel(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -246,7 +246,7 @@ uint32_t RenderResultStatisticsProxy::maxSamplesPerPixel(
 
 
 double RenderResultStatisticsProxy::samplesPerSecond(
-            const Octane::RenderPassId                renderPassId //// last param ////
+            const Octane::RenderPassId                renderPassId
             ) const
 
 {
@@ -266,7 +266,7 @@ double RenderResultStatisticsProxy::samplesPerSecond(
     octaneapi::RenderResultStatistics::samplesPerSecondResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub = 
+    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub =
         octaneapi::RenderResultStatisticsService::NewStub(getGRPCSettings().getChannel());
     status = stub->samplesPerSecond(context.get(), request, &response);
 
@@ -276,7 +276,7 @@ double RenderResultStatisticsProxy::samplesPerSecond(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         double resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -296,7 +296,7 @@ double RenderResultStatisticsProxy::samplesPerSecond(
 
 
 double RenderResultStatisticsProxy::progress(
-            const Octane::RenderPassId                renderPassId //// last param ////
+            const Octane::RenderPassId                renderPassId
             ) const
 
 {
@@ -316,7 +316,7 @@ double RenderResultStatisticsProxy::progress(
     octaneapi::RenderResultStatistics::progressResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub = 
+    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub =
         octaneapi::RenderResultStatisticsService::NewStub(getGRPCSettings().getChannel());
     status = stub->progress(context.get(), request, &response);
 
@@ -326,7 +326,7 @@ double RenderResultStatisticsProxy::progress(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         double resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -346,7 +346,7 @@ double RenderResultStatisticsProxy::progress(
 
 
 bool RenderResultStatisticsProxy::started(
-            const Octane::RenderPassId                renderPassId //// last param ////
+            const Octane::RenderPassId                renderPassId
             ) const
 
 {
@@ -366,7 +366,7 @@ bool RenderResultStatisticsProxy::started(
     octaneapi::RenderResultStatistics::startedResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub = 
+    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub =
         octaneapi::RenderResultStatisticsService::NewStub(getGRPCSettings().getChannel());
     status = stub->started(context.get(), request, &response);
 
@@ -376,7 +376,7 @@ bool RenderResultStatisticsProxy::started(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -396,7 +396,7 @@ bool RenderResultStatisticsProxy::started(
 
 
 bool RenderResultStatisticsProxy::finished(
-            const Octane::RenderPassId                renderPassId //// last param ////
+            const Octane::RenderPassId                renderPassId
             ) const
 
 {
@@ -416,7 +416,7 @@ bool RenderResultStatisticsProxy::finished(
     octaneapi::RenderResultStatistics::finishedResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub = 
+    std::unique_ptr<octaneapi::RenderResultStatisticsService::Stub> stub =
         octaneapi::RenderResultStatisticsService::NewStub(getGRPCSettings().getChannel());
     status = stub->finished(context.get(), request, &response);
 
@@ -426,7 +426,7 @@ bool RenderResultStatisticsProxy::finished(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

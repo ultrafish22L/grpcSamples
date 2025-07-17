@@ -27,7 +27,7 @@ public:
     /// Returns the type of this time transform. Can be used to cast it to the actual type.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    Octane::AnimationTimeTransformType type(            ) const;
+    Octane::AnimationTimeTransformType type() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

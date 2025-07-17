@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apitexturevaluetypesetclient.h"
 #include <cassert>
@@ -39,7 +39,7 @@ uint32_t ApiTextureValueTypeSetProxy::size() const
     octaneapi::ApiTextureValueTypeSet::sizeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTextureValueTypeSetService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTextureValueTypeSetService::Stub> stub =
         octaneapi::ApiTextureValueTypeSetService::NewStub(getGRPCSettings().getChannel());
     status = stub->size1(context.get(), request, &response);
 
@@ -49,7 +49,7 @@ uint32_t ApiTextureValueTypeSetProxy::size() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -69,7 +69,7 @@ uint32_t ApiTextureValueTypeSetProxy::size() const
 
 
 Octane::TextureValueType ApiTextureValueTypeSetProxy::at(
-            uint32_t                                  index //// last param ////
+            uint32_t                                  index
             ) const
 
 {
@@ -81,7 +81,7 @@ Octane::TextureValueType ApiTextureValueTypeSetProxy::at(
     /////////////////////////////////////////////////////////////////////
     // Add the 'index' [in] parameter to the request packet.
     uint32_t indexIn;
-    indexIn = index;////2 uint32_t////
+    indexIn = index;
     request.set_index(indexIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -89,7 +89,7 @@ Octane::TextureValueType ApiTextureValueTypeSetProxy::at(
     octaneapi::ApiTextureValueTypeSet::atResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTextureValueTypeSetService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTextureValueTypeSetService::Stub> stub =
         octaneapi::ApiTextureValueTypeSetService::NewStub(getGRPCSettings().getChannel());
     status = stub->at(context.get(), request, &response);
 
@@ -119,7 +119,7 @@ Octane::TextureValueType ApiTextureValueTypeSetProxy::at(
 
 
 bool ApiTextureValueTypeSetProxy::contains(
-            Octane::TextureValueType                  textureValueType //// last param ////
+            Octane::TextureValueType                  textureValueType
             ) const
 
 {
@@ -139,7 +139,7 @@ bool ApiTextureValueTypeSetProxy::contains(
     octaneapi::ApiTextureValueTypeSet::containsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTextureValueTypeSetService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTextureValueTypeSetService::Stub> stub =
         octaneapi::ApiTextureValueTypeSetService::NewStub(getGRPCSettings().getChannel());
     status = stub->contains(context.get(), request, &response);
 
@@ -149,7 +149,7 @@ bool ApiTextureValueTypeSetProxy::contains(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -180,7 +180,7 @@ uint32_t ApiTextureValueTypeSetProxy::bitField() const
     octaneapi::ApiTextureValueTypeSet::bitFieldResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTextureValueTypeSetService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTextureValueTypeSetService::Stub> stub =
         octaneapi::ApiTextureValueTypeSetService::NewStub(getGRPCSettings().getChannel());
     status = stub->bitField(context.get(), request, &response);
 
@@ -190,7 +190,7 @@ uint32_t ApiTextureValueTypeSetProxy::bitField() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

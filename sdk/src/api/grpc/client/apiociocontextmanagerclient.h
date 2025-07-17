@@ -52,13 +52,13 @@ public:
     ///     Contains the status of the gRPC call
 /// @return
     ///     The created context manager. This must be destroyed with destroy(). Will not be null.
-    static ApiOcioContextManagerProxy create(            );
+    static ApiOcioContextManagerProxy create();
 
     /// Must not be called from a callback function. After this method returns, callbacks will no
     /// longer be called.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Registers a callback to be called when the current OCIO context changes. Callbacks will be
     /// called in no particular order. The same callback can be registered multiple times; it will
@@ -107,7 +107,7 @@ public:
     ///     Contains the status of the gRPC call
     /// @return
     ///     Will not be null. This pointer remains valid until this context manager is destroyed.
-    std::string getDefaultConfigFilename(            ) const;
+    std::string getDefaultConfigFilename() const;
 
     /// Gets the most recent config filename that we tried to load.
     ///
@@ -116,7 +116,7 @@ public:
     /// @return
     ///     Will not be null. This pointer remains valid until the next time any local preferences
     ///     are changed, or this context manager is destroyed, whichever comes first.
-    std::string getLastConfigLoadFilename(            ) const;
+    std::string getLastConfigLoadFilename() const;
 
     /// Gets the config of the current context, if there is a config loaded.
     ///
@@ -125,14 +125,14 @@ public:
     /// @return
     ///     If there is a config loaded, a newly created config wrapper (must be destroyed with
     ///     destroy()). Null otherwise.
-    ApiOcioConfigProxy createConfig(            ) const;
+    ApiOcioConfigProxy createConfig() const;
 
     /// Gets whether the current context is suitable for use by the renderer for color conversions.
     /// This is true only when there is a config loaded and that config contains a color space with
     /// the chosen intermediate color space OCIO name.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool getContextUsableForConversion(            ) const;
+    bool getContextUsableForConversion() const;
 
     /// Sets the current config. This should only be called when the local preferences are about to
     /// be changed so that this config will be the one loaded. This allows the load to be prevented
@@ -157,7 +157,7 @@ public:
     /// a newer version and tried to donate it.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void handlePendingConfigDonation(            );
+    void handlePendingConfigDonation();
 
 private:
     static GRPCSettings & getGRPCSettings();

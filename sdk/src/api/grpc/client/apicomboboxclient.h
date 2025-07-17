@@ -49,9 +49,9 @@ public:
     /// Destroys this combo box.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
-    /// Sets one of the items to be the current selection.  This will set the ComboBox's text to 
+    /// Sets one of the items to be the current selection.  This will set the ComboBox's text to
     /// that of the item that matches this ID.
     ///
     /// @param[in]  newItemId
@@ -69,13 +69,13 @@ public:
     /// will return 0.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    int selectedId(            ) const;
+    int selectedId() const;
 
     /// Returns the text of the item currently selected in the combo box or an empty string if
     /// nothing is selected.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    std::string text(            ) const;
+    std::string text() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

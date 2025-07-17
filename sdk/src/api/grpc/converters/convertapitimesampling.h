@@ -9,7 +9,7 @@
 namespace Octane { struct ApiTimeSampling; }
 namespace octaneapi { class ApiTimeSampling; }
 
-class ApiNodeInfoProxy;
+struct ApiNodeInfoProxy;
 class ApiTimeSamplingConverter
 {
 public:

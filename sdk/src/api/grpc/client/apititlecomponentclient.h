@@ -34,13 +34,13 @@ public:
     /// @return
     ///     Returns a pointer to the newly created title component.
     static ApiTitleComponentProxy create(
-            const char *                              text
+            const char *   text
             );
 
     /// Destroys this title component.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
 private:
     static GRPCSettings & getGRPCSettings();

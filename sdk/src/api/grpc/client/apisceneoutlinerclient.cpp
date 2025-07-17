@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apisceneoutlinerclient.h"
 #include <cassert>
@@ -39,7 +39,7 @@ ApiSceneOutlinerProxy ApiSceneOutlinerProxy::create()
     octaneapi::ApiSceneOutliner::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSceneOutlinerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSceneOutlinerService::Stub> stub =
         octaneapi::ApiSceneOutlinerService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -67,7 +67,7 @@ ApiSceneOutlinerProxy ApiSceneOutlinerProxy::create()
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiSceneOutlinerProxy retVal;////714////
+        ApiSceneOutlinerProxy retVal;
         return retVal;
     }
 };
@@ -84,8 +84,8 @@ void ApiSceneOutlinerProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSceneOutliner);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSceneOutliner);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -94,7 +94,7 @@ void ApiSceneOutlinerProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSceneOutlinerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSceneOutlinerService::Stub> stub =
         octaneapi::ApiSceneOutlinerService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 

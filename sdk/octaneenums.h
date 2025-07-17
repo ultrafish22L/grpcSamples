@@ -158,22 +158,6 @@ enum BlendRegionMask
 };
 
 
-/// Blending contribution of a render pass
-enum BlendingModeId
-{
-    /// Pass should not be blended
-    BLENDING_NONE     = 0, 
-    /// Alpha blanding: alpha * A + (1-alpha) * B 
-    BLENDING_ALPHA    = 1, 
-    /// Add values: A + B
-    BLENDING_ADD      = 2, 
-    /// multiply values: A * B
-    BLENDING_MULTIPLY = 3, 
-    /// Default blending type
-    BLENDING_DEFAULT  = BLENDING_ADD
-};
-
-
 /// Component picker operation types supported by NT_{FLOAT,INT}_COMPONENT_PICKER.
 enum ComponentPickerOperation
 {
@@ -857,6 +841,20 @@ enum CustomCurveMode
 };
 
 
+/// Describes the status of a file cache
+enum CacheStatus
+{
+    /// This item is not cached at the moment
+    CACHE_NONE,
+    /// Caching this item failed
+    CACHE_ERROR,
+    /// Caching this item was still in progress when checked
+    CACHE_BUILDING,
+    /// Cache finished successfully
+    CACHE_FINISHED,
+};
+
+
 /// The different models we support in the daylight environment node. The value is set by the enum
 /// pin P_MODEL.
 enum DaylightModel
@@ -1067,7 +1065,21 @@ enum FractalNoiseMode
 };
 
 
-/// The way gaussian splats interact with lights
+/// The way Gaussian splat clouds are clipped
+enum GaussianSplatClipMode
+{
+    /// Gaussian splat cloud won't be clipped by the bounding primitive
+    GAUSSIAN_SPLAT_CLIP_MODE_NONE,
+    /// Gaussian splat cloud points outside of the specified clipping bounding box primitive
+    /// will be excluded from rendering
+    GAUSSIAN_SPLAT_CLIP_MODE_BOX,
+    /// Gaussian splat cloud points outside of the specified clipping bounding ellipsoid primitive
+    /// will be excluded from rendering
+    GAUSSIAN_SPLAT_CLIP_MODE_ELLIPSOID
+};
+
+
+/// The way Gaussian splats interact with lights
 enum GaussianSplatLightingMode
 {
     /// Gaussian splat brightness will not be scaled by the emitter power.
@@ -1320,6 +1332,10 @@ enum ImageMaskSource
     IMAGE_MASK_SOURCE_INVERSE_A         = IMAGE_MASK_SOURCE_INVERSE_BIT | 0x3,
     /// Use one minus the luminance as the mask value.
     IMAGE_MASK_SOURCE_INVERSE_LUMINANCE = IMAGE_MASK_SOURCE_INVERSE_BIT | 0x8,
+
+    /// Special value used only for the unblend output AOV layer node, meaning to treat the input
+    /// not as a mask but as a full RGBA image.
+    IMAGE_MASK_SOURCE_NO_MASK           = 0x100,
 };
 
 
@@ -1827,6 +1843,14 @@ enum TexturePinValueTypeMode
 };
 
 
+/// Blend inputs that the unblend output AOV layer mode can extract.
+enum UnblendExtractMode
+{
+    UNBLEND_EXTRACT_MODE_FOREGROUND = 0,
+    UNBLEND_EXTRACT_MODE_BACKGROUND = 1,
+};
+
+
 /// The different modes we currently support in the panoramic camera. The value is set in the
 /// pin P_CAMERA_MODE of the node NT_CAM_PANORAMIC.
 enum PanoramicCameraMode
@@ -1874,7 +1898,8 @@ enum PreferencesTabId
     PREFERENCES_TAB_ID_KEYBOARD_SHORTCUTS       = 15,
     PREFERENCES_TAB_ID_MODULES                  = 16,
     PREFERENCES_TAB_ID_MATERIALX_IMPORT         = 17,
-    PREFERENCES_TAB_ID_GRPC_API                 = 18,
+    PREFERENCES_TAB_ID_FILESYSTEM_CACHING       = 18,
+    PREFERENCES_TAB_ID_GRPC_API                 = 19,
 };
 
 
@@ -2098,6 +2123,7 @@ enum RenderPassId
     RENDER_PASS_SHADOW               = 32,
     RENDER_PASS_IRRADIANCE           = 33,
     RENDER_PASS_LIGHT_DIRECTION      = 34,
+    RENDER_PASS_POSTFX_MEDIA_MASK    = 128,
     RENDER_PASS_POSTFX_MEDIA         = 84,
     RENDER_PASS_POST_PROC            = 16,
     RENDER_PASS_NOISE_BEAUTY         = 31,
@@ -2876,6 +2902,43 @@ enum UpSampleMode
 };
 
 
+/// Supported up sampler types.
+enum UpSamplerType
+{
+    // None.
+    UPSAMPLER_NONE       = 0,
+    // Linearly up-scale input image/buffer.
+    UPSAMPLER_LINEAR     = 1,
+    // The old AI up-sampler.
+    UPSAMPLER_LEGACY_AI  = 2,
+    // DLSS from nvidia. Upscaling and denoising are enabled.
+    // Ray reconstruction nor frame generation are not enabled.
+    UPSAMPLER_DLSS       = 3,
+    // DLSS from nvidia. Upscaling, denoising and ray reconstruction are enabled.
+    // Frame generation is not enabled.
+    UPSAMPLER_DLSS_RR    = 4,
+    // FSR3 from AMD's fidelity-fx sdk. Upscaling and denoising are enabled.
+    // Frame interpolation(generation) is not enabled.
+    UPSAMPLER_FSR        = 5,
+};
+
+
+/// Up sample's source percentage (per side).
+enum UpSampleSourcePercentage
+{
+    // 100%
+    UPSAMPLE_SOURCE_PERCENTAGE_100,
+    // 66.66% (2/3)
+    UPSAMPLE_SOURCE_PERCENTAGE_66,
+    // 50%
+    UPSAMPLE_SOURCE_PERCENTAGE_50,
+    // 33.33% (1/3)
+    UPSAMPLE_SOURCE_PERCENTAGE_33,
+    // 25%
+    UPSAMPLE_SOURCE_PERCENTAGE_25,
+};
+
+
 /// The types of USD display purposes.
 enum UsdDisplayPurpose
 {
@@ -2901,6 +2964,28 @@ enum VdbGridIds
     VDB_GRID_VELOCITY_Z = 6,
     /// Read the velocity as a vector.
     VDB_GRID_VELOCITY   = 7,
+};
+
+
+/// Circle type for Vectron cylinder and sphere.
+enum VectronCircleType
+{
+    CIRCLE_TYPE_CIRCLE  = 0,
+    CIRCLE_TYPE_SLICE   = 1,
+    CIRCLE_TYPE_SEGMENT = 2,
+    CIRCLE_TYPE_ARC     = 3,
+};
+
+
+/// Edge type for SDF primitives.
+enum VectronEdgeType
+{
+    /// No fillet or chamfer.
+    EDGE_TYPE_SHARP   = 0,
+    /// Fillet (round).
+    EDGE_TYPE_FILLET  = 1,
+    /// Chamfer.
+    EDGE_TYPE_CHAMFER = 2,
 };
 
 

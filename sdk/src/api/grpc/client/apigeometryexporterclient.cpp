@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apigeometryexporterclient.h"
 #include <cassert>
@@ -42,7 +42,7 @@ bool ApiGeometryExporterProxy::isSupported()
     octaneapi::ApiGeometryExporter::isSupportedResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub =
         octaneapi::ApiGeometryExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->isSupported(context.get(), request, &response);
 
@@ -52,7 +52,7 @@ bool ApiGeometryExporterProxy::isSupported()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -72,10 +72,10 @@ bool ApiGeometryExporterProxy::isSupported()
 
 
 ApiGeometryExporterProxy ApiGeometryExporterProxy::create(
-            const char *                              fileName, //// test821 //// 
-            const char *                              description, //// test821 //// 
-            const Octane::GeometryExportFormat        exportFormat, //// test821 //// 
-            const bool                                exportGeneratedGeometry //// last param ////
+            const char *                              fileName,
+            const char *                              description,
+            const Octane::GeometryExportFormat        exportFormat,
+            const bool                                exportGeneratedGeometry
             )
 
 {
@@ -86,15 +86,15 @@ ApiGeometryExporterProxy ApiGeometryExporterProxy::create(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'fileName' [in] parameter to the request packet.
-    std::string * filenameIn = new std::string(); //// fileName type=string;//// ////721////
+    std::string * filenameIn = new std::string();
     *filenameIn = checkString(fileName);
-    request.set_allocated_filename(filenameIn);//// 6215 ////
+    request.set_allocated_filename(filenameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'description' [in] parameter to the request packet.
-    std::string * descriptionIn = new std::string(); //// description type=string;//// ////721////
+    std::string * descriptionIn = new std::string();
     *descriptionIn = checkString(description);
-    request.set_allocated_description(descriptionIn);//// 6215 ////
+    request.set_allocated_description(descriptionIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'exportFormat' [in] parameter to the request packet.
@@ -105,7 +105,7 @@ ApiGeometryExporterProxy ApiGeometryExporterProxy::create(
     /////////////////////////////////////////////////////////////////////
     // Add the 'exportGeneratedGeometry' [in] parameter to the request packet.
     bool exportgeneratedgeometryIn;
-    exportgeneratedgeometryIn = exportGeneratedGeometry;////2 const bool////
+    exportgeneratedgeometryIn = exportGeneratedGeometry;
     request.set_exportgeneratedgeometry(exportgeneratedgeometryIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -113,7 +113,7 @@ ApiGeometryExporterProxy ApiGeometryExporterProxy::create(
     octaneapi::ApiGeometryExporter::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub =
         octaneapi::ApiGeometryExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -141,14 +141,14 @@ ApiGeometryExporterProxy ApiGeometryExporterProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiGeometryExporterProxy retVal;////714////
+        ApiGeometryExporterProxy retVal;
         return retVal;
     }
 };
 
 
 void ApiGeometryExporterProxy::setAspectRatio(
-            float                                     ratio //// last param ////
+            float                                     ratio
             )
 
 {
@@ -161,15 +161,15 @@ void ApiGeometryExporterProxy::setAspectRatio(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGeometryExporter);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGeometryExporter);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ratio' [in] parameter to the request packet.
     float ratioIn;
-    ratioIn = ratio;////2 float////
+    ratioIn = ratio;
     request.set_ratio(ratioIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -177,7 +177,7 @@ void ApiGeometryExporterProxy::setAspectRatio(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub =
         octaneapi::ApiGeometryExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->setAspectRatio(context.get(), request, &response);
 
@@ -201,12 +201,12 @@ void ApiGeometryExporterProxy::setAspectRatio(
 
 
 void ApiGeometryExporterProxy::setFbxOptions(
-            const bool                                fastScatterExport, //// test821 //// 
-            const bool                                exportMaterial, //// test821 //// 
-            const bool                                asStingrayMaterial, //// test821 //// 
-            const uint32_t                            renderSizeX, //// test821 //// 
-            const uint32_t                            renderSizeY, //// test821 //// 
-            const bool                                writeOcsData //// last param ////
+            const bool                                fastScatterExport,
+            const bool                                exportMaterial,
+            const bool                                asStingrayMaterial,
+            const uint32_t                            renderSizeX,
+            const uint32_t                            renderSizeY,
+            const bool                                writeOcsData
             )
 
 {
@@ -219,45 +219,45 @@ void ApiGeometryExporterProxy::setFbxOptions(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGeometryExporter);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGeometryExporter);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'fastScatterExport' [in] parameter to the request packet.
     bool fastscatterexportIn;
-    fastscatterexportIn = fastScatterExport;////2 const bool////
+    fastscatterexportIn = fastScatterExport;
     request.set_fastscatterexport(fastscatterexportIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'exportMaterial' [in] parameter to the request packet.
     bool exportmaterialIn;
-    exportmaterialIn = exportMaterial;////2 const bool////
+    exportmaterialIn = exportMaterial;
     request.set_exportmaterial(exportmaterialIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'asStingrayMaterial' [in] parameter to the request packet.
     bool asstingraymaterialIn;
-    asstingraymaterialIn = asStingrayMaterial;////2 const bool////
+    asstingraymaterialIn = asStingrayMaterial;
     request.set_asstingraymaterial(asstingraymaterialIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'renderSizeX' [in] parameter to the request packet.
     uint32_t rendersizexIn;
-    rendersizexIn = renderSizeX;////2 const uint32_t////
+    rendersizexIn = renderSizeX;
     request.set_rendersizex(rendersizexIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'renderSizeY' [in] parameter to the request packet.
     uint32_t rendersizeyIn;
-    rendersizeyIn = renderSizeY;////2 const uint32_t////
+    rendersizeyIn = renderSizeY;
     request.set_rendersizey(rendersizeyIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'writeOcsData' [in] parameter to the request packet.
     bool writeocsdataIn;
-    writeocsdataIn = writeOcsData;////2 const bool////
+    writeocsdataIn = writeOcsData;
     request.set_writeocsdata(writeocsdataIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -265,7 +265,7 @@ void ApiGeometryExporterProxy::setFbxOptions(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub =
         octaneapi::ApiGeometryExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->setFbxOptions(context.get(), request, &response);
 
@@ -289,7 +289,7 @@ void ApiGeometryExporterProxy::setFbxOptions(
 
 
 bool ApiGeometryExporterProxy::addItem(
-            ApiItemProxy *                            item //// last param ////
+            ApiItemProxy *                            item
             )
 
 {
@@ -302,8 +302,8 @@ bool ApiGeometryExporterProxy::addItem(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGeometryExporter);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGeometryExporter);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -311,8 +311,8 @@ bool ApiGeometryExporterProxy::addItem(
     // Add the 'item' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * itemIn = new octaneapi::ObjectRef();////761////
-    itemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);////5////
+    octaneapi::ObjectRef * itemIn = new octaneapi::ObjectRef();
+    itemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
     itemIn->set_handle(item->getObjectHandle());
     request.set_allocated_item(itemIn);
 
@@ -321,7 +321,7 @@ bool ApiGeometryExporterProxy::addItem(
     octaneapi::ApiGeometryExporter::addItemResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub =
         octaneapi::ApiGeometryExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->addItem(context.get(), request, &response);
 
@@ -331,7 +331,7 @@ bool ApiGeometryExporterProxy::addItem(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -351,7 +351,7 @@ bool ApiGeometryExporterProxy::addItem(
 
 
 bool ApiGeometryExporterProxy::writeFrame(
-            const Octane::TimeSpanT                   interval //// last param ////
+            const Octane::TimeSpanT                   interval
             )
 
 {
@@ -364,25 +364,24 @@ bool ApiGeometryExporterProxy::writeFrame(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGeometryExporter);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGeometryExporter);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'interval' [in] parameter to the request packet.
-    octaneapi::TimeSpanT * intervalIn = new octaneapi::TimeSpanT(); //// interval type=TimeSpanT;//// ////721////
-    //// TimeSpanT TEST////
+    octaneapi::TimeSpanT * intervalIn = new octaneapi::TimeSpanT();
     intervalIn->mutable_begin()->set_value(static_cast<float>(interval.begin));
     intervalIn->mutable_end()->set_value(static_cast<float>(interval.end));
-    request.set_allocated_interval(intervalIn);//// 6215 ////
+    request.set_allocated_interval(intervalIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiGeometryExporter::writeFrameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub =
         octaneapi::ApiGeometryExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->writeFrame(context.get(), request, &response);
 
@@ -392,7 +391,7 @@ bool ApiGeometryExporterProxy::writeFrame(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -422,8 +421,8 @@ bool ApiGeometryExporterProxy::writeFrame()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGeometryExporter);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGeometryExporter);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -432,7 +431,7 @@ bool ApiGeometryExporterProxy::writeFrame()
     octaneapi::ApiGeometryExporter::writeFrame1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub =
         octaneapi::ApiGeometryExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->writeFrame1(context.get(), request, &response);
 
@@ -442,7 +441,7 @@ bool ApiGeometryExporterProxy::writeFrame()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -462,7 +461,7 @@ bool ApiGeometryExporterProxy::writeFrame()
 
 
 bool ApiGeometryExporterProxy::writeTimeSampling(
-            const Octane::ApiTimeSampling &           times //// last param ////
+            const Octane::ApiTimeSampling &           times
             )
 
 {
@@ -475,24 +474,23 @@ bool ApiGeometryExporterProxy::writeTimeSampling(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGeometryExporter);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGeometryExporter);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'times' [in] parameter to the request packet.
-    octaneapi::ApiTimeSampling * timesIn = new octaneapi::ApiTimeSampling(); //// times type=ApiTimeSampling;//// ////721////
-    //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST////
-    ApiTimeSamplingConverter::convert(times, *timesIn); //// Convert Called type 1c =ApiTimeSampling ////
-    request.set_allocated_times(timesIn);//// 6215 ////
+    octaneapi::ApiTimeSampling * timesIn = new octaneapi::ApiTimeSampling();
+    ApiTimeSamplingConverter::convert(times, *timesIn);
+    request.set_allocated_times(timesIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiGeometryExporter::writeTimeSamplingResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub =
         octaneapi::ApiGeometryExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->writeTimeSampling(context.get(), request, &response);
 
@@ -502,7 +500,7 @@ bool ApiGeometryExporterProxy::writeTimeSampling(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -522,8 +520,8 @@ bool ApiGeometryExporterProxy::writeTimeSampling(
 
 
 ApiNodeGraphProxy ApiGeometryExporterProxy::createGeometryArchive(
-            ApiNodeGraphProxy *                       owner, //// test821 //// 
-            bool                                      createObjectInputs //// last param ////
+            ApiNodeGraphProxy *                       owner,
+            bool                                      createObjectInputs
             ) const
 
 {
@@ -536,8 +534,8 @@ ApiNodeGraphProxy ApiGeometryExporterProxy::createGeometryArchive(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGeometryExporter);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGeometryExporter);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -545,15 +543,15 @@ ApiNodeGraphProxy ApiGeometryExporterProxy::createGeometryArchive(
     // Add the 'owner' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * ownerIn = new octaneapi::ObjectRef();////761////
-    ownerIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * ownerIn = new octaneapi::ObjectRef();
+    ownerIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     ownerIn->set_handle(owner->getObjectHandle());
     request.set_allocated_owner(ownerIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'createObjectInputs' [in] parameter to the request packet.
     bool createobjectinputsIn;
-    createobjectinputsIn = createObjectInputs;////2 bool////
+    createobjectinputsIn = createObjectInputs;
     request.set_createobjectinputs(createobjectinputsIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -561,7 +559,7 @@ ApiNodeGraphProxy ApiGeometryExporterProxy::createGeometryArchive(
     octaneapi::ApiGeometryExporter::createGeometryArchiveResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub =
         octaneapi::ApiGeometryExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->createGeometryArchive(context.get(), request, &response);
 
@@ -589,7 +587,7 @@ ApiNodeGraphProxy ApiGeometryExporterProxy::createGeometryArchive(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiNodeGraphProxy retVal;////714////
+        ApiNodeGraphProxy retVal;
         return retVal;
     }
 };
@@ -606,8 +604,8 @@ void ApiGeometryExporterProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGeometryExporter);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGeometryExporter);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -616,7 +614,7 @@ void ApiGeometryExporterProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGeometryExporterService::Stub> stub =
         octaneapi::ApiGeometryExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 

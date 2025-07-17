@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "vdbinfoclient.h"
 #include <cassert>
@@ -40,8 +40,8 @@ bool VdbInfoProxy::valid() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_VdbInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_VdbInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -50,7 +50,7 @@ bool VdbInfoProxy::valid() const
     octaneapi::VdbInfo::validResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::VdbInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::VdbInfoService::Stub> stub =
         octaneapi::VdbInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->valid(context.get(), request, &response);
 
@@ -60,7 +60,7 @@ bool VdbInfoProxy::valid() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -90,8 +90,8 @@ uint32_t VdbInfoProxy::gridCount() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_VdbInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_VdbInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -100,7 +100,7 @@ uint32_t VdbInfoProxy::gridCount() const
     octaneapi::VdbInfo::gridCountResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::VdbInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::VdbInfoService::Stub> stub =
         octaneapi::VdbInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->gridCount(context.get(), request, &response);
 
@@ -110,7 +110,7 @@ uint32_t VdbInfoProxy::gridCount() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -130,7 +130,7 @@ uint32_t VdbInfoProxy::gridCount() const
 
 
 VdbGridInfoProxy VdbInfoProxy::grid(
-            const uint32_t                            index //// last param ////
+            const uint32_t                            index
             ) const
 
 {
@@ -143,15 +143,15 @@ VdbGridInfoProxy VdbInfoProxy::grid(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_VdbInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_VdbInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'index' [in] parameter to the request packet.
     uint32_t indexIn;
-    indexIn = index;////2 const uint32_t////
+    indexIn = index;
     request.set_index(indexIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -159,7 +159,7 @@ VdbGridInfoProxy VdbInfoProxy::grid(
     octaneapi::VdbInfo::gridResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::VdbInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::VdbInfoService::Stub> stub =
         octaneapi::VdbInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->grid(context.get(), request, &response);
 
@@ -187,15 +187,15 @@ VdbGridInfoProxy VdbInfoProxy::grid(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        VdbGridInfoProxy retVal;////714////
+        VdbGridInfoProxy retVal;
         return retVal;
     }
 };
 
 
 VdbGridSamplerProxy VdbInfoProxy::sampler(
-            const uint32_t                            index, //// test821 //// 
-            const bool                                ignoreVdbTransform //// last param ////
+            const uint32_t                            index,
+            const bool                                ignoreVdbTransform
             )
 
 {
@@ -208,21 +208,21 @@ VdbGridSamplerProxy VdbInfoProxy::sampler(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_VdbInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_VdbInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'index' [in] parameter to the request packet.
     uint32_t indexIn;
-    indexIn = index;////2 const uint32_t////
+    indexIn = index;
     request.set_index(indexIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ignoreVdbTransform' [in] parameter to the request packet.
     bool ignorevdbtransformIn;
-    ignorevdbtransformIn = ignoreVdbTransform;////2 const bool////
+    ignorevdbtransformIn = ignoreVdbTransform;
     request.set_ignorevdbtransform(ignorevdbtransformIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -230,7 +230,7 @@ VdbGridSamplerProxy VdbInfoProxy::sampler(
     octaneapi::VdbInfo::samplerResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::VdbInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::VdbInfoService::Stub> stub =
         octaneapi::VdbInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->sampler(context.get(), request, &response);
 
@@ -258,7 +258,7 @@ VdbGridSamplerProxy VdbInfoProxy::sampler(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        VdbGridSamplerProxy retVal;////714////
+        VdbGridSamplerProxy retVal;
         return retVal;
     }
 };
@@ -275,8 +275,8 @@ void VdbInfoProxy::destroySampler()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_VdbInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_VdbInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -285,7 +285,7 @@ void VdbInfoProxy::destroySampler()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::VdbInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::VdbInfoService::Stub> stub =
         octaneapi::VdbInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroySampler(context.get(), request, &response);
 
@@ -309,8 +309,8 @@ void VdbInfoProxy::destroySampler()
 
 
 std::string VdbInfoProxy::findGrid(
-            const Octane::AttributeId                 channelAttributeId, //// test821 //// 
-            const char *const                         gridName //// last param ////
+            const Octane::AttributeId                 channelAttributeId,
+            const char *const                         gridName
             ) const
 
 {
@@ -323,8 +323,8 @@ std::string VdbInfoProxy::findGrid(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_VdbInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_VdbInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -336,16 +336,16 @@ std::string VdbInfoProxy::findGrid(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'gridName' [in] parameter to the request packet.
-    std::string * gridnameIn = new std::string(); //// gridName type=string;//// ////721////
+    std::string * gridnameIn = new std::string();
     *gridnameIn = checkString(gridName);
-    request.set_allocated_gridname(gridnameIn);//// 6215 ////
+    request.set_allocated_gridname(gridnameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::VdbInfo::findGridResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::VdbInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::VdbInfoService::Stub> stub =
         octaneapi::VdbInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->findGrid(context.get(), request, &response);
 
@@ -356,7 +356,7 @@ std::string VdbInfoProxy::findGrid(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *const
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {

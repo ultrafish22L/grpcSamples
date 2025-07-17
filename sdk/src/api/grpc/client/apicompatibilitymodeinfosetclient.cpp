@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apicompatibilitymodeinfosetclient.h"
 #include <cassert>
@@ -39,8 +39,8 @@ uint32_t ApiCompatibilityModeInfoSetProxy::size() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCompatibilityModeInfoSet);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCompatibilityModeInfoSet);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -49,7 +49,7 @@ uint32_t ApiCompatibilityModeInfoSetProxy::size() const
     octaneapi::ApiCompatibilityModeInfoSet::sizeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCompatibilityModeInfoSetService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCompatibilityModeInfoSetService::Stub> stub =
         octaneapi::ApiCompatibilityModeInfoSetService::NewStub(getGRPCSettings().getChannel());
     status = stub->size(context.get(), request, &response);
 
@@ -59,7 +59,7 @@ uint32_t ApiCompatibilityModeInfoSetProxy::size() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -79,7 +79,7 @@ uint32_t ApiCompatibilityModeInfoSetProxy::size() const
 
 
 const Octane::ApiCompatibilityModeInfo ApiCompatibilityModeInfoSetProxy::info(
-            uint32_t                                  index //// last param ////
+            uint32_t                                  index
             ) const
 
 {
@@ -92,15 +92,15 @@ const Octane::ApiCompatibilityModeInfo ApiCompatibilityModeInfoSetProxy::info(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCompatibilityModeInfoSet);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCompatibilityModeInfoSet);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'index' [in] parameter to the request packet.
     uint32_t indexIn;
-    indexIn = index;////2 uint32_t////
+    indexIn = index;
     request.set_index(indexIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -108,7 +108,7 @@ const Octane::ApiCompatibilityModeInfo ApiCompatibilityModeInfoSetProxy::info(
     octaneapi::ApiCompatibilityModeInfoSet::infoResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCompatibilityModeInfoSetService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCompatibilityModeInfoSetService::Stub> stub =
         octaneapi::ApiCompatibilityModeInfoSetService::NewStub(getGRPCSettings().getChannel());
     status = stub->info(context.get(), request, &response);
 

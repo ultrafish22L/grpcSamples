@@ -26,7 +26,7 @@ class ApiModuleDataProxy : public GRPCBase
 {
 public:
     /// Loads application data stored for this module.
-    /// 
+    ///
     /// @param[in]  moduleId
     ///     Id of the module loading the data.
     /// @param[out] octaneVersion

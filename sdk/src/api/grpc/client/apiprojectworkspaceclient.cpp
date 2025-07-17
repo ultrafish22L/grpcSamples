@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apiprojectworkspaceclient.h"
 #include <cassert>
@@ -39,8 +39,8 @@ std::vector<ApiNodeGraphEditorProxy> ApiProjectWorkspaceProxy::getNodeGraphEdito
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiProjectWorkspace);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiProjectWorkspace);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -49,7 +49,7 @@ std::vector<ApiNodeGraphEditorProxy> ApiProjectWorkspaceProxy::getNodeGraphEdito
     octaneapi::ApiProjectWorkspace::getNodeGraphEditorsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectWorkspaceService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectWorkspaceService::Stub> stub =
         octaneapi::ApiProjectWorkspaceService::NewStub(getGRPCSettings().getChannel());
     status = stub->getNodeGraphEditors(context.get(), request, &response);
 
@@ -58,14 +58,12 @@ std::vector<ApiNodeGraphEditorProxy> ApiProjectWorkspaceProxy::getNodeGraphEdito
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ObjectRefArrayT resultOut = response.result();
-        ////UNTESTED client array code 1////
         std::vector<ApiNodeGraphEditorProxy> retVal;
         retVal.reserve(resultOut.data_size());
         for (int i = 0; i < resultOut.data_size(); i++)
         {
-            //// using unique_ptr 2 ////
             ApiNodeGraphEditorProxy item;
-            item.attachObjectHandle(resultOut.data().Get(i).handle()); ////211b////
+            item.attachObjectHandle(resultOut.data().Get(i).handle());
             retVal.push_back(item);
         }
         return retVal;
@@ -98,8 +96,8 @@ void ApiProjectWorkspaceProxy::resetLayout()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiProjectWorkspace);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiProjectWorkspace);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -108,7 +106,7 @@ void ApiProjectWorkspaceProxy::resetLayout()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectWorkspaceService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectWorkspaceService::Stub> stub =
         octaneapi::ApiProjectWorkspaceService::NewStub(getGRPCSettings().getChannel());
     status = stub->resetLayout(context.get(), request, &response);
 
@@ -132,7 +130,7 @@ void ApiProjectWorkspaceProxy::resetLayout()
 
 
 bool ApiProjectWorkspaceProxy::loadLayout(
-            const char *                              layoutString //// last param ////
+            const char *                              layoutString
             )
 
 {
@@ -145,23 +143,23 @@ bool ApiProjectWorkspaceProxy::loadLayout(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiProjectWorkspace);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiProjectWorkspace);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'layoutString' [in] parameter to the request packet.
-    std::string * layoutstringIn = new std::string(); //// layoutString type=string;//// ////721////
+    std::string * layoutstringIn = new std::string();
     *layoutstringIn = checkString(layoutString);
-    request.set_allocated_layoutstring(layoutstringIn);//// 6215 ////
+    request.set_allocated_layoutstring(layoutstringIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiProjectWorkspace::loadLayoutResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectWorkspaceService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectWorkspaceService::Stub> stub =
         octaneapi::ApiProjectWorkspaceService::NewStub(getGRPCSettings().getChannel());
     status = stub->loadLayout(context.get(), request, &response);
 
@@ -171,7 +169,7 @@ bool ApiProjectWorkspaceProxy::loadLayout(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -201,8 +199,8 @@ std::string ApiProjectWorkspaceProxy::serializeLayout() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiProjectWorkspace);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiProjectWorkspace);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -211,7 +209,7 @@ std::string ApiProjectWorkspaceProxy::serializeLayout() const
     octaneapi::ApiProjectWorkspace::serializeLayoutResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectWorkspaceService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectWorkspaceService::Stub> stub =
         octaneapi::ApiProjectWorkspaceService::NewStub(getGRPCSettings().getChannel());
     status = stub->serializeLayout(context.get(), request, &response);
 
@@ -222,7 +220,7 @@ std::string ApiProjectWorkspaceProxy::serializeLayout() const
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {

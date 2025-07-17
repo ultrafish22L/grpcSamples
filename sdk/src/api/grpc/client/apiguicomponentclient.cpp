@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apiguicomponentclient.h"
 #include <cassert>
@@ -29,7 +29,7 @@ GRPCSettings & ApiGuiComponentProxy::getGRPCSettings()
 
 
 void ApiGuiComponentProxy::addChildComponent(
-            ApiGuiComponentProxy &                    child //// last param ////
+            ApiGuiComponentProxy &                    child
             )
 
 {
@@ -42,8 +42,8 @@ void ApiGuiComponentProxy::addChildComponent(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -51,8 +51,8 @@ void ApiGuiComponentProxy::addChildComponent(
     // Add the 'child' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * childIn = new octaneapi::ObjectRef();////761////
-    childIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * childIn = new octaneapi::ObjectRef();
+    childIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     childIn->set_handle(child.getObjectHandle());
     request.set_allocated_child(childIn);
 
@@ -61,7 +61,7 @@ void ApiGuiComponentProxy::addChildComponent(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub =
         octaneapi::ApiGuiComponentService::NewStub(getGRPCSettings().getChannel());
     status = stub->addChildComponent(context.get(), request, &response);
 
@@ -85,7 +85,7 @@ void ApiGuiComponentProxy::addChildComponent(
 
 
 void ApiGuiComponentProxy::removeChildComponent(
-            ApiGuiComponentProxy &                    child //// last param ////
+            ApiGuiComponentProxy &                    child
             )
 
 {
@@ -98,8 +98,8 @@ void ApiGuiComponentProxy::removeChildComponent(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -107,8 +107,8 @@ void ApiGuiComponentProxy::removeChildComponent(
     // Add the 'child' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * childIn = new octaneapi::ObjectRef();////761////
-    childIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * childIn = new octaneapi::ObjectRef();
+    childIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     childIn->set_handle(child.getObjectHandle());
     request.set_allocated_child(childIn);
 
@@ -117,7 +117,7 @@ void ApiGuiComponentProxy::removeChildComponent(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub =
         octaneapi::ApiGuiComponentService::NewStub(getGRPCSettings().getChannel());
     status = stub->removeChildComponent(context.get(), request, &response);
 
@@ -141,8 +141,8 @@ void ApiGuiComponentProxy::removeChildComponent(
 
 
 void ApiGuiComponentProxy::setSize(
-            const int                                 width, //// test821 //// 
-            const int                                 height //// last param ////
+            const int                                 width,
+            const int                                 height
             )
 
 {
@@ -155,21 +155,21 @@ void ApiGuiComponentProxy::setSize(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'width' [in] parameter to the request packet.
     int32_t widthIn;
-    widthIn = width;////2 const int////
+    widthIn = width;
     request.set_width(widthIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'height' [in] parameter to the request packet.
     int32_t heightIn;
-    heightIn = height;////2 const int////
+    heightIn = height;
     request.set_height(heightIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -177,7 +177,7 @@ void ApiGuiComponentProxy::setSize(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub =
         octaneapi::ApiGuiComponentService::NewStub(getGRPCSettings().getChannel());
     status = stub->setSize(context.get(), request, &response);
 
@@ -211,8 +211,8 @@ int ApiGuiComponentProxy::width() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -221,7 +221,7 @@ int ApiGuiComponentProxy::width() const
     octaneapi::ApiGuiComponent::widthResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub =
         octaneapi::ApiGuiComponentService::NewStub(getGRPCSettings().getChannel());
     status = stub->width(context.get(), request, &response);
 
@@ -231,7 +231,7 @@ int ApiGuiComponentProxy::width() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         int32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -261,8 +261,8 @@ int ApiGuiComponentProxy::height() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -271,7 +271,7 @@ int ApiGuiComponentProxy::height() const
     octaneapi::ApiGuiComponent::heightResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub =
         octaneapi::ApiGuiComponentService::NewStub(getGRPCSettings().getChannel());
     status = stub->height(context.get(), request, &response);
 
@@ -281,7 +281,7 @@ int ApiGuiComponentProxy::height() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         int32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -301,8 +301,8 @@ int ApiGuiComponentProxy::height() const
 
 
 void ApiGuiComponentProxy::setTopLeftPosition(
-            const int                                 x, //// test821 //// 
-            const int                                 y //// last param ////
+            const int                                 x,
+            const int                                 y
             )
 
 {
@@ -315,21 +315,21 @@ void ApiGuiComponentProxy::setTopLeftPosition(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'x' [in] parameter to the request packet.
     int32_t xIn;
-    xIn = x;////2 const int////
+    xIn = x;
     request.set_x(xIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'y' [in] parameter to the request packet.
     int32_t yIn;
-    yIn = y;////2 const int////
+    yIn = y;
     request.set_y(yIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -337,7 +337,7 @@ void ApiGuiComponentProxy::setTopLeftPosition(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub =
         octaneapi::ApiGuiComponentService::NewStub(getGRPCSettings().getChannel());
     status = stub->setTopLeftPosition(context.get(), request, &response);
 
@@ -371,8 +371,8 @@ int ApiGuiComponentProxy::xPosition() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -381,7 +381,7 @@ int ApiGuiComponentProxy::xPosition() const
     octaneapi::ApiGuiComponent::xPositionResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub =
         octaneapi::ApiGuiComponentService::NewStub(getGRPCSettings().getChannel());
     status = stub->xPosition(context.get(), request, &response);
 
@@ -391,7 +391,7 @@ int ApiGuiComponentProxy::xPosition() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         int32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -421,8 +421,8 @@ int ApiGuiComponentProxy::yPosition() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -431,7 +431,7 @@ int ApiGuiComponentProxy::yPosition() const
     octaneapi::ApiGuiComponent::yPositionResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub =
         octaneapi::ApiGuiComponentService::NewStub(getGRPCSettings().getChannel());
     status = stub->yPosition(context.get(), request, &response);
 
@@ -441,7 +441,7 @@ int ApiGuiComponentProxy::yPosition() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         int32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -461,7 +461,7 @@ int ApiGuiComponentProxy::yPosition() const
 
 
 void ApiGuiComponentProxy::setEnabled(
-            const bool                                enabled //// last param ////
+            const bool                                enabled
             )
 
 {
@@ -474,15 +474,15 @@ void ApiGuiComponentProxy::setEnabled(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'enabled' [in] parameter to the request packet.
     bool enabledIn;
-    enabledIn = enabled;////2 const bool////
+    enabledIn = enabled;
     request.set_enabled(enabledIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -490,7 +490,7 @@ void ApiGuiComponentProxy::setEnabled(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub =
         octaneapi::ApiGuiComponentService::NewStub(getGRPCSettings().getChannel());
     status = stub->setEnabled(context.get(), request, &response);
 
@@ -524,8 +524,8 @@ bool ApiGuiComponentProxy::isEnabled() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -534,7 +534,7 @@ bool ApiGuiComponentProxy::isEnabled() const
     octaneapi::ApiGuiComponent::isEnabledResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub =
         octaneapi::ApiGuiComponentService::NewStub(getGRPCSettings().getChannel());
     status = stub->isEnabled(context.get(), request, &response);
 
@@ -544,7 +544,7 @@ bool ApiGuiComponentProxy::isEnabled() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -564,7 +564,7 @@ bool ApiGuiComponentProxy::isEnabled() const
 
 
 void ApiGuiComponentProxy::setTooltip(
-            const char *                              tooltip //// last param ////
+            const char *                              tooltip
             )
 
 {
@@ -577,23 +577,23 @@ void ApiGuiComponentProxy::setTooltip(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'tooltip' [in] parameter to the request packet.
-    std::string * tooltipIn = new std::string(); //// tooltip type=string;//// ////721////
+    std::string * tooltipIn = new std::string();
     *tooltipIn = checkString(tooltip);
-    request.set_allocated_tooltip(tooltipIn);//// 6215 ////
+    request.set_allocated_tooltip(tooltipIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub =
         octaneapi::ApiGuiComponentService::NewStub(getGRPCSettings().getChannel());
     status = stub->setTooltip(context.get(), request, &response);
 
@@ -627,8 +627,8 @@ std::string ApiGuiComponentProxy::tooltip() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -637,7 +637,7 @@ std::string ApiGuiComponentProxy::tooltip() const
     octaneapi::ApiGuiComponent::tooltipResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub =
         octaneapi::ApiGuiComponentService::NewStub(getGRPCSettings().getChannel());
     status = stub->tooltip(context.get(), request, &response);
 
@@ -648,7 +648,7 @@ std::string ApiGuiComponentProxy::tooltip() const
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -668,8 +668,8 @@ std::string ApiGuiComponentProxy::tooltip() const
 
 
 void ApiGuiComponentProxy::addMouseListener(
-            ApiMouseListenerProxy *                   newListener, //// test821 //// 
-            bool                                      wantsEventsForAllNestedChildComponents //// last param ////
+            ApiMouseListenerProxy *                   newListener,
+            bool                                      wantsEventsForAllNestedChildComponents
             )
 
 {
@@ -682,8 +682,8 @@ void ApiGuiComponentProxy::addMouseListener(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -691,15 +691,15 @@ void ApiGuiComponentProxy::addMouseListener(
     // Add the 'newListener' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * newlistenerIn = new octaneapi::ObjectRef();////761////
-    newlistenerIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMouseListener);////5////
+    octaneapi::ObjectRef * newlistenerIn = new octaneapi::ObjectRef();
+    newlistenerIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMouseListener);
     newlistenerIn->set_handle(newListener->getObjectHandle());
     request.set_allocated_newlistener(newlistenerIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'wantsEventsForAllNestedChildComponents' [in] parameter to the request packet.
     bool wantseventsforallnestedchildcomponentsIn;
-    wantseventsforallnestedchildcomponentsIn = wantsEventsForAllNestedChildComponents;////2 bool////
+    wantseventsforallnestedchildcomponentsIn = wantsEventsForAllNestedChildComponents;
     request.set_wantseventsforallnestedchildcomponents(wantseventsforallnestedchildcomponentsIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -707,7 +707,7 @@ void ApiGuiComponentProxy::addMouseListener(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub =
         octaneapi::ApiGuiComponentService::NewStub(getGRPCSettings().getChannel());
     status = stub->addMouseListener(context.get(), request, &response);
 
@@ -731,7 +731,7 @@ void ApiGuiComponentProxy::addMouseListener(
 
 
 void ApiGuiComponentProxy::removeMouseListener(
-            ApiMouseListenerProxy *                   listenerToRemove //// last param ////
+            ApiMouseListenerProxy *                   listenerToRemove
             )
 
 {
@@ -744,8 +744,8 @@ void ApiGuiComponentProxy::removeMouseListener(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -753,8 +753,8 @@ void ApiGuiComponentProxy::removeMouseListener(
     // Add the 'listenerToRemove' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * listenertoremoveIn = new octaneapi::ObjectRef();////761////
-    listenertoremoveIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMouseListener);////5////
+    octaneapi::ObjectRef * listenertoremoveIn = new octaneapi::ObjectRef();
+    listenertoremoveIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMouseListener);
     listenertoremoveIn->set_handle(listenerToRemove->getObjectHandle());
     request.set_allocated_listenertoremove(listenertoremoveIn);
 
@@ -763,7 +763,7 @@ void ApiGuiComponentProxy::removeMouseListener(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGuiComponentService::Stub> stub =
         octaneapi::ApiGuiComponentService::NewStub(getGRPCSettings().getChannel());
     status = stub->removeMouseListener(context.get(), request, &response);
 

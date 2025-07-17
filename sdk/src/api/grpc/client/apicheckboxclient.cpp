@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apicheckboxclient.h"
 #include <cassert>
@@ -28,9 +28,9 @@ GRPCSettings & ApiCheckBoxProxy::getGRPCSettings()
 
 
 ApiCheckBoxProxy ApiCheckBoxProxy::create(
-            const char *                              text, //// test821 //// 
-            GRPCCheckedCallbackT                     callback, //// test821 //// 
-            void *                                    privateData //// last param ////
+            const char *                              text,
+            GRPCCheckedCallbackT                     callback,
+            void *                                    privateData
             )
 
 {
@@ -41,25 +41,20 @@ ApiCheckBoxProxy ApiCheckBoxProxy::create(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'text' [in] parameter to the request packet.
-    std::string * textIn = new std::string(); //// text type=string;//// ////721////
+    std::string * textIn = new std::string();
     *textIn = checkString(text);
-    request.set_allocated_text(textIn);//// 6215 ////
+    request.set_allocated_text(textIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'callback' [in] parameter to the request packet.
-    octaneapi::CheckedCallbackT * callbackIn = new octaneapi::CheckedCallbackT(); //// callback type=CheckedCallbackT;//// ////721////
+    octaneapi::CheckedCallbackT * callbackIn = new octaneapi::CheckedCallbackT();
     // setup callback function callback
-    //int callbackCallbackId = GRPCSettings::getNextCallbackId("GRPCCheckedCallback"); 
-    //CallbackStorage::registerGRPCCheckedCallback(callbackCallbackId, callback);
     callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //callbackIn->set_callbackid(callbackCallbackId);
-    //if(className == "ApiCheckBox" && method.mName == "create") return true;
-    request.set_allocated_callback(callbackIn);//// 6215 ////
+    request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'privateData' [in] parameter to the request packet.
     uint64_t privatedataIn;
-    //// USER DATA TEST ////
     privatedataIn = reinterpret_cast<uint64_t>(privateData);
     request.set_privatedata(privatedataIn);
 
@@ -68,7 +63,7 @@ ApiCheckBoxProxy ApiCheckBoxProxy::create(
     octaneapi::ApiCheckBox::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCheckBoxService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCheckBoxService::Stub> stub =
         octaneapi::ApiCheckBoxService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -102,7 +97,7 @@ ApiCheckBoxProxy ApiCheckBoxProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiCheckBoxProxy retVal;////714////
+        ApiCheckBoxProxy retVal;
         return retVal;
     }
 };
@@ -119,8 +114,8 @@ void ApiCheckBoxProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCheckBox);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCheckBox);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -129,7 +124,7 @@ void ApiCheckBoxProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCheckBoxService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCheckBoxService::Stub> stub =
         octaneapi::ApiCheckBoxService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -153,8 +148,8 @@ void ApiCheckBoxProxy::destroy()
 
 
 void ApiCheckBoxProxy::setChecked(
-            const bool                                checked, //// test821 //// 
-            const bool                                sendEvent //// last param ////
+            const bool                                checked,
+            const bool                                sendEvent
             )
 
 {
@@ -167,21 +162,21 @@ void ApiCheckBoxProxy::setChecked(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCheckBox);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCheckBox);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'checked' [in] parameter to the request packet.
     bool checkedIn;
-    checkedIn = checked;////2 const bool////
+    checkedIn = checked;
     request.set_checked(checkedIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'sendEvent' [in] parameter to the request packet.
     bool sendeventIn;
-    sendeventIn = sendEvent;////2 const bool////
+    sendeventIn = sendEvent;
     request.set_sendevent(sendeventIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -189,7 +184,7 @@ void ApiCheckBoxProxy::setChecked(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCheckBoxService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCheckBoxService::Stub> stub =
         octaneapi::ApiCheckBoxService::NewStub(getGRPCSettings().getChannel());
     status = stub->setChecked(context.get(), request, &response);
 
@@ -223,8 +218,8 @@ bool ApiCheckBoxProxy::isChecked() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCheckBox);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCheckBox);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -233,7 +228,7 @@ bool ApiCheckBoxProxy::isChecked() const
     octaneapi::ApiCheckBox::isCheckedResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCheckBoxService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCheckBoxService::Stub> stub =
         octaneapi::ApiCheckBoxService::NewStub(getGRPCSettings().getChannel());
     status = stub->isChecked(context.get(), request, &response);
 
@@ -243,7 +238,7 @@ bool ApiCheckBoxProxy::isChecked() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

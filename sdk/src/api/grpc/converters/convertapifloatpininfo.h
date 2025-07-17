@@ -7,7 +7,7 @@
 namespace Octane { struct ApiFloatPinInfo; }
 namespace octaneapi { class ApiFloatPinInfo; }
 
-class ApiNodeInfoProxy;
+struct ApiNodeInfoProxy;
 class ApiFloatPinInfoConverter
 {
 public:

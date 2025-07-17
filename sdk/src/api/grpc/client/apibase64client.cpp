@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apibase64client.h"
 #include <cassert>
@@ -28,10 +28,10 @@ GRPCSettings & ApiBase64Proxy::getGRPCSettings()
 
 
 bool ApiBase64Proxy::encode(
-            const char *                              data, //// test821 //// 
-            const size_t                              size, //// test821 //// 
-            Octane::CharArrayT &                      encoded, //// test821 //// 
-            const bool                                useBase64Url //// last param ////
+            const char *                              data,
+            const size_t                              size,
+            Octane::CharArrayT &                      encoded,
+            const bool                                useBase64Url
             )
 
 {
@@ -42,20 +42,20 @@ bool ApiBase64Proxy::encode(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'data' [in] parameter to the request packet.
-    std::string * dataIn = new std::string(); //// data type=string;//// ////721////
+    std::string * dataIn = new std::string();
     *dataIn = checkString(data);
-    request.set_allocated_data(dataIn);//// 6215 ////
+    request.set_allocated_data(dataIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'size' [in] parameter to the request packet.
     uint32_t sizeIn;
-    sizeIn = static_cast<uint32_t>(size);////2 const size_t////
+    sizeIn = static_cast<uint32_t>(size);
     request.set_size(sizeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'useBase64Url' [in] parameter to the request packet.
     bool usebase64urlIn;
-    usebase64urlIn = useBase64Url;////2 const bool////
+    usebase64urlIn = useBase64Url;
     request.set_usebase64url(usebase64urlIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -63,7 +63,7 @@ bool ApiBase64Proxy::encode(
     octaneapi::ApiBase64::encodeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBase64Service::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBase64Service::Stub> stub =
         octaneapi::ApiBase64Service::NewStub(getGRPCSettings().getChannel());
     status = stub->encode(context.get(), request, &response);
 
@@ -73,13 +73,13 @@ bool ApiBase64Proxy::encode(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'encoded' [out] parameter from the gRPC response packet
         std::string encodedOut = response.encoded();
         // param.mType = Octane::CharArrayT &
-        encoded = Octane::CharArrayT(StringManager::getInstance().addString(encodedOut), encodedOut.length()); ////string mgr////
+        encoded = Octane::CharArrayT(StringManager::getInstance().addString(encodedOut), encodedOut.length());
     }
     else
     {
@@ -99,10 +99,10 @@ bool ApiBase64Proxy::encode(
 
 
 bool ApiBase64Proxy::decode(
-            const char *                              data, //// test821 //// 
-            const size_t                              size, //// test821 //// 
-            Octane::CharArrayT &                      decoded, //// test821 //// 
-            const bool                                useBase64Url //// last param ////
+            const char *                              data,
+            const size_t                              size,
+            Octane::CharArrayT &                      decoded,
+            const bool                                useBase64Url
             )
 
 {
@@ -113,20 +113,20 @@ bool ApiBase64Proxy::decode(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'data' [in] parameter to the request packet.
-    std::string * dataIn = new std::string(); //// data type=string;//// ////721////
+    std::string * dataIn = new std::string();
     *dataIn = checkString(data);
-    request.set_allocated_data(dataIn);//// 6215 ////
+    request.set_allocated_data(dataIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'size' [in] parameter to the request packet.
     uint32_t sizeIn;
-    sizeIn = static_cast<uint32_t>(size);////2 const size_t////
+    sizeIn = static_cast<uint32_t>(size);
     request.set_size(sizeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'useBase64Url' [in] parameter to the request packet.
     bool usebase64urlIn;
-    usebase64urlIn = useBase64Url;////2 const bool////
+    usebase64urlIn = useBase64Url;
     request.set_usebase64url(usebase64urlIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -134,7 +134,7 @@ bool ApiBase64Proxy::decode(
     octaneapi::ApiBase64::decodeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBase64Service::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBase64Service::Stub> stub =
         octaneapi::ApiBase64Service::NewStub(getGRPCSettings().getChannel());
     status = stub->decode(context.get(), request, &response);
 
@@ -144,13 +144,13 @@ bool ApiBase64Proxy::decode(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'decoded' [out] parameter from the gRPC response packet
         std::string decodedOut = response.decoded();
         // param.mType = Octane::CharArrayT &
-        decoded = Octane::CharArrayT(StringManager::getInstance().addString(decodedOut), decodedOut.length()); ////string mgr////
+        decoded = Octane::CharArrayT(StringManager::getInstance().addString(decodedOut), decodedOut.length());
     }
     else
     {

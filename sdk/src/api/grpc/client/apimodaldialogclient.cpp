@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apimodaldialogclient.h"
 #include <cassert>
@@ -29,7 +29,7 @@ GRPCSettings & ApiModalDialogProxy::getGRPCSettings()
 
 
 ApiModalDialogProxy ApiModalDialogProxy::create(
-            const char *                              dialogTitle //// last param ////
+            const char *                              dialogTitle
             )
 
 {
@@ -40,16 +40,16 @@ ApiModalDialogProxy ApiModalDialogProxy::create(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'dialogTitle' [in] parameter to the request packet.
-    std::string * dialogtitleIn = new std::string(); //// dialogTitle type=string;//// ////721////
+    std::string * dialogtitleIn = new std::string();
     *dialogtitleIn = checkString(dialogTitle);
-    request.set_allocated_dialogtitle(dialogtitleIn);//// 6215 ////
+    request.set_allocated_dialogtitle(dialogtitleIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiModalDialog::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub =
         octaneapi::ApiModalDialogService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -77,7 +77,7 @@ ApiModalDialogProxy ApiModalDialogProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiModalDialogProxy retVal;////714////
+        ApiModalDialogProxy retVal;
         return retVal;
     }
 };
@@ -94,8 +94,8 @@ void ApiModalDialogProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModalDialog);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModalDialog);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -104,7 +104,7 @@ void ApiModalDialogProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub =
         octaneapi::ApiModalDialogService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -128,7 +128,7 @@ void ApiModalDialogProxy::destroy()
 
 
 void ApiModalDialogProxy::addContentComponent(
-            ApiGuiComponentProxy &                    contentComponent //// last param ////
+            ApiGuiComponentProxy &                    contentComponent
             )
 
 {
@@ -141,8 +141,8 @@ void ApiModalDialogProxy::addContentComponent(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModalDialog);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModalDialog);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -150,8 +150,8 @@ void ApiModalDialogProxy::addContentComponent(
     // Add the 'contentComponent' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * contentcomponentIn = new octaneapi::ObjectRef();////761////
-    contentcomponentIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * contentcomponentIn = new octaneapi::ObjectRef();
+    contentcomponentIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     contentcomponentIn->set_handle(contentComponent.getObjectHandle());
     request.set_allocated_contentcomponent(contentcomponentIn);
 
@@ -160,7 +160,7 @@ void ApiModalDialogProxy::addContentComponent(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub =
         octaneapi::ApiModalDialogService::NewStub(getGRPCSettings().getChannel());
     status = stub->addContentComponent(context.get(), request, &response);
 
@@ -194,8 +194,8 @@ int ApiModalDialogProxy::show()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModalDialog);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModalDialog);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -204,7 +204,7 @@ int ApiModalDialogProxy::show()
     octaneapi::ApiModalDialog::showResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub =
         octaneapi::ApiModalDialogService::NewStub(getGRPCSettings().getChannel());
     status = stub->show(context.get(), request, &response);
 
@@ -214,7 +214,7 @@ int ApiModalDialogProxy::show()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         int32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -234,7 +234,7 @@ int ApiModalDialogProxy::show()
 
 
 void ApiModalDialogProxy::close(
-            const int                                 retValue //// last param ////
+            const int                                 retValue
             )
 
 {
@@ -247,15 +247,15 @@ void ApiModalDialogProxy::close(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModalDialog);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiModalDialog);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'retValue' [in] parameter to the request packet.
     int32_t retvalueIn;
-    retvalueIn = retValue;////2 const int////
+    retvalueIn = retValue;
     request.set_retvalue(retvalueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -263,7 +263,7 @@ void ApiModalDialogProxy::close(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub =
         octaneapi::ApiModalDialogService::NewStub(getGRPCSettings().getChannel());
     status = stub->close(context.get(), request, &response);
 
@@ -287,8 +287,8 @@ void ApiModalDialogProxy::close(
 
 
 void ApiModalDialogProxy::showInfoMessageDialog(
-            const char *                              dialogTitle, //// test821 //// 
-            const char *                              infoMessage //// last param ////
+            const char *                              dialogTitle,
+            const char *                              infoMessage
             )
 
 {
@@ -299,22 +299,22 @@ void ApiModalDialogProxy::showInfoMessageDialog(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'dialogTitle' [in] parameter to the request packet.
-    std::string * dialogtitleIn = new std::string(); //// dialogTitle type=string;//// ////721////
+    std::string * dialogtitleIn = new std::string();
     *dialogtitleIn = checkString(dialogTitle);
-    request.set_allocated_dialogtitle(dialogtitleIn);//// 6215 ////
+    request.set_allocated_dialogtitle(dialogtitleIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'infoMessage' [in] parameter to the request packet.
-    std::string * infomessageIn = new std::string(); //// infoMessage type=string;//// ////721////
+    std::string * infomessageIn = new std::string();
     *infomessageIn = checkString(infoMessage);
-    request.set_allocated_infomessage(infomessageIn);//// 6215 ////
+    request.set_allocated_infomessage(infomessageIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub =
         octaneapi::ApiModalDialogService::NewStub(getGRPCSettings().getChannel());
     status = stub->showInfoMessageDialog(context.get(), request, &response);
 
@@ -338,8 +338,8 @@ void ApiModalDialogProxy::showInfoMessageDialog(
 
 
 void ApiModalDialogProxy::showErrorMessageDialog(
-            const char *                              dialogTitle, //// test821 //// 
-            const char *                              errorMessage //// last param ////
+            const char *                              dialogTitle,
+            const char *                              errorMessage
             )
 
 {
@@ -350,22 +350,22 @@ void ApiModalDialogProxy::showErrorMessageDialog(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'dialogTitle' [in] parameter to the request packet.
-    std::string * dialogtitleIn = new std::string(); //// dialogTitle type=string;//// ////721////
+    std::string * dialogtitleIn = new std::string();
     *dialogtitleIn = checkString(dialogTitle);
-    request.set_allocated_dialogtitle(dialogtitleIn);//// 6215 ////
+    request.set_allocated_dialogtitle(dialogtitleIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'errorMessage' [in] parameter to the request packet.
-    std::string * errormessageIn = new std::string(); //// errorMessage type=string;//// ////721////
+    std::string * errormessageIn = new std::string();
     *errormessageIn = checkString(errorMessage);
-    request.set_allocated_errormessage(errormessageIn);//// 6215 ////
+    request.set_allocated_errormessage(errormessageIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub =
         octaneapi::ApiModalDialogService::NewStub(getGRPCSettings().getChannel());
     status = stub->showErrorMessageDialog(context.get(), request, &response);
 
@@ -389,10 +389,10 @@ void ApiModalDialogProxy::showErrorMessageDialog(
 
 
 bool ApiModalDialogProxy::showOkCancelDialog(
-            const char *                              dialogTitle, //// test821 //// 
-            const char *                              message, //// test821 //// 
-            const char *                              okButtonText, //// test821 //// 
-            const char *                              cancelButtonText //// last param ////
+            const char *                              dialogTitle,
+            const char *                              message,
+            const char *                              okButtonText,
+            const char *                              cancelButtonText
             )
 
 {
@@ -403,34 +403,34 @@ bool ApiModalDialogProxy::showOkCancelDialog(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'dialogTitle' [in] parameter to the request packet.
-    std::string * dialogtitleIn = new std::string(); //// dialogTitle type=string;//// ////721////
+    std::string * dialogtitleIn = new std::string();
     *dialogtitleIn = checkString(dialogTitle);
-    request.set_allocated_dialogtitle(dialogtitleIn);//// 6215 ////
+    request.set_allocated_dialogtitle(dialogtitleIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'message' [in] parameter to the request packet.
-    std::string * messageIn = new std::string(); //// message type=string;//// ////721////
+    std::string * messageIn = new std::string();
     *messageIn = checkString(message);
-    request.set_allocated_message(messageIn);//// 6215 ////
+    request.set_allocated_message(messageIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'okButtonText' [in] parameter to the request packet.
-    std::string * okbuttontextIn = new std::string(); //// okButtonText type=string;//// ////721////
+    std::string * okbuttontextIn = new std::string();
     *okbuttontextIn = checkString(okButtonText);
-    request.set_allocated_okbuttontext(okbuttontextIn);//// 6215 ////
+    request.set_allocated_okbuttontext(okbuttontextIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'cancelButtonText' [in] parameter to the request packet.
-    std::string * cancelbuttontextIn = new std::string(); //// cancelButtonText type=string;//// ////721////
+    std::string * cancelbuttontextIn = new std::string();
     *cancelbuttontextIn = checkString(cancelButtonText);
-    request.set_allocated_cancelbuttontext(cancelbuttontextIn);//// 6215 ////
+    request.set_allocated_cancelbuttontext(cancelbuttontextIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiModalDialog::showOkCancelDialogResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub =
         octaneapi::ApiModalDialogService::NewStub(getGRPCSettings().getChannel());
     status = stub->showOkCancelDialog(context.get(), request, &response);
 
@@ -440,7 +440,7 @@ bool ApiModalDialogProxy::showOkCancelDialog(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -460,11 +460,11 @@ bool ApiModalDialogProxy::showOkCancelDialog(
 
 
 Octane::ApiModalDialog::DialogResult ApiModalDialogProxy::showYesNoCancelDialog(
-            const char *                              dialogTitle, //// test821 //// 
-            const char *                              message, //// test821 //// 
-            const char *                              yesButtonText, //// test821 //// 
-            const char *                              noButtonText, //// test821 //// 
-            const char *                              cancelButtonText //// last param ////
+            const char *                              dialogTitle,
+            const char *                              message,
+            const char *                              yesButtonText,
+            const char *                              noButtonText,
+            const char *                              cancelButtonText
             )
 
 {
@@ -475,40 +475,40 @@ Octane::ApiModalDialog::DialogResult ApiModalDialogProxy::showYesNoCancelDialog(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'dialogTitle' [in] parameter to the request packet.
-    std::string * dialogtitleIn = new std::string(); //// dialogTitle type=string;//// ////721////
+    std::string * dialogtitleIn = new std::string();
     *dialogtitleIn = checkString(dialogTitle);
-    request.set_allocated_dialogtitle(dialogtitleIn);//// 6215 ////
+    request.set_allocated_dialogtitle(dialogtitleIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'message' [in] parameter to the request packet.
-    std::string * messageIn = new std::string(); //// message type=string;//// ////721////
+    std::string * messageIn = new std::string();
     *messageIn = checkString(message);
-    request.set_allocated_message(messageIn);//// 6215 ////
+    request.set_allocated_message(messageIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'yesButtonText' [in] parameter to the request packet.
-    std::string * yesbuttontextIn = new std::string(); //// yesButtonText type=string;//// ////721////
+    std::string * yesbuttontextIn = new std::string();
     *yesbuttontextIn = checkString(yesButtonText);
-    request.set_allocated_yesbuttontext(yesbuttontextIn);//// 6215 ////
+    request.set_allocated_yesbuttontext(yesbuttontextIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'noButtonText' [in] parameter to the request packet.
-    std::string * nobuttontextIn = new std::string(); //// noButtonText type=string;//// ////721////
+    std::string * nobuttontextIn = new std::string();
     *nobuttontextIn = checkString(noButtonText);
-    request.set_allocated_nobuttontext(nobuttontextIn);//// 6215 ////
+    request.set_allocated_nobuttontext(nobuttontextIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'cancelButtonText' [in] parameter to the request packet.
-    std::string * cancelbuttontextIn = new std::string(); //// cancelButtonText type=string;//// ////721////
+    std::string * cancelbuttontextIn = new std::string();
     *cancelbuttontextIn = checkString(cancelButtonText);
-    request.set_allocated_cancelbuttontext(cancelbuttontextIn);//// 6215 ////
+    request.set_allocated_cancelbuttontext(cancelbuttontextIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiModalDialog::showYesNoCancelDialogResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModalDialogService::Stub> stub =
         octaneapi::ApiModalDialogService::NewStub(getGRPCSettings().getChannel());
     status = stub->showYesNoCancelDialog(context.get(), request, &response);
 

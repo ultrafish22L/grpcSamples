@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apiocioconfigclient.h"
 #include <cassert>
@@ -28,7 +28,7 @@ GRPCSettings & ApiOcioConfigProxy::getGRPCSettings()
 
 
 ApiOcioConfigProxy ApiOcioConfigProxy::create(
-            const char *                              filename //// last param ////
+            const char *                              filename
             )
 
 {
@@ -39,16 +39,16 @@ ApiOcioConfigProxy ApiOcioConfigProxy::create(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'filename' [in] parameter to the request packet.
-    std::string * filenameIn = new std::string(); //// filename type=string;//// ////721////
+    std::string * filenameIn = new std::string();
     *filenameIn = checkString(filename);
-    request.set_allocated_filename(filenameIn);//// 6215 ////
+    request.set_allocated_filename(filenameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiOcioConfig::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub =
         octaneapi::ApiOcioConfigService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -76,7 +76,7 @@ ApiOcioConfigProxy ApiOcioConfigProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiOcioConfigProxy retVal;////714////
+        ApiOcioConfigProxy retVal;
         return retVal;
     }
 };
@@ -93,8 +93,8 @@ void ApiOcioConfigProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -103,7 +103,7 @@ void ApiOcioConfigProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub =
         octaneapi::ApiOcioConfigService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -137,8 +137,8 @@ ApiOcioConfigProxy ApiOcioConfigProxy::clone() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -147,7 +147,7 @@ ApiOcioConfigProxy ApiOcioConfigProxy::clone() const
     octaneapi::ApiOcioConfig::cloneResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub =
         octaneapi::ApiOcioConfigService::NewStub(getGRPCSettings().getChannel());
     status = stub->clone(context.get(), request, &response);
 
@@ -175,7 +175,7 @@ ApiOcioConfigProxy ApiOcioConfigProxy::clone() const
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiOcioConfigProxy retVal;////714////
+        ApiOcioConfigProxy retVal;
         return retVal;
     }
 };
@@ -192,8 +192,8 @@ size_t ApiOcioConfigProxy::getRoleCount() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -202,7 +202,7 @@ size_t ApiOcioConfigProxy::getRoleCount() const
     octaneapi::ApiOcioConfig::getRoleCountResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub =
         octaneapi::ApiOcioConfigService::NewStub(getGRPCSettings().getChannel());
     status = stub->getRoleCount(context.get(), request, &response);
 
@@ -212,7 +212,7 @@ size_t ApiOcioConfigProxy::getRoleCount() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -232,7 +232,7 @@ size_t ApiOcioConfigProxy::getRoleCount() const
 
 
 std::string ApiOcioConfigProxy::getRoleName(
-            size_t                                    roleIndex //// last param ////
+            size_t                                    roleIndex
             ) const
 
 {
@@ -245,15 +245,15 @@ std::string ApiOcioConfigProxy::getRoleName(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'roleIndex' [in] parameter to the request packet.
     uint32_t roleindexIn;
-    roleindexIn = static_cast<uint32_t>(roleIndex);////2 size_t////
+    roleindexIn = static_cast<uint32_t>(roleIndex);
     request.set_roleindex(roleindexIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -261,7 +261,7 @@ std::string ApiOcioConfigProxy::getRoleName(
     octaneapi::ApiOcioConfig::getRoleNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub =
         octaneapi::ApiOcioConfigService::NewStub(getGRPCSettings().getChannel());
     status = stub->getRoleName(context.get(), request, &response);
 
@@ -272,7 +272,7 @@ std::string ApiOcioConfigProxy::getRoleName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -292,7 +292,7 @@ std::string ApiOcioConfigProxy::getRoleName(
 
 
 std::string ApiOcioConfigProxy::getRoleColorSpaceName(
-            size_t                                    roleIndex //// last param ////
+            size_t                                    roleIndex
             ) const
 
 {
@@ -305,15 +305,15 @@ std::string ApiOcioConfigProxy::getRoleColorSpaceName(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'roleIndex' [in] parameter to the request packet.
     uint32_t roleindexIn;
-    roleindexIn = static_cast<uint32_t>(roleIndex);////2 size_t////
+    roleindexIn = static_cast<uint32_t>(roleIndex);
     request.set_roleindex(roleindexIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -321,7 +321,7 @@ std::string ApiOcioConfigProxy::getRoleColorSpaceName(
     octaneapi::ApiOcioConfig::getRoleColorSpaceNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub =
         octaneapi::ApiOcioConfigService::NewStub(getGRPCSettings().getChannel());
     status = stub->getRoleColorSpaceName(context.get(), request, &response);
 
@@ -332,7 +332,7 @@ std::string ApiOcioConfigProxy::getRoleColorSpaceName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -362,8 +362,8 @@ size_t ApiOcioConfigProxy::getColorSpaceCount() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -372,7 +372,7 @@ size_t ApiOcioConfigProxy::getColorSpaceCount() const
     octaneapi::ApiOcioConfig::getColorSpaceCountResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub =
         octaneapi::ApiOcioConfigService::NewStub(getGRPCSettings().getChannel());
     status = stub->getColorSpaceCount(context.get(), request, &response);
 
@@ -382,7 +382,7 @@ size_t ApiOcioConfigProxy::getColorSpaceCount() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -402,7 +402,7 @@ size_t ApiOcioConfigProxy::getColorSpaceCount() const
 
 
 std::string ApiOcioConfigProxy::getColorSpaceName(
-            size_t                                    colorSpaceIndex //// last param ////
+            size_t                                    colorSpaceIndex
             ) const
 
 {
@@ -415,15 +415,15 @@ std::string ApiOcioConfigProxy::getColorSpaceName(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'colorSpaceIndex' [in] parameter to the request packet.
     uint32_t colorspaceindexIn;
-    colorspaceindexIn = static_cast<uint32_t>(colorSpaceIndex);////2 size_t////
+    colorspaceindexIn = static_cast<uint32_t>(colorSpaceIndex);
     request.set_colorspaceindex(colorspaceindexIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -431,7 +431,7 @@ std::string ApiOcioConfigProxy::getColorSpaceName(
     octaneapi::ApiOcioConfig::getColorSpaceNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub =
         octaneapi::ApiOcioConfigService::NewStub(getGRPCSettings().getChannel());
     status = stub->getColorSpaceName(context.get(), request, &response);
 
@@ -442,7 +442,7 @@ std::string ApiOcioConfigProxy::getColorSpaceName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -462,7 +462,7 @@ std::string ApiOcioConfigProxy::getColorSpaceName(
 
 
 size_t ApiOcioConfigProxy::getColorSpaceFamilyComponentCount(
-            size_t                                    colorSpaceIndex //// last param ////
+            size_t                                    colorSpaceIndex
             ) const
 
 {
@@ -475,15 +475,15 @@ size_t ApiOcioConfigProxy::getColorSpaceFamilyComponentCount(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'colorSpaceIndex' [in] parameter to the request packet.
     uint32_t colorspaceindexIn;
-    colorspaceindexIn = static_cast<uint32_t>(colorSpaceIndex);////2 size_t////
+    colorspaceindexIn = static_cast<uint32_t>(colorSpaceIndex);
     request.set_colorspaceindex(colorspaceindexIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -491,7 +491,7 @@ size_t ApiOcioConfigProxy::getColorSpaceFamilyComponentCount(
     octaneapi::ApiOcioConfig::getColorSpaceFamilyComponentCountResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub =
         octaneapi::ApiOcioConfigService::NewStub(getGRPCSettings().getChannel());
     status = stub->getColorSpaceFamilyComponentCount(context.get(), request, &response);
 
@@ -501,7 +501,7 @@ size_t ApiOcioConfigProxy::getColorSpaceFamilyComponentCount(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -521,8 +521,8 @@ size_t ApiOcioConfigProxy::getColorSpaceFamilyComponentCount(
 
 
 std::string ApiOcioConfigProxy::getColorSpaceFamilyComponent(
-            size_t                                    colorSpaceIndex, //// test821 //// 
-            size_t                                    familyComponentIndex //// last param ////
+            size_t                                    colorSpaceIndex,
+            size_t                                    familyComponentIndex
             ) const
 
 {
@@ -535,21 +535,21 @@ std::string ApiOcioConfigProxy::getColorSpaceFamilyComponent(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'colorSpaceIndex' [in] parameter to the request packet.
     uint32_t colorspaceindexIn;
-    colorspaceindexIn = static_cast<uint32_t>(colorSpaceIndex);////2 size_t////
+    colorspaceindexIn = static_cast<uint32_t>(colorSpaceIndex);
     request.set_colorspaceindex(colorspaceindexIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'familyComponentIndex' [in] parameter to the request packet.
     uint32_t familycomponentindexIn;
-    familycomponentindexIn = static_cast<uint32_t>(familyComponentIndex);////2 size_t////
+    familycomponentindexIn = static_cast<uint32_t>(familyComponentIndex);
     request.set_familycomponentindex(familycomponentindexIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -557,7 +557,7 @@ std::string ApiOcioConfigProxy::getColorSpaceFamilyComponent(
     octaneapi::ApiOcioConfig::getColorSpaceFamilyComponentResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub =
         octaneapi::ApiOcioConfigService::NewStub(getGRPCSettings().getChannel());
     status = stub->getColorSpaceFamilyComponent(context.get(), request, &response);
 
@@ -568,7 +568,7 @@ std::string ApiOcioConfigProxy::getColorSpaceFamilyComponent(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -598,8 +598,8 @@ size_t ApiOcioConfigProxy::getDisplayCount() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -608,7 +608,7 @@ size_t ApiOcioConfigProxy::getDisplayCount() const
     octaneapi::ApiOcioConfig::getDisplayCountResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub =
         octaneapi::ApiOcioConfigService::NewStub(getGRPCSettings().getChannel());
     status = stub->getDisplayCount(context.get(), request, &response);
 
@@ -618,7 +618,7 @@ size_t ApiOcioConfigProxy::getDisplayCount() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -638,7 +638,7 @@ size_t ApiOcioConfigProxy::getDisplayCount() const
 
 
 std::string ApiOcioConfigProxy::getDisplayName(
-            size_t                                    displayIndex //// last param ////
+            size_t                                    displayIndex
             ) const
 
 {
@@ -651,15 +651,15 @@ std::string ApiOcioConfigProxy::getDisplayName(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'displayIndex' [in] parameter to the request packet.
     uint32_t displayindexIn;
-    displayindexIn = static_cast<uint32_t>(displayIndex);////2 size_t////
+    displayindexIn = static_cast<uint32_t>(displayIndex);
     request.set_displayindex(displayindexIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -667,7 +667,7 @@ std::string ApiOcioConfigProxy::getDisplayName(
     octaneapi::ApiOcioConfig::getDisplayNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub =
         octaneapi::ApiOcioConfigService::NewStub(getGRPCSettings().getChannel());
     status = stub->getDisplayName(context.get(), request, &response);
 
@@ -678,7 +678,7 @@ std::string ApiOcioConfigProxy::getDisplayName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -698,7 +698,7 @@ std::string ApiOcioConfigProxy::getDisplayName(
 
 
 size_t ApiOcioConfigProxy::getDisplayViewCount(
-            size_t                                    displayIndex //// last param ////
+            size_t                                    displayIndex
             ) const
 
 {
@@ -711,15 +711,15 @@ size_t ApiOcioConfigProxy::getDisplayViewCount(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'displayIndex' [in] parameter to the request packet.
     uint32_t displayindexIn;
-    displayindexIn = static_cast<uint32_t>(displayIndex);////2 size_t////
+    displayindexIn = static_cast<uint32_t>(displayIndex);
     request.set_displayindex(displayindexIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -727,7 +727,7 @@ size_t ApiOcioConfigProxy::getDisplayViewCount(
     octaneapi::ApiOcioConfig::getDisplayViewCountResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub =
         octaneapi::ApiOcioConfigService::NewStub(getGRPCSettings().getChannel());
     status = stub->getDisplayViewCount(context.get(), request, &response);
 
@@ -737,7 +737,7 @@ size_t ApiOcioConfigProxy::getDisplayViewCount(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -757,8 +757,8 @@ size_t ApiOcioConfigProxy::getDisplayViewCount(
 
 
 std::string ApiOcioConfigProxy::getDisplayViewName(
-            size_t                                    displayIndex, //// test821 //// 
-            size_t                                    viewIndex //// last param ////
+            size_t                                    displayIndex,
+            size_t                                    viewIndex
             ) const
 
 {
@@ -771,21 +771,21 @@ std::string ApiOcioConfigProxy::getDisplayViewName(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'displayIndex' [in] parameter to the request packet.
     uint32_t displayindexIn;
-    displayindexIn = static_cast<uint32_t>(displayIndex);////2 size_t////
+    displayindexIn = static_cast<uint32_t>(displayIndex);
     request.set_displayindex(displayindexIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'viewIndex' [in] parameter to the request packet.
     uint32_t viewindexIn;
-    viewindexIn = static_cast<uint32_t>(viewIndex);////2 size_t////
+    viewindexIn = static_cast<uint32_t>(viewIndex);
     request.set_viewindex(viewindexIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -793,7 +793,7 @@ std::string ApiOcioConfigProxy::getDisplayViewName(
     octaneapi::ApiOcioConfig::getDisplayViewNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub =
         octaneapi::ApiOcioConfigService::NewStub(getGRPCSettings().getChannel());
     status = stub->getDisplayViewName(context.get(), request, &response);
 
@@ -804,7 +804,7 @@ std::string ApiOcioConfigProxy::getDisplayViewName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -834,8 +834,8 @@ size_t ApiOcioConfigProxy::getLookCount() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -844,7 +844,7 @@ size_t ApiOcioConfigProxy::getLookCount() const
     octaneapi::ApiOcioConfig::getLookCountResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub =
         octaneapi::ApiOcioConfigService::NewStub(getGRPCSettings().getChannel());
     status = stub->getLookCount(context.get(), request, &response);
 
@@ -854,7 +854,7 @@ size_t ApiOcioConfigProxy::getLookCount() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -874,7 +874,7 @@ size_t ApiOcioConfigProxy::getLookCount() const
 
 
 std::string ApiOcioConfigProxy::getLookName(
-            size_t                                    lookIndex //// last param ////
+            size_t                                    lookIndex
             ) const
 
 {
@@ -887,15 +887,15 @@ std::string ApiOcioConfigProxy::getLookName(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfig);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'lookIndex' [in] parameter to the request packet.
     uint32_t lookindexIn;
-    lookindexIn = static_cast<uint32_t>(lookIndex);////2 size_t////
+    lookindexIn = static_cast<uint32_t>(lookIndex);
     request.set_lookindex(lookindexIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -903,7 +903,7 @@ std::string ApiOcioConfigProxy::getLookName(
     octaneapi::ApiOcioConfig::getLookNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigService::Stub> stub =
         octaneapi::ApiOcioConfigService::NewStub(getGRPCSettings().getChannel());
     status = stub->getLookName(context.get(), request, &response);
 
@@ -914,7 +914,7 @@ std::string ApiOcioConfigProxy::getLookName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {

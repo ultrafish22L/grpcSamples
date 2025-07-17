@@ -29,34 +29,34 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static bool registerLogCallbackProc(
-            Octane::ApiLogManager::ApiLogCallbackProc * proc
+            Octane::ApiLogManager::ApiLogCallbackProc *   proc
             );
 
     /// Removes a previously registered log callback.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static bool unregisterLogCallbackProc(
-            Octane::ApiLogManager::ApiLogCallbackProc * proc
+            Octane::ApiLogManager::ApiLogCallbackProc *   proc
             );
 
     /// Opens the Octane log into a separate window. There can be only a single log window so
     /// calling this function multiple times when the log window is already open has no effect.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static void openOctaneLogWindow(            );
+    static void openOctaneLogWindow();
 
     /// Writes the specified text to the Octane log. A line feed is added automatically.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void log(
-            const char *                              text
+            const char *   text
             );
 
     /// Writes the specified text to the Octane log. A line feed is added automatically.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void logError(
-            const char *                              errorMsg
+            const char *   errorMsg
             );
 
     /// Writes the specified text to the Octane log. A line feed is added automatically.
@@ -65,7 +65,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void logFmt(
-            const char *                              fmt
+            const char *   fmt
             );
 
     /// Writes the specified text to the Octane log. A line feed is added automatically.
@@ -74,14 +74,14 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void logErrorFmt(
-            const char *                              fmt
+            const char *   fmt
             );
 
     /// Returns TRUE if a flag with the passed in name was registered.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static bool isFlagRegistered(
-            const char *const                         name
+            const char *const   name
             );
 
     /// Sets a log flag to the specified value. The flag is specified by name.
@@ -93,7 +93,7 @@ public:
     ///     Value the flag will be updated to
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    /// @returns 
+    /// @returns
     ///     The value the flag used to have before
     static int setFlag(
             const char *const                         name,

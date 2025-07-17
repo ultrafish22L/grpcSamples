@@ -24,7 +24,7 @@ class GRPCSettings;
 class ApiMouseEventProxy : public GRPCBase
 {
 public:
-    static ApiMouseEventProxy make(            );
+    static ApiMouseEventProxy make();
 
 private:
     static GRPCSettings & getGRPCSettings();

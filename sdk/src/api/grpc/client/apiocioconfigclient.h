@@ -33,21 +33,21 @@ public:
     /// @return
     ///     The loaded config (must be destroyed with destroy()), or null if loading failed.
     static ApiOcioConfigProxy create(
-            const char *                              filename
+            const char *   filename
             );
 
-    void destroy(            );
+    void destroy();
 
         /// @param[out] status
     ///     Contains the status of the gRPC call
 /// @return
     ///     The cloned OCIO config (must be destroyed with destroy()). Will not be null.
-    ApiOcioConfigProxy clone(            ) const;
+    ApiOcioConfigProxy clone() const;
 
     /// Gets the number of roles in the config.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    size_t getRoleCount(            ) const;
+    size_t getRoleCount() const;
 
     /// Gets the name of a role.
     ///
@@ -59,7 +59,7 @@ public:
     ///     The name of the role. Will not be null. This pointer remains valid until this object is
     ///     destroyed.
     std::string getRoleName(
-            size_t                                    roleIndex
+            size_t   roleIndex
             ) const;
 
     /// Gets the name of the color space for which a role is an alias.
@@ -72,13 +72,13 @@ public:
     ///     The name of the color space for which the role is an alias. Will not be null. This
     ///     pointer remains valid until this object is destroyed.
     std::string getRoleColorSpaceName(
-            size_t                                    roleIndex
+            size_t   roleIndex
             ) const;
 
     /// Gets the number of color spaces in the config.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    size_t getColorSpaceCount(            ) const;
+    size_t getColorSpaceCount() const;
 
     /// Gets the name of a color space.
     ///
@@ -90,7 +90,7 @@ public:
     ///     The name of the color space. Will not be null. This pointer remains valid until this
     ///     object is destroyed.
     std::string getColorSpaceName(
-            size_t                                    colorSpaceIndex
+            size_t   colorSpaceIndex
             ) const;
 
     /// Gets the number of components the family of a color space has.
@@ -102,7 +102,7 @@ public:
     /// @return
     ///     The number of components the family of the color space has.
     size_t getColorSpaceFamilyComponentCount(
-            size_t                                    colorSpaceIndex
+            size_t   colorSpaceIndex
             ) const;
 
     /// Gets a component of the family of a color space.
@@ -125,7 +125,7 @@ public:
     /// Gets the number of displays in the config.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    size_t getDisplayCount(            ) const;
+    size_t getDisplayCount() const;
 
     /// Gets the name of a display.
     ///
@@ -137,7 +137,7 @@ public:
     ///     The name of the display. Will not be null. This pointer remains valid until this object
     ///     is destroyed.
     std::string getDisplayName(
-            size_t                                    displayIndex
+            size_t   displayIndex
             ) const;
 
     /// Gets the number of views a display has.
@@ -149,7 +149,7 @@ public:
     /// @return
     ///     The number of views the display has.
     size_t getDisplayViewCount(
-            size_t                                    displayIndex
+            size_t   displayIndex
             ) const;
 
     /// Gets the name of a view.
@@ -171,7 +171,7 @@ public:
     /// Gets the number of looks in the config.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    size_t getLookCount(            ) const;
+    size_t getLookCount() const;
 
     /// Gets the name of a look.
     ///
@@ -183,7 +183,7 @@ public:
     ///     The name of the look. Will not be null. This pointer remains valid until this object is
     ///     destroyed.
     std::string getLookName(
-            size_t                                    lookIndex
+            size_t   lookIndex
             ) const;
 
 private:

@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apioutputcolorspaceinfoclient.h"
 #include <cassert>
@@ -28,8 +28,8 @@ GRPCSettings & ApiOutputColorSpaceInfoProxy::getGRPCSettings()
 
 
 ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createKnownColorSpace(
-            Octane::NamedColorSpace                   colorSpace, //// test821 //// 
-            bool                                      forceToneMapping //// last param ////
+            Octane::NamedColorSpace                   colorSpace,
+            bool                                      forceToneMapping
             )
 
 {
@@ -47,7 +47,7 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createKnownColorSpace
     /////////////////////////////////////////////////////////////////////
     // Add the 'forceToneMapping' [in] parameter to the request packet.
     bool forcetonemappingIn;
-    forcetonemappingIn = forceToneMapping;////2 bool////
+    forcetonemappingIn = forceToneMapping;
     request.set_forcetonemapping(forcetonemappingIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -55,7 +55,7 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createKnownColorSpace
     octaneapi::ApiOutputColorSpaceInfo::createKnownColorSpaceResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOutputColorSpaceInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOutputColorSpaceInfoService::Stub> stub =
         octaneapi::ApiOutputColorSpaceInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->createKnownColorSpace(context.get(), request, &response);
 
@@ -83,17 +83,17 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createKnownColorSpace
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiOutputColorSpaceInfoProxy retVal;////714////
+        ApiOutputColorSpaceInfoProxy retVal;
         return retVal;
     }
 };
 
 
 ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createOcioColorSpace(
-            const char *                              colorSpaceName, //// test821 //// 
-            const char *                              lookName, //// test821 //// 
-            bool                                      forceToneMapping, //// test821 //// 
-            Octane::ColorSpaceCurveType               curveType //// last param ////
+            const char *                              colorSpaceName,
+            const char *                              lookName,
+            bool                                      forceToneMapping,
+            Octane::ColorSpaceCurveType               curveType
             )
 
 {
@@ -104,20 +104,20 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createOcioColorSpace(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'colorSpaceName' [in] parameter to the request packet.
-    std::string * colorspacenameIn = new std::string(); //// colorSpaceName type=string;//// ////721////
+    std::string * colorspacenameIn = new std::string();
     *colorspacenameIn = checkString(colorSpaceName);
-    request.set_allocated_colorspacename(colorspacenameIn);//// 6215 ////
+    request.set_allocated_colorspacename(colorspacenameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'lookName' [in] parameter to the request packet.
-    std::string * looknameIn = new std::string(); //// lookName type=string;//// ////721////
+    std::string * looknameIn = new std::string();
     *looknameIn = checkString(lookName);
-    request.set_allocated_lookname(looknameIn);//// 6215 ////
+    request.set_allocated_lookname(looknameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'forceToneMapping' [in] parameter to the request packet.
     bool forcetonemappingIn;
-    forcetonemappingIn = forceToneMapping;////2 bool////
+    forcetonemappingIn = forceToneMapping;
     request.set_forcetonemapping(forcetonemappingIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -131,7 +131,7 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createOcioColorSpace(
     octaneapi::ApiOutputColorSpaceInfo::createOcioColorSpaceResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOutputColorSpaceInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOutputColorSpaceInfoService::Stub> stub =
         octaneapi::ApiOutputColorSpaceInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->createOcioColorSpace(context.get(), request, &response);
 
@@ -159,19 +159,19 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createOcioColorSpace(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiOutputColorSpaceInfoProxy retVal;////714////
+        ApiOutputColorSpaceInfoProxy retVal;
         return retVal;
     }
 };
 
 
 ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createOcioView(
-            const char *                              displayName, //// test821 //// 
-            const char *                              viewName, //// test821 //// 
-            bool                                      useViewLook, //// test821 //// 
-            const char *                              lookName, //// test821 //// 
-            bool                                      forceToneMapping, //// test821 //// 
-            Octane::ColorSpaceCurveType               curveType //// last param ////
+            const char *                              displayName,
+            const char *                              viewName,
+            bool                                      useViewLook,
+            const char *                              lookName,
+            bool                                      forceToneMapping,
+            Octane::ColorSpaceCurveType               curveType
             )
 
 {
@@ -182,32 +182,32 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createOcioView(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'displayName' [in] parameter to the request packet.
-    std::string * displaynameIn = new std::string(); //// displayName type=string;//// ////721////
+    std::string * displaynameIn = new std::string();
     *displaynameIn = checkString(displayName);
-    request.set_allocated_displayname(displaynameIn);//// 6215 ////
+    request.set_allocated_displayname(displaynameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'viewName' [in] parameter to the request packet.
-    std::string * viewnameIn = new std::string(); //// viewName type=string;//// ////721////
+    std::string * viewnameIn = new std::string();
     *viewnameIn = checkString(viewName);
-    request.set_allocated_viewname(viewnameIn);//// 6215 ////
+    request.set_allocated_viewname(viewnameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'useViewLook' [in] parameter to the request packet.
     bool useviewlookIn;
-    useviewlookIn = useViewLook;////2 bool////
+    useviewlookIn = useViewLook;
     request.set_useviewlook(useviewlookIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'lookName' [in] parameter to the request packet.
-    std::string * looknameIn = new std::string(); //// lookName type=string;//// ////721////
+    std::string * looknameIn = new std::string();
     *looknameIn = checkString(lookName);
-    request.set_allocated_lookname(looknameIn);//// 6215 ////
+    request.set_allocated_lookname(looknameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'forceToneMapping' [in] parameter to the request packet.
     bool forcetonemappingIn;
-    forcetonemappingIn = forceToneMapping;////2 bool////
+    forcetonemappingIn = forceToneMapping;
     request.set_forcetonemapping(forcetonemappingIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -221,7 +221,7 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createOcioView(
     octaneapi::ApiOutputColorSpaceInfo::createOcioViewResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOutputColorSpaceInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOutputColorSpaceInfoService::Stub> stub =
         octaneapi::ApiOutputColorSpaceInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->createOcioView(context.get(), request, &response);
 
@@ -249,14 +249,14 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createOcioView(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiOutputColorSpaceInfoProxy retVal;////714////
+        ApiOutputColorSpaceInfoProxy retVal;
         return retVal;
     }
 };
 
 
 ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createUseImagerSettings(
-            Octane::NamedColorSpace                   nonOcioColorSpace //// last param ////
+            Octane::NamedColorSpace                   nonOcioColorSpace
             )
 
 {
@@ -276,7 +276,7 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createUseImagerSettin
     octaneapi::ApiOutputColorSpaceInfo::createUseImagerSettingsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOutputColorSpaceInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOutputColorSpaceInfoService::Stub> stub =
         octaneapi::ApiOutputColorSpaceInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->createUseImagerSettings(context.get(), request, &response);
 
@@ -304,7 +304,7 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createUseImagerSettin
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiOutputColorSpaceInfoProxy retVal;////714////
+        ApiOutputColorSpaceInfoProxy retVal;
         return retVal;
     }
 };
@@ -321,8 +321,8 @@ void ApiOutputColorSpaceInfoProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOutputColorSpaceInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOutputColorSpaceInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -331,7 +331,7 @@ void ApiOutputColorSpaceInfoProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOutputColorSpaceInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOutputColorSpaceInfoService::Stub> stub =
         octaneapi::ApiOutputColorSpaceInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -365,8 +365,8 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::clone() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOutputColorSpaceInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOutputColorSpaceInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -375,7 +375,7 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::clone() const
     octaneapi::ApiOutputColorSpaceInfo::cloneResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOutputColorSpaceInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOutputColorSpaceInfoService::Stub> stub =
         octaneapi::ApiOutputColorSpaceInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->clone(context.get(), request, &response);
 
@@ -403,14 +403,14 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::clone() const
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiOutputColorSpaceInfoProxy retVal;////714////
+        ApiOutputColorSpaceInfoProxy retVal;
         return retVal;
     }
 };
 
 
 bool ApiOutputColorSpaceInfoProxy::equals(
-            const ApiOutputColorSpaceInfoProxy *      other //// last param ////
+            const ApiOutputColorSpaceInfoProxy *      other
             ) const
 
 {
@@ -423,8 +423,8 @@ bool ApiOutputColorSpaceInfoProxy::equals(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOutputColorSpaceInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOutputColorSpaceInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -432,8 +432,8 @@ bool ApiOutputColorSpaceInfoProxy::equals(
     // Add the 'other' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * otherIn = new octaneapi::ObjectRef();////761////
-    otherIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOutputColorSpaceInfo);////5////
+    octaneapi::ObjectRef * otherIn = new octaneapi::ObjectRef();
+    otherIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOutputColorSpaceInfo);
     otherIn->set_handle(other->getObjectHandle());
     request.set_allocated_other(otherIn);
 
@@ -442,7 +442,7 @@ bool ApiOutputColorSpaceInfoProxy::equals(
     octaneapi::ApiOutputColorSpaceInfo::equalsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOutputColorSpaceInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOutputColorSpaceInfoService::Stub> stub =
         octaneapi::ApiOutputColorSpaceInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->equals(context.get(), request, &response);
 
@@ -452,7 +452,7 @@ bool ApiOutputColorSpaceInfoProxy::equals(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

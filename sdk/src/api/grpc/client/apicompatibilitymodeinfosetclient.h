@@ -30,7 +30,7 @@ public:
     ///     Contains the status of the gRPC call
     /// @return
     ///     The number of modes in this list, which may be zero.
-    uint32_t size(            ) const;
+    uint32_t size() const;
 
     /// Gets the info for one of the compatibility modes.
     ///
@@ -41,7 +41,7 @@ public:
     /// @return
     ///     The info. Refers to an object that will never be modified or deallocated.
     const Octane::ApiCompatibilityModeInfo info(
-            uint32_t                                  index
+            uint32_t   index
             ) const;
 
 private:

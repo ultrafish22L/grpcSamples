@@ -10,7 +10,13 @@
 #include "octanevectypes.h"
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
-#include "apiinfoclient.h"
+#include "grpcapinodeinfo.h"
+struct ApiNodeInfoProxy;
+
+
+
+
+class Convert;
 
 class GRPCSettings;
 

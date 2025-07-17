@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apiprojectmanagerclient.h"
 #include <cassert>
@@ -43,7 +43,7 @@ bool ApiProjectManagerProxy::isValid()
     octaneapi::ApiProjectManager::isValidResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->isValid(context.get(), request, &response);
 
@@ -53,7 +53,7 @@ bool ApiProjectManagerProxy::isValid()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -84,7 +84,7 @@ ApiRootNodeGraphProxy ApiProjectManagerProxy::rootNodeGraph()
     octaneapi::ApiProjectManager::rootNodeGraphResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->rootNodeGraph(context.get(), request, &response);
 
@@ -112,7 +112,7 @@ ApiRootNodeGraphProxy ApiProjectManagerProxy::rootNodeGraph()
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiRootNodeGraphProxy retVal;////714////
+        ApiRootNodeGraphProxy retVal;
         return retVal;
     }
 };
@@ -130,7 +130,7 @@ ApiNodeProxy ApiProjectManagerProxy::applicationPreferences()
     octaneapi::ApiProjectManager::applicationPreferencesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->applicationPreferences(context.get(), request, &response);
 
@@ -158,7 +158,7 @@ ApiNodeProxy ApiProjectManagerProxy::applicationPreferences()
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiNodeProxy retVal;////714////
+        ApiNodeProxy retVal;
         return retVal;
     }
 };
@@ -176,7 +176,7 @@ ApiNodeProxy ApiProjectManagerProxy::projectSettings()
     octaneapi::ApiProjectManager::projectSettingsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->projectSettings(context.get(), request, &response);
 
@@ -204,7 +204,7 @@ ApiNodeProxy ApiProjectManagerProxy::projectSettings()
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiNodeProxy retVal;////714////
+        ApiNodeProxy retVal;
         return retVal;
     }
 };
@@ -222,7 +222,7 @@ ApiNodeProxy ApiProjectManagerProxy::projectMetadata()
     octaneapi::ApiProjectManager::projectMetadataResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->projectMetadata(context.get(), request, &response);
 
@@ -250,7 +250,7 @@ ApiNodeProxy ApiProjectManagerProxy::projectMetadata()
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiNodeProxy retVal;////714////
+        ApiNodeProxy retVal;
         return retVal;
     }
 };
@@ -268,7 +268,7 @@ ApiNodeProxy ApiProjectManagerProxy::previewRenderTarget()
     octaneapi::ApiProjectManager::previewRenderTargetResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->previewRenderTarget(context.get(), request, &response);
 
@@ -296,7 +296,7 @@ ApiNodeProxy ApiProjectManagerProxy::previewRenderTarget()
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiNodeProxy retVal;////714////
+        ApiNodeProxy retVal;
         return retVal;
     }
 };
@@ -314,7 +314,7 @@ ApiNodeProxy ApiProjectManagerProxy::materialBall()
     octaneapi::ApiProjectManager::materialBallResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->materialBall(context.get(), request, &response);
 
@@ -342,7 +342,7 @@ ApiNodeProxy ApiProjectManagerProxy::materialBall()
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiNodeProxy retVal;////714////
+        ApiNodeProxy retVal;
         return retVal;
     }
 };
@@ -360,7 +360,7 @@ std::string ApiProjectManagerProxy::getCurrentProject()
     octaneapi::ApiProjectManager::getCurrentProjectResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->getCurrentProject(context.get(), request, &response);
 
@@ -371,7 +371,7 @@ std::string ApiProjectManagerProxy::getCurrentProject()
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -402,7 +402,7 @@ bool ApiProjectManagerProxy::resetProject()
     octaneapi::ApiProjectManager::resetProjectResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->resetProject(context.get(), request, &response);
 
@@ -412,7 +412,7 @@ bool ApiProjectManagerProxy::resetProject()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -432,10 +432,10 @@ bool ApiProjectManagerProxy::resetProject()
 
 
 bool ApiProjectManagerProxy::loadProject(
-            const char *                              projectPath, //// test821 //// 
-            Octane::AssetMissingCallbackT             assetMissingcallback, //// test821 //// 
-            void *                                    assetMissinguserData, //// test821 //// 
-            const bool                                evaluate //// last param ////
+            const char *                              projectPath,
+            Octane::AssetMissingCallbackT             assetMissingcallback,
+            void *                                    assetMissinguserData,
+            const bool                                evaluate
             )
 
 {
@@ -446,32 +446,27 @@ bool ApiProjectManagerProxy::loadProject(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'projectPath' [in] parameter to the request packet.
-    std::string * projectpathIn = new std::string(); //// projectPath type=string;//// ////721////
+    std::string * projectpathIn = new std::string();
     *projectpathIn = checkString(projectPath);
-    request.set_allocated_projectpath(projectpathIn);//// 6215 ////
+    request.set_allocated_projectpath(projectpathIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'assetMissingcallback' [in] parameter to the request packet.
-    octaneapi::AssetMissingCallbackT * assetmissingcallbackIn = new octaneapi::AssetMissingCallbackT(); //// assetMissingcallback type=AssetMissingCallbackT;//// ////721////
+    octaneapi::AssetMissingCallbackT * assetmissingcallbackIn = new octaneapi::AssetMissingCallbackT();
     // setup callback function assetMissingcallback
-    //int assetMissingcallbackCallbackId = GRPCSettings::getNextCallbackId("AssetMissingCallback"); 
-    //CallbackStorage::registerAssetMissingCallback(assetMissingcallbackCallbackId, assetMissingcallback);
     assetmissingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //assetmissingcallbackIn->set_callbackid(assetMissingcallbackCallbackId);
-    //if(className == "ApiProjectManager" && method.mName == "loadProject") return true;
-    request.set_allocated_assetmissingcallback(assetmissingcallbackIn);//// 6215 ////
+    request.set_allocated_assetmissingcallback(assetmissingcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'assetMissinguserData' [in] parameter to the request packet.
     uint64_t assetmissinguserdataIn;
-    //// USER DATA TEST ////
     assetmissinguserdataIn = reinterpret_cast<uint64_t>(assetMissinguserData);
     request.set_assetmissinguserdata(assetmissinguserdataIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'evaluate' [in] parameter to the request packet.
     bool evaluateIn;
-    evaluateIn = evaluate;////2 const bool////
+    evaluateIn = evaluate;
     request.set_evaluate(evaluateIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -479,7 +474,7 @@ bool ApiProjectManagerProxy::loadProject(
     octaneapi::ApiProjectManager::loadProjectResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->loadProject(context.get(), request, &response);
 
@@ -491,7 +486,7 @@ bool ApiProjectManagerProxy::loadProject(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'callbackId' [out] parameter from the gRPC response packet
@@ -526,7 +521,7 @@ bool ApiProjectManagerProxy::loadedFromPackage()
     octaneapi::ApiProjectManager::loadedFromPackageResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->loadedFromPackage(context.get(), request, &response);
 
@@ -536,7 +531,7 @@ bool ApiProjectManagerProxy::loadedFromPackage()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -567,7 +562,7 @@ Octane::VersionT ApiProjectManagerProxy::loadedOcsVersion()
     octaneapi::ApiProjectManager::loadedOcsVersionResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->loadedOcsVersion(context.get(), request, &response);
 
@@ -577,7 +572,7 @@ Octane::VersionT ApiProjectManagerProxy::loadedOcsVersion()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;//// SECOND////
+        retVal = resultOut;
     }
     else
     {
@@ -608,7 +603,7 @@ bool ApiProjectManagerProxy::saveProject()
     octaneapi::ApiProjectManager::saveProjectResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->saveProject(context.get(), request, &response);
 
@@ -618,7 +613,7 @@ bool ApiProjectManagerProxy::saveProject()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -638,7 +633,7 @@ bool ApiProjectManagerProxy::saveProject()
 
 
 bool ApiProjectManagerProxy::saveProjectAs(
-            const char *                              path //// last param ////
+            const char *                              path
             )
 
 {
@@ -649,16 +644,16 @@ bool ApiProjectManagerProxy::saveProjectAs(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'path' [in] parameter to the request packet.
-    std::string * pathIn = new std::string(); //// path type=string;//// ////721////
+    std::string * pathIn = new std::string();
     *pathIn = checkString(path);
-    request.set_allocated_path(pathIn);//// 6215 ////
+    request.set_allocated_path(pathIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiProjectManager::saveProjectAsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->saveProjectAs(context.get(), request, &response);
 
@@ -668,7 +663,7 @@ bool ApiProjectManagerProxy::saveProjectAs(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -688,8 +683,8 @@ bool ApiProjectManagerProxy::saveProjectAs(
 
 
 bool ApiProjectManagerProxy::saveProjectAsReferencePackage(
-            const char *                              path, //// test821 //// 
-            const Octane::ReferencePackageExportSettings & referencePackageSettings //// last param ////
+            const char *                              path,
+            const Octane::ReferencePackageExportSettings & referencePackageSettings
             )
 
 {
@@ -700,23 +695,22 @@ bool ApiProjectManagerProxy::saveProjectAsReferencePackage(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'path' [in] parameter to the request packet.
-    std::string * pathIn = new std::string(); //// path type=string;//// ////721////
+    std::string * pathIn = new std::string();
     *pathIn = checkString(path);
-    request.set_allocated_path(pathIn);//// 6215 ////
+    request.set_allocated_path(pathIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'referencePackageSettings' [in] parameter to the request packet.
-    octaneapi::ReferencePackageExportSettings * referencepackagesettingsIn = new octaneapi::ReferencePackageExportSettings(); //// referencePackageSettings type=ReferencePackageExportSettings;//// ////721////
-    //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST////
-    ReferencePackageExportSettingsConverter::convert(referencePackageSettings, *referencepackagesettingsIn); //// Convert Called type 1c =ReferencePackageExportSettings ////
-    request.set_allocated_referencepackagesettings(referencepackagesettingsIn);//// 6215 ////
+    octaneapi::ReferencePackageExportSettings * referencepackagesettingsIn = new octaneapi::ReferencePackageExportSettings();
+    ReferencePackageExportSettingsConverter::convert(referencePackageSettings, *referencepackagesettingsIn);
+    request.set_allocated_referencepackagesettings(referencepackagesettingsIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiProjectManager::saveProjectAsReferencePackageResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->saveProjectAsReferencePackage(context.get(), request, &response);
 
@@ -726,7 +720,7 @@ bool ApiProjectManagerProxy::saveProjectAsReferencePackage(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -746,9 +740,9 @@ bool ApiProjectManagerProxy::saveProjectAsReferencePackage(
 
 
 bool ApiProjectManagerProxy::unpackPackage(
-            const char *                              unpackDir, //// test821 //// 
-            const char *                              packagePath, //// test821 //// 
-            const char *                              unpackName //// last param ////
+            const char *                              unpackDir,
+            const char *                              packagePath,
+            const char *                              unpackName
             )
 
 {
@@ -759,28 +753,28 @@ bool ApiProjectManagerProxy::unpackPackage(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'unpackDir' [in] parameter to the request packet.
-    std::string * unpackdirIn = new std::string(); //// unpackDir type=string;//// ////721////
+    std::string * unpackdirIn = new std::string();
     *unpackdirIn = checkString(unpackDir);
-    request.set_allocated_unpackdir(unpackdirIn);//// 6215 ////
+    request.set_allocated_unpackdir(unpackdirIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'packagePath' [in] parameter to the request packet.
-    std::string * packagepathIn = new std::string(); //// packagePath type=string;//// ////721////
+    std::string * packagepathIn = new std::string();
     *packagepathIn = checkString(packagePath);
-    request.set_allocated_packagepath(packagepathIn);//// 6215 ////
+    request.set_allocated_packagepath(packagepathIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'unpackName' [in] parameter to the request packet.
-    std::string * unpacknameIn = new std::string(); //// unpackName type=string;//// ////721////
+    std::string * unpacknameIn = new std::string();
     *unpacknameIn = checkString(unpackName);
-    request.set_allocated_unpackname(unpacknameIn);//// 6215 ////
+    request.set_allocated_unpackname(unpacknameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiProjectManager::unpackPackageResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->unpackPackage(context.get(), request, &response);
 
@@ -790,7 +784,7 @@ bool ApiProjectManagerProxy::unpackPackage(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -810,7 +804,7 @@ bool ApiProjectManagerProxy::unpackPackage(
 
 
 void ApiProjectManagerProxy::addObserver(
-            GRPCProjectManagerObserver               observer //// last param ////
+            GRPCProjectManagerObserver               observer
             )
 
 {
@@ -821,9 +815,9 @@ void ApiProjectManagerProxy::addObserver(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'observer' [in] parameter to the request packet.
-    octaneapi::GRPCProjectManagerObserverT * observerIn = new octaneapi::GRPCProjectManagerObserverT(); //// observer type=GRPCProjectManagerObserverT;//// ////721////
+    octaneapi::GRPCProjectManagerObserverT * observerIn = new octaneapi::GRPCProjectManagerObserverT();
     // setup observer function observer
-    //int observerCallbackId = GRPCSettings::getNextCallbackId("GRPCProjectManagerObserver"); 
+    //int observerCallbackId = GRPCSettings::getNextCallbackId("GRPCProjectManagerObserver");
     //CallbackStorage::registerGRPCProjectManagerObserver(observerCallbackId, observer.mCallback);
     //octaneapi::OnChangeT * observerchangeT = new octaneapi::OnChangeT();
     //observerchangeT->set_callbackid(observerCallbackId);
@@ -831,14 +825,14 @@ void ApiProjectManagerProxy::addObserver(
     //observerIn->set_callbackid(observerCallbackId);
     observerIn->set_userdata(reinterpret_cast<uint64_t>(observer.mUserData));
     //if(className == "ApiProjectManager" && method.mName == "addObserver") return true;
-    request.set_allocated_observer(observerIn);//// 6215 ////
+    request.set_allocated_observer(observerIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiProjectManager::addObserverResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->addObserver(context.get(), request, &response);
 
@@ -864,7 +858,7 @@ void ApiProjectManagerProxy::addObserver(
 
 
 void ApiProjectManagerProxy::removeObserver(
-            GRPCProjectManagerObserver               removeObserver //// last param ////
+            GRPCProjectManagerObserver               removeObserver
             )
 
 {
@@ -875,21 +869,21 @@ void ApiProjectManagerProxy::removeObserver(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'removeObserver' [in] parameter to the request packet.
-    octaneapi::GRPCProjectManagerObserverT * removeobserverIn = new octaneapi::GRPCProjectManagerObserverT(); //// removeObserver type=GRPCProjectManagerObserverT;//// ////721////
+    octaneapi::GRPCProjectManagerObserverT * removeobserverIn = new octaneapi::GRPCProjectManagerObserverT();
     // remove observer function removeObserver
     int removeObserverCallbackId = CallbackStorage::unregisterGRPCProjectManagerObserver(removeObserver.mCallback);
     //octaneapi::OnChangeT * removeObserverchangeT = new octaneapi::OnChangeT();
     //removeObserverchangeT->set_callbackid(removeObserverCallbackId);
     removeobserverIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     removeobserverIn->set_callbackid(removeObserverCallbackId);
-    request.set_allocated_removeobserver(removeobserverIn);//// 6215 ////
+    request.set_allocated_removeobserver(removeobserverIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
         octaneapi::ApiProjectManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->removeObserver(context.get(), request, &response);
 

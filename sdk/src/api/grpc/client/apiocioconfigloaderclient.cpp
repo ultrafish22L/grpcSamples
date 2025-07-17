@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apiocioconfigloaderclient.h"
 #include <cassert>
@@ -40,7 +40,7 @@ ApiOcioConfigLoaderProxy ApiOcioConfigLoaderProxy::create()
     octaneapi::ApiOcioConfigLoader::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigLoaderService::Stub> stub =
         octaneapi::ApiOcioConfigLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -68,7 +68,7 @@ ApiOcioConfigLoaderProxy ApiOcioConfigLoaderProxy::create()
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiOcioConfigLoaderProxy retVal;////714////
+        ApiOcioConfigLoaderProxy retVal;
         return retVal;
     }
 };
@@ -85,8 +85,8 @@ void ApiOcioConfigLoaderProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfigLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfigLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -95,7 +95,7 @@ void ApiOcioConfigLoaderProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigLoaderService::Stub> stub =
         octaneapi::ApiOcioConfigLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -119,8 +119,8 @@ void ApiOcioConfigLoaderProxy::destroy()
 
 
 void ApiOcioConfigLoaderProxy::addCallback(
-            GRPCCallback1T                           callback, //// test821 //// 
-            void *                                    privateData //// last param ////
+            GRPCCallback1T                           callback,
+            void *                                    privateData
             )
 
 {
@@ -133,26 +133,21 @@ void ApiOcioConfigLoaderProxy::addCallback(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfigLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfigLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'callback' [in] parameter to the request packet.
-    octaneapi::CallbackT * callbackIn = new octaneapi::CallbackT(); //// callback type=CallbackT;//// ////721////
+    octaneapi::CallbackT * callbackIn = new octaneapi::CallbackT();
     // setup callback function callback
-    //int callbackCallbackId = GRPCSettings::getNextCallbackId("GRPCCallback1"); 
-    //CallbackStorage::registerGRPCCallback1(callbackCallbackId, callback);
     callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //callbackIn->set_callbackid(callbackCallbackId);
-    //if(className == "ApiOcioConfigLoader" && method.mName == "addCallback") return true;
-    request.set_allocated_callback(callbackIn);//// 6215 ////
+    request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'privateData' [in] parameter to the request packet.
     uint64_t privatedataIn;
-    //// USER DATA TEST ////
     privatedataIn = reinterpret_cast<uint64_t>(privateData);
     request.set_privatedata(privatedataIn);
 
@@ -161,7 +156,7 @@ void ApiOcioConfigLoaderProxy::addCallback(
     octaneapi::ApiOcioConfigLoader::addCallbackResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigLoaderService::Stub> stub =
         octaneapi::ApiOcioConfigLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->addCallback(context.get(), request, &response);
 
@@ -187,8 +182,8 @@ void ApiOcioConfigLoaderProxy::addCallback(
 
 
 void ApiOcioConfigLoaderProxy::removeCallback(
-            GRPCCallback1T                           callback, //// test821 //// 
-            void *                                    privateData //// last param ////
+            GRPCCallback1T                           callback,
+            void *                                    privateData
             )
 
 {
@@ -201,25 +196,22 @@ void ApiOcioConfigLoaderProxy::removeCallback(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfigLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfigLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'callback' [in] parameter to the request packet.
-    octaneapi::CallbackT * callbackIn = new octaneapi::CallbackT(); //// callback type=CallbackT;//// ////721////
+    octaneapi::CallbackT * callbackIn = new octaneapi::CallbackT();
     // setup callback function callback
-    //int callbackCallbackId = GRPCSettings::getNextCallbackId("GRPCCallback1"); 
-    //CallbackStorage::registerGRPCCallback1(callbackCallbackId, callback);
     int callbackCallbackId = CallbackStorage::unregisterGRPCCallback1(callback);
     callbackIn->set_callbackid(callbackCallbackId);
-    request.set_allocated_callback(callbackIn);//// 6215 ////
+    request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'privateData' [in] parameter to the request packet.
     uint64_t privatedataIn;
-    //// USER DATA TEST ////
     privatedataIn = reinterpret_cast<uint64_t>(privateData);
     request.set_privatedata(privatedataIn);
 
@@ -228,7 +220,7 @@ void ApiOcioConfigLoaderProxy::removeCallback(
     octaneapi::ApiOcioConfigLoader::removeCallbackResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigLoaderService::Stub> stub =
         octaneapi::ApiOcioConfigLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->removeCallback(context.get(), request, &response);
 
@@ -252,7 +244,7 @@ void ApiOcioConfigLoaderProxy::removeCallback(
 
 
 void ApiOcioConfigLoaderProxy::load(
-            const char *                              filename //// last param ////
+            const char *                              filename
             )
 
 {
@@ -265,23 +257,23 @@ void ApiOcioConfigLoaderProxy::load(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfigLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfigLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'filename' [in] parameter to the request packet.
-    std::string * filenameIn = new std::string(); //// filename type=string;//// ////721////
+    std::string * filenameIn = new std::string();
     *filenameIn = checkString(filename);
-    request.set_allocated_filename(filenameIn);//// 6215 ////
+    request.set_allocated_filename(filenameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigLoaderService::Stub> stub =
         octaneapi::ApiOcioConfigLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->load(context.get(), request, &response);
 
@@ -305,7 +297,7 @@ void ApiOcioConfigLoaderProxy::load(
 
 
 ApiOcioConfigProxy ApiOcioConfigLoaderProxy::createConfig(
-            bool                                      waitIfLoading //// last param ////
+            bool                                      waitIfLoading
             )
 
 {
@@ -318,15 +310,15 @@ ApiOcioConfigProxy ApiOcioConfigLoaderProxy::createConfig(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfigLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiOcioConfigLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'waitIfLoading' [in] parameter to the request packet.
     bool waitifloadingIn;
-    waitifloadingIn = waitIfLoading;////2 bool////
+    waitifloadingIn = waitIfLoading;
     request.set_waitifloading(waitifloadingIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -334,7 +326,7 @@ ApiOcioConfigProxy ApiOcioConfigLoaderProxy::createConfig(
     octaneapi::ApiOcioConfigLoader::createConfigResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOcioConfigLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOcioConfigLoaderService::Stub> stub =
         octaneapi::ApiOcioConfigLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->createConfig(context.get(), request, &response);
 
@@ -362,7 +354,7 @@ ApiOcioConfigProxy ApiOcioConfigLoaderProxy::createConfig(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiOcioConfigProxy retVal;////714////
+        ApiOcioConfigProxy retVal;
         return retVal;
     }
 };

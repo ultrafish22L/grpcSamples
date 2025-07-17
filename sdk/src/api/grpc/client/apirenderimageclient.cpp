@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apirenderimageclient.h"
 #include <cassert>
@@ -38,8 +38,8 @@ bool ApiRenderImageProxy::isEmpty() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRenderImage);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRenderImage);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -48,7 +48,7 @@ bool ApiRenderImageProxy::isEmpty() const
     octaneapi::ApiRenderImage::isEmptyResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRenderImageService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRenderImageService::Stub> stub =
         octaneapi::ApiRenderImageService::NewStub(getGRPCSettings().getChannel());
     status = stub->isEmpty(context.get(), request, &response);
 
@@ -58,7 +58,7 @@ bool ApiRenderImageProxy::isEmpty() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -88,8 +88,8 @@ bool ApiRenderImageProxy::isHdr() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRenderImage);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRenderImage);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -98,7 +98,7 @@ bool ApiRenderImageProxy::isHdr() const
     octaneapi::ApiRenderImage::isHdrResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRenderImageService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRenderImageService::Stub> stub =
         octaneapi::ApiRenderImageService::NewStub(getGRPCSettings().getChannel());
     status = stub->isHdr(context.get(), request, &response);
 
@@ -108,7 +108,7 @@ bool ApiRenderImageProxy::isHdr() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

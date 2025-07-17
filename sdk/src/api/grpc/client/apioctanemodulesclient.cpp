@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apioctanemodulesclient.h"
 #include <cassert>
@@ -29,7 +29,7 @@ GRPCSettings & ApiOctaneModulesProxy::getGRPCSettings()
 
 
 bool ApiOctaneModulesProxy::setDirectory(
-            const char *                              newPath //// last param ////
+            const char *                              newPath
             )
 
 {
@@ -40,16 +40,16 @@ bool ApiOctaneModulesProxy::setDirectory(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'newPath' [in] parameter to the request packet.
-    std::string * newpathIn = new std::string(); //// newPath type=string;//// ////721////
+    std::string * newpathIn = new std::string();
     *newpathIn = checkString(newPath);
-    request.set_allocated_newpath(newpathIn);//// 6215 ////
+    request.set_allocated_newpath(newpathIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiOctaneModules::setDirectoryResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOctaneModulesService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOctaneModulesService::Stub> stub =
         octaneapi::ApiOctaneModulesService::NewStub(getGRPCSettings().getChannel());
     status = stub->setDirectory(context.get(), request, &response);
 
@@ -59,7 +59,7 @@ bool ApiOctaneModulesProxy::setDirectory(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -90,7 +90,7 @@ std::string ApiOctaneModulesProxy::getDirectory()
     octaneapi::ApiOctaneModules::getDirectoryResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOctaneModulesService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOctaneModulesService::Stub> stub =
         octaneapi::ApiOctaneModulesService::NewStub(getGRPCSettings().getChannel());
     status = stub->getDirectory(context.get(), request, &response);
 
@@ -101,7 +101,7 @@ std::string ApiOctaneModulesProxy::getDirectory()
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -121,7 +121,7 @@ std::string ApiOctaneModulesProxy::getDirectory()
 
 
 ApiOctaneModuleInfoProxy ApiOctaneModulesProxy::getModuleInfo(
-            const Octane::ModuleIdT                   moduleId //// last param ////
+            const Octane::ModuleIdT                   moduleId
             )
 
 {
@@ -132,17 +132,16 @@ ApiOctaneModuleInfoProxy ApiOctaneModulesProxy::getModuleInfo(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'moduleId' [in] parameter to the request packet.
-    octaneapi::ModuleIdT * moduleidIn = new octaneapi::ModuleIdT(); //// moduleId type=ModuleIdT;//// ////721////
-    //// ModuleIdT TEST////
+    octaneapi::ModuleIdT * moduleidIn = new octaneapi::ModuleIdT();
     moduleidIn->set_id(moduleId);
-    request.set_allocated_moduleid(moduleidIn);//// 6215 ////
+    request.set_allocated_moduleid(moduleidIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiOctaneModules::getModuleInfoResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOctaneModulesService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOctaneModulesService::Stub> stub =
         octaneapi::ApiOctaneModulesService::NewStub(getGRPCSettings().getChannel());
     status = stub->getModuleInfo(context.get(), request, &response);
 
@@ -170,7 +169,7 @@ ApiOctaneModuleInfoProxy ApiOctaneModulesProxy::getModuleInfo(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiOctaneModuleInfoProxy retVal;////714////
+        ApiOctaneModuleInfoProxy retVal;
         return retVal;
     }
 };
@@ -188,7 +187,7 @@ std::vector<Octane::ModuleIdT> ApiOctaneModulesProxy::getNodegraphModules()
     octaneapi::ApiOctaneModules::getNodegraphModulesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOctaneModulesService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOctaneModulesService::Stub> stub =
         octaneapi::ApiOctaneModulesService::NewStub(getGRPCSettings().getChannel());
     status = stub->getNodegraphModules(context.get(), request, &response);
 
@@ -197,11 +196,10 @@ std::vector<Octane::ModuleIdT> ApiOctaneModulesProxy::getNodegraphModules()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ApiArrayModuleIdT resultOut = response.result();
-        std::vector<Octane::ModuleIdT> retVal;////218////
+        std::vector<Octane::ModuleIdT> retVal;
         retVal.reserve(resultOut.data_size());
         for (int i = 0; i < resultOut.data_size(); i++)
         {
-            //// param.mProtoCppType = ApiArrayModuleIdT param.mType = ApiArray<Octane::ModuleIdT> ////
             retVal.push_back(resultOut.data(i).id());
         }
         return retVal;
@@ -235,7 +233,7 @@ std::vector<Octane::ModuleIdT> ApiOctaneModulesProxy::getCommandModules()
     octaneapi::ApiOctaneModules::getCommandModulesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOctaneModulesService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOctaneModulesService::Stub> stub =
         octaneapi::ApiOctaneModulesService::NewStub(getGRPCSettings().getChannel());
     status = stub->getCommandModules(context.get(), request, &response);
 
@@ -244,11 +242,10 @@ std::vector<Octane::ModuleIdT> ApiOctaneModulesProxy::getCommandModules()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ApiArrayModuleIdT resultOut = response.result();
-        std::vector<Octane::ModuleIdT> retVal;////218////
+        std::vector<Octane::ModuleIdT> retVal;
         retVal.reserve(resultOut.data_size());
         for (int i = 0; i < resultOut.data_size(); i++)
         {
-            //// param.mProtoCppType = ApiArrayModuleIdT param.mType = ApiArray<Octane::ModuleIdT> ////
             retVal.push_back(resultOut.data(i).id());
         }
         return retVal;
@@ -271,7 +268,7 @@ std::vector<Octane::ModuleIdT> ApiOctaneModulesProxy::getCommandModules()
 
 
 bool ApiOctaneModulesProxy::runCommandModule(
-            const Octane::ModuleIdT                   moduleId //// last param ////
+            const Octane::ModuleIdT                   moduleId
             )
 
 {
@@ -282,17 +279,16 @@ bool ApiOctaneModulesProxy::runCommandModule(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'moduleId' [in] parameter to the request packet.
-    octaneapi::ModuleIdT * moduleidIn = new octaneapi::ModuleIdT(); //// moduleId type=ModuleIdT;//// ////721////
-    //// ModuleIdT TEST////
+    octaneapi::ModuleIdT * moduleidIn = new octaneapi::ModuleIdT();
     moduleidIn->set_id(moduleId);
-    request.set_allocated_moduleid(moduleidIn);//// 6215 ////
+    request.set_allocated_moduleid(moduleidIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiOctaneModules::runCommandModuleResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiOctaneModulesService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiOctaneModulesService::Stub> stub =
         octaneapi::ApiOctaneModulesService::NewStub(getGRPCSettings().getChannel());
     status = stub->runCommandModule(context.get(), request, &response);
 
@@ -302,7 +298,7 @@ bool ApiOctaneModulesProxy::runCommandModule(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

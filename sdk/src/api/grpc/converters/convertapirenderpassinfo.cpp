@@ -15,7 +15,7 @@
 #if !defined(OCTANE_STANDALONE) && !defined(OCTANE_DLLEXPORT)
 #include "grpcapinodeinfo.h"
 #else 
-class ApiNodeInfoProxy
+struct ApiNodeInfoProxy
 {
     //stub
 };
@@ -55,8 +55,6 @@ void ApiRenderPassInfoConverter::convert(
     out.mIsInfoPass = in.isinfopass();////simple 3////
     //cl=ApiRenderPassInfo, field.mName = isGreyscale field.mType = bool, protoType=bool
     out.mIsGreyscale = in.isgreyscale();////simple 3////
-    //cl=ApiRenderPassInfo, field.mName = blendingModeId field.mType = Octane::BlendingModeId, protoType=BlendingModeId
-    out.mBlendingModeId = static_cast<Octane::BlendingModeId>(in.blendingmodeid());// enum 1 
     //cl=ApiRenderPassInfo, field.mName = renderPassGroupId field.mType = Octane::RenderPassGroupId, protoType=RenderPassGroupId
     out.mRenderPassGroupId = static_cast<Octane::RenderPassGroupId>(in.renderpassgroupid());// enum 1 
     // all fields resolved OK;
@@ -102,7 +100,6 @@ void ApiRenderPassInfoConverter::convert(
     out.set_allocated_category(categoryStr);
     out.set_isinfopass(in.mIsInfoPass);////simple 4b////
     out.set_isgreyscale(in.mIsGreyscale);////simple 4b////
-    out.set_blendingmodeid( static_cast<octaneapi::BlendingModeId>(in.mBlendingModeId)); // enum 2
     out.set_renderpassgroupid( static_cast<octaneapi::RenderPassGroupId>(in.mRenderPassGroupId)); // enum 2
     // all fields resolved OK;
 }

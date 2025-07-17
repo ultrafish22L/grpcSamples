@@ -25,9 +25,9 @@ class GRPCSettings;
 class ApiNodeInspectorProxy : public ApiGuiComponentProxy
 {
 public:
-    void destroy(            );
+    void destroy();
 
-    static ApiNodeInspectorProxy create(            );
+    static ApiNodeInspectorProxy create();
 
 private:
     static GRPCSettings & getGRPCSettings();

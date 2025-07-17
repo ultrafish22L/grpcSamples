@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apimousewheeldetailsclient.h"
 #include <cassert>
@@ -40,7 +40,7 @@ Octane::ApiMouseWheelDetails ApiMouseWheelDetailsProxy::make()
     octaneapi::ApiMouseWheelDetails::makeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMouseWheelDetailsService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMouseWheelDetailsService::Stub> stub =
         octaneapi::ApiMouseWheelDetailsService::NewStub(getGRPCSettings().getChannel());
     status = stub->make1(context.get(), request, &response);
 

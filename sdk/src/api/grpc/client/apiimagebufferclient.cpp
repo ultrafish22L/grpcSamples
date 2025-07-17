@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apiimagebufferclient.h"
 #include <cassert>
@@ -28,9 +28,9 @@ GRPCSettings & ApiImageBufferProxy::getGRPCSettings()
 
 
 ApiImageBufferProxy ApiImageBufferProxy::create(
-            const OctaneVec::uint32_2                 size, //// test821 //// 
-            const Octane::ImageType                   type, //// test821 //// 
-            const bool                                containsAlpha //// last param ////
+            const OctaneVec::uint32_2                 size,
+            const Octane::ImageType                   type,
+            const bool                                containsAlpha
             )
 
 {
@@ -41,10 +41,10 @@ ApiImageBufferProxy ApiImageBufferProxy::create(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'size' [in] parameter to the request packet.
-    octaneapi::uint32_2 * sizeIn = new octaneapi::uint32_2(); //// size type=uint32_2;//// ////721////
+    octaneapi::uint32_2 * sizeIn = new octaneapi::uint32_2();
     (*sizeIn).set_x(size.x);
     (*sizeIn).set_y(size.y);
-    request.set_allocated_size(sizeIn);//// 6215 ////
+    request.set_allocated_size(sizeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
@@ -55,7 +55,7 @@ ApiImageBufferProxy ApiImageBufferProxy::create(
     /////////////////////////////////////////////////////////////////////
     // Add the 'containsAlpha' [in] parameter to the request packet.
     bool containsalphaIn;
-    containsalphaIn = containsAlpha;////2 const bool////
+    containsalphaIn = containsAlpha;
     request.set_containsalpha(containsalphaIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -63,7 +63,7 @@ ApiImageBufferProxy ApiImageBufferProxy::create(
     octaneapi::ApiImageBuffer::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -91,17 +91,17 @@ ApiImageBufferProxy ApiImageBufferProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiImageBufferProxy retVal;////714////
+        ApiImageBufferProxy retVal;
         return retVal;
     }
 };
 
 
 ApiImageBufferProxy ApiImageBufferProxy::create(
-            const uint8_t *const                      buffer, //// test821 //// 
-            const uint32_t                            bufferSize, //// test821 //// 
-            const OctaneVec::uint32_2                 imgDim, //// test821 //// 
-            const Octane::ImageType                   type //// last param ////
+            const uint8_t *const                      buffer,
+            const uint32_t                            bufferSize,
+            const OctaneVec::uint32_2                 imgDim,
+            const Octane::ImageType                   type
             )
 
 {
@@ -112,7 +112,7 @@ ApiImageBufferProxy ApiImageBufferProxy::create(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'buffer' [in] parameter to the request packet.
-    octaneapi::Buffer * bufferIn = new octaneapi::Buffer(); //// buffer type=Buffer;//// ////721////
+    octaneapi::Buffer * bufferIn = new octaneapi::Buffer();
     // BUFFER TEST 1 : buffer
     size_t bufSize = bufferSize;
     if (buffer && bufSize > 0)
@@ -121,20 +121,20 @@ ApiImageBufferProxy ApiImageBufferProxy::create(
         bufferIn->set_data(reinterpret_cast<const char*>(buffer), bufferSize);
         bufferIn->set_size(static_cast<uint32_t>(bufSize));
     }
-    request.set_allocated_buffer(bufferIn);//// 6215 ////
+    request.set_allocated_buffer(bufferIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'bufferSize' [in] parameter to the request packet.
     uint32_t buffersizeIn;
-    buffersizeIn = bufferSize;////2 const uint32_t////
+    buffersizeIn = bufferSize;
     request.set_buffersize(buffersizeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'imgDim' [in] parameter to the request packet.
-    octaneapi::uint32_2 * imgdimIn = new octaneapi::uint32_2(); //// imgDim type=uint32_2;//// ////721////
+    octaneapi::uint32_2 * imgdimIn = new octaneapi::uint32_2();
     (*imgdimIn).set_x(imgDim.x);
     (*imgdimIn).set_y(imgDim.y);
-    request.set_allocated_imgdim(imgdimIn);//// 6215 ////
+    request.set_allocated_imgdim(imgdimIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
@@ -147,7 +147,7 @@ ApiImageBufferProxy ApiImageBufferProxy::create(
     octaneapi::ApiImageBuffer::create1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->create1(context.get(), request, &response);
 
@@ -175,17 +175,17 @@ ApiImageBufferProxy ApiImageBufferProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiImageBufferProxy retVal;////714////
+        ApiImageBufferProxy retVal;
         return retVal;
     }
 };
 
 
 ApiImageBufferProxy ApiImageBufferProxy::load(
-            const char *const                         fileName, //// test821 //// 
-            const Octane::ImageColorType              loadType, //// test821 //// 
-            const Octane::ImageChannelType            targType, //// test821 //// 
-            const char *const                         layerName //// last param ////
+            const char *const                         fileName,
+            const Octane::ImageColorType              loadType,
+            const Octane::ImageChannelType            targType,
+            const char *const                         layerName
             )
 
 {
@@ -196,9 +196,9 @@ ApiImageBufferProxy ApiImageBufferProxy::load(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'fileName' [in] parameter to the request packet.
-    std::string * filenameIn = new std::string(); //// fileName type=string;//// ////721////
+    std::string * filenameIn = new std::string();
     *filenameIn = checkString(fileName);
-    request.set_allocated_filename(filenameIn);//// 6215 ////
+    request.set_allocated_filename(filenameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'loadType' [in] parameter to the request packet.
@@ -214,16 +214,16 @@ ApiImageBufferProxy ApiImageBufferProxy::load(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'layerName' [in] parameter to the request packet.
-    std::string * layernameIn = new std::string(); //// layerName type=string;//// ////721////
+    std::string * layernameIn = new std::string();
     *layernameIn = checkString(layerName);
-    request.set_allocated_layername(layernameIn);//// 6215 ////
+    request.set_allocated_layername(layernameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiImageBuffer::loadResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->load(context.get(), request, &response);
 
@@ -251,18 +251,18 @@ ApiImageBufferProxy ApiImageBufferProxy::load(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiImageBufferProxy retVal;////714////
+        ApiImageBufferProxy retVal;
         return retVal;
     }
 };
 
 
 ApiImageBufferProxy ApiImageBufferProxy::load(
-            const void *const                         data, //// test821 //// 
-            const size_t                              length, //// test821 //// 
-            const Octane::ImageColorType              loadType, //// test821 //// 
-            const Octane::ImageChannelType            targType, //// test821 //// 
-            const char *const                         layerName //// last param ////
+            const void *const                         data,
+            const size_t                              length,
+            const Octane::ImageColorType              loadType,
+            const Octane::ImageChannelType            targType,
+            const char *const                         layerName
             )
 
 {
@@ -274,14 +274,13 @@ ApiImageBufferProxy ApiImageBufferProxy::load(
     /////////////////////////////////////////////////////////////////////
     // Add the 'data' [in] parameter to the request packet.
     uint64_t dataIn;
-    //// USER DATA TEST ////
     dataIn = reinterpret_cast<uint64_t>(data);
     request.set_data(dataIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'length' [in] parameter to the request packet.
     uint32_t lengthIn;
-    lengthIn = static_cast<uint32_t>(length);////2 const size_t////
+    lengthIn = static_cast<uint32_t>(length);
     request.set_length(lengthIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -298,16 +297,16 @@ ApiImageBufferProxy ApiImageBufferProxy::load(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'layerName' [in] parameter to the request packet.
-    std::string * layernameIn = new std::string(); //// layerName type=string;//// ////721////
+    std::string * layernameIn = new std::string();
     *layernameIn = checkString(layerName);
-    request.set_allocated_layername(layernameIn);//// 6215 ////
+    request.set_allocated_layername(layernameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiImageBuffer::load1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->load1(context.get(), request, &response);
 
@@ -335,16 +334,16 @@ ApiImageBufferProxy ApiImageBufferProxy::load(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiImageBufferProxy retVal;////714////
+        ApiImageBufferProxy retVal;
         return retVal;
     }
 };
 
 
 ApiImageBufferProxy ApiImageBufferProxy::convertTo(
-            const ApiImageBufferProxy *const          srcImg, //// test821 //// 
-            const Octane::ImageType                   destType, //// test821 //// 
-            const bool                                forceCopy //// last param ////
+            const ApiImageBufferProxy *const          srcImg,
+            const Octane::ImageType                   destType,
+            const bool                                forceCopy
             )
 
 {
@@ -357,8 +356,8 @@ ApiImageBufferProxy ApiImageBufferProxy::convertTo(
     // Add the 'srcImg' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * srcimgIn = new octaneapi::ObjectRef();////761////
-    srcimgIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * srcimgIn = new octaneapi::ObjectRef();
+    srcimgIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     srcimgIn->set_handle(srcImg->getObjectHandle());
     request.set_allocated_srcimg(srcimgIn);
 
@@ -371,7 +370,7 @@ ApiImageBufferProxy ApiImageBufferProxy::convertTo(
     /////////////////////////////////////////////////////////////////////
     // Add the 'forceCopy' [in] parameter to the request packet.
     bool forcecopyIn;
-    forcecopyIn = forceCopy;////2 const bool////
+    forcecopyIn = forceCopy;
     request.set_forcecopy(forcecopyIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -379,7 +378,7 @@ ApiImageBufferProxy ApiImageBufferProxy::convertTo(
     octaneapi::ApiImageBuffer::convertToResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->convertTo(context.get(), request, &response);
 
@@ -407,7 +406,7 @@ ApiImageBufferProxy ApiImageBufferProxy::convertTo(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiImageBufferProxy retVal;////714////
+        ApiImageBufferProxy retVal;
         return retVal;
     }
 };
@@ -424,8 +423,8 @@ void ApiImageBufferProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -434,7 +433,7 @@ void ApiImageBufferProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -468,8 +467,8 @@ float ApiImageBufferProxy::bytesPerPixel() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -478,7 +477,7 @@ float ApiImageBufferProxy::bytesPerPixel() const
     octaneapi::ApiImageBuffer::bytesPerPixelResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->bytesPerPixel(context.get(), request, &response);
 
@@ -488,7 +487,7 @@ float ApiImageBufferProxy::bytesPerPixel() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         float resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -518,8 +517,8 @@ float ApiImageBufferProxy::bytesPerChannel() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -528,7 +527,7 @@ float ApiImageBufferProxy::bytesPerChannel() const
     octaneapi::ApiImageBuffer::bytesPerChannelResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->bytesPerChannel(context.get(), request, &response);
 
@@ -538,7 +537,7 @@ float ApiImageBufferProxy::bytesPerChannel() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         float resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -568,8 +567,8 @@ uint8_t ApiImageBufferProxy::channelCount() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -578,7 +577,7 @@ uint8_t ApiImageBufferProxy::channelCount() const
     octaneapi::ApiImageBuffer::channelCountResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->channelCount(context.get(), request, &response);
 
@@ -588,7 +587,7 @@ uint8_t ApiImageBufferProxy::channelCount() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -618,8 +617,8 @@ OctaneVec::uint32_2 ApiImageBufferProxy::size() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -628,7 +627,7 @@ OctaneVec::uint32_2 ApiImageBufferProxy::size() const
     octaneapi::ApiImageBuffer::sizeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->size(context.get(), request, &response);
 
@@ -669,8 +668,8 @@ size_t ApiImageBufferProxy::sizeInBytes() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -679,7 +678,7 @@ size_t ApiImageBufferProxy::sizeInBytes() const
     octaneapi::ApiImageBuffer::sizeInBytesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->sizeInBytes(context.get(), request, &response);
 
@@ -689,7 +688,7 @@ size_t ApiImageBufferProxy::sizeInBytes() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -719,8 +718,8 @@ Octane::ImageType ApiImageBufferProxy::type() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -729,7 +728,7 @@ Octane::ImageType ApiImageBufferProxy::type() const
     octaneapi::ApiImageBuffer::typeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->type(context.get(), request, &response);
 
@@ -769,8 +768,8 @@ std::string ApiImageBufferProxy::sourceInfo() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -779,7 +778,7 @@ std::string ApiImageBufferProxy::sourceInfo() const
     octaneapi::ApiImageBuffer::sourceInfoResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->sourceInfo(context.get(), request, &response);
 
@@ -790,7 +789,7 @@ std::string ApiImageBufferProxy::sourceInfo() const
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -820,8 +819,8 @@ bool ApiImageBufferProxy::canWrapX() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -830,7 +829,7 @@ bool ApiImageBufferProxy::canWrapX() const
     octaneapi::ApiImageBuffer::canWrapXResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->canWrapX(context.get(), request, &response);
 
@@ -840,7 +839,7 @@ bool ApiImageBufferProxy::canWrapX() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -870,8 +869,8 @@ bool ApiImageBufferProxy::canWrapY() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -880,7 +879,7 @@ bool ApiImageBufferProxy::canWrapY() const
     octaneapi::ApiImageBuffer::canWrapYResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->canWrapY(context.get(), request, &response);
 
@@ -890,7 +889,7 @@ bool ApiImageBufferProxy::canWrapY() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -920,8 +919,8 @@ bool ApiImageBufferProxy::needsFlip() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -930,7 +929,7 @@ bool ApiImageBufferProxy::needsFlip() const
     octaneapi::ApiImageBuffer::needsFlipResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->needsFlip(context.get(), request, &response);
 
@@ -940,7 +939,7 @@ bool ApiImageBufferProxy::needsFlip() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -970,8 +969,8 @@ bool ApiImageBufferProxy::hasAlpha() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -980,7 +979,7 @@ bool ApiImageBufferProxy::hasAlpha() const
     octaneapi::ApiImageBuffer::hasAlphaResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->hasAlpha(context.get(), request, &response);
 
@@ -990,7 +989,7 @@ bool ApiImageBufferProxy::hasAlpha() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -1020,8 +1019,8 @@ bool ApiImageBufferProxy::hasColor() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1030,7 +1029,7 @@ bool ApiImageBufferProxy::hasColor() const
     octaneapi::ApiImageBuffer::hasColorResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->hasColor(context.get(), request, &response);
 
@@ -1040,7 +1039,7 @@ bool ApiImageBufferProxy::hasColor() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -1070,8 +1069,8 @@ bool ApiImageBufferProxy::isCompressed() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1080,7 +1079,7 @@ bool ApiImageBufferProxy::isCompressed() const
     octaneapi::ApiImageBuffer::isCompressedResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->isCompressed(context.get(), request, &response);
 
@@ -1090,7 +1089,7 @@ bool ApiImageBufferProxy::isCompressed() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -1120,8 +1119,8 @@ bool ApiImageBufferProxy::isEmpty() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1130,7 +1129,7 @@ bool ApiImageBufferProxy::isEmpty() const
     octaneapi::ApiImageBuffer::isEmptyResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->isEmpty(context.get(), request, &response);
 
@@ -1140,7 +1139,7 @@ bool ApiImageBufferProxy::isEmpty() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -1170,8 +1169,8 @@ bool ApiImageBufferProxy::isHalf() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1180,7 +1179,7 @@ bool ApiImageBufferProxy::isHalf() const
     octaneapi::ApiImageBuffer::isHalfResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->isHalf(context.get(), request, &response);
 
@@ -1190,7 +1189,7 @@ bool ApiImageBufferProxy::isHalf() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -1220,8 +1219,8 @@ bool ApiImageBufferProxy::isHdr() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1230,7 +1229,7 @@ bool ApiImageBufferProxy::isHdr() const
     octaneapi::ApiImageBuffer::isHdrResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->isHdr(context.get(), request, &response);
 
@@ -1240,7 +1239,7 @@ bool ApiImageBufferProxy::isHdr() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -1270,8 +1269,8 @@ bool ApiImageBufferProxy::isMono() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1280,7 +1279,7 @@ bool ApiImageBufferProxy::isMono() const
     octaneapi::ApiImageBuffer::isMonoResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->isMono(context.get(), request, &response);
 
@@ -1290,7 +1289,7 @@ bool ApiImageBufferProxy::isMono() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -1310,7 +1309,7 @@ bool ApiImageBufferProxy::isMono() const
 
 
 bool ApiImageBufferProxy::isPixelValid(
-            const OctaneVec::uint32_2                 pos //// last param ////
+            const OctaneVec::uint32_2                 pos
             ) const
 
 {
@@ -1323,24 +1322,24 @@ bool ApiImageBufferProxy::isPixelValid(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'pos' [in] parameter to the request packet.
-    octaneapi::uint32_2 * posIn = new octaneapi::uint32_2(); //// pos type=uint32_2;//// ////721////
+    octaneapi::uint32_2 * posIn = new octaneapi::uint32_2();
     (*posIn).set_x(pos.x);
     (*posIn).set_y(pos.y);
-    request.set_allocated_pos(posIn);//// 6215 ////
+    request.set_allocated_pos(posIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiImageBuffer::isPixelValidResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->isPixelValid(context.get(), request, &response);
 
@@ -1350,7 +1349,7 @@ bool ApiImageBufferProxy::isPixelValid(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -1370,7 +1369,7 @@ bool ApiImageBufferProxy::isPixelValid(
 
 
 void ApiImageBufferProxy::compress(
-            const Octane::ApiImageBuffer::ImageCompressType compressType //// last param ////
+            const Octane::ApiImageBuffer::ImageCompressType compressType
             )
 
 {
@@ -1383,8 +1382,8 @@ void ApiImageBufferProxy::compress(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1399,7 +1398,7 @@ void ApiImageBufferProxy::compress(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->compress(context.get(), request, &response);
 
@@ -1423,8 +1422,8 @@ void ApiImageBufferProxy::compress(
 
 
 void ApiImageBufferProxy::setPixelLdr(
-            const OctaneVec::uint32_2                 pos, //// test821 //// 
-            const uint8_t *const                      value //// last param ////
+            const OctaneVec::uint32_2                 pos,
+            const uint8_t *const                      value
             )
 
 {
@@ -1437,17 +1436,17 @@ void ApiImageBufferProxy::setPixelLdr(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'pos' [in] parameter to the request packet.
-    octaneapi::uint32_2 * posIn = new octaneapi::uint32_2(); //// pos type=uint32_2;//// ////721////
+    octaneapi::uint32_2 * posIn = new octaneapi::uint32_2();
     (*posIn).set_x(pos.x);
     (*posIn).set_y(pos.y);
-    request.set_allocated_pos(posIn);//// 6215 ////
+    request.set_allocated_pos(posIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
@@ -1460,7 +1459,7 @@ void ApiImageBufferProxy::setPixelLdr(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->setPixelLdr(context.get(), request, &response);
 
@@ -1484,8 +1483,8 @@ void ApiImageBufferProxy::setPixelLdr(
 
 
 void ApiImageBufferProxy::setPixelHalf(
-            const OctaneVec::uint32_2                 pos, //// test821 //// 
-            const Octane::half_t *const               value //// last param ////
+            const OctaneVec::uint32_2                 pos,
+            const Octane::half_t *const               value
             )
 
 {
@@ -1498,17 +1497,17 @@ void ApiImageBufferProxy::setPixelHalf(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'pos' [in] parameter to the request packet.
-    octaneapi::uint32_2 * posIn = new octaneapi::uint32_2(); //// pos type=uint32_2;//// ////721////
+    octaneapi::uint32_2 * posIn = new octaneapi::uint32_2();
     (*posIn).set_x(pos.x);
     (*posIn).set_y(pos.y);
-    request.set_allocated_pos(posIn);//// 6215 ////
+    request.set_allocated_pos(posIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
@@ -1521,7 +1520,7 @@ void ApiImageBufferProxy::setPixelHalf(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->setPixelHalf(context.get(), request, &response);
 
@@ -1545,8 +1544,8 @@ void ApiImageBufferProxy::setPixelHalf(
 
 
 void ApiImageBufferProxy::setPixelHdr(
-            const OctaneVec::uint32_2                 pos, //// test821 //// 
-            const float *const                        value //// last param ////
+            const OctaneVec::uint32_2                 pos,
+            const float *const                        value
             )
 
 {
@@ -1559,17 +1558,17 @@ void ApiImageBufferProxy::setPixelHdr(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'pos' [in] parameter to the request packet.
-    octaneapi::uint32_2 * posIn = new octaneapi::uint32_2(); //// pos type=uint32_2;//// ////721////
+    octaneapi::uint32_2 * posIn = new octaneapi::uint32_2();
     (*posIn).set_x(pos.x);
     (*posIn).set_y(pos.y);
-    request.set_allocated_pos(posIn);//// 6215 ////
+    request.set_allocated_pos(posIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
@@ -1582,7 +1581,7 @@ void ApiImageBufferProxy::setPixelHdr(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->setPixelHdr(context.get(), request, &response);
 
@@ -1606,10 +1605,10 @@ void ApiImageBufferProxy::setPixelHdr(
 
 
 bool ApiImageBufferProxy::copyRegion(
-            const ApiImageBufferProxy *const          srcImg, //// test821 //// 
-            const Octane::ApiImageBuffer::RegionRect  regionRect, //// test821 //// 
-            const OctaneVec::uint32_2                 destPos, //// test821 //// 
-            bool                                      blend //// last param ////
+            const ApiImageBufferProxy *const          srcImg,
+            const Octane::ApiImageBuffer::RegionRect  regionRect,
+            const OctaneVec::uint32_2                 destPos,
+            bool                                      blend
             )
 
 {
@@ -1622,8 +1621,8 @@ bool ApiImageBufferProxy::copyRegion(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1631,14 +1630,14 @@ bool ApiImageBufferProxy::copyRegion(
     // Add the 'srcImg' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * srcimgIn = new octaneapi::ObjectRef();////761////
-    srcimgIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * srcimgIn = new octaneapi::ObjectRef();
+    srcimgIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     srcimgIn->set_handle(srcImg->getObjectHandle());
     request.set_allocated_srcimg(srcimgIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'regionRect' [in] parameter to the request packet.
-    octaneapi::ApiImageBuffer_ApiImageBuffer_RegionRect * regionrectIn = new octaneapi::ApiImageBuffer_ApiImageBuffer_RegionRect(); //// regionRect type=ApiImageBuffer_ApiImageBuffer_RegionRect;//// ////721////
+    octaneapi::ApiImageBuffer_ApiImageBuffer_RegionRect * regionrectIn = new octaneapi::ApiImageBuffer_ApiImageBuffer_RegionRect();
     // RegionRect TEST
     octaneapi::uint32_2 * regionRectOrigin = new octaneapi::uint32_2();
     regionRectOrigin->set_x(regionRect.mOrigin.x);
@@ -1648,19 +1647,19 @@ bool ApiImageBufferProxy::copyRegion(
     regionRectSize->set_y(regionRect.mSize.y);
     regionrectIn->set_allocated_origin(regionRectOrigin);
     regionrectIn->set_allocated_size(regionRectSize);
-    request.set_allocated_regionrect(regionrectIn);//// 6215 ////
+    request.set_allocated_regionrect(regionrectIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'destPos' [in] parameter to the request packet.
-    octaneapi::uint32_2 * destposIn = new octaneapi::uint32_2(); //// destPos type=uint32_2;//// ////721////
+    octaneapi::uint32_2 * destposIn = new octaneapi::uint32_2();
     (*destposIn).set_x(destPos.x);
     (*destposIn).set_y(destPos.y);
-    request.set_allocated_destpos(destposIn);//// 6215 ////
+    request.set_allocated_destpos(destposIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'blend' [in] parameter to the request packet.
     bool blendIn;
-    blendIn = blend;////2 bool////
+    blendIn = blend;
     request.set_blend(blendIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1668,7 +1667,7 @@ bool ApiImageBufferProxy::copyRegion(
     octaneapi::ApiImageBuffer::copyRegionResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->copyRegion(context.get(), request, &response);
 
@@ -1678,7 +1677,7 @@ bool ApiImageBufferProxy::copyRegion(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -1708,8 +1707,8 @@ void ApiImageBufferProxy::compositeOnBlack()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1718,7 +1717,7 @@ void ApiImageBufferProxy::compositeOnBlack()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->compositeOnBlack(context.get(), request, &response);
 
@@ -1752,8 +1751,8 @@ void ApiImageBufferProxy::flipVertical()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1762,7 +1761,7 @@ void ApiImageBufferProxy::flipVertical()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->flipVertical(context.get(), request, &response);
 
@@ -1786,7 +1785,7 @@ void ApiImageBufferProxy::flipVertical()
 
 
 void ApiImageBufferProxy::convert(
-            const Octane::ImageType                   destType //// last param ////
+            const Octane::ImageType                   destType
             )
 
 {
@@ -1799,8 +1798,8 @@ void ApiImageBufferProxy::convert(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1815,7 +1814,7 @@ void ApiImageBufferProxy::convert(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->convert(context.get(), request, &response);
 
@@ -1839,7 +1838,7 @@ void ApiImageBufferProxy::convert(
 
 
 void ApiImageBufferProxy::applyGaussianFilter(
-            const uint8_t                             radius //// last param ////
+            const uint8_t                             radius
             )
 
 {
@@ -1852,15 +1851,15 @@ void ApiImageBufferProxy::applyGaussianFilter(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'radius' [in] parameter to the request packet.
     uint32_t radiusIn;
-    radiusIn = radius;////2 const uint8_t////
+    radiusIn = radius;
     request.set_radius(radiusIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1868,7 +1867,7 @@ void ApiImageBufferProxy::applyGaussianFilter(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->applyGaussianFilter(context.get(), request, &response);
 
@@ -1892,7 +1891,7 @@ void ApiImageBufferProxy::applyGaussianFilter(
 
 
 void ApiImageBufferProxy::applyBoxFilter(
-            const uint8_t                             radius //// last param ////
+            const uint8_t                             radius
             )
 
 {
@@ -1905,15 +1904,15 @@ void ApiImageBufferProxy::applyBoxFilter(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'radius' [in] parameter to the request packet.
     uint32_t radiusIn;
-    radiusIn = radius;////2 const uint8_t////
+    radiusIn = radius;
     request.set_radius(radiusIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1921,7 +1920,7 @@ void ApiImageBufferProxy::applyBoxFilter(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->applyBoxFilter(context.get(), request, &response);
 
@@ -1945,8 +1944,8 @@ void ApiImageBufferProxy::applyBoxFilter(
 
 
 void ApiImageBufferProxy::applyLevels(
-            const float                               gamma, //// test821 //// 
-            const OctaneVec::float_2                  levels //// last param ////
+            const float                               gamma,
+            const OctaneVec::float_2                  levels
             )
 
 {
@@ -1959,30 +1958,30 @@ void ApiImageBufferProxy::applyLevels(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'gamma' [in] parameter to the request packet.
     float gammaIn;
-    gammaIn = gamma;////2 const float////
+    gammaIn = gamma;
     request.set_gamma(gammaIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'levels' [in] parameter to the request packet.
-    octaneapi::float_2 * levelsIn = new octaneapi::float_2(); //// levels type=float_2;//// ////721////
+    octaneapi::float_2 * levelsIn = new octaneapi::float_2();
     (*levelsIn).set_x(levels.x);
     (*levelsIn).set_y(levels.y);
-    request.set_allocated_levels(levelsIn);//// 6215 ////
+    request.set_allocated_levels(levelsIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->applyLevels(context.get(), request, &response);
 
@@ -2006,8 +2005,8 @@ void ApiImageBufferProxy::applyLevels(
 
 
 void ApiImageBufferProxy::compareValues(
-            const ApiImageBufferProxy *const          otherImg, //// test821 //// 
-            const bool                                compareAlpha //// last param ////
+            const ApiImageBufferProxy *const          otherImg,
+            const bool                                compareAlpha
             )
 
 {
@@ -2020,8 +2019,8 @@ void ApiImageBufferProxy::compareValues(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -2029,15 +2028,15 @@ void ApiImageBufferProxy::compareValues(
     // Add the 'otherImg' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * otherimgIn = new octaneapi::ObjectRef();////761////
-    otherimgIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * otherimgIn = new octaneapi::ObjectRef();
+    otherimgIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     otherimgIn->set_handle(otherImg->getObjectHandle());
     request.set_allocated_otherimg(otherimgIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'compareAlpha' [in] parameter to the request packet.
     bool comparealphaIn;
-    comparealphaIn = compareAlpha;////2 const bool////
+    comparealphaIn = compareAlpha;
     request.set_comparealpha(comparealphaIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2045,7 +2044,7 @@ void ApiImageBufferProxy::compareValues(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->compareValues(context.get(), request, &response);
 
@@ -2069,9 +2068,9 @@ void ApiImageBufferProxy::compareValues(
 
 
 bool ApiImageBufferProxy::calculateMeanSquareError(
-            const ApiImageBufferProxy *const          otherImg, //// test821 //// 
-            const bool                                clampValues, //// test821 //// 
-            double &                                  error //// last param ////
+            const ApiImageBufferProxy *const          otherImg,
+            const bool                                clampValues,
+            double &                                  error
             ) const
 
 {
@@ -2084,8 +2083,8 @@ bool ApiImageBufferProxy::calculateMeanSquareError(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -2093,15 +2092,15 @@ bool ApiImageBufferProxy::calculateMeanSquareError(
     // Add the 'otherImg' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * otherimgIn = new octaneapi::ObjectRef();////761////
-    otherimgIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * otherimgIn = new octaneapi::ObjectRef();
+    otherimgIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     otherimgIn->set_handle(otherImg->getObjectHandle());
     request.set_allocated_otherimg(otherimgIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'clampValues' [in] parameter to the request packet.
     bool clampvaluesIn;
-    clampvaluesIn = clampValues;////2 const bool////
+    clampvaluesIn = clampValues;
     request.set_clampvalues(clampvaluesIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2109,7 +2108,7 @@ bool ApiImageBufferProxy::calculateMeanSquareError(
     octaneapi::ApiImageBuffer::calculateMeanSquareErrorResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->calculateMeanSquareError(context.get(), request, &response);
 
@@ -2119,12 +2118,12 @@ bool ApiImageBufferProxy::calculateMeanSquareError(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'error' [out] parameter from the gRPC response packet
         double errorOut = response.error();
-        error = errorOut;//// SECOND////
+        error = errorOut;
     }
     else
     {
@@ -2144,8 +2143,8 @@ bool ApiImageBufferProxy::calculateMeanSquareError(
 
 
 bool ApiImageBufferProxy::save(
-            const char *const                         fileName, //// test821 //// 
-            const Octane::ApiImageBuffer::MetaDataList *const metaData //// last param ////
+            const char *const                         fileName,
+            const Octane::ApiImageBuffer::MetaDataList *const metaData
             ) const
 
 {
@@ -2158,29 +2157,29 @@ bool ApiImageBufferProxy::save(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'fileName' [in] parameter to the request packet.
-    std::string * filenameIn = new std::string(); //// fileName type=string;//// ////721////
+    std::string * filenameIn = new std::string();
     *filenameIn = checkString(fileName);
-    request.set_allocated_filename(filenameIn);//// 6215 ////
+    request.set_allocated_filename(filenameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'metaData' [in] parameter to the request packet.
-    octaneapi::ApiImageBuffer_ApiImageBuffer_MetaDataList * metadataIn = new octaneapi::ApiImageBuffer_ApiImageBuffer_MetaDataList(); //// metaData type=ApiImageBuffer_ApiImageBuffer_MetaDataList;//// ////721////
+    octaneapi::ApiImageBuffer_ApiImageBuffer_MetaDataList * metadataIn = new octaneapi::ApiImageBuffer_ApiImageBuffer_MetaDataList();
     // TODO!!! omitted because it is a metaData : metaData, type = metaData, ptpye = ApiImageBuffer_ApiImageBuffer_MetaDataList
-    request.set_allocated_metadata(metadataIn);//// 6215 ////
+    request.set_allocated_metadata(metadataIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiImageBuffer::saveResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->save(context.get(), request, &response);
 
@@ -2190,7 +2189,7 @@ bool ApiImageBufferProxy::save(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -2210,8 +2209,8 @@ bool ApiImageBufferProxy::save(
 
 
 bool ApiImageBufferProxy::saveAsync(
-            const char *const                         fileName, //// test821 //// 
-            const Octane::ApiImageBuffer::MetaDataList *const metaData //// last param ////
+            const char *const                         fileName,
+            const Octane::ApiImageBuffer::MetaDataList *const metaData
             ) const
 
 {
@@ -2224,29 +2223,29 @@ bool ApiImageBufferProxy::saveAsync(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'fileName' [in] parameter to the request packet.
-    std::string * filenameIn = new std::string(); //// fileName type=string;//// ////721////
+    std::string * filenameIn = new std::string();
     *filenameIn = checkString(fileName);
-    request.set_allocated_filename(filenameIn);//// 6215 ////
+    request.set_allocated_filename(filenameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'metaData' [in] parameter to the request packet.
-    octaneapi::ApiImageBuffer_ApiImageBuffer_MetaDataList * metadataIn = new octaneapi::ApiImageBuffer_ApiImageBuffer_MetaDataList(); //// metaData type=ApiImageBuffer_ApiImageBuffer_MetaDataList;//// ////721////
+    octaneapi::ApiImageBuffer_ApiImageBuffer_MetaDataList * metadataIn = new octaneapi::ApiImageBuffer_ApiImageBuffer_MetaDataList();
     // TODO!!! omitted because it is a metaData : metaData, type = metaData, ptpye = ApiImageBuffer_ApiImageBuffer_MetaDataList
-    request.set_allocated_metadata(metadataIn);//// 6215 ////
+    request.set_allocated_metadata(metadataIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiImageBuffer::saveAsyncResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->saveAsync(context.get(), request, &response);
 
@@ -2256,7 +2255,7 @@ bool ApiImageBufferProxy::saveAsync(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -2276,7 +2275,7 @@ bool ApiImageBufferProxy::saveAsync(
 
 
 std::string ApiImageBufferProxy::pixelAddr(
-            const OctaneVec::uint32_2                 pos //// last param ////
+            const OctaneVec::uint32_2                 pos
             ) const
 
 {
@@ -2289,24 +2288,24 @@ std::string ApiImageBufferProxy::pixelAddr(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'pos' [in] parameter to the request packet.
-    octaneapi::uint32_2 * posIn = new octaneapi::uint32_2(); //// pos type=uint32_2;//// ////721////
+    octaneapi::uint32_2 * posIn = new octaneapi::uint32_2();
     (*posIn).set_x(pos.x);
     (*posIn).set_y(pos.y);
-    request.set_allocated_pos(posIn);//// 6215 ////
+    request.set_allocated_pos(posIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiImageBuffer::pixelAddrResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->pixelAddr(context.get(), request, &response);
 
@@ -2317,7 +2316,7 @@ std::string ApiImageBufferProxy::pixelAddr(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -2337,7 +2336,7 @@ std::string ApiImageBufferProxy::pixelAddr(
 
 
 std::string ApiImageBufferProxy::pixelAddr(
-            const OctaneVec::uint32_2                 pos //// last param ////
+            const OctaneVec::uint32_2                 pos
             )
 
 {
@@ -2350,24 +2349,24 @@ std::string ApiImageBufferProxy::pixelAddr(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiImageBuffer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'pos' [in] parameter to the request packet.
-    octaneapi::uint32_2 * posIn = new octaneapi::uint32_2(); //// pos type=uint32_2;//// ////721////
+    octaneapi::uint32_2 * posIn = new octaneapi::uint32_2();
     (*posIn).set_x(pos.x);
     (*posIn).set_y(pos.y);
-    request.set_allocated_pos(posIn);//// 6215 ////
+    request.set_allocated_pos(posIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiImageBuffer::pixelAddr1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiImageBufferService::Stub> stub =
         octaneapi::ApiImageBufferService::NewStub(getGRPCSettings().getChannel());
     status = stub->pixelAddr1(context.get(), request, &response);
 
@@ -2378,7 +2377,7 @@ std::string ApiImageBufferProxy::pixelAddr(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {

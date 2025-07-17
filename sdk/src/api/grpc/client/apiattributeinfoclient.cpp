@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apiattributeinfoclient.h"
 #include <cassert>
@@ -28,7 +28,7 @@ GRPCSettings & ApiAttributeInfoProxy::getGRPCSettings()
 
 
 bool ApiAttributeInfoProxy::isValidFor(
-            const Octane::VersionT                    version //// last param ////
+            const Octane::VersionT                    version
             ) const
 
 {
@@ -40,7 +40,7 @@ bool ApiAttributeInfoProxy::isValidFor(
     /////////////////////////////////////////////////////////////////////
     // Add the 'version' [in] parameter to the request packet.
     uint32_t versionIn;
-    versionIn = version;////2 const Octane::VersionT////
+    versionIn = version;
     request.set_version(versionIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@ bool ApiAttributeInfoProxy::isValidFor(
     octaneapi::ApiAttributeInfo::isValidForResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiAttributeInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiAttributeInfoService::Stub> stub =
         octaneapi::ApiAttributeInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->isValidFor(context.get(), request, &response);
 
@@ -58,7 +58,7 @@ bool ApiAttributeInfoProxy::isValidFor(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

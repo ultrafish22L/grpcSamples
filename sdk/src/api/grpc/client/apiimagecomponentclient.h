@@ -36,19 +36,19 @@ public:
     /// @return
     ///     Pointer to the newly created image component.
     static ApiImageComponentProxy create(
-            const ApiImageProxy &                     image
+            const ApiImageProxy &   image
             );
 
     /// Destroys this image component.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Assigns a new image to the component.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void updateTo(
-            const ApiImageProxy &                     image
+            const ApiImageProxy &   image
             );
 
 private:

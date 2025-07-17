@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apicustomcurveeditorcontroller_drawerclient.h"
 #include <cassert>
@@ -28,8 +28,8 @@ GRPCSettings & ApiCustomCurveEditorControllerProxy_Drawer::getGRPCSettings()
 
 
 void ApiCustomCurveEditorControllerProxy_Drawer::setColor(
-            Octane::ApiCustomCurveEditorController::Drawer::Color color, //// test821 //// 
-            float                                     opacity //// last param ////
+            Octane::ApiCustomCurveEditorController::Drawer::Color color,
+            float                                     opacity
             )
 
 {
@@ -42,8 +42,8 @@ void ApiCustomCurveEditorControllerProxy_Drawer::setColor(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -56,7 +56,7 @@ void ApiCustomCurveEditorControllerProxy_Drawer::setColor(
     /////////////////////////////////////////////////////////////////////
     // Add the 'opacity' [in] parameter to the request packet.
     float opacityIn;
-    opacityIn = opacity;////2 float////
+    opacityIn = opacity;
     request.set_opacity(opacityIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -64,7 +64,7 @@ void ApiCustomCurveEditorControllerProxy_Drawer::setColor(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub =
         octaneapi::ApiCustomCurveEditorController_DrawerService::NewStub(getGRPCSettings().getChannel());
     status = stub->setColor(context.get(), request, &response);
 
@@ -88,9 +88,9 @@ void ApiCustomCurveEditorControllerProxy_Drawer::setColor(
 
 
 void ApiCustomCurveEditorControllerProxy_Drawer::setClipRegionAndFillBackground(
-            OctaneVec::int32_2                        position, //// test821 //// 
-            OctaneVec::int32_2                        size, //// test821 //// 
-            int                                       cornerRadius //// last param ////
+            OctaneVec::int32_2                        position,
+            OctaneVec::int32_2                        size,
+            int                                       cornerRadius
             )
 
 {
@@ -103,29 +103,29 @@ void ApiCustomCurveEditorControllerProxy_Drawer::setClipRegionAndFillBackground(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'position' [in] parameter to the request packet.
-    octaneapi::int32_2 * positionIn = new octaneapi::int32_2(); //// position type=int32_2;//// ////721////
+    octaneapi::int32_2 * positionIn = new octaneapi::int32_2();
     (*positionIn).set_x(position.x);
     (*positionIn).set_y(position.y);
-    request.set_allocated_position(positionIn);//// 6215 ////
+    request.set_allocated_position(positionIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'size' [in] parameter to the request packet.
-    octaneapi::int32_2 * sizeIn = new octaneapi::int32_2(); //// size type=int32_2;//// ////721////
+    octaneapi::int32_2 * sizeIn = new octaneapi::int32_2();
     (*sizeIn).set_x(size.x);
     (*sizeIn).set_y(size.y);
-    request.set_allocated_size(sizeIn);//// 6215 ////
+    request.set_allocated_size(sizeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'cornerRadius' [in] parameter to the request packet.
     int32_t cornerradiusIn;
-    cornerradiusIn = cornerRadius;////2 int////
+    cornerradiusIn = cornerRadius;
     request.set_cornerradius(cornerradiusIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -133,7 +133,7 @@ void ApiCustomCurveEditorControllerProxy_Drawer::setClipRegionAndFillBackground(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub =
         octaneapi::ApiCustomCurveEditorController_DrawerService::NewStub(getGRPCSettings().getChannel());
     status = stub->setClipRegionAndFillBackground(context.get(), request, &response);
 
@@ -157,8 +157,8 @@ void ApiCustomCurveEditorControllerProxy_Drawer::setClipRegionAndFillBackground(
 
 
 void ApiCustomCurveEditorControllerProxy_Drawer::drawRectangle(
-            OctaneVec::int32_2                        position, //// test821 //// 
-            OctaneVec::int32_2                        size //// last param ////
+            OctaneVec::int32_2                        position,
+            OctaneVec::int32_2                        size
             )
 
 {
@@ -171,31 +171,31 @@ void ApiCustomCurveEditorControllerProxy_Drawer::drawRectangle(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'position' [in] parameter to the request packet.
-    octaneapi::int32_2 * positionIn = new octaneapi::int32_2(); //// position type=int32_2;//// ////721////
+    octaneapi::int32_2 * positionIn = new octaneapi::int32_2();
     (*positionIn).set_x(position.x);
     (*positionIn).set_y(position.y);
-    request.set_allocated_position(positionIn);//// 6215 ////
+    request.set_allocated_position(positionIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'size' [in] parameter to the request packet.
-    octaneapi::int32_2 * sizeIn = new octaneapi::int32_2(); //// size type=int32_2;//// ////721////
+    octaneapi::int32_2 * sizeIn = new octaneapi::int32_2();
     (*sizeIn).set_x(size.x);
     (*sizeIn).set_y(size.y);
-    request.set_allocated_size(sizeIn);//// 6215 ////
+    request.set_allocated_size(sizeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub =
         octaneapi::ApiCustomCurveEditorController_DrawerService::NewStub(getGRPCSettings().getChannel());
     status = stub->drawRectangle(context.get(), request, &response);
 
@@ -219,8 +219,8 @@ void ApiCustomCurveEditorControllerProxy_Drawer::drawRectangle(
 
 
 void ApiCustomCurveEditorControllerProxy_Drawer::fillRectangle(
-            OctaneVec::int32_2                        position, //// test821 //// 
-            OctaneVec::int32_2                        size //// last param ////
+            OctaneVec::int32_2                        position,
+            OctaneVec::int32_2                        size
             )
 
 {
@@ -233,31 +233,31 @@ void ApiCustomCurveEditorControllerProxy_Drawer::fillRectangle(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'position' [in] parameter to the request packet.
-    octaneapi::int32_2 * positionIn = new octaneapi::int32_2(); //// position type=int32_2;//// ////721////
+    octaneapi::int32_2 * positionIn = new octaneapi::int32_2();
     (*positionIn).set_x(position.x);
     (*positionIn).set_y(position.y);
-    request.set_allocated_position(positionIn);//// 6215 ////
+    request.set_allocated_position(positionIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'size' [in] parameter to the request packet.
-    octaneapi::int32_2 * sizeIn = new octaneapi::int32_2(); //// size type=int32_2;//// ////721////
+    octaneapi::int32_2 * sizeIn = new octaneapi::int32_2();
     (*sizeIn).set_x(size.x);
     (*sizeIn).set_y(size.y);
-    request.set_allocated_size(sizeIn);//// 6215 ////
+    request.set_allocated_size(sizeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub =
         octaneapi::ApiCustomCurveEditorController_DrawerService::NewStub(getGRPCSettings().getChannel());
     status = stub->fillRectangle(context.get(), request, &response);
 
@@ -281,8 +281,8 @@ void ApiCustomCurveEditorControllerProxy_Drawer::fillRectangle(
 
 
 void ApiCustomCurveEditorControllerProxy_Drawer::fillCircle(
-            OctaneVec::float_2                        center, //// test821 //// 
-            float                                     radius //// last param ////
+            OctaneVec::float_2                        center,
+            float                                     radius
             )
 
 {
@@ -295,22 +295,22 @@ void ApiCustomCurveEditorControllerProxy_Drawer::fillCircle(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'center' [in] parameter to the request packet.
-    octaneapi::float_2 * centerIn = new octaneapi::float_2(); //// center type=float_2;//// ////721////
+    octaneapi::float_2 * centerIn = new octaneapi::float_2();
     (*centerIn).set_x(center.x);
     (*centerIn).set_y(center.y);
-    request.set_allocated_center(centerIn);//// 6215 ////
+    request.set_allocated_center(centerIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'radius' [in] parameter to the request packet.
     float radiusIn;
-    radiusIn = radius;////2 float////
+    radiusIn = radius;
     request.set_radius(radiusIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -318,7 +318,7 @@ void ApiCustomCurveEditorControllerProxy_Drawer::fillCircle(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub =
         octaneapi::ApiCustomCurveEditorController_DrawerService::NewStub(getGRPCSettings().getChannel());
     status = stub->fillCircle(context.get(), request, &response);
 
@@ -342,7 +342,7 @@ void ApiCustomCurveEditorControllerProxy_Drawer::fillCircle(
 
 
 void ApiCustomCurveEditorControllerProxy_Drawer::startPath(
-            OctaneVec::float_2                        point //// last param ////
+            OctaneVec::float_2                        point
             )
 
 {
@@ -355,24 +355,24 @@ void ApiCustomCurveEditorControllerProxy_Drawer::startPath(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'point' [in] parameter to the request packet.
-    octaneapi::float_2 * pointIn = new octaneapi::float_2(); //// point type=float_2;//// ////721////
+    octaneapi::float_2 * pointIn = new octaneapi::float_2();
     (*pointIn).set_x(point.x);
     (*pointIn).set_y(point.y);
-    request.set_allocated_point(pointIn);//// 6215 ////
+    request.set_allocated_point(pointIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub =
         octaneapi::ApiCustomCurveEditorController_DrawerService::NewStub(getGRPCSettings().getChannel());
     status = stub->startPath(context.get(), request, &response);
 
@@ -396,7 +396,7 @@ void ApiCustomCurveEditorControllerProxy_Drawer::startPath(
 
 
 void ApiCustomCurveEditorControllerProxy_Drawer::lineTo(
-            OctaneVec::float_2                        point //// last param ////
+            OctaneVec::float_2                        point
             )
 
 {
@@ -409,24 +409,24 @@ void ApiCustomCurveEditorControllerProxy_Drawer::lineTo(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'point' [in] parameter to the request packet.
-    octaneapi::float_2 * pointIn = new octaneapi::float_2(); //// point type=float_2;//// ////721////
+    octaneapi::float_2 * pointIn = new octaneapi::float_2();
     (*pointIn).set_x(point.x);
     (*pointIn).set_y(point.y);
-    request.set_allocated_point(pointIn);//// 6215 ////
+    request.set_allocated_point(pointIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub =
         octaneapi::ApiCustomCurveEditorController_DrawerService::NewStub(getGRPCSettings().getChannel());
     status = stub->lineTo(context.get(), request, &response);
 
@@ -450,9 +450,9 @@ void ApiCustomCurveEditorControllerProxy_Drawer::lineTo(
 
 
 void ApiCustomCurveEditorControllerProxy_Drawer::cubicBezierTo(
-            OctaneVec::float_2                        controlPoint0, //// test821 //// 
-            OctaneVec::float_2                        controlPoint1, //// test821 //// 
-            OctaneVec::float_2                        point //// last param ////
+            OctaneVec::float_2                        controlPoint0,
+            OctaneVec::float_2                        controlPoint1,
+            OctaneVec::float_2                        point
             )
 
 {
@@ -465,38 +465,38 @@ void ApiCustomCurveEditorControllerProxy_Drawer::cubicBezierTo(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'controlPoint0' [in] parameter to the request packet.
-    octaneapi::float_2 * controlpoint0In = new octaneapi::float_2(); //// controlPoint0 type=float_2;//// ////721////
+    octaneapi::float_2 * controlpoint0In = new octaneapi::float_2();
     (*controlpoint0In).set_x(controlPoint0.x);
     (*controlpoint0In).set_y(controlPoint0.y);
-    request.set_allocated_controlpoint0(controlpoint0In);//// 6215 ////
+    request.set_allocated_controlpoint0(controlpoint0In);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'controlPoint1' [in] parameter to the request packet.
-    octaneapi::float_2 * controlpoint1In = new octaneapi::float_2(); //// controlPoint1 type=float_2;//// ////721////
+    octaneapi::float_2 * controlpoint1In = new octaneapi::float_2();
     (*controlpoint1In).set_x(controlPoint1.x);
     (*controlpoint1In).set_y(controlPoint1.y);
-    request.set_allocated_controlpoint1(controlpoint1In);//// 6215 ////
+    request.set_allocated_controlpoint1(controlpoint1In);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'point' [in] parameter to the request packet.
-    octaneapi::float_2 * pointIn = new octaneapi::float_2(); //// point type=float_2;//// ////721////
+    octaneapi::float_2 * pointIn = new octaneapi::float_2();
     (*pointIn).set_x(point.x);
     (*pointIn).set_y(point.y);
-    request.set_allocated_point(pointIn);//// 6215 ////
+    request.set_allocated_point(pointIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub =
         octaneapi::ApiCustomCurveEditorController_DrawerService::NewStub(getGRPCSettings().getChannel());
     status = stub->cubicBezierTo(context.get(), request, &response);
 
@@ -520,7 +520,7 @@ void ApiCustomCurveEditorControllerProxy_Drawer::cubicBezierTo(
 
 
 void ApiCustomCurveEditorControllerProxy_Drawer::finishPath(
-            float                                     thickness //// last param ////
+            float                                     thickness
             )
 
 {
@@ -533,15 +533,15 @@ void ApiCustomCurveEditorControllerProxy_Drawer::finishPath(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCustomCurveEditorController_Drawer);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'thickness' [in] parameter to the request packet.
     float thicknessIn;
-    thicknessIn = thickness;////2 float////
+    thicknessIn = thickness;
     request.set_thickness(thicknessIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -549,7 +549,7 @@ void ApiCustomCurveEditorControllerProxy_Drawer::finishPath(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiCustomCurveEditorController_DrawerService::Stub> stub =
         octaneapi::ApiCustomCurveEditorController_DrawerService::NewStub(getGRPCSettings().getChannel());
     status = stub->finishPath(context.get(), request, &response);
 

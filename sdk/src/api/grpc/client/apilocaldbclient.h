@@ -30,7 +30,7 @@ public:
     /// Tells whether @ref ApiLocalDb is supported by this build
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool isSupported(            );
+    static bool isSupported();
 
     /// Returns the root category of the local DB
     ///
@@ -40,11 +40,11 @@ public:
     /// @return
     ///     the root category or a NULL pointer if there was an error, in which case
     ///     there should have been additional error messages on the log.
-    static ApiLocalDBProxy_Category root(            );
+    static ApiLocalDBProxy_Category root();
 
     /// Moves the localDb folder to a new location. This call will also update the
     /// preferences node.
-    /// 
+    ///
     /// This will raise a CATEGORY_REFRESH event for root if the directory is changed.
     ///
     /// @param[in] newPath

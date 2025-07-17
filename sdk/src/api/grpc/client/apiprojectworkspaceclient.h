@@ -31,22 +31,22 @@ public:
     /// destroyed, or until node graph editors are added/destroyed.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    std::vector<ApiNodeGraphEditorProxy> getNodeGraphEditors(            );
+    std::vector<ApiNodeGraphEditorProxy> getNodeGraphEditors();
 
     /// Resets the workspace to the default layout for plugins. References to any of the components
     /// in the layout may be changed after using this function.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void resetLayout(            );
+    void resetLayout();
 
-    /// Loads the layout given. 
+    /// Loads the layout given.
     ///
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    /// @returns 
+    /// @returns
     ///     TRUE if the layout was successfully loaded.
     bool loadLayout(
-            const char *                              layoutString
+            const char *   layoutString
             );
 
     /// Serializes the current layout. The pointer returned is owned by Octane and will change when
@@ -56,7 +56,7 @@ public:
     ///     Contains the status of the gRPC call
     /// @returns
     ///     The layout (OCL) serialized from the current layout.
-    std::string serializeLayout(            ) const;
+    std::string serializeLayout() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

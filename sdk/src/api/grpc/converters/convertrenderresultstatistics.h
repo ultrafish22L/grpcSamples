@@ -13,7 +13,7 @@
 namespace Octane { struct RenderResultStatistics; }
 namespace octaneapi { class RenderResultStatistics; }
 
-class ApiNodeInfoProxy;
+struct ApiNodeInfoProxy;
 class RenderResultStatisticsConverter
 {
 public:

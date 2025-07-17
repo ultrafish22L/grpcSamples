@@ -26,24 +26,24 @@ class ApiLabelProxy : public ApiGuiComponentProxy
 {
 public:
     /// Creates a new label.
-    /// 
+    ///
     /// @param[in]  text
     ///     Text to display on the label.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static ApiLabelProxy create(
-            const char *                              text
+            const char *   text
             );
 
     /// Destroys this label created by create(..).
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Returns the text on the label.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    std::string text(            ) const;
+    std::string text() const;
 
     /// Changes the label text.
     ///

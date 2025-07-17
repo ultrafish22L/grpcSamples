@@ -25,7 +25,7 @@ class ImageExportSettingsProxy : public GRPCBase
 {
 public:
     /// Returns extension for the type
-    /// 
+    ///
     /// @param type
     ///     the type of the image
     /// @param[out] status
@@ -33,44 +33,44 @@ public:
     /// @return
     ///     the returned extension is lowercase, doesn't include dot
     static std::string getExtension(
-            Octane::SaveImageFileType                 type
+            Octane::SaveImageFileType   type
             );
 
     /// Returns number of bits per component for bit depth
-    /// 
-    /// @param bitDepth 
+    ///
+    /// @param bitDepth
     ///     the bit depth enum value
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static uint32_t getBitsPerComponent(
-            const Octane::SaveImageBitDepth           bitDepth
+            const Octane::SaveImageBitDepth   bitDepth
             );
 
     /// Returns number of bits per component for image format
-    /// 
-    /// @param format 
+    ///
+    /// @param format
     ///     the image save format
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static uint32_t getBitsPerComponent(
-            const Octane::ImageSaveFormat             format
+            const Octane::ImageSaveFormat   format
             );
 
     /// Returns bit depth of the format
-    /// 
+    ///
     /// @param format
     ///     the image save format
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static Octane::SaveImageBitDepth getBitDepth(
-            const Octane::ImageSaveFormat             format
+            const Octane::ImageSaveFormat   format
             );
 
     /// Returns image save format from file type and bit depth
     ///
-    /// @param type 
+    /// @param type
     ///     the type of the image
-    /// @param bitDepth 
+    /// @param bitDepth
     ///     the bit depth enum value
     /// @param[out] status
     ///     Contains the status of the gRPC call
@@ -80,27 +80,27 @@ public:
             );
 
     /// Returns image file type from the format
-    /// 
-    /// @param format 
+    ///
+    /// @param format
     ///     the image save format
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static Octane::SaveImageFileType getType(
-            const Octane::ImageSaveFormat             format
+            const Octane::ImageSaveFormat   format
             );
 
     /// Creates ImageExportSettings from a set parameters used in older version of the API
-    /// @param imageSaveFormat 
+    /// @param imageSaveFormat
     ///     the image save format
-    /// @param premultipliedAlphaType 
+    /// @param premultipliedAlphaType
     ///     Premultiplied alpha setting
-    /// @param exrCompressionType 
+    /// @param exrCompressionType
     ///     compression type for EXR format
-    /// @param exrCompressionLevel 
+    /// @param exrCompressionLevel
     ///     compression level for EXR format
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    /// @return 
+    /// @return
     static Octane::ImageExportSettings makeFromOldSettings(
             const Octane::ImageSaveFormat             imageSaveFormat,
             const Octane::PremultipliedAlphaType      premultipliedAlphaType,
@@ -110,8 +110,8 @@ public:
 
     /// Creates ImageExportSettings from ImageSaveFormat
     /// Any additional settings are set to the default values
-    /// 
-    /// @param imageSaveFormat 
+    ///
+    /// @param imageSaveFormat
     ///     the image save format
     /// @param premultipliedAlphaType
     ///     Premultiplied alpha setting. This should be PREMULTIPLIED_ALPHA_TYPE_NONE when saving
@@ -124,14 +124,14 @@ public:
             );
 
     /// Creates ImageExportSettings for writing EXR format
-    /// 
-    /// @param bitDepth 
+    ///
+    /// @param bitDepth
     ///     the bit depth enum value
     /// @param premultipliedAlpha
     ///     Whether the image should have premultiplied alpha
-    /// @param compressionType 
+    /// @param compressionType
     ///     compression type for EXR format
-    /// @param compressionLevel 
+    /// @param compressionLevel
     ///     compression level for EXR format
     /// @param[out] status
     ///     Contains the status of the gRPC call
@@ -143,12 +143,12 @@ public:
             );
 
     /// Creates ImageExportSettings for writing TIFF format
-    /// 
-    /// @param bitDepth 
+    ///
+    /// @param bitDepth
     ///     the bit depth enum value
-    /// @param premultipliedAlphaType 
+    /// @param premultipliedAlphaType
     ///     Premultiplied alpha setting
-    /// @param compressionType 
+    /// @param compressionType
     ///     compression type for TIFF format
     /// @param[out] status
     ///     Contains the status of the gRPC call
@@ -159,23 +159,23 @@ public:
             );
 
     /// Creates ImageExportSettings for writing PNG format
-    /// 
-    /// @param bitDepth 
+    ///
+    /// @param bitDepth
     ///     the bit depth enum value
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static Octane::ImageExportSettings makePng(
-            const Octane::SaveImageBitDepth           bitDepth
+            const Octane::SaveImageBitDepth   bitDepth
             );
 
     /// Creates ImageExportSettings for writing JPEG format
-    /// 
-    /// @param quality 
+    ///
+    /// @param quality
     ///     the JPEG compression quality. Valid range is [1..100].
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static Octane::ImageExportSettings makeJpeg(
-            const float                               quality
+            const float   quality
             );
 
 private:

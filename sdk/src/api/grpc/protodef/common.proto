@@ -100,6 +100,7 @@ message ObjectRef
         ApiCustomCurveEditorController_Drawer = 89;
         ApiCustomCurveEditorController_Listener = 90;
         ApiTileGridLoader = 91;
+        ApiGaussianSplatCloudNode =92;
     };
 
     uint64 handle = 1;  // 64-bit handle representing the object reference

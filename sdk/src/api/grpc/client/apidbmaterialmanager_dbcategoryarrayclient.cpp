@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apidbmaterialmanager_dbcategoryarrayclient.h"
 #include <cassert>
@@ -29,7 +29,7 @@ GRPCSettings & ApiDBMaterialManagerProxy_DBCategoryArray::getGRPCSettings()
 
 
 void ApiDBMaterialManagerProxy_DBCategoryArray::init(
-            const size_t                              size //// last param ////
+            const size_t                              size
             )
 
 {
@@ -42,15 +42,15 @@ void ApiDBMaterialManagerProxy_DBCategoryArray::init(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_DBCategoryArray);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_DBCategoryArray);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'size' [in] parameter to the request packet.
     uint32_t sizeIn;
-    sizeIn = static_cast<uint32_t>(size);////2 const size_t////
+    sizeIn = static_cast<uint32_t>(size);
     request.set_size(sizeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -58,7 +58,7 @@ void ApiDBMaterialManagerProxy_DBCategoryArray::init(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiDBMaterialManager_DBCategoryArrayService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiDBMaterialManager_DBCategoryArrayService::Stub> stub =
         octaneapi::ApiDBMaterialManager_DBCategoryArrayService::NewStub(getGRPCSettings().getChannel());
     status = stub->init(context.get(), request, &response);
 
@@ -92,8 +92,8 @@ void ApiDBMaterialManagerProxy_DBCategoryArray::free()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_DBCategoryArray);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_DBCategoryArray);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -102,7 +102,7 @@ void ApiDBMaterialManagerProxy_DBCategoryArray::free()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiDBMaterialManager_DBCategoryArrayService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiDBMaterialManager_DBCategoryArrayService::Stub> stub =
         octaneapi::ApiDBMaterialManager_DBCategoryArrayService::NewStub(getGRPCSettings().getChannel());
     status = stub->free(context.get(), request, &response);
 
@@ -136,8 +136,8 @@ std::vector<Octane::ApiDBMaterialManager::DBCategory> ApiDBMaterialManagerProxy_
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_DBCategoryArray);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_DBCategoryArray);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -146,7 +146,7 @@ std::vector<Octane::ApiDBMaterialManager::DBCategory> ApiDBMaterialManagerProxy_
     octaneapi::ApiDBMaterialManager::ApiDBMaterialManager_DBCategoryArray::getCategoryResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiDBMaterialManager_DBCategoryArrayService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiDBMaterialManager_DBCategoryArrayService::Stub> stub =
         octaneapi::ApiDBMaterialManager_DBCategoryArrayService::NewStub(getGRPCSettings().getChannel());
     status = stub->getCategory(context.get(), request, &response);
 
@@ -155,9 +155,8 @@ std::vector<Octane::ApiDBMaterialManager::DBCategory> ApiDBMaterialManagerProxy_
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ApiDBMaterialManager_CategoryArray resultOut = response.result();
-        ////special case for CategoryArray////
         std::vector<Octane::ApiDBMaterialManager::DBCategory> retVal;
-        retVal.reserve(resultOut.categories_size());////214b////
+        retVal.reserve(resultOut.categories_size());
         for (int i = 0; i < resultOut.categories_size(); i++)
         {
             Octane::ApiDBMaterialManager::DBCategory category;
@@ -198,8 +197,8 @@ size_t ApiDBMaterialManagerProxy_DBCategoryArray::getCount() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_DBCategoryArray);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_DBCategoryArray);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -208,7 +207,7 @@ size_t ApiDBMaterialManagerProxy_DBCategoryArray::getCount() const
     octaneapi::ApiDBMaterialManager::ApiDBMaterialManager_DBCategoryArray::getCountResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiDBMaterialManager_DBCategoryArrayService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiDBMaterialManager_DBCategoryArrayService::Stub> stub =
         octaneapi::ApiDBMaterialManager_DBCategoryArrayService::NewStub(getGRPCSettings().getChannel());
     status = stub->getCount(context.get(), request, &response);
 
@@ -218,7 +217,7 @@ size_t ApiDBMaterialManagerProxy_DBCategoryArray::getCount() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

@@ -7,7 +7,7 @@
 namespace Octane { struct ApiDeviceMemoryUsage; }
 namespace octaneapi { class ApiDeviceMemoryUsage; }
 
-class ApiNodeInfoProxy;
+struct ApiNodeInfoProxy;
 class ApiDeviceMemoryUsageConverter
 {
 public:

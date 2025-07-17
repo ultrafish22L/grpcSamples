@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apilogmanagerclient.h"
 #include <cassert>
@@ -28,7 +28,7 @@ GRPCSettings & ApiLogManagerProxy::getGRPCSettings()
 
 
 bool ApiLogManagerProxy::registerLogCallbackProc(
-            Octane::ApiLogManager::ApiLogCallbackProc * proc //// last param ////
+            Octane::ApiLogManager::ApiLogCallbackProc * proc
             )
 
 {
@@ -39,21 +39,17 @@ bool ApiLogManagerProxy::registerLogCallbackProc(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'proc' [in] parameter to the request packet.
-    octaneapi::ApiLogCallbackProc * procIn = new octaneapi::ApiLogCallbackProc(); //// proc type=ApiLogCallbackProc;//// ////721////
+    octaneapi::ApiLogCallbackProc * procIn = new octaneapi::ApiLogCallbackProc();
     // setup callback function proc
-    //int procCallbackId = GRPCSettings::getNextCallbackId("ApiLogCallbackProc"); 
-    //CallbackStorage::registerApiLogCallbackProc(procCallbackId, proc);
     procIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //procIn->set_callbackid(procCallbackId);
-    //if(className == "ApiLogManager" && method.mName == "registerLogCallbackProc") return true;
-    request.set_allocated_proc(procIn);//// 6215 ////
+    request.set_allocated_proc(procIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiLogManager::registerLogCallbackProcResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub =
         octaneapi::ApiLogManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->registerLogCallbackProc(context.get(), request, &response);
 
@@ -65,7 +61,7 @@ bool ApiLogManagerProxy::registerLogCallbackProc(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'callbackId' [out] parameter from the gRPC response packet
@@ -89,7 +85,7 @@ bool ApiLogManagerProxy::registerLogCallbackProc(
 
 
 bool ApiLogManagerProxy::unregisterLogCallbackProc(
-            Octane::ApiLogManager::ApiLogCallbackProc * proc //// last param ////
+            Octane::ApiLogManager::ApiLogCallbackProc * proc
             )
 
 {
@@ -100,21 +96,17 @@ bool ApiLogManagerProxy::unregisterLogCallbackProc(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'proc' [in] parameter to the request packet.
-    octaneapi::ApiLogCallbackProc * procIn = new octaneapi::ApiLogCallbackProc(); //// proc type=ApiLogCallbackProc;//// ////721////
+    octaneapi::ApiLogCallbackProc * procIn = new octaneapi::ApiLogCallbackProc();
     // setup callback function proc
-    //int procCallbackId = GRPCSettings::getNextCallbackId("ApiLogCallbackProc"); 
-    //CallbackStorage::registerApiLogCallbackProc(procCallbackId, proc);
     procIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //procIn->set_callbackid(procCallbackId);
-    //if(className == "ApiLogManager" && method.mName == "unregisterLogCallbackProc") return true;
-    request.set_allocated_proc(procIn);//// 6215 ////
+    request.set_allocated_proc(procIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiLogManager::unregisterLogCallbackProcResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub =
         octaneapi::ApiLogManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->unregisterLogCallbackProc(context.get(), request, &response);
 
@@ -126,7 +118,7 @@ bool ApiLogManagerProxy::unregisterLogCallbackProc(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'callbackId' [out] parameter from the gRPC response packet
@@ -161,7 +153,7 @@ void ApiLogManagerProxy::openOctaneLogWindow()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub =
         octaneapi::ApiLogManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->openOctaneLogWindow(context.get(), request, &response);
 
@@ -185,7 +177,7 @@ void ApiLogManagerProxy::openOctaneLogWindow()
 
 
 void ApiLogManagerProxy::log(
-            const char *                              text //// last param ////
+            const char *                              text
             )
 
 {
@@ -196,16 +188,16 @@ void ApiLogManagerProxy::log(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'text' [in] parameter to the request packet.
-    std::string * textIn = new std::string(); //// text type=string;//// ////721////
+    std::string * textIn = new std::string();
     *textIn = checkString(text);
-    request.set_allocated_text(textIn);//// 6215 ////
+    request.set_allocated_text(textIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub =
         octaneapi::ApiLogManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->log(context.get(), request, &response);
 
@@ -229,7 +221,7 @@ void ApiLogManagerProxy::log(
 
 
 void ApiLogManagerProxy::logError(
-            const char *                              errorMsg //// last param ////
+            const char *                              errorMsg
             )
 
 {
@@ -240,16 +232,16 @@ void ApiLogManagerProxy::logError(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'errorMsg' [in] parameter to the request packet.
-    std::string * errormsgIn = new std::string(); //// errorMsg type=string;//// ////721////
+    std::string * errormsgIn = new std::string();
     *errormsgIn = checkString(errorMsg);
-    request.set_allocated_errormsg(errormsgIn);//// 6215 ////
+    request.set_allocated_errormsg(errormsgIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub =
         octaneapi::ApiLogManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->logError(context.get(), request, &response);
 
@@ -273,7 +265,7 @@ void ApiLogManagerProxy::logError(
 
 
 void ApiLogManagerProxy::logFmt(
-            const char *                              fmt //// last param ////
+            const char *                              fmt
             )
 
 {
@@ -284,16 +276,16 @@ void ApiLogManagerProxy::logFmt(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'fmt' [in] parameter to the request packet.
-    std::string * fmtIn = new std::string(); //// fmt type=string;//// ////721////
+    std::string * fmtIn = new std::string();
     *fmtIn = checkString(fmt);
-    request.set_allocated_fmt(fmtIn);//// 6215 ////
+    request.set_allocated_fmt(fmtIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub =
         octaneapi::ApiLogManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->logFmt(context.get(), request, &response);
 
@@ -317,7 +309,7 @@ void ApiLogManagerProxy::logFmt(
 
 
 void ApiLogManagerProxy::logErrorFmt(
-            const char *                              fmt //// last param ////
+            const char *                              fmt
             )
 
 {
@@ -328,16 +320,16 @@ void ApiLogManagerProxy::logErrorFmt(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'fmt' [in] parameter to the request packet.
-    std::string * fmtIn = new std::string(); //// fmt type=string;//// ////721////
+    std::string * fmtIn = new std::string();
     *fmtIn = checkString(fmt);
-    request.set_allocated_fmt(fmtIn);//// 6215 ////
+    request.set_allocated_fmt(fmtIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub =
         octaneapi::ApiLogManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->logErrorFmt(context.get(), request, &response);
 
@@ -361,7 +353,7 @@ void ApiLogManagerProxy::logErrorFmt(
 
 
 bool ApiLogManagerProxy::isFlagRegistered(
-            const char *const                         name //// last param ////
+            const char *const                         name
             )
 
 {
@@ -372,16 +364,16 @@ bool ApiLogManagerProxy::isFlagRegistered(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'name' [in] parameter to the request packet.
-    std::string * nameIn = new std::string(); //// name type=string;//// ////721////
+    std::string * nameIn = new std::string();
     *nameIn = checkString(name);
-    request.set_allocated_name(nameIn);//// 6215 ////
+    request.set_allocated_name(nameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiLogManager::isFlagRegisteredResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub =
         octaneapi::ApiLogManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->isFlagRegistered(context.get(), request, &response);
 
@@ -391,7 +383,7 @@ bool ApiLogManagerProxy::isFlagRegistered(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -411,8 +403,8 @@ bool ApiLogManagerProxy::isFlagRegistered(
 
 
 int ApiLogManagerProxy::setFlag(
-            const char *const                         name, //// test821 //// 
-            const int                                 value //// last param ////
+            const char *const                         name,
+            const int                                 value
             )
 
 {
@@ -423,14 +415,14 @@ int ApiLogManagerProxy::setFlag(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'name' [in] parameter to the request packet.
-    std::string * nameIn = new std::string(); //// name type=string;//// ////721////
+    std::string * nameIn = new std::string();
     *nameIn = checkString(name);
-    request.set_allocated_name(nameIn);//// 6215 ////
+    request.set_allocated_name(nameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     int32_t valueIn;
-    valueIn = value;////2 const int////
+    valueIn = value;
     request.set_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -438,7 +430,7 @@ int ApiLogManagerProxy::setFlag(
     octaneapi::ApiLogManager::setFlagResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub =
         octaneapi::ApiLogManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->setFlag(context.get(), request, &response);
 
@@ -448,7 +440,7 @@ int ApiLogManagerProxy::setFlag(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         int32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -468,10 +460,10 @@ int ApiLogManagerProxy::setFlag(
 
 
 int ApiLogManagerProxy::__registerLogFlag(
-            int &                                     flag, //// test821 //// 
-            const char *                              prefix, //// test821 //// 
-            const char *                              name, //// test821 //// 
-            const char *                              description //// last param ////
+            int &                                     flag,
+            const char *                              prefix,
+            const char *                              name,
+            const char *                              description
             )
 
 {
@@ -483,33 +475,33 @@ int ApiLogManagerProxy::__registerLogFlag(
     /////////////////////////////////////////////////////////////////////
     // Add the 'flag' [in] parameter to the request packet.
     int32_t flagIn;
-    flagIn = flag;////2 int &////
+    flagIn = flag;
     request.set_flag(flagIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'prefix' [in] parameter to the request packet.
-    std::string * prefixIn = new std::string(); //// prefix type=string;//// ////721////
+    std::string * prefixIn = new std::string();
     *prefixIn = checkString(prefix);
-    request.set_allocated_prefix(prefixIn);//// 6215 ////
+    request.set_allocated_prefix(prefixIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'name' [in] parameter to the request packet.
-    std::string * nameIn = new std::string(); //// name type=string;//// ////721////
+    std::string * nameIn = new std::string();
     *nameIn = checkString(name);
-    request.set_allocated_name(nameIn);//// 6215 ////
+    request.set_allocated_name(nameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'description' [in] parameter to the request packet.
-    std::string * descriptionIn = new std::string(); //// description type=string;//// ////721////
+    std::string * descriptionIn = new std::string();
     *descriptionIn = checkString(description);
-    request.set_allocated_description(descriptionIn);//// 6215 ////
+    request.set_allocated_description(descriptionIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiLogManager::__registerLogFlagResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub =
         octaneapi::ApiLogManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->__registerLogFlag(context.get(), request, &response);
 
@@ -519,7 +511,7 @@ int ApiLogManagerProxy::__registerLogFlag(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         int32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -539,8 +531,8 @@ int ApiLogManagerProxy::__registerLogFlag(
 
 
 void ApiLogManagerProxy::__logFmtPrefix(
-            const char *                              prefix, //// test821 //// 
-            const char *                              fmt //// last param ////
+            const char *                              prefix,
+            const char *                              fmt
             )
 
 {
@@ -551,22 +543,22 @@ void ApiLogManagerProxy::__logFmtPrefix(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'prefix' [in] parameter to the request packet.
-    std::string * prefixIn = new std::string(); //// prefix type=string;//// ////721////
+    std::string * prefixIn = new std::string();
     *prefixIn = checkString(prefix);
-    request.set_allocated_prefix(prefixIn);//// 6215 ////
+    request.set_allocated_prefix(prefixIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'fmt' [in] parameter to the request packet.
-    std::string * fmtIn = new std::string(); //// fmt type=string;//// ////721////
+    std::string * fmtIn = new std::string();
     *fmtIn = checkString(fmt);
-    request.set_allocated_fmt(fmtIn);//// 6215 ////
+    request.set_allocated_fmt(fmtIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLogManagerService::Stub> stub =
         octaneapi::ApiLogManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->__logFmtPrefix(context.get(), request, &response);
 

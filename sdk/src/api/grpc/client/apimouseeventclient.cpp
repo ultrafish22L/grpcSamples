@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apimouseeventclient.h"
 #include <cassert>
@@ -39,7 +39,7 @@ ApiMouseEventProxy ApiMouseEventProxy::make()
     octaneapi::ApiMouseEvent::makeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMouseEventService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMouseEventService::Stub> stub =
         octaneapi::ApiMouseEventService::NewStub(getGRPCSettings().getChannel());
     status = stub->make(context.get(), request, &response);
 
@@ -67,7 +67,7 @@ ApiMouseEventProxy ApiMouseEventProxy::make()
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiMouseEventProxy retVal;////714////
+        ApiMouseEventProxy retVal;
         return retVal;
     }
 };

@@ -32,7 +32,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void initFromFile(
-            const char *const                         pathUTF8
+            const char *const   pathUTF8
             );
 
     /// Initializes the current ImageInfo object from the given buffer with the given length
@@ -58,28 +58,28 @@ public:
         ///     SUCCESS, the pointer to the matching layer info
         ///     FAILED , null pointer
     LayerInfoProxy layerInfo(
-            const uint32_t                            layerIx
+            const uint32_t   layerIx
             ) const;
 
     /// Gets the layer count of the current image
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    uint32_t layerCount(            ) const;
+    uint32_t layerCount() const;
 
     /// Gets the size of the image in pixel
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    Octane::uint32_2 size(            ) const;
+    Octane::uint32_2 size() const;
 
     /// Checks if the current image is a HDR image
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isHdr(            ) const;
+    bool isHdr() const;
 
     /// Checks if the current image is compressed.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isCompressed(            ) const;
+    bool isCompressed() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

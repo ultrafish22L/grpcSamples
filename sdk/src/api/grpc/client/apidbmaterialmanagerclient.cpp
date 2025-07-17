@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apidbmaterialmanagerclient.h"
 #include <cassert>
@@ -32,7 +32,7 @@ GRPCSettings & ApiDBMaterialManagerProxy::getGRPCSettings()
 
 
 bool ApiDBMaterialManagerProxy::getCategories(
-            ApiDBMaterialManagerProxy_DBCategoryArray &list //// last param ////
+            ApiDBMaterialManagerProxy_DBCategoryArray &list
             )
 
 {
@@ -46,7 +46,7 @@ bool ApiDBMaterialManagerProxy::getCategories(
     octaneapi::ApiDBMaterialManager::getCategoriesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiDBMaterialManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiDBMaterialManagerService::Stub> stub =
         octaneapi::ApiDBMaterialManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->getCategories(context.get(), request, &response);
 
@@ -56,12 +56,12 @@ bool ApiDBMaterialManagerProxy::getCategories(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'list' [out] parameter from the gRPC response packet
         octaneapi::ObjectRef listOut = response.list();
-        list.attachObjectHandle(listOut.handle());////test 80////
+        list.attachObjectHandle(listOut.handle());
     }
     else
     {
@@ -81,8 +81,8 @@ bool ApiDBMaterialManagerProxy::getCategories(
 
 
 bool ApiDBMaterialManagerProxy::getMaterials(
-            const int                                 categoryId, //// test821 //// 
-            ApiDBMaterialManagerProxy_DBMaterialArray &list //// last param ////
+            const int                                 categoryId,
+            ApiDBMaterialManagerProxy_DBMaterialArray &list
             )
 
 {
@@ -94,7 +94,7 @@ bool ApiDBMaterialManagerProxy::getMaterials(
     /////////////////////////////////////////////////////////////////////
     // Add the 'categoryId' [in] parameter to the request packet.
     int32_t categoryidIn;
-    categoryidIn = categoryId;////2 const int////
+    categoryidIn = categoryId;
     request.set_categoryid(categoryidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -102,7 +102,7 @@ bool ApiDBMaterialManagerProxy::getMaterials(
     octaneapi::ApiDBMaterialManager::getMaterialsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiDBMaterialManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiDBMaterialManagerService::Stub> stub =
         octaneapi::ApiDBMaterialManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->getMaterials(context.get(), request, &response);
 
@@ -112,12 +112,12 @@ bool ApiDBMaterialManagerProxy::getMaterials(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'list' [out] parameter from the gRPC response packet
         octaneapi::ObjectRef listOut = response.list();
-        list.attachObjectHandle(listOut.handle());////test 80////
+        list.attachObjectHandle(listOut.handle());
     }
     else
     {
@@ -137,10 +137,10 @@ bool ApiDBMaterialManagerProxy::getMaterials(
 
 
 std::unique_ptr<uint8_t> ApiDBMaterialManagerProxy::getMaterialPreview(
-            const int                                 materialId, //// test821 //// 
-            const uint32_t                            requestedSize, //// test821 //// 
-            Octane::LiveDbThumbnailView               view, //// test821 //// 
-            Octane::uint32_2 &                        size //// last param ////
+            const int                                 materialId,
+            const uint32_t                            requestedSize,
+            Octane::LiveDbThumbnailView               view,
+            Octane::uint32_2 &                        size
             )
 
 {
@@ -152,13 +152,13 @@ std::unique_ptr<uint8_t> ApiDBMaterialManagerProxy::getMaterialPreview(
     /////////////////////////////////////////////////////////////////////
     // Add the 'materialId' [in] parameter to the request packet.
     int32_t materialidIn;
-    materialidIn = materialId;////2 const int////
+    materialidIn = materialId;
     request.set_materialid(materialidIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'requestedSize' [in] parameter to the request packet.
     uint32_t requestedsizeIn;
-    requestedsizeIn = requestedSize;////2 const uint32_t////
+    requestedsizeIn = requestedSize;
     request.set_requestedsize(requestedsizeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -172,7 +172,7 @@ std::unique_ptr<uint8_t> ApiDBMaterialManagerProxy::getMaterialPreview(
     octaneapi::ApiDBMaterialManager::getMaterialPreviewResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiDBMaterialManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiDBMaterialManagerService::Stub> stub =
         octaneapi::ApiDBMaterialManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->getMaterialPreview(context.get(), request, &response);
 
@@ -181,7 +181,6 @@ std::unique_ptr<uint8_t> ApiDBMaterialManagerProxy::getMaterialPreview(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::Buffer resultOut = response.result();
-        ////special case for getMaterialPreview////
         auto retVal = std::make_unique<uint8_t>(resultOut.data().size());
         memcpy(retVal.get(), resultOut.data().data(), resultOut.data().size());
 
@@ -210,9 +209,9 @@ std::unique_ptr<uint8_t> ApiDBMaterialManagerProxy::getMaterialPreview(
 
 
 bool ApiDBMaterialManagerProxy::downloadMaterial(
-            const int                                 materialId, //// test821 //// 
-            ApiNodeGraphProxy &                       destinationGraph, //// test821 //// 
-            ApiNodeProxy **                           outputNode //// last param ////
+            const int                                 materialId,
+            ApiNodeGraphProxy &                       destinationGraph,
+            ApiNodeProxy **                           outputNode
             )
 
 {
@@ -224,15 +223,15 @@ bool ApiDBMaterialManagerProxy::downloadMaterial(
     /////////////////////////////////////////////////////////////////////
     // Add the 'materialId' [in] parameter to the request packet.
     int32_t materialidIn;
-    materialidIn = materialId;////2 const int////
+    materialidIn = materialId;
     request.set_materialid(materialidIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'destinationGraph' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * destinationgraphIn = new octaneapi::ObjectRef();////761////
-    destinationgraphIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * destinationgraphIn = new octaneapi::ObjectRef();
+    destinationgraphIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     destinationgraphIn->set_handle(destinationGraph.getObjectHandle());
     request.set_allocated_destinationgraph(destinationgraphIn);
 
@@ -241,7 +240,7 @@ bool ApiDBMaterialManagerProxy::downloadMaterial(
     octaneapi::ApiDBMaterialManager::downloadMaterialResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiDBMaterialManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiDBMaterialManagerService::Stub> stub =
         octaneapi::ApiDBMaterialManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->downloadMaterial(context.get(), request, &response);
 
@@ -251,12 +250,12 @@ bool ApiDBMaterialManagerProxy::downloadMaterial(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'outputNode' [out] parameter from the gRPC response packet
         octaneapi::ObjectRef outputNodeOut = response.outputnode();
-        (*outputNode)->attachObjectHandle(outputNodeOut.handle());////test 79////
+        (*outputNode)->attachObjectHandle(outputNodeOut.handle());
     }
     else
     {
@@ -276,8 +275,8 @@ bool ApiDBMaterialManagerProxy::downloadMaterial(
 
 
 ApiNodeProxy ApiDBMaterialManagerProxy::downloadMaterial(
-            const int                                 materialId, //// test821 //// 
-            const char *                              assetPath //// last param ////
+            const int                                 materialId,
+            const char *                              assetPath
             )
 
 {
@@ -289,21 +288,21 @@ ApiNodeProxy ApiDBMaterialManagerProxy::downloadMaterial(
     /////////////////////////////////////////////////////////////////////
     // Add the 'materialId' [in] parameter to the request packet.
     int32_t materialidIn;
-    materialidIn = materialId;////2 const int////
+    materialidIn = materialId;
     request.set_materialid(materialidIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'assetPath' [in] parameter to the request packet.
-    std::string * assetpathIn = new std::string(); //// assetPath type=string;//// ////721////
+    std::string * assetpathIn = new std::string();
     *assetpathIn = checkString(assetPath);
-    request.set_allocated_assetpath(assetpathIn);//// 6215 ////
+    request.set_allocated_assetpath(assetpathIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiDBMaterialManager::downloadMaterial1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiDBMaterialManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiDBMaterialManagerService::Stub> stub =
         octaneapi::ApiDBMaterialManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->downloadMaterial1(context.get(), request, &response);
 
@@ -331,7 +330,7 @@ ApiNodeProxy ApiDBMaterialManagerProxy::downloadMaterial(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiNodeProxy retVal;////714////
+        ApiNodeProxy retVal;
         return retVal;
     }
 };

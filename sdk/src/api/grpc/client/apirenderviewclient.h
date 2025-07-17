@@ -25,10 +25,10 @@ class GRPCSettings;
 class ApiRenderViewProxy : public ApiGuiComponentProxy
 {
 public:
-    void destroy(            );
+    void destroy();
 
     static ApiRenderViewProxy create(
-            void *                                    privateData
+            void *   privateData
             );
 
 private:

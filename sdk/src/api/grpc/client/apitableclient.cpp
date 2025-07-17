@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apitableclient.h"
 #include <cassert>
@@ -28,13 +28,13 @@ GRPCSettings & ApiTableProxy::getGRPCSettings()
 
 
 ApiTableProxy ApiTableProxy::create(
-            const char *                              columnHeaders[], //// test821 //// 
-            const size_t                              columnHeadersLength, //// test821 //// 
-            const bool                                headerVisible, //// test821 //// 
-            Octane::ApiTable::NumRowsCallbackT        numRowsCallback, //// test821 //// 
-            Octane::ApiTable::ContentCallbackT        contentForCellCallback, //// test821 //// 
-            Octane::ApiTable::SelectionChangedCallbackT selectionChangedCallback, //// test821 //// 
-            void *                                    privateData //// last param ////
+            const char *                              columnHeaders[],
+            const size_t                              columnHeadersLength,
+            const bool                                headerVisible,
+            Octane::ApiTable::NumRowsCallbackT        numRowsCallback,
+            Octane::ApiTable::ContentCallbackT        contentForCellCallback,
+            Octane::ApiTable::SelectionChangedCallbackT selectionChangedCallback,
+            void *                                    privateData
             )
 
 {
@@ -45,64 +45,49 @@ ApiTableProxy ApiTableProxy::create(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'columnHeaders' [in] parameter to the request packet.
-    octaneapi::StringArrayT * columnheadersIn = new octaneapi::StringArrayT(); //// columnHeaders type=StringArrayT;//// ////721////
-    //// Client Array Type G ////
-    //// param.mProtoCppType = StringArrayT param.mType = const char *[] ////
+    octaneapi::StringArrayT * columnheadersIn = new octaneapi::StringArrayT();
     for (size_t h = 0; h < columnHeadersLength; h++)
     {
         columnheadersIn->add_data(static_cast<std::string>(columnHeaders[h]));
     }
-    request.set_allocated_columnheaders(columnheadersIn);//// 6215 ////
+    request.set_allocated_columnheaders(columnheadersIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'columnHeadersLength' [in] parameter to the request packet.
     uint32_t columnheaderslengthIn;
-    columnheaderslengthIn = static_cast<uint32_t>(columnHeadersLength);////2 const size_t////
+    columnheaderslengthIn = static_cast<uint32_t>(columnHeadersLength);
     request.set_columnheaderslength(columnheaderslengthIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'headerVisible' [in] parameter to the request packet.
     bool headervisibleIn;
-    headervisibleIn = headerVisible;////2 const bool////
+    headervisibleIn = headerVisible;
     request.set_headervisible(headervisibleIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'numRowsCallback' [in] parameter to the request packet.
-    octaneapi::NumRowsCallbackT * numrowscallbackIn = new octaneapi::NumRowsCallbackT(); //// numRowsCallback type=NumRowsCallbackT;//// ////721////
+    octaneapi::NumRowsCallbackT * numrowscallbackIn = new octaneapi::NumRowsCallbackT();
     // setup callback function numRowsCallback
-    //int numRowsCallbackCallbackId = GRPCSettings::getNextCallbackId("NumRowsCallback"); 
-    //CallbackStorage::registerNumRowsCallback(numRowsCallbackCallbackId, numRowsCallback);
     numrowscallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //numrowscallbackIn->set_callbackid(numRowsCallbackCallbackId);
-    //if(className == "ApiTable" && method.mName == "create") return true;
-    request.set_allocated_numrowscallback(numrowscallbackIn);//// 6215 ////
+    request.set_allocated_numrowscallback(numrowscallbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'contentForCellCallback' [in] parameter to the request packet.
-    octaneapi::ContentCallbackT * contentforcellcallbackIn = new octaneapi::ContentCallbackT(); //// contentForCellCallback type=ContentCallbackT;//// ////721////
+    octaneapi::ContentCallbackT * contentforcellcallbackIn = new octaneapi::ContentCallbackT();
     // setup callback function contentForCellCallback
-    //int contentForCellCallbackCallbackId = GRPCSettings::getNextCallbackId("ContentCallback"); 
-    //CallbackStorage::registerContentCallback(contentForCellCallbackCallbackId, contentForCellCallback);
     contentforcellcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //contentforcellcallbackIn->set_callbackid(contentForCellCallbackCallbackId);
-    //if(className == "ApiTable" && method.mName == "create") return true;
-    request.set_allocated_contentforcellcallback(contentforcellcallbackIn);//// 6215 ////
+    request.set_allocated_contentforcellcallback(contentforcellcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'selectionChangedCallback' [in] parameter to the request packet.
-    octaneapi::SelectionChangedCallbackT * selectionchangedcallbackIn = new octaneapi::SelectionChangedCallbackT(); //// selectionChangedCallback type=SelectionChangedCallbackT;//// ////721////
+    octaneapi::SelectionChangedCallbackT * selectionchangedcallbackIn = new octaneapi::SelectionChangedCallbackT();
     // setup callback function selectionChangedCallback
-    //int selectionChangedCallbackCallbackId = GRPCSettings::getNextCallbackId("SelectionChangedCallback"); 
-    //CallbackStorage::registerSelectionChangedCallback(selectionChangedCallbackCallbackId, selectionChangedCallback);
     selectionchangedcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //selectionchangedcallbackIn->set_callbackid(selectionChangedCallbackCallbackId);
-    //if(className == "ApiTable" && method.mName == "create") return true;
-    request.set_allocated_selectionchangedcallback(selectionchangedcallbackIn);//// 6215 ////
+    request.set_allocated_selectionchangedcallback(selectionchangedcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'privateData' [in] parameter to the request packet.
     uint64_t privatedataIn;
-    //// USER DATA TEST ////
     privatedataIn = reinterpret_cast<uint64_t>(privateData);
     request.set_privatedata(privatedataIn);
 
@@ -111,7 +96,7 @@ ApiTableProxy ApiTableProxy::create(
     octaneapi::ApiTable::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTableService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTableService::Stub> stub =
         octaneapi::ApiTableService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -157,7 +142,7 @@ ApiTableProxy ApiTableProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiTableProxy retVal;////714////
+        ApiTableProxy retVal;
         return retVal;
     }
 };
@@ -174,8 +159,8 @@ void ApiTableProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -184,7 +169,7 @@ void ApiTableProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTableService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTableService::Stub> stub =
         octaneapi::ApiTableService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -218,8 +203,8 @@ void ApiTableProxy::updateContent()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -228,7 +213,7 @@ void ApiTableProxy::updateContent()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTableService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTableService::Stub> stub =
         octaneapi::ApiTableService::NewStub(getGRPCSettings().getChannel());
     status = stub->updateContent(context.get(), request, &response);
 
@@ -252,9 +237,9 @@ void ApiTableProxy::updateContent()
 
 
 void ApiTableProxy::selectRow(
-            const int                                 rowNumber, //// test821 //// 
-            const bool                                dontScrollToShowThisRow, //// test821 //// 
-            const bool                                deselectOthersFirst //// last param ////
+            const int                                 rowNumber,
+            const bool                                dontScrollToShowThisRow,
+            const bool                                deselectOthersFirst
             )
 
 {
@@ -267,27 +252,27 @@ void ApiTableProxy::selectRow(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'rowNumber' [in] parameter to the request packet.
     int32_t rownumberIn;
-    rownumberIn = rowNumber;////2 const int////
+    rownumberIn = rowNumber;
     request.set_rownumber(rownumberIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'dontScrollToShowThisRow' [in] parameter to the request packet.
     bool dontscrolltoshowthisrowIn;
-    dontscrolltoshowthisrowIn = dontScrollToShowThisRow;////2 const bool////
+    dontscrolltoshowthisrowIn = dontScrollToShowThisRow;
     request.set_dontscrolltoshowthisrow(dontscrolltoshowthisrowIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'deselectOthersFirst' [in] parameter to the request packet.
     bool deselectothersfirstIn;
-    deselectothersfirstIn = deselectOthersFirst;////2 const bool////
+    deselectothersfirstIn = deselectOthersFirst;
     request.set_deselectothersfirst(deselectothersfirstIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -295,7 +280,7 @@ void ApiTableProxy::selectRow(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTableService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTableService::Stub> stub =
         octaneapi::ApiTableService::NewStub(getGRPCSettings().getChannel());
     status = stub->selectRow(context.get(), request, &response);
 
@@ -319,8 +304,8 @@ void ApiTableProxy::selectRow(
 
 
 void ApiTableProxy::selectRangeOfRows(
-            const int                                 firstRow, //// test821 //// 
-            const int                                 lastRow //// last param ////
+            const int                                 firstRow,
+            const int                                 lastRow
             )
 
 {
@@ -333,21 +318,21 @@ void ApiTableProxy::selectRangeOfRows(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'firstRow' [in] parameter to the request packet.
     int32_t firstrowIn;
-    firstrowIn = firstRow;////2 const int////
+    firstrowIn = firstRow;
     request.set_firstrow(firstrowIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'lastRow' [in] parameter to the request packet.
     int32_t lastrowIn;
-    lastrowIn = lastRow;////2 const int////
+    lastrowIn = lastRow;
     request.set_lastrow(lastrowIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -355,7 +340,7 @@ void ApiTableProxy::selectRangeOfRows(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTableService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTableService::Stub> stub =
         octaneapi::ApiTableService::NewStub(getGRPCSettings().getChannel());
     status = stub->selectRangeOfRows(context.get(), request, &response);
 
@@ -379,7 +364,7 @@ void ApiTableProxy::selectRangeOfRows(
 
 
 void ApiTableProxy::deselectRow(
-            const int                                 rowNumber //// last param ////
+            const int                                 rowNumber
             )
 
 {
@@ -392,15 +377,15 @@ void ApiTableProxy::deselectRow(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'rowNumber' [in] parameter to the request packet.
     int32_t rownumberIn;
-    rownumberIn = rowNumber;////2 const int////
+    rownumberIn = rowNumber;
     request.set_rownumber(rownumberIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -408,7 +393,7 @@ void ApiTableProxy::deselectRow(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTableService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTableService::Stub> stub =
         octaneapi::ApiTableService::NewStub(getGRPCSettings().getChannel());
     status = stub->deselectRow(context.get(), request, &response);
 
@@ -442,8 +427,8 @@ void ApiTableProxy::deselectAllRows()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -452,7 +437,7 @@ void ApiTableProxy::deselectAllRows()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTableService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTableService::Stub> stub =
         octaneapi::ApiTableService::NewStub(getGRPCSettings().getChannel());
     status = stub->deselectAllRows(context.get(), request, &response);
 
@@ -476,7 +461,7 @@ void ApiTableProxy::deselectAllRows()
 
 
 void ApiTableProxy::flipRowSelection(
-            const int                                 rowNumber //// last param ////
+            const int                                 rowNumber
             )
 
 {
@@ -489,15 +474,15 @@ void ApiTableProxy::flipRowSelection(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'rowNumber' [in] parameter to the request packet.
     int32_t rownumberIn;
-    rownumberIn = rowNumber;////2 const int////
+    rownumberIn = rowNumber;
     request.set_rownumber(rownumberIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -505,7 +490,7 @@ void ApiTableProxy::flipRowSelection(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTableService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTableService::Stub> stub =
         octaneapi::ApiTableService::NewStub(getGRPCSettings().getChannel());
     status = stub->flipRowSelection(context.get(), request, &response);
 
@@ -529,7 +514,7 @@ void ApiTableProxy::flipRowSelection(
 
 
 bool ApiTableProxy::isRowSelected(
-            const int                                 rowNumber //// last param ////
+            const int                                 rowNumber
             ) const
 
 {
@@ -542,15 +527,15 @@ bool ApiTableProxy::isRowSelected(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'rowNumber' [in] parameter to the request packet.
     int32_t rownumberIn;
-    rownumberIn = rowNumber;////2 const int////
+    rownumberIn = rowNumber;
     request.set_rownumber(rownumberIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -558,7 +543,7 @@ bool ApiTableProxy::isRowSelected(
     octaneapi::ApiTable::isRowSelectedResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTableService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTableService::Stub> stub =
         octaneapi::ApiTableService::NewStub(getGRPCSettings().getChannel());
     status = stub->isRowSelected(context.get(), request, &response);
 
@@ -568,7 +553,7 @@ bool ApiTableProxy::isRowSelected(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -598,8 +583,8 @@ int ApiTableProxy::numSelectedRows() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -608,7 +593,7 @@ int ApiTableProxy::numSelectedRows() const
     octaneapi::ApiTable::numSelectedRowsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTableService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTableService::Stub> stub =
         octaneapi::ApiTableService::NewStub(getGRPCSettings().getChannel());
     status = stub->numSelectedRows(context.get(), request, &response);
 
@@ -618,7 +603,7 @@ int ApiTableProxy::numSelectedRows() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         int32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -638,7 +623,7 @@ int ApiTableProxy::numSelectedRows() const
 
 
 int ApiTableProxy::selectedRow(
-            const int                                 index //// last param ////
+            const int                                 index
             ) const
 
 {
@@ -651,15 +636,15 @@ int ApiTableProxy::selectedRow(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'index' [in] parameter to the request packet.
     int32_t indexIn;
-    indexIn = index;////2 const int////
+    indexIn = index;
     request.set_index(indexIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -667,7 +652,7 @@ int ApiTableProxy::selectedRow(
     octaneapi::ApiTable::selectedRowResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTableService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTableService::Stub> stub =
         octaneapi::ApiTableService::NewStub(getGRPCSettings().getChannel());
     status = stub->selectedRow(context.get(), request, &response);
 
@@ -677,7 +662,7 @@ int ApiTableProxy::selectedRow(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         int32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -707,8 +692,8 @@ int ApiTableProxy::lastRowSelected() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTable);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -717,7 +702,7 @@ int ApiTableProxy::lastRowSelected() const
     octaneapi::ApiTable::lastRowSelectedResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTableService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTableService::Stub> stub =
         octaneapi::ApiTableService::NewStub(getGRPCSettings().getChannel());
     status = stub->lastRowSelected(context.get(), request, &response);
 
@@ -727,7 +712,7 @@ int ApiTableProxy::lastRowSelected() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         int32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

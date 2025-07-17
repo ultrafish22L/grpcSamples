@@ -14,7 +14,7 @@
 #if !defined(OCTANE_STANDALONE) && !defined(OCTANE_DLLEXPORT)
 #include "grpcapinodeinfo.h"
 #else 
-class ApiNodeInfoProxy
+struct ApiNodeInfoProxy
 {
     //stub
 };
@@ -22,10 +22,54 @@ class ApiNodeInfoProxy
 
 void ApiArrayApiRenderImageConverter::convert(
     const octaneapi::ApiArrayApiRenderImage & in,
-    Octane::ApiArray<Octane::ApiRenderImage> & out)
+    std::vector<Octane::ApiRenderImage> & out)
 {
 
-    //AAAAAA
+    for (int i = 0; i < in.data_size(); ++i)
+    {
+        const ::octaneapi::ApiRenderImage & image = in.data(i);
+        int imagesize = image.buffer().size();
+        const char * imagedata = image.buffer().data().data();
+        int imageSizeX = image.size().x();
+        int imageSizeY = image.size().y();
+
+        Octane::ApiRenderImage img;
+
+        img.mCalculatedSamplesPerPixel = image.calculatedsamplesperpixel(); 
+        img.mType = static_cast<Octane::ImageType>(image.type());
+        img.mColorSpace = static_cast<Octane::NamedColorSpace>(image.colorspace());
+        img.mIsLinear = image.islinear();
+        img.mSize.x = image.size().x();
+        img.mSize.y = image.size().y();
+        img.mPitch = image.pitch();
+
+        //buffer
+        img.mBuffer = nullptr;
+        size_t imgSize = img.mSize.x * img.mSize.x * img.mPitch;// image.mbuffer().size();
+        if (imgSize > 0)
+        {
+            img.mBuffer = new char[imgSize];
+            memcpy((void*)img.mBuffer, (char*)image.buffer().data().data(), image.buffer().size());
+        }
+        else
+        {
+            assert(false);
+        }
+
+        img.mTonemappedSamplesPerPixel = image.tonemappedsamplesperpixel();
+        img.mCalculatedSamplesPerPixel = image.calculatedsamplesperpixel();
+        img.mRegionSamplesPerPixel = image.regionsamplesperpixel();
+        img.mMaxSamplesPerPixel = image.maxsamplesperpixel();
+        img.mSamplesPerSecond = image.samplespersecond();
+        img.mRenderTime = image.rendertime();
+        img.mChangeLevel = static_cast<Octane::CLevelT>(image.changelevel().value());
+        img.mHasPendingUpdates = image.haspendingupdates();
+        img.mSubSampling = static_cast<Octane::SubSampleMode>(image.subsampling());
+        img.mHasAlpha = image.hasalpha();
+        img.mPremultipliedAlphaType = static_cast<Octane::PremultipliedAlphaType>(image.premultipliedalphatype());
+        img.mKeepEnvironment = image.keepenvironment();
+        out.push_back(img);
+    }
 }
 
 

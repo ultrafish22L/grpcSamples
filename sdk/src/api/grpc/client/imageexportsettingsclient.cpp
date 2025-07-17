@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "imageexportsettingsclient.h"
 #include <cassert>
@@ -29,7 +29,7 @@ GRPCSettings & ImageExportSettingsProxy::getGRPCSettings()
 
 
 std::string ImageExportSettingsProxy::getExtension(
-            Octane::SaveImageFileType                 type //// last param ////
+            Octane::SaveImageFileType                 type
             )
 
 {
@@ -49,7 +49,7 @@ std::string ImageExportSettingsProxy::getExtension(
     octaneapi::ImageExportSettings::getExtensionResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub = 
+    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub =
         octaneapi::ImageExportSettingsService::NewStub(getGRPCSettings().getChannel());
     status = stub->getExtension(context.get(), request, &response);
 
@@ -60,7 +60,7 @@ std::string ImageExportSettingsProxy::getExtension(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -80,7 +80,7 @@ std::string ImageExportSettingsProxy::getExtension(
 
 
 uint32_t ImageExportSettingsProxy::getBitsPerComponent(
-            const Octane::SaveImageBitDepth           bitDepth //// last param ////
+            const Octane::SaveImageBitDepth           bitDepth
             )
 
 {
@@ -100,7 +100,7 @@ uint32_t ImageExportSettingsProxy::getBitsPerComponent(
     octaneapi::ImageExportSettings::getBitsPerComponentResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub = 
+    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub =
         octaneapi::ImageExportSettingsService::NewStub(getGRPCSettings().getChannel());
     status = stub->getBitsPerComponent(context.get(), request, &response);
 
@@ -110,7 +110,7 @@ uint32_t ImageExportSettingsProxy::getBitsPerComponent(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -130,7 +130,7 @@ uint32_t ImageExportSettingsProxy::getBitsPerComponent(
 
 
 uint32_t ImageExportSettingsProxy::getBitsPerComponent(
-            const Octane::ImageSaveFormat             format //// last param ////
+            const Octane::ImageSaveFormat             format
             )
 
 {
@@ -150,7 +150,7 @@ uint32_t ImageExportSettingsProxy::getBitsPerComponent(
     octaneapi::ImageExportSettings::getBitsPerComponent1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub = 
+    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub =
         octaneapi::ImageExportSettingsService::NewStub(getGRPCSettings().getChannel());
     status = stub->getBitsPerComponent1(context.get(), request, &response);
 
@@ -160,7 +160,7 @@ uint32_t ImageExportSettingsProxy::getBitsPerComponent(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -180,7 +180,7 @@ uint32_t ImageExportSettingsProxy::getBitsPerComponent(
 
 
 Octane::SaveImageBitDepth ImageExportSettingsProxy::getBitDepth(
-            const Octane::ImageSaveFormat             format //// last param ////
+            const Octane::ImageSaveFormat             format
             )
 
 {
@@ -200,7 +200,7 @@ Octane::SaveImageBitDepth ImageExportSettingsProxy::getBitDepth(
     octaneapi::ImageExportSettings::getBitDepthResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub = 
+    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub =
         octaneapi::ImageExportSettingsService::NewStub(getGRPCSettings().getChannel());
     status = stub->getBitDepth(context.get(), request, &response);
 
@@ -230,8 +230,8 @@ Octane::SaveImageBitDepth ImageExportSettingsProxy::getBitDepth(
 
 
 Octane::ImageSaveFormat ImageExportSettingsProxy::getFormat(
-            const Octane::SaveImageFileType           type, //// test821 //// 
-            const Octane::SaveImageBitDepth           bitDepth //// last param ////
+            const Octane::SaveImageFileType           type,
+            const Octane::SaveImageBitDepth           bitDepth
             )
 
 {
@@ -257,7 +257,7 @@ Octane::ImageSaveFormat ImageExportSettingsProxy::getFormat(
     octaneapi::ImageExportSettings::getFormatResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub = 
+    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub =
         octaneapi::ImageExportSettingsService::NewStub(getGRPCSettings().getChannel());
     status = stub->getFormat(context.get(), request, &response);
 
@@ -287,7 +287,7 @@ Octane::ImageSaveFormat ImageExportSettingsProxy::getFormat(
 
 
 Octane::SaveImageFileType ImageExportSettingsProxy::getType(
-            const Octane::ImageSaveFormat             format //// last param ////
+            const Octane::ImageSaveFormat             format
             )
 
 {
@@ -307,7 +307,7 @@ Octane::SaveImageFileType ImageExportSettingsProxy::getType(
     octaneapi::ImageExportSettings::getTypeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub = 
+    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub =
         octaneapi::ImageExportSettingsService::NewStub(getGRPCSettings().getChannel());
     status = stub->getType(context.get(), request, &response);
 
@@ -337,10 +337,10 @@ Octane::SaveImageFileType ImageExportSettingsProxy::getType(
 
 
 Octane::ImageExportSettings ImageExportSettingsProxy::makeFromOldSettings(
-            const Octane::ImageSaveFormat             imageSaveFormat, //// test821 //// 
-            const Octane::PremultipliedAlphaType      premultipliedAlphaType, //// test821 //// 
-            const Octane::ExrCompressionType          exrCompressionType, //// test821 //// 
-            const float                               exrCompressionLevel //// last param ////
+            const Octane::ImageSaveFormat             imageSaveFormat,
+            const Octane::PremultipliedAlphaType      premultipliedAlphaType,
+            const Octane::ExrCompressionType          exrCompressionType,
+            const float                               exrCompressionLevel
             )
 
 {
@@ -370,7 +370,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeFromOldSettings(
     /////////////////////////////////////////////////////////////////////
     // Add the 'exrCompressionLevel' [in] parameter to the request packet.
     float exrcompressionlevelIn;
-    exrcompressionlevelIn = exrCompressionLevel;////2 const float////
+    exrcompressionlevelIn = exrCompressionLevel;
     request.set_exrcompressionlevel(exrcompressionlevelIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -378,7 +378,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeFromOldSettings(
     octaneapi::ImageExportSettings::makeFromOldSettingsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub = 
+    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub =
         octaneapi::ImageExportSettingsService::NewStub(getGRPCSettings().getChannel());
     status = stub->makeFromOldSettings(context.get(), request, &response);
 
@@ -388,8 +388,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeFromOldSettings(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ImageExportSettings resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        ImageExportSettingsConverter::convert(resultOut, retVal); ////Convert Called type 5223 =ImageExportSettings;////
+        ImageExportSettingsConverter::convert(resultOut, retVal);
     }
     else
     {
@@ -409,8 +408,8 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeFromOldSettings(
 
 
 Octane::ImageExportSettings ImageExportSettingsProxy::makeFromImageSaveFormat(
-            const Octane::ImageSaveFormat             imageSaveFormat, //// test821 //// 
-            const Octane::PremultipliedAlphaType      premultipliedAlphaType //// last param ////
+            const Octane::ImageSaveFormat             imageSaveFormat,
+            const Octane::PremultipliedAlphaType      premultipliedAlphaType
             )
 
 {
@@ -436,7 +435,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeFromImageSaveFormat(
     octaneapi::ImageExportSettings::makeFromImageSaveFormatResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub = 
+    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub =
         octaneapi::ImageExportSettingsService::NewStub(getGRPCSettings().getChannel());
     status = stub->makeFromImageSaveFormat(context.get(), request, &response);
 
@@ -446,8 +445,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeFromImageSaveFormat(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ImageExportSettings resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        ImageExportSettingsConverter::convert(resultOut, retVal); ////Convert Called type 5223 =ImageExportSettings;////
+        ImageExportSettingsConverter::convert(resultOut, retVal);
     }
     else
     {
@@ -467,10 +465,10 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeFromImageSaveFormat(
 
 
 Octane::ImageExportSettings ImageExportSettingsProxy::makeExr(
-            const Octane::SaveImageBitDepth           bitDepth, //// test821 //// 
-            const bool                                premultipliedAlpha, //// test821 //// 
-            const Octane::ExrCompressionType          compressionType, //// test821 //// 
-            const float                               compressionLevel //// last param ////
+            const Octane::SaveImageBitDepth           bitDepth,
+            const bool                                premultipliedAlpha,
+            const Octane::ExrCompressionType          compressionType,
+            const float                               compressionLevel
             )
 
 {
@@ -488,7 +486,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeExr(
     /////////////////////////////////////////////////////////////////////
     // Add the 'premultipliedAlpha' [in] parameter to the request packet.
     bool premultipliedalphaIn;
-    premultipliedalphaIn = premultipliedAlpha;////2 const bool////
+    premultipliedalphaIn = premultipliedAlpha;
     request.set_premultipliedalpha(premultipliedalphaIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -500,7 +498,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeExr(
     /////////////////////////////////////////////////////////////////////
     // Add the 'compressionLevel' [in] parameter to the request packet.
     float compressionlevelIn;
-    compressionlevelIn = compressionLevel;////2 const float////
+    compressionlevelIn = compressionLevel;
     request.set_compressionlevel(compressionlevelIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -508,7 +506,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeExr(
     octaneapi::ImageExportSettings::makeExrResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub = 
+    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub =
         octaneapi::ImageExportSettingsService::NewStub(getGRPCSettings().getChannel());
     status = stub->makeExr(context.get(), request, &response);
 
@@ -518,8 +516,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeExr(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ImageExportSettings resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        ImageExportSettingsConverter::convert(resultOut, retVal); ////Convert Called type 5223 =ImageExportSettings;////
+        ImageExportSettingsConverter::convert(resultOut, retVal);
     }
     else
     {
@@ -539,9 +536,9 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeExr(
 
 
 Octane::ImageExportSettings ImageExportSettingsProxy::makeTiff(
-            const Octane::SaveImageBitDepth           bitDepth, //// test821 //// 
-            const Octane::PremultipliedAlphaType      premultipliedAlphaType, //// test821 //// 
-            const Octane::TiffCompressionType         compressionType //// last param ////
+            const Octane::SaveImageBitDepth           bitDepth,
+            const Octane::PremultipliedAlphaType      premultipliedAlphaType,
+            const Octane::TiffCompressionType         compressionType
             )
 
 {
@@ -573,7 +570,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeTiff(
     octaneapi::ImageExportSettings::makeTiffResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub = 
+    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub =
         octaneapi::ImageExportSettingsService::NewStub(getGRPCSettings().getChannel());
     status = stub->makeTiff(context.get(), request, &response);
 
@@ -583,8 +580,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeTiff(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ImageExportSettings resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        ImageExportSettingsConverter::convert(resultOut, retVal); ////Convert Called type 5223 =ImageExportSettings;////
+        ImageExportSettingsConverter::convert(resultOut, retVal);
     }
     else
     {
@@ -604,7 +600,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeTiff(
 
 
 Octane::ImageExportSettings ImageExportSettingsProxy::makePng(
-            const Octane::SaveImageBitDepth           bitDepth //// last param ////
+            const Octane::SaveImageBitDepth           bitDepth
             )
 
 {
@@ -624,7 +620,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makePng(
     octaneapi::ImageExportSettings::makePngResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub = 
+    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub =
         octaneapi::ImageExportSettingsService::NewStub(getGRPCSettings().getChannel());
     status = stub->makePng(context.get(), request, &response);
 
@@ -634,8 +630,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makePng(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ImageExportSettings resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        ImageExportSettingsConverter::convert(resultOut, retVal); ////Convert Called type 5223 =ImageExportSettings;////
+        ImageExportSettingsConverter::convert(resultOut, retVal);
     }
     else
     {
@@ -655,7 +650,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makePng(
 
 
 Octane::ImageExportSettings ImageExportSettingsProxy::makeJpeg(
-            const float                               quality //// last param ////
+            const float                               quality
             )
 
 {
@@ -667,7 +662,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeJpeg(
     /////////////////////////////////////////////////////////////////////
     // Add the 'quality' [in] parameter to the request packet.
     float qualityIn;
-    qualityIn = quality;////2 const float////
+    qualityIn = quality;
     request.set_quality(qualityIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -675,7 +670,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeJpeg(
     octaneapi::ImageExportSettings::makeJpegResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub = 
+    std::unique_ptr<octaneapi::ImageExportSettingsService::Stub> stub =
         octaneapi::ImageExportSettingsService::NewStub(getGRPCSettings().getChannel());
     status = stub->makeJpeg(context.get(), request, &response);
 
@@ -685,8 +680,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeJpeg(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ImageExportSettings resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        ImageExportSettingsConverter::convert(resultOut, retVal); ////Convert Called type 5223 =ImageExportSettings;////
+        ImageExportSettingsConverter::convert(resultOut, retVal);
     }
     else
     {

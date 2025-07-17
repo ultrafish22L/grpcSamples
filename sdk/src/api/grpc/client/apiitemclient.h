@@ -15,7 +15,7 @@ class ApiNodeProxy;
 class ApiNodeGraphProxy;
 class ApiRootNodeGraphProxy;
 class ApiItemArrayProxy;
-class ApiNodeInfoProxy;
+struct ApiNodeInfoProxy;
 
 
 #include "apinodesystem.h"
@@ -33,76 +33,76 @@ public:
     /// connected to external nodes and will destroy all items owned by this item.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Returns the name of this item.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    std::string name(            ) const;
+    std::string name() const;
 
     /// Sets the name of this item.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setName(
-            const char *                              name
+            const char *   name
             );
 
     /// Returns the position of the item inside its owner.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    OctaneVec::float_2 position(            ) const;
+    OctaneVec::float_2 position() const;
 
     /// Sets the position of this item.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setPosition(
-            const OctaneVec::float_2                  newPos
+            const OctaneVec::float_2   newPos
             );
 
-    /// Adds a UI operation flag to this node item and this flags will be only used when making a 
+    /// Adds a UI operation flag to this node item and this flags will be only used when making a
     /// direct interaction from UI.
     /// For options check UIOperationsFlag enum in octaneenums.h
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setUIOperationFlags(
-            const Octane::enum_t                      flags
+            const Octane::enum_t   flags
             );
 
     /// Returns the UI operation flags of this node item.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    Octane::enum_t uiOperationFlags(            ) const;
+    Octane::enum_t uiOperationFlags() const;
 
     /// Sets the node item to selected state (for the window opened using ApiNodeGraph::showWindow())
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void select(            ) const;
+    void select() const;
 
     /// Returns the current time of this item.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    Octane::TimeT time(            ) const;
+    Octane::TimeT time() const;
 
     /// Returns the output type for this item. PT_UNKNOWN means this item
     /// cannot be connected to any pin. For graphs this means the output type of
     /// the default linker node.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    Octane::NodePinType outType(            ) const;
+    Octane::NodePinType outType() const;
 
     /// Returns the persistent ID of the node item. All node items of the same root node graph are
     /// guaranteed to have different persistent IDs. But items of different root node graphs can
     /// have the same persistent ID.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    uint64_t persistentId(            ) const;
+    uint64_t persistentId() const;
 
     /// Returns the unique ID of the node item. Unique IDs are unique within the same running
     /// instance of Octane. A valid node item will have a non-zero unique ID and an invalid node
     /// item will have a unique ID of zero.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    uint32_t uniqueId(            ) const;
+    uint32_t uniqueId() const;
 
     /// Collects all items that are connected to this node item.
     /// Connected input graphs will be collected as a whole, i.e. the tree traversal can lead
@@ -114,14 +114,14 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void collectItemTree(
-            ApiItemArrayProxy &                       treeItems
+            ApiItemArrayProxy &   treeItems
             );
 
     /// If the item is owned by a node graph, this function will remove all items owned by that node
     /// graph that are not directly/indirectly connected with the item.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void deleteUnconnectedItems(            ) const;
+    void deleteUnconnectedItems() const;
 
     /// If this item stores file data that has been provided by plugins directly, this function
     /// will export that data into a file with the specified name. This is currently only supported
@@ -133,74 +133,74 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void switchToFileData(
-            const char *                              destinationDir
+            const char *   destinationDir
             );
 
     /// Returns the version of the item.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    Octane::VersionT version(            ) const;
+    Octane::VersionT version() const;
 
     /// Returns TRUE if this item is a graph.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isGraph(            ) const;
+    bool isGraph() const;
 
     /// Returns TRUE if this item is a node.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isNode(            ) const;
+    bool isNode() const;
 
     /// Returns TRUE if the item is an input/output linker node.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isLinker(            ) const;
+    bool isLinker() const;
 
     /// Returns TRUE if the item is an input linker node.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isInputLinker(            ) const;
+    bool isInputLinker() const;
 
     /// Returns TRUE if the item is an output linker node.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isOutputLinker(            ) const;
+    bool isOutputLinker() const;
 
     /// Downcasts this item to a graph. Returns NULL if this item is a node.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    ApiNodeGraphProxy toGraph(            ) const;
+    ApiNodeGraphProxy toGraph() const;
 
     /// Downcasts this item to a node. Returns NULL if this item is a graph.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    ApiNodeProxy toNode(            ) const;
+    ApiNodeProxy toNode() const;
 
     /// Downcasts this item to a graph. Returns NULL if this item is a node. (non-const)
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    ApiNodeGraphProxy toGraph(            );
+    ApiNodeGraphProxy toGraph();
 
     /// Downcasts this item to a node. Returns NULL if this item is a graph. (non-const)
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    ApiNodeProxy toNode(            );
+    ApiNodeProxy toNode();
 
     /// Returns TRUE if this item has an owner (graph or pin), usually always TRUE with the
     /// exception of root node graphs, which never have an owner.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool hasOwner(            ) const;
+    bool hasOwner() const;
 
     /// Returns TRUE if this item is owned by a graph.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool graphOwned(            ) const;
+    bool graphOwned() const;
 
     /// Returns TRUE if this item is owned by a pin.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool pinOwned(            ) const;
+    bool pinOwned() const;
 
     /// Gets the graph owner (if any).
     ///
@@ -209,7 +209,7 @@ public:
     /// @return
     ///     The graph that owns this item. NULL in case this item is the root graph
     ///     or owned by a pin.
-    ApiNodeGraphProxy graphOwner(            ) const;
+    ApiNodeGraphProxy graphOwner() const;
 
     /// Gets the pin owner (if any).
     ///
@@ -222,38 +222,38 @@ public:
     ///     The node which has the pin owning this item. NULL in case this item is
     ///     not owned by a pin.
     ApiNodeProxy pinOwner(
-            uint32_t &                                pinIx
+            uint32_t &   pinIx
             ) const;
 
     /// Returns the root node graph which contains this node item. If this item is a root node graph
     /// it returns itself.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    ApiRootNodeGraphProxy rootGraph(            ) const;
+    ApiRootNodeGraphProxy rootGraph() const;
 
     /// Returns the root node graph which contains this node item. If this item is a root node graph
     /// it returns itself.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    ApiRootNodeGraphProxy rootGraph(            );
+    ApiRootNodeGraphProxy rootGraph();
 
     /// Returns the number of attributes of this item.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    uint32_t attrCount(            ) const;
+    uint32_t attrCount() const;
 
     /// Returns TRUE if an attribute with the specified ID exists.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool hasAttr(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     /// Returns TRUE if an attribute with the specified name exists.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool hasAttr(
-            const char *                              name
+            const char *   name
             ) const;
 
     /// Returns TRUE if an attribute with this ID exists and returns its index in "foundIndex".
@@ -277,7 +277,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     Octane::AttributeId attrId(
-            const char *                              name
+            const char *   name
             ) const;
 
     /// Returns the ID of the attribute at index. Returns A_UNKNOWN when there's
@@ -285,21 +285,21 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     Octane::AttributeId attrIdIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     /// Returns the name of the attribute at the provided ID or "unknown" if there's no such attribute.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     std::string attrName(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     /// Returns the name of the attribute at the index or "unknown" if there's no such attribute.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     std::string attrNameIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     /// Returns the type of the attribute identified by it's ID. Returns AT_UNKNOWN when
@@ -307,7 +307,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     Octane::AttributeType attrType(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     /// Returns the type of the attribute identified by it's name. Returns AT_UNKNOWN when
@@ -315,7 +315,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     Octane::AttributeType attrType(
-            const char *                              attrName
+            const char *   attrName
             ) const;
 
     /// Returns the type of the attribute at the index. Returns AT_UNKNOWN when
@@ -323,7 +323,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     Octane::AttributeType attrTypeIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     /// Returns the info for the attribute identified by the ID. Returns the fallback attribute
@@ -331,7 +331,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     const Octane::ApiAttributeInfo attrInfo(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     /// Returns the info for the attribute identified by the name. Returns the fallback attribute
@@ -339,7 +339,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     const Octane::ApiAttributeInfo attrInfo(
-            const char *                              name
+            const char *   name
             ) const;
 
     /// Returns the info for the attribute at index. Returns the fallback attribute
@@ -347,42 +347,42 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     const Octane::ApiAttributeInfo attrInfoIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     /// Returns TRUE if any of the attributes are flagged dirty.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool attrAreDirty(            ) const;
+    bool attrAreDirty() const;
 
     /// Returns TRUE if the attribute is flagged dirty.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool isDirtyAttr(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     /// Returns TRUE if the attribute is flagged dirty.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool isDirtyAttr(
-            const char *                              name
+            const char *   name
             ) const;
 
     /// Returns TRUE if the attribute is flagged dirty.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool isDirtyAttrIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     /// Copies another item's attribute value into this item's attribute.
     ///
-    /// @param[in]  destId 
+    /// @param[in]  destId
     ///     Id identifying the destination attribute on this item.
-    /// @param[in]  srcItem 
+    /// @param[in]  srcItem
     ///     Other item to copy the attribute value from.
-    /// @param[in]  srcId 
+    /// @param[in]  srcId
     ///     Id identifying the attribute to copy from.
     /// @param[in]  evaluate
     ///     TRUE to re-evaluate the node, FALSE otherwise.
@@ -427,7 +427,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void clearAllAttr(
-            const bool                                evaluate
+            const bool   evaluate
             );
 
     /// Clears the attribute specified by its ID.
@@ -455,327 +455,327 @@ public:
             );
 
     bool getBool(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     int32_t getInt(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     OctaneVec::int32_2 getInt2(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     OctaneVec::int32_3 getInt3(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     OctaneVec::int32_4 getInt4(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     int64_t getLong(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     OctaneVec::int64_2 getLong2(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     float getFloat(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     OctaneVec::float_2 getFloat2(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     OctaneVec::float_3 getFloat3(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     OctaneVec::float_4 getFloat4(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     OctaneVec::MatrixF getMatrix(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     std::string getString(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     std::vector<bool> getBoolArray(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     std::vector<int> getIntArray(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     std::vector<OctaneVec::int32_2> getInt2Array(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     std::vector<OctaneVec::int32_3> getInt3Array(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     std::vector<OctaneVec::int32_4> getInt4Array(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     std::vector<long> getLongArray(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     std::vector<OctaneVec::int64_2> getLong2Array(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     std::vector<Octane::MatrixF> getMatrixArray(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     std::vector<float> getFloatArray(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     std::vector<OctaneVec::float_2> getFloat2Array(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     std::vector<OctaneVec::float_3> getFloat3Array(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     std::vector<OctaneVec::float_4> getFloat4Array(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     std::vector<std::string> getStringArray(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     std::vector<uint8_t> getByteArray(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             ) const;
 
     bool getBool(
-            const char *                              name
+            const char *   name
             ) const;
 
     int32_t getInt(
-            const char *                              name
+            const char *   name
             ) const;
 
     OctaneVec::int32_2 getInt2(
-            const char *                              name
+            const char *   name
             ) const;
 
     OctaneVec::int32_3 getInt3(
-            const char *                              name
+            const char *   name
             ) const;
 
     OctaneVec::int32_4 getInt4(
-            const char *                              name
+            const char *   name
             ) const;
 
     int64_t getLong(
-            const char *                              name
+            const char *   name
             ) const;
 
     OctaneVec::int64_2 getLong2(
-            const char *                              name
+            const char *   name
             ) const;
 
     float getFloat(
-            const char *                              name
+            const char *   name
             ) const;
 
     OctaneVec::float_2 getFloat2(
-            const char *                              name
+            const char *   name
             ) const;
 
     OctaneVec::float_3 getFloat3(
-            const char *                              name
+            const char *   name
             ) const;
 
     OctaneVec::float_4 getFloat4(
-            const char *                              name
+            const char *   name
             ) const;
 
     OctaneVec::MatrixF getMatrix(
-            const char *                              name
+            const char *   name
             ) const;
 
     std::string getString(
-            const char *                              name
+            const char *   name
             ) const;
 
     std::vector<bool> getBoolArray(
-            const char *                              name
+            const char *   name
             ) const;
 
     std::vector<int> getIntArray(
-            const char *                              name
+            const char *   name
             ) const;
 
     std::vector<OctaneVec::int32_2> getInt2Array(
-            const char *                              name
+            const char *   name
             ) const;
 
     std::vector<OctaneVec::int32_3> getInt3Array(
-            const char *                              name
+            const char *   name
             ) const;
 
     std::vector<OctaneVec::int32_4> getInt4Array(
-            const char *                              name
+            const char *   name
             ) const;
 
     std::vector<long> getLongArray(
-            const char *                              name
+            const char *   name
             ) const;
 
     std::vector<OctaneVec::int64_2> getLong2Array(
-            const char *                              name
+            const char *   name
             ) const;
 
     std::vector<float> getFloatArray(
-            const char *                              name
+            const char *   name
             ) const;
 
     std::vector<OctaneVec::float_2> getFloat2Array(
-            const char *                              name
+            const char *   name
             ) const;
 
     std::vector<OctaneVec::float_3> getFloat3Array(
-            const char *                              name
+            const char *   name
             ) const;
 
     std::vector<OctaneVec::float_4> getFloat4Array(
-            const char *                              name
+            const char *   name
             ) const;
 
     std::vector<Octane::MatrixF> getMatrixArray(
-            const char *                              name
+            const char *   name
             ) const;
 
     std::vector<std::string> getStringArray(
-            const char *                              name
+            const char *   name
             ) const;
 
     std::vector<uint8_t> getByteArray(
-            const char *                              name
+            const char *   name
             ) const;
 
     bool getBoolIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     int32_t getIntIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     OctaneVec::int32_2 getInt2Ix(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     OctaneVec::int32_3 getInt3Ix(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     OctaneVec::int32_4 getInt4Ix(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     int64_t getLongIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     OctaneVec::int64_2 getLong2Ix(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     float getFloatIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     OctaneVec::float_2 getFloat2Ix(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     OctaneVec::float_3 getFloat3Ix(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     OctaneVec::float_4 getFloat4Ix(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     OctaneVec::MatrixF getMatrixIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     std::string getStringIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     std::vector<bool> getBoolArrayIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     std::vector<int> getIntArrayIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     std::vector<OctaneVec::int32_2> getInt2ArrayIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     std::vector<OctaneVec::int32_3> getInt3ArrayIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     std::vector<OctaneVec::int32_4> getInt4ArrayIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     std::vector<long> getLongArrayIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     std::vector<OctaneVec::int64_2> getLong2ArrayIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     std::vector<float> getFloatArrayIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     std::vector<OctaneVec::float_2> getFloat2ArrayIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     std::vector<OctaneVec::float_3> getFloat3ArrayIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     std::vector<OctaneVec::float_4> getFloat4ArrayIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     std::vector<Octane::MatrixF> getMatrixArrayIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     std::vector<std::string> getStringArrayIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     std::vector<uint8_t> getByteArrayIx(
-            const uint32_t                            index
+            const uint32_t   index
             ) const;
 
     void get(
@@ -2975,42 +2975,42 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void clearAnim(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             );
 
     /// Removes any animation from an attribute (if it has one).
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void clearAnim(
-            const char *                              name
+            const char *   name
             );
 
     /// Removes any animation from an attribute (if it has one).
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void clearAnimIx(
-            const uint32_t                            index
+            const uint32_t   index
             );
 
     /// Returns TRUE if the attribute has an animator object assigned to it.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool isAnimated(
-            const Octane::AttributeId                 id
+            const Octane::AttributeId   id
             );
 
     /// Returns TRUE if the attribute has an animator object assigned to it.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool isAnimated(
-            const char *                              name
+            const char *   name
             );
 
     /// Returns TRUE if the attribute has an animator object assigned to it.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool isAnimatedIx(
-            const uint32_t                            index
+            const uint32_t   index
             );
 
     /// Evaluates the item's attributes. This method is called internally when
@@ -3021,12 +3021,12 @@ public:
     /// needs to be called once.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void evaluate(            );
+    void evaluate();
 
     /// Expands all items owned by the pins of the node or by the input linkers of the node graph.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void expand(            );
+    void expand();
 
     /// Expands the current item out of its owner pin.
     ///
@@ -3035,7 +3035,7 @@ public:
     /// @return
     ///     itself if the current item is not owned by a pin
     ///     or its copy otherwise
-    ApiItemProxy expandOutOfPin(            );
+    ApiItemProxy expandOutOfPin();
 
     /// Collapse this node item down into all destination pins.
     /// All of its inputs need to be collapsed. If it is impossible, the collapse will stop at this point.
@@ -3045,17 +3045,17 @@ public:
     ///     Contains the status of the gRPC call
     /// @return
     ///     TRUE if the item was collapsed.
-    bool collapse(            );
+    bool collapse();
 
     /// Dump all attributes of this item to a text file.
     ///
     /// @param directory
-    ///     Full path to a directory where the file will be written. If NULL the file will be 
+    ///     Full path to a directory where the file will be written. If NULL the file will be
     /// created under user's desktop directory. The text file with be created using this item name.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void dumpAttributes(
-            const char *                              directory
+            const char *   directory
             );
 
 private:

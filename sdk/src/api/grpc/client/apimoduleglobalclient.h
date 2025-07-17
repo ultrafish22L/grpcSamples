@@ -28,27 +28,27 @@ class ApiModuleGlobalProxy : public GRPCBase
 {
 public:
     static bool registerCommandModule(
-            const ApiCommandModuleInfoProxy &         moduleInfo
+            const ApiCommandModuleInfoProxy &   moduleInfo
             );
 
     static bool registerWorkPaneModule(
-            const ApiWorkPaneModuleInfoProxy &        moduleInfo
+            const ApiWorkPaneModuleInfoProxy &   moduleInfo
             );
 
     static bool registerNodeGraphModule(
-            const ApiNodeGraphModuleInfoProxy &       moduleInfo
+            const ApiNodeGraphModuleInfoProxy &   moduleInfo
             );
 
     static bool registerStaticCommandModule(
-            const ApiCommandModuleInfoProxy &         moduleInfo
+            const ApiCommandModuleInfoProxy &   moduleInfo
             );
 
     static bool registerStaticWorkPaneModule(
-            const ApiWorkPaneModuleInfoProxy &        moduleInfo
+            const ApiWorkPaneModuleInfoProxy &   moduleInfo
             );
 
     static bool registerStaticNodeGraphModule(
-            const ApiNodeGraphModuleInfoProxy &       moduleInfo
+            const ApiNodeGraphModuleInfoProxy &   moduleInfo
             );
 
 private:

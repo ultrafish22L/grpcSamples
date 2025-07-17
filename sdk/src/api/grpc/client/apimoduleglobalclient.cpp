@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apimoduleglobalclient.h"
 #include <cassert>
@@ -31,7 +31,7 @@ GRPCSettings & ApiModuleGlobalProxy::getGRPCSettings()
 
 
 bool ApiModuleGlobalProxy::registerCommandModule(
-            const ApiCommandModuleInfoProxy &         moduleInfo //// last param ////
+            const ApiCommandModuleInfoProxy &         moduleInfo
             )
 
 {
@@ -44,8 +44,8 @@ bool ApiModuleGlobalProxy::registerCommandModule(
     // Add the 'moduleInfo' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * moduleinfoIn = new octaneapi::ObjectRef();////761////
-    moduleinfoIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCommandModuleInfo);////5////
+    octaneapi::ObjectRef * moduleinfoIn = new octaneapi::ObjectRef();
+    moduleinfoIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCommandModuleInfo);
     moduleinfoIn->set_handle(moduleInfo.getObjectHandle());
     request.set_allocated_moduleinfo(moduleinfoIn);
 
@@ -54,7 +54,7 @@ bool ApiModuleGlobalProxy::registerCommandModule(
     octaneapi::ApiModuleGlobal::registerCommandModuleResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleGlobalService::Stub> stub =
         octaneapi::ApiModuleGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->registerCommandModule(context.get(), request, &response);
 
@@ -64,7 +64,7 @@ bool ApiModuleGlobalProxy::registerCommandModule(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -84,7 +84,7 @@ bool ApiModuleGlobalProxy::registerCommandModule(
 
 
 bool ApiModuleGlobalProxy::registerWorkPaneModule(
-            const ApiWorkPaneModuleInfoProxy &        moduleInfo //// last param ////
+            const ApiWorkPaneModuleInfoProxy &        moduleInfo
             )
 
 {
@@ -97,8 +97,8 @@ bool ApiModuleGlobalProxy::registerWorkPaneModule(
     // Add the 'moduleInfo' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * moduleinfoIn = new octaneapi::ObjectRef();////761////
-    moduleinfoIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiWorkPaneModuleInfo);////5////
+    octaneapi::ObjectRef * moduleinfoIn = new octaneapi::ObjectRef();
+    moduleinfoIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiWorkPaneModuleInfo);
     moduleinfoIn->set_handle(moduleInfo.getObjectHandle());
     request.set_allocated_moduleinfo(moduleinfoIn);
 
@@ -107,7 +107,7 @@ bool ApiModuleGlobalProxy::registerWorkPaneModule(
     octaneapi::ApiModuleGlobal::registerWorkPaneModuleResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleGlobalService::Stub> stub =
         octaneapi::ApiModuleGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->registerWorkPaneModule(context.get(), request, &response);
 
@@ -117,7 +117,7 @@ bool ApiModuleGlobalProxy::registerWorkPaneModule(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -137,7 +137,7 @@ bool ApiModuleGlobalProxy::registerWorkPaneModule(
 
 
 bool ApiModuleGlobalProxy::registerNodeGraphModule(
-            const ApiNodeGraphModuleInfoProxy &       moduleInfo //// last param ////
+            const ApiNodeGraphModuleInfoProxy &       moduleInfo
             )
 
 {
@@ -150,8 +150,8 @@ bool ApiModuleGlobalProxy::registerNodeGraphModule(
     // Add the 'moduleInfo' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * moduleinfoIn = new octaneapi::ObjectRef();////761////
-    moduleinfoIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraphModuleInfo);////5////
+    octaneapi::ObjectRef * moduleinfoIn = new octaneapi::ObjectRef();
+    moduleinfoIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraphModuleInfo);
     moduleinfoIn->set_handle(moduleInfo.getObjectHandle());
     request.set_allocated_moduleinfo(moduleinfoIn);
 
@@ -160,7 +160,7 @@ bool ApiModuleGlobalProxy::registerNodeGraphModule(
     octaneapi::ApiModuleGlobal::registerNodeGraphModuleResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleGlobalService::Stub> stub =
         octaneapi::ApiModuleGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->registerNodeGraphModule(context.get(), request, &response);
 
@@ -170,7 +170,7 @@ bool ApiModuleGlobalProxy::registerNodeGraphModule(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -190,7 +190,7 @@ bool ApiModuleGlobalProxy::registerNodeGraphModule(
 
 
 bool ApiModuleGlobalProxy::registerStaticCommandModule(
-            const ApiCommandModuleInfoProxy &         moduleInfo //// last param ////
+            const ApiCommandModuleInfoProxy &         moduleInfo
             )
 
 {
@@ -203,8 +203,8 @@ bool ApiModuleGlobalProxy::registerStaticCommandModule(
     // Add the 'moduleInfo' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * moduleinfoIn = new octaneapi::ObjectRef();////761////
-    moduleinfoIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCommandModuleInfo);////5////
+    octaneapi::ObjectRef * moduleinfoIn = new octaneapi::ObjectRef();
+    moduleinfoIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiCommandModuleInfo);
     moduleinfoIn->set_handle(moduleInfo.getObjectHandle());
     request.set_allocated_moduleinfo(moduleinfoIn);
 
@@ -213,7 +213,7 @@ bool ApiModuleGlobalProxy::registerStaticCommandModule(
     octaneapi::ApiModuleGlobal::registerStaticCommandModuleResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleGlobalService::Stub> stub =
         octaneapi::ApiModuleGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->registerStaticCommandModule(context.get(), request, &response);
 
@@ -223,7 +223,7 @@ bool ApiModuleGlobalProxy::registerStaticCommandModule(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -243,7 +243,7 @@ bool ApiModuleGlobalProxy::registerStaticCommandModule(
 
 
 bool ApiModuleGlobalProxy::registerStaticWorkPaneModule(
-            const ApiWorkPaneModuleInfoProxy &        moduleInfo //// last param ////
+            const ApiWorkPaneModuleInfoProxy &        moduleInfo
             )
 
 {
@@ -256,8 +256,8 @@ bool ApiModuleGlobalProxy::registerStaticWorkPaneModule(
     // Add the 'moduleInfo' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * moduleinfoIn = new octaneapi::ObjectRef();////761////
-    moduleinfoIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiWorkPaneModuleInfo);////5////
+    octaneapi::ObjectRef * moduleinfoIn = new octaneapi::ObjectRef();
+    moduleinfoIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiWorkPaneModuleInfo);
     moduleinfoIn->set_handle(moduleInfo.getObjectHandle());
     request.set_allocated_moduleinfo(moduleinfoIn);
 
@@ -266,7 +266,7 @@ bool ApiModuleGlobalProxy::registerStaticWorkPaneModule(
     octaneapi::ApiModuleGlobal::registerStaticWorkPaneModuleResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleGlobalService::Stub> stub =
         octaneapi::ApiModuleGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->registerStaticWorkPaneModule(context.get(), request, &response);
 
@@ -276,7 +276,7 @@ bool ApiModuleGlobalProxy::registerStaticWorkPaneModule(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -296,7 +296,7 @@ bool ApiModuleGlobalProxy::registerStaticWorkPaneModule(
 
 
 bool ApiModuleGlobalProxy::registerStaticNodeGraphModule(
-            const ApiNodeGraphModuleInfoProxy &       moduleInfo //// last param ////
+            const ApiNodeGraphModuleInfoProxy &       moduleInfo
             )
 
 {
@@ -309,8 +309,8 @@ bool ApiModuleGlobalProxy::registerStaticNodeGraphModule(
     // Add the 'moduleInfo' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * moduleinfoIn = new octaneapi::ObjectRef();////761////
-    moduleinfoIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraphModuleInfo);////5////
+    octaneapi::ObjectRef * moduleinfoIn = new octaneapi::ObjectRef();
+    moduleinfoIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraphModuleInfo);
     moduleinfoIn->set_handle(moduleInfo.getObjectHandle());
     request.set_allocated_moduleinfo(moduleinfoIn);
 
@@ -319,7 +319,7 @@ bool ApiModuleGlobalProxy::registerStaticNodeGraphModule(
     octaneapi::ApiModuleGlobal::registerStaticNodeGraphModuleResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiModuleGlobalService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiModuleGlobalService::Stub> stub =
         octaneapi::ApiModuleGlobalService::NewStub(getGRPCSettings().getChannel());
     status = stub->registerStaticNodeGraphModule(context.get(), request, &response);
 
@@ -329,7 +329,7 @@ bool ApiModuleGlobalProxy::registerStaticNodeGraphModule(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

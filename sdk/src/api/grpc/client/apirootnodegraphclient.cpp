@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apirootnodegraphclient.h"
 #include <cassert>
@@ -36,7 +36,7 @@ GRPCSettings & ApiRootNodeGraphProxy::getGRPCSettings()
 
 
 ApiRootNodeGraphProxy ApiRootNodeGraphProxy::create(
-            const Octane::VersionT                    version //// last param ////
+            const Octane::VersionT                    version
             )
 
 {
@@ -48,7 +48,7 @@ ApiRootNodeGraphProxy ApiRootNodeGraphProxy::create(
     /////////////////////////////////////////////////////////////////////
     // Add the 'version' [in] parameter to the request packet.
     uint32_t versionIn;
-    versionIn = version;////2 const Octane::VersionT////
+    versionIn = version;
     request.set_version(versionIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -56,7 +56,7 @@ ApiRootNodeGraphProxy ApiRootNodeGraphProxy::create(
     octaneapi::ApiRootNodeGraph::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub =
         octaneapi::ApiRootNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->create2(context.get(), request, &response);
 
@@ -84,14 +84,14 @@ ApiRootNodeGraphProxy ApiRootNodeGraphProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiRootNodeGraphProxy retVal;////714////
+        ApiRootNodeGraphProxy retVal;
         return retVal;
     }
 };
 
 
 void ApiRootNodeGraphProxy::init(
-            const Octane::VersionT                    version //// last param ////
+            const Octane::VersionT                    version
             )
 
 {
@@ -104,15 +104,15 @@ void ApiRootNodeGraphProxy::init(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'version' [in] parameter to the request packet.
     uint32_t versionIn;
-    versionIn = version;////2 const Octane::VersionT////
+    versionIn = version;
     request.set_version(versionIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -120,7 +120,7 @@ void ApiRootNodeGraphProxy::init(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub =
         octaneapi::ApiRootNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->init2(context.get(), request, &response);
 
@@ -154,8 +154,8 @@ void ApiRootNodeGraphProxy::convertAndEvaluate()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -164,7 +164,7 @@ void ApiRootNodeGraphProxy::convertAndEvaluate()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub =
         octaneapi::ApiRootNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->convertAndEvaluate(context.get(), request, &response);
 
@@ -198,8 +198,8 @@ Octane::TimeSpanT ApiRootNodeGraphProxy::animationTimeSpan() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -208,7 +208,7 @@ Octane::TimeSpanT ApiRootNodeGraphProxy::animationTimeSpan() const
     octaneapi::ApiRootNodeGraph::animationTimeSpanResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub =
         octaneapi::ApiRootNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->animationTimeSpan(context.get(), request, &response);
 
@@ -218,7 +218,6 @@ Octane::TimeSpanT ApiRootNodeGraphProxy::animationTimeSpan() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::TimeSpanT resultOut = response.result();
-        //// Octane::TimeSpanT TEST//// 
         retVal.begin = resultOut.begin().value();
         retVal.end   = resultOut.end().value();
     }
@@ -240,7 +239,7 @@ Octane::TimeSpanT ApiRootNodeGraphProxy::animationTimeSpan() const
 
 
 void ApiRootNodeGraphProxy::updateTime(
-            const Octane::TimeT                       time //// last param ////
+            const Octane::TimeT                       time
             )
 
 {
@@ -253,24 +252,23 @@ void ApiRootNodeGraphProxy::updateTime(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'time' [in] parameter to the request packet.
-    octaneapi::TimeT * timeIn = new octaneapi::TimeT(); //// time type=TimeT;//// ////721////
-    ////TimeT TEST ////
+    octaneapi::TimeT * timeIn = new octaneapi::TimeT();
     timeIn->set_value(static_cast<float>(time));
-    request.set_allocated_time(timeIn);//// 6215 ////
+    request.set_allocated_time(timeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub =
         octaneapi::ApiRootNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->updateTime(context.get(), request, &response);
 
@@ -294,10 +292,10 @@ void ApiRootNodeGraphProxy::updateTime(
 
 
 bool ApiRootNodeGraphProxy::importFromFile(
-            const char *                              path, //// test821 //// 
-            Octane::VersionT &                        ocsVersion, //// test821 //// 
-            Octane::AssetMissingCallbackT             assetMissingCallback, //// test821 //// 
-            void *                                    assetsMissingCallbackUserData //// last param ////
+            const char *                              path,
+            Octane::VersionT &                        ocsVersion,
+            Octane::AssetMissingCallbackT             assetMissingCallback,
+            void *                                    assetsMissingCallbackUserData
             )
 
 {
@@ -310,32 +308,27 @@ bool ApiRootNodeGraphProxy::importFromFile(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'path' [in] parameter to the request packet.
-    std::string * pathIn = new std::string(); //// path type=string;//// ////721////
+    std::string * pathIn = new std::string();
     *pathIn = checkString(path);
-    request.set_allocated_path(pathIn);//// 6215 ////
+    request.set_allocated_path(pathIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'assetMissingCallback' [in] parameter to the request packet.
-    octaneapi::AssetMissingCallbackT * assetmissingcallbackIn = new octaneapi::AssetMissingCallbackT(); //// assetMissingCallback type=AssetMissingCallbackT;//// ////721////
+    octaneapi::AssetMissingCallbackT * assetmissingcallbackIn = new octaneapi::AssetMissingCallbackT();
     // setup callback function assetMissingCallback
-    //int assetMissingCallbackCallbackId = GRPCSettings::getNextCallbackId("AssetMissingCallback"); 
-    //CallbackStorage::registerAssetMissingCallback(assetMissingCallbackCallbackId, assetMissingCallback);
     assetmissingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //assetmissingcallbackIn->set_callbackid(assetMissingCallbackCallbackId);
-    //if(className == "ApiRootNodeGraph" && method.mName == "importFromFile") return true;
-    request.set_allocated_assetmissingcallback(assetmissingcallbackIn);//// 6215 ////
+    request.set_allocated_assetmissingcallback(assetmissingcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'assetsMissingCallbackUserData' [in] parameter to the request packet.
     uint64_t assetsmissingcallbackuserdataIn;
-    //// USER DATA TEST ////
     assetsmissingcallbackuserdataIn = reinterpret_cast<uint64_t>(assetsMissingCallbackUserData);
     request.set_assetsmissingcallbackuserdata(assetsmissingcallbackuserdataIn);
 
@@ -344,7 +337,7 @@ bool ApiRootNodeGraphProxy::importFromFile(
     octaneapi::ApiRootNodeGraph::importFromFileResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub =
         octaneapi::ApiRootNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->importFromFile(context.get(), request, &response);
 
@@ -356,7 +349,7 @@ bool ApiRootNodeGraphProxy::importFromFile(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'callbackId' [out] parameter from the gRPC response packet
@@ -365,7 +358,7 @@ bool ApiRootNodeGraphProxy::importFromFile(
         /////////////////////////////////////////////////////////////////////
         // Process 'ocsVersion' [out] parameter from the gRPC response packet
         uint32_t ocsVersionOut = response.ocsversion();
-        ocsVersion = ocsVersionOut;//// SECOND////
+        ocsVersion = ocsVersionOut;
     }
     else
     {
@@ -385,12 +378,12 @@ bool ApiRootNodeGraphProxy::importFromFile(
 
 
 bool ApiRootNodeGraphProxy::importOcsFromMemory(
-            const char *                              baseDirectory, //// test821 //// 
-            Octane::VersionT &                        ocsVersion, //// test821 //// 
-            const char *                              xml, //// test821 //// 
-            const size_t                              xmlLength, //// test821 //// 
-            Octane::AssetMissingCallbackT             assetMissingCallback, //// test821 //// 
-            void *                                    assetsMissingCallbackUserData //// last param ////
+            const char *                              baseDirectory,
+            Octane::VersionT &                        ocsVersion,
+            const char *                              xml,
+            const size_t                              xmlLength,
+            Octane::AssetMissingCallbackT             assetMissingCallback,
+            void *                                    assetsMissingCallbackUserData
             )
 
 {
@@ -403,44 +396,39 @@ bool ApiRootNodeGraphProxy::importOcsFromMemory(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'baseDirectory' [in] parameter to the request packet.
-    std::string * basedirectoryIn = new std::string(); //// baseDirectory type=string;//// ////721////
+    std::string * basedirectoryIn = new std::string();
     *basedirectoryIn = checkString(baseDirectory);
-    request.set_allocated_basedirectory(basedirectoryIn);//// 6215 ////
+    request.set_allocated_basedirectory(basedirectoryIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'xml' [in] parameter to the request packet.
-    std::string * xmlIn = new std::string(); //// xml type=string;//// ////721////
+    std::string * xmlIn = new std::string();
     *xmlIn = checkString(xml);
-    request.set_allocated_xml(xmlIn);//// 6215 ////
+    request.set_allocated_xml(xmlIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'xmlLength' [in] parameter to the request packet.
     uint32_t xmllengthIn;
-    xmllengthIn = static_cast<uint32_t>(xmlLength);////2 const size_t////
+    xmllengthIn = static_cast<uint32_t>(xmlLength);
     request.set_xmllength(xmllengthIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'assetMissingCallback' [in] parameter to the request packet.
-    octaneapi::AssetMissingCallbackT * assetmissingcallbackIn = new octaneapi::AssetMissingCallbackT(); //// assetMissingCallback type=AssetMissingCallbackT;//// ////721////
+    octaneapi::AssetMissingCallbackT * assetmissingcallbackIn = new octaneapi::AssetMissingCallbackT();
     // setup callback function assetMissingCallback
-    //int assetMissingCallbackCallbackId = GRPCSettings::getNextCallbackId("AssetMissingCallback"); 
-    //CallbackStorage::registerAssetMissingCallback(assetMissingCallbackCallbackId, assetMissingCallback);
     assetmissingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //assetmissingcallbackIn->set_callbackid(assetMissingCallbackCallbackId);
-    //if(className == "ApiRootNodeGraph" && method.mName == "importOcsFromMemory") return true;
-    request.set_allocated_assetmissingcallback(assetmissingcallbackIn);//// 6215 ////
+    request.set_allocated_assetmissingcallback(assetmissingcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'assetsMissingCallbackUserData' [in] parameter to the request packet.
     uint64_t assetsmissingcallbackuserdataIn;
-    //// USER DATA TEST ////
     assetsmissingcallbackuserdataIn = reinterpret_cast<uint64_t>(assetsMissingCallbackUserData);
     request.set_assetsmissingcallbackuserdata(assetsmissingcallbackuserdataIn);
 
@@ -449,7 +437,7 @@ bool ApiRootNodeGraphProxy::importOcsFromMemory(
     octaneapi::ApiRootNodeGraph::importOcsFromMemoryResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub =
         octaneapi::ApiRootNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->importOcsFromMemory(context.get(), request, &response);
 
@@ -461,7 +449,7 @@ bool ApiRootNodeGraphProxy::importOcsFromMemory(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'callbackId' [out] parameter from the gRPC response packet
@@ -470,7 +458,7 @@ bool ApiRootNodeGraphProxy::importOcsFromMemory(
         /////////////////////////////////////////////////////////////////////
         // Process 'ocsVersion' [out] parameter from the gRPC response packet
         uint32_t ocsVersionOut = response.ocsversion();
-        ocsVersion = ocsVersionOut;//// SECOND////
+        ocsVersion = ocsVersionOut;
     }
     else
     {
@@ -490,12 +478,12 @@ bool ApiRootNodeGraphProxy::importOcsFromMemory(
 
 
 bool ApiRootNodeGraphProxy::importOrbxFromCallback(
-            const char *                              baseDirectory, //// test821 //// 
-            Octane::VersionT &                        ocsVersion, //// test821 //// 
-            Octane::ApiRootNodeGraph::NextChunkCallbackT getOrbxChunkCallback, //// test821 //// 
-            void *                                    orbxChunkCallbackUserData, //// test821 //// 
-            Octane::AssetMissingCallbackT             assetMissingCallback, //// test821 //// 
-            void *                                    assetMissingCallbackUserData //// last param ////
+            const char *                              baseDirectory,
+            Octane::VersionT &                        ocsVersion,
+            Octane::ApiRootNodeGraph::NextChunkCallbackT getOrbxChunkCallback,
+            void *                                    orbxChunkCallbackUserData,
+            Octane::AssetMissingCallbackT             assetMissingCallback,
+            void *                                    assetMissingCallbackUserData
             )
 
 {
@@ -508,50 +496,40 @@ bool ApiRootNodeGraphProxy::importOrbxFromCallback(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'baseDirectory' [in] parameter to the request packet.
-    std::string * basedirectoryIn = new std::string(); //// baseDirectory type=string;//// ////721////
+    std::string * basedirectoryIn = new std::string();
     *basedirectoryIn = checkString(baseDirectory);
-    request.set_allocated_basedirectory(basedirectoryIn);//// 6215 ////
+    request.set_allocated_basedirectory(basedirectoryIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'getOrbxChunkCallback' [in] parameter to the request packet.
-    octaneapi::NextChunkCallbackT * getorbxchunkcallbackIn = new octaneapi::NextChunkCallbackT(); //// getOrbxChunkCallback type=NextChunkCallbackT;//// ////721////
+    octaneapi::NextChunkCallbackT * getorbxchunkcallbackIn = new octaneapi::NextChunkCallbackT();
     // setup callback function getOrbxChunkCallback
-    //int getOrbxChunkCallbackCallbackId = GRPCSettings::getNextCallbackId("NextChunkCallback"); 
-    //CallbackStorage::registerNextChunkCallback(getOrbxChunkCallbackCallbackId, getOrbxChunkCallback);
     getorbxchunkcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //getorbxchunkcallbackIn->set_callbackid(getOrbxChunkCallbackCallbackId);
-    //if(className == "ApiRootNodeGraph" && method.mName == "importOrbxFromCallback") return true;
-    request.set_allocated_getorbxchunkcallback(getorbxchunkcallbackIn);//// 6215 ////
+    request.set_allocated_getorbxchunkcallback(getorbxchunkcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'orbxChunkCallbackUserData' [in] parameter to the request packet.
     uint64_t orbxchunkcallbackuserdataIn;
-    //// USER DATA TEST ////
     orbxchunkcallbackuserdataIn = reinterpret_cast<uint64_t>(orbxChunkCallbackUserData);
     request.set_orbxchunkcallbackuserdata(orbxchunkcallbackuserdataIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'assetMissingCallback' [in] parameter to the request packet.
-    octaneapi::AssetMissingCallbackT * assetmissingcallbackIn = new octaneapi::AssetMissingCallbackT(); //// assetMissingCallback type=AssetMissingCallbackT;//// ////721////
+    octaneapi::AssetMissingCallbackT * assetmissingcallbackIn = new octaneapi::AssetMissingCallbackT();
     // setup callback function assetMissingCallback
-    //int assetMissingCallbackCallbackId = GRPCSettings::getNextCallbackId("AssetMissingCallback"); 
-    //CallbackStorage::registerAssetMissingCallback(assetMissingCallbackCallbackId, assetMissingCallback);
     assetmissingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //assetmissingcallbackIn->set_callbackid(assetMissingCallbackCallbackId);
-    //if(className == "ApiRootNodeGraph" && method.mName == "importOrbxFromCallback") return true;
-    request.set_allocated_assetmissingcallback(assetmissingcallbackIn);//// 6215 ////
+    request.set_allocated_assetmissingcallback(assetmissingcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'assetMissingCallbackUserData' [in] parameter to the request packet.
     uint64_t assetmissingcallbackuserdataIn;
-    //// USER DATA TEST ////
     assetmissingcallbackuserdataIn = reinterpret_cast<uint64_t>(assetMissingCallbackUserData);
     request.set_assetmissingcallbackuserdata(assetmissingcallbackuserdataIn);
 
@@ -560,7 +538,7 @@ bool ApiRootNodeGraphProxy::importOrbxFromCallback(
     octaneapi::ApiRootNodeGraph::importOrbxFromCallbackResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub =
         octaneapi::ApiRootNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->importOrbxFromCallback(context.get(), request, &response);
 
@@ -574,7 +552,7 @@ bool ApiRootNodeGraphProxy::importOrbxFromCallback(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'callbackId' [out] parameter from the gRPC response packet
@@ -587,7 +565,7 @@ bool ApiRootNodeGraphProxy::importOrbxFromCallback(
         /////////////////////////////////////////////////////////////////////
         // Process 'ocsVersion' [out] parameter from the gRPC response packet
         uint32_t ocsVersionOut = response.ocsversion();
-        ocsVersion = ocsVersionOut;//// SECOND////
+        ocsVersion = ocsVersionOut;
     }
     else
     {
@@ -607,12 +585,12 @@ bool ApiRootNodeGraphProxy::importOrbxFromCallback(
 
 
 bool ApiRootNodeGraphProxy::importOrbxFromMemory(
-            const char *                              baseDirectory, //// test821 //// 
-            Octane::VersionT &                        ocsVersion, //// test821 //// 
-            const void *                              orbxData, //// test821 //// 
-            const size_t                              dataSize, //// test821 //// 
-            Octane::AssetMissingCallbackT             assetMissingCallback, //// test821 //// 
-            void *                                    assetsMissingCallbackUserData //// last param ////
+            const char *                              baseDirectory,
+            Octane::VersionT &                        ocsVersion,
+            const void *                              orbxData,
+            const size_t                              dataSize,
+            Octane::AssetMissingCallbackT             assetMissingCallback,
+            void *                                    assetsMissingCallbackUserData
             )
 
 {
@@ -625,20 +603,20 @@ bool ApiRootNodeGraphProxy::importOrbxFromMemory(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'baseDirectory' [in] parameter to the request packet.
-    std::string * basedirectoryIn = new std::string(); //// baseDirectory type=string;//// ////721////
+    std::string * basedirectoryIn = new std::string();
     *basedirectoryIn = checkString(baseDirectory);
-    request.set_allocated_basedirectory(basedirectoryIn);//// 6215 ////
+    request.set_allocated_basedirectory(basedirectoryIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'orbxData' [in] parameter to the request packet.
-    octaneapi::Buffer * orbxdataIn = new octaneapi::Buffer(); //// orbxData type=Buffer;//// ////721////
+    octaneapi::Buffer * orbxdataIn = new octaneapi::Buffer();
     // BUFFER TEST 1 : orbxData
     size_t bufSize = dataSize;
     if (orbxData && bufSize > 0)
@@ -647,29 +625,24 @@ bool ApiRootNodeGraphProxy::importOrbxFromMemory(
         orbxdataIn->set_data(reinterpret_cast<const char*>(orbxData), dataSize);
         orbxdataIn->set_size(static_cast<uint32_t>(bufSize));
     }
-    request.set_allocated_orbxdata(orbxdataIn);//// 6215 ////
+    request.set_allocated_orbxdata(orbxdataIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'dataSize' [in] parameter to the request packet.
     uint32_t datasizeIn;
-    datasizeIn = static_cast<uint32_t>(dataSize);////2 const size_t////
+    datasizeIn = static_cast<uint32_t>(dataSize);
     request.set_datasize(datasizeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'assetMissingCallback' [in] parameter to the request packet.
-    octaneapi::AssetMissingCallbackT * assetmissingcallbackIn = new octaneapi::AssetMissingCallbackT(); //// assetMissingCallback type=AssetMissingCallbackT;//// ////721////
+    octaneapi::AssetMissingCallbackT * assetmissingcallbackIn = new octaneapi::AssetMissingCallbackT();
     // setup callback function assetMissingCallback
-    //int assetMissingCallbackCallbackId = GRPCSettings::getNextCallbackId("AssetMissingCallback"); 
-    //CallbackStorage::registerAssetMissingCallback(assetMissingCallbackCallbackId, assetMissingCallback);
     assetmissingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //assetmissingcallbackIn->set_callbackid(assetMissingCallbackCallbackId);
-    //if(className == "ApiRootNodeGraph" && method.mName == "importOrbxFromMemory") return true;
-    request.set_allocated_assetmissingcallback(assetmissingcallbackIn);//// 6215 ////
+    request.set_allocated_assetmissingcallback(assetmissingcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'assetsMissingCallbackUserData' [in] parameter to the request packet.
     uint64_t assetsmissingcallbackuserdataIn;
-    //// USER DATA TEST ////
     assetsmissingcallbackuserdataIn = reinterpret_cast<uint64_t>(assetsMissingCallbackUserData);
     request.set_assetsmissingcallbackuserdata(assetsmissingcallbackuserdataIn);
 
@@ -678,7 +651,7 @@ bool ApiRootNodeGraphProxy::importOrbxFromMemory(
     octaneapi::ApiRootNodeGraph::importOrbxFromMemoryResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub =
         octaneapi::ApiRootNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->importOrbxFromMemory(context.get(), request, &response);
 
@@ -690,7 +663,7 @@ bool ApiRootNodeGraphProxy::importOrbxFromMemory(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'callbackId' [out] parameter from the gRPC response packet
@@ -699,7 +672,7 @@ bool ApiRootNodeGraphProxy::importOrbxFromMemory(
         /////////////////////////////////////////////////////////////////////
         // Process 'ocsVersion' [out] parameter from the gRPC response packet
         uint32_t ocsVersionOut = response.ocsversion();
-        ocsVersion = ocsVersionOut;//// SECOND////
+        ocsVersion = ocsVersionOut;
     }
     else
     {
@@ -719,8 +692,8 @@ bool ApiRootNodeGraphProxy::importOrbxFromMemory(
 
 
 bool ApiRootNodeGraphProxy::exportToFile(
-            const char *                              filePath, //// test821 //// 
-            bool                                      useRelativePaths //// last param ////
+            const char *                              filePath,
+            bool                                      useRelativePaths
             ) const
 
 {
@@ -733,21 +706,21 @@ bool ApiRootNodeGraphProxy::exportToFile(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'filePath' [in] parameter to the request packet.
-    std::string * filepathIn = new std::string(); //// filePath type=string;//// ////721////
+    std::string * filepathIn = new std::string();
     *filepathIn = checkString(filePath);
-    request.set_allocated_filepath(filepathIn);//// 6215 ////
+    request.set_allocated_filepath(filepathIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'useRelativePaths' [in] parameter to the request packet.
     bool userelativepathsIn;
-    userelativepathsIn = useRelativePaths;////2 bool////
+    userelativepathsIn = useRelativePaths;
     request.set_userelativepaths(userelativepathsIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -755,7 +728,7 @@ bool ApiRootNodeGraphProxy::exportToFile(
     octaneapi::ApiRootNodeGraph::exportToFileResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub =
         octaneapi::ApiRootNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->exportToFile(context.get(), request, &response);
 
@@ -765,7 +738,7 @@ bool ApiRootNodeGraphProxy::exportToFile(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -785,8 +758,8 @@ bool ApiRootNodeGraphProxy::exportToFile(
 
 
 std::string ApiRootNodeGraphProxy::exportToString(
-            const char *                              baseDirectory, //// test821 //// 
-            bool                                      useRelativePaths //// last param ////
+            const char *                              baseDirectory,
+            bool                                      useRelativePaths
             ) const
 
 {
@@ -799,21 +772,21 @@ std::string ApiRootNodeGraphProxy::exportToString(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'baseDirectory' [in] parameter to the request packet.
-    std::string * basedirectoryIn = new std::string(); //// baseDirectory type=string;//// ////721////
+    std::string * basedirectoryIn = new std::string();
     *basedirectoryIn = checkString(baseDirectory);
-    request.set_allocated_basedirectory(basedirectoryIn);//// 6215 ////
+    request.set_allocated_basedirectory(basedirectoryIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'useRelativePaths' [in] parameter to the request packet.
     bool userelativepathsIn;
-    userelativepathsIn = useRelativePaths;////2 bool////
+    userelativepathsIn = useRelativePaths;
     request.set_userelativepaths(userelativepathsIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -821,7 +794,7 @@ std::string ApiRootNodeGraphProxy::exportToString(
     octaneapi::ApiRootNodeGraph::exportToStringResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub =
         octaneapi::ApiRootNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->exportToString(context.get(), request, &response);
 
@@ -832,7 +805,7 @@ std::string ApiRootNodeGraphProxy::exportToString(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -862,8 +835,8 @@ uint32_t ApiRootNodeGraphProxy::referenceGraphCount() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -872,7 +845,7 @@ uint32_t ApiRootNodeGraphProxy::referenceGraphCount() const
     octaneapi::ApiRootNodeGraph::referenceGraphCountResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub =
         octaneapi::ApiRootNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->referenceGraphCount(context.get(), request, &response);
 
@@ -882,7 +855,7 @@ uint32_t ApiRootNodeGraphProxy::referenceGraphCount() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -912,8 +885,8 @@ void ApiRootNodeGraphProxy::loadAllReferences()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -922,7 +895,7 @@ void ApiRootNodeGraphProxy::loadAllReferences()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub =
         octaneapi::ApiRootNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->loadAllReferences(context.get(), request, &response);
 
@@ -956,8 +929,8 @@ void ApiRootNodeGraphProxy::unloadAllReferences()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -966,7 +939,7 @@ void ApiRootNodeGraphProxy::unloadAllReferences()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiRootNodeGraphService::Stub> stub =
         octaneapi::ApiRootNodeGraphService::NewStub(getGRPCSettings().getChannel());
     status = stub->unloadAllReferences(context.get(), request, &response);
 

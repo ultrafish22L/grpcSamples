@@ -14,7 +14,7 @@
 #if !defined(OCTANE_STANDALONE) && !defined(OCTANE_DLLEXPORT)
 #include "grpcapinodeinfo.h"
 #else 
-class ApiNodeInfoProxy
+struct ApiNodeInfoProxy
 {
     //stub
 };
@@ -39,8 +39,8 @@ void RenderResultStatisticsConverter::convert(
        in.usedsize().y() };
     //cl=RenderResultStatistics, field.mName = subSampleMode field.mType = Octane::SubSampleMode, protoType=SubSampleMode
     out.mSubSampleMode = static_cast<Octane::SubSampleMode>(in.subsamplemode());// enum 1 
-    //cl=RenderResultStatistics, field.mName = upSampleMode field.mType = Octane::UpSampleMode, protoType=UpSampleMode
-    out.mUpSampleMode = static_cast<Octane::UpSampleMode>(in.upsamplemode());// enum 1 
+    //cl=RenderResultStatistics, field.mName = upSamplingRatio field.mType = float, protoType=float
+    out.mUpSamplingRatio = in.upsamplingratio();////simple 3////
     //cl=RenderResultStatistics, field.mName = bufferType field.mType = Octane::TonemapBufferType, protoType=TonemapBufferType
     out.mBufferType = static_cast<Octane::TonemapBufferType>(in.buffertype());// enum 1 
     //cl=RenderResultStatistics, field.mName = colorSpace field.mType = Octane::NamedColorSpace, protoType=NamedColorSpace
@@ -148,7 +148,7 @@ void RenderResultStatisticsConverter::convert(
     usedSizeOut->set_y(in.mUsedSize.y);
     out.set_allocated_usedsize(usedSizeOut);
     out.set_subsamplemode( static_cast<octaneapi::SubSampleMode>(in.mSubSampleMode)); // enum 2
-    out.set_upsamplemode( static_cast<octaneapi::UpSampleMode>(in.mUpSampleMode)); // enum 2
+    out.set_upsamplingratio(in.mUpSamplingRatio);////simple 4b////
     out.set_buffertype( static_cast<octaneapi::TonemapBufferType>(in.mBufferType)); // enum 2
     out.set_colorspace( static_cast<octaneapi::NamedColorSpace>(in.mColorSpace)); // enum 2
     out.set_islinear(in.mIsLinear);////simple 4b////

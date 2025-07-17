@@ -26,7 +26,7 @@ class ApiFileChooserProxy : public ApiGuiComponentProxy
 {
 public:
     /// Creates a new file chooser.
-    /// 
+    ///
     /// @param[in]  dialogTitle
     ///     Title that appears on the top of the dialog.
     /// @param[in]  initialDirectory
@@ -49,7 +49,7 @@ public:
     /// Destroys this file chooser created by create.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Shows a dialog box to choose a file to open. This will display the dialog box modally,
     /// using an "open file" mode, so that it won't allow non-existent files or directories to
@@ -59,13 +59,13 @@ public:
     ///     Contains the status of the gRPC call
     /// @return TRUE if the user selected a file, in which case, use the result() method to find
     ///         out what it was. Returns FALSE if they cancelled instead.
-    bool browseForFileToOpen(            );
+    bool browseForFileToOpen();
 
     /// Same as browseForFileToOpen(), but allows the user to select multiple files.  The files
     /// that are returned can be obtained by calling results(). See browseForFileToOpen().
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool browseForMultipleFilesToOpen(            );
+    bool browseForMultipleFilesToOpen();
 
     /// Shows a dialog box to choose a file to save.  This will display the dialog box modally,
     /// using an "save file" mode, so it will allow non-existent files to be chosen,
@@ -80,7 +80,7 @@ public:
     ///     TRUE if the user chose a file and pressed 'ok', in which case, use the result()
     ///     method to find out what the file was. Returns false if they cancelled instead.
     bool browseForFileToSave(
-            const bool                                warnAboutOverwritingExistingFiles
+            const bool   warnAboutOverwritingExistingFiles
             );
 
     /// Shows a dialog box to choose a directory.  This will display the dialog box modally, using
@@ -90,13 +90,13 @@ public:
     /// @return
     ///     TRUE if the user chose a directory and pressed 'ok', in which case, use the result()
     ///     method to find out what they chose. Returns FALSE if they cancelled instead.
-    bool browseForDirectory(            );
+    bool browseForDirectory();
 
     /// Same as browseForFileToOpen(), but allows the user to select multiple files and directories.
     /// The files that are returned can be obtained by calling results().
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool browseForMultipleFilesOrDirectories(            );
+    bool browseForMultipleFilesOrDirectories();
 
     /// Returns the last file that was chosen by one of the browseFor methods.  After calling the
     /// appropriate browseFor... method, this method lets you find out what file or directory they
@@ -106,14 +106,14 @@ public:
     /// result(). Don't delete this pointer.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    std::string result(            ) const;
+    std::string result() const;
 
     /// Returns a list of all the files that were chosen during the last call to a browse method.
     /// The pointers in this array are valid until this object gets destroyed or the next call to
     /// results(). Don't delete these pointers.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    std::vector<std::string> results(            ) const;
+    std::vector<std::string> results() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

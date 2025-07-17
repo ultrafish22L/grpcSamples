@@ -118,7 +118,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void startPath(
-            OctaneVec::float_2                        point
+            OctaneVec::float_2   point
             );
 
     /// Adds to the current path a line from the previous point to the given end point, and then
@@ -129,7 +129,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void lineTo(
-            OctaneVec::float_2                        point
+            OctaneVec::float_2   point
             );
 
     /// Adds to the current path a cubic Bezier curve from the previous point to the given end
@@ -158,7 +158,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void finishPath(
-            float                                     thickness
+            float   thickness
             );
 
 private:

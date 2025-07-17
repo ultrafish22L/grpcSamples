@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apinodepininfoclient.h"
 #include <cassert>
@@ -28,7 +28,7 @@ GRPCSettings & ApiNodePinInfoProxy::getGRPCSettings()
 
 
 bool ApiNodePinInfoProxy::isValidFor(
-            const Octane::VersionT                    version //// last param ////
+            const Octane::VersionT                    version
             ) const
 
 {
@@ -41,15 +41,15 @@ bool ApiNodePinInfoProxy::isValidFor(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'version' [in] parameter to the request packet.
     uint32_t versionIn;
-    versionIn = version;////2 const Octane::VersionT////
+    versionIn = version;
     request.set_version(versionIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@ bool ApiNodePinInfoProxy::isValidFor(
     octaneapi::ApiNodePinInfo::isValidForResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodePinInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodePinInfoService::Stub> stub =
         octaneapi::ApiNodePinInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->isValidFor1(context.get(), request, &response);
 
@@ -67,7 +67,7 @@ bool ApiNodePinInfoProxy::isValidFor(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

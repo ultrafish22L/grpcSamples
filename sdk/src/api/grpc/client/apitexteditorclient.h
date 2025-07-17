@@ -46,17 +46,17 @@ public:
     /// Destroys this text editor.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Returns the text the user typed in the text editor.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    std::string text(            ) const;
+    std::string text() const;
 
     /// Returns TRUE if there's no text in the text editor.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isEmpty(            ) const;
+    bool isEmpty() const;
 
     /// Sets the text in the text editor.
     ///
@@ -74,19 +74,19 @@ public:
     /// Clears the text in the text editor.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void clear(            );
+    void clear();
 
     /// Changes the text editor to read only mode.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setReadOnly(
-            const bool                                shouldBeReadOnly
+            const bool   shouldBeReadOnly
             );
 
     /// Returns true if the editor is in read-only mode.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isReadOnly(            ) const;
+    bool isReadOnly() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

@@ -29,25 +29,25 @@ public:
     /// Returns the size of the item list.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    size_t size(            ) const;
+    size_t size() const;
 
     /// Returns the item at the given index. Returns a nullptr if the index is out-of-bounds.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     ApiItemProxy get(
-            const size_t                              index
+            const size_t   index
             ) const;
 
     /// Returns the internal array (owned by this object).
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    std::vector<ApiItemProxy> items(            );
+    std::vector<ApiItemProxy> items();
 
     /// Init function (only used internally).
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void init(
-            const size_t                              size
+            const size_t   size
             );
 
 private:

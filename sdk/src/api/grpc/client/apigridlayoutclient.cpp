@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apigridlayoutclient.h"
 #include <cassert>
@@ -40,7 +40,7 @@ ApiGridLayoutProxy ApiGridLayoutProxy::create()
     octaneapi::ApiGridLayout::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub =
         octaneapi::ApiGridLayoutService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -68,7 +68,7 @@ ApiGridLayoutProxy ApiGridLayoutProxy::create()
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiGridLayoutProxy retVal;////714////
+        ApiGridLayoutProxy retVal;
         return retVal;
     }
 };
@@ -85,8 +85,8 @@ void ApiGridLayoutProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -95,7 +95,7 @@ void ApiGridLayoutProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub =
         octaneapi::ApiGridLayoutService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -119,10 +119,10 @@ void ApiGridLayoutProxy::destroy()
 
 
 void ApiGridLayoutProxy::startSetup(
-            const int                                 borderX, //// test821 //// 
-            const int                                 borderY, //// test821 //// 
-            const int                                 paddingX, //// test821 //// 
-            const int                                 paddingY //// last param ////
+            const int                                 borderX,
+            const int                                 borderY,
+            const int                                 paddingX,
+            const int                                 paddingY
             )
 
 {
@@ -135,33 +135,33 @@ void ApiGridLayoutProxy::startSetup(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'borderX' [in] parameter to the request packet.
     int32_t borderxIn;
-    borderxIn = borderX;////2 const int////
+    borderxIn = borderX;
     request.set_borderx(borderxIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'borderY' [in] parameter to the request packet.
     int32_t borderyIn;
-    borderyIn = borderY;////2 const int////
+    borderyIn = borderY;
     request.set_bordery(borderyIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'paddingX' [in] parameter to the request packet.
     int32_t paddingxIn;
-    paddingxIn = paddingX;////2 const int////
+    paddingxIn = paddingX;
     request.set_paddingx(paddingxIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'paddingY' [in] parameter to the request packet.
     int32_t paddingyIn;
-    paddingyIn = paddingY;////2 const int////
+    paddingyIn = paddingY;
     request.set_paddingy(paddingyIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -169,7 +169,7 @@ void ApiGridLayoutProxy::startSetup(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub =
         octaneapi::ApiGridLayoutService::NewStub(getGRPCSettings().getChannel());
     status = stub->startSetup(context.get(), request, &response);
 
@@ -203,8 +203,8 @@ void ApiGridLayoutProxy::endSetup()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -213,7 +213,7 @@ void ApiGridLayoutProxy::endSetup()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub =
         octaneapi::ApiGridLayoutService::NewStub(getGRPCSettings().getChannel());
     status = stub->endSetup(context.get(), request, &response);
 
@@ -237,9 +237,9 @@ void ApiGridLayoutProxy::endSetup()
 
 
 void ApiGridLayoutProxy::add(
-            ApiGuiComponentProxy &                    child, //// test821 //// 
-            const uint32_t                            cellX, //// test821 //// 
-            const uint32_t                            cellY //// last param ////
+            ApiGuiComponentProxy &                    child,
+            const uint32_t                            cellX,
+            const uint32_t                            cellY
             )
 
 {
@@ -252,8 +252,8 @@ void ApiGridLayoutProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -261,21 +261,21 @@ void ApiGridLayoutProxy::add(
     // Add the 'child' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * childIn = new octaneapi::ObjectRef();////761////
-    childIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * childIn = new octaneapi::ObjectRef();
+    childIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     childIn->set_handle(child.getObjectHandle());
     request.set_allocated_child(childIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'cellX' [in] parameter to the request packet.
     uint32_t cellxIn;
-    cellxIn = cellX;////2 const uint32_t////
+    cellxIn = cellX;
     request.set_cellx(cellxIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'cellY' [in] parameter to the request packet.
     uint32_t cellyIn;
-    cellyIn = cellY;////2 const uint32_t////
+    cellyIn = cellY;
     request.set_celly(cellyIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -283,7 +283,7 @@ void ApiGridLayoutProxy::add(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub =
         octaneapi::ApiGridLayoutService::NewStub(getGRPCSettings().getChannel());
     status = stub->add(context.get(), request, &response);
 
@@ -307,8 +307,8 @@ void ApiGridLayoutProxy::add(
 
 
 void ApiGridLayoutProxy::addEmpty(
-            const uint32_t                            cellX, //// test821 //// 
-            const uint32_t                            cellY //// last param ////
+            const uint32_t                            cellX,
+            const uint32_t                            cellY
             )
 
 {
@@ -321,21 +321,21 @@ void ApiGridLayoutProxy::addEmpty(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'cellX' [in] parameter to the request packet.
     uint32_t cellxIn;
-    cellxIn = cellX;////2 const uint32_t////
+    cellxIn = cellX;
     request.set_cellx(cellxIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'cellY' [in] parameter to the request packet.
     uint32_t cellyIn;
-    cellyIn = cellY;////2 const uint32_t////
+    cellyIn = cellY;
     request.set_celly(cellyIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -343,7 +343,7 @@ void ApiGridLayoutProxy::addEmpty(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub =
         octaneapi::ApiGridLayoutService::NewStub(getGRPCSettings().getChannel());
     status = stub->addEmpty(context.get(), request, &response);
 
@@ -367,11 +367,11 @@ void ApiGridLayoutProxy::addEmpty(
 
 
 void ApiGridLayoutProxy::addSpan(
-            ApiGuiComponentProxy &                    child, //// test821 //// 
-            const uint32_t                            minCellX, //// test821 //// 
-            const uint32_t                            minCellY, //// test821 //// 
-            const uint32_t                            maxCellX, //// test821 //// 
-            const uint32_t                            maxCellY //// last param ////
+            ApiGuiComponentProxy &                    child,
+            const uint32_t                            minCellX,
+            const uint32_t                            minCellY,
+            const uint32_t                            maxCellX,
+            const uint32_t                            maxCellY
             )
 
 {
@@ -384,8 +384,8 @@ void ApiGridLayoutProxy::addSpan(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -393,33 +393,33 @@ void ApiGridLayoutProxy::addSpan(
     // Add the 'child' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * childIn = new octaneapi::ObjectRef();////761////
-    childIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * childIn = new octaneapi::ObjectRef();
+    childIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     childIn->set_handle(child.getObjectHandle());
     request.set_allocated_child(childIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'minCellX' [in] parameter to the request packet.
     uint32_t mincellxIn;
-    mincellxIn = minCellX;////2 const uint32_t////
+    mincellxIn = minCellX;
     request.set_mincellx(mincellxIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'minCellY' [in] parameter to the request packet.
     uint32_t mincellyIn;
-    mincellyIn = minCellY;////2 const uint32_t////
+    mincellyIn = minCellY;
     request.set_mincelly(mincellyIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'maxCellX' [in] parameter to the request packet.
     uint32_t maxcellxIn;
-    maxcellxIn = maxCellX;////2 const uint32_t////
+    maxcellxIn = maxCellX;
     request.set_maxcellx(maxcellxIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'maxCellY' [in] parameter to the request packet.
     uint32_t maxcellyIn;
-    maxcellyIn = maxCellY;////2 const uint32_t////
+    maxcellyIn = maxCellY;
     request.set_maxcelly(maxcellyIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -427,7 +427,7 @@ void ApiGridLayoutProxy::addSpan(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub =
         octaneapi::ApiGridLayoutService::NewStub(getGRPCSettings().getChannel());
     status = stub->addSpan(context.get(), request, &response);
 
@@ -451,10 +451,10 @@ void ApiGridLayoutProxy::addSpan(
 
 
 void ApiGridLayoutProxy::setStartSize(
-            const uint32_t                            cellX, //// test821 //// 
-            const uint32_t                            cellY, //// test821 //// 
-            const int                                 sizeX, //// test821 //// 
-            const int                                 sizeY //// last param ////
+            const uint32_t                            cellX,
+            const uint32_t                            cellY,
+            const int                                 sizeX,
+            const int                                 sizeY
             )
 
 {
@@ -467,33 +467,33 @@ void ApiGridLayoutProxy::setStartSize(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'cellX' [in] parameter to the request packet.
     uint32_t cellxIn;
-    cellxIn = cellX;////2 const uint32_t////
+    cellxIn = cellX;
     request.set_cellx(cellxIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'cellY' [in] parameter to the request packet.
     uint32_t cellyIn;
-    cellyIn = cellY;////2 const uint32_t////
+    cellyIn = cellY;
     request.set_celly(cellyIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'sizeX' [in] parameter to the request packet.
     int32_t sizexIn;
-    sizexIn = sizeX;////2 const int////
+    sizexIn = sizeX;
     request.set_sizex(sizexIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'sizeY' [in] parameter to the request packet.
     int32_t sizeyIn;
-    sizeyIn = sizeY;////2 const int////
+    sizeyIn = sizeY;
     request.set_sizey(sizeyIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -501,7 +501,7 @@ void ApiGridLayoutProxy::setStartSize(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub =
         octaneapi::ApiGridLayoutService::NewStub(getGRPCSettings().getChannel());
     status = stub->setStartSize(context.get(), request, &response);
 
@@ -525,8 +525,8 @@ void ApiGridLayoutProxy::setStartSize(
 
 
 void ApiGridLayoutProxy::setRowElasticity(
-            const uint32_t                            rowIx, //// test821 //// 
-            const float                               elasticity //// last param ////
+            const uint32_t                            rowIx,
+            const float                               elasticity
             )
 
 {
@@ -539,21 +539,21 @@ void ApiGridLayoutProxy::setRowElasticity(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'rowIx' [in] parameter to the request packet.
     uint32_t rowixIn;
-    rowixIn = rowIx;////2 const uint32_t////
+    rowixIn = rowIx;
     request.set_rowix(rowixIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'elasticity' [in] parameter to the request packet.
     float elasticityIn;
-    elasticityIn = elasticity;////2 const float////
+    elasticityIn = elasticity;
     request.set_elasticity(elasticityIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -561,7 +561,7 @@ void ApiGridLayoutProxy::setRowElasticity(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub =
         octaneapi::ApiGridLayoutService::NewStub(getGRPCSettings().getChannel());
     status = stub->setRowElasticity(context.get(), request, &response);
 
@@ -585,8 +585,8 @@ void ApiGridLayoutProxy::setRowElasticity(
 
 
 void ApiGridLayoutProxy::setColElasticity(
-            const uint32_t                            columnIx, //// test821 //// 
-            const float                               elasticity //// last param ////
+            const uint32_t                            columnIx,
+            const float                               elasticity
             )
 
 {
@@ -599,21 +599,21 @@ void ApiGridLayoutProxy::setColElasticity(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'columnIx' [in] parameter to the request packet.
     uint32_t columnixIn;
-    columnixIn = columnIx;////2 const uint32_t////
+    columnixIn = columnIx;
     request.set_columnix(columnixIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'elasticity' [in] parameter to the request packet.
     float elasticityIn;
-    elasticityIn = elasticity;////2 const float////
+    elasticityIn = elasticity;
     request.set_elasticity(elasticityIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -621,7 +621,7 @@ void ApiGridLayoutProxy::setColElasticity(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub =
         octaneapi::ApiGridLayoutService::NewStub(getGRPCSettings().getChannel());
     status = stub->setColElasticity(context.get(), request, &response);
 
@@ -645,7 +645,7 @@ void ApiGridLayoutProxy::setColElasticity(
 
 
 void ApiGridLayoutProxy::setElasticityForAllRows(
-            const float                               elasticity //// last param ////
+            const float                               elasticity
             )
 
 {
@@ -658,15 +658,15 @@ void ApiGridLayoutProxy::setElasticityForAllRows(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'elasticity' [in] parameter to the request packet.
     float elasticityIn;
-    elasticityIn = elasticity;////2 const float////
+    elasticityIn = elasticity;
     request.set_elasticity(elasticityIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -674,7 +674,7 @@ void ApiGridLayoutProxy::setElasticityForAllRows(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub =
         octaneapi::ApiGridLayoutService::NewStub(getGRPCSettings().getChannel());
     status = stub->setElasticityForAllRows(context.get(), request, &response);
 
@@ -698,7 +698,7 @@ void ApiGridLayoutProxy::setElasticityForAllRows(
 
 
 void ApiGridLayoutProxy::setElasticityForAllCols(
-            const float                               elasticity //// last param ////
+            const float                               elasticity
             )
 
 {
@@ -711,15 +711,15 @@ void ApiGridLayoutProxy::setElasticityForAllCols(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'elasticity' [in] parameter to the request packet.
     float elasticityIn;
-    elasticityIn = elasticity;////2 const float////
+    elasticityIn = elasticity;
     request.set_elasticity(elasticityIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -727,7 +727,7 @@ void ApiGridLayoutProxy::setElasticityForAllCols(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub =
         octaneapi::ApiGridLayoutService::NewStub(getGRPCSettings().getChannel());
     status = stub->setElasticityForAllCols(context.get(), request, &response);
 
@@ -751,14 +751,14 @@ void ApiGridLayoutProxy::setElasticityForAllCols(
 
 
 void ApiGridLayoutProxy::startNestedGrid(
-            const uint32_t                            minCellX, //// test821 //// 
-            const uint32_t                            minCellY, //// test821 //// 
-            const uint32_t                            maxCellX, //// test821 //// 
-            const uint32_t                            maxCellY, //// test821 //// 
-            const int                                 borderX, //// test821 //// 
-            const int                                 borderY, //// test821 //// 
-            const int                                 paddingX, //// test821 //// 
-            const int                                 paddingY //// last param ////
+            const uint32_t                            minCellX,
+            const uint32_t                            minCellY,
+            const uint32_t                            maxCellX,
+            const uint32_t                            maxCellY,
+            const int                                 borderX,
+            const int                                 borderY,
+            const int                                 paddingX,
+            const int                                 paddingY
             )
 
 {
@@ -771,57 +771,57 @@ void ApiGridLayoutProxy::startNestedGrid(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'minCellX' [in] parameter to the request packet.
     uint32_t mincellxIn;
-    mincellxIn = minCellX;////2 const uint32_t////
+    mincellxIn = minCellX;
     request.set_mincellx(mincellxIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'minCellY' [in] parameter to the request packet.
     uint32_t mincellyIn;
-    mincellyIn = minCellY;////2 const uint32_t////
+    mincellyIn = minCellY;
     request.set_mincelly(mincellyIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'maxCellX' [in] parameter to the request packet.
     uint32_t maxcellxIn;
-    maxcellxIn = maxCellX;////2 const uint32_t////
+    maxcellxIn = maxCellX;
     request.set_maxcellx(maxcellxIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'maxCellY' [in] parameter to the request packet.
     uint32_t maxcellyIn;
-    maxcellyIn = maxCellY;////2 const uint32_t////
+    maxcellyIn = maxCellY;
     request.set_maxcelly(maxcellyIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'borderX' [in] parameter to the request packet.
     int32_t borderxIn;
-    borderxIn = borderX;////2 const int////
+    borderxIn = borderX;
     request.set_borderx(borderxIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'borderY' [in] parameter to the request packet.
     int32_t borderyIn;
-    borderyIn = borderY;////2 const int////
+    borderyIn = borderY;
     request.set_bordery(borderyIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'paddingX' [in] parameter to the request packet.
     int32_t paddingxIn;
-    paddingxIn = paddingX;////2 const int////
+    paddingxIn = paddingX;
     request.set_paddingx(paddingxIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'paddingY' [in] parameter to the request packet.
     int32_t paddingyIn;
-    paddingyIn = paddingY;////2 const int////
+    paddingyIn = paddingY;
     request.set_paddingy(paddingyIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -829,7 +829,7 @@ void ApiGridLayoutProxy::startNestedGrid(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub =
         octaneapi::ApiGridLayoutService::NewStub(getGRPCSettings().getChannel());
     status = stub->startNestedGrid(context.get(), request, &response);
 
@@ -863,8 +863,8 @@ void ApiGridLayoutProxy::endNestedGrid()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -873,7 +873,7 @@ void ApiGridLayoutProxy::endNestedGrid()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub =
         octaneapi::ApiGridLayoutService::NewStub(getGRPCSettings().getChannel());
     status = stub->endNestedGrid(context.get(), request, &response);
 
@@ -907,8 +907,8 @@ int ApiGridLayoutProxy::width() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -917,7 +917,7 @@ int ApiGridLayoutProxy::width() const
     octaneapi::ApiGridLayout::widthResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub =
         octaneapi::ApiGridLayoutService::NewStub(getGRPCSettings().getChannel());
     status = stub->width(context.get(), request, &response);
 
@@ -927,7 +927,7 @@ int ApiGridLayoutProxy::width() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         int32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -957,8 +957,8 @@ int ApiGridLayoutProxy::height() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGridLayout);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -967,7 +967,7 @@ int ApiGridLayoutProxy::height() const
     octaneapi::ApiGridLayout::heightResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiGridLayoutService::Stub> stub =
         octaneapi::ApiGridLayoutService::NewStub(getGRPCSettings().getChannel());
     status = stub->height(context.get(), request, &response);
 
@@ -977,7 +977,7 @@ int ApiGridLayoutProxy::height() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         int32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

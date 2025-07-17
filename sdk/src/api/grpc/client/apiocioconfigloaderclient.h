@@ -29,13 +29,13 @@ public:
     ///     Contains the status of the gRPC call
 /// @return
     ///     The created config loader. This must be destroyed with destroy(). Will not be null.
-    static ApiOcioConfigLoaderProxy create(            );
+    static ApiOcioConfigLoaderProxy create();
 
     /// Must not be called from a callback function. If there is a callback currently being called,
     /// will block until it returns. After this method returns, callbacks will no longer be called.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Registers a callback to be called when the state of loading an OCIO config changes.
     /// Callbacks will be called in no particular order. The same callback can be registered
@@ -97,7 +97,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void load(
-            const char *                              filename
+            const char *   filename
             );
 
     /// Gets the current config. This is the config from an arbitrary point in time between when
@@ -117,7 +117,7 @@ public:
     /// @return
     ///     The current config (must be destroyed with destroy()), or null if there is no config.
     ApiOcioConfigProxy createConfig(
-            bool                                      waitIfLoading
+            bool   waitIfLoading
             );
 
 private:

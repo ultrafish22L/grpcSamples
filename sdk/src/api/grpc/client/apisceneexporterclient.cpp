@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apisceneexporterclient.h"
 #include <cassert>
@@ -41,7 +41,7 @@ bool ApiSceneExporterProxy::isSupported()
     octaneapi::ApiSceneExporter::isSupportedResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSceneExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSceneExporterService::Stub> stub =
         octaneapi::ApiSceneExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->isSupported(context.get(), request, &response);
 
@@ -51,7 +51,7 @@ bool ApiSceneExporterProxy::isSupported()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -71,14 +71,14 @@ bool ApiSceneExporterProxy::isSupported()
 
 
 ApiSceneExporterProxy ApiSceneExporterProxy::create(
-            const char *const                         sceneFile, //// test821 //// 
-            ApiNodeProxy* const                       rootNodes[], //// test821 //// 
-            const size_t                              rootNodesSize, //// test821 //// 
-            const Octane::TimeT                       timeSamplesPeriod, //// test821 //// 
-            const Octane::TimeT *const                timeSamples, //// test821 //// 
-            const size_t                              timeSamplesSize, //// test821 //// 
-            const Octane::GeometryExportFormat        geometryFormat, //// test821 //// 
-            const Octane::ReferencePackageExportSettings * referencePackageSettings //// last param ////
+            const char *const                         sceneFile,
+            ApiNodeProxy* const                       rootNodes[],
+            const size_t                              rootNodesSize,
+            const Octane::TimeT                       timeSamplesPeriod,
+            const Octane::TimeT *const                timeSamples,
+            const size_t                              timeSamplesSize,
+            const Octane::GeometryExportFormat        geometryFormat,
+            const Octane::ReferencePackageExportSettings * referencePackageSettings
             )
 
 {
@@ -89,54 +89,49 @@ ApiSceneExporterProxy ApiSceneExporterProxy::create(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'sceneFile' [in] parameter to the request packet.
-    std::string * scenefileIn = new std::string(); //// sceneFile type=string;//// ////721////
+    std::string * scenefileIn = new std::string();
     *scenefileIn = checkString(sceneFile);
-    request.set_allocated_scenefile(scenefileIn);//// 6215 ////
+    request.set_allocated_scenefile(scenefileIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'rootNodes' [in] parameter to the request packet.
-    octaneapi::ObjectRefArrayT * rootnodesIn = new octaneapi::ObjectRefArrayT(); //// rootNodes type=ObjectRefArrayT;//// ////721////
-    //// Client Array Type C////
-    //// param.mProtoCppType = ObjectRefArrayT param.mType = Octane::ApiNode *const [] ////
+    octaneapi::ObjectRefArrayT * rootnodesIn = new octaneapi::ObjectRefArrayT();
     for (size_t h = 0; h < rootNodesSize; h++)
     {
          // The proxy object contains the ID of the remote object. Pass this ID to the server
          // using a `ObjectRef` object.
          auto item = rootnodesIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////4////
+         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
          item->set_handle(rootNodes[h]->getObjectHandle());
     }
-    request.set_allocated_rootnodes(rootnodesIn);//// 6215 ////
+    request.set_allocated_rootnodes(rootnodesIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'rootNodesSize' [in] parameter to the request packet.
     uint32_t rootnodessizeIn;
-    rootnodessizeIn = static_cast<uint32_t>(rootNodesSize);////2 const size_t////
+    rootnodessizeIn = static_cast<uint32_t>(rootNodesSize);
     request.set_rootnodessize(rootnodessizeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'timeSamplesPeriod' [in] parameter to the request packet.
-    octaneapi::TimeT * timesamplesperiodIn = new octaneapi::TimeT(); //// timeSamplesPeriod type=TimeT;//// ////721////
-    ////TimeT TEST ////
+    octaneapi::TimeT * timesamplesperiodIn = new octaneapi::TimeT();
     timesamplesperiodIn->set_value(static_cast<float>(timeSamplesPeriod));
-    request.set_allocated_timesamplesperiod(timesamplesperiodIn);//// 6215 ////
+    request.set_allocated_timesamplesperiod(timesamplesperiodIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'timeSamples' [in] parameter to the request packet.
-    octaneapi::TimeArrayT * timesamplesIn = new octaneapi::TimeArrayT(); //// timeSamples type=TimeArrayT;//// ////721////
-    //// Client Array Type E////
-    //// param.mProtoCppType = TimeArrayT param.mType = const Octane::TimeT *const ////
+    octaneapi::TimeArrayT * timesamplesIn = new octaneapi::TimeArrayT();
     for (size_t h = 0; h < timeSamplesSize; h++)
     {
         auto item = timesamplesIn->add_data();
         item->set_value(timeSamples[h]);
     }
-    request.set_allocated_timesamples(timesamplesIn);//// 6215 ////
+    request.set_allocated_timesamples(timesamplesIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'timeSamplesSize' [in] parameter to the request packet.
     uint32_t timesamplessizeIn;
-    timesamplessizeIn = static_cast<uint32_t>(timeSamplesSize);////2 const size_t////
+    timesamplessizeIn = static_cast<uint32_t>(timeSamplesSize);
     request.set_timesamplessize(timesamplessizeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -147,17 +142,16 @@ ApiSceneExporterProxy ApiSceneExporterProxy::create(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'referencePackageSettings' [in] parameter to the request packet.
-    octaneapi::ReferencePackageExportSettings * referencepackagesettingsIn = new octaneapi::ReferencePackageExportSettings(); //// referencePackageSettings type=ReferencePackageExportSettings;//// ////721////
-    //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST////
-    ReferencePackageExportSettingsConverter::convert(*referencePackageSettings, *referencepackagesettingsIn); //// Convert Called type 1c =ReferencePackageExportSettings ////
-    request.set_allocated_referencepackagesettings(referencepackagesettingsIn);//// 6215 ////
+    octaneapi::ReferencePackageExportSettings * referencepackagesettingsIn = new octaneapi::ReferencePackageExportSettings();
+    ReferencePackageExportSettingsConverter::convert(*referencePackageSettings, *referencepackagesettingsIn);
+    request.set_allocated_referencepackagesettings(referencepackagesettingsIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiSceneExporter::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSceneExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSceneExporterService::Stub> stub =
         octaneapi::ApiSceneExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -185,7 +179,7 @@ ApiSceneExporterProxy ApiSceneExporterProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiSceneExporterProxy retVal;////714////
+        ApiSceneExporterProxy retVal;
         return retVal;
     }
 };
@@ -202,8 +196,8 @@ void ApiSceneExporterProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSceneExporter);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSceneExporter);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -212,7 +206,7 @@ void ApiSceneExporterProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSceneExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSceneExporterService::Stub> stub =
         octaneapi::ApiSceneExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -246,8 +240,8 @@ Octane::ExportState ApiSceneExporterProxy::state() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSceneExporter);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSceneExporter);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -256,7 +250,7 @@ Octane::ExportState ApiSceneExporterProxy::state() const
     octaneapi::ApiSceneExporter::stateResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSceneExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSceneExporterService::Stub> stub =
         octaneapi::ApiSceneExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->state(context.get(), request, &response);
 
@@ -286,7 +280,7 @@ Octane::ExportState ApiSceneExporterProxy::state() const
 
 
 void ApiSceneExporterProxy::exportSample(
-            const Octane::TimeSpanT                   interval //// last param ////
+            const Octane::TimeSpanT                   interval
             )
 
 {
@@ -299,25 +293,24 @@ void ApiSceneExporterProxy::exportSample(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSceneExporter);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSceneExporter);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'interval' [in] parameter to the request packet.
-    octaneapi::TimeSpanT * intervalIn = new octaneapi::TimeSpanT(); //// interval type=TimeSpanT;//// ////721////
-    //// TimeSpanT TEST////
+    octaneapi::TimeSpanT * intervalIn = new octaneapi::TimeSpanT();
     intervalIn->mutable_begin()->set_value(static_cast<float>(interval.begin));
     intervalIn->mutable_end()->set_value(static_cast<float>(interval.end));
-    request.set_allocated_interval(intervalIn);//// 6215 ////
+    request.set_allocated_interval(intervalIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSceneExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSceneExporterService::Stub> stub =
         octaneapi::ApiSceneExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->exportSample(context.get(), request, &response);
 
@@ -351,8 +344,8 @@ uint32_t ApiSceneExporterProxy::sampleIx() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSceneExporter);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSceneExporter);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -361,7 +354,7 @@ uint32_t ApiSceneExporterProxy::sampleIx() const
     octaneapi::ApiSceneExporter::sampleIxResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSceneExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSceneExporterService::Stub> stub =
         octaneapi::ApiSceneExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->sampleIx(context.get(), request, &response);
 
@@ -371,7 +364,7 @@ uint32_t ApiSceneExporterProxy::sampleIx() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -391,9 +384,9 @@ uint32_t ApiSceneExporterProxy::sampleIx() const
 
 
 bool ApiSceneExporterProxy::finish(
-            const float                               framesPerSecond, //// test821 //// 
-            const bool                                deleteUnconnectedNodes, //// test821 //// 
-            const bool                                createOcsString //// last param ////
+            const float                               framesPerSecond,
+            const bool                                deleteUnconnectedNodes,
+            const bool                                createOcsString
             )
 
 {
@@ -406,27 +399,27 @@ bool ApiSceneExporterProxy::finish(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSceneExporter);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSceneExporter);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'framesPerSecond' [in] parameter to the request packet.
     float framespersecondIn;
-    framespersecondIn = framesPerSecond;////2 const float////
+    framespersecondIn = framesPerSecond;
     request.set_framespersecond(framespersecondIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'deleteUnconnectedNodes' [in] parameter to the request packet.
     bool deleteunconnectednodesIn;
-    deleteunconnectednodesIn = deleteUnconnectedNodes;////2 const bool////
+    deleteunconnectednodesIn = deleteUnconnectedNodes;
     request.set_deleteunconnectednodes(deleteunconnectednodesIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'createOcsString' [in] parameter to the request packet.
     bool createocsstringIn;
-    createocsstringIn = createOcsString;////2 const bool////
+    createocsstringIn = createOcsString;
     request.set_createocsstring(createocsstringIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -434,7 +427,7 @@ bool ApiSceneExporterProxy::finish(
     octaneapi::ApiSceneExporter::finishResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSceneExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSceneExporterService::Stub> stub =
         octaneapi::ApiSceneExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->finish(context.get(), request, &response);
 
@@ -444,7 +437,7 @@ bool ApiSceneExporterProxy::finish(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -474,8 +467,8 @@ std::string ApiSceneExporterProxy::ocsString() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSceneExporter);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSceneExporter);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -484,7 +477,7 @@ std::string ApiSceneExporterProxy::ocsString() const
     octaneapi::ApiSceneExporter::ocsStringResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSceneExporterService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSceneExporterService::Stub> stub =
         octaneapi::ApiSceneExporterService::NewStub(getGRPCSettings().getChannel());
     status = stub->ocsString(context.get(), request, &response);
 
@@ -495,7 +488,7 @@ std::string ApiSceneExporterProxy::ocsString() const
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {

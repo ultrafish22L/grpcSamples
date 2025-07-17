@@ -31,7 +31,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static ApiRootNodeGraphProxy create(
-            const Octane::VersionT                    version
+            const Octane::VersionT   version
             );
 
     /// Clears the root node graph (it will be empty afterwards) and sets it to the specified
@@ -39,35 +39,35 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void init(
-            const Octane::VersionT                    version
+            const Octane::VersionT   version
             );
 
     /// Converts the root node graph to the current version and evaluates all nodes.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void convertAndEvaluate(            );
+    void convertAndEvaluate();
 
     /// Returns the total time span for all animations in this graph.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    Octane::TimeSpanT animationTimeSpan(            ) const;
+    Octane::TimeSpanT animationTimeSpan() const;
 
-    /// Updates the time of all attributes in this root node graph. This will always evaluate 
+    /// Updates the time of all attributes in this root node graph. This will always evaluate
     /// the changed nodes in the root node graph.
-    /// 
+    ///
     /// @param[in] time
     ///     The new time stamp
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void updateTime(
-            const Octane::TimeT                       time
+            const Octane::TimeT   time
             );
 
     /// Imports a scene from disk into this graph. The version conversion is done automatically.
-    /// 
+    ///
     /// If the loading was successful, the old content of the root node graph will be gone.
     ///
-    /// @param[in]  path 
+    /// @param[in]  path
     ///     Absolute path to the .ocs or .orbx file.
     /// @param[out] ocsVersion
     ///     Octane version the OCS XML string was written with.
@@ -86,9 +86,9 @@ public:
             void *                                    assetsMissingCallbackUserData
             );
 
-    /// Imports an OCS XML string scene from disk into this graph.  The version conversion 
+    /// Imports an OCS XML string scene from disk into this graph.  The version conversion
     /// is done automatically.
-    /// 
+    ///
     /// If the loading was successful, the old content of the root node graph will be gone.
     ///
     /// @param[in]  baseDirectory
@@ -116,15 +116,15 @@ public:
             void *                                    assetsMissingCallbackUserData
             );
 
-    /// Imports an ORBX data from memory into this graph, chunk by chunk. The version conversion 
+    /// Imports an ORBX data from memory into this graph, chunk by chunk. The version conversion
     /// is done automatically.
-    /// 
+    ///
     /// If the loading was successful, the old content of the root node graph will be gone.
     ///
     /// @param[in]  baseDirectory
     ///     Path to a base directory used to unpack the assets from the ORBX.
     ///     If asset files with the same name already exist in given directory,
-    ///     they will not be rewritten. 
+    ///     they will not be rewritten.
     /// @param[out] ocsVersion
     ///     Octane version the ORBX project data was written with.
     /// @param[in] getOrbxChunkCallback
@@ -148,17 +148,17 @@ public:
             void *                                    assetMissingCallbackUserData
             );
 
-    /// Imports an ORBX data from memory into this graph. The version conversion 
+    /// Imports an ORBX data from memory into this graph. The version conversion
     /// is done automatically.
     /// This is the faster version, as it does not use the dynamically reallocated buffer
     /// during loading ORBX data chunk by chunk.
-    /// 
+    ///
     /// If the loading was successful, the old content of the root node graph will be gone.
     ///
     /// @param[in]  baseDirectory
     ///     Path to a base directory used to unpack the assets from the ORBX.
     ///     If asset files with the same name already exist in given directory,
-    ///     they will not be rewritten. 
+    ///     they will not be rewritten.
     /// @param[out] ocsVersion
     ///     Octane version the ORBX project data was written with.
     /// @param[in] orbxData
@@ -189,7 +189,7 @@ public:
     ///     * raw mesh geometry        -> obj file
     ///
     /// @note This function is not supported by all SDK flavours
-    /// @param[in]  filePath 
+    /// @param[in]  filePath
     ///     absolute path of the file. This can be a .orbx or a .ocs file.
     /// @param[in]  useRelativePaths (optional)
     ///     set whether to save asset file paths relative to @ref filePath
@@ -205,7 +205,7 @@ public:
 
     /// Exports this graph into a string and optionally exports the raw data.
     ///
-    /// @param[in]  baseDirectory 
+    /// @param[in]  baseDirectory
     ///     Absolute path to the export directory for assets (optional).
     ///     If not provided, assets aren't exported.
     /// @param[in]  useRelativePaths (optional)
@@ -223,17 +223,17 @@ public:
     /// Returns the number of reference graphs that this root graph contains
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    uint32_t referenceGraphCount(            ) const;
+    uint32_t referenceGraphCount() const;
 
     /// Loads all reference graphs in this graph
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void loadAllReferences(            );
+    void loadAllReferences();
 
     /// Unloads all reference graphs in this graph
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void unloadAllReferences(            );
+    void unloadAllReferences();
 
 private:
     static GRPCSettings & getGRPCSettings();

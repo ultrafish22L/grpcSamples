@@ -14,7 +14,6 @@
 #include "octaneenums.h"
 #include "apilocaldb.h"
 #include "apirendercloudmanager.h"
-#include "apirendercloudmanager.h"
 #include "apirender.h"
 #include "apinetrendermanager.h"
 #include "apinodesystem.h"
@@ -43,11 +42,11 @@ struct GRPCProjectManagerTimeChangeEvent;
 typedef const char* GuidT;
 
 typedef void (*OnStatusUpdateT)(
-    const NetRenderStatus &status,
+    const Octane::NetRenderStatus &status,
     void                  *userData);
 
 typedef void(*OnDaemonUpdateT)(
-    const ApiArray<const NetDaemonInfo*> &daemonInfoArray,
+    const ApiArray<const Octane::NetDaemonInfo*> &daemonInfoArray,
     void                                 *user);
 
 typedef void (*CleanupFuncT)(
@@ -347,12 +346,12 @@ public:
 
     static void invokeOnDaemonUpdate(
         int                                    id,
-        const ApiArray<const NetDaemonInfo*> & daemonInfoArray,
+        const ApiArray<const Octane::NetDaemonInfo*> & daemonInfoArray,
         void *                                 serData);
 
     static void invokeOnStatusUpdate(
         int                     id,
-        const NetRenderStatus & status,
+        const Octane::NetRenderStatus & status,
         void *                  userData);
 
     static void invokeCleanupFunc(
@@ -435,7 +434,7 @@ public:
 
     static void invokeOnTileBlendedCallback(  int id, void * userData);//
 
-    static void invokeOnNewStatisticsCallback(  int id, void * userData);//
+    static void invokeOnNewStatisticsCallback( int id, void * userData);//
 
     static void invokeOnNewImageCallback( 
         int                              id,

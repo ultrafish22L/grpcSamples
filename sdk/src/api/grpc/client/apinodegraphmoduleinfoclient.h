@@ -51,27 +51,27 @@ public:
     /// Destroys a ApiNodeGraphModuleInfo object created by create().
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Function to set the create function callback for a node graph module. (mandatory)
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setCreateFunction(
-            GRPCCreateFuncT                          func
+            GRPCCreateFuncT   func
             );
 
     /// Function to set the destroy function callback for a node graph module. (mandatory)
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setDestroyFunction(
-            const Octane::ApiNodeGraphModuleInfo::DestroyFuncT func
+            const Octane::ApiNodeGraphModuleInfo::DestroyFuncT   func
             );
 
     /// Function to set the evaluate function callback for a node graph module. (mandatory)
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setOnEvaluateFunction(
-            const Octane::ApiNodeGraphModuleInfo::OnEvaluateFuncT func
+            const Octane::ApiNodeGraphModuleInfo::OnEvaluateFuncT   func
             );
 
     /// Sets the function to call when the user clicks the trigger button in the node inspector.
@@ -79,7 +79,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setOnTriggerFunction(
-            const Octane::ApiNodeGraphModuleInfo::OnTriggerFuncT func
+            const Octane::ApiNodeGraphModuleInfo::OnTriggerFuncT   func
             );
 
     /// Sets the output type of the node graph.
@@ -87,7 +87,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setOutType(
-            const Octane::NodePinType                 outType
+            const Octane::NodePinType   outType
             );
 
 private:

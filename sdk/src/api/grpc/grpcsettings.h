@@ -16,7 +16,10 @@ public:
     /// Provides access to the singleton instance of GRPCSettings.
     /// @return
     ///    A reference to the singleton instance of GRPCSettings.
-    static GRPCSettings& getInstance();
+    static GRPCSettings & getInstance();
+
+    /// Returns TRUE if we are running as  Module (module sdk))
+    static bool isRunningAsModule();
 
     /// Retrieves the next available callback ID for the given function type.
     ///
@@ -45,6 +48,7 @@ public:
         const std::string & newAddress);
 
     /// Sets the unique identifier string received from the server when configuring callback functions.
+    /// This is only called, and must be called when running as a module (aka module sdk)
     /// @param[in] newAddress
     ///    The unique string identifier provided by the server.
     void setUniqueString(

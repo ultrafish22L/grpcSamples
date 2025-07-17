@@ -534,19 +534,6 @@ message ApiInfo
         ApiRenderPassInfo result = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiInfo::renderPassBlendingModeName'
-    message renderPassBlendingModeNameRequest
-    {
-        BlendingModeId id = 1;
-    }
-
-    // Response packet corresponding to '[out] parameters in 'ApiInfo::renderPassBlendingModeName'
-    message renderPassBlendingModeNameResponse
-    {
-        
-        string result = 1;
-    }
-
     // Request packet corresponding to '[in] parameters in ApiInfo::getAllRenderPassIds'
     message getAllRenderPassIdsRequest
     {
@@ -772,8 +759,6 @@ service ApiInfoService
     rpc getCompatibleTypes(ApiInfo.getCompatibleTypesRequest) returns (ApiInfo.getCompatibleTypesResponse);
     /// Returns the information related to a render pass given its id
     rpc renderPassInfo(ApiInfo.renderPassInfoRequest) returns (ApiInfo.renderPassInfoResponse);
-    /// Returns the blending mode name of a render pass
-    rpc renderPassBlendingModeName(ApiInfo.renderPassBlendingModeNameRequest) returns (ApiInfo.renderPassBlendingModeNameResponse);
     /// Returns an array with all the available render pass ids
     rpc getAllRenderPassIds(ApiInfo.getAllRenderPassIdsRequest) returns (ApiInfo.getAllRenderPassIdsResponse);
     /// Returns the 

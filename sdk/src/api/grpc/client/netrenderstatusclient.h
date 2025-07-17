@@ -27,7 +27,7 @@ public:
     /// Resets and nullifies everything.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void clear(            );
+    void clear();
 
 private:
     static GRPCSettings & getGRPCSettings();

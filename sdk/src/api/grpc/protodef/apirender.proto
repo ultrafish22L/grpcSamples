@@ -2054,9 +2054,6 @@ service ApiRenderEngineService
     ///     auto info = ApiOutputColorSpaceInfo::createKnownColorSpace(colorSpace, false);
     ///     auto result = synchronousTonemapAllRenderPasses(
     rpc synchronousTonemapAllRenderPasses1(ApiRenderEngine.synchronousTonemapAllRenderPasses1Request) returns (ApiRenderEngine.synchronousTonemapAllRenderPasses1Response);
-    /// Frees an array of render images created via grabRenderResult(), synchronousTonemap() or
-    /// synchronousTonemapAllRenderPasses()
-    rpc freeRenderImages(ApiRenderEngine.freeRenderImagesRequest) returns (ApiRenderEngine.freeRenderImagesResponse);
     /// Returns the statistics for the current render progress
     rpc getRenderStatistics(ApiRenderEngine.getRenderStatisticsRequest) returns (ApiRenderEngine.getRenderStatisticsResponse);
     /// Returns the statistics for the render results

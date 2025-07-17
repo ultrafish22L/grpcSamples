@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apiinfoclient.h"
 #include <cassert>
@@ -21,7 +21,7 @@
 #include "apinodeclient.h"
 #include "apiimageclient.h"
 #include "apiattributeinfoclient.h"
-#include "apinodeinfoclient.h"
+#include "../grpcapinodeinfo.h"
 #include "stringmgr.h"
 #include "convertmatrix.h"
 #include "grpcsettings.h"
@@ -49,7 +49,7 @@ int ApiInfoProxy::octaneVersion()
     octaneapi::ApiInfo::octaneVersionResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->octaneVersion(context.get(), request, &response);
 
@@ -59,7 +59,7 @@ int ApiInfoProxy::octaneVersion()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         int32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -90,7 +90,7 @@ std::string ApiInfoProxy::octaneName()
     octaneapi::ApiInfo::octaneNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->octaneName(context.get(), request, &response);
 
@@ -101,7 +101,7 @@ std::string ApiInfoProxy::octaneName()
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -132,7 +132,7 @@ bool ApiInfoProxy::isDemoVersion()
     octaneapi::ApiInfo::isDemoVersionResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->isDemoVersion(context.get(), request, &response);
 
@@ -142,7 +142,7 @@ bool ApiInfoProxy::isDemoVersion()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -173,7 +173,7 @@ bool ApiInfoProxy::isSubscriptionVersion()
     octaneapi::ApiInfo::isSubscriptionVersionResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->isSubscriptionVersion(context.get(), request, &response);
 
@@ -183,7 +183,7 @@ bool ApiInfoProxy::isSubscriptionVersion()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -214,7 +214,7 @@ int ApiInfoProxy::tierIdx()
     octaneapi::ApiInfo::tierIdxResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->tierIdx(context.get(), request, &response);
 
@@ -224,7 +224,7 @@ int ApiInfoProxy::tierIdx()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         int32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -255,7 +255,7 @@ std::string ApiInfoProxy::osVersionInfo()
     octaneapi::ApiInfo::osVersionInfoResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->osVersionInfo(context.get(), request, &response);
 
@@ -266,7 +266,7 @@ std::string ApiInfoProxy::osVersionInfo()
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -297,7 +297,7 @@ std::string ApiInfoProxy::driverVersionInfo()
     octaneapi::ApiInfo::driverVersionInfoResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->driverVersionInfo(context.get(), request, &response);
 
@@ -308,7 +308,7 @@ std::string ApiInfoProxy::driverVersionInfo()
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -328,10 +328,10 @@ std::string ApiInfoProxy::driverVersionInfo()
 
 
 void ApiInfoProxy::cpuInfo(
-            std::string &                             cpuVendor, //// test821 //// 
-            std::string &                             cpuModel, //// test821 //// 
-            uint32_t &                                clockSpeedMhz, //// test821 //// 
-            uint32_t &                                nbCores //// last param ////
+            std::string &                             cpuVendor,
+            std::string &                             cpuModel,
+            uint32_t &                                clockSpeedMhz,
+            uint32_t &                                nbCores
             )
 
 {
@@ -345,7 +345,7 @@ void ApiInfoProxy::cpuInfo(
     octaneapi::ApiInfo::cpuInfoResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->cpuInfo(context.get(), request, &response);
 
@@ -355,23 +355,23 @@ void ApiInfoProxy::cpuInfo(
         // Process 'cpuVendor' [out] parameter from the gRPC response packet
         std::string cpuVendorOut = response.cpuvendor();
         // param.mType = const char **
-        cpuVendor =  cpuVendorOut;////ex string mgr////
+        cpuVendor =  cpuVendorOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'cpuModel' [out] parameter from the gRPC response packet
         std::string cpuModelOut = response.cpumodel();
         // param.mType = const char **
-        cpuModel =  cpuModelOut;////ex string mgr////
+        cpuModel =  cpuModelOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'clockSpeedMhz' [out] parameter from the gRPC response packet
         uint32_t clockSpeedMhzOut = response.clockspeedmhz();
-        clockSpeedMhz = clockSpeedMhzOut;//// SECOND////
+        clockSpeedMhz = clockSpeedMhzOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'nbCores' [out] parameter from the gRPC response packet
         uint32_t nbCoresOut = response.nbcores();
-        nbCores = nbCoresOut;//// SECOND////
+        nbCores = nbCoresOut;
     }
     else
     {
@@ -401,7 +401,7 @@ std::string ApiInfoProxy::texCacheFolder()
     octaneapi::ApiInfo::texCacheFolderResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->texCacheFolder(context.get(), request, &response);
 
@@ -412,7 +412,7 @@ std::string ApiInfoProxy::texCacheFolder()
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -432,8 +432,8 @@ std::string ApiInfoProxy::texCacheFolder()
 
 
 void ApiInfoProxy::getAttributeTypes(
-            std::vector<Octane::AttributeType> &      attributeTypes, //// test821 //// 
-            size_t &                                  size //// last param ////
+            std::vector<Octane::AttributeType> &      attributeTypes,
+            size_t &                                  size
             )
 
 {
@@ -447,7 +447,7 @@ void ApiInfoProxy::getAttributeTypes(
     octaneapi::ApiInfo::getAttributeTypesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getAttributeTypes(context.get(), request, &response);
 
@@ -457,7 +457,6 @@ void ApiInfoProxy::getAttributeTypes(
         // Process 'attributeTypes' [out] parameter from the gRPC response packet
         octaneapi::AttributeTypeArrayT attributeTypesOut = response.attributetypes();
         // UNTESTED client array code 2
-        //// param.mProtoCppType = AttributeTypeArrayT param.mType = const Octane::AttributeType *& retType = void ////
         attributeTypes.clear();
         attributeTypes.reserve(attributeTypesOut.data_size());/*214*/
         for (int i = 0; i < attributeTypesOut.data_size(); i++)
@@ -468,7 +467,7 @@ void ApiInfoProxy::getAttributeTypes(
         /////////////////////////////////////////////////////////////////////
         // Process 'size' [out] parameter from the gRPC response packet
         uint32_t sizeOut = response.size();
-        size = sizeOut;//// SECOND////
+        size = sizeOut;
     }
     else
     {
@@ -487,8 +486,8 @@ void ApiInfoProxy::getAttributeTypes(
 
 
 void ApiInfoProxy::getPinTypes(
-            std::vector<Octane::NodePinType> &        pinTypes, //// test821 //// 
-            size_t &                                  size //// last param ////
+            std::vector<Octane::NodePinType> &        pinTypes,
+            size_t &                                  size
             )
 
 {
@@ -502,7 +501,7 @@ void ApiInfoProxy::getPinTypes(
     octaneapi::ApiInfo::getPinTypesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getPinTypes(context.get(), request, &response);
 
@@ -512,7 +511,6 @@ void ApiInfoProxy::getPinTypes(
         // Process 'pinTypes' [out] parameter from the gRPC response packet
         octaneapi::NodePinTypeArrayT pinTypesOut = response.pintypes();
         // UNTESTED client array code 2
-        //// param.mProtoCppType = NodePinTypeArrayT param.mType = const Octane::NodePinType *& retType = void ////
         pinTypes.clear();
         pinTypes.reserve(pinTypesOut.data_size());/*214*/
         for (int i = 0; i < pinTypesOut.data_size(); i++)
@@ -523,7 +521,7 @@ void ApiInfoProxy::getPinTypes(
         /////////////////////////////////////////////////////////////////////
         // Process 'size' [out] parameter from the gRPC response packet
         uint32_t sizeOut = response.size();
-        size = sizeOut;//// SECOND////
+        size = sizeOut;
     }
     else
     {
@@ -542,8 +540,8 @@ void ApiInfoProxy::getPinTypes(
 
 
 void ApiInfoProxy::getGraphTypes(
-            std::vector<Octane::NodeGraphType> &      graphTypes, //// test821 //// 
-            size_t &                                  size //// last param ////
+            std::vector<Octane::NodeGraphType> &      graphTypes,
+            size_t &                                  size
             )
 
 {
@@ -557,7 +555,7 @@ void ApiInfoProxy::getGraphTypes(
     octaneapi::ApiInfo::getGraphTypesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getGraphTypes(context.get(), request, &response);
 
@@ -567,7 +565,6 @@ void ApiInfoProxy::getGraphTypes(
         // Process 'graphTypes' [out] parameter from the gRPC response packet
         octaneapi::NodeGraphTypeArrayT graphTypesOut = response.graphtypes();
         // UNTESTED client array code 2
-        //// param.mProtoCppType = NodeGraphTypeArrayT param.mType = const Octane::NodeGraphType *& retType = void ////
         graphTypes.clear();
         graphTypes.reserve(graphTypesOut.data_size());/*214*/
         for (int i = 0; i < graphTypesOut.data_size(); i++)
@@ -578,7 +575,7 @@ void ApiInfoProxy::getGraphTypes(
         /////////////////////////////////////////////////////////////////////
         // Process 'size' [out] parameter from the gRPC response packet
         uint32_t sizeOut = response.size();
-        size = sizeOut;//// SECOND////
+        size = sizeOut;
     }
     else
     {
@@ -597,8 +594,8 @@ void ApiInfoProxy::getGraphTypes(
 
 
 void ApiInfoProxy::getNodeTypes(
-            std::vector<Octane::NodeType> &           nodesTypes, //// test821 //// 
-            size_t &                                  size //// last param ////
+            std::vector<Octane::NodeType> &           nodesTypes,
+            size_t &                                  size
             )
 
 {
@@ -612,7 +609,7 @@ void ApiInfoProxy::getNodeTypes(
     octaneapi::ApiInfo::getNodeTypesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getNodeTypes(context.get(), request, &response);
 
@@ -622,7 +619,6 @@ void ApiInfoProxy::getNodeTypes(
         // Process 'nodesTypes' [out] parameter from the gRPC response packet
         octaneapi::NodeTypeArrayT nodesTypesOut = response.nodestypes();
         // UNTESTED client array code 2
-        //// param.mProtoCppType = NodeTypeArrayT param.mType = const Octane::NodeType *& retType = void ////
         nodesTypes.clear();
         nodesTypes.reserve(nodesTypesOut.data_size());/*214*/
         for (int i = 0; i < nodesTypesOut.data_size(); i++)
@@ -633,7 +629,7 @@ void ApiInfoProxy::getNodeTypes(
         /////////////////////////////////////////////////////////////////////
         // Process 'size' [out] parameter from the gRPC response packet
         uint32_t sizeOut = response.size();
-        size = sizeOut;//// SECOND////
+        size = sizeOut;
     }
     else
     {
@@ -652,7 +648,7 @@ void ApiInfoProxy::getNodeTypes(
 
 
 const ApiNodeInfoProxy ApiInfoProxy::nodeInfo(
-            const Octane::NodeType                    type //// last param ////
+            const Octane::NodeType                    type
             )
 
 {
@@ -672,7 +668,7 @@ const ApiNodeInfoProxy ApiInfoProxy::nodeInfo(
     octaneapi::ApiInfo::nodeInfoResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->nodeInfo(context.get(), request, &response);
 
@@ -682,8 +678,7 @@ const ApiNodeInfoProxy ApiInfoProxy::nodeInfo(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ApiNodeInfo resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        ApiNodeInfoConverter::convert(resultOut, retVal); ////Convert Called type 5223 =ApiNodeInfo;////
+        ApiNodeInfoConverter::convert(resultOut, retVal);
     }
     else
     {
@@ -703,7 +698,7 @@ const ApiNodeInfoProxy ApiInfoProxy::nodeInfo(
 
 
 const Octane::ApiNodeGraphInfo ApiInfoProxy::graphInfo(
-            Octane::NodeGraphType                     type //// last param ////
+            Octane::NodeGraphType                     type
             )
 
 {
@@ -723,7 +718,7 @@ const Octane::ApiNodeGraphInfo ApiInfoProxy::graphInfo(
     octaneapi::ApiInfo::graphInfoResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->graphInfo(context.get(), request, &response);
 
@@ -733,8 +728,7 @@ const Octane::ApiNodeGraphInfo ApiInfoProxy::graphInfo(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ApiNodeGraphInfo resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        ApiNodeGraphInfoConverter::convert(resultOut, retVal); ////Convert Called type 5223 =ApiNodeGraphInfo;////
+        ApiNodeGraphInfoConverter::convert(resultOut, retVal);
     }
     else
     {
@@ -754,7 +748,7 @@ const Octane::ApiNodeGraphInfo ApiInfoProxy::graphInfo(
 
 
 ApiImageProxy ApiInfoProxy::nodeIconImage(
-            const Octane::NodeType                    nodeType //// last param ////
+            const Octane::NodeType                    nodeType
             )
 
 {
@@ -774,7 +768,7 @@ ApiImageProxy ApiInfoProxy::nodeIconImage(
     octaneapi::ApiInfo::nodeIconImageResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->nodeIconImage(context.get(), request, &response);
 
@@ -802,14 +796,14 @@ ApiImageProxy ApiInfoProxy::nodeIconImage(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiImageProxy retVal;////714////
+        ApiImageProxy retVal;
         return retVal;
     }
 };
 
 
 ApiImageProxy ApiInfoProxy::graphIconImage(
-            const Octane::NodeGraphType               nodeGraphType //// last param ////
+            const Octane::NodeGraphType               nodeGraphType
             )
 
 {
@@ -829,7 +823,7 @@ ApiImageProxy ApiInfoProxy::graphIconImage(
     octaneapi::ApiInfo::graphIconImageResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->graphIconImage(context.get(), request, &response);
 
@@ -857,15 +851,15 @@ ApiImageProxy ApiInfoProxy::graphIconImage(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiImageProxy retVal;////714////
+        ApiImageProxy retVal;
         return retVal;
     }
 };
 
 
 const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
-            Octane::NodeType                          type, //// test821 //// 
-            Octane::AttributeId                       attrId //// last param ////
+            Octane::NodeType                          type,
+            Octane::AttributeId                       attrId
             )
 
 {
@@ -891,7 +885,7 @@ const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
     octaneapi::ApiInfo::attributeInfoResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->attributeInfo(context.get(), request, &response);
 
@@ -901,8 +895,7 @@ const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ApiAttributeInfo resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        ApiAttributeInfoConverter::convert(resultOut, retVal); ////Convert Called type 5223 =ApiAttributeInfo;////
+        ApiAttributeInfoConverter::convert(resultOut, retVal);
     }
     else
     {
@@ -922,8 +915,8 @@ const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
 
 
 const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
-            Octane::NodeType                          type, //// test821 //// 
-            uint32_t                                  attrIx //// last param ////
+            Octane::NodeType                          type,
+            uint32_t                                  attrIx
             )
 
 {
@@ -941,7 +934,7 @@ const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
     /////////////////////////////////////////////////////////////////////
     // Add the 'attrIx' [in] parameter to the request packet.
     uint32_t attrixIn;
-    attrixIn = attrIx;////2 uint32_t////
+    attrixIn = attrIx;
     request.set_attrix(attrixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -949,7 +942,7 @@ const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
     octaneapi::ApiInfo::attributeInfo1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->attributeInfo1(context.get(), request, &response);
 
@@ -959,8 +952,7 @@ const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ApiAttributeInfo resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        ApiAttributeInfoConverter::convert(resultOut, retVal); ////Convert Called type 5223 =ApiAttributeInfo;////
+        ApiAttributeInfoConverter::convert(resultOut, retVal);
     }
     else
     {
@@ -980,8 +972,8 @@ const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
 
 
 const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
-            Octane::NodeGraphType                     type, //// test821 //// 
-            uint32_t                                  attrIx //// last param ////
+            Octane::NodeGraphType                     type,
+            uint32_t                                  attrIx
             )
 
 {
@@ -999,7 +991,7 @@ const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
     /////////////////////////////////////////////////////////////////////
     // Add the 'attrIx' [in] parameter to the request packet.
     uint32_t attrixIn;
-    attrixIn = attrIx;////2 uint32_t////
+    attrixIn = attrIx;
     request.set_attrix(attrixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1007,7 +999,7 @@ const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
     octaneapi::ApiInfo::attributeInfo2Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->attributeInfo2(context.get(), request, &response);
 
@@ -1017,8 +1009,7 @@ const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ApiAttributeInfo resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        ApiAttributeInfoConverter::convert(resultOut, retVal); ////Convert Called type 5223 =ApiAttributeInfo;////
+        ApiAttributeInfoConverter::convert(resultOut, retVal);
     }
     else
     {
@@ -1038,8 +1029,8 @@ const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
 
 
 ApiNodePinInfoProxy ApiInfoProxy::nodePinInfo(
-            Octane::NodeType                          nodeType, //// test821 //// 
-            uint32_t                                  pinIx //// last param ////
+            Octane::NodeType                          nodeType,
+            uint32_t                                  pinIx
             )
 
 {
@@ -1057,7 +1048,7 @@ ApiNodePinInfoProxy ApiInfoProxy::nodePinInfo(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinIx' [in] parameter to the request packet.
     uint32_t pinixIn;
-    pinixIn = pinIx;////2 uint32_t////
+    pinixIn = pinIx;
     request.set_pinix(pinixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1065,7 +1056,7 @@ ApiNodePinInfoProxy ApiInfoProxy::nodePinInfo(
     octaneapi::ApiInfo::nodePinInfoResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->nodePinInfo(context.get(), request, &response);
 
@@ -1093,14 +1084,14 @@ ApiNodePinInfoProxy ApiInfoProxy::nodePinInfo(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiNodePinInfoProxy retVal;////714////
+        ApiNodePinInfoProxy retVal;
         return retVal;
     }
 };
 
 
 std::string ApiInfoProxy::getAttributeTypeName(
-            Octane::AttributeType                     type //// last param ////
+            Octane::AttributeType                     type
             )
 
 {
@@ -1120,7 +1111,7 @@ std::string ApiInfoProxy::getAttributeTypeName(
     octaneapi::ApiInfo::getAttributeTypeNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getAttributeTypeName(context.get(), request, &response);
 
@@ -1131,7 +1122,7 @@ std::string ApiInfoProxy::getAttributeTypeName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -1151,7 +1142,7 @@ std::string ApiInfoProxy::getAttributeTypeName(
 
 
 std::string ApiInfoProxy::getPinTypeName(
-            Octane::NodePinType                       type //// last param ////
+            Octane::NodePinType                       type
             )
 
 {
@@ -1171,7 +1162,7 @@ std::string ApiInfoProxy::getPinTypeName(
     octaneapi::ApiInfo::getPinTypeNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getPinTypeName(context.get(), request, &response);
 
@@ -1182,7 +1173,7 @@ std::string ApiInfoProxy::getPinTypeName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -1202,7 +1193,7 @@ std::string ApiInfoProxy::getPinTypeName(
 
 
 uint32_t ApiInfoProxy::getPinTypeColor(
-            Octane::NodePinType                       type //// last param ////
+            Octane::NodePinType                       type
             )
 
 {
@@ -1222,7 +1213,7 @@ uint32_t ApiInfoProxy::getPinTypeColor(
     octaneapi::ApiInfo::getPinTypeColorResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getPinTypeColor(context.get(), request, &response);
 
@@ -1232,7 +1223,7 @@ uint32_t ApiInfoProxy::getPinTypeColor(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -1252,7 +1243,7 @@ uint32_t ApiInfoProxy::getPinTypeColor(
 
 
 std::string ApiInfoProxy::getGraphTypeName(
-            Octane::NodeGraphType                     type //// last param ////
+            Octane::NodeGraphType                     type
             )
 
 {
@@ -1272,7 +1263,7 @@ std::string ApiInfoProxy::getGraphTypeName(
     octaneapi::ApiInfo::getGraphTypeNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getGraphTypeName(context.get(), request, &response);
 
@@ -1283,7 +1274,7 @@ std::string ApiInfoProxy::getGraphTypeName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -1303,7 +1294,7 @@ std::string ApiInfoProxy::getGraphTypeName(
 
 
 std::string ApiInfoProxy::getNodeTypeName(
-            Octane::NodeType                          type //// last param ////
+            Octane::NodeType                          type
             )
 
 {
@@ -1323,7 +1314,7 @@ std::string ApiInfoProxy::getNodeTypeName(
     octaneapi::ApiInfo::getNodeTypeNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getNodeTypeName(context.get(), request, &response);
 
@@ -1334,7 +1325,7 @@ std::string ApiInfoProxy::getNodeTypeName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -1354,7 +1345,7 @@ std::string ApiInfoProxy::getNodeTypeName(
 
 
 std::string ApiInfoProxy::getItemTypeName(
-            const ApiItemProxy &                      item //// last param ////
+            const ApiItemProxy &                      item
             )
 
 {
@@ -1367,8 +1358,8 @@ std::string ApiInfoProxy::getItemTypeName(
     // Add the 'item' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * itemIn = new octaneapi::ObjectRef();////761////
-    itemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);////5////
+    octaneapi::ObjectRef * itemIn = new octaneapi::ObjectRef();
+    itemIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
     itemIn->set_handle(item.getObjectHandle());
     request.set_allocated_item(itemIn);
 
@@ -1377,7 +1368,7 @@ std::string ApiInfoProxy::getItemTypeName(
     octaneapi::ApiInfo::getItemTypeNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getItemTypeName(context.get(), request, &response);
 
@@ -1388,7 +1379,7 @@ std::string ApiInfoProxy::getItemTypeName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -1408,7 +1399,7 @@ std::string ApiInfoProxy::getItemTypeName(
 
 
 std::string ApiInfoProxy::getAttributeName(
-            Octane::AttributeId                       id //// last param ////
+            Octane::AttributeId                       id
             )
 
 {
@@ -1428,7 +1419,7 @@ std::string ApiInfoProxy::getAttributeName(
     octaneapi::ApiInfo::getAttributeNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getAttributeName(context.get(), request, &response);
 
@@ -1439,7 +1430,7 @@ std::string ApiInfoProxy::getAttributeName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -1459,7 +1450,7 @@ std::string ApiInfoProxy::getAttributeName(
 
 
 Octane::AttributeId ApiInfoProxy::getAttributeId(
-            const char *                              attributeName //// last param ////
+            const char *                              attributeName
             )
 
 {
@@ -1470,16 +1461,16 @@ Octane::AttributeId ApiInfoProxy::getAttributeId(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'attributeName' [in] parameter to the request packet.
-    std::string * attributenameIn = new std::string(); //// attributeName type=string;//// ////721////
+    std::string * attributenameIn = new std::string();
     *attributenameIn = checkString(attributeName);
-    request.set_allocated_attributename(attributenameIn);//// 6215 ////
+    request.set_allocated_attributename(attributenameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiInfo::getAttributeIdResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getAttributeId(context.get(), request, &response);
 
@@ -1509,7 +1500,7 @@ Octane::AttributeId ApiInfoProxy::getAttributeId(
 
 
 std::string ApiInfoProxy::getAttributeIdName(
-            Octane::AttributeId                       id //// last param ////
+            Octane::AttributeId                       id
             )
 
 {
@@ -1529,7 +1520,7 @@ std::string ApiInfoProxy::getAttributeIdName(
     octaneapi::ApiInfo::getAttributeIdNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getAttributeIdName(context.get(), request, &response);
 
@@ -1540,7 +1531,7 @@ std::string ApiInfoProxy::getAttributeIdName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -1560,7 +1551,7 @@ std::string ApiInfoProxy::getAttributeIdName(
 
 
 std::string ApiInfoProxy::getAttributeIdName(
-            const char *                              attributeName //// last param ////
+            const char *                              attributeName
             )
 
 {
@@ -1571,16 +1562,16 @@ std::string ApiInfoProxy::getAttributeIdName(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'attributeName' [in] parameter to the request packet.
-    std::string * attributenameIn = new std::string(); //// attributeName type=string;//// ////721////
+    std::string * attributenameIn = new std::string();
     *attributenameIn = checkString(attributeName);
-    request.set_allocated_attributename(attributenameIn);//// 6215 ////
+    request.set_allocated_attributename(attributenameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiInfo::getAttributeIdName1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getAttributeIdName1(context.get(), request, &response);
 
@@ -1591,7 +1582,7 @@ std::string ApiInfoProxy::getAttributeIdName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -1611,7 +1602,7 @@ std::string ApiInfoProxy::getAttributeIdName(
 
 
 std::string ApiInfoProxy::getPinName(
-            Octane::PinId                             id //// last param ////
+            Octane::PinId                             id
             )
 
 {
@@ -1631,7 +1622,7 @@ std::string ApiInfoProxy::getPinName(
     octaneapi::ApiInfo::getPinNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getPinName(context.get(), request, &response);
 
@@ -1642,7 +1633,7 @@ std::string ApiInfoProxy::getPinName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -1662,7 +1653,7 @@ std::string ApiInfoProxy::getPinName(
 
 
 Octane::PinId ApiInfoProxy::getPinId(
-            const char *                              pinName //// last param ////
+            const char *                              pinName
             )
 
 {
@@ -1673,16 +1664,16 @@ Octane::PinId ApiInfoProxy::getPinId(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinName' [in] parameter to the request packet.
-    std::string * pinnameIn = new std::string(); //// pinName type=string;//// ////721////
+    std::string * pinnameIn = new std::string();
     *pinnameIn = checkString(pinName);
-    request.set_allocated_pinname(pinnameIn);//// 6215 ////
+    request.set_allocated_pinname(pinnameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiInfo::getPinIdResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getPinId(context.get(), request, &response);
 
@@ -1712,7 +1703,7 @@ Octane::PinId ApiInfoProxy::getPinId(
 
 
 std::string ApiInfoProxy::getPinIdName(
-            Octane::PinId                             id //// last param ////
+            Octane::PinId                             id
             )
 
 {
@@ -1732,7 +1723,7 @@ std::string ApiInfoProxy::getPinIdName(
     octaneapi::ApiInfo::getPinIdNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getPinIdName(context.get(), request, &response);
 
@@ -1743,7 +1734,7 @@ std::string ApiInfoProxy::getPinIdName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -1763,7 +1754,7 @@ std::string ApiInfoProxy::getPinIdName(
 
 
 std::string ApiInfoProxy::getPinIdName(
-            const char *                              pinName //// last param ////
+            const char *                              pinName
             )
 
 {
@@ -1774,16 +1765,16 @@ std::string ApiInfoProxy::getPinIdName(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinName' [in] parameter to the request packet.
-    std::string * pinnameIn = new std::string(); //// pinName type=string;//// ////721////
+    std::string * pinnameIn = new std::string();
     *pinnameIn = checkString(pinName);
-    request.set_allocated_pinname(pinnameIn);//// 6215 ////
+    request.set_allocated_pinname(pinnameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiInfo::getPinIdName1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getPinIdName1(context.get(), request, &response);
 
@@ -1794,7 +1785,7 @@ std::string ApiInfoProxy::getPinIdName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -1814,7 +1805,7 @@ std::string ApiInfoProxy::getPinIdName(
 
 
 std::string ApiInfoProxy::getTextureValueTypeName(
-            Octane::TextureValueType                  textureValueType //// last param ////
+            Octane::TextureValueType                  textureValueType
             )
 
 {
@@ -1834,7 +1825,7 @@ std::string ApiInfoProxy::getTextureValueTypeName(
     octaneapi::ApiInfo::getTextureValueTypeNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getTextureValueTypeName(context.get(), request, &response);
 
@@ -1845,7 +1836,7 @@ std::string ApiInfoProxy::getTextureValueTypeName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -1865,7 +1856,7 @@ std::string ApiInfoProxy::getTextureValueTypeName(
 
 
 Octane::TextureValueType ApiInfoProxy::getTextureValueTypeForOslType(
-            const char *                              oslType //// last param ////
+            const char *                              oslType
             )
 
 {
@@ -1876,16 +1867,16 @@ Octane::TextureValueType ApiInfoProxy::getTextureValueTypeForOslType(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'oslType' [in] parameter to the request packet.
-    std::string * osltypeIn = new std::string(); //// oslType type=string;//// ////721////
+    std::string * osltypeIn = new std::string();
     *osltypeIn = checkString(oslType);
-    request.set_allocated_osltype(osltypeIn);//// 6215 ////
+    request.set_allocated_osltype(osltypeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiInfo::getTextureValueTypeForOslTypeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getTextureValueTypeForOslType(context.get(), request, &response);
 
@@ -1915,11 +1906,11 @@ Octane::TextureValueType ApiInfoProxy::getTextureValueTypeForOslType(
 
 
 void ApiInfoProxy::getCompatibleTypes(
-            Octane::NodePinType                       outType, //// test821 //// 
-            std::vector<Octane::NodeGraphType>        compatGraphs, //// test821 //// 
-            size_t &                                  compatGraphsSize, //// test821 //// 
-            std::vector<Octane::NodeType>             compatNodes, //// test821 //// 
-            size_t &                                  compatNodesSize //// last param ////
+            Octane::NodePinType                       outType,
+            std::vector<Octane::NodeGraphType>        compatGraphs,
+            size_t &                                  compatGraphsSize,
+            std::vector<Octane::NodeType>             compatNodes,
+            size_t &                                  compatNodesSize
             )
 
 {
@@ -1939,7 +1930,7 @@ void ApiInfoProxy::getCompatibleTypes(
     octaneapi::ApiInfo::getCompatibleTypesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getCompatibleTypes(context.get(), request, &response);
 
@@ -1949,7 +1940,6 @@ void ApiInfoProxy::getCompatibleTypes(
         // Process 'compatGraphs' [out] parameter from the gRPC response packet
         octaneapi::NodeGraphTypeArrayT compatGraphsOut = response.compatgraphs();
         // UNTESTED client array code 2
-        //// param.mProtoCppType = NodeGraphTypeArrayT param.mType = Octane::NodeGraphType *& retType = void ////
         compatGraphs.clear();
         compatGraphs.reserve(compatGraphsOut.data_size());/*214*/
         for (int i = 0; i < compatGraphsOut.data_size(); i++)
@@ -1960,13 +1950,12 @@ void ApiInfoProxy::getCompatibleTypes(
         /////////////////////////////////////////////////////////////////////
         // Process 'compatGraphsSize' [out] parameter from the gRPC response packet
         uint32_t compatGraphsSizeOut = response.compatgraphssize();
-        compatGraphsSize = compatGraphsSizeOut;//// SECOND////
+        compatGraphsSize = compatGraphsSizeOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'compatNodes' [out] parameter from the gRPC response packet
         octaneapi::NodeTypeArrayT compatNodesOut = response.compatnodes();
         // UNTESTED client array code 2
-        //// param.mProtoCppType = NodeTypeArrayT param.mType = Octane::NodeType *& retType = void ////
         compatNodes.clear();
         compatNodes.reserve(compatNodesOut.data_size());/*214*/
         for (int i = 0; i < compatNodesOut.data_size(); i++)
@@ -1977,7 +1966,7 @@ void ApiInfoProxy::getCompatibleTypes(
         /////////////////////////////////////////////////////////////////////
         // Process 'compatNodesSize' [out] parameter from the gRPC response packet
         uint32_t compatNodesSizeOut = response.compatnodessize();
-        compatNodesSize = compatNodesSizeOut;//// SECOND////
+        compatNodesSize = compatNodesSizeOut;
     }
     else
     {
@@ -1996,7 +1985,7 @@ void ApiInfoProxy::getCompatibleTypes(
 
 
 const Octane::ApiRenderPassInfo ApiInfoProxy::renderPassInfo(
-            Octane::RenderPassId                      id //// last param ////
+            Octane::RenderPassId                      id
             )
 
 {
@@ -2016,7 +2005,7 @@ const Octane::ApiRenderPassInfo ApiInfoProxy::renderPassInfo(
     octaneapi::ApiInfo::renderPassInfoResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->renderPassInfo(context.get(), request, &response);
 
@@ -2026,59 +2015,7 @@ const Octane::ApiRenderPassInfo ApiInfoProxy::renderPassInfo(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ApiRenderPassInfo resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        ApiRenderPassInfoConverter::convert(resultOut, retVal); ////Convert Called type 5223 =ApiRenderPassInfo;////
-    }
-    else
-    {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
-    }
-    return retVal;
-};
-
-
-std::string ApiInfoProxy::renderPassBlendingModeName(
-            Octane::BlendingModeId                    id //// last param ////
-            )
-
-{
-    grpc::Status status = grpc::Status::OK;
-    /////////////////////////////////////////////////////////////////////
-    // Define the request packet to send to the gRPC server.
-    octaneapi::ApiInfo::renderPassBlendingModeNameRequest request;
-
-    /////////////////////////////////////////////////////////////////////
-    // Add the 'id' [in] parameter to the request packet.
-    octaneapi::BlendingModeId idIn;
-    idIn = static_cast<octaneapi::BlendingModeId>(id);
-    request.set_id(idIn);
-
-    /////////////////////////////////////////////////////////////////////
-    // Make the call to the server
-    octaneapi::ApiInfo::renderPassBlendingModeNameResponse response;
-    std::shared_ptr<grpc::ClientContext> context;
-    context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
-        octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
-    status = stub->renderPassBlendingModeName(context.get(), request, &response);
-
-    std::string retVal;
-    if (status.ok())
-    {
-        /////////////////////////////////////////////////////////////////////
-        // Process 'result' [out] parameter from the gRPC response packet
-        std::string resultOut = response.result();
-        // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        ApiRenderPassInfoConverter::convert(resultOut, retVal);
     }
     else
     {
@@ -2098,7 +2035,7 @@ std::string ApiInfoProxy::renderPassBlendingModeName(
 
 
 std::vector<Octane::RenderPassId> ApiInfoProxy::getAllRenderPassIds(
-            size_t &                                  length //// last param ////
+            size_t &                                  length
             )
 
 {
@@ -2112,7 +2049,7 @@ std::vector<Octane::RenderPassId> ApiInfoProxy::getAllRenderPassIds(
     octaneapi::ApiInfo::getAllRenderPassIdsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getAllRenderPassIds(context.get(), request, &response);
 
@@ -2121,18 +2058,17 @@ std::vector<Octane::RenderPassId> ApiInfoProxy::getAllRenderPassIds(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ApiArrayRenderPassId resultOut = response.result();
-        std::vector<Octane::RenderPassId> retVal;////218////
+        std::vector<Octane::RenderPassId> retVal;
         retVal.reserve(resultOut.data_size());
         for (int i = 0; i < resultOut.data_size(); i++)
         {
-            //// param.mProtoCppType = ApiArrayRenderPassId param.mType = const Octane::RenderPassId * ////
             retVal.push_back(static_cast<Octane::RenderPassId>(resultOut.data(i)));
         }
 
         /////////////////////////////////////////////////////////////////////
         // Process 'length' [out] parameter from the gRPC response packet
         uint32_t lengthOut = response.length();
-        length = lengthOut;//// SECOND////
+        length = lengthOut;
         return retVal;
     }
     else
@@ -2153,7 +2089,7 @@ std::vector<Octane::RenderPassId> ApiInfoProxy::getAllRenderPassIds(
 
 
 Octane::RenderPassId ApiInfoProxy::getRenderPassIdFromRenderAovNode(
-            const ApiNodeProxy &                      node //// last param ////
+            const ApiNodeProxy &                      node
             )
 
 {
@@ -2166,8 +2102,8 @@ Octane::RenderPassId ApiInfoProxy::getRenderPassIdFromRenderAovNode(
     // Add the 'node' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * nodeIn = new octaneapi::ObjectRef();////761////
-    nodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * nodeIn = new octaneapi::ObjectRef();
+    nodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     nodeIn->set_handle(node.getObjectHandle());
     request.set_allocated_node(nodeIn);
 
@@ -2176,7 +2112,7 @@ Octane::RenderPassId ApiInfoProxy::getRenderPassIdFromRenderAovNode(
     octaneapi::ApiInfo::getRenderPassIdFromRenderAovNodeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getRenderPassIdFromRenderAovNode(context.get(), request, &response);
 
@@ -2206,7 +2142,7 @@ Octane::RenderPassId ApiInfoProxy::getRenderPassIdFromRenderAovNode(
 
 
 const Octane::ApiRenderPassInfo ApiInfoProxy::getRenderAovInfoFromRenderAovNode(
-            const ApiNodeProxy &                      node //// last param ////
+            const ApiNodeProxy &                      node
             )
 
 {
@@ -2219,8 +2155,8 @@ const Octane::ApiRenderPassInfo ApiInfoProxy::getRenderAovInfoFromRenderAovNode(
     // Add the 'node' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * nodeIn = new octaneapi::ObjectRef();////761////
-    nodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);////5////
+    octaneapi::ObjectRef * nodeIn = new octaneapi::ObjectRef();
+    nodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
     nodeIn->set_handle(node.getObjectHandle());
     request.set_allocated_node(nodeIn);
 
@@ -2229,7 +2165,7 @@ const Octane::ApiRenderPassInfo ApiInfoProxy::getRenderAovInfoFromRenderAovNode(
     octaneapi::ApiInfo::getRenderAovInfoFromRenderAovNodeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getRenderAovInfoFromRenderAovNode(context.get(), request, &response);
 
@@ -2239,8 +2175,7 @@ const Octane::ApiRenderPassInfo ApiInfoProxy::getRenderAovInfoFromRenderAovNode(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ApiRenderPassInfo resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        ApiRenderPassInfoConverter::convert(resultOut, retVal); ////Convert Called type 5223 =ApiRenderPassInfo;////
+        ApiRenderPassInfoConverter::convert(resultOut, retVal);
     }
     else
     {
@@ -2260,7 +2195,7 @@ const Octane::ApiRenderPassInfo ApiInfoProxy::getRenderAovInfoFromRenderAovNode(
 
 
 std::string ApiInfoProxy::renderPassName(
-            Octane::RenderPassId                      id //// last param ////
+            Octane::RenderPassId                      id
             )
 
 {
@@ -2280,7 +2215,7 @@ std::string ApiInfoProxy::renderPassName(
     octaneapi::ApiInfo::renderPassNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->renderPassName(context.get(), request, &response);
 
@@ -2291,7 +2226,7 @@ std::string ApiInfoProxy::renderPassName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -2311,7 +2246,7 @@ std::string ApiInfoProxy::renderPassName(
 
 
 std::string ApiInfoProxy::renderPassShortName(
-            Octane::RenderPassId                      id //// last param ////
+            Octane::RenderPassId                      id
             )
 
 {
@@ -2331,7 +2266,7 @@ std::string ApiInfoProxy::renderPassShortName(
     octaneapi::ApiInfo::renderPassShortNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->renderPassShortName(context.get(), request, &response);
 
@@ -2342,7 +2277,7 @@ std::string ApiInfoProxy::renderPassShortName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -2362,7 +2297,7 @@ std::string ApiInfoProxy::renderPassShortName(
 
 
 Octane::PinId ApiInfoProxy::renderPassIdToPinId(
-            Octane::RenderPassId                      id //// last param ////
+            Octane::RenderPassId                      id
             )
 
 {
@@ -2382,7 +2317,7 @@ Octane::PinId ApiInfoProxy::renderPassIdToPinId(
     octaneapi::ApiInfo::renderPassIdToPinIdResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->renderPassIdToPinId(context.get(), request, &response);
 
@@ -2412,7 +2347,7 @@ Octane::PinId ApiInfoProxy::renderPassIdToPinId(
 
 
 std::string ApiInfoProxy::renderPassGroupName(
-            Octane::RenderPassGroupId                 id //// last param ////
+            Octane::RenderPassGroupId                 id
             )
 
 {
@@ -2432,7 +2367,7 @@ std::string ApiInfoProxy::renderPassGroupName(
     octaneapi::ApiInfo::renderPassGroupNameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->renderPassGroupName(context.get(), request, &response);
 
@@ -2443,7 +2378,7 @@ std::string ApiInfoProxy::renderPassGroupName(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -2463,7 +2398,7 @@ std::string ApiInfoProxy::renderPassGroupName(
 
 
 Octane::RenderPassId ApiInfoProxy::pinIdToRenderPassId(
-            Octane::PinId                             pinId //// last param ////
+            Octane::PinId                             pinId
             )
 
 {
@@ -2483,7 +2418,7 @@ Octane::RenderPassId ApiInfoProxy::pinIdToRenderPassId(
     octaneapi::ApiInfo::pinIdToRenderPassIdResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->pinIdToRenderPassId(context.get(), request, &response);
 
@@ -2513,8 +2448,8 @@ Octane::RenderPassId ApiInfoProxy::pinIdToRenderPassId(
 
 
 bool ApiInfoProxy::findPinIdForRenderPassId(
-            Octane::RenderPassId                      renderPassId, //// test821 //// 
-            Octane::PinId &                           pinId //// last param ////
+            Octane::RenderPassId                      renderPassId,
+            Octane::PinId &                           pinId
             )
 
 {
@@ -2534,7 +2469,7 @@ bool ApiInfoProxy::findPinIdForRenderPassId(
     octaneapi::ApiInfo::findPinIdForRenderPassIdResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->findPinIdForRenderPassId(context.get(), request, &response);
 
@@ -2544,7 +2479,7 @@ bool ApiInfoProxy::findPinIdForRenderPassId(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'pinId' [out] parameter from the gRPC response packet
@@ -2569,8 +2504,8 @@ bool ApiInfoProxy::findPinIdForRenderPassId(
 
 
 bool ApiInfoProxy::findRenderPassIdForPinId(
-            Octane::PinId                             pinId, //// test821 //// 
-            Octane::RenderPassId &                    renderPassId //// last param ////
+            Octane::PinId                             pinId,
+            Octane::RenderPassId &                    renderPassId
             )
 
 {
@@ -2590,7 +2525,7 @@ bool ApiInfoProxy::findRenderPassIdForPinId(
     octaneapi::ApiInfo::findRenderPassIdForPinIdResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiInfoService::Stub> stub =
         octaneapi::ApiInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->findRenderPassIdForPinId(context.get(), request, &response);
 
@@ -2600,7 +2535,7 @@ bool ApiInfoProxy::findRenderPassIdForPinId(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'renderPassId' [out] parameter from the gRPC response packet

@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apilineartimetransformclient.h"
 #include <cassert>
@@ -38,8 +38,8 @@ float ApiLinearTimeTransformProxy::delay() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiLinearTimeTransform);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiLinearTimeTransform);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -48,7 +48,7 @@ float ApiLinearTimeTransformProxy::delay() const
     octaneapi::ApiLinearTimeTransform::delayResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLinearTimeTransformService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLinearTimeTransformService::Stub> stub =
         octaneapi::ApiLinearTimeTransformService::NewStub(getGRPCSettings().getChannel());
     status = stub->delay(context.get(), request, &response);
 
@@ -58,7 +58,7 @@ float ApiLinearTimeTransformProxy::delay() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         float resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -88,8 +88,8 @@ float ApiLinearTimeTransformProxy::speedUp() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiLinearTimeTransform);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiLinearTimeTransform);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -98,7 +98,7 @@ float ApiLinearTimeTransformProxy::speedUp() const
     octaneapi::ApiLinearTimeTransform::speedUpResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLinearTimeTransformService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLinearTimeTransformService::Stub> stub =
         octaneapi::ApiLinearTimeTransformService::NewStub(getGRPCSettings().getChannel());
     status = stub->speedUp(context.get(), request, &response);
 
@@ -108,7 +108,7 @@ float ApiLinearTimeTransformProxy::speedUp() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         float resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -138,8 +138,8 @@ bool ApiLinearTimeTransformProxy::customIntervalEnabled() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiLinearTimeTransform);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiLinearTimeTransform);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -148,7 +148,7 @@ bool ApiLinearTimeTransformProxy::customIntervalEnabled() const
     octaneapi::ApiLinearTimeTransform::customIntervalEnabledResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLinearTimeTransformService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLinearTimeTransformService::Stub> stub =
         octaneapi::ApiLinearTimeTransformService::NewStub(getGRPCSettings().getChannel());
     status = stub->customIntervalEnabled(context.get(), request, &response);
 
@@ -158,7 +158,7 @@ bool ApiLinearTimeTransformProxy::customIntervalEnabled() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -188,8 +188,8 @@ Octane::TimeSpanT ApiLinearTimeTransformProxy::customInterval() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiLinearTimeTransform);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiLinearTimeTransform);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -198,7 +198,7 @@ Octane::TimeSpanT ApiLinearTimeTransformProxy::customInterval() const
     octaneapi::ApiLinearTimeTransform::customIntervalResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLinearTimeTransformService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLinearTimeTransformService::Stub> stub =
         octaneapi::ApiLinearTimeTransformService::NewStub(getGRPCSettings().getChannel());
     status = stub->customInterval(context.get(), request, &response);
 
@@ -208,7 +208,6 @@ Octane::TimeSpanT ApiLinearTimeTransformProxy::customInterval() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::TimeSpanT resultOut = response.result();
-        //// Octane::TimeSpanT TEST//// 
         retVal.begin = resultOut.begin().value();
         retVal.end   = resultOut.end().value();
     }

@@ -14,18 +14,18 @@ struct GRPCChangeManagerChangeEvent
     /// The various node system event we have:
     enum Type
     {
-        ITEM_ADDED                     = ChangeEventType::ITEM_ADDED,
-        ITEM_DELETE                    = ChangeEventType::ITEM_DELETE,
-        CONNECTION_CHANGED             = ChangeEventType::CONNECTION_CHANGED,
-        DESTINATION_ADDED              = ChangeEventType::DESTINATION_ADDED,
-        PINS_CHANGED                   = ChangeEventType::PINS_CHANGED,
-        ITEM_VALUE_CHANGED             = ChangeEventType::ITEM_VALUE_CHANGED,
-        ITEM_INPUT_CHANGED             = ChangeEventType::ITEM_INPUT_CHANGED,
-        ITEM_NAME_CHANGED              = ChangeEventType::ITEM_NAME_CHANGED,
-        ITEM_MOVED                     = ChangeEventType::ITEM_MOVED,
-        LINKER_ORDER_CHANGED           = ChangeEventType::LINKER_ORDER_CHANGED,
-        ITEM_UI_OPERATION_FLAG_CHANGED = ChangeEventType::ITEM_UI_OPERATION_FLAG_CHANGED,
-        TIME_TRANSFORM_CHANGED         = ChangeEventType::TIME_TRANSFORM_CHANGED
+        ITEM_ADDED                     = Octane::ChangeEventType::ITEM_ADDED,
+        ITEM_DELETE                    = Octane::ChangeEventType::ITEM_DELETE,
+        CONNECTION_CHANGED             = Octane::ChangeEventType::CONNECTION_CHANGED,
+        DESTINATION_ADDED              = Octane::ChangeEventType::DESTINATION_ADDED,
+        PINS_CHANGED                   = Octane::ChangeEventType::PINS_CHANGED,
+        ITEM_VALUE_CHANGED             = Octane::ChangeEventType::ITEM_VALUE_CHANGED,
+        ITEM_INPUT_CHANGED             = Octane::ChangeEventType::ITEM_INPUT_CHANGED,
+        ITEM_NAME_CHANGED              = Octane::ChangeEventType::ITEM_NAME_CHANGED,
+        ITEM_MOVED                     = Octane::ChangeEventType::ITEM_MOVED,
+        LINKER_ORDER_CHANGED           = Octane::ChangeEventType::LINKER_ORDER_CHANGED,
+        ITEM_UI_OPERATION_FLAG_CHANGED = Octane::ChangeEventType::ITEM_UI_OPERATION_FLAG_CHANGED,
+        TIME_TRANSFORM_CHANGED         = Octane::ChangeEventType::TIME_TRANSFORM_CHANGED
     };
 
     /// The change type of the event.
@@ -51,9 +51,9 @@ struct GRPCChangeManagerTimeChangeEvent
 {
     enum Type
     {
-        GRAPH_TIME_CHANGED     = TimeEventType::GRAPH_TIME_CHANGED,
-        GRAPH_INTERVAL_CHANGED = TimeEventType::GRAPH_INTERVAL_CHANGED,
-        FRAME_RATE_CHANGED     = TimeEventType::FRAME_RATE_CHANGED,
+        GRAPH_TIME_CHANGED     =  Octane::TimeEventType::GRAPH_TIME_CHANGED,
+        GRAPH_INTERVAL_CHANGED =  Octane::TimeEventType::GRAPH_INTERVAL_CHANGED,
+        FRAME_RATE_CHANGED     =  Octane::TimeEventType::FRAME_RATE_CHANGED,
     };
 
     /// Type of event.

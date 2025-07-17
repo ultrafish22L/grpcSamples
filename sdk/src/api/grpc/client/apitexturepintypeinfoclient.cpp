@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apitexturepintypeinfoclient.h"
 #include <cassert>
@@ -29,7 +29,7 @@ GRPCSettings & ApiTexturePinTypeInfoProxy::getGRPCSettings()
 
 
 Octane::TextureValueType ApiTexturePinTypeInfoProxy::getTextureValueType(
-            const Octane::ApiTextureNodeTypeInfo::Configuration::Parameters & configurationParameters //// last param ////
+            const Octane::ApiTextureNodeTypeInfo::Configuration::Parameters & configurationParameters
             ) const
 
 {
@@ -40,17 +40,17 @@ Octane::TextureValueType ApiTexturePinTypeInfoProxy::getTextureValueType(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'configurationParameters' [in] parameter to the request packet.
-    octaneapi::ApiTextureNodeTypeInfo_ApiTextureNodeTypeInfo_Configuration_ApiTextureNodeTypeInfo_Configuration_Parameters * configurationparametersIn = new octaneapi::ApiTextureNodeTypeInfo_ApiTextureNodeTypeInfo_Configuration_ApiTextureNodeTypeInfo_Configuration_Parameters(); //// configurationParameters type=ApiTextureNodeTypeInfo.ApiTextureNodeTypeInfo_Configuration.ApiTextureNodeTypeInfo_Configuration_Parameters;//// ////721////
+    octaneapi::ApiTextureNodeTypeInfo_ApiTextureNodeTypeInfo_Configuration_ApiTextureNodeTypeInfo_Configuration_Parameters * configurationparametersIn = new octaneapi::ApiTextureNodeTypeInfo_ApiTextureNodeTypeInfo_Configuration_ApiTextureNodeTypeInfo_Configuration_Parameters();
     // Using Converter 5, type = const ApiTextureNodeTypeInfo::Configuration::Parameters &, protoType = ApiTextureNodeTypeInfo.ApiTextureNodeTypeInfo_Configuration.ApiTextureNodeTypeInfo_Configuration_Parameters
-    ApiTextureNodeTypeInfo_Configuration_ParametersConverter::convert(configurationParameters, *configurationparametersIn); //// Convert Called type 1a =ApiTextureNodeTypeInfo.ApiTextureNodeTypeInfo_Configuration.ApiTextureNodeTypeInfo_Configuration_Parameters////
-    request.set_allocated_configurationparameters(configurationparametersIn);//// 6215 ////
+    ApiTextureNodeTypeInfo_Configuration_ParametersConverter::convert(configurationParameters, *configurationparametersIn);
+    request.set_allocated_configurationparameters(configurationparametersIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiTexturePinTypeInfo::getTextureValueTypeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTexturePinTypeInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTexturePinTypeInfoService::Stub> stub =
         octaneapi::ApiTexturePinTypeInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->getTextureValueType(context.get(), request, &response);
 

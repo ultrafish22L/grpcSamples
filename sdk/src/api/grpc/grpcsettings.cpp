@@ -11,6 +11,12 @@ GRPCSettings & GRPCSettings::getInstance()
 }
 
 
+bool GRPCSettings::isRunningAsModule()
+{
+    return getInstance().callbackSource() != "";
+}
+
+
 void GRPCSettings::releaseCallbackId(
      const std::string & funcType,
      int                 callbackId)

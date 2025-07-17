@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apilabelclient.h"
 #include <cassert>
@@ -28,7 +28,7 @@ GRPCSettings & ApiLabelProxy::getGRPCSettings()
 
 
 ApiLabelProxy ApiLabelProxy::create(
-            const char *                              text //// last param ////
+            const char *                              text
             )
 
 {
@@ -39,16 +39,16 @@ ApiLabelProxy ApiLabelProxy::create(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'text' [in] parameter to the request packet.
-    std::string * textIn = new std::string(); //// text type=string;//// ////721////
+    std::string * textIn = new std::string();
     *textIn = checkString(text);
-    request.set_allocated_text(textIn);//// 6215 ////
+    request.set_allocated_text(textIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiLabel::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLabelService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLabelService::Stub> stub =
         octaneapi::ApiLabelService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -76,7 +76,7 @@ ApiLabelProxy ApiLabelProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiLabelProxy retVal;////714////
+        ApiLabelProxy retVal;
         return retVal;
     }
 };
@@ -93,8 +93,8 @@ void ApiLabelProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiLabel);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiLabel);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -103,7 +103,7 @@ void ApiLabelProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLabelService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLabelService::Stub> stub =
         octaneapi::ApiLabelService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -137,8 +137,8 @@ std::string ApiLabelProxy::text() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiLabel);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiLabel);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -147,7 +147,7 @@ std::string ApiLabelProxy::text() const
     octaneapi::ApiLabel::textResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLabelService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLabelService::Stub> stub =
         octaneapi::ApiLabelService::NewStub(getGRPCSettings().getChannel());
     status = stub->text(context.get(), request, &response);
 
@@ -158,7 +158,7 @@ std::string ApiLabelProxy::text() const
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -178,8 +178,8 @@ std::string ApiLabelProxy::text() const
 
 
 void ApiLabelProxy::setText(
-            const char *                              newText, //// test821 //// 
-            const bool                                sendEvent //// last param ////
+            const char *                              newText,
+            const bool                                sendEvent
             )
 
 {
@@ -192,21 +192,21 @@ void ApiLabelProxy::setText(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiLabel);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiLabel);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'newText' [in] parameter to the request packet.
-    std::string * newtextIn = new std::string(); //// newText type=string;//// ////721////
+    std::string * newtextIn = new std::string();
     *newtextIn = checkString(newText);
-    request.set_allocated_newtext(newtextIn);//// 6215 ////
+    request.set_allocated_newtext(newtextIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'sendEvent' [in] parameter to the request packet.
     bool sendeventIn;
-    sendeventIn = sendEvent;////2 const bool////
+    sendeventIn = sendEvent;
     request.set_sendevent(sendeventIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -214,7 +214,7 @@ void ApiLabelProxy::setText(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiLabelService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiLabelService::Stub> stub =
         octaneapi::ApiLabelService::NewStub(getGRPCSettings().getChannel());
     status = stub->setText(context.get(), request, &response);
 

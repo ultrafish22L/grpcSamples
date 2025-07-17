@@ -24,7 +24,7 @@ class GRPCSettings;
 class ApiMouseWheelDetailsProxy : public GRPCBase
 {
 public:
-    static Octane::ApiMouseWheelDetails make(            );
+    static Octane::ApiMouseWheelDetails make();
 
 private:
     static GRPCSettings & getGRPCSettings();

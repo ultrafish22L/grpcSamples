@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apinumericboxclient.h"
 #include <cassert>
@@ -28,9 +28,9 @@ GRPCSettings & ApiNumericBoxProxy::getGRPCSettings()
 
 
 ApiNumericBoxProxy ApiNumericBoxProxy::create(
-            const double                              step, //// test821 //// 
-            GRPCNumericBoxChangedCallbackT           callback, //// test821 //// 
-            void *                                    privateData //// last param ////
+            const double                              step,
+            GRPCNumericBoxChangedCallbackT           callback,
+            void *                                    privateData
             )
 
 {
@@ -42,24 +42,19 @@ ApiNumericBoxProxy ApiNumericBoxProxy::create(
     /////////////////////////////////////////////////////////////////////
     // Add the 'step' [in] parameter to the request packet.
     double stepIn;
-    stepIn = step;////2 const double////
+    stepIn = step;
     request.set_step(stepIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'callback' [in] parameter to the request packet.
-    octaneapi::NumericBoxChangedCallbackT * callbackIn = new octaneapi::NumericBoxChangedCallbackT(); //// callback type=NumericBoxChangedCallbackT;//// ////721////
+    octaneapi::NumericBoxChangedCallbackT * callbackIn = new octaneapi::NumericBoxChangedCallbackT();
     // setup callback function callback
-    //int callbackCallbackId = GRPCSettings::getNextCallbackId("GRPCNumericBoxChangedCallback"); 
-    //CallbackStorage::registerGRPCNumericBoxChangedCallback(callbackCallbackId, callback);
     callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //callbackIn->set_callbackid(callbackCallbackId);
-    //if(className == "ApiNumericBox" && method.mName == "create") return true;
-    request.set_allocated_callback(callbackIn);//// 6215 ////
+    request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'privateData' [in] parameter to the request packet.
     uint64_t privatedataIn;
-    //// USER DATA TEST ////
     privatedataIn = reinterpret_cast<uint64_t>(privateData);
     request.set_privatedata(privatedataIn);
 
@@ -68,7 +63,7 @@ ApiNumericBoxProxy ApiNumericBoxProxy::create(
     octaneapi::ApiNumericBox::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNumericBoxService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNumericBoxService::Stub> stub =
         octaneapi::ApiNumericBoxService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -102,7 +97,7 @@ ApiNumericBoxProxy ApiNumericBoxProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiNumericBoxProxy retVal;////714////
+        ApiNumericBoxProxy retVal;
         return retVal;
     }
 };
@@ -119,8 +114,8 @@ void ApiNumericBoxProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNumericBox);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNumericBox);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -129,7 +124,7 @@ void ApiNumericBoxProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNumericBoxService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNumericBoxService::Stub> stub =
         octaneapi::ApiNumericBoxService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -163,8 +158,8 @@ double ApiNumericBoxProxy::value() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNumericBox);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNumericBox);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -173,7 +168,7 @@ double ApiNumericBoxProxy::value() const
     octaneapi::ApiNumericBox::valueResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNumericBoxService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNumericBoxService::Stub> stub =
         octaneapi::ApiNumericBoxService::NewStub(getGRPCSettings().getChannel());
     status = stub->value(context.get(), request, &response);
 
@@ -183,7 +178,7 @@ double ApiNumericBoxProxy::value() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         double resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -203,8 +198,8 @@ double ApiNumericBoxProxy::value() const
 
 
 void ApiNumericBoxProxy::setValue(
-            const double                              newValue, //// test821 //// 
-            const bool                                sendEvent //// last param ////
+            const double                              newValue,
+            const bool                                sendEvent
             )
 
 {
@@ -217,21 +212,21 @@ void ApiNumericBoxProxy::setValue(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNumericBox);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNumericBox);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'newValue' [in] parameter to the request packet.
     double newvalueIn;
-    newvalueIn = newValue;////2 const double////
+    newvalueIn = newValue;
     request.set_newvalue(newvalueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'sendEvent' [in] parameter to the request packet.
     bool sendeventIn;
-    sendeventIn = sendEvent;////2 const bool////
+    sendeventIn = sendEvent;
     request.set_sendevent(sendeventIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -239,7 +234,7 @@ void ApiNumericBoxProxy::setValue(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNumericBoxService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNumericBoxService::Stub> stub =
         octaneapi::ApiNumericBoxService::NewStub(getGRPCSettings().getChannel());
     status = stub->setValue(context.get(), request, &response);
 
@@ -263,10 +258,10 @@ void ApiNumericBoxProxy::setValue(
 
 
 void ApiNumericBoxProxy::setLimits(
-            const double                              minimum, //// test821 //// 
-            const double                              maximum, //// test821 //// 
-            const double                              sliderMinimum, //// test821 //// 
-            const double                              sliderMaximum //// last param ////
+            const double                              minimum,
+            const double                              maximum,
+            const double                              sliderMinimum,
+            const double                              sliderMaximum
             )
 
 {
@@ -279,33 +274,33 @@ void ApiNumericBoxProxy::setLimits(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNumericBox);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNumericBox);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'minimum' [in] parameter to the request packet.
     double minimumIn;
-    minimumIn = minimum;////2 const double////
+    minimumIn = minimum;
     request.set_minimum(minimumIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'maximum' [in] parameter to the request packet.
     double maximumIn;
-    maximumIn = maximum;////2 const double////
+    maximumIn = maximum;
     request.set_maximum(maximumIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'sliderMinimum' [in] parameter to the request packet.
     double sliderminimumIn;
-    sliderminimumIn = sliderMinimum;////2 const double////
+    sliderminimumIn = sliderMinimum;
     request.set_sliderminimum(sliderminimumIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'sliderMaximum' [in] parameter to the request packet.
     double slidermaximumIn;
-    slidermaximumIn = sliderMaximum;////2 const double////
+    slidermaximumIn = sliderMaximum;
     request.set_slidermaximum(slidermaximumIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -313,7 +308,7 @@ void ApiNumericBoxProxy::setLimits(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNumericBoxService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNumericBoxService::Stub> stub =
         octaneapi::ApiNumericBoxService::NewStub(getGRPCSettings().getChannel());
     status = stub->setLimits(context.get(), request, &response);
 

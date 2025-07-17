@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apinodearrayclient.h"
 #include <cassert>
@@ -46,8 +46,8 @@ size_t ApiNodeArrayProxy::size() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeArray);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeArray);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -56,7 +56,7 @@ size_t ApiNodeArrayProxy::size() const
     octaneapi::ApiNodeArray::sizeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeArrayService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeArrayService::Stub> stub =
         octaneapi::ApiNodeArrayService::NewStub(getGRPCSettings().getChannel());
     status = stub->size1(context.get(), request, &response);
 
@@ -66,7 +66,7 @@ size_t ApiNodeArrayProxy::size() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -86,7 +86,7 @@ size_t ApiNodeArrayProxy::size() const
 
 
 ApiNodeProxy ApiNodeArrayProxy::get(
-            const size_t                              index //// last param ////
+            const size_t                              index
             ) const
 
 {
@@ -99,15 +99,15 @@ ApiNodeProxy ApiNodeArrayProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeArray);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeArray);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'index' [in] parameter to the request packet.
     uint32_t indexIn;
-    indexIn = static_cast<uint32_t>(index);////2 const size_t////
+    indexIn = static_cast<uint32_t>(index);
     request.set_index(indexIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -115,7 +115,7 @@ ApiNodeProxy ApiNodeArrayProxy::get(
     octaneapi::ApiNodeArray::getResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeArrayService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeArrayService::Stub> stub =
         octaneapi::ApiNodeArrayService::NewStub(getGRPCSettings().getChannel());
     status = stub->get2(context.get(), request, &response);
 
@@ -143,7 +143,7 @@ ApiNodeProxy ApiNodeArrayProxy::get(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiNodeProxy retVal;////714////
+        ApiNodeProxy retVal;
         return retVal;
     }
 };
@@ -160,8 +160,8 @@ std::vector<ApiNodeProxy> ApiNodeArrayProxy::items()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeArray);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeArray);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -170,7 +170,7 @@ std::vector<ApiNodeProxy> ApiNodeArrayProxy::items()
     octaneapi::ApiNodeArray::itemsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeArrayService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeArrayService::Stub> stub =
         octaneapi::ApiNodeArrayService::NewStub(getGRPCSettings().getChannel());
     status = stub->items1(context.get(), request, &response);
 
@@ -179,14 +179,12 @@ std::vector<ApiNodeProxy> ApiNodeArrayProxy::items()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::ObjectRefArrayT resultOut = response.result();
-        ////UNTESTED client array code 1////
         std::vector<ApiNodeProxy> retVal;
         retVal.reserve(resultOut.data_size());
         for (int i = 0; i < resultOut.data_size(); i++)
         {
-            //// using unique_ptr 2 ////
             ApiNodeProxy item;
-            item.attachObjectHandle(resultOut.data().Get(i).handle()); ////211b////
+            item.attachObjectHandle(resultOut.data().Get(i).handle());
             retVal.push_back(item);
         }
         return retVal;
@@ -209,7 +207,7 @@ std::vector<ApiNodeProxy> ApiNodeArrayProxy::items()
 
 
 void ApiNodeArrayProxy::init(
-            const size_t                              size //// last param ////
+            const size_t                              size
             )
 
 {
@@ -222,15 +220,15 @@ void ApiNodeArrayProxy::init(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeArray);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeArray);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'size' [in] parameter to the request packet.
     uint32_t sizeIn;
-    sizeIn = static_cast<uint32_t>(size);////2 const size_t////
+    sizeIn = static_cast<uint32_t>(size);
     request.set_size(sizeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -238,7 +236,7 @@ void ApiNodeArrayProxy::init(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNodeArrayService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNodeArrayService::Stub> stub =
         octaneapi::ApiNodeArrayService::NewStub(getGRPCSettings().getChannel());
     status = stub->init1(context.get(), request, &response);
 

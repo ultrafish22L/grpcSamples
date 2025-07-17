@@ -25,12 +25,12 @@ class ApiBase64Proxy : public GRPCBase
 {
 public:
     /// Encodes the given data block as base64.
-    /// 
+    ///
     /// @param[in]  data
     ///     The data block to encode.
     /// @param[in]  size
     ///     The size of the data block.
-    /// @param[out] encoded 
+    /// @param[out] encoded
     ///     The base64-encoded string. This should be cleaned up by calling cleanupResult().
     /// @param[in]  useBase64Url
     ///     Set to TRUE to use base 64 URL-safe encoding
@@ -48,7 +48,7 @@ public:
     /// Encodes the given data block as base64. The decoder will skip over white space, but will
     /// terminate on the first other character which is not a base64 digit (including the null
     /// character).
-    /// 
+    ///
     /// @param[in] data
     ///     The data block to encode.
     /// @param[in] size

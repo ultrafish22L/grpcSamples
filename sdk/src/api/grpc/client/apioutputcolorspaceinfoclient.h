@@ -119,16 +119,16 @@ public:
     /// @return
     ///     The created info (must be destroyed with destroy()). Will not be null.
     static ApiOutputColorSpaceInfoProxy createUseImagerSettings(
-            Octane::NamedColorSpace                   nonOcioColorSpace
+            Octane::NamedColorSpace   nonOcioColorSpace
             );
 
-    void destroy(            );
+    void destroy();
 
         /// @param[out] status
     ///     Contains the status of the gRPC call
 /// @return
     ///     The cloned info (must be destroyed with destroy()). Will not be null.
-    ApiOutputColorSpaceInfoProxy clone(            ) const;
+    ApiOutputColorSpaceInfoProxy clone() const;
 
     /// Returns whether two ApiOutputColorSpaceInfo instances are equivalent.
     ///
@@ -137,7 +137,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool equals(
-            const ApiOutputColorSpaceInfoProxy *      other
+            const ApiOutputColorSpaceInfoProxy *   other
             ) const;
 
 private:

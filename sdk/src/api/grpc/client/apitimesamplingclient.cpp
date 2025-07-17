@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apitimesamplingclient.h"
 #include <cassert>
@@ -39,7 +39,7 @@ float ApiTimeSamplingProxy::endTimeAuto()
     octaneapi::ApiTimeSampling::endTimeAutoResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTimeSamplingService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTimeSamplingService::Stub> stub =
         octaneapi::ApiTimeSamplingService::NewStub(getGRPCSettings().getChannel());
     status = stub->endTimeAuto(context.get(), request, &response);
 
@@ -49,7 +49,7 @@ float ApiTimeSamplingProxy::endTimeAuto()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         float resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apimainwindowclient.h"
 #include <cassert>
@@ -30,8 +30,8 @@ GRPCSettings & ApiMainWindowProxy::getGRPCSettings()
 
 
 ApiMainWindowProxy ApiMainWindowProxy::fetchOrCreateInstance(
-            Octane::ApiMainWindow::OnMainWindowCloseCallbackT callback, //// test821 //// 
-            void *const                               callbackPrivateData //// last param ////
+            Octane::ApiMainWindow::OnMainWindowCloseCallbackT callback,
+            void *const                               callbackPrivateData
             )
 
 {
@@ -42,19 +42,14 @@ ApiMainWindowProxy ApiMainWindowProxy::fetchOrCreateInstance(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'callback' [in] parameter to the request packet.
-    octaneapi::OnMainWindowCloseCallbackT * callbackIn = new octaneapi::OnMainWindowCloseCallbackT(); //// callback type=OnMainWindowCloseCallbackT;//// ////721////
+    octaneapi::OnMainWindowCloseCallbackT * callbackIn = new octaneapi::OnMainWindowCloseCallbackT();
     // setup callback function callback
-    //int callbackCallbackId = GRPCSettings::getNextCallbackId("OnMainWindowCloseCallback"); 
-    //CallbackStorage::registerOnMainWindowCloseCallback(callbackCallbackId, callback);
     callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //callbackIn->set_callbackid(callbackCallbackId);
-    //if(className == "ApiMainWindow" && method.mName == "fetchOrCreateInstance") return true;
-    request.set_allocated_callback(callbackIn);//// 6215 ////
+    request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'callbackPrivateData' [in] parameter to the request packet.
     uint64_t callbackprivatedataIn;
-    //// USER DATA TEST ////
     callbackprivatedataIn = reinterpret_cast<uint64_t>(callbackPrivateData);
     request.set_callbackprivatedata(callbackprivatedataIn);
 
@@ -63,7 +58,7 @@ ApiMainWindowProxy ApiMainWindowProxy::fetchOrCreateInstance(
     octaneapi::ApiMainWindow::fetchOrCreateInstanceResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub =
         octaneapi::ApiMainWindowService::NewStub(getGRPCSettings().getChannel());
     status = stub->fetchOrCreateInstance(context.get(), request, &response);
 
@@ -97,14 +92,14 @@ ApiMainWindowProxy ApiMainWindowProxy::fetchOrCreateInstance(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiMainWindowProxy retVal;////714////
+        ApiMainWindowProxy retVal;
         return retVal;
     }
 };
 
 
 void ApiMainWindowProxy::runDispatchLoopUntil(
-            const int                                 millis //// last param ////
+            const int                                 millis
             )
 
 {
@@ -116,7 +111,7 @@ void ApiMainWindowProxy::runDispatchLoopUntil(
     /////////////////////////////////////////////////////////////////////
     // Add the 'millis' [in] parameter to the request packet.
     int32_t millisIn;
-    millisIn = millis;////2 const int////
+    millisIn = millis;
     request.set_millis(millisIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -124,7 +119,7 @@ void ApiMainWindowProxy::runDispatchLoopUntil(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub =
         octaneapi::ApiMainWindowService::NewStub(getGRPCSettings().getChannel());
     status = stub->runDispatchLoopUntil(context.get(), request, &response);
 
@@ -148,7 +143,7 @@ void ApiMainWindowProxy::runDispatchLoopUntil(
 
 
 void ApiMainWindowProxy::setDpi(
-            const uint32_t                            dpi //// last param ////
+            const uint32_t                            dpi
             )
 
 {
@@ -160,7 +155,7 @@ void ApiMainWindowProxy::setDpi(
     /////////////////////////////////////////////////////////////////////
     // Add the 'dpi' [in] parameter to the request packet.
     uint32_t dpiIn;
-    dpiIn = dpi;////2 const uint32_t////
+    dpiIn = dpi;
     request.set_dpi(dpiIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -168,7 +163,7 @@ void ApiMainWindowProxy::setDpi(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub =
         octaneapi::ApiMainWindowService::NewStub(getGRPCSettings().getChannel());
     status = stub->setDpi(context.get(), request, &response);
 
@@ -192,7 +187,7 @@ void ApiMainWindowProxy::setDpi(
 
 
 void ApiMainWindowProxy::addContentComponent(
-            ApiGuiComponentProxy &                    contentComponent //// last param ////
+            ApiGuiComponentProxy &                    contentComponent
             )
 
 {
@@ -205,8 +200,8 @@ void ApiMainWindowProxy::addContentComponent(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMainWindow);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMainWindow);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -214,8 +209,8 @@ void ApiMainWindowProxy::addContentComponent(
     // Add the 'contentComponent' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * contentcomponentIn = new octaneapi::ObjectRef();////761////
-    contentcomponentIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);////5////
+    octaneapi::ObjectRef * contentcomponentIn = new octaneapi::ObjectRef();
+    contentcomponentIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiGuiComponent);
     contentcomponentIn->set_handle(contentComponent.getObjectHandle());
     request.set_allocated_contentcomponent(contentcomponentIn);
 
@@ -224,7 +219,7 @@ void ApiMainWindowProxy::addContentComponent(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub =
         octaneapi::ApiMainWindowService::NewStub(getGRPCSettings().getChannel());
     status = stub->addContentComponent(context.get(), request, &response);
 
@@ -258,8 +253,8 @@ ApiProjectWorkspaceProxy ApiMainWindowProxy::projectWorkspace() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMainWindow);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMainWindow);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -268,7 +263,7 @@ ApiProjectWorkspaceProxy ApiMainWindowProxy::projectWorkspace() const
     octaneapi::ApiMainWindow::projectWorkspaceResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub =
         octaneapi::ApiMainWindowService::NewStub(getGRPCSettings().getChannel());
     status = stub->projectWorkspace(context.get(), request, &response);
 
@@ -296,7 +291,7 @@ ApiProjectWorkspaceProxy ApiMainWindowProxy::projectWorkspace() const
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiProjectWorkspaceProxy retVal;////714////
+        ApiProjectWorkspaceProxy retVal;
         return retVal;
     }
 };
@@ -313,8 +308,8 @@ ApiProjectWorkspaceProxy ApiMainWindowProxy::projectWorkspace()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMainWindow);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMainWindow);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -323,7 +318,7 @@ ApiProjectWorkspaceProxy ApiMainWindowProxy::projectWorkspace()
     octaneapi::ApiMainWindow::projectWorkspace1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub =
         octaneapi::ApiMainWindowService::NewStub(getGRPCSettings().getChannel());
     status = stub->projectWorkspace1(context.get(), request, &response);
 
@@ -351,14 +346,14 @@ ApiProjectWorkspaceProxy ApiMainWindowProxy::projectWorkspace()
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiProjectWorkspaceProxy retVal;////714////
+        ApiProjectWorkspaceProxy retVal;
         return retVal;
     }
 };
 
 
 void ApiMainWindowProxy::show(
-            bool                                      maximized //// last param ////
+            bool                                      maximized
             )
 
 {
@@ -371,15 +366,15 @@ void ApiMainWindowProxy::show(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMainWindow);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMainWindow);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'maximized' [in] parameter to the request packet.
     bool maximizedIn;
-    maximizedIn = maximized;////2 bool////
+    maximizedIn = maximized;
     request.set_maximized(maximizedIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -387,7 +382,7 @@ void ApiMainWindowProxy::show(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub =
         octaneapi::ApiMainWindowService::NewStub(getGRPCSettings().getChannel());
     status = stub->show(context.get(), request, &response);
 
@@ -421,8 +416,8 @@ void ApiMainWindowProxy::hide()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMainWindow);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMainWindow);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -431,7 +426,7 @@ void ApiMainWindowProxy::hide()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub =
         octaneapi::ApiMainWindowService::NewStub(getGRPCSettings().getChannel());
     status = stub->hide(context.get(), request, &response);
 
@@ -465,8 +460,8 @@ bool ApiMainWindowProxy::visible() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMainWindow);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMainWindow);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -475,7 +470,7 @@ bool ApiMainWindowProxy::visible() const
     octaneapi::ApiMainWindow::visibleResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub =
         octaneapi::ApiMainWindowService::NewStub(getGRPCSettings().getChannel());
     status = stub->visible(context.get(), request, &response);
 
@@ -485,7 +480,7 @@ bool ApiMainWindowProxy::visible() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -505,7 +500,7 @@ bool ApiMainWindowProxy::visible() const
 
 
 void ApiMainWindowProxy::setDefaultGraph(
-            ApiNodeGraphProxy *                       graph //// last param ////
+            ApiNodeGraphProxy *                       graph
             )
 
 {
@@ -518,8 +513,8 @@ void ApiMainWindowProxy::setDefaultGraph(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMainWindow);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMainWindow);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -527,8 +522,8 @@ void ApiMainWindowProxy::setDefaultGraph(
     // Add the 'graph' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * graphIn = new octaneapi::ObjectRef();////761////
-    graphIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);////5////
+    octaneapi::ObjectRef * graphIn = new octaneapi::ObjectRef();
+    graphIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph);
     graphIn->set_handle(graph->getObjectHandle());
     request.set_allocated_graph(graphIn);
 
@@ -537,7 +532,7 @@ void ApiMainWindowProxy::setDefaultGraph(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub =
         octaneapi::ApiMainWindowService::NewStub(getGRPCSettings().getChannel());
     status = stub->setDefaultGraph(context.get(), request, &response);
 
@@ -571,8 +566,8 @@ ApiNodeGraphProxy ApiMainWindowProxy::defaultGraph() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMainWindow);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiMainWindow);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -581,7 +576,7 @@ ApiNodeGraphProxy ApiMainWindowProxy::defaultGraph() const
     octaneapi::ApiMainWindow::defaultGraphResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiMainWindowService::Stub> stub =
         octaneapi::ApiMainWindowService::NewStub(getGRPCSettings().getChannel());
     status = stub->defaultGraph(context.get(), request, &response);
 
@@ -609,7 +604,7 @@ ApiNodeGraphProxy ApiMainWindowProxy::defaultGraph() const
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiNodeGraphProxy retVal;////714////
+        ApiNodeGraphProxy retVal;
         return retVal;
     }
 };

@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apidiagnosticsclient.h"
 #include <cassert>
@@ -28,8 +28,8 @@ GRPCSettings & ApiDiagnosticsProxy::getGRPCSettings()
 
 
 void ApiDiagnosticsProxy::diagnosticCommand(
-            const uint32_t                            commandType, //// test821 //// 
-            const uint32_t                            delayInSeconds //// last param ////
+            const uint32_t                            commandType,
+            const uint32_t                            delayInSeconds
             )
 
 {
@@ -41,13 +41,13 @@ void ApiDiagnosticsProxy::diagnosticCommand(
     /////////////////////////////////////////////////////////////////////
     // Add the 'commandType' [in] parameter to the request packet.
     uint32_t commandtypeIn;
-    commandtypeIn = commandType;////2 const uint32_t////
+    commandtypeIn = commandType;
     request.set_commandtype(commandtypeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'delayInSeconds' [in] parameter to the request packet.
     uint32_t delayinsecondsIn;
-    delayinsecondsIn = delayInSeconds;////2 const uint32_t////
+    delayinsecondsIn = delayInSeconds;
     request.set_delayinseconds(delayinsecondsIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -55,7 +55,7 @@ void ApiDiagnosticsProxy::diagnosticCommand(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiDiagnosticsService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiDiagnosticsService::Stub> stub =
         octaneapi::ApiDiagnosticsService::NewStub(getGRPCSettings().getChannel());
     status = stub->diagnosticCommand(context.get(), request, &response);
 

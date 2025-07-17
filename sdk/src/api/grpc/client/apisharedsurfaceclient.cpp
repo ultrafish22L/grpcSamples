@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apisharedsurfaceclient.h"
 #include <cassert>
@@ -28,8 +28,8 @@ GRPCSettings & ApiSharedSurfaceProxy::getGRPCSettings()
 
 
 ApiSharedSurfaceProxy ApiSharedSurfaceProxy::createD3D11(
-            uint64_t                                  adapterLuid, //// test821 //// 
-            void *                                    handle //// last param ////
+            uint64_t                                  adapterLuid,
+            void *                                    handle
             )
 
 {
@@ -41,13 +41,12 @@ ApiSharedSurfaceProxy ApiSharedSurfaceProxy::createD3D11(
     /////////////////////////////////////////////////////////////////////
     // Add the 'adapterLuid' [in] parameter to the request packet.
     uint64_t adapterluidIn;
-    adapterluidIn = adapterLuid;////2 uint64_t////
+    adapterluidIn = adapterLuid;
     request.set_adapterluid(adapterluidIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'handle' [in] parameter to the request packet.
     uint64_t handleIn;
-    //// USER DATA TEST ////
     handleIn = reinterpret_cast<uint64_t>(handle);
     request.set_handle(handleIn);
 
@@ -56,7 +55,7 @@ ApiSharedSurfaceProxy ApiSharedSurfaceProxy::createD3D11(
     octaneapi::ApiSharedSurface::createD3D11Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSharedSurfaceService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSharedSurfaceService::Stub> stub =
         octaneapi::ApiSharedSurfaceService::NewStub(getGRPCSettings().getChannel());
     status = stub->createD3D11(context.get(), request, &response);
 
@@ -84,15 +83,15 @@ ApiSharedSurfaceProxy ApiSharedSurfaceProxy::createD3D11(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiSharedSurfaceProxy retVal;////714////
+        ApiSharedSurfaceProxy retVal;
         return retVal;
     }
 };
 
 
 bool ApiSharedSurfaceProxy::equals(
-            const ApiSharedSurfaceProxy *             a, //// test821 //// 
-            const ApiSharedSurfaceProxy *             b //// last param ////
+            const ApiSharedSurfaceProxy *             a,
+            const ApiSharedSurfaceProxy *             b
             )
 
 {
@@ -105,8 +104,8 @@ bool ApiSharedSurfaceProxy::equals(
     // Add the 'a' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * aIn = new octaneapi::ObjectRef();////761////
-    aIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);////5////
+    octaneapi::ObjectRef * aIn = new octaneapi::ObjectRef();
+    aIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);
     aIn->set_handle(a->getObjectHandle());
     request.set_allocated_a(aIn);
 
@@ -114,8 +113,8 @@ bool ApiSharedSurfaceProxy::equals(
     // Add the 'b' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * bIn = new octaneapi::ObjectRef();////761////
-    bIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);////5////
+    octaneapi::ObjectRef * bIn = new octaneapi::ObjectRef();
+    bIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);
     bIn->set_handle(b->getObjectHandle());
     request.set_allocated_b(bIn);
 
@@ -124,7 +123,7 @@ bool ApiSharedSurfaceProxy::equals(
     octaneapi::ApiSharedSurface::equalsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSharedSurfaceService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSharedSurfaceService::Stub> stub =
         octaneapi::ApiSharedSurfaceService::NewStub(getGRPCSettings().getChannel());
     status = stub->equals(context.get(), request, &response);
 
@@ -134,7 +133,7 @@ bool ApiSharedSurfaceProxy::equals(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -154,8 +153,8 @@ bool ApiSharedSurfaceProxy::equals(
 
 
 bool ApiSharedSurfaceProxy::isLessThan(
-            const ApiSharedSurfaceProxy *             a, //// test821 //// 
-            const ApiSharedSurfaceProxy *             b //// last param ////
+            const ApiSharedSurfaceProxy *             a,
+            const ApiSharedSurfaceProxy *             b
             )
 
 {
@@ -168,8 +167,8 @@ bool ApiSharedSurfaceProxy::isLessThan(
     // Add the 'a' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * aIn = new octaneapi::ObjectRef();////761////
-    aIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);////5////
+    octaneapi::ObjectRef * aIn = new octaneapi::ObjectRef();
+    aIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);
     aIn->set_handle(a->getObjectHandle());
     request.set_allocated_a(aIn);
 
@@ -177,8 +176,8 @@ bool ApiSharedSurfaceProxy::isLessThan(
     // Add the 'b' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * bIn = new octaneapi::ObjectRef();////761////
-    bIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);////5////
+    octaneapi::ObjectRef * bIn = new octaneapi::ObjectRef();
+    bIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);
     bIn->set_handle(b->getObjectHandle());
     request.set_allocated_b(bIn);
 
@@ -187,7 +186,7 @@ bool ApiSharedSurfaceProxy::isLessThan(
     octaneapi::ApiSharedSurface::isLessThanResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSharedSurfaceService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSharedSurfaceService::Stub> stub =
         octaneapi::ApiSharedSurfaceService::NewStub(getGRPCSettings().getChannel());
     status = stub->isLessThan(context.get(), request, &response);
 
@@ -197,7 +196,7 @@ bool ApiSharedSurfaceProxy::isLessThan(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -217,7 +216,7 @@ bool ApiSharedSurfaceProxy::isLessThan(
 
 
 size_t ApiSharedSurfaceProxy::hash(
-            const ApiSharedSurfaceProxy *             surface //// last param ////
+            const ApiSharedSurfaceProxy *             surface
             )
 
 {
@@ -230,8 +229,8 @@ size_t ApiSharedSurfaceProxy::hash(
     // Add the 'surface' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * surfaceIn = new octaneapi::ObjectRef();////761////
-    surfaceIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);////5////
+    octaneapi::ObjectRef * surfaceIn = new octaneapi::ObjectRef();
+    surfaceIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);
     surfaceIn->set_handle(surface->getObjectHandle());
     request.set_allocated_surface(surfaceIn);
 
@@ -240,7 +239,7 @@ size_t ApiSharedSurfaceProxy::hash(
     octaneapi::ApiSharedSurface::hashResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSharedSurfaceService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSharedSurfaceService::Stub> stub =
         octaneapi::ApiSharedSurfaceService::NewStub(getGRPCSettings().getChannel());
     status = stub->hash(context.get(), request, &response);
 
@@ -250,7 +249,7 @@ size_t ApiSharedSurfaceProxy::hash(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -280,8 +279,8 @@ void ApiSharedSurfaceProxy::release()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -290,7 +289,7 @@ void ApiSharedSurfaceProxy::release()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSharedSurfaceService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSharedSurfaceService::Stub> stub =
         octaneapi::ApiSharedSurfaceService::NewStub(getGRPCSettings().getChannel());
     status = stub->release(context.get(), request, &response);
 
@@ -324,8 +323,8 @@ ApiSharedSurfaceProxy ApiSharedSurfaceProxy::clone() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -334,7 +333,7 @@ ApiSharedSurfaceProxy ApiSharedSurfaceProxy::clone() const
     octaneapi::ApiSharedSurface::cloneResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSharedSurfaceService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSharedSurfaceService::Stub> stub =
         octaneapi::ApiSharedSurfaceService::NewStub(getGRPCSettings().getChannel());
     status = stub->clone(context.get(), request, &response);
 
@@ -362,7 +361,7 @@ ApiSharedSurfaceProxy ApiSharedSurfaceProxy::clone() const
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiSharedSurfaceProxy retVal;////714////
+        ApiSharedSurfaceProxy retVal;
         return retVal;
     }
 };
@@ -379,8 +378,8 @@ Octane::SharedSurfaceType ApiSharedSurfaceProxy::getType() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -389,7 +388,7 @@ Octane::SharedSurfaceType ApiSharedSurfaceProxy::getType() const
     octaneapi::ApiSharedSurface::getTypeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSharedSurfaceService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSharedSurfaceService::Stub> stub =
         octaneapi::ApiSharedSurfaceService::NewStub(getGRPCSettings().getChannel());
     status = stub->getType(context.get(), request, &response);
 
@@ -429,8 +428,8 @@ uint64_t ApiSharedSurfaceProxy::getD3D11AdapterLuid() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiSharedSurface);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -439,7 +438,7 @@ uint64_t ApiSharedSurfaceProxy::getD3D11AdapterLuid() const
     octaneapi::ApiSharedSurface::getD3D11AdapterLuidResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiSharedSurfaceService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiSharedSurfaceService::Stub> stub =
         octaneapi::ApiSharedSurfaceService::NewStub(getGRPCSettings().getChannel());
     status = stub->getD3D11AdapterLuid(context.get(), request, &response);
 
@@ -449,7 +448,7 @@ uint64_t ApiSharedSurfaceProxy::getD3D11AdapterLuid() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint64_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

@@ -28,45 +28,45 @@ public:
     /// Creates a new binary group.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static ApiBinaryGroupProxy create(            );
+    static ApiBinaryGroupProxy create();
 
     /// Destroys this group.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Returns TRUE if this group doesn't have any entries.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isEmpty(            ) const;
+    bool isEmpty() const;
 
     /// Returns the number of entries in this group.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    size_t size(            ) const;
+    size_t size() const;
 
     /// Removes the first entry.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void popFront(            );
+    void popFront();
 
     /// Removes the last entry.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void popBack(            );
+    void popBack();
 
     /// Returns the id of the element stored at ix.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     int32_t getId(
-            const size_t                              ix
+            const size_t   ix
             ) const;
 
     /// Returns TRUE if the 2 objects refer to the same group internally.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool equals(
-            const ApiBinaryGroupProxy &               other
+            const ApiBinaryGroupProxy &   other
             ) const;
 
     bool get(
@@ -519,7 +519,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void dump(
-            const uint32_t                            indent
+            const uint32_t   indent
             ) const;
 
 private:

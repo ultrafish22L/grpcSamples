@@ -28,7 +28,7 @@ class GRPCSettings;
 class ApiModuleNodeGraphProxy : public ApiNodeGraphProxy
 {
 public:
-    /// Function to set input linker to a graph. This function add, delete and modify info of the linkers nodes in a 
+    /// Function to set input linker to a graph. This function add, delete and modify info of the linkers nodes in a
     /// specified range. This function can be used for any operations but we have insertLinkers, removeLinkers for additional help.
     /// Must be called only from the init or evaluate function Note: Use getInputNodes to grab created linker list.
     ///
@@ -46,7 +46,7 @@ public:
             const OctaneVec::uint32_2                 range
             );
 
-    /// Function to set output linker to a graph. Use insertLinkers, removeLinkers and 
+    /// Function to set output linker to a graph. Use insertLinkers, removeLinkers and
     /// modifyLinkers for other operations. Must be called only from the init or evaluate function
     /// Note: Use getInputNodes to grab created linker list.
     ///
@@ -119,7 +119,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool inputWasChanged(
-            const ApiNodeProxy *const                 linkerNode
+            const ApiNodeProxy *const   linkerNode
             ) const;
 
     /// Reads the input value of a linker node, which can't be done directly using the input pin of
@@ -262,13 +262,13 @@ public:
             const bool                                evaluate
             );
 
-    void reset(            );
+    void reset();
 
     /// Function will cause the evaluate function to be called after time changes
     /// @param[in] shouldEvaluate
     ///     if true the onEvaluate function will be called after time changes
     /// @param[in] interval
-    ///     The animation interval which should be associated with the animated graph. 
+    ///     The animation interval which should be associated with the animated graph.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setEvaluateTimeChanges(
@@ -282,21 +282,21 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setIcon(
-            const ApiImageProxy *                     image
+            const ApiImageProxy *   image
             );
 
     /// Tells if the time was changed since the last evaluation. This is only meaningful when called
     /// from the evaluate function, and after evaluating on time changes has been enabled with
-    /// setEvaluateTimeChanges. 
+    /// setEvaluateTimeChanges.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool wasTimeChanged(            ) const;
+    bool wasTimeChanged() const;
 
     /// Adds an asset to the graph
     /// @param[out] status
     ///     Contains the status of the gRPC call
     size_t appendAsset(
-            const Octane::ApiFilePath &               filePath
+            const Octane::ApiFilePath &   filePath
             );
 
     /// removes an asset from the graph. This will shift all subsequent assets one down.
@@ -306,27 +306,27 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void removeAsset(
-            const size_t                              index
+            const size_t   index
             );
 
-    /// gets an asset from the graph. can be used this on nodes which have filename and package 
+    /// gets an asset from the graph. can be used this on nodes which have filename and package
     /// attribute (eg: texture node). or use read asset to grab the data
     ///
     /// @param[in] index
     ///     The index of the asset in the array
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    /// @return 
-    ///     Returns file path which contains filename and package. The returned filepath should be 
+    /// @return
+    ///     Returns file path which contains filename and package. The returned filepath should be
     ///     deleted with destroy().
     Octane::ApiFilePath getAsset(
-            const size_t                              index
+            const size_t   index
             ) const;
 
     /// Returns size of the asset array
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    size_t getAssetCount(            ) const;
+    size_t getAssetCount() const;
 
     /// Reads an asset as a cstring
     /// @param[in] index
@@ -337,7 +337,7 @@ public:
     ///      size of the data.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    /// @return 
+    /// @return
     /// TRUE if successful.
     /// FALSE if path is not a relative path or if the file doesn't exist, or an error occurs while opening the file.
     bool readAsset(
@@ -348,7 +348,7 @@ public:
 
     /// Reads a file as a c String
     /// @param[in]  path
-    ///      path to a file. filename should be absolute if the file is from file system. or relative if 
+    ///      path to a file. filename should be absolute if the file is from file system. or relative if
     ///      to package and package name should be absolute.
     /// @param[out] data
     ///      file data, This should deleted via freeAssetDataString().
@@ -356,7 +356,7 @@ public:
     ///      size of the data.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    /// @return 
+    /// @return
     /// TRUE if successful.
     /// FALSE if path is not a relative path or if the file doesn't exist, or an error occurs while opening the file.
     bool readAsset(
@@ -368,22 +368,22 @@ public:
     /// removes all the assets
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void removeAllAssets(            );
+    void removeAllAssets();
 
     /// Function to save some settings with the graph when this graph getting saved in a save file.
     ///
     /// @param[in] data
-    ///     Data to be stored. 
+    ///     Data to be stored.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setSaveData(
-            const char *                              data
+            const char *   data
             );
 
     /// Function to retrieve user data which was saved with the graph.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    std::string getSaveData(            );
+    std::string getSaveData();
 
     /// Assigns user data pointer. This pointer is not saved in a save file.
     ///
@@ -392,18 +392,18 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setCustomData(
-            void *                                    data
+            void *   data
             );
 
     /// Returns TRUE if the underlying module provides an onTrigger callback.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isTriggerEnabled(            ) const;
+    bool isTriggerEnabled() const;
 
     /// Calls the onTrigger callback.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void trigger(            ) const;
+    void trigger() const;
 
     /// Assigns the icon for the trigger button.
     /// If NULL, the icon is reverted to the default one.
@@ -413,22 +413,22 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setTriggerButtonIcon(
-            const ApiImageProxy *                     image
+            const ApiImageProxy *   image
             );
 
     /// Assigns the tooltip text for the trigger button.
     /// If NULL or empty, the tooltip will be disabled.
-    /// The assumption is that the module calls this function once during initialization, so UI 
+    /// The assumption is that the module calls this function once during initialization, so UI
     /// doesn't listen to this change.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setTriggerButtonTooltip(
-            const char *                              tooltip
+            const char *   tooltip
             );
 
     /// Updates the progress bar visibility, progress value and status label text.
     /// It's safe to call this function from the worker threads.
-    /// 
+    ///
     /// @param[in] progressBarVisible
     ///     Whether the progress bar should be visible
     /// @param[in] progress

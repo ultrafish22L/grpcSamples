@@ -27,67 +27,67 @@ class GRPCSettings;
 class ApiProjectManagerProxy : public GRPCBase
 {
 public:
-    /// Returns whether the project manager is valid. The project manager is created after 
-    /// the modules loaded.  
+    /// Returns whether the project manager is valid. The project manager is created after
+    /// the modules loaded.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool isValid(            );
+    static bool isValid();
 
     /// Returns the root node graph of the current project.
     ///
     /// NOTE: The object is owned by Octane and should NOT be destroyed.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static ApiRootNodeGraphProxy rootNodeGraph(            );
+    static ApiRootNodeGraphProxy rootNodeGraph();
 
     /// Returns the application preferences node (node type NT_LOCAL_APP_PREFS).
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static ApiNodeProxy applicationPreferences(            );
+    static ApiNodeProxy applicationPreferences();
 
     /// Returns the project settings node (node type NT_PROJECT_SETTINGS). This node will be
     /// deleted when the current project is closed. NULL if the project manager is invalid
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static ApiNodeProxy projectSettings(            );
+    static ApiNodeProxy projectSettings();
 
     /// Returns the project metadata node (node type NT_METADATA)
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static ApiNodeProxy projectMetadata(            );
+    static ApiNodeProxy projectMetadata();
 
     /// Returns the preview render target of the current project. NULL if the project manager is invalid.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static ApiNodeProxy previewRenderTarget(            );
+    static ApiNodeProxy previewRenderTarget();
 
     /// Returns the geometry of the material ball we use for previewing.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static ApiNodeProxy materialBall(            );
+    static ApiNodeProxy materialBall();
 
     /// Returns the absolute path to the current project. The returned pointer is owned by Octane
     /// and stays valid until the next call of getCurrentProject().
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static std::string getCurrentProject(            );
+    static std::string getCurrentProject();
 
     /// Resets a project to a fresh new project.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool resetProject(            );
+    static bool resetProject();
 
     /// Loads a project into octane. A project is either and .ocs file or
     /// a .orbx file.
     ///
-    /// @param[in]  projectPath 
+    /// @param[in]  projectPath
     ///     Absolute path to the project file on disk.
     /// @param[in] assetMissingCallback
     ///     Callback will be called if the ocs loader could not find an asset file.
     /// @param[in]  assetMissingCallbackUserData
     ///     Opaque user data passed in by the plug in.
     /// @param[in]  evaluate
-    ///     Setting this to FALSE will speedup the project load by not evaluating the root node 
+    ///     Setting this to FALSE will speedup the project load by not evaluating the root node
     ///     graph which skips loading the file data as well as scripted node graph execution.
     ///     Use this just if you just need to inspect the project contents. Projects loaded with
     ///     evaluation disabled are not suitable for rendering. If you need to render a project
@@ -106,12 +106,12 @@ public:
     /// Returns TRUE if the project is loaded from a package (.orbx).
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool loadedFromPackage(            );
+    static bool loadedFromPackage();
 
     /// Returns the OCS version that the current project was loaded from.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static Octane::VersionT loadedOcsVersion(            );
+    static Octane::VersionT loadedOcsVersion();
 
     /// Saves a project.
     ///
@@ -123,7 +123,7 @@ public:
     /// @return
     ///     TRUE on success, FALSE on failure in which case there should have been additional error
     ///     messages on the log.
-    static bool saveProject(            );
+    static bool saveProject();
 
     /// Saves a project under a different name.
     ///
@@ -132,7 +132,7 @@ public:
     /// @note Procedurally generated geometry is saved as OBJ so just regular polygonal geometry
     ///     will be exported ignoring hair and particle primitives.
     /// @note This function is not supported by all SDK flavours
-    /// @param[in]  path 
+    /// @param[in]  path
     ///     Absolute path to the file on disk. This can be a .orbx file
     ///     or a .ocs file.
     /// @param[out] status
@@ -141,7 +141,7 @@ public:
     ///     TRUE on success, FALSE on failure in which case there should have been additional error
     ///     messages on the log.
     static bool saveProjectAs(
-            const char *                              path
+            const char *   path
             );
 
     /// Saves a project into an orbx package. The resulting orbx will include extra data with
@@ -153,9 +153,9 @@ public:
     /// @note Procedurally generated geometry is saved as OBJ so just regular polygonal geometry
     ///     will be exported ignoring hair and particle primitives.
     /// @note This function is not supported by all SDK flavours
-    /// @param[in]  path 
+    /// @param[in]  path
     ///     Absolute path to the file on disk. Only .orbx files are supported.
-    /// @param[in]  referencePackageSettings 
+    /// @param[in]  referencePackageSettings
     ///     Configures the export parameters of the bounding boxes
     /// @param[out] status
     ///     Contains the status of the gRPC call
@@ -195,14 +195,14 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void addObserver(
-            GRPCProjectManagerObserver               observer
+            GRPCProjectManagerObserver   observer
             );
 
     /// Removes an existing observer.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void removeObserver(
-            GRPCProjectManagerObserver               removeObserver
+            GRPCProjectManagerObserver   removeObserver
             );
 
 private:

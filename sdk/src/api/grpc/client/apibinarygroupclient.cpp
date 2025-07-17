@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apibinarygroupclient.h"
 #include <cassert>
@@ -40,7 +40,7 @@ ApiBinaryGroupProxy ApiBinaryGroupProxy::create()
     octaneapi::ApiBinaryGroup::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -68,7 +68,7 @@ ApiBinaryGroupProxy ApiBinaryGroupProxy::create()
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiBinaryGroupProxy retVal;////714////
+        ApiBinaryGroupProxy retVal;
         return retVal;
     }
 };
@@ -85,8 +85,8 @@ void ApiBinaryGroupProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -95,7 +95,7 @@ void ApiBinaryGroupProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -129,8 +129,8 @@ bool ApiBinaryGroupProxy::isEmpty() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -139,7 +139,7 @@ bool ApiBinaryGroupProxy::isEmpty() const
     octaneapi::ApiBinaryGroup::isEmptyResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->isEmpty(context.get(), request, &response);
 
@@ -149,7 +149,7 @@ bool ApiBinaryGroupProxy::isEmpty() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -179,8 +179,8 @@ size_t ApiBinaryGroupProxy::size() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -189,7 +189,7 @@ size_t ApiBinaryGroupProxy::size() const
     octaneapi::ApiBinaryGroup::sizeResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->size(context.get(), request, &response);
 
@@ -199,7 +199,7 @@ size_t ApiBinaryGroupProxy::size() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -229,8 +229,8 @@ void ApiBinaryGroupProxy::popFront()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -239,7 +239,7 @@ void ApiBinaryGroupProxy::popFront()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->popFront(context.get(), request, &response);
 
@@ -273,8 +273,8 @@ void ApiBinaryGroupProxy::popBack()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -283,7 +283,7 @@ void ApiBinaryGroupProxy::popBack()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->popBack(context.get(), request, &response);
 
@@ -307,7 +307,7 @@ void ApiBinaryGroupProxy::popBack()
 
 
 int32_t ApiBinaryGroupProxy::getId(
-            const size_t                              ix //// last param ////
+            const size_t                              ix
             ) const
 
 {
@@ -320,15 +320,15 @@ int32_t ApiBinaryGroupProxy::getId(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -336,7 +336,7 @@ int32_t ApiBinaryGroupProxy::getId(
     octaneapi::ApiBinaryGroup::getIdResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->getId(context.get(), request, &response);
 
@@ -346,7 +346,7 @@ int32_t ApiBinaryGroupProxy::getId(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         int32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -366,7 +366,7 @@ int32_t ApiBinaryGroupProxy::getId(
 
 
 bool ApiBinaryGroupProxy::equals(
-            const ApiBinaryGroupProxy &               other //// last param ////
+            const ApiBinaryGroupProxy &               other
             ) const
 
 {
@@ -379,8 +379,8 @@ bool ApiBinaryGroupProxy::equals(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -388,8 +388,8 @@ bool ApiBinaryGroupProxy::equals(
     // Add the 'other' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * otherIn = new octaneapi::ObjectRef();////761////
-    otherIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * otherIn = new octaneapi::ObjectRef();
+    otherIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     otherIn->set_handle(other.getObjectHandle());
     request.set_allocated_other(otherIn);
 
@@ -398,7 +398,7 @@ bool ApiBinaryGroupProxy::equals(
     octaneapi::ApiBinaryGroup::equalsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->equals(context.get(), request, &response);
 
@@ -408,7 +408,7 @@ bool ApiBinaryGroupProxy::equals(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -428,8 +428,8 @@ bool ApiBinaryGroupProxy::equals(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            bool &                                    value //// last param ////
+            const size_t                              ix,
+            bool &                                    value
             ) const
 
 {
@@ -442,15 +442,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -458,7 +458,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::getResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get(context.get(), request, &response);
 
@@ -468,12 +468,12 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         bool valueOut = response.value();
-        value = valueOut;//// SECOND////
+        value = valueOut;
     }
     else
     {
@@ -493,8 +493,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            int8_t &                                  value //// last param ////
+            const size_t                              ix,
+            int8_t &                                  value
             ) const
 
 {
@@ -507,15 +507,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -523,7 +523,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get1Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get1(context.get(), request, &response);
 
@@ -533,12 +533,12 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         int32_t valueOut = response.value();
-        value = valueOut;//// SECOND////
+        value = valueOut;
     }
     else
     {
@@ -558,8 +558,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::int8_2 &                          value //// last param ////
+            const size_t                              ix,
+            Octane::int8_2 &                          value
             ) const
 
 {
@@ -572,15 +572,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -588,7 +588,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get2Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get2(context.get(), request, &response);
 
@@ -598,7 +598,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -624,8 +624,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::int8_3 &                          value //// last param ////
+            const size_t                              ix,
+            Octane::int8_3 &                          value
             ) const
 
 {
@@ -638,15 +638,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -654,7 +654,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get3Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get3(context.get(), request, &response);
 
@@ -664,7 +664,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -691,8 +691,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::int8_4 &                          value //// last param ////
+            const size_t                              ix,
+            Octane::int8_4 &                          value
             ) const
 
 {
@@ -705,15 +705,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -721,7 +721,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get4Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get4(context.get(), request, &response);
 
@@ -731,7 +731,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -759,8 +759,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            uint8_t &                                 value //// last param ////
+            const size_t                              ix,
+            uint8_t &                                 value
             ) const
 
 {
@@ -773,15 +773,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -789,7 +789,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get5Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get5(context.get(), request, &response);
 
@@ -799,12 +799,12 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         uint32_t valueOut = response.value();
-        value = valueOut;//// SECOND////
+        value = valueOut;
     }
     else
     {
@@ -824,8 +824,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::uint8_2 &                         value //// last param ////
+            const size_t                              ix,
+            Octane::uint8_2 &                         value
             ) const
 
 {
@@ -838,15 +838,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -854,7 +854,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get6Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get6(context.get(), request, &response);
 
@@ -864,7 +864,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -890,8 +890,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::uint8_3 &                         value //// last param ////
+            const size_t                              ix,
+            Octane::uint8_3 &                         value
             ) const
 
 {
@@ -904,15 +904,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -920,7 +920,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get7Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get7(context.get(), request, &response);
 
@@ -930,7 +930,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -957,8 +957,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::uint8_4 &                         value //// last param ////
+            const size_t                              ix,
+            Octane::uint8_4 &                         value
             ) const
 
 {
@@ -971,15 +971,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -987,7 +987,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get8Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get8(context.get(), request, &response);
 
@@ -997,7 +997,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -1025,8 +1025,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            int16_t &                                 value //// last param ////
+            const size_t                              ix,
+            int16_t &                                 value
             ) const
 
 {
@@ -1039,15 +1039,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1055,7 +1055,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get9Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get9(context.get(), request, &response);
 
@@ -1065,12 +1065,12 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         int32_t valueOut = response.value();
-        value = valueOut;//// SECOND////
+        value = valueOut;
     }
     else
     {
@@ -1090,8 +1090,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::int16_2 &                         value //// last param ////
+            const size_t                              ix,
+            Octane::int16_2 &                         value
             ) const
 
 {
@@ -1104,15 +1104,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1120,7 +1120,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get10Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get10(context.get(), request, &response);
 
@@ -1130,7 +1130,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -1156,8 +1156,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::int16_3 &                         value //// last param ////
+            const size_t                              ix,
+            Octane::int16_3 &                         value
             ) const
 
 {
@@ -1170,15 +1170,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1186,7 +1186,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get11Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get11(context.get(), request, &response);
 
@@ -1196,7 +1196,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -1223,8 +1223,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::int16_4 &                         value //// last param ////
+            const size_t                              ix,
+            Octane::int16_4 &                         value
             ) const
 
 {
@@ -1237,15 +1237,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1253,7 +1253,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get12Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get12(context.get(), request, &response);
 
@@ -1263,7 +1263,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -1291,8 +1291,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            uint16_t &                                value //// last param ////
+            const size_t                              ix,
+            uint16_t &                                value
             ) const
 
 {
@@ -1305,15 +1305,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1321,7 +1321,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get13Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get13(context.get(), request, &response);
 
@@ -1331,12 +1331,12 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         uint32_t valueOut = response.value();
-        value = valueOut;//// SECOND////
+        value = valueOut;
     }
     else
     {
@@ -1356,8 +1356,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::uint16_2 &                        value //// last param ////
+            const size_t                              ix,
+            Octane::uint16_2 &                        value
             ) const
 
 {
@@ -1370,15 +1370,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1386,7 +1386,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get14Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get14(context.get(), request, &response);
 
@@ -1396,7 +1396,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -1422,8 +1422,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::uint16_3 &                        value //// last param ////
+            const size_t                              ix,
+            Octane::uint16_3 &                        value
             ) const
 
 {
@@ -1436,15 +1436,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1452,7 +1452,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get15Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get15(context.get(), request, &response);
 
@@ -1462,7 +1462,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -1489,8 +1489,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::uint16_4 &                        value //// last param ////
+            const size_t                              ix,
+            Octane::uint16_4 &                        value
             ) const
 
 {
@@ -1503,15 +1503,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1519,7 +1519,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get16Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get16(context.get(), request, &response);
 
@@ -1529,7 +1529,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -1557,8 +1557,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            int32_t &                                 value //// last param ////
+            const size_t                              ix,
+            int32_t &                                 value
             ) const
 
 {
@@ -1571,15 +1571,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1587,7 +1587,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get17Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get17(context.get(), request, &response);
 
@@ -1597,12 +1597,12 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         int32_t valueOut = response.value();
-        value = valueOut;//// SECOND////
+        value = valueOut;
     }
     else
     {
@@ -1622,8 +1622,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::int32_2 &                         value //// last param ////
+            const size_t                              ix,
+            Octane::int32_2 &                         value
             ) const
 
 {
@@ -1636,15 +1636,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1652,7 +1652,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get18Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get18(context.get(), request, &response);
 
@@ -1662,7 +1662,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -1688,8 +1688,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::int32_3 &                         value //// last param ////
+            const size_t                              ix,
+            Octane::int32_3 &                         value
             ) const
 
 {
@@ -1702,15 +1702,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1718,7 +1718,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get19Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get19(context.get(), request, &response);
 
@@ -1728,7 +1728,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -1755,8 +1755,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::int32_4 &                         value //// last param ////
+            const size_t                              ix,
+            Octane::int32_4 &                         value
             ) const
 
 {
@@ -1769,15 +1769,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1785,7 +1785,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get20Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get20(context.get(), request, &response);
 
@@ -1795,7 +1795,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -1823,8 +1823,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            uint32_t &                                value //// last param ////
+            const size_t                              ix,
+            uint32_t &                                value
             ) const
 
 {
@@ -1837,15 +1837,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1853,7 +1853,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get21Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get21(context.get(), request, &response);
 
@@ -1863,12 +1863,12 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         uint32_t valueOut = response.value();
-        value = valueOut;//// SECOND////
+        value = valueOut;
     }
     else
     {
@@ -1888,8 +1888,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::uint32_2 &                        value //// last param ////
+            const size_t                              ix,
+            Octane::uint32_2 &                        value
             ) const
 
 {
@@ -1902,15 +1902,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1918,7 +1918,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get22Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get22(context.get(), request, &response);
 
@@ -1928,7 +1928,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -1954,8 +1954,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::uint32_3 &                        value //// last param ////
+            const size_t                              ix,
+            Octane::uint32_3 &                        value
             ) const
 
 {
@@ -1968,15 +1968,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1984,7 +1984,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get23Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get23(context.get(), request, &response);
 
@@ -1994,7 +1994,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -2021,8 +2021,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::uint32_4 &                        value //// last param ////
+            const size_t                              ix,
+            Octane::uint32_4 &                        value
             ) const
 
 {
@@ -2035,15 +2035,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2051,7 +2051,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get24Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get24(context.get(), request, &response);
 
@@ -2061,7 +2061,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -2089,8 +2089,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            int64_t &                                 value //// last param ////
+            const size_t                              ix,
+            int64_t &                                 value
             ) const
 
 {
@@ -2103,15 +2103,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2119,7 +2119,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get25Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get25(context.get(), request, &response);
 
@@ -2129,12 +2129,12 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         int64_t valueOut = response.value();
-        value = valueOut;//// SECOND////
+        value = valueOut;
     }
     else
     {
@@ -2154,8 +2154,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::int64_2 &                         value //// last param ////
+            const size_t                              ix,
+            Octane::int64_2 &                         value
             ) const
 
 {
@@ -2168,15 +2168,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2184,7 +2184,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get26Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get26(context.get(), request, &response);
 
@@ -2194,7 +2194,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -2220,8 +2220,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::int64_3 &                         value //// last param ////
+            const size_t                              ix,
+            Octane::int64_3 &                         value
             ) const
 
 {
@@ -2234,15 +2234,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2250,7 +2250,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get27Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get27(context.get(), request, &response);
 
@@ -2260,7 +2260,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -2287,8 +2287,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::int64_4 &                         value //// last param ////
+            const size_t                              ix,
+            Octane::int64_4 &                         value
             ) const
 
 {
@@ -2301,15 +2301,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2317,7 +2317,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get28Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get28(context.get(), request, &response);
 
@@ -2327,7 +2327,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -2355,8 +2355,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            uint64_t &                                value //// last param ////
+            const size_t                              ix,
+            uint64_t &                                value
             ) const
 
 {
@@ -2369,15 +2369,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2385,7 +2385,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get29Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get29(context.get(), request, &response);
 
@@ -2395,12 +2395,12 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         uint64_t valueOut = response.value();
-        value = valueOut;//// SECOND////
+        value = valueOut;
     }
     else
     {
@@ -2420,8 +2420,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::uint64_2 &                        value //// last param ////
+            const size_t                              ix,
+            Octane::uint64_2 &                        value
             ) const
 
 {
@@ -2434,15 +2434,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2450,7 +2450,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get30Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get30(context.get(), request, &response);
 
@@ -2460,7 +2460,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -2486,8 +2486,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::uint64_3 &                        value //// last param ////
+            const size_t                              ix,
+            Octane::uint64_3 &                        value
             ) const
 
 {
@@ -2500,15 +2500,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2516,7 +2516,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get31Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get31(context.get(), request, &response);
 
@@ -2526,7 +2526,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -2553,8 +2553,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::uint64_4 &                        value //// last param ////
+            const size_t                              ix,
+            Octane::uint64_4 &                        value
             ) const
 
 {
@@ -2567,15 +2567,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2583,7 +2583,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get32Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get32(context.get(), request, &response);
 
@@ -2593,7 +2593,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -2621,8 +2621,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            float &                                   value //// last param ////
+            const size_t                              ix,
+            float &                                   value
             ) const
 
 {
@@ -2635,15 +2635,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2651,7 +2651,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get33Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get33(context.get(), request, &response);
 
@@ -2661,12 +2661,12 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         float valueOut = response.value();
-        value = valueOut;//// SECOND////
+        value = valueOut;
     }
     else
     {
@@ -2686,8 +2686,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::float_2 &                         value //// last param ////
+            const size_t                              ix,
+            Octane::float_2 &                         value
             ) const
 
 {
@@ -2700,15 +2700,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2716,7 +2716,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get34Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get34(context.get(), request, &response);
 
@@ -2726,7 +2726,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -2752,8 +2752,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::float_3 &                         value //// last param ////
+            const size_t                              ix,
+            Octane::float_3 &                         value
             ) const
 
 {
@@ -2766,15 +2766,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2782,7 +2782,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get35Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get35(context.get(), request, &response);
 
@@ -2792,7 +2792,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -2819,8 +2819,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::float_4 &                         value //// last param ////
+            const size_t                              ix,
+            Octane::float_4 &                         value
             ) const
 
 {
@@ -2833,15 +2833,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2849,7 +2849,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get36Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get36(context.get(), request, &response);
 
@@ -2859,7 +2859,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -2887,8 +2887,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            double &                                  value //// last param ////
+            const size_t                              ix,
+            double &                                  value
             ) const
 
 {
@@ -2901,15 +2901,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2917,7 +2917,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get37Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get37(context.get(), request, &response);
 
@@ -2927,12 +2927,12 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         double valueOut = response.value();
-        value = valueOut;//// SECOND////
+        value = valueOut;
     }
     else
     {
@@ -2952,8 +2952,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::double_2 &                        value //// last param ////
+            const size_t                              ix,
+            Octane::double_2 &                        value
             ) const
 
 {
@@ -2966,15 +2966,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2982,7 +2982,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get38Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get38(context.get(), request, &response);
 
@@ -2992,7 +2992,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -3018,8 +3018,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::double_3 &                        value //// last param ////
+            const size_t                              ix,
+            Octane::double_3 &                        value
             ) const
 
 {
@@ -3032,15 +3032,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3048,7 +3048,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get39Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get39(context.get(), request, &response);
 
@@ -3058,7 +3058,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -3085,8 +3085,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            Octane::double_4 &                        value //// last param ////
+            const size_t                              ix,
+            Octane::double_4 &                        value
             ) const
 
 {
@@ -3099,15 +3099,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3115,7 +3115,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get40Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get40(context.get(), request, &response);
 
@@ -3125,7 +3125,7 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
@@ -3153,8 +3153,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::get(
-            const size_t                              ix, //// test821 //// 
-            std::string &                             value //// last param ////
+            const size_t                              ix,
+            std::string &                             value
             ) const
 
 {
@@ -3167,15 +3167,15 @@ bool ApiBinaryGroupProxy::get(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3183,7 +3183,7 @@ bool ApiBinaryGroupProxy::get(
     octaneapi::ApiBinaryGroup::get41Response response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->get41(context.get(), request, &response);
 
@@ -3193,13 +3193,13 @@ bool ApiBinaryGroupProxy::get(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'value' [out] parameter from the gRPC response packet
         std::string valueOut = response.value();
         // param.mType = const char *&
-        value =  valueOut;////ex string mgr////
+        value =  valueOut;
     }
     else
     {
@@ -3219,8 +3219,8 @@ bool ApiBinaryGroupProxy::get(
 
 
 bool ApiBinaryGroupProxy::getGroup(
-            const size_t                              ix, //// test821 //// 
-            ApiBinaryGroupProxy *&                    group //// last param ////
+            const size_t                              ix,
+            ApiBinaryGroupProxy *&                    group
             ) const
 
 {
@@ -3233,15 +3233,15 @@ bool ApiBinaryGroupProxy::getGroup(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3249,7 +3249,7 @@ bool ApiBinaryGroupProxy::getGroup(
     octaneapi::ApiBinaryGroup::getGroupResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->getGroup(context.get(), request, &response);
 
@@ -3259,12 +3259,12 @@ bool ApiBinaryGroupProxy::getGroup(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'group' [out] parameter from the gRPC response packet
         octaneapi::ObjectRef groupOut = response.group();
-        group->attachObjectHandle(groupOut.handle());////test 79b////
+        group->attachObjectHandle(groupOut.handle());
     }
     else
     {
@@ -3284,8 +3284,8 @@ bool ApiBinaryGroupProxy::getGroup(
 
 
 bool ApiBinaryGroupProxy::getTable(
-            const size_t                              ix, //// test821 //// 
-            ApiBinaryTableProxy *&                    table //// last param ////
+            const size_t                              ix,
+            ApiBinaryTableProxy *&                    table
             ) const
 
 {
@@ -3298,15 +3298,15 @@ bool ApiBinaryGroupProxy::getTable(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'ix' [in] parameter to the request packet.
     uint32_t ixIn;
-    ixIn = static_cast<uint32_t>(ix);////2 const size_t////
+    ixIn = static_cast<uint32_t>(ix);
     request.set_ix(ixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3314,7 +3314,7 @@ bool ApiBinaryGroupProxy::getTable(
     octaneapi::ApiBinaryGroup::getTableResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->getTable(context.get(), request, &response);
 
@@ -3324,12 +3324,12 @@ bool ApiBinaryGroupProxy::getTable(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
 
         /////////////////////////////////////////////////////////////////////
         // Process 'table' [out] parameter from the gRPC response packet
         octaneapi::ObjectRef tableOut = response.table();
-        table->attachObjectHandle(tableOut.handle());////test 79b////
+        table->attachObjectHandle(tableOut.handle());
     }
     else
     {
@@ -3349,8 +3349,8 @@ bool ApiBinaryGroupProxy::getTable(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const bool                                value //// last param ////
+            const int32_t                             id,
+            const bool                                value
             )
 
 {
@@ -3363,21 +3363,21 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     bool valueIn;
-    valueIn = value;////2 const bool////
+    valueIn = value;
     request.set_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3385,7 +3385,7 @@ void ApiBinaryGroupProxy::add(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add(context.get(), request, &response);
 
@@ -3409,8 +3409,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const int8_t                              value //// last param ////
+            const int32_t                             id,
+            const int8_t                              value
             )
 
 {
@@ -3423,21 +3423,21 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     int32_t valueIn;
-    valueIn = value;////2 const int8_t////
+    valueIn = value;
     request.set_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3445,7 +3445,7 @@ void ApiBinaryGroupProxy::add(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add1(context.get(), request, &response);
 
@@ -3469,8 +3469,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::int8_2                      value //// last param ////
+            const int32_t                             id,
+            const Octane::int8_2                      value
             )
 
 {
@@ -3483,30 +3483,30 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::int8_2 * valueIn = new octaneapi::int8_2(); //// value type=int8_2;//// ////721////
+    octaneapi::int8_2 * valueIn = new octaneapi::int8_2();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add2(context.get(), request, &response);
 
@@ -3530,8 +3530,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::int8_3                      value //// last param ////
+            const int32_t                             id,
+            const Octane::int8_3                      value
             )
 
 {
@@ -3544,31 +3544,31 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::int8_3 * valueIn = new octaneapi::int8_3(); //// value type=int8_3;//// ////721////
+    octaneapi::int8_3 * valueIn = new octaneapi::int8_3();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add3(context.get(), request, &response);
 
@@ -3592,8 +3592,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::int8_4                      value //// last param ////
+            const int32_t                             id,
+            const Octane::int8_4                      value
             )
 
 {
@@ -3606,32 +3606,32 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::int8_4 * valueIn = new octaneapi::int8_4(); //// value type=int8_4;//// ////721////
+    octaneapi::int8_4 * valueIn = new octaneapi::int8_4();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
     (*valueIn).set_w(value.w);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add4(context.get(), request, &response);
 
@@ -3655,8 +3655,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const uint8_t                             value //// last param ////
+            const int32_t                             id,
+            const uint8_t                             value
             )
 
 {
@@ -3669,21 +3669,21 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     uint32_t valueIn;
-    valueIn = value;////2 const uint8_t////
+    valueIn = value;
     request.set_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3691,7 +3691,7 @@ void ApiBinaryGroupProxy::add(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add5(context.get(), request, &response);
 
@@ -3715,8 +3715,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::uint8_2                     value //// last param ////
+            const int32_t                             id,
+            const Octane::uint8_2                     value
             )
 
 {
@@ -3729,30 +3729,30 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::uint8_2 * valueIn = new octaneapi::uint8_2(); //// value type=uint8_2;//// ////721////
+    octaneapi::uint8_2 * valueIn = new octaneapi::uint8_2();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add6(context.get(), request, &response);
 
@@ -3776,8 +3776,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::uint8_3                     value //// last param ////
+            const int32_t                             id,
+            const Octane::uint8_3                     value
             )
 
 {
@@ -3790,31 +3790,31 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::uint8_3 * valueIn = new octaneapi::uint8_3(); //// value type=uint8_3;//// ////721////
+    octaneapi::uint8_3 * valueIn = new octaneapi::uint8_3();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add7(context.get(), request, &response);
 
@@ -3838,8 +3838,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::uint8_4                     value //// last param ////
+            const int32_t                             id,
+            const Octane::uint8_4                     value
             )
 
 {
@@ -3852,32 +3852,32 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::uint8_4 * valueIn = new octaneapi::uint8_4(); //// value type=uint8_4;//// ////721////
+    octaneapi::uint8_4 * valueIn = new octaneapi::uint8_4();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
     (*valueIn).set_w(value.w);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add8(context.get(), request, &response);
 
@@ -3901,8 +3901,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const int16_t                             value //// last param ////
+            const int32_t                             id,
+            const int16_t                             value
             )
 
 {
@@ -3915,21 +3915,21 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     int32_t valueIn;
-    valueIn = value;////2 const int16_t////
+    valueIn = value;
     request.set_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3937,7 +3937,7 @@ void ApiBinaryGroupProxy::add(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add9(context.get(), request, &response);
 
@@ -3961,8 +3961,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::int16_2                     value //// last param ////
+            const int32_t                             id,
+            const Octane::int16_2                     value
             )
 
 {
@@ -3975,30 +3975,30 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::int16_2 * valueIn = new octaneapi::int16_2(); //// value type=int16_2;//// ////721////
+    octaneapi::int16_2 * valueIn = new octaneapi::int16_2();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add10(context.get(), request, &response);
 
@@ -4022,8 +4022,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::int16_3                     value //// last param ////
+            const int32_t                             id,
+            const Octane::int16_3                     value
             )
 
 {
@@ -4036,31 +4036,31 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::int16_3 * valueIn = new octaneapi::int16_3(); //// value type=int16_3;//// ////721////
+    octaneapi::int16_3 * valueIn = new octaneapi::int16_3();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add11(context.get(), request, &response);
 
@@ -4084,8 +4084,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::int16_4                     value //// last param ////
+            const int32_t                             id,
+            const Octane::int16_4                     value
             )
 
 {
@@ -4098,32 +4098,32 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::int16_4 * valueIn = new octaneapi::int16_4(); //// value type=int16_4;//// ////721////
+    octaneapi::int16_4 * valueIn = new octaneapi::int16_4();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
     (*valueIn).set_w(value.w);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add12(context.get(), request, &response);
 
@@ -4147,8 +4147,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const uint16_t                            value //// last param ////
+            const int32_t                             id,
+            const uint16_t                            value
             )
 
 {
@@ -4161,21 +4161,21 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     uint32_t valueIn;
-    valueIn = value;////2 const uint16_t////
+    valueIn = value;
     request.set_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4183,7 +4183,7 @@ void ApiBinaryGroupProxy::add(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add13(context.get(), request, &response);
 
@@ -4207,8 +4207,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::uint16_2                    value //// last param ////
+            const int32_t                             id,
+            const Octane::uint16_2                    value
             )
 
 {
@@ -4221,30 +4221,30 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::uint16_2 * valueIn = new octaneapi::uint16_2(); //// value type=uint16_2;//// ////721////
+    octaneapi::uint16_2 * valueIn = new octaneapi::uint16_2();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add14(context.get(), request, &response);
 
@@ -4268,8 +4268,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::uint16_3                    value //// last param ////
+            const int32_t                             id,
+            const Octane::uint16_3                    value
             )
 
 {
@@ -4282,31 +4282,31 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::uint16_3 * valueIn = new octaneapi::uint16_3(); //// value type=uint16_3;//// ////721////
+    octaneapi::uint16_3 * valueIn = new octaneapi::uint16_3();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add15(context.get(), request, &response);
 
@@ -4330,8 +4330,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::uint16_4                    value //// last param ////
+            const int32_t                             id,
+            const Octane::uint16_4                    value
             )
 
 {
@@ -4344,32 +4344,32 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::uint16_4 * valueIn = new octaneapi::uint16_4(); //// value type=uint16_4;//// ////721////
+    octaneapi::uint16_4 * valueIn = new octaneapi::uint16_4();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
     (*valueIn).set_w(value.w);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add16(context.get(), request, &response);
 
@@ -4393,8 +4393,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const int32_t                             value //// last param ////
+            const int32_t                             id,
+            const int32_t                             value
             )
 
 {
@@ -4407,21 +4407,21 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     int32_t valueIn;
-    valueIn = value;////2 const int32_t////
+    valueIn = value;
     request.set_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4429,7 +4429,7 @@ void ApiBinaryGroupProxy::add(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add17(context.get(), request, &response);
 
@@ -4453,8 +4453,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::int32_2                     value //// last param ////
+            const int32_t                             id,
+            const Octane::int32_2                     value
             )
 
 {
@@ -4467,30 +4467,30 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::int32_2 * valueIn = new octaneapi::int32_2(); //// value type=int32_2;//// ////721////
+    octaneapi::int32_2 * valueIn = new octaneapi::int32_2();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add18(context.get(), request, &response);
 
@@ -4514,8 +4514,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::int32_3                     value //// last param ////
+            const int32_t                             id,
+            const Octane::int32_3                     value
             )
 
 {
@@ -4528,31 +4528,31 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::int32_3 * valueIn = new octaneapi::int32_3(); //// value type=int32_3;//// ////721////
+    octaneapi::int32_3 * valueIn = new octaneapi::int32_3();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add19(context.get(), request, &response);
 
@@ -4576,8 +4576,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::int32_4                     value //// last param ////
+            const int32_t                             id,
+            const Octane::int32_4                     value
             )
 
 {
@@ -4590,32 +4590,32 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::int32_4 * valueIn = new octaneapi::int32_4(); //// value type=int32_4;//// ////721////
+    octaneapi::int32_4 * valueIn = new octaneapi::int32_4();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
     (*valueIn).set_w(value.w);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add20(context.get(), request, &response);
 
@@ -4639,8 +4639,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const uint32_t                            value //// last param ////
+            const int32_t                             id,
+            const uint32_t                            value
             )
 
 {
@@ -4653,21 +4653,21 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     uint32_t valueIn;
-    valueIn = value;////2 const uint32_t////
+    valueIn = value;
     request.set_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4675,7 +4675,7 @@ void ApiBinaryGroupProxy::add(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add21(context.get(), request, &response);
 
@@ -4699,8 +4699,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::uint32_2                    value //// last param ////
+            const int32_t                             id,
+            const Octane::uint32_2                    value
             )
 
 {
@@ -4713,30 +4713,30 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::uint32_2 * valueIn = new octaneapi::uint32_2(); //// value type=uint32_2;//// ////721////
+    octaneapi::uint32_2 * valueIn = new octaneapi::uint32_2();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add22(context.get(), request, &response);
 
@@ -4760,8 +4760,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::uint32_3                    value //// last param ////
+            const int32_t                             id,
+            const Octane::uint32_3                    value
             )
 
 {
@@ -4774,31 +4774,31 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::uint32_3 * valueIn = new octaneapi::uint32_3(); //// value type=uint32_3;//// ////721////
+    octaneapi::uint32_3 * valueIn = new octaneapi::uint32_3();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add23(context.get(), request, &response);
 
@@ -4822,8 +4822,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::uint32_4                    value //// last param ////
+            const int32_t                             id,
+            const Octane::uint32_4                    value
             )
 
 {
@@ -4836,32 +4836,32 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::uint32_4 * valueIn = new octaneapi::uint32_4(); //// value type=uint32_4;//// ////721////
+    octaneapi::uint32_4 * valueIn = new octaneapi::uint32_4();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
     (*valueIn).set_w(value.w);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add24(context.get(), request, &response);
 
@@ -4885,8 +4885,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const int64_t                             value //// last param ////
+            const int32_t                             id,
+            const int64_t                             value
             )
 
 {
@@ -4899,21 +4899,21 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     int64_t valueIn;
-    valueIn = value;////2 const int64_t////
+    valueIn = value;
     request.set_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4921,7 +4921,7 @@ void ApiBinaryGroupProxy::add(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add25(context.get(), request, &response);
 
@@ -4945,8 +4945,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::int64_2                     value //// last param ////
+            const int32_t                             id,
+            const Octane::int64_2                     value
             )
 
 {
@@ -4959,30 +4959,30 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::int64_2 * valueIn = new octaneapi::int64_2(); //// value type=int64_2;//// ////721////
+    octaneapi::int64_2 * valueIn = new octaneapi::int64_2();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add26(context.get(), request, &response);
 
@@ -5006,8 +5006,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::int64_3                     value //// last param ////
+            const int32_t                             id,
+            const Octane::int64_3                     value
             )
 
 {
@@ -5020,31 +5020,31 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::int64_3 * valueIn = new octaneapi::int64_3(); //// value type=int64_3;//// ////721////
+    octaneapi::int64_3 * valueIn = new octaneapi::int64_3();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add27(context.get(), request, &response);
 
@@ -5068,8 +5068,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::int64_4                     value //// last param ////
+            const int32_t                             id,
+            const Octane::int64_4                     value
             )
 
 {
@@ -5082,32 +5082,32 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::int64_4 * valueIn = new octaneapi::int64_4(); //// value type=int64_4;//// ////721////
+    octaneapi::int64_4 * valueIn = new octaneapi::int64_4();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
     (*valueIn).set_w(value.w);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add28(context.get(), request, &response);
 
@@ -5131,8 +5131,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const uint64_t                            value //// last param ////
+            const int32_t                             id,
+            const uint64_t                            value
             )
 
 {
@@ -5145,21 +5145,21 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     uint64_t valueIn;
-    valueIn = value;////2 const uint64_t////
+    valueIn = value;
     request.set_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -5167,7 +5167,7 @@ void ApiBinaryGroupProxy::add(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add29(context.get(), request, &response);
 
@@ -5191,8 +5191,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::uint64_2                    value //// last param ////
+            const int32_t                             id,
+            const Octane::uint64_2                    value
             )
 
 {
@@ -5205,30 +5205,30 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::uint64_2 * valueIn = new octaneapi::uint64_2(); //// value type=uint64_2;//// ////721////
+    octaneapi::uint64_2 * valueIn = new octaneapi::uint64_2();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add30(context.get(), request, &response);
 
@@ -5252,8 +5252,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::uint64_3                    value //// last param ////
+            const int32_t                             id,
+            const Octane::uint64_3                    value
             )
 
 {
@@ -5266,31 +5266,31 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::uint64_3 * valueIn = new octaneapi::uint64_3(); //// value type=uint64_3;//// ////721////
+    octaneapi::uint64_3 * valueIn = new octaneapi::uint64_3();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add31(context.get(), request, &response);
 
@@ -5314,8 +5314,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::uint64_4                    value //// last param ////
+            const int32_t                             id,
+            const Octane::uint64_4                    value
             )
 
 {
@@ -5328,32 +5328,32 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::uint64_4 * valueIn = new octaneapi::uint64_4(); //// value type=uint64_4;//// ////721////
+    octaneapi::uint64_4 * valueIn = new octaneapi::uint64_4();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
     (*valueIn).set_w(value.w);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add32(context.get(), request, &response);
 
@@ -5377,8 +5377,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const float                               value //// last param ////
+            const int32_t                             id,
+            const float                               value
             )
 
 {
@@ -5391,21 +5391,21 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     float valueIn;
-    valueIn = value;////2 const float////
+    valueIn = value;
     request.set_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -5413,7 +5413,7 @@ void ApiBinaryGroupProxy::add(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add33(context.get(), request, &response);
 
@@ -5437,8 +5437,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::float_2                     value //// last param ////
+            const int32_t                             id,
+            const Octane::float_2                     value
             )
 
 {
@@ -5451,30 +5451,30 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::float_2 * valueIn = new octaneapi::float_2(); //// value type=float_2;//// ////721////
+    octaneapi::float_2 * valueIn = new octaneapi::float_2();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add34(context.get(), request, &response);
 
@@ -5498,8 +5498,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::float_3                     value //// last param ////
+            const int32_t                             id,
+            const Octane::float_3                     value
             )
 
 {
@@ -5512,31 +5512,31 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::float_3 * valueIn = new octaneapi::float_3(); //// value type=float_3;//// ////721////
+    octaneapi::float_3 * valueIn = new octaneapi::float_3();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add35(context.get(), request, &response);
 
@@ -5560,8 +5560,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::float_4                     value //// last param ////
+            const int32_t                             id,
+            const Octane::float_4                     value
             )
 
 {
@@ -5574,32 +5574,32 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::float_4 * valueIn = new octaneapi::float_4(); //// value type=float_4;//// ////721////
+    octaneapi::float_4 * valueIn = new octaneapi::float_4();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
     (*valueIn).set_w(value.w);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add36(context.get(), request, &response);
 
@@ -5623,8 +5623,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const double                              value //// last param ////
+            const int32_t                             id,
+            const double                              value
             )
 
 {
@@ -5637,21 +5637,21 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     double valueIn;
-    valueIn = value;////2 const double////
+    valueIn = value;
     request.set_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -5659,7 +5659,7 @@ void ApiBinaryGroupProxy::add(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add37(context.get(), request, &response);
 
@@ -5683,8 +5683,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::double_2                    value //// last param ////
+            const int32_t                             id,
+            const Octane::double_2                    value
             )
 
 {
@@ -5697,30 +5697,30 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::double_2 * valueIn = new octaneapi::double_2(); //// value type=double_2;//// ////721////
+    octaneapi::double_2 * valueIn = new octaneapi::double_2();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add38(context.get(), request, &response);
 
@@ -5744,8 +5744,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::double_3                    value //// last param ////
+            const int32_t                             id,
+            const Octane::double_3                    value
             )
 
 {
@@ -5758,31 +5758,31 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::double_3 * valueIn = new octaneapi::double_3(); //// value type=double_3;//// ////721////
+    octaneapi::double_3 * valueIn = new octaneapi::double_3();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add39(context.get(), request, &response);
 
@@ -5806,8 +5806,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const Octane::double_4                    value //// last param ////
+            const int32_t                             id,
+            const Octane::double_4                    value
             )
 
 {
@@ -5820,32 +5820,32 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    octaneapi::double_4 * valueIn = new octaneapi::double_4(); //// value type=double_4;//// ////721////
+    octaneapi::double_4 * valueIn = new octaneapi::double_4();
     (*valueIn).set_x(value.x);
     (*valueIn).set_y(value.y);
     (*valueIn).set_z(value.z);
     (*valueIn).set_w(value.w);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add40(context.get(), request, &response);
 
@@ -5869,8 +5869,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::add(
-            const int32_t                             id, //// test821 //// 
-            const char *                              value //// last param ////
+            const int32_t                             id,
+            const char *                              value
             )
 
 {
@@ -5883,29 +5883,29 @@ void ApiBinaryGroupProxy::add(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
-    std::string * valueIn = new std::string(); //// value type=string;//// ////721////
+    std::string * valueIn = new std::string();
     *valueIn = checkString(value);
-    request.set_allocated_value(valueIn);//// 6215 ////
+    request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->add41(context.get(), request, &response);
 
@@ -5929,8 +5929,8 @@ void ApiBinaryGroupProxy::add(
 
 
 void ApiBinaryGroupProxy::addGroup(
-            const int32_t                             id, //// test821 //// 
-            const ApiBinaryGroupProxy &               group //// last param ////
+            const int32_t                             id,
+            const ApiBinaryGroupProxy &               group
             )
 
 {
@@ -5943,23 +5943,23 @@ void ApiBinaryGroupProxy::addGroup(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'group' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * groupIn = new octaneapi::ObjectRef();////761////
-    groupIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * groupIn = new octaneapi::ObjectRef();
+    groupIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     groupIn->set_handle(group.getObjectHandle());
     request.set_allocated_group(groupIn);
 
@@ -5968,7 +5968,7 @@ void ApiBinaryGroupProxy::addGroup(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->addGroup(context.get(), request, &response);
 
@@ -5992,8 +5992,8 @@ void ApiBinaryGroupProxy::addGroup(
 
 
 void ApiBinaryGroupProxy::addTable(
-            const int32_t                             id, //// test821 //// 
-            const ApiBinaryTableProxy &               table //// last param ////
+            const int32_t                             id,
+            const ApiBinaryTableProxy &               table
             )
 
 {
@@ -6006,23 +6006,23 @@ void ApiBinaryGroupProxy::addTable(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     int32_t idIn;
-    idIn = id;////2 const int32_t////
+    idIn = id;
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'table' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * tableIn = new octaneapi::ObjectRef();////761////
-    tableIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryTable);////5////
+    octaneapi::ObjectRef * tableIn = new octaneapi::ObjectRef();
+    tableIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryTable);
     tableIn->set_handle(table.getObjectHandle());
     request.set_allocated_table(tableIn);
 
@@ -6031,7 +6031,7 @@ void ApiBinaryGroupProxy::addTable(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->addTable(context.get(), request, &response);
 
@@ -6055,7 +6055,7 @@ void ApiBinaryGroupProxy::addTable(
 
 
 void ApiBinaryGroupProxy::dump(
-            const uint32_t                            indent //// last param ////
+            const uint32_t                            indent
             ) const
 
 {
@@ -6068,15 +6068,15 @@ void ApiBinaryGroupProxy::dump(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiBinaryGroup);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'indent' [in] parameter to the request packet.
     uint32_t indentIn;
-    indentIn = indent;////2 const uint32_t////
+    indentIn = indent;
     request.set_indent(indentIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -6084,7 +6084,7 @@ void ApiBinaryGroupProxy::dump(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiBinaryGroupService::Stub> stub =
         octaneapi::ApiBinaryGroupService::NewStub(getGRPCSettings().getChannel());
     status = stub->dump(context.get(), request, &response);
 

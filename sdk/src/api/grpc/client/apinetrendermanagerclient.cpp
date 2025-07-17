@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apinetrendermanagerclient.h"
 #include <cassert>
@@ -31,7 +31,7 @@ GRPCSettings & ApiNetRenderManagerProxy::getGRPCSettings()
 
 
 bool ApiNetRenderManagerProxy::configure(
-            const Octane::NetRenderSettings &         settings //// last param ////
+            const Octane::NetRenderSettings &         settings
             )
 
 {
@@ -42,17 +42,16 @@ bool ApiNetRenderManagerProxy::configure(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'settings' [in] parameter to the request packet.
-    octaneapi::NetRenderSettings * settingsIn = new octaneapi::NetRenderSettings(); //// settings type=NetRenderSettings;//// ////721////
-    //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST////
-    NetRenderSettingsConverter::convert(settings, *settingsIn); //// Convert Called type 1c =NetRenderSettings ////
-    request.set_allocated_settings(settingsIn);//// 6215 ////
+    octaneapi::NetRenderSettings * settingsIn = new octaneapi::NetRenderSettings();
+    NetRenderSettingsConverter::convert(settings, *settingsIn);
+    request.set_allocated_settings(settingsIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiNetRenderManager::configureResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub =
         octaneapi::ApiNetRenderManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->configure(context.get(), request, &response);
 
@@ -62,7 +61,7 @@ bool ApiNetRenderManagerProxy::configure(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -93,7 +92,7 @@ Octane::NetRenderSettings ApiNetRenderManagerProxy::configuration()
     octaneapi::ApiNetRenderManager::configurationResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub =
         octaneapi::ApiNetRenderManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->configuration(context.get(), request, &response);
 
@@ -103,8 +102,7 @@ Octane::NetRenderSettings ApiNetRenderManagerProxy::configuration()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::NetRenderSettings resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        NetRenderSettingsConverter::convert(resultOut, retVal); ////Convert Called type 5223 =NetRenderSettings;////
+        NetRenderSettingsConverter::convert(resultOut, retVal);
     }
     else
     {
@@ -124,7 +122,7 @@ Octane::NetRenderSettings ApiNetRenderManagerProxy::configuration()
 
 
 void ApiNetRenderManagerProxy::enable(
-            const bool                                enable //// last param ////
+            const bool                                enable
             )
 
 {
@@ -136,7 +134,7 @@ void ApiNetRenderManagerProxy::enable(
     /////////////////////////////////////////////////////////////////////
     // Add the 'enable' [in] parameter to the request packet.
     bool enableIn;
-    enableIn = enable;////2 const bool////
+    enableIn = enable;
     request.set_enable(enableIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -144,7 +142,7 @@ void ApiNetRenderManagerProxy::enable(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub =
         octaneapi::ApiNetRenderManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->enable(context.get(), request, &response);
 
@@ -179,7 +177,7 @@ bool ApiNetRenderManagerProxy::isSupported()
     octaneapi::ApiNetRenderManager::isSupportedResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub =
         octaneapi::ApiNetRenderManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->isSupported(context.get(), request, &response);
 
@@ -189,7 +187,7 @@ bool ApiNetRenderManagerProxy::isSupported()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -220,7 +218,7 @@ bool ApiNetRenderManagerProxy::isEnabled()
     octaneapi::ApiNetRenderManager::isEnabledResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub =
         octaneapi::ApiNetRenderManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->isEnabled(context.get(), request, &response);
 
@@ -230,7 +228,7 @@ bool ApiNetRenderManagerProxy::isEnabled()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -261,7 +259,7 @@ void ApiNetRenderManagerProxy::saveConfiguration()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub =
         octaneapi::ApiNetRenderManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->saveConfiguration(context.get(), request, &response);
 
@@ -296,7 +294,7 @@ void ApiNetRenderManagerProxy::openOctanePreferences()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub =
         octaneapi::ApiNetRenderManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->openOctanePreferences(context.get(), request, &response);
 
@@ -331,7 +329,7 @@ size_t ApiNetRenderManagerProxy::networkInterfaceCount()
     octaneapi::ApiNetRenderManager::networkInterfaceCountResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub =
         octaneapi::ApiNetRenderManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->networkInterfaceCount(context.get(), request, &response);
 
@@ -341,7 +339,7 @@ size_t ApiNetRenderManagerProxy::networkInterfaceCount()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -361,7 +359,7 @@ size_t ApiNetRenderManagerProxy::networkInterfaceCount()
 
 
 Octane::NetInterfaceInfo ApiNetRenderManagerProxy::networkInterface(
-            const size_t                              subnetIx //// last param ////
+            const size_t                              subnetIx
             )
 
 {
@@ -373,7 +371,7 @@ Octane::NetInterfaceInfo ApiNetRenderManagerProxy::networkInterface(
     /////////////////////////////////////////////////////////////////////
     // Add the 'subnetIx' [in] parameter to the request packet.
     uint32_t subnetixIn;
-    subnetixIn = static_cast<uint32_t>(subnetIx);////2 const size_t////
+    subnetixIn = static_cast<uint32_t>(subnetIx);
     request.set_subnetix(subnetixIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -381,7 +379,7 @@ Octane::NetInterfaceInfo ApiNetRenderManagerProxy::networkInterface(
     octaneapi::ApiNetRenderManager::networkInterfaceResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub =
         octaneapi::ApiNetRenderManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->networkInterface(context.get(), request, &response);
 
@@ -391,8 +389,7 @@ Octane::NetInterfaceInfo ApiNetRenderManagerProxy::networkInterface(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::NetInterfaceInfo resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        NetInterfaceInfoConverter::convert(resultOut, retVal); ////Convert Called type 5223 =NetInterfaceInfo;////
+        NetInterfaceInfoConverter::convert(resultOut, retVal);
     }
     else
     {
@@ -412,8 +409,8 @@ Octane::NetInterfaceInfo ApiNetRenderManagerProxy::networkInterface(
 
 
 void ApiNetRenderManagerProxy::setNetStatusListener(
-            Octane::ApiNetRenderManager::OnStatusUpdateT callback, //// test821 //// 
-            void *                                    userData //// last param ////
+            Octane::ApiNetRenderManager::OnStatusUpdateT callback,
+            void *                                    userData
             )
 
 {
@@ -424,19 +421,14 @@ void ApiNetRenderManagerProxy::setNetStatusListener(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'callback' [in] parameter to the request packet.
-    octaneapi::OnStatusUpdateT * callbackIn = new octaneapi::OnStatusUpdateT(); //// callback type=OnStatusUpdateT;//// ////721////
+    octaneapi::OnStatusUpdateT * callbackIn = new octaneapi::OnStatusUpdateT();
     // setup callback function callback
-    //int callbackCallbackId = GRPCSettings::getNextCallbackId("OnStatusUpdate"); 
-    //CallbackStorage::registerOnStatusUpdate(callbackCallbackId, callback);
     callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //callbackIn->set_callbackid(callbackCallbackId);
-    //if(className == "ApiNetRenderManager" && method.mName == "setNetStatusListener") return true;
-    request.set_allocated_callback(callbackIn);//// 6215 ////
+    request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'userData' [in] parameter to the request packet.
     uint64_t userdataIn;
-    //// USER DATA TEST ////
     userdataIn = reinterpret_cast<uint64_t>(userData);
     request.set_userdata(userdataIn);
 
@@ -445,7 +437,7 @@ void ApiNetRenderManagerProxy::setNetStatusListener(
     octaneapi::ApiNetRenderManager::setNetStatusListenerResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub =
         octaneapi::ApiNetRenderManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->setNetStatusListener(context.get(), request, &response);
 
@@ -482,7 +474,7 @@ Octane::NetRenderStatus ApiNetRenderManagerProxy::status()
     octaneapi::ApiNetRenderManager::statusResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub =
         octaneapi::ApiNetRenderManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->status(context.get(), request, &response);
 
@@ -492,8 +484,7 @@ Octane::NetRenderStatus ApiNetRenderManagerProxy::status()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::NetRenderStatus resultOut = response.result();
-        //// ApiFilePath/ApiTimeSampling/RenderPassExport TEST 2////
-        NetRenderStatusConverter::convert(resultOut, retVal); ////Convert Called type 5223 =NetRenderStatus;////
+        NetRenderStatusConverter::convert(resultOut, retVal);
     }
     else
     {
@@ -513,8 +504,8 @@ Octane::NetRenderStatus ApiNetRenderManagerProxy::status()
 
 
 void ApiNetRenderManagerProxy::setDaemonListener(
-            Octane::ApiNetRenderManager::OnDaemonUpdateT callback, //// test821 //// 
-            void *                                    userData //// last param ////
+            Octane::ApiNetRenderManager::OnDaemonUpdateT callback,
+            void *                                    userData
             )
 
 {
@@ -525,19 +516,14 @@ void ApiNetRenderManagerProxy::setDaemonListener(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'callback' [in] parameter to the request packet.
-    octaneapi::OnDaemonUpdateT * callbackIn = new octaneapi::OnDaemonUpdateT(); //// callback type=OnDaemonUpdateT;//// ////721////
+    octaneapi::OnDaemonUpdateT * callbackIn = new octaneapi::OnDaemonUpdateT();
     // setup callback function callback
-    //int callbackCallbackId = GRPCSettings::getNextCallbackId("OnDaemonUpdate"); 
-    //CallbackStorage::registerOnDaemonUpdate(callbackCallbackId, callback);
     callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //callbackIn->set_callbackid(callbackCallbackId);
-    //if(className == "ApiNetRenderManager" && method.mName == "setDaemonListener") return true;
-    request.set_allocated_callback(callbackIn);//// 6215 ////
+    request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'userData' [in] parameter to the request packet.
     uint64_t userdataIn;
-    //// USER DATA TEST ////
     userdataIn = reinterpret_cast<uint64_t>(userData);
     request.set_userdata(userdataIn);
 
@@ -546,7 +532,7 @@ void ApiNetRenderManagerProxy::setDaemonListener(
     octaneapi::ApiNetRenderManager::setDaemonListenerResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub =
         octaneapi::ApiNetRenderManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->setDaemonListener(context.get(), request, &response);
 
@@ -572,7 +558,7 @@ void ApiNetRenderManagerProxy::setDaemonListener(
 
 
 bool ApiNetRenderManagerProxy::bindDaemon(
-            const Octane::IPv4T                       ipAddress //// last param ////
+            const Octane::IPv4T                       ipAddress
             )
 
 {
@@ -584,7 +570,7 @@ bool ApiNetRenderManagerProxy::bindDaemon(
     /////////////////////////////////////////////////////////////////////
     // Add the 'ipAddress' [in] parameter to the request packet.
     uint32_t ipaddressIn;
-    ipaddressIn = ipAddress;////2 const Octane::IPv4T////
+    ipaddressIn = ipAddress;
     request.set_ipaddress(ipaddressIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -592,7 +578,7 @@ bool ApiNetRenderManagerProxy::bindDaemon(
     octaneapi::ApiNetRenderManager::bindDaemonResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub =
         octaneapi::ApiNetRenderManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->bindDaemon(context.get(), request, &response);
 
@@ -602,7 +588,7 @@ bool ApiNetRenderManagerProxy::bindDaemon(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -622,7 +608,7 @@ bool ApiNetRenderManagerProxy::bindDaemon(
 
 
 void ApiNetRenderManagerProxy::unbindDaemon(
-            const Octane::IPv4T                       ipAddress //// last param ////
+            const Octane::IPv4T                       ipAddress
             )
 
 {
@@ -634,7 +620,7 @@ void ApiNetRenderManagerProxy::unbindDaemon(
     /////////////////////////////////////////////////////////////////////
     // Add the 'ipAddress' [in] parameter to the request packet.
     uint32_t ipaddressIn;
-    ipaddressIn = ipAddress;////2 const Octane::IPv4T////
+    ipaddressIn = ipAddress;
     request.set_ipaddress(ipaddressIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -642,7 +628,7 @@ void ApiNetRenderManagerProxy::unbindDaemon(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub =
         octaneapi::ApiNetRenderManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->unbindDaemon(context.get(), request, &response);
 
@@ -666,7 +652,7 @@ void ApiNetRenderManagerProxy::unbindDaemon(
 
 
 bool ApiNetRenderManagerProxy::stealDaemon(
-            const Octane::IPv4T                       ipAddress //// last param ////
+            const Octane::IPv4T                       ipAddress
             )
 
 {
@@ -678,7 +664,7 @@ bool ApiNetRenderManagerProxy::stealDaemon(
     /////////////////////////////////////////////////////////////////////
     // Add the 'ipAddress' [in] parameter to the request packet.
     uint32_t ipaddressIn;
-    ipaddressIn = ipAddress;////2 const Octane::IPv4T////
+    ipaddressIn = ipAddress;
     request.set_ipaddress(ipaddressIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -686,7 +672,7 @@ bool ApiNetRenderManagerProxy::stealDaemon(
     octaneapi::ApiNetRenderManager::stealDaemonResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiNetRenderManagerService::Stub> stub =
         octaneapi::ApiNetRenderManagerService::NewStub(getGRPCSettings().getChannel());
     status = stub->stealDaemon(context.get(), request, &response);
 
@@ -696,7 +682,7 @@ bool ApiNetRenderManagerProxy::stealDaemon(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {

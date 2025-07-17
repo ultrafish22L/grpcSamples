@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apitilegridloaderclient.h"
 #include <cassert>
@@ -41,7 +41,7 @@ ApiTileGridLoaderProxy ApiTileGridLoaderProxy::create()
     octaneapi::ApiTileGridLoader::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -69,7 +69,7 @@ ApiTileGridLoaderProxy ApiTileGridLoaderProxy::create()
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiTileGridLoaderProxy retVal;////714////
+        ApiTileGridLoaderProxy retVal;
         return retVal;
     }
 };
@@ -86,8 +86,8 @@ void ApiTileGridLoaderProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -96,7 +96,7 @@ void ApiTileGridLoaderProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -120,7 +120,7 @@ void ApiTileGridLoaderProxy::destroy()
 
 
 void ApiTileGridLoaderProxy::loadFromNodeItem(
-            const ApiItemProxy *                      node //// last param ////
+            const ApiItemProxy *                      node
             )
 
 {
@@ -133,8 +133,8 @@ void ApiTileGridLoaderProxy::loadFromNodeItem(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -142,8 +142,8 @@ void ApiTileGridLoaderProxy::loadFromNodeItem(
     // Add the 'node' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * nodeIn = new octaneapi::ObjectRef();////761////
-    nodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);////5////
+    octaneapi::ObjectRef * nodeIn = new octaneapi::ObjectRef();
+    nodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
     nodeIn->set_handle(node->getObjectHandle());
     request.set_allocated_node(nodeIn);
 
@@ -152,7 +152,7 @@ void ApiTileGridLoaderProxy::loadFromNodeItem(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->loadFromNodeItem(context.get(), request, &response);
 
@@ -176,7 +176,7 @@ void ApiTileGridLoaderProxy::loadFromNodeItem(
 
 
 void ApiTileGridLoaderProxy::saveToNodeItem(
-            ApiItemProxy *                            node //// last param ////
+            ApiItemProxy *                            node
             )
 
 {
@@ -189,8 +189,8 @@ void ApiTileGridLoaderProxy::saveToNodeItem(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -199,7 +199,7 @@ void ApiTileGridLoaderProxy::saveToNodeItem(
     octaneapi::ApiTileGridLoader::saveToNodeItemResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->saveToNodeItem(context.get(), request, &response);
 
@@ -208,7 +208,7 @@ void ApiTileGridLoaderProxy::saveToNodeItem(
         /////////////////////////////////////////////////////////////////////
         // Process 'node' [out] parameter from the gRPC response packet
         octaneapi::ObjectRef nodeOut = response.node();
-        node->attachObjectHandle(nodeOut.handle());////test 79b////
+        node->attachObjectHandle(nodeOut.handle());
     }
     else
     {
@@ -227,9 +227,9 @@ void ApiTileGridLoaderProxy::saveToNodeItem(
 
 
 void ApiTileGridLoaderProxy::applyStoredSettings(
-            const Octane::ApiTileGridSettings &       initialSettings, //// test821 //// 
-            Octane::ApiArray<const char *>            initialFiles, //// test821 //// 
-            bool                                      inPackage //// last param ////
+            const Octane::ApiTileGridSettings &       initialSettings,
+            Octane::ApiArray<const char *>            initialFiles,
+            bool                                      inPackage
             )
 
 {
@@ -242,33 +242,31 @@ void ApiTileGridLoaderProxy::applyStoredSettings(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'initialSettings' [in] parameter to the request packet.
-    octaneapi::ApiTileGridSettings * initialsettingsIn = new octaneapi::ApiTileGridSettings(); //// initialSettings type=ApiTileGridSettings;//// ////721////
+    octaneapi::ApiTileGridSettings * initialsettingsIn = new octaneapi::ApiTileGridSettings();
     // Using Converter 5, type = const Octane::ApiTileGridSettings &, protoType = ApiTileGridSettings
-    ApiTileGridSettingsConverter::convert(initialSettings, *initialsettingsIn); //// Convert Called type 1a =ApiTileGridSettings////
-    request.set_allocated_initialsettings(initialsettingsIn);//// 6215 ////
+    ApiTileGridSettingsConverter::convert(initialSettings, *initialsettingsIn);
+    request.set_allocated_initialsettings(initialsettingsIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'initialFiles' [in] parameter to the request packet.
-    octaneapi::StringArrayT * initialfilesIn = new octaneapi::StringArrayT(); //// initialFiles type=StringArrayT;//// ////721////
-    //// Client Array Type B////
-    //// param.mProtoCppType = StringArrayT param.mType = ApiArray<const char *> ////
+    octaneapi::StringArrayT * initialfilesIn = new octaneapi::StringArrayT();
     for (int h = 0; h < initialFiles.mSize; h++)
     {
         initialfilesIn->add_data(static_cast<std::string>(initialFiles.mData[h]));
     }
-    request.set_allocated_initialfiles(initialfilesIn);//// 6215 ////
+    request.set_allocated_initialfiles(initialfilesIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'inPackage' [in] parameter to the request packet.
     bool inpackageIn;
-    inpackageIn = inPackage;////2 bool////
+    inpackageIn = inPackage;
     request.set_inpackage(inpackageIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -276,7 +274,7 @@ void ApiTileGridLoaderProxy::applyStoredSettings(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->applyStoredSettings(context.get(), request, &response);
 
@@ -300,8 +298,8 @@ void ApiTileGridLoaderProxy::applyStoredSettings(
 
 
 void ApiTileGridLoaderProxy::inferSettingsFromFilename(
-            const char *                              firstImg, //// test821 //// 
-            Octane::uint32_2 &                        indices //// last param ////
+            const char *                              firstImg,
+            Octane::uint32_2 &                        indices
             )
 
 {
@@ -314,23 +312,23 @@ void ApiTileGridLoaderProxy::inferSettingsFromFilename(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'firstImg' [in] parameter to the request packet.
-    std::string * firstimgIn = new std::string(); //// firstImg type=string;//// ////721////
+    std::string * firstimgIn = new std::string();
     *firstimgIn = checkString(firstImg);
-    request.set_allocated_firstimg(firstimgIn);//// 6215 ////
+    request.set_allocated_firstimg(firstimgIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiTileGridLoader::inferSettingsFromFilenameResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->inferSettingsFromFilename(context.get(), request, &response);
 
@@ -359,7 +357,7 @@ void ApiTileGridLoaderProxy::inferSettingsFromFilename(
 
 
 void ApiTileGridLoaderProxy::scanTiles(
-            OctaneVec::uint32_2                       newSize //// last param ////
+            OctaneVec::uint32_2                       newSize
             )
 
 {
@@ -372,24 +370,24 @@ void ApiTileGridLoaderProxy::scanTiles(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'newSize' [in] parameter to the request packet.
-    octaneapi::uint32_2 * newsizeIn = new octaneapi::uint32_2(); //// newSize type=uint32_2;//// ////721////
+    octaneapi::uint32_2 * newsizeIn = new octaneapi::uint32_2();
     (*newsizeIn).set_x(newSize.x);
     (*newsizeIn).set_y(newSize.y);
-    request.set_allocated_newsize(newsizeIn);//// 6215 ////
+    request.set_allocated_newsize(newsizeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->scanTiles(context.get(), request, &response);
 
@@ -423,8 +421,8 @@ void ApiTileGridLoaderProxy::automaticSizeGrid()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -433,7 +431,7 @@ void ApiTileGridLoaderProxy::automaticSizeGrid()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->automaticSizeGrid(context.get(), request, &response);
 
@@ -467,8 +465,8 @@ const Octane::ApiTileGridSettings ApiTileGridLoaderProxy::getSettings() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -477,7 +475,7 @@ const Octane::ApiTileGridSettings ApiTileGridLoaderProxy::getSettings() const
     octaneapi::ApiTileGridLoader::getSettingsResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->getSettings(context.get(), request, &response);
 
@@ -508,7 +506,7 @@ const Octane::ApiTileGridSettings ApiTileGridLoaderProxy::getSettings() const
 
 
 void ApiTileGridLoaderProxy::updateSettings(
-            const Octane::ApiTileGridSettings &       settings //// last param ////
+            const Octane::ApiTileGridSettings &       settings
             )
 
 {
@@ -521,24 +519,24 @@ void ApiTileGridLoaderProxy::updateSettings(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'settings' [in] parameter to the request packet.
-    octaneapi::ApiTileGridSettings * settingsIn = new octaneapi::ApiTileGridSettings(); //// settings type=ApiTileGridSettings;//// ////721////
+    octaneapi::ApiTileGridSettings * settingsIn = new octaneapi::ApiTileGridSettings();
     // Using Converter 5, type = const Octane::ApiTileGridSettings &, protoType = ApiTileGridSettings
-    ApiTileGridSettingsConverter::convert(settings, *settingsIn); //// Convert Called type 1a =ApiTileGridSettings////
-    request.set_allocated_settings(settingsIn);//// 6215 ////
+    ApiTileGridSettingsConverter::convert(settings, *settingsIn);
+    request.set_allocated_settings(settingsIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->updateSettings(context.get(), request, &response);
 
@@ -572,8 +570,8 @@ std::vector<std::string> ApiTileGridLoaderProxy::getFiles()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -582,7 +580,7 @@ std::vector<std::string> ApiTileGridLoaderProxy::getFiles()
     octaneapi::ApiTileGridLoader::getFilesResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->getFiles(context.get(), request, &response);
 
@@ -591,11 +589,10 @@ std::vector<std::string> ApiTileGridLoaderProxy::getFiles()
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::StringArrayT resultOut = response.result();
-        std::vector<std::string> retVal;////218////
+        std::vector<std::string> retVal;
         retVal.reserve(resultOut.data_size());
         for (int i = 0; i < resultOut.data_size(); i++)
         {
-            //// param.mProtoCppType = StringArrayT param.mType = ApiArray<const char *> ////
             retVal.push_back(resultOut.data(i));
         }
         return retVal;
@@ -618,7 +615,7 @@ std::vector<std::string> ApiTileGridLoaderProxy::getFiles()
 
 
 void ApiTileGridLoaderProxy::setFiles(
-            Octane::ApiArray<const char *>            files //// last param ////
+            Octane::ApiArray<const char *>            files
             )
 
 {
@@ -631,28 +628,26 @@ void ApiTileGridLoaderProxy::setFiles(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'files' [in] parameter to the request packet.
-    octaneapi::StringArrayT * filesIn = new octaneapi::StringArrayT(); //// files type=StringArrayT;//// ////721////
-    //// Client Array Type B////
-    //// param.mProtoCppType = StringArrayT param.mType = ApiArray<const char *> ////
+    octaneapi::StringArrayT * filesIn = new octaneapi::StringArrayT();
     for (int h = 0; h < files.mSize; h++)
     {
         filesIn->add_data(static_cast<std::string>(files.mData[h]));
     }
-    request.set_allocated_files(filesIn);//// 6215 ////
+    request.set_allocated_files(filesIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->setFiles(context.get(), request, &response);
 
@@ -676,7 +671,7 @@ void ApiTileGridLoaderProxy::setFiles(
 
 
 bool ApiTileGridLoaderProxy::hasFileInCell(
-            const Octane::uint32_2                    cellIndex //// last param ////
+            const Octane::uint32_2                    cellIndex
             ) const
 
 {
@@ -689,24 +684,24 @@ bool ApiTileGridLoaderProxy::hasFileInCell(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'cellIndex' [in] parameter to the request packet.
-    octaneapi::uint32_2 * cellindexIn = new octaneapi::uint32_2(); //// cellIndex type=uint32_2;//// ////721////
+    octaneapi::uint32_2 * cellindexIn = new octaneapi::uint32_2();
     (*cellindexIn).set_x(cellIndex.x);
     (*cellindexIn).set_y(cellIndex.y);
-    request.set_allocated_cellindex(cellindexIn);//// 6215 ////
+    request.set_allocated_cellindex(cellindexIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiTileGridLoader::hasFileInCellResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->hasFileInCell(context.get(), request, &response);
 
@@ -716,7 +711,7 @@ bool ApiTileGridLoaderProxy::hasFileInCell(
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -736,7 +731,7 @@ bool ApiTileGridLoaderProxy::hasFileInCell(
 
 
 std::string ApiTileGridLoaderProxy::fileNameForCell(
-            const Octane::uint32_2                    cellIndex //// last param ////
+            const Octane::uint32_2                    cellIndex
             ) const
 
 {
@@ -749,24 +744,24 @@ std::string ApiTileGridLoaderProxy::fileNameForCell(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'cellIndex' [in] parameter to the request packet.
-    octaneapi::uint32_2 * cellindexIn = new octaneapi::uint32_2(); //// cellIndex type=uint32_2;//// ////721////
+    octaneapi::uint32_2 * cellindexIn = new octaneapi::uint32_2();
     (*cellindexIn).set_x(cellIndex.x);
     (*cellindexIn).set_y(cellIndex.y);
-    request.set_allocated_cellindex(cellindexIn);//// 6215 ////
+    request.set_allocated_cellindex(cellindexIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiTileGridLoader::fileNameForCellResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->fileNameForCell(context.get(), request, &response);
 
@@ -777,7 +772,7 @@ std::string ApiTileGridLoaderProxy::fileNameForCell(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -807,8 +802,8 @@ size_t ApiTileGridLoaderProxy::count() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -817,7 +812,7 @@ size_t ApiTileGridLoaderProxy::count() const
     octaneapi::ApiTileGridLoader::countResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->count(context.get(), request, &response);
 
@@ -827,7 +822,7 @@ size_t ApiTileGridLoaderProxy::count() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         uint32_t resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -847,7 +842,7 @@ size_t ApiTileGridLoaderProxy::count() const
 
 
 void ApiTileGridLoaderProxy::updatePattern(
-            const char *                              pattern //// last param ////
+            const char *                              pattern
             )
 
 {
@@ -860,23 +855,23 @@ void ApiTileGridLoaderProxy::updatePattern(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'pattern' [in] parameter to the request packet.
-    std::string * patternIn = new std::string(); //// pattern type=string;//// ////721////
+    std::string * patternIn = new std::string();
     *patternIn = checkString(pattern);
-    request.set_allocated_pattern(patternIn);//// 6215 ////
+    request.set_allocated_pattern(patternIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->updatePattern(context.get(), request, &response);
 
@@ -910,8 +905,8 @@ bool ApiTileGridLoaderProxy::hasEmptyPattern() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -920,7 +915,7 @@ bool ApiTileGridLoaderProxy::hasEmptyPattern() const
     octaneapi::ApiTileGridLoader::hasEmptyPatternResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->hasEmptyPattern(context.get(), request, &response);
 
@@ -930,7 +925,7 @@ bool ApiTileGridLoaderProxy::hasEmptyPattern() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -960,8 +955,8 @@ std::string ApiTileGridLoaderProxy::patternString() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -970,7 +965,7 @@ std::string ApiTileGridLoaderProxy::patternString() const
     octaneapi::ApiTileGridLoader::patternStringResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->patternString(context.get(), request, &response);
 
@@ -981,7 +976,7 @@ std::string ApiTileGridLoaderProxy::patternString() const
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {
@@ -1011,8 +1006,8 @@ bool ApiTileGridLoaderProxy::hasPlaceholders() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1021,7 +1016,7 @@ bool ApiTileGridLoaderProxy::hasPlaceholders() const
     octaneapi::ApiTileGridLoader::hasPlaceholdersResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->hasPlaceholders(context.get(), request, &response);
 
@@ -1031,7 +1026,7 @@ bool ApiTileGridLoaderProxy::hasPlaceholders() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -1061,8 +1056,8 @@ bool ApiTileGridLoaderProxy::hasIndex() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1071,7 +1066,7 @@ bool ApiTileGridLoaderProxy::hasIndex() const
     octaneapi::ApiTileGridLoader::hasIndexResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->hasIndex(context.get(), request, &response);
 
@@ -1081,7 +1076,7 @@ bool ApiTileGridLoaderProxy::hasIndex() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -1111,8 +1106,8 @@ bool ApiTileGridLoaderProxy::hasUDIM() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1121,7 +1116,7 @@ bool ApiTileGridLoaderProxy::hasUDIM() const
     octaneapi::ApiTileGridLoader::hasUDIMResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->hasUDIM(context.get(), request, &response);
 
@@ -1131,7 +1126,7 @@ bool ApiTileGridLoaderProxy::hasUDIM() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -1161,8 +1156,8 @@ bool ApiTileGridLoaderProxy::hasUv() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -1171,7 +1166,7 @@ bool ApiTileGridLoaderProxy::hasUv() const
     octaneapi::ApiTileGridLoader::hasUvResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->hasUv(context.get(), request, &response);
 
@@ -1181,7 +1176,7 @@ bool ApiTileGridLoaderProxy::hasUv() const
         /////////////////////////////////////////////////////////////////////
         // Process 'result' [out] parameter from the gRPC response packet
         bool resultOut = response.result();
-        retVal = resultOut;////jan////
+        retVal = resultOut;
     }
     else
     {
@@ -1201,10 +1196,10 @@ bool ApiTileGridLoaderProxy::hasUv() const
 
 
 std::string ApiTileGridLoaderProxy::substitute(
-            const uint32_t                            start, //// test821 //// 
-            const uint32_t                            index, //// test821 //// 
-            const uint32_t                            u, //// test821 //// 
-            const uint32_t                            v //// last param ////
+            const uint32_t                            start,
+            const uint32_t                            index,
+            const uint32_t                            u,
+            const uint32_t                            v
             )
 
 {
@@ -1217,33 +1212,33 @@ std::string ApiTileGridLoaderProxy::substitute(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTileGridLoader);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'start' [in] parameter to the request packet.
     uint32_t startIn;
-    startIn = start;////2 const uint32_t////
+    startIn = start;
     request.set_start(startIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'index' [in] parameter to the request packet.
     uint32_t indexIn;
-    indexIn = index;////2 const uint32_t////
+    indexIn = index;
     request.set_index(indexIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'u' [in] parameter to the request packet.
     uint32_t uIn;
-    uIn = u;////2 const uint32_t////
+    uIn = u;
     request.set_u(uIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'v' [in] parameter to the request packet.
     uint32_t vIn;
-    vIn = v;////2 const uint32_t////
+    vIn = v;
     request.set_v(vIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1251,7 +1246,7 @@ std::string ApiTileGridLoaderProxy::substitute(
     octaneapi::ApiTileGridLoader::substituteResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTileGridLoaderService::Stub> stub =
         octaneapi::ApiTileGridLoaderService::NewStub(getGRPCSettings().getChannel());
     status = stub->substitute(context.get(), request, &response);
 
@@ -1262,7 +1257,7 @@ std::string ApiTileGridLoaderProxy::substitute(
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {

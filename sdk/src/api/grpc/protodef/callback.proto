@@ -63,31 +63,33 @@ service CallbackHandler
     rpc OnWindowClose (OnWindowCloseRequest) returns (CallbackAck);
 }
 
+
 service StreamCallbackService
 {
-    rpc callbackChannel(stream StreamCallbackResponse) returns (stream StreamCallbackRequest);
-}
-
-
-message StreamCallbackResponse
-{
-    string request_id = 1;
-    bool success = 2;
-    string stringValue = 3;
-    int32 intValue = 4;
-    bool boolValue = 5;
+    rpc callbackChannel(google.protobuf.Empty) returns (stream StreamCallbackRequest);
 }
 
 
 message StreamCallbackRequest
 {
-  string request_id = 1;
-
-  oneof payload {
-    OnNewImageRequest newImage = 10;
-    // Add more callback types here
-  }
+    oneof payload
+    {
+        OnNewImageRequest      newImage = 10;
+        BasicCallbackRequest   renderFailure = 11;
+        BasicCallbackRequest   newStatistics = 12;
+        BasicCallbackRequest   projectManagerChanged = 13;
+    }
 }
+
+
+//message StreamCallbackResponse
+//{
+   //string request_id = 1;
+   //bool success = 2;
+   //string stringValue = 3;
+   //int32 intValue = 4;
+   //bool boolValue = 5;
+//}
 
 
 message LoadRenderStateProjectRequest
@@ -204,13 +206,11 @@ message StartRequest
     int32 secondLanguage = 3;
 }
 
-// A possible response after requesting start.
 message StartResponse
 {
     bool success = 1;
 }
 
-// A simple request message for stopping the module.
 message StopRequest
 {
 

@@ -27,7 +27,7 @@ class GRPCSettings;
 class ApiMainWindowProxy : public ApiGuiComponentProxy
 {
 public:
-    /// Fetches or creates a new ApiMainWindow. Only one can exist. 
+    /// Fetches or creates a new ApiMainWindow. Only one can exist.
     ///
     /// @param[in] callback
     ///     A function ptr that will be called when this window is closed. Keep in mind that when
@@ -45,21 +45,21 @@ public:
             void *const                               callbackPrivateData
             );
 
-    /// Yields to perform some UI tasks. Unblocks the UI for a specified amount of time. Note that 
+    /// Yields to perform some UI tasks. Unblocks the UI for a specified amount of time. Note that
     /// this function calls Thread::sleep(), so if you need this function to not yield the thread,
-    /// (which sometimes causes problems), then pass 0 to clear the message queue and return 
+    /// (which sometimes causes problems), then pass 0 to clear the message queue and return
     /// without yielding.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void runDispatchLoopUntil(
-            const int                                 millis
+            const int   millis
             );
 
-    /// Sets the DPI of the UI. 
+    /// Sets the DPI of the UI.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void setDpi(
-            const uint32_t                            dpi
+            const uint32_t   dpi
             );
 
     /// Windows only have a single content component. You don't add to a window by calling
@@ -75,20 +75,20 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void addContentComponent(
-            ApiGuiComponentProxy &                    contentComponent
+            ApiGuiComponentProxy &   contentComponent
             );
 
     /// Returns the ProjectWorkspace of this MainWindow. This pointer is owned by Octane; do not
     /// destroy it.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    ApiProjectWorkspaceProxy projectWorkspace(            ) const;
+    ApiProjectWorkspaceProxy projectWorkspace() const;
 
     /// Returns the ProjectWorkspace of this MainWindow. This pointer is owned by Octane; do not
     /// destroy it.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    ApiProjectWorkspaceProxy projectWorkspace(            );
+    ApiProjectWorkspaceProxy projectWorkspace();
 
     /// Shows this window.
     ///
@@ -98,21 +98,21 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void show(
-            bool                                      maximized
+            bool   maximized
             );
 
     /// Hides this window again.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void hide(            );
+    void hide();
 
     /// Returns TRUE if this window is visible.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool visible(            ) const;
+    bool visible() const;
 
     /// Sets default ApiNodeGraph to be shown by any ApiNodeGraphEditors created by the user.
-    /// 
+    ///
     /// Please note that the set node graph will only be used by newly create node graph editors and
     /// doesn't affect already existing node graph editors. Ideally, this should be set before the
     /// any node graph editors are created, i.e. right at the beginning.
@@ -125,13 +125,13 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void setDefaultGraph(
-            ApiNodeGraphProxy *                       graph
+            ApiNodeGraphProxy *   graph
             );
 
     /// Gets the default ApiNodeGraph to be shown by any ApiNodeGraphEditors created by the user.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    ApiNodeGraphProxy defaultGraph(            ) const;
+    ApiNodeGraphProxy defaultGraph() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

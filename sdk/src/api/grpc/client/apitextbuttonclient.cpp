@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apitextbuttonclient.h"
 #include <cassert>
@@ -28,9 +28,9 @@ GRPCSettings & ApiTextButtonProxy::getGRPCSettings()
 
 
 ApiTextButtonProxy ApiTextButtonProxy::create(
-            const char *                              text, //// test821 //// 
-            GRPCButtonClickedCallbackT               clickCallback, //// test821 //// 
-            void *                                    privateData //// last param ////
+            const char *                              text,
+            GRPCButtonClickedCallbackT               clickCallback,
+            void *                                    privateData
             )
 
 {
@@ -41,25 +41,20 @@ ApiTextButtonProxy ApiTextButtonProxy::create(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'text' [in] parameter to the request packet.
-    std::string * textIn = new std::string(); //// text type=string;//// ////721////
+    std::string * textIn = new std::string();
     *textIn = checkString(text);
-    request.set_allocated_text(textIn);//// 6215 ////
+    request.set_allocated_text(textIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'clickCallback' [in] parameter to the request packet.
-    octaneapi::ButtonClickedCallbackT * clickcallbackIn = new octaneapi::ButtonClickedCallbackT(); //// clickCallback type=ButtonClickedCallbackT;//// ////721////
+    octaneapi::ButtonClickedCallbackT * clickcallbackIn = new octaneapi::ButtonClickedCallbackT();
     // setup callback function clickCallback
-    //int clickCallbackCallbackId = GRPCSettings::getNextCallbackId("GRPCButtonClickedCallback"); 
-    //CallbackStorage::registerGRPCButtonClickedCallback(clickCallbackCallbackId, clickCallback);
     clickcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //clickcallbackIn->set_callbackid(clickCallbackCallbackId);
-    //if(className == "ApiTextButton" && method.mName == "create") return true;
-    request.set_allocated_clickcallback(clickcallbackIn);//// 6215 ////
+    request.set_allocated_clickcallback(clickcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'privateData' [in] parameter to the request packet.
     uint64_t privatedataIn;
-    //// USER DATA TEST ////
     privatedataIn = reinterpret_cast<uint64_t>(privateData);
     request.set_privatedata(privatedataIn);
 
@@ -68,7 +63,7 @@ ApiTextButtonProxy ApiTextButtonProxy::create(
     octaneapi::ApiTextButton::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTextButtonService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTextButtonService::Stub> stub =
         octaneapi::ApiTextButtonService::NewStub(getGRPCSettings().getChannel());
     status = stub->create(context.get(), request, &response);
 
@@ -102,7 +97,7 @@ ApiTextButtonProxy ApiTextButtonProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiTextButtonProxy retVal;////714////
+        ApiTextButtonProxy retVal;
         return retVal;
     }
 };
@@ -119,8 +114,8 @@ void ApiTextButtonProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextButton);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextButton);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -129,7 +124,7 @@ void ApiTextButtonProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTextButtonService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTextButtonService::Stub> stub =
         octaneapi::ApiTextButtonService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy(context.get(), request, &response);
 
@@ -153,7 +148,7 @@ void ApiTextButtonProxy::destroy()
 
 
 void ApiTextButtonProxy::setText(
-            const char *                              text //// last param ////
+            const char *                              text
             )
 
 {
@@ -166,23 +161,23 @@ void ApiTextButtonProxy::setText(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextButton);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextButton);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'text' [in] parameter to the request packet.
-    std::string * textIn = new std::string(); //// text type=string;//// ////721////
+    std::string * textIn = new std::string();
     *textIn = checkString(text);
-    request.set_allocated_text(textIn);//// 6215 ////
+    request.set_allocated_text(textIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTextButtonService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTextButtonService::Stub> stub =
         octaneapi::ApiTextButtonService::NewStub(getGRPCSettings().getChannel());
     status = stub->setText(context.get(), request, &response);
 
@@ -216,8 +211,8 @@ std::string ApiTextButtonProxy::text() const
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextButton);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiTextButton);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -226,7 +221,7 @@ std::string ApiTextButtonProxy::text() const
     octaneapi::ApiTextButton::textResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiTextButtonService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiTextButtonService::Stub> stub =
         octaneapi::ApiTextButtonService::NewStub(getGRPCSettings().getChannel());
     status = stub->text(context.get(), request, &response);
 
@@ -237,7 +232,7 @@ std::string ApiTextButtonProxy::text() const
         // Process 'result' [out] parameter from the gRPC response packet
         std::string resultOut = response.result();
         // param.mType = const char *
-        retVal =  resultOut;////ex string mgr////
+        retVal =  resultOut;
     }
     else
     {

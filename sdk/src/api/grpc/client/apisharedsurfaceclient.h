@@ -93,14 +93,14 @@ public:
     ///     A hash value the underlying shared surface object, or some fixed hash value if surface
     ///     is null.
     static size_t hash(
-            const ApiSharedSurfaceProxy *             surface
+            const ApiSharedSurfaceProxy *   surface
             );
 
     /// Destroys this specific ApiSharedSurface instance, decrementing the reference count of the
     /// underlying shared surface object.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void release(            );
+    void release();
 
     /// Creates a new ApiSharedSurface instance that refers to the same underlying shared surface
     /// object as this instance.
@@ -109,7 +109,7 @@ public:
     ///     Contains the status of the gRPC call
     /// @return
     ///     The created instance. Will not be null. Must be released.
-    ApiSharedSurfaceProxy clone(            ) const;
+    ApiSharedSurfaceProxy clone() const;
 
     /// Gets the type of the shared surface.
     ///
@@ -120,7 +120,7 @@ public:
     /// SHARED_SURFACE_TYPE_NONE.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    Octane::SharedSurfaceType getType(            ) const;
+    Octane::SharedSurfaceType getType() const;
 
     /// Gets the LUID of the D3D11 adapter on which the shared texture exists. Must not be called
     /// unless the type is SHARED_SURFACE_TYPE_D3D11.
@@ -131,7 +131,7 @@ public:
     /// Will always return the same value for the same instance. Will not return null.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    uint64_t getD3D11AdapterLuid(            ) const;
+    uint64_t getD3D11AdapterLuid() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

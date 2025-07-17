@@ -1,8 +1,8 @@
 // Copyright (C) 2025 OTOY NZ Ltd.
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "apiworkpanemoduleinfoclient.h"
 #include <cassert>
@@ -28,11 +28,11 @@ GRPCSettings & ApiWorkPaneModuleInfoProxy::getGRPCSettings()
 
 
 ApiWorkPaneModuleInfoProxy ApiWorkPaneModuleInfoProxy::create(
-            const Octane::ModuleIdT                   moduleId, //// test821 //// 
-            const char *                              fullName, //// test821 //// 
-            const char *                              description, //// test821 //// 
-            const char *                              author, //// test821 //// 
-            const Octane::VersionT                    versionNumber //// last param ////
+            const Octane::ModuleIdT                   moduleId,
+            const char *                              fullName,
+            const char *                              description,
+            const char *                              author,
+            const Octane::VersionT                    versionNumber
             )
 
 {
@@ -43,33 +43,32 @@ ApiWorkPaneModuleInfoProxy ApiWorkPaneModuleInfoProxy::create(
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'moduleId' [in] parameter to the request packet.
-    octaneapi::ModuleIdT * moduleidIn = new octaneapi::ModuleIdT(); //// moduleId type=ModuleIdT;//// ////721////
-    //// ModuleIdT TEST////
+    octaneapi::ModuleIdT * moduleidIn = new octaneapi::ModuleIdT();
     moduleidIn->set_id(moduleId);
-    request.set_allocated_moduleid(moduleidIn);//// 6215 ////
+    request.set_allocated_moduleid(moduleidIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'fullName' [in] parameter to the request packet.
-    std::string * fullnameIn = new std::string(); //// fullName type=string;//// ////721////
+    std::string * fullnameIn = new std::string();
     *fullnameIn = checkString(fullName);
-    request.set_allocated_fullname(fullnameIn);//// 6215 ////
+    request.set_allocated_fullname(fullnameIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'description' [in] parameter to the request packet.
-    std::string * descriptionIn = new std::string(); //// description type=string;//// ////721////
+    std::string * descriptionIn = new std::string();
     *descriptionIn = checkString(description);
-    request.set_allocated_description(descriptionIn);//// 6215 ////
+    request.set_allocated_description(descriptionIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'author' [in] parameter to the request packet.
-    std::string * authorIn = new std::string(); //// author type=string;//// ////721////
+    std::string * authorIn = new std::string();
     *authorIn = checkString(author);
-    request.set_allocated_author(authorIn);//// 6215 ////
+    request.set_allocated_author(authorIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'versionNumber' [in] parameter to the request packet.
     uint32_t versionnumberIn;
-    versionnumberIn = versionNumber;////2 const Octane::VersionT////
+    versionnumberIn = versionNumber;
     request.set_versionnumber(versionnumberIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -77,7 +76,7 @@ ApiWorkPaneModuleInfoProxy ApiWorkPaneModuleInfoProxy::create(
     octaneapi::ApiWorkPaneModuleInfo::createResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiWorkPaneModuleInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiWorkPaneModuleInfoService::Stub> stub =
         octaneapi::ApiWorkPaneModuleInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->create2(context.get(), request, &response);
 
@@ -105,7 +104,7 @@ ApiWorkPaneModuleInfoProxy ApiWorkPaneModuleInfoProxy::create(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        ApiWorkPaneModuleInfoProxy retVal;////714////
+        ApiWorkPaneModuleInfoProxy retVal;
         return retVal;
     }
 };
@@ -122,8 +121,8 @@ void ApiWorkPaneModuleInfoProxy::destroy()
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiWorkPaneModuleInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiWorkPaneModuleInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
@@ -132,7 +131,7 @@ void ApiWorkPaneModuleInfoProxy::destroy()
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiWorkPaneModuleInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiWorkPaneModuleInfoService::Stub> stub =
         octaneapi::ApiWorkPaneModuleInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->destroy2(context.get(), request, &response);
 
@@ -156,7 +155,7 @@ void ApiWorkPaneModuleInfoProxy::destroy()
 
 
 void ApiWorkPaneModuleInfoProxy::setInitFunction(
-            GRPCInitFuncT                            func //// last param ////
+            GRPCInitFuncT                            func
             )
 
 {
@@ -169,28 +168,24 @@ void ApiWorkPaneModuleInfoProxy::setInitFunction(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiWorkPaneModuleInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiWorkPaneModuleInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'func' [in] parameter to the request packet.
-    octaneapi::InitFuncT * funcIn = new octaneapi::InitFuncT(); //// func type=InitFuncT;//// ////721////
+    octaneapi::InitFuncT * funcIn = new octaneapi::InitFuncT();
     // setup callback function func
-    //int funcCallbackId = GRPCSettings::getNextCallbackId("GRPCInitFunc"); 
-    //CallbackStorage::registerGRPCInitFunc(funcCallbackId, func);
     funcIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //funcIn->set_callbackid(funcCallbackId);
-    //if(className == "ApiWorkPaneModuleInfo" && method.mName == "setInitFunction") return true;
-    request.set_allocated_func(funcIn);//// 6215 ////
+    request.set_allocated_func(funcIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiWorkPaneModuleInfo::setInitFunctionResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiWorkPaneModuleInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiWorkPaneModuleInfoService::Stub> stub =
         octaneapi::ApiWorkPaneModuleInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->setInitFunction(context.get(), request, &response);
 
@@ -216,7 +211,7 @@ void ApiWorkPaneModuleInfoProxy::setInitFunction(
 
 
 void ApiWorkPaneModuleInfoProxy::setCleanupFunction(
-            const Octane::ApiWorkPaneModuleInfo::CleanupFuncT func //// last param ////
+            const Octane::ApiWorkPaneModuleInfo::CleanupFuncT func
             )
 
 {
@@ -229,28 +224,24 @@ void ApiWorkPaneModuleInfoProxy::setCleanupFunction(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiWorkPaneModuleInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiWorkPaneModuleInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'func' [in] parameter to the request packet.
-    octaneapi::CleanupFuncT * funcIn = new octaneapi::CleanupFuncT(); //// func type=CleanupFuncT;//// ////721////
+    octaneapi::CleanupFuncT * funcIn = new octaneapi::CleanupFuncT();
     // setup callback function func
-    //int funcCallbackId = GRPCSettings::getNextCallbackId("CleanupFunc"); 
-    //CallbackStorage::registerCleanupFunc(funcCallbackId, func);
     funcIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    //funcIn->set_callbackid(funcCallbackId);
-    //if(className == "ApiWorkPaneModuleInfo" && method.mName == "setCleanupFunction") return true;
-    request.set_allocated_func(funcIn);//// 6215 ////
+    request.set_allocated_func(funcIn);
 
     /////////////////////////////////////////////////////////////////////
     // Make the call to the server
     octaneapi::ApiWorkPaneModuleInfo::setCleanupFunctionResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiWorkPaneModuleInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiWorkPaneModuleInfoService::Stub> stub =
         octaneapi::ApiWorkPaneModuleInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->setCleanupFunction(context.get(), request, &response);
 
@@ -276,8 +267,8 @@ void ApiWorkPaneModuleInfoProxy::setCleanupFunction(
 
 
 void ApiWorkPaneModuleInfoProxy::setWorkPaneToolbarIds(
-            const Octane::ModuleIdT *const            toolbarModuleIds, //// test821 //// 
-            const size_t                              size //// last param ////
+            const Octane::ModuleIdT *const            toolbarModuleIds,
+            const size_t                              size
             )
 
 {
@@ -290,27 +281,25 @@ void ApiWorkPaneModuleInfoProxy::setWorkPaneToolbarIds(
     // Add the 'objectPtr' [in] parameter to the request packet.
     // The proxy object contains the ID of the remote object. Pass this ID to the server
     // using a `ObjectRef` object.
-    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();////761////
-    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiWorkPaneModuleInfo);////5////
+    octaneapi::ObjectRef * objectptrIn = new octaneapi::ObjectRef();
+    objectptrIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiWorkPaneModuleInfo);
     objectptrIn->set_handle(getObjectHandle());
     request.set_allocated_objectptr(objectptrIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'toolbarModuleIds' [in] parameter to the request packet.
-    octaneapi::ApiArrayModuleIdT * toolbarmoduleidsIn = new octaneapi::ApiArrayModuleIdT(); //// toolbarModuleIds type=ApiArrayModuleIdT;//// ////721////
-    //// Client Array Type F ////
-    //// param.mProtoCppType = ApiArrayModuleIdT param.mType = const Octane::ModuleIdT *const ////
+    octaneapi::ApiArrayModuleIdT * toolbarmoduleidsIn = new octaneapi::ApiArrayModuleIdT();
     for (size_t h = 0; h < size; h++)
     {
         auto item = toolbarmoduleidsIn->add_data();
         item->set_id(toolbarModuleIds[h]);
     }
-    request.set_allocated_toolbarmoduleids(toolbarmoduleidsIn);//// 6215 ////
+    request.set_allocated_toolbarmoduleids(toolbarmoduleidsIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'size' [in] parameter to the request packet.
     uint32_t sizeIn;
-    sizeIn = static_cast<uint32_t>(size);////2 const size_t////
+    sizeIn = static_cast<uint32_t>(size);
     request.set_size(sizeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -318,7 +307,7 @@ void ApiWorkPaneModuleInfoProxy::setWorkPaneToolbarIds(
     google::protobuf::Empty response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiWorkPaneModuleInfoService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiWorkPaneModuleInfoService::Stub> stub =
         octaneapi::ApiWorkPaneModuleInfoService::NewStub(getGRPCSettings().getChannel());
     status = stub->setWorkPaneToolbarIds(context.get(), request, &response);
 

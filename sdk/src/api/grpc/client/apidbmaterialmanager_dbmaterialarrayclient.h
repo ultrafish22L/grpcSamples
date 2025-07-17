@@ -28,23 +28,23 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void init(
-            const size_t                              size
+            const size_t   size
             );
 
     /// Destroys all the elements in this array.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void free(            );
+    void free();
 
     /// Returns the internal array of materials
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    std::vector<Octane::ApiDBMaterialManager::DBMaterial> getMaterial(            );
+    std::vector<Octane::ApiDBMaterialManager::DBMaterial> getMaterial();
 
     /// Returns the number of materials.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    size_t getCount(            ) const;
+    size_t getCount() const;
 
 private:
     static GRPCSettings & getGRPCSettings();

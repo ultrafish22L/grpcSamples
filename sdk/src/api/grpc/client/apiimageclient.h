@@ -108,7 +108,7 @@ public:
     /// @return
     ///     Pointer to the image or NULL if the image could not be loaded.
     static ApiImageProxy loadFromFile(
-            const char *                              fullPath
+            const char *   fullPath
             );
 
     /// Loads an image from an in-memory image file, i.e. the provided data needs to be in one of
@@ -130,42 +130,42 @@ public:
     /// Destroys the image created by create.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void destroy(            );
+    void destroy();
 
     /// Returns the width of this image.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    int width(            ) const;
+    int width() const;
 
     /// Returns the height of this image.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    int height(            ) const;
+    int height() const;
 
     /// Returns this image's pixel format.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    Octane::ApiImage::PixelFormat pixelFormat(            ) const;
+    Octane::ApiImage::PixelFormat pixelFormat() const;
 
     /// TRUE if the image's format is ARGB.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isARGB(            ) const;
+    bool isARGB() const;
 
     /// True if the image's format is RGB.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isRGB(            ) const;
+    bool isRGB() const;
 
     /// TRUE if the image's format is a single-channel alpha map.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool isSingleChannel(            ) const;
+    bool isSingleChannel() const;
 
     /// TRUE if the image contains an alpha-channel.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool hasAlphaChannel(            ) const;
+    bool hasAlphaChannel() const;
 
     /// Clears a section of the image with a given color.  This won't do any alpha-blending,
     /// it just sets all pixels in the image to the given color (which may be non-opaque if the
@@ -223,13 +223,13 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void multiplyAllAlphas(
-            const float                               amountToMultiplyBy
+            const float   amountToMultiplyBy
             );
 
     /// Changes all the colors to be shades of grey, based on their current luminosity.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    void desaturate(            );
+    void desaturate();
 
     /// Resize this image.
     /// @param[out] status

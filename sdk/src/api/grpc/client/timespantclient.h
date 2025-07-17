@@ -32,18 +32,18 @@ public:
     /// Returns the length of this time interval.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    Octane::TimeT length(            ) const;
+    Octane::TimeT length() const;
 
     /// Returns TRUE if this interval has zero length.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    bool empty(            ) const;
+    bool empty() const;
 
     /// Adds an offset to the start and end of the interval.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     void shift(
-            Octane::TimeT                             offset
+            Octane::TimeT   offset
             );
 
     /// Returns TRUE if the passed time is inside the interval.
@@ -52,7 +52,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     bool contains(
-            const Octane::TimeT                       time
+            const Octane::TimeT   time
             ) const;
 
 private:

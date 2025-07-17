@@ -10,7 +10,7 @@
 #include "octanevectypes.h"
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
-#include "apiinfoclient.h"
+#include "grpcapinodeinfo.h"
 class ApiNodeProxy;
 class ApiNodeGraphProxy;
 class ApiOutputColorSpaceInfoProxy;
@@ -47,15 +47,15 @@ public:
     /// Sets the render target node that should be rendered. All scene information for rendering is
     /// retrieved via its input nodes. This will always render something using various fallback
     /// mechanisms even if the render target node has no connections to its input pins at all.
-    /// 
+    ///
     /// Only if @ref targetNode is NULL, rendering is halted, all render data is released from GPU
     /// memory and the render threads start idling. I.e. restarting rendering with a valid render
     /// target will quicker from this state than after rendering was stopped completely via @ref
     /// stopRendering().
-    /// 
+    ///
     /// To emulate the behaviour in the Standalone for previewing geometry or materials and textures
     /// you can also specify a geometry, material or texture node instead of a render target node
-    /// (see below). 
+    /// (see below).
     ///
     /// NOTE: This will immediately update the render engine and restart rendering and not wait until
     ///       ApiChangeManager::update() has been called.
@@ -63,10 +63,10 @@ public:
     /// @param  targetNode
     ///     In the regular use case you specify a render target node or NULL. If NULL is provided
     ///     rendering halts, render data is released from the GPUs and the render threads idle.
-    /// 
+    ///
     ///     It can also be a linker node in which case the render target is fetched from the end of
     ///     the linker chain.
-    /// 
+    ///
     ///     The other use cases is to do preview rendering of a geometry, material or texture node
     ///     as in the Octane Standalone. For that you specify a geometry, material or texture node
     ///     as @ref renderTarget. In those cases, the preview render target is used, which can be
@@ -74,48 +74,48 @@ public:
     ///     texture node, the material ball geometry will be rendered in combination with the
     ///     preview render target. The material ball geometry is the same as the one you can fetch
     ///     view @ref ApiProjectManager::materialBall().
-    /// 
+    ///
     /// @param[out] status
     ///     Contains the status of the gRPC call
     /// @return
     ///     FALSE if the specified node wasn't NULL or had an incorrect output type, i.e. its
     ///     output type was not PT_RENDERTARGET, PT_GEOMETRY, PT_MATERIAL or PT_TEXTURE.
     static bool setRenderTargetNode(
-            ApiNodeProxy *                            targetNode
+            ApiNodeProxy *   targetNode
             );
 
     /// Returns render target node that's currently being rendered (can be NULL).
-    /// 
+    ///
     /// NOTE: If you set a geometry / material / texture node in @ref setRenderTargetNode(), then
     ///       the preview render target node will be returned
     ///       (@ref ApiProjectManager::previewRenderTarget()).
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static ApiNodeProxy getRenderTargetNode(            );
+    static ApiNodeProxy getRenderTargetNode();
 
     /// Returns the geometry root node that's currently being rendered (can be NULL).
-    /// 
+    ///
     /// Usually that will be the node that is connecte to the geometry pin of the current render
     /// target node, with the following exceptions:
-    /// 
+    ///
     /// - If you specified a geometry node in @ref setRenderTargetNode(), this node will be returned.
     /// - If you set a material or texture node in @ref setRenderTargetNode(), then the material
     ///   ball mesh node will be returned (@ref ApiProjectManager::materialBall()).
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static ApiNodeProxy getRenderGeometryNode(            );
+    static ApiNodeProxy getRenderGeometryNode();
 
     /// Returns the camera node that's currently being rendered (can be NULL).
-    /// 
+    ///
     /// Usually that will be the node that is connected to the camera pin of the current render
     /// target node, with the following exception:
-    /// 
+    ///
     /// - If you set a material or texture node in @ref setRenderTargetNode(), then the material
     ///   ball camera node will be returned, since Octane Standalone uses a different camera for the
     ///   material ball scene than for the geometry preview.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static ApiNodeProxy getRenderCameraNode(            );
+    static ApiNodeProxy getRenderCameraNode();
 
     /// Sets the render region. Both min and max will be clamped at the actual resolution, when the
     /// render data is passed to the render threads. The coordinate system is the same as for render
@@ -211,13 +211,13 @@ public:
     /// Returns the current asynchronous tonemap buffer type.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static Octane::TonemapBufferType asyncTonemapBufferType(            );
+    static Octane::TonemapBufferType asyncTonemapBufferType();
 
     /// Returns the current value of whether to apply false color to cryptomatte passes for
     /// asynchronous tonemapping.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool asyncTonemapCryptomatteFalseColor(            );
+    static bool asyncTonemapCryptomatteFalseColor();
 
     /// Returns the current asynchronous tonemap output color space info.
     ///
@@ -227,7 +227,7 @@ public:
     ///     Will not be null. This pointer will remain valid until the next time a method is called
     ///     on this class. To use the information longer than that, clone() the result (and make
     ///     sure to destroy() the clone when done).
-    static ApiOutputColorSpaceInfoProxy asyncTonemapOutputColorSpaceInfo(            );
+    static ApiOutputColorSpaceInfoProxy asyncTonemapOutputColorSpaceInfo();
 
     /// Returns the current asynchronous tonemap output color space. This depends on the type of the
     /// current asynchronous tonemap output color space info:
@@ -237,16 +237,16 @@ public:
     ///     - Use imager settings -> NAMED_COLOR_SPACE_OTHER.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static Octane::NamedColorSpace asyncTonemapColorSpace(            );
+    static Octane::NamedColorSpace asyncTonemapColorSpace();
 
     /// Returns the current asynchronous tonemap premultiplied alpha type.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static Octane::PremultipliedAlphaType asyncTonemapPremultipliedAlphaType(            );
+    static Octane::PremultipliedAlphaType asyncTonemapPremultipliedAlphaType();
 
     /// Sets the render passes that are tonemapped all the time. We TRY to have a tonemapped
-    /// result available for each pass in this set on the image callback. You can get the 
-    /// result via grabRenderResult(). If you never use this function the only async tonemap pass 
+    /// result available for each pass in this set on the image callback. You can get the
+    /// result via grabRenderResult(). If you never use this function the only async tonemap pass
     /// is RENDER_PASS_BEAUTY.
     ///
     /// NOTE: To avoid confusion, there's a difference between enabled passes and
@@ -265,7 +265,7 @@ public:
     /// @return
     ///     TRUE on success, FALSE on failure. This function will fail if the set is empty.
     static bool setAsyncTonemapRenderPasses(
-            const Octane::ApiArray<Octane::RenderPassId> & tonemapPasses
+            const Octane::ApiArray<Octane::RenderPassId> &   tonemapPasses
             );
 
     /// Returns the set of tonemap render passes.
@@ -273,7 +273,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void asyncTonemapRenderPasses(
-            Octane::ApiArray<Octane::RenderPassId> &  tonemapPasses
+            Octane::ApiArray<Octane::RenderPassId> &   tonemapPasses
             );
 
     /// Returns the render AOVs and output AOVs that are enabled in the specified render target
@@ -291,7 +291,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void freeTonemapPasses(
-            Octane::ApiArray<Octane::RenderPassId> &  tonemapPasses
+            Octane::ApiArray<Octane::RenderPassId> &   tonemapPasses
             );
 
     /// Returns the display pass in the current render. The display pass is the first async
@@ -301,60 +301,60 @@ public:
     /// This is probably only relevant for the Standalone.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static Octane::RenderPassId displayRenderPassId(            );
+    static Octane::RenderPassId displayRenderPassId();
 
     /// Sets the sub-sampling mode.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void setSubSampleMode(
-            const Octane::SubSampleMode               mode
+            const Octane::SubSampleMode   mode
             );
 
     /// Returns the current sub-sampling mode.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static Octane::SubSampleMode getSubSampleMode(            );
+    static Octane::SubSampleMode getSubSampleMode();
 
     /// Sets the current clay render mode.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void setClayMode(
-            const Octane::ClayMode                    mode
+            const Octane::ClayMode   mode
             );
 
     /// Returns the current clay mode.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static Octane::ClayMode clayMode(            );
+    static Octane::ClayMode clayMode();
 
     /// Returns the current fps.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static float fps(            );
+    static float fps();
 
     /// Sets the current fps.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void setFps(
-            const float                               fps
+            const float   fps
             );
 
     /// Returns TRUE if the render engine is currently running a compilation job.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool isCompiling(            );
+    static bool isCompiling();
 
     /// Deprecated, this returns the same value as hasPendingRenderData()
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool isCompressingTextures(            );
+    static bool isCompressingTextures();
 
     /// Returns TRUE if there is render data that has not finished compiling.
     /// You may receive render results while this is true, the associated statistics
     /// will have mHasPendingUpdates set to true.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool hasPendingRenderData(            );
+    static bool hasPendingRenderData();
 
     /// Returns the change level after the last update. There are currently 5 methods that can
     /// change a change level:
@@ -369,28 +369,28 @@ public:
     /// You can check if the latest data is renderable via lastUpdateWasRenderable().
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static Octane::CLevelT getCurrentChangeLevel(            );
+    static Octane::CLevelT getCurrentChangeLevel();
 
     /// Returns the change level of the last rendered image, which can be lower than
     /// getCurrentChangeLevel(). This way you can quickly check if the last rendered image
     /// already includes the latest changes.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static Octane::CLevelT getRenderImageChangeLevel(            );
+    static Octane::CLevelT getRenderImageChangeLevel();
 
     /// Returns the change level of the last time the rendering was restarted. This can be lower
     /// than the change level of the last rendered image if the post processing or tone mapping
     /// settings change
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static Octane::CLevelT getRenderRestartedChangeLevel(            );
+    static Octane::CLevelT getRenderRestartedChangeLevel();
 
     /// Registers an asynchronous update callback. When a callback is registered, updates to the
     /// render engine will not block. This callback is called when the render engine was updated.
     /// This means that the change level only increments after the callback.
     /// Setting the callback to NULL will make updates synchronous again.
     ///
-    /// This callback is called on a different thread than the main thread so the plugin must 
+    /// This callback is called on a different thread than the main thread so the plugin must
     /// take care of all the thread synchronization.
     ///
     /// @param[in]  callback
@@ -407,18 +407,18 @@ public:
     /// Checks if updates are done asynchronously.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool updatesAreAsync(            );
+    static bool updatesAreAsync();
 
     /// @deprecated Use the callback mechanism instead.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool isImageReady(            );
+    static bool isImageReady();
 
-    static void resetImageReady(            );
+    static void resetImageReady();
 
-    static bool isRenderFailure(            );
+    static bool isRenderFailure();
 
-    static void resetRenderFailure(            );
+    static void resetRenderFailure();
 
     /// Registers a callback with the render target that is called when a tile was blended in one
     /// of the two render films and the render statistics did not change.
@@ -501,14 +501,14 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void setForceCallbacksInRenderThreads(
-            const bool                                enabled
+            const bool   enabled
             );
 
     /// Grabs the latest render result in the passed in array. A result has several images, 1 for
     /// each asynchronously tonemapped render pass. These results are still owned by Octane and
     /// valid until releaseRenderResult() is called. The plugin must try to release the result
     /// as soon as possible.
-    /// 
+    ///
     /// We TRY to return an image for each render pass that was set via
     /// setAsyncTonemapRenderPasses() but it can be that there are fewer images available than
     /// initially requested. After some time the engine should have all results available.
@@ -520,15 +520,15 @@ public:
     ///     Contains the status of the gRPC call
     /// @return
     ///     TRUE if there is a list of non-empty render results available. If this function
-    ///     returns FALSE you don't have to call releaseRenderResult(). 
+    ///     returns FALSE you don't have to call releaseRenderResult().
     static bool grabRenderResult(
-            Octane::ApiArray<Octane::ApiRenderImage> & renderImages
+            std::vector<Octane::ApiRenderImage> &   renderImages
             );
 
     /// Releases the results again so that the engine can reuse it.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static void releaseRenderResult(            );
+    static void releaseRenderResult();
 
     /// Runs a synchronous tonemap and returns the result. This function is fairly invasive and
     /// blocks the render threads until all results have been collected, i.e. adds a lot of
@@ -536,7 +536,7 @@ public:
     ///
     /// @param passes
     ///     The render passes for which we like a tonemapped result. All the render passes in
-    ///     the passed in array MUST be enabled! For the old behaviour use RENDER_PASS_BEAUTY 
+    ///     the passed in array MUST be enabled! For the old behaviour use RENDER_PASS_BEAUTY
     ///     which is always enabled.
     /// @param passesLength
     ///     The length of the passes array.
@@ -567,7 +567,7 @@ public:
             bool                                      cryptomatteFalseColor,
             const ApiOutputColorSpaceInfoProxy *      colorSpaceInfo,
             Octane::PremultipliedAlphaType            premultipliedAlphaType,
-            Octane::ApiArray<Octane::ApiRenderImage> & results
+            std::vector<Octane::ApiRenderImage> & results
             );
 
     /// Convenience overload that does the same thing as:
@@ -588,13 +588,13 @@ public:
             bool                                      cryptomatteFalseColor,
             Octane::NamedColorSpace                   colorSpace,
             Octane::PremultipliedAlphaType            premultipliedAlphaType,
-            Octane::ApiArray<Octane::ApiRenderImage> & results
+            std::vector<Octane::ApiRenderImage> & results
             );
 
-    /// Runs a synchronous tonemap for all render passes that are already started by the render 
-    /// engine and returns the results. This is EXTREMELY invasive and can block for a VERY long 
-    /// time. The preferred method is to use the results returned by incremental rendering and 
-    /// leave the other passes alone (this is the same behaviour as in the Standalone where only a 
+    /// Runs a synchronous tonemap for all render passes that are already started by the render
+    /// engine and returns the results. This is EXTREMELY invasive and can block for a VERY long
+    /// time. The preferred method is to use the results returned by incremental rendering and
+    /// leave the other passes alone (this is the same behaviour as in the Standalone where only a
     /// single pass is displayed to the user although most passes run in parallel).
     ///
     /// Render passes that aren't started yet or are not enabled are not in the result.
@@ -624,7 +624,7 @@ public:
             bool                                      cryptomatteFalseColor,
             const ApiOutputColorSpaceInfoProxy *      colorSpaceInfo,
             Octane::PremultipliedAlphaType            premultipliedAlphaType,
-            Octane::ApiArray<Octane::ApiRenderImage> & results
+            std::vector<Octane::ApiRenderImage> & results
             );
 
     /// Convenience overload that does the same thing as:
@@ -643,15 +643,7 @@ public:
             bool                                      cryptomatteFalseColor,
             Octane::NamedColorSpace                   colorSpace,
             Octane::PremultipliedAlphaType            premultipliedAlphaType,
-            Octane::ApiArray<Octane::ApiRenderImage> & results
-            );
-
-    /// Frees an array of render images created via grabRenderResult(), synchronousTonemap() or
-    /// synchronousTonemapAllRenderPasses().
-    /// @param[out] status
-    ///     Contains the status of the gRPC call
-    static void freeRenderImages(
-            Octane::ApiArray<Octane::ApiRenderImage> & results
+            std::vector<Octane::ApiRenderImage> & results
             );
 
     /// Returns the statistics for the current render progress. This may be a bit ahead of the
@@ -662,10 +654,10 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void getRenderStatistics(
-            Octane::RenderResultStatistics &          statistics
+            Octane::RenderResultStatistics &   statistics
             );
 
-    /// Returns the statistics for the render results. When no image was rendered yet, the 
+    /// Returns the statistics for the render results. When no image was rendered yet, the
     /// statistics struct is all zeros.
     ///
     /// @param[out] statistics
@@ -673,7 +665,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void getRenderResultStatistics(
-            Octane::RenderResultStatistics &          statistics
+            Octane::RenderResultStatistics &   statistics
             );
 
     /// Saves the current result of the render target to the specified file.
@@ -741,7 +733,7 @@ public:
     /// @param renderPassId
     ///     The render pass to save out. This render pass MUST be enabled.
     /// @param fullPath
-    ///     The full path to the file name where the image will be stored 
+    ///     The full path to the file name where the image will be stored
     /// @param colorSpaceInfo
     ///     The output color space info to use. Must not be null.
     /// @param exportSettings
@@ -989,14 +981,14 @@ public:
 
     /// Checks whether the provided render target both supports and has enabled deep pixel rendering.
     /// This is equivalent to checking whether its P_KERNEL pin has a P_DEEP_ENABLE pin set to TRUE.
-    /// 
+    ///
     /// @param[in]  renderTargetNode
     ///     The render target node which settings will be returned.
-    /// @param[out]  maxDepthSamples 
+    /// @param[out]  maxDepthSamples
     ///     It will be set to the maximum number of depth samples as specified in the kernel's
     ///     P_MAX_DEPTH_SAMPLES if deep pixel is enabled or zero otherwise.
-    /// @param[out]  samplesBeforeCanSave 
-    ///     It will be set to the minimum number of samples required before the deep image can be 
+    /// @param[out]  samplesBeforeCanSave
+    ///     It will be set to the minimum number of samples required before the deep image can be
     ///     saved if deep pixel is enabled or zero otherwise.
     /// @param[out] status
     ///     Contains the status of the gRPC call
@@ -1009,18 +1001,18 @@ public:
     /// Checks if deep image rendering is enabled for the current render task.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool deepImageEnabled(            );
+    static bool deepImageEnabled();
 
     /// Checks if deep image rendering and deep render AOVs are enabled for the current render task.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool deepPassesEnabled(            );
+    static bool deepPassesEnabled();
 
     /// Checks if we can save a deep image. Impossible when deep image rendering is disabled or when
     /// we have not collected enough "seed" samples/px.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool canSaveDeepImage(            );
+    static bool canSaveDeepImage();
 
     /// Saves the current render as a deep image. The only supported file format for deep images
     /// is OpenEXR.
@@ -1255,20 +1247,20 @@ public:
             Octane::ApiDeviceResourceStatistics &     resourceStats
             );
 
-    /// Returns the geometry statistics of the current scene. Returns all zero stats if rendering 
+    /// Returns the geometry statistics of the current scene. Returns all zero stats if rendering
     /// has not started.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void getGeometryStatistics(
-            Octane::ApiGeometryStatistics &           stats
+            Octane::ApiGeometryStatistics &   stats
             );
 
-    /// Returns the texture usage. Returns all zero stats if rendering 
+    /// Returns the texture usage. Returns all zero stats if rendering
     /// has not started.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void getTexturesStatistics(
-            Octane::ApiTextureStatistics &            textureStats
+            Octane::ApiTextureStatistics &   textureStats
             );
 
     /// If the currently rendered scene contains geometry, its bounding box is stored in the
@@ -1286,20 +1278,20 @@ public:
     /// Returns the number of render devices (GPUs) in this machine.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static unsigned int getDeviceCount(            );
+    static unsigned int getDeviceCount();
 
     /// Returns the compute model of the device.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static int getDeviceComputeModel(
-            const uint32_t                            index
+            const uint32_t   index
             );
 
     /// Returns the name of the device
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string getDeviceName(
-            const uint32_t                            index
+            const uint32_t   index
             );
 
     /// Returns TRUE if the device with the provided index is supported by Octane, i.e. can render,
@@ -1307,35 +1299,35 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static bool isSupportedDevice(
-            const uint32_t                            index
+            const uint32_t   index
             );
 
     /// Returns TRUE if the device with the provided index can be used for rendering.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static bool deviceCanRender(
-            const uint32_t                            index
+            const uint32_t   index
             );
 
     /// Returns TRUE if the device with the provided index can be used for denoising.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static bool deviceCanDenoise(
-            const uint32_t                            index
+            const uint32_t   index
             );
 
     /// Returns TRUE if the device with the provided index supports hardware ray-tracing.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static bool deviceSupportsHardwareRayTracing(
-            const uint32_t                            index
+            const uint32_t   index
             );
 
     /// Returns details of the shared surface capabilities of the device with the provided index.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static Octane::ApiDeviceSharedSurfaceInfo deviceSharedSurfaceInfo(
-            uint32_t                                  index
+            uint32_t   index
             );
 
     /// Returns an array of available peer-to-peer (NVlink) pairs.
@@ -1347,13 +1339,13 @@ public:
     /// @return
     ///     An array of available peer-to-peer groups or NULL if none are available.
     static std::vector<OctaneVec::uint32_2> getAvailablePeerToPeerPairs(
-            uint32_t &                                count
+            uint32_t &   count
             );
 
-    /// List of devices to enable for rendering and denoising. All other 
+    /// List of devices to enable for rendering and denoising. All other
     /// devices which are not in the list and was previously enabled will get disabled.
     ///
-    /// Priority: Previously enabled devices either for rendering and/or denoising have 
+    /// Priority: Previously enabled devices either for rendering and/or denoising have
     /// high precedence over new devices.
     ///
     /// This function will silently ignore any invalid device indexes passed in the lists.
@@ -1389,9 +1381,9 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     /// @return
-    ///     TRUE if all the devices enabled. FALSE if failed able to enable one or more devices 
+    ///     TRUE if all the devices enabled. FALSE if failed able to enable one or more devices
     ///     due to the maximum GPU limit, in this case, Please use get functions to update the UI
-    ///     to latest and inform the user about failure. 
+    ///     to latest and inform the user about failure.
     static bool setDevicesActivity(
             const uint32_t *const                     renderDeviceIxs,
             const uint32_t                            renderDeviceCount,
@@ -1409,46 +1401,46 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static bool isDeviceUsedForRendering(
-            const uint32_t                            index
+            const uint32_t   index
             );
 
     /// Returns TRUE if the device with index uses render priority.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static bool deviceUsesPriority(
-            const uint32_t                            index
+            const uint32_t   index
             );
 
     /// Returns TRUE if the device at the provided index is using hardware ray-tracing
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static bool deviceUsesHardwareRayTracing(
-            const uint32_t                            index
+            const uint32_t   index
             );
 
     /// Returns the index of the device used for imaging, or -1 if no device is capable. The image
     /// device is also the device used in the real-time mode.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static int32_t imageDeviceIndex(            );
+    static int32_t imageDeviceIndex();
 
     /// Returns TRUE if the device is used for denoising.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static bool isDeviceUsedForDenoising(
-            const uint32_t                            index
+            const uint32_t   index
             );
 
     /// Returns the current render priority.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static Octane::ApiRenderEngine::RenderPriority renderPriority(            );
+    static Octane::ApiRenderEngine::RenderPriority renderPriority();
 
     /// Sets the current render priority.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void setRenderPriority(
-            const Octane::ApiRenderEngine::RenderPriority priority
+            const Octane::ApiRenderEngine::RenderPriority   priority
             );
 
     /// Returns the current peer-to-peer configuration. The returned array is owned by Octane and
@@ -1456,26 +1448,26 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::vector<OctaneVec::uint32_2> currentPeerToPeerGroups(
-            uint32_t &                                groupCount
+            uint32_t &   groupCount
             );
 
     /// Returns TRUE if hardware raytracing is currently enabled for all devices with support for it
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool hardwareRayTracingEnabled(            );
+    static bool hardwareRayTracingEnabled();
 
     /// Opens a modal dialog to allow the user to set devices configuration. When the
     /// the function returns, the dialog has been closed already and the settings have been stored
     /// in the Octane application preferences.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static void openDeviceSettings(            );
+    static void openDeviceSettings();
 
     /// Returns the state of the device.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static Octane::RenderDeviceState renderDeviceState(
-            const unsigned int                        deviceIx
+            const unsigned int   deviceIx
             );
 
     /// Returns the error state of a device or RENDER_ERROR_NONE if the device has not failed or
@@ -1491,7 +1483,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static Octane::RenderError renderDeviceErrorCode(
-            const unsigned int                        deviceIx
+            const unsigned int   deviceIx
             );
 
     /// Returns the error state of a device as string or an empty string if the device is not in an
@@ -1499,7 +1491,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string errorcodeToString(
-            const Octane::RenderError                 code
+            const Octane::RenderError   code
             );
 
     /// Returns the (low-level) error message that triggered the device to fail or an empty string
@@ -1510,7 +1502,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string renderDeviceErrorMessage(
-            const unsigned int                        deviceIx
+            const unsigned int   deviceIx
             );
 
     /// Saves the current render device configuration (device activity and priority usage in the
@@ -1519,12 +1511,12 @@ public:
     /// The preferences are automatically loaded when Octane is started.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static void saveRenderDeviceConfig(            );
+    static void saveRenderDeviceConfig();
 
     /// Returns true if out-of-core textures are enabled
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool outOfCoreEnabled(            );
+    static bool outOfCoreEnabled();
 
     /// Enable out-of-core textures and geometry, or update the maximum amount of system memory
     /// to allow for use.
@@ -1540,13 +1532,13 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void enableOutOfCore(
-            uint64_t                                  limit
+            uint64_t   limit
             );
 
     /// Disables out-of-core.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static void disableOutOfCore(            );
+    static void disableOutOfCore();
 
     /// Returns RAM usage by out-of-core textures. All amounts are expressed in bytes. Some values
     /// are estimated by the operating system.
@@ -1586,7 +1578,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void setGpuHeadroom(
-            uint64_t                                  gpuHeadroom
+            uint64_t   gpuHeadroom
             );
 
     /// Gets the GPU headroom value.
@@ -1595,7 +1587,7 @@ public:
     ///     Contains the status of the gRPC call
     /// @return
     ///     GPU headroom size in bytes.
-    static uint64_t getGpuHeadroom(            );
+    static uint64_t getGpuHeadroom();
 
     /// Sets the maximum number of system cores to use for the following subsystems:
     /// 1. VDB operations
@@ -1604,13 +1596,13 @@ public:
     /// 4. AI light processing
     ///
     /// @params[in] maxCores
-    ///     Giving 0 will make Octane use all cores. If you provide a number larger than 0, the 
+    ///     Giving 0 will make Octane use all cores. If you provide a number larger than 0, the
     ///     number of cores used will be the minimum of maxCores and the number of actual cores
     ///     your system has.
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void setCoreLimit(
-            const uint32_t                            maxCores
+            const uint32_t   maxCores
             );
 
     /// Disables the core limit, meaning Octane will use all cores available for the subsystems
@@ -1618,7 +1610,7 @@ public:
     /// setCoreLimit(0);
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static void disableCoreLimit(            );
+    static void disableCoreLimit();
 
     /// Registers a shared surface to be used for compositor input.
     ///
@@ -1639,7 +1631,7 @@ public:
     ///     in A_SHARED_SURFACE_ID node attributes to be used during rendering. IDs are never
     ///     reused, even after being unregistered, so this ID will always refer to this surface.
     static int64_t registerInputSharedSurface(
-            const ApiSharedSurfaceProxy *             surface
+            const ApiSharedSurfaceProxy *   surface
             );
 
     /// Unregisters an input shared surface that was registered with registerInputSharedSurface.
@@ -1654,7 +1646,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void unregisterInputSharedSurface(
-            int64_t                                   id
+            int64_t   id
             );
 
     /// Causes an asynchronous tonemap operation to run even if one wouldn't otherwise have been
@@ -1676,7 +1668,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static void triggerAsyncTonemap(
-            bool                                      force
+            bool   force
             );
 
     /// Sets the shared surface output type and whether to use real time mode.
@@ -1713,12 +1705,12 @@ public:
     /// Gets the current shared surface output type.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static Octane::SharedSurfaceType getSharedSurfaceOutputType(            );
+    static Octane::SharedSurfaceType getSharedSurfaceOutputType();
 
     /// Gets whether the renderer is in real time mode.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool getRealTime(            );
+    static bool getRealTime();
 
     /// Pauses rendering. During pausing the render threads are just spinning and waiting for
     /// new work, i.e. for rendering to continue. All resources and the film buffer on the GPU stay
@@ -1726,24 +1718,24 @@ public:
     /// the exception of changes in the imager and post-pro nodes.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static void pauseRendering(            );
+    static void pauseRendering();
 
     /// Continues rendering. All changes not passed to the render threads yet, will be passed on
     /// after continuation.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static void continueRendering(            );
+    static void continueRendering();
 
     /// Returns TRUE if rendering is currently paused.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool isRenderingPaused(            );
+    static bool isRenderingPaused();
 
     /// Restarts the rendering, i.e. wipes the film buffer and starts from scratch. If rendering
     /// was paused, it will implicitely continued.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static void restartRendering(            );
+    static void restartRendering();
 
     /// Stops the rendering completely, i.e. releases all allocated GPU resources, stops the
     /// render threads and deletes the render target. This is a fairly expensive operation, but
@@ -1753,7 +1745,7 @@ public:
     /// getRenderTargetNode() will return NULL afterwards.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static void stopRendering(            );
+    static void stopRendering();
 
     /// Shoots a viewing ray from the camera through the specified pixel and records all
     /// intersections with the scene ordered by distance from camera.
@@ -1898,7 +1890,7 @@ public:
             );
 
     /// Modifies a cryptomatte matte selection string (e.g. the value of the P_CRYPTOMATTE_MATTES
-    /// pin of a NT_OUTPUT_AOV_LAYER_MASK_WITH_CRYPTOMATTE node) to ensure a specific matte name is
+    /// pin of a NT_OUTPUT_AOV_LAYER_BLEND_CRYPTOMATTE_MASK node) to ensure a specific matte name is
     /// or is not included. This could be used to modify the matte selection for a cryptomatte mask
     /// after picking a matte to add or remove with pickCryptomatteMatte.
     ///
@@ -1946,7 +1938,7 @@ public:
     /// @param[out] status
     ///     Contains the status of the gRPC call
     static std::string toString(
-            const Octane::ApiRenderEngine::RenderPriority priority
+            const Octane::ApiRenderEngine::RenderPriority   priority
             );
 
     /// Returns PCI bus and device ids of the device

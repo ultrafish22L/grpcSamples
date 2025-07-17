@@ -7,13 +7,13 @@
 #include <functional>
 #include "apirender.h"
 namespace octaneapi { class ApiArrayApiRenderImage; }
-class ApiNodeInfoProxy;
+struct ApiNodeInfoProxy;
 class ApiArrayApiRenderImageConverter
 {
 public:
     static void convert(
         const octaneapi::ApiArrayApiRenderImage & in,
-        Octane::ApiArray<Octane::ApiRenderImage> & out);
+        std::vector<Octane::ApiRenderImage> & out);
 
     static void convert(
         const Octane::ApiArray<Octane::ApiRenderImage> & in,
