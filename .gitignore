@@ -17,9 +17,9 @@ html/protoc-gen-grpc-web
 *.obj
 sdk/*.lib
 # exceptions
-!third_party/**/*.lib
-!third_party/**/*.a
-!third_party/**/*.dylib
+#!third_party/**/*.lib
+#!third_party/**/*.a
+#!third_party/**/*.dylib
 !third_party/**/*.exe
 
 # CMake files
