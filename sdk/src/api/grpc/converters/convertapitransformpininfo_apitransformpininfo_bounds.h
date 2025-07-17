@@ -9,7 +9,7 @@
 #include <functional>
 #include "octaneinfos.h"
 namespace octaneapi { class ApiTextureNodeTypeInfo_ApiTextureNodeTypeInfo_Configuration; }
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 class ApiTransformPinInfo_ApiTransformPinInfo_BoundsConverter
 {
 public:

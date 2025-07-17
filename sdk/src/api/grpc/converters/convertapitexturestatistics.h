@@ -7,7 +7,7 @@
 namespace Octane { struct ApiTextureStatistics; }
 namespace octaneapi { class ApiTextureStatistics; }
 
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 class ApiTextureStatisticsConverter
 {
 public:

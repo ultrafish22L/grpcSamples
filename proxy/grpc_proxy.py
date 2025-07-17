@@ -255,17 +255,10 @@ class LiveLinkProxy:
             print(f"📥 === ROOT NODE GRAPH RESPONSE ===")
             print(f"📥 Response type: {type(response).__name__}")
             print(f"📥 Response: {response}")
-            print(f"📥 Result handle: {response.result.handle}")
-            print(f"📥 Result type: {response.result.type}")
-            print(f"📥 Result objectId: {getattr(response.result, 'objectId', 'N/A')}")
             
             result = {
                 'success': True,
-                'objectRef': {
-                    'objectId': getattr(response.result, 'objectId', ''),
-                    'objectHandle': response.result.handle,
-                    'type': response.result.type
-                }
+                'objectRef': response.result
             }
             
             print(f"✅ RootNodeGraph successful: handle={response.result.handle}, type={response.result.type}")
@@ -290,10 +283,7 @@ class LiveLinkProxy:
             
             result = {
                 'success': True,
-                'itemArrayRef': {
-                    'objectId': response.list.objectId,
-                    'objectHandle': response.list.objectHandle
-                }
+                'itemArrayRef': response.list
             }
             
             print(f"📥 GetOwnedItems successful: itemArrayId={response.list.objectId}")
@@ -336,13 +326,9 @@ class LiveLinkProxy:
             
             result = {
                 'success': True,
-                'itemRef': {
-                    'objectId': response.result.objectId,
-                    'objectHandle': response.result.objectHandle,
-                    'type': response.result.type
-                }
+                'objectRef': response.result
             }
-            
+
             print(f"📥 ItemArray.get successful: itemId={response.result.objectId}, type={response.result.type}")
             return result
             
@@ -353,10 +339,11 @@ class LiveLinkProxy:
     async def get_item_name(self, item_ref):
         """Get name of an item"""
         try:
+            print(f"📤 Sending Item.name request to Octane: item_ref={item_ref}")
             request = apinodesystem_pb2.ApiItem.nameRequest()
             request.objectPtr.CopyFrom(item_ref)
             
-            print(f"📤 Sending Item.name request to Octane: objectId={item_ref.objectId}")
+            print(f"📤 Sending Item.name request to Octane: item_ref={request}")
             response = await self.item_stub.name(request)
             
             result = {
@@ -601,41 +588,6 @@ async def handle_get_mesh(request):
         print(f"🌐 HTTP Response: GetMesh failed - {e}")
         return web.json_response({'success': False, 'error': str(e)}, status=500)
 
-async def handle_load_project(request):
-    """Handle LoadProject requests"""
-    try:
-        print(f"🌐 HTTP Request: LoadProject from {request.remote}")
-        data = await request.json()
-        project_path = data['projectPath']
-        result = await proxy.load_project(project_path)
-        print(f"🌐 HTTP Response: LoadProject {'success' if result['success'] else 'failed'}")
-        return web.json_response({'success': True, 'data': result})
-    except Exception as e:
-        print(f"🌐 HTTP Response: LoadProject failed - {e}")
-        return web.json_response({'success': False, 'error': str(e)}, status=500)
-
-async def handle_root_node_graph(request):
-    """Handle RootNodeGraph requests"""
-    try:
-        print(f"🌐 HTTP Request: RootNodeGraph from {request.remote}")
-        result = await proxy.get_root_node_graph()
-        print(f"🌐 HTTP Response: RootNodeGraph success")
-        return web.json_response({'success': True, 'data': result})
-    except Exception as e:
-        print(f"🌐 HTTP Response: RootNodeGraph failed - {e}")
-        return web.json_response({'success': False, 'error': str(e)}, status=500)
-
-async def handle_build_scene_tree(request):
-    """Handle BuildSceneTree requests"""
-    try:
-        print(f"🌐 HTTP Request: BuildSceneTree from {request.remote}")
-        result = await proxy.build_scene_tree()
-        print(f"🌐 HTTP Response: BuildSceneTree {'success' if result['success'] else 'failed'}")
-        return web.json_response({'success': True, 'data': result})
-    except Exception as e:
-        print(f"🌐 HTTP Response: BuildSceneTree failed - {e}")
-        return web.json_response({'success': False, 'error': str(e)}, status=500)
-
 async def handle_static_files(request):
     """Serve static HTML files"""
     path = request.match_info.get('path', 'index.html')
@@ -829,6 +781,7 @@ async def handle_generic_grpc(request):
         # Populate request fields from JSON data
         if request_data:
             print(f"🔧 Populating request object...")
+            
             for key, value in request_data.items():
                 print(f"  🔧 Processing field: {key} = {value}")
                 if hasattr(grpc_request, key):
@@ -865,9 +818,13 @@ async def handle_generic_grpc(request):
         response = await method(grpc_request)
         
         print(f"📥 === OCTANE RESPONSE ===")
+
+        print(f"📥 === ROOT NODE GRAPH RESPONSE ===")
         print(f"📥 Response type: {type(response).__name__}")
         print(f"📥 Response: {response}")
         
+        print(f"✅ RootNodeGraph successful: handle={response.result.handle}, type={response.result.type}")
+    
         # Convert protobuf response to JSON
         print(f"🔄 Converting response to JSON...")
         
@@ -895,6 +852,10 @@ async def handle_generic_grpc(request):
                 for field in obj.DESCRIPTOR.fields:
                     field_name = field.name
                     field_value = getattr(obj, field_name)
+
+                    print   (f"📥 DESRIPTOR: field_name {field_name}")
+                    print   (f"📥 DESRIPTOR: field_value {field_value}")
+
                     result[field_name] = protobuf_to_dict(field_value)
                 return result
             
@@ -903,14 +864,20 @@ async def handle_generic_grpc(request):
                 # Test if it's JSON serializable
                 import json
                 json.dumps(obj)
+                print   (f"📥 JSON: obj {obj}")
                 return obj
             except (TypeError, ValueError):
                 # If not serializable, convert to string
+                print   (f"📥 STR: str {str}")
                 return str(obj)
         
         response_dict = protobuf_to_dict(response)
         print(f"✅ Response converted to dict: {type(response_dict)}")
         
+#        response_dict = {
+#            "handle": 1000000,
+#            "type": common_pb2.ObjectRef.ApiRootNodeGraph
+#        }
         result = {
             'success': True,
             'data': response_dict
@@ -919,7 +886,11 @@ async def handle_generic_grpc(request):
         print(f"✅ === SUCCESS ===")
         print(f"✅ {service_name}.{method_name} completed successfully")
         print(f"✅ Response type: {type(response_dict)}")
+        print(f"✅ Response : {response_dict}")
         
+        name_result = await proxy.get_item_name(response.result)
+        print(f"  anme_result: {name_result}")
+
         return web.json_response(result)
         
     except Exception as e:
@@ -942,21 +913,11 @@ async def init_app():
     app.router.add_post('/LiveLinkService/GetMeshes', handle_get_meshes)
     app.router.add_post('/LiveLinkService/GetMesh', handle_get_mesh)
     
-    # ApiProjectManager endpoints
-    app.router.add_post('/ApiProjectManagerService/loadProject', handle_load_project)
-    app.router.add_post('/ApiProjectManagerService/rootNodeGraph', handle_root_node_graph)
-    app.router.add_post('/ApiProjectManagerService/buildSceneTree', handle_build_scene_tree)
-    
     # Also support the livelinkapi prefix that the JavaScript client uses
     app.router.add_post('/livelinkapi.LiveLinkService/GetCamera', handle_get_camera)
     app.router.add_post('/livelinkapi.LiveLinkService/SetCamera', handle_set_camera)
     app.router.add_post('/livelinkapi.LiveLinkService/GetMeshes', handle_get_meshes)
     app.router.add_post('/livelinkapi.LiveLinkService/GetMesh', handle_get_mesh)
-    
-    # ApiProjectManager with octaneapi prefix
-    app.router.add_post('/octaneapi.ApiProjectManagerService/loadProject', handle_load_project)
-    app.router.add_post('/octaneapi.ApiProjectManagerService/rootNodeGraph', handle_root_node_graph)
-    app.router.add_post('/octaneapi.ApiProjectManagerService/buildSceneTree', handle_build_scene_tree)
     
     # ==================== GENERIC GRPC PASS-THROUGH ROUTES ====================
     # These catch-all routes handle any gRPC service call not explicitly defined above

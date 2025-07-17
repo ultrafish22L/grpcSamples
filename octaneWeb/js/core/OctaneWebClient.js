@@ -141,7 +141,7 @@ function createOctaneWebClient() {
             // await this.syncRenderSettings();
             
             // Get camera list
-            await this.syncCameras();
+//            await this.syncCameras();
             
             // Get scene data using available methods
             await this.getSceneData();
@@ -166,10 +166,7 @@ function createOctaneWebClient() {
 
         // Determine the correct URL based on method prefix
         let url;
-        if (method.startsWith('octaneapi.')) {
-            // Direct octaneapi service call
-            url = `${this.serverUrl}/${method}`;
-        } else if (method.includes('ApiProjectManagerService/') || method.includes('ApiNodeGraphService/')) {
+        if (method.includes('/') || method.includes('.')) {
             // ApiProjectManager or ApiNodeGraph service calls
             url = `${this.serverUrl}/${method}`;
         } else {
@@ -304,11 +301,6 @@ function createOctaneWebClient() {
                 return { success: false, error: 'No objectRef in root response' };
             }
             
-            // Convert objectHandle to handle for protobuf compatibility
-            if (rootObjectRef.objectHandle && !rootObjectRef.handle) {
-                rootObjectRef.handle = rootObjectRef.objectHandle;
-            }
-            
             console.log('✅ Root ObjectRef:', rootObjectRef);
             
             // Step 2: Recursively build the scene tree
@@ -331,32 +323,6 @@ function createOctaneWebClient() {
             
         } catch (error) {
             console.error('❌ Error loading scene data:', error);
-            
-            // Fallback to GetMeshes for basic mesh data
-            console.log('🔄 Falling back to GetMeshes endpoint...');
-            try {
-                const meshResponse = await this.makeGrpcCall('GetMeshes', {});
-                
-                if (meshResponse.success && meshResponse.data) {
-                    // Convert flat mesh data to hierarchical format
-                    const sceneHierarchy = this.convertMeshesToHierarchy(meshResponse.data);
-                    
-                    // Update scene state
-                    this.sceneState.hierarchy = sceneHierarchy;
-                    
-                    // Emit scene update event
-                    this.emit('ui:sceneUpdate', this.sceneState);
-                    this.emit('ui:sceneHierarchyUpdate', sceneHierarchy);
-                    
-                    console.log('📊 Fallback mesh data loaded:', sceneHierarchy);
-                    return { success: true, hierarchy: sceneHierarchy };
-                }
-                
-                return { success: false, error: 'Failed to get scene data from both buildSceneTree and GetMeshes' };
-            } catch (fallbackError) {
-                console.error('❌ Fallback to GetMeshes also failed:', fallbackError);
-                return { success: false, error: 'Failed to get scene data from both rootNodeGraph and GetMeshes' };
-            }
         }
     }
     
@@ -365,40 +331,43 @@ function createOctaneWebClient() {
      */
     async buildSceneTreeRecursive(objectRef, name = 'Node', depth = 0) {
         try {
-            console.log(`${'  '.repeat(depth)}🌿 Building node: ${name} (handle=${objectRef.handle || objectRef.objectHandle})`);
+            console.log(`${'  '.repeat(depth)}📊 NAME ${name}: ${objectRef}`);
+            // Name
+            try {
+                const response = await this.makeGrpcCall('octaneapi.ApiItemService/name', {
+                    objectPtr: objectRef
+                });
+                console.log(`${'  '.repeat(depth)}📊 name() API result for ${name}: ${response}`);
+            } catch (error) {
+                console.warn(`${'  '.repeat(depth)}⚠️ name() API failed for ${name}:`, error);
+            }
+            console.log(`${'  '.repeat(depth)}🌿 Building node: ${name} (handle=${objectRef.objectHandle})`);
             
+            return;
             // Create the node structure
             const node = {
-                id: `node_${objectRef.handle || objectRef.objectHandle}`,
+                id: `node_${objectRef.objectHandle}`,
                 name: name,
                 type: 'group',
                 visible: true,
                 children: [],
                 objectRef: objectRef
             };
-            
             // Check if this is a node graph - use known graph types as fallback
             console.log(`${'  '.repeat(depth)}🔍 Checking if ${name} is a graph (type ${objectRef.type})...`);
             
             let isGraph = false;
             
-            // Known graph types from SDK: ApiRootNodeGraph (18), ApiNodeGraph (20), etc.
-            const knownGraphTypes = [18, 20, 31];
-            if (knownGraphTypes.includes(objectRef.type)) {
-                console.log(`${'  '.repeat(depth)}📊 Known graph type ${objectRef.type} - treating as graph`);
-                isGraph = true;
-            } else {
-                // For unknown types, try the API call
-                try {
-                    const isGraphResponse = await this.makeGrpcCall('octaneapi.ApiItemService/isGraph', {
-                        objectPtr: objectRef
-                    });
-                    isGraph = isGraphResponse.success && isGraphResponse.data.result;
-                    console.log(`${'  '.repeat(depth)}📊 isGraph API result for ${name}: ${isGraph}`);
-                } catch (error) {
-                    console.warn(`${'  '.repeat(depth)}⚠️ isGraph API failed for ${name}, assuming not a graph:`, error);
-                    isGraph = false;
-                }
+            // For unknown types, try the API call
+            try {
+                const isGraphResponse = await this.makeGrpcCall('octaneapi.ApiItemService/isGraph', {
+                    objectPtr: objectRef
+                });
+                isGraph = isGraphResponse.success && isGraphResponse.data.result;
+                console.log(`${'  '.repeat(depth)}📊 isGraph API result for ${name}: ${isGraph}`);
+            } catch (error) {
+                console.warn(`${'  '.repeat(depth)}⚠️ isGraph API failed for ${name}, assuming not a graph:`, error);
+                isGraph = false;
             }
 
             if (isGraph) {
@@ -408,28 +377,18 @@ function createOctaneWebClient() {
                     // Convert to graph reference using toGraph() - with fallback for known types
                     let graphRef = null;
                     
-                    if (knownGraphTypes.includes(objectRef.type)) {
-                        // For known graph types, use direct reference with type conversion if needed
-                        const requestType = objectRef.type === 18 ? 20 : objectRef.type;
-                        graphRef = {
-                            handle: objectRef.handle || objectRef.objectHandle,
-                            type: requestType
-                        };
-                        console.log(`${'  '.repeat(depth)}🔄 Using direct graph reference for type ${objectRef.type} → ${requestType}`);
-                    } else {
-                        // For unknown types, try the API conversion
-                        console.log(`${'  '.repeat(depth)}🔄 Converting ${name} to graph reference via API...`);
-                        const toGraphResponse = await this.makeGrpcCall('octaneapi.ApiItemService/toGraph', {
-                            objectPtr: objectRef
-                        });
-                        
-                        if (!toGraphResponse.success || !toGraphResponse.data.result) {
-                            console.warn(`${'  '.repeat(depth)}⚠️ Failed to convert ${name} to graph reference`);
-                            return node;
-                        }
-                        
-                        graphRef = toGraphResponse.data.result;
+                    // For unknown types, try the API conversion
+                    console.log(`${'  '.repeat(depth)}🔄 Converting ${name} to graph reference via API...`);
+                    const toGraphResponse = await this.makeGrpcCall('octaneapi.ApiItemService/toGraph', {
+                        objectPtr: objectRef
+                    });
+                    
+                    if (!toGraphResponse.success || !toGraphResponse.data.result) {
+                        console.warn(`${'  '.repeat(depth)}⚠️ Failed to convert ${name} to graph reference`);
+                        return node;
                     }
+                    
+                    graphRef = toGraphResponse.data.result;
                     
                     console.log(`${'  '.repeat(depth)}📊 Graph reference:`, graphRef);
                     
@@ -441,7 +400,7 @@ function createOctaneWebClient() {
                 
                 if (itemsResponse.success && itemsResponse.data && itemsResponse.data.list) {
                     const itemsArrayRef = itemsResponse.data.list;
-                    console.log(`${'  '.repeat(depth)}📋 Got items array: handle=${itemsArrayRef.handle}, type=${itemsArrayRef.type}`);
+                    console.log(`${'  '.repeat(depth)}📋 Got items array: handle=${itemsArrayRef.objectHandle}, type=${itemsArrayRef.type}`);
                     
                     // Step 2: Get the actual items from the array using ApiItemArrayService/items
                     try {
@@ -449,7 +408,7 @@ function createOctaneWebClient() {
                         
                         const arrayItemsResponse = await this.makeGrpcCall('octaneapi.ApiItemArrayService/items', {
                             objectPtr: {
-                                handle: itemsArrayRef.handle,
+                                objectHandle: itemsArrayRef.objectHandle,
                                 type: itemsArrayRef.type
                             }
                         });
@@ -496,19 +455,17 @@ function createOctaneWebClient() {
                                 let objectRef = null;
                                 if (item.objectRef) {
                                     objectRef = item.objectRef;
-                                } else if (item.handle && item.type) {
+                                } else if (item.objectHandle && item.type) {
                                     // Convert item to objectRef format
                                     objectRef = {
-                                        objectHandle: item.handle,
-                                        handle: item.handle,
-                                        type: item.type,
-                                        objectId: item.objectId || ""
+                                        objectHandle: item.objectHandle,
+                                        type: item.type
                                     };
                                 }
                                 
                                 if (objectRef) {
-                                    const childName = item.name || `Node_${objectRef.handle}`;
-                                    console.log(`${'  '.repeat(depth)}🌿 Recursing into child: ${childName} (handle=${objectRef.handle}, type=${objectRef.type})`);
+                                    const childName = item.name || `Node_${objectRef.objectHandle}`;
+                                    console.log(`${'  '.repeat(depth)}🌿 Recursing into child: ${childName} (handle=${objectRef.objectHandle}, type=${objectRef.type})`);
                                     
                                     const childNode = await this.buildSceneTreeRecursive(objectRef, childName, depth + 1);
                                     if (childNode) {
@@ -599,7 +556,7 @@ function createOctaneWebClient() {
             // First get the pin count for this node
             const pinCountResponse = await this.makeGrpcCall('octaneapi.ApiNodeService/pinCount', {
                 objectPtr: {
-                    handle: objectRef.handle || objectRef.objectHandle,
+                    objectHandle: objectRef.objectHandle,
                     type: objectRef.type
                 }
             });
@@ -617,7 +574,7 @@ function createOctaneWebClient() {
                         
                         const ownedItemResponse = await this.makeGrpcCall('octaneapi.ApiNodeService/ownedItemIx', {
                             objectPtr: {
-                                handle: objectRef.handle || objectRef.objectHandle,
+                                objectHandle: objectRef.objectHandle,
                                 type: objectRef.type
                             },
                             pinIndex: pinIndex
@@ -631,13 +588,11 @@ function createOctaneWebClient() {
                             
                             // Create objectRef for the owned item
                             const childObjectRef = {
-                                handle: ownedItem.handle,
-                                objectHandle: ownedItem.handle,
-                                type: ownedItem.type,
-                                objectId: ownedItem.objectId || ""
+                                objectHandle: ownedItem.objectHandle,
+                                type: ownedItem.type
                             };
                             
-                            const childName = `Pin${pinIndex}_${ownedItem.handle}`;
+                            const childName = `Pin${pinIndex}_${ownedItem.objectHandle}`;
                             console.log(`${indent}  🌿 Recursing into pin-owned item: ${childName}`);
                             
                             const childNode = await this.buildSceneTreeRecursive(childObjectRef, childName, depth + 1);

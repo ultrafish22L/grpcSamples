@@ -15,7 +15,7 @@ class ApiNodeProxy;
 class ApiNodeGraphProxy;
 class ApiRootNodeGraphProxy;
 class ApiItemArrayProxy;
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 
 
 #include "apinodesystem.h"

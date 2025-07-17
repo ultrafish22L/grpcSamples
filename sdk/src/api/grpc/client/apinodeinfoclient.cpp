@@ -16,7 +16,7 @@
 #include "octanereferenceexport.h"
 #include <grpcpp/grpcpp.h>
 #include "octaneinfos.grpc.pb.h"
-#include "../grpcapinodeinfo.h"
+//#include "../grpcapinodeinfo.h"
 #include "stringmgr.h"
 #include "convertmatrix.h"
 #include "grpcsettings.h"

@@ -16,7 +16,7 @@ class ApiItemProxy;
 class ApiNodeProxy;
 class ApiImageProxy;
 class ApiRenderPassInfoProxy;
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 
 
 #include "apiinfo.h"

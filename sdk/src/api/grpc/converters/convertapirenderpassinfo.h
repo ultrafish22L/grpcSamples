@@ -7,7 +7,7 @@
 namespace Octane { struct ApiRenderPassInfo; }
 namespace octaneapi { class ApiRenderPassInfo; }
 
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 class ApiRenderPassInfoConverter
 {
 public:

@@ -112,14 +112,14 @@ class OctaneWebApp {
             this.client,
             this.stateManager
         );
-        
+/*        
         // Initialize render viewport
         this.components.renderViewport = new RenderViewport(
             document.querySelector('#render-viewport'),
             this.client,
             this.stateManager
         );
-        
+*/        
         // Initialize node inspector
         this.components.nodeInspector = new NodeInspector(
             document.querySelector('#node-inspector'),

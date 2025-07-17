@@ -7,7 +7,7 @@
 #include <functional>
 namespace Octane { struct ApiNodeInfo; }
 namespace octaneapi { class ApiNodeInfo; }
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 class ApiNodeInfoConverter
 {
 public:

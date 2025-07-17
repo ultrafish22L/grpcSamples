@@ -153,7 +153,7 @@ endif()
 
 # common projects
 add_subdirectory(shared)
-#dd_subdirectory(sdk)
+add_subdirectory(sdk)
 
 # Add Python proxy server support (generates protobuf files for proxy)
 add_subdirectory(proxy)
@@ -162,4 +162,4 @@ add_subdirectory(proxy)
 add_subdirectory(simpleGL)
 add_subdirectory(simpleGlGrpc)
 add_subdirectory(testGrpcApi)
-#add_subdirectory(simpleGlSdk)
+add_subdirectory(simpleGlSdk)

@@ -7,7 +7,7 @@
 #include <functional>
 #include "apirendercloudmanager.h"
 namespace octaneapi { class ApiRenderCloudManager_ApiRenderCloudManager_SubscriptionInfo; }
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 class ApiRenderCloudManager_ApiRenderCloudManager_SubscriptionInfoConverter
 {
 public:

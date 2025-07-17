@@ -11,7 +11,7 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 
 
 

@@ -1,13 +1,16 @@
 # SDK CMakeLists.txt
 cmake_minimum_required(VERSION 3.10)
 
-# SDK CMakeLists.txt
-cmake_minimum_required(VERSION 3.10)
-
 # Collect all SDK source files
 
+#[[
+file(GLOB SDK_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.*"
+)
+]]
+
 file(GLOB SDK_CLIENT_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client/*.*"
+    "${CMAKE_CURRENT_SOURCE_DIR}/client/*.*"
 )
 # Include protoc sources (protobuf-generated files)
 list(APPEND SDK_SOURCES ${SDK_CLIENT_SOURCES})
@@ -15,7 +18,7 @@ list(APPEND SDK_SOURCES ${SDK_CLIENT_SOURCES})
 
 # Collect all existing protoc files (no compilation needed)
 file(GLOB_RECURSE PROTOC_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/protoc/*.*"
+    "${CMAKE_CURRENT_SOURCE_DIR}/protoc/*.*"
 )
 
 # Include protoc sources (protobuf-generated files)
@@ -23,19 +26,11 @@ list(APPEND SDK_SOURCES ${PROTOC_SOURCES})
 
 # Collect all existing converter files 
 file(GLOB_RECURSE CONVERTER_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/converter/*.*"
+    "${CMAKE_CURRENT_SOURCE_DIR}/converter/*.*"
 )
 
 # Include converter sources
-#list(APPEND SDK_SOURCES ${CONVERTER_SOURCES})
-
-# Collect all existing base files 
-file(GLOB_RECURSE GRPCBASE_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/*.*"
-)
-
-# Include base sources
-#list(APPEND SDK_SOURCES ${GRPCBASE_SOURCES})
+list(APPEND SDK_SOURCES ${CONVERTER_SOURCES})
 
 # Exclude octanewrappers.cpp if it exists
 list(REMOVE_ITEM SDK_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/octanewrappers.cpp")
@@ -46,25 +41,38 @@ add_library(octane_sdk STATIC ${SDK_SOURCES})
 # Set include directories
 target_include_directories(octane_sdk
     PUBLIC
-#        ${CMAKE_CURRENT_SOURCE_DIR}/src/api
-#        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/module
-#        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/module/gui
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/protoc
-#        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/converters
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/ui
-
-        $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/../third_party/protobuf/windows/include>
-        $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/../third_party/grpc/windows/include>
-        $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/../third_party/absl/windows/include>
+        ${CMAKE_CURRENT_SOURCE_DIR}/..
+        ${CMAKE_CURRENT_SOURCE_DIR}/module
+        ${CMAKE_CURRENT_SOURCE_DIR}/module/gui
+        ${CMAKE_CURRENT_SOURCE_DIR}/protoc
+        ${CMAKE_CURRENT_SOURCE_DIR}/converters
+        ${CMAKE_CURRENT_SOURCE_DIR}/client
         ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/ui
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/module/gui
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/module
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/converters
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../..
+
+        $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/../third_party/protobuf/windows/include>
+        $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/../third_party/grpc/windows/include>
+        $<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/../third_party/absl/windows/include>
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
+$(ProjectDir)
+$(SolutionDir)..\libraries\libcommon
+$(SolutionDir)..\src\globals
+$(SolutionDir)..\src\api
+$(SolutionDir)..\src\api\module
+$(SolutionDir)..\src\api\module\gui
+$(SolutionDir)..\src\api\grpc\protoc
+$(SolutionDir)..\src\api\grpc\converters
+$(SolutionDir)..\src\api\grpc\client
+$(SolutionDir)..\src\api\grpc
+$(SolutionDir)..\
+$(SolutionDir)..\src\api\ui
+$(SolutionDir)..\thirdparty\grpc\windows\include
+$(SolutionDir)..\thirdparty\absl\windows\include
+$(SolutionDir)..\thirdparty\cares\windows\include
+$(SolutionDir)..\thirdparty\re2\windows\include
+$(SolutionDir)..\thirdparty\protobuf\windows\include
 
 # Add Windows-specific compiler flags
 if(WIN32 AND MSVC)
@@ -106,7 +114,7 @@ if(WIN32 AND MSVC)
     # Link with octane_standalone.lib
     target_link_libraries(octane_sdk
         PUBLIC
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/api/module/octane_standalone.lib"
+            "${CMAKE_CURRENT_SOURCE_DIR}/../../../octane_standalone.lib"
     )
     message(STATUS "Windows MSVC SDK with octane_standalone.lib configured")
 

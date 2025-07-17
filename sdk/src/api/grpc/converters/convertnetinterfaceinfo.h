@@ -7,7 +7,7 @@
 namespace Octane { struct NetInterfaceInfo; }
 namespace octaneapi { class NetInterfaceInfo; }
 
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 class NetInterfaceInfoConverter
 {
 public:

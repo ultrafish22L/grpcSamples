@@ -7,7 +7,7 @@
 namespace octaneapi { class RenderPassExport; }
 namespace Octane { struct RenderPassExport; }
 
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 class RenderPassExportConverter
 {
 public:

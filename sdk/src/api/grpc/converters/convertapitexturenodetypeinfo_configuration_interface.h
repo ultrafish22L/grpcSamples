@@ -9,7 +9,7 @@
 #include <functional>
 #include "octaneinfos.h"
 namespace octaneapi { class ApiTextureNodeTypeInfo_ApiTextureNodeTypeInfo_Configuration_ApiTextureNodeTypeInfo_Configuration_Interface; }
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 class ApiTextureNodeTypeInfo_Configuration_InterfaceConverter
 {
 public:

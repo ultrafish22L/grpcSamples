@@ -30,7 +30,7 @@
 #if !defined(OCTANE_STANDALONE) && !defined(OCTANE_DLLEXPORT)
 #include "grpcapinodeinfo.h"
 #else 
-struct ApiNodeInfoProxy
+class ApiNodeInfoProxy
 {
     //stub
 };

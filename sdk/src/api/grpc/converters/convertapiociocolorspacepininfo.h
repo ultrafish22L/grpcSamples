@@ -7,7 +7,7 @@
 namespace Octane { struct ApiOcioColorSpacePinInfo; }
 namespace octaneapi { class ApiOcioColorSpacePinInfo; }
 
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 class ApiOcioColorSpacePinInfoConverter
 {
 public:

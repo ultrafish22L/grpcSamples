@@ -7,7 +7,7 @@
 namespace Octane { struct ApiMouseWheelDetails; }
 namespace octaneapi { class ApiMouseWheelDetails; }
 
-struct ApiNodeInfoProxy;
+class ApiNodeInfoProxy;
 class ApiMouseWheelDetailsConverter
 {
 public:
