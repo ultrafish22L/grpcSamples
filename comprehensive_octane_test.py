@@ -43,7 +43,15 @@ import octaneenums_pb2
 class ComprehensiveOctaneTest:
     """Comprehensive test suite for all Octane gRPC services"""
     
-    def __init__(self, octane_host="host.docker.internal", octane_port=51022):
+    def __init__(self, octane_host=None, octane_port=51022):
+        # Auto-detect host based on platform
+        if octane_host is None:
+            import platform
+            if platform.system() == "Windows":
+                octane_host = "127.0.0.1"  # Windows native
+            else:
+                octane_host = "host.docker.internal"  # Docker container
+        
         self.octane_host = octane_host
         self.octane_port = octane_port
         self.channel = None
@@ -766,7 +774,7 @@ async def main():
     print()
     
     # Check if Octane host is specified
-    octane_host = "host.docker.internal"
+    octane_host = None  # Will auto-detect based on platform
     octane_port = 51022
     
     if len(sys.argv) > 1:
@@ -774,11 +782,13 @@ async def main():
     if len(sys.argv) > 2:
         octane_port = int(sys.argv[2])
     
-    print(f"🎯 Target: {octane_host}:{octane_port}")
+    # Create test suite (will auto-detect host if None)
+    test_suite = ComprehensiveOctaneTest(octane_host, octane_port)
+    
+    print(f"🎯 Target: {test_suite.octane_host}:{test_suite.octane_port}")
     print()
     
     # Run comprehensive test
-    test_suite = ComprehensiveOctaneTest(octane_host, octane_port)
     success = await test_suite.run_comprehensive_test()
     
     if success:
