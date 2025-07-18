@@ -143,20 +143,26 @@ async def handle_item_name(request):
         }, status=500)
 
 async def handle_options(request):
-    """Handle CORS preflight requests"""
+    """Handle CORS preflight requests - COMPREHENSIVE for file:// protocol"""
     return web.Response(
         headers={
             'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, X-Call-Id',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH',
+            'Access-Control-Allow-Headers': '*',
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Max-Age': '86400',
+            'Access-Control-Expose-Headers': '*',
         }
     )
 
 def add_cors_headers(response):
-    """Add CORS headers to response"""
+    """Add CORS headers to response - COMPREHENSIVE for file:// protocol"""
     response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, X-Call-Id'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH'
+    response.headers['Access-Control-Allow-Headers'] = '*'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    response.headers['Access-Control-Max-Age'] = '86400'
+    response.headers['Access-Control-Expose-Headers'] = '*'
     return response
 
 async def create_app():
