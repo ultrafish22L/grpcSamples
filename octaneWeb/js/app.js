@@ -649,6 +649,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Make app globally available for debugging
         window.octaneWebApp = octaneWebApp;
         
+        // Expose NodeInspector for debugging
+        window.nodeInspector = octaneWebApp.components.nodeInspector;
+        
         // Global functions for HTML event handlers
         window.toggleConnection = () => {
             const toggle = document.getElementById('connectionToggle');

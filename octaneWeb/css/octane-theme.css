@@ -142,6 +142,12 @@ html, body {
     grid-template-rows: var(--menu-height) 1fr var(--status-bar-height);
     height: 100vh;
     background-color: var(--octane-bg-primary);
+    pointer-events: none; /* Disable pointer events to prevent click interception */
+}
+
+/* Re-enable pointer events for direct children */
+.app-container > * {
+    pointer-events: auto;
 }
 
 /* Menu Bar */
@@ -227,6 +233,13 @@ html, body {
     background-color: var(--octane-bg-primary);
     overflow: hidden; /* Prevent layout overflow */
     margin-left: 0; /* No margin needed since Scene Outliner is absolute */
+    gap: 0; /* Ensure no gaps between grid areas */
+    pointer-events: none; /* Disable pointer events to prevent click interception */
+}
+
+/* Re-enable pointer events for direct children */
+.app-layout > * {
+    pointer-events: auto;
 }
 
 /* Left Space - Reserved for absolute Scene Outliner */
@@ -438,6 +451,18 @@ html, body {
     overflow: hidden; /* Prevent layout overflow */
     margin: 0; /* Ensure no margins */
     padding: 0; /* Ensure no padding */
+    pointer-events: none; /* Disable pointer events to prevent click interception */
+}
+
+/* Re-enable pointer events for interactive elements in center panel */
+.center-panel button,
+.center-panel input,
+.center-panel select,
+.center-panel textarea,
+.center-panel canvas,
+.center-panel [role="button"],
+.center-panel .clickable {
+    pointer-events: auto;
 }
 
 .viewport-header {
@@ -646,6 +671,13 @@ html, body {
     overflow-y: auto; /* Allow scrolling if content is tall */
     display: flex;
     flex-direction: column;
+    z-index: 1000 !important;
+    position: relative;
+    pointer-events: auto !important;
+}
+
+.right-panel * {
+    pointer-events: auto !important;
 }
 
 .node-selector {
