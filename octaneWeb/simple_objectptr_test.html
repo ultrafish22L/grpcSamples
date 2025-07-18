@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple ObjectPtr Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        h1 {
+            color: #ff4444;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            background: #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #ff4444;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .status.success { background: #2d5a2d; color: #90ee90; }
+        .status.error { background: #5a2d2d; color: #ff9090; }
+        .status.info { background: #2d4a5a; color: #90d0ff; }
+        .log {
+            background: #1a1a1a;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        button {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #ff6666; }
+        button:disabled { background: #666; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔬 Simple ObjectPtr Test</h1>
+        
+        <div class="test-section">
+            <h3>🎯 Test Objective</h3>
+            <p>Prove ObjectPtr passing works correctly:</p>
+            <ol>
+                <li>Call <code>octaneapi.ApiProjectManagerService/rootNodeGraph</code> → Get ObjectPtr</li>
+                <li>Call <code>octaneapi.ApiItemService/name</code> with that ObjectPtr → Get name back</li>
+            </ol>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔧 Controls</h3>
+            <button onclick="runCompleteTest()">Run Complete Test</button>
+            <button onclick="testStep1()">Step 1: Get ObjectPtr</button>
+            <button onclick="testStep2()" id="step2Btn" disabled>Step 2: Get Name</button>
+            <button onclick="clearLog()">Clear Log</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>📊 Results</h3>
+            <div id="testResults"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📝 Debug Log</h3>
+            <div id="debugLog" class="log"></div>
+        </div>
+    </div>
+
+    <!-- Use existing working infrastructure -->
+    <script src="shared/js/shared.js"></script>
+    <script src="shared/js/livelink.js"></script>
+    <script src="js/core/OctaneWebClient.js"></script>
+    <script src="js/utils/CacheBuster.js"></script>
+
+    <script>
+        let octaneClient = null;
+        let currentObjectPtr = null;
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logDiv = document.getElementById('debugLog');
+            const entry = document.createElement('div');
+            
+            const emoji = type === 'success' ? '✅' : type === 'error' ? '❌' : '📋';
+            entry.innerHTML = `[${timestamp}] ${emoji} ${message}`;
+            
+            logDiv.appendChild(entry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function updateResults(step, success, data) {
+            const resultsElement = document.getElementById('testResults');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'status ' + (success ? 'success' : 'error');
+            resultDiv.innerHTML = success ? 
+                `✅ Step ${step}: ${data}` : 
+                `❌ Step ${step}: ${data}`;
+            resultsElement.appendChild(resultDiv);
+        }
+
+        async function initializeClient() {
+            if (!octaneClient) {
+                log('🔌 Initializing Octane client...');
+                octaneClient = new LiveLinkClient('http://localhost:51023');
+                await octaneClient.connect();
+                log('✅ Client connected successfully', 'success');
+            }
+        }
+
+        async function testStep1() {
+            try {
+                await initializeClient();
+                log('🧪 Step 1: Getting ObjectPtr from rootNodeGraph...');
+                
+                const result = await octaneClient.makeGrpcCall('octaneapi.ApiProjectManagerService/rootNodeGraph', {});
+                log(`📥 Step 1 Response: ${JSON.stringify(result, null, 2)}`);
+                
+                if (result.success && result.data && result.data.result) {
+                    currentObjectPtr = result.data.result;
+                    const objStr = JSON.stringify(currentObjectPtr);
+                    log(`✅ Step 1 SUCCESS: Got ObjectPtr = ${objStr}`, 'success');
+                    updateResults(1, true, `Got ObjectPtr = ${objStr}`);
+                    document.getElementById('step2Btn').disabled = false;
+                    return currentObjectPtr;
+                } else {
+                    throw new Error(`API failed: ${result.error || 'Unknown error'}`);
+                }
+                
+            } catch (error) {
+                log(`❌ Step 1 FAILED: ${error.message}`, 'error');
+                updateResults(1, false, error.message);
+                throw error;
+            }
+        }
+
+        async function testStep2() {
+            try {
+                if (!currentObjectPtr) {
+                    throw new Error('No ObjectPtr available. Run Step 1 first.');
+                }
+                
+                await initializeClient();
+                log('🧪 Step 2: Getting name using ObjectPtr...');
+                log(`📤 Using ObjectPtr: ${JSON.stringify(currentObjectPtr)}`);
+                
+                const result = await octaneClient.makeGrpcCall('octaneapi.ApiItemService/name', {
+                    objectPtr: currentObjectPtr
+                });
+                
+                log(`📥 Step 2 Response: ${JSON.stringify(result, null, 2)}`);
+                
+                if (result.success && result.data) {
+                    let itemName = result.data.result || result.data.name || 'Unknown';
+                    log(`✅ Step 2 SUCCESS: Got name = "${itemName}"`, 'success');
+                    updateResults(2, true, `Got name = "${itemName}"`);
+                    
+                    // Final success message
+                    const finalResult = document.createElement('div');
+                    finalResult.className = 'status success';
+                    finalResult.innerHTML = `<strong>🎉 TEST PASSED: ObjectPtr passing works correctly!</strong>`;
+                    document.getElementById('testResults').appendChild(finalResult);
+                    
+                    return itemName;
+                } else {
+                    throw new Error(`API failed: ${result.error || 'Unknown error'}`);
+                }
+                
+            } catch (error) {
+                log(`❌ Step 2 FAILED: ${error.message}`, 'error');
+                updateResults(2, false, error.message);
+                
+                // Show the core issue
+                if (error.message.includes('invalid pointer type')) {
+                    const analysisResult = document.createElement('div');
+                    analysisResult.className = 'status error';
+                    analysisResult.innerHTML = `<strong>🔍 CORE ISSUE IDENTIFIED: "invalid pointer type" error</strong><br>
+                        This confirms the exact problem we need to solve.`;
+                    document.getElementById('testResults').appendChild(analysisResult);
+                }
+                
+                throw error;
+            }
+        }
+
+        async function runCompleteTest() {
+            try {
+                clearLog();
+                log('🚀 Starting complete ObjectPtr test...');
+                
+                await testStep1();
+                await testStep2();
+                
+                log('🎉 Complete test PASSED!', 'success');
+                
+            } catch (error) {
+                log(`❌ Complete test FAILED: ${error.message}`, 'error');
+            }
+        }
+
+        function clearLog() {
+            document.getElementById('debugLog').innerHTML = '';
+            document.getElementById('testResults').innerHTML = '';
+            document.getElementById('step2Btn').disabled = true;
+            currentObjectPtr = null;
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            log('🚀 Simple ObjectPtr Test initialized');
+            log('📋 Ready to test ObjectPtr passing with Octane gRPC API');
+        });
+    </script>
+</body>
+</html>

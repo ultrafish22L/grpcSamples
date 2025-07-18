@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple ObjectPtr Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #2d2d2d;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            color: #ff4444;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            background: #3a3a3a;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #ff4444;
+        }
+        button {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #ff6666;
+        }
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        .log {
+            background: #1a1a1a;
+            border: 1px solid #555;
+            border-radius: 4px;
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+        }
+        .success { color: #4CAF50; }
+        .error { color: #f44336; }
+        .info { color: #2196F3; }
+        .result {
+            background: #2a2a2a;
+            border: 1px solid #555;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔬 Simple ObjectPtr Test</h1>
+        
+        <div class="test-section">
+            <h3>🎯 Test Objective</h3>
+            <p>Prove ObjectPtr passing works correctly:</p>
+            <ol>
+                <li>Call <code>octaneapi.ApiProjectManagerService/rootNodeGraph</code> → Get ObjectPtr</li>
+                <li>Call <code>octaneapi.ApiItemService/name</code> with that ObjectPtr → Get name back</li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h3>🔧 Controls</h3>
+            <button onclick="runTest()">Run Complete Test</button>
+            <button onclick="testStep1()">Step 1: Get ObjectPtr</button>
+            <button onclick="testStep2()" id="step2Btn" disabled>Step 2: Get Name</button>
+            <button onclick="clearLog()">Clear Log</button>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Results</h3>
+            <div id="results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📝 Debug Log</h3>
+            <div id="log" class="log"></div>
+        </div>
+    </div>
+
+    <script>
+        const PROXY_URL = 'http://localhost:51023';
+        let currentObjectPtr = null;
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logElement = document.getElementById('log');
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : 'info';
+            logElement.innerHTML += `<span class="${className}">[${timestamp}] ${message}</span>\n`;
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        function updateResults(step, success, data = null) {
+            const resultsElement = document.getElementById('results');
+            const stepId = `step${step}Result`;
+            
+            // Remove existing result for this step
+            const existing = document.getElementById(stepId);
+            if (existing) existing.remove();
+            
+            // Add new result
+            const resultDiv = document.createElement('div');
+            resultDiv.id = stepId;
+            resultDiv.className = 'result';
+            
+            if (success) {
+                resultDiv.innerHTML = `<span class="success">✅ Step ${step}: ${data}</span>`;
+            } else {
+                resultDiv.innerHTML = `<span class="error">❌ Step ${step}: ${data}</span>`;
+            }
+            
+            resultsElement.appendChild(resultDiv);
+        }
+
+        async function callAPI(service, method, data = {}) {
+            const cacheBuster = `?v=${Date.now()}`;
+            const url = `${PROXY_URL}/octaneapi.${service}/${method}${cacheBuster}`;
+            log(`📤 Calling ${service}/${method}...`);
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Call-Id': Math.random().toString(36).substr(2, 9),
+                        'Cache-Control': 'no-cache'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                log(`📥 Response: ${JSON.stringify(result, null, 2)}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${result.error || 'Unknown error'}`);
+                }
+                
+                return result;
+            } catch (error) {
+                log(`❌ API call failed: ${error.message}`, 'error');
+                throw error;
+            }
+        }
+
+        async function testStep1() {
+            try {
+                log('🧪 Step 1: Getting ObjectPtr from rootNodeGraph...');
+                
+                const result = await callAPI('ApiProjectManagerService', 'rootNodeGraph');
+                
+                if (result.success && result.data && result.data.result) {
+                    currentObjectPtr = result.data.result;
+                    const objStr = JSON.stringify(currentObjectPtr);
+                    log(`✅ Step 1 SUCCESS: Got ObjectPtr = ${objStr}`, 'success');
+                    updateResults(1, true, `Got ObjectPtr = ${objStr}`);
+                    
+                    // Enable step 2 button
+                    document.getElementById('step2Btn').disabled = false;
+                    return true;
+                } else {
+                    throw new Error('Invalid response format');
+                }
+                
+            } catch (error) {
+                log(`❌ Step 1 FAILED: ${error.message}`, 'error');
+                updateResults(1, false, error.message);
+                return false;
+            }
+        }
+
+        async function testStep2() {
+            if (!currentObjectPtr) {
+                log('❌ No ObjectPtr available. Run Step 1 first.', 'error');
+                return false;
+            }
+
+            try {
+                log('🧪 Step 2: Getting name using ObjectPtr...');
+                log(`📤 Using ObjectPtr: ${JSON.stringify(currentObjectPtr)}`);
+                
+                const result = await callAPI('ApiItemService', 'name', {
+                    objectPtr: currentObjectPtr
+                });
+                
+                if (result.success && result.data) {
+                    const name = result.data.result;
+                    log(`✅ Step 2 SUCCESS: Got name = "${name}"`, 'success');
+                    updateResults(2, true, `Got name = "${name}"`);
+                    return true;
+                } else {
+                    throw new Error('Invalid response format');
+                }
+                
+            } catch (error) {
+                log(`❌ Step 2 FAILED: ${error.message}`, 'error');
+                updateResults(2, false, error.message);
+                return false;
+            }
+        }
+
+        async function runTest() {
+            log('🚀 Starting complete ObjectPtr test...', 'success');
+            
+            // Clear previous results
+            document.getElementById('results').innerHTML = '';
+            
+            // Run step 1
+            const step1Success = await testStep1();
+            if (!step1Success) {
+                log('❌ Test aborted due to Step 1 failure', 'error');
+                return;
+            }
+            
+            // Wait a moment
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Run step 2
+            const step2Success = await testStep2();
+            
+            if (step1Success && step2Success) {
+                log('🎉 COMPLETE TEST SUCCESS: ObjectPtr passing works!', 'success');
+            } else {
+                log('❌ COMPLETE TEST FAILED', 'error');
+            }
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+            document.getElementById('results').innerHTML = '';
+            currentObjectPtr = null;
+            document.getElementById('step2Btn').disabled = true;
+        }
+
+        // Initialize
+        log('🚀 Simple ObjectPtr Test initialized');
+        log('📋 Ready to test ObjectPtr passing with Octane gRPC API');
+    </script>
+</body>
+</html>
