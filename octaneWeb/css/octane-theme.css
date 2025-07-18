@@ -216,7 +216,11 @@ html, body {
 /* Main Layout */
 .app-layout {
     display: grid;
-    grid-template-columns: 180px 1fr 300px; /* Proper 3-column docked layout */
+    grid-template-columns: 180px 1fr 300px; /* Left panel | Center (3D Canvas) | Right panel */
+    grid-template-rows: 1fr 300px; /* Top row (panels) | Bottom row (node graph) */
+    grid-template-areas: 
+        "left-panel center-panel right-panel"
+        "bottom-panel bottom-panel bottom-panel";
     height: 100%; /* This should be 100% of the grid row, not viewport */
     max-height: 100%; /* Ensure it never exceeds the allocated grid space */
     background-color: var(--octane-bg-primary);
@@ -276,6 +280,7 @@ html, body {
 
 /* Left Panel - Scene Outliner */
 .left-panel {
+    grid-area: left-panel;
     height: 100%; /* 100% of the grid cell height */
     max-height: 100%; /* Never exceed grid cell height */
     min-width: 150px;
@@ -414,10 +419,11 @@ html, body {
     opacity: 1;
 }
 
-/* Center Panel - Viewport */
+/* Center Panel - 3D Canvas/Viewport */
 .center-panel {
-    display: grid;
-    grid-template-rows: auto 1fr 300px; /* Increased node graph space from 200px to 300px */
+    grid-area: center-panel;
+    display: flex;
+    flex-direction: column;
     background-color: var(--octane-bg-primary);
     height: 100%; /* Ensure full height usage */
     overflow: hidden; /* Prevent layout overflow */
@@ -540,11 +546,13 @@ html, body {
     color: var(--octane-text-secondary);
 }
 
-/* Node Graph Section */
-.node-graph-section {
+/* Bottom Panel - Node Graph Editor */
+.bottom-panel {
+    grid-area: bottom-panel;
     display: flex;
     flex-direction: column;
     border-top: 1px solid var(--octane-border);
+    background-color: var(--octane-bg-secondary);
     height: 100%; /* Use full allocated grid space */
     overflow: hidden; /* Prevent overflow beyond allocated space */
 }
@@ -620,6 +628,7 @@ html, body {
 
 /* Right Panel - Node Inspector */
 .right-panel {
+    grid-area: right-panel;
     background-color: var(--octane-bg-secondary); /* Professional dark background */
     border-left: 1px solid var(--octane-border); /* Subtle left border */
     border-right: none;
@@ -719,12 +728,14 @@ html, body {
 @media (max-width: 1200px) {
     .app-layout {
         grid-template-columns: 180px 1fr 250px;
+        grid-template-rows: 1fr 250px; /* Smaller node graph on smaller screens */
     }
 }
 
 @media (max-width: 900px) {
     .app-layout {
         grid-template-columns: 150px 1fr 200px;
+        grid-template-rows: 1fr 200px; /* Even smaller node graph */
     }
     
     .render-info {

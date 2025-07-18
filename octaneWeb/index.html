@@ -108,7 +108,7 @@
                 </div>
             </aside>
 
-            <!-- Center Panel: Render Viewport -->
+            <!-- Center Panel: 3D Canvas/Render Viewport -->
             <section class="center-panel">
                 
                 <!-- Viewport Header -->
@@ -149,29 +149,6 @@
                     <div class="render-info">
                         <span class="frame-info">Frame 1 of 1</span>
                         <span class="gpu-info">NVIDIA GeForce RTX 4090 (RT), 1.4...</span>
-                    </div>
-                </div>
-                
-                <!-- Node Graph Editor -->
-                <div class="node-graph-section">
-                    <div class="node-graph-header">
-                        <h3>Node graph editor</h3>
-                        <div class="node-graph-controls">
-                            <button class="node-btn" title="Add Node">+</button>
-                            <button class="node-btn" title="Delete Node">🗑</button>
-                            <button class="node-btn" title="Fit All">⊞</button>
-                        </div>
-                    </div>
-                    <div class="node-graph-container">
-                        <canvas id="node-graph" class="node-graph"></canvas>
-                        <!-- Instructions panel hidden by default - nodes should be visible -->
-                        <div class="node-palette" style="display: none;">
-                            <div class="palette-header">Node Creation</div>
-                            <div class="palette-instructions">
-                                <p>Right-click in the node graph to create nodes</p>
-                                <p>Choose from categories like Materials, Textures, Lights, and more</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 
@@ -244,6 +221,29 @@
                     </div>
                 </div>
             </aside>
+
+            <!-- Bottom Panel: Node Graph Editor -->
+            <section class="bottom-panel">
+                <div class="node-graph-header">
+                    <h3>Node graph editor</h3>
+                    <div class="node-graph-controls">
+                        <button class="node-btn" title="Add Node">+</button>
+                        <button class="node-btn" title="Delete Node">🗑</button>
+                        <button class="node-btn" title="Fit All">⊞</button>
+                    </div>
+                </div>
+                <div class="node-graph-container">
+                    <canvas id="node-graph" class="node-graph"></canvas>
+                    <!-- Instructions panel hidden by default - nodes should be visible -->
+                    <div class="node-palette" style="display: none;">
+                        <div class="palette-header">Node Creation</div>
+                        <div class="palette-instructions">
+                            <p>Right-click in the node graph to create nodes</p>
+                            <p>Choose from categories like Materials, Textures, Lights, and more</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
             
         </main>
 
