@@ -221,6 +221,7 @@ html, body {
     grid-template-areas: 
         "left-panel center-panel right-panel"
         "left-panel bottom-panel right-panel";
+    grid-gap: 1px; /* Add gap between grid areas to prevent overlap */
     height: 100%; /* This should be 100% of the grid row, not viewport */
     max-height: 100%; /* Ensure it never exceeds the allocated grid space */
     background-color: var(--octane-bg-primary);
@@ -283,8 +284,9 @@ html, body {
     grid-area: left-panel;
     height: 100%; /* 100% of the grid cell height */
     max-height: 100%; /* Never exceed grid cell height */
-    min-width: 150px;
-    max-width: 400px;
+    width: 200px; /* Strict width constraint to match grid column */
+    max-width: 200px; /* Never exceed allocated grid space */
+    min-width: 200px; /* Maintain consistent width */
     position: relative;
     z-index: 1; /* Keep within normal stacking context */
     overflow: hidden; /* Critical: prevent any overflow */
