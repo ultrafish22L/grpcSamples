@@ -119,12 +119,7 @@ class SimpleTestProxy:
             print("📤 Calling ApiProjectManagerService/rootNodeGraph...")
             request = apiprojectmanager_pb2.ApiProjectManager.rootNodeGraphRequest()
             response = await self.project_stub.rootNodeGraph(request)
-            
-            result = {
-                'handle': response.result.handle,
-                'type': response.result.type
-            }
-            print(f"📥 rootNodeGraph response: {result}")
+            print(f"📥 rootNodeGraph response: {response}")
             
             # Immediately test ObjectPtr passing by calling get_item_name
             print("🔄 Testing ObjectPtr passing: calling get_item_name with returned ObjectPtr...")
@@ -134,6 +129,8 @@ class SimpleTestProxy:
             except Exception as name_error:
                 print(f"❌ ObjectPtr passing FAILED: {name_error}")
             
+            result = response.result
+            print(f"📥 name response: '{result}'")
             return result
             
         except Exception as e:
@@ -148,17 +145,8 @@ class SimpleTestProxy:
             # Create the request
             request = apinodesystem_pb2.ApiItem.nameRequest()
             
-            # Handle both protobuf ObjectRef and dictionary formats
-            if hasattr(object_ref, 'handle') and hasattr(object_ref, 'type'):
-                # Direct protobuf ObjectRef - pass it directly
-                request.objectPtr.CopyFrom(object_ref)
-                print(f"📤 Using protobuf ObjectRef directly: handle={object_ref.handle}, type={object_ref.type}")
-            else:
-                # Dictionary format
-                request.objectPtr.handle = object_ref['handle']
-                request.objectPtr.type = object_ref['type']
-                print(f"📤 Using dictionary ObjectRef: handle={object_ref['handle']}, type={object_ref['type']}")
-            
+            # Direct protobuf ObjectRef - pass it directly
+            request.objectPtr.CopyFrom(object_ref)
             print(f"📤 gRPC request: {request}")
             response = await self.item_stub.name(request)
             
