@@ -283,10 +283,11 @@ html, body {
     grid-area: left-panel;
     height: 100%; /* 100% of the grid cell height */
     max-height: 100%; /* Never exceed grid cell height */
-    min-width: 150px;
-    max-width: 400px;
+    width: 220px; /* FORCE exact width to match grid */
+    min-width: 220px;
+    max-width: 220px;
     position: relative;
-    z-index: 1; /* Keep within normal stacking context */
+    z-index: 0; /* LOWER z-index so it stays behind center panel */
     overflow: hidden; /* Critical: prevent any overflow */
     contain: layout style paint; /* CSS containment for strict boundaries */
 }
@@ -427,6 +428,8 @@ html, body {
     background-color: var(--octane-bg-primary);
     height: 100%; /* Ensure full height usage */
     overflow: hidden; /* Prevent layout overflow */
+    margin: 0; /* Ensure no margins */
+    padding: 0; /* Ensure no padding */
 }
 
 .viewport-header {
