@@ -1,5 +1,36 @@
 # OctaneWeb - Complete Web-Based Octane Render Interface
 
+## 🔥 CRITICAL OBJECTPTR TYPE CONVERSION REQUIREMENT
+
+**⚠️ ESSENTIAL FOR ALL OCTANE API INTEGRATION**: When calling different Octane API services, you MUST convert the ObjectPtr type field to match the target service interface.
+
+**The Fix That Prevented Hours of Debugging**:
+```javascript
+// ❌ WRONG - This causes "invalid pointer type" errors
+const request = {
+    objectPtr: {
+        handle: sourceObject.handle,
+        type: sourceObject.type  // DON'T copy the original type!
+    }
+};
+
+// ✅ CORRECT - Convert type to match target service
+const request = {
+    objectPtr: {
+        handle: sourceObject.handle,
+        type: 16  // ApiItem type for ApiItemService calls
+    }
+};
+```
+
+**Critical ObjectType Constants** (from `common.proto`):
+- `ApiItem = 16` - Use for ApiItemService calls (name, destroy, etc.)
+- `ApiNode = 17` - Use for ApiNodeService calls
+- `ApiRootNodeGraph = 18` - Use for root node graph operations
+- `ApiNodeGraph = 20` - Use for node graph operations
+
+**Why This Matters**: Octane uses polymorphic object handles - the same handle can be accessed through different service interfaces, but you must specify which interface via the type field.
+
 ## Vision
 A complete HTML/JavaScript recreation of Octane Render Studio's interface that operates entirely through Octane's gRPC API. This project aims to provide a pixel-perfect, fully functional web-based version of Octane that matches the native application's UI and functionality.
 

@@ -1,5 +1,20 @@
 # OTOY WebGL-Octane LiveLink Sync
 
+## 🔥 CRITICAL OBJECTPTR TYPE CONVERSION REQUIREMENT
+
+**⚠️ BEFORE YOU START**: If you're developing with Octane's gRPC API, you MUST understand ObjectPtr type conversion to avoid "invalid pointer type" errors.
+
+**Quick Reference**:
+```python
+# ❌ WRONG - Copying original type fails
+request.objectPtr.type = source_object.type
+
+# ✅ CORRECT - Convert to target service type
+request.objectPtr.type = 16  # ApiItem for ApiItemService calls
+```
+
+**See `OBJECTPTR_TYPE_CONVERSION_GUIDE.md` for complete details.**
+
 ## 🚀 QUICKSTART - Get Running fast
 
 ### Step 1: Start Octane Render

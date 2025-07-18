@@ -121,6 +121,10 @@ class LiveLinkProxy:
     async def get_camera(self):
         """Get camera state from Octane"""
         try:
+            if not self.stub:
+                print(f"❌ GetCamera failed: Not connected to Octane")
+                raise Exception("Not connected to Octane LiveLink service")
+                
             request = livelink_pb2.Empty()
             print(f"📤 Sending GetCamera request to Octane")
             response = await self.stub.GetCamera(request)
@@ -818,12 +822,14 @@ async def handle_generic_grpc(request):
         response = await method(grpc_request)
         
         print(f"📥 === OCTANE RESPONSE ===")
-
-        print(f"📥 === ROOT NODE GRAPH RESPONSE ===")
         print(f"📥 Response type: {type(response).__name__}")
         print(f"📥 Response: {response}")
         
-        print(f"✅ RootNodeGraph successful: handle={response.result.handle}, type={response.result.type}")
+        # Only try to access handle/type if this is actually a rootNodeGraph response
+        if hasattr(response, 'result') and hasattr(response.result, 'handle'):
+            print(f"✅ RootNodeGraph successful: handle={response.result.handle}, type={response.result.type}")
+        else:
+            print(f"✅ API call successful")
     
         # Convert protobuf response to JSON
         print(f"🔄 Converting response to JSON...")
@@ -887,9 +893,6 @@ async def handle_generic_grpc(request):
         print(f"✅ {service_name}.{method_name} completed successfully")
         print(f"✅ Response type: {type(response_dict)}")
         print(f"✅ Response : {response_dict}")
-        
-        name_result = await proxy.get_item_name(response.result)
-        print(f"  anme_result: {name_result}")
 
         return web.json_response(result)
         

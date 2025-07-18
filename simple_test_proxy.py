@@ -81,6 +81,7 @@ try:
     import apinodesystem_pb2_grpc  
     import apinodesystem_pb2
     import common_pb2
+    import octaneids_pb2
     print("✅ Successfully imported protobuf modules")
 except ImportError as e:
     print(f"❌ Failed to import protobuf modules: {e}")
@@ -144,12 +145,13 @@ class SimpleTestProxy:
             
             # Create the request
             request = apinodesystem_pb2.ApiItem.nameRequest()
-            print(f"📤 gRPC request: {request}")      
-            # !!! TODO need to set request.objectPtr.type to apiItem
-            # request.objectPtr.type = 
-
-            # Direct protobuf ObjectRef - pass it directly
-            request.objectPtr.handle = object_ref.handle
+            
+            # CRITICAL: ObjectPtr type conversion for polymorphic API access
+            # The same object handle can be accessed through different service interfaces
+            # We must set the type to match the TARGET SERVICE, not the source object type
+            request.objectPtr.handle = object_ref.handle  # Keep same handle
+            request.objectPtr.type = 16  # ApiItem type for ApiItemService (from common.proto ObjectType enum)
+            # NOTE: object_ref.type is ApiRootNodeGraph (18), but ApiItemService requires ApiItem (16)
             print(f"📤 gRPC request: {request}")
             response = await self.item_stub.name(request)
             

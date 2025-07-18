@@ -660,69 +660,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         };
 
-        // Debug console functions
+        // Debug console functions (using the DebugConsole class)
         window.toggleDebugConsole = () => {
-            const console = document.getElementById('debug-console');
-            if (console.style.display === 'none') {
-                console.style.display = 'block';
-            } else {
-                console.style.display = 'none';
+            if (window.debugConsole) {
+                window.debugConsole.toggle();
             }
         };
 
         window.clearDebugLog = () => {
-            const log = document.getElementById('debug-log');
-            if (log) {
-                log.innerHTML = '';
+            if (window.debugConsole) {
+                window.debugConsole.clear();
             }
         };
-
-        // Override console methods to capture logs
-        const originalConsole = {
-            log: console.log,
-            error: console.error,
-            warn: console.warn,
-            info: console.info
-        };
-
-        function addToDebugLog(message, type = 'info') {
-            const log = document.getElementById('debug-log');
-            if (log) {
-                const entry = document.createElement('div');
-                entry.className = `log-entry ${type}`;
-                entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
-                log.appendChild(entry);
-                log.scrollTop = log.scrollHeight;
-            }
-        }
-
-        console.log = function(...args) {
-            originalConsole.log.apply(console, args);
-            addToDebugLog(args.join(' '), 'info');
-        };
-
-        console.error = function(...args) {
-            originalConsole.error.apply(console, args);
-            addToDebugLog(args.join(' '), 'error');
-        };
-
-        console.warn = function(...args) {
-            originalConsole.warn.apply(console, args);
-            addToDebugLog(args.join(' '), 'warn');
-        };
-
-        console.info = function(...args) {
-            originalConsole.info.apply(console, args);
-            addToDebugLog(args.join(' '), 'info');
-        };
-
-        // Keyboard shortcut for debug console (Ctrl+D)
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === 'd') {
-                e.preventDefault();
-                window.toggleDebugConsole();
-            }
-        });
         
     } catch (error) {
         console.error('Failed to start OctaneWeb:', error);

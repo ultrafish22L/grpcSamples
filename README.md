@@ -22,6 +22,33 @@ Comprehensive code samples demonstrating Octane Render integration via gRPC. Fea
 - Mock Octane server for development without Octane installation
 - Cross-platform build system (Windows, Linux, macOS)
 
+## 🔥 CRITICAL OBJECTPTR TYPE CONVERSION REQUIREMENT
+
+**⚠️ MOST IMPORTANT DEBUGGING INSIGHT**: When calling different Octane API services, you MUST convert the ObjectPtr type field to match the target service, even if the handle stays the same.
+
+**Example - The Critical Fix**:
+```python
+# ❌ WRONG - Copying original type causes "invalid pointer type" error
+request.objectPtr.handle = object_ref.handle
+request.objectPtr.type = object_ref.type  # ApiRootNodeGraph = 18
+
+# ✅ CORRECT - Convert type to match target service
+request.objectPtr.handle = object_ref.handle  
+request.objectPtr.type = 16  # ApiItem type for ApiItemService calls
+```
+
+**ObjectType Enum Values** (from `common.proto`):
+```proto
+enum ObjectType {
+    ApiItem = 16;           // For ApiItemService calls
+    ApiNode = 17;           // For ApiNodeService calls  
+    ApiRootNodeGraph = 18;  // For ApiRootNodeGraphService calls
+    ApiNodeGraph = 20;      // For ApiNodeGraphService calls
+}
+```
+
+**Key Insight**: The same object handle can be accessed through different API interfaces, but you must specify which interface you're using via the type field. This is polymorphism in the Octane API - one object, multiple interfaces.
+
 ## Quick Start
 
 ### Step 1: Start Octane Render
