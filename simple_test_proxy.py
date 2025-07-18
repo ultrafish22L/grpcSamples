@@ -12,7 +12,9 @@ import sys
 import os
 
 # Add the proxy directory to path for protobuf imports
-sys.path.append('/workspace/grpcSamples/proxy')
+script_dir = os.path.dirname(os.path.abspath(__file__))
+proxy_dir = os.path.join(script_dir, 'proxy')
+sys.path.append(proxy_dir)
 
 try:
     import apiprojectmanager_pb2_grpc
