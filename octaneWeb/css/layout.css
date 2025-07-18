@@ -219,6 +219,23 @@
     box-shadow: 0 0 0 1px var(--octane-accent-blue);
 }
 
+.parameter-select {
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-primary);
+    padding: 2px 6px;
+    font-size: var(--font-size-small);
+    border-radius: var(--border-radius);
+    width: 100%;
+    cursor: pointer;
+}
+
+.parameter-select:focus {
+    outline: none;
+    border-color: var(--octane-accent-blue);
+    box-shadow: 0 0 0 1px var(--octane-accent-blue);
+}
+
 .parameter-slider {
     flex: 1;
     height: 4px;

@@ -29,7 +29,57 @@ class NodeInspector extends OctaneComponent {
     
     render() {
         this.element.innerHTML = `
-            <div class="inspector-loading">Select a node to inspect...</div>
+            <div class="inspector-tabs">
+                <button class="inspector-tab active">Properties</button>
+                <button class="inspector-tab">Animation</button>
+                <button class="inspector-tab">Info</button>
+            </div>
+            <div class="inspector-content">
+                <div class="parameter-group">
+                    <div class="parameter-group-header">
+                        <span class="parameter-group-title">Camera Parameters</span>
+                        <button class="parameter-group-toggle">▼</button>
+                    </div>
+                    <div class="parameter-group-content">
+                        <div class="parameter-row">
+                            <label class="parameter-label">Position X</label>
+                            <input type="number" class="parameter-input" value="1.14" step="0.01">
+                        </div>
+                        <div class="parameter-row">
+                            <label class="parameter-label">Position Y</label>
+                            <input type="number" class="parameter-input" value="11.99" step="0.01">
+                        </div>
+                        <div class="parameter-row">
+                            <label class="parameter-label">Position Z</label>
+                            <input type="number" class="parameter-input" value="20.61" step="0.01">
+                        </div>
+                        <div class="parameter-row">
+                            <label class="parameter-label">FOV</label>
+                            <input type="number" class="parameter-input" value="45.0" step="0.1">
+                        </div>
+                    </div>
+                </div>
+                <div class="parameter-group">
+                    <div class="parameter-group-header">
+                        <span class="parameter-group-title">Render Settings</span>
+                        <button class="parameter-group-toggle">▼</button>
+                    </div>
+                    <div class="parameter-group-content">
+                        <div class="parameter-row">
+                            <label class="parameter-label">Max Samples</label>
+                            <input type="number" class="parameter-input" value="1000" step="1">
+                        </div>
+                        <div class="parameter-row">
+                            <label class="parameter-label">Resolution</label>
+                            <select class="parameter-select">
+                                <option>1920x1080</option>
+                                <option>1280x720</option>
+                                <option>3840x2160</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
         `;
     }
     
@@ -329,9 +379,8 @@ class NodeInspector extends OctaneComponent {
     }
     
     showNoSelection() {
-        this.element.innerHTML = `
-            <div class="inspector-loading">Select a node to inspect...</div>
-        `;
+        // Show the same content as render() method
+        this.render();
     }
     
     showError(message) {

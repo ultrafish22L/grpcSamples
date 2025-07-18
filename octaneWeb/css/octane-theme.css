@@ -216,7 +216,7 @@ html, body {
 /* Main Layout */
 .app-layout {
     display: grid;
-    grid-template-columns: 280px 1fr 300px; /* Increased left panel from 200px to 280px */
+    grid-template-columns: 180px 1fr 280px; /* Balanced layout for all panels */
     height: 100%; /* This should be 100% of the grid row, not viewport */
     max-height: 100%; /* Ensure it never exceeds the allocated grid space */
     background-color: var(--octane-bg-primary);
@@ -623,6 +623,8 @@ html, body {
     min-width: 250px;
     max-width: 500px;
     border-right: none;
+    background-color: var(--octane-bg-primary); /* Make it visible */
+    border-left: 1px solid var(--octane-border); /* Add left border */
 }
 
 .node-selector {

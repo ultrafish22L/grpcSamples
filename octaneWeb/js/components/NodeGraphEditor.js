@@ -256,12 +256,7 @@ class NodeGraphEditor extends OctaneComponent {
         this.ctx.font = '12px Arial';
         this.ctx.fillText('TEST CANVAS', 15, 30);
         
-        // TEST: Draw a large blue rectangle to ensure visibility
-        this.ctx.fillStyle = '#0000ff';
-        this.ctx.fillRect(200, 10, 200, 100);
-        this.ctx.fillStyle = '#ffff00';
-        this.ctx.font = '16px Arial';
-        this.ctx.fillText('RENDER WORKING', 210, 60);
+        // Removed test rectangle - node graph is working
         
         // Save context
         this.ctx.save();
