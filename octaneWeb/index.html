@@ -14,10 +14,26 @@
 
     <title>OctaneRender Studio - Web Edition</title>
     
-    <!-- Core Stylesheets -->
-    <link rel="stylesheet" href="css/octane-theme.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/components.css">
+    <!-- Core Stylesheets with Cache Busting -->
+    <script>
+        // Generate cache busting for CSS
+        const cssCacheBuster = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15);
+        const cssCb = `?v=${cssCacheBuster}`;
+        
+        // Load CSS with cache busting
+        const cssFiles = [
+            'css/octane-theme.css',
+            'css/layout.css', 
+            'css/components.css'
+        ];
+        
+        cssFiles.forEach(href => {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = href + cssCb;
+            document.head.appendChild(link);
+        });
+    </script>
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="assets/icons/octane-icon.svg">
@@ -204,36 +220,55 @@
         <!-- Modal dialogs will be dynamically created here -->
     </div>
 
-    <!-- Development Tools (Load First) -->
-    <script src="shared/js/shared.js"></script>
-
-    <script src="js/utils/DebugConsole.js"></script>
-    <script src="js/utils/CacheBuster.js"></script>
-    
-    <!-- Core JavaScript Libraries -->
-    <script src="shared/js/livelink.js"></script>
-    <script src="shared/js/webgl-utils.js"></script>
-    
-    <!-- OctaneWeb Core -->
-    <script src="js/core/OctaneWebClient.js"></script>
-    <script src="js/core/ComponentSystem.js"></script>
-    <script src="js/core/StateManager.js"></script>
-    <script src="js/core/EventSystem.js"></script>
-    
-    <!-- UI Components -->
-    <script src="js/components/SceneOutliner.js"></script>
-    <script src="js/components/RenderViewport.js"></script>
-    <script src="js/components/NodeInspector.js"></script>
-    <script src="js/components/NodeGraphEditor.js"></script>
-    <script src="js/components/MenuSystem.js"></script>
-    
-    <!-- Utilities -->
-    <script src="js/utils/WebGLRenderer.js"></script>
-    <script src="js/utils/LayoutManager.js"></script>
-    <script src="js/utils/FileManager.js"></script>
-    
-    <!-- Main Application -->
-    <script src="js/app.js"></script>
+    <!-- Cache Busting Script Loader -->
+    <script>
+        // Generate cache busting timestamp
+        const cacheBuster = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15);
+        const cb = `?v=${cacheBuster}`;
+        
+        // Load scripts with cache busting
+        const scripts = [
+            // Development Tools (Load First)
+            'shared/js/shared.js',
+            'js/utils/DebugConsole.js',
+            'js/utils/CacheBuster.js',
+            
+            // Core JavaScript Libraries
+            'shared/js/livelink.js',
+            'shared/js/webgl-utils.js',
+            
+            // OctaneWeb Core
+            'js/core/OctaneWebClient.js',
+            'js/core/ComponentSystem.js',
+            'js/core/StateManager.js',
+            'js/core/EventSystem.js',
+            
+            // UI Components
+            'js/components/SceneOutliner.js',
+            'js/components/RenderViewport.js',
+            'js/components/NodeInspector.js',
+            'js/components/NodeGraphEditor.js',
+            'js/components/MenuSystem.js',
+            
+            // Utilities
+            'js/utils/WebGLRenderer.js',
+            'js/utils/LayoutManager.js',
+            'js/utils/FileManager.js',
+            
+            // Main Application
+            'js/app.js'
+        ];
+        
+        // Load scripts sequentially with cache busting
+        scripts.forEach(src => {
+            const script = document.createElement('script');
+            script.src = src + cb;
+            script.async = false; // Maintain load order
+            document.head.appendChild(script);
+        });
+        
+        console.log(`🔄 Cache Busting Active: ${cacheBuster}`);
+    </script>
     
 </body>
 </html>

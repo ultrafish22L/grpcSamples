@@ -267,7 +267,7 @@ class DebugConsole {
         try {
             // Get current server address from the UI
             const serverAddress = document.getElementById('serverAddress')?.value || 'http://localhost:51024';
-            const testUrl = serverAddress.replace('/api', '/test');
+            const testUrl = serverAddress.endsWith('/api') ? serverAddress.replace('/api', '/test') : serverAddress + '/test';
             
             this.addLog('info', [`📡 Test endpoint: ${testUrl}`]);
             
