@@ -216,7 +216,7 @@ html, body {
 /* Main Layout */
 .app-layout {
     display: grid;
-    grid-template-columns: 180px 1fr 300px; /* Left panel | Center (3D Canvas) | Right panel */
+    grid-template-columns: 200px 1fr 300px; /* Left panel | Center (3D Canvas) | Right panel */
     grid-template-rows: 1fr 300px; /* Top row (panels) | Bottom row (node graph) */
     grid-template-areas: 
         "left-panel center-panel right-panel"
@@ -427,7 +427,6 @@ html, body {
     background-color: var(--octane-bg-primary);
     height: 100%; /* Ensure full height usage */
     overflow: hidden; /* Prevent layout overflow */
-    margin-left: 1px; /* Small margin to prevent clipping by left panel */
 }
 
 .viewport-header {
@@ -438,7 +437,6 @@ html, body {
     align-items: center;
     justify-content: space-between;
     height: var(--panel-header-height);
-    margin-left: 2px; /* Additional margin to prevent clipping by scene outliner */
 }
 
 .viewport-title {
@@ -518,7 +516,6 @@ html, body {
     align-items: center;
     justify-content: space-between;
     height: 32px;
-    margin-left: 2px; /* Additional margin to prevent clipping by scene outliner */
 }
 
 .playback-controls {
@@ -558,7 +555,6 @@ html, body {
     background-color: var(--octane-bg-secondary);
     height: 100%; /* Use full allocated grid space */
     overflow: hidden; /* Prevent overflow beyond allocated space */
-    margin-left: 1px; /* Small margin to prevent clipping by left panel */
 }
 
 .node-graph-header {
@@ -731,7 +727,7 @@ html, body {
 /* Responsive Design */
 @media (max-width: 1200px) {
     .app-layout {
-        grid-template-columns: 180px 1fr 250px;
+        grid-template-columns: 200px 1fr 250px;
         grid-template-rows: 1fr 250px; /* Smaller node graph on smaller screens */
     }
 }
