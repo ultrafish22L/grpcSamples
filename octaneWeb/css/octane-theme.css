@@ -38,7 +38,7 @@
     --octane-parameter-bg: #353535;    /* Parameter backgrounds */
     
     /* Layout Dimensions */
-    --menu-height: 24px;
+    --menu-height: 40px;
     --panel-header-height: 28px;
     --status-bar-height: 22px;
     --splitter-size: 4px;
@@ -216,7 +216,7 @@ html, body {
 /* Main Layout */
 .app-layout {
     display: grid;
-    grid-template-columns: 180px 1fr 0px; /* Left panel + center, right panel is absolute */
+    grid-template-columns: 180px 1fr 300px; /* Proper 3-column docked layout */
     height: 100%; /* This should be 100% of the grid row, not viewport */
     max-height: 100%; /* Ensure it never exceeds the allocated grid space */
     background-color: var(--octane-bg-primary);
@@ -620,18 +620,12 @@ html, body {
 
 /* Right Panel - Node Inspector */
 .right-panel {
-    min-width: 250px;
-    max-width: 500px;
-    border-right: none;
     background-color: var(--octane-bg-secondary); /* Professional dark background */
     border-left: 1px solid var(--octane-border); /* Subtle left border */
-    position: absolute; /* Position absolute for reliable display */
-    right: 0; /* Stick to right edge */
-    top: 60px; /* Below header */
-    bottom: 30px; /* Above footer */
-    width: 300px; /* Fixed width for consistency */
-    z-index: 100; /* Above main content but below modals */
+    border-right: none;
     overflow-y: auto; /* Allow scrolling if content is tall */
+    display: flex;
+    flex-direction: column;
 }
 
 .node-selector {
