@@ -1,13 +1,25 @@
-# Octane gRPC Samples
-## Advanced 3D Rendering Pipeline Integration Architecture
+# OctaneWeb - Professional 3D Web Application
+## *Custom gRPC-Web Implementation for Octane Render Integration*
 
-**🏗️ SYSTEMS ARCHITECTURE INNOVATION** - Production-grade multi-platform integration suite demonstrating advanced gRPC-based 3D rendering pipeline connectivity. Implements bidirectional real-time synchronization between web browsers, native applications, and Octane Render's LiveLink service through sophisticated protocol abstraction layers.
+**🚀 PRODUCTION-READY 3D WEB APPLICATION** - Professional web-based 3D rendering interface with custom gRPC-Web protocol implementation. Zero external dependencies, industry-standard UI, and seamless Octane Render integration.
 
 ![livelink image](images/livelink.png)
 
-## 🎯 Technical Architecture Overview
+## ⚡ Quick Start
 
-**🔬 CORE INNOVATION**: Custom gRPC-Web protocol implementation eliminating external dependencies while maintaining full API compatibility with Octane's native gRPC services. Demonstrates advanced browser-to-server communication patterns without traditional gRPC-Web limitations.
+```bash
+# 1. Start the proxy server
+cd octaneWeb && python octane_proxy.py
+
+# 2. Open in browser  
+open index.html  # or file:///path/to/octaneWeb/index.html
+
+# 3. Connect to Octane (if running) or use mock mode
+```
+
+## 🎯 Core Innovation
+
+**Custom gRPC-Web Protocol**: Hand-crafted implementation bypassing protobuf.js dependencies while maintaining full Octane API compatibility. Professional 3D interface matching industry standards.
 
 ### 🏛️ Multi-Tier Architecture Design
 

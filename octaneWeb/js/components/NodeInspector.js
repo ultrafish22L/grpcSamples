@@ -34,48 +34,54 @@ class NodeInspector extends OctaneComponent {
     }
     
     setupForceClickHandlers() {
-        // Use a more aggressive approach - intercept ALL clicks and check coordinates
-        document.addEventListener('click', (event) => {
-            console.log('Click detected at:', event.clientX, event.clientY, 'on:', event.target, 'bid:', event.target.getAttribute('bid'));
+        // SIMPLE SOLUTION: Direct event delegation on the right panel itself
+        const rightPanel = document.querySelector('.right-panel');
+        if (!rightPanel) return;
+
+        // Use capture phase to intercept clicks before parent elements can block them
+        rightPanel.addEventListener('click', (event) => {
+            // Stop event from bubbling up to parent elements that might intercept it
+            event.stopPropagation();
             
-            // Get the element at the click coordinates, ignoring pointer-events
-            const elementAtPoint = document.elementFromPoint(event.clientX, event.clientY);
-            console.log('Element at point:', elementAtPoint, 'bid:', elementAtPoint?.getAttribute('bid'));
-            
-            // Check if the click coordinates are within the right panel bounds
-            const rightPanel = document.querySelector('.right-panel');
-            if (rightPanel) {
-                const rect = rightPanel.getBoundingClientRect();
-                const isInRightPanel = event.clientX >= rect.left && event.clientX <= rect.right && 
-                                     event.clientY >= rect.top && event.clientY <= rect.bottom;
-                
-                if (isInRightPanel) {
-                    console.log('Click is within right panel bounds');
-                    event.stopPropagation();
-                    event.preventDefault();
-                    
-                    // Find all elements at this point and look for our target
-                    const allElements = document.elementsFromPoint(event.clientX, event.clientY);
-                    console.log('All elements at point:', allElements.map(el => el.tagName + (el.getAttribute('bid') ? `[${el.getAttribute('bid')}]` : '') + (el.className ? `.${el.className}` : '')));
-                    
-                    // Find the first element that matches our target criteria
-                    const target = allElements.find(el => 
-                        el.hasAttribute('data-group') || 
-                        el.classList.contains('parameter-checkbox') ||
-                        el.classList.contains('parameter-dropdown') ||
-                        el.classList.contains('parameter-input') ||
-                        el.classList.contains('parameter-slider')
-                    );
-                    
-                    if (target) {
-                        console.log('Found target element:', target);
-                        this.handleParameterClick(target, event);
-                    } else {
-                        console.log('No target element found in stack');
-                    }
-                }
+            const target = event.target;
+            console.log('✅ Direct click on right panel element:', target.className);
+
+            // Handle parameter group headers (expand/collapse)
+            if (target.hasAttribute('data-group') || target.closest('[data-group]')) {
+                const header = target.closest('[data-group]') || target;
+                const groupName = header.getAttribute('data-group');
+                console.log('🔽 Toggling parameter group:', groupName);
+                this.toggleParameterGroup(groupName);
+                return;
             }
-        }, true); // Use capture phase to intercept before other handlers
+
+            // Handle checkboxes
+            if (target.classList.contains('parameter-checkbox') || target.closest('.parameter-checkbox')) {
+                const checkbox = target.closest('.parameter-checkbox') || target;
+                console.log('☑️ Checkbox clicked:', checkbox);
+                this.handleParameterClick(checkbox, event);
+                return;
+            }
+
+            // Handle dropdowns
+            if (target.classList.contains('parameter-dropdown') || target.closest('.parameter-dropdown')) {
+                const dropdown = target.closest('.parameter-dropdown') || target;
+                console.log('📋 Dropdown clicked:', dropdown);
+                this.handleParameterClick(dropdown, event);
+                return;
+            }
+
+            // Handle other parameter inputs
+            if (target.classList.contains('parameter-input') || 
+                target.classList.contains('parameter-slider') ||
+                target.closest('.parameter-input') ||
+                target.closest('.parameter-slider')) {
+                console.log('🎛️ Parameter input clicked:', target);
+                // Let these handle their own events naturally
+                return;
+            }
+
+        }, true); // Capture phase - intercepts before bubbling
     }
     
     handleParameterClick(target, event) {
