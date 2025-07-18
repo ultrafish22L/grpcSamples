@@ -85,7 +85,10 @@ class ComprehensiveOctaneTest:
             self.livelink_stub = livelink_pb2_grpc.LiveLinkServiceStub(self.channel)
             
             # Test connection
-            await self.project_stub.isValid(Empty())
+            request = Empty()
+            self.log_grpc_call("ApiProjectManagerService", "isValid", request)
+            response = await self.project_stub.isValid(request)
+            self.log_grpc_call("ApiProjectManagerService", "isValid", request, response)
             print("✅ Connected to Octane successfully")
             return True
             
@@ -115,6 +118,18 @@ class ComprehensiveOctaneTest:
         if details:
             print(f"    📝 {details}")
         if error:
+            print(f"    ❌ Error: {error}")
+    
+    def log_grpc_call(self, service_name, method_name, request, response=None, error=None):
+        """Log gRPC request/response details"""
+        timestamp = datetime.now().strftime("%H:%M:%S.%f")[:-3]  # Include milliseconds
+        
+        print(f"[{timestamp}] 📤 gRPC Call: {service_name}.{method_name}")
+        print(f"    📋 Request: {request}")
+        
+        if response is not None:
+            print(f"    📥 Response: {response}")
+        elif error:
             print(f"    ❌ Error: {error}")
     
     def create_object_ptr(self, handle, object_type):
@@ -621,11 +636,17 @@ class ComprehensiveOctaneTest:
             # Test LiveLink service if available
             try:
                 # This might not be available in all Octane configurations
-                request = livelink_pb2.GetCameraRequest()
+                # Use Empty() request like the proxy does
+                request = livelink_pb2.Empty()
+                self.log_grpc_call("LiveLinkService", "GetCamera", request)
                 response = await self.livelink_stub.GetCamera(request)
-                self.log_test("LiveLink.GetCamera", True, "Camera data retrieved")
-            except Exception:
-                self.log_test("LiveLink.GetCamera", False, "LiveLink service not available")
+                self.log_grpc_call("LiveLinkService", "GetCamera", request, response)
+                
+                camera_info = f"pos=({response.position.x:.2f}, {response.position.y:.2f}, {response.position.z:.2f})"
+                self.log_test("LiveLink.GetCamera", True, f"Camera data retrieved: {camera_info}")
+            except Exception as e:
+                self.log_grpc_call("LiveLinkService", "GetCamera", request, error=e)
+                self.log_test("LiveLink.GetCamera", False, f"LiveLink service not available: {e}")
             
             # Test project settings
             try:
