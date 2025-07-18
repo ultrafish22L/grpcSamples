@@ -13,6 +13,7 @@
 - `"THINK"` = Think step-by-step, show reasoning process
 - `"PROVE"` = Provide concrete evidence for all claims
 - `"FOCUS"` = Lock onto exact request, prevent scope expansion
+- `"GRIND"` = THINK + FOCUS + test + debug in loop until task complete or stuck
 
 ---
 
@@ -91,6 +92,25 @@ USER_CHECK: [what user must confirm]
 5. **ACT**: Take minimal action toward the goal
 6. **VERIFY**: Provide CONCRETE_PROOF of results
 7. **CHECK**: Does this serve the EXACT_REQUEST?
+
+### **🔄 GRIND MODE EXECUTION LOOP**
+
+**When user says "GRIND", activate autonomous work mode:**
+
+```
+LOOP until task complete or stuck:
+  1. THINK: Analyze current state step-by-step
+  2. FOCUS: Check "Does this serve EXACT_REQUEST?"
+  3. ACT: Take one minimal action
+  4. TEST: Verify the action worked
+  5. DEBUG: If failed, diagnose and fix
+  6. PROGRESS CHECK: Am I closer to PRIMARY_GOAL?
+  
+  IF stuck for 3+ cycles:
+    - Report current state
+    - Ask for guidance
+    - BREAK loop
+```
 
 **Critical self-questions to ask repeatedly:**
 - "What exactly did the user ask for?"
