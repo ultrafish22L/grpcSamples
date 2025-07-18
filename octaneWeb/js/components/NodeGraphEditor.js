@@ -91,11 +91,6 @@ class NodeGraphEditor extends OctaneComponent {
         
         console.log('✅ Got 2D context:', this.ctx);
         
-        // Test immediate draw
-        this.ctx.fillStyle = '#00ff00';
-        this.ctx.fillRect(0, 0, 50, 50);
-        console.log('🧪 Drew test green rectangle at canvas init');
-        
         // Initial resize
         this.handleResize();
         
@@ -249,15 +244,6 @@ class NodeGraphEditor extends OctaneComponent {
         // Clear canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
-        // TEST: Draw a simple red rectangle to verify canvas is working
-        this.ctx.fillStyle = '#ff0000';
-        this.ctx.fillRect(10, 10, 100, 50);
-        this.ctx.fillStyle = '#ffffff';
-        this.ctx.font = '12px Arial';
-        this.ctx.fillText('TEST CANVAS', 15, 30);
-        
-        // Removed test rectangle - node graph is working
-        
         // Save context
         this.ctx.save();
         
@@ -277,11 +263,7 @@ class NodeGraphEditor extends OctaneComponent {
         // Restore context
         this.ctx.restore();
         
-        // Debug info (outside viewport transform)
-        this.ctx.fillStyle = '#ffffff';
-        this.ctx.font = '12px Arial';
-        this.ctx.fillText(`Nodes: ${this.nodes.size}`, 10, 20);
-        this.ctx.fillText(`Viewport: ${this.viewport.x.toFixed(0)}, ${this.viewport.y.toFixed(0)}, ${this.viewport.zoom.toFixed(2)}`, 10, 35);
+        // Clean professional node graph - no debug text overlay
     }
     
     drawGrid() {
