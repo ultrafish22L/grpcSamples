@@ -34,47 +34,85 @@ class NodeInspector extends OctaneComponent {
     }
     
     setupForceClickHandlers() {
-        // SIMPLE SOLUTION: Direct event delegation on right-panel using capture phase
+        // ULTIMATE SOLUTION: Global coordinate-based click detection that bypasses all CSS pointer-events issues
         const rightPanel = document.querySelector('.right-panel');
         if (!rightPanel) return;
 
-        console.log('🎯 Setting up direct event delegation on right-panel');
+        console.log('🎯 Setting up coordinate-based click detection system');
 
-        // Direct click handler on the right panel itself using capture phase
-        rightPanel.addEventListener('click', (event) => {
-            console.log('🎯 Direct right-panel click detected:', event.target);
+        // Global document click handler that intercepts ALL clicks
+        document.addEventListener('click', (event) => {
+            // Get click coordinates
+            const x = event.clientX;
+            const y = event.clientY;
             
-            // Find the target element or its parent with data-group attribute
-            let target = event.target;
-            while (target && target !== rightPanel) {
-                // Handle parameter group headers (expand/collapse)
-                if (target.hasAttribute && target.hasAttribute('data-group')) {
-                    const groupName = target.getAttribute('data-group');
-                    console.log('🔽 Direct toggle of parameter group:', groupName);
-                    this.toggleParameterGroup(groupName);
-                    event.preventDefault();
-                    event.stopPropagation();
-                    return;
-                }
+            // Get right panel bounds
+            const rightPanelRect = rightPanel.getBoundingClientRect();
+            
+            // Check if click is within right panel area
+            if (x >= rightPanelRect.left && x <= rightPanelRect.right &&
+                y >= rightPanelRect.top && y <= rightPanelRect.bottom) {
                 
-                // Handle checkboxes
-                if (target.classList && target.classList.contains('parameter-checkbox')) {
-                    console.log('☑️ Direct checkbox click:', target);
-                    target.checked = !target.checked;
-                    this.handleParameterChange(target);
-                    event.preventDefault();
-                    event.stopPropagation();
-                    return;
-                }
+                console.log('🎯 Coordinate-based click detected in right panel at:', x, y);
                 
-                // Handle dropdowns
-                if (target.classList && target.classList.contains('parameter-dropdown')) {
-                    console.log('📋 Direct dropdown click:', target);
-                    // Let dropdown handle itself naturally
-                    return;
-                }
+                // Use elementsFromPoint to find what's actually under the cursor
+                const elementsUnderCursor = document.elementsFromPoint(x, y);
+                console.log('🔍 Elements under cursor:', elementsUnderCursor.map(el => `${el.tagName}.${el.className} [bid=${el.getAttribute('bid')}]`));
                 
-                target = target.parentElement;
+                // Find the first clickable element in the right panel
+                for (const element of elementsUnderCursor) {
+                    // Skip elements that are not in the right panel
+                    if (!rightPanel.contains(element)) continue;
+                    
+                    // Handle parameter group headers (expand/collapse)
+                    if (element.hasAttribute && element.hasAttribute('data-group')) {
+                        const groupName = element.getAttribute('data-group');
+                        console.log('🔽 Coordinate-based toggle of parameter group:', groupName);
+                        this.toggleParameterGroup(groupName);
+                        event.preventDefault();
+                        event.stopPropagation();
+                        return;
+                    }
+                    
+                    // Handle checkboxes
+                    if (element.classList && element.classList.contains('parameter-checkbox')) {
+                        console.log('☑️ Coordinate-based checkbox click:', element);
+                        element.checked = !element.checked;
+                        this.handleParameterChange(element);
+                        event.preventDefault();
+                        event.stopPropagation();
+                        return;
+                    }
+                    
+                    // Handle dropdowns
+                    if (element.classList && element.classList.contains('parameter-dropdown')) {
+                        console.log('📋 Coordinate-based dropdown click:', element);
+                        element.focus();
+                        // Let dropdown handle itself naturally
+                        return;
+                    }
+                    
+                    // Handle number inputs
+                    if (element.classList && element.classList.contains('parameter-number-input')) {
+                        console.log('🔢 Coordinate-based number input click:', element);
+                        element.focus();
+                        return;
+                    }
+                    
+                    // Handle parameter group headers by checking parent elements
+                    let parent = element.parentElement;
+                    while (parent && rightPanel.contains(parent)) {
+                        if (parent.hasAttribute && parent.hasAttribute('data-group')) {
+                            const groupName = parent.getAttribute('data-group');
+                            console.log('🔽 Coordinate-based toggle of parameter group (via parent):', groupName);
+                            this.toggleParameterGroup(groupName);
+                            event.preventDefault();
+                            event.stopPropagation();
+                            return;
+                        }
+                        parent = parent.parentElement;
+                    }
+                }
             }
         }, true); // Capture phase - intercepts before any other handlers
     }
