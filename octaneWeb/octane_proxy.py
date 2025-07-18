@@ -54,7 +54,7 @@ except ImportError as e:
     sys.exit(1)
 
 class OctaneWebProxy:
-    def __init__(self, octane_host='127.0.0.1', octane_port=51022, proxy_port=51024):
+    def __init__(self, octane_host='host.docker.internal', octane_port=51022, proxy_port=51024):
         self.octane_host = octane_host
         self.octane_port = octane_port
         self.proxy_port = proxy_port

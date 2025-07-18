@@ -1,217 +1,153 @@
 # PROJECT DISCIPLINE (PD) - OCTANEWEB DEVELOPMENT
+## Project-Specific Engineering Rules and Constraints
 
-**Version 1.0 - Project-Specific Rules for OctaneWeb Development**
-*Created: 2025-01-18*
+**Version 2.0 - OctaneWeb Development Discipline**
+*Extends ENGINEERING_DISCIPLINE.md with project-specific requirements*
 
 ---
 
-## 🚨 CRITICAL PROJECT-SPECIFIC STOP CONDITIONS
+## 🚨 CRITICAL STOP CONDITIONS
 
-### **OCTANE CONNECTION FAILURES - NEVER CONTINUE**
+### OCTANE CONNECTION FAILURES
 ```xml
 <octane_connection_failure>
 TRIGGER: Connection refused, timeout, or gRPC error to Octane LiveLink (port 51022)
+MANDATORY_CHECK: Docker networking protocol (SANDBOX_USE_HOST_NETWORK=true, host.docker.internal)
 ACTION: STOP IMMEDIATELY - Do not continue building
-REQUIRED: Report to user and propose alternatives
-FORBIDDEN: Assuming "offline mode" or "mock mode" without explicit user approval
+REQUIRED: Report to user and propose alternatives (mock server, UI-only, investigation)
+FORBIDDEN: Assuming "offline mode" without explicit user approval
 </octane_connection_failure>
 ```
 
-### **BROWSER COMPATIBILITY FAILURES - NEVER CONTINUE**
+### BROWSER COMPATIBILITY FAILURES
 ```xml
 <browser_compatibility_failure>
-TRIGGER: file:// protocol restrictions, CORS errors, or WebGL failures
-ACTION: STOP IMMEDIATELY - Do not continue with workarounds
+TRIGGER: file:// protocol restrictions, CORS errors, WebGL failures
+ACTION: STOP IMMEDIATELY - Do not switch to localhost servers
 REQUIRED: Report specific browser/version and propose alternatives
-FORBIDDEN: Switching to localhost servers without user approval
+FORBIDDEN: Changing protocol requirements without user approval
 </browser_compatibility_failure>
 ```
 
-### **PROTOBUF/GRPC IMPORT FAILURES - NEVER CONTINUE**
+### PROTOBUF/GRPC IMPORT FAILURES
 ```xml
 <protobuf_import_failure>
-TRIGGER: Missing protobuf files, import errors, or stub generation failures
-ACTION: STOP IMMEDIATELY - Do not continue with mock implementations
+TRIGGER: Missing protobuf files, import errors, stub generation failures
+ACTION: STOP IMMEDIATELY - Do not create mock implementations
 REQUIRED: Report missing dependencies and propose generation/installation plan
-FORBIDDEN: Creating fake protobuf classes or mock stubs without user approval
+FORBIDDEN: Creating fake protobuf classes without user approval
 </protobuf_import_failure>
 ```
 
 ---
 
-## 🎯 PROJECT-SPECIFIC SUCCESS CRITERIA
+## 🐳 OCTANEWEB NETWORKING REQUIREMENTS
 
-### **OCTANEWEB FUNCTIONAL REQUIREMENTS**
-- **Primary**: Web UI loads via file:// protocol with custom debug console
-- **Secondary**: Proxy server connects to live Octane LiveLink on port 51022
-- **Tertiary**: Real-time camera sync, scene outliner, and node graph editor
-
-### **DEVELOPMENT WORKFLOW REQUIREMENTS**
-- **Cache Busting**: MANDATORY timestamp-based cache busting for all JS/CSS
-- **Debug Console**: MANDATORY Ctrl+D toggleable console, never rely on F12
-- **Visual Verification**: MANDATORY screenshot verification of actual browser display
-- **Port Separation**: octaneWeb uses 51024, html project uses 51023
-
----
-
-## 🔧 PROJECT-SPECIFIC TECHNICAL CONSTRAINTS
-
-### **NETWORKING ARCHITECTURE**
-```
-Browser (file://) → Custom Proxy (51024) → Octane LiveLink (51022)
-```
-
-### **DEPENDENCY HIERARCHY**
-1. **Core**: HTML/CSS/JS files must work standalone
-2. **Proxy**: Python proxy server with protobuf bindings
-3. **Octane**: Live Octane Render with LiveLink enabled
-4. **Optional**: Mock server for development without live Octane
-
-### **FILE PROTOCOL REQUIREMENTS**
-- All resources must load via file:// protocol
-- No external CDN dependencies
-- No localhost assumptions in client code
-- CORS-compliant proxy server configuration
-
----
-
-## 🚫 PROJECT-SPECIFIC FORBIDDEN ACTIONS
-
-### **NEVER DO WITHOUT USER APPROVAL**
-- Switch from file:// to localhost servers
-- Continue after Octane connection failures
-- Modify protobuf files or generate new ones
-- Change port assignments (51024 for octaneWeb, 51023 for html)
-- Install system-level dependencies
-- Create mock implementations of real APIs
-
-### **NEVER ASSUME**
-- Octane is running and available
-- User wants offline/mock mode when connections fail
-- Browser supports all WebGL features
-- File system permissions allow file:// access
-- Python dependencies are installed
-
----
-
-## 🎖️ PROJECT-SPECIFIC VALIDATION PROTOCOLS
-
-### **OCTANE CONNECTION VALIDATION**
+### MANDATORY DOCKER SETUP
 ```bash
-# Test Octane LiveLink availability
-curl -v telnet://127.0.0.1:51022 || echo "❌ STOP: Octane not available"
+# Required before any Octane connection attempts
+export SANDBOX_USE_HOST_NETWORK=true
 
-# Test proxy server health
-curl -s http://localhost:51024/health | python3 -m json.tool
+# octane_proxy.py must use host.docker.internal (not 127.0.0.1)
+def __init__(self, octane_host='host.docker.internal', octane_port=51022, proxy_port=51024)
 ```
 
-### **BROWSER COMPATIBILITY VALIDATION**
-```javascript
-// Test file:// protocol compatibility
-if (window.location.protocol !== 'file:') {
-    console.error('❌ STOP: Must run via file:// protocol');
-}
+### CONNECTION DIAGNOSTIC SEQUENCE
+1. Verify SANDBOX_USE_HOST_NETWORK environment variable
+2. Confirm octane_proxy.py uses host.docker.internal
+3. Test proxy health: `curl http://localhost:51024/health`
+4. Only then attempt Octane LiveLink connection
+5. "Connection refused (111)" = Docker isolation issue, not Octane failure
 
-// Test WebGL availability
-const canvas = document.createElement('canvas');
-const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
-if (!gl) {
-    console.error('❌ STOP: WebGL not available');
-}
+---
+
+## 🎯 OCTANEWEB SUCCESS CRITERIA
+
+### FUNCTIONAL REQUIREMENTS
+- **Primary**: Web UI loads via file:// protocol with custom debug console
+- **Secondary**: Proxy server connects to live Octane LiveLink (port 51022)
+- **Tertiary**: Real-time camera sync, scene outliner, node graph editor
+
+### DEVELOPMENT CONSTRAINTS
+- **Cache Busting**: MANDATORY timestamp-based cache busting for all JS/CSS
+- **Debug Console**: Built-in logging, never rely on F12 developer tools
+- **Port Separation**: octaneWeb (51024) vs html legacy (51023)
+- **Protocol Lock**: file:// protocol only, no localhost servers without approval
+
+### VALIDATION REQUIREMENTS
+- **Visual Verification**: Screenshot proof of actual browser display
+- **API Testing**: Debug console Unit Test button with live endpoint coverage
+- **Connection Health**: Real-time proxy status and Octane connectivity monitoring
+- **Error Handling**: Graceful degradation when Octane unavailable
+
+---
+
+## 🔧 OCTANEWEB TECHNICAL ARCHITECTURE
+
+### FILE STRUCTURE DISCIPLINE
+```
+octaneWeb/
+├── octane_proxy.py          # Custom HTTP-to-gRPC proxy (port 51024)
+├── index.html               # Main application entry point
+├── js/utils/CacheBuster.js  # Timestamp-based cache management
+├── js/utils/DebugConsole.js # Built-in development console
+└── shared/js/livelink.js    # gRPC-Web client implementation
 ```
 
-### **CACHE BUSTING VALIDATION**
-```javascript
-// Verify timestamp-based cache busting is active
-const timestamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15);
-console.log(`✅ Cache buster active: ${timestamp}`);
-```
+### PROXY SERVER REQUIREMENTS
+- **Port**: 51024 (dedicated to octaneWeb)
+- **Target**: host.docker.internal:51022 (Octane LiveLink)
+- **Health Check**: /health endpoint with connection status
+- **Test Suite**: /test endpoint with comprehensive API coverage
+- **Error Handling**: Graceful degradation with mock responses when Octane unavailable
+
+### WEB CLIENT CONSTRAINTS
+- **Protocol**: file:// only, no web servers
+- **Cache Busting**: Every JS/CSS load must include timestamp parameter
+- **Debug Console**: Ctrl+D toggle, comprehensive logging with emoji indicators
+- **API Client**: Custom gRPC-Web implementation, no external CDN dependencies
 
 ---
 
-## 📊 PROJECT-SPECIFIC SUCCESS METRICS
+## 🚫 FORBIDDEN ACTIONS WITHOUT USER APPROVAL
 
-### **PERFORMANCE TARGETS**
-- **Proxy Response Time**: < 100ms for API calls
-- **WebGL Frame Rate**: > 30 FPS for 3D rendering
-- **Connection Establishment**: < 2 seconds to Octane LiveLink
-- **UI Responsiveness**: < 50ms for debug console toggle
+### SCOPE EXPANSION
+- Adding features not explicitly requested
+- Fixing unrelated issues during focused tasks
+- Implementing comprehensive error handling beyond basic requirements
+- Building test infrastructure without explicit request
 
-### **RELIABILITY TARGETS**
-- **API Success Rate**: > 95% for live Octane connections
-- **Browser Compatibility**: Chrome 90+, Firefox 88+, Safari 14+
-- **Error Recovery**: Graceful degradation when Octane unavailable
-- **Cache Consistency**: 100% fresh code loading during development
+### PROTOCOL CHANGES
+- Switching from file:// to localhost servers
+- Changing port assignments (51024 for octaneWeb)
+- Modifying Docker networking configuration
+- Adding external dependencies or CDN libraries
 
----
-
-## 🔄 PROJECT-SPECIFIC ERROR RECOVERY
-
-### **CONNECTION FAILURE RECOVERY**
-1. **STOP** - Halt all development immediately
-2. **DIAGNOSE** - Check Octane LiveLink status and port availability
-3. **REPORT** - Provide specific error details to user
-4. **PROPOSE** - Offer mock server, different ports, or alternative approaches
-5. **WAIT** - For explicit user approval before continuing
-
-### **BROWSER COMPATIBILITY RECOVERY**
-1. **STOP** - Halt all browser-specific development
-2. **IDENTIFY** - Specific browser, version, and capability limitations
-3. **REPORT** - Exact compatibility issues and affected features
-4. **PROPOSE** - Polyfills, fallbacks, or alternative implementations
-5. **WAIT** - For user decision on compatibility vs. feature trade-offs
-
-### **DEVELOPMENT ENVIRONMENT RECOVERY**
-1. **STOP** - Halt all environment-dependent operations
-2. **ASSESS** - Available tools, permissions, and system capabilities
-3. **REPORT** - Specific limitations and missing dependencies
-4. **PROPOSE** - Installation steps, workarounds, or alternative tools
-5. **WAIT** - For user approval of environment modifications
+### DEVELOPMENT SHORTCUTS
+- Using F12 developer tools instead of built-in debug console
+- Skipping cache busting during active development
+- Assuming Octane connection status without testing
+- Creating mock implementations without user approval
 
 ---
 
-## 🎯 PROJECT-SPECIFIC ACTIVATION KEYWORDS
+## 📊 PROJECT-SPECIFIC ACTIVATION KEYWORDS
 
-### **OCTANE-SPECIFIC COMMANDS**
-- `"OCTANEIT"` = Focus exclusively on Octane LiveLink integration
-- `"PROXYIT"` = Work on HTTP-to-gRPC proxy server functionality
-- `"MOCKIT"` = Switch to mock server development (requires user approval)
-- `"LIVEIT"` = Attempt live Octane connection (with failure handling)
+### OCTANEWEB COMMANDS
+- `BUSTIT` = Add cache busting during active HTML/JS development
+- `WEBIT` = Focus on web UI development with file:// protocol constraints
+- `PROXEIT` = Work on octane_proxy.py with Docker networking awareness
 
-### **WEB-SPECIFIC COMMANDS**
-- `"FILEIT"` = Ensure file:// protocol compatibility
-- `"WEBGLIT"` = Focus on WebGL 3D rendering functionality
-- `"DEBUGIT"` = Enhance custom debug console capabilities
-- `"CACHEBUSTIT"` = Implement/verify cache busting mechanisms
+### VALIDATION TRIGGERS
+- `VISUALIT` = Require screenshot proof of browser display
+- `CONNECTIT` = Test Octane connectivity with full diagnostic sequence
+- `HEALTHIT` = Check proxy server health and API coverage
 
 ---
 
-## 🚨 PROJECT-SPECIFIC CRITICAL FAILURE PATTERNS
-
-### **SILENT FAILURES - REQUIRE IMMEDIATE USER SUPERVISION**
-- **🔥 OCTANE CONNECTION ASSUMED** - Continuing without verifying Octane availability
-- **🔥 BROWSER COMPATIBILITY ASSUMED** - Not testing file:// protocol restrictions
-- **🔥 CACHE DEPENDENCY** - Relying on browser cache instead of fresh code loading
-- **🔥 MOCK MODE ASSUMPTION** - Switching to offline mode without user approval
-- **🔥 PORT CONFLICTS** - Using wrong ports or conflicting with existing services
-
-### **DEVELOPMENT ANTI-PATTERNS**
-- Building features that require live Octane without connection verification
-- Creating localhost dependencies in file:// protocol applications
-- Implementing browser-specific code without compatibility testing
-- Modifying generated protobuf files instead of regenerating properly
-- Assuming system permissions for file access or network operations
+**PROJECT DISCIPLINE COMMITMENT**: *"I will stop immediately on Octane connection failures and check Docker networking first. I will maintain file:// protocol constraints and never switch to localhost without approval. I will use built-in debug console and implement mandatory cache busting. I will validate with visual proof and maintain port separation discipline."*
 
 ---
 
-## 🎖️ PROJECT DISCIPLINE OATH
-
-*"I will verify Octane LiveLink connectivity before building dependent features. I will test file:// protocol compatibility before assuming browser capabilities. I will implement cache busting for all development iterations. I will stop immediately when core assumptions fail and consult the user before proceeding. I will never assume offline mode or mock implementations without explicit approval."*
-
----
-
-**This PROJECT_DISCIPLINE.md works in conjunction with ENGINEERING_DISCIPLINE.md to provide project-specific constraints while maintaining generic engineering best practices. When conflicts arise, project-specific rules take precedence for this codebase.**
-
-*Last Updated: 2025-01-18*
-*Project: OctaneWeb Development*
-*Repository: grpcSamples/octaneWeb*
+*Version 2.0 - OctaneWeb Development Discipline*
+*Extends: ENGINEERING_DISCIPLINE.md v2.0*
