@@ -194,10 +194,10 @@ async def main():
     runner = web.AppRunner(app)
     await runner.setup()
     
-    site = web.TCPSite(runner, '0.0.0.0', 51024)
+    site = web.TCPSite(runner, '0.0.0.0', 51023)
     await site.start()
     
-    print("✅ Simple Test Proxy Server started on http://0.0.0.0:51024")
+    print("✅ Simple Test Proxy Server started on http://0.0.0.0:51023")
     print("   Ready to test ObjectPtr passing!")
     
     # Keep running

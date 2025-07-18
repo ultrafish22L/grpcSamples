@@ -9,7 +9,7 @@ echo ========================================
 echo.
 echo This proxy tests ObjectPtr passing with real Octane:
 echo - Connects to Octane at host.docker.internal:51022
-echo - Runs on http://localhost:51024
+echo - Runs on http://localhost:51023
 echo - Tests rootNodeGraph -^> name API chain
 echo.
 
@@ -45,7 +45,7 @@ echo.
 
 echo 🚀 Starting Simple Test Proxy Server...
 echo.
-echo Server will run on: http://localhost:51024
+echo Server will run on: http://localhost:51023
 echo Octane connection: host.docker.internal:51022
 echo.
 echo Available endpoints:
