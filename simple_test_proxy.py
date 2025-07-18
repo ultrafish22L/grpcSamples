@@ -31,7 +31,7 @@ class SimpleTestProxy:
         self.project_stub = None
         self.item_stub = None
         
-    async def connect_to_octane(self, host="127.0.0.1", port=51022):
+    async def connect_to_octane(self, host="host.docker.internal", port=51022):
         """Connect to Octane gRPC server"""
         try:
             print(f"🔌 Connecting to Octane at {host}:{port}...")
@@ -82,8 +82,17 @@ class SimpleTestProxy:
             
             # Create the request
             request = apinodesystem_pb2.ApiItem.nameRequest()
-            request.objectPtr.handle = object_ref['handle']
-            request.objectPtr.type = object_ref['type']
+            
+            # Handle both protobuf ObjectRef and dictionary formats
+            if hasattr(object_ref, 'handle') and hasattr(object_ref, 'type'):
+                # Direct protobuf ObjectRef - pass it directly
+                request.objectPtr.CopyFrom(object_ref)
+                print(f"📤 Using protobuf ObjectRef directly: handle={object_ref.handle}, type={object_ref.type}")
+            else:
+                # Dictionary format
+                request.objectPtr.handle = object_ref['handle']
+                request.objectPtr.type = object_ref['type']
+                print(f"📤 Using dictionary ObjectRef: handle={object_ref['handle']}, type={object_ref['type']}")
             
             print(f"📤 gRPC request: {request}")
             response = await self.item_stub.name(request)
