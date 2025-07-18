@@ -38,9 +38,10 @@ class CacheBuster {
         // Log cache busting info
         console.info(`🔄addCacheBustingIndicator: ${document.URL}`);
 
-        // Create visual indicator in the header
-        const indicator = document.createElement('div');
+        // Create visual indicator for footer center
+        const indicator = document.createElement('span');
         indicator.id = 'cache-bust-indicator';
+        indicator.className = 'status-item';
         indicator.innerHTML = `
             <span class="cache-bust-icon">🔄</span>
             <span class="cache-bust-text">DEV v${this.version}</span>
@@ -50,24 +51,18 @@ class CacheBuster {
         const style = document.createElement('style');
         style.textContent = `
             #cache-bust-indicator {
-                position: fixed;
-                top: 10px;
-                left: 10px;
-                background: rgba(74, 222, 128, 0.9);
-                color: #000;
-                padding: 4px 8px;
-                border-radius: 4px;
-                font-size: 11px;
-                font-family: monospace;
-                z-index: 9999;
                 display: flex;
                 align-items: center;
                 gap: 4px;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                font-size: 10px;
+                font-family: monospace;
+                color: var(--octane-text-muted);
+                opacity: 0.7;
             }
             
             .cache-bust-icon {
                 animation: spin 2s linear infinite;
+                font-size: 10px;
             }
             
             @keyframes spin {
@@ -76,16 +71,17 @@ class CacheBuster {
             }
             
             .cache-bust-text {
-                font-weight: bold;
+                font-weight: normal;
+                font-size: 10px;
             }
             
-            #cache-bust-indicator.error {
-                background: rgba(255, 68, 68, 0.9);
-                color: #fff;
+            #cache-bust-indicator.error .cache-bust-icon {
+                color: var(--octane-accent-red);
+                animation: none;
             }
             
-            #cache-bust-indicator.success {
-                background: rgba(74, 222, 128, 0.9);
+            #cache-bust-indicator.success .cache-bust-icon {
+                color: var(--octane-accent-green);
                 animation: pulse 1s ease-in-out;
             }
             
@@ -96,15 +92,16 @@ class CacheBuster {
         `;
         document.head.appendChild(style);
         
-        // Add to page
-        document.body.appendChild(indicator);
+        // Add to footer center
+        const statusCenter = document.getElementById('status-center');
+        if (statusCenter) {
+            statusCenter.appendChild(indicator);
+        } else {
+            // Fallback to body if status-center not found
+            document.body.appendChild(indicator);
+        }
         
-        // Auto-hide after 5 seconds
-        setTimeout(() => {
-            if (indicator.parentNode) {
-                indicator.style.opacity = '0.3';
-            }
-        }, 5000);
+        // Keep visible (no auto-hide for footer placement)
     }
     
     monitorScriptLoading() {
@@ -140,16 +137,16 @@ class CacheBuster {
         const failedCount = this.failedFiles.size;
         
         if (failedCount > 0) {
-            indicator.className = 'error';
+            indicator.className = 'status-item error';
             indicator.innerHTML = `
                 <span class="cache-bust-icon">❌</span>
                 <span class="cache-bust-text">LOAD ERROR (${failedCount})</span>
             `;
         } else if (loadedCount === totalScripts) {
-            indicator.className = 'success';
+            indicator.className = 'status-item success';
             indicator.innerHTML = `
                 <span class="cache-bust-icon">✅</span>
-                <span class="cache-bust-text">ALL LOADED v${this.version}</span>
+                <span class="cache-bust-text">LOADED v${this.version}</span>
             `;
         }
     }

@@ -417,8 +417,10 @@ html, body {
 /* Center Panel - Viewport */
 .center-panel {
     display: grid;
-    grid-template-rows: auto 1fr 200px;
+    grid-template-rows: auto 1fr 300px; /* Increased node graph space from 200px to 300px */
     background-color: var(--octane-bg-primary);
+    height: 100%; /* Ensure full height usage */
+    overflow: hidden; /* Prevent layout overflow */
 }
 
 .viewport-header {
@@ -540,11 +542,11 @@ html, body {
 
 /* Node Graph Section */
 .node-graph-section {
-    height: 300px; /* Increased from 200px for better visibility */
     display: flex;
     flex-direction: column;
     border-top: 1px solid var(--octane-border);
-    min-height: 300px; /* Ensure minimum height */
+    height: 100%; /* Use full allocated grid space */
+    overflow: hidden; /* Prevent overflow beyond allocated space */
 }
 
 .node-graph-header {
@@ -585,11 +587,9 @@ html, body {
 }
 
 .node-graph-container {
-    flex: 1;
+    flex: 1; /* Take remaining space in the node graph section */
     position: relative;
     background-color: var(--octane-bg-darker);
-    min-height: 250px; /* Ensure container has minimum height */
-    max-height: 250px; /* Prevent container from growing too large */
     overflow: hidden; /* Prevent scrollbars and contain canvas */
     contain: layout style paint; /* CSS containment for better performance */
 }
@@ -663,9 +663,15 @@ html, body {
     color: var(--octane-text-secondary);
 }
 
-.status-left, .status-right {
+.status-left, .status-center, .status-right {
     display: flex;
     gap: 16px;
+    align-items: center;
+}
+
+.status-center {
+    flex: 1;
+    justify-content: center;
 }
 
 .status-item {
