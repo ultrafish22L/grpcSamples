@@ -197,6 +197,7 @@ class ComprehensiveOctaneTest:
         self.channel = None
         self.test_results = {}
         self.created_objects = []  # Track created objects for cleanup
+        self.include_crash_tests = False  # Default: disable crash culprits
         
         # Service stubs - will be initialized in connect()
         self.project_stub = None
@@ -1160,8 +1161,20 @@ class ComprehensiveOctaneTest:
             
             # Test ApiImageComponentService with actual gRPC call
             print("\n🧩 Testing ApiImageComponentService...")
-            print("⚠️ DISABLED: ApiImageComponentService.create crashes Octane")
-            self.log_test("ImageComponentService.create", False, error="DISABLED: Crashes Octane - identified as crash culprit")
+            if self.include_crash_tests:
+                print("🚨 CRASH TEST ENABLED: ApiImageComponentService.create")
+                try:
+                    # Test image component service with actual gRPC call
+                    request = apiimagecomponent_pb2.ApiImageComponent.createRequest()
+                    self.log_grpc_call("ApiImageComponentService", "create", request)
+                    response = await self.image_component_stub.create(request)  # Await async call
+                    self.log_grpc_call("ApiImageComponentService", "create", request, response)
+                    self.log_test("ImageComponentService.create", True, f"Response received: {response}")
+                except Exception as e:
+                    self.log_test("ImageComponentService.create", False, error=e)
+            else:
+                print("⚠️ DISABLED: ApiImageComponentService.create crashes Octane")
+                self.log_test("ImageComponentService.create", False, error="DISABLED: Crashes Octane - identified as crash culprit")
             
             # Test ImageInfoService with actual gRPC call
             print("\nℹ️ Testing ImageInfoService...")
@@ -1178,8 +1191,20 @@ class ComprehensiveOctaneTest:
             
             # Test ApiGeometryExporterService with actual gRPC call
             print("\n📐 Testing ApiGeometryExporterService...")
-            print("⚠️ DISABLED: ApiGeometryExporterService.create crashes Octane")
-            self.log_test("GeometryExporterService.create", False, error="DISABLED: Crashes Octane - secondary crash culprit")
+            if self.include_crash_tests:
+                print("🚨 CRASH TEST ENABLED: ApiGeometryExporterService.create")
+                try:
+                    # Test geometry exporter service with actual gRPC call
+                    request = apigeometryexporter_pb2.ApiGeometryExporter.createRequest()
+                    self.log_grpc_call("ApiGeometryExporterService", "create", request)
+                    response = await self.geometry_exporter_stub.create(request)  # Await async call
+                    self.log_grpc_call("ApiGeometryExporterService", "create", request, response)
+                    self.log_test("GeometryExporterService.create", True, f"Response received: {response}")
+                except Exception as e:
+                    self.log_test("GeometryExporterService.create", False, error=e)
+            else:
+                print("⚠️ DISABLED: ApiGeometryExporterService.create crashes Octane")
+                self.log_test("GeometryExporterService.create", False, error="DISABLED: Crashes Octane - secondary crash culprit")
             
             # Test ApiDbMaterialManagerService with actual gRPC call
             print("\n🗃️ Testing ApiDbMaterialManagerService...")
@@ -2149,11 +2174,12 @@ async def main():
     parser.add_argument('-8', '--stage8', action='store_true', help='Run base tests + Stages 1-8')
     parser.add_argument('-9', '--stage9', action='store_true', help='Run base tests + Stages 1-9')
     parser.add_argument('--all', action='store_true', help='Run ALL tests including error conditions')
+    parser.add_argument('-crash', '--crash', action='store_true', help='Include crash culprits (DANGEROUS - will crash Octane)')
     
     args = parser.parse_args()
     
-    # Determine test level
-    test_level = 0  # Default: base tests only
+    # Determine test level - DEFAULT IS NOW STAGE 9 (all stable tests)
+    test_level = 9  # Default: all stable tests (Stage 9)
     if args.stage1: test_level = 1
     elif args.stage2: test_level = 2
     elif args.stage3: test_level = 3
@@ -2168,14 +2194,23 @@ async def main():
     # Display test level
     if test_level == 0:
         print("📋 TEST LEVEL: BASE (Core functionality only - safe for Octane)")
+    elif test_level == 9:
+        print("📋 TEST LEVEL: STABLE (All stable tests - Stage 9, crash culprits disabled)")
     elif test_level == 99:
         print("📋 TEST LEVEL: ALL (Complete test suite - may stress Octane)")
     else:
         print(f"📋 TEST LEVEL: STAGE {test_level} (Base tests + Stages 1-{test_level})")
     
+    # Display crash culprit status
+    if args.crash:
+        print("🚨 CRASH MODE: ENABLED - Will include crash culprits (DANGEROUS!)")
+    else:
+        print("✅ CRASH MODE: DISABLED - Crash culprits safely disabled")
+    
     # Create test suite (will auto-detect host if None)
     test_suite = ComprehensiveOctaneTest(args.host, args.port)
     test_suite.test_level = test_level  # Set test level
+    test_suite.include_crash_culprits = args.crash  # Set crash culprit flag
     
     print(f"🎯 Target: {test_suite.octane_host}:{test_suite.octane_port}")
     print()
