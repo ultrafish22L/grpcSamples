@@ -10,11 +10,70 @@ import grpc
 from aiohttp import web, ClientSession
 import sys
 import os
+import socket
+import subprocess
 
 # Add the proxy directory to path for protobuf imports
 script_dir = os.path.dirname(os.path.abspath(__file__))
 proxy_dir = os.path.join(script_dir, 'proxy')
 sys.path.append(proxy_dir)
+
+def detect_octane_host():
+    """Smart detection of Octane host based on environment"""
+    
+    def is_docker_container():
+        """Check if we're running in a Docker container"""
+        return (
+            os.path.exists('/.dockerenv') or 
+            os.environ.get('DOCKER_CONTAINER') == 'true' or
+            os.environ.get('SANDBOX_USE_HOST_NETWORK') == 'true'
+        )
+    
+    def can_resolve_host(hostname):
+        """Check if hostname resolves"""
+        try:
+            socket.gethostbyname(hostname)
+            return True
+        except socket.gaierror:
+            return False
+    
+    def can_connect_to_port(host, port, timeout=2):
+        """Test if we can connect to host:port"""
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(timeout)
+            result = sock.connect_ex((host, port))
+            sock.close()
+            return result == 0
+        except:
+            return False
+    
+    # List of hosts to try in order
+    candidates = []
+    
+    if is_docker_container():
+        print("🐳 Docker environment detected")
+        # In Docker, try Docker-specific hosts first
+        if can_resolve_host('host.docker.internal'):
+            candidates.append('host.docker.internal')
+        candidates.extend(['172.17.0.1', '192.168.65.2', '127.0.0.1'])
+    else:
+        print("🖥️  Native environment detected")
+        # Native environment, localhost should work
+        candidates.append('127.0.0.1')
+    
+    # Test each candidate
+    for host in candidates:
+        print(f"🔍 Testing connection to {host}:51022...")
+        if can_connect_to_port(host, 51022):
+            print(f"✅ Found Octane at {host}:51022")
+            return host
+        else:
+            print(f"❌ No connection to {host}:51022")
+    
+    # Fallback to localhost
+    print("⚠️  No working host found, falling back to 127.0.0.1")
+    return '127.0.0.1'
 
 try:
     import apiprojectmanager_pb2_grpc
@@ -33,9 +92,13 @@ class SimpleTestProxy:
         self.project_stub = None
         self.item_stub = None
         
-    async def connect_to_octane(self, host="127.0.0.1", port=51022):
+    async def connect_to_octane(self, host=None, port=51022):
         """Connect to Octane gRPC server"""
         try:
+            # Auto-detect host if not provided
+            if host is None:
+                host = detect_octane_host()
+            
             print(f"🔌 Connecting to Octane at {host}:{port}...")
             self.channel = grpc.aio.insecure_channel(f'{host}:{port}')
             
