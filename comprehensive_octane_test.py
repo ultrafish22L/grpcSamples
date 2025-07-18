@@ -1160,15 +1160,8 @@ class ComprehensiveOctaneTest:
             
             # Test ApiImageComponentService with actual gRPC call
             print("\n🧩 Testing ApiImageComponentService...")
-            try:
-                # Test image component service with actual gRPC call
-                request = apiimagecomponent_pb2.ApiImageComponent.createRequest()
-                self.log_grpc_call("ApiImageComponentService", "create", request)
-                response = await self.image_component_stub.create(request)  # Await async call
-                self.log_grpc_call("ApiImageComponentService", "create", request, response)
-                self.log_test("ImageComponentService.create", True, f"Response received: {response}")
-            except Exception as e:
-                self.log_test("ImageComponentService.create", False, error=e)
+            print("⚠️ DISABLED: ApiImageComponentService.create crashes Octane")
+            self.log_test("ImageComponentService.create", False, error="DISABLED: Crashes Octane - identified as crash culprit")
             
             # Test ImageInfoService with actual gRPC call
             print("\nℹ️ Testing ImageInfoService...")
