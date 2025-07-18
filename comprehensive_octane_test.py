@@ -1178,15 +1178,8 @@ class ComprehensiveOctaneTest:
             
             # Test ApiGeometryExporterService with actual gRPC call
             print("\n📐 Testing ApiGeometryExporterService...")
-            try:
-                # Test geometry exporter service with actual gRPC call
-                request = apigeometryexporter_pb2.ApiGeometryExporter.createRequest()
-                self.log_grpc_call("ApiGeometryExporterService", "create", request)
-                response = await self.geometry_exporter_stub.create(request)  # Await async call
-                self.log_grpc_call("ApiGeometryExporterService", "create", request, response)
-                self.log_test("GeometryExporterService.create", True, f"Response received: {response}")
-            except Exception as e:
-                self.log_test("GeometryExporterService.create", False, error=e)
+            print("⚠️ DISABLED: ApiGeometryExporterService.create crashes Octane")
+            self.log_test("GeometryExporterService.create", False, error="DISABLED: Crashes Octane - secondary crash culprit")
             
             # Test ApiDbMaterialManagerService with actual gRPC call
             print("\n🗃️ Testing ApiDbMaterialManagerService...")

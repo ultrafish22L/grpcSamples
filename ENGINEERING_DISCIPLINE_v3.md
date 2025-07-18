@@ -1,4 +1,4 @@
-# 🎯 ENGINEERING DISCIPLINE v3.1
+# 🎯 ENGINEERING DISCIPLINE v3.2
 *"Short enough to work in practice, long enough to be complete."*
 
 ## 🚨 THE FOUR CORE DISCIPLINES
