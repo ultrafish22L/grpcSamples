@@ -244,9 +244,15 @@ class ComprehensiveOctaneTest:
             
             # Test getCurrentProject
             response = await self.project_stub.getCurrentProject(Empty())
-            if hasattr(response, 'result') and hasattr(response.result, 'handle') and response.result.handle > 0:
-                self.log_test("ProjectManager.getCurrentProject", True, f"Project handle: {response.result.handle}")
-                self.created_objects.append(('project', response.result))
+            if hasattr(response, 'result') and response.result:
+                # Check if result is a string (file path) or has a handle
+                if isinstance(response.result, str) and response.result.strip():
+                    self.log_test("ProjectManager.getCurrentProject", True, f"Current project: {response.result}")
+                elif hasattr(response.result, 'handle') and response.result.handle > 0:
+                    self.log_test("ProjectManager.getCurrentProject", True, f"Project handle: {response.result.handle}")
+                    self.created_objects.append(('project', response.result))
+                else:
+                    self.log_test("ProjectManager.getCurrentProject", False, f"Invalid project response: {response}")
             else:
                 self.log_test("ProjectManager.getCurrentProject", False, f"No current project - response: {response}")
             
