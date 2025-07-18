@@ -343,7 +343,6 @@ function createOctaneWebClient() {
             }
             console.log(`${'  '.repeat(depth)}🌿 Building node: ${name} (handle=${objectRef.objectHandle})`);
             
-            return;
             // Create the node structure
             const node = {
                 id: `node_${objectRef.objectHandle}`,

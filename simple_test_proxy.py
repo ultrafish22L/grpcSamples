@@ -64,7 +64,7 @@ class SimpleTestProxy:
             # Immediately test ObjectPtr passing by calling get_item_name
             print("🔄 Testing ObjectPtr passing: calling get_item_name with returned ObjectPtr...")
             try:
-                name_result = await self.get_item_name(result)
+                name_result = await self.get_item_name(response.result)
                 print(f"✅ ObjectPtr passing SUCCESS: name = '{name_result}'")
             except Exception as name_error:
                 print(f"❌ ObjectPtr passing FAILED: {name_error}")
