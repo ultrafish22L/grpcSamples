@@ -438,6 +438,7 @@ html, body {
     align-items: center;
     justify-content: space-between;
     height: var(--panel-header-height);
+    margin-left: 2px; /* Additional margin to prevent clipping by scene outliner */
 }
 
 .viewport-title {
@@ -517,6 +518,7 @@ html, body {
     align-items: center;
     justify-content: space-between;
     height: 32px;
+    margin-left: 2px; /* Additional margin to prevent clipping by scene outliner */
 }
 
 .playback-controls {
