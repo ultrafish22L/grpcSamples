@@ -36,6 +36,35 @@ USER_CONFIRMATION: [required validation checkpoints]
 
 ---
 
+## 📚 DOCUMENTATION SYNCHRONIZATION PROTOCOL
+
+**🔄 REGULAR MD UPDATE TRIGGERS**:
+1. **Major Commits** - Update all relevant MDs after significant feature completion
+2. **New Problem States** - Document new failure patterns and solutions immediately
+3. **Technical Insights** - Capture learnings for future reference
+4. **Chronology Updates** - Maintain project evolution timeline
+5. **Critical Discoveries** - Document breakthrough solutions and methodologies
+
+**📋 UPDATE CLASSIFICATION SYSTEM**:
+- **General Engineering Insights** → `ENGINEERING_DISCIPLINE.md` (ED)
+- **Project-Specific Learnings** → `PROJECT_DISCIPLINE.md` (PD) 
+- **Timeline Evolution** → `PROJECT_CHRONOLOGY.md`
+- **Architecture Changes** → `README.md`
+- **Implementation Details** → Component-specific READMEs
+
+**🎯 DOCUMENTATION MAINTENANCE WORKFLOW**:
+```xml
+<md_update_protocol>
+TRIGGER_EVENT: [major commit, new problem, insight discovery]
+AFFECTED_DOCUMENTS: [list specific MDs requiring updates]
+UPDATE_TYPE: [problem_state, insight, chronology, architecture]
+EVIDENCE_REQUIRED: [concrete examples, code snippets, error patterns]
+VALIDATION: [verify accuracy and completeness before commit]
+</md_update_protocol>
+```
+
+---
+
 ## ⚡ ACTIVATION KEYWORDS
 
 **BEHAVIORAL TRIGGERS**:
@@ -45,6 +74,7 @@ USER_CONFIRMATION: [required validation checkpoints]
 - `TESTIT` = Build verification alongside development
 - `PUSHIT` = Commit and push after task completion
 - `GRIND` = Autonomous systematic execution until completion
+- `DOCIT` = Update all relevant MDs with new insights and problem states
 
 **DRIFT DETECTION**:
 - `CREEPIN` = Scope creep detected, immediate course correction
@@ -144,9 +174,43 @@ USER_PERMISSION: [required for scope changes]
 
 ---
 
-**ENGINEERING DISCIPLINE OATH**: *"I will use structured analysis for complex problems. I will extract exact requirements and maintain scope discipline. I will gather concrete evidence before making claims. I will detect and correct drift immediately. I will validate results with proof before claiming success. I will prioritize systematic execution over clever solutions."*
+## 🔍 RECENT PROBLEM STATES & SOLUTIONS (2025-01-16)
+
+### CSS LAYOUT COMPLEXITY - HYBRID POSITIONING SOLUTION
+**PROBLEM STATE**: CSS Grid insufficient for complex UI layouts requiring full-height panels
+**SOLUTION PATTERN**: Hybrid CSS Grid + Absolute positioning
+```css
+/* Break out of grid constraints for precise control */
+.scene-outliner {
+    position: absolute;
+    top: var(--menu-height);
+    bottom: var(--status-bar-height);
+    /* Maintains responsive behavior while achieving pixel-perfect layout */
+}
+```
+**INSIGHT**: Sometimes breaking layout paradigms achieves better results than forcing constraints
+
+### AUTO-FIT ALGORITHM IMPLEMENTATION
+**PROBLEM STATE**: Node graph elements appearing scattered without user-friendly defaults
+**SOLUTION PATTERN**: Bounding box calculation with viewport optimization
+```javascript
+// Calculate optimal zoom and centering for all nodes
+const zoomX = canvas.width / (width + padding);
+const zoomY = canvas.height / (height + padding);
+const zoom = Math.min(zoomX, zoomY, 1); // Never zoom beyond 100%
+```
+**INSIGHT**: Auto-fit algorithms require padding considerations and maximum zoom limits
+
+### DOCUMENTATION SYNCHRONIZATION CHALLENGE
+**PROBLEM STATE**: Technical documentation becoming stale during rapid development
+**SOLUTION PATTERN**: Systematic MD update protocol with trigger-based maintenance
+**INSIGHT**: Documentation maintenance must be systematized, not left to memory
 
 ---
 
-*Version 2.0 - Optimized for AI Cognitive Architecture*
-*Focus: Systematic Excellence through Disciplined Execution*
+**ENGINEERING DISCIPLINE OATH**: *"I will use structured analysis for complex problems. I will extract exact requirements and maintain scope discipline. I will gather concrete evidence before making claims. I will detect and correct drift immediately. I will validate results with proof before claiming success. I will prioritize systematic execution over clever solutions. I will maintain documentation synchronization with code evolution."*
+
+---
+
+*Version 2.1 - Enhanced with Documentation Synchronization Protocol*
+*Focus: Systematic Excellence through Disciplined Execution and Knowledge Capture*

@@ -149,5 +149,56 @@ octaneWeb/
 
 ---
 
-*Version 2.0 - OctaneWeb Development Discipline*
-*Extends: ENGINEERING_DISCIPLINE.md v2.0*
+## 🔍 OCTANEWEB v1.0 SPECIFIC LEARNINGS (2025-01-16)
+
+### SCENE OUTLINER LAYOUT BREAKTHROUGH
+**PROJECT CHALLENGE**: Scene Outliner needed to span full application height while maintaining grid layout
+**SOLUTION DISCOVERED**: Absolute positioning with CSS variable boundaries
+```css
+.scene-outliner {
+    position: absolute;
+    top: var(--menu-height);
+    bottom: var(--status-bar-height);
+    width: 220px;
+    z-index: 10;
+}
+```
+**PROJECT INSIGHT**: Grid-template-areas needed modification from "left-panel" to "left-space" to accommodate absolute positioning
+
+### NODE GRAPH AUTO-FIT TIMING COORDINATION
+**PROJECT CHALLENGE**: Auto-fit functionality needed proper initialization timing
+**SOLUTION DISCOVERED**: Delayed execution with multiple timing stages
+```javascript
+// Initial fit after node creation
+setTimeout(() => this.frameAll(), 100);
+// Secondary fit for canvas stabilization
+setTimeout(() => this.frameAll(), 500);
+```
+**PROJECT INSIGHT**: Canvas-based components require multiple timing stages for proper initialization
+
+### OCTANE GRPC OBJECTPTR TYPE CONVERSION MASTERY
+**PROJECT CHALLENGE**: "Invalid pointer type" errors when calling different Octane services
+**CRITICAL DISCOVERY**: ObjectPtr type field must match target service interface
+```javascript
+// ❌ WRONG - Copying original type fails
+request.objectPtr.type = sourceObject.type;
+
+// ✅ CORRECT - Convert to target service type
+request.objectPtr.type = 16; // ApiItem for ApiItemService calls
+```
+**PROJECT INSIGHT**: Octane uses polymorphic object handles - same handle, different interface types
+
+### PROFESSIONAL 3D APPLICATION UI PATTERNS
+**PROJECT ACHIEVEMENT**: Successfully replicated industry-standard 3D software aesthetics
+**KEY PATTERNS DISCOVERED**:
+- Dark theme with red accent colors for professional appearance
+- Full-height panels for maximum workspace utilization
+- Auto-fitting content for user-friendly defaults
+- Comprehensive debug tools integrated into production interface
+
+**PROJECT INSIGHT**: Professional 3D applications require pixel-perfect layout control and sophisticated user experience patterns
+
+---
+
+*Version 2.1 - Enhanced with OctaneWeb v1.0 Milestone Learnings*
+*Extends: ENGINEERING_DISCIPLINE.md v2.1*
