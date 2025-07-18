@@ -777,7 +777,16 @@ class ComprehensiveOctaneTest:
             print("\n❌ FAILED TESTS:")
             for test_name, result in self.test_results.items():
                 if not result['success']:
-                    print(f"  - {test_name}: {result.get('error', 'Unknown error')}")
+                    error_msg = result.get('error', '')
+                    details = result.get('details', '')
+                    
+                    # Prioritize showing meaningful information
+                    if details:
+                        print(f"  - {test_name}: {details}")
+                    elif error_msg and error_msg != 'None':
+                        print(f"  - {test_name}: {error_msg}")
+                    else:
+                        print(f"  - {test_name}: Failed (no details available)")
         
         # Print created objects
         if self.created_objects:
