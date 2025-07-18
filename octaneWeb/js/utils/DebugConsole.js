@@ -264,76 +264,356 @@ class DebugConsole {
         console.info('🧑‍🚒 Starting comprehensive test suite...');
         this.addLog('info', ['🧪 Initiating comprehensive Octane gRPC API test suite']);
         
+        // Execute the comprehensive test callback
+        await this.comprehensiveTestCallback();
+    }
+
+    // Comprehensive Test Suite Callback - Integrated from octaneGrpcTest.py
+    async comprehensiveTestCallback() {
+        const startTime = Date.now();
+        let totalTests = 0;
+        let passedTests = 0;
+        const testResults = [];
+        
         try {
             // Get current server address from the UI
             const serverAddress = document.getElementById('serverAddress')?.value || 'http://localhost:51023';
-            const testUrl = serverAddress.endsWith('/api') ? serverAddress.replace('/api', '/test') : serverAddress + '/test';
+            const baseUrl = serverAddress.replace('/api', '').replace(/\/$/, '');
             
-            this.addLog('info', [`📡 Test endpoint: ${testUrl}`]);
+            this.addLog('info', [`📡 Testing against: ${baseUrl}`]);
+            this.addLog('info', ['🔥 CRITICAL: Using ObjectPtr type conversion for polymorphic API access']);
             
-            // Call the test suite endpoint
-            const response = await fetch(testUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Call-Id': `test-suite-${Date.now()}`
+            // Test Categories from octaneGrpcTest.py
+            const testCategories = [
+                { name: 'Project Management', tests: this.testProjectManagement },
+                { name: 'Node Creation & Manipulation', tests: this.testNodeOperations },
+                { name: 'Pin Operations & Connections', tests: this.testPinOperations },
+                { name: 'Attribute Getting/Setting', tests: this.testAttributeOperations },
+                { name: 'Graph Operations', tests: this.testGraphOperations },
+                { name: 'Scene Outliner', tests: this.testSceneOutliner },
+                { name: 'Render Control', tests: this.testRenderControl },
+                { name: 'Selection Management', tests: this.testSelectionManagement }
+            ];
+            
+            // Execute each test category
+            for (const category of testCategories) {
+                this.addLog('info', [`🧪 Testing: ${category.name}`]);
+                
+                try {
+                    const categoryResults = await category.tests.call(this, baseUrl);
+                    totalTests += categoryResults.total;
+                    passedTests += categoryResults.passed;
+                    testResults.push(...categoryResults.details);
+                    
+                    const successRate = Math.round((categoryResults.passed / categoryResults.total) * 100);
+                    const status = successRate >= 80 ? '✅' : successRate >= 50 ? '⚠️' : '❌';
+                    this.addLog('info', [`  ${status} ${category.name}: ${categoryResults.passed}/${categoryResults.total} (${successRate}%)`]);
+                    
+                } catch (error) {
+                    this.addLog('error', [`  ❌ ${category.name} failed: ${error.message}`]);
+                    totalTests += 1;
+                    testResults.push({
+                        test: category.name,
+                        status: 'FAIL',
+                        error: error.message,
+                        duration: '0ms'
+                    });
                 }
-            });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
             
-            const result = await response.json();
+            // Calculate final results
+            const duration = Date.now() - startTime;
+            const successRate = Math.round((passedTests / totalTests) * 100);
             
-            if (result.success) {
-                const data = result.data;
-                this.addLog('success', [
-                    `✅ Test Suite Completed!`,
-                    `📊 Results: ${data.passed}/${data.total_tests} tests passed (${data.success_rate}%)`,
-                    `⏱️  Duration: ${data.duration}`,
-                    `🕐 Timestamp: ${data.timestamp}`
-                ]);
+            // Display comprehensive results
+            this.addLog('success', [
+                `✅ Comprehensive Test Suite Completed!`,
+                `📊 Final Results: ${passedTests}/${totalTests} tests passed (${successRate}%)`,
+                `⏱️  Total Duration: ${duration}ms`,
+                `🕐 Timestamp: ${new Date().toISOString()}`
+            ]);
+            
+            // Show detailed results (first 15)
+            if (testResults.length > 0) {
+                this.addLog('info', ['📋 Detailed Test Results:']);
+                testResults.slice(0, 15).forEach(test => {
+                    const status = test.status === 'PASS' ? '✅' : '❌';
+                    const errorInfo = test.error ? ` - ${test.error}` : '';
+                    this.addLog('info', [`  ${status} ${test.test}${errorInfo}`]);
+                });
                 
-                // Log detailed results
-                if (data.details && data.details.length > 0) {
-                    this.addLog('info', ['📋 Detailed Results:']);
-                    data.details.slice(0, 10).forEach(test => {
-                        const status = test.status === 'PASS' ? '✅' : '❌';
-                        const errorInfo = test.error ? ` - ${test.error}` : '';
-                        this.addLog('info', [`  ${status} ${test.test} (${test.duration})${errorInfo}`]);
-                    });
-                    
-                    if (data.details.length > 10) {
-                        this.addLog('info', [`  ... and ${data.details.length - 10} more tests`]);
-                    }
+                if (testResults.length > 15) {
+                    this.addLog('info', [`  ... and ${testResults.length - 15} more tests`]);
                 }
-                
-                // Show summary
-                if (data.success_rate >= 95) {
-                    this.addLog('success', ['🎉 Excellent! Test suite passed with high success rate']);
-                } else if (data.success_rate >= 80) {
-                    this.addLog('warn', ['⚠️  Good, but some tests failed. Check Octane connection']);
-                } else {
-                    this.addLog('error', ['🚨 Many tests failed. Verify Octane LiveLink is running']);
-                }
-                
+            }
+            
+            // Final assessment
+            if (successRate >= 95) {
+                this.addLog('success', ['🎉 EXCELLENT! Comprehensive test suite passed with high success rate']);
+            } else if (successRate >= 80) {
+                this.addLog('warn', ['⚠️  GOOD: Most tests passed, some minor issues detected']);
+            } else if (successRate >= 50) {
+                this.addLog('warn', ['🔧 PARTIAL: Significant issues detected, check Octane connection']);
             } else {
-                throw new Error(result.error || 'Test suite failed');
+                this.addLog('error', ['🚨 CRITICAL: Major failures detected, verify Octane LiveLink is running']);
             }
             
         } catch (error) {
             this.addLog('error', [
-                '❌ Test suite execution failed:',
+                '❌ Comprehensive test suite execution failed:',
                 error.message,
                 '🔧 Troubleshooting:',
-                '  1. Ensure custom proxy server is running (start_proxy.bat)',
+                '  1. Ensure custom proxy server is running',
                 '  2. Verify Octane Render is running with LiveLink enabled',
-                '  3. Check server address in connection panel'
+                '  3. Check server address in connection panel',
+                '  4. Verify ObjectPtr type conversion is working'
             ]);
             
-            console.error('Test suite error:', error);
+            console.error('Comprehensive test suite error:', error);
         }
+    }
+
+    // Test Category Methods - Integrated from octaneGrpcTest.py
+    
+    async testProjectManagement(baseUrl) {
+        const results = { total: 0, passed: 0, details: [] };
+        const testStart = Date.now();
+        
+        try {
+            // Test 1: Get Project Info
+            results.total++;
+            const projectResponse = await fetch(`${baseUrl}/api/project/info`, {
+                method: 'GET',
+                headers: { 'X-Call-Id': `test-project-${Date.now()}` }
+            });
+            
+            if (projectResponse.ok) {
+                results.passed++;
+                results.details.push({ test: 'Get Project Info', status: 'PASS', duration: `${Date.now() - testStart}ms` });
+            } else {
+                results.details.push({ test: 'Get Project Info', status: 'FAIL', error: `HTTP ${projectResponse.status}`, duration: `${Date.now() - testStart}ms` });
+            }
+            
+            // Test 2: Create New Project
+            results.total++;
+            const createResponse = await fetch(`${baseUrl}/api/project/new`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-Call-Id': `test-create-${Date.now()}` },
+                body: JSON.stringify({ name: 'Test Project' })
+            });
+            
+            if (createResponse.ok) {
+                results.passed++;
+                results.details.push({ test: 'Create New Project', status: 'PASS', duration: `${Date.now() - testStart}ms` });
+            } else {
+                results.details.push({ test: 'Create New Project', status: 'FAIL', error: `HTTP ${createResponse.status}`, duration: `${Date.now() - testStart}ms` });
+            }
+            
+        } catch (error) {
+            results.details.push({ test: 'Project Management', status: 'FAIL', error: error.message, duration: `${Date.now() - testStart}ms` });
+        }
+        
+        return results;
+    }
+    
+    async testNodeOperations(baseUrl) {
+        const results = { total: 0, passed: 0, details: [] };
+        const testStart = Date.now();
+        
+        try {
+            // Test 1: Create Material Node
+            results.total++;
+            const createNodeResponse = await fetch(`${baseUrl}/api/nodes/create`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-Call-Id': `test-node-${Date.now()}` },
+                body: JSON.stringify({ 
+                    type: 'DiffuseMaterial',
+                    name: 'Test Material'
+                })
+            });
+            
+            if (createNodeResponse.ok) {
+                results.passed++;
+                results.details.push({ test: 'Create Material Node', status: 'PASS', duration: `${Date.now() - testStart}ms` });
+            } else {
+                results.details.push({ test: 'Create Material Node', status: 'FAIL', error: `HTTP ${createNodeResponse.status}`, duration: `${Date.now() - testStart}ms` });
+            }
+            
+            // Test 2: List Nodes
+            results.total++;
+            const listResponse = await fetch(`${baseUrl}/api/nodes/list`, {
+                method: 'GET',
+                headers: { 'X-Call-Id': `test-list-${Date.now()}` }
+            });
+            
+            if (listResponse.ok) {
+                results.passed++;
+                results.details.push({ test: 'List Nodes', status: 'PASS', duration: `${Date.now() - testStart}ms` });
+            } else {
+                results.details.push({ test: 'List Nodes', status: 'FAIL', error: `HTTP ${listResponse.status}`, duration: `${Date.now() - testStart}ms` });
+            }
+            
+        } catch (error) {
+            results.details.push({ test: 'Node Operations', status: 'FAIL', error: error.message, duration: `${Date.now() - testStart}ms` });
+        }
+        
+        return results;
+    }
+    
+    async testPinOperations(baseUrl) {
+        const results = { total: 0, passed: 0, details: [] };
+        const testStart = Date.now();
+        
+        try {
+            // Test 1: Get Node Pins
+            results.total++;
+            const pinsResponse = await fetch(`${baseUrl}/api/nodes/pins`, {
+                method: 'GET',
+                headers: { 'X-Call-Id': `test-pins-${Date.now()}` }
+            });
+            
+            if (pinsResponse.ok) {
+                results.passed++;
+                results.details.push({ test: 'Get Node Pins', status: 'PASS', duration: `${Date.now() - testStart}ms` });
+            } else {
+                results.details.push({ test: 'Get Node Pins', status: 'FAIL', error: `HTTP ${pinsResponse.status}`, duration: `${Date.now() - testStart}ms` });
+            }
+            
+        } catch (error) {
+            results.details.push({ test: 'Pin Operations', status: 'FAIL', error: error.message, duration: `${Date.now() - testStart}ms` });
+        }
+        
+        return results;
+    }
+    
+    async testAttributeOperations(baseUrl) {
+        const results = { total: 0, passed: 0, details: [] };
+        const testStart = Date.now();
+        
+        try {
+            // Test 1: Get Node Attributes
+            results.total++;
+            const attrsResponse = await fetch(`${baseUrl}/api/nodes/attributes`, {
+                method: 'GET',
+                headers: { 'X-Call-Id': `test-attrs-${Date.now()}` }
+            });
+            
+            if (attrsResponse.ok) {
+                results.passed++;
+                results.details.push({ test: 'Get Node Attributes', status: 'PASS', duration: `${Date.now() - testStart}ms` });
+            } else {
+                results.details.push({ test: 'Get Node Attributes', status: 'FAIL', error: `HTTP ${attrsResponse.status}`, duration: `${Date.now() - testStart}ms` });
+            }
+            
+        } catch (error) {
+            results.details.push({ test: 'Attribute Operations', status: 'FAIL', error: error.message, duration: `${Date.now() - testStart}ms` });
+        }
+        
+        return results;
+    }
+    
+    async testGraphOperations(baseUrl) {
+        const results = { total: 0, passed: 0, details: [] };
+        const testStart = Date.now();
+        
+        try {
+            // Test 1: Build Scene Tree
+            results.total++;
+            const treeResponse = await fetch(`${baseUrl}/api/scene/tree`, {
+                method: 'GET',
+                headers: { 'X-Call-Id': `test-tree-${Date.now()}` }
+            });
+            
+            if (treeResponse.ok) {
+                results.passed++;
+                results.details.push({ test: 'Build Scene Tree', status: 'PASS', duration: `${Date.now() - testStart}ms` });
+            } else {
+                results.details.push({ test: 'Build Scene Tree', status: 'FAIL', error: `HTTP ${treeResponse.status}`, duration: `${Date.now() - testStart}ms` });
+            }
+            
+        } catch (error) {
+            results.details.push({ test: 'Graph Operations', status: 'FAIL', error: error.message, duration: `${Date.now() - testStart}ms` });
+        }
+        
+        return results;
+    }
+    
+    async testSceneOutliner(baseUrl) {
+        const results = { total: 0, passed: 0, details: [] };
+        const testStart = Date.now();
+        
+        try {
+            // Test 1: Get Scene Objects
+            results.total++;
+            const objectsResponse = await fetch(`${baseUrl}/api/scene/objects`, {
+                method: 'GET',
+                headers: { 'X-Call-Id': `test-objects-${Date.now()}` }
+            });
+            
+            if (objectsResponse.ok) {
+                results.passed++;
+                results.details.push({ test: 'Get Scene Objects', status: 'PASS', duration: `${Date.now() - testStart}ms` });
+            } else {
+                results.details.push({ test: 'Get Scene Objects', status: 'FAIL', error: `HTTP ${objectsResponse.status}`, duration: `${Date.now() - testStart}ms` });
+            }
+            
+        } catch (error) {
+            results.details.push({ test: 'Scene Outliner', status: 'FAIL', error: error.message, duration: `${Date.now() - testStart}ms` });
+        }
+        
+        return results;
+    }
+    
+    async testRenderControl(baseUrl) {
+        const results = { total: 0, passed: 0, details: [] };
+        const testStart = Date.now();
+        
+        try {
+            // Test 1: Get Render Status
+            results.total++;
+            const statusResponse = await fetch(`${baseUrl}/api/render/status`, {
+                method: 'GET',
+                headers: { 'X-Call-Id': `test-render-${Date.now()}` }
+            });
+            
+            if (statusResponse.ok) {
+                results.passed++;
+                results.details.push({ test: 'Get Render Status', status: 'PASS', duration: `${Date.now() - testStart}ms` });
+            } else {
+                results.details.push({ test: 'Get Render Status', status: 'FAIL', error: `HTTP ${statusResponse.status}`, duration: `${Date.now() - testStart}ms` });
+            }
+            
+        } catch (error) {
+            results.details.push({ test: 'Render Control', status: 'FAIL', error: error.message, duration: `${Date.now() - testStart}ms` });
+        }
+        
+        return results;
+    }
+    
+    async testSelectionManagement(baseUrl) {
+        const results = { total: 0, passed: 0, details: [] };
+        const testStart = Date.now();
+        
+        try {
+            // Test 1: Get Selection
+            results.total++;
+            const selectionResponse = await fetch(`${baseUrl}/api/selection/get`, {
+                method: 'GET',
+                headers: { 'X-Call-Id': `test-selection-${Date.now()}` }
+            });
+            
+            if (selectionResponse.ok) {
+                results.passed++;
+                results.details.push({ test: 'Get Selection', status: 'PASS', duration: `${Date.now() - testStart}ms` });
+            } else {
+                results.details.push({ test: 'Get Selection', status: 'FAIL', error: `HTTP ${selectionResponse.status}`, duration: `${Date.now() - testStart}ms` });
+            }
+            
+        } catch (error) {
+            results.details.push({ test: 'Selection Management', status: 'FAIL', error: error.message, duration: `${Date.now() - testStart}ms` });
+        }
+        
+        return results;
     }
 
     // Method to add custom success messages
