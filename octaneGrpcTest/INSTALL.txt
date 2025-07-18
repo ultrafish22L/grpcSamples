@@ -1,0 +1,36 @@
+OCTANE gRPC API TEST SUITE - INSTALLATION GUIDE
+===============================================
+
+QUICK START:
+1. Extract this ZIP to any folder (e.g., C:\octaneGrpcTest\)
+2. Make sure Octane Render is running with LiveLink enabled
+3. Double-click "runOctaneGrpcTest.bat"
+4. Wait for results (10-15 seconds)
+
+REQUIREMENTS:
+- Octane Render (any recent version with LiveLink)
+- Python 3.7 or newer
+- Internet connection (for installing packages)
+
+WHAT YOU'LL SEE:
+- Lots of gRPC API calls scrolling by
+- Test summary at the end
+- 50-60% success rate is NORMAL
+- Should complete without crashing Octane
+
+TROUBLESHOOTING:
+- "Connection refused" = Octane not running or LiveLink disabled
+- "Module not found" = Need to install Python packages (run: pip install -r requirements.txt)
+- Test hangs = Octane may have crashed, restart it
+
+ADVANCED USAGE:
+- python octaneGrpcTest.py --help = See all command line options
+- runOctaneGrpcTestAdvanced.bat = Choose specific test stages
+- See README.md for complete documentation
+
+SAFE BY DEFAULT:
+- All crash-causing APIs are disabled
+- Will not crash your Octane installation
+- Use -crash flag only if you want to test crash behavior
+
+For support, see README.md or contact the developer.

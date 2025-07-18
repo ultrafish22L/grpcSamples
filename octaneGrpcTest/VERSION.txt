@@ -1,0 +1,30 @@
+OCTANE gRPC API TEST SUITE
+Version: 1.0
+Build Date: 2025-01-16
+Compatibility: Octane Render 2020.1+, Windows 10/11, Python 3.7+
+
+CONTENTS:
+- octaneGrpcTest.py (Main test script)
+- 124 protobuf files (*_pb2.py, *_pb2_grpc.py)
+- requirements.txt (Python dependencies)
+- runOctaneGrpcTest.bat (Simple launcher)
+- runOctaneGrpcTestAdvanced.bat (Advanced launcher)
+- README.md (Complete documentation)
+- INSTALL.txt (Quick start guide)
+
+FEATURES:
+- 133 comprehensive API tests
+- Safe by default (no crashes)
+- Progressive testing stages
+- Windows batch file launchers
+- Complete gRPC API coverage
+- Crash culprit identification
+
+CHANGELOG:
+v1.0 (2025-01-16):
+- Initial redistributable release
+- All stable tests (Stage 9) by default
+- 5 crash culprits safely disabled
+- Windows batch file support
+- Complete documentation
+- Self-contained package
