@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 """
-Simple HTTP-to-gRPC proxy for Octane LiveLink
+🎯 OCTANE LIVELINK HTTP-TO-GRPC PROXY
 Converts HTTP requests from browser to gRPC calls to Octane server
+
+🔧 ENFORCED PORT CONFIGURATION:
+- Octane LiveLink Server: ALWAYS 127.0.0.1:51022 (or host.docker.internal:51022 in Docker)
+- Proxy Server: ALWAYS localhost:51023 (this proxy)
+- Web Application: Connects to localhost:51023 to reach Octane
+
+⚠️  CRITICAL: These ports are HARDCODED and cannot be changed via command line arguments.
+   This ensures consistent connectivity across all OctaneWeb components.
 """
 
 import json
@@ -15,6 +23,10 @@ import os
 import importlib
 import re
 import traceback
+
+# 🎯 ENFORCED PORT CONFIGURATION - DO NOT CHANGE
+OCTANE_PORT = 51022  # Octane LiveLink Server (always)
+PROXY_PORT = 51023   # This proxy server (always)
 
 # Add the current directory to path for protobuf imports
 sys.path.append(os.path.dirname(__file__))
@@ -34,26 +46,30 @@ except ImportError as e:
     sys.exit(1)
 
 class LiveLinkProxy:
-    def __init__(self, octane_address='127.0.0.1:51022'):
+    def __init__(self, octane_address=f'127.0.0.1:{OCTANE_PORT}'):
+        """
+        🎯 ENFORCED OCTANE CONNECTION: Always connects to 127.0.0.1:51022
+        In Docker environments, automatically detects and uses host.docker.internal:51022
+        """
         # Auto-detect Docker environment and use host.docker.internal
         import socket
         try:
             # Test if we can reach 127.0.0.1:51022 directly
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.settimeout(2)
-            result = sock.connect_ex(('127.0.0.1', 51022))
+            result = sock.connect_ex(('127.0.0.1', OCTANE_PORT))
             sock.close()
             
             if result != 0:
                 # Try host.docker.internal instead
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 sock.settimeout(2)
-                result = sock.connect_ex(('host.docker.internal', 51022))
+                result = sock.connect_ex(('host.docker.internal', OCTANE_PORT))
                 sock.close()
                 
                 if result == 0:
-                    octane_address = 'host.docker.internal:51022'
-                    print("🐳 Docker environment detected - using host.docker.internal:51022")
+                    octane_address = f'host.docker.internal:{OCTANE_PORT}'
+                    print(f"🐳 Docker environment detected - using host.docker.internal:{OCTANE_PORT}")
         except:
             pass
             
@@ -936,9 +952,28 @@ async def init_app():
     
     return app
 
+def validate_port_configuration():
+    """
+    🎯 VALIDATE ENFORCED PORT CONFIGURATION
+    Ensures ports are correctly set and displays configuration
+    """
+    print("🔧 VALIDATING PORT CONFIGURATION:")
+    print(f"   Octane LiveLink Server: 127.0.0.1:{OCTANE_PORT} (ENFORCED)")
+    print(f"   Proxy Server: localhost:{PROXY_PORT} (ENFORCED)")
+    print("   ⚠️  These ports are HARDCODED and cannot be changed")
+    
+    # Validate constants match expected values
+    assert OCTANE_PORT == 51022, f"❌ OCTANE_PORT must be 51022, got {OCTANE_PORT}"
+    assert PROXY_PORT == 51023, f"❌ PROXY_PORT must be 51023, got {PROXY_PORT}"
+    
+    print("✅ Port configuration validated")
+
 async def main():
     """Main function"""
     print("🚀 Starting LiveLink HTTP-to-gRPC Proxy")
+    
+    # Validate port configuration first
+    validate_port_configuration()
     
     # Connect to Octane
     connected = await proxy.connect_to_octane()
@@ -950,11 +985,13 @@ async def main():
     runner = web.AppRunner(app)
     await runner.setup()
     
-    site = web.TCPSite(runner, '0.0.0.0', 51023)
+    # 🎯 ENFORCED PROXY PORT: Always runs on port 51023
+    site = web.TCPSite(runner, '0.0.0.0', PROXY_PORT)
     await site.start()
     
-    print("✅ Proxy server started on http://0.0.0.0:51023 (accessible via localhost:51023)")
-    print("   Browser requests will be forwarded to Octane at 127.0.0.1:51022")
+    print(f"✅ Proxy server started on http://0.0.0.0:{PROXY_PORT} (accessible via localhost:{PROXY_PORT})")
+    print(f"   Browser requests will be forwarded to Octane at {proxy.octane_address}")
+    print("   🎯 ENFORCED PORTS: Octane=51022, Proxy=51023 (HARDCODED)")
     print("   Press Ctrl+C to stop")
     
     try:
