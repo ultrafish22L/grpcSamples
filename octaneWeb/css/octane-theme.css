@@ -217,15 +217,22 @@ html, body {
 /* Main Layout */
 .app-layout {
     display: grid;
-    grid-template-columns: 220px 1fr 300px; /* Left panel | Center (3D Canvas) | Right panel */
+    grid-template-columns: 220px 1fr 300px; /* Left space (for absolute Scene Outliner) | Center (3D Canvas) | Right panel */
     grid-template-rows: 1fr 300px; /* Top row (panels) | Bottom row (node graph) */
     grid-template-areas: 
-        "left-panel center-panel right-panel"
-        "left-panel bottom-panel right-panel";
+        "left-space center-panel right-panel"
+        "left-space bottom-panel right-panel";
     height: 100%; /* This should be 100% of the grid row, not viewport */
     max-height: 100%; /* Ensure it never exceeds the allocated grid space */
     background-color: var(--octane-bg-primary);
     overflow: hidden; /* Prevent layout overflow */
+    margin-left: 0; /* No margin needed since Scene Outliner is absolute */
+}
+
+/* Left Space - Reserved for absolute Scene Outliner */
+.left-space {
+    grid-area: left-space;
+    /* This space is reserved for the absolutely positioned Scene Outliner */
 }
 
 /* Panel Base Styles */
@@ -281,14 +288,14 @@ html, body {
 
 /* Left Panel - Scene Outliner */
 .left-panel {
-    grid-area: left-panel;
-    height: 100%; /* 100% of the grid cell height */
-    max-height: 100%; /* Never exceed grid cell height */
+    position: absolute;
+    left: 0;
+    top: var(--menu-height); /* Start below menu bar */
+    bottom: var(--status-bar-height); /* End above status bar */
     width: 220px; /* FORCE exact width to match grid */
     min-width: 220px;
     max-width: 220px;
-    position: relative;
-    z-index: 0; /* LOWER z-index so it stays behind center panel */
+    z-index: 10; /* Higher z-index to stay above other panels */
     overflow: hidden; /* Critical: prevent any overflow */
     contain: layout style paint; /* CSS containment for strict boundaries */
 }
