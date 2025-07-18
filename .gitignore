@@ -24,7 +24,7 @@ sdk/*.lib
 !third_party/**/*.exe
 
 # assets
-octaneWeb/assets/teapot.obj binary
+!octaneWeb/assets/teapot.obj
 
 # CMake files
 CMakeCache.txt
