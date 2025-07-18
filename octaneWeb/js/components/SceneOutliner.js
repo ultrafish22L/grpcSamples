@@ -401,14 +401,16 @@ class SceneOutliner extends OctaneComponent {
     
     getNodeIcon(type) {
         const icons = {
-            'mesh': '🔷',
-            'light': '💡',
-            'camera': '📷',
-            'material': '🎨',
-            'group': '📁',
-            'transform': '🔄'
+            'mesh': '▣',      // Geometric mesh icon
+            'light': '◉',     // Light source icon  
+            'camera': '◎',    // Camera lens icon
+            'material': '◐',  // Material shader icon
+            'group': '▣',     // Group/folder icon
+            'transform': '◈', // Transform node icon
+            'geometry': '▣',  // Geometry icon
+            'scene': '▣'      // Scene root icon
         };
-        return icons[type] || '📦';
+        return icons[type] || '◯';
     }
     
     setupNodeEventListeners() {
