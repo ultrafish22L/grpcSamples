@@ -221,7 +221,7 @@ html, body {
     grid-template-rows: 1fr 300px; /* Top row (panels) | Bottom row (node graph) */
     grid-template-areas: 
         "left-panel center-panel right-panel"
-        "left-panel bottom-panel bottom-panel";
+        "left-panel bottom-panel right-panel";
     height: 100%; /* This should be 100% of the grid row, not viewport */
     max-height: 100%; /* Ensure it never exceeds the allocated grid space */
     background-color: var(--octane-bg-primary);
