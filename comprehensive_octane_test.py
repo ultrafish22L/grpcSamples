@@ -1998,138 +1998,125 @@ class ComprehensiveOctaneTest:
             self.log_test("Stage9Services", False, error=e)
     
     async def run_comprehensive_test(self):
-        """Run the complete test suite"""
+        """Run the test suite based on configured test level"""
         print("🚀 STARTING COMPREHENSIVE OCTANE API TEST SUITE")
         print("=" * 60)
         
         start_time = datetime.now()
+        test_level = getattr(self, 'test_level', 0)
         
         # Connect to Octane
         if not await self.connect():
             return False
         
         try:
+            # ALWAYS RUN: Base Core Tests
+            print("🏗️ RUNNING BASE CORE TESTS")
+            
             # 1. Test Project Management
             root_graph_ref = await self.test_project_management()
-            
-            # Check if we should stop (after ~70 tests to prevent Octane crash)
-            if len(self.test_results) >= 70:
-                print(f"\n🛑 STOPPING AFTER {len(self.test_results)} TESTS TO PREVENT OCTANE CRASH")
-                return True
             
             # 2. Test Item Service Basic Operations
             if root_graph_ref:
                 await self.test_item_service_basic(root_graph_ref)
             
-            # Check if we should stop
-            if len(self.test_results) >= 70:
-                print(f"\n🛑 STOPPING AFTER {len(self.test_results)} TESTS TO PREVENT OCTANE CRASH")
-                return True
-            
             # 3. Test Node Creation
             created_nodes = await self.test_node_creation(root_graph_ref)
-            
-            # Check if we should stop
-            if len(self.test_results) >= 70:
-                print(f"\n🛑 STOPPING AFTER {len(self.test_results)} TESTS TO PREVENT OCTANE CRASH")
-                return True
             
             # 4. Test Attribute Operations
             if root_graph_ref:
                 await self.test_attribute_operations(root_graph_ref)
             
-            # Check if we should stop
-            if len(self.test_results) >= 70:
-                print(f"\n🛑 STOPPING AFTER {len(self.test_results)} TESTS TO PREVENT OCTANE CRASH")
-                return True
-            
             # 5. Test Node Connections
             if created_nodes:
                 await self.test_node_connections(created_nodes[0])  # Test first created node
-            
-            # Check if we should stop
-            if len(self.test_results) >= 70:
-                print(f"\n🛑 STOPPING AFTER {len(self.test_results)} TESTS TO PREVENT OCTANE CRASH")
-                return True
             
             # 6. Test Pin Value Setting
             if created_nodes:
                 await self.test_pin_value_setting(created_nodes)
             
-            # Check if we should stop
-            if len(self.test_results) >= 70:
-                print(f"\n🛑 STOPPING AFTER {len(self.test_results)} TESTS TO PREVENT OCTANE CRASH")
-                return True
-            
             # 7. Test Node Connections Between Nodes
             if len(created_nodes) >= 2:
                 await self.test_node_to_node_connections(created_nodes)
-            
-            # Check if we should stop
-            if len(self.test_results) >= 70:
-                print(f"\n🛑 STOPPING AFTER {len(self.test_results)} TESTS TO PREVENT OCTANE CRASH")
-                return True
             
             # 8. Test Graph Operations
             if root_graph_ref:
                 await self.test_graph_operations(root_graph_ref)
             
-            # Check if we should stop
-            if len(self.test_results) >= 70:
-                print(f"\n🛑 STOPPING AFTER {len(self.test_results)} TESTS TO PREVENT OCTANE CRASH")
-                return True
-            
             # 9. Test Advanced Operations
             await self.test_advanced_operations()
             
-            # Check if we should stop
-            if len(self.test_results) >= 70:
-                print(f"\n🛑 STOPPING AFTER {len(self.test_results)} TESTS TO PREVENT OCTANE CRASH")
-                return True
+            print(f"✅ BASE TESTS COMPLETE: {len(self.test_results)} tests")
             
-            # REMAINING TESTS SKIPPED TO PREVENT OCTANE CRASH
-            print(f"\n🛑 SKIPPING REMAINING STAGES TO PREVENT OCTANE CRASH (Current: {len(self.test_results)} tests)")
-            print("📋 SKIPPED STAGES:")
-            print("  - STAGE 1: New Core Services")
-            print("  - STAGE 2: Image & Geometry Services") 
-            print("  - STAGE 3: UI & Editor Services")
-            print("  - STAGE 4: File & Data Management Services")
-            print("  - STAGE 5: System & Configuration Services")
-            print("  - STAGE 6: Plugin & Extension Services")
-            print("  - STAGE 7: Advanced Rendering Services")
-            print("  - STAGE 8: Specialized Services")
-            print("  - STAGE 9: UI and Advanced Services")
-            print("  - Error Conditions Testing")
+            # CONDITIONAL: Run additional stages based on test level
+            if test_level >= 1:
+                print("🚀 RUNNING STAGE 1: New Core Services")
+                await self.test_stage1_services()
+                print(f"✅ STAGE 1 COMPLETE: {len(self.test_results)} total tests")
             
-            # # 10. Test STAGE 1: New Core Services
-            # await self.test_stage1_services()
+            if test_level >= 2:
+                print("🚀 RUNNING STAGE 2: Image & Geometry Services")
+                await self.test_stage2_services()
+                print(f"✅ STAGE 2 COMPLETE: {len(self.test_results)} total tests")
             
-            # # 11. Test STAGE 2: Image & Geometry Services
-            # await self.test_stage2_services()
+            if test_level >= 3:
+                print("🚀 RUNNING STAGE 3: UI & Editor Services")
+                await self.test_stage3_services()
+                print(f"✅ STAGE 3 COMPLETE: {len(self.test_results)} total tests")
             
-            # # 12. Test STAGE 3: UI & Editor Services
-            # await self.test_stage3_services()
+            if test_level >= 4:
+                print("🚀 RUNNING STAGE 4: File & Data Management Services")
+                await self.test_stage4_services()
+                print(f"✅ STAGE 4 COMPLETE: {len(self.test_results)} total tests")
             
-            # # 13. Test STAGE 4: File & Data Management Services
-            # await self.test_stage4_services()
+            if test_level >= 5:
+                print("🚀 RUNNING STAGE 5: System & Configuration Services")
+                await self.test_stage5_services()
+                print(f"✅ STAGE 5 COMPLETE: {len(self.test_results)} total tests")
             
-            # # 14. Test STAGE 5: System & Configuration Services
-            # await self.test_stage5_services()
+            if test_level >= 6:
+                print("🚀 RUNNING STAGE 6: Plugin & Extension Services")
+                await self.test_stage6_services()
+                print(f"✅ STAGE 6 COMPLETE: {len(self.test_results)} total tests")
             
-            # # 15. Test STAGE 6: Plugin & Extension Services
-            # await self.test_stage6_services()
+            if test_level >= 7:
+                print("🚀 RUNNING STAGE 7: Advanced Rendering Services")
+                await self.test_stage7_services()
+                print(f"✅ STAGE 7 COMPLETE: {len(self.test_results)} total tests")
             
-            # # 16. Test STAGE 7: Advanced Rendering Services
-            # await self.test_stage7_services()
+            if test_level >= 8:
+                print("🚀 RUNNING STAGE 8: Specialized Services")
+                await self.test_stage8_services()
+                print(f"✅ STAGE 8 COMPLETE: {len(self.test_results)} total tests")
             
-            # # 17. Test STAGE 8: Specialized Services
-            # await self.test_stage8_services()
+            if test_level >= 9:
+                print("🚀 RUNNING STAGE 9: UI and Advanced Services")
+                await self.test_stage9_services()
+                print(f"✅ STAGE 9 COMPLETE: {len(self.test_results)} total tests")
             
-            # # 18. Test STAGE 9: UI and Advanced Services
-            # await self.test_stage9_services()
+            if test_level >= 99:
+                print("🚀 RUNNING ERROR CONDITIONS TESTING")
+                await self.test_error_conditions()
+                print(f"✅ ALL TESTS COMPLETE: {len(self.test_results)} total tests")
             
-            # # 19. Test Error Conditions
-            # await self.test_error_conditions()
+            # Show what was skipped if not running all
+            if test_level < 99:
+                skipped_stages = []
+                if test_level < 1: skipped_stages.append("STAGE 1: New Core Services")
+                if test_level < 2: skipped_stages.append("STAGE 2: Image & Geometry Services")
+                if test_level < 3: skipped_stages.append("STAGE 3: UI & Editor Services")
+                if test_level < 4: skipped_stages.append("STAGE 4: File & Data Management Services")
+                if test_level < 5: skipped_stages.append("STAGE 5: System & Configuration Services")
+                if test_level < 6: skipped_stages.append("STAGE 6: Plugin & Extension Services")
+                if test_level < 7: skipped_stages.append("STAGE 7: Advanced Rendering Services")
+                if test_level < 8: skipped_stages.append("STAGE 8: Specialized Services")
+                if test_level < 9: skipped_stages.append("STAGE 9: UI and Advanced Services")
+                if test_level < 99: skipped_stages.append("Error Conditions Testing")
+                
+                if skipped_stages:
+                    print(f"\n📋 SKIPPED STAGES (use -1 through -9 or --all to enable):")
+                    for stage in skipped_stages:
+                        print(f"  - {stage}")
             
         finally:
             await self.disconnect()
@@ -2177,23 +2164,54 @@ class ComprehensiveOctaneTest:
         return failed_tests == 0
 
 async def main():
-    """Main test runner"""
+    """Main test runner with command line stage control"""
     print("🔥 COMPREHENSIVE OCTANE gRPC API TEST SUITE")
     print("LOCKIT: Focused on complete API testing")
     print("GRIND: Extended autonomous testing mode")
     print()
     
-    # Check if Octane host is specified
-    octane_host = None  # Will auto-detect based on platform
-    octane_port = 51022
+    # Parse command line arguments
+    import argparse
+    parser = argparse.ArgumentParser(description='Octane gRPC API Test Suite')
+    parser.add_argument('host', nargs='?', default=None, help='Octane host (auto-detect if not specified)')
+    parser.add_argument('port', nargs='?', type=int, default=51022, help='Octane port (default: 51022)')
+    parser.add_argument('-1', '--stage1', action='store_true', help='Run base tests + Stage 1')
+    parser.add_argument('-2', '--stage2', action='store_true', help='Run base tests + Stages 1-2')
+    parser.add_argument('-3', '--stage3', action='store_true', help='Run base tests + Stages 1-3')
+    parser.add_argument('-4', '--stage4', action='store_true', help='Run base tests + Stages 1-4')
+    parser.add_argument('-5', '--stage5', action='store_true', help='Run base tests + Stages 1-5')
+    parser.add_argument('-6', '--stage6', action='store_true', help='Run base tests + Stages 1-6')
+    parser.add_argument('-7', '--stage7', action='store_true', help='Run base tests + Stages 1-7')
+    parser.add_argument('-8', '--stage8', action='store_true', help='Run base tests + Stages 1-8')
+    parser.add_argument('-9', '--stage9', action='store_true', help='Run base tests + Stages 1-9')
+    parser.add_argument('--all', action='store_true', help='Run ALL tests including error conditions')
     
-    if len(sys.argv) > 1:
-        octane_host = sys.argv[1]
-    if len(sys.argv) > 2:
-        octane_port = int(sys.argv[2])
+    args = parser.parse_args()
+    
+    # Determine test level
+    test_level = 0  # Default: base tests only
+    if args.stage1: test_level = 1
+    elif args.stage2: test_level = 2
+    elif args.stage3: test_level = 3
+    elif args.stage4: test_level = 4
+    elif args.stage5: test_level = 5
+    elif args.stage6: test_level = 6
+    elif args.stage7: test_level = 7
+    elif args.stage8: test_level = 8
+    elif args.stage9: test_level = 9
+    elif args.all: test_level = 99
+    
+    # Display test level
+    if test_level == 0:
+        print("📋 TEST LEVEL: BASE (Core functionality only - safe for Octane)")
+    elif test_level == 99:
+        print("📋 TEST LEVEL: ALL (Complete test suite - may stress Octane)")
+    else:
+        print(f"📋 TEST LEVEL: STAGE {test_level} (Base tests + Stages 1-{test_level})")
     
     # Create test suite (will auto-detect host if None)
-    test_suite = ComprehensiveOctaneTest(octane_host, octane_port)
+    test_suite = ComprehensiveOctaneTest(args.host, args.port)
+    test_suite.test_level = test_level  # Set test level
     
     print(f"🎯 Target: {test_suite.octane_host}:{test_suite.octane_port}")
     print()
