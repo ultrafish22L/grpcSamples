@@ -55,37 +55,102 @@ const request = {
 
 **Why This Matters**: Octane uses polymorphic object handles - the same handle can be accessed through different service interfaces, but you must specify which interface via the type field.
 
-## 🎯 Vision Achieved
-A complete HTML/JavaScript recreation of Octane Render Studio's interface that operates entirely through Octane's gRPC API. **v1.0 delivers a pixel-perfect, fully functional web-based version of Octane that matches the native application's UI and functionality.**
+## 🔬 Implementation Architecture Deep-Dive
 
-## Project Goals
+**🎯 ENGINEERING ACHIEVEMENT**: Complete browser-based 3D application implementing advanced UI patterns and real-time synchronization without external framework dependencies. Demonstrates sophisticated DOM manipulation, WebGL integration, and custom protocol implementation.
 
-### 🎯 Core Objectives
-- **Complete UI Recreation**: Pixel-perfect recreation of Octane Render Studio interface
-- **Full gRPC Integration**: All functionality operates through Octane's gRPC LiveLink API
-- **Real-time Synchronization**: Bidirectional sync between web UI and Octane server
-- **Professional UX**: Native-quality user experience indistinguishable from desktop app
-- **Cross-platform Access**: Run Octane interface from any modern web browser
+### 🏗️ Core Implementation Patterns
 
-### 🏗️ Architecture Overview
-
+**🔧 Component Architecture**:
+```javascript
+// Base component with lifecycle management and event delegation
+class OctaneComponent {
+    constructor(element, client, stateManager) {
+        this.element = element;
+        this.client = client;           // gRPC client injection
+        this.stateManager = stateManager; // Centralized state
+        this.eventListeners = new Map(); // Memory leak prevention
+    }
+    
+    async onInitialize() { /* Override in subclasses */ }
+    cleanup() { /* Automatic event listener cleanup */ }
+}
 ```
-OctaneWeb Architecture
-├── Core Framework
-│   ├── gRPC-Web Client (extended from html/livelink.js)
-│   ├── Component System (modular UI components)
-│   ├── State Management (scene, nodes, parameters)
-│   └── Event System (user interactions, server sync)
-├── UI Components
-│   ├── Scene Outliner (hierarchical tree view)
-│   ├── Render Viewport (3D scene display)
-│   ├── Node Inspector (parameter controls)
-│   ├── Node Graph Editor (visual node connections)
-│   └── Menu System (application menus)
-└── Integration Layer
-    ├── Octane gRPC API (complete API coverage)
-    ├── WebGL Rendering (viewport display)
-    └── File Management (import/export)
+
+**🎨 Advanced Layout System**:
+```css
+/* Hybrid CSS Grid + Absolute positioning for complex layouts */
+.app-layout {
+    display: grid;
+    grid-template-areas: 
+        "left-space center-panel right-panel"
+        "left-space bottom-panel right-panel";
+    grid-template-columns: 220px 1fr 300px;
+}
+
+.left-panel {
+    position: absolute; /* Break out of grid for full-height */
+    top: var(--menu-height);
+    bottom: var(--status-bar-height);
+    width: 220px;
+    z-index: 10;
+}
+```
+
+**⚡ Real-time Synchronization Engine**:
+```javascript
+// Efficient viewport auto-fitting with bounding box calculation
+frameAll() {
+    if (this.nodes.size === 0) return;
+    
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    
+    this.nodes.forEach(node => {
+        const width = node.width || 120;
+        const height = node.height || 80;
+        
+        minX = Math.min(minX, node.x);
+        minY = Math.min(minY, node.y);
+        maxX = Math.max(maxX, node.x + width);
+        maxY = Math.max(maxY, node.y + height);
+    });
+    
+    const centerX = (minX + maxX) / 2;
+    const centerY = (minY + maxY) / 2;
+    const width = maxX - minX;
+    const height = maxY - minY;
+    
+    const zoomX = this.canvas.width / (width + 100);
+    const zoomY = this.canvas.height / (height + 100);
+    const zoom = Math.min(zoomX, zoomY, 1);
+    
+    this.viewport.zoom = zoom;
+    this.viewport.x = this.canvas.width / 2 - centerX * zoom;
+    this.viewport.y = this.canvas.height / 2 - centerY * zoom;
+}
+```
+
+### 🔌 Custom gRPC-Web Protocol Implementation
+
+**🌐 HTTP-to-gRPC Translation**:
+```javascript
+// Zero-dependency gRPC-Web client with custom message encoding
+class OctaneWebClient {
+    async makeRequest(service, method, data) {
+        const url = `${this.baseUrl}/${service}/${method}`;
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Call-Id': this.generateCallId(),
+                'grpc-web': 'true'
+            },
+            body: JSON.stringify(data)
+        });
+        
+        return this.handleResponse(response);
+    }
+}
 ```
 
 ## Development Phases

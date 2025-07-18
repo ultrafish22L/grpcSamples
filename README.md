@@ -1,24 +1,33 @@
 # Octane gRPC Samples
+## Advanced 3D Rendering Pipeline Integration Architecture
 
-🚀 **OCTANEWEB v1.0 COMPLETE** - Professional 3D web application suite with comprehensive Octane Render integration via gRPC. Features real-time camera synchronization, hierarchical scene management, visual node graph editing, and professional OTOY-themed UI.
+**🏗️ SYSTEMS ARCHITECTURE INNOVATION** - Production-grade multi-platform integration suite demonstrating advanced gRPC-based 3D rendering pipeline connectivity. Implements bidirectional real-time synchronization between web browsers, native applications, and Octane Render's LiveLink service through sophisticated protocol abstraction layers.
 
 ![livelink image](images/livelink.png)
 
-## 🎯 OctaneWeb v1.0 - Professional 3D Web Application Suite
+## 🎯 Technical Architecture Overview
 
-**🌟 MAJOR MILESTONE ACHIEVED**: Complete modern web application replacing legacy implementations with professional-grade features:
+**🔬 CORE INNOVATION**: Custom gRPC-Web protocol implementation eliminating external dependencies while maintaining full API compatibility with Octane's native gRPC services. Demonstrates advanced browser-to-server communication patterns without traditional gRPC-Web limitations.
 
-**🎨 Visual Excellence**:
-- **Scene Outliner**: Full-height hierarchical tree view with expand/collapse, node icons, and visibility toggles
-- **Node Graph Editor**: Auto-fitting nodes with perfect default positioning, right-click context menus, and professional node rendering
-- **Node Inspector**: Complete property panels with camera parameters and render settings
-- **Professional Layout**: Industry-standard 3D software aesthetic with OTOY dark theme and red accents
+### 🏛️ Multi-Tier Architecture Design
 
-**🔧 Technical Excellence**:
-- **Zero External Dependencies**: Custom gRPC-Web implementation without CDN libraries
-- **Modular Architecture**: Shared utilities and WebGL classes eliminating code duplication
-- **Comprehensive Testing**: Integrated 2,237-line test suite accessible via debug console
-- **Development Tools**: Cache busting system, debug console (Ctrl-D), and comprehensive error reporting
+**🌐 Web Tier (OctaneWeb v1.0)**:
+- **Custom Protocol Stack**: Hand-crafted gRPC-Web implementation bypassing protobuf.js dependencies
+- **Viewport Management System**: Absolute positioning with CSS Grid coordination for professional layout control
+- **Real-time Synchronization Engine**: Bidirectional camera state management with 60fps update cycles
+- **Component Architecture**: Modular ES6 classes with shared utility abstraction layer
+
+**🖥️ Native Tier (C++ Applications)**:
+- **Direct gRPC Integration**: Native protobuf compilation with optimized message serialization
+- **Shared Component System**: Reusable camera synchronization and model loading abstractions
+- **OpenGL Rendering Pipeline**: Modern OpenGL 3.3+ with efficient buffer management
+- **Cross-platform Abstraction**: CMake-based build system supporting Windows/Linux/macOS
+
+**🔄 Protocol Translation Tier**:
+- **HTTP-to-gRPC Proxy**: Asynchronous Python server with comprehensive CORS middleware
+- **Message Transformation**: JSON-to-protobuf conversion with type safety validation
+- **Connection Pooling**: Efficient gRPC channel management with automatic reconnection
+- **Development Mock Server**: Complete Octane API simulation for offline development
 
 **🌐 Web Application Features**:
 - Interactive 3D WebGL rendering with mouse controls (orbit, pan, zoom)

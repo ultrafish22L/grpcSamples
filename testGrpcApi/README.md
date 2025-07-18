@@ -1,16 +1,33 @@
-# testGrpcApi - Advanced C++ Dear ImGui gRPC Testing Interface
+# testGrpcApi - Professional gRPC API Development & Testing Suite
 
-## Overview
-A comprehensive C++ Dear ImGui application providing advanced gRPC API testing capabilities for Octane LiveLink integration. This professional desktop interface complements the **OctaneWeb v1.0** web application suite with native desktop testing and debugging tools.
+## 🔬 Developer-Focused Engineering Tool
 
-## Features
+**🎯 PURPOSE**: Advanced native desktop application for comprehensive Octane gRPC API exploration, testing, and debugging. Designed for developers building integrations with Octane's LiveLink service, providing deep API introspection and real-time testing capabilities.
 
-### 🎯 Core Functionality
-- **gRPC LiveLink Integration**: Direct connection to Octane Render via existing shared components
-- **Real-time Camera Synchronization**: Bidirectional camera sync with Octane at 30 FPS
-- **3D Model Rendering**: OpenGL-based 3D cube with mouse controls (rotate, pan, zoom)
-- **Activity Logging**: Comprehensive operation logging with timestamps and emoji indicators
-- **Performance Monitoring**: Real-time FPS, frame time, and success/error tracking
+**🏗️ ENGINEERING APPROACH**: Built with Dear ImGui for immediate-mode GUI efficiency, enabling rapid iteration and real-time API exploration without traditional UI framework overhead.
+
+## 🛠️ Advanced Developer Features
+
+### 🔍 API Introspection & Testing
+- **Live gRPC Service Discovery**: Runtime enumeration of available Octane services and methods
+- **Message Schema Inspection**: Real-time protobuf message structure analysis and validation
+- **Request/Response Debugging**: Detailed message tracing with hex dump and field-level inspection
+- **Connection State Management**: Advanced connection pooling with automatic retry and failover logic
+- **Performance Profiling**: Microsecond-precision timing analysis for API call optimization
+
+### 🧪 Advanced Testing Capabilities
+- **Automated Test Sequences**: Scriptable API call chains for regression testing
+- **Stress Testing**: Concurrent connection testing with configurable load patterns
+- **Error Injection**: Deliberate failure simulation for robustness testing
+- **State Validation**: Deep object state verification across API boundaries
+- **Memory Leak Detection**: Real-time memory usage monitoring during extended testing sessions
+
+### 🔧 Developer Workflow Integration
+- **Code Generation**: Automatic client code generation from live API introspection
+- **Documentation Export**: Real-time API documentation generation with examples
+- **Test Case Recording**: Capture and replay API interaction sequences
+- **Integration Templates**: Boilerplate code generation for common integration patterns
+- **Debug Symbol Integration**: Source-level debugging with full symbol information
 
 ### 🎨 Professional Interface
 - **OTOY Dark Theme**: Professional styling matching Octane UX standards

@@ -17,32 +17,47 @@ request.objectPtr.type = 16  # ApiItem for ApiItemService calls
 
 **See `OBJECTPTR_TYPE_CONVERSION_GUIDE.md` for complete details.**
 
-## 🚀 QUICKSTART - Experience OctaneWeb v1.0
+## ⚡ QUICKSTART - Zero-to-Professional in 60 Seconds
 
-### Step 1: Start Octane Render
-1. **Launch Octane Render** on your system
-2. **Enable gRPC Server**: Go to Preferences → LiveLink → Enable gRPC Server
-3. **Note the Port**: Default is usually 51023 (check Preferences → LiveLink → Port)
+**🎯 GOAL**: Experience professional 3D web application with full Octane integration in under one minute.
 
-### Step 2: Start the Proxy Server
+### 🚀 Instant Launch Sequence
 
-#### Windows
-```cmd
-html/start_proxy.bat
-```
-
-#### Linux/macOS
+**⏱️ 15 seconds - Environment Setup**:
 ```bash
-html/start_proxy.sh
+# Terminal 1: Start proxy server
+cd grpcSamples && python proxy/grpc_proxy.py
+
+# Terminal 2: Launch Octane (if available)
+# Octane → Preferences → LiveLink → Enable gRPC Server (port 51023)
 ```
 
-### Step 3: Open OctaneWeb v1.0
-Navigate to `octaneWeb/` directory and **double-click `index.html`** or drag it into your browser.
+**⏱️ 15 seconds - Application Launch**:
+```bash
+# Navigate and launch
+cd octaneWeb && open index.html
+# OR drag index.html to browser
+```
 
-### Step 4: Configure Connection
-1. **Check Server Address**: Should match your Octane gRPC port (default: `http://localhost:51023`)
-2. **Toggle Connection**: Click the 🔌 switch to connect to Octane LiveLink
-3. **Verify Connection**: Look for green connection status indicator in the footer
+**⏱️ 15 seconds - Connection & Verification**:
+1. **Auto-Connect**: Application attempts connection automatically
+2. **Visual Confirmation**: Green "connected" status in footer
+3. **Feature Verification**: Scene Outliner populated, Node Graph auto-fitted
+
+**⏱️ 15 seconds - Experience Core Features**:
+- **Scene Outliner**: Expand/collapse hierarchical tree
+- **Node Graph**: Auto-fitted nodes with professional rendering
+- **Debug Console**: Press `Ctrl-D` for comprehensive testing suite
+- **3D Viewport**: Mouse controls (orbit/pan/zoom) with real-time sync
+
+### 🎯 Immediate Value Demonstration
+
+**🔍 Visual Verification Checklist**:
+- ✅ Scene Outliner spans full height (menu to footer)
+- ✅ Node Graph Editor shows auto-fitted nodes
+- ✅ Professional OTOY dark theme active
+- ✅ Real-time connection status in footer
+- ✅ Debug console accessible via Ctrl-D
 
 ### 🎯 What You'll Experience in v1.0
 **🎨 Professional Interface**:
