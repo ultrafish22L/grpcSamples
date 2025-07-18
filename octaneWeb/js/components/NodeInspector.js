@@ -34,54 +34,49 @@ class NodeInspector extends OctaneComponent {
     }
     
     setupForceClickHandlers() {
-        // SIMPLE SOLUTION: Direct event delegation on the right panel itself
+        // SIMPLE SOLUTION: Direct event delegation on right-panel using capture phase
         const rightPanel = document.querySelector('.right-panel');
         if (!rightPanel) return;
 
-        // Use capture phase to intercept clicks before parent elements can block them
+        console.log('🎯 Setting up direct event delegation on right-panel');
+
+        // Direct click handler on the right panel itself using capture phase
         rightPanel.addEventListener('click', (event) => {
-            // Stop event from bubbling up to parent elements that might intercept it
-            event.stopPropagation();
+            console.log('🎯 Direct right-panel click detected:', event.target);
             
-            const target = event.target;
-            console.log('✅ Direct click on right panel element:', target.className);
-
-            // Handle parameter group headers (expand/collapse)
-            if (target.hasAttribute('data-group') || target.closest('[data-group]')) {
-                const header = target.closest('[data-group]') || target;
-                const groupName = header.getAttribute('data-group');
-                console.log('🔽 Toggling parameter group:', groupName);
-                this.toggleParameterGroup(groupName);
-                return;
+            // Find the target element or its parent with data-group attribute
+            let target = event.target;
+            while (target && target !== rightPanel) {
+                // Handle parameter group headers (expand/collapse)
+                if (target.hasAttribute && target.hasAttribute('data-group')) {
+                    const groupName = target.getAttribute('data-group');
+                    console.log('🔽 Direct toggle of parameter group:', groupName);
+                    this.toggleParameterGroup(groupName);
+                    event.preventDefault();
+                    event.stopPropagation();
+                    return;
+                }
+                
+                // Handle checkboxes
+                if (target.classList && target.classList.contains('parameter-checkbox')) {
+                    console.log('☑️ Direct checkbox click:', target);
+                    target.checked = !target.checked;
+                    this.handleParameterChange(target);
+                    event.preventDefault();
+                    event.stopPropagation();
+                    return;
+                }
+                
+                // Handle dropdowns
+                if (target.classList && target.classList.contains('parameter-dropdown')) {
+                    console.log('📋 Direct dropdown click:', target);
+                    // Let dropdown handle itself naturally
+                    return;
+                }
+                
+                target = target.parentElement;
             }
-
-            // Handle checkboxes
-            if (target.classList.contains('parameter-checkbox') || target.closest('.parameter-checkbox')) {
-                const checkbox = target.closest('.parameter-checkbox') || target;
-                console.log('☑️ Checkbox clicked:', checkbox);
-                this.handleParameterClick(checkbox, event);
-                return;
-            }
-
-            // Handle dropdowns
-            if (target.classList.contains('parameter-dropdown') || target.closest('.parameter-dropdown')) {
-                const dropdown = target.closest('.parameter-dropdown') || target;
-                console.log('📋 Dropdown clicked:', dropdown);
-                this.handleParameterClick(dropdown, event);
-                return;
-            }
-
-            // Handle other parameter inputs
-            if (target.classList.contains('parameter-input') || 
-                target.classList.contains('parameter-slider') ||
-                target.closest('.parameter-input') ||
-                target.closest('.parameter-slider')) {
-                console.log('🎛️ Parameter input clicked:', target);
-                // Let these handle their own events naturally
-                return;
-            }
-
-        }, true); // Capture phase - intercepts before bubbling
+        }, true); // Capture phase - intercepts before any other handlers
     }
     
     handleParameterClick(target, event) {
