@@ -1596,16 +1596,8 @@ class ComprehensiveOctaneTest:
         try:
             # Test ApiRenderEngineService with actual gRPC call
             print("\n🚀 Testing ApiRenderEngineService...")
-            try:
-                # Test render engine service with actual gRPC call
-                request = apirender_pb2.ApiRenderEngine.asyncTonemapBufferTypeRequest()
-                request.objectPtr.CopyFrom(self.create_object_ptr(0, 0))
-                self.log_grpc_call("ApiRenderEngineService", "asyncTonemapBufferType", request)
-                response = await self.render_engine_stub.asyncTonemapBufferType(request)  # Await async call
-                self.log_grpc_call("ApiRenderEngineService", "asyncTonemapBufferType", request, response)
-                self.log_test("RenderEngineService.asyncTonemapBufferType", True, f"Response received: {response}")
-            except Exception as e:
-                self.log_test("RenderEngineService.asyncTonemapBufferType", False, error=e)
+            print("⚠️ DISABLED: ApiRenderEngineService.asyncTonemapBufferType crashes Octane")
+            self.log_test("RenderEngineService.asyncTonemapBufferType", False, error="DISABLED: Crashes Octane - Stage 7 crash culprit")
             
             # Test ApiRenderImageService with actual gRPC call
             print("\n🖼️ Testing ApiRenderImageService...")
@@ -1778,27 +1770,13 @@ class ComprehensiveOctaneTest:
             
             # Test ApiGeometryExporterService with actual gRPC call
             print("\n📐 Testing ApiGeometryExporterService...")
-            try:
-                # Test geometry exporter service with actual gRPC call
-                request = apigeometryexporter_pb2.ApiGeometryExporter.createRequest()
-                self.log_grpc_call("ApiGeometryExporterService", "create", request)
-                response = await self.geometry_exporter_stub.create(request)  # Await async call
-                self.log_grpc_call("ApiGeometryExporterService", "create", request, response)
-                self.log_test("GeometryExporterService.create", True, f"Response received: {response}")
-            except Exception as e:
-                self.log_test("GeometryExporterService.create", False, error=e)
+            print("⚠️ DISABLED: ApiGeometryExporterService.create crashes Octane")
+            self.log_test("GeometryExporterService.create", False, error="DISABLED: Crashes Octane - Stage 8 crash culprit (duplicate)")
             
             # Test ApiMaterialXGlobalService with actual gRPC call
             print("\n🧪 Testing ApiMaterialXGlobalService...")
-            try:
-                # Test MaterialX global service with actual gRPC call
-                request = apimaterialx_pb2.ApiMaterialXGlobal.getAllMxNodeCategoriesRequest()
-                self.log_grpc_call("ApiMaterialXGlobalService", "getAllMxNodeCategories", request)
-                response = await self.materialx_global_stub.getAllMxNodeCategories(request)  # Await async call
-                self.log_grpc_call("ApiMaterialXGlobalService", "getAllMxNodeCategories", request, response)
-                self.log_test("MaterialXGlobalService.getAllMxNodeCategories", True, f"Response received: {response}")
-            except Exception as e:
-                self.log_test("MaterialXGlobalService.getAllMxNodeCategories", False, error=e)
+            print("⚠️ DISABLED: ApiMaterialXGlobalService.getAllMxNodeCategories crashes Octane")
+            self.log_test("MaterialXGlobalService.getAllMxNodeCategories", False, error="DISABLED: Crashes Octane - Stage 8 crash culprit")
                 
         except Exception as e:
             self.log_test("Stage8Services", False, error=e)
