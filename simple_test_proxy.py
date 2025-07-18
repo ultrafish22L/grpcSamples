@@ -144,9 +144,12 @@ class SimpleTestProxy:
             
             # Create the request
             request = apinodesystem_pb2.ApiItem.nameRequest()
-            
+            print(f"📤 gRPC request: {request}")      
+            # !!! TODO need to set request.objectPtr.type to apiItem
+            # request.objectPtr.type = 
+
             # Direct protobuf ObjectRef - pass it directly
-            request.objectPtr.CopyFrom(object_ref)
+            request.objectPtr.handle = object_ref.handle
             print(f"📤 gRPC request: {request}")
             response = await self.item_stub.name(request)
             
