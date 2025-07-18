@@ -579,15 +579,22 @@ html, body {
     position: relative;
     background-color: var(--octane-bg-darker);
     min-height: 250px; /* Ensure container has minimum height */
-    overflow: hidden; /* Prevent scrollbars */
+    max-height: 250px; /* Prevent container from growing too large */
+    overflow: hidden; /* Prevent scrollbars and contain canvas */
+    contain: layout style paint; /* CSS containment for better performance */
 }
 
 .node-graph {
     width: 100%;
     height: 100%;
+    max-width: 100%; /* Ensure canvas doesn't exceed container width */
+    max-height: 100%; /* Ensure canvas doesn't exceed container height */
     display: block;
     background-color: var(--octane-bg-darker);
     min-height: 250px; /* Ensure canvas has minimum height */
+    position: absolute; /* Position absolutely within container */
+    top: 0;
+    left: 0;
 }
 
 .node-palette {
