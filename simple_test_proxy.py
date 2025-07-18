@@ -33,7 +33,7 @@ class SimpleTestProxy:
         self.project_stub = None
         self.item_stub = None
         
-    async def connect_to_octane(self, host="host.docker.internal", port=51022):
+    async def connect_to_octane(self, host="127.0.0.1", port=51022):
         """Connect to Octane gRPC server"""
         try:
             print(f"🔌 Connecting to Octane at {host}:{port}...")
