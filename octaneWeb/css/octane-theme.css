@@ -216,11 +216,11 @@ html, body {
 /* Main Layout */
 .app-layout {
     display: grid;
-    grid-template-columns: 180px 1fr 280px; /* Balanced layout for all panels */
+    grid-template-columns: 180px 1fr 0px; /* Left panel + center, right panel is absolute */
     height: 100%; /* This should be 100% of the grid row, not viewport */
     max-height: 100%; /* Ensure it never exceeds the allocated grid space */
     background-color: var(--octane-bg-primary);
-    overflow: hidden; /* Critical: prevent any overflow from main layout */
+    overflow: hidden; /* Prevent layout overflow */
 }
 
 /* Panel Base Styles */
@@ -623,8 +623,15 @@ html, body {
     min-width: 250px;
     max-width: 500px;
     border-right: none;
-    background-color: var(--octane-bg-primary); /* Make it visible */
-    border-left: 1px solid var(--octane-border); /* Add left border */
+    background-color: var(--octane-bg-secondary); /* Professional dark background */
+    border-left: 1px solid var(--octane-border); /* Subtle left border */
+    position: absolute; /* Position absolute for reliable display */
+    right: 0; /* Stick to right edge */
+    top: 60px; /* Below header */
+    bottom: 30px; /* Above footer */
+    width: 300px; /* Fixed width for consistency */
+    z-index: 100; /* Above main content but below modals */
+    overflow-y: auto; /* Allow scrolling if content is tall */
 }
 
 .node-selector {
