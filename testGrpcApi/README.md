@@ -1,7 +1,7 @@
-# testGrpcApi - C++ Dear ImGui gRPC Client
+# testGrpcApi - Advanced C++ Dear ImGui gRPC Testing Interface
 
 ## Overview
-A complete C++ Dear ImGui application that duplicates the functionality of `html/index.html`, providing a native desktop interface for Octane LiveLink gRPC communication. This application demonstrates professional integration with the existing shared component system.
+A comprehensive C++ Dear ImGui application providing advanced gRPC API testing capabilities for Octane LiveLink integration. This professional desktop interface complements the **OctaneWeb v1.0** web application suite with native desktop testing and debugging tools.
 
 ## Features
 

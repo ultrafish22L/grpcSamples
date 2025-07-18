@@ -1,4 +1,6 @@
-# OTOY WebGL-Octane LiveLink Sync
+# 🚀 OctaneWeb v1.0 - Professional 3D Web Application QUICKSTART
+
+**🎉 MAJOR MILESTONE**: Complete professional 3D web application suite with full-height Scene Outliner, auto-fitting Node Graph Editor, and comprehensive Octane Render integration!
 
 ## 🔥 CRITICAL OBJECTPTR TYPE CONVERSION REQUIREMENT
 
@@ -15,7 +17,7 @@ request.objectPtr.type = 16  # ApiItem for ApiItemService calls
 
 **See `OBJECTPTR_TYPE_CONVERSION_GUIDE.md` for complete details.**
 
-## 🚀 QUICKSTART - Get Running fast
+## 🚀 QUICKSTART - Experience OctaneWeb v1.0
 
 ### Step 1: Start Octane Render
 1. **Launch Octane Render** on your system
@@ -34,20 +36,33 @@ html/start_proxy.bat
 html/start_proxy.sh
 ```
 
-### Step 3: Open the Web Application
-Simply **double-click `index.html`** or drag it into your browser.
+### Step 3: Open OctaneWeb v1.0
+Navigate to `octaneWeb/` directory and **double-click `index.html`** or drag it into your browser.
 
 ### Step 4: Configure Connection
-1. **Check Server Address**: Should match your Octane gRPC port (default: `http://127.0.0.1:51023`)
+1. **Check Server Address**: Should match your Octane gRPC port (default: `http://localhost:51023`)
 2. **Toggle Connection**: Click the 🔌 switch to connect to Octane LiveLink
 3. **Verify Connection**: Look for green connection status indicator in the footer
 
-### What You'll See
-- **Professional 3D Viewer**: Interactive WebGL cube with mouse controls
-- **Octane Render Branding**: Official Octane logo and OTOY styling
-- **Real-time Activity Log**: Live operation tracking with emoji indicators
-- **Connection Controls**: Toggle to connect to Octane LiveLink service
-- **Performance Stats**: FPS, frame time, and connection metrics
+### 🎯 What You'll Experience in v1.0
+**🎨 Professional Interface**:
+- **Scene Outliner**: Full-height hierarchical tree view with expand/collapse and visibility controls
+- **Node Graph Editor**: Auto-fitting nodes with perfect positioning and right-click context menus
+- **Node Inspector**: Complete property panels with camera parameters and render settings
+- **Professional Layout**: Industry-standard 3D software aesthetic with OTOY dark theme
+
+**🔧 Advanced Features**:
+- **Debug Console**: Press Ctrl-D to access comprehensive testing suite (🧑‍🚒 button)
+- **Cache Busting**: Automatic development-time cache management
+- **Real-time Sync**: Bidirectional camera synchronization with Octane Render
+- **Interactive 3D**: WebGL rendering with mouse controls (orbit, pan, zoom)
+- **Activity Logging**: Live operation tracking with emoji indicators and timestamps
+
+**🌐 Professional Experience**:
+- **Zero Dependencies**: Custom gRPC-Web implementation without external libraries
+- **Responsive Design**: Adapts to all screen sizes with mobile-friendly controls
+- **Performance Monitoring**: FPS, connection health, and operation statistics
+- **Error Handling**: Comprehensive error reporting with graceful degradation
 
 ### Basic Usage
 1. **Interact with 3D**: Drag to rotate, scroll to zoom, right-drag to pan
