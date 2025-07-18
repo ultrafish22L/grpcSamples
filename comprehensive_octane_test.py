@@ -215,16 +215,34 @@ class ComprehensiveOctaneTest:
             print(f"    ❌ Error: {error}")
     
     def log_grpc_call(self, service_name, method_name, request, response=None, error=None):
-        """Log gRPC request/response details"""
+        """Log extremely explicit gRPC request/response details"""
         timestamp = datetime.now().strftime("%H:%M:%S.%f")[:-3]  # Include milliseconds
         
-        print(f"[{timestamp}] 📤 gRPC Call: {service_name}.{method_name}")
-        print(f"    📋 Request: {request}")
+        print(f"\n{'='*80}")
+        print(f"🔥 EXPLICIT gRPC CALL LOG [{timestamp}]")
+        print(f"{'='*80}")
+        print(f"📡 SERVICE: {service_name}")
+        print(f"🎯 METHOD:  {method_name}")
+        print(f"📤 REQUEST TYPE: {type(request).__name__}")
+        print(f"📋 REQUEST DATA:")
+        if hasattr(request, '__str__') and str(request).strip():
+            print(f"    {str(request).replace(chr(10), chr(10) + '    ')}")
+        else:
+            print(f"    [Empty Request]")
         
         if response is not None:
-            print(f"    📥 Response: {response}")
+            print(f"📥 RESPONSE TYPE: {type(response).__name__}")
+            print(f"📦 RESPONSE DATA:")
+            if hasattr(response, '__str__') and str(response).strip():
+                print(f"    {str(response).replace(chr(10), chr(10) + '    ')}")
+            else:
+                print(f"    [Empty Response]")
         elif error:
-            print(f"    ❌ Error: {error}")
+            print(f"❌ ERROR TYPE: {type(error).__name__}")
+            print(f"💥 ERROR DATA: {error}")
+        else:
+            print(f"⏳ RESPONSE: [Pending...]")
+        print(f"{'='*80}\n")
     
     def create_object_ptr(self, handle, object_type):
         """Create ObjectPtr with proper type conversion"""
@@ -239,11 +257,17 @@ class ComprehensiveOctaneTest:
         
         try:
             # Test isValid
-            response = await self.project_stub.isValid(Empty())
+            request = Empty()
+            self.log_grpc_call("ApiProjectManagerService", "isValid", request)
+            response = await self.project_stub.isValid(request)
+            self.log_grpc_call("ApiProjectManagerService", "isValid", request, response)
             self.log_test("ProjectManager.isValid", True, f"Valid: {response.result}")
             
             # Test getCurrentProject
-            response = await self.project_stub.getCurrentProject(Empty())
+            request = Empty()
+            self.log_grpc_call("ApiProjectManagerService", "getCurrentProject", request)
+            response = await self.project_stub.getCurrentProject(request)
+            self.log_grpc_call("ApiProjectManagerService", "getCurrentProject", request, response)
             if hasattr(response, 'result') and response.result:
                 # Check if result is a string (file path) or has a handle
                 if isinstance(response.result, str) and response.result.strip():
@@ -257,7 +281,10 @@ class ComprehensiveOctaneTest:
                 self.log_test("ProjectManager.getCurrentProject", False, f"No current project - response: {response}")
             
             # Test rootNodeGraph
-            response = await self.project_stub.rootNodeGraph(Empty())
+            request = Empty()
+            self.log_grpc_call("ApiProjectManagerService", "rootNodeGraph", request)
+            response = await self.project_stub.rootNodeGraph(request)
+            self.log_grpc_call("ApiProjectManagerService", "rootNodeGraph", request, response)
             if hasattr(response, 'result') and hasattr(response.result, 'handle') and response.result.handle > 0:
                 self.log_test("ProjectManager.rootNodeGraph", True, f"Root graph handle: {response.result.handle}")
                 self.created_objects.append(('root_graph', response.result))
@@ -283,40 +310,45 @@ class ComprehensiveOctaneTest:
             request = apinodesystem_pb2.ApiItem.nameRequest()
             request.objectPtr.handle = object_ref.handle
             request.objectPtr.type = 16  # ApiItem type for ApiItemService
-            
+            self.log_grpc_call("ApiItemService", "name", request)
             response = await self.item_stub.name(request)
+            self.log_grpc_call("ApiItemService", "name", request, response)
             self.log_test("ItemService.name", True, f"Name: '{response.result}'")
             
             # Test uniqueId()
             request = apinodesystem_pb2.ApiItem.uniqueIdRequest()
             request.objectPtr.handle = object_ref.handle
             request.objectPtr.type = 16  # ApiItem type
-            
+            self.log_grpc_call("ApiItemService", "uniqueId", request)
             response = await self.item_stub.uniqueId(request)
+            self.log_grpc_call("ApiItemService", "uniqueId", request, response)
             self.log_test("ItemService.uniqueId", True, f"Unique ID: {response.result}")
             
             # Test version()
             request = apinodesystem_pb2.ApiItem.versionRequest()
             request.objectPtr.handle = object_ref.handle
             request.objectPtr.type = 16  # ApiItem type
-            
+            self.log_grpc_call("ApiItemService", "version", request)
             response = await self.item_stub.version(request)
+            self.log_grpc_call("ApiItemService", "version", request, response)
             self.log_test("ItemService.version", True, f"Version: {response.result}")
             
             # Test isNode()
             request = apinodesystem_pb2.ApiItem.isNodeRequest()
             request.objectPtr.handle = object_ref.handle
             request.objectPtr.type = 16  # ApiItem type
-            
+            self.log_grpc_call("ApiItemService", "isNode", request)
             response = await self.item_stub.isNode(request)
+            self.log_grpc_call("ApiItemService", "isNode", request, response)
             self.log_test("ItemService.isNode", True, f"Is Node: {response.result}")
             
             # Test isGraph()
             request = apinodesystem_pb2.ApiItem.isGraphRequest()
             request.objectPtr.handle = object_ref.handle
             request.objectPtr.type = 16  # ApiItem type
-            
+            self.log_grpc_call("ApiItemService", "isGraph", request)
             response = await self.item_stub.isGraph(request)
+            self.log_grpc_call("ApiItemService", "isGraph", request, response)
             self.log_test("ItemService.isGraph", True, f"Is Graph: {response.result}")
             
         except Exception as e:
@@ -348,8 +380,9 @@ class ComprehensiveOctaneTest:
                 request.ownerGraph.handle = root_graph_ref.handle
                 request.ownerGraph.type = 18  # ApiRootNodeGraph type for the owner graph
                 request.type = node_type_id
-                
+                self.log_grpc_call("ApiNodeService", "create", request)
                 response = await self.node_stub.create(request)
+                self.log_grpc_call("ApiNodeService", "create", request, response)
                 if response.result.handle > 0:
                     created_node = response.result
                     self.log_test(f"NodeService.create_{node_type_name}", True, f"Created {node_type_name}: {created_node.handle}")
@@ -375,24 +408,27 @@ class ComprehensiveOctaneTest:
             request = apinodesystem_pb2.ApiItem.nameRequest()
             request.objectPtr.handle = node_ref.handle
             request.objectPtr.type = 16  # ApiItem type for ItemService
-            
+            self.log_grpc_call("ApiItemService", "name", request)
             response = await self.item_stub.name(request)
+            self.log_grpc_call("ApiItemService", "name", request, response)
             self.log_test(f"{node_type_name}.name", True, f"Node name: '{response.result}'")
             
             # Get node type using NodeService
             request = apinodesystem_pb2.ApiNode.typeRequest()
             request.objectPtr.handle = node_ref.handle
             request.objectPtr.type = 17  # ApiNode type for NodeService
-            
+            self.log_grpc_call("ApiNodeService", "type", request)
             response = await self.node_stub.type(request)
+            self.log_grpc_call("ApiNodeService", "type", request, response)
             self.log_test(f"{node_type_name}.type", True, f"Node type ID: {response.result}")
             
             # Get pin count
             request = apinodesystem_pb2.ApiNode.pinCountRequest()
             request.objectPtr.handle = node_ref.handle
             request.objectPtr.type = 17  # ApiNode type
-            
+            self.log_grpc_call("ApiNodeService", "pinCount", request)
             response = await self.node_stub.pinCount(request)
+            self.log_grpc_call("ApiNodeService", "pinCount", request, response)
             pin_count = response.result
             self.log_test(f"{node_type_name}.pinCount", True, f"Pin count: {pin_count}")
             
@@ -417,8 +453,9 @@ class ComprehensiveOctaneTest:
                 request.objectPtr.handle = node_ref.handle
                 request.objectPtr.type = 17  # ApiNode type
                 request.id = pin_idx
-                
+                self.log_grpc_call("ApiNodeService", "pinName", request)
                 response = await self.node_stub.pinName(request)
+                self.log_grpc_call("ApiNodeService", "pinName", request, response)
                 pin_name = response.result
                 
                 # Get pin type
@@ -426,8 +463,9 @@ class ComprehensiveOctaneTest:
                 request.objectPtr.handle = node_ref.handle
                 request.objectPtr.type = 17  # ApiNode type
                 request.id = pin_idx
-                
+                self.log_grpc_call("ApiNodeService", "pinType", request)
                 response = await self.node_stub.pinType(request)
+                self.log_grpc_call("ApiNodeService", "pinType", request, response)
                 pin_type = response.result
                 
                 self.log_test(f"Pin[{pin_idx}]", True, f"Name: '{pin_name}', Type: {pin_type}")
@@ -438,8 +476,9 @@ class ComprehensiveOctaneTest:
                     request.objectPtr.handle = node_ref.handle
                     request.objectPtr.type = 17  # ApiNode type
                     request.id = pin_idx
-                    
+                    self.log_grpc_call("ApiNodeService", "getPinFloat", request)
                     response = await self.node_stub.getPinFloat(request)
+                    self.log_grpc_call("ApiNodeService", "getPinFloat", request, response)
                     self.log_test(f"Pin[{pin_idx}].getValue", True, f"Float value: {response.result}")
                 except:
                     # Try string value instead
@@ -448,8 +487,9 @@ class ComprehensiveOctaneTest:
                         request.objectPtr.handle = node_ref.handle
                         request.objectPtr.type = 17  # ApiNode type
                         request.id = pin_idx
-                        
+                        self.log_grpc_call("ApiNodeService", "getPinString", request)
                         response = await self.node_stub.getPinString(request)
+                        self.log_grpc_call("ApiNodeService", "getPinString", request, response)
                         self.log_test(f"Pin[{pin_idx}].getValue", True, f"String value: '{response.result}'")
                     except:
                         self.log_test(f"Pin[{pin_idx}].getValue", False, "Could not get value (unsupported type)")
@@ -469,8 +509,9 @@ class ComprehensiveOctaneTest:
             request = apinodesystem_pb2.ApiItem.attrCountRequest()
             request.objectPtr.handle = object_ref.handle
             request.objectPtr.type = 16  # ApiItem type
-            
+            self.log_grpc_call("ApiItemService", "attrCount", request)
             response = await self.item_stub.attrCount(request)
+            self.log_grpc_call("ApiItemService", "attrCount", request, response)
             attr_count = response.result
             self.log_test("AttributeOps.attrCount", True, f"Attribute count: {attr_count}")
             
@@ -641,8 +682,9 @@ class ComprehensiveOctaneTest:
                 request = apinodesystem_pb2.ApiNode.pinCountRequest()
                 request.objectPtr.handle = node_ref.handle
                 request.objectPtr.type = 17  # ApiNode type
-                
+                self.log_grpc_call("ApiNodeService", "pinCount", request)
                 response = await self.node_stub.pinCount(request)
+                self.log_grpc_call("ApiNodeService", "pinCount", request, response)
                 pin_count = response.result
                 
                 # Try to set some pin values
@@ -655,8 +697,9 @@ class ComprehensiveOctaneTest:
                         request.objectPtr.type = 17  # ApiNode type
                         request.id = pin_idx
                         request.value = int(test_values[pin_idx % len(test_values)] * 100)  # Convert to int
-                        
+                        self.log_grpc_call("ApiNodeService", "setPinValue", request)
                         response = await self.node_stub.setPinValue(request)
+                        self.log_grpc_call("ApiNodeService", "setPinValue", request, response)
                         self.log_test(f"Node[{i}].setPinValue[{pin_idx}]", True, f"Set to {test_values[pin_idx % len(test_values)]}")
                         
                         # Verify the value was set
@@ -664,8 +707,9 @@ class ComprehensiveOctaneTest:
                         request.objectPtr.handle = node_ref.handle
                         request.objectPtr.type = 17  # ApiNode type
                         request.id = pin_idx
-                        
+                        self.log_grpc_call("ApiNodeService", "getPinFloat", request)
                         response = await self.node_stub.getPinFloat(request)
+                        self.log_grpc_call("ApiNodeService", "getPinFloat", request, response)
                         self.log_test(f"Node[{i}].verifyPinValue[{pin_idx}]", True, f"Verified: {response.result}")
                         
                     except Exception as e:
