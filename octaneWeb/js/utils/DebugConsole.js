@@ -260,8 +260,80 @@ class DebugConsole {
         console.info('🧹 Debug console cleared');
     }
     
-    unitTest() {
-        console.info('🧑‍🚒 Start unit tests');
+    async unitTest() {
+        console.info('🧑‍🚒 Starting comprehensive test suite...');
+        this.addLog('info', ['🧪 Initiating comprehensive Octane gRPC API test suite']);
+        
+        try {
+            // Get current server address from the UI
+            const serverAddress = document.getElementById('serverAddress')?.value || 'http://localhost:51024';
+            const testUrl = serverAddress.replace('/api', '/test');
+            
+            this.addLog('info', [`📡 Test endpoint: ${testUrl}`]);
+            
+            // Call the test suite endpoint
+            const response = await fetch(testUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Call-Id': `test-suite-${Date.now()}`
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                const data = result.data;
+                this.addLog('success', [
+                    `✅ Test Suite Completed!`,
+                    `📊 Results: ${data.passed}/${data.total_tests} tests passed (${data.success_rate}%)`,
+                    `⏱️  Duration: ${data.duration}`,
+                    `🕐 Timestamp: ${data.timestamp}`
+                ]);
+                
+                // Log detailed results
+                if (data.details && data.details.length > 0) {
+                    this.addLog('info', ['📋 Detailed Results:']);
+                    data.details.slice(0, 10).forEach(test => {
+                        const status = test.status === 'PASS' ? '✅' : '❌';
+                        const errorInfo = test.error ? ` - ${test.error}` : '';
+                        this.addLog('info', [`  ${status} ${test.test} (${test.duration})${errorInfo}`]);
+                    });
+                    
+                    if (data.details.length > 10) {
+                        this.addLog('info', [`  ... and ${data.details.length - 10} more tests`]);
+                    }
+                }
+                
+                // Show summary
+                if (data.success_rate >= 95) {
+                    this.addLog('success', ['🎉 Excellent! Test suite passed with high success rate']);
+                } else if (data.success_rate >= 80) {
+                    this.addLog('warn', ['⚠️  Good, but some tests failed. Check Octane connection']);
+                } else {
+                    this.addLog('error', ['🚨 Many tests failed. Verify Octane LiveLink is running']);
+                }
+                
+            } else {
+                throw new Error(result.error || 'Test suite failed');
+            }
+            
+        } catch (error) {
+            this.addLog('error', [
+                '❌ Test suite execution failed:',
+                error.message,
+                '🔧 Troubleshooting:',
+                '  1. Ensure custom proxy server is running (start_proxy.bat)',
+                '  2. Verify Octane Render is running with LiveLink enabled',
+                '  3. Check server address in connection panel'
+            ]);
+            
+            console.error('Test suite error:', error);
+        }
     }
 
     // Method to add custom success messages

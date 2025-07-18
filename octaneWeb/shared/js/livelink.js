@@ -58,7 +58,7 @@ class SimpleEventEmitter {
  * LiveLink Client for gRPC-Web communication with Octane
  */
 class LiveLinkClient extends SimpleEventEmitter {
-    constructor(serverUrl = 'http://localhost:51023') {
+    constructor(serverUrl = 'http://localhost:51024') {
         super();
         this.serverUrl = serverUrl;
         this.connected = false;
@@ -919,7 +919,7 @@ class LiveLinkClient extends SimpleEventEmitter {
 class LiveLinkManager {
     constructor() {
         this.client = null;
-        this.defaultServerUrl = 'http://127.0.0.1:51023';
+        this.defaultServerUrl = 'http://127.0.0.1:51024';
     }
 
     /**

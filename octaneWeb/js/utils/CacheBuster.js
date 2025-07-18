@@ -17,9 +17,10 @@ class CacheBuster {
     
     generateVersion() {
         const now = new Date();
+        const timestamp = now.getTime();
         const date = now.toISOString().slice(0, 10).replace(/-/g, '');
         const time = now.toTimeString().slice(0, 8).replace(/:/g, '');
-        return `${date}-${time}`;
+        return `${date}-${time}-${timestamp}`;
     }
     
     init() {

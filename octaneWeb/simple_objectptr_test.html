@@ -131,7 +131,7 @@
         async function initializeClient() {
             if (!octaneClient) {
                 log('🔌 Initializing Octane client...');
-                octaneClient = new LiveLinkClient('http://localhost:51023');
+                octaneClient = new LiveLinkClient('http://localhost:51024');
                 await octaneClient.connect();
                 log('✅ Client connected successfully', 'success');
             }

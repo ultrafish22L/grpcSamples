@@ -1,14 +1,14 @@
 @echo off
 REM ========================================
-REM OctaneWeb Proxy Server Launcher
+REM OctaneWeb Custom Proxy Server Launcher
 REM ========================================
-REM This script starts the HTTP-to-gRPC proxy server
-REM required for octaneWeb to communicate with Octane LiveLink
+REM Starts the custom HTTP-to-gRPC proxy server
+REM optimized specifically for octaneWeb
 REM ========================================
 
 echo.
 echo ========================================
-echo  OctaneWeb Proxy Server Launcher
+echo  OctaneWeb Custom Proxy Server
 echo ========================================
 echo.
 
@@ -22,11 +22,11 @@ if not exist "index.html" (
     exit /b 1
 )
 
-REM Check if proxy directory exists
-if not exist "..\proxy\grpc_proxy.py" (
-    echo ERROR: Proxy server not found
-    echo Expected location: ..\proxy\grpc_proxy.py
-    echo Please ensure you're in the correct grpcSamples directory structure
+REM Check if custom proxy exists
+if not exist "octane_proxy.py" (
+    echo ERROR: Custom proxy server not found
+    echo Expected location: octane_proxy.py
+    echo Please ensure the custom proxy is in the octaneWeb directory
     echo.
     pause
     exit /b 1
@@ -66,11 +66,13 @@ echo Required packages found ✓
 
 echo.
 echo ========================================
-echo  Starting Proxy Server...
+echo  Starting Custom Proxy Server...
 echo ========================================
 echo.
-echo Proxy will run on: http://localhost:51023
-echo Octane LiveLink:   127.0.0.1:51022
+echo Custom Proxy: http://localhost:51024
+echo Octane Target: 127.0.0.1:51022
+echo Health Check:  http://localhost:51024/health
+echo Test Suite:    http://localhost:51024/test
 echo.
 echo IMPORTANT:
 echo 1. Make sure Octane Render is running with LiveLink enabled
@@ -78,14 +80,13 @@ echo 2. Open octaneWeb in browser: file:///%CD%\index.html
 echo 3. Press Ctrl+C to stop the proxy server
 echo.
 
-REM Change to proxy directory and start server
-cd ..\proxy
-python grpc_proxy.py
+REM Start the custom proxy server
+python octane_proxy.py
 
 REM If we get here, the server stopped
 echo.
 echo ========================================
-echo  Proxy Server Stopped
+echo  Custom Proxy Server Stopped
 echo ========================================
 echo.
 pause

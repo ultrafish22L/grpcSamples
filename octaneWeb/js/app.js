@@ -94,7 +94,7 @@ class OctaneWebApp {
         this.layoutManager = new LayoutManager();
         
         // Initialize gRPC client (not connected yet)
-        this.client = new OctaneWebClient('http://localhost:51023');
+        this.client = new OctaneWebClient('http://localhost:51024');
         
         // Setup client event handlers
         this.setupClientEventHandlers();
@@ -215,7 +215,7 @@ class OctaneWebApp {
         if (connectionToggle) {
             connectionToggle.addEventListener('change', (e) => {
                 if (e.target.checked) {
-                    const serverAddress = document.getElementById('serverAddress')?.value || 'http://localhost:51023';
+                    const serverAddress = document.getElementById('serverAddress')?.value || 'http://localhost:51024';
                     this.connectToOctane(serverAddress);
                 } else {
                     this.disconnectFromOctane();
@@ -653,7 +653,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.toggleConnection = () => {
             const toggle = document.getElementById('connectionToggle');
             if (toggle.checked) {
-                const serverAddress = document.getElementById('serverAddress')?.value || 'http://localhost:51023';
+                const serverAddress = document.getElementById('serverAddress')?.value || 'http://localhost:51024';
                 octaneWebApp.connectToOctane(serverAddress);
             } else {
                 octaneWebApp.disconnectFromOctane();
