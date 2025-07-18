@@ -699,15 +699,17 @@ class NodeGraphEditor extends OctaneComponent {
 
         console.log('🎨 Created sample nodes for node graph editor');
         
-        // Force immediate render after creating nodes
+        // Auto-fit all nodes to viewport after creation
         setTimeout(() => {
-            console.log('🔄 Forcing render after node creation');
+            console.log('🎯 Auto-fitting nodes to viewport');
+            this.frameAll();
             this.render();
         }, 100);
         
-        // Also force render after a longer delay to ensure canvas is ready
+        // Also ensure proper fit after canvas is fully ready
         setTimeout(() => {
-            console.log('🔄 Second forced render after node creation');
+            console.log('🔄 Final auto-fit and render');
+            this.frameAll();
             this.render();
         }, 500);
     }
