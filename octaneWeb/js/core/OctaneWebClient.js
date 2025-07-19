@@ -332,20 +332,26 @@ function createOctaneWebClient() {
     async buildSceneTreeRecursive(objectRef, name = 'Node', depth = 0) {
         try {
             console.log(`${'  '.repeat(depth)}📊 NAME ${name}: ${objectRef}`);
-            // Name
+            // Name - FIXED: Use handle from ObjectPtr and set correct type for ApiItem
             try {
                 const response = await this.makeGrpcCall('octaneapi.ApiItemService/name', {
-                    objectPtr: objectRef
+                    objectPtr: {
+                        handle: objectRef.handle,
+                        type: objectRef.type  // Use original type for ApiItem calls
+                    }
                 });
                 console.log(`${'  '.repeat(depth)}📊 name() API result for ${name}: ${response}`);
+                if (response.success && response.data && response.data.result) {
+                    name = response.data.result;  // Update name with real result
+                }
             } catch (error) {
                 console.warn(`${'  '.repeat(depth)}⚠️ name() API failed for ${name}:`, error);
             }
-            console.log(`${'  '.repeat(depth)}🌿 Building node: ${name} (handle=${objectRef.objectHandle})`);
+            console.log(`${'  '.repeat(depth)}🌿 Building node: ${name} (handle=${objectRef.handle})`);
             
             // Create the node structure
             const node = {
-                id: `node_${objectRef.objectHandle}`,
+                id: `node_${objectRef.handle}`,
                 name: name,
                 type: 'group',
                 visible: true,
@@ -357,10 +363,13 @@ function createOctaneWebClient() {
             
             let isGraph = false;
             
-            // For unknown types, try the API call
+            // For unknown types, try the API call - FIXED: Use handle and correct type
             try {
                 const isGraphResponse = await this.makeGrpcCall('octaneapi.ApiItemService/isGraph', {
-                    objectPtr: objectRef
+                    objectPtr: {
+                        handle: objectRef.handle,
+                        type: objectRef.type  // Use original type for ApiItem calls
+                    }
                 });
                 isGraph = isGraphResponse.success && isGraphResponse.data.result;
                 console.log(`${'  '.repeat(depth)}📊 isGraph API result for ${name}: ${isGraph}`);
@@ -495,10 +504,13 @@ function createOctaneWebClient() {
                 
                 let isNode = false;
                 
-                // Try the API call first
+                // Try the API call first - FIXED: Use handle and correct type
                 try {
                     const isNodeResponse = await this.makeGrpcCall('octaneapi.ApiItemService/isNode', {
-                        objectPtr: objectRef
+                        objectPtr: {
+                            handle: objectRef.handle,
+                            type: objectRef.type  // Use original type for ApiItem calls
+                        }
                     });
                     isNode = isNodeResponse.success && isNodeResponse.data.result;
                     console.log(`${'  '.repeat(depth)}📊 isNode API result for ${name}: ${isNode}`);
@@ -517,7 +529,10 @@ function createOctaneWebClient() {
                     try {
                         console.log(`${'  '.repeat(depth)}🔄 Converting ${name} to node reference via API...`);
                         const toNodeResponse = await this.makeGrpcCall('octaneapi.ApiItemService/toNode', {
-                            objectPtr: objectRef
+                            objectPtr: {
+                                handle: objectRef.handle,
+                                type: objectRef.type  // Use original type for ApiItem calls
+                            }
                         });
                         
                         if (toNodeResponse.success && toNodeResponse.data.result) {
@@ -552,11 +567,11 @@ function createOctaneWebClient() {
             const indent = '  '.repeat(depth);
             console.log(`${indent}📍 Getting pin count for node ${name}...`);
             
-            // First get the pin count for this node
+            // First get the pin count for this node - FIXED: Use handle and ApiNode type (17)
             const pinCountResponse = await this.makeGrpcCall('octaneapi.ApiNodeService/pinCount', {
                 objectPtr: {
-                    objectHandle: objectRef.objectHandle,
-                    type: objectRef.type
+                    handle: objectRef.handle,
+                    type: 17  // ApiNode type for ApiNodeService calls
                 }
             });
 
@@ -573,8 +588,8 @@ function createOctaneWebClient() {
                         
                         const ownedItemResponse = await this.makeGrpcCall('octaneapi.ApiNodeService/ownedItemIx', {
                             objectPtr: {
-                                objectHandle: objectRef.objectHandle,
-                                type: objectRef.type
+                                handle: objectRef.handle,
+                                type: 17  // ApiNode type for ApiNodeService calls
                             },
                             pinIndex: pinIndex
                         });
@@ -585,13 +600,13 @@ function createOctaneWebClient() {
                             const ownedItem = ownedItemResponse.data.item;
                             console.log(`${indent}  📎 Pin ${pinIndex} owns item:`, ownedItem);
                             
-                            // Create objectRef for the owned item
+                            // Create objectRef for the owned item - FIXED: Use handle format
                             const childObjectRef = {
-                                objectHandle: ownedItem.objectHandle,
+                                handle: ownedItem.handle || ownedItem.objectHandle,
                                 type: ownedItem.type
                             };
                             
-                            const childName = `Pin${pinIndex}_${ownedItem.objectHandle}`;
+                            const childName = `Pin${pinIndex}_${ownedItem.handle || ownedItem.objectHandle}`;
                             console.log(`${indent}  🌿 Recursing into pin-owned item: ${childName}`);
                             
                             const childNode = await this.buildSceneTreeRecursive(childObjectRef, childName, depth + 1);
