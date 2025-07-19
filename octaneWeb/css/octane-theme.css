@@ -444,6 +444,51 @@ html, body {
     z-index: 1; /* Lower z-index than right panel */
 }
 
+/* Render Canvas */
+.render-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-color: var(--octane-bg-primary);
+    cursor: default;
+}
+
+.render-canvas:active {
+    cursor: grabbing;
+}
+
+/* Viewport Error Display */
+.viewport-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--octane-text-primary);
+    text-align: center;
+    padding: 2rem;
+}
+
+.viewport-error .error-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.viewport-error .error-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--octane-accent);
+}
+
+.viewport-error .error-message {
+    font-size: 1rem;
+    opacity: 0.8;
+    max-width: 400px;
+    line-height: 1.5;
+}
+
 .viewport-header {
     background-color: var(--octane-bg-header);
     border-bottom: 1px solid var(--octane-border);
@@ -484,17 +529,21 @@ html, body {
 .viewport-container {
     flex: 1;
     position: relative;
-    background-color: var(--octane-viewport-bg);
+    /* background-color: lime; /* DEBUG: Make container visible */
     border-bottom: 1px solid var(--octane-border);
+    min-height: 200px; /* DEBUG: Ensure minimum height */
+    overflow: hidden; /* CRITICAL: Prevent canvas overflow */
 }
 
 .render-viewport {
-    width: 100%;
-    height: 100%;
-    display: block;
-    background-color: var(--octane-viewport-bg);
-    position: relative;
-    z-index: 1; /* Ensure canvas stays within its container */
+    width: 760px !important;
+    height: 297px !important;
+    display: block !important;
+    /* Prevent canvas flashing - match container background */
+    background: var(--octane-bg-secondary);
+    transition: none !important;
+    animation: none !important;
+    border: 2px solid yellow !important; /* DEBUG: Make canvas visible */
 }
 
 .viewport-overlay {
@@ -504,6 +553,7 @@ html, body {
     right: 0;
     bottom: 0;
     pointer-events: none;
+    z-index: 5; /* Stay behind canvas but above background */
 }
 
 .viewport-info {
@@ -652,6 +702,8 @@ html, body {
     flex-direction: column;
     position: relative; /* Ensure proper stacking context */
     z-index: 10; /* Higher z-index than center panel */
+    min-width: 300px; /* 🔧 CRITICAL FIX: Ensure minimum width on initial load */
+    width: 300px; /* 🔧 CRITICAL FIX: Explicit width to prevent 0-width on startup */
 }
 
 .node-selector {

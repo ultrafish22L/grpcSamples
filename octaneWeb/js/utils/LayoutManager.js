@@ -166,20 +166,43 @@ class LayoutManager {
         const leftPanel = document.querySelector('.left-panel');
         const rightPanel = document.querySelector('.right-panel');
         
-        let leftWidth = '200px';
-        let rightWidth = '300px';
+        let leftWidth = '220px';  // Match CSS default: 220px
+        let rightWidth = '300px'; // Match CSS default: 300px
         
         if (leftPanel) {
             const panelData = this.panels.get(leftPanel.id);
-            leftWidth = panelData.isCollapsed ? '24px' : `${leftPanel.offsetWidth}px`;
+            if (panelData) {
+                if (panelData.isCollapsed) {
+                    leftWidth = '24px';
+                } else {
+                    // Only use offsetWidth if it's been calculated (> 0), otherwise use default
+                    const calculatedWidth = leftPanel.offsetWidth;
+                    leftWidth = calculatedWidth > 0 ? `${calculatedWidth}px` : '220px';
+                }
+            }
         }
         
         if (rightPanel) {
             const panelData = this.panels.get(rightPanel.id);
-            rightWidth = panelData.isCollapsed ? '24px' : `${rightPanel.offsetWidth}px`;
+            if (panelData) {
+                if (panelData.isCollapsed) {
+                    rightWidth = '24px';
+                } else {
+                    // Only use offsetWidth if it's been calculated (> 0), otherwise use default
+                    const calculatedWidth = rightPanel.offsetWidth;
+                    rightWidth = calculatedWidth > 0 ? `${calculatedWidth}px` : '300px';
+                }
+            }
         }
         
         appLayout.style.gridTemplateColumns = `${leftWidth} 1fr ${rightWidth}`;
+        
+        // 🔧 CRITICAL FIX: Force layout recalculation to ensure right-panel is visible
+        if (rightPanel && rightPanel.offsetWidth === 0) {
+            // Force a reflow to ensure the right panel gets proper dimensions
+            rightPanel.style.minWidth = '300px';
+            rightPanel.offsetHeight; // Force reflow
+        }
     }
     
     togglePanel(panelId) {
