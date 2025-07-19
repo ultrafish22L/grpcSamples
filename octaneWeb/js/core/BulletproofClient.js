@@ -184,11 +184,11 @@ class BulletproofOctaneClient {
                 throw new Error('Failed to get root node graph');
             }
             
-            const rootObjectRef = rootResponse.data.result;
+            const rootObjectRef = rootResponse.data.result.result; // Extract the actual ObjectRef
             console.log('✅ BULLETPROOF: Root ObjectRef:', rootObjectRef);
             
             // Step 2: Build scene tree recursively
-            const sceneHierarchy = await this.buildSceneTreeRecursive(rootObjectRef, 'Root');
+            const sceneHierarchy = await this.buildSceneTreeRecursive(rootObjectRef, 'Scene');
             
             if (sceneHierarchy) {
                 console.log('🌳 BULLETPROOF: Real Octane scene tree loaded successfully');
@@ -211,18 +211,31 @@ class BulletproofOctaneClient {
             const indent = '  '.repeat(depth);
             console.log(`${indent}📊 BULLETPROOF: Building node ${name}: ${objectRef.handle}`);
             
-            // Get node name
+            // Get node name - use appropriate service based on type
             let nodeName = name;
             try {
-                const nameResponse = await this.makeGrpcCall('ApiItemService', 'name', {
-                    objectPtr: {
-                        handle: objectRef.handle,
-                        type: objectRef.type
-                    }
-                });
+                let nameResponse;
                 
-                if (nameResponse.success && nameResponse.data && nameResponse.data.result) {
-                    nodeName = nameResponse.data.result.name || name;
+                if (objectRef.type === 18) {
+                    // Type 18 = ApiRootNodeGraph - use default name "Scene"
+                    console.log(`${indent}🏷️ BULLETPROOF: Using default name "Scene" for ApiRootNodeGraph`);
+                    nodeName = "Scene";
+                } else if (objectRef.type === 16) {
+                    // Type 16 = ApiItem - use ApiItemService
+                    nameResponse = await this.makeGrpcCall('ApiItemService', 'name', {
+                        objectPtr: {
+                            handle: objectRef.handle,
+                            type: objectRef.type
+                        }
+                    });
+                    
+                    if (nameResponse.success && nameResponse.data && nameResponse.data.result) {
+                        nodeName = nameResponse.data.result.name || name;
+                    }
+                } else {
+                    // For other types, use the provided name
+                    console.log(`${indent}🏷️ BULLETPROOF: Using provided name "${name}" for type ${objectRef.type}`);
+                    nodeName = name;
                 }
             } catch (error) {
                 console.warn(`${indent}⚠️ BULLETPROOF: Could not get name for ${objectRef.handle}: ${error.message}`);
@@ -238,9 +251,13 @@ class BulletproofOctaneClient {
                 expanded: false
             };
             
-            // Try to get children (if this is a container node)
+            // Try to get children - use correct service based on object type
             try {
-                const childrenResponse = await this.makeGrpcCall('ApiNodeSystemService', 'getChildren', {
+                let childrenResponse;
+                
+                // Use ApiRootNodeGraphService for root node graph
+                console.log(`${indent}🔍 BULLETPROOF: Getting children using ApiRootNodeGraphService`);
+                childrenResponse = await this.makeGrpcCall('ApiRootNodeGraphService', 'getOwnedItems', {
                     objectPtr: {
                         handle: objectRef.handle,
                         type: objectRef.type
@@ -248,7 +265,8 @@ class BulletproofOctaneClient {
                 });
                 
                 if (childrenResponse.success && childrenResponse.data && childrenResponse.data.result) {
-                    const children = childrenResponse.data.result.children || [];
+                    const children = childrenResponse.data.result.items || childrenResponse.data.result.children || [];
+                    console.log(`${indent}✅ BULLETPROOF: Found ${children.length} children`);
                     
                     for (const child of children) {
                         const childNode = await this.buildSceneTreeRecursive(child, `Child_${child.handle}`, depth + 1);

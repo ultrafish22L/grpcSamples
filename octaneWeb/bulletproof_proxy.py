@@ -113,18 +113,28 @@ class BulletproofOctaneProxy:
             'ApiProjectManagerService': {
                 'stub_class': apiprojectmanager_pb2_grpc.ApiProjectManagerServiceStub,
                 'module': apiprojectmanager_pb2
+            },
+            'ApiItemService': {
+                'stub_class': apinodesystem_pb2_grpc.ApiItemServiceStub,
+                'module': apinodesystem_pb2
+            },
+            'ApiNodeGraphService': {
+                'stub_class': apinodesystem_pb2_grpc.ApiNodeGraphServiceStub,
+                'module': apinodesystem_pb2
+            },
+            'ApiNodeService': {
+                'stub_class': apinodesystem_pb2_grpc.ApiNodeServiceStub,
+                'module': apinodesystem_pb2
+            },
+            'ApiRootNodeGraphService': {
+                'stub_class': apinodesystem_pb2_grpc.ApiRootNodeGraphServiceStub,
+                'module': apinodesystem_pb2
+            },
+            'ApiItemArrayService': {
+                'stub_class': apinodesystem_pb2_grpc.ApiItemArrayServiceStub,
+                'module': apinodesystem_pb2
             }
         }
-        
-        # Try to register additional services if available
-        try:
-            if hasattr(apinodesystem_pb2_grpc, 'ApiNodeGraphServiceStub'):
-                self.services['ApiNodeGraphService'] = {
-                    'stub_class': apinodesystem_pb2_grpc.ApiNodeGraphServiceStub,
-                    'module': apinodesystem_pb2
-                }
-        except:
-            pass
             
         print(f"📋 Registered {len(self.services)} gRPC services")
         
@@ -164,7 +174,14 @@ class BulletproofOctaneProxy:
                 
                 # Populate request fields
                 for key, value in request_data.items():
-                    if hasattr(request, key):
+                    if key == 'objectPtr' and isinstance(value, dict):
+                        # Create ObjectRef for objectPtr fields
+                        if 'handle' in value and 'type' in value:
+                            obj_ref = common_pb2.ObjectRef()
+                            obj_ref.handle = value['handle']
+                            obj_ref.type = value['type']
+                            request.objectPtr.CopyFrom(obj_ref)
+                    elif hasattr(request, key):
                         setattr(request, key, value)
             else:
                 # For methods that use Empty request (like rootNodeGraph)
