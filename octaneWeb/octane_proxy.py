@@ -54,7 +54,7 @@ except ImportError as e:
     sys.exit(1)
 
 class OctaneWebProxy:
-    def __init__(self, octane_host='host.docker.internal', octane_port=51022, proxy_port=51024):
+    def __init__(self, octane_host='host.docker.internal', octane_port=51022, proxy_port=51998):
         self.octane_host = octane_host
         self.octane_port = octane_port
         self.proxy_port = proxy_port
@@ -81,6 +81,7 @@ class OctaneWebProxy:
             self.services = {
                 'livelink': livelink_pb2_grpc.LiveLinkServiceStub(self.grpc_channel),
                 'node': apinodesystem_pb2_grpc.ApiNodeServiceStub(self.grpc_channel),
+                'item': apinodesystem_pb2_grpc.ApiItemServiceStub(self.grpc_channel),
                 'node_graph': apinodesystem_pb2_grpc.ApiNodeGraphServiceStub(self.grpc_channel),
                 'root_node_graph': apinodesystem_pb2_grpc.ApiRootNodeGraphServiceStub(self.grpc_channel),
                 'project_manager': apiprojectmanager_pb2_grpc.ApiProjectManagerServiceStub(self.grpc_channel),

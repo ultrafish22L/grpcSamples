@@ -157,37 +157,56 @@ function createOctaneWebClient() {
     // ==================== GRPC CALL OVERRIDE ====================
 
     /**
-     * Override makeGrpcCall to handle different service prefixes
+     * Override makeGrpcCall to use actual Octane service names (pure pass-through)
      */
     async makeGrpcCall(method, request) {
         const startTime = Date.now();
         const callId = `${method}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
         this.callCount++;
 
-        // Determine the correct URL based on method prefix
-        let url;
-        if (method.includes('/') || method.includes('.')) {
-            // ApiProjectManager or ApiNodeGraph service calls
-            url = `${this.serverUrl}/${method}`;
+        // Parse method to extract service and method names
+        let serviceName, methodName;
+        
+        if (method.includes('/')) {
+            // Handle formats like "octaneapi.ApiItemService/name" or "ApiItemService/name"
+            const parts = method.split('/');
+            const serviceFullName = parts[0];
+            methodName = parts[1];
+            
+            // Extract just the service class name (remove octaneapi. prefix if present)
+            if (serviceFullName.includes('.')) {
+                serviceName = serviceFullName.split('.').pop();
+            } else {
+                serviceName = serviceFullName;
+            }
         } else {
-            // Default LiveLink service calls
-            url = `${this.serverUrl}/livelinkapi.LiveLinkService/${method}`;
+            // Handle legacy formats - try to map them
+            if (method === 'GetCamera' || method === 'GetMeshes') {
+                serviceName = 'LiveLinkService';
+                methodName = method;
+            } else {
+                // Default fallback
+                serviceName = 'ApiItemService';
+                methodName = method;
+            }
         }
 
         // Enhanced logging for all gRPC calls
         console.log(`\n🌐 === gRPC CALL STARTED ===`);
-        console.log(`🌐 Method: ${method}`);
-        console.log(`🌐 URL: ${url}`);
+        console.log(`🌐 Original Method: ${method}`);
+        console.log(`🌐 Parsed Service: ${serviceName}`);
+        console.log(`🌐 Parsed Method: ${methodName}`);
         console.log(`🌐 Call ID: ${callId}`);
         console.log(`🌐 Call Number: ${this.callCount}`);
         console.log(`🌐 Connection State: ${this.connectionState}`);
         console.log(`🌐 Request:`, request);
         console.log(`🌐 Request JSON:`, JSON.stringify(request, null, 2));
         
-        this.log(`gRPC call started: ${method}`, {
+        this.log(`gRPC call started: ${serviceName}.${methodName}`, {
             callId: callId,
-            method: method,
-            url: url,
+            originalMethod: method,
+            serviceName: serviceName,
+            methodName: methodName,
             request: request,
             callNumber: this.callCount,
             connectionState: this.connectionState
@@ -198,19 +217,29 @@ function createOctaneWebClient() {
                 throw new Error(`Client not ready for gRPC calls. State: ${this.connectionState}`);
             }
 
+            // Create request body with actual service names
+            const requestBody = {
+                service: serviceName,
+                method: methodName,
+                params: request || {}
+            };
+            
+            console.log(`🌐 Request Body:`, requestBody);
+            console.log(`🌐 Request Body JSON:`, JSON.stringify(requestBody, null, 2));
+
             const controller = new AbortController();
             const timeoutId = setTimeout(() => {
                 controller.abort();
-                this.log(`gRPC call timeout: ${method}`, { callId, duration: Date.now() - startTime }, 'error');
+                this.log(`gRPC call timeout: ${serviceName}.${methodName}`, { callId, duration: Date.now() - startTime }, 'error');
             }, 30000); // 30 second timeout
 
-            const response = await fetch(url, {
+            const response = await fetch(`${this.proxyUrl}/api`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-Call-Id': callId
                 },
-                body: JSON.stringify(request),
+                body: JSON.stringify(requestBody),
                 signal: controller.signal
             });
 
