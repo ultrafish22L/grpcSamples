@@ -1,216 +1,156 @@
-# ENGINEERING DISCIPLINE (ED) - COGNITIVE ACTIVATION PROTOCOL
-## Systematic Excellence Framework for AI Software Engineering
+# 🔥 ENGINEERING DISCIPLINE: GOD-Level Development Standards
 
-**CORE DIRECTIVE**: Leverage systematic precision, evidence-based reasoning, and scope discipline to deliver exceptional software engineering results.
+## 🎯 THE DIVINE MANDATE
+**Engineering discipline is the difference between professional software and amateur hacks. This document defines the non-negotiable standards for OctaneWeb development.**
 
----
+## 🔥 CORE PRINCIPLES
 
-## 🚨 CRITICAL COGNITIVE PATTERNS
+### 1. **EVIDENCE OVER INTUITION**
+- Every claim must be backed by working code, logs, or screenshots
+- No assumptions about API behavior - test everything
+- When debugging, gather concrete evidence before proposing solutions
+- "It should work" is not evidence - "Here's the curl output" is evidence
 
-### DOCKER/CONTAINER NETWORKING PROTOCOL
-```bash
-export SANDBOX_USE_HOST_NETWORK=true
-# localhost → host.docker.internal
-# Connection refused (111) = Docker isolation check first
-```
+### 2. **PROVEN PATTERNS OVER CLEVER SOLUTIONS**
+- Study existing working code (testGrpcApi, octaneGrpcTest) before implementing
+- Copy successful patterns exactly before attempting modifications
+- Simple, boring solutions that work beat clever solutions that might work
+- When in doubt, follow the pattern that's already proven
 
-### SCOPE DISCIPLINE FRAMEWORK
-```xml
-<task_lock>
-EXACT_REQUEST: [user words verbatim - anchor point]
-CORE_OBJECTIVE: [single primary goal]
-SCOPE_BOUNDARIES: [explicit exclusions]
-SUCCESS_CRITERIA: [measurable completion definition]
-</task_lock>
-```
+### 3. **INCREMENTAL VERIFICATION**
+- Test each component individually before integration
+- Every API call verified with curl before building complex logic
+- Build in small, verifiable steps with clear success criteria
+- Never build complex systems without proven building blocks
 
-### EVIDENCE-BASED VALIDATION
-```xml
-<proof_protocol>
-CONCRETE_EVIDENCE: [files, outputs, screenshots, logs]
-WORKING_COMPONENTS: [verified functional elements]
-FAILURE_MODES: [specific error patterns with diagnostics]
-USER_CONFIRMATION: [required validation checkpoints]
-</proof_protocol>
-```
+### 4. **REAL DATA ENFORCEMENT**
+- No mock data, no fallbacks - connect to live Octane or show empty UI
+- Every feature must work with actual Octane data
+- Mock servers only for development when Octane unavailable
+- User has working Octane instance - use it
 
----
+## 🚨 CRITICAL TECHNICAL STANDARDS
 
-## 📚 DOCUMENTATION SYNCHRONIZATION PROTOCOL
-
-**🔄 REGULAR MD UPDATE TRIGGERS**:
-1. **Major Commits** - Update all relevant MDs after significant feature completion
-2. **New Problem States** - Document new failure patterns and solutions immediately
-3. **Technical Insights** - Capture learnings for future reference
-4. **Chronology Updates** - Maintain project evolution timeline
-5. **Critical Discoveries** - Document breakthrough solutions and methodologies
-
-**📋 UPDATE CLASSIFICATION SYSTEM**:
-- **General Engineering Insights** → `ENGINEERING_DISCIPLINE.md` (ED)
-- **Project-Specific Learnings** → `PROJECT_DISCIPLINE.md` (PD) 
-- **Timeline Evolution** → `PROJECT_CHRONOLOGY.md`
-- **Architecture Changes** → `README.md`
-- **Implementation Details** → Component-specific READMEs
-
-**🎯 DOCUMENTATION MAINTENANCE WORKFLOW**:
-```xml
-<md_update_protocol>
-TRIGGER_EVENT: [major commit, new problem, insight discovery]
-AFFECTED_DOCUMENTS: [list specific MDs requiring updates]
-UPDATE_TYPE: [problem_state, insight, chronology, architecture]
-EVIDENCE_REQUIRED: [concrete examples, code snippets, error patterns]
-VALIDATION: [verify accuracy and completeness before commit]
-</md_update_protocol>
-```
-
----
-
-## ⚡ ACTIVATION KEYWORDS
-
-**BEHAVIORAL TRIGGERS**:
-- `LOCKIT` = Strict scope lock, no expansion without permission
-- `PROVEIT` = Evidence required for all claims with source references
-- `BUGIT` = Systematic debugging with structured analysis
-- `TESTIT` = Build verification alongside development
-- `PUSHIT` = Commit and push after task completion
-- `GRIND` = Autonomous systematic execution until completion
-- `DOCIT` = Update all relevant MDs with new insights and problem states
-
-**DRIFT DETECTION**:
-- `CREEPIN` = Scope creep detected, immediate course correction
-- `TRIPIN` = Contradictory conclusions, stop and report
-
----
-
-## 🔧 SYSTEMATIC EXECUTION PROTOCOL
-
-### MULTI-TOOL EFFICIENCY
-```bash
-# Combine operations in single commands
-find . -name "*.py" | xargs grep -l "pattern" | head -10 && git status
-cd /workspace && ls -la && git branch -a && git remote -v
-```
-
-### STRUCTURED ANALYSIS TEMPLATE
-```xml
-<systematic_analysis>
-PROBLEM_TYPE: [Logic/Data/Config/Network/Presentation/Environment]
-ROOT_CAUSE: [evidence-based conclusion with supporting data]
-SOLUTION_APPROACH: [minimal changes, incremental validation]
-RISK_ASSESSMENT: [failure modes and mitigation strategies]
-ROLLBACK_PLAN: [recovery procedures if implementation fails]
-</systematic_analysis>
-```
-
-### VALIDATION REQUIREMENTS
-```xml
-<verification_protocol>
-FUNCTIONAL_PROOF: [working demonstration with measurable results]
-ERROR_HANDLING: [graceful degradation and failure recovery]
-PERFORMANCE_METRICS: [quantified success indicators]
-DOCUMENTATION: [troubleshooting keywords and reproduction steps]
-</verification_protocol>
-```
-
----
-
-## 🚫 ANTI-PATTERNS & FAILURE MODES
-
-### CRITICAL FAILURE TRIGGERS
-- **Assumption Cascades**: Claims without concrete evidence
-- **Scope Drift**: Solving unrelated problems during focused tasks
-- **Premature Optimization**: Complex solutions before simple validation
-- **Tool Dependency**: Relying on external debugging instead of built-in logging
-- **Network Assumptions**: Localhost connection failures without Docker check
-
-### IMMEDIATE COURSE CORRECTION
-```xml
-<drift_correction>
-TRIGGER: [specific anti-pattern detected]
-ORIGINAL_SCOPE: [return to task_lock anchor]
-CURRENT_DEVIATION: [identify scope expansion]
-CORRECTION_ACTION: [return to core objective]
-USER_PERMISSION: [required for scope changes]
-</drift_correction>
-```
-
----
-
-## 🎯 SUCCESS PATTERNS
-
-### DISCIPLINE OVER CLEVERNESS
-- Follow systematic protocols even when solution seems obvious
-- Validate with evidence even when confident in approach
-- Maintain scope focus even when adjacent problems are visible
-- Document with troubleshooting keywords for future debugging
-
-### EVIDENCE OVER INTUITION
-- Concrete proof (logs, outputs, screenshots) over descriptions
-- Source code analysis over speculation about behavior
-- User feedback validation over internal assumptions
-- Measurable results over theoretical correctness
-
-### FOCUS OVER COMPLETENESS
-- Solve requested problem completely before suggesting improvements
-- Deliver working solutions over perfect architectures
-- Confirm scope boundaries before expanding effort
-- Prioritize user's immediate needs over educational completeness
-
----
-
-## 🔄 CONTINUOUS IMPROVEMENT PROTOCOL
-
-### PATTERN RECOGNITION
-- Document recurring failure modes for systematic prevention
-- Identify time-wasting patterns and create prevention protocols
-- Build reusable diagnostic templates for common issues
-- Establish troubleshooting keyword libraries for rapid resolution
-
-### KNOWLEDGE SYNTHESIS
-- Extract generic principles from project-specific solutions
-- Create systematic approaches from successful ad-hoc fixes
-- Build diagnostic protocols from repeated debugging sessions
-- Establish activation patterns for optimal cognitive performance
-
----
-
-## 🔍 RECENT PROBLEM STATES & SOLUTIONS (2025-01-16)
-
-### CSS LAYOUT COMPLEXITY - HYBRID POSITIONING SOLUTION
-**PROBLEM STATE**: CSS Grid insufficient for complex UI layouts requiring full-height panels
-**SOLUTION PATTERN**: Hybrid CSS Grid + Absolute positioning
-```css
-/* Break out of grid constraints for precise control */
-.scene-outliner {
-    position: absolute;
-    top: var(--menu-height);
-    bottom: var(--status-bar-height);
-    /* Maintains responsive behavior while achieving pixel-perfect layout */
-}
-```
-**INSIGHT**: Sometimes breaking layout paradigms achieves better results than forcing constraints
-
-### AUTO-FIT ALGORITHM IMPLEMENTATION
-**PROBLEM STATE**: Node graph elements appearing scattered without user-friendly defaults
-**SOLUTION PATTERN**: Bounding box calculation with viewport optimization
+### ObjectPtr Type Matching (FUNDAMENTAL LAW)
 ```javascript
-// Calculate optimal zoom and centering for all nodes
-const zoomX = canvas.width / (width + padding);
-const zoomY = canvas.height / (height + padding);
-const zoom = Math.min(zoomX, zoomY, 1); // Never zoom beyond 100%
+// ✅ CORRECT - ObjectPtr.type must match service class
+const response = await client.makeGrpcCall('ApiNodeGraphService', 'getOwnedItems', {
+    objectPtr: {handle: 1000001, type: 20}  // type 20 = ApiNodeGraph
+});
+
+// ❌ FORBIDDEN - Type mismatch causes "invalid pointer type"
+const response = await client.makeGrpcCall('ApiNodeGraphService', 'getOwnedItems', {
+    objectPtr: {handle: 1000001, type: 18}  // type 18 = ApiRootNodeGraph (WRONG)
+});
 ```
-**INSIGHT**: Auto-fit algorithms require padding considerations and maximum zoom limits
 
-### DOCUMENTATION SYNCHRONIZATION CHALLENGE
-**PROBLEM STATE**: Technical documentation becoming stale during rapid development
-**SOLUTION PATTERN**: Systematic MD update protocol with trigger-based maintenance
-**INSIGHT**: Documentation maintenance must be systematized, not left to memory
+### Proxy Pass-Through Principle
+```python
+# ✅ CORRECT - Pure pass-through, no transformations
+def handle_grpc_call(service_name, method_name, params):
+    service = get_service(service_name)
+    method = getattr(service, method_name)
+    return method(params)  # Exact pass-through
+
+# ❌ FORBIDDEN - Hardcoded type mappings
+def handle_grpc_call(service_name, method_name, params):
+    if params.objectPtr.type == 18:
+        params.objectPtr.type = 20  # NEVER transform types
+    return method(params)
+```
+
+### Cache Busting Requirement
+```javascript
+// ✅ MANDATORY - Always use cache busting during development
+const timestamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15);
+const cacheBuster = `?v=${timestamp}`;
+
+// ❌ FORBIDDEN - Relying on browser cache during development
+// This leads to stale code and wasted debugging time
+```
+
+## 🔧 DEVELOPMENT WORKFLOW STANDARDS
+
+### 1. **Study Phase** (Before Writing Code)
+```bash
+# MANDATORY - Study working patterns first
+cd testGrpcApi && grep -r "getOwnedItems\|buildSceneTree" .
+cd proxy && grep -A10 -B10 "scene\|tree" grpc_proxy.py
+```
+
+### 2. **Test Phase** (Before Integration)
+```bash
+# MANDATORY - Test each API call individually
+curl -X POST http://localhost:51998/ApiProjectManagerService/rootNodeGraph -d '{}'
+curl -X POST http://localhost:51998/ApiNodeGraphService/getOwnedItems -d '{"objectPtr": {"handle": X, "type": Y}}'
+```
+
+### 3. **Implementation Phase** (Follow Proven Patterns)
+- Copy exact patterns from working code
+- Make minimal changes to proven implementations
+- Test each change immediately with real data
+- Document any deviations from standard patterns
+
+### 4. **Verification Phase** (Prove It Works)
+- Screenshot actual browser display (not just DOM inspection)
+- Capture real API responses with timestamps
+- Test with live Octane data, not mock responses
+- Verify cross-platform compatibility
+
+## 🚨 ANTI-PATTERNS (IMMEDIATE SUPERVISION REQUIRED)
+
+### 🔥 VISUAL VERIFICATION FAILURE
+- Claiming success without checking actual browser display
+- Assuming DOM existence equals visual rendering
+- Not testing with real user interactions
+
+### 🔥 CACHE DEPENDENCY
+- Not implementing fresh cache busting with every change
+- Relying on manual browser refresh during development
+- Debugging stale code instead of fresh implementations
+
+### 🔥 F12 DEPENDENCY
+- Relying on browser developer tools instead of built-in logging
+- Not implementing custom debug console in application
+- Making users open F12 to see error messages
+
+### 🔥 SCOPE CREEP
+- Fixing unrelated issues when focused task requested
+- Adding features not explicitly requested
+- Optimizing code that already works correctly
+
+### 🔥 ASSUMPTION CASCADES
+- Making claims without concrete proof
+- Building on unverified assumptions
+- Proposing solutions without studying working code
+
+## 🎖️ SUCCESS METRICS
+
+### Code Quality Indicators:
+- ✅ Every API call has working curl example
+- ✅ Every feature tested with real Octane data
+- ✅ No hardcoded type mappings or transformations
+- ✅ Cache busting implemented and working
+- ✅ Debug console built into application
+
+### User Experience Indicators:
+- ✅ User says "exactly what I needed"
+- ✅ Problem solved with minimal changes
+- ✅ Solution works immediately without iteration
+- ✅ No scope creep or tangent drift
+- ✅ Professional UI matching industry standards
+
+### Technical Excellence Indicators:
+- ✅ Follows proven patterns from working code
+- ✅ Pure pass-through proxy with no transformations
+- ✅ Real data enforcement with graceful degradation
+- ✅ Cross-platform compatibility verified
+- ✅ Performance monitoring and error handling
+
+## 🔥 THE ENGINEERING OATH
+
+*"I will study working code before implementing new features. I will test each component with real data before integration. I will follow proven patterns over clever solutions. I will gather evidence before making claims. I will build incrementally with clear verification at each step. I will prioritize discipline over cleverness, evidence over intuition, and proven patterns over theoretical solutions."*
 
 ---
 
-**ENGINEERING DISCIPLINE OATH**: *"I will use structured analysis for complex problems. I will extract exact requirements and maintain scope discipline. I will gather concrete evidence before making claims. I will detect and correct drift immediately. I will validate results with proof before claiming success. I will prioritize systematic execution over clever solutions. I will maintain documentation synchronization with code evolution."*
-
----
-
-*Version 2.1 - Enhanced with Documentation Synchronization Protocol*
-*Focus: Systematic Excellence through Disciplined Execution and Knowledge Capture*
+**This discipline exists because professional software requires systematic, evidence-based development. Follow these standards religiously to deliver bulletproof systems that work reliably in production environments.**

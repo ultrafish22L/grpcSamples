@@ -1,204 +1,149 @@
-# PROJECT DISCIPLINE (PD) - OCTANEWEB DEVELOPMENT
-## Project-Specific Engineering Rules and Constraints
+# 🔥 PROJECT DISCIPLINE: Bulletproof Development Standards
 
-**Version 2.0 - OctaneWeb Development Discipline**
-*Extends ENGINEERING_DISCIPLINE.md with project-specific requirements*
+## 🎯 PROJECT MISSION
+**OctaneWeb is a professional 3D web application providing real-time scene management, node graph editing, and seamless Octane Render integration through bulletproof gRPC architecture.**
 
----
+## 🔥 CORE PROJECT PRINCIPLES
 
-## 🚨 CRITICAL STOP CONDITIONS
+### 1. **REAL DATA OR NOTHING**
+- No mock data, no fallbacks - connect to live Octane or show empty UI
+- Every feature must work with actual Octane data
+- User has working Octane instance - use it
+- Mock servers only for development when Octane unavailable
 
-### OCTANE CONNECTION FAILURES
-```xml
-<octane_connection_failure>
-TRIGGER: Connection refused, timeout, or gRPC error to Octane LiveLink (port 51022)
-MANDATORY_CHECK: Docker networking protocol (SANDBOX_USE_HOST_NETWORK=true, host.docker.internal)
-ACTION: STOP IMMEDIATELY - Do not continue building
-REQUIRED: Report to user and propose alternatives (mock server, UI-only, investigation)
-FORBIDDEN: Assuming "offline mode" without explicit user approval
-</octane_connection_failure>
-```
+### 2. **BULLETPROOF ARCHITECTURE**
+- Multiple connection strategies (file://, localhost, Docker networking)
+- Graceful degradation when services unavailable
+- Pure pass-through proxy with no transformations
+- Error transparency with detailed logging
 
-### BROWSER COMPATIBILITY FAILURES
-```xml
-<browser_compatibility_failure>
-TRIGGER: file:// protocol restrictions, CORS errors, WebGL failures
-ACTION: STOP IMMEDIATELY - Do not switch to localhost servers
-REQUIRED: Report specific browser/version and propose alternatives
-FORBIDDEN: Changing protocol requirements without user approval
-</browser_compatibility_failure>
-```
+### 3. **PROFESSIONAL GRADE**
+- OTOY branding and industry-standard UI patterns
+- Dark theme matching professional 3D software
+- Responsive design for all screen sizes
+- Zero external dependencies
 
-### PROTOBUF/GRPC IMPORT FAILURES
-```xml
-<protobuf_import_failure>
-TRIGGER: Missing protobuf files, import errors, stub generation failures
-ACTION: STOP IMMEDIATELY - Do not create mock implementations
-REQUIRED: Report missing dependencies and propose generation/installation plan
-FORBIDDEN: Creating fake protobuf classes without user approval
-</protobuf_import_failure>
-```
+### 4. **PROVEN PATTERNS ONLY**
+- Study working code (testGrpcApi, octaneGrpcTest) before implementing
+- Copy successful patterns exactly
+- ObjectPtr.type must match service class (FUNDAMENTAL LAW)
+- Incremental testing with real data
 
----
+## 🚨 PROJECT CRITICAL SUCCESS FACTORS
 
-## 🐳 OCTANEWEB NETWORKING REQUIREMENTS
+### Scene Outliner Requirements:
+- ✅ Shows "Scene" as root (not "Root")
+- ✅ Displays real Octane hierarchy: Scene → Render target, teapot.obj
+- ✅ Expand/collapse functionality with proper icons
+- ✅ Visibility toggles for scene objects
+- ✅ Real-time updates from live Octane data
 
-### MANDATORY DOCKER SETUP
+### Node Graph Editor Requirements:
+- ✅ Right-click context menus for node creation
+- ✅ Hierarchical node types (Geometry, Lights, Cameras)
+- ✅ Visual node connections and editing
+- ✅ Auto-fit and zoom functionality
+- ✅ Professional node rendering
+
+### BulletproofClient Requirements:
+- ✅ Multiple fallback connection strategies
+- ✅ Real data enforcement (no mock fallbacks)
+- ✅ Proper ObjectRef extraction from nested responses
+- ✅ Service selection based on working patterns
+- ✅ Error handling with user-friendly messages
+
+### Bulletproof Proxy Requirements:
+- ✅ Pure pass-through HTTP-to-gRPC translation
+- ✅ Dynamic service registry (7+ gRPC services)
+- ✅ Comprehensive logging with emoji indicators
+- ✅ CORS compliance for web clients
+- ✅ No hardcoded type transformations
+
+## 🔧 DEVELOPMENT WORKFLOW
+
+### Phase 1: Study Working Code
 ```bash
-# Required before any Octane connection attempts
-export SANDBOX_USE_HOST_NETWORK=true
-
-# octane_proxy.py must use host.docker.internal (not 127.0.0.1)
-def __init__(self, octane_host='host.docker.internal', octane_port=51022, proxy_port=51024)
+# MANDATORY - Check existing patterns first
+cd testGrpcApi && grep -r "scene\|tree\|children" .
+cd proxy && grep -A10 -B10 "getOwnedItems" grpc_proxy.py
 ```
 
-### CONNECTION DIAGNOSTIC SEQUENCE
-1. Verify SANDBOX_USE_HOST_NETWORK environment variable
-2. Confirm octane_proxy.py uses host.docker.internal
-3. Test proxy health: `curl http://localhost:51024/health`
-4. Only then attempt Octane LiveLink connection
-5. "Connection refused (111)" = Docker isolation issue, not Octane failure
-
----
-
-## 🎯 OCTANEWEB SUCCESS CRITERIA
-
-### FUNCTIONAL REQUIREMENTS
-- **Primary**: Web UI loads via file:// protocol with custom debug console
-- **Secondary**: Proxy server connects to live Octane LiveLink (port 51022)
-- **Tertiary**: Real-time camera sync, scene outliner, node graph editor
-
-### DEVELOPMENT CONSTRAINTS
-- **Cache Busting**: MANDATORY timestamp-based cache busting for all JS/CSS
-- **Debug Console**: Built-in logging, never rely on F12 developer tools
-- **Port Separation**: octaneWeb (51024) vs html legacy (51023)
-- **Protocol Lock**: file:// protocol only, no localhost servers without approval
-
-### VALIDATION REQUIREMENTS
-- **Visual Verification**: Screenshot proof of actual browser display
-- **API Testing**: Debug console Unit Test button with live endpoint coverage
-- **Connection Health**: Real-time proxy status and Octane connectivity monitoring
-- **Error Handling**: Graceful degradation when Octane unavailable
-
----
-
-## 🔧 OCTANEWEB TECHNICAL ARCHITECTURE
-
-### FILE STRUCTURE DISCIPLINE
-```
-octaneWeb/
-├── octane_proxy.py          # Custom HTTP-to-gRPC proxy (port 51024)
-├── index.html               # Main application entry point
-├── js/utils/CacheBuster.js  # Timestamp-based cache management
-├── js/utils/DebugConsole.js # Built-in development console
-└── shared/js/livelink.js    # gRPC-Web client implementation
+### Phase 2: Test Individual Components
+```bash
+# MANDATORY - Verify each API call works
+curl -X POST http://localhost:51998/ApiProjectManagerService/rootNodeGraph -d '{}'
+curl -X POST http://localhost:51998/ApiNodeGraphService/getOwnedItems -d '{"objectPtr": {"handle": X, "type": Y}}'
 ```
 
-### PROXY SERVER REQUIREMENTS
-- **Port**: 51024 (dedicated to octaneWeb)
-- **Target**: host.docker.internal:51022 (Octane LiveLink)
-- **Health Check**: /health endpoint with connection status
-- **Test Suite**: /test endpoint with comprehensive API coverage
-- **Error Handling**: Graceful degradation with mock responses when Octane unavailable
+### Phase 3: Implement Following Proven Patterns
+- Copy exact patterns from working implementations
+- Use pure pass-through proxy approach
+- Test with real Octane data at each step
+- No hardcoded type mappings or transformations
 
-### WEB CLIENT CONSTRAINTS
-- **Protocol**: file:// only, no web servers
-- **Cache Busting**: Every JS/CSS load must include timestamp parameter
-- **Debug Console**: Ctrl+D toggle, comprehensive logging with emoji indicators
-- **API Client**: Custom gRPC-Web implementation, no external CDN dependencies
+### Phase 4: Verify with Real Data
+- Test with live Octane instance
+- Screenshot actual browser display
+- Verify scene outliner shows real hierarchy
+- Confirm all features work with actual data
 
----
+## 🚨 FORBIDDEN ANTI-PATTERNS
 
-## 🚫 FORBIDDEN ACTIONS WITHOUT USER APPROVAL
+### ❌ NEVER DO THESE:
+- **Mock Data Fallbacks**: No fake data when real data unavailable
+- **Type Transformations**: Never modify ObjectPtr.type values
+- **Hardcoded Mappings**: Proxy must be pure pass-through
+- **F12 Dependency**: Build debug console into app
+- **Scope Creep**: Fix only what's explicitly requested
+- **Assumption Cascades**: Gather evidence before making claims
 
-### SCOPE EXPANSION
-- Adding features not explicitly requested
-- Fixing unrelated issues during focused tasks
-- Implementing comprehensive error handling beyond basic requirements
-- Building test infrastructure without explicit request
+### ❌ IMMEDIATE SUPERVISION TRIGGERS:
+- Claiming success without visual verification
+- Using mock data instead of attempting real connection
+- Hardcoding service/type mappings in proxy
+- Relying on browser F12 instead of built-in logging
+- Going down rabbit holes instead of following working patterns
 
-### PROTOCOL CHANGES
-- Switching from file:// to localhost servers
-- Changing port assignments (51024 for octaneWeb)
-- Modifying Docker networking configuration
-- Adding external dependencies or CDN libraries
+## 🎖️ PROJECT SUCCESS METRICS
 
-### DEVELOPMENT SHORTCUTS
-- Using F12 developer tools instead of built-in debug console
-- Skipping cache busting during active development
-- Assuming Octane connection status without testing
-- Creating mock implementations without user approval
+### Technical Excellence:
+- ✅ Scene outliner populated with real Octane data
+- ✅ All API calls use proven patterns from working code
+- ✅ Bulletproof proxy running with 7+ services registered
+- ✅ BulletproofClient connecting with multiple fallback strategies
+- ✅ Professional UI matching octane_ui.png requirements
 
----
+### User Experience:
+- ✅ Shows "Scene" with children like "Render target" and "teapot.obj"
+- ✅ Expand/collapse scene hierarchy works smoothly
+- ✅ Right-click context menus in node graph
+- ✅ Debug console accessible via Ctrl-D
+- ✅ Professional OTOY branding and dark theme
 
-## 📊 PROJECT-SPECIFIC ACTIVATION KEYWORDS
+### Development Quality:
+- ✅ No mock data, no fallbacks - real data or empty UI
+- ✅ Cache busting implemented for development
+- ✅ Error transparency with detailed logging
+- ✅ Cross-platform compatibility verified
+- ✅ Zero external dependencies
 
-### OCTANEWEB COMMANDS
-- `BUSTIT` = Add cache busting during active HTML/JS development
-- `WEBIT` = Focus on web UI development with file:// protocol constraints
-- `PROXEIT` = Work on octane_proxy.py with Docker networking awareness
+## 🔥 PROJECT COMMANDMENTS
 
-### VALIDATION TRIGGERS
-- `VISUALIT` = Require screenshot proof of browser display
-- `CONNECTIT` = Test Octane connectivity with full diagnostic sequence
-- `HEALTHIT` = Check proxy server health and API coverage
+### 1. **THOU SHALL STUDY WORKING CODE FIRST**
+Before implementing any feature, study existing working implementations in testGrpcApi and octaneGrpcTest.
 
----
+### 2. **THOU SHALL USE REAL DATA ONLY**
+No mock data, no fallbacks. Connect to live Octane or show empty UI.
 
-**PROJECT DISCIPLINE COMMITMENT**: *"I will stop immediately on Octane connection failures and check Docker networking first. I will maintain file:// protocol constraints and never switch to localhost without approval. I will use built-in debug console and implement mandatory cache busting. I will validate with visual proof and maintain port separation discipline."*
+### 3. **THOU SHALL FOLLOW PROVEN PATTERNS**
+Copy exact patterns from working code. ObjectPtr.type must match service class.
 
----
+### 4. **THOU SHALL TEST INCREMENTALLY**
+Every API call tested individually before integration. Every change verified with real data.
 
-## 🔍 OCTANEWEB v1.0 SPECIFIC LEARNINGS (2025-01-16)
-
-### SCENE OUTLINER LAYOUT BREAKTHROUGH
-**PROJECT CHALLENGE**: Scene Outliner needed to span full application height while maintaining grid layout
-**SOLUTION DISCOVERED**: Absolute positioning with CSS variable boundaries
-```css
-.scene-outliner {
-    position: absolute;
-    top: var(--menu-height);
-    bottom: var(--status-bar-height);
-    width: 220px;
-    z-index: 10;
-}
-```
-**PROJECT INSIGHT**: Grid-template-areas needed modification from "left-panel" to "left-space" to accommodate absolute positioning
-
-### NODE GRAPH AUTO-FIT TIMING COORDINATION
-**PROJECT CHALLENGE**: Auto-fit functionality needed proper initialization timing
-**SOLUTION DISCOVERED**: Delayed execution with multiple timing stages
-```javascript
-// Initial fit after node creation
-setTimeout(() => this.frameAll(), 100);
-// Secondary fit for canvas stabilization
-setTimeout(() => this.frameAll(), 500);
-```
-**PROJECT INSIGHT**: Canvas-based components require multiple timing stages for proper initialization
-
-### OCTANE GRPC OBJECTPTR TYPE CONVERSION MASTERY
-**PROJECT CHALLENGE**: "Invalid pointer type" errors when calling different Octane services
-**CRITICAL DISCOVERY**: ObjectPtr type field must match target service interface
-```javascript
-// ❌ WRONG - Copying original type fails
-request.objectPtr.type = sourceObject.type;
-
-// ✅ CORRECT - Convert to target service type
-request.objectPtr.type = 16; // ApiItem for ApiItemService calls
-```
-**PROJECT INSIGHT**: Octane uses polymorphic object handles - same handle, different interface types
-
-### PROFESSIONAL 3D APPLICATION UI PATTERNS
-**PROJECT ACHIEVEMENT**: Successfully replicated industry-standard 3D software aesthetics
-**KEY PATTERNS DISCOVERED**:
-- Dark theme with red accent colors for professional appearance
-- Full-height panels for maximum workspace utilization
-- Auto-fitting content for user-friendly defaults
-- Comprehensive debug tools integrated into production interface
-
-**PROJECT INSIGHT**: Professional 3D applications require pixel-perfect layout control and sophisticated user experience patterns
+### 5. **THOU SHALL MAINTAIN BULLETPROOF ARCHITECTURE**
+Pure pass-through proxy, multiple connection strategies, graceful degradation.
 
 ---
 
-*Version 2.1 - Enhanced with OctaneWeb v1.0 Milestone Learnings*
-*Extends: ENGINEERING_DISCIPLINE.md v2.1*
+**This project discipline ensures OctaneWeb delivers professional-grade 3D web application capabilities with bulletproof reliability and industry-standard user experience.**
