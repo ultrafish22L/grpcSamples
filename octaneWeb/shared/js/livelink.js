@@ -394,15 +394,23 @@ class LiveLinkClient extends SimpleEventEmitter {
      */
     async testConnection() {
         const startTime = Date.now();
-        const testUrl = this.serverUrl + '/livelinkapi.LiveLinkService/GetCamera';
+        const testUrl = this.serverUrl + '/api';
+        
+        // Use new comprehensive proxy format
+        const requestBody = {
+            service: 'LiveLinkService',
+            method: 'GetCamera',
+            params: {}
+        };
         
         this.log('Testing connection', {
             url: testUrl,
             method: 'POST',
             headers: {
-                'Content-Type': 'application/grpc-web+proto',
-                'Accept': 'application/grpc-web+proto'
-            }
+                'Content-Type': 'application/json',
+                'X-Call-Id': 'connection-test'
+            },
+            body: requestBody
         });
         
         return new Promise((resolve, reject) => {
@@ -423,10 +431,10 @@ class LiveLinkClient extends SimpleEventEmitter {
                 fetch(testUrl, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/grpc-web+proto',
-                        'Accept': 'application/grpc-web+proto'
+                        'Content-Type': 'application/json',
+                        'X-Call-Id': 'connection-test'
                     },
-                    body: new Uint8Array([0, 0, 0, 0, 0]), // Empty gRPC-Web message
+                    body: JSON.stringify(requestBody),
                     signal: controller.signal
                 }).then(response => {
                     console.log('✅ Fetch response received:', response.status, response.statusText);

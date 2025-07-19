@@ -314,7 +314,7 @@ function createOctaneWebClient() {
             
             // Step 1: Get the root node graph
             console.log('📤 Calling rootNodeGraph API...');
-            const rootResponse = await this.makeGrpcCall('octaneapi.ApiProjectManagerService/rootNodeGraph', {});
+            const rootResponse = await this.makeGrpcCall('ApiProjectManagerService/rootNodeGraph', {});
             
             console.log('📥 rootNodeGraph response:', JSON.stringify(rootResponse, null, 2));
             
@@ -363,7 +363,7 @@ function createOctaneWebClient() {
             console.log(`${'  '.repeat(depth)}📊 NAME ${name}: ${objectRef}`);
             // Name - FIXED: Use handle from ObjectPtr and set correct type for ApiItem
             try {
-                const response = await this.makeGrpcCall('octaneapi.ApiItemService/name', {
+                const response = await this.makeGrpcCall('ApiItemService/name', {
                     objectPtr: {
                         handle: objectRef.handle,
                         type: objectRef.type  // Use original type for ApiItem calls
@@ -394,7 +394,7 @@ function createOctaneWebClient() {
             
             // For unknown types, try the API call - FIXED: Use handle and correct type
             try {
-                const isGraphResponse = await this.makeGrpcCall('octaneapi.ApiItemService/isGraph', {
+                const isGraphResponse = await this.makeGrpcCall('ApiItemService/isGraph', {
                     objectPtr: {
                         handle: objectRef.handle,
                         type: objectRef.type  // Use original type for ApiItem calls
@@ -416,7 +416,7 @@ function createOctaneWebClient() {
                     
                     // For unknown types, try the API conversion
                     console.log(`${'  '.repeat(depth)}🔄 Converting ${name} to graph reference via API...`);
-                    const toGraphResponse = await this.makeGrpcCall('octaneapi.ApiItemService/toGraph', {
+                    const toGraphResponse = await this.makeGrpcCall('ApiItemService/toGraph', {
                         objectPtr: objectRef
                     });
                     
@@ -429,7 +429,7 @@ function createOctaneWebClient() {
                     
                     console.log(`${'  '.repeat(depth)}📊 Graph reference:`, graphRef);
                     
-                    const itemsResponse = await this.makeGrpcCall('octaneapi.ApiNodeGraphService/getOwnedItems', {
+                    const itemsResponse = await this.makeGrpcCall('ApiNodeGraphService/getOwnedItems', {
                         objectPtr: graphRef
                     });
                 
@@ -443,7 +443,7 @@ function createOctaneWebClient() {
                     try {
                         console.log(`${'  '.repeat(depth)}📤 Getting items from array...`);
                         
-                        const arrayItemsResponse = await this.makeGrpcCall('octaneapi.ApiItemArrayService/items', {
+                        const arrayItemsResponse = await this.makeGrpcCall('ApiItemArrayService/items', {
                             objectPtr: {
                                 objectHandle: itemsArrayRef.objectHandle,
                                 type: itemsArrayRef.type
