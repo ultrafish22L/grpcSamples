@@ -233,15 +233,29 @@ function createOctaneWebClient() {
                 this.log(`gRPC call timeout: ${serviceName}.${methodName}`, { callId, duration: Date.now() - startTime }, 'error');
             }, 30000); // 30 second timeout
 
-            const response = await fetch(`${this.proxyUrl}/api`, {
+            // Use direct service endpoint instead of /api
+            const url = `${this.proxyUrl}/${serviceName}/${methodName}`;
+            const body = JSON.stringify(request || {});
+            
+            console.log(`🌐 LOCKIT: Making fetch request to: ${url}`);
+            console.log(`🌐 LOCKIT: Request body: ${body}`);
+            console.log(`🌐 LOCKIT: Headers:`, {
+                'Content-Type': 'application/json',
+                'X-Call-Id': callId
+            });
+            
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-Call-Id': callId
                 },
-                body: JSON.stringify(requestBody),
+                body: body,
                 signal: controller.signal
             });
+            
+            console.log(`🌐 LOCKIT: Response status: ${response.status}`);
+            console.log(`🌐 LOCKIT: Response ok: ${response.ok}`);
 
             clearTimeout(timeoutId);
 

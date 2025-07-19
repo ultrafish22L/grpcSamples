@@ -88,132 +88,45 @@ class SceneOutliner extends OctaneComponent {
                 treeContainer.innerHTML = '<div class="scene-loading">Loading scene tree...</div>';
             }
             
-            if (this.client.isConnected && typeof this.client.getSceneData === 'function') {
-                const result = await this.client.getSceneData();
-                if (result.success && result.hierarchy) {
+            // 🔥 BULLETPROOF: Use bulletproof client for real data
+            if (!window.bulletproofClient) {
+                console.log('🔥 BULLETPROOF: Creating bulletproof client...');
+                window.bulletproofClient = new BulletproofOctaneClient();
+                
+                // Connect to proxy
+                const connected = await window.bulletproofClient.connect();
+                if (!connected) {
+                    throw new Error('Failed to connect to bulletproof proxy');
+                }
+            }
+
+            // ONLY attempt real scene data from Octane - NO MOCK DATA EVER
+            if (window.bulletproofClient.isReady()) {
+                console.log('🔥 BULLETPROOF: Calling getSceneData() for real Octane data...');
+                const result = await window.bulletproofClient.getSceneData();
+                console.log('📥 BULLETPROOF: getSceneData() result:', result);
+                
+                if (result && result.success && result.hierarchy) {
+                    console.log('✅ BULLETPROOF: Using real Octane hierarchy data:', result.hierarchy);
                     this.sceneData = result.hierarchy;
                     this.renderTree();
                 } else {
-                    if (treeContainer) {
-                        treeContainer.innerHTML = '<div class="scene-loading">Failed to load scene data</div>';
-                    }
+                    console.log('❌ BULLETPROOF: No real data - showing empty tree');
+                    // Show empty tree if no real data - NO MOCK DATA
+                    this.sceneData = [];
+                    this.renderTree();
                 }
             } else {
-                // Extensive mock hierarchical data for realistic testing
-                this.sceneData = [
-                    {
-                        id: 'scene_root',
-                        name: 'OctaneRender Scene',
-                        type: 'group',
-                        visible: true,
-                        children: [
-                            {
-                                id: 'geometry_group',
-                                name: 'Geometry',
-                                type: 'group',
-                                visible: true,
-                                children: [
-                                    {
-                                        id: 'buildings_group',
-                                        name: 'Buildings',
-                                        type: 'group',
-                                        visible: true,
-                                        children: [
-                                            { id: 'building_main', name: 'Main Building', type: 'mesh', visible: true },
-                                            { id: 'building_tower', name: 'Tower', type: 'mesh', visible: true },
-                                            { id: 'building_annex', name: 'Annex', type: 'mesh', visible: false }
-                                        ]
-                                    },
-                                    {
-                                        id: 'vehicles_group',
-                                        name: 'Vehicles',
-                                        type: 'group',
-                                        visible: true,
-                                        children: [
-                                            { id: 'car_sports', name: 'Sports Car', type: 'mesh', visible: true },
-                                            { id: 'car_sedan', name: 'Sedan', type: 'mesh', visible: true },
-                                            { id: 'motorcycle', name: 'Motorcycle', type: 'mesh', visible: false }
-                                        ]
-                                    },
-                                    {
-                                        id: 'environment_group',
-                                        name: 'Environment',
-                                        type: 'group',
-                                        visible: true,
-                                        children: [
-                                            { id: 'terrain', name: 'Terrain', type: 'mesh', visible: true },
-                                            { id: 'trees', name: 'Trees', type: 'mesh', visible: true },
-                                            { id: 'rocks', name: 'Rocks', type: 'mesh', visible: true },
-                                            { id: 'water_plane', name: 'Water Surface', type: 'mesh', visible: true }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                id: 'lights_group',
-                                name: 'Lights',
-                                type: 'group',
-                                visible: true,
-                                children: [
-                                    {
-                                        id: 'sun_lights',
-                                        name: 'Sun Lights',
-                                        type: 'group',
-                                        visible: true,
-                                        children: [
-                                            { id: 'sun_main', name: 'Main Sun', type: 'light', visible: true },
-                                            { id: 'sun_rim', name: 'Rim Sun', type: 'light', visible: true }
-                                        ]
-                                    },
-                                    {
-                                        id: 'area_lights',
-                                        name: 'Area Lights',
-                                        type: 'group',
-                                        visible: true,
-                                        children: [
-                                            { id: 'area_key', name: 'Key Light', type: 'light', visible: true },
-                                            { id: 'area_fill', name: 'Fill Light', type: 'light', visible: true },
-                                            { id: 'area_back', name: 'Back Light', type: 'light', visible: false }
-                                        ]
-                                    },
-                                    { id: 'hdri_env', name: 'HDRI Environment', type: 'light', visible: true }
-                                ]
-                            },
-                            {
-                                id: 'cameras_group',
-                                name: 'Cameras',
-                                type: 'group',
-                                visible: true,
-                                children: [
-                                    { id: 'cam_hero', name: 'Hero Shot', type: 'camera', visible: true },
-                                    { id: 'cam_wide', name: 'Wide Angle', type: 'camera', visible: true },
-                                    { id: 'cam_close', name: 'Close Up', type: 'camera', visible: false },
-                                    { id: 'cam_ortho', name: 'Orthographic', type: 'camera', visible: false }
-                                ]
-                            },
-                            {
-                                id: 'materials_group',
-                                name: 'Materials',
-                                type: 'group',
-                                visible: true,
-                                children: [
-                                    { id: 'mat_metal', name: 'Brushed Metal', type: 'material', visible: true },
-                                    { id: 'mat_glass', name: 'Clear Glass', type: 'material', visible: true },
-                                    { id: 'mat_concrete', name: 'Concrete', type: 'material', visible: true },
-                                    { id: 'mat_fabric', name: 'Fabric', type: 'material', visible: true }
-                                ]
-                            }
-                        ]
-                    }
-                ];
+                console.log('❌ BULLETPROOF: Not connected - showing empty tree');
+                // Show empty tree if not connected - NO MOCK DATA
+                this.sceneData = [];
                 this.renderTree();
             }
         } catch (error) {
             console.error('Failed to load scene tree:', error);
-            const treeContainer = this.element.querySelector('#scene-tree');
-            if (treeContainer) {
-                treeContainer.innerHTML = '<div class="scene-loading">Error loading scene tree</div>';
-            }
+            // Show empty tree on error - NO MOCK DATA
+            this.sceneData = [];
+            this.renderTree();
         }
     }
     
@@ -226,8 +139,8 @@ class SceneOutliner extends OctaneComponent {
             // Create hierarchical structure from flat data
             this.sceneData = this.transformToHierarchical(flatData);
         } else {
-            // Use mock hierarchical data if no server data
-            this.sceneData = this.getMockHierarchicalData();
+            // Show empty tree if no real data - NO MOCK DATA
+            this.sceneData = [];
         }
         
         console.log('🌳 Final hierarchical data:', this.sceneData);
@@ -264,79 +177,31 @@ class SceneOutliner extends OctaneComponent {
                         name: 'Lights',
                         type: 'group',
                         visible: true,
-                        children: lightNodes.length > 0 ? lightNodes.map(node => ({
+                        children: lightNodes.map(node => ({
                             id: node.id,
                             name: node.name,
                             type: 'light',
                             visible: node.visible !== false
-                        })) : [
-                            { id: 'sun_light', name: 'Sun Light', type: 'light', visible: true },
-                            { id: 'area_light', name: 'Area Light', type: 'light', visible: true }
-                        ]
+                        }))
                     },
                     {
                         id: 'cameras_group',
                         name: 'Cameras',
                         type: 'group',
                         visible: true,
-                        children: cameraNodes.length > 0 ? cameraNodes.map(node => ({
+                        children: cameraNodes.map(node => ({
                             id: node.id,
                             name: node.name,
                             type: 'camera',
                             visible: node.visible !== false
-                        })) : [
-                            { id: 'main_camera', name: 'Main Camera', type: 'camera', visible: true },
-                            { id: 'ortho_camera', name: 'Orthographic Camera', type: 'camera', visible: false }
-                        ]
+                        }))
                     }
                 ]
             }
         ];
     }
     
-    getMockHierarchicalData() {
-        return [
-            {
-                id: 'scene_root',
-                name: 'Scene',
-                type: 'group',
-                visible: true,
-                children: [
-                    {
-                        id: 'geometry_group',
-                        name: 'Geometry',
-                        type: 'group',
-                        visible: true,
-                        children: [
-                            { id: 'cube1', name: 'Cube', type: 'mesh', visible: true },
-                            { id: 'sphere1', name: 'Sphere', type: 'mesh', visible: true },
-                            { id: 'teapot1', name: 'Teapot', type: 'mesh', visible: false }
-                        ]
-                    },
-                    {
-                        id: 'lights_group',
-                        name: 'Lights',
-                        type: 'group',
-                        visible: true,
-                        children: [
-                            { id: 'sun_light', name: 'Sun Light', type: 'light', visible: true },
-                            { id: 'area_light', name: 'Area Light', type: 'light', visible: true }
-                        ]
-                    },
-                    {
-                        id: 'cameras_group',
-                        name: 'Cameras',
-                        type: 'group',
-                        visible: true,
-                        children: [
-                            { id: 'main_camera', name: 'Main Camera', type: 'camera', visible: true },
-                            { id: 'ortho_camera', name: 'Orthographic Camera', type: 'camera', visible: false }
-                        ]
-                    }
-                ]
-            }
-        ];
-    }
+    // NO MOCK DATA FUNCTIONS - REMOVED
     
     updateSelection(selection) {
         this.selectedObjects = new Set(selection);
