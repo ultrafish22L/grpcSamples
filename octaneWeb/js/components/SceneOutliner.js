@@ -85,51 +85,299 @@ class SceneOutliner extends OctaneComponent {
         try {
             const treeContainer = this.element.querySelector('#scene-tree');
             if (treeContainer) {
-                treeContainer.innerHTML = '<div class="scene-loading">Loading scene tree...</div>';
+                treeContainer.innerHTML = '<div class="scene-loading">🔍 Checking Octane connection...</div>';
             }
             
-            // 🔥 BULLETPROOF: Use bulletproof client for real data
-            if (!window.bulletproofClient) {
-                console.log('🔥 BULLETPROOF: Creating bulletproof client...');
-                window.bulletproofClient = new BulletproofOctaneClient();
-                
-                // Connect to proxy
-                const connected = await window.bulletproofClient.connect();
-                if (!connected) {
-                    throw new Error('Failed to connect to bulletproof proxy');
-                }
+            // Test if proxy server is running and if Octane is available
+            let proxyResponse, proxyResult;
+            try {
+                proxyResponse = await fetch('http://localhost:51998/test', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                proxyResult = await proxyResponse.json();
+                console.log('📡 Proxy server status:', proxyResult);
+            } catch (error) {
+                console.log('❌ Proxy server not available:', error.message);
+                treeContainer.innerHTML = `
+                    <div class="scene-error">
+                        <div class="error-icon">🚫</div>
+                        <div class="error-title">Proxy Server Not Available</div>
+                        <div class="error-message">
+                            Please start the proxy server:<br>
+                            <code>cd octaneWeb && python3 working_proxy.py</code>
+                        </div>
+                    </div>
+                `;
+                return;
             }
-
-            // ONLY attempt real scene data from Octane - NO MOCK DATA EVER
-            if (window.bulletproofClient.isReady()) {
-                console.log('🔥 BULLETPROOF: Calling getSceneData() for real Octane data...');
-                const result = await window.bulletproofClient.getSceneData();
-                console.log('📥 BULLETPROOF: getSceneData() result:', result);
-                
-                if (result && result.success && result.hierarchy) {
-                    console.log('✅ BULLETPROOF: Using real Octane hierarchy data:', result.hierarchy);
-                    this.sceneData = result.hierarchy;
-                    this.renderTree();
-                } else {
-                    console.log('❌ BULLETPROOF: No real data - showing empty tree');
-                    // Show empty tree if no real data - NO MOCK DATA
-                    this.sceneData = [];
-                    this.renderTree();
-                }
-            } else {
-                console.log('❌ BULLETPROOF: Not connected - showing empty tree');
-                // Show empty tree if not connected - NO MOCK DATA
-                this.sceneData = [];
-                this.renderTree();
+            
+            // Proxy is running, but check if Octane is available
+            if (!proxyResult.success) {
+                treeContainer.innerHTML = `
+                    <div class="scene-error">
+                        <div class="error-icon">⚠️</div>
+                        <div class="error-title">Octane Not Available</div>
+                        <div class="error-message">
+                            ${proxyResult.message}<br><br>
+                            Please ensure Octane is running on:<br>
+                            <code>127.0.0.1:51022</code>
+                        </div>
+                    </div>
+                `;
+                return;
             }
+            
+            // Test if Octane is running
+            treeContainer.innerHTML = '<div class="scene-loading">🔍 Connecting to Octane...</div>';
+            
+            // Following ENGINEERING_DISCIPLINE.md: Real Data Enforcement
+            // NO MOCK DATA EVER - only show real Octane data or clear error messages
+            
+            try {
+                // STEP 1: Get root node graph (following exact proxy pattern from grpc_proxy.py)
+                const rootResponse = await fetch('http://localhost:51998/ApiProjectManagerService/rootNodeGraph', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({})
+                });
+                
+                if (!rootResponse.ok) {
+                    throw new Error(`HTTP ${rootResponse.status}: ${rootResponse.statusText}`);
+                }
+                
+                const rootResult = await rootResponse.json();
+                console.log('📥 Root node graph response:', rootResult);
+                
+                if (!rootResult.success) {
+                    throw new Error(rootResult.error || 'Failed to get root node graph');
+                }
+                
+                // STEP 2: Get owned items from root node graph
+                treeContainer.innerHTML = '<div class="scene-loading">📋 Loading scene items...</div>';
+                
+                const ownedItemsResponse = await fetch('http://localhost:51998/ApiNodeGraph/getOwnedItems', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        objectPtr: rootResult.objectRef
+                    })
+                });
+                
+                if (!ownedItemsResponse.ok) {
+                    throw new Error(`HTTP ${ownedItemsResponse.status}: ${ownedItemsResponse.statusText}`);
+                }
+                
+                const ownedItemsResult = await ownedItemsResponse.json();
+                console.log('📥 Owned items response:', ownedItemsResult);
+                
+                if (!ownedItemsResult.success) {
+                    throw new Error(ownedItemsResult.error || 'Failed to get owned items');
+                }
+                
+                // STEP 3: Get size of the items array
+                treeContainer.innerHTML = '<div class="scene-loading">🔢 Getting item count...</div>';
+                
+                const sizeResponse = await fetch('http://localhost:51998/ApiItemArray/size', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        objectPtr: ownedItemsResult.objectRef
+                    })
+                });
+                
+                if (!sizeResponse.ok) {
+                    throw new Error(`HTTP ${sizeResponse.status}: ${sizeResponse.statusText}`);
+                }
+                
+                const sizeResult = await sizeResponse.json();
+                console.log('📥 Size response:', sizeResult);
+                
+                if (!sizeResult.success) {
+                    throw new Error(sizeResult.error || 'Failed to get array size');
+                }
+                
+                // STEP 4: Load individual items and build scene tree
+                treeContainer.innerHTML = `<div class="scene-loading">🌳 Building scene tree (${sizeResult.size} items)...</div>`;
+                
+                const sceneItems = [];
+                for (let i = 0; i < sizeResult.size; i++) {
+                    // Get item at index i
+                    const itemResponse = await fetch('http://localhost:51998/ApiItemArray/get1', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            objectPtr: ownedItemsResult.objectRef,
+                            index: i
+                        })
+                    });
+                    
+                    if (itemResponse.ok) {
+                        const itemResult = await itemResponse.json();
+                        if (itemResult.success) {
+                            // Get the name of this item
+                            const nameResponse = await fetch('http://localhost:51998/ApiItem/name', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    objectPtr: itemResult.objectRef
+                                })
+                            });
+                            
+                            if (nameResponse.ok) {
+                                const nameResult = await nameResponse.json();
+                                sceneItems.push({
+                                    handle: itemResult.objectRef.handle,
+                                    type: itemResult.objectRef.type,
+                                    name: nameResult.success ? nameResult.name : `Item_${i}`,
+                                    index: i
+                                });
+                            }
+                        }
+                    }
+                }
+                
+                // STEP 5: Render the real scene tree
+                this.renderRealSceneTree(sceneItems);
+                
+                console.log('✅ Scene tree loaded successfully with real Octane data:', sceneItems); 
+                // 2. ApiNodeGraphService.getOwnedItems(objectPtr)
+                // 3. ApiItemArrayService.size(objectPtr) 
+                // 4. ApiItemArrayService.get1(objectPtr, index)
+                // 5. ApiItemService.name(objectPtr with type=16)
+                
+            } catch (error) {
+                console.log('❌ Octane connection failed:', error.message);
+                
+                // Show clear error message - NO MOCK DATA
+                treeContainer.innerHTML = `
+                    <div class="scene-error">
+                        <div class="error-icon">⚠️</div>
+                        <div class="error-title">Octane Not Available</div>
+                        <div class="error-message">
+                            Please start Octane Render on 127.0.0.1:51022<br>
+                            <small>Error: ${error.message}</small>
+                        </div>
+                        <div class="error-actions">
+                            <button onclick="window.location.reload()" class="retry-btn">🔄 Retry</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
         } catch (error) {
-            console.error('Failed to load scene tree:', error);
-            // Show empty tree on error - NO MOCK DATA
-            this.sceneData = [];
-            this.renderTree();
+            console.error('❌ Failed to load scene tree:', error);
+            const treeContainer = this.element.querySelector('#scene-tree');
+            if (treeContainer) {
+                treeContainer.innerHTML = `
+                    <div class="scene-error">
+                        <div class="error-icon">💥</div>
+                        <div class="error-title">Unexpected Error</div>
+                        <div class="error-message">${error.message}</div>
+                    </div>
+                `;
+            }
         }
     }
     
+    renderRealSceneTree(sceneItems) {
+        const treeContainer = this.element.querySelector('#scene-tree');
+        if (!treeContainer) return;
+        
+        if (sceneItems.length === 0) {
+            treeContainer.innerHTML = `
+                <div class="scene-success">
+                    <div class="success-icon">✅</div>
+                    <div class="success-title">Octane Connected!</div>
+                    <div class="success-message">
+                        Scene is empty or no accessible items found.
+                    </div>
+                </div>
+            `;
+            return;
+        }
+        
+        // Build hierarchical tree structure from real Octane data
+        let treeHTML = '<div class="scene-tree-root">';
+        treeHTML += '<div class="scene-node scene-group" data-node-id="scene_root">';
+        treeHTML += '<div class="scene-node-content">';
+        treeHTML += '<span class="scene-node-toggle">▼</span>';
+        treeHTML += '<span class="scene-node-icon">🌍</span>';
+        treeHTML += '<span class="scene-node-name">Scene</span>';
+        treeHTML += '<span class="scene-node-visibility">👁</span>';
+        treeHTML += '</div>';
+        treeHTML += '<div class="scene-node-children">';
+        
+        // Add each real scene item
+        sceneItems.forEach(item => {
+            const icon = this.getNodeIcon(item.type);
+            treeHTML += `
+                <div class="scene-node scene-item" data-node-id="${item.handle}" data-node-type="${item.type}">
+                    <div class="scene-node-content">
+                        <span class="scene-node-icon">${icon}</span>
+                        <span class="scene-node-name">${item.name}</span>
+                        <span class="scene-node-handle">[${item.handle}]</span>
+                        <span class="scene-node-visibility">👁</span>
+                    </div>
+                </div>
+            `;
+        });
+        
+        treeHTML += '</div></div></div>';
+        treeContainer.innerHTML = treeHTML;
+        
+        // Add click handlers for real scene items
+        this.setupRealSceneTreeHandlers();
+    }
+    
+    getNodeIcon(nodeType) {
+        // Map Octane node types to appropriate icons
+        const iconMap = {
+            1: '📷', // Camera
+            2: '💡', // Light
+            3: '🔺', // Mesh/Geometry
+            4: '🎨', // Material
+            5: '🖼️', // Texture
+            16: '📦', // Generic Item
+            18: '🌐', // Root Node Graph
+        };
+        return iconMap[nodeType] || '📄';
+    }
+    
+    setupRealSceneTreeHandlers() {
+        const treeContainer = this.element.querySelector('#scene-tree');
+        if (!treeContainer) return;
+        
+        // Add click handlers for scene nodes
+        const sceneNodes = treeContainer.querySelectorAll('.scene-node');
+        sceneNodes.forEach(node => {
+            this.addEventListener(node, 'click', (e) => {
+                e.stopPropagation();
+                const nodeId = node.dataset.nodeId;
+                const nodeType = node.dataset.nodeType;
+                console.log('🎯 Selected real scene node:', { nodeId, nodeType });
+                
+                // Emit selection event for other components
+                this.eventSystem.emit('sceneNodeSelected', {
+                    nodeId,
+                    nodeType,
+                    isRealData: true
+                });
+            });
+        });
+        
+        // Add visibility toggle handlers
+        const visibilityToggles = treeContainer.querySelectorAll('.scene-node-visibility');
+        visibilityToggles.forEach(toggle => {
+            this.addEventListener(toggle, 'click', (e) => {
+                e.stopPropagation();
+                const isVisible = toggle.textContent === '👁';
+                toggle.textContent = isVisible ? '🚫' : '👁';
+                console.log('👁 Toggled visibility for real scene node');
+            });
+        });
+    }
+
     updateScene(sceneState) {
         // Transform flat server data into hierarchical structure
         const flatData = sceneState.hierarchy || [];

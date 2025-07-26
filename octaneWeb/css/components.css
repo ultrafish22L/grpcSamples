@@ -3,6 +3,79 @@
  * Specific styling for individual UI components
  */
 
+/* Scene Outliner Error States */
+.scene-error, .scene-success {
+    padding: 20px;
+    text-align: center;
+    border-radius: var(--border-radius);
+    margin: 10px;
+}
+
+.scene-error {
+    background-color: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    color: var(--octane-text-primary);
+}
+
+.scene-success {
+    background-color: rgba(40, 167, 69, 0.1);
+    border: 1px solid rgba(40, 167, 69, 0.3);
+    color: var(--octane-text-primary);
+}
+
+.error-icon, .success-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.error-title, .success-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--octane-text-primary);
+}
+
+.error-message, .success-message {
+    font-size: var(--font-size-small);
+    color: var(--octane-text-secondary);
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+.error-message code {
+    background-color: var(--octane-bg-secondary);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: var(--octane-accent-blue);
+}
+
+.error-actions {
+    margin-top: 12px;
+}
+
+.retry-btn {
+    background-color: var(--octane-accent-red);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: var(--font-size-small);
+    transition: background-color 0.2s;
+}
+
+.retry-btn:hover {
+    background-color: #c82333;
+}
+
+.scene-loading {
+    padding: 20px;
+    text-align: center;
+    color: var(--octane-text-secondary);
+    font-style: italic;
+}
+
 /* Connection Controls */
 .connection-controls {
     display: flex;
