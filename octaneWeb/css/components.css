@@ -3,6 +3,225 @@
  * Specific styling for individual UI components
  */
 
+/* Scene Tree Styling */
+.scene-tree-root {
+    font-family: var(--font-family);
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+}
+
+.scene-node {
+    cursor: pointer;
+    user-select: none;
+}
+
+.scene-node-content {
+    display: flex;
+    align-items: center;
+    padding: 2px 4px;
+    border-radius: 3px;
+    transition: background-color 0.15s ease;
+}
+
+.scene-node-content:hover {
+    background-color: var(--octane-bg-hover);
+}
+
+.scene-node.selected .scene-node-content {
+    background-color: var(--octane-accent-red);
+    color: white;
+}
+
+.scene-node-indent {
+    display: inline-block;
+    width: 16px;
+    flex-shrink: 0;
+}
+
+.scene-node-toggle {
+    display: inline-block;
+    width: 12px;
+    text-align: center;
+    margin-right: 4px;
+    font-size: 10px;
+    flex-shrink: 0;
+}
+
+.scene-node-icon {
+    display: inline-block;
+    width: 16px;
+    text-align: center;
+    margin-right: 6px;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.scene-node-name {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 6px;
+}
+
+.scene-node-handle {
+    font-size: 10px;
+    color: var(--octane-text-secondary);
+    margin-right: 6px;
+    flex-shrink: 0;
+}
+
+.scene-node.selected .scene-node-handle {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.scene-node-visibility {
+    display: inline-block;
+    width: 16px;
+    text-align: center;
+    font-size: 12px;
+    opacity: 0.7;
+    flex-shrink: 0;
+}
+
+.scene-node-visibility:hover {
+    opacity: 1;
+}
+
+.scene-node-children {
+    margin-left: 0;
+}
+
+/* Scene loading states */
+.scene-loading {
+    padding: 20px;
+    text-align: center;
+    color: var(--octane-text-secondary);
+    font-style: italic;
+}
+
+/* Node Inspector Styling */
+.node-inspector-header {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--octane-border);
+    background-color: var(--octane-bg-secondary);
+}
+
+.node-inspector-header h3 {
+    margin: 0 0 8px 0;
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    color: var(--octane-text-primary);
+}
+
+.node-selector {
+    width: 100%;
+    padding: 4px 8px;
+    background-color: var(--octane-bg-primary);
+    border: 1px solid var(--octane-border);
+    border-radius: 3px;
+    color: var(--octane-text-primary);
+    font-size: var(--font-size-small);
+}
+
+.node-inspector-content {
+    padding: 8px;
+}
+
+.parameter-section {
+    margin-bottom: 12px;
+}
+
+.parameter-group-header {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    cursor: pointer;
+    background-color: var(--octane-bg-secondary);
+    border-radius: 3px;
+    margin: 2px 0;
+    user-select: none;
+}
+
+.parameter-group-header:hover {
+    background-color: var(--octane-bg-hover);
+}
+
+.parameter-group-icon {
+    width: 12px;
+    text-align: center;
+    margin-right: 6px;
+    font-size: 10px;
+    color: var(--octane-text-secondary);
+}
+
+.parameter-group-title {
+    flex: 1;
+    font-size: var(--font-size-small);
+    font-weight: 500;
+    color: var(--octane-text-primary);
+}
+
+.parameter-group-content {
+    margin-left: 18px;
+    margin-top: 4px;
+}
+
+.parameter-row {
+    display: flex;
+    align-items: center;
+    padding: 3px 0;
+    min-height: 24px;
+}
+
+.parameter-icon {
+    width: 16px;
+    text-align: center;
+    margin-right: 8px;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.parameter-label {
+    flex: 1;
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+    margin-right: 8px;
+}
+
+.parameter-value {
+    font-size: var(--font-size-small);
+    color: var(--octane-text-secondary);
+    font-family: 'Courier New', monospace;
+}
+
+.parameter-dropdown {
+    min-width: 120px;
+    padding: 2px 6px;
+    background-color: var(--octane-bg-primary);
+    border: 1px solid var(--octane-border);
+    border-radius: 3px;
+    color: var(--octane-text-primary);
+    font-size: var(--font-size-small);
+}
+
+.parameter-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--octane-accent-red);
+}
+
+.parameter-number-input {
+    width: 80px;
+    padding: 2px 6px;
+    background-color: var(--octane-bg-primary);
+    border: 1px solid var(--octane-border);
+    border-radius: 3px;
+    color: var(--octane-text-primary);
+    font-size: var(--font-size-small);
+    text-align: right;
+}
+
 /* Scene Outliner Error States */
 .scene-error, .scene-success {
     padding: 20px;

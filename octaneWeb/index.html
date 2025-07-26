@@ -277,6 +277,8 @@
         const cacheBuster = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15);
         const cb = `?v=${cacheBuster}`;
         
+        // Connection toggle function will be defined by app.js when it loads
+        
         // Load scripts with cache busting
         const scripts = [
             // Development Tools (Load First)

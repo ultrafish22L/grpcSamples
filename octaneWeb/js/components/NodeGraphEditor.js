@@ -63,6 +63,17 @@ class NodeGraphEditor extends OctaneComponent {
             this.updateNodeGraph(nodeGraphState);
         });
         
+        // Listen for scene node selection from SceneOutliner
+        this.eventSystem.on('sceneNodeSelected', (data) => {
+            this.updateSelectedNode(data);
+        });
+        
+        // Listen for scene data loaded from SceneOutliner
+        this.eventSystem.on('sceneDataLoaded', (sceneItems) => {
+            this.createRealSceneNodes(sceneItems);
+            this.render();
+        });
+        
         // Mouse events
         this.addEventListener(this.canvas, 'mousedown', this.handleMouseDown.bind(this));
         this.addEventListener(this.canvas, 'mousemove', this.handleMouseMove.bind(this));
@@ -619,6 +630,140 @@ class NodeGraphEditor extends OctaneComponent {
             if (window.debugConsole) {
                 window.debugConsole.log(`🗑️ Deleted ${deletedNodes.length} node(s): ${deletedNodes.join(', ')}`);
             }
+        }
+    }
+    
+    updateSelectedNode(data) {
+        console.log('🎯 NodeGraphEditor received selection:', data);
+        
+        // Clear existing selection
+        this.selectedNodes.clear();
+        
+        // Find and select the corresponding node in the graph
+        for (let [nodeId, node] of this.nodes) {
+            if (node.sceneHandle === data.nodeId || node.name === data.nodeName) {
+                this.selectedNodes.add(nodeId);
+                console.log('🎯 Selected node in graph:', nodeId, node.name);
+                break;
+            }
+        }
+        
+        // Re-render to show selection
+        this.render();
+    }
+    
+    createRealSceneNodes(sceneItems = []) {
+        // Clear existing nodes
+        this.nodes.clear();
+        this.connections.clear();
+        
+        if (sceneItems.length === 0) {
+            // Create default nodes if no scene data
+            this.createSampleNodes();
+            return;
+        }
+        
+        // Create nodes based on real scene data
+        let xOffset = 100;
+        const yCenter = this.canvas.height / 2;
+        
+        sceneItems.forEach((item, index) => {
+            const nodeId = `scene_${item.handle}`;
+            const nodeType = this.getNodeTypeFromName(item.name);
+            
+            const node = {
+                id: nodeId,
+                name: item.name,
+                type: nodeType,
+                sceneHandle: item.handle,
+                sceneType: item.type,
+                x: xOffset,
+                y: yCenter - 40 + (index * 20), // Slight vertical offset
+                width: this.getNodeWidth(item.name),
+                height: 80,
+                inputs: this.getNodeInputs(nodeType),
+                outputs: this.getNodeOutputs(nodeType)
+            };
+            
+            this.nodes.set(nodeId, node);
+            xOffset += node.width + 80; // Space between nodes
+        });
+        
+        // Create connections between nodes (teapot.obj -> Render target)
+        this.createSceneConnections(sceneItems);
+        
+        console.log('🎨 Created real scene nodes:', Array.from(this.nodes.keys()));
+    }
+    
+    getNodeTypeFromName(name) {
+        if (name.toLowerCase().includes('render target')) return 'render';
+        if (name.toLowerCase().includes('.obj') || name.toLowerCase().includes('.fbx')) return 'geometry';
+        if (name.toLowerCase().includes('camera')) return 'camera';
+        if (name.toLowerCase().includes('material')) return 'material';
+        return 'generic';
+    }
+    
+    getNodeWidth(name) {
+        // Adjust width based on name length
+        const baseWidth = 120;
+        const charWidth = 8;
+        return Math.max(baseWidth, name.length * charWidth + 40);
+    }
+    
+    getNodeInputs(nodeType) {
+        switch (nodeType) {
+            case 'render':
+                return [
+                    { name: 'Geometry', connected: true },
+                    { name: 'Camera', connected: false }
+                ];
+            case 'geometry':
+                return [
+                    { name: 'Material', connected: false }
+                ];
+            case 'material':
+                return [
+                    { name: 'Diffuse', connected: false },
+                    { name: 'Roughness', connected: false }
+                ];
+            default:
+                return [];
+        }
+    }
+    
+    getNodeOutputs(nodeType) {
+        switch (nodeType) {
+            case 'geometry':
+                return [
+                    { name: 'Mesh', connected: true }
+                ];
+            case 'material':
+                return [
+                    { name: 'Material', connected: true }
+                ];
+            case 'camera':
+                return [
+                    { name: 'Camera', connected: true }
+                ];
+            default:
+                return [];
+        }
+    }
+    
+    createSceneConnections(sceneItems) {
+        // Create connection from teapot.obj to Render target
+        const meshNode = Array.from(this.nodes.values()).find(n => n.name.includes('.obj'));
+        const renderNode = Array.from(this.nodes.values()).find(n => n.name.includes('Render target'));
+        
+        if (meshNode && renderNode) {
+            const connectionId = `${meshNode.id}_to_${renderNode.id}`;
+            this.connections.set(connectionId, {
+                id: connectionId,
+                from: { nodeId: meshNode.id, output: 'Mesh' },
+                to: { nodeId: renderNode.id, input: 'Geometry' }
+            });
+            
+            console.log('🔗 Created connection:', meshNode.name, '->', renderNode.name);
         }
     }
     

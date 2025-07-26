@@ -18,6 +18,7 @@ class SceneOutliner extends OctaneComponent {
         this.expandedNodes = new Set(['scene_root']); // Scene root expanded by default
         this.searchTerm = '';
         this.nodeIdCounter = 0;
+        this.selectedNodeId = null; // Track currently selected node
     }
     
     async onInitialize() {
@@ -240,6 +241,9 @@ class SceneOutliner extends OctaneComponent {
                 // STEP 5: Render the real scene tree
                 this.renderRealSceneTree(sceneItems);
                 
+                // STEP 6: Update NodeGraphEditor with real scene data
+                this.eventSystem.emit('sceneDataLoaded', sceneItems);
+                
                 console.log('✅ Scene tree loaded successfully with real Octane data:', sceneItems); 
                 // 2. ApiNodeGraphService.getOwnedItems(objectPtr)
                 // 3. ApiItemArrayService.size(objectPtr) 
@@ -297,23 +301,34 @@ class SceneOutliner extends OctaneComponent {
             return;
         }
         
-        // Build hierarchical tree structure from real Octane data
+        // Build hierarchical tree structure matching target UI
         let treeHTML = '<div class="scene-tree-root">';
-        treeHTML += '<div class="scene-node scene-group" data-node-id="scene_root">';
-        treeHTML += '<div class="scene-node-content">';
+        
+        // Root Scene node (always expanded)
+        treeHTML += '<div class="scene-node scene-root" data-node-id="scene_root" data-expanded="true">';
+        treeHTML += '<div class="scene-node-content" data-level="0">';
+        treeHTML += '<span class="scene-node-indent"></span>';
         treeHTML += '<span class="scene-node-toggle">▼</span>';
         treeHTML += '<span class="scene-node-icon">🌍</span>';
         treeHTML += '<span class="scene-node-name">Scene</span>';
         treeHTML += '<span class="scene-node-visibility">👁</span>';
         treeHTML += '</div>';
-        treeHTML += '<div class="scene-node-children">';
         
-        // Add each real scene item
+        // Children container
+        treeHTML += '<div class="scene-node-children" style="display: block;">';
+        
+        // Add each real scene item as child of Scene
         sceneItems.forEach(item => {
-            const icon = this.getNodeIcon(item.type);
+            const icon = this.getNodeIcon(item.type, item.name);
+            const isSelected = this.selectedNodeId === item.handle.toString();
+            
             treeHTML += `
-                <div class="scene-node scene-item" data-node-id="${item.handle}" data-node-type="${item.type}">
-                    <div class="scene-node-content">
+                <div class="scene-node scene-item ${isSelected ? 'selected' : ''}" 
+                     data-node-id="${item.handle}" 
+                     data-node-type="${item.type}"
+                     data-node-name="${item.name}">
+                    <div class="scene-node-content" data-level="1">
+                        <span class="scene-node-indent">    </span>
                         <span class="scene-node-icon">${icon}</span>
                         <span class="scene-node-name">${item.name}</span>
                         <span class="scene-node-handle">[${item.handle}]</span>
@@ -328,10 +343,26 @@ class SceneOutliner extends OctaneComponent {
         
         // Add click handlers for real scene items
         this.setupRealSceneTreeHandlers();
+        
+        // Auto-select "Render target" if it exists (matching target UI)
+        const renderTargetNode = treeContainer.querySelector('[data-node-name="Render target"]');
+        if (renderTargetNode && !this.selectedNodeId) {
+            renderTargetNode.click();
+        }
     }
     
-    getNodeIcon(nodeType) {
-        // Map Octane node types to appropriate icons
+    getNodeIcon(nodeType, nodeName = '') {
+        // Map Octane node types to appropriate icons, with name-based overrides
+        if (nodeName.toLowerCase().includes('render target')) {
+            return '🎯'; // Render target icon
+        }
+        if (nodeName.toLowerCase().includes('camera')) {
+            return '📷'; // Camera icon
+        }
+        if (nodeName.toLowerCase().includes('.obj') || nodeName.toLowerCase().includes('.fbx') || nodeName.toLowerCase().includes('.ply')) {
+            return '🔺'; // 3D model icon
+        }
+        
         const iconMap = {
             1: '📷', // Camera
             2: '💡', // Light
@@ -355,12 +386,18 @@ class SceneOutliner extends OctaneComponent {
                 e.stopPropagation();
                 const nodeId = node.dataset.nodeId;
                 const nodeType = node.dataset.nodeType;
-                console.log('🎯 Selected real scene node:', { nodeId, nodeType });
+                const nodeName = node.dataset.nodeName;
+                
+                // Update selection
+                this.selectNode(nodeId, nodeName, nodeType);
+                
+                console.log('🎯 Selected real scene node:', { nodeId, nodeType, nodeName });
                 
                 // Emit selection event for other components
                 this.eventSystem.emit('sceneNodeSelected', {
                     nodeId,
                     nodeType,
+                    nodeName,
                     isRealData: true
                 });
             });
@@ -376,6 +413,26 @@ class SceneOutliner extends OctaneComponent {
                 console.log('👁 Toggled visibility for real scene node');
             });
         });
+    }
+    
+    selectNode(nodeId, nodeName, nodeType) {
+        // Remove previous selection
+        const treeContainer = this.element.querySelector('#scene-tree');
+        if (treeContainer) {
+            const previousSelected = treeContainer.querySelector('.scene-node.selected');
+            if (previousSelected) {
+                previousSelected.classList.remove('selected');
+            }
+            
+            // Add selection to new node
+            const newSelected = treeContainer.querySelector(`[data-node-id="${nodeId}"]`);
+            if (newSelected) {
+                newSelected.classList.add('selected');
+                this.selectedNodeId = nodeId;
+                this.selectedNodeName = nodeName;
+                this.selectedNodeType = nodeType;
+            }
+        }
     }
 
     updateScene(sceneState) {
@@ -623,6 +680,27 @@ class SceneOutliner extends OctaneComponent {
                 this._addAllNodeIds(node.children, set);
             }
         });
+    }
+    
+    connect() {
+        console.log('🔌 SceneOutliner connecting...');
+        this.loadSceneTree();
+    }
+    
+    disconnect() {
+        console.log('🔌 SceneOutliner disconnecting...');
+        const treeContainer = this.element.querySelector('#scene-tree');
+        if (treeContainer) {
+            treeContainer.innerHTML = `
+                <div class="scene-success">
+                    <div class="success-icon">🔌</div>
+                    <div class="success-title">Disconnected</div>
+                    <div class="success-message">
+                        Click the connection toggle to reconnect to Octane.
+                    </div>
+                </div>
+            `;
+        }
     }
 }
 

@@ -110,33 +110,38 @@ class OctaneWebApp {
         this.components.sceneOutliner = new SceneOutliner(
             document.querySelector('#scene-outliner'),
             this.client,
-            this.stateManager
+            this.stateManager,
+            this.eventSystem
         );
         // Initialize render viewport
         this.components.renderViewport = new RenderViewport(
             document.querySelector('#render-viewport'),
             this.client,
-            this.stateManager
+            this.stateManager,
+            this.eventSystem
         );        
         // Initialize node inspector
         this.components.nodeInspector = new NodeInspector(
             document.querySelector('#node-inspector'),
             this.client,
-            this.stateManager
+            this.stateManager,
+            this.eventSystem
         );
         
         // Initialize node graph editor
         this.components.nodeGraphEditor = new NodeGraphEditor(
             document.querySelector('#node-graph'),
             this.client,
-            this.stateManager
+            this.stateManager,
+            this.eventSystem
         );
         
         // Initialize menu system
         this.components.menuSystem = new MenuSystem(
             document.querySelector('.main-menu'),
             this.client,
-            this.stateManager
+            this.stateManager,
+            this.eventSystem
         );
         
         // Initialize all components
@@ -213,7 +218,7 @@ class OctaneWebApp {
         if (connectionToggle) {
             connectionToggle.addEventListener('change', (e) => {
                 if (e.target.checked) {
-                    const serverAddress = document.getElementById('serverAddress')?.value || 'http://localhost:51023';
+                    const serverAddress = document.getElementById('serverAddress')?.value || 'http://localhost:51998';
                     this.connectToOctane(serverAddress);
                 } else {
                     this.disconnectFromOctane();
@@ -654,7 +659,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.toggleConnection = () => {
             const toggle = document.getElementById('connectionToggle');
             if (toggle.checked) {
-                const serverAddress = document.getElementById('serverAddress')?.value || 'http://localhost:51023';
+                const serverAddress = document.getElementById('serverAddress')?.value || 'http://localhost:51998';
                 octaneWebApp.connectToOctane(serverAddress);
             } else {
                 octaneWebApp.disconnectFromOctane();

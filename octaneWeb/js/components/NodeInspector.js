@@ -24,6 +24,11 @@ class NodeInspector extends OctaneComponent {
             this.updateSelection(selection);
         });
         
+        // Listen for scene node selection from SceneOutliner
+        this.eventSystem.on('sceneNodeSelected', (data) => {
+            this.updateSelectedNode(data);
+        });
+        
         // Listen for node parameter updates
         this.client.on('ui:nodeParameterUpdate', (data) => {
             this.updateParameter(data.nodeId, data.parameterName, data.value);
@@ -600,6 +605,22 @@ class NodeInspector extends OctaneComponent {
         }
     }
     
+    updateSelectedNode(data) {
+        console.log('🎯 NodeInspector received selection:', data);
+        this.selectedNode = data.nodeId;
+        this.selectedNodeType = data.nodeType;
+        this.selectedNodeName = data.nodeName;
+        
+        // Render appropriate inspector based on node type and name
+        if (data.nodeName === 'Render target') {
+            this.renderRenderTargetInspector();
+        } else if (data.nodeName && data.nodeName.includes('.obj')) {
+            this.renderMeshInspector(data);
+        } else {
+            this.renderGenericInspector(data);
+        }
+    }
+    
     async loadNodeParameters(nodeId) {
         this.selectedNode = nodeId;
         
@@ -915,6 +936,160 @@ class NodeInspector extends OctaneComponent {
             return hex.length === 1 ? '0' + hex : hex;
         };
         return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    }
+    
+    renderRenderTargetInspector() {
+        // Render the Render Target inspector matching the target UI
+        const dropdown = this.element.querySelector('.node-selector');
+        if (dropdown) {
+            dropdown.value = 'Render target';
+        }
+        
+        this.element.innerHTML = `
+            <div class="node-inspector-header">
+                <h3>Node inspector</h3>
+                <select class="node-selector">
+                    <option value="Render target" selected>Render target</option>
+                    <option value="Camera target">Camera target</option>
+                    <option value="Material target">Material target</option>
+                </select>
+            </div>
+            <div class="node-inspector-content">
+                <div class="parameter-section">
+                    <div class="parameter-group-header" data-group="scene">
+                        <span class="parameter-group-icon">▼</span>
+                        <span class="parameter-group-title">Scene</span>
+                    </div>
+                    <div class="parameter-group-content" data-group-content="scene">
+                        <div class="parameter-row">
+                            <span class="parameter-icon">📷</span>
+                            <span class="parameter-label">Camera</span>
+                            <select class="parameter-dropdown">
+                                <option selected>Thin lens camera</option>
+                                <option>Panoramic camera</option>
+                                <option>Orthographic camera</option>
+                            </select>
+                        </div>
+                        <div class="parameter-row">
+                            <span class="parameter-icon">📐</span>
+                            <span class="parameter-label">Orthographic:</span>
+                            <input type="checkbox" class="parameter-checkbox">
+                        </div>
+                        
+                        <div class="parameter-group-header" data-group="physical-camera">
+                            <span class="parameter-group-icon">▶</span>
+                            <span class="parameter-group-title">Physical camera parameters</span>
+                        </div>
+                        
+                        <div class="parameter-group-header" data-group="viewing-angle">
+                            <span class="parameter-group-icon">▶</span>
+                            <span class="parameter-group-title">Viewing angle</span>
+                        </div>
+                        
+                        <div class="parameter-row">
+                            <span class="parameter-icon">📐</span>
+                            <span class="parameter-label">Perspective correction:</span>
+                            <input type="checkbox" class="parameter-checkbox">
+                        </div>
+                        
+                        <div class="parameter-row">
+                            <span class="parameter-icon">📏</span>
+                            <span class="parameter-label">Pixel aspect ratio:</span>
+                            <input type="number" class="parameter-number-input" value="1.000" step="0.001">
+                        </div>
+                        
+                        <div class="parameter-group-header" data-group="clipping">
+                            <span class="parameter-group-icon">▶</span>
+                            <span class="parameter-group-title">Clipping</span>
+                        </div>
+                        
+                        <div class="parameter-group-header" data-group="depth-of-field">
+                            <span class="parameter-group-icon">▶</span>
+                            <span class="parameter-group-title">Depth of field</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Setup event handlers for the new content
+        this.setupParameterHandlers();
+    }
+    
+    renderMeshInspector(data) {
+        const dropdown = this.element.querySelector('.node-selector');
+        if (dropdown) {
+            dropdown.value = data.nodeName;
+        }
+        
+        this.element.innerHTML = `
+            <div class="node-inspector-header">
+                <h3>Node inspector</h3>
+                <select class="node-selector">
+                    <option value="${data.nodeName}" selected>${data.nodeName}</option>
+                </select>
+            </div>
+            <div class="node-inspector-content">
+                <div class="parameter-section">
+                    <div class="parameter-group-header" data-group="mesh-properties">
+                        <span class="parameter-group-icon">▼</span>
+                        <span class="parameter-group-title">Mesh Properties</span>
+                    </div>
+                    <div class="parameter-group-content" data-group-content="mesh-properties">
+                        <div class="parameter-row">
+                            <span class="parameter-icon">🔺</span>
+                            <span class="parameter-label">Object Handle:</span>
+                            <span class="parameter-value">[${data.nodeId}]</span>
+                        </div>
+                        <div class="parameter-row">
+                            <span class="parameter-icon">📄</span>
+                            <span class="parameter-label">Type:</span>
+                            <span class="parameter-value">${data.nodeType}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        this.setupParameterHandlers();
+    }
+    
+    renderGenericInspector(data) {
+        this.element.innerHTML = `
+            <div class="node-inspector-header">
+                <h3>Node inspector</h3>
+                <select class="node-selector">
+                    <option value="${data.nodeName}" selected>${data.nodeName}</option>
+                </select>
+            </div>
+            <div class="node-inspector-content">
+                <div class="parameter-section">
+                    <div class="parameter-row">
+                        <span class="parameter-icon">📦</span>
+                        <span class="parameter-label">Object Handle:</span>
+                        <span class="parameter-value">[${data.nodeId}]</span>
+                    </div>
+                    <div class="parameter-row">
+                        <span class="parameter-icon">📄</span>
+                        <span class="parameter-label">Type:</span>
+                        <span class="parameter-value">${data.nodeType}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        this.setupParameterHandlers();
+    }
+    
+    setupParameterHandlers() {
+        // Setup handlers for parameter groups
+        const groupHeaders = this.element.querySelectorAll('.parameter-group-header');
+        groupHeaders.forEach(header => {
+            header.addEventListener('click', (e) => {
+                const groupName = header.dataset.group;
+                this.toggleParameterGroup(groupName);
+            });
+        });
     }
 }
 
