@@ -1,14 +1,14 @@
 #!/bin/bash
 # ========================================
-# OctaneWeb Custom Proxy Server Launcher
+# OctaneWeb Complete Server Launcher
 # ========================================
-# Starts the custom HTTP-to-gRPC proxy server
-# optimized specifically for octaneWeb
+# Starts both the HTTP-to-gRPC proxy server
+# and the web server for octaneWeb
 # ========================================
 
 echo
 echo "========================================"
-echo "  OctaneWeb Custom Proxy Server"
+echo "  OctaneWeb Complete Server Launcher"
 echo "========================================"
 echo
 
@@ -21,11 +21,11 @@ if [ ! -f "index.html" ]; then
     exit 1
 fi
 
-# Check if custom proxy exists
-if [ ! -f "octane_proxy.py" ]; then
-    echo "❌ ERROR: Custom proxy server not found"
-    echo "Expected location: octane_proxy.py"
-    echo "Please ensure the custom proxy is in the octaneWeb directory"
+# Check if working proxy exists
+if [ ! -f "working_proxy.py" ]; then
+    echo "❌ ERROR: Working proxy server not found"
+    echo "Expected location: working_proxy.py"
+    echo "Please ensure the working proxy is in the octaneWeb directory"
     echo
     exit 1
 fi
@@ -59,26 +59,70 @@ echo "✅ Required packages found"
 
 echo
 echo "========================================"
-echo "  Starting Custom Proxy Server..."
+echo "  Starting Servers..."
 echo "========================================"
 echo
-echo "🚀 Custom Proxy: http://localhost:51024"
+echo "🚀 Proxy Server: http://localhost:51998"
+echo "🌐 Web Server:   http://localhost:8080"
 echo "🎯 Octane Target: 127.0.0.1:51022"
-echo "📊 Health Check:  http://localhost:51024/health"
-echo "🧪 Test Suite:    http://localhost:51024/test"
+echo
+echo "🧪 Test Endpoints:"
+echo "- Proxy Health: http://localhost:51998/test"
+echo "- Web App:      http://localhost:8080/"
+echo "- Minimal Test: http://localhost:8080/minimal_test.html"
 echo
 echo "🎯 IMPORTANT:"
 echo "1. Make sure Octane Render is running with LiveLink enabled"
-echo "2. Open octaneWeb in browser: file://$(pwd)/index.html"
-echo "3. Press Ctrl+C to stop the proxy server"
+echo "2. Both servers will start automatically"
+echo "3. Open http://localhost:8080/ in your browser"
+echo "4. Press Ctrl+C to stop servers"
 echo
 
-# Start the custom proxy server
-python3 octane_proxy.py
+# Function to cleanup on exit
+cleanup() {
+    echo
+    echo "🛑 Stopping servers..."
+    kill $PROXY_PID 2>/dev/null
+    kill $WEB_PID 2>/dev/null
+    echo "✅ All servers stopped"
+    exit 0
+}
 
-# If we get here, the server stopped
+# Set up signal handlers
+trap cleanup SIGINT SIGTERM
+
+# Start the proxy server in background
+echo "🚀 Starting proxy server..."
+python3 working_proxy.py > proxy.log 2>&1 &
+PROXY_PID=$!
+
+# Wait a moment for proxy to start
+sleep 3
+
+# Start the web server in background
+echo "🌐 Starting web server..."
+python3 -m http.server 8080 > server.log 2>&1 &
+WEB_PID=$!
+
 echo
 echo "========================================"
-echo "  Custom Proxy Server Stopped"
+echo "  Both Servers Running!"
 echo "========================================"
 echo
+echo "🌐 Open in browser: http://localhost:8080/"
+echo "📊 Proxy logs: tail -f proxy.log"
+echo "📊 Web logs: tail -f server.log"
+echo
+echo "Press Ctrl+C to stop all servers..."
+echo
+
+# Wait for user to stop
+wait
+
+# If we get here, something went wrong
+echo
+echo "========================================"
+echo "  Servers Stopped Unexpectedly"
+echo "========================================"
+echo
+cleanup

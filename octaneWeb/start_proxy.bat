@@ -1,14 +1,14 @@
 @echo off
 REM ========================================
-REM OctaneWeb Custom Proxy Server Launcher
+REM OctaneWeb Complete Server Launcher
 REM ========================================
-REM Starts the custom HTTP-to-gRPC proxy server
-REM optimized specifically for octaneWeb
+REM Starts both the HTTP-to-gRPC proxy server
+REM and the web server for octaneWeb
 REM ========================================
 
 echo.
 echo ========================================
-echo  OctaneWeb Custom Proxy Server
+echo  OctaneWeb Complete Server Launcher
 echo ========================================
 echo.
 
@@ -22,11 +22,11 @@ if not exist "index.html" (
     exit /b 1
 )
 
-REM Check if custom proxy exists
-if not exist "octane_proxy.py" (
-    echo ERROR: Custom proxy server not found
-    echo Expected location: octane_proxy.py
-    echo Please ensure the custom proxy is in the octaneWeb directory
+REM Check if working proxy exists
+if not exist "working_proxy.py" (
+    echo ERROR: Working proxy server not found
+    echo Expected location: working_proxy.py
+    echo Please ensure the working proxy is in the octaneWeb directory
     echo.
     pause
     exit /b 1
@@ -66,27 +66,53 @@ echo Required packages found ✓
 
 echo.
 echo ========================================
-echo  Starting Custom Proxy Server...
+echo  Starting Servers...
 echo ========================================
 echo.
-echo Custom Proxy: http://localhost:51024
+echo Proxy Server: http://localhost:51998
+echo Web Server:   http://localhost:8080
 echo Octane Target: 127.0.0.1:51022
-echo Health Check:  http://localhost:51024/health
-echo Test Suite:    http://localhost:51024/test
+echo.
+echo Test Endpoints:
+echo - Proxy Health: http://localhost:51998/test
+echo - Web App:      http://localhost:8080/
+echo - Minimal Test: http://localhost:8080/minimal_test.html
 echo.
 echo IMPORTANT:
 echo 1. Make sure Octane Render is running with LiveLink enabled
-echo 2. Open octaneWeb in browser: file:///%CD%\index.html
-echo 3. Press Ctrl+C to stop the proxy server
+echo 2. Both servers will start automatically
+echo 3. Open http://localhost:8080/ in your browser
+echo 4. Press Ctrl+C in either window to stop servers
 echo.
 
-REM Start the custom proxy server
-python octane_proxy.py
+REM Start the proxy server in background
+echo Starting proxy server...
+start "OctaneWeb Proxy" cmd /k "python working_proxy.py"
 
-REM If we get here, the server stopped
+REM Wait a moment for proxy to start
+timeout /t 3 /nobreak >nul
+
+REM Start the web server
+echo Starting web server...
+echo Web server running at: http://localhost:8080/
 echo.
 echo ========================================
-echo  Custom Proxy Server Stopped
+echo  Both Servers Running!
 echo ========================================
+echo.
+echo Open in browser: http://localhost:8080/
+echo Press any key to stop all servers...
+echo.
+
+python -m http.server 8080
+
+REM If we get here, the web server stopped
+echo.
+echo ========================================
+echo  Servers Stopped
+echo ========================================
+echo.
+echo Note: The proxy server window may still be open.
+echo Close it manually if needed.
 echo.
 pause
