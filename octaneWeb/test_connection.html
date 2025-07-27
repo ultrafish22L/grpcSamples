@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Connection Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1a1a1a; color: #fff; }
+        .log { margin: 5px 0; padding: 5px; background: #333; border-radius: 3px; }
+        .success { background: #2d5a2d; }
+        .error { background: #5a2d2d; }
+        .info { background: #2d4a5a; }
+        #results { margin-top: 20px; }
+        .scene-item { padding: 10px; margin: 5px 0; background: #444; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Simple Octane Connection Test</h1>
+    <button onclick="testConnection()">🔄 Test Connection</button>
+    <div id="log"></div>
+    <div id="results"></div>
+
+    <script>
+        function log(message, type = 'info') {
+            const logDiv = document.getElementById('log');
+            const entry = document.createElement('div');
+            entry.className = `log ${type}`;
+            entry.textContent = new Date().toLocaleTimeString() + ' - ' + message;
+            logDiv.appendChild(entry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(message);
+        }
+
+        async function testConnection() {
+            const logDiv = document.getElementById('log');
+            const resultsDiv = document.getElementById('results');
+            logDiv.innerHTML = '';
+            resultsDiv.innerHTML = '';
+
+            try {
+                log('🔍 Testing proxy connection...', 'info');
+                
+                // Test proxy
+                const testResponse = await fetch('http://localhost:51998/test', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const testResult = await testResponse.json();
+                
+                if (!testResult.success) {
+                    log('❌ Proxy test failed: ' + testResult.message, 'error');
+                    return;
+                }
+                log('✅ Proxy connected successfully', 'success');
+
+                // Get root node graph
+                log('📡 Getting root node graph...', 'info');
+                const rootResponse = await fetch('http://localhost:51998/ApiProjectManagerService/rootNodeGraph', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({})
+                });
+                const rootResult = await rootResponse.json();
+                
+                if (!rootResult.success) {
+                    log('❌ Root node graph failed', 'error');
+                    return;
+                }
+                log('✅ Root node graph: handle=' + rootResult.objectRef.handle, 'success');
+
+                // Get owned items
+                log('📋 Getting owned items...', 'info');
+                const ownedItemsResponse = await fetch('http://localhost:51998/ApiNodeGraph/getOwnedItems', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        objectPtr: {
+                            handle: rootResult.objectRef.handle,
+                            type: 20  // Convert from 18 to 20
+                        }
+                    })
+                });
+                const ownedItemsResult = await ownedItemsResponse.json();
+                
+                if (!ownedItemsResult.success) {
+                    log('❌ Owned items failed', 'error');
+                    return;
+                }
+                log('✅ Owned items: handle=' + ownedItemsResult.objectRef.handle, 'success');
+
+                // Get array size
+                log('🔢 Getting array size...', 'info');
+                const sizeResponse = await fetch('http://localhost:51998/ApiItemArray/size', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        objectPtr: ownedItemsResult.objectRef
+                    })
+                });
+                const sizeResult = await sizeResponse.json();
+                
+                if (!sizeResult.success) {
+                    log('❌ Size failed', 'error');
+                    return;
+                }
+                log('✅ Array size: ' + sizeResult.size + ' items', 'success');
+
+                // Get individual items
+                log('🎯 Getting individual items...', 'info');
+                const sceneItems = [];
+                
+                for (let i = 0; i < sizeResult.size; i++) {
+                    log(`  Getting item ${i}...`, 'info');
+                    
+                    // Get item
+                    const itemResponse = await fetch('http://localhost:51998/ApiItemArray/get1', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            objectPtr: ownedItemsResult.objectRef,
+                            index: i
+                        })
+                    });
+                    const itemResult = await itemResponse.json();
+                    
+                    if (itemResult.success) {
+                        // Get name
+                        const nameResponse = await fetch('http://localhost:51998/ApiItem/name', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                objectPtr: itemResult.objectRef
+                            })
+                        });
+                        const nameResult = await nameResponse.json();
+                        
+                        const item = {
+                            handle: itemResult.objectRef.handle,
+                            type: itemResult.objectRef.type,
+                            name: nameResult.success ? nameResult.name : `Item_${i}`,
+                            index: i
+                        };
+                        
+                        sceneItems.push(item);
+                        log(`  ✅ Item ${i}: ${item.name} [${item.handle}]`, 'success');
+                    } else {
+                        log(`  ❌ Failed to get item ${i}`, 'error');
+                    }
+                }
+
+                // Display results
+                log('🎉 Connection test completed successfully!', 'success');
+                
+                resultsDiv.innerHTML = '<h2>🌳 Scene Data Retrieved:</h2>';
+                sceneItems.forEach(item => {
+                    const icon = item.name.includes('.obj') ? '🔺' : 
+                                item.name === 'Render target' ? '🎯' : '📦';
+                    resultsDiv.innerHTML += `
+                        <div class="scene-item">
+                            ${icon} <strong>${item.name}</strong> [${item.handle}] (type: ${item.type})
+                        </div>
+                    `;
+                });
+
+            } catch (error) {
+                log('❌ Connection test failed: ' + error.message, 'error');
+            }
+        }
+
+        // Auto-run test on page load
+        window.onload = () => {
+            setTimeout(testConnection, 1000);
+        };
+    </script>
+</body>
+</html>
