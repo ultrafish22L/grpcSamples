@@ -113,13 +113,14 @@ class OctaneWebApp {
             this.stateManager,
             this.eventSystem
         );
-        // Initialize render viewport
-        this.components.renderViewport = new RenderViewport(
-            document.querySelector('#render-viewport'),
-            this.client,
-            this.stateManager,
-            this.eventSystem
-        );        
+        // Initialize render viewport - DISABLED FOR TESTING
+        // this.components.renderViewport = new RenderViewport(
+        //     document.querySelector('#render-viewport'),
+        //     this.client,
+        //     this.stateManager,
+        //     this.eventSystem
+        // );
+        console.log('🚫 RenderViewport disabled for resource testing');        
         // Initialize node inspector
         this.components.nodeInspector = new NodeInspector(
             document.querySelector('#node-inspector'),
@@ -188,8 +189,9 @@ class OctaneWebApp {
         });
         
         this.client.on('ui:renderUpdate', (renderState) => {
-            this.components.renderViewport?.updateRender(renderState);
+            // this.components.renderViewport?.updateRender(renderState);
             this.updateRenderStats(renderState);
+            console.log('🚫 RenderViewport update skipped for resource testing');
         });
         
         this.client.on('ui:selectionUpdate', (selection) => {
