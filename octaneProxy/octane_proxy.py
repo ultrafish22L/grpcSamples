@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
 """
 🚀 LOCKIT: Robust Octane gRPC Proxy Server
-Comprehensive proxy supporting both /api and /service/method patterns
+Octane proxy supporting both pass-through /service/method patterns
 
 ARCHITECTURE:
-Browser → HTTP/JSON → Proxy (port 51998) → gRPC → Octane (127.0.0.1:51022 or host.docker.internal:51022)
+Browser → HTTP/JSON → Proxy → gRPC → Octane (127.0.0.1:51022 or host.docker.internal:51022)
 
 KEY FEATURES:
-- Generic gRPC pass-through handler (like grpc_proxy.py)
+- Standalone generic gRPC pass-through handler
 - Dynamic service registry for all Octane services
 - Docker networking support (SANDBOX_USE_HOST_NETWORK)
-- Dual URL pattern support: /api and /service/method
 - Comprehensive error handling and logging
 - CORS support for file:// protocol
 
-PROVEN PATTERNS FROM grpc_proxy.py:
+PROVEN PATTERNS:
 - URL path parsing with regex
 - Dynamic stub creation
 - Request class resolution
@@ -56,7 +55,7 @@ except ImportError as e:
 
 # Configuration
 OCTANE_PORT = 51022  # Octane LiveLink Server (always)
-PROXY_PORT = 51998   # This proxy server (for octaneWeb)
+PROXY_PORT = 51023   # This proxy server (for octaneWeb)
 
 # Docker networking support
 def get_octane_address():
@@ -99,51 +98,7 @@ class GrpcServiceRegistry:
             return self.stubs[service_name]
 
         try:
-            # Map service names to their module names (comprehensive list)
-            service_module_map = {
-                'LiveLinkService': 'livelink_pb2_grpc',
-                'ApiProjectManagerService': 'apiprojectmanager_pb2_grpc',
-                'ApiNodeGraphService': 'apinodesystem_pb2_grpc',
-                'ApiNodeGraph': 'apinodesystem_pb2_grpc',  # Alternative name
-                'ApiNodeService': 'apinodesystem_pb2_grpc',
-                'ApiNode': 'apinodesystem_pb2_grpc',  # Alternative name
-                'ApiItemService': 'apinodesystem_pb2_grpc',
-                'ApiItem': 'apinodesystem_pb2_grpc',  # Alternative name
-                'ApiItemArrayService': 'apinodesystem_pb2_grpc',
-                'ApiItemArray': 'apinodesystem_pb2_grpc',  # Alternative name
-                'ApiNodeArrayService': 'apinodesystem_pb2_grpc',
-                'ApiNodeArray': 'apinodesystem_pb2_grpc',  # Alternative name
-                'ApiItemSetterService': 'apinodesystem_pb2_grpc',
-                'ApiItemSetter': 'apinodesystem_pb2_grpc',  # Alternative name
-                'ApiItemGetterService': 'apinodesystem_pb2_grpc',
-                'ApiItemGetter': 'apinodesystem_pb2_grpc',  # Alternative name
-                'ApiSceneOutlinerService': 'apisceneoutliner_pb2_grpc',
-                'ApiSceneOutliner': 'apisceneoutliner_pb2_grpc',  # Alternative name
-                'ApiSelectionManagerService': 'apiselectionmanager_pb2_grpc',
-                'ApiSelectionManager': 'apiselectionmanager_pb2_grpc',  # Alternative name
-                'ApiNodeGraphEditorService': 'apinodegrapheditor_pb2_grpc',
-                'ApiNodeGraphEditor': 'apinodegrapheditor_pb2_grpc',  # Alternative name
-                'ApiRenderEngineService': 'apirender_pb2_grpc',
-                'ApiRenderEngine': 'apirender_pb2_grpc',  # Alternative name
-                'ApiRenderViewService': 'apirenderview_pb2_grpc',
-                'ApiRenderView': 'apirenderview_pb2_grpc',  # Alternative name
-                'ApiArrayService': 'apiarray_pb2_grpc',
-                'ApiArray': 'apiarray_pb2_grpc',  # Alternative name
-                'ApiAnimationTimeTransformService': 'apianimationtimetransform_pb2_grpc',
-                'ApiAnimationTimeTransform': 'apianimationtimetransform_pb2_grpc',  # Alternative name
-                'ApiOutputColorSpaceInfoService': 'apioutputcolorspaceinfo_pb2_grpc',
-                'ApiOutputColorSpaceInfo': 'apioutputcolorspaceinfo_pb2_grpc',  # Alternative name
-                'ApiTimeSamplingService': 'apitimesampling_pb2_grpc',
-                'ApiTimeSampling': 'apitimesampling_pb2_grpc',  # Alternative name
-                'CameraControlService': 'camera_control_pb2_grpc',
-                'CameraControl': 'camera_control_pb2_grpc',  # Alternative name
-                'OctaneNetService': 'octanenet_pb2_grpc',
-                'OctaneNet': 'octanenet_pb2_grpc',  # Alternative name
-            }
-
-            module_name = service_module_map.get(service_name)
-            if not module_name:
-                raise Exception(f"Unknown service: {service_name}")
+            module_name = service_name.lower() + '_pb2_grpc'
 
             # Import the gRPC module
             try:
@@ -154,7 +109,7 @@ class GrpcServiceRegistry:
 
             # Get the stub class (convention: ServiceNameStub)
             # Handle both "Service" and non-"Service" names
-            if service_name.endswith('Service'):
+            if service_name.endswith(''):
                 stub_class_name = f"{service_name}Stub"
             else:
                 stub_class_name = f"{service_name}ServiceStub"
@@ -163,7 +118,7 @@ class GrpcServiceRegistry:
                 stub_class = getattr(grpc_module, stub_class_name)
             except AttributeError:
                 # Try alternative naming convention
-                alt_stub_class_name = f"{service_name}Stub" if not service_name.endswith('Service') else f"{service_name}ServiceStub"
+                alt_stub_class_name = f"{service_name}Stub" if not service_name.endswith('') else f"{service_name}ServiceStub"
                 try:
                     stub_class = getattr(grpc_module, alt_stub_class_name)
                     stub_class_name = alt_stub_class_name
@@ -184,25 +139,8 @@ class GrpcServiceRegistry:
     def get_request_class(self, service_name, method_name):
         """Get the request class for a service method"""
         try:
-            # Map service names to their protobuf modules
-            service_pb2_map = {
-                'LiveLinkService': 'livelink_pb2',
-                'ApiProjectManagerService': 'apiprojectmanager_pb2',
-                'ApiNodeGraphService': 'apinodesystem_pb2',
-                'ApiNodeService': 'apinodesystem_pb2',
-                'ApiItemService': 'apinodesystem_pb2',
-                'ApiItemArrayService': 'apinodesystem_pb2',
-                'ApiNodeArrayService': 'apinodesystem_pb2',
-                'ApiItemSetterService': 'apinodesystem_pb2',
-                'ApiItemGetterService': 'apinodesystem_pb2',
-                'ApiSceneOutlinerService': 'apisceneoutliner_pb2',
-                'ApiSelectionManagerService': 'apiselectionmanager_pb2',
-                'ApiNodeGraphEditorService': 'apinodegrapheditor_pb2',
-                'ApiRenderEngineService': 'apirender_pb2',
-                'ApiRenderViewService': 'apirenderview_pb2',
-            }
+            pb2_module_name = service_name.lower() + "_pb2"
 
-            pb2_module_name = service_pb2_map.get(service_name)
             if not pb2_module_name:
                 # Default to Empty for unknown services
                 return Empty
@@ -327,128 +265,6 @@ async def handle_options(request):
 async def handle_health(request):
     """Health check endpoint"""
     return web.json_response({'status': 'ok', 'connected': proxy.channel is not None})
-
-async def handle_test(request):
-    """Test endpoint for connection testing (POST)"""
-    try:
-        # Test if we can connect to Octane
-        if proxy.channel is None:
-            return web.json_response({
-                'success': False, 
-                'error': 'Not connected to Octane'
-            }, status=503)
-        
-        # Try a simple gRPC call to verify connection
-        stub = grpc_registry.get_stub('ApiProjectManagerService', proxy.channel)
-        method = getattr(stub, 'rootNodeGraph', None)
-        if method:
-            request_class = grpc_registry.get_request_class('ApiProjectManagerService', 'rootNodeGraph')
-            grpc_request = request_class()
-            response = await method(grpc_request)
-            
-            return web.json_response({
-                'success': True,
-                'message': 'Octane is available and responding',
-                'host': get_octane_address().split(':')[0],
-                'port': OCTANE_PORT,
-                'rootGraphHandle': getattr(response.result, 'handle', None) if hasattr(response, 'result') else None
-            })
-        else:
-            return web.json_response({
-                'success': True,
-                'message': 'Connected to proxy but gRPC method not available',
-                'host': get_octane_address().split(':')[0],
-                'port': OCTANE_PORT
-            })
-            
-    except Exception as e:
-        return web.json_response({
-            'success': False,
-            'error': f'Connection test failed: {str(e)}'
-        }, status=500)
-
-async def handle_api_request(request):
-    """Handle /api requests with JSON body (octaneWeb format)"""
-    try:
-        proxy.request_count += 1
-        call_id = request.headers.get('X-Call-Id', f'call-{proxy.request_count}')
-        
-        print(f"\n🌐 === API REQUEST ===")
-        print(f"🌐 Call ID: {call_id}")
-        print(f"🌐 Remote: {request.remote}")
-        
-        # Parse JSON request
-        data = await request.json()
-        service_name = data.get('service')
-        method_name = data.get('method')
-        params = data.get('params', {})
-        
-        print(f"📤 Service: {service_name}")
-        print(f"📤 Method: {method_name}")
-        print(f"📤 Params: {json.dumps(params, indent=2)}")
-        
-        # Get the appropriate stub
-        stub = grpc_registry.get_stub(service_name, proxy.channel)
-        
-        # Get the method from the stub
-        method = getattr(stub, method_name, None)
-        if not method:
-            raise Exception(f'Method {method_name} not found on {service_name}')
-        
-        # Get the request class and create the request
-        request_class = grpc_registry.get_request_class(service_name, method_name)
-        grpc_request = request_class()
-        
-        # Populate request fields from JSON data
-        if params:
-            for key, value in params.items():
-                if hasattr(grpc_request, key):
-                    field_descriptor = None
-                    for field in grpc_request.DESCRIPTOR.fields:
-                        if field.name == key:
-                            field_descriptor = field
-                            break
-
-                    if field_descriptor and field_descriptor.type == field_descriptor.TYPE_MESSAGE:
-                        # Handle nested message fields
-                        nested_message = getattr(grpc_request, key)
-                        if isinstance(value, dict):
-                            for nested_key, nested_value in value.items():
-                                if hasattr(nested_message, nested_key):
-                                    setattr(nested_message, nested_key, nested_value)
-                    else:
-                        # Simple field
-                        setattr(grpc_request, key, value)
-        
-        # Make the gRPC call
-        print(f"🔌 Calling {service_name}.{method_name}...")
-        response = await method(grpc_request)
-        
-        # Convert response to dict
-        if hasattr(response, 'DESCRIPTOR'):
-            response_dict = MessageToDict(response, preserving_proto_field_name=True)
-        else:
-            response_dict = {}
-        
-        print(f"📥 SUCCESS: {call_id}")
-        proxy.success_count += 1
-        
-        return web.json_response({
-            'success': True,
-            'data': response_dict,
-            'call_id': call_id
-        })
-        
-    except Exception as e:
-        print(f"❌ ERROR: {call_id} - {e}")
-        print(f"❌ Traceback: {traceback.format_exc()}")
-        proxy.error_count += 1
-        
-        return web.json_response({
-            'success': False,
-            'error': str(e),
-            'call_id': call_id
-        }, status=500)
 
 async def handle_generic_grpc(request):
     """Generic handler for any gRPC service call (URL-based routing)"""

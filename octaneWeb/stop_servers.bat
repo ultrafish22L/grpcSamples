@@ -16,7 +16,7 @@ taskkill /f /im python.exe >nul 2>&1
 
 echo Stopping any remaining server processes...
 for /f "tokens=5" %%a in ('netstat -aon ^| find ":8080" ^| find "LISTENING"') do taskkill /f /pid %%a >nul 2>&1
-for /f "tokens=5" %%a in ('netstat -aon ^| find ":51998" ^| find "LISTENING"') do taskkill /f /pid %%a >nul 2>&1
+for /f "tokens=5" %%a in ('netstat -aon ^| find ":51023" ^| find "LISTENING"') do taskkill /f /pid %%a >nul 2>&1
 
 echo.
 echo ========================================

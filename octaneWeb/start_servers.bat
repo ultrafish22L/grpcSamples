@@ -23,10 +23,10 @@ if not exist "index.html" (
 )
 
 REM Check if proxy directory exists
-if not exist "..\proxy\grpc_proxy.py" (
-    echo ERROR: gRPC proxy server not found
-    echo Expected location: ..\proxy\grpc_proxy.py
-    echo Please ensure the proxy directory exists with grpc_proxy.py
+if not exist "..\octaneProxy\octane_proxy.py" (
+    echo ERROR: Octane proxy server not found
+    echo Expected location: octane_proxy.py
+    echo Please ensure the proxy directory exists with octane_proxy.py
     echo.
     pause
     exit /b 1
@@ -81,7 +81,6 @@ echo.
 echo Test Endpoints:
 echo - Proxy Health: http://localhost:51023/health
 echo - Web App:      http://localhost:8080/
-echo - Minimal Test: http://localhost:8080/minimal_test.html
 echo.
 echo IMPORTANT:
 echo 1. Make sure Octane Render is running with LiveLink enabled
@@ -92,7 +91,7 @@ echo.
 
 REM Start the proxy server in background
 echo Starting proxy server...
-start "OctaneWeb Proxy" cmd /k "cd ..\proxy && python grpc_proxy.py --port 51023"
+start "OctaneWeb Proxy" cmd /k "cd ..\octaneProxy && python octane_proxy.py --port 51023"
 
 REM Wait a moment for proxy to start
 timeout /t 3 /nobreak >nul

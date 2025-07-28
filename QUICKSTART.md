@@ -7,7 +7,7 @@
 cd /workspace/grpcSamples/octaneWeb
 python bulletproof_proxy.py
 ```
-**Expected Output**: `🚀 Bulletproof proxy running on port 51998`
+**Expected Output**: `🚀 Bulletproof proxy running on port 51023`
 
 ### Step 2: Open OctaneWeb (30 seconds)
 ```bash

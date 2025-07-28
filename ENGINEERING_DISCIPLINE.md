@@ -79,11 +79,7 @@ cd proxy && grep -A10 -B10 "scene\|tree" grpc_proxy.py
 ```
 
 ### 2. **Test Phase** (Before Integration)
-```bash
-# MANDATORY - Test each API call individually
-curl -X POST http://localhost:51998/ApiProjectManagerService/rootNodeGraph -d '{}'
-curl -X POST http://localhost:51998/ApiNodeGraphService/getOwnedItems -d '{"objectPtr": {"handle": X, "type": Y}}'
-```
+
 
 ### 3. **Implementation Phase** (Follow Proven Patterns)
 - Copy exact patterns from working code

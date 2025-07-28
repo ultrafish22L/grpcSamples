@@ -8,14 +8,14 @@ This document contains all the critical knowledge needed to quickly understand a
 ## 🎯 **CURRENT SYSTEM STATE (2025-07-28)**
 
 ### **✅ WORKING CONFIGURATION:**
-- **Web Server**: Running on port 54290 (http://localhost:54290/)
-- **Proxy Server**: `grpc_proxy.py` on port 51023 (http://localhost:51023/)
+- **Web Server**: Running on port 8080 (http://localhost:8080/)
+- **Proxy Server**: `octaneProxy/octane_proxy.py` on port 51023 (http://localhost:51023/)
 - **Octane Target**: `host.docker.internal:51022` (sandbox environment)
 - **Status**: Both SceneOutliner and NodeGraphEditor display real Octane data
 - **No Fallback Code**: All sample/placeholder data removed, shows "no data" messages when disconnected
 
 ### **🔧 ACTIVE COMPONENTS:**
-- **SceneOutliner**: Shows real items like `Item_1000002 [1000002]` and `Item_1000003 [1000003]`
+- **SceneOutliner**: Shows real items like `RenderTarget` and `teapot.obj`
 - **NodeGraphEditor**: Displays scene nodes as actual node boxes on canvas
 - **Event System**: Perfect communication via `requestSceneData`/`sceneDataLoaded` events
 - **Connection Status**: Real-time connection health with retry functionality
@@ -50,7 +50,7 @@ def get_octane_address():
 
 ### **Connection Flow:**
 ```
-Browser (localhost:54290) 
+Browser (localhost:8080) 
     ↓ HTTP/JSON
 Proxy Server (localhost:51023) 
     ↓ gRPC 
@@ -61,57 +61,44 @@ Octane LiveLink (host.docker.internal:51022)
 
 ## 🔄 **PROXY SERVER SYSTEM**
 
-### **Current Proxy: `grpc_proxy.py`**
-- **Location**: `/workspace/grpcSamples/proxy/grpc_proxy.py`
-- **Port**: 51023 (NOT 51998 - that causes permission errors)
-- **Features**: Generic gRPC routing, comprehensive logging, health checks
-- **Start Command**: `python grpc_proxy.py --port 51023 --octane-host host.docker.internal --octane-port 51022`
-
-### **Alternative Proxy: `octane_proxy_comprehensive.py`**
-- **Location**: `/workspace/grpcSamples/octaneWeb/octane_proxy_comprehensive.py`
-- **Port**: Hardcoded to 51998 (causes Windows permission issues)
-- **Status**: Legacy, but still functional for some setups
+### ** Proxy: `octane_proxy.py`**
+- **Location**: `/workspace/grpcSamples/octaneProxy/octane_proxy.py`
+- **Port**: Hardcoded to 51023 for now
 
 ### **Generic gRPC Call Pattern:**
 ```javascript
 // Frontend makes HTTP POST to: /ServiceName/methodName
-fetch('http://localhost:51023/ApiProjectManagerService/rootNodeGraph', {
+fetch('http://localhost:51023/ApiProjectManager/rootNodeGraph', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ /* request data */ })
 })
 
 // Proxy converts to gRPC call:
-// ApiProjectManagerService.rootNodeGraph(request) → Octane
+// ApiProjectManager.rootNodeGraph(request) → Octane
 ```
 
 ---
 
 ## 📊 **API CALL SEQUENCES**
 
-### **Scene Data Loading Chain:**
+### **Scene Data Loading Chain and Critical Type Mappings:**
 ```
-1. /ApiProjectManagerService/rootNodeGraph
-   → Returns: {result: {handle: 1000000, type: 18}} (ApiRootNodeGraph)
+1. /ApiProjectManager/rootNodeGraph
+   → Returns: {result: {handle: 1000000, type: octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph}}
 
-2. /ApiNodeGraphService/getOwnedItems  
-   → Input: {objectPtr: {handle: 1000000, type: 20}} (convert 18→20)
-   → Returns: {list: {handle: 1000014, type: 31}} (ApiItemArray)
+2. /ApiNodeGraph/getOwnedItems  
+   → Input: {objectPtr: {handle: 1000000, type: 20}} (convert to base class type: octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiRootNodeGraph->octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodeGraph)
+   → Returns: {list: {handle: 1000014, type: octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItemArray}}
 
-3. /ApiItemArrayService/size
-   → Input: {objectPtr: {handle: 1000014, type: 31}}
+3. /ApiItemArray/size
+   → Input: {objectPtr: {handle: 1000014, type: octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItemArray}}
    → Returns: {result: 2} (number of items)
 
-4. /ApiItemArrayService/get1 (for each index)
-   → Input: {objectPtr: {handle: 1000014, type: 31}, index: 0}
-   → Returns: {result: {handle: 1000002, type: 16}} (ApiItem)
+4. /ApiItemArray/get1 (for each index)
+   → Input: {objectPtr: {handle: 1000014, type: octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItemArray}, index: 0}
+   → Returns: {result: {handle: 1000002, type: octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem}}
 ```
-
-### **Critical Type Mappings:**
-- **ApiRootNodeGraph**: 18 → Convert to type 20 for getOwnedItems
-- **ApiNodeGraph**: 20 (used in getOwnedItems calls)
-- **ApiItemArray**: 31 (returned from getOwnedItems)
-- **ApiItem**: 16 (individual scene items)
 
 ---
 
@@ -156,31 +143,27 @@ EventSystem.on('sceneDataLoaded', (sceneItems) => {
 ### **Development Environment (Sandbox):**
 ```bash
 # 1. Start proxy server
-cd /workspace/grpcSamples/proxy
-python grpc_proxy.py --port 51023 --octane-host host.docker.internal --octane-port 51022 &
+cd /workspace/grpcSamples/octaneProxy
+python octane_proxy.py --port 51023 --octane-host host.docker.internal --octane-port 51022 &
 
 # 2. Start web server  
 cd /workspace/grpcSamples/octaneWeb
-python -m http.server 54290 --bind 0.0.0.0
+python -m http.server 8080 --bind 0.0.0.0
 
 # 3. Access application
-# http://localhost:54290/
+# http://localhost:8080/
 ```
 
 ### **Windows Environment:**
 ```batch
-# Use the fixed start_proxy.bat (port 51023, not 51998)
+# Use the fixed start_proxy.bat (port 51023)
 cd octaneWeb
 start_proxy.bat
-
-# Or manually:
-python octane_proxy_comprehensive.py --port 51023
-python -m http.server 8080
 ```
 
 ### **Connection Testing:**
 - **Proxy Health**: `http://localhost:51023/health`
-- **Web App**: `http://localhost:54290/`
+- **Web App**: `http://localhost:8080/`
 - **Connection Status**: Check footer "OctaneLive: connected/error"
 
 ---
@@ -200,7 +183,6 @@ python -m http.server 8080
 4. **API Chain**: Trace rootNodeGraph → getOwnedItems → size → get1 sequence
 
 ### **Common Fixes:**
-- **Port Conflicts**: Use 51023, not 51998 (permission issues)
 - **CORS Errors**: Ensure proxy has proper CORS headers
 - **Empty Data**: Check if Octane has actual scene content
 - **Timing Issues**: Event system handles component initialization order
@@ -209,10 +191,6 @@ python -m http.server 8080
 
 ## 📋 **CRITICAL GOTCHAS**
 
-### **Type Conversion Bug:**
-- **Issue**: ApiRootNodeGraph (type 18) must be converted to type 20 for getOwnedItems
-- **Fix**: `objectPtr: {handle: rootHandle, type: 20}` not type 18
-
 ### **Method Name Mapping:**
 - **Issue**: Some methods use different names (get1 → getRequest)
 - **Fix**: Proxy handles mapping automatically
@@ -220,10 +198,6 @@ python -m http.server 8080
 ### **URL Consistency:**
 - **Issue**: Multiple hardcoded URLs caused connection failures
 - **Fix**: All components now use port 51023 consistently
-
-### **Windows Permissions:**
-- **Issue**: Port 51998 requires admin privileges on Windows
-- **Fix**: Use port 51023 which works without admin rights
 
 ### **Component Initialization:**
 - **Issue**: NodeGraphEditor initialized before SceneOutliner loaded data
@@ -265,13 +239,3 @@ python -m http.server 8080
 - **Auto-Detection**: Environment-aware networking configuration
 
 ---
-
-## 🚀 **QUICK REPRODUCTION STEPS**
-
-1. **Clone/Access**: Repository at `/workspace/grpcSamples/octaneWeb`
-2. **Start Proxy**: `cd ../proxy && python grpc_proxy.py --port 51023 --octane-host host.docker.internal --octane-port 51022 &`
-3. **Start Web**: `python -m http.server 54290 --bind 0.0.0.0`
-4. **Test**: Open `http://localhost:54290/` and verify real scene data displays
-5. **Debug**: Check proxy logs, browser console, and component event flow
-
-**Expected Result**: Scene Outliner shows real items, Node Graph shows scene nodes, both connected to live Octane data.
