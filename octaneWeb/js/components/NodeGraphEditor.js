@@ -667,9 +667,9 @@ class NodeGraphEditor extends OctaneComponent {
         this.connections.clear();
         
         if (sceneItems.length === 0) {
-            console.log('🎨 No scene items, creating sample nodes');
-            // Create default nodes if no scene data
-            this.createSampleNodes();
+            console.log('🎨 No scene items available - showing no data message');
+            // Show "no data" message instead of creating sample nodes
+            this.showNoDataMessage();
             return;
         }
         
@@ -779,96 +779,34 @@ class NodeGraphEditor extends OctaneComponent {
         }
     }
     
-    createSampleNodes() {
-        // Create sample nodes for testing
-        const sampleNodes = [
-            {
-                id: 'material_1',
-                name: 'Diffuse Material',
-                type: 'material',
-                x: 300,
-                y: 150,
-                width: 140,
-                height: 100,
-                inputs: [
-                    { name: 'Diffuse', connected: false },
-                    { name: 'Roughness', connected: false },
-                    { name: 'Normal', connected: false }
-                ],
-                outputs: [
-                    { name: 'Material', connected: true }
-                ]
-            },
-            {
-                id: 'texture_1',
-                name: 'Image Texture',
-                type: 'texture',
-                x: 50,
-                y: 120,
-                width: 120,
-                height: 80,
-                inputs: [
-                    { name: 'UV', connected: false }
-                ],
-                outputs: [
-                    { name: 'Color', connected: true },
-                    { name: 'Alpha', connected: false }
-                ]
-            },
-            {
-                id: 'geometry_1',
-                name: 'Mesh',
-                type: 'geometry',
-                x: 500,
-                y: 150,
-                width: 100,
-                height: 80,
-                inputs: [
-                    { name: 'Material', connected: true }
-                ],
-                outputs: []
-            }
-        ];
-
-        // Add nodes to the map
-        sampleNodes.forEach(node => {
-            this.nodes.set(node.id, node);
-        });
-
-        // Create sample connection
-        this.connections.set('conn_1', {
-            id: 'conn_1',
-            outputNodeId: 'texture_1',
-            outputSocket: 'Color',
-            inputNodeId: 'material_1',
-            inputSocket: 'Diffuse',
-            selected: false
-        });
-
-        this.connections.set('conn_2', {
-            id: 'conn_2',
-            outputNodeId: 'material_1',
-            outputSocket: 'Material',
-            inputNodeId: 'geometry_1',
-            inputSocket: 'Material',
-            selected: false
-        });
-
-        console.log('🎨 Created sample nodes for node graph editor');
+    showNoDataMessage() {
+        // Clear the canvas and show "no data" message
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
-        // Auto-fit all nodes to viewport after creation
-        setTimeout(() => {
-            console.log('🎯 Auto-fitting nodes to viewport');
-            this.frameAll();
-            this.render();
-        }, 100);
+        // Draw background grid (optional, for consistency)
+        this.drawGrid();
         
-        // Also ensure proper fit after canvas is fully ready
-        setTimeout(() => {
-            console.log('🔄 Final auto-fit and render');
-            this.frameAll();
-            this.render();
-        }, 500);
+        // Draw "no data" message in center of canvas
+        const centerX = this.canvas.width / 2;
+        const centerY = this.canvas.height / 2;
+        
+        // Draw icon
+        this.ctx.font = '48px Arial';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillStyle = '#666';
+        this.ctx.fillText('📊', centerX, centerY - 40);
+        
+        // Draw title
+        this.ctx.font = 'bold 18px Arial';
+        this.ctx.fillStyle = '#ccc';
+        this.ctx.fillText('No Scene Data Available', centerX, centerY + 10);
+        
+        // Draw subtitle
+        this.ctx.font = '14px Arial';
+        this.ctx.fillStyle = '#888';
+        this.ctx.fillText('Connect to Octane to view scene nodes', centerX, centerY + 35);
+        
+        console.log('🎨 Displayed "no data" message in node graph editor');
     }
 
     frameAll() {

@@ -220,6 +220,10 @@ class SceneOutliner extends OctaneComponent {
             } catch (error) {
                 console.log('❌ Octane connection failed:', error.message);
                 
+                // Clear stored scene data and notify other components
+                this.lastSceneItems = [];
+                this.eventSystem.emit('sceneDataLoaded', []);
+                
                 // Show clear error message - NO MOCK DATA
                 treeContainer.innerHTML = `
                     <div class="scene-error">
