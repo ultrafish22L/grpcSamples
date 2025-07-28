@@ -71,7 +71,12 @@ echo ========================================
 echo.
 echo Proxy Server: http://localhost:51998
 echo Web Server:   http://localhost:8080
-echo Octane Target: 127.0.0.1:51022
+echo Octane Target: Auto-detected (127.0.0.1:51022 on Windows)
+echo.
+echo NETWORKING: The proxy automatically detects your environment:
+echo - Windows/Native: Uses 127.0.0.1:51022 for Octane
+echo - Docker/Sandbox: Uses host.docker.internal:51022 for Octane
+echo - Override: Set SANDBOX_USE_HOST_NETWORK=true for Docker mode
 echo.
 echo Test Endpoints:
 echo - Proxy Health: http://localhost:51998/test

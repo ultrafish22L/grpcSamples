@@ -60,12 +60,29 @@ PROXY_PORT = 51998   # This proxy server (for octaneWeb)
 
 # Docker networking support
 def get_octane_address():
-    """Get Octane address with Docker networking support"""
-    # Check for Docker environment
+    """Get Octane address with automatic Docker/sandbox environment detection"""
+    
+    # Method 1: Explicit environment variable (highest priority)
     if os.environ.get('SANDBOX_USE_HOST_NETWORK') == 'true':
+        print("🐳 Using Docker networking: host.docker.internal")
         return f'host.docker.internal:{OCTANE_PORT}'
-    else:
-        return f'127.0.0.1:{OCTANE_PORT}'
+    
+    # Method 2: Check for OpenHands/sandbox environment indicators
+    sandbox_indicators = [
+        '/openhands' in os.getcwd(),  # OpenHands workspace path
+        os.environ.get('OPENHANDS_WORKSPACE_BASE'),  # OpenHands env var
+        os.path.exists('/.dockerenv'),  # Docker container indicator
+        os.environ.get('CONTAINER'),  # Generic container indicator
+        'sandbox' in os.environ.get('USER', '').lower(),  # Sandbox user
+    ]
+    
+    if any(sandbox_indicators):
+        print("🐳 Detected sandbox/container environment, using Docker networking: host.docker.internal")
+        return f'host.docker.internal:{OCTANE_PORT}'
+    
+    # Method 3: Default to localhost for Windows/native environments
+    print("🖥️ Using native networking: 127.0.0.1")
+    return f'127.0.0.1:{OCTANE_PORT}'
 
 # ==================== GRPC SERVICE REGISTRY ====================
 
