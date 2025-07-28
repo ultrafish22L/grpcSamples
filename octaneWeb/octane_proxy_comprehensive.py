@@ -279,6 +279,45 @@ async def handle_health(request):
     """Health check endpoint"""
     return web.json_response({'status': 'ok', 'connected': proxy.channel is not None})
 
+async def handle_test(request):
+    """Test endpoint for connection testing (POST)"""
+    try:
+        # Test if we can connect to Octane
+        if proxy.channel is None:
+            return web.json_response({
+                'success': False, 
+                'error': 'Not connected to Octane'
+            }, status=503)
+        
+        # Try a simple gRPC call to verify connection
+        stub = grpc_registry.get_stub('ApiProjectManagerService', proxy.channel)
+        method = getattr(stub, 'rootNodeGraph', None)
+        if method:
+            request_class = grpc_registry.get_request_class('ApiProjectManagerService', 'rootNodeGraph')
+            grpc_request = request_class()
+            response = await method(grpc_request)
+            
+            return web.json_response({
+                'success': True,
+                'message': 'Octane is available and responding',
+                'host': get_octane_address().split(':')[0],
+                'port': OCTANE_PORT,
+                'rootGraphHandle': getattr(response.result, 'handle', None) if hasattr(response, 'result') else None
+            })
+        else:
+            return web.json_response({
+                'success': True,
+                'message': 'Connected to proxy but gRPC method not available',
+                'host': get_octane_address().split(':')[0],
+                'port': OCTANE_PORT
+            })
+            
+    except Exception as e:
+        return web.json_response({
+            'success': False,
+            'error': f'Connection test failed: {str(e)}'
+        }, status=500)
+
 async def handle_api_request(request):
     """Handle /api requests with JSON body (octaneWeb format)"""
     try:
@@ -463,6 +502,7 @@ def create_app():
     
     # Health check
     app.router.add_get('/health', handle_health)
+    app.router.add_post('/test', handle_test)  # Connection test endpoint
     
     # API endpoints
     app.router.add_post('/api', handle_api_request)  # octaneWeb format

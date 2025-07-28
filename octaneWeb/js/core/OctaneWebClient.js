@@ -234,7 +234,7 @@ function createOctaneWebClient() {
             }, 30000); // 30 second timeout
 
             // Use direct service endpoint instead of /api
-            const url = `${this.proxyUrl}/${serviceName}/${methodName}`;
+            const url = `${this.serverUrl}/${serviceName}/${methodName}`;
             const body = JSON.stringify(request || {});
             
             console.log(`🌐 LOCKIT: Making fetch request to: ${url}`);

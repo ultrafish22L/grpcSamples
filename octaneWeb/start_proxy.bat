@@ -22,11 +22,11 @@ if not exist "index.html" (
     exit /b 1
 )
 
-REM Check if working proxy exists
-if not exist "working_proxy.py" (
-    echo ERROR: Working proxy server not found
-    echo Expected location: working_proxy.py
-    echo Please ensure the working proxy is in the octaneWeb directory
+REM Check if comprehensive proxy exists
+if not exist "octane_proxy_comprehensive.py" (
+    echo ERROR: Comprehensive proxy server not found
+    echo Expected location: octane_proxy_comprehensive.py
+    echo Please ensure the comprehensive proxy is in the octaneWeb directory
     echo.
     pause
     exit /b 1
@@ -87,7 +87,7 @@ echo.
 
 REM Start the proxy server in background
 echo Starting proxy server...
-start "OctaneWeb Proxy" cmd /k "python working_proxy.py"
+start "OctaneWeb Proxy" cmd /k "python octane_proxy_comprehensive.py"
 
 REM Wait a moment for proxy to start
 timeout /t 3 /nobreak >nul
