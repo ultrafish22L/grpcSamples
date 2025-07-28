@@ -25,9 +25,9 @@ class NodeGraphEditor extends OctaneComponent {
         this.setupControls();
         this.setupToolbarControls(); // Add toolbar button handlers
         
-        // Wait for canvas to be properly sized before creating nodes
+        // Wait for canvas to be properly sized before starting render loop
         setTimeout(() => {
-            this.createSampleNodes(); // Add sample nodes for testing
+            // Don't create sample nodes - wait for real scene data from SceneOutliner
             
             // Ensure canvas is ready before starting render loop
             if (this.canvas.width > 0 && this.canvas.height > 0) {
@@ -70,9 +70,16 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Listen for scene data loaded from SceneOutliner
         this.eventSystem.on('sceneDataLoaded', (sceneItems) => {
+            console.log('🎨 NodeGraphEditor received sceneDataLoaded event:', sceneItems);
             this.createRealSceneNodes(sceneItems);
             this.render();
         });
+        
+        // Request scene data if SceneOutliner has already loaded it
+        setTimeout(() => {
+            console.log('🎨 NodeGraphEditor requesting existing scene data...');
+            this.eventSystem.emit('requestSceneData');
+        }, 100);
         
         // Mouse events
         this.addEventListener(this.canvas, 'mousedown', this.handleMouseDown.bind(this));
@@ -653,15 +660,20 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     createRealSceneNodes(sceneItems = []) {
+        console.log('🎨 createRealSceneNodes called with:', sceneItems, 'length:', sceneItems.length);
+        
         // Clear existing nodes
         this.nodes.clear();
         this.connections.clear();
         
         if (sceneItems.length === 0) {
+            console.log('🎨 No scene items, creating sample nodes');
             // Create default nodes if no scene data
             this.createSampleNodes();
             return;
         }
+        
+        console.log('🎨 Creating real scene nodes from data:', sceneItems);
         
         // Create nodes based on real scene data
         let xOffset = 100;

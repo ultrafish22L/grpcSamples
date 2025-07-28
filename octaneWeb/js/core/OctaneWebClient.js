@@ -143,8 +143,8 @@ function createOctaneWebClient() {
             // Get camera list
 //            await this.syncCameras();
             
-            // Get scene data using available methods
-            await this.getSceneData();
+            // Get scene data using available methods - DISABLED: SceneOutliner handles this now
+            // await this.getSceneData();
             
             console.log('OctaneWeb extended features initialized');
             

@@ -40,6 +40,17 @@ class SceneOutliner extends OctaneComponent {
         this.client.on('ui:selectionUpdate', (selection) => {
             this.updateSelection(selection);
         });
+        
+        // Listen for requests for scene data from other components (e.g., NodeGraphEditor)
+        this.eventSystem.on('requestSceneData', () => {
+            console.log('🌳 SceneOutliner received requestSceneData, current data:', this.lastSceneItems);
+            if (this.lastSceneItems && this.lastSceneItems.length > 0) {
+                console.log('🌳 Re-emitting scene data to requesting component');
+                this.eventSystem.emit('sceneDataLoaded', this.lastSceneItems);
+            } else {
+                console.log('🌳 No scene data available to re-emit');
+            }
+        });
     }
     
     render() {
@@ -176,22 +187,28 @@ class SceneOutliner extends OctaneComponent {
                     if (itemResponse.ok) {
                         const itemResult = await itemResponse.json();
                         if (itemResult.success) {
-                            // Skip name API call for now since it fails with "invalid pointer type"
-                            // Just use the handle and type information we have
+                            // Create descriptive name based on type and handle
+                            const handle = itemResult.data.result.handle;
+                            const type = itemResult.data.result.type;
+                            const typeName = this.getTypeName(type);
+                            
                             sceneItems.push({
-                                handle: itemResult.data.result.handle,
-                                type: itemResult.data.result.type,
-                                name: `Item_${i}_Type${itemResult.data.result.type}`,  // Descriptive name without API call
+                                handle: handle,
+                                type: type,
+                                name: `${typeName}_${handle}`,  // More descriptive name
                                 index: i
                             });
                         }
                     }
                 }
                 
-                // STEP 5: Render the real scene tree
+                // STEP 5: Store scene data for later requests
+                this.lastSceneItems = sceneItems;
+                
+                // STEP 6: Render the real scene tree
                 this.renderRealSceneTree(sceneItems);
                 
-                // STEP 6: Update NodeGraphEditor with real scene data
+                // STEP 7: Update NodeGraphEditor with real scene data
                 this.eventSystem.emit('sceneDataLoaded', sceneItems);
                 
                 console.log('✅ Scene tree loaded successfully with real Octane data:', sceneItems); 
@@ -301,6 +318,23 @@ class SceneOutliner extends OctaneComponent {
         }
     }
     
+    getTypeName(nodeType) {
+        // Map Octane node types to readable names
+        const typeMap = {
+            1: 'Camera',
+            2: 'Light', 
+            3: 'Mesh',
+            4: 'Material',
+            5: 'Texture',
+            16: 'Item',
+            17: 'Node',
+            18: 'RootGraph',
+            20: 'NodeGraph',
+            31: 'ItemArray'
+        };
+        return typeMap[nodeType] || `Type${nodeType}`;
+    }
+
     getNodeIcon(nodeType, nodeName = '') {
         // Map Octane node types to appropriate icons, with name-based overrides
         if (nodeName.toLowerCase().includes('render target')) {
@@ -385,76 +419,7 @@ class SceneOutliner extends OctaneComponent {
         }
     }
 
-    updateScene(sceneState) {
-        // Transform flat server data into hierarchical structure
-        const flatData = sceneState.hierarchy || [];
-        console.log('🔄 Transforming flat data to hierarchical:', flatData);
-        
-        if (flatData.length > 0) {
-            // Create hierarchical structure from flat data
-            this.sceneData = this.transformToHierarchical(flatData);
-        } else {
-            // Show empty tree if no real data - NO MOCK DATA
-            this.sceneData = [];
-        }
-        
-        console.log('🌳 Final hierarchical data:', this.sceneData);
-        this.renderTree();
-    }
-    
-    transformToHierarchical(flatData) {
-        // Group flat data into hierarchical structure
-        const geometryNodes = flatData.filter(node => node.type === 'mesh');
-        const lightNodes = flatData.filter(node => node.type === 'light');
-        const cameraNodes = flatData.filter(node => node.type === 'camera');
-        
-        return [
-            {
-                id: 'scene_root',
-                name: 'Scene',
-                type: 'group',
-                visible: true,
-                children: [
-                    {
-                        id: 'geometry_group',
-                        name: 'Geometry',
-                        type: 'group',
-                        visible: true,
-                        children: geometryNodes.map(node => ({
-                            id: node.id,
-                            name: node.name,
-                            type: 'mesh',
-                            visible: node.visible !== false
-                        }))
-                    },
-                    {
-                        id: 'lights_group',
-                        name: 'Lights',
-                        type: 'group',
-                        visible: true,
-                        children: lightNodes.map(node => ({
-                            id: node.id,
-                            name: node.name,
-                            type: 'light',
-                            visible: node.visible !== false
-                        }))
-                    },
-                    {
-                        id: 'cameras_group',
-                        name: 'Cameras',
-                        type: 'group',
-                        visible: true,
-                        children: cameraNodes.map(node => ({
-                            id: node.id,
-                            name: node.name,
-                            type: 'camera',
-                            visible: node.visible !== false
-                        }))
-                    }
-                ]
-            }
-        ];
-    }
+    // REMOVED: Old placeholder hierarchy methods - now using real Octane data directly
     
     // NO MOCK DATA FUNCTIONS - REMOVED
     
