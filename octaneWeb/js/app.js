@@ -220,7 +220,7 @@ class OctaneWebApp {
         if (connectionToggle) {
             connectionToggle.addEventListener('change', (e) => {
                 if (e.target.checked) {
-                    const serverAddress = document.getElementById('serverAddress')?.value || 'http://localhost:51998';
+                    const serverAddress = document.getElementById('serverAddress')?.value || 'http://localhost:51023';
                     this.connectToOctane(serverAddress);
                 } else {
                     this.disconnectFromOctane();
@@ -661,7 +661,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.toggleConnection = () => {
             const toggle = document.getElementById('connectionToggle');
             if (toggle.checked) {
-                const serverAddress = document.getElementById('serverAddress')?.value || 'http://localhost:51998';
+                const serverAddress = document.getElementById('serverAddress')?.value || 'http://localhost:51023';
                 octaneWebApp.connectToOctane(serverAddress);
             } else {
                 octaneWebApp.disconnectFromOctane();

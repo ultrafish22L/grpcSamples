@@ -13,7 +13,7 @@
 
 class BulletproofOctaneClient {
     constructor() {
-        this.proxyUrl = 'http://localhost:51998';
+        this.proxyUrl = 'http://localhost:51023';
         this.connectionState = 'disconnected';
         this.connected = false;
         this.retryCount = 0;
@@ -21,9 +21,9 @@ class BulletproofOctaneClient {
         
         // 🔥 BULLETPROOF: Multiple proxy URLs to try
         this.proxyUrls = [
-            'http://localhost:51998',
-            'http://127.0.0.1:51998',
-            'http://0.0.0.0:51998'
+            'http://localhost:51023',
+            'http://127.0.0.1:51023',
+            'http://0.0.0.0:51023'
         ];
         
         console.log('🔥 GOD MODE: BulletproofOctaneClient initialized');

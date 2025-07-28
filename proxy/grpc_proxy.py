@@ -730,6 +730,19 @@ class GrpcServiceRegistry:
             else:
                 # For API services, methods are nested in the service class
                 service_class = getattr(pb2_module, service_name.replace('Service', ''))
+                
+                # Handle special method name mappings
+                method_mappings = {
+                    'get1': 'get',  # ApiItemArrayService.get1 uses getRequest
+                }
+                
+                # Try the mapped method name first
+                mapped_method = method_mappings.get(method_name, method_name)
+                request_class = getattr(service_class, f"{mapped_method}Request", None)
+                if request_class:
+                    return request_class
+                
+                # Fallback to original method name
                 request_class = getattr(service_class, f"{method_name}Request", None)
                 if request_class:
                     return request_class

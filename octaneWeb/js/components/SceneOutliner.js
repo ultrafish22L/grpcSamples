@@ -92,7 +92,7 @@ class SceneOutliner extends OctaneComponent {
             // Test if proxy server is running and if Octane is available
             let proxyResponse, proxyResult;
             try {
-                proxyResponse = await fetch('http://localhost:51998/test', {
+                proxyResponse = await fetch('http://localhost:51023/test', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' }
                 });
@@ -137,7 +137,7 @@ class SceneOutliner extends OctaneComponent {
             
             try {
                 // STEP 1: Get root node graph (following exact proxy pattern from grpc_proxy.py)
-                const rootResponse = await fetch('http://localhost:51998/ApiProjectManagerService/rootNodeGraph', {
+                const rootResponse = await fetch('http://localhost:51023/ApiProjectManagerService/rootNodeGraph', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({})
@@ -157,11 +157,14 @@ class SceneOutliner extends OctaneComponent {
                 // STEP 2: Get owned items from root node graph
                 treeContainer.innerHTML = '<div class="scene-loading">📋 Loading scene items...</div>';
                 
-                const ownedItemsResponse = await fetch('http://localhost:51998/ApiNodeGraph/getOwnedItems', {
+                const ownedItemsResponse = await fetch('http://localhost:51023/ApiNodeGraphService/getOwnedItems', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        objectPtr: rootResult.objectRef
+                        objectPtr: {
+                            handle: rootResult.result.handle,
+                            type: 20  // Convert ApiRootNodeGraph (18) to ApiNodeGraph (20) for getOwnedItems
+                        }
                     })
                 });
                 
@@ -179,11 +182,11 @@ class SceneOutliner extends OctaneComponent {
                 // STEP 3: Get size of the items array
                 treeContainer.innerHTML = '<div class="scene-loading">🔢 Getting item count...</div>';
                 
-                const sizeResponse = await fetch('http://localhost:51998/ApiItemArray/size', {
+                const sizeResponse = await fetch('http://localhost:51023/ApiItemArrayService/size', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        objectPtr: ownedItemsResult.objectRef
+                        objectPtr: ownedItemsResult.data.list
                     })
                 });
                 
@@ -199,16 +202,16 @@ class SceneOutliner extends OctaneComponent {
                 }
                 
                 // STEP 4: Load individual items and build scene tree
-                treeContainer.innerHTML = `<div class="scene-loading">🌳 Building scene tree (${sizeResult.size} items)...</div>`;
+                treeContainer.innerHTML = `<div class="scene-loading">🌳 Building scene tree (${sizeResult.data.result} items)...</div>`;
                 
                 const sceneItems = [];
-                for (let i = 0; i < sizeResult.size; i++) {
+                for (let i = 0; i < sizeResult.data.result; i++) {
                     // Get item at index i
-                    const itemResponse = await fetch('http://localhost:51998/ApiItemArray/get1', {
+                    const itemResponse = await fetch('http://localhost:51023/ApiItemArrayService/get1', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            objectPtr: ownedItemsResult.objectRef,
+                            objectPtr: ownedItemsResult.data.list,
                             index: i
                         })
                     });
@@ -217,20 +220,20 @@ class SceneOutliner extends OctaneComponent {
                         const itemResult = await itemResponse.json();
                         if (itemResult.success) {
                             // Get the name of this item
-                            const nameResponse = await fetch('http://localhost:51998/ApiItem/name', {
+                            const nameResponse = await fetch('http://localhost:51023/ApiItemService/name', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({
-                                    objectPtr: itemResult.objectRef
+                                    objectPtr: itemResult.data.result
                                 })
                             });
                             
                             if (nameResponse.ok) {
                                 const nameResult = await nameResponse.json();
                                 sceneItems.push({
-                                    handle: itemResult.objectRef.handle,
-                                    type: itemResult.objectRef.type,
-                                    name: nameResult.success ? nameResult.name : `Item_${i}`,
+                                    handle: itemResult.data.result.handle,
+                                    type: itemResult.data.result.type,
+                                    name: nameResult.success ? nameResult.data.result : `Item_${i}`,
                                     index: i
                                 });
                             }

@@ -58,7 +58,7 @@ class SimpleEventEmitter {
  * LiveLink Client for gRPC-Web communication with Octane
  */
 class LiveLinkClient extends SimpleEventEmitter {
-    constructor(serverUrl = 'http://localhost:51998') {
+    constructor(serverUrl = 'http://localhost:51023') {
         super();
         this.serverUrl = serverUrl;
         this.connected = false;
@@ -394,23 +394,11 @@ class LiveLinkClient extends SimpleEventEmitter {
      */
     async testConnection() {
         const startTime = Date.now();
-        const testUrl = this.serverUrl + '/test';
-        
-        // Use new comprehensive proxy format
-        const requestBody = {
-            service: 'LiveLinkService',
-            method: 'GetCamera',
-            params: {}
-        };
+        const testUrl = this.serverUrl + '/health';
         
         this.log('Testing connection', {
             url: testUrl,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Call-Id': 'connection-test'
-            },
-            body: requestBody
+            method: 'GET'
         });
         
         return new Promise((resolve, reject) => {
@@ -429,12 +417,7 @@ class LiveLinkClient extends SimpleEventEmitter {
                 // Create a simple test request
                 console.log('🔍 Starting fetch request to:', testUrl);
                 fetch(testUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Call-Id': 'connection-test'
-                    },
-                    body: JSON.stringify(requestBody),
+                    method: 'GET',
                     signal: controller.signal
                 }).then(response => {
                     console.log('✅ Fetch response received:', response.status, response.statusText);

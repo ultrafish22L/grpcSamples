@@ -104,23 +104,41 @@ class GrpcServiceRegistry:
                 'LiveLinkService': 'livelink_pb2_grpc',
                 'ApiProjectManagerService': 'apiprojectmanager_pb2_grpc',
                 'ApiNodeGraphService': 'apinodesystem_pb2_grpc',
+                'ApiNodeGraph': 'apinodesystem_pb2_grpc',  # Alternative name
                 'ApiNodeService': 'apinodesystem_pb2_grpc',
+                'ApiNode': 'apinodesystem_pb2_grpc',  # Alternative name
                 'ApiItemService': 'apinodesystem_pb2_grpc',
+                'ApiItem': 'apinodesystem_pb2_grpc',  # Alternative name
                 'ApiItemArrayService': 'apinodesystem_pb2_grpc',
+                'ApiItemArray': 'apinodesystem_pb2_grpc',  # Alternative name
                 'ApiNodeArrayService': 'apinodesystem_pb2_grpc',
+                'ApiNodeArray': 'apinodesystem_pb2_grpc',  # Alternative name
                 'ApiItemSetterService': 'apinodesystem_pb2_grpc',
+                'ApiItemSetter': 'apinodesystem_pb2_grpc',  # Alternative name
                 'ApiItemGetterService': 'apinodesystem_pb2_grpc',
+                'ApiItemGetter': 'apinodesystem_pb2_grpc',  # Alternative name
                 'ApiSceneOutlinerService': 'apisceneoutliner_pb2_grpc',
+                'ApiSceneOutliner': 'apisceneoutliner_pb2_grpc',  # Alternative name
                 'ApiSelectionManagerService': 'apiselectionmanager_pb2_grpc',
+                'ApiSelectionManager': 'apiselectionmanager_pb2_grpc',  # Alternative name
                 'ApiNodeGraphEditorService': 'apinodegrapheditor_pb2_grpc',
+                'ApiNodeGraphEditor': 'apinodegrapheditor_pb2_grpc',  # Alternative name
                 'ApiRenderEngineService': 'apirender_pb2_grpc',
+                'ApiRenderEngine': 'apirender_pb2_grpc',  # Alternative name
                 'ApiRenderViewService': 'apirenderview_pb2_grpc',
+                'ApiRenderView': 'apirenderview_pb2_grpc',  # Alternative name
                 'ApiArrayService': 'apiarray_pb2_grpc',
+                'ApiArray': 'apiarray_pb2_grpc',  # Alternative name
                 'ApiAnimationTimeTransformService': 'apianimationtimetransform_pb2_grpc',
+                'ApiAnimationTimeTransform': 'apianimationtimetransform_pb2_grpc',  # Alternative name
                 'ApiOutputColorSpaceInfoService': 'apioutputcolorspaceinfo_pb2_grpc',
+                'ApiOutputColorSpaceInfo': 'apioutputcolorspaceinfo_pb2_grpc',  # Alternative name
                 'ApiTimeSamplingService': 'apitimesampling_pb2_grpc',
+                'ApiTimeSampling': 'apitimesampling_pb2_grpc',  # Alternative name
                 'CameraControlService': 'camera_control_pb2_grpc',
+                'CameraControl': 'camera_control_pb2_grpc',  # Alternative name
                 'OctaneNetService': 'octanenet_pb2_grpc',
+                'OctaneNet': 'octanenet_pb2_grpc',  # Alternative name
             }
 
             module_name = service_module_map.get(service_name)
@@ -135,8 +153,22 @@ class GrpcServiceRegistry:
                 raise Exception(f"Service {service_name} not available")
 
             # Get the stub class (convention: ServiceNameStub)
-            stub_class_name = f"{service_name}Stub"
-            stub_class = getattr(grpc_module, stub_class_name)
+            # Handle both "Service" and non-"Service" names
+            if service_name.endswith('Service'):
+                stub_class_name = f"{service_name}Stub"
+            else:
+                stub_class_name = f"{service_name}ServiceStub"
+            
+            try:
+                stub_class = getattr(grpc_module, stub_class_name)
+            except AttributeError:
+                # Try alternative naming convention
+                alt_stub_class_name = f"{service_name}Stub" if not service_name.endswith('Service') else f"{service_name}ServiceStub"
+                try:
+                    stub_class = getattr(grpc_module, alt_stub_class_name)
+                    stub_class_name = alt_stub_class_name
+                except AttributeError:
+                    raise Exception(f"Stub class not found: tried {stub_class_name} and {alt_stub_class_name}")
 
             # Create and cache the stub
             stub = stub_class(channel)
