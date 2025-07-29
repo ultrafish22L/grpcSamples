@@ -113,10 +113,11 @@ class SceneOutlinerSync {
     loadSceneTreeSync() {
         console.log('🔍 DEBUG: Starting synchronous scene tree loading...');
         
+        let rootResult;
         try {
             // STEP 1: Get the root node graph (BLOCKING)
             console.log('🔍 DEBUG: STEP 1 - Getting root node graph...');
-            const rootResult = window.grpcApi.makeApiCallSync('ApiProjectManager/rootNodeGraph');
+            rootResult = window.grpcApi.makeApiCallSync('ApiProjectManager/rootNodeGraph');
             
             if (!rootResult.success) {
                 console.error('💥 DEBUG: STEP 1 FAILED - rootNodeGraph call failed:', rootResult);

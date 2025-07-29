@@ -102,8 +102,14 @@
                 </div>
                 <div class="panel-content">
                     <div id="scene-outliner" class="scene-outliner">
+                        <!-- Search input for filtering scene items -->
+                        <div class="scene-search-container">
+                            <input type="text" id="scene-search" class="scene-search-box" placeholder="Search scene..." />
+                        </div>
                         <!-- Hierarchical tree structure will be populated here -->
-                        <div class="scene-loading">Loading scene...</div>
+                        <div id="scene-tree" class="scene-tree">
+                            <div class="scene-loading">Loading scene...</div>
+                        </div>
                     </div>
                 </div>
             </aside>
