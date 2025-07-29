@@ -36,21 +36,20 @@ from google.protobuf.json_format import MessageToDict, ParseDict
 from google.protobuf.message import Message
 from google.protobuf.empty_pb2 import Empty
 
-# Add proxy directory to path for imports
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'proxy'))
+# Add generated directory to path for imports
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'generated'))
 
-# Import core protobuf modules
+# Import core protobuf modules from generated directory
 try:
-    import livelink_pb2
-    import livelink_pb2_grpc
-    import apiprojectmanager_pb2
-    import apiprojectmanager_pb2_grpc
-    import apinodesystem_pb2
-    import apinodesystem_pb2_grpc
-    import common_pb2
-    print("✅ Successfully imported core gRPC protobuf modules")
+    from generated import common_pb2
+    from generated import apiprojectmanager_pb2
+    from generated import apiprojectmanager_pb2_grpc
+    from generated import apinodesystem_pb2
+    from generated import apinodesystem_pb2_grpc
+    print("✅ Successfully imported core gRPC protobuf modules from generated/")
 except ImportError as e:
-    print(f"❌ Failed to import core gRPC modules: {e}")
+    print(f"❌ Failed to import core gRPC modules from generated/: {e}")
+    print("💡 Run ./build_protos.sh to generate protobuf files")
     sys.exit(1)
 
 # Configuration
@@ -221,6 +220,9 @@ class ComprehensiveOctaneProxy:
             
             # Test connection with a simple call
             print(f"📤 Testing connection with GetCamera request")
+            from generated import livelink_pb2
+            from generated import livelink_pb2_grpc
+            
             stub = livelink_pb2_grpc.LiveLinkServiceStub(self.channel)
             request = livelink_pb2.Empty()
             response = await stub.GetCamera(request)
