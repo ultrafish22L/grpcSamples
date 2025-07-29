@@ -8,46 +8,28 @@ class GrpcApiHelper {
     constructor(proxyUrl = 'http://localhost:51023') {
         this.proxyUrl = proxyUrl;
         
-        // Service/method to ObjectPtr type mapping
-        // This maps gRPC service methods to the correct ObjectRef.ObjectType
+        // Service class to ObjectPtr type mapping
+        // Maps gRPC service class names to the correct ObjectRef.ObjectType
         this.serviceTypeMap = {
-            // Project Manager - typically uses root node graph
-            'ApiProjectManager/rootNodeGraph': null, // No objectPtr needed
+            // Services that don't need objectPtr
+            'ApiProjectManager': null,
             
-            // Node Graph operations - use ApiNodeGraph type
-            'ApiNodeGraph/getOwnedItems': window.OctaneTypes?.CommonTypes?.NODE_GRAPH,
-            'ApiNodeGraph/name': window.OctaneTypes?.CommonTypes?.NODE_GRAPH,
-            'ApiNodeGraph/setName': window.OctaneTypes?.CommonTypes?.NODE_GRAPH,
+            // Core object types
+            'ApiNodeGraph': window.OctaneTypes?.CommonTypes?.NODE_GRAPH,        // 20
+            'ApiRootNodeGraph': window.OctaneTypes?.CommonTypes?.ROOT_NODE_GRAPH, // 18
+            'ApiNode': window.OctaneTypes?.CommonTypes?.NODE,                   // 17
+            'ApiItem': window.OctaneTypes?.ObjectType?.ApiItem,                 // 16
+            'ApiItemArray': window.OctaneTypes?.ObjectType?.ApiItemArray,       // 31
             
-            // Root Node Graph operations - use ApiRootNodeGraph type  
-            'ApiRootNodeGraph/getOwnedItems': window.OctaneTypes?.CommonTypes?.ROOT_NODE_GRAPH,
-            'ApiRootNodeGraph/name': window.OctaneTypes?.CommonTypes?.ROOT_NODE_GRAPH,
-            
-            // Node operations - use ApiNode type
-            'ApiNode/name': window.OctaneTypes?.CommonTypes?.NODE,
-            'ApiNode/pinCount': window.OctaneTypes?.CommonTypes?.NODE,
-            'ApiNode/ownedItemIx': window.OctaneTypes?.CommonTypes?.NODE,
-            'ApiNode/isNode': window.OctaneTypes?.CommonTypes?.NODE,
-            'ApiNode/toNode': window.OctaneTypes?.CommonTypes?.NODE,
-            
-            // Item operations - use ApiItem type (16)
-            'ApiItem/name': window.OctaneTypes?.ObjectType?.ApiItem,
-            'ApiItem/isGraph': window.OctaneTypes?.ObjectType?.ApiItem,
-            'ApiItem/isNode': window.OctaneTypes?.ObjectType?.ApiItem,
-            'ApiItem/toNode': window.OctaneTypes?.ObjectType?.ApiItem,
-            
-            // Item Array operations - use ApiItemArray type (31)
-            'ApiItemArray/size': window.OctaneTypes?.ObjectType?.ApiItemArray,
-            'ApiItemArray/get1': window.OctaneTypes?.ObjectType?.ApiItemArray,
-            'ApiItemArray/items': window.OctaneTypes?.ObjectType?.ApiItemArray,
+            // Additional service types (add as needed)
+            'ApiNodeArray': window.OctaneTypes?.ObjectType?.ApiNodeArray,       // 34
+            'ApiPackage': window.OctaneTypes?.ObjectType?.ApiPackage,           // 37
+            'ApiRenderImage': window.OctaneTypes?.ObjectType?.ApiRenderImage,   // 38
+            'ApiSceneExporter': window.OctaneTypes?.ObjectType?.ApiSceneExporter, // 39
+            'ApiMainWindow': window.OctaneTypes?.ObjectType?.ApiMainWindow,     // 42
+            'ApiSceneOutliner': window.OctaneTypes?.ObjectType?.ApiSceneOutliner, // 51
+            'ApiNodeGraphEditor': window.OctaneTypes?.ObjectType?.ApiNodeGraphEditor, // 52
         };
-        
-        // Add prefixed versions (octaneapi.ServiceName/method)
-        const prefixedMap = {};
-        Object.keys(this.serviceTypeMap).forEach(key => {
-            prefixedMap[`octaneapi.${key}`] = this.serviceTypeMap[key];
-        });
-        Object.assign(this.serviceTypeMap, prefixedMap);
     }
     
     /**
@@ -64,8 +46,11 @@ class GrpcApiHelper {
                 throw new Error('OctaneTypes not loaded - ensure js/constants/OctaneTypes.js is loaded');
             }
             
-            // Determine the correct ObjectPtr type for this service/method
-            const objectPtrType = this.serviceTypeMap[servicePath];
+            // Extract service name from servicePath (e.g., 'ApiNodeGraph' from 'ApiNodeGraph/getOwnedItems')
+            const serviceName = servicePath.split('/')[0];
+            
+            // Determine the correct ObjectPtr type for this service
+            const objectPtrType = this.serviceTypeMap[serviceName];
             
             // Build the request data
             let requestData = { ...additionalData };
@@ -73,7 +58,7 @@ class GrpcApiHelper {
             // Add objectPtr if handle is provided and type is known
             if (handle !== null && objectPtrType !== undefined) {
                 if (objectPtrType === null) {
-                    // Some methods don't need objectPtr (like rootNodeGraph)
+                    // Some services don't need objectPtr (like ApiProjectManager)
                     console.log(`🔧 API Call: ${servicePath} (no objectPtr needed)`);
                 } else {
                     const objectPtr = window.OctaneTypes.createObjectPtr(handle, objectPtrType);
@@ -83,7 +68,7 @@ class GrpcApiHelper {
                     console.log(`🔧 API Call: ${servicePath} with ObjectPtr(handle=${handle}, type=${objectPtrType}/${typeName})`);
                 }
             } else if (handle !== null) {
-                console.warn(`⚠️ Unknown service/method: ${servicePath} - using handle without type`);
+                console.warn(`⚠️ Unknown service: ${serviceName} - using handle without type`);
                 // Fallback: create objectPtr with handle but no specific type
                 requestData.objectPtr = { handle: handle };
             } else {
@@ -116,22 +101,22 @@ class GrpcApiHelper {
     }
     
     /**
-     * Add or update a service/method type mapping
-     * @param {string} servicePath - Service/method path
+     * Add or update a service type mapping
+     * @param {string} serviceName - Service class name (e.g., 'ApiNodeGraph')
      * @param {number|null} objectPtrType - ObjectPtr type or null if not needed
      */
-    addServiceMapping(servicePath, objectPtrType) {
-        this.serviceTypeMap[servicePath] = objectPtrType;
-        console.log(`✅ Added service mapping: ${servicePath} -> ${objectPtrType}`);
+    addServiceMapping(serviceName, objectPtrType) {
+        this.serviceTypeMap[serviceName] = objectPtrType;
+        console.log(`✅ Added service mapping: ${serviceName} -> ${objectPtrType}`);
     }
     
     /**
-     * Get the ObjectPtr type for a service/method
-     * @param {string} servicePath - Service/method path
+     * Get the ObjectPtr type for a service
+     * @param {string} serviceName - Service class name (e.g., 'ApiNodeGraph')
      * @returns {number|null|undefined} ObjectPtr type
      */
-    getServiceType(servicePath) {
-        return this.serviceTypeMap[servicePath];
+    getServiceType(serviceName) {
+        return this.serviceTypeMap[serviceName];
     }
     
     /**
@@ -148,4 +133,4 @@ window.grpcApi = new GrpcApiHelper();
 
 // Log successful loading
 console.log('✅ GrpcApiHelper loaded successfully');
-console.log(`📋 Known service mappings: ${Object.keys(window.grpcApi.serviceTypeMap).length}`);
+console.log(`📋 Known service mappings: ${Object.keys(window.grpcApi.serviceTypeMap).length} services`);
