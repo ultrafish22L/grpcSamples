@@ -126,6 +126,62 @@ class GrpcApiHelper {
     getServiceMappings() {
         return { ...this.serviceTypeMap };
     }
+    
+    /**
+     * Make a SYNCHRONOUS gRPC API call (blocks until complete)
+     * Use this for sequential operations that depend on previous results
+     * @param {string} servicePath - Service/method path (e.g., 'ApiItem/name')
+     * @param {string} handle - Object handle (optional for some services)
+     * @param {Object} additionalData - Additional request data (optional)
+     * @returns {Object} Response data (not a Promise)
+     */
+    makeApiCallSync(servicePath, handle = null, additionalData = {}) {
+        console.log(`🔒 SYNC API Call: ${servicePath} (handle: ${handle})`);
+        
+        try {
+            // Build request data using the same logic as async version
+            const [serviceName, methodName] = servicePath.split('/');
+            const serviceType = this.getServiceType(serviceName);
+            
+            let requestData = { ...additionalData };
+            
+            // Add objectPtr if handle is provided and service needs it
+            if (handle && serviceType !== null && serviceType !== undefined) {
+                requestData.objectPtr = {
+                    handle: handle.toString(),
+                    type: serviceType
+                };
+            }
+            
+            if (handle) {
+                console.log(`🔧 SYNC API Call: ${servicePath} with handle ${handle} (type: ${serviceType})`);
+            } else {
+                console.log(`🔧 SYNC API Call: ${servicePath} (no handle provided)`);
+            }
+            
+            // Make SYNCHRONOUS HTTP request using XMLHttpRequest
+            const url = `${this.proxyUrl}/${servicePath}`;
+            console.log(`📤 SYNC Calling: ${url}`, requestData);
+            
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', url, false); // false = synchronous
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify(requestData));
+            
+            if (xhr.status !== 200) {
+                throw new Error(`HTTP ${xhr.status}: ${xhr.statusText}`);
+            }
+            
+            const result = JSON.parse(xhr.responseText);
+            console.log(`📥 SYNC Response from ${servicePath}:`, result);
+            
+            return result;
+            
+        } catch (error) {
+            console.error(`❌ SYNC API call failed for ${servicePath}:`, error);
+            throw error;
+        }
+    }
 }
 
 // Create global instance
