@@ -20,9 +20,9 @@ class HandleTester {
             handle: handle,
             type: type,
             nameSuccess: false,
-            superclassSuccess: false,
+            outTypeSuccess: false,
             nameResult: null,
-            superclassResult: null,
+            outTypeResult: null,
             crashed: false
         };
         
@@ -45,27 +45,27 @@ class HandleTester {
             result.crashed = true;
             result.nameResult = error.message;
             this.results.push(result);
-            return result; // Don't test superclass if name crashed
+            return result; // Don't test outType if name crashed
         }
         
-        // Test superclass call
+        // Test outType call
         try {
-            console.log(`🔍 Testing ApiItem/superclass for handle ${handle}...`);
-            const superclassResult = window.grpcApi.makeApiCallSync('ApiItem/superclass', handle);
+            console.log(`🔍 Testing ApiItem/outType for handle ${handle}...`);
+            const outTypeResult = window.grpcApi.makeApiCallSync('ApiItem/outType', handle);
             
-            if (superclassResult.success) {
-                result.superclassSuccess = true;
-                result.superclassResult = superclassResult.data.result;
-                console.log(`✅ SUPERCLASS SUCCESS: "${result.superclassResult}" for handle ${handle}`);
+            if (outTypeResult.success) {
+                result.outTypeSuccess = true;
+                result.outTypeResult = outTypeResult.data.result;
+                console.log(`✅ OUTTYPE SUCCESS: "${result.outTypeResult}" for handle ${handle}`);
             } else {
-                console.log(`❌ SUPERCLASS FAILED: ${superclassResult.error} for handle ${handle}`);
-                result.superclassResult = superclassResult.error;
+                console.log(`❌ OUTTYPE FAILED: ${outTypeResult.error} for handle ${handle}`);
+                result.outTypeResult = outTypeResult.error;
             }
             
         } catch (error) {
-            console.error(`💥 SUPERCLASS CRASHED: ${error.message} for handle ${handle}`);
+            console.error(`💥 OUTTYPE CRASHED: ${error.message} for handle ${handle}`);
             result.crashed = true;
-            result.superclassResult = error.message;
+            result.outTypeResult = error.message;
         }
         
         this.results.push(result);
@@ -101,8 +101,8 @@ class HandleTester {
         console.log(`\n📊 === TEST SUMMARY ===`);
         console.log(`Total handles tested: ${this.results.length}`);
         
-        const successful = this.results.filter(r => !r.crashed && r.nameSuccess && r.superclassSuccess);
-        const failed = this.results.filter(r => !r.crashed && (!r.nameSuccess || !r.superclassSuccess));
+        const successful = this.results.filter(r => !r.crashed && r.nameSuccess && r.outTypeSuccess);
+        const failed = this.results.filter(r => !r.crashed && (!r.nameSuccess || !r.outTypeSuccess));
         const crashed = this.results.filter(r => r.crashed);
         
         console.log(`✅ Successful: ${successful.length}`);
@@ -112,7 +112,7 @@ class HandleTester {
         if (crashed.length > 0) {
             console.log(`\n💥 CRASH DETAILS:`);
             crashed.forEach(r => {
-                console.log(`  Handle ${r.handle}: ${r.nameResult || r.superclassResult}`);
+                console.log(`  Handle ${r.handle}: ${r.nameResult || r.outTypeResult}`);
             });
         }
         
@@ -122,8 +122,8 @@ class HandleTester {
                 if (!r.nameSuccess) {
                     console.log(`  Handle ${r.handle} name failed: ${r.nameResult}`);
                 }
-                if (!r.superclassSuccess) {
-                    console.log(`  Handle ${r.handle} superclass failed: ${r.superclassResult}`);
+                if (!r.outTypeSuccess) {
+                    console.log(`  Handle ${r.handle} outType failed: ${r.outTypeResult}`);
                 }
             });
         }

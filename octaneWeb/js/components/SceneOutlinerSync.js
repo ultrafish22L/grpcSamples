@@ -225,26 +225,26 @@ class SceneOutlinerSync {
                 
             } catch (error) {
                 console.error(`💥 DEBUG: CRASH IN STEP 5.${i+1}.A (name for handle ${handle}):`, error);
-                // Continue to test superclass call
+                // Continue to test outType call
             }
             
-            // Test superclass call for this specific item
+            // Test outType call for this specific item (valid API method)
             try {
-                console.log(`🔍 DEBUG: STEP 5.${i+1}.B - Getting superclass for handle ${handle}`);
-                const superclassResult = window.grpcApi.makeApiCallSync(
-                    'ApiItem/superclass',
+                console.log(`🔍 DEBUG: STEP 5.${i+1}.B - Getting outType for handle ${handle}`);
+                const outTypeResult = window.grpcApi.makeApiCallSync(
+                    'ApiItem/outType',
                     handle
                 );
                 
-                if (superclassResult.success && superclassResult.data.result) {
-                    superclass = superclassResult.data.result;
-                    console.log(`✅ DEBUG: STEP 5.${i+1}.B SUCCESS - Got superclass: "${superclass}" for handle ${handle}`);
+                if (outTypeResult.success && outTypeResult.data.result) {
+                    superclass = outTypeResult.data.result;
+                    console.log(`✅ DEBUG: STEP 5.${i+1}.B SUCCESS - Got outType: "${superclass}" for handle ${handle}`);
                 } else {
-                    console.warn(`⚠️ DEBUG: STEP 5.${i+1}.B FAILED - Superclass call failed for handle ${handle}:`, superclassResult);
+                    console.warn(`⚠️ DEBUG: STEP 5.${i+1}.B FAILED - OutType call failed for handle ${handle}:`, outTypeResult);
                 }
                 
             } catch (error) {
-                console.error(`💥 DEBUG: CRASH IN STEP 5.${i+1}.B (superclass for handle ${handle}):`, error);
+                console.error(`💥 DEBUG: CRASH IN STEP 5.${i+1}.B (outType for handle ${handle}):`, error);
                 // Continue processing other items
             }
             
