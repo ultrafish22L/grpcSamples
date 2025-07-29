@@ -5,7 +5,7 @@ This document contains all the critical knowledge needed to quickly understand a
 
 ---
 
-## 🎯 **CURRENT SYSTEM STATE (2025-07-28)**
+## 🎯 **CURRENT SYSTEM STATE (2025-07-29)**
 
 ### **✅ WORKING CONFIGURATION:**
 - **Web Server**: Running on port 8080 (http://localhost:8080/)
@@ -170,11 +170,69 @@ start_proxy.bat
 
 ## 🔧 **DEBUGGING TECHNIQUES**
 
+### **🎯 SYSTEMATIC CRASH DEBUGGING (PROVEN METHOD):**
+When facing crashes or API failures, use this step-by-step isolation approach:
+
+1. **Isolate Each API Call**: Wrap every gRPC call in individual try-catch blocks
+2. **Add Detailed Logging**: Log SUCCESS/FAILURE/CRASH for each step with specific error details
+3. **Test Synchronously**: Use synchronous calls to pinpoint exact failure location
+4. **Verify API Methods**: Check if the method actually exists in the gRPC service definition
+
+**Example Debugging Pattern:**
+```javascript
+// STEP 1: Test basic connection
+try {
+    console.log('🔍 DEBUG: STEP 1 - Testing rootNodeGraph...');
+    const rootResult = window.grpcApi.makeApiCallSync('ApiProjectManager/rootNodeGraph', {});
+    if (!rootResult.success) {
+        console.error('💥 DEBUG: STEP 1 FAILED:', rootResult);
+        throw new Error('rootNodeGraph failed');
+    }
+    console.log('✅ DEBUG: STEP 1 SUCCESS:', rootResult);
+} catch (error) {
+    console.error('💥 DEBUG: CRASH IN STEP 1:', error);
+    throw error;
+}
+
+// STEP 2: Test dependent call
+try {
+    console.log('🔍 DEBUG: STEP 2 - Testing getOwnedItems...');
+    const ownedResult = window.grpcApi.makeApiCallSync('ApiNodeGraph/getOwnedItems', rootResult.data.result.handle);
+    // ... continue pattern
+} catch (error) {
+    console.error('💥 DEBUG: CRASH IN STEP 2:', error);
+    throw error;
+}
+```
+
+### **🚨 CRITICAL API METHOD VALIDATION:**
+**ALWAYS verify API methods exist before calling them!**
+
+**✅ VALID ApiItem methods:**
+- `name` - Get item name
+- `outType` - Get item type (use this, NOT superclass)
+- `destroy` - Destroy item
+- `position` - Get item position
+- `uiOperationFlags` - Get UI flags
+- `select` - Select item
+- `time` - Get time info
+- `persistentId` - Get persistent ID
+
+**❌ INVALID ApiItem methods:**
+- `superclass` - **DOES NOT EXIST** (causes HTTP 404 and proxy crashes)
+
+**How to verify methods:**
+```bash
+# Check available methods in generated protobuf files
+grep -n "class ApiItemServiceStub" octaneProxy/generated/apinodesystem_pb2_grpc.py -A 50
+```
+
 ### **Connection Issues:**
 1. **Check Proxy Logs**: Look for "📤 === CALLING OCTANE ===" messages
 2. **Verify Octane**: Ensure LiveLink service running on port 51022
 3. **Test Health Endpoint**: `curl http://localhost:51023/health`
 4. **Check Browser Console**: Look for fetch errors or CORS issues
+5. **Monitor Proxy Status**: Watch for proxy crashes (no response logged after request)
 
 ### **Component Issues:**
 1. **Scene Data**: Check if `sceneDataLoaded` events are firing
@@ -186,10 +244,18 @@ start_proxy.bat
 - **CORS Errors**: Ensure proxy has proper CORS headers
 - **Empty Data**: Check if Octane has actual scene content
 - **Timing Issues**: Event system handles component initialization order
+- **Invalid API Methods**: Replace with valid methods (e.g., superclass → outType)
+- **Proxy Crashes**: Check for HTTP 404 errors indicating invalid method calls
 
 ---
 
 ## 📋 **CRITICAL GOTCHAS**
+
+### **🚨 INVALID API METHODS (MAJOR CRASH SOURCE):**
+- **Issue**: Calling non-existent API methods like `ApiItem/superclass`
+- **Symptom**: HTTP 404 errors, proxy crashes, "Socket closed" messages
+- **Fix**: Always verify methods exist in protobuf definitions before calling
+- **Prevention**: Use valid methods like `ApiItem/outType` instead of `superclass`
 
 ### **Method Name Mapping:**
 - **Issue**: Some methods use different names (get1 → getRequest)
@@ -202,6 +268,10 @@ start_proxy.bat
 ### **Component Initialization:**
 - **Issue**: NodeGraphEditor initialized before SceneOutliner loaded data
 - **Fix**: Event system with `requestSceneData` handles timing automatically
+
+### **Debugging vs Production Code:**
+- **Issue**: Debug components like HandleTester can interfere with normal operation
+- **Fix**: Use debug components only for testing, disable auto-run in production
 
 ---
 
@@ -224,6 +294,13 @@ start_proxy.bat
 
 ## 📝 **RECENT MAJOR CHANGES**
 
+### **Completed (2025-07-29):**
+- ✅ **CRASH DEBUGGING RESOLVED**: Systematic isolation of API call failures
+- ✅ **Invalid API Method Fixed**: Replaced `ApiItem/superclass` with `ApiItem/outType`
+- ✅ **Debugging Tools**: Created HandleTester.js and SceneOutlinerSync.js for systematic testing
+- ✅ **API Method Validation**: Verified all methods against protobuf definitions
+- ✅ **Proxy Stability**: Fixed proxy crashes caused by invalid method calls
+
 ### **Completed (2025-07-28):**
 - ✅ **Real Data Integration**: Both components show actual Octane scene data
 - ✅ **Event System**: Perfect component communication via events
@@ -237,5 +314,6 @@ start_proxy.bat
 - **Event-Driven**: Components communicate via EventSystem, not direct calls
 - **Real Data Only**: No fallback to sample data, clear error states instead
 - **Auto-Detection**: Environment-aware networking configuration
+- **Systematic Debugging**: Step-by-step API call isolation for crash analysis
 
 ---
