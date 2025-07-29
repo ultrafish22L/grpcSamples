@@ -293,6 +293,9 @@
             'js/utils/DebugConsole.js',
             'js/utils/CacheBuster.js',
             
+            // Constants (Load Early)
+            'js/constants/OctaneTypes.js',
+            
             // Core JavaScript Libraries
             'shared/js/livelink.js',
             'shared/js/webgl-utils.js',
@@ -325,6 +328,8 @@
             const script = document.createElement('script');
             script.src = src + cb;
             script.async = false; // Maintain load order
+            script.onload = () => console.log(`✅ Loaded: ${src}`);
+            script.onerror = (e) => console.error(`❌ Failed to load: ${src}`, e);
             document.head.appendChild(script);
         });
         

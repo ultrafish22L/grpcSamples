@@ -125,15 +125,22 @@ class SceneOutliner extends OctaneComponent {
                 // STEP 2: Get owned items from root node graph
                 treeContainer.innerHTML = '<div class="scene-loading">📋 Loading scene items...</div>';
                 
+                // Check if OctaneTypes is available
+                if (!window.OctaneTypes || !window.OctaneTypes.createObjectPtr) {
+                    throw new Error('OctaneTypes not loaded - ensure js/constants/OctaneTypes.js is loaded before components');
+                }
+                
+                const objectPtr = window.OctaneTypes.createObjectPtr(
+                    rootResult.data.result.handle,
+                    window.OctaneTypes.CommonTypes.NODE_GRAPH  // ApiNodeGraph (20) for getOwnedItems
+                );
+                
+                console.log(`🌳 Using ObjectPtr: handle=${objectPtr.handle}, type=${objectPtr.type} (${window.OctaneTypes.getObjectTypeName(objectPtr.type)})`);
+                
                 const ownedItemsResponse = await fetch('http://localhost:51023/ApiNodeGraph/getOwnedItems', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        objectPtr: {
-                            handle: rootResult.data.result.handle,  // Use data.result format
-                            type: 20  // Convert ApiRootNodeGraph (18) to ApiNodeGraph (20) for getOwnedItems
-                        }
-                    })
+                    body: JSON.stringify({ objectPtr })
                 });
                 
                 if (!ownedItemsResponse.ok) {

@@ -610,12 +610,15 @@ function createOctaneWebClient() {
             const indent = '  '.repeat(depth);
             console.log(`${indent}📍 Getting pin count for node ${name}...`);
             
-            // First get the pin count for this node - FIXED: Use handle and ApiNode type (17)
+            // Check if OctaneTypes is available
+            if (!window.OctaneTypes || !window.OctaneTypes.createObjectPtr) {
+                console.error('❌ OctaneTypes not loaded - ensure js/constants/OctaneTypes.js is loaded before components');
+                return [];
+            }
+            
+            // First get the pin count for this node - FIXED: Use handle and ApiNode type
             const pinCountResponse = await this.makeGrpcCall('octaneapi.ApiNode/pinCount', {
-                objectPtr: {
-                    handle: objectRef.handle,
-                    type: 17  // ApiNode type for ApiNode calls
-                }
+                objectPtr: window.OctaneTypes.createObjectPtr(objectRef.handle, window.OctaneTypes.CommonTypes.NODE)
             });
 
             console.log(`${indent}📥 Pin count response:`, JSON.stringify(pinCountResponse, null, 2));
@@ -630,10 +633,7 @@ function createOctaneWebClient() {
                         console.log(`${indent}  📎 Checking pin ${pinIndex} for owned item...`);
                         
                         const ownedItemResponse = await this.makeGrpcCall('octaneapi.ApiNode/ownedItemIx', {
-                            objectPtr: {
-                                handle: objectRef.handle,
-                                type: 17  // ApiNode type for ApiNode calls
-                            },
+                            objectPtr: window.OctaneTypes.createObjectPtr(objectRef.handle, window.OctaneTypes.CommonTypes.NODE),
                             pinIndex: pinIndex
                         });
 
