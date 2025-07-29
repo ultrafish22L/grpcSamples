@@ -105,7 +105,7 @@ class SceneOutliner extends OctaneComponent {
             try {
                 // STEP 1: Get root node graph - this works!
                 console.log('📤 Calling rootNodeGraph API...');
-                const rootResponse = await fetch('http://localhost:51023/ApiProjectManagerService/rootNodeGraph', {
+                const rootResponse = await fetch('http://localhost:51023/ApiProjectManager/rootNodeGraph', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({})
@@ -125,7 +125,7 @@ class SceneOutliner extends OctaneComponent {
                 // STEP 2: Get owned items from root node graph
                 treeContainer.innerHTML = '<div class="scene-loading">📋 Loading scene items...</div>';
                 
-                const ownedItemsResponse = await fetch('http://localhost:51023/ApiNodeGraphService/getOwnedItems', {
+                const ownedItemsResponse = await fetch('http://localhost:51023/ApiNodeGraph/getOwnedItems', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -150,7 +150,7 @@ class SceneOutliner extends OctaneComponent {
                 // STEP 3: Get size of the items array
                 treeContainer.innerHTML = '<div class="scene-loading">🔢 Getting item count...</div>';
                 
-                const sizeResponse = await fetch('http://localhost:51023/ApiItemArrayService/size', {
+                const sizeResponse = await fetch('http://localhost:51023/ApiItemArray/size', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -175,7 +175,7 @@ class SceneOutliner extends OctaneComponent {
                 const sceneItems = [];
                 for (let i = 0; i < sizeResult.data.result; i++) {
                     // Get item at index i
-                    const itemResponse = await fetch('http://localhost:51023/ApiItemArrayService/get1', {
+                    const itemResponse = await fetch('http://localhost:51023/ApiItemArray/get1', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({

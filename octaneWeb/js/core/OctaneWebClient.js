@@ -168,7 +168,7 @@ function createOctaneWebClient() {
         let serviceName, methodName;
         
         if (method.includes('/')) {
-            // Handle formats like "octaneapi.ApiItemService/name" or "ApiItemService/name"
+            // Handle formats like "octaneapi.ApiItem/name" or "ApiItem/name"
             const parts = method.split('/');
             const serviceFullName = parts[0];
             methodName = parts[1];
@@ -182,11 +182,11 @@ function createOctaneWebClient() {
         } else {
             // Handle legacy formats - try to map them
             if (method === 'GetCamera' || method === 'GetMeshes') {
-                serviceName = 'LiveLinkService';
+                serviceName = 'LiveLink';
                 methodName = method;
             } else {
                 // Default fallback
-                serviceName = 'ApiItemService';
+                serviceName = 'ApiItem';
                 methodName = method;
             }
         }
@@ -328,7 +328,7 @@ function createOctaneWebClient() {
             
             // Step 1: Get the root node graph
             console.log('📤 Calling rootNodeGraph API...');
-            const rootResponse = await this.makeGrpcCall('ApiProjectManagerService/rootNodeGraph', {});
+            const rootResponse = await this.makeGrpcCall('ApiProjectManager/rootNodeGraph', {});
             
             console.log('📥 rootNodeGraph response:', JSON.stringify(rootResponse, null, 2));
             
@@ -377,7 +377,7 @@ function createOctaneWebClient() {
             console.log(`${'  '.repeat(depth)}📊 NAME ${name}: ${objectRef}`);
             // Name - FIXED: Use handle from ObjectPtr and set correct type for ApiItem
             try {
-                const response = await this.makeGrpcCall('ApiItemService/name', {
+                const response = await this.makeGrpcCall('ApiItem/name', {
                     objectPtr: {
                         handle: objectRef.handle,
                         type: objectRef.type  // Use original type for ApiItem calls
@@ -408,7 +408,7 @@ function createOctaneWebClient() {
             
             // For unknown types, try the API call - FIXED: Use handle and correct type
             try {
-                const isGraphResponse = await this.makeGrpcCall('ApiItemService/isGraph', {
+                const isGraphResponse = await this.makeGrpcCall('ApiItem/isGraph', {
                     objectPtr: {
                         handle: objectRef.handle,
                         type: objectRef.type  // Use original type for ApiItem calls
@@ -430,7 +430,7 @@ function createOctaneWebClient() {
                     
                     // For unknown types, try the API conversion
                     console.log(`${'  '.repeat(depth)}🔄 Converting ${name} to graph reference via API...`);
-                    const toGraphResponse = await this.makeGrpcCall('ApiItemService/toGraph', {
+                    const toGraphResponse = await this.makeGrpcCall('ApiItem/toGraph', {
                         objectPtr: objectRef
                     });
                     
@@ -443,7 +443,7 @@ function createOctaneWebClient() {
                     
                     console.log(`${'  '.repeat(depth)}📊 Graph reference:`, graphRef);
                     
-                    const itemsResponse = await this.makeGrpcCall('ApiNodeGraphService/getOwnedItems', {
+                    const itemsResponse = await this.makeGrpcCall('ApiNodeGraph/getOwnedItems', {
                         objectPtr: graphRef
                     });
                 
@@ -453,11 +453,11 @@ function createOctaneWebClient() {
                     const itemsArrayRef = itemsResponse.data.list;
                     console.log(`${'  '.repeat(depth)}📋 Got items array: handle=${itemsArrayRef.objectHandle}, type=${itemsArrayRef.type}`);
                     
-                    // Step 2: Get the actual items from the array using ApiItemArrayService/items
+                    // Step 2: Get the actual items from the array using ApiItemArray/items
                     try {
                         console.log(`${'  '.repeat(depth)}📤 Getting items from array...`);
                         
-                        const arrayItemsResponse = await this.makeGrpcCall('ApiItemArrayService/items', {
+                        const arrayItemsResponse = await this.makeGrpcCall('ApiItemArray/items', {
                             objectPtr: {
                                 objectHandle: itemsArrayRef.objectHandle,
                                 type: itemsArrayRef.type
@@ -549,7 +549,7 @@ function createOctaneWebClient() {
                 
                 // Try the API call first - FIXED: Use handle and correct type
                 try {
-                    const isNodeResponse = await this.makeGrpcCall('octaneapi.ApiItemService/isNode', {
+                    const isNodeResponse = await this.makeGrpcCall('octaneapi.ApiItem/isNode', {
                         objectPtr: {
                             handle: objectRef.handle,
                             type: objectRef.type  // Use original type for ApiItem calls
@@ -571,7 +571,7 @@ function createOctaneWebClient() {
                     
                     try {
                         console.log(`${'  '.repeat(depth)}🔄 Converting ${name} to node reference via API...`);
-                        const toNodeResponse = await this.makeGrpcCall('octaneapi.ApiItemService/toNode', {
+                        const toNodeResponse = await this.makeGrpcCall('octaneapi.ApiItem/toNode', {
                             objectPtr: {
                                 handle: objectRef.handle,
                                 type: objectRef.type  // Use original type for ApiItem calls
@@ -611,10 +611,10 @@ function createOctaneWebClient() {
             console.log(`${indent}📍 Getting pin count for node ${name}...`);
             
             // First get the pin count for this node - FIXED: Use handle and ApiNode type (17)
-            const pinCountResponse = await this.makeGrpcCall('octaneapi.ApiNodeService/pinCount', {
+            const pinCountResponse = await this.makeGrpcCall('octaneapi.ApiNode/pinCount', {
                 objectPtr: {
                     handle: objectRef.handle,
-                    type: 17  // ApiNode type for ApiNodeService calls
+                    type: 17  // ApiNode type for ApiNode calls
                 }
             });
 
@@ -629,10 +629,10 @@ function createOctaneWebClient() {
                     try {
                         console.log(`${indent}  📎 Checking pin ${pinIndex} for owned item...`);
                         
-                        const ownedItemResponse = await this.makeGrpcCall('octaneapi.ApiNodeService/ownedItemIx', {
+                        const ownedItemResponse = await this.makeGrpcCall('octaneapi.ApiNode/ownedItemIx', {
                             objectPtr: {
                                 handle: objectRef.handle,
-                                type: 17  // ApiNode type for ApiNodeService calls
+                                type: 17  // ApiNode type for ApiNode calls
                             },
                             pinIndex: pinIndex
                         });
@@ -709,7 +709,7 @@ function createOctaneWebClient() {
     async syncSceneHierarchy() {
         try {
             // Use the parent class's makeGrpcCall method
-            const response = await this.makeGrpcCall('ApiProjectManagerService/buildSceneTree', {});
+            const response = await this.makeGrpcCall('ApiProjectManager/buildSceneTree', {});
             
             if (response.success && response.data) {
                 this.updateSceneHierarchy(response.data);
@@ -730,7 +730,7 @@ function createOctaneWebClient() {
      */
     async buildSceneTree() {
         try {
-            const response = await this.makeGrpcCall('octaneapi.ApiProjectManagerService/buildSceneTree', {});
+            const response = await this.makeGrpcCall('octaneapi.ApiProjectManager/buildSceneTree', {});
             
             if (response.success && response.data && response.data.success) {
                 this.updateSceneHierarchy(response.data.hierarchy);
@@ -826,7 +826,7 @@ function createOctaneWebClient() {
      */
     async syncNodeGraph() {
         try {
-            const response = await this.makeGrpcCall('ApiProjectManagerService/rootNodeGraph', {});
+            const response = await this.makeGrpcCall('ApiProjectManager/rootNodeGraph', {});
             
             if (response.success && response.data) {
                 this.updateNodeGraphState(response.data);

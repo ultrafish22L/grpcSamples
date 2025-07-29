@@ -92,38 +92,53 @@ class GrpcServiceRegistry:
         self.stubs = {}
         self.service_modules = {}
 
+    def get_moduleName(self, service_name, suffix, iter):
+        try:
+            service_map = {
+                'ApiNodeGraph': 'apinodesystem',
+                'ApiNode': 'apinodesystem',
+                'ApiItem': 'apinodesystem',
+                'ApiItemArray': 'apinodesystem',
+            }
+            module_name = service_map.get(service_name)
+            if not module_name:
+                module_name = service_name.lower()
+    
+            return module_name + suffix
+        
+        except Exception as e:
+            print(f"❌ Failed to find module for {service_name}: {e}")
+            raise
+        
     def get_stub(self, service_name, channel):
         """Get or create a gRPC stub for the given service"""
         if service_name in self.stubs:
             return self.stubs[service_name]
 
+        module_name = self.get_moduleName(service_name, '_pb2_grpc', 1)
+
         try:
-            module_name = service_name.lower() + '_pb2_grpc'
+            grpc_module = importlib.import_module(module_name)
+        except AttributeError:
+            print(f"❌ Failed to load module {module_name}: {e}")
 
-            # Import the gRPC module
+        # Get the stub class (convention: ServiceNameStub)
+        # Handle both "Service" and non-"Service" names
+        if service_name.endswith(''):
+            stub_class_name = f"{service_name}Stub"
+        else:
+            stub_class_name = f"{service_name}ServiceStub"
+        
+        try:
+            stub_class = getattr(grpc_module, stub_class_name)
+        except AttributeError:
+            # Try alternative naming convention
+            alt_stub_class_name = f"{service_name}Stub" if not service_name.endswith('') else f"{service_name}ServiceStub"
             try:
-                grpc_module = importlib.import_module(module_name)
-            except ImportError as e:
-                print(f"⚠️ Module {module_name} not available: {e}")
-                raise Exception(f"Service {service_name} not available")
-
-            # Get the stub class (convention: ServiceNameStub)
-            # Handle both "Service" and non-"Service" names
-            if service_name.endswith(''):
-                stub_class_name = f"{service_name}Stub"
-            else:
-                stub_class_name = f"{service_name}ServiceStub"
-            
-            try:
-                stub_class = getattr(grpc_module, stub_class_name)
+                stub_class = getattr(grpc_module, alt_stub_class_name)
+                stub_class_name = alt_stub_class_name
             except AttributeError:
-                # Try alternative naming convention
-                alt_stub_class_name = f"{service_name}Stub" if not service_name.endswith('') else f"{service_name}ServiceStub"
-                try:
-                    stub_class = getattr(grpc_module, alt_stub_class_name)
-                    stub_class_name = alt_stub_class_name
-                except AttributeError:
-                    raise Exception(f"Stub class not found: tried {stub_class_name} and {alt_stub_class_name}")
+                raise Exception(f"Stub class not found: tried {stub_class_name} and {alt_stub_class_name}")
 
             # Create and cache the stub
             stub = stub_class(channel)
@@ -132,22 +147,18 @@ class GrpcServiceRegistry:
             print(f"✅ Created gRPC stub for {service_name}")
             return stub
 
-        except Exception as e:
-            print(f"❌ Failed to create stub for {service_name}: {e}")
-            raise
-
     def get_request_class(self, service_name, method_name):
         """Get the request class for a service method"""
         try:
-            pb2_module_name = service_name.lower() + "_pb2"
+            module_name = self.get_moduleName(service_name, '_pb2', 1)
 
-            if not pb2_module_name:
+            if not module_name:
                 # Default to Empty for unknown services
                 return Empty
 
             # Import the protobuf module
             try:
-                pb2_module = importlib.import_module(pb2_module_name)
+                pb2_module = importlib.import_module(module_name)
             except ImportError:
                 return Empty
 
@@ -310,12 +321,14 @@ async def handle_generic_grpc(request):
         # Get the request class and create the request
         request_class = grpc_registry.get_request_class(service_name, method_name)
         grpc_request = request_class()
-
+        
         # Populate request fields from JSON data
         if request_data:
             for key, value in request_data.items():
                 if hasattr(grpc_request, key):
                     field_descriptor = None
+
+
                     for field in grpc_request.DESCRIPTOR.fields:
                         if field.name == key:
                             field_descriptor = field
@@ -327,7 +340,10 @@ async def handle_generic_grpc(request):
                         if isinstance(value, dict):
                             for nested_key, nested_value in value.items():
                                 if hasattr(nested_message, nested_key):
-                                    setattr(nested_message, nested_key, nested_value)
+                                    if (nested_key == 'handle'):
+                                        setattr(nested_message, nested_key, int(nested_value))
+                                    else:
+                                        setattr(nested_message, nested_key, nested_value)
                     else:
                         # Simple field
                         setattr(grpc_request, key, value)
@@ -367,27 +383,6 @@ def create_app():
     
     # Health check
     app.router.add_get('/health', handle_health)
-    app.router.add_post('/test', handle_test)  # Connection test endpoint
-    
-    # API endpoints
-    app.router.add_post('/api', handle_api_request)  # octaneWeb format
-    
-    # Generic gRPC pass-through routes (like grpc_proxy.py)
-    # Support both URL patterns for compatibility
-    app.router.add_post('/LiveLinkService/GetCamera', handle_generic_grpc)
-    app.router.add_post('/LiveLinkService/SetCamera', handle_generic_grpc)
-    app.router.add_post('/LiveLinkService/GetMeshes', handle_generic_grpc)
-    app.router.add_post('/LiveLinkService/GetMesh', handle_generic_grpc)
-    
-    # Also support the livelinkapi prefix that the JavaScript client uses
-    app.router.add_post('/livelinkapi.LiveLinkService/GetCamera', handle_generic_grpc)
-    app.router.add_post('/livelinkapi.LiveLinkService/SetCamera', handle_generic_grpc)
-    app.router.add_post('/livelinkapi.LiveLinkService/GetMeshes', handle_generic_grpc)
-    app.router.add_post('/livelinkapi.LiveLinkService/GetMesh', handle_generic_grpc)
-    
-    # Octane API routes
-    app.router.add_post('/octaneapi.ApiProjectManagerService/rootNodeGraph', handle_generic_grpc)
-    app.router.add_post('/ApiProjectManagerService/rootNodeGraph', handle_generic_grpc)
     
     # Generic catch-all routes for any gRPC service call
     # Pattern: /[prefix.]ServiceName/methodName

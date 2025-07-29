@@ -233,7 +233,7 @@ class FileManager {
             }
             
             // Make gRPC call to load project
-            const response = await window.octaneClient.makeRequest('/octaneapi.ApiProjectManagerService/loadProject', {
+            const response = await window.octaneClient.makeRequest('/octaneapi.ApiProjectManager/loadProject', {
                 method: 'POST',
                 data: {
                     projectPath: projectPath

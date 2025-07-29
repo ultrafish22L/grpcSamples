@@ -178,7 +178,7 @@ class BulletproofOctaneClient {
             console.log('🌳 BULLETPROOF: Getting scene data from Octane...');
             
             // Step 1: Get root node graph
-            const rootResponse = await this.makeGrpcCall('ApiProjectManagerService', 'rootNodeGraph', {});
+            const rootResponse = await this.makeGrpcCall('ApiProjectManager', 'rootNodeGraph', {});
             
             if (!rootResponse.success || !rootResponse.data || !rootResponse.data.result) {
                 throw new Error('Failed to get root node graph');
@@ -221,8 +221,8 @@ class BulletproofOctaneClient {
                     console.log(`${indent}🏷️ BULLETPROOF: Using default name "Scene" for ApiRootNodeGraph`);
                     nodeName = "Scene";
                 } else if (objectRef.type === 16) {
-                    // Type 16 = ApiItem - use ApiItemService
-                    nameResponse = await this.makeGrpcCall('ApiItemService', 'name', {
+                    // Type 16 = ApiItem - use ApiItem
+                    nameResponse = await this.makeGrpcCall('ApiItem', 'name', {
                         objectPtr: {
                             handle: objectRef.handle,
                             type: objectRef.type
@@ -255,9 +255,9 @@ class BulletproofOctaneClient {
             try {
                 let childrenResponse;
                 
-                // Use ApiRootNodeGraphService for root node graph
-                console.log(`${indent}🔍 BULLETPROOF: Getting children using ApiRootNodeGraphService`);
-                childrenResponse = await this.makeGrpcCall('ApiRootNodeGraphService', 'getOwnedItems', {
+                // Use ApiRootNodeGraph for root node graph
+                console.log(`${indent}🔍 BULLETPROOF: Getting children using ApiRootNodeGraph`);
+                childrenResponse = await this.makeGrpcCall('ApiRootNodeGraph', 'getOwnedItems', {
                     objectPtr: {
                         handle: objectRef.handle,
                         type: objectRef.type

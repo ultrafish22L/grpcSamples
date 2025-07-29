@@ -50,7 +50,7 @@ open index.html  # Shows real Octane scene data
 ### ✅ PROVEN PATTERNS (Follow These)
 ```javascript
 // ROOT NODE GRAPH - This works perfectly
-const rootResponse = await client.makeGrpcCall('ApiProjectManagerService', 'rootNodeGraph', {});
+const rootResponse = await client.makeGrpcCall('ApiProjectManager', 'rootNodeGraph', {});
 const objectRef = rootResponse.data.result.result; // {handle: 1000001, type: 18}
 
 // CHILDREN DISCOVERY - Use working patterns from testGrpcApi
