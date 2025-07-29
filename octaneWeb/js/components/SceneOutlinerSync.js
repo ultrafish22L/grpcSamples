@@ -7,6 +7,10 @@
 
 class SceneOutlinerSync {
     constructor(element, eventSystem) {
+        console.log('🔍 DEBUG: SceneOutlinerSync constructor called');
+        console.log('🔍 DEBUG: element:', element);
+        console.log('🔍 DEBUG: eventSystem:', eventSystem);
+        
         this.element = element;
         this.eventSystem = eventSystem;
         this.lastSceneItems = [];
@@ -14,6 +18,13 @@ class SceneOutlinerSync {
         this.searchTerm = '';
         
         this.setupEventHandlers();
+        
+        // Auto-load scene tree after a short delay
+        console.log('🔍 DEBUG: Setting up auto-load timer...');
+        setTimeout(() => {
+            console.log('🔍 DEBUG: Auto-loading scene tree...');
+            this.loadSceneTree();
+        }, 1000);
     }
     
     setupEventHandlers() {
@@ -36,21 +47,29 @@ class SceneOutlinerSync {
      * UI loads immediately, then updates when scene data is ready
      */
     async loadSceneTree() {
+        console.log('🔍 DEBUG: loadSceneTree() called');
         const treeContainer = this.element.querySelector('#scene-tree');
         if (!treeContainer) {
             console.error('❌ Scene tree container not found');
             return;
         }
         
+        console.log('🔍 DEBUG: Found tree container, showing loading state');
         // Show loading state immediately - UI is responsive
         treeContainer.innerHTML = '<div class="scene-loading">🔍 Loading scene from Octane...</div>';
+        
+        console.log('🔍 DEBUG: Checking grpcApi availability...');
+        console.log('🔍 DEBUG: window.grpcApi available?', !!window.grpcApi);
+        console.log('🔍 DEBUG: makeApiCallSync method available?', !!(window.grpcApi && window.grpcApi.makeApiCallSync));
         
         try {
             console.log('🔒 Starting SYNCHRONOUS scene tree loading sequence...');
             
             // All API calls are now SYNCHRONOUS and BLOCKING
             // This ensures proper sequential dependencies
+            console.log('🔍 DEBUG: About to call loadSceneTreeSync()...');
             const sceneItems = this.loadSceneTreeSync();
+            console.log('🔍 DEBUG: loadSceneTreeSync() returned:', sceneItems);
             
             // Store scene data for later requests
             this.lastSceneItems = sceneItems;
