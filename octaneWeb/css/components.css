@@ -3,71 +3,163 @@
  * Specific styling for individual UI components
  */
 
-/* Scene Tree Styling */
-.scene-tree-root {
+/* Scene Outliner Styles - Matching Octane UI */
+.scene-outliner-header {
+    padding: 6px 8px;
+    background: var(--octane-bg-secondary);
+    border-bottom: 1px solid var(--octane-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.scene-outliner-header h3 {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--octane-text-primary);
+    text-transform: capitalize;
+}
+
+.scene-outliner-controls {
+    display: flex;
+    gap: 2px;
+}
+
+.scene-outliner-controls button {
+    background: none;
+    border: none;
+    color: var(--octane-text-secondary);
+    cursor: pointer;
+    padding: 1px 3px;
+    border-radius: 2px;
+    font-size: 10px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scene-outliner-controls button:hover {
+    background: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+.scene-search-container {
+    padding: 4px 6px;
+    border-bottom: 1px solid var(--octane-border);
+    background: var(--octane-bg-primary);
+}
+
+.scene-search-box {
+    width: 100%;
+    background: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: 2px;
+    padding: 3px 6px;
+    font-size: 11px;
+    color: var(--octane-text-primary);
+    outline: none;
+}
+
+.scene-search-box:focus {
+    border-color: var(--octane-accent-red);
+    box-shadow: 0 0 0 1px var(--octane-accent-red);
+}
+
+.scene-search-box::placeholder {
+    color: var(--octane-text-secondary);
+    font-style: italic;
+}
+
+.scene-outliner-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 0;
+}
+
+/* Scene Tree Styling - Updated for Octane UI */
+.scene-tree {
     font-family: var(--font-family);
-    font-size: var(--font-size-small);
+    font-size: 11px;
+    line-height: 1.3;
     color: var(--octane-text-primary);
 }
 
 .scene-node {
     cursor: pointer;
     user-select: none;
-}
-
-.scene-node-content {
     display: flex;
     align-items: center;
-    padding: 2px 4px;
-    border-radius: 3px;
-    transition: background-color 0.15s ease;
+    padding: 1px 6px;
+    margin: 0;
+    height: 18px;
 }
 
-.scene-node-content:hover {
+.scene-node:hover {
     background-color: var(--octane-bg-hover);
 }
 
-.scene-node.selected .scene-node-content {
+.scene-node.selected {
     background-color: var(--octane-accent-red);
     color: white;
 }
 
 .scene-node-indent {
-    display: inline-block;
-    width: 16px;
+    width: 12px;
     flex-shrink: 0;
 }
 
-.scene-node-toggle {
-    display: inline-block;
+.scene-node-expand {
     width: 12px;
     text-align: center;
-    margin-right: 4px;
-    font-size: 10px;
+    cursor: pointer;
+    color: var(--octane-text-secondary);
+    font-size: 9px;
+    font-family: monospace;
+    line-height: 1;
     flex-shrink: 0;
+}
+
+.scene-node-expand:hover {
+    color: var(--octane-text-primary);
+}
+
+.scene-node-expand.expanded::before {
+    content: "▼";
+}
+
+.scene-node-expand.collapsed::before {
+    content: "▶";
+}
+
+.scene-node-expand.leaf::before {
+    content: "";
 }
 
 .scene-node-icon {
-    display: inline-block;
-    width: 16px;
+    width: 14px;
     text-align: center;
-    margin-right: 6px;
-    font-size: 12px;
+    margin-right: 4px;
+    font-size: 11px;
     flex-shrink: 0;
 }
 
 .scene-node-name {
     flex: 1;
+    color: var(--octane-text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-right: 6px;
+    font-weight: 400;
 }
 
 .scene-node-handle {
-    font-size: 10px;
     color: var(--octane-text-secondary);
-    margin-right: 6px;
+    font-size: 9px;
+    margin-left: 4px;
+    font-family: monospace;
     flex-shrink: 0;
 }
 
@@ -76,16 +168,63 @@
 }
 
 .scene-node-visibility {
-    display: inline-block;
-    width: 16px;
+    margin-left: 6px;
+    cursor: pointer;
+    opacity: 0.6;
+    font-size: 11px;
+    width: 14px;
     text-align: center;
-    font-size: 12px;
-    opacity: 0.7;
     flex-shrink: 0;
 }
 
 .scene-node-visibility:hover {
     opacity: 1;
+}
+
+/* Node type specific icons */
+.scene-node-icon.scene { color: inherit; }
+.scene-node-icon.scene::before { content: "🌍"; }
+.scene-node-icon.render-target::before { content: "📁"; color: #ffa500; }
+.scene-node-icon.camera::before { content: "📷"; }
+.scene-node-icon.light::before { content: "💡"; }
+.scene-node-icon.geometry::before { content: "🔷"; }
+.scene-node-icon.material::before { content: "🎨"; }
+.scene-node-icon.texture::before { content: "🖼️"; }
+.scene-node-icon.group::before { content: "📂"; }
+.scene-node-icon.mesh::before { content: "▲"; }
+.scene-node-icon.object::before { content: "⬜"; }
+.scene-node-icon.node::before { content: "⚪"; }
+.scene-node-icon.unknown::before { content: "❓"; }
+
+/* Hide any text content inside icon spans when using CSS icons */
+.scene-node-icon.scene,
+.scene-node-icon.render-target,
+.scene-node-icon.camera,
+.scene-node-icon.light,
+.scene-node-icon.geometry,
+.scene-node-icon.material,
+.scene-node-icon.texture,
+.scene-node-icon.group,
+.scene-node-icon.mesh,
+.scene-node-icon.object,
+.scene-node-icon.node,
+.scene-node-icon.unknown {
+    font-size: 0; /* Hide text content */
+}
+
+.scene-node-icon.scene::before,
+.scene-node-icon.render-target::before,
+.scene-node-icon.camera::before,
+.scene-node-icon.light::before,
+.scene-node-icon.geometry::before,
+.scene-node-icon.material::before,
+.scene-node-icon.texture::before,
+.scene-node-icon.group::before,
+.scene-node-icon.mesh::before,
+.scene-node-icon.object::before,
+.scene-node-icon.node::before,
+.scene-node-icon.unknown::before {
+    font-size: 11px; /* Restore font size for pseudo-element */
 }
 
 .scene-node-children {

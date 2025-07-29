@@ -55,23 +55,36 @@ class SceneOutliner extends OctaneComponent {
     
     render() {
         this.element.innerHTML = `
-            <div class="scene-outliner-toolbar">
-                <input type="text" class="scene-outliner-search" placeholder="Search objects..." />
-                <button class="panel-btn" title="Expand All">⊞</button>
-                <button class="panel-btn" title="Collapse All">⊟</button>
+            <div class="scene-outliner-header">
+                <h3>Scene outliner</h3>
+                <div class="scene-outliner-controls">
+                    <button class="panel-btn" title="Collapse All">⊟</button>
+                    <button class="panel-btn" title="Expand All">⊞</button>
+                </div>
             </div>
-            <div class="scene-tree" id="scene-tree">
-                <div class="scene-loading">Loading scene...</div>
+            <div class="scene-search-container">
+                <input type="text" class="scene-search-box" placeholder="Search objects..." />
+            </div>
+            <div class="scene-outliner-content">
+                <div class="scene-tree" id="scene-tree">
+                    <div class="scene-loading">Loading scene...</div>
+                </div>
             </div>
         `;
     }
     
     setupSearch() {
-        const searchInput = this.element.querySelector('.scene-outliner-search');
+        const searchInput = this.element.querySelector('.scene-search-box');
         if (searchInput) {
             this.addEventListener(searchInput, 'input', (e) => {
                 this.searchTerm = e.target.value.toLowerCase();
-                this.renderTree();
+                
+                // Use real scene data if available, otherwise use mock data
+                if (this.lastSceneItems && this.lastSceneItems.length > 0) {
+                    this.renderRealSceneTree(this.lastSceneItems);
+                } else {
+                    this.renderTree();
+                }
             });
         }
     }
@@ -271,44 +284,64 @@ class SceneOutliner extends OctaneComponent {
             return;
         }
         
-        // Build hierarchical tree structure matching target UI
-        let treeHTML = '<div class="scene-tree-root">';
+        // Build hierarchical tree structure matching Octane UI
+        let treeHTML = '';
         
         // Root Scene node (always expanded)
-        treeHTML += '<div class="scene-node scene-root" data-node-id="scene_root" data-expanded="true">';
-        treeHTML += '<div class="scene-node-content" data-level="0">';
-        treeHTML += '<span class="scene-node-indent"></span>';
-        treeHTML += '<span class="scene-node-toggle">▼</span>';
-        treeHTML += '<span class="scene-node-icon">🌍</span>';
-        treeHTML += '<span class="scene-node-name">Scene</span>';
-        treeHTML += '<span class="scene-node-visibility">👁</span>';
-        treeHTML += '</div>';
+        const sceneExpanded = this.expandedNodes.has('scene_root');
+        treeHTML += `
+            <div class="scene-node scene-root" data-node-id="scene_root" data-expanded="${sceneExpanded}">
+                <span class="scene-node-indent"></span>
+                <span class="scene-node-expand ${sceneExpanded ? 'expanded' : 'collapsed'}"></span>
+                <span class="scene-node-icon scene"></span>
+                <span class="scene-node-name">Scene</span>
+                <span class="scene-node-visibility">👁</span>
+            </div>
+        `;
         
-        // Children container
-        treeHTML += '<div class="scene-node-children" style="display: block;">';
-        
-        // Add each real scene item as child of Scene
-        sceneItems.forEach(item => {
-            const icon = this.getNodeIcon(item.type, item.name);
-            const isSelected = this.selectedNodeId === item.handle.toString();
+        // Children container (only show if expanded)
+        if (sceneExpanded) {
+            // Filter items based on search term
+            const filteredItems = sceneItems.filter(item => {
+                if (!this.searchTerm) return true;
+                return item.name.toLowerCase().includes(this.searchTerm) ||
+                       item.handle.toString().includes(this.searchTerm) ||
+                       item.type.toString().includes(this.searchTerm);
+            });
             
-            treeHTML += `
-                <div class="scene-node scene-item ${isSelected ? 'selected' : ''}" 
-                     data-node-id="${item.handle}" 
-                     data-node-type="${item.type}"
-                     data-node-name="${item.name}">
-                    <div class="scene-node-content" data-level="1">
-                        <span class="scene-node-indent">    </span>
-                        <span class="scene-node-icon">${icon}</span>
+            // Add each filtered scene item as child of Scene
+            filteredItems.forEach(item => {
+                const iconClass = this.getNodeIconClass(item.type, item.name);
+                const isSelected = this.selectedNodeId === item.handle.toString();
+                
+                treeHTML += `
+                    <div class="scene-node scene-item ${isSelected ? 'selected' : ''}" 
+                         data-node-id="${item.handle}" 
+                         data-node-type="${item.type}"
+                         data-node-name="${item.name}">
+                        <span class="scene-node-indent"></span>
+                        <span class="scene-node-expand leaf"></span>
+                        <span class="scene-node-icon ${iconClass}"></span>
                         <span class="scene-node-name">${item.name}</span>
                         <span class="scene-node-handle">[${item.handle}]</span>
                         <span class="scene-node-visibility">👁</span>
                     </div>
-                </div>
-            `;
-        });
+                `;
+            });
+            
+            // Show "no results" message if search filtered out all items
+            if (this.searchTerm && filteredItems.length === 0) {
+                treeHTML += `
+                    <div class="scene-node scene-no-results">
+                        <span class="scene-node-indent"></span>
+                        <span class="scene-node-expand leaf"></span>
+                        <span class="scene-node-icon">🔍</span>
+                        <span class="scene-node-name">No matching objects found</span>
+                    </div>
+                `;
+            }
+        }
         
-        treeHTML += '</div></div></div>';
         treeContainer.innerHTML = treeHTML;
         
         // Add click handlers for real scene items
@@ -362,14 +395,71 @@ class SceneOutliner extends OctaneComponent {
         return iconMap[nodeType] || '📄';
     }
     
+    getNodeIconClass(nodeType, nodeName = '') {
+        // Map Octane node types to CSS icon classes
+        if (nodeName.toLowerCase().includes('render target')) {
+            return 'render-target';
+        }
+        if (nodeName.toLowerCase().includes('camera')) {
+            return 'camera';
+        }
+        if (nodeName.toLowerCase().includes('.obj') || nodeName.toLowerCase().includes('.fbx') || nodeName.toLowerCase().includes('.ply')) {
+            return 'mesh';
+        }
+        
+        // Check for TypeApiItem - these are generic scene objects
+        if (nodeName.toLowerCase().includes('typeapiitem')) {
+            return 'object';
+        }
+        
+        const classMap = {
+            1: 'camera',
+            2: 'light', 
+            3: 'geometry',
+            4: 'material',
+            5: 'texture',
+            16: 'object',  // Generic API item
+            18: 'node',
+            20: 'group',
+            31: 'object'   // Item array contents
+        };
+        return classMap[nodeType] || 'object';  // Default to object instead of unknown
+    }
+    
     setupRealSceneTreeHandlers() {
         const treeContainer = this.element.querySelector('#scene-tree');
         if (!treeContainer) return;
+        
+        // Add expand/collapse handlers
+        const expandButtons = treeContainer.querySelectorAll('.scene-node-expand:not(.leaf)');
+        expandButtons.forEach(button => {
+            this.addEventListener(button, 'click', (e) => {
+                e.stopPropagation();
+                const node = button.closest('.scene-node');
+                const nodeId = node.dataset.nodeId;
+                
+                // Toggle expanded state
+                if (this.expandedNodes.has(nodeId)) {
+                    this.expandedNodes.delete(nodeId);
+                } else {
+                    this.expandedNodes.add(nodeId);
+                }
+                
+                // Re-render tree to show/hide children
+                this.renderRealSceneTree(this.lastSceneItems || []);
+            });
+        });
         
         // Add click handlers for scene nodes
         const sceneNodes = treeContainer.querySelectorAll('.scene-node');
         sceneNodes.forEach(node => {
             this.addEventListener(node, 'click', (e) => {
+                // Don't handle clicks on expand buttons or visibility toggles
+                if (e.target.classList.contains('scene-node-expand') || 
+                    e.target.classList.contains('scene-node-visibility')) {
+                    return;
+                }
+                
                 e.stopPropagation();
                 const nodeId = node.dataset.nodeId;
                 const nodeType = node.dataset.nodeType;
