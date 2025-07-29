@@ -194,9 +194,11 @@ class SceneOutlinerSync {
             throw error;
         }
         
-        // STEP 5: Process each item individually with detailed debugging
+        // STEP 5: Process each item individually with DEFENSIVE PROGRAMMING
         const sceneItems = [];
         const items = itemsResult.data.result.data;
+        
+        console.log(`🔍 DEBUG: STEP 5 - Processing ${items.length} items with handle validation...`);
         
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
@@ -205,12 +207,19 @@ class SceneOutlinerSync {
             
             console.log(`🔍 DEBUG: STEP 5.${i+1} - Processing item ${i + 1}/${items.length}: handle=${handle}, type=${type}`);
             
+            // DEFENSIVE PROGRAMMING: Validate handle before making API calls
+            if (!handle || handle === '0' || handle === 0) {
+                console.warn(`⚠️ DEBUG: STEP 5.${i+1} SKIPPED - Invalid handle: ${handle}`);
+                continue;
+            }
+            
             let actualName = `Item_${handle}`;  // Default fallback name
             let superclass = 'unknown';
+            let isValidHandle = false;
             
-            // Test name call for this specific item
+            // SAFE API CALL: Test name call with error isolation
             try {
-                console.log(`🔍 DEBUG: STEP 5.${i+1}.A - Getting name for handle ${handle}`);
+                console.log(`🔍 DEBUG: STEP 5.${i+1}.A - SAFELY getting name for handle ${handle}`);
                 const nameResult = window.grpcApi.makeApiCallSync(
                     'ApiItem/name',
                     handle
@@ -218,34 +227,42 @@ class SceneOutlinerSync {
                 
                 if (nameResult.success && nameResult.data.result) {
                     actualName = nameResult.data.result;
+                    isValidHandle = true;
                     console.log(`✅ DEBUG: STEP 5.${i+1}.A SUCCESS - Got name: "${actualName}" for handle ${handle}`);
                 } else {
                     console.warn(`⚠️ DEBUG: STEP 5.${i+1}.A FAILED - Name call failed for handle ${handle}:`, nameResult);
+                    // Handle might be invalid - skip outType call to prevent crash
+                    console.warn(`⚠️ DEBUG: STEP 5.${i+1} SKIPPING outType call due to name failure`);
+                    continue;
                 }
                 
             } catch (error) {
-                console.error(`💥 DEBUG: CRASH IN STEP 5.${i+1}.A (name for handle ${handle}):`, error);
-                // Continue to test outType call
+                console.error(`💥 DEBUG: STEP 5.${i+1}.A CRASHED - Handle ${handle} caused error:`, error);
+                console.warn(`⚠️ DEBUG: STEP 5.${i+1} SKIPPING - Handle ${handle} appears to be corrupted/invalid`);
+                // Skip this handle entirely to prevent Octane crash
+                continue;
             }
             
-            // Test outType call for this specific item (valid API method)
-            try {
-                console.log(`🔍 DEBUG: STEP 5.${i+1}.B - Getting outType for handle ${handle}`);
-                const outTypeResult = window.grpcApi.makeApiCallSync(
-                    'ApiItem/outType',
-                    handle
-                );
-                
-                if (outTypeResult.success && outTypeResult.data.result) {
-                    superclass = outTypeResult.data.result;
-                    console.log(`✅ DEBUG: STEP 5.${i+1}.B SUCCESS - Got outType: "${superclass}" for handle ${handle}`);
-                } else {
-                    console.warn(`⚠️ DEBUG: STEP 5.${i+1}.B FAILED - OutType call failed for handle ${handle}:`, outTypeResult);
+            // SAFE API CALL: Only call outType if name succeeded (handle is valid)
+            if (isValidHandle) {
+                try {
+                    console.log(`🔍 DEBUG: STEP 5.${i+1}.B - SAFELY getting outType for VALIDATED handle ${handle}`);
+                    const outTypeResult = window.grpcApi.makeApiCallSync(
+                        'ApiItem/outType',
+                        handle
+                    );
+                    
+                    if (outTypeResult.success && outTypeResult.data.result) {
+                        superclass = outTypeResult.data.result;
+                        console.log(`✅ DEBUG: STEP 5.${i+1}.B SUCCESS - Got outType: "${superclass}" for handle ${handle}`);
+                    } else {
+                        console.warn(`⚠️ DEBUG: STEP 5.${i+1}.B FAILED - OutType call failed for handle ${handle}:`, outTypeResult);
+                    }
+                    
+                } catch (error) {
+                    console.error(`💥 DEBUG: STEP 5.${i+1}.B CRASHED - OutType failed for handle ${handle}:`, error);
+                    // Continue with default superclass value
                 }
-                
-            } catch (error) {
-                console.error(`💥 DEBUG: CRASH IN STEP 5.${i+1}.B (outType for handle ${handle}):`, error);
-                // Continue processing other items
             }
             
             sceneItems.push({
