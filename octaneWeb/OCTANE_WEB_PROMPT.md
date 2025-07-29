@@ -210,16 +210,13 @@ try {
 
 **✅ VALID ApiItem methods:**
 - `name` - Get item name
-- `outType` - Get item type (use this, NOT superclass)
+- `outType` - Get item type 
 - `destroy` - Destroy item
 - `position` - Get item position
 - `uiOperationFlags` - Get UI flags
 - `select` - Select item
 - `time` - Get time info
 - `persistentId` - Get persistent ID
-
-**❌ INVALID ApiItem methods:**
-- `superclass` - **DOES NOT EXIST** (causes HTTP 404 and proxy crashes)
 
 **How to verify methods:**
 ```bash
@@ -244,18 +241,11 @@ grep -n "class ApiItemServiceStub" octaneProxy/generated/apinodesystem_pb2_grpc.
 - **CORS Errors**: Ensure proxy has proper CORS headers
 - **Empty Data**: Check if Octane has actual scene content
 - **Timing Issues**: Event system handles component initialization order
-- **Invalid API Methods**: Replace with valid methods (e.g., superclass → outType)
 - **Proxy Crashes**: Check for HTTP 404 errors indicating invalid method calls
 
 ---
 
 ## 📋 **CRITICAL GOTCHAS**
-
-### **🚨 INVALID API METHODS (MAJOR CRASH SOURCE):**
-- **Issue**: Calling non-existent API methods like `ApiItem/superclass`
-- **Symptom**: HTTP 404 errors, proxy crashes, "Socket closed" messages
-- **Fix**: Always verify methods exist in protobuf definitions before calling
-- **Prevention**: Use valid methods like `ApiItem/outType` instead of `superclass`
 
 ### **Method Name Mapping:**
 - **Issue**: Some methods use different names (get1 → getRequest)
@@ -296,7 +286,6 @@ grep -n "class ApiItemServiceStub" octaneProxy/generated/apinodesystem_pb2_grpc.
 
 ### **Completed (2025-07-29):**
 - ✅ **CRASH DEBUGGING RESOLVED**: Systematic isolation of API call failures
-- ✅ **Invalid API Method Fixed**: Replaced `ApiItem/superclass` with `ApiItem/outType`
 - ✅ **Debugging Tools**: Created HandleTester.js and SceneOutlinerSync.js for systematic testing
 - ✅ **API Method Validation**: Verified all methods against protobuf definitions
 - ✅ **Proxy Stability**: Fixed proxy crashes caused by invalid method calls

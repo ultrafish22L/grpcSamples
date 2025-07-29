@@ -62,7 +62,7 @@ function(configure_simpleGlSdk_target target_name)
     # Link libraries - use built targets from third_party
     target_link_libraries(${target_name}
         PRIVATE
-            shared_lib
+            shared_lib_sdk
             octane_sdk
             glfw
             glew

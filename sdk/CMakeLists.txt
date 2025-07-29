@@ -23,25 +23,47 @@ list(APPEND SDK_SOURCES ${PROTOC_SOURCES})
 
 # Collect all existing converter files 
 file(GLOB_RECURSE CONVERTER_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/converter/*.*"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/converters/*.*"
 )
 
 # Include converter sources
-#list(APPEND SDK_SOURCES ${CONVERTER_SOURCES})
+list(APPEND SDK_SOURCES ${CONVERTER_SOURCES})
 
 # Collect all existing base files 
-file(GLOB_RECURSE GRPCBASE_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/*.*"
-)
+#file(GLOB_RECURSE GRPCBASE_SOURCES
+#    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/*.*"
+#)
 
 # Include base sources
-#list(APPEND SDK_SOURCES ${GRPCBASE_SOURCES})
+list(APPEND SDK_SOURCES 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpcbase.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpcbase.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpcsettings.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpcsettings.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/convertmatrix.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/convertmatrix.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/clientcallbackmgr.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/clientcallbackmgr.h
+#    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpccallbacks.h
+#    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpccallbacks.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpcsettings.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpcsettings.cpp    
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/objectmgr.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/objectmgr.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/stringmgr.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/stringmgr.cpp
+)
 
 # Exclude octanewrappers.cpp if it exists
 list(REMOVE_ITEM SDK_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/octanewrappers.cpp")
 
 # Create the SDK library
-add_library(octane_sdk STATIC ${SDK_SOURCES})
+add_library(octane_sdk STATIC
+    ${SDK_SOURCES}
+)
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES 
+    ${SDK_SOURCES} 
+)
 
 # Set include directories
 target_include_directories(octane_sdk
@@ -98,6 +120,7 @@ target_compile_definitions(octane_sdk
         $<$<PLATFORM_ID:Windows>:WIN32_LEAN_AND_MEAN>
         $<$<PLATFORM_ID:Windows>:NOMINMAX>
         # Add any other necessary definitions here
+        NO_PCH
 )
 
 # Platform-specific library linking

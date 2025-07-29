@@ -215,7 +215,7 @@ class SceneOutlinerSync {
             }
             
             let actualName = `Item_${handle}`;  // Default fallback name
-            let superclass = 'unknown';
+            let outtype = 'unknown';
             let isValidHandle = false;
             
             // SAFE API CALL: Test name call with error isolation
@@ -254,15 +254,15 @@ class SceneOutlinerSync {
                     );
                     
                     if (outTypeResult.success && outTypeResult.data.result) {
-                        superclass = outTypeResult.data.result;
-                        console.log(`✅ DEBUG: STEP 5.${i+1}.B SUCCESS - Got outType: "${superclass}" for handle ${handle}`);
+                        outtype = outTypeResult.data.result;
+                        console.log(`✅ DEBUG: STEP 5.${i+1}.B SUCCESS - Got outType: "${outtype}" for handle ${handle}`);
                     } else {
                         console.warn(`⚠️ DEBUG: STEP 5.${i+1}.B FAILED - OutType call failed for handle ${handle}:`, outTypeResult);
                     }
                     
                 } catch (error) {
                     console.error(`💥 DEBUG: STEP 5.${i+1}.B CRASHED - OutType failed for handle ${handle}:`, error);
-                    // Continue with default superclass value
+                    // Continue with default outtype value
                 }
             }
             
@@ -270,7 +270,7 @@ class SceneOutlinerSync {
                 name: actualName,
                 handle: handle,
                 type: type,
-                superclass: superclass,
+                outtype: outtype,
                 children: []
             });
             
@@ -312,7 +312,7 @@ class SceneOutlinerSync {
         
         if (this.expandedNodes.has('scene-root')) {
             filteredItems.forEach(item => {
-                const icon = this.getIconForSuperclass(item.superclass);
+                const icon = this.getIconFor(item.outtype);
                 const nodeId = `item-${item.handle}`;
                 
                 treeHTML += `
@@ -336,7 +336,7 @@ class SceneOutlinerSync {
         this.addTreeEventHandlers(treeContainer);
     }
     
-    getIconForSuperclass(superclass) {
+    getIconFor(outtype) {
         const iconMap = {
             'unknown': '⬜',
             'mesh': '▲',
@@ -347,7 +347,7 @@ class SceneOutlinerSync {
             'group': '📁'
         };
         
-        return iconMap[superclass] || '⬜';
+        return iconMap[outtype] || '⬜';
     }
     
     addTreeEventHandlers(treeContainer) {

@@ -136,10 +136,6 @@ grep -n "class ApiItemServiceStub" generated/apinodesystem_pb2_grpc.py -A 50
 - `outType` - Get item output type
 - `persistentId` - Get persistent identifier
 
-### **❌ INVALID Methods (CAUSE CRASHES):**
-- `superclass` - **DOES NOT EXIST** in ApiItemServiceStub
-- Any method not defined in the protobuf service definition
-
 ### **Service-to-Module Mapping:**
 ```python
 service_map = {
@@ -249,14 +245,6 @@ python octane_proxy.py --host 0.0.0.0 --port 51023 --octane-host 127.0.0.1 --oct
 }
 ```
 
-### **Error Response Format:**
-```json
-{
-  "success": false,
-  "error": "Method superclass not found on ApiItem"
-}
-```
-
 ---
 
 ## 🛡️ **ERROR HANDLING**
@@ -292,12 +280,6 @@ except Exception as e:
 
 ## 📋 **CRITICAL GOTCHAS**
 
-### **🚨 INVALID METHOD CALLS (MAJOR ISSUE):**
-- **Problem**: Calling non-existent methods crashes the proxy
-- **Example**: `ApiItem/superclass` returns HTTP 404 and may crash proxy
-- **Solution**: Always validate methods exist in protobuf definitions
-- **Prevention**: Use method validation before implementing new API calls
-
 ### **Service Name Mapping:**
 - **Problem**: Service names don't always match module names
 - **Example**: `ApiItem` maps to `apinodesystem` module, not `apiitem`
@@ -323,18 +305,11 @@ except Exception as e:
 - ✅ **Success Logs**: `📥 SUCCESS: ApiItem.name`
 - ✅ **Response Data**: Valid JSON with `{"success": true, "data": {...}}`
 
-### **Failed Proxy Shows:**
-- ❌ **Health Check**: `{"status": "ok", "connected": false}`
-- ❌ **Error Logs**: `❌ ERROR: Method superclass not found`
-- ❌ **Traceback**: Full Python exception stack trace
-- ❌ **No Response**: Request logged but no response (proxy crashed)
-
 ---
 
 ## 📝 **RECENT MAJOR CHANGES**
 
 ### **Completed (2025-07-29):**
-- ✅ **Crash Analysis**: Identified invalid `ApiItem/superclass` method as crash source
 - ✅ **Method Validation**: Verified all methods against protobuf definitions
 - ✅ **Error Handling**: Improved error messages and logging
 - ✅ **Stability**: Fixed proxy crashes from invalid method calls

@@ -7,10 +7,9 @@ add_library(shared_lib_base STATIC
     file_dialog.h
     model_loader.h
     model_manager.h
-    camera_system.h
-    camera_sync_sdk.cpp
-    camera_sync_sdk.h
     shared_rendering.h
+    camera_system.h
+    camera_system.cpp
 )
 
 # Set include directories
@@ -81,6 +80,7 @@ target_compile_definitions(shared_lib_base
         # Platform-specific definitions
         $<$<PLATFORM_ID:Windows>:WIN32_LEAN_AND_MEAN>
         $<$<PLATFORM_ID:Windows>:NOMINMAX>
+        DO_GRPC_SDK_ENABLED
 )
 
 # grpc proto definition files - always process these
@@ -702,4 +702,36 @@ target_compile_definitions(shared_lib
     PUBLIC
         # Enable GRPC integration 
         DO_GRPC_ENABLED
+)
+
+# shared_lib_sdk
+# Create the shared library
+add_library(shared_lib_sdk STATIC 
+    camera_sync_sdk.cpp
+    camera_sync_sdk.h
+)
+
+# Set include directories
+target_include_directories(shared_lib_sdk
+    PUBLIC
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../sdk/src/api
+        ${CMAKE_CURRENT_SOURCE_DIR}/../sdk/src/api/grpc/protoc
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../sdk/src/api/grpc/converters
+        ${CMAKE_CURRENT_SOURCE_DIR}/../sdk/src/api/grpc/client
+        ${CMAKE_CURRENT_SOURCE_DIR}/../sdk/src/api/grpc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../sdk/src/api
+        ${CMAKE_CURRENT_SOURCE_DIR}/../sdk/src/api/ui
+        ${CMAKE_CURRENT_SOURCE_DIR}/../sdk
+        ${CMAKE_CURRENT_SOURCE_DIR}/../sdk/src/api/module
+        ${CMAKE_CURRENT_SOURCE_DIR}/../sdk/src/api/module/gui
+)
+# Link with ALL available third-party libraries for comprehensive coverage
+target_link_libraries(shared_lib_sdk
+    PUBLIC
+        shared_lib
+)
+
+target_compile_definitions(shared_lib_sdk
+    PUBLIC
+        DO_GRPC_SDK_ENABLED
 )
