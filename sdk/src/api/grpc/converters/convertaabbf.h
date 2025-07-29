@@ -7,7 +7,7 @@
 #include <functional>
 #include "octaneaabb.h"
 namespace octaneapi { class AABBF; }
-class ApiNodeInfoProxy;
+struct ApiNodeInfoProxy;
 class AABBFConverter
 {
 public:

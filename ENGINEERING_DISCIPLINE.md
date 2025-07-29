@@ -72,11 +72,6 @@ const cacheBuster = `?v=${timestamp}`;
 ## 🔧 DEVELOPMENT WORKFLOW STANDARDS
 
 ### 1. **Study Phase** (Before Writing Code)
-```bash
-# MANDATORY - Study working patterns first
-cd testGrpcApi && grep -r "getOwnedItems\|buildSceneTree" .
-cd proxy && grep -A10 -B10 "scene\|tree" grpc_proxy.py
-```
 
 ### 2. **Test Phase** (Before Integration)
 

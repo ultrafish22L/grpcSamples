@@ -28,7 +28,7 @@ std::string GRPCBase::checkString(
 }
 
 
-bool GRPCBase::isNull() const
+bool GRPCBase::isNull()
 {
     return mHandle == 0;
 }

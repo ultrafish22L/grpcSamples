@@ -10,9 +10,9 @@
 #include <iostream>
 #include <cmath>
 
-#include "../shared_rendering.h"
-#include "../shared/camera_system.h"
-#include "../shared/model_manager.h"
+#include "shared_rendering.h"
+#include "camera_system.h"
+#include "model_manager.h"
 
 // Modern 3D Cube Viewer with enhanced graphics
 

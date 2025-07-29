@@ -10,7 +10,7 @@
 #include <iostream>
 #include <cmath>
 
-#include "../shared_rendering.h"
+#include "shared_rendering.h"
 #include "../shared/camera_system.h"
 #include "../shared/model_manager.h"
 

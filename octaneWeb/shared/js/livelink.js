@@ -345,7 +345,7 @@ class LiveLinkClient extends SimpleEventEmitter {
             analysis.likelyCause = 'Server is running but not responding with valid HTTP';
             analysis.suggestions = [
                 'Server might be running raw gRPC instead of gRPC-Web',
-                'Try using a gRPC-Web proxy (grpc_proxy.py)',
+                'Try using a gRPC-Web proxy (octane_proxy.py)',
                 'Verify server supports gRPC-Web protocol',
                 'Check if server is configured for HTTP/2'
             ];

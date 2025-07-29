@@ -7,7 +7,7 @@
 namespace Octane { struct ApiTextureValueTypeSet; }
 namespace octaneapi { class ApiTextureValueTypeSet; }
 
-class ApiNodeInfoProxy;
+struct ApiNodeInfoProxy;
 class ApiTextureValueTypeSetConverter
 {
 public:

@@ -5,7 +5,7 @@
 ### Step 1: Start Bulletproof Proxy (30 seconds)
 ```bash
 cd /workspace/grpcSamples/octaneWeb
-python bulletproof_proxy.py
+python octane_proxy.py
 ```
 **Expected Output**: `🚀 Bulletproof proxy running on port 51023`
 
@@ -29,7 +29,7 @@ open index.html
 ### ❌ TROUBLESHOOTING:
 - **Red LED**: Octane not running or gRPC disabled
 - **Empty Scene**: No Octane connection (expected without live Octane)
-- **Port Conflicts**: Change proxy port in bulletproof_proxy.py
+- **Port Conflicts**: Change proxy port in octane_proxy.py
 
 ## 🎯 NEXT STEPS
 

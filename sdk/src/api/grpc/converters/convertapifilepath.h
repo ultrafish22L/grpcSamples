@@ -7,7 +7,7 @@
 namespace Octane { struct ApiFilePath; }
 namespace octaneapi { class ApiFilePath; }
 
-class ApiNodeInfoProxy;
+struct ApiNodeInfoProxy;
 class ApiFilePathConverter
 {
 public:

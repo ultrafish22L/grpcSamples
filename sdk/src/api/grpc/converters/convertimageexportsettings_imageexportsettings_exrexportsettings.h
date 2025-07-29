@@ -9,7 +9,7 @@
 #include <functional>
 #include "octaneimageexport.h"
 namespace octaneapi { class ImageExportSettings_ImageExportSettings_ExrExportSettings; }
-class ApiNodeInfoProxy;
+struct ApiNodeInfoProxy;
 class ImageExportSettings_ImageExportSettings_ExrExportSettingsConverter
 {
 public:

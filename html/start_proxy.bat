@@ -55,8 +55,8 @@ echo Press Ctrl+C to stop the server
 echo.
 
 REM Start the proxy server
-cd ..\proxy
-python grpc_proxy.py
+cd ..\octaneProxy
+python octane_proxy.py
 
 REM If we get here, the server stopped
 echo.

@@ -4,13 +4,11 @@
 #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)
 #include "octaneinfos.h"
 #include "grpcbase.h"
-#include "apinodeinfoclient.h"
 
-/*
+
 class ApiNodeInfoProxy : public Octane::ApiNodeInfo, GRPCBase
 {
     std::vector<Octane::ApiCompatibilityModeInfo> mCompatibilityModeInfos;
 };
-*/
 
 #endif //#if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

@@ -24,7 +24,7 @@
 #include "apichangemanagerclient.h"
 #include "apirootnodegraphclient.h"
 #include "convertapiarrayapirenderimage.h"
-#include "callback.grpc.pb.h"  // Generated stub
+#include "callback.grpc.pb.h"
 
 using grpc::Channel;
 using grpc::ClientContext;

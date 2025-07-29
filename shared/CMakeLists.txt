@@ -10,6 +10,7 @@ add_library(shared_lib_base STATIC
     camera_system.h
     camera_sync_sdk.cpp
     camera_sync_sdk.h
+    shared_rendering.h
 )
 
 # Set include directories

@@ -4,7 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-#include "../shared_rendering.h"
+#include "shared_rendering.h"
 
 int main() {
     std::cout << "✨ Testing Modern OpenGL setup...\n";

@@ -9,7 +9,7 @@
 #include <cmath>
 #include <glm/glm.hpp>
 
-#include "../shared_rendering.h"
+#include "shared_rendering.h"
 
 // Direct gRPC integration
 #include "grpc_camera_sync.h"

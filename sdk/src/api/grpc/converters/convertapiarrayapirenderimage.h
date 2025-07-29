@@ -7,7 +7,7 @@
 #include <functional>
 #include "apirender.h"
 namespace octaneapi { class ApiArrayApiRenderImage; }
-class ApiNodeInfoProxy;
+struct ApiNodeInfoProxy;
 class ApiArrayApiRenderImageConverter
 {
 public:

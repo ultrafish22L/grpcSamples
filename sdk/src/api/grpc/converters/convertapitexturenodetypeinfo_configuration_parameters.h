@@ -10,7 +10,7 @@
 #include "octaneinfos.h"
 namespace octaneapi { class ApiTextureNodeTypeInfo_ApiTextureNodeTypeInfo_Configuration_ApiTextureNodeTypeInfo_Configuration_Interface; }
 namespace octaneapi { class ApiTextureNodeTypeInfo_ApiTextureNodeTypeInfo_Configuration_ApiTextureNodeTypeInfo_Configuration_Parameters; }
-class ApiNodeInfoProxy;
+struct ApiNodeInfoProxy;
 class ApiTextureNodeTypeInfo_Configuration_ParametersConverter
 {
 public:

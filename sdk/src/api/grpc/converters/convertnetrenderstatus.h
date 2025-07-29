@@ -7,7 +7,7 @@
 namespace Octane { struct NetRenderStatus; }
 namespace octaneapi { class NetRenderStatus; }
 
-class ApiNodeInfoProxy;
+struct ApiNodeInfoProxy;
 class NetRenderStatusConverter
 {
 public:

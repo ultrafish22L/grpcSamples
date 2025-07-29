@@ -32,7 +32,7 @@ Browser (HTML/JS) ←→ HTTP Proxy Server ←→ gRPC ←→ Octane Render
 ```
 
 - **HTML Applications**: Run in browser, use custom gRPC-Web implementation
-- **Proxy Server**: Translates HTTP requests to gRPC calls (`grpc_proxy.py`)
+- **Proxy Server**: Translates HTTP requests to gRPC calls (`octane_proxy.py`)
 - **Octane Render**: Must be running with LiveLink enabled on port 51022
 
 ## Files Overview

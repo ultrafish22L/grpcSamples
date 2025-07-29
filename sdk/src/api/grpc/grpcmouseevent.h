@@ -10,7 +10,7 @@ struct GRPCApiMouseEventData
     /// The Y position of the mouse, relative to the component that is passed-in
     float           mPositionY;
     /// The component that the mouse event applies to
-    ApiGuiComponentProxy* mEventComponent = nullptr;
+    ApiGuiComponentProxy * mEventComponent = nullptr;
     /// The component that originally received the event
     ApiGuiComponentProxy * mOriginator = nullptr;
     /// The X and Y positions of the corresponding mouse-down event(relative to the component that is passed-in).

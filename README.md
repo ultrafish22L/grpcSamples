@@ -9,7 +9,7 @@
 
 ```bash
 # 1. Start bulletproof proxy
-cd octaneWeb && python bulletproof_proxy.py
+cd octaneWeb && python octane_proxy.py
 
 # 2. Open in browser (file:// protocol)
 open index.html  # Shows real Octane scene data
@@ -33,7 +33,7 @@ open index.html  # Shows real Octane scene data
 - **BulletproofClient**: Multiple connection strategies (file://, localhost, Docker)
 - **Debug Console**: Ctrl-D toggleable development tools
 
-### 🔧 Bulletproof Proxy (`bulletproof_proxy.py`)
+### 🔧 Bulletproof Proxy (`octane_proxy.py`)
 **Pure pass-through HTTP-to-gRPC translation**
 - **7+ gRPC Services**: ApiProjectManager, ApiNodeGraph, ApiItem, etc.
 - **Dynamic Service Registry**: Auto-loading protobuf modules

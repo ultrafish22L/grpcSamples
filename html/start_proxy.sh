@@ -51,8 +51,8 @@ echo "Press Ctrl+C to stop the server"
 echo
 
 # Start the proxy server
-cd ../proxy
-python3 grpc_proxy.py
+cd ../octaneProxy
+python3 octane_proxy.py
 
 # If we get here, the server stopped
 echo

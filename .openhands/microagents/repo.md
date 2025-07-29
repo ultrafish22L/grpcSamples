@@ -82,8 +82,8 @@ grpcSamples/
 │   │   ├── webgl-utils.js     # WebGL rendering classes
 │   │   └── shared.js          # Common helper functions
 │   └── assets/                # Static assets and icons
-├── proxy/                     # 🔄 HTTP-to-gRPC proxy server
-│   ├── grpc_proxy.py          # Main proxy server with comprehensive logging
+├── octaneProxy/                     # 🔄 HTTP-to-gRPC proxy server
+│   ├── octane_proxy.py          # Main proxy server with comprehensive logging
 │   ├── livelink_pb2.py        # Generated protobuf Python bindings
 │   └── *_pb2.py               # Complete Octane API protobuf bindings
 ├── mock_octane/               # 🎭 Development mock server

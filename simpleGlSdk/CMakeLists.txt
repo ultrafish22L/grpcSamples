@@ -22,12 +22,6 @@ endif()
 # Create the main executable with SDK integration
 add_executable(simpleGlSdk
     main.cpp
-    ../shared/camera_sync_sdk.h
-    ../shared/camera_sync_sdk.cpp
-    ../shared/camera_sync_base.h
-    ../shared_rendering.h
-    ../shared/camera_system.h
-    ../shared/model_manager.h
 )
 add_dependencies(simpleGlSdk octane_sdk)
 
@@ -68,6 +62,7 @@ function(configure_simpleGlSdk_target target_name)
     # Link libraries - use built targets from third_party
     target_link_libraries(${target_name}
         PRIVATE
+            shared_lib
             octane_sdk
             glfw
             glew

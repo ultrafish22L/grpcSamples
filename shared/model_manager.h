@@ -2,7 +2,7 @@
 
 #include "model_loader.h"
 #include "file_dialog.h"
-#include "../shared_rendering.h"
+#include "shared_rendering.h"
 #include <string>
 #include <iostream>
 #include <glm/glm.hpp>

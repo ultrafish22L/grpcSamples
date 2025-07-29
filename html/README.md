@@ -11,16 +11,16 @@
 
 #### Windows
 ```cmd
-cd path\to\grpcSamples\proxy
+cd path\to\grpcSamples\octaneProxy
 pip install grpcio aiohttp aiohttp-cors
-python grpc_proxy.py
+python octane_proxy.py
 ```
 
 #### Linux/macOS
 ```bash
 cd /path/to/grpcSamples/proxy
 pip3 install grpcio aiohttp aiohttp-cors
-python3 grpc_proxy.py
+python3 octane_proxy.py
 ```
 
 ### Step 3: Open the Web Application
@@ -90,8 +90,8 @@ python3 mock_octane_server.py
 
 #### Start Proxy Server (pointing to mock)
 ```bash
-cd /path/to/grpcSamples/proxy
-python3 grpc_proxy.py --target localhost:51023
+cd /path/to/grpcSamples/octaneProxy
+python3 octane_proxy.py --target localhost:51023
 ```
 
 This allows testing the web application without requiring Octane Render installation.
@@ -117,11 +117,11 @@ The application demonstrates:
 - **Connection Failed**: 
   - Verify Octane Render is running
   - Check Octane Preferences → LiveLink → Enable gRPC Server is checked
-  - Ensure proxy server is running (`python3 grpc_proxy.py`)
+  - Ensure proxy server is running (`python3 octane_proxy.py`)
   - Verify port numbers match between Octane and web app
 - **Python Dependencies**: Install missing packages with `pip install grpcio aiohttp aiohttp-cors`
 - **WebGL Issues**: Update graphics drivers, try different browser
 - **Port Conflicts**: 
   - Octane gRPC port (default 51023) - change in Octane Preferences
-  - Proxy server port (default 8080) - change in grpc_proxy.py
+  - Proxy server port (default 8080) - change in octane_proxy.py
   - Update server address in web app to match

@@ -7,7 +7,7 @@
 namespace octaneapi { class ReferencePackageExportSettings; }
 namespace Octane { struct ReferencePackageExportSettings; }
 
-class ApiNodeInfoProxy;
+struct ApiNodeInfoProxy;
 class ReferencePackageExportSettingsConverter
 {
 public:

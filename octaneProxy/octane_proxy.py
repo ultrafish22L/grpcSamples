@@ -86,7 +86,7 @@ def get_octane_address():
 # ==================== GRPC SERVICE REGISTRY ====================
 
 class GrpcServiceRegistry:
-    """Registry for dynamically loading gRPC service stubs (from grpc_proxy.py)"""
+    """Registry for dynamically loading gRPC service stubs (from octane_proxy.py)"""
 
     def __init__(self):
         self.stubs = {}
