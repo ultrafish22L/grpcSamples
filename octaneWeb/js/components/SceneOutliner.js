@@ -169,14 +169,42 @@ class SceneOutliner extends OctaneComponent {
                             const handle = item.handle;
                             const type = item.type;
                             
-                            // Create descriptive name based on type and handle
-                            const typeName = this.getTypeName(type);
-                            const itemName = `${typeName} (${handle})`;
+                            // Get the actual name of the API item
+                            let actualName = `Item_${handle}`;  // Default fallback name
+                            let superclass = 'unknown';
+                            
+                            try {
+                                // Try to get the actual name using ApiItem.name()
+                                const nameResult = await window.grpcApi.makeApiCall(
+                                    'ApiItem/name',
+                                    handle,
+                                    { objectPtr: { handle: handle, type: type } }
+                                );
+                                
+                                if (nameResult.success && nameResult.data.result) {
+                                    actualName = nameResult.data.result;
+                                }
+                                
+                                // Try to get superclass information for better icons
+                                const superclassResult = await window.grpcApi.makeApiCall(
+                                    'ApiItem/superclass',
+                                    handle,
+                                    { objectPtr: { handle: handle, type: type } }
+                                );
+                                
+                                if (superclassResult.success && superclassResult.data.result) {
+                                    superclass = superclassResult.data.result;
+                                }
+                                
+                            } catch (error) {
+                                console.warn(`⚠️ Failed to get name/superclass for item ${handle}:`, error);
+                            }
                             
                             sceneItems.push({
-                                name: itemName,
+                                name: actualName,
                                 handle: handle,
                                 type: type,
+                                superclass: superclass,
                                 children: []
                             });
                         }
@@ -196,15 +224,45 @@ class SceneOutliner extends OctaneComponent {
                             );
                         
                             if (itemResult.success) {
-                                // Create descriptive name based on type and handle
                                 const handle = itemResult.data.result.handle;
                                 const type = itemResult.data.result.type;
-                                const typeName = this.getTypeName(type);
+                                
+                                // Get the actual name of the API item
+                                let actualName = `Item_${handle}`;  // Default fallback name
+                                let superclass = 'unknown';
+                                
+                                try {
+                                    // Try to get the actual name using ApiItem.name()
+                                    const nameResult = await window.grpcApi.makeApiCall(
+                                        'ApiItem/name',
+                                        handle,
+                                        { objectPtr: { handle: handle, type: type } }
+                                    );
+                                    
+                                    if (nameResult.success && nameResult.data.result) {
+                                        actualName = nameResult.data.result;
+                                    }
+                                    
+                                    // Try to get superclass information for better icons
+                                    const superclassResult = await window.grpcApi.makeApiCall(
+                                        'ApiItem/superclass',
+                                        handle,
+                                        { objectPtr: { handle: handle, type: type } }
+                                    );
+                                    
+                                    if (superclassResult.success && superclassResult.data.result) {
+                                        superclass = superclassResult.data.result;
+                                    }
+                                    
+                                } catch (error) {
+                                    console.warn(`⚠️ Failed to get name/superclass for item ${handle}:`, error);
+                                }
                                 
                                 sceneItems.push({
                                     handle: handle,
                                     type: type,
-                                    name: `${typeName} (${handle})`,  // More descriptive name
+                                    name: actualName,
+                                    superclass: superclass,
                                     children: []
                                 });
                             }
@@ -311,14 +369,15 @@ class SceneOutliner extends OctaneComponent {
             
             // Add each filtered scene item as child of Scene
             filteredItems.forEach(item => {
-                const iconClass = this.getNodeIconClass(item.type, item.name);
+                const iconClass = this.getNodeIconClass(item.type, item.name, item.superclass);
                 const isSelected = this.selectedNodeId === item.handle.toString();
                 
                 treeHTML += `
                     <div class="scene-node scene-item ${isSelected ? 'selected' : ''}" 
                          data-node-id="${item.handle}" 
                          data-node-type="${item.type}"
-                         data-node-name="${item.name}">
+                         data-node-name="${item.name}"
+                         data-superclass="${item.superclass || ''}">
                         <span class="scene-node-indent"></span>
                         <span class="scene-node-expand leaf"></span>
                         <span class="scene-node-icon ${iconClass}"></span>
@@ -395,23 +454,45 @@ class SceneOutliner extends OctaneComponent {
         return iconMap[nodeType] || '📄';
     }
     
-    getNodeIconClass(nodeType, nodeName = '') {
-        // Map Octane node types to CSS icon classes
+    getNodeIconClass(nodeType, nodeName = '', superclass = '') {
+        // First check superclass for more specific icons
+        if (superclass) {
+            const superclassMap = {
+                'RenderTarget': 'render-target',
+                'Camera': 'camera',
+                'Light': 'light',
+                'Geometry': 'geometry',
+                'Mesh': 'mesh',
+                'Material': 'material',
+                'Texture': 'texture',
+                'Group': 'group',
+                'Transform': 'transform',
+                'Environment': 'environment'
+            };
+            
+            if (superclassMap[superclass]) {
+                return superclassMap[superclass];
+            }
+        }
+        
+        // Fallback to name-based detection
         if (nodeName.toLowerCase().includes('render target')) {
             return 'render-target';
         }
         if (nodeName.toLowerCase().includes('camera')) {
             return 'camera';
         }
+        if (nodeName.toLowerCase().includes('light')) {
+            return 'light';
+        }
+        if (nodeName.toLowerCase().includes('material')) {
+            return 'material';
+        }
         if (nodeName.toLowerCase().includes('.obj') || nodeName.toLowerCase().includes('.fbx') || nodeName.toLowerCase().includes('.ply')) {
             return 'mesh';
         }
         
-        // Check for TypeApiItem - these are generic scene objects
-        if (nodeName.toLowerCase().includes('typeapiitem')) {
-            return 'object';
-        }
-        
+        // Fallback to type-based mapping
         const classMap = {
             1: 'camera',
             2: 'light', 

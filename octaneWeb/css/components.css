@@ -184,14 +184,16 @@
 /* Node type specific icons */
 .scene-node-icon.scene { color: inherit; }
 .scene-node-icon.scene::before { content: "🌍"; }
-.scene-node-icon.render-target::before { content: "📁"; color: #ffa500; }
+.scene-node-icon.render-target::before { content: "🎯"; color: #ff4444; }
 .scene-node-icon.camera::before { content: "📷"; }
-.scene-node-icon.light::before { content: "💡"; }
+.scene-node-icon.light::before { content: "💡"; color: #ffff44; }
 .scene-node-icon.geometry::before { content: "🔷"; }
 .scene-node-icon.material::before { content: "🎨"; }
 .scene-node-icon.texture::before { content: "🖼️"; }
 .scene-node-icon.group::before { content: "📂"; }
 .scene-node-icon.mesh::before { content: "▲"; }
+.scene-node-icon.transform::before { content: "🔄"; color: #44ff44; }
+.scene-node-icon.environment::before { content: "🌅"; color: #44aaff; }
 .scene-node-icon.object::before { content: "⬜"; }
 .scene-node-icon.node::before { content: "⚪"; }
 .scene-node-icon.unknown::before { content: "❓"; }
@@ -206,6 +208,8 @@
 .scene-node-icon.texture,
 .scene-node-icon.group,
 .scene-node-icon.mesh,
+.scene-node-icon.transform,
+.scene-node-icon.environment,
 .scene-node-icon.object,
 .scene-node-icon.node,
 .scene-node-icon.unknown {
@@ -221,6 +225,8 @@
 .scene-node-icon.texture::before,
 .scene-node-icon.group::before,
 .scene-node-icon.mesh::before,
+.scene-node-icon.transform::before,
+.scene-node-icon.environment::before,
 .scene-node-icon.object::before,
 .scene-node-icon.node::before,
 .scene-node-icon.unknown::before {
