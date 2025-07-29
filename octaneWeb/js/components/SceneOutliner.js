@@ -103,74 +103,33 @@ class SceneOutliner extends OctaneComponent {
             console.log('🌳 Loading scene tree using WORKING API sequence...');
             
             try {
-                // STEP 1: Get root node graph - this works!
+                // STEP 1: Get root node graph - using helper
                 console.log('📤 Calling rootNodeGraph API...');
-                const rootResponse = await fetch('http://localhost:51023/ApiProjectManager/rootNodeGraph', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({})
-                });
-                
-                if (!rootResponse.ok) {
-                    throw new Error(`HTTP ${rootResponse.status}: ${rootResponse.statusText}`);
-                }
-                
-                const rootResult = await rootResponse.json();
-                console.log('📥 Root node graph response:', rootResult);
+                const rootResult = await window.grpcApi.makeApiCall('ApiProjectManager/rootNodeGraph');
                 
                 if (!rootResult.success) {
                     throw new Error(rootResult.error || 'Failed to get root node graph');
                 }
                 
-                // STEP 2: Get owned items from root node graph
+                // STEP 2: Get owned items from root node graph - using helper
                 treeContainer.innerHTML = '<div class="scene-loading">📋 Loading scene items...</div>';
                 
-                // Check if OctaneTypes is available
-                if (!window.OctaneTypes || !window.OctaneTypes.createObjectPtr) {
-                    throw new Error('OctaneTypes not loaded - ensure js/constants/OctaneTypes.js is loaded before components');
-                }
-                
-                const objectPtr = window.OctaneTypes.createObjectPtr(
-                    rootResult.data.result.handle,
-                    window.OctaneTypes.CommonTypes.NODE_GRAPH  // ApiNodeGraph (20) for getOwnedItems
+                const ownedItemsResult = await window.grpcApi.makeApiCall(
+                    'ApiNodeGraph/getOwnedItems', 
+                    rootResult.data.result.handle
                 );
-                
-                console.log(`🌳 Using ObjectPtr: handle=${objectPtr.handle}, type=${objectPtr.type} (${window.OctaneTypes.getObjectTypeName(objectPtr.type)})`);
-                
-                const ownedItemsResponse = await fetch('http://localhost:51023/ApiNodeGraph/getOwnedItems', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ objectPtr })
-                });
-                
-                if (!ownedItemsResponse.ok) {
-                    throw new Error(`HTTP ${ownedItemsResponse.status}: ${ownedItemsResponse.statusText}`);
-                }
-                
-                const ownedItemsResult = await ownedItemsResponse.json();
-                console.log('📥 Owned items response:', ownedItemsResult);
                 
                 if (!ownedItemsResult.success) {
                     throw new Error(ownedItemsResult.error || 'Failed to get owned items');
                 }
                 
-                // STEP 3: Get size of the items array
+                // STEP 3: Get size of the items array - using helper
                 treeContainer.innerHTML = '<div class="scene-loading">🔢 Getting item count...</div>';
                 
-                const sizeResponse = await fetch('http://localhost:51023/ApiItemArray/size', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        objectPtr: ownedItemsResult.data.list  // Use data.list format (not data.result)
-                    })
-                });
-                
-                if (!sizeResponse.ok) {
-                    throw new Error(`HTTP ${sizeResponse.status}: ${sizeResponse.statusText}`);
-                }
-                
-                const sizeResult = await sizeResponse.json();
-                console.log('📥 Size response:', sizeResult);
+                const sizeResult = await window.grpcApi.makeApiCall(
+                    'ApiItemArray/size', 
+                    ownedItemsResult.data.list.handle  // Extract handle from data.list
+                );
                 
                 if (!sizeResult.success) {
                     throw new Error(sizeResult.error || 'Failed to get array size');
@@ -181,18 +140,14 @@ class SceneOutliner extends OctaneComponent {
                 
                 const sceneItems = [];
                 for (let i = 0; i < sizeResult.data.result; i++) {
-                    // Get item at index i
-                    const itemResponse = await fetch('http://localhost:51023/ApiItemArray/get1', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            objectPtr: ownedItemsResult.data.list,  // Use data.list format (not data.result)
-                            index: i
-                        })
-                    });
-                    
-                    if (itemResponse.ok) {
-                        const itemResult = await itemResponse.json();
+                    // Get item at index i - using helper
+                    try {
+                        const itemResult = await window.grpcApi.makeApiCall(
+                            'ApiItemArray/get1', 
+                            ownedItemsResult.data.list.handle,  // Extract handle from data.list
+                            { index: i }  // Additional data for the index parameter
+                        );
+                        
                         if (itemResult.success) {
                             // Create descriptive name based on type and handle
                             const handle = itemResult.data.result.handle;
@@ -206,6 +161,8 @@ class SceneOutliner extends OctaneComponent {
                                 index: i
                             });
                         }
+                    } catch (error) {
+                        console.warn(`⚠️ Failed to load item ${i}:`, error);
                     }
                 }
                 
