@@ -164,17 +164,27 @@ class SceneOutliner extends OctaneComponent {
                     if (itemsResult.success && itemsResult.data.result && itemsResult.data.result.data) {
                         // Use the items from the array directly
                         const items = itemsResult.data.result.data;
+                        
+                        console.log(`🔄 Processing ${items.length} items sequentially to prevent Octane overload...`);
+                        
+                        // Process items SEQUENTIALLY with delays to prevent overwhelming Octane
                         for (let i = 0; i < items.length; i++) {
                             const item = items[i];
                             const handle = item.handle;
                             const type = item.type;
+                            
+                            console.log(`📋 Processing item ${i + 1}/${items.length}: handle=${handle}, type=${type}`);
+                            
+                            // Update progress in UI
+                            treeContainer.innerHTML = `<div class="scene-loading">🌳 Loading item ${i + 1}/${items.length} (${handle})...</div>`;
                             
                             // Get the actual name of the API item
                             let actualName = `Item_${handle}`;  // Default fallback name
                             let superclass = 'unknown';
                             
                             try {
-                                // Try to get the actual name using ApiItem.name()
+                                // SEQUENTIAL API CALLS with error handling
+                                console.log(`📤 Calling ApiItem/name for handle ${handle}`);
                                 const nameResult = await window.grpcApi.makeApiCall(
                                     'ApiItem/name',
                                     handle,
@@ -183,9 +193,16 @@ class SceneOutliner extends OctaneComponent {
                                 
                                 if (nameResult.success && nameResult.data.result) {
                                     actualName = nameResult.data.result;
+                                    console.log(`✅ Got name: "${actualName}" for handle ${handle}`);
+                                } else {
+                                    console.warn(`⚠️ Name call failed for handle ${handle}:`, nameResult);
                                 }
                                 
+                                // Add small delay between API calls to prevent overwhelming Octane
+                                await new Promise(resolve => setTimeout(resolve, 50));
+                                
                                 // Try to get superclass information for better icons
+                                console.log(`📤 Calling ApiItem/superclass for handle ${handle}`);
                                 const superclassResult = await window.grpcApi.makeApiCall(
                                     'ApiItem/superclass',
                                     handle,
@@ -194,10 +211,14 @@ class SceneOutliner extends OctaneComponent {
                                 
                                 if (superclassResult.success && superclassResult.data.result) {
                                     superclass = superclassResult.data.result;
+                                    console.log(`✅ Got superclass: "${superclass}" for handle ${handle}`);
+                                } else {
+                                    console.warn(`⚠️ Superclass call failed for handle ${handle}:`, superclassResult);
                                 }
                                 
                             } catch (error) {
-                                console.warn(`⚠️ Failed to get name/superclass for item ${handle}:`, error);
+                                console.error(`💥 EXCEPTION processing item ${handle}:`, error);
+                                // Continue processing other items even if one fails
                             }
                             
                             sceneItems.push({
@@ -207,6 +228,13 @@ class SceneOutliner extends OctaneComponent {
                                 superclass: superclass,
                                 children: []
                             });
+                            
+                            console.log(`✅ Added item to scene: ${actualName} [${handle}]`);
+                            
+                            // Add delay between items to prevent overwhelming Octane
+                            if (i < items.length - 1) {
+                                await new Promise(resolve => setTimeout(resolve, 100));
+                            }
                         }
                     } else {
                         throw new Error('items method failed, trying individual get1 calls');
@@ -214,9 +242,16 @@ class SceneOutliner extends OctaneComponent {
                 } catch (error) {
                     console.log('📋 items method failed, falling back to individual get1 calls:', error);
                     
-                    // Fallback: try individual get1 calls
+                    // Fallback: try individual get1 calls with sequential processing
+                    console.log(`🔄 FALLBACK: Processing ${sizeResult.data.result} items sequentially...`);
+                    
                     for (let i = 0; i < sizeResult.data.result; i++) {
                         try {
+                            console.log(`📋 FALLBACK: Processing item ${i + 1}/${sizeResult.data.result}`);
+                            
+                            // Update progress in UI
+                            treeContainer.innerHTML = `<div class="scene-loading">🌳 Loading item ${i + 1}/${sizeResult.data.result} (fallback method)...</div>`;
+                            
                             const itemResult = await window.grpcApi.makeApiCall(
                                 'ApiItemArray/get1', 
                                 ownedItemsResult.data.list.handle,  // Extract handle from data.list
@@ -227,12 +262,15 @@ class SceneOutliner extends OctaneComponent {
                                 const handle = itemResult.data.result.handle;
                                 const type = itemResult.data.result.type;
                                 
+                                console.log(`📋 FALLBACK: Got item handle=${handle}, type=${type}`);
+                                
                                 // Get the actual name of the API item
                                 let actualName = `Item_${handle}`;  // Default fallback name
                                 let superclass = 'unknown';
                                 
                                 try {
-                                    // Try to get the actual name using ApiItem.name()
+                                    // SEQUENTIAL API CALLS with delays
+                                    console.log(`📤 FALLBACK: Calling ApiItem/name for handle ${handle}`);
                                     const nameResult = await window.grpcApi.makeApiCall(
                                         'ApiItem/name',
                                         handle,
@@ -241,9 +279,16 @@ class SceneOutliner extends OctaneComponent {
                                     
                                     if (nameResult.success && nameResult.data.result) {
                                         actualName = nameResult.data.result;
+                                        console.log(`✅ FALLBACK: Got name: "${actualName}" for handle ${handle}`);
+                                    } else {
+                                        console.warn(`⚠️ FALLBACK: Name call failed for handle ${handle}:`, nameResult);
                                     }
                                     
+                                    // Add delay between API calls
+                                    await new Promise(resolve => setTimeout(resolve, 50));
+                                    
                                     // Try to get superclass information for better icons
+                                    console.log(`📤 FALLBACK: Calling ApiItem/superclass for handle ${handle}`);
                                     const superclassResult = await window.grpcApi.makeApiCall(
                                         'ApiItem/superclass',
                                         handle,
@@ -252,10 +297,14 @@ class SceneOutliner extends OctaneComponent {
                                     
                                     if (superclassResult.success && superclassResult.data.result) {
                                         superclass = superclassResult.data.result;
+                                        console.log(`✅ FALLBACK: Got superclass: "${superclass}" for handle ${handle}`);
+                                    } else {
+                                        console.warn(`⚠️ FALLBACK: Superclass call failed for handle ${handle}:`, superclassResult);
                                     }
                                     
                                 } catch (error) {
-                                    console.warn(`⚠️ Failed to get name/superclass for item ${handle}:`, error);
+                                    console.error(`💥 FALLBACK: EXCEPTION processing item ${handle}:`, error);
+                                    // Continue processing other items even if one fails
                                 }
                                 
                                 sceneItems.push({
@@ -265,9 +314,18 @@ class SceneOutliner extends OctaneComponent {
                                     superclass: superclass,
                                     children: []
                                 });
+                                
+                                console.log(`✅ FALLBACK: Added item to scene: ${actualName} [${handle}]`);
                             }
+                            
+                            // Add delay between items to prevent overwhelming Octane
+                            if (i < sizeResult.data.result - 1) {
+                                await new Promise(resolve => setTimeout(resolve, 100));
+                            }
+                            
                         } catch (error) {
-                            console.warn(`⚠️ Failed to load item ${i}:`, error);
+                            console.error(`💥 FALLBACK: Failed to load item ${i}:`, error);
+                            // Continue processing other items even if one fails
                         }
                     }
                 }
