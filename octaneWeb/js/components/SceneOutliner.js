@@ -139,30 +139,65 @@ class SceneOutliner extends OctaneComponent {
                 treeContainer.innerHTML = `<div class="scene-loading">🌳 Building scene tree (${sizeResult.data.result} items)...</div>`;
                 
                 const sceneItems = [];
-                for (let i = 0; i < sizeResult.data.result; i++) {
-                    // Get item at index i - using helper
-                    try {
-                        const itemResult = await window.grpcApi.makeApiCall(
-                            'ApiItemArray/get1', 
-                            ownedItemsResult.data.list.handle,  // Extract handle from data.list
-                            { index: i }  // Additional data for the index parameter
-                        );
-                        
-                        if (itemResult.success) {
+                
+                // Try to get all items at once using the items method
+                try {
+                    const itemsResult = await window.grpcApi.makeApiCall(
+                        'ApiItemArray/items', 
+                        ownedItemsResult.data.list.handle,  // Extract handle from data.list
+                        {}  // No additional data needed for items method
+                    );
+                    
+                    if (itemsResult.success && itemsResult.data.result && itemsResult.data.result.data) {
+                        // Use the items from the array directly
+                        const items = itemsResult.data.result.data;
+                        for (let i = 0; i < items.length; i++) {
+                            const item = items[i];
+                            const handle = item.handle;
+                            const type = item.type;
+                            
                             // Create descriptive name based on type and handle
-                            const handle = itemResult.data.result.handle;
-                            const type = itemResult.data.result.type;
                             const typeName = this.getTypeName(type);
+                            const itemName = `${typeName} (${handle})`;
                             
                             sceneItems.push({
+                                name: itemName,
                                 handle: handle,
                                 type: type,
-                                name: `${typeName}_${handle}`,  // More descriptive name
-                                index: i
+                                children: []
                             });
                         }
-                    } catch (error) {
-                        console.warn(`⚠️ Failed to load item ${i}:`, error);
+                    } else {
+                        throw new Error('items method failed, trying individual get1 calls');
+                    }
+                } catch (error) {
+                    console.log('📋 items method failed, falling back to individual get1 calls:', error);
+                    
+                    // Fallback: try individual get1 calls
+                    for (let i = 0; i < sizeResult.data.result; i++) {
+                        try {
+                            const itemResult = await window.grpcApi.makeApiCall(
+                                'ApiItemArray/get1', 
+                                ownedItemsResult.data.list.handle,  // Extract handle from data.list
+                                { index: i }  // Additional data for the index parameter
+                            );
+                        
+                            if (itemResult.success) {
+                                // Create descriptive name based on type and handle
+                                const handle = itemResult.data.result.handle;
+                                const type = itemResult.data.result.type;
+                                const typeName = this.getTypeName(type);
+                                
+                                sceneItems.push({
+                                    handle: handle,
+                                    type: type,
+                                    name: `${typeName} (${handle})`,  // More descriptive name
+                                    children: []
+                                });
+                            }
+                        } catch (error) {
+                            console.warn(`⚠️ Failed to load item ${i}:`, error);
+                        }
                     }
                 }
                 
