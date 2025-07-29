@@ -88,79 +88,110 @@ class SceneOutlinerSync {
     
     /**
      * SYNCHRONOUS scene tree loading with blocking API calls
-     * All calls depend on previous results - must be sequential
+     * STRUCTURED DEBUGGING: Isolate exactly where Octane crashes
      * @returns {Array} Scene items array
      */
     loadSceneTreeSync() {
-        console.log('🔒 SYNC: Starting synchronous scene tree loading...');
+        console.log('🔍 DEBUG: Starting synchronous scene tree loading...');
         
-        // STEP 1: Get the root node graph (BLOCKING)
-        console.log('🔒 SYNC: Getting root node graph...');
-        const rootResult = window.grpcApi.makeApiCallSync('ApiProjectManager/rootNodeGraph');
-        
-        if (!rootResult.success) {
-            throw new Error('Failed to get root node graph');
+        try {
+            // STEP 1: Get the root node graph (BLOCKING)
+            console.log('🔍 DEBUG: STEP 1 - Getting root node graph...');
+            const rootResult = window.grpcApi.makeApiCallSync('ApiProjectManager/rootNodeGraph');
+            
+            if (!rootResult.success) {
+                console.error('💥 DEBUG: STEP 1 FAILED - rootNodeGraph call failed:', rootResult);
+                throw new Error('Failed to get root node graph');
+            }
+            
+            console.log('✅ DEBUG: STEP 1 SUCCESS - Root node graph result:', rootResult);
+            
+        } catch (error) {
+            console.error('💥 DEBUG: CRASH IN STEP 1 (rootNodeGraph):', error);
+            throw error;
         }
         
-        console.log('📋 SYNC: Root node graph result:', rootResult);
-        
-        // STEP 2: Get owned items from the root node graph (BLOCKING - depends on step 1)
-        console.log('🔒 SYNC: Getting owned items...');
-        const ownedItemsResult = window.grpcApi.makeApiCallSync(
-            'ApiNodeGraph/getOwnedItems', 
-            rootResult.data.result.handle  // DEPENDS on step 1 result
-        );
-        
-        if (!ownedItemsResult.success) {
-            throw new Error('Failed to get owned items');
+        let ownedItemsResult;
+        try {
+            // STEP 2: Get owned items from the root node graph (BLOCKING - depends on step 1)
+            console.log('🔍 DEBUG: STEP 2 - Getting owned items...');
+            ownedItemsResult = window.grpcApi.makeApiCallSync(
+                'ApiNodeGraph/getOwnedItems', 
+                rootResult.data.result.handle  // DEPENDS on step 1 result
+            );
+            
+            if (!ownedItemsResult.success) {
+                console.error('💥 DEBUG: STEP 2 FAILED - getOwnedItems call failed:', ownedItemsResult);
+                throw new Error('Failed to get owned items');
+            }
+            
+            console.log('✅ DEBUG: STEP 2 SUCCESS - Owned items result:', ownedItemsResult);
+            
+        } catch (error) {
+            console.error('💥 DEBUG: CRASH IN STEP 2 (getOwnedItems):', error);
+            throw error;
         }
         
-        console.log('📋 SYNC: Owned items result:', ownedItemsResult);
-        
-        // STEP 3: Get the size of the item array (BLOCKING - depends on step 2)
-        console.log('🔒 SYNC: Getting array size...');
-        const sizeResult = window.grpcApi.makeApiCallSync(
-            'ApiItemArray/size', 
-            ownedItemsResult.data.list.handle  // DEPENDS on step 2 result
-        );
-        
-        if (!sizeResult.success) {
-            throw new Error('Failed to get array size');
+        let sizeResult;
+        try {
+            // STEP 3: Get the size of the item array (BLOCKING - depends on step 2)
+            console.log('🔍 DEBUG: STEP 3 - Getting array size...');
+            sizeResult = window.grpcApi.makeApiCallSync(
+                'ApiItemArray/size', 
+                ownedItemsResult.data.list.handle  // DEPENDS on step 2 result
+            );
+            
+            if (!sizeResult.success) {
+                console.error('💥 DEBUG: STEP 3 FAILED - size call failed:', sizeResult);
+                throw new Error('Failed to get array size');
+            }
+            
+            console.log('✅ DEBUG: STEP 3 SUCCESS - Array size result:', sizeResult);
+            
+        } catch (error) {
+            console.error('💥 DEBUG: CRASH IN STEP 3 (size):', error);
+            throw error;
         }
         
-        console.log('📋 SYNC: Array size result:', sizeResult);
-        
-        // STEP 4: Get all items (BLOCKING - depends on step 2)
-        console.log('🔒 SYNC: Getting all items...');
-        const itemsResult = window.grpcApi.makeApiCallSync(
-            'ApiItemArray/items', 
-            ownedItemsResult.data.list.handle  // DEPENDS on step 2 result
-        );
-        
-        if (!itemsResult.success || !itemsResult.data.result || !itemsResult.data.result.data) {
-            throw new Error('Failed to get items array');
+        let itemsResult;
+        try {
+            // STEP 4: Get all items (BLOCKING - depends on step 2)
+            console.log('🔍 DEBUG: STEP 4 - Getting all items...');
+            itemsResult = window.grpcApi.makeApiCallSync(
+                'ApiItemArray/items', 
+                ownedItemsResult.data.list.handle  // DEPENDS on step 2 result
+            );
+            
+            if (!itemsResult.success || !itemsResult.data.result || !itemsResult.data.result.data) {
+                console.error('💥 DEBUG: STEP 4 FAILED - items call failed:', itemsResult);
+                throw new Error('Failed to get items array');
+            }
+            
+            const items = itemsResult.data.result.data;
+            console.log(`✅ DEBUG: STEP 4 SUCCESS - Got ${items.length} items to process:`, items);
+            
+        } catch (error) {
+            console.error('💥 DEBUG: CRASH IN STEP 4 (items):', error);
+            throw error;
         }
         
-        const items = itemsResult.data.result.data;
-        console.log(`📋 SYNC: Got ${items.length} items to process`);
-        
-        // STEP 5: Process each item (BLOCKING - depends on step 4)
+        // STEP 5: Process each item individually with detailed debugging
         const sceneItems = [];
+        const items = itemsResult.data.result.data;
         
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
             const handle = item.handle;
             const type = item.type;
             
-            console.log(`🔒 SYNC: Processing item ${i + 1}/${items.length}: handle=${handle}, type=${type}`);
+            console.log(`🔍 DEBUG: STEP 5.${i+1} - Processing item ${i + 1}/${items.length}: handle=${handle}, type=${type}`);
             
-            // Get the actual name of the API item (BLOCKING)
             let actualName = `Item_${handle}`;  // Default fallback name
             let superclass = 'unknown';
             
+            // Test name call for this specific item
             try {
-                // Get name (BLOCKING)
-                console.log(`🔒 SYNC: Getting name for handle ${handle}`);
+                console.log(`🔍 DEBUG: STEP 5.${i+1}.A - Getting name for handle ${handle}`);
                 const nameResult = window.grpcApi.makeApiCallSync(
                     'ApiItem/name',
                     handle
@@ -168,13 +199,19 @@ class SceneOutlinerSync {
                 
                 if (nameResult.success && nameResult.data.result) {
                     actualName = nameResult.data.result;
-                    console.log(`✅ SYNC: Got name: "${actualName}" for handle ${handle}`);
+                    console.log(`✅ DEBUG: STEP 5.${i+1}.A SUCCESS - Got name: "${actualName}" for handle ${handle}`);
                 } else {
-                    console.warn(`⚠️ SYNC: Name call failed for handle ${handle}:`, nameResult);
+                    console.warn(`⚠️ DEBUG: STEP 5.${i+1}.A FAILED - Name call failed for handle ${handle}:`, nameResult);
                 }
                 
-                // Get superclass (BLOCKING)
-                console.log(`🔒 SYNC: Getting superclass for handle ${handle}`);
+            } catch (error) {
+                console.error(`💥 DEBUG: CRASH IN STEP 5.${i+1}.A (name for handle ${handle}):`, error);
+                // Continue to test superclass call
+            }
+            
+            // Test superclass call for this specific item
+            try {
+                console.log(`🔍 DEBUG: STEP 5.${i+1}.B - Getting superclass for handle ${handle}`);
                 const superclassResult = window.grpcApi.makeApiCallSync(
                     'ApiItem/superclass',
                     handle
@@ -182,14 +219,14 @@ class SceneOutlinerSync {
                 
                 if (superclassResult.success && superclassResult.data.result) {
                     superclass = superclassResult.data.result;
-                    console.log(`✅ SYNC: Got superclass: "${superclass}" for handle ${handle}`);
+                    console.log(`✅ DEBUG: STEP 5.${i+1}.B SUCCESS - Got superclass: "${superclass}" for handle ${handle}`);
                 } else {
-                    console.warn(`⚠️ SYNC: Superclass call failed for handle ${handle}:`, superclassResult);
+                    console.warn(`⚠️ DEBUG: STEP 5.${i+1}.B FAILED - Superclass call failed for handle ${handle}:`, superclassResult);
                 }
                 
             } catch (error) {
-                console.error(`💥 SYNC: Exception processing item ${handle}:`, error);
-                // Continue processing other items even if one fails
+                console.error(`💥 DEBUG: CRASH IN STEP 5.${i+1}.B (superclass for handle ${handle}):`, error);
+                // Continue processing other items
             }
             
             sceneItems.push({
@@ -200,10 +237,10 @@ class SceneOutlinerSync {
                 children: []
             });
             
-            console.log(`✅ SYNC: Added item to scene: ${actualName} [${handle}]`);
+            console.log(`✅ DEBUG: STEP 5.${i+1} COMPLETE - Added item to scene: ${actualName} [${handle}]`);
         }
         
-        console.log(`🔒 SYNC: Completed processing ${sceneItems.length} items`);
+        console.log(`🔍 DEBUG: ALL STEPS COMPLETE - Processed ${sceneItems.length} items successfully`);
         return sceneItems;
     }
     
@@ -320,6 +357,8 @@ class SceneOutlinerSync {
     addEventListener(element, event, handler) {
         element.addEventListener(event, handler);
     }
+    
+
 }
 
 // Export for use

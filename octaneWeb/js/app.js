@@ -106,11 +106,9 @@ class OctaneWebApp {
      * Initialize UI components
      */
     async initializeUIComponents() {
-        // Initialize scene outliner
-        this.components.sceneOutliner = new SceneOutliner(
+        // Initialize scene outliner (using SYNC version for debugging)
+        this.components.sceneOutliner = new SceneOutlinerSync(
             document.querySelector('#scene-outliner'),
-            this.client,
-            this.stateManager,
             this.eventSystem
         );
         // Initialize render viewport - DISABLED FOR TESTING
