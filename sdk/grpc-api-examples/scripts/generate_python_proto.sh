@@ -9,8 +9,8 @@ case "$(uname -s)" in
             EXT=""
             ;;
         Linux)
-            PLATFORM="linux"
-            EXT=""
+            PLATFORM="windows"
+            EXT=".exe"
             ;;
         MINGW*|MSYS*|CYGWIN*|Windows_NT)
             PLATFORM="windows"
@@ -25,8 +25,8 @@ esac
 echo "Detected platform: $PLATFORM"
 
 # Set tool paths
-GRPC_BIN="../../thirdparty/grpc/$PLATFORM/bin/"
-PROTOBUF_BIN="../../thirdparty/protobuf/$PLATFORM/bin/"
+GRPC_BIN="../../../third_party/grpc/$PLATFORM/bin/"
+PROTOBUF_BIN="../../../third_party/protobuf/$PLATFORM/bin/"
 PROTOC="$PROTOBUF_BIN"protoc"$EXT"
 GRPC_PLUGIN="$GRPC_BIN"grpc_python_plugin"$EXT"
 # Set path to .proto files
@@ -129,8 +129,8 @@ mkdir -p proto_py_out
 "$PROTOC" -I "$PROTODEFS" --python_out=./proto_py_out "$PROTODEFS"apitimesampling.proto
 "$PROTOC" -I "$PROTODEFS" --grpc_out=./proto_py_out --plugin=protoc-gen-grpc="$GRPC_PLUGIN" "$PROTODEFS"apibinaryfile.proto
 "$PROTOC" -I "$PROTODEFS" --python_out=./proto_py_out "$PROTODEFS"apibinaryfile.proto
-"$PROTOC" -I "$PROTODEFS" --grpc_out=./proto_py_out --plugin=protoc-gen-grpc="$GRPC_PLUGIN" "$PROTODEFS"apilock.proto
-"$PROTOC" -I "$PROTODEFS" --python_out=./proto_py_out "$PROTODEFS"apilock.proto
+#"$PROTOC" -I "$PROTODEFS" --grpc_out=./proto_py_out --plugin=protoc-gen-grpc="$GRPC_PLUGIN" "$PROTODEFS"apilock.proto
+#"$PROTOC" -I "$PROTODEFS" --python_out=./proto_py_out "$PROTODEFS"apilock.proto
 "$PROTOC" -I "$PROTODEFS" --grpc_out=./proto_py_out --plugin=protoc-gen-grpc="$GRPC_PLUGIN" "$PROTODEFS"apimodule.proto
 "$PROTOC" -I "$PROTODEFS" --python_out=./proto_py_out "$PROTODEFS"apimodule.proto
 "$PROTOC" -I "$PROTODEFS" --grpc_out=./proto_py_out --plugin=protoc-gen-grpc="$GRPC_PLUGIN" "$PROTODEFS"apimoduledata.proto
@@ -215,5 +215,6 @@ mkdir -p proto_py_out
 "$PROTOC" -I "$PROTODEFS" --python_out=./proto_py_out "$PROTODEFS"callback.proto
 "$PROTOC" -I "$PROTODEFS" --grpc_out=./proto_py_out --plugin=protoc-gen-grpc="$GRPC_PLUGIN"  "$PROTODEFS"control.proto
 "$PROTOC" -I "$PROTODEFS" --python_out=./proto_py_out  "$PROTODEFS"control.proto
+
 "$PROTOC" -I "$PROTODEFS" --grpc_out=./proto_py_out --plugin=protoc-gen-grpc="$GRPC_PLUGIN"  "$PROTODEFS"livelink.proto
 "$PROTOC" -I "$PROTODEFS" --python_out=./proto_py_out  "$PROTODEFS"livelink.proto

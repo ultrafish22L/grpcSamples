@@ -21,16 +21,15 @@ class GrpcApiHelper {
             // Check if OctaneTypes is available
             if (!window.OctaneTypes) {
                 throw new Error('OctaneTypes not loaded - ensure js/constants/OctaneTypes.js is loaded');
-            }
+            }            
             // Build request data using the same logic as async version
             const [serviceName, methodName] = servicePath.split('/');
             
             // Determine the correct ObjectPtr type for this service
             const objectPtrType = window.OctaneTypes.ObjectType[serviceName];
-            console.log(`🔒 ASYNC API Call: ${serviceName}:${methodName} (handle: ${handle} type: ${objectPtrType})`);
-
-            // Build the request data
-            let requestData = { ...additionalData };
+            console.log(`SYNC API Call: ${serviceName}:${methodName} (handle: ${handle} type: ${objectPtrType})`);
+            
+            let requestData = { };
             
             // Add objectPtr if handle is provided and service needs it
             if (handle !== null && objectPtrType !== undefined) {
@@ -39,9 +38,11 @@ class GrpcApiHelper {
                     type: objectPtrType
                 };
             }
-            // Make the HTTP request to the proxy
+            requestData = { ...requestData, ...additionalData }
+
+            // Make SYNCHRONOUS HTTP request using XMLHttpRequest
             const url = `${this.proxyUrl}/${servicePath}`;
-            console.log(`📤 Calling: ${url}`, requestData);
+            console.log(`Calling: ${url}`, requestData);
             
             const response = await fetch(url, {
                 method: 'POST',
@@ -84,9 +85,9 @@ class GrpcApiHelper {
             
             // Determine the correct ObjectPtr type for this service
             const objectPtrType = window.OctaneTypes.ObjectType[serviceName];
-            console.log(`🔒 SYNC API Call: ${serviceName}:${methodName} (handle: ${handle} type: ${objectPtrType})`);
+            console.log(`SYNC API Call: ${serviceName}:${methodName} (handle: ${handle} type: ${objectPtrType})`);
             
-            let requestData = { ...additionalData };
+            let requestData = { };
             
             // Add objectPtr if handle is provided and service needs it
             if (handle !== null && objectPtrType !== undefined) {
@@ -95,9 +96,11 @@ class GrpcApiHelper {
                     type: objectPtrType
                 };
             }
+            requestData = { ...requestData, ...additionalData }
+
             // Make SYNCHRONOUS HTTP request using XMLHttpRequest
             const url = `${this.proxyUrl}/${servicePath}`;
-            console.log(`📤 Calling: ${url}`, requestData);
+            console.log(`Calling: ${url}`, requestData);
             
             const xhr = new XMLHttpRequest();
             xhr.open('POST', url, false); // false = synchronous
@@ -109,7 +112,7 @@ class GrpcApiHelper {
             }
             
             const result = JSON.parse(xhr.responseText);
-            console.log(`📥 Response from ${servicePath}:`, result);
+            console.log(`Response from ${servicePath}:`, result);
             
             return result;
             

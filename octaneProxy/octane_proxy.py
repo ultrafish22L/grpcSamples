@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🚀 LOCKIT: Robust Octane gRPC Proxy Server
+🚀 Robust Octane gRPC Proxy Server
 Octane proxy supporting both pass-through /service/method patterns
 
 ARCHITECTURE:
@@ -44,8 +44,6 @@ try:
     from generated import common_pb2
     from generated import apiprojectmanager_pb2
     from generated import apiprojectmanager_pb2_grpc
-    from generated import apinodesystem_pb2
-    from generated import apinodesystem_pb2_grpc
     print("✅ Successfully imported core gRPC protobuf modules from generated/")
 except ImportError as e:
     print(f"❌ Failed to import core gRPC modules from generated/: {e}")
@@ -94,10 +92,10 @@ class GrpcServiceRegistry:
     def get_moduleName(self, service_name, suffix, iter):
         try:
             service_map = {
-                'ApiNodeGraph': 'apinodesystem',
-                'ApiNode': 'apinodesystem',
-                'ApiItem': 'apinodesystem',
-                'ApiItemArray': 'apinodesystem',
+                'ApiNodeGraph': 'apinodesystem_6',
+                'ApiNode': 'apinodesystem_7',
+                'ApiItem': 'apinodesystem_3',
+                'ApiItemArray': 'apinodesystem_1',
             }
             module_name = service_map.get(service_name)
             if not module_name:
@@ -143,7 +141,7 @@ class GrpcServiceRegistry:
             stub = stub_class(channel)
             self.stubs[service_name] = stub
 
-            print(f"✅ Created gRPC stub for {service_name}")
+#            print(f"✅ Created gRPC stub for {service_name}")
             return stub
 
     def get_request_class(self, service_name, method_name):
@@ -161,11 +159,13 @@ class GrpcServiceRegistry:
             except ImportError:
                 return Empty
 
+            method_name = re.sub(r'[0-9]', '', method_name)
+
             # Try common request class naming patterns
             request_class_patterns = [
                 f"{service_name}.{method_name}Request",  # ApiProjectManager.rootNodeGraphRequest
-                f"{method_name}Request",                 # rootNodeGraphRequest
-                f"{service_name}_{method_name}Request",  # ApiProjectManager_rootNodeGraph_Request
+#                f"{method_name}Request",                 # rootNodeGraphRequest
+#                f"{service_name}_{method_name}Request",  # ApiProjectManager_rootNodeGraph_Request
             ]
 
             for pattern in request_class_patterns:
@@ -286,9 +286,9 @@ async def handle_generic_grpc(request):
         
         # Parse the URL path to extract service and method
         path = request.path
-        print(f"\n🌐 === GENERIC gRPC REQUEST ===")
-        print(f"🌐 Path: {path}")
-        print(f"🌐 Remote: {request.remote}")
+        print(f"\nGENERIC gRPC REQUEST ===")
+#        print(f" Path: {path}")
+#        print(f" Remote: {request.remote}")
         
         # Extract service and method from path
         # Patterns: /octaneapi.ServiceName/methodName or /livelinkapi.ServiceName/methodName
@@ -300,8 +300,7 @@ async def handle_generic_grpc(request):
         service_name = path_match.group(1)
         method_name = path_match.group(2)
 
-        print(f"📤 Service: {service_name}")
-        print(f"📤 Method: {method_name}")
+        print(f"Service/Method: {service_name}/{method_name}")
 
         # Get the appropriate stub
         stub = grpc_registry.get_stub(service_name, proxy.channel)
@@ -316,22 +315,30 @@ async def handle_generic_grpc(request):
         if request.content_length and request.content_length > 0:
             try:
                 request_data = await request.json()
-                print(f"📥 Request data: {json.dumps(request_data, indent=2)}")
+                print(f"Request data: {json.dumps(request_data, indent=2)}")
             except Exception:
                 pass  # Empty or invalid JSON is OK for some requests
 
         # Get the request class and create the request
         request_class = grpc_registry.get_request_class(service_name, method_name)
+        print(f"request_class: {request_class}")    
+
         grpc_request = request_class()
-        
+        print(f"grpc request: {grpc_request}")  
+
+        for field in grpc_request.DESCRIPTOR.fields:
+            print(f"field: {field}")    
+
         # Populate request fields from JSON data
         if request_data:
             for key, value in request_data.items():
+#                print(f"key : value: {key} : {value}")        
                 if hasattr(grpc_request, key):
+#                    print(f"hasattr: {key}")        
                     field_descriptor = None
 
-
                     for field in grpc_request.DESCRIPTOR.fields:
+#                        print(f"field: {field}")        
                         if field.name == key:
                             field_descriptor = field
                             break
@@ -351,7 +358,7 @@ async def handle_generic_grpc(request):
                         setattr(grpc_request, key, value)
 
         # Make the gRPC call
-        print(f"📥 grpc_request filled: {grpc_request}")        
+        print(f"grpc request: {grpc_request}")        
         response = await method(grpc_request)
 
         # Convert response to dict

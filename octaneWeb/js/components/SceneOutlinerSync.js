@@ -113,140 +113,73 @@ class SceneOutlinerSync {
     loadSceneTreeSync() {
         console.log('🔍 DEBUG: Starting synchronous scene tree loading...');
         
-        let rootResult;
-        try {
-            // STEP 1: Get the root node graph (BLOCKING)
-            rootResult = window.grpcApi.makeApiCallSync('ApiProjectManager/rootNodeGraph');
-            
-            if (!rootResult.success) {
-                console.error('💥 DEBUG: STEP 1 FAILED - rootNodeGraph call failed:', rootResult);
-                throw new Error('Failed to get root node graph');
-            }
-        } catch (error) {
-            console.error('💥 DEBUG: CRASH IN STEP 1 (rootNodeGraph):', error);
-            throw error;
+        let result;
+        // STEP 1: Get the root node graph (BLOCKING)
+        result = window.grpcApi.makeApiCallSync(
+            'ApiProjectManager/rootNodeGraph'
+        );
+        if (!result.success) {
+            throw new Error('Failed to get root node graph');
         }
-        
-        let ownedItemsResult;
-        try {
-            // STEP 2: Get owned items from the root node graph (BLOCKING - depends on step 1)
-            ownedItemsResult = window.grpcApi.makeApiCallSync(
-                'ApiNodeGraph/getOwnedItems', 
-                rootResult.data.result.handle  // DEPENDS on step 1 result
-            );
-            if (!ownedItemsResult.success) {
-                console.error('💥 DEBUG: STEP 2 FAILED - getOwnedItems call failed:', ownedItemsResult);
-                throw new Error('Failed to get owned items');
-            }
-        } catch (error) {
-            console.error('💥 DEBUG: CRASH IN STEP 2 (getOwnedItems):', error);
-            throw error;
+        // STEP 2: Get owned items from the root node graph (BLOCKING - depends on step 1)
+        result = window.grpcApi.makeApiCallSync(
+            'ApiNodeGraph/getOwnedItems', 
+            result.data.result.handle  // DEPENDS on step 1 result
+        );
+        if (!result.success) {
+            throw new Error('Failed to get owned items');
         }
-        
-        let sizeResult;
-        try {
-            // STEP 3: Get the size of the item array (BLOCKING - depends on step 2)
-            sizeResult = window.grpcApi.makeApiCallSync(
-                'ApiItemArray/size', 
-                ownedItemsResult.data.list.handle  // DEPENDS on step 2 result
-            );
-            if (!sizeResult.success) {
-                console.error('💥 DEBUG: STEP 3 FAILED - size call failed:', sizeResult);
-                throw new Error('Failed to get array size');
-            }
-        } catch (error) {
-            console.error('💥 DEBUG: CRASH IN STEP 3 (size):', error);
-            throw error;
+        const ownedItemsHandle = result.data.list.handle
+
+        // STEP 3: Get the size of the item array (BLOCKING - depends on step 2)
+        result = window.grpcApi.makeApiCallSync(
+            'ApiItemArray/size', 
+            result.data.list.handle  // DEPENDS on step 2 result
+        );
+        if (!result.success) {
+            throw new Error('Failed to get array size');
         }
-        
-        // STEP 4: Process each item individually with DEFENSIVE PROGRAMMING
+        const size = result.data.result;
         const sceneItems = [];
-        const size = sizeResult.data.result;
 
         for (let i = 0; i < size; i++) {
             // STEP 4: Get the item
-            let getResult;
-            try {
-                getResult = window.grpcApi.makeApiCallSync(
-                    'ApiItemArray/get', 
-                    ownedItemsResult.data.list.handle,
-                    { index: i }
-                );
-                if (!getResult.success) {
-                    console.error('💥 DEBUG: STEP 4 FAILED - get call failed:', getResult);
-                    throw new Error('Failed to get item');
-                }
-            } catch (error) {
-                console.error('💥 DEBUG: CRASH IN STEP 4 (get):', error);
-                throw error;
+            result = window.grpcApi.makeApiCallSync(
+                'ApiItemArray/get1', 
+                ownedItemsHandle,
+                {index: i},
+            );
+            if (!result.success) {
+                throw new Error('Failed to get item');
             }
-            const item = getResult.data.item;
-            const handle = item.handle;
-            const type = item.type;
-            
-            // DEFENSIVE PROGRAMMING: Validate handle before making API calls
-            if (!handle || handle === '0' || handle === 0) {
-                console.warn(`⚠️ DEBUG: STEP 4.${i+1} SKIPPED - Invalid handle: ${handle}`);
-                continue;
-            }
-            
-            let actualName = `Item_${handle}`;  // Default fallback name
-            let outtype = 'unknown';
-            let isValidHandle = false;
+            const item = result.data.result;
+            let itemName = `Item_${item.handle}`;  // Default fallback name
             
             // SAFE API CALL: Test name call with error isolation
-            try {
-                const nameResult = window.grpcApi.makeApiCallSync(
-                    'ApiItem/name',
-                    handle
-                );
-                if (nameResult.success && nameResult.data.result) {
-                    actualName = nameResult.data.result;
-                    isValidHandle = true;
-                } else {
-                    console.warn(`⚠️ DEBUG: STEP 4.${i+1}.A FAILED - Name call failed for handle ${handle}:`, nameResult);
-                    continue;
-                }
-            } catch (error) {
-                console.error(`💥 DEBUG: STEP 4.${i+1}.A CRASHED - Handle ${handle} caused error:`, error);
-                // Skip this handle entirely to prevent Octane crash
-                continue;
+            result = window.grpcApi.makeApiCallSync(
+                'ApiItem/name',
+                item.handle
+            );
+            if (!result.success) {
+                throw new Error('Failed to get item name');
             }
-            
-            // SAFE API CALL: Only call outType if name succeeded (handle is valid)
-            if (isValidHandle) {
-                try {
-                    console.log(`🔍 DEBUG: STEP 4.${i+1}.B - SAFELY getting outType for VALIDATED handle ${handle}`);
-                    const outTypeResult = window.grpcApi.makeApiCallSync(
-                        'ApiItem/outType',
-                        handle
-                    );
-                    
-                    if (outTypeResult.success && outTypeResult.data.result) {
-                        outtype = outTypeResult.data.result;
-                        console.log(`✅ DEBUG: STEP 4.${i+1}.B SUCCESS - Got outType: "${outtype}" for handle ${handle}`);
-                    } else {
-                        console.warn(`⚠️ DEBUG: STEP 4.${i+1}.B FAILED - OutType call failed for handle ${handle}:`, outTypeResult);
-                    }
-                    
-                } catch (error) {
-                    console.error(`💥 DEBUG: STEP 4.${i+1}.B CRASHED - OutType failed for handle ${handle}:`, error);
-                    // Continue with default outtype value
-                }
+            itemName = result.data.result;
+
+            result = window.grpcApi.makeApiCallSync(
+                'ApiItem/outType',
+                item.handle
+            );
+            if (!result.success) {
+                throw new Error('Failed to get item outtype');
             }
-            
             sceneItems.push({
-                name: actualName,
-                handle: handle,
-                type: type,
-                outtype: outtype,
+                name: itemName,
+                handle: item.handle,
+                type: item.type,
+                outtype: result.data.result,
                 children: []
             });
-            
-            console.log(`✅ DEBUG: STEP 4.${i+1} COMPLETE - Added item to scene: ${actualName} [${handle}]`);
         }
-        
-        console.log(`🔍 DEBUG: ALL STEPS COMPLETE - Processed ${sceneItems.length} items successfully`);
         return sceneItems;
     }
     
