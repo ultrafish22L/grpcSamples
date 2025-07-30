@@ -351,6 +351,7 @@ async def handle_generic_grpc(request):
                         setattr(grpc_request, key, value)
 
         # Make the gRPC call
+        print(f"📥 grpc_request filled: {grpc_request}")        
         response = await method(grpc_request)
 
         # Convert response to dict
@@ -360,6 +361,7 @@ async def handle_generic_grpc(request):
             response_dict = {}
 
         print(f"📥 SUCCESS: {service_name}.{method_name}")
+        print(f" {response_dict}")
         proxy.success_count += 1
 
         return web.json_response({
@@ -420,13 +422,11 @@ async def main():
     site = web.TCPSite(runner, '0.0.0.0', PROXY_PORT)
     await site.start()
     
-    print(f"🌐 Proxy server running on http://0.0.0.0:{PROXY_PORT}")
-    print(f"📋 Available endpoints:")
-    print(f"   POST /api - octaneWeb JSON format")
-    print(f"   POST /ServiceName/methodName - URL-based routing")
-    print(f"   POST /octaneapi.ServiceName/methodName - Prefixed routing")
-    print(f"   GET /health - Health check")
-    print(f"🔄 Ready to proxy ALL Octane services dynamically")
+    print(f"Proxy server running on http://0.0.0.0:{PROXY_PORT}")
+    print(f"Available endpoints:")
+    print(f"  GET /health - Health check")
+    print(f"  POST /ServiceName/methodName - URL-based routing")
+    print(f"Ready to proxy ALL Octane services dynamically")
     
     # Keep server running
     try:

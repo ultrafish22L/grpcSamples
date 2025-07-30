@@ -7,29 +7,6 @@
 class GrpcApiHelper {
     constructor(proxyUrl = 'http://localhost:51023') {
         this.proxyUrl = proxyUrl;
-        
-        // Service class to ObjectPtr type mapping
-        // Maps gRPC service class names to the correct ObjectRef.ObjectType
-        this.serviceTypeMap = {
-            // Services that don't need objectPtr
-            'ApiProjectManager': null,
-            
-            // Core object types
-            'ApiNodeGraph': window.OctaneTypes?.CommonTypes?.NODE_GRAPH,        // 20
-            'ApiRootNodeGraph': window.OctaneTypes?.CommonTypes?.ROOT_NODE_GRAPH, // 18
-            'ApiNode': window.OctaneTypes?.CommonTypes?.NODE,                   // 17
-            'ApiItem': window.OctaneTypes?.ObjectType?.ApiItem,                 // 16
-            'ApiItemArray': window.OctaneTypes?.ObjectType?.ApiItemArray,       // 31
-            
-            // Additional service types (add as needed)
-            'ApiNodeArray': window.OctaneTypes?.ObjectType?.ApiNodeArray,       // 34
-            'ApiPackage': window.OctaneTypes?.ObjectType?.ApiPackage,           // 37
-            'ApiRenderImage': window.OctaneTypes?.ObjectType?.ApiRenderImage,   // 38
-            'ApiSceneExporter': window.OctaneTypes?.ObjectType?.ApiSceneExporter, // 39
-            'ApiMainWindow': window.OctaneTypes?.ObjectType?.ApiMainWindow,     // 42
-            'ApiSceneOutliner': window.OctaneTypes?.ObjectType?.ApiSceneOutliner, // 51
-            'ApiNodeGraphEditor': window.OctaneTypes?.ObjectType?.ApiNodeGraphEditor, // 52
-        };
     }
     
     /**
@@ -45,36 +22,23 @@ class GrpcApiHelper {
             if (!window.OctaneTypes) {
                 throw new Error('OctaneTypes not loaded - ensure js/constants/OctaneTypes.js is loaded');
             }
-            
-            // Extract service name from servicePath (e.g., 'ApiNodeGraph' from 'ApiNodeGraph/getOwnedItems')
-            const serviceName = servicePath.split('/')[0];
+            // Build request data using the same logic as async version
+            const [serviceName, methodName] = servicePath.split('/');
             
             // Determine the correct ObjectPtr type for this service
-            const objectPtrType = this.serviceTypeMap[serviceName];
-            
+            const objectPtrType = window.OctaneTypes.ObjectType[serviceName];
+            console.log(`🔒 ASYNC API Call: ${serviceName}:${methodName} (handle: ${handle} type: ${objectPtrType})`);
+
             // Build the request data
             let requestData = { ...additionalData };
             
-            // Add objectPtr if handle is provided and type is known
+            // Add objectPtr if handle is provided and service needs it
             if (handle !== null && objectPtrType !== undefined) {
-                if (objectPtrType === null) {
-                    // Some services don't need objectPtr (like ApiProjectManager)
-                    console.log(`🔧 API Call: ${servicePath} (no objectPtr needed)`);
-                } else {
-                    const objectPtr = window.OctaneTypes.createObjectPtr(handle, objectPtrType);
-                    requestData.objectPtr = objectPtr;
-                    
-                    const typeName = window.OctaneTypes.getObjectTypeName(objectPtrType);
-                    console.log(`🔧 API Call: ${servicePath} with ObjectPtr(handle=${handle}, type=${objectPtrType}/${typeName})`);
-                }
-            } else if (handle !== null) {
-                console.warn(`⚠️ Unknown service: ${serviceName} - using handle without type`);
-                // Fallback: create objectPtr with handle but no specific type
-                requestData.objectPtr = { handle: handle };
-            } else {
-                console.log(`🔧 API Call: ${servicePath} (no handle provided)`);
+                requestData.objectPtr = {
+                    handle: handle.toString(),
+                    type: objectPtrType
+                };
             }
-            
             // Make the HTTP request to the proxy
             const url = `${this.proxyUrl}/${servicePath}`;
             console.log(`📤 Calling: ${url}`, requestData);
@@ -101,33 +65,6 @@ class GrpcApiHelper {
     }
     
     /**
-     * Add or update a service type mapping
-     * @param {string} serviceName - Service class name (e.g., 'ApiNodeGraph')
-     * @param {number|null} objectPtrType - ObjectPtr type or null if not needed
-     */
-    addServiceMapping(serviceName, objectPtrType) {
-        this.serviceTypeMap[serviceName] = objectPtrType;
-        console.log(`✅ Added service mapping: ${serviceName} -> ${objectPtrType}`);
-    }
-    
-    /**
-     * Get the ObjectPtr type for a service
-     * @param {string} serviceName - Service class name (e.g., 'ApiNodeGraph')
-     * @returns {number|null|undefined} ObjectPtr type
-     */
-    getServiceType(serviceName) {
-        return this.serviceTypeMap[serviceName];
-    }
-    
-    /**
-     * List all known service mappings
-     * @returns {Object} Service type mappings
-     */
-    getServiceMappings() {
-        return { ...this.serviceTypeMap };
-    }
-    
-    /**
      * Make a SYNCHRONOUS gRPC API call (blocks until complete)
      * Use this for sequential operations that depend on previous results
      * @param {string} servicePath - Service/method path (e.g., 'ApiItem/name')
@@ -136,32 +73,31 @@ class GrpcApiHelper {
      * @returns {Object} Response data (not a Promise)
      */
     makeApiCallSync(servicePath, handle = null, additionalData = {}) {
-        console.log(`🔒 SYNC API Call: ${servicePath} (handle: ${handle})`);
         
         try {
+            // Check if OctaneTypes is available
+            if (!window.OctaneTypes) {
+                throw new Error('OctaneTypes not loaded - ensure js/constants/OctaneTypes.js is loaded');
+            }            
             // Build request data using the same logic as async version
             const [serviceName, methodName] = servicePath.split('/');
-            const serviceType = this.getServiceType(serviceName);
+            
+            // Determine the correct ObjectPtr type for this service
+            const objectPtrType = window.OctaneTypes.ObjectType[serviceName];
+            console.log(`🔒 SYNC API Call: ${serviceName}:${methodName} (handle: ${handle} type: ${objectPtrType})`);
             
             let requestData = { ...additionalData };
             
             // Add objectPtr if handle is provided and service needs it
-            if (handle && serviceType !== null && serviceType !== undefined) {
+            if (handle !== null && objectPtrType !== undefined) {
                 requestData.objectPtr = {
                     handle: handle.toString(),
-                    type: serviceType
+                    type: objectPtrType
                 };
             }
-            
-            if (handle) {
-                console.log(`🔧 SYNC API Call: ${servicePath} with handle ${handle} (type: ${serviceType})`);
-            } else {
-                console.log(`🔧 SYNC API Call: ${servicePath} (no handle provided)`);
-            }
-            
             // Make SYNCHRONOUS HTTP request using XMLHttpRequest
             const url = `${this.proxyUrl}/${servicePath}`;
-            console.log(`📤 SYNC Calling: ${url}`, requestData);
+            console.log(`📤 Calling: ${url}`, requestData);
             
             const xhr = new XMLHttpRequest();
             xhr.open('POST', url, false); // false = synchronous
@@ -173,7 +109,7 @@ class GrpcApiHelper {
             }
             
             const result = JSON.parse(xhr.responseText);
-            console.log(`📥 SYNC Response from ${servicePath}:`, result);
+            console.log(`📥 Response from ${servicePath}:`, result);
             
             return result;
             
@@ -189,4 +125,3 @@ window.grpcApi = new GrpcApiHelper();
 
 // Log successful loading
 console.log('✅ GrpcApiHelper loaded successfully');
-console.log(`📋 Known service mappings: ${Object.keys(window.grpcApi.serviceTypeMap).length} services`);

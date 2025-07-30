@@ -618,7 +618,7 @@ function createOctaneWebClient() {
             
             // First get the pin count for this node - FIXED: Use handle and ApiNode type
             const pinCountResponse = await this.makeGrpcCall('octaneapi.ApiNode/pinCount', {
-                objectPtr: window.OctaneTypes.createObjectPtr(objectRef.handle, window.OctaneTypes.CommonTypes.NODE)
+                objectPtr: window.OctaneTypes.createObjectPtr(objectRef.handle, window.OctaneTypes.ApiNode)
             });
 
             console.log(`${indent}📥 Pin count response:`, JSON.stringify(pinCountResponse, null, 2));
@@ -633,7 +633,7 @@ function createOctaneWebClient() {
                         console.log(`${indent}  📎 Checking pin ${pinIndex} for owned item...`);
                         
                         const ownedItemResponse = await this.makeGrpcCall('octaneapi.ApiNode/ownedItemIx', {
-                            objectPtr: window.OctaneTypes.createObjectPtr(objectRef.handle, window.OctaneTypes.CommonTypes.NODE),
+                            objectPtr: window.OctaneTypes.createObjectPtr(objectRef.handle, window.OctaneTypes.ApiNode),
                             pinIndex: pinIndex
                         });
 

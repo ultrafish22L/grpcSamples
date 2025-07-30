@@ -173,44 +173,41 @@ class SceneOutlinerSync {
             throw error;
         }
         
-        let itemsResult;
-        try {
-            // STEP 4: Get all items (BLOCKING - depends on step 2)
-            console.log('🔍 DEBUG: STEP 4 - Getting all items...');
-            itemsResult = window.grpcApi.makeApiCallSync(
-                'ApiItemArray/items', 
-                ownedItemsResult.data.list.handle  // DEPENDS on step 2 result
-            );
-            
-            if (!itemsResult.success || !itemsResult.data.result || !itemsResult.data.result.data) {
-                console.error('💥 DEBUG: STEP 4 FAILED - items call failed:', itemsResult);
-                throw new Error('Failed to get items array');
-            }
-            
-            const items = itemsResult.data.result.data;
-            console.log(`✅ DEBUG: STEP 4 SUCCESS - Got ${items.length} items to process:`, items);
-            
-        } catch (error) {
-            console.error('💥 DEBUG: CRASH IN STEP 4 (items):', error);
-            throw error;
-        }
-        
-        // STEP 5: Process each item individually with DEFENSIVE PROGRAMMING
+        // STEP 4: Process each item individually with DEFENSIVE PROGRAMMING
         const sceneItems = [];
-        const items = itemsResult.data.result.data;
+        const size = sizeResult.data.result;
+
+        console.log(`🔍 DEBUG: STEP 4 - Processing ${size} items with handle validation...`);
         
-        console.log(`🔍 DEBUG: STEP 5 - Processing ${items.length} items with handle validation...`);
-        
-        for (let i = 0; i < items.length; i++) {
-            const item = items[i];
+        for (let i = 0; i < size; i++) {
+
+            // STEP 4: Get the item
+            let getResult;
+            try {
+                getResult = window.grpcApi.makeApiCallSync(
+                    'ApiItemArray/get1', 
+                    ownedItemsResult.data.list.handle,
+                    { index: i }
+                );
+                if (!getResult.success) {
+                    console.error('💥 DEBUG: STEP 4 FAILED - get call failed:', getResult);
+                    throw new Error('Failed to get item');
+                }
+                console.log('✅ DEBUG: STEP 4 SUCCESS - get item result:', getResult);
+                
+            } catch (error) {
+                console.error('💥 DEBUG: CRASH IN STEP 4 (get):', error);
+                throw error;
+            }
+            const item = getResult.data.item;
             const handle = item.handle;
             const type = item.type;
             
-            console.log(`🔍 DEBUG: STEP 5.${i+1} - Processing item ${i + 1}/${items.length}: handle=${handle}, type=${type}`);
+            console.log(`🔍 DEBUG: STEP 4.${i+1} - Processing item ${i + 1}/${items.length}: handle=${handle}, type=${type}`);
             
             // DEFENSIVE PROGRAMMING: Validate handle before making API calls
             if (!handle || handle === '0' || handle === 0) {
-                console.warn(`⚠️ DEBUG: STEP 5.${i+1} SKIPPED - Invalid handle: ${handle}`);
+                console.warn(`⚠️ DEBUG: STEP 4.${i+1} SKIPPED - Invalid handle: ${handle}`);
                 continue;
             }
             
@@ -220,7 +217,7 @@ class SceneOutlinerSync {
             
             // SAFE API CALL: Test name call with error isolation
             try {
-                console.log(`🔍 DEBUG: STEP 5.${i+1}.A - SAFELY getting name for handle ${handle}`);
+                console.log(`🔍 DEBUG: STEP 4.${i+1}.A - SAFELY getting name for handle ${handle}`);
                 const nameResult = window.grpcApi.makeApiCallSync(
                     'ApiItem/name',
                     handle
@@ -229,17 +226,17 @@ class SceneOutlinerSync {
                 if (nameResult.success && nameResult.data.result) {
                     actualName = nameResult.data.result;
                     isValidHandle = true;
-                    console.log(`✅ DEBUG: STEP 5.${i+1}.A SUCCESS - Got name: "${actualName}" for handle ${handle}`);
+                    console.log(`✅ DEBUG: STEP 4.${i+1}.A SUCCESS - Got name: "${actualName}" for handle ${handle}`);
                 } else {
-                    console.warn(`⚠️ DEBUG: STEP 5.${i+1}.A FAILED - Name call failed for handle ${handle}:`, nameResult);
+                    console.warn(`⚠️ DEBUG: STEP 4.${i+1}.A FAILED - Name call failed for handle ${handle}:`, nameResult);
                     // Handle might be invalid - skip outType call to prevent crash
-                    console.warn(`⚠️ DEBUG: STEP 5.${i+1} SKIPPING outType call due to name failure`);
+                    console.warn(`⚠️ DEBUG: STEP 4.${i+1} SKIPPING outType call due to name failure`);
                     continue;
                 }
                 
             } catch (error) {
-                console.error(`💥 DEBUG: STEP 5.${i+1}.A CRASHED - Handle ${handle} caused error:`, error);
-                console.warn(`⚠️ DEBUG: STEP 5.${i+1} SKIPPING - Handle ${handle} appears to be corrupted/invalid`);
+                console.error(`💥 DEBUG: STEP 4.${i+1}.A CRASHED - Handle ${handle} caused error:`, error);
+                console.warn(`⚠️ DEBUG: STEP 4.${i+1} SKIPPING - Handle ${handle} appears to be corrupted/invalid`);
                 // Skip this handle entirely to prevent Octane crash
                 continue;
             }
@@ -247,7 +244,7 @@ class SceneOutlinerSync {
             // SAFE API CALL: Only call outType if name succeeded (handle is valid)
             if (isValidHandle) {
                 try {
-                    console.log(`🔍 DEBUG: STEP 5.${i+1}.B - SAFELY getting outType for VALIDATED handle ${handle}`);
+                    console.log(`🔍 DEBUG: STEP 4.${i+1}.B - SAFELY getting outType for VALIDATED handle ${handle}`);
                     const outTypeResult = window.grpcApi.makeApiCallSync(
                         'ApiItem/outType',
                         handle
@@ -255,13 +252,13 @@ class SceneOutlinerSync {
                     
                     if (outTypeResult.success && outTypeResult.data.result) {
                         outtype = outTypeResult.data.result;
-                        console.log(`✅ DEBUG: STEP 5.${i+1}.B SUCCESS - Got outType: "${outtype}" for handle ${handle}`);
+                        console.log(`✅ DEBUG: STEP 4.${i+1}.B SUCCESS - Got outType: "${outtype}" for handle ${handle}`);
                     } else {
-                        console.warn(`⚠️ DEBUG: STEP 5.${i+1}.B FAILED - OutType call failed for handle ${handle}:`, outTypeResult);
+                        console.warn(`⚠️ DEBUG: STEP 4.${i+1}.B FAILED - OutType call failed for handle ${handle}:`, outTypeResult);
                     }
                     
                 } catch (error) {
-                    console.error(`💥 DEBUG: STEP 5.${i+1}.B CRASHED - OutType failed for handle ${handle}:`, error);
+                    console.error(`💥 DEBUG: STEP 4.${i+1}.B CRASHED - OutType failed for handle ${handle}:`, error);
                     // Continue with default outtype value
                 }
             }
@@ -274,7 +271,7 @@ class SceneOutlinerSync {
                 children: []
             });
             
-            console.log(`✅ DEBUG: STEP 5.${i+1} COMPLETE - Added item to scene: ${actualName} [${handle}]`);
+            console.log(`✅ DEBUG: STEP 4.${i+1} COMPLETE - Added item to scene: ${actualName} [${handle}]`);
         }
         
         console.log(`🔍 DEBUG: ALL STEPS COMPLETE - Processed ${sceneItems.length} items successfully`);

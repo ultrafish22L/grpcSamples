@@ -72,6 +72,7 @@ public:
     void stop();
     bool isReady();
 
+    bool testConnection();
 private:
 
     

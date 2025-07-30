@@ -17,6 +17,15 @@
 // SDK integration (using actual SDK calls)
 #include "../shared/camera_sync_sdk.h"
 
+#ifdef DO_GRPC_SDK_ENABLED
+#include "grpcsettings.h"
+#include "apirenderengineclient.h"
+#include "apinodeclient.h"
+#include "octaneids.h"
+#include "octanevectypes.h"
+using namespace OctaneVec;
+#endif
+
 // Window dimensions
 const int WINDOW_WIDTH = 1200;
 const int WINDOW_HEIGHT = 800;
@@ -93,7 +102,9 @@ int main() {
     cameraController.onCameraUpdate = [&](const glm::vec3& position, const glm::vec3& center, const glm::vec3& up) {
         cameraSync.setCamera(position, center, up);
     };
-    
+    const char* serverAddress = "127.0.0.1:51022";
+    GRPCSettings::getInstance().setServerAddress(serverAddress);
+
     // Set initial camera position in Octane
     glm::vec3 initialPosition = cameraController.camera.getPosition();
     cameraSync.setCamera(initialPosition, cameraController.camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -114,7 +125,7 @@ int main() {
     while (!glfwWindowShouldClose(window)) 
     {
         // Connect to Octane server and initialize camera sync
-        if (cameraSync.connectToServer("127.0.0.1:51022"))
+        if (cameraSync.connectToServer(serverAddress))
         {
             cameraSync.initialize();
         }

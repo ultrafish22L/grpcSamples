@@ -108,63 +108,11 @@ window.OctaneTypes.ObjectType = {
     ApiGaussianSplatCloudNode: 92,
 };
 
-// ApiItemPtr.PointerType enum values from common.proto
-window.OctaneTypes.ApiItemPointerType = {
-    ApiItem: 0,
-    ApiNode: 1,
-    ApiNodeGraph: 2,
-    ApiRootNodeGraph: 3,
-    ApiReferenceGraph: 4,
-};
-
-// ApiNodeGraphPtr.PointerType enum values from common.proto
-window.OctaneTypes.ApiNodeGraphPointerType = {
-    ApiNodeGraph: 0,
-    ApiRootNodeGraph: 1,
-    ApiReferenceGraph: 2,
-};
-
-// Commonly used type combinations for convenience
-window.OctaneTypes.CommonTypes = {
-    // For ObjectPtr requests (uses ObjectRef.ObjectType)
-    NODE: window.OctaneTypes.ObjectType.ApiNode,                    // 17
-    ROOT_NODE_GRAPH: window.OctaneTypes.ObjectType.ApiRootNodeGraph, // 18
-    NODE_GRAPH: window.OctaneTypes.ObjectType.ApiNodeGraph,         // 20
-    
-    // For ApiItemPtr requests (uses ApiItemPtr.PointerType)
-    ITEM_NODE: window.OctaneTypes.ApiItemPointerType.ApiNode,       // 1
-    ITEM_NODE_GRAPH: window.OctaneTypes.ApiItemPointerType.ApiNodeGraph, // 2
-    ITEM_ROOT_NODE_GRAPH: window.OctaneTypes.ApiItemPointerType.ApiRootNodeGraph, // 3
-};
-
 // Helper functions for creating properly typed object pointers
 window.OctaneTypes.createObjectPtr = (handle, type) => ({
     handle: handle,
     type: type
 });
-
-window.OctaneTypes.createApiItemPtr = (handle, pointerType) => ({
-    handle: handle,
-    type: pointerType
-});
-
-window.OctaneTypes.createApiNodeGraphPtr = (handle, pointerType) => ({
-    handle: handle,
-    pointer_type: pointerType
-});
-
-// Validation helpers
-window.OctaneTypes.isValidObjectType = (type) => {
-    return Object.values(window.OctaneTypes.ObjectType).includes(type);
-};
-
-window.OctaneTypes.isValidApiItemPointerType = (type) => {
-    return Object.values(window.OctaneTypes.ApiItemPointerType).includes(type);
-};
-
-window.OctaneTypes.isValidApiNodeGraphPointerType = (type) => {
-    return Object.values(window.OctaneTypes.ApiNodeGraphPointerType).includes(type);
-};
 
 // Type name lookup for debugging
 window.OctaneTypes.getObjectTypeName = (type) => {
@@ -172,18 +120,6 @@ window.OctaneTypes.getObjectTypeName = (type) => {
     return entry ? entry[0] : `Unknown(${type})`;
 };
 
-window.OctaneTypes.getApiItemPointerTypeName = (type) => {
-    const entry = Object.entries(window.OctaneTypes.ApiItemPointerType).find(([name, value]) => value === type);
-    return entry ? entry[0] : `Unknown(${type})`;
-};
-
-window.OctaneTypes.getApiNodeGraphPointerTypeName = (type) => {
-    const entry = Object.entries(window.OctaneTypes.ApiNodeGraphPointerType).find(([name, value]) => value === type);
-    return entry ? entry[0] : `Unknown(${type})`;
-};
 
 // Log successful loading
 console.log('✅ OctaneTypes constants loaded successfully (AUTO-GENERATED)');
-console.log('📋 Available types:', Object.keys(window.OctaneTypes.ObjectType).length, 'ObjectTypes,', 
-           Object.keys(window.OctaneTypes.ApiItemPointerType).length, 'ApiItemPointerTypes,',
-           Object.keys(window.OctaneTypes.ApiNodeGraphPointerType).length, 'ApiNodeGraphPointerTypes');
