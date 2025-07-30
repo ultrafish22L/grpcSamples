@@ -116,16 +116,12 @@ class SceneOutlinerSync {
         let rootResult;
         try {
             // STEP 1: Get the root node graph (BLOCKING)
-            console.log('🔍 DEBUG: STEP 1 - Getting root node graph...');
             rootResult = window.grpcApi.makeApiCallSync('ApiProjectManager/rootNodeGraph');
             
             if (!rootResult.success) {
                 console.error('💥 DEBUG: STEP 1 FAILED - rootNodeGraph call failed:', rootResult);
                 throw new Error('Failed to get root node graph');
             }
-            
-            console.log('✅ DEBUG: STEP 1 SUCCESS - Root node graph result:', rootResult);
-            
         } catch (error) {
             console.error('💥 DEBUG: CRASH IN STEP 1 (rootNodeGraph):', error);
             throw error;
@@ -134,19 +130,14 @@ class SceneOutlinerSync {
         let ownedItemsResult;
         try {
             // STEP 2: Get owned items from the root node graph (BLOCKING - depends on step 1)
-            console.log('🔍 DEBUG: STEP 2 - Getting owned items...');
             ownedItemsResult = window.grpcApi.makeApiCallSync(
                 'ApiNodeGraph/getOwnedItems', 
                 rootResult.data.result.handle  // DEPENDS on step 1 result
             );
-            
             if (!ownedItemsResult.success) {
                 console.error('💥 DEBUG: STEP 2 FAILED - getOwnedItems call failed:', ownedItemsResult);
                 throw new Error('Failed to get owned items');
             }
-            
-            console.log('✅ DEBUG: STEP 2 SUCCESS - Owned items result:', ownedItemsResult);
-            
         } catch (error) {
             console.error('💥 DEBUG: CRASH IN STEP 2 (getOwnedItems):', error);
             throw error;
@@ -155,19 +146,14 @@ class SceneOutlinerSync {
         let sizeResult;
         try {
             // STEP 3: Get the size of the item array (BLOCKING - depends on step 2)
-            console.log('🔍 DEBUG: STEP 3 - Getting array size...');
             sizeResult = window.grpcApi.makeApiCallSync(
                 'ApiItemArray/size', 
                 ownedItemsResult.data.list.handle  // DEPENDS on step 2 result
             );
-            
             if (!sizeResult.success) {
                 console.error('💥 DEBUG: STEP 3 FAILED - size call failed:', sizeResult);
                 throw new Error('Failed to get array size');
             }
-            
-            console.log('✅ DEBUG: STEP 3 SUCCESS - Array size result:', sizeResult);
-            
         } catch (error) {
             console.error('💥 DEBUG: CRASH IN STEP 3 (size):', error);
             throw error;
@@ -177,15 +163,12 @@ class SceneOutlinerSync {
         const sceneItems = [];
         const size = sizeResult.data.result;
 
-        console.log(`🔍 DEBUG: STEP 4 - Processing ${size} items with handle validation...`);
-        
         for (let i = 0; i < size; i++) {
-
             // STEP 4: Get the item
             let getResult;
             try {
                 getResult = window.grpcApi.makeApiCallSync(
-                    'ApiItemArray/get1', 
+                    'ApiItemArray/get', 
                     ownedItemsResult.data.list.handle,
                     { index: i }
                 );
@@ -193,8 +176,6 @@ class SceneOutlinerSync {
                     console.error('💥 DEBUG: STEP 4 FAILED - get call failed:', getResult);
                     throw new Error('Failed to get item');
                 }
-                console.log('✅ DEBUG: STEP 4 SUCCESS - get item result:', getResult);
-                
             } catch (error) {
                 console.error('💥 DEBUG: CRASH IN STEP 4 (get):', error);
                 throw error;
@@ -202,8 +183,6 @@ class SceneOutlinerSync {
             const item = getResult.data.item;
             const handle = item.handle;
             const type = item.type;
-            
-            console.log(`🔍 DEBUG: STEP 4.${i+1} - Processing item ${i + 1}/${items.length}: handle=${handle}, type=${type}`);
             
             // DEFENSIVE PROGRAMMING: Validate handle before making API calls
             if (!handle || handle === '0' || handle === 0) {
@@ -217,26 +196,19 @@ class SceneOutlinerSync {
             
             // SAFE API CALL: Test name call with error isolation
             try {
-                console.log(`🔍 DEBUG: STEP 4.${i+1}.A - SAFELY getting name for handle ${handle}`);
                 const nameResult = window.grpcApi.makeApiCallSync(
                     'ApiItem/name',
                     handle
                 );
-                
                 if (nameResult.success && nameResult.data.result) {
                     actualName = nameResult.data.result;
                     isValidHandle = true;
-                    console.log(`✅ DEBUG: STEP 4.${i+1}.A SUCCESS - Got name: "${actualName}" for handle ${handle}`);
                 } else {
                     console.warn(`⚠️ DEBUG: STEP 4.${i+1}.A FAILED - Name call failed for handle ${handle}:`, nameResult);
-                    // Handle might be invalid - skip outType call to prevent crash
-                    console.warn(`⚠️ DEBUG: STEP 4.${i+1} SKIPPING outType call due to name failure`);
                     continue;
                 }
-                
             } catch (error) {
                 console.error(`💥 DEBUG: STEP 4.${i+1}.A CRASHED - Handle ${handle} caused error:`, error);
-                console.warn(`⚠️ DEBUG: STEP 4.${i+1} SKIPPING - Handle ${handle} appears to be corrupted/invalid`);
                 // Skip this handle entirely to prevent Octane crash
                 continue;
             }
