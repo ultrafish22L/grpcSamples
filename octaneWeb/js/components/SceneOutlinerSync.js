@@ -68,7 +68,7 @@ class SceneOutlinerSync {
             // All API calls are now SYNCHRONOUS and BLOCKING
             // This ensures proper sequential dependencies
             console.log('🔍 DEBUG: About to call loadSceneTreeSync()...');
-            const sceneItems = this.loadSceneTreeSync();
+            const sceneItems = this.loadSceneTreeSync(null, []);
             console.log('🔍 DEBUG: loadSceneTreeSync() returned:', sceneItems);
             
             // Store scene data for later requests
@@ -104,58 +104,126 @@ class SceneOutlinerSync {
             `;
         }
     }
-    
+
     /**
      * SYNCHRONOUS scene tree loading with blocking API calls
      * STRUCTURED DEBUGGING: Isolate exactly where Octane crashes
      * @returns {Array} Scene items array
      */
-    loadSceneTreeSync() {
-        console.log('🔍 DEBUG: Starting synchronous scene tree loading...');
-        
+    loadSceneTreeSync(itemHandle, sceneItems) {
         let result;
-        // STEP 1: Get the root node graph (BLOCKING)
-        result = window.grpcApi.makeApiCallSync(
-            'ApiProjectManager/rootNodeGraph'
-        );
-        if (!result.success) {
-            throw new Error('Failed to get root node graph');
-        }
-        // STEP 2: Get owned items from the root node graph (BLOCKING - depends on step 1)
-        result = window.grpcApi.makeApiCallSync(
-            'ApiNodeGraph/getOwnedItems', 
-            result.data.result.handle  // DEPENDS on step 1 result
-        );
-        if (!result.success) {
-            throw new Error('Failed to get owned items');
-        }
-        const ownedItemsHandle = result.data.list.handle
-
-        // STEP 3: Get the size of the item array (BLOCKING - depends on step 2)
-        result = window.grpcApi.makeApiCallSync(
-            'ApiItemArray/size', 
-            result.data.list.handle  // DEPENDS on step 2 result
-        );
-        if (!result.success) {
-            throw new Error('Failed to get array size');
-        }
-        const size = result.data.result;
-        const sceneItems = [];
-
-        for (let i = 0; i < size; i++) {
-            // STEP 4: Get the item
+        
+        try {
+            if (itemHandle == null)
+            {
+                // Get the itemHandle node
+                result = window.grpcApi.makeApiCallSync(
+                    'ApiProjectManager/rootNodeGraph'
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiProjectManager/rootNodeGraph');
+                }
+                itemHandle = result.data.result.handle;
+            }
+            // Get isGraph
             result = window.grpcApi.makeApiCallSync(
-                'ApiItemArray/get1', 
-                ownedItemsHandle,
-                {index: i},
+                'ApiItem/isGraph', 
+                itemHandle 
             );
             if (!result.success) {
-                throw new Error('Failed to get item');
+                throw new Error('Failed ApiItem/isGraph');
             }
-            const item = result.data.result;
-            let itemName = `Item_${item.handle}`;  // Default fallback name
-            
-            // SAFE API CALL: Test name call with error isolation
+            if (result.data.result)
+            {
+                // its a graph
+                // Get owned items
+                result = window.grpcApi.makeApiCallSync(
+                    'ApiNodeGraph/getOwnedItems', 
+                    itemHandle
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNodeGraph/getOwnedItems');
+                }
+                const ownedItemsHandle = result.data.list.handle
+
+                // Get the size of the item array
+                result = window.grpcApi.makeApiCallSync(
+                    'ApiItemArray/size', 
+                    result.data.list.handle
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiItemArray/size');
+                }
+                const size = result.data.result;
+
+                for (let i = 0; i < size; i++) {
+                    // Get the item
+                    result = window.grpcApi.makeApiCallSync(
+                        'ApiItemArray/get1', 
+                        ownedItemsHandle,
+                        {index: i},
+                    );
+                    if (!result.success) {
+                        throw new Error('Failed ApiItemArray/get1');
+                    }
+                    this.addSceneItem(result.data.result, sceneItems);
+                }
+                return sceneItems
+            }
+            // its a node
+            // Get the pins
+            result = window.grpcApi.makeApiCallSync(
+                'ApiNode/pinCount', 
+                itemHandle
+            );
+            if (!result.success) {
+                throw new Error('Failed ApiNode/pinCount');
+            }
+            const pinCount = result.data.result;
+
+            for (let i = 0; i < pinCount; i++) {
+                // Get the pin info
+                result = window.grpcApi.makeApiCallSync(
+                    'ApiNode/pinInfoIx', 
+                    itemHandle,
+                    {index: i},
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNode/pinInfoIx');
+                }
+                const info = result.data.result;
+
+                // Get the pin connected node
+                result = window.grpcApi.makeApiCallSync(
+                    'ApiNode/connectedNodeIx', 
+                    itemHandle,
+                    {index: i},
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNode/connectedNodeIx');
+                }
+                if (result.data.result != null)
+                {
+                    this.addSceneItem(result.data.result, sceneItems);
+                }
+            }
+        } catch (error) {
+            console.error('❌ Failed loadSceneTreeSync:', error);
+        }
+        return sceneItems;
+    }
+    
+        
+    /**
+
+     */
+    addSceneItem(item, sceneItems) { 
+
+        let itemName;
+        let outType;
+
+        try {
+            let result;
             result = window.grpcApi.makeApiCallSync(
                 'ApiItem/name',
                 item.handle
@@ -172,17 +240,22 @@ class SceneOutlinerSync {
             if (!result.success) {
                 throw new Error('Failed to get item outtype');
             }
-            sceneItems.push({
-                name: itemName,
-                handle: item.handle,
-                type: item.type,
-                outtype: result.data.result,
-                children: []
-            });
+            outType = result.data.result;
+        } catch (error) {
+            console.error('❌ Failed addSceneItem:', error);
         }
-        return sceneItems;
+        let children = [];
+        children = this.loadSceneTreeSync(item.handle, children);
+
+        sceneItems.push({
+            name: itemName,
+            handle: item.handle,
+            type: item.type,
+            outtype: outType,
+            children: children,
+        });
     }
-    
+
     renderRealSceneTree(sceneItems) {
         const treeContainer = this.element.querySelector('#scene-tree');
         if (!treeContainer) return;
