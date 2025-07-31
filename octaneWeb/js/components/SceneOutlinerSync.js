@@ -376,6 +376,13 @@ class SceneOutlinerSync {
         } catch (error) {
             console.error('❌ Failed addSceneItem:', error);
         }
+        
+        // Ensure itemName is never undefined
+        if (!itemName || itemName === 'undefined') {
+            itemName = `Node ${item.handle}`;
+            console.log(`⚠️ Using fallback name: "${itemName}" for handle ${item.handle}`);
+        }
+        
         let children = [];
         children = this.loadSceneTreeSync(item.handle, children, level);
 
