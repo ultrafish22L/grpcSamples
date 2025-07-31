@@ -601,7 +601,11 @@ class SceneOutlinerSync {
                         const handle = node.dataset.handle;
                         const nodeId = node.dataset.nodeId;
                         console.log('🎯 Auto-selecting Render target on initialization:', { handle, nodeName, nodeId });
-                        this.selectNode(handle, nodeName, nodeId, 'initialization');
+                        
+                        // Small delay to ensure NodeGraphEditor has created nodes
+                        setTimeout(() => {
+                            this.selectNode(handle, nodeName, nodeId, 'initialization');
+                        }, 100);
                         break;
                     }
                 }

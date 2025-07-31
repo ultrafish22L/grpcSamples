@@ -905,17 +905,29 @@ class NodeGraphEditor extends OctaneComponent {
     
     updateSelectedNode(data) {
         console.log('🎯 NodeGraphEditor received selection:', data);
+        console.log('🎯 Available nodes:', Array.from(this.nodes.entries()).map(([id, node]) => ({ id, name: node.name, sceneHandle: node.sceneHandle })));
         
         // Clear existing selection
         this.selectedNodes.clear();
         
         // Find and select the corresponding node in the graph
+        let nodeFound = false;
         for (let [nodeId, node] of this.nodes) {
-            if (node.sceneHandle === data.nodeId || node.name === data.nodeName) {
+            // Try multiple matching strategies
+            if (node.sceneHandle === data.handle || 
+                node.sceneHandle === data.nodeId || 
+                node.name === data.nodeName ||
+                nodeId.includes(data.handle)) {
                 this.selectedNodes.add(nodeId);
                 console.log('🎯 Selected node in graph:', nodeId, node.name);
+                nodeFound = true;
                 break;
             }
+        }
+        
+        if (!nodeFound) {
+            console.log('⚠️ Node not found for selection:', data);
+            console.log('⚠️ Trying to match:', { handle: data.handle, nodeId: data.nodeId, nodeName: data.nodeName });
         }
         
         // Re-render to show selection
