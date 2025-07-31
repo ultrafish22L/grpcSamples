@@ -523,6 +523,24 @@ class NodeGraphEditor extends OctaneComponent {
             case 'camera':
                 socketColor = '#9b59b6'; // Purple for camera
                 break;
+            case 'light':
+                socketColor = '#f39c12'; // Orange for light
+                break;
+            case 'environment':
+                socketColor = '#27ae60'; // Green for environment
+                break;
+            case 'medium':
+                socketColor = '#e74c3c'; // Red for medium
+                break;
+            case 'kernel':
+                socketColor = '#34495e'; // Dark gray for kernel
+                break;
+            case 'imager':
+                socketColor = '#8e44ad'; // Purple for imager
+                break;
+            case 'postfx':
+                socketColor = '#16a085'; // Teal for post effects
+                break;
             default:
                 socketColor = socket.connected ? '#4a90e2' : '#888888';
         }
@@ -821,7 +839,17 @@ class NodeGraphEditor extends OctaneComponent {
             case 'render':
                 return [
                     { name: 'Geometry', dataType: 'geometry', connected: true, showLabel: false },
-                    { name: 'Camera', dataType: 'camera', connected: false, showLabel: false }
+                    { name: 'Material', dataType: 'material', connected: false, showLabel: false },
+                    { name: 'Environment', dataType: 'environment', connected: false, showLabel: false },
+                    { name: 'Camera', dataType: 'camera', connected: false, showLabel: false },
+                    { name: 'Light1', dataType: 'light', connected: false, showLabel: false },
+                    { name: 'Light2', dataType: 'light', connected: false, showLabel: false },
+                    { name: 'Light3', dataType: 'light', connected: false, showLabel: false },
+                    { name: 'Light4', dataType: 'light', connected: false, showLabel: false },
+                    { name: 'Medium', dataType: 'medium', connected: false, showLabel: false },
+                    { name: 'Kernel', dataType: 'kernel', connected: false, showLabel: false },
+                    { name: 'Imager', dataType: 'imager', connected: false, showLabel: false },
+                    { name: 'PostFX', dataType: 'postfx', connected: false, showLabel: false }
                 ];
             case 'geometry':
                 return [
