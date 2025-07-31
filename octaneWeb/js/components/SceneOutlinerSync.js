@@ -242,7 +242,7 @@ class SceneOutlinerSync {
                 console.log(`✅ Using staticName: "${pinInfo.staticName}" for handle ${item.handle}`);
                 itemName = pinInfo.staticName;
             } else if (pinInfo && pinInfo.handle) {
-                // Try to get the parameter name from the ApiNodePinInfo object itself
+                // Try to get the parameter name from the ApiNodePinInfo object using the correct API
                 console.log(`🔍 Trying ApiNodePinInfoExService/getApiNodePinInfo for pinInfo handle ${pinInfo.handle}`);
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNodePinInfoExService/getApiNodePinInfo',
@@ -254,15 +254,30 @@ class SceneOutlinerSync {
                         }
                     }
                 );
-                if (result.success && result.data.result && result.data.result.staticLabel) {
-                    itemName = result.data.result.staticLabel;
-                    console.log(`✅ Got staticLabel from ApiNodePinInfoExService: "${itemName}" for handle ${item.handle}`);
-                } else if (result.success && result.data.result && result.data.result.staticName) {
-                    itemName = result.data.result.staticName;
-                    console.log(`✅ Got staticName from ApiNodePinInfoExService: "${itemName}" for handle ${item.handle}`);
+                if (result.success && result.data.success && result.data.nodePinInfo) {
+                    const nodePinInfo = result.data.nodePinInfo;
+                    if (nodePinInfo.staticLabel) {
+                        itemName = nodePinInfo.staticLabel;
+                        console.log(`✅ Got staticLabel from getApiNodePinInfo: "${itemName}" for handle ${item.handle}`);
+                    } else if (nodePinInfo.staticName) {
+                        itemName = nodePinInfo.staticName;
+                        console.log(`✅ Got staticName from getApiNodePinInfo: "${itemName}" for handle ${item.handle}`);
+                    } else {
+                        console.log(`❌ No staticLabel/staticName in nodePinInfo:`, nodePinInfo);
+                        // Final fallback to ApiItem/name
+                        result = window.grpcApi.makeApiCallSync(
+                            'ApiItem/name',
+                            item.handle
+                        );
+                        if (!result.success) {
+                            throw new Error('Failed to get item name');
+                        }
+                        itemName = result.data.result;
+                        console.log(`❌ Final fallback ApiItem/name returned: "${itemName}" for handle ${item.handle}`);
+                    }
                 } else {
+                    console.log(`❌ getApiNodePinInfo failed, result:`, result);
                     // Final fallback to ApiItem/name
-                    console.log(`❌ ApiNodePinInfoExService failed, falling back to ApiItem/name for handle ${item.handle}`);
                     result = window.grpcApi.makeApiCallSync(
                         'ApiItem/name',
                         item.handle

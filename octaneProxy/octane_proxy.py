@@ -96,7 +96,8 @@ class GrpcServiceRegistry:
                 'ApiNode': 'apinodesystem_7',
                 'ApiItem': 'apinodesystem_3',
                 'ApiItemArray': 'apinodesystem_1',
-                'ApiNodePinInfoExService': 'apinodepininfohelper',
+                'ApiNodePinInfoExService': 'generated.apinodepininfohelper',
+                'ApiNodePinInfo': 'generated.octaneinfos',
             }
             module_name = service_map.get(service_name)
             if not module_name:
