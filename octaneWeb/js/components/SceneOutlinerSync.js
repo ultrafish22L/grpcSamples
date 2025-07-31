@@ -40,6 +40,34 @@ class SceneOutlinerSync {
                 }
             });
         }
+        
+        // Listen for node selection from NodeGraphEditor to sync selection
+        this.eventSystem.on('nodeGraphNodeSelected', (data) => {
+            this.updateSelectionFromNodeGraph(data);
+        });
+    }
+    
+    updateSelectionFromNodeGraph(data) {
+        console.log('🎯 SceneOutliner received NodeGraph selection:', data);
+        
+        // Find and select the corresponding node in the scene tree
+        const treeContainer = this.element.querySelector('.tree-container');
+        if (!treeContainer) return;
+        
+        // Clear existing selection
+        treeContainer.querySelectorAll('.tree-node').forEach(n => n.classList.remove('selected'));
+        
+        // Find the node by name or handle and select it
+        const treeNodes = treeContainer.querySelectorAll('.tree-node');
+        treeNodes.forEach(node => {
+            const nodeName = node.querySelector('.node-name')?.textContent || '';
+            const handle = node.dataset.handle;
+            
+            if (nodeName === data.nodeName || handle === data.sceneHandle) {
+                node.classList.add('selected');
+                console.log('🎯 SceneOutliner synced selection to:', nodeName);
+            }
+        });
     }
     
     /**
@@ -522,10 +550,21 @@ class SceneOutlinerSync {
                 // Add selection to clicked node
                 node.classList.add('selected');
                 
-                // Emit selection event
+                // Emit selection event with comprehensive node data
                 const handle = node.dataset.handle;
+                const nodeId = node.dataset.nodeId;
+                const nodeName = node.querySelector('.node-name')?.textContent || '';
+                
                 if (handle && handle !== 'scene-root') {
-                    this.eventSystem.emit('nodeSelected', { handle: handle });
+                    // Emit to both NodeInspector and NodeGraphEditor
+                    this.eventSystem.emit('sceneNodeSelected', { 
+                        handle: handle,
+                        nodeId: nodeId,
+                        nodeName: nodeName,
+                        source: 'sceneOutliner'
+                    });
+                    
+                    console.log('🎯 SceneOutliner selected node:', { handle, nodeId, nodeName });
                 }
             });
         });

@@ -16,6 +16,27 @@ class NodeInspector extends OctaneComponent {
     
     async onInitialize() {
         this.renderDefaultInspector();
+        
+        // Auto-select Render target by default (matching Octane Studio behavior)
+        setTimeout(() => {
+            this.autoSelectRenderTarget();
+        }, 500);
+    }
+    
+    autoSelectRenderTarget() {
+        // Simulate selecting the Render target node to match Octane Studio's default behavior
+        const renderTargetData = {
+            nodeId: 'render-target',
+            nodeName: 'Render target',
+            nodeType: 'render_target',
+            source: 'autoSelect'
+        };
+        
+        console.log('🎯 Auto-selecting Render target to match Octane Studio behavior');
+        this.updateSelectedNode(renderTargetData);
+        
+        // Also emit the selection event to sync with other components
+        this.eventSystem.emit('sceneNodeSelected', renderTargetData);
     }
     
     setupEventListeners() {
@@ -26,6 +47,11 @@ class NodeInspector extends OctaneComponent {
         
         // Listen for scene node selection from SceneOutliner
         this.eventSystem.on('sceneNodeSelected', (data) => {
+            this.updateSelectedNode(data);
+        });
+        
+        // Listen for node selection from NodeGraphEditor
+        this.eventSystem.on('nodeGraphNodeSelected', (data) => {
             this.updateSelectedNode(data);
         });
         
@@ -606,18 +632,51 @@ class NodeInspector extends OctaneComponent {
     }
     
     updateSelectedNode(data) {
-        console.log('🎯 NodeInspector received selection:', data);
-        this.selectedNode = data.nodeId;
+        console.log('🎯 NodeInspector received selection from', data.source + ':', data);
+        
+        // Handle different data formats from SceneOutliner vs NodeGraphEditor
+        this.selectedNode = data.nodeId || data.handle;
         this.selectedNodeType = data.nodeType;
         this.selectedNodeName = data.nodeName;
+        this.selectedNodeHandle = data.handle || data.sceneHandle;
+        
+        // Update the dropdown to reflect the selected node
+        this.updateInspectorDropdown(this.selectedNodeName);
         
         // Render appropriate inspector based on node type and name
-        if (data.nodeName === 'Render target') {
+        if (this.selectedNodeName === 'Render target') {
             this.renderRenderTargetInspector();
-        } else if (data.nodeName && data.nodeName.includes('.obj')) {
+        } else if (this.selectedNodeName && this.selectedNodeName.includes('.obj')) {
             this.renderMeshInspector(data);
         } else {
             this.renderGenericInspector(data);
+        }
+    }
+    
+    updateInspectorDropdown(nodeName) {
+        // Update the dropdown in the node inspector header to show the selected node
+        const dropdown = this.element.querySelector('.node-selector select');
+        if (dropdown && nodeName) {
+            // Check if option exists, if not add it
+            let optionExists = false;
+            for (let option of dropdown.options) {
+                if (option.value === nodeName) {
+                    option.selected = true;
+                    optionExists = true;
+                    break;
+                }
+            }
+            
+            // If option doesn't exist, add it and select it
+            if (!optionExists) {
+                const newOption = document.createElement('option');
+                newOption.value = nodeName;
+                newOption.textContent = nodeName;
+                newOption.selected = true;
+                dropdown.appendChild(newOption);
+            }
+            
+            console.log('🎯 Updated NodeInspector dropdown to:', nodeName);
         }
     }
     

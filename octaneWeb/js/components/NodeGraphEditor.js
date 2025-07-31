@@ -668,6 +668,17 @@ class NodeGraphEditor extends OctaneComponent {
                 this.selectedNodes.clear();
             }
             this.selectedNodes.add(hitNode.id);
+            
+            // Emit selection event to update NodeInspector
+            this.eventSystem.emit('nodeGraphNodeSelected', {
+                nodeId: hitNode.id,
+                nodeName: hitNode.name,
+                nodeType: hitNode.type,
+                sceneHandle: hitNode.sceneHandle,
+                source: 'nodeGraphEditor'
+            });
+            
+            console.log('🎯 NodeGraphEditor selected node:', hitNode.name);
         } else {
             // Pan viewport
             this.isDragging = true;
