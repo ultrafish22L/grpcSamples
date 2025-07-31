@@ -212,10 +212,7 @@ class SceneOutlinerSync {
                 if (!result.success) {
                     throw new Error('Failed ApiNode/connectedNodeIx');
                 }                
-                if (result.data.result != null)
-                {
-                    this.addSceneItem(result.data.result, sceneItems, level);
-                }
+                this.addSceneItem(result.data.result, sceneItems, level);
             }
         } catch (error) {
             console.error('❌ Failed loadSceneTreeSync:', error);
@@ -231,6 +228,9 @@ class SceneOutlinerSync {
 
         let itemName;
         let outType;
+
+        if (!item || !item.handle)
+            return;
 
         try {
             let result;
