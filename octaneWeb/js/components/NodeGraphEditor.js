@@ -410,15 +410,23 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     drawNode(node) {
-        // Calculate compact node dimensions based on content
-        const minWidth = 100;
-        const textPadding = 20;
-        const nodeHeight = 40; // Compact height - just enough for icon + text
+        // Calculate Octane-style node dimensions
+        const minWidth = 180; // Much wider minimum width for proper pin spacing
+        const textPadding = 30;
+        const nodeHeight = 32; // Slightly taller than text but still compact
         
-        // Calculate width based on text content
+        // Calculate width based on number of input pins for proper spacing
+        const inputCount = (node.inputs && node.inputs.length) || 0;
+        const minPinSpacing = 20; // Minimum space between pins
+        const pinWidth = inputCount > 0 ? Math.max(minWidth, inputCount * minPinSpacing + 40) : minWidth;
+        
+        // Also consider text width
         this.ctx.font = `${11 / this.viewport.zoom}px Arial`;
         const textWidth = this.ctx.measureText(node.name || node.type).width;
-        const width = Math.max(minWidth, textWidth + textPadding);
+        const textBasedWidth = textWidth + textPadding;
+        
+        // Use the larger of pin-based width or text-based width
+        const width = Math.max(pinWidth, textBasedWidth);
         
         const { x, y } = node;
         const height = nodeHeight;
@@ -828,10 +836,10 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     getNodeWidth(name) {
-        // Adjust width based on name length
-        const baseWidth = 120;
+        // Octane-style wider nodes for proper pin spacing
+        const baseWidth = 180;
         const charWidth = 8;
-        return Math.max(baseWidth, name.length * charWidth + 40);
+        return Math.max(baseWidth, name.length * charWidth + 60);
     }
     
     getNodeInputs(nodeType) {
