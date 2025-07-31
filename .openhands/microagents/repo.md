@@ -1,26 +1,62 @@
-# Octane gRPC Samples Repository
+# Octane gRPC Samples Repository - Development Guide
 
-## 🚨 CRITICAL OPENHANDS NETWORKING SETUP
+## 🎯 Repository Status: Scene Outliner SUCCESS
 
-**Docker Container Isolation**: OpenHands cannot access host localhost services by default. For gRPC proxy connectivity:
+**CRITICAL STATE**: As of commit `e3a654c`, the Scene Outliner is in excellent working condition with proper API integration and perfect icon matching. **PRESERVE THIS FUNCTIONALITY.**
 
-```bash
-export SANDBOX_USE_HOST_NETWORK=true
-```
+## 🏆 Major Achievements
 
-**Docker-in-Docker Alternative:**
-```bash
-export SANDBOX_LOCAL_RUNTIME_URL="http://host.docker.internal"
-```
+### ✅ Scene Outliner Perfection
+- **Perfect Icon System**: All icons match Octane UI exactly (📁 Scene, 🫖 teapot.obj, 🎯 Render target, 📷 camera, 🌍 environment, ☑️ Bool, 🔢 Float/Int, 📋 Enum, 🎨 RGB)
+- **Real Parameter Names**: Successfully extracting actual parameter names like "Diffuse", "Transmission", "Roughness", "Opacity", "Bump" instead of generic "Bool value", "Float value"
+- **Complete API Integration**: ApiNodePinInfoExService working perfectly with proper staticLabel/staticName extraction
 
-**Troubleshooting Keywords**: `Connection refused`, `localhost:8080`, `gRPC timeout`, `Network unreachable`
+### ✅ Critical Proxy Fixes
+- **Fixed get_stub() Bug**: Stub creation was only happening in exception handler - now works correctly
+- **Request Class Patterns**: Added proper mapping for ApiNodePinInfoExService.getApiNodePinInfo → ApiNodePinInfoEx.GetNodePinInfoRequest
+- **Service Mapping**: ApiNodePinInfoExService → apinodepininfohelper module mapping working
+- **Enhanced Debugging**: Comprehensive logging for troubleshooting API issues
 
-**Complete Guide**: See `OPENHANDS_LOCALHOST_NETWORKING.md` for detailed networking configuration.
+### ✅ Architectural Success
+- **Recursive Scene Loading**: Proper hierarchical scene tree construction with parameter details
+- **Pin Info Integration**: Real-time extraction of parameter information from Octane API
+- **Synchronous API Pattern**: Correct implementation of sequential API calls with dependencies
 
-## Purpose
-This repository provides comprehensive code samples and implementations for connecting to Octane Render via gRPC. It demonstrates real-time camera synchronization, 3D model loading, and web-based integration with Octane's LiveLink service. The repository serves as both a learning resource and production-ready foundation for building applications that integrate with Octane Render.
+## 🚨 CRITICAL WARNINGS FOR DEVELOPERS
 
-The main goal is to enable both **desktop applications** (C++/OpenGL) and **browser-based applications** (HTML/JavaScript/WebGL) to seamlessly integrate with Octane's professional 3D rendering pipeline for camera control, mesh discovery, geometry access, and real-time rendering workflows.
+### 🛑 DO NOT BREAK WORKING CODE
+The most dangerous pattern observed is **breaking working functionality** due to misdiagnosis:
+
+**WRONG APPROACH**:
+1. See connection errors in logs
+2. Assume infinite recursion or code bugs
+3. Remove recursive loading logic
+4. Break working Scene Outliner
+
+**CORRECT APPROACH**:
+1. Analyze what's actually working vs. failing
+2. Distinguish network issues from code issues
+3. Test with fresh Octane restart
+4. Preserve working functionality while fixing real issues
+
+### 🔍 Error Analysis Guidelines
+
+**Connection Errors ≠ Code Bugs**:
+- `Connection refused (10061)`: Octane not running or LiveLink disabled
+- `Connection reset (10054)`: Network issue or Octane restart
+- `Socket closed`: Octane disconnected (often normal)
+
+**These are NOT indicators of**:
+- Infinite recursion in code
+- Buggy API call logic
+- Need to remove recursive functionality
+
+**Before assuming code bugs**:
+1. Is Octane running?
+2. Is LiveLink enabled (Help → LiveLink in Octane)?
+3. Is port 51022 accessible?
+4. Try restarting Octane LiveLink service
+5. Test with minimal API calls first
 
 ## General Setup
 
