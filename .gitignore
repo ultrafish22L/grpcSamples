@@ -50,7 +50,7 @@ Thumbs.db
 *.swo
 
 # Generated protobuf files
-**/generated/
+#**/generated/
 **/__pycache__/
 *.pb.h
 *.pb.cc
