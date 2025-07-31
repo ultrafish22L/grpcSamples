@@ -998,81 +998,433 @@ class NodeInspector extends OctaneComponent {
     }
     
     renderRenderTargetInspector() {
-        // Render the Render Target inspector matching the target UI
-        const dropdown = this.element.querySelector('.node-selector');
-        if (dropdown) {
-            dropdown.value = 'Render target';
-        }
-        
         this.element.innerHTML = `
-            <div class="node-inspector-header">
-                <h3>Node inspector</h3>
-                <select class="node-selector">
-                    <option value="Render target" selected>Render target</option>
-                    <option value="Camera target">Camera target</option>
-                    <option value="Material target">Material target</option>
-                </select>
-            </div>
-            <div class="node-inspector-content">
-                <div class="parameter-section">
-                    <div class="parameter-group-header" data-group="scene">
-                        <span class="parameter-group-icon">▼</span>
-                        <span class="parameter-group-title">Scene</span>
+            <div class="octane-node-inspector">
+                <!-- Header -->
+                <div class="inspector-header">
+                    <div class="inspector-title">Node inspector</div>
+                    <select class="inspector-dropdown">
+                        <option value="Render target" selected>Render target</option>
+                        <option value="Camera target">Camera target</option>
+                        <option value="Material target">Material target</option>
+                    </select>
+                </div>
+
+                <!-- Scene Section -->
+                <div class="inspector-section">
+                    <div class="section-header" data-section="scene">
+                        <span class="section-toggle">▼</span>
+                        <span class="section-title">Scene</span>
                     </div>
-                    <div class="parameter-group-content" data-group-content="scene">
-                        <div class="parameter-row">
-                            <span class="parameter-icon">📷</span>
-                            <span class="parameter-label">Camera</span>
-                            <select class="parameter-dropdown">
+                    <div class="section-content" data-content="scene">
+                        <!-- Camera -->
+                        <div class="param-row">
+                            <div class="param-icon">📷</div>
+                            <div class="param-label">Camera</div>
+                            <select class="param-dropdown">
                                 <option selected>Thin lens camera</option>
                                 <option>Panoramic camera</option>
                                 <option>Orthographic camera</option>
                             </select>
                         </div>
-                        <div class="parameter-row">
-                            <span class="parameter-icon">📐</span>
-                            <span class="parameter-label">Orthographic:</span>
-                            <input type="checkbox" class="parameter-checkbox">
+
+                        <!-- Environment -->
+                        <div class="param-row">
+                            <div class="param-icon">🌍</div>
+                            <div class="param-label">Environment</div>
+                            <select class="param-dropdown">
+                                <option selected>Daylight environment</option>
+                                <option>HDRI environment</option>
+                                <option>Texture environment</option>
+                            </select>
                         </div>
-                        
-                        <div class="parameter-group-header" data-group="physical-camera">
-                            <span class="parameter-group-icon">▶</span>
-                            <span class="parameter-group-title">Physical camera parameters</span>
+
+                        <!-- Environment Parameters -->
+                        <div class="param-row">
+                            <div class="param-icon">☀️</div>
+                            <div class="param-label">Sun direction</div>
+                            <select class="param-dropdown">
+                                <option selected>Sun direction</option>
+                            </select>
                         </div>
-                        
-                        <div class="parameter-group-header" data-group="viewing-angle">
-                            <span class="parameter-group-icon">▶</span>
-                            <span class="parameter-group-title">Viewing angle</span>
+
+                        <div class="param-row">
+                            <div class="param-icon">🌫️</div>
+                            <div class="param-label">Sky turbidity:</div>
+                            <div class="param-control">
+                                <input type="range" class="param-slider" min="1" max="10" value="2.400" step="0.1">
+                                <input type="number" class="param-number" value="2.400" step="0.1">
+                            </div>
                         </div>
-                        
-                        <div class="parameter-row">
-                            <span class="parameter-icon">📐</span>
-                            <span class="parameter-label">Perspective correction:</span>
-                            <input type="checkbox" class="parameter-checkbox">
+
+                        <div class="param-row">
+                            <div class="param-icon">⚡</div>
+                            <div class="param-label">Power:</div>
+                            <div class="param-control">
+                                <input type="range" class="param-slider" min="0" max="5" value="1.000" step="0.1">
+                                <input type="number" class="param-number" value="1.000" step="0.1">
+                            </div>
                         </div>
-                        
-                        <div class="parameter-row">
-                            <span class="parameter-icon">📏</span>
-                            <span class="parameter-label">Pixel aspect ratio:</span>
-                            <input type="number" class="parameter-number-input" value="1.000" step="0.001">
+
+                        <div class="param-row">
+                            <div class="param-icon">💡</div>
+                            <div class="param-label">Sun intensity:</div>
+                            <div class="param-control">
+                                <input type="range" class="param-slider" min="0" max="5" value="1.000" step="0.1">
+                                <input type="number" class="param-number" value="1.000" step="0.1">
+                            </div>
                         </div>
-                        
-                        <div class="parameter-group-header" data-group="clipping">
-                            <span class="parameter-group-icon">▶</span>
-                            <span class="parameter-group-title">Clipping</span>
+
+                        <div class="param-row">
+                            <div class="param-icon">🌅</div>
+                            <div class="param-label">North offset:</div>
+                            <div class="param-control">
+                                <input type="range" class="param-slider" min="0" max="360" value="0.000" step="1">
+                                <input type="number" class="param-number" value="0.000" step="1">
+                            </div>
                         </div>
-                        
-                        <div class="parameter-group-header" data-group="depth-of-field">
-                            <span class="parameter-group-icon">▶</span>
-                            <span class="parameter-group-title">Depth of field</span>
+
+                        <div class="param-row">
+                            <div class="param-icon">🏔️</div>
+                            <div class="param-label">Daylight model:</div>
+                            <select class="param-dropdown">
+                                <option selected>Octane Daylight Model</option>
+                            </select>
+                        </div>
+
+                        <!-- Color Pickers -->
+                        <div class="param-row">
+                            <div class="param-icon">🌤️</div>
+                            <div class="param-label">Sky color:</div>
+                            <div class="param-color-picker" style="background: #4A90E2;"></div>
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-icon">🌅</div>
+                            <div class="param-label">Sunset color:</div>
+                            <div class="param-color-picker" style="background: #E67E22;"></div>
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-icon">☀️</div>
+                            <div class="param-label">Sun size:</div>
+                            <div class="param-control">
+                                <input type="range" class="param-slider" min="0" max="5" value="1.000" step="0.1">
+                                <input type="number" class="param-number" value="1.000" step="0.1">
+                            </div>
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-icon">🌍</div>
+                            <div class="param-label">Ground color:</div>
+                            <div class="param-color-picker" style="background: #2C3E50;"></div>
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-icon">📐</div>
+                            <div class="param-label">Ground start angle:</div>
+                            <div class="param-control">
+                                <input type="range" class="param-slider" min="0" max="180" value="90.000" step="1">
+                                <input type="number" class="param-number" value="90.000" step="1">
+                            </div>
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-icon">🔄</div>
+                            <div class="param-label">Ground blend angle:</div>
+                            <div class="param-control">
+                                <input type="range" class="param-slider" min="0" max="90" value="5.000" step="1">
+                                <input type="number" class="param-number" value="5.000" step="1">
+                            </div>
+                        </div>
+
+                        <!-- Sky texture -->
+                        <div class="param-row">
+                            <div class="param-label">Sky texture</div>
+                            <select class="param-dropdown">
+                                <option selected>No node</option>
+                            </select>
+                        </div>
+
+                        <!-- Checkboxes -->
+                        <div class="param-row">
+                            <div class="param-icon">📊</div>
+                            <div class="param-label">Importance sampling:</div>
+                            <input type="checkbox" class="param-checkbox" checked>
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-icon">📸</div>
+                            <div class="param-label">Cast photons:</div>
+                            <input type="checkbox" class="param-checkbox" checked>
+                        </div>
+
+                        <!-- Medium -->
+                        <div class="param-row">
+                            <div class="param-label">Medium</div>
+                            <select class="param-dropdown">
+                                <option selected>No node</option>
+                            </select>
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-icon">🔍</div>
+                            <div class="param-label">Medium radius:</div>
+                            <div class="param-control">
+                                <input type="range" class="param-slider" min="0" max="5" value="1.000" step="0.1">
+                                <input type="number" class="param-number" value="1.000" step="0.1">
+                            </div>
+                        </div>
+
+                        <!-- Medium light pass mask grid -->
+                        <div class="param-row">
+                            <div class="param-icon">🎭</div>
+                            <div class="param-label">Medium light pass mask:</div>
+                            <div class="param-grid">
+                                ${Array.from({length: 32}, (_, i) => `<button class="grid-button ${i < 8 ? 'active' : ''}">${i + 1}</button>`).join('')}
+                            </div>
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-icon">📦</div>
+                            <div class="param-label">Use in post volume:</div>
+                            <input type="checkbox" class="param-checkbox">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visible environment Section -->
+                <div class="inspector-section">
+                    <div class="section-header" data-section="visible-env">
+                        <span class="section-toggle">▼</span>
+                        <span class="section-title">Visible environment</span>
+                    </div>
+                    <div class="section-content" data-content="visible-env">
+                        <div class="param-row">
+                            <div class="param-icon">🔙</div>
+                            <div class="param-label">Backplate:</div>
+                            <input type="checkbox" class="param-checkbox">
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-icon">🪞</div>
+                            <div class="param-label">Reflections:</div>
+                            <input type="checkbox" class="param-checkbox">
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-icon">💎</div>
+                            <div class="param-label">Refractions:</div>
+                            <input type="checkbox" class="param-checkbox">
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-label">Visible environment</div>
+                            <select class="param-dropdown">
+                                <option selected>No node</option>
+                            </select>
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-icon">🎯</div>
+                            <div class="param-label">Geometry: teapot.obj</div>
+                            <select class="param-dropdown">
+                                <option selected>Mesh</option>
+                            </select>
+                        </div>
+
+                        <div class="param-row file-path">
+                            <div class="param-icon">📁</div>
+                            <div class="file-info">
+                                <div class="file-path-text">C:\\otoy\\Scenes\\teapot\\teapot.obj\\teapot.obj</div>
+                                <div class="file-stats">4032 polygons</div>
+                            </div>
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-icon">🧊</div>
+                            <div class="param-label">Cube: cube</div>
+                            <select class="param-dropdown">
+                                <option selected>Diffuse material</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Render settings Section -->
+                <div class="inspector-section">
+                    <div class="section-header" data-section="render-settings">
+                        <span class="section-toggle">▼</span>
+                        <span class="section-title">Render settings</span>
+                    </div>
+                    <div class="section-content" data-content="render-settings">
+                        <div class="param-row">
+                            <div class="param-icon">🎬</div>
+                            <div class="param-label">Film settings</div>
+                            <select class="param-dropdown">
+                                <option selected>Film settings</option>
+                            </select>
+                        </div>
+
+                        <!-- Resolution -->
+                        <div class="param-row">
+                            <div class="param-icon">📺</div>
+                            <div class="param-label">Resolution:</div>
+                            <div class="param-dual-input">
+                                <input type="number" class="param-number-small" value="1024">
+                                <input type="number" class="param-number-small" value="512">
+                            </div>
+                        </div>
+
+                        <!-- Region start -->
+                        <div class="param-row">
+                            <div class="param-icon">📍</div>
+                            <div class="param-label">Region start (pixel):</div>
+                            <div class="param-dual-input">
+                                <input type="number" class="param-number-small" value="0">
+                                <input type="number" class="param-number-small" value="0">
+                            </div>
+                        </div>
+
+                        <!-- Region size -->
+                        <div class="param-row">
+                            <div class="param-icon">📏</div>
+                            <div class="param-label">Region size (pixel):</div>
+                            <div class="param-dual-input">
+                                <input type="number" class="param-number-small" value="65536">
+                                <input type="number" class="param-number-small" value="65536">
+                            </div>
+                        </div>
+
+                        <!-- Region start % -->
+                        <div class="param-row">
+                            <div class="param-icon">📊</div>
+                            <div class="param-label">Region start:</div>
+                            <div class="param-dual-input">
+                                <input type="text" class="param-number-small" value="0.0%">
+                                <input type="text" class="param-number-small" value="0.0%">
+                            </div>
+                        </div>
+
+                        <!-- Region size % -->
+                        <div class="param-row">
+                            <div class="param-icon">📐</div>
+                            <div class="param-label">Region size:</div>
+                            <div class="param-dual-input">
+                                <input type="text" class="param-number-small" value="100.0%">
+                                <input type="text" class="param-number-small" value="100.0%">
+                            </div>
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-icon">🔒</div>
+                            <div class="param-label">Lock relative region:</div>
+                            <input type="checkbox" class="param-checkbox" checked>
+                        </div>
+
+                        <!-- Animation -->
+                        <div class="param-row">
+                            <div class="param-icon">🎬</div>
+                            <div class="param-label">Animation</div>
+                            <select class="param-dropdown">
+                                <option selected>Animation settings</option>
+                            </select>
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-icon">📹</div>
+                            <div class="param-label">Shutter alignment:</div>
+                            <select class="param-dropdown">
+                                <option selected>After</option>
+                                <option>Before</option>
+                                <option>Center</option>
+                            </select>
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-icon">⏱️</div>
+                            <div class="param-label">Shutter time:</div>
+                            <div class="param-control">
+                                <input type="range" class="param-slider" min="0" max="100" value="20" step="1">
+                                <input type="number" class="param-number" value="20%" step="1">
+                            </div>
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-icon">🎬</div>
+                            <div class="param-label">Subframe start:</div>
+                            <div class="param-control">
+                                <input type="range" class="param-slider" min="0" max="100" value="0" step="1">
+                                <input type="number" class="param-number" value="0%" step="1">
+                            </div>
+                        </div>
+
+                        <div class="param-row">
+                            <div class="param-icon">🎞️</div>
+                            <div class="param-label">Subframe end:</div>
+                            <div class="param-control">
+                                <input type="range" class="param-slider" min="0" max="100" value="100" step="1">
+                                <input type="number" class="param-number" value="100%" step="1">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         `;
-        
-        // Setup event handlers for the new content
-        this.setupParameterHandlers();
+
+        this.setupOctaneInspectorEvents();
+    }
+
+    setupOctaneInspectorEvents() {
+        // Setup section toggle functionality
+        const sectionHeaders = this.element.querySelectorAll('.section-header');
+        sectionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const section = header.dataset.section;
+                const content = this.element.querySelector(`[data-content="${section}"]`);
+                const toggle = header.querySelector('.section-toggle');
+                
+                if (content.style.display === 'none') {
+                    content.style.display = 'block';
+                    toggle.textContent = '▼';
+                } else {
+                    content.style.display = 'none';
+                    toggle.textContent = '▶';
+                }
+            });
+        });
+
+        // Setup slider synchronization
+        const sliders = this.element.querySelectorAll('.param-slider');
+        sliders.forEach(slider => {
+            const numberInput = slider.parentElement.querySelector('.param-number');
+            if (numberInput) {
+                slider.addEventListener('input', () => {
+                    numberInput.value = slider.value;
+                });
+                
+                numberInput.addEventListener('input', () => {
+                    slider.value = numberInput.value;
+                });
+            }
+        });
+
+        // Setup grid button toggles
+        const gridButtons = this.element.querySelectorAll('.grid-button');
+        gridButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                button.classList.toggle('active');
+            });
+        });
+
+        // Setup color picker interactions
+        const colorPickers = this.element.querySelectorAll('.param-color-picker');
+        colorPickers.forEach(picker => {
+            picker.addEventListener('click', () => {
+                // In a real implementation, this would open a color picker dialog
+                console.log('Color picker clicked');
+            });
+        });
     }
     
     renderMeshInspector(data) {
