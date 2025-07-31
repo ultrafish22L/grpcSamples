@@ -9,7 +9,7 @@
 ### Standard Project Structure
 The repository folder structure should contain:
 root - `ENGINEERING_DISCIPLINE.md` - This file, for session management standards across all projects
-    folder - `REPRO_PROMPT.md` - Task-focused reproduction prompt from last session that immediate context
+    folder - `REPRO_PROMPT.md` - Project-focused reproduction prompt from last session to immediately restart a work chat session
 
 ### REPRO_PROMPT.md Requirements
 ```markdown
