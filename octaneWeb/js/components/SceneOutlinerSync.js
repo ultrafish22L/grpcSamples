@@ -111,7 +111,7 @@ class SceneOutlinerSync {
      */
     loadSceneTreeSync(itemHandle, sceneItems, level) {
         let result;
-        if (level >= 2)
+        if (level >= 3)
             return sceneItems;
         level = level + 1;
 
