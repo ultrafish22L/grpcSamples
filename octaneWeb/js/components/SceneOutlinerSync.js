@@ -14,7 +14,7 @@ class SceneOutlinerSync {
         this.element = element;
         this.eventSystem = eventSystem;
         this.lastSceneItems = [];
-        this.expandedNodes = new Set(['scene-root']);
+        this.expandedNodes = new Set(['scene-root', 'item-1000025']); // Expand Scene and Render target by default
         this.searchTerm = '';
         
         this.setupEventHandlers();
@@ -270,11 +270,6 @@ class SceneOutlinerSync {
             return;
         }
         
-        // Filter items based on search term
-        const filteredItems = sceneItems.filter(item => 
-            item.name.toLowerCase().includes(this.searchTerm)
-        );
-        
         // Create Scene root node
         let treeHTML = `
             <div class="tree-node scene-root level-0" data-node-id="scene-root">
@@ -286,27 +281,53 @@ class SceneOutlinerSync {
             </div>
         `;
         
-        // Add child items as separate tree nodes (not nested inside Scene)
+        // Add child items recursively if Scene is expanded
         if (this.expandedNodes.has('scene-root')) {
-            filteredItems.forEach(item => {
-                const icon = this.getOctaneIconFor(item.outtype, item.name);
-                const nodeId = `item-${item.handle}`;
-                const isSelected = item.name === 'Render target'; // Match Octane screenshot
-                
-                treeHTML += `
-                    <div class="tree-node scene-item level-1 ${isSelected ? 'selected' : ''}" data-node-id="${nodeId}" data-handle="${item.handle}">
-                        <div class="node-content">
-                            <span class="node-icon">${icon}</span>
-                            <span class="node-name">${item.name}</span>
-                        </div>
-                    </div>
-                `;
-            });
+            treeHTML += this.renderTreeLevel(sceneItems, 1);
         }
+        
         treeContainer.innerHTML = treeHTML;
         
         // Add event handlers
         this.addTreeEventHandlers(treeContainer);
+    }
+    
+    renderTreeLevel(items, level) {
+        let html = '';
+        
+        // Filter items based on search term
+        const filteredItems = items.filter(item => 
+            !this.searchTerm || 
+            item.name.toLowerCase().includes(this.searchTerm)
+        );
+        
+        filteredItems.forEach(item => {
+            const icon = this.getOctaneIconFor(item.outtype, item.name);
+            const nodeId = `item-${item.handle}`;
+            const isSelected = item.name === 'Render target'; // Match Octane screenshot
+            const hasChildren = item.children && item.children.length > 0;
+            const isExpanded = this.expandedNodes.has(nodeId);
+            
+            html += `
+                <div class="tree-node scene-item level-${level} ${isSelected ? 'selected' : ''}" data-node-id="${nodeId}" data-handle="${item.handle}">
+                    <div class="node-content">
+                        ${hasChildren ? 
+                            `<span class="node-toggle ${isExpanded ? 'expanded' : 'collapsed'}"></span>` : 
+                            '<span class="node-spacer"></span>'
+                        }
+                        <span class="node-icon">${icon}</span>
+                        <span class="node-name">${item.name}</span>
+                    </div>
+                </div>
+            `;
+            
+            // Recursively render children if expanded
+            if (hasChildren && isExpanded) {
+                html += this.renderTreeLevel(item.children, level + 1);
+            }
+        });
+        
+        return html;
     }
     
     getOctaneIconFor(outtype, name) {

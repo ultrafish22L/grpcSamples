@@ -468,6 +468,18 @@ html, body {
     padding-left: 46px;
 }
 
+.tree-node.level-4 .node-content {
+    padding-left: 60px;
+}
+
+.tree-node.level-5 .node-content {
+    padding-left: 74px;
+}
+
+.tree-node.level-6 .node-content {
+    padding-left: 88px;
+}
+
 
 
 .tree-node-content {
