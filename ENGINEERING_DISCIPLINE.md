@@ -7,9 +7,9 @@
 ## 📋 REPRO_PROMPT.md Pattern
 
 ### Standard Project Structure
-Every project folder should contain:
-- `REPRO_PROMPT.md` - Task-focused reproduction prompt for immediate context
-- `ENGINEERING_DISCIPLINE.md` - This file, for session management standards
+The repository folder structure should contain:
+root - `ENGINEERING_DISCIPLINE.md` - This file, for session management standards across all projects
+    folder - `REPRO_PROMPT.md` - Task-focused reproduction prompt from last session that immediate context
 
 ### REPRO_PROMPT.md Requirements
 ```markdown
