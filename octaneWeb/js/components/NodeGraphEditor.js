@@ -321,17 +321,45 @@ class NodeGraphEditor extends OctaneComponent {
         const outputPos = this.getSocketPosition(outputNode, connection.outputSocket, 'output');
         const inputPos = this.getSocketPosition(inputNode, connection.inputSocket, 'input');
         
-        // Draw bezier curve
-        this.ctx.strokeStyle = connection.selected ? '#4a90e2' : '#888888';
+        // Connection color based on data type
+        let connectionColor = '#888888';
+        if (connection.dataType) {
+            switch (connection.dataType) {
+                case 'color':
+                    connectionColor = '#ff6b6b';
+                    break;
+                case 'float':
+                    connectionColor = '#4ecdc4';
+                    break;
+                case 'vector':
+                    connectionColor = '#45b7d1';
+                    break;
+                case 'texture':
+                    connectionColor = '#96ceb4';
+                    break;
+                case 'material':
+                    connectionColor = '#feca57';
+                    break;
+                case 'geometry':
+                    connectionColor = '#a8c4a2';
+                    break;
+                case 'camera':
+                    connectionColor = '#9b59b6';
+                    break;
+            }
+        }
+        
+        this.ctx.strokeStyle = connection.selected ? '#4a90e2' : connectionColor;
         this.ctx.lineWidth = 2 / this.viewport.zoom;
         
         this.ctx.beginPath();
         this.ctx.moveTo(outputPos.x, outputPos.y);
         
-        const controlOffset = 100 / this.viewport.zoom;
+        // Vertical bezier curve (top to bottom connections)
+        const controlOffset = 50 / this.viewport.zoom;
         this.ctx.bezierCurveTo(
-            outputPos.x + controlOffset, outputPos.y,
-            inputPos.x - controlOffset, inputPos.y,
+            outputPos.x, outputPos.y + controlOffset,
+            inputPos.x, inputPos.y - controlOffset,
             inputPos.x, inputPos.y
         );
         
@@ -382,37 +410,44 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     drawNode(node) {
-        const { x, y, width = 120, height = 80 } = node;
+        // Calculate compact node dimensions based on content
+        const minWidth = 100;
+        const textPadding = 20;
+        const nodeHeight = 40; // Compact height - just enough for icon + text
+        
+        // Calculate width based on text content
+        this.ctx.font = `${11 / this.viewport.zoom}px Arial`;
+        const textWidth = this.ctx.measureText(node.name || node.type).width;
+        const width = Math.max(minWidth, textWidth + textPadding);
+        
+        const { x, y } = node;
+        const height = nodeHeight;
         const isSelected = this.selectedNodes.has(node.id);
         
         // Debug: Only log first few draws to avoid spam
         if (this.drawCount < 5) {
-            console.log('🎨 Drawing professional node at:', x, y, 'size:', width, height, 'type:', node.type);
+            console.log('🎨 Drawing compact Octane-style node at:', x, y, 'size:', width, height, 'type:', node.type);
             this.drawCount = (this.drawCount || 0) + 1;
         }
         
         // Professional node colors based on type (matching Octane reference)
-        let nodeColor, headerColor, textColor;
+        let nodeColor, textColor;
         switch (node.type.toLowerCase()) {
             case 'material':
                 nodeColor = '#d4b896';  // Beige/tan like Octane
-                headerColor = '#c4a886';
                 textColor = '#2a2a2a';
                 break;
             case 'texture':
                 nodeColor = '#7ba7d4';  // Blue like Octane
-                headerColor = '#6b97c4';
                 textColor = '#ffffff';
                 break;
             case 'mesh':
             case 'geometry':
                 nodeColor = '#a8c4a2';  // Green like Octane
-                headerColor = '#98b492';
                 textColor = '#2a2a2a';
                 break;
             default:
                 nodeColor = '#8a8a8a';  // Gray default
-                headerColor = '#7a7a7a';
                 textColor = '#ffffff';
         }
 
@@ -425,51 +460,98 @@ class NodeGraphEditor extends OctaneComponent {
             this.ctx.lineWidth = 1 / this.viewport.zoom;
         }
 
-        // Draw rounded rectangle for professional look
-        const cornerRadius = 6 / this.viewport.zoom;
+        // Draw compact rounded rectangle
+        const cornerRadius = 4 / this.viewport.zoom;
         this.drawRoundedRect(x, y, width, height, cornerRadius, nodeColor, true);
         this.drawRoundedRect(x, y, width, height, cornerRadius, this.ctx.strokeStyle, false);
 
-        // Node header with rounded top corners
-        this.drawRoundedRect(x, y, width, 24, cornerRadius, headerColor, true, true);
-
-        // Node title
+        // Node title (centered in the compact node)
         this.ctx.fillStyle = textColor;
         this.ctx.font = `${11 / this.viewport.zoom}px Arial`;
         this.ctx.textAlign = 'center';
-        this.ctx.fillText(node.name || node.type, x + width / 2, y + 16);
+        this.ctx.fillText(node.name || node.type, x + width / 2, y + height / 2 + 4);
         
-        // Input sockets
-        if (node.inputs) {
+        // Input sockets on TOP (horizontal layout)
+        if (node.inputs && node.inputs.length > 0) {
+            const inputSpacing = width / (node.inputs.length + 1);
             node.inputs.forEach((input, index) => {
-                this.drawSocket(x, y + 30 + index * 15, input, 'input');
+                const socketX = x + inputSpacing * (index + 1);
+                const socketY = y;
+                this.drawSocket(socketX, socketY, input, 'input');
             });
         }
         
-        // Output sockets
-        if (node.outputs) {
+        // Output sockets on BOTTOM (horizontal layout)
+        if (node.outputs && node.outputs.length > 0) {
+            const outputSpacing = width / (node.outputs.length + 1);
             node.outputs.forEach((output, index) => {
-                this.drawSocket(x + width, y + 30 + index * 15, output, 'output');
+                const socketX = x + outputSpacing * (index + 1);
+                const socketY = y + height;
+                this.drawSocket(socketX, socketY, output, 'output');
             });
         }
+        
+        // Update node dimensions for hit testing
+        node.width = width;
+        node.height = height;
     }
     
     drawSocket(x, y, socket, type) {
-        const radius = 6 / this.viewport.zoom;
+        const radius = 4 / this.viewport.zoom; // Smaller sockets like Octane
         
-        // Socket circle
-        this.ctx.fillStyle = socket.connected ? '#4a90e2' : '#666666';
+        // Socket colors based on type (matching Octane's color coding)
+        let socketColor;
+        switch (socket.dataType || 'default') {
+            case 'color':
+                socketColor = '#ff6b6b'; // Red for color
+                break;
+            case 'float':
+                socketColor = '#4ecdc4'; // Teal for float
+                break;
+            case 'vector':
+                socketColor = '#45b7d1'; // Blue for vector
+                break;
+            case 'texture':
+                socketColor = '#96ceb4'; // Green for texture
+                break;
+            case 'material':
+                socketColor = '#feca57'; // Yellow for material
+                break;
+            case 'geometry':
+                socketColor = '#a8c4a2'; // Green for geometry
+                break;
+            case 'camera':
+                socketColor = '#9b59b6'; // Purple for camera
+                break;
+            default:
+                socketColor = socket.connected ? '#4a90e2' : '#888888';
+        }
+        
+        // Draw socket circle
+        this.ctx.fillStyle = socketColor;
         this.ctx.beginPath();
         this.ctx.arc(x, y, radius, 0, Math.PI * 2);
         this.ctx.fill();
         
-        // Socket label
-        this.ctx.fillStyle = '#cccccc';
-        this.ctx.font = `${10 / this.viewport.zoom}px Arial`;
-        this.ctx.textAlign = type === 'input' ? 'left' : 'right';
+        // Add subtle border
+        this.ctx.strokeStyle = '#333333';
+        this.ctx.lineWidth = 1 / this.viewport.zoom;
+        this.ctx.stroke();
         
-        const labelX = type === 'input' ? x + radius + 4 : x - radius - 4;
-        this.ctx.fillText(socket.name, labelX, y + 3);
+        // Socket labels (optional - can be hidden for cleaner look)
+        if (socket.showLabel !== false) {
+            this.ctx.fillStyle = '#cccccc';
+            this.ctx.font = `${8 / this.viewport.zoom}px Arial`;
+            this.ctx.textAlign = 'center';
+            
+            // Position labels above inputs, below outputs
+            const labelY = type === 'input' ? y - radius - 8 : y + radius + 12;
+            this.ctx.fillText(socket.name || socket.type, x, labelY);
+        }
+        
+        // Store socket position for connection drawing
+        socket.x = x;
+        socket.y = y;
     }
     
     updateNodeGraph(nodeGraphState) {
@@ -583,14 +665,26 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     getSocketPosition(node, socketName, type) {
-        const width = node.width || 120;
+        const width = node.width || 100;
+        const height = node.height || 40;
         const sockets = type === 'input' ? node.inputs : node.outputs;
         const socketIndex = sockets?.findIndex(s => s.name === socketName) || 0;
         
-        return {
-            x: type === 'input' ? node.x : node.x + width,
-            y: node.y + 30 + socketIndex * 15
-        };
+        if (type === 'input') {
+            // Input sockets on TOP (horizontal layout)
+            const inputSpacing = width / (sockets.length + 1);
+            return {
+                x: node.x + inputSpacing * (socketIndex + 1),
+                y: node.y
+            };
+        } else {
+            // Output sockets on BOTTOM (horizontal layout)
+            const outputSpacing = width / (sockets.length + 1);
+            return {
+                x: node.x + outputSpacing * (socketIndex + 1),
+                y: node.y + height
+            };
+        }
     }
     
 
@@ -726,17 +820,17 @@ class NodeGraphEditor extends OctaneComponent {
         switch (nodeType) {
             case 'render':
                 return [
-                    { name: 'Geometry', connected: true },
-                    { name: 'Camera', connected: false }
+                    { name: 'Geometry', dataType: 'geometry', connected: true, showLabel: false },
+                    { name: 'Camera', dataType: 'camera', connected: false, showLabel: false }
                 ];
             case 'geometry':
                 return [
-                    { name: 'Material', connected: false }
+                    { name: 'Material', dataType: 'material', connected: false, showLabel: false }
                 ];
             case 'material':
                 return [
-                    { name: 'Diffuse', connected: false },
-                    { name: 'Roughness', connected: false }
+                    { name: 'Diffuse', dataType: 'color', connected: false, showLabel: false },
+                    { name: 'Roughness', dataType: 'float', connected: false, showLabel: false }
                 ];
             default:
                 return [];
@@ -747,15 +841,15 @@ class NodeGraphEditor extends OctaneComponent {
         switch (nodeType) {
             case 'geometry':
                 return [
-                    { name: 'Mesh', connected: true }
+                    { name: 'Mesh', dataType: 'geometry', connected: true, showLabel: false }
                 ];
             case 'material':
                 return [
-                    { name: 'Material', connected: true }
+                    { name: 'Material', dataType: 'material', connected: true, showLabel: false }
                 ];
             case 'camera':
                 return [
-                    { name: 'Camera', connected: true }
+                    { name: 'Camera', dataType: 'camera', connected: true, showLabel: false }
                 ];
             default:
                 return [];
@@ -771,8 +865,11 @@ class NodeGraphEditor extends OctaneComponent {
             const connectionId = `${meshNode.id}_to_${renderNode.id}`;
             this.connections.set(connectionId, {
                 id: connectionId,
-                from: { nodeId: meshNode.id, output: 'Mesh' },
-                to: { nodeId: renderNode.id, input: 'Geometry' }
+                outputNodeId: meshNode.id,
+                inputNodeId: renderNode.id,
+                outputSocket: 'Mesh',
+                inputSocket: 'Geometry',
+                dataType: 'geometry'
             });
             
             console.log('🔗 Created connection:', meshNode.name, '->', renderNode.name);
@@ -1115,35 +1212,7 @@ class NodeGraphEditor extends OctaneComponent {
         return 'Other';
     }
     
-    getNodeInputs(nodeType) {
-        // Define inputs based on node type
-        const inputMap = {
-            'NT_MAT_DIFFUSE': ['Diffuse', 'Roughness', 'Normal'],
-            'NT_MAT_GLOSSY': ['Diffuse', 'Specular', 'Roughness', 'IOR', 'Normal'],
-            'NT_MAT_UNIVERSAL': ['Albedo', 'Metallic', 'Roughness', 'Specular', 'Normal'],
-            'NT_TEX_IMAGE': ['UV', 'Gamma'],
-            'NT_TEX_NOISE': ['UV', 'Scale', 'Detail'],
-            'NT_TEX_MIX': ['Texture1', 'Texture2', 'Amount'],
-            'NT_LIGHT_QUAD': ['Power', 'Color', 'Size'],
-            'NT_ENV_DAYLIGHT': ['Sun direction', 'Turbidity', 'Power']
-        };
-        return inputMap[nodeType] || ['Input'];
-    }
-    
-    getNodeOutputs(nodeType) {
-        // Define outputs based on node type
-        const outputMap = {
-            'NT_MAT_DIFFUSE': ['Material'],
-            'NT_MAT_GLOSSY': ['Material'],
-            'NT_MAT_UNIVERSAL': ['Material'],
-            'NT_TEX_IMAGE': ['Color', 'Alpha'],
-            'NT_TEX_NOISE': ['Color'],
-            'NT_TEX_MIX': ['Color'],
-            'NT_LIGHT_QUAD': ['Light'],
-            'NT_ENV_DAYLIGHT': ['Environment']
-        };
-        return outputMap[nodeType] || ['Output'];
-    }
+
 }
 
 // Export for use in other modules
