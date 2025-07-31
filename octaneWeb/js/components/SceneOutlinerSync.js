@@ -184,7 +184,6 @@ class SceneOutlinerSync {
             const pinCount = result.data.result;
 
             for (let i = 0; i < pinCount; i++) {
-/*                
                 // Get the pin info
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNode/pinInfoIx', 
@@ -194,8 +193,7 @@ class SceneOutlinerSync {
                 if (!result.success) {
                     throw new Error('Failed ApiNode/pinInfoIx');
                 }
-                const info = result.data.result;
-*/
+                const pinInfo = result.data.result;
                 //// ID of the object on which to call the method
                 // ObjectRef objectPtr = 1;
                 //// Id identifying the pin.
@@ -212,7 +210,7 @@ class SceneOutlinerSync {
                 if (!result.success) {
                     throw new Error('Failed ApiNode/connectedNodeIx');
                 }                
-                this.addSceneItem(result.data.result, sceneItems, level);
+                this.addSceneItem(result.data.result, sceneItems, level, pinInfo);
             }
         } catch (error) {
             console.error('❌ Failed loadSceneTreeSync:', error);
@@ -224,7 +222,7 @@ class SceneOutlinerSync {
     /**
 
      */
-    addSceneItem(item, sceneItems, level) { 
+    addSceneItem(item, sceneItems, level, pinInfo = null) { 
 
         let itemName;
         let outType;
@@ -234,14 +232,22 @@ class SceneOutlinerSync {
 
         try {
             let result;
-            result = window.grpcApi.makeApiCallSync(
-                'ApiItem/name',
-                item.handle
-            );
-            if (!result.success) {
-                throw new Error('Failed to get item name');
+            
+            // Use pin info name if available, otherwise get item name
+            if (pinInfo && pinInfo.staticLabel) {
+                itemName = pinInfo.staticLabel;
+            } else if (pinInfo && pinInfo.staticName) {
+                itemName = pinInfo.staticName;
+            } else {
+                result = window.grpcApi.makeApiCallSync(
+                    'ApiItem/name',
+                    item.handle
+                );
+                if (!result.success) {
+                    throw new Error('Failed to get item name');
+                }
+                itemName = result.data.result;
             }
-            itemName = result.data.result;
 
             result = window.grpcApi.makeApiCallSync(
                 'ApiItem/outType',
@@ -350,14 +356,68 @@ class SceneOutlinerSync {
         if (name === 'teapot.obj' || name.includes('.obj')) {
             return '🫖'; // Teapot icon for mesh objects
         }
+        if (name === 'Daylight environment' || name.includes('environment')) {
+            return '🌍'; // Environment icon
+        }
+        if (name === 'Film settings') {
+            return '🎬'; // Film settings icon
+        }
+        if (name === 'Animation settings') {
+            return '⏱️'; // Animation icon
+        }
+        if (name === 'Direct lighting kernel' || name.includes('kernel')) {
+            return '🔧'; // Kernel icon
+        }
+        if (name === 'Render layer') {
+            return '🎭'; // Render layer icon
+        }
+        if (name === 'Render passes') {
+            return '📊'; // Render passes icon
+        }
+        if (name === 'Output AOV group') {
+            return '📤'; // Output AOVs icon
+        }
+        if (name === 'Imager') {
+            return '📷'; // Imager icon
+        }
+        if (name === 'Post processing') {
+            return '⚙️'; // Post processing icon
+        }
+        
+        // Handle parameter types with specific icons
+        if (outtype === 'PT_BOOL' || name === 'Bool value') {
+            return '☑️'; // Checkbox for boolean parameters
+        }
+        if (outtype === 'PT_FLOAT' || name === 'Float value') {
+            return '🔢'; // Numbers for float parameters
+        }
+        if (outtype === 'PT_INT' || name === 'Int value') {
+            return '🔢'; // Numbers for integer parameters
+        }
+        if (outtype === 'PT_ENUM' || name === 'Enum value') {
+            return '📋'; // List for enum parameters
+        }
+        if (outtype === 'PT_RGB' || name === 'RGB color') {
+            return '🎨'; // Color palette for RGB parameters
+        }
         
         // Fallback based on type
         const iconMap = {
             'PT_RENDER_TARGET': '🎯',
             'PT_MESH': '🫖',
+            'PT_GEOMETRY': '🫖',
             'PT_CAMERA': '📷',
             'PT_LIGHT': '💡',
             'PT_MATERIAL': '🎨',
+            'PT_ENVIRONMENT': '🌍',
+            'PT_FILM_SETTINGS': '🎬',
+            'PT_ANIMATION_SETTINGS': '⏱️',
+            'PT_KERNEL': '🔧',
+            'PT_RENDER_LAYER': '🎭',
+            'PT_RENDER_PASSES': '📊',
+            'PT_OUTPUT_AOV_GROUP': '📤',
+            'PT_IMAGER': '📷',
+            'PT_POSTPROCESSING': '⚙️',
             'unknown': '⬜'
         };
         
