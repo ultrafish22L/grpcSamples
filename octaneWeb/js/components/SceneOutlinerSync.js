@@ -275,40 +275,60 @@ class SceneOutlinerSync {
             item.name.toLowerCase().includes(this.searchTerm)
         );
         
+        // Create Scene root node
         let treeHTML = `
-            <div class="scene-node scene-root" data-node-id="scene-root">
+            <div class="tree-node scene-root level-0" data-node-id="scene-root">
                 <div class="node-content">
-                    <span class="node-toggle ${this.expandedNodes.has('scene-root') ? 'expanded' : 'collapsed'}">▼</span>
-                    <span class="node-icon">🌍</span>
+                    <span class="node-toggle ${this.expandedNodes.has('scene-root') ? 'expanded' : 'collapsed'}"></span>
+                    <span class="node-icon">📁</span>
                     <span class="node-name">Scene</span>
-                    <span class="node-visibility" data-handle="scene-root">👁</span>
                 </div>
+            </div>
         `;
         
+        // Add child items as separate tree nodes (not nested inside Scene)
         if (this.expandedNodes.has('scene-root')) {
             filteredItems.forEach(item => {
-                const icon = this.getIconFor(item.outtype);
+                const icon = this.getOctaneIconFor(item.outtype, item.name);
                 const nodeId = `item-${item.handle}`;
+                const isSelected = item.name === 'Render target'; // Match Octane screenshot
                 
                 treeHTML += `
-                    <div class="scene-node scene-item" data-node-id="${nodeId}" data-handle="${item.handle}">
+                    <div class="tree-node scene-item level-1 ${isSelected ? 'selected' : ''}" data-node-id="${nodeId}" data-handle="${item.handle}">
                         <div class="node-content">
-                            <span class="node-spacer"></span>
                             <span class="node-icon">${icon}</span>
                             <span class="node-name">${item.name}</span>
-                            <span class="node-handle">[${item.handle}]</span>
-                            <span class="node-visibility" data-handle="${item.handle}">👁</span>
                         </div>
                     </div>
                 `;
             });
         }
-        
-        treeHTML += '</div>';
         treeContainer.innerHTML = treeHTML;
         
         // Add event handlers
         this.addTreeEventHandlers(treeContainer);
+    }
+    
+    getOctaneIconFor(outtype, name) {
+        // Match exact Octane icons based on name and type
+        if (name === 'Render target') {
+            return '🎯'; // Target icon for render target
+        }
+        if (name === 'teapot.obj' || name.includes('.obj')) {
+            return '🫖'; // Teapot icon for mesh objects
+        }
+        
+        // Fallback based on type
+        const iconMap = {
+            'PT_RENDER_TARGET': '🎯',
+            'PT_MESH': '🫖',
+            'PT_CAMERA': '📷',
+            'PT_LIGHT': '💡',
+            'PT_MATERIAL': '🎨',
+            'unknown': '⬜'
+        };
+        
+        return iconMap[outtype] || '⬜';
     }
     
     getIconFor(outtype) {
@@ -331,7 +351,7 @@ class SceneOutlinerSync {
         toggles.forEach(toggle => {
             this.addEventListener(toggle, 'click', (e) => {
                 e.stopPropagation();
-                const nodeElement = e.target.closest('.scene-node');
+                const nodeElement = e.target.closest('.tree-node');
                 const nodeId = nodeElement.dataset.nodeId;
                 
                 if (this.expandedNodes.has(nodeId)) {
@@ -346,13 +366,13 @@ class SceneOutlinerSync {
         });
         
         // Add click handlers for scene nodes
-        const sceneNodes = treeContainer.querySelectorAll('.scene-node');
+        const sceneNodes = treeContainer.querySelectorAll('.tree-node');
         sceneNodes.forEach(node => {
             this.addEventListener(node, 'click', (e) => {
                 if (e.target.classList.contains('node-toggle')) return;
                 
                 // Remove previous selection
-                treeContainer.querySelectorAll('.scene-node').forEach(n => n.classList.remove('selected'));
+                treeContainer.querySelectorAll('.tree-node').forEach(n => n.classList.remove('selected'));
                 
                 // Add selection to clicked node
                 node.classList.add('selected');

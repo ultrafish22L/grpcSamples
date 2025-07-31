@@ -95,16 +95,18 @@
             <aside class="left-panel panel">
                 <div class="panel-header">
                     <h3>Scene outliner</h3>
-                    <div class="panel-controls">
-                        <button class="panel-btn" title="Collapse All">⊟</button>
-                        <button class="panel-btn" title="Expand All">⊞</button>
-                    </div>
                 </div>
                 <div class="panel-content">
                     <div id="scene-outliner" class="scene-outliner">
-                        <!-- Search input for filtering scene items -->
-                        <div class="scene-search-container">
-                            <input type="text" id="scene-search" class="scene-search-box" placeholder="Search scene..." />
+                        <!-- Octane-style toolbar -->
+                        <div class="scene-outliner-toolbar">
+                            <button class="toolbar-btn" title="File operations">📁</button>
+                            <button class="toolbar-btn" title="Edit">✏️</button>
+                            <button class="toolbar-btn" title="Script">📜</button>
+                            <button class="toolbar-btn" title="Module">🔧</button>
+                            <div class="toolbar-spacer"></div>
+                            <button class="toolbar-btn" title="List view">📋</button>
+                            <button class="toolbar-btn" title="Local DB">💾</button>
                         </div>
                         <!-- Hierarchical tree structure will be populated here -->
                         <div id="scene-tree" class="scene-tree">

@@ -532,13 +532,39 @@ input:checked + .slider:before {
     opacity: 0.8;
 }
 
-/* Scene Outliner Components */
+/* Scene Outliner Components - Exact Octane Match */
 .scene-outliner-toolbar {
     display: flex;
-    gap: 4px;
-    padding: 4px;
-    background-color: var(--octane-bg-header);
-    border-bottom: 1px solid var(--octane-border);
+    align-items: center;
+    gap: 2px;
+    padding: 2px 4px;
+    background-color: #3a3a3a;
+    border-bottom: 1px solid #2a2a2a;
+    min-height: 24px;
+}
+
+.toolbar-btn {
+    background: none;
+    border: none;
+    color: #cccccc;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-size: 11px;
+    min-width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toolbar-btn:hover {
+    background-color: #4a4a4a;
+    color: #ffffff;
+}
+
+.toolbar-spacer {
+    flex: 1;
 }
 
 .scene-outliner-search {

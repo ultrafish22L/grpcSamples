@@ -353,26 +353,122 @@ html, body {
     max-height: 100%; /* Prevent tree from exceeding container */
     position: relative; /* Establish positioning context */
     contain: layout style; /* CSS containment for performance and boundaries */
+    display: flex;
+    flex-direction: column; /* Stack tree nodes vertically */
 }
 
 .tree-node {
     display: flex;
     align-items: center;
-    min-height: 18px;
+    min-height: 16px;
     cursor: pointer;
     user-select: none;
-    border-bottom: 1px solid transparent;
     font-size: 11px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #cccccc;
+    padding: 1px 0;
 }
 
 .tree-node:hover {
-    background-color: var(--octane-bg-hover);
+    background-color: #404040;
 }
 
 .tree-node.selected {
-    background-color: var(--octane-accent) !important;
-    color: var(--octane-text-inverse);
+    background-color: #d4a017 !important;
+    color: #000000 !important;
 }
+
+/* Scene node content layout */
+.node-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 4px;
+}
+
+.node-toggle {
+    width: 12px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    color: #888888;
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.node-toggle.expanded::before {
+    content: '−';
+    font-weight: bold;
+}
+
+.node-toggle.collapsed::before {
+    content: '+';
+    font-weight: bold;
+}
+
+.node-toggle:hover {
+    background-color: #4a4a4a;
+    border-radius: 2px;
+}
+
+.node-icon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    margin-right: 4px;
+}
+
+.node-name {
+    flex: 1;
+    font-size: 11px;
+    color: inherit;
+}
+
+.node-handle {
+    font-size: 10px;
+    color: #888888;
+    margin-left: 4px;
+}
+
+.node-visibility {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #888888;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.node-spacer {
+    width: 14px;
+}
+
+/* Tree indentation levels */
+.tree-node.level-0 .node-content {
+    padding-left: 4px;
+}
+
+.tree-node.level-1 .node-content {
+    padding-left: 18px;
+}
+
+.tree-node.level-2 .node-content {
+    padding-left: 32px;
+}
+
+.tree-node.level-3 .node-content {
+    padding-left: 46px;
+}
+
+
 
 .tree-node-content {
     display: flex;
