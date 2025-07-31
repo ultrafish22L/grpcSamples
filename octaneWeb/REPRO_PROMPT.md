@@ -6,23 +6,6 @@
 
 **STATUS**: ✅ COMPLETED - Node Graph Editor selection highlighting now works correctly.
 
-## ✅ PROBLEM SOLVED (commit c8ef603)
-
-**Root Cause**: Node ID mismatch between NodeGraphEditor and selection events
-- **NodeGraphEditor** creates nodes with IDs: `scene_${handle}` (e.g., `scene_1000037`)
-- **Selection events** send nodeId: `item_${handle}` (e.g., `item_1000037`)
-- **Result**: `selectedNodes.has(node.id)` always returned `false`
-
-**Solution Applied**: Fixed node ID matching logic in `updateSelectedNode()`:
-```javascript
-// Primary match: NodeGraphEditor creates IDs as "scene_${handle}"
-if (nodeId === `scene_${data.handle}` ||
-    node.sceneHandle === data.handle || 
-    node.name === data.nodeName ||
-    node.sceneHandle === data.nodeId || 
-    nodeId.includes(data.handle)) {
-```
-
 **Files Modified**:
 - `octaneWeb/js/components/NodeGraphEditor.js` - Fixed selection matching logic
 
@@ -52,53 +35,7 @@ if (nodeId === `scene_${data.handle}` ||
 - Material editor integration
 - Render settings panel
 
-## 🔍 Debug Steps for Future Parameter Names Task
-
-1. **Check API Response**: Use **Ctrl+D** debug console for ApiNodePinInfoExService responses
-2. **Verify pinInfo Data**: Console.log the pinInfo object in addSceneItem()
-3. **Check staticLabel**: Ensure pinInfo.staticLabel contains the expected name
-4. **Test with Simple Case**: Focus on one parameter like "Diffuse" first
-
 ## 🚨 CRITICAL DEBUGGING LESSONS LEARNED
-
-### **🛑 #1 DEBUGGING MISTAKE: Using F12 Browser Console**
-
-**WRONG**: Trying to use F12 browser developer console in OpenHands environment
-**RIGHT**: Use **Ctrl+D** to open the built-in debug console
-
-- F12 browser console **DOES NOT WORK** in OpenHands environment
-- The application has a built-in debug console accessible via **Ctrl+D**
-- This shows real-time API calls, errors, and debug information
-- **This was the #1 mistake that caused debugging loops**
-
-### **🔧 API Service Mapping Issues**
-
-**Problem**: `ApiNodePinInfoExService` calls failing silently
-**Root Cause**: Incorrect protobuf module mapping in proxy
-**Solution**: Add to `octaneProxy/octane_proxy.py` service_map:
-```python
-'ApiNodePinInfoExService': 'apinodepininfohelper'
-```
-
-**Symptoms**:
-- API calls appear in proxy logs but return empty `{}`
-- Debug console shows `❌ SYNC API call failed for ApiNodePinInfoExService/getApiNodePinInfo: {}`
-- Parameters show as "undefined" in Scene Outliner
-
-### **📋 API Call Structure Requirements**
-
-**Problem**: `ApiNodePinInfoExService/getApiNodePinInfo` expects specific parameter structure
-**Correct Structure**:
-```javascript
-{
-    nodePinInfoRef: {
-        handle: pinInfo.handle,
-        type: pinInfo.type || 18  // ApiNodePinInfo type
-    }
-}
-```
-
-**Wrong Structure**: Passing `pinInfo.handle` directly
 
 ### **🐛 Debugging Workflow**
 
