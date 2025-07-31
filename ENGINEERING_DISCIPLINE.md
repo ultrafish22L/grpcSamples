@@ -48,6 +48,28 @@ root - `ENGINEERING_DISCIPLINE.md` - This file, for session management standards
 **RIGHT**:
 - Analyze what's working vs. what's failing
 - Distinguish network/environment issues from code bugs
+
+### 2. The "Wrong Debug Tool" Anti-Pattern
+**WRONG**:
+- Try to use F12 browser developer console in OpenHands environment
+- Waste time trying to get browser console to work
+- Miss critical debug information due to wrong tool
+
+**RIGHT**:
+- Use **Ctrl+D** to open built-in debug console in web applications
+- Check for application-specific debugging tools first
+- F12 browser console **DOES NOT WORK** in OpenHands environment
+
+### 3. The "Silent API Failure" Anti-Pattern
+**WRONG**:
+- Assume API calls are working because they appear in proxy logs
+- Ignore empty `{}` responses from API calls
+- Continue debugging UI when the real issue is API service mapping
+
+**RIGHT**:
+- Check debug console for `❌ SYNC API call failed` messages
+- Verify proxy service mapping for new API services
+- Test API calls independently before debugging UI issues
 - Test with fresh environment before assuming code problems
 - Preserve working functionality while addressing real issues
 

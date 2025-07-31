@@ -234,11 +234,47 @@ class SceneOutlinerSync {
             let result;
             
             // Use pin info name if available, otherwise get item name
+            console.log(`🔍 DEBUG: pinInfo for handle ${item.handle}:`, pinInfo);
             if (pinInfo && pinInfo.staticLabel) {
+                console.log(`✅ Using staticLabel: "${pinInfo.staticLabel}" for handle ${item.handle}`);
                 itemName = pinInfo.staticLabel;
             } else if (pinInfo && pinInfo.staticName) {
+                console.log(`✅ Using staticName: "${pinInfo.staticName}" for handle ${item.handle}`);
                 itemName = pinInfo.staticName;
+            } else if (pinInfo && pinInfo.handle) {
+                // Try to get the parameter name from the ApiNodePinInfo object itself
+                console.log(`🔍 Trying ApiNodePinInfoExService/getApiNodePinInfo for pinInfo handle ${pinInfo.handle}`);
+                result = window.grpcApi.makeApiCallSync(
+                    'ApiNodePinInfoExService/getApiNodePinInfo',
+                    null,
+                    {
+                        nodePinInfoRef: {
+                            handle: pinInfo.handle,
+                            type: pinInfo.type || 18  // ApiNodePinInfo type
+                        }
+                    }
+                );
+                if (result.success && result.data.result && result.data.result.staticLabel) {
+                    itemName = result.data.result.staticLabel;
+                    console.log(`✅ Got staticLabel from ApiNodePinInfoExService: "${itemName}" for handle ${item.handle}`);
+                } else if (result.success && result.data.result && result.data.result.staticName) {
+                    itemName = result.data.result.staticName;
+                    console.log(`✅ Got staticName from ApiNodePinInfoExService: "${itemName}" for handle ${item.handle}`);
+                } else {
+                    // Final fallback to ApiItem/name
+                    console.log(`❌ ApiNodePinInfoExService failed, falling back to ApiItem/name for handle ${item.handle}`);
+                    result = window.grpcApi.makeApiCallSync(
+                        'ApiItem/name',
+                        item.handle
+                    );
+                    if (!result.success) {
+                        throw new Error('Failed to get item name');
+                    }
+                    itemName = result.data.result;
+                    console.log(`❌ Final fallback ApiItem/name returned: "${itemName}" for handle ${item.handle}`);
+                }
             } else {
+                console.log(`❌ No pinInfo or pinInfo.handle for handle ${item.handle}, pinInfo:`, pinInfo);
                 result = window.grpcApi.makeApiCallSync(
                     'ApiItem/name',
                     item.handle
@@ -247,6 +283,7 @@ class SceneOutlinerSync {
                     throw new Error('Failed to get item name');
                 }
                 itemName = result.data.result;
+                console.log(`❌ Fallback ApiItem/name returned: "${itemName}" for handle ${item.handle}`);
             }
 
             result = window.grpcApi.makeApiCallSync(

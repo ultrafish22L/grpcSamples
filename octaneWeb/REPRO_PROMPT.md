@@ -65,6 +65,68 @@ if (pinInfo && pinInfo.staticLabel) {
 3. **Check staticLabel**: Ensure pinInfo.staticLabel contains the expected name
 4. **Test with Simple Case**: Focus on one parameter like "Diffuse" first
 
+## 🚨 CRITICAL DEBUGGING LESSONS LEARNED
+
+### **🛑 #1 DEBUGGING MISTAKE: Using F12 Browser Console**
+
+**WRONG**: Trying to use F12 browser developer console in OpenHands environment
+**RIGHT**: Use **Ctrl+D** to open the built-in debug console
+
+- F12 browser console **DOES NOT WORK** in OpenHands environment
+- The application has a built-in debug console accessible via **Ctrl+D**
+- This shows real-time API calls, errors, and debug information
+- **This was the #1 mistake that caused debugging loops**
+
+### **🔧 API Service Mapping Issues**
+
+**Problem**: `ApiNodePinInfoExService` calls failing silently
+**Root Cause**: Incorrect protobuf module mapping in proxy
+**Solution**: Add to `octaneProxy/octane_proxy.py` service_map:
+```python
+'ApiNodePinInfoExService': 'apinodepininfohelper'
+```
+
+**Symptoms**:
+- API calls appear in proxy logs but return empty `{}`
+- Debug console shows `❌ SYNC API call failed for ApiNodePinInfoExService/getApiNodePinInfo: {}`
+- Parameters show as "undefined" in Scene Outliner
+
+### **📋 API Call Structure Requirements**
+
+**Problem**: `ApiNodePinInfoExService/getApiNodePinInfo` expects specific parameter structure
+**Correct Structure**:
+```javascript
+{
+    nodePinInfoRef: {
+        handle: pinInfo.handle,
+        type: pinInfo.type || 18  // ApiNodePinInfo type
+    }
+}
+```
+
+**Wrong Structure**: Passing `pinInfo.handle` directly
+
+### **🐛 Debugging Workflow**
+
+1. **Primary Debug Tool**: Use **Ctrl+D** debug console, NOT F12
+2. **API Call Verification**: Check debug console for API call success/failure
+3. **Proxy Logs**: Use `tail -f /tmp/octane_proxy.log` to verify service mapping
+4. **Parameter Inspection**: Use debug console to inspect `pinInfo` objects
+
+### **⚠️ Common Pitfalls**
+
+1. **Assuming F12 works**: Browser developer console is not available in OpenHands
+2. **Silent API failures**: API calls may appear in proxy logs but fail due to incorrect service mapping
+3. **Parameter structure**: gRPC services require exact parameter structure matching protobuf definitions
+4. **Mixed success/failure**: Some parameters may work while others fail due to different API call paths
+
+### **🔍 Environment Detection**
+
+**F12 Enhancement**: F12 now opens debug console when running in OpenHands environment:
+- Detects OpenHands environment automatically
+- F12 opens built-in debug console for automated environments
+- F12 works normally (browser console) for regular users
+
 ## 🚨 CRITICAL: Don't Break Working Code
 
 - The recursive scene loading is **ESSENTIAL** - don't remove it

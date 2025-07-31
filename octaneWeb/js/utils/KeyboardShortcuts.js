@@ -24,6 +24,19 @@ class KeyboardShortcuts {
             }
         }, 'Toggle Debug Console');
         
+        // F12 Debug Console (OpenHands environment detection)
+        this.register('f12', (e) => {
+            if (this.isOpenHandsEnvironment()) {
+                // In OpenHands environment, F12 opens our debug console
+                e.preventDefault();
+                if (window.debugConsole) {
+                    window.debugConsole.toggle();
+                    window.debugConsole.addLog('info', ['🤖 F12 detected in OpenHands environment - opening debug console']);
+                }
+            }
+            // In regular browser, let F12 work normally (don't preventDefault)
+        }, 'F12 Debug Console (OpenHands)');
+        
         // Connection
         this.register('ctrl+shift+c', () => {
             const toggle = document.getElementById('connectionToggle');
@@ -172,6 +185,72 @@ class KeyboardShortcuts {
         return inputTypes.includes(tagName) || contentEditable;
     }
     
+    isOpenHandsEnvironment() {
+        // Detect OpenHands/automated environment through multiple indicators
+        const indicators = [
+            // User agent patterns
+            navigator.userAgent.includes('HeadlessChrome'),
+            navigator.userAgent.includes('Chrome/') && navigator.webdriver === true,
+            
+            // Window properties that indicate automation
+            window.navigator.webdriver === true,
+            window.chrome && window.chrome.runtime && window.chrome.runtime.onConnect,
+            
+            // Viewport size patterns (OpenHands typically uses specific sizes)
+            (window.innerWidth === 1280 && window.innerHeight === 720) ||
+            (window.innerWidth === 1920 && window.innerHeight === 1080),
+            
+            // Check for automation-specific properties
+            'webdriver' in window,
+            '_phantom' in window,
+            'callPhantom' in window,
+            
+            // Check for specific OpenHands environment variables in URL or referrer
+            window.location.hostname === 'localhost' && 
+            (window.location.port === '50405' || window.location.port === '56753'),
+            
+            // Check for absence of typical browser extensions/plugins
+            navigator.plugins.length === 0,
+            
+            // Check for specific automation frameworks
+            window.document.documentElement.getAttribute('webdriver') !== null,
+            window.document.documentElement.getAttribute('selenium') !== null
+        ];
+        
+        // If any automation indicator is present, assume OpenHands environment
+        const automationDetected = indicators.some(indicator => indicator);
+        
+        // Additional check: look for specific OpenHands patterns
+        const openHandsPatterns = [
+            // Check if we're running on specific localhost ports used by OpenHands
+            window.location.hostname === 'localhost' && 
+            ['50405', '56753'].includes(window.location.port),
+            
+            // Check for specific user agent patterns
+            navigator.userAgent.includes('Chrome') && !navigator.userAgent.includes('Edge'),
+            
+            // Check for missing browser features that are typically present in real browsers
+            !window.external || !window.external.AddSearchProvider
+        ];
+        
+        const openHandsDetected = openHandsPatterns.some(pattern => pattern);
+        
+        // Log detection for debugging
+        if (automationDetected || openHandsDetected) {
+            console.log('🤖 OpenHands environment detected:', {
+                automation: automationDetected,
+                openHands: openHandsDetected,
+                userAgent: navigator.userAgent,
+                webdriver: navigator.webdriver,
+                viewport: `${window.innerWidth}x${window.innerHeight}`,
+                hostname: window.location.hostname,
+                port: window.location.port
+            });
+        }
+        
+        return automationDetected || openHandsDetected;
+    }
+    
     // Action implementations
     focusSelectedObject() {
         // Implementation for focusing selected object
@@ -280,4 +359,13 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = KeyboardShortcuts;
 } else {
     window.KeyboardShortcuts = KeyboardShortcuts;
+}
+
+// Initialize keyboard shortcuts when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        window.keyboardShortcuts = new KeyboardShortcuts();
+    });
+} else {
+    window.keyboardShortcuts = new KeyboardShortcuts();
 }
