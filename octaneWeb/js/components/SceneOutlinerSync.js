@@ -207,7 +207,7 @@ class SceneOutlinerSync {
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNode/connectedNodeIx', 
                     itemHandle,
-                    {pinix: i},
+                    {pinIx: i},
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiNode/connectedNodeIx');

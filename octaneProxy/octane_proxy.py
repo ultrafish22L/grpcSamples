@@ -346,8 +346,11 @@ async def handle_generic_grpc(request):
                                     else:
                                         setattr(nested_message, nested_key, nested_value)
                     else:
-                        # Simple field
-                        setattr(grpc_request, key, value)
+                        # Simple field - handle type conversion for known integer fields
+                        if key in ['pinIx', 'index', 'handle'] and isinstance(value, (str, int)):
+                            setattr(grpc_request, key, int(value))
+                        else:
+                            setattr(grpc_request, key, value)
 
         # Make the gRPC call
         print(f"grpc request: {grpc_request}")        
