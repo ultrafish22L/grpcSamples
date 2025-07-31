@@ -998,17 +998,11 @@ class NodeInspector extends OctaneComponent {
     }
     
     renderRenderTargetInspector() {
+        // Update the existing header dropdown
+        this.updateInspectorDropdown('Render target');
+        
         this.element.innerHTML = `
             <div class="octane-node-inspector">
-                <!-- Header -->
-                <div class="inspector-header">
-                    <div class="inspector-title">Node inspector</div>
-                    <select class="inspector-dropdown">
-                        <option value="Render target" selected>Render target</option>
-                        <option value="Camera target">Camera target</option>
-                        <option value="Material target">Material target</option>
-                    </select>
-                </div>
 
                 <!-- Scene Section -->
                 <div class="inspector-section">
@@ -1373,6 +1367,31 @@ class NodeInspector extends OctaneComponent {
         `;
 
         this.setupOctaneInspectorEvents();
+    }
+
+    updateInspectorDropdown(nodeName) {
+        // Update the dropdown in the existing header to show the selected node
+        const dropdown = document.querySelector('.node-inspector-panel select');
+        if (dropdown && nodeName) {
+            // Check if option exists, if not add it
+            let optionExists = false;
+            for (let option of dropdown.options) {
+                if (option.value === nodeName) {
+                    option.selected = true;
+                    optionExists = true;
+                    break;
+                }
+            }
+
+            // If option doesn't exist, add it and select it
+            if (!optionExists) {
+                const newOption = document.createElement('option');
+                newOption.value = nodeName;
+                newOption.textContent = nodeName;
+                newOption.selected = true;
+                dropdown.appendChild(newOption);
+            }
+        }
     }
 
     setupOctaneInspectorEvents() {
