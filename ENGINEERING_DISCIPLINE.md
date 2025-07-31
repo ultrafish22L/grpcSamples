@@ -1,9 +1,262 @@
-# 🔥 ENGINEERING DISCIPLINE: GOD-Level Development Standards
+# Engineering Discipline: Session Management & Code Quality Standards
 
-## 🎯 THE DIVINE MANDATE
-**Engineering discipline is the difference between professional software and amateur hacks. This document defines the non-negotiable standards for OctaneWeb development.**
+## 🎯 Core Philosophy: Preserve Working Code, Enhance Systematically
 
-## 🔥 CORE PRINCIPLES
+**FUNDAMENTAL PRINCIPLE**: Never break working functionality. Always understand what's working before attempting to fix what's broken.
+
+## 📋 REPRO_PROMPT.md Pattern
+
+### Standard Project Structure
+Every project folder should contain:
+- `REPRO_PROMPT.md` - Task-focused reproduction prompt for immediate context
+- `ENGINEERING_DISCIPLINE.md` - This file, for session management standards
+
+### REPRO_PROMPT.md Requirements
+```markdown
+# Project Name: Current Task Title
+
+## 🎯 CURRENT TASK: [Specific, actionable task]
+**STATUS**: [% complete] - [Brief status summary]
+
+## ✅ What's Already Working
+[List working functionality - celebrate successes]
+
+## 🎯 NEXT STEP: [Specific implementation task]
+[Exact files, functions, line numbers to modify]
+
+## 🔍 Debug Steps if Issues
+[Specific troubleshooting steps]
+
+## 📚 Reference for New Chat
+[Key files, working commits, user goals]
+```
+
+### Session Start Protocol
+1. **Auto-detect REPRO_PROMPT.md** in current directory
+2. **Read and understand current task state** before any action
+3. **Confirm understanding** of what's working vs. what needs work
+4. **Ask clarifying questions** about specific goals
+
+## 🚨 Critical Error Patterns to Avoid
+
+### 1. The "Panic Fix" Anti-Pattern
+**WRONG**:
+- See error logs → Assume code bug → Make destructive changes
+- Break working functionality to "fix" unrelated issues
+- Remove essential code without understanding its purpose
+
+**RIGHT**:
+- Analyze what's working vs. what's failing
+- Distinguish network/environment issues from code bugs
+- Test with fresh environment before assuming code problems
+- Preserve working functionality while addressing real issues
+
+### 2. The "Connection Error = Code Bug" Fallacy
+**Network Errors Are NOT Code Bugs**:
+- `Connection refused (10061)` = Service not running
+- `Connection reset (10054)` = Network interruption
+- `Socket closed` = Normal disconnection
+- `Timeout` = Network latency or service overload
+
+**Before Assuming Code Issues**:
+1. Is the service running?
+2. Are network settings correct?
+3. Try restarting services
+4. Test with minimal requests
+5. **Only then** consider code changes
+
+### 3. The "Over-Engineering" Trap
+**WRONG**:
+- Add complex solutions for simple problems
+- Refactor working code unnecessarily
+- Implement features not requested by user
+
+**RIGHT**:
+- Make minimal changes to achieve specific goals
+- Focus on the exact task requested
+- Enhance working code, don't replace it
+
+## 🔧 Proper Development Workflow
+
+### Phase 1: Understanding Current State
+1. **Read REPRO_PROMPT.md** thoroughly
+2. **Examine working code** to understand current functionality
+3. **Identify what's actually broken** vs. what's working
+4. **Confirm task understanding** with user if unclear
+
+### Phase 2: Analysis Before Action
+1. **Distinguish problem types**:
+   - Network/environment issues
+   - Configuration problems
+   - Actual code bugs
+   - Missing features
+2. **Test current functionality** to establish baseline
+3. **Identify root cause** before proposing solutions
+
+### Phase 3: Minimal Targeted Changes
+1. **Make smallest possible change** to address specific issue
+2. **Test incrementally** - don't make multiple changes at once
+3. **Preserve all working functionality**
+4. **Document what was changed and why**
+
+### Phase 4: Validation & Documentation
+1. **Verify fix addresses the specific problem**
+2. **Confirm no working functionality was broken**
+3. **Update REPRO_PROMPT.md** with new state
+4. **Commit with clear, descriptive messages**
+
+## 🎯 Code Quality Standards
+
+### Preservation Principles
+- **Working code is sacred** - understand before modifying
+- **Recursive patterns** often essential - don't remove without understanding
+- **API integrations** that return data successfully are working correctly
+- **UI systems** with proper visual output are functioning
+
+### Change Discipline
+- **One change at a time** - test each modification
+- **Minimal scope** - don't refactor while fixing bugs
+- **Clear purpose** - every change should address specific requirement
+- **Reversible** - use git properly to enable rollbacks
+
+### Testing Approach
+- **Test current state first** - establish what works
+- **Fresh environment testing** - restart services, clear caches
+- **Incremental validation** - test each change separately
+- **User validation** - confirm changes meet requirements
+
+## 🔍 Error Analysis Framework
+
+### Network vs. Code Issue Checklist
+```
+❌ Connection refused → Check if service is running
+❌ Connection reset → Network interruption, restart service
+❌ Timeout → Service overload or network latency
+❌ Socket closed → Normal disconnection, reconnect
+✅ API returns data → Integration working correctly
+✅ UI displays content → Rendering system functional
+✅ Icons show correctly → Asset system working
+```
+
+### Debugging Hierarchy
+1. **Environment Issues** (service not running, ports blocked)
+2. **Configuration Issues** (wrong URLs, missing settings)
+3. **Network Issues** (connectivity, timeouts, interruptions)
+4. **Integration Issues** (API call patterns, data parsing)
+5. **Code Logic Issues** (actual bugs in implementation)
+
+**Work through this hierarchy systematically** - don't jump to code changes.
+
+## 📊 Success Metrics & Validation
+
+### Session Success Indicators
+- **Specific task completed** as requested by user
+- **No working functionality broken** during changes
+- **Clear documentation** of what was accomplished
+- **Updated REPRO_PROMPT.md** for next session
+
+### Code Quality Indicators
+- **Minimal changes** to achieve goals
+- **Clear commit messages** explaining what and why
+- **Working functionality preserved** and validated
+- **User requirements met** without over-engineering
+
+### Communication Quality
+- **Clear understanding** of current state before starting
+- **Regular progress updates** during implementation
+- **Honest assessment** of what's working vs. broken
+- **Specific questions** when requirements unclear
+
+## 🚫 Anti-Patterns to Avoid
+
+### Destructive Patterns
+- **Breaking working code** to fix unrelated issues
+- **Removing essential functionality** without understanding purpose
+- **Making multiple changes** without testing each one
+- **Assuming code bugs** from network error messages
+
+### Communication Anti-Patterns
+- **Jumping to solutions** without understanding problems
+- **Making assumptions** about what's broken
+- **Over-promising** capabilities or timeline
+- **Under-communicating** progress and blockers
+
+### Technical Anti-Patterns
+- **Premature optimization** of working systems
+- **Over-engineering** simple solutions
+- **Ignoring existing patterns** in favor of new approaches
+- **Breaking API contracts** that are working correctly
+
+## 🎯 Session Management Protocol
+
+### Start of Session
+1. **Check for REPRO_PROMPT.md** in current directory
+2. **Read and internalize** current task state
+3. **Examine key files** mentioned in prompt
+4. **Confirm understanding** with user before proceeding
+
+### During Session
+1. **Focus on specific task** outlined in REPRO_PROMPT.md
+2. **Make minimal changes** to achieve goals
+3. **Test incrementally** and report progress
+4. **Ask for clarification** when requirements unclear
+
+### End of Session
+1. **Update REPRO_PROMPT.md** with new state and next steps
+2. **Commit changes** with clear, descriptive messages
+3. **Document what was accomplished** and what remains
+4. **Prepare context** for next session
+
+## 📚 Reference Standards
+
+### Commit Message Format
+```
+🎯 [TYPE]: [Brief description]
+
+✅ ACCOMPLISHED:
+- [Specific achievements]
+- [Working functionality preserved]
+
+🎯 NEXT STEPS:
+- [What remains to be done]
+- [Any blockers or considerations]
+```
+
+### REPRO_PROMPT.md Update Pattern
+- **Always update** at end of session
+- **Reflect current working state** accurately
+- **Specify next concrete steps** for continuation
+- **Include any new discoveries** or changed requirements
+
+### Documentation Standards
+- **Task-focused** rather than comprehensive
+- **Specific file/line references** for implementation
+- **Clear success criteria** for validation
+- **Troubleshooting steps** for common issues
+
+## 🏆 Excellence Standards
+
+### Technical Excellence
+- **Preserve working functionality** at all costs
+- **Make minimal, targeted changes** to achieve goals
+- **Test thoroughly** before declaring success
+- **Document clearly** for future sessions
+
+### Communication Excellence
+- **Understand before acting** on any request
+- **Report progress honestly** and regularly
+- **Ask clarifying questions** when uncertain
+- **Celebrate successes** while addressing problems
+
+### Process Excellence
+- **Follow systematic workflow** for all changes
+- **Use proper version control** with clear commits
+- **Maintain project documentation** consistently
+- **Enable smooth session transitions** with good context
+
+**Remember: The goal is sustainable progress through disciplined engineering practices. Preserve what works, enhance systematically, and always understand the current state before making changes.**
+
+## 🔥 LEGACY PRINCIPLES (Preserved for Reference)
 
 ### 1. **EVIDENCE OVER INTUITION**
 - Every claim must be backed by working code, logs, or screenshots
