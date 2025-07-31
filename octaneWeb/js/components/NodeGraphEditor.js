@@ -17,6 +17,16 @@ class NodeGraphEditor extends OctaneComponent {
         this.dragTarget = null;
         this.lastMousePos = { x: 0, y: 0 };
         this.contextMenu = null;
+        
+        // Tooltip system for pin hover information
+        this.tooltip = {
+            visible: false,
+            text: '',
+            x: 0,
+            y: 0,
+            socket: null
+        };
+        this.hoveredSocket = null;
     }
     
     async onInitialize() {
@@ -280,6 +290,9 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Restore context
         this.ctx.restore();
+        
+        // Draw tooltip (after restoring context so it's not affected by viewport transform)
+        this.drawTooltip();
         
         // Clean professional node graph - no debug text overlay
     }
@@ -580,6 +593,53 @@ class NodeGraphEditor extends OctaneComponent {
         socket.y = y;
     }
     
+    drawTooltip() {
+        if (!this.tooltip.visible || !this.tooltip.text) {
+            return;
+        }
+        
+        const padding = 8;
+        const fontSize = 12;
+        const borderRadius = 4;
+        
+        // Set font for text measurement
+        this.ctx.font = `${fontSize}px Arial`;
+        const textWidth = this.ctx.measureText(this.tooltip.text).width;
+        const tooltipWidth = textWidth + padding * 2;
+        const tooltipHeight = fontSize + padding * 2;
+        
+        // Position tooltip (ensure it stays within canvas bounds)
+        let x = this.tooltip.x - tooltipWidth / 2;
+        let y = this.tooltip.y;
+        
+        // Keep tooltip within canvas bounds
+        if (x < 5) x = 5;
+        if (x + tooltipWidth > this.canvas.width - 5) x = this.canvas.width - tooltipWidth - 5;
+        if (y < tooltipHeight + 5) y = this.tooltip.y + 40; // Show below cursor if too close to top
+        
+        // Draw tooltip background
+        this.ctx.fillStyle = 'rgba(40, 40, 40, 0.95)';
+        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+        this.ctx.lineWidth = 1;
+        
+        // Draw rounded rectangle background (with fallback for older browsers)
+        this.ctx.beginPath();
+        if (this.ctx.roundRect) {
+            this.ctx.roundRect(x, y - tooltipHeight, tooltipWidth, tooltipHeight, borderRadius);
+        } else {
+            // Fallback to regular rectangle
+            this.ctx.rect(x, y - tooltipHeight, tooltipWidth, tooltipHeight);
+        }
+        this.ctx.fill();
+        this.ctx.stroke();
+        
+        // Draw tooltip text
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.font = `${fontSize}px Arial`;
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(this.tooltip.text, x + tooltipWidth / 2, y - padding - 2);
+    }
+    
     updateNodeGraph(nodeGraphState) {
         this.nodes = new Map(nodeGraphState.nodes);
         this.connections = new Map(nodeGraphState.connections);
@@ -618,21 +678,93 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     handleMouseMove(e) {
-        if (!this.isDragging) return;
+        const rect = this.canvas.getBoundingClientRect();
+        const mouseX = (e.clientX - rect.left - this.viewport.x) / this.viewport.zoom;
+        const mouseY = (e.clientY - rect.top - this.viewport.y) / this.viewport.zoom;
         
-        const deltaX = e.clientX - this.lastMousePos.x;
-        const deltaY = e.clientY - this.lastMousePos.y;
+        // Handle dragging
+        if (this.isDragging) {
+            const deltaX = e.clientX - this.lastMousePos.x;
+            const deltaY = e.clientY - this.lastMousePos.y;
+            
+            if (this.dragTarget === 'viewport') {
+                this.viewport.x += deltaX;
+                this.viewport.y += deltaY;
+            } else if (this.dragTarget && typeof this.dragTarget === 'object') {
+                // Move node
+                this.dragTarget.x += deltaX / this.viewport.zoom;
+                this.dragTarget.y += deltaY / this.viewport.zoom;
+            }
+            
+            this.lastMousePos = { x: e.clientX, y: e.clientY };
+        } else {
+            // Handle socket hover detection for tooltips
+            this.updateSocketHover(mouseX, mouseY, e.clientX, e.clientY);
+        }
+    }
+    
+    updateSocketHover(mouseX, mouseY, screenX, screenY) {
+        let hoveredSocket = null;
+        const hoverRadius = 8; // Slightly larger than socket radius for easier hovering
         
-        if (this.dragTarget === 'viewport') {
-            this.viewport.x += deltaX;
-            this.viewport.y += deltaY;
-        } else if (this.dragTarget && typeof this.dragTarget === 'object') {
-            // Move node
-            this.dragTarget.x += deltaX / this.viewport.zoom;
-            this.dragTarget.y += deltaY / this.viewport.zoom;
+        // Check all nodes for socket hover
+        this.nodes.forEach(node => {
+            // Check input sockets (on top)
+            if (node.inputs && node.inputs.length > 0) {
+                const inputSpacing = node.width / (node.inputs.length + 1);
+                node.inputs.forEach((input, index) => {
+                    const socketX = node.x + inputSpacing * (index + 1);
+                    const socketY = node.y;
+                    
+                    const distance = Math.sqrt((mouseX - socketX) ** 2 + (mouseY - socketY) ** 2);
+                    if (distance <= hoverRadius) {
+                        hoveredSocket = {
+                            socket: input,
+                            type: 'input',
+                            node: node,
+                            x: socketX,
+                            y: socketY
+                        };
+                    }
+                });
+            }
+            
+            // Check output sockets (on bottom)
+            if (node.outputs && node.outputs.length > 0) {
+                const outputSpacing = node.width / (node.outputs.length + 1);
+                node.outputs.forEach((output, index) => {
+                    const socketX = node.x + outputSpacing * (index + 1);
+                    const socketY = node.y + node.height;
+                    
+                    const distance = Math.sqrt((mouseX - socketX) ** 2 + (mouseY - socketY) ** 2);
+                    if (distance <= hoverRadius) {
+                        hoveredSocket = {
+                            socket: output,
+                            type: 'output',
+                            node: node,
+                            x: socketX,
+                            y: socketY
+                        };
+                    }
+                });
+            }
+        });
+        
+        // Update tooltip state
+        if (hoveredSocket) {
+            const tooltipText = hoveredSocket.socket.name || `${hoveredSocket.socket.dataType || 'unknown'} ${hoveredSocket.type}`;
+            this.tooltip = {
+                visible: true,
+                text: tooltipText,
+                x: screenX,
+                y: screenY - 30, // Position above cursor
+                socket: hoveredSocket
+            };
+        } else {
+            this.tooltip.visible = false;
         }
         
-        this.lastMousePos = { x: e.clientX, y: e.clientY };
+        this.hoveredSocket = hoveredSocket;
     }
     
     handleMouseUp(e) {
