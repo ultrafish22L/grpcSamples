@@ -1,66 +1,60 @@
-# OctaneWeb Development Task: Complete Scene Outliner Parameter Names
+# OctaneWeb Development Task: Node Graph Editor Selection Sync COMPLETED ✅
 
-## 🎯 CURRENT TASK: Display Real Parameter Names in Scene Outliner
+## 🎯 COMPLETED TASK: Fix Node Graph Editor Selection Highlighting
 
-**MISSION**: Make octaneWeb Scene Outliner match Octane standalone UI exactly by showing actual parameter names like "Orthographic", "Sensor width", "Diffuse", "Opacity" instead of generic "Bool value", "Float value".
+**MISSION**: Fix Node Graph Editor not showing "Render target" highlighted in blue on startup, despite unified selection system working for Scene Outliner and Node Inspector.
 
-**STATUS**: 95% Complete - API integration working perfectly, just need UI display enhancement.
+**STATUS**: ✅ COMPLETED - Node Graph Editor selection highlighting now works correctly.
 
-## ✅ What's Already Working (commit e3a654c)
+## ✅ PROBLEM SOLVED (commit c8ef603)
 
-1. **Perfect API Integration**: ApiNodePinInfoExService calls successfully returning real parameter data
-2. **Perfect Icons**: All icons match Octane UI exactly (📁 Scene, 🫖 teapot.obj, 🎯 Render target, 📷 camera, 🌍 environment, ☑️ Bool, 🔢 Float/Int, 📋 Enum, 🎨 RGB)
-3. **Scene Tree Structure**: Hierarchical loading with proper recursive structure
-4. **Parameter Data Available**: API returns staticLabel: "Diffuse", staticName: "diffuse", etc.
+**Root Cause**: Node ID mismatch between NodeGraphEditor and selection events
+- **NodeGraphEditor** creates nodes with IDs: `scene_${handle}` (e.g., `scene_1000037`)
+- **Selection events** send nodeId: `item_${handle}` (e.g., `item_1000037`)
+- **Result**: `selectedNodes.has(node.id)` always returned `false`
 
-## 🎯 NEXT STEP: Update UI to Display Real Parameter Names
-
-**SIMPLE TASK**: The API is returning perfect data like this:
+**Solution Applied**: Fixed node ID matching logic in `updateSelectedNode()`:
 ```javascript
-{
-  success: true,
-  data: {
-    result: {
-      nodePinInfo: {
-        staticLabel: "Diffuse",           // ← Use this for display!
-        staticName: "diffuse", 
-        description: "Diffuse reflection channel.",
-        type: "PT_TEXTURE"
-      }
-    }
-  }
-}
+// Primary match: NodeGraphEditor creates IDs as "scene_${handle}"
+if (nodeId === `scene_${data.handle}` ||
+    node.sceneHandle === data.handle || 
+    node.name === data.nodeName ||
+    node.sceneHandle === data.nodeId || 
+    nodeId.includes(data.handle)) {
 ```
 
-**GOAL**: Update Scene Outliner UI to show "Diffuse" instead of "Bool value" or "Float value".
+**Files Modified**:
+- `octaneWeb/js/components/NodeGraphEditor.js` - Fixed selection matching logic
 
-## 📋 Specific Implementation Task
+## ✅ UNIFIED SELECTION SYSTEM NOW COMPLETE
 
-**File**: `octaneWeb/js/components/SceneOutlinerSync.js`
-**Function**: `addSceneItem()` around line 255
+1. **✅ Scene Outliner**: Shows "Render target" selected (orange highlight) on startup
+2. **✅ Node Inspector**: Dropdown shows "Render target", content displays correctly  
+3. **✅ Node Graph Editor**: "Render target" node highlighted in blue on startup
+4. **✅ Bidirectional Sync**: All three panels stay synchronized when selections change
 
-**Current Logic**:
-```javascript
-// Use pin info name if available, otherwise get item name
-if (pinInfo && pinInfo.staticLabel) {
-    itemName = pinInfo.staticLabel;  // ← This should work!
-} else if (pinInfo && pinInfo.staticName) {
-    itemName = pinInfo.staticName;
-} else {
-    // Fallback to API call
-}
-```
+## 🎯 NEXT DEVELOPMENT PRIORITIES
 
-**Expected Result**: Scene Outliner should show:
-- ✅ "Diffuse" (not "Bool value")
-- ✅ "Transmission" (not "Float value") 
-- ✅ "Roughness" (not "Float value")
-- ✅ "Opacity" (not "Float value")
-- ✅ "Bump" (not "Float value")
+### **Priority 1: Scene Outliner Parameter Names**
+**MISSION**: Display real parameter names like "Orthographic", "Sensor width", "Diffuse", "Opacity" instead of generic "Bool value", "Float value".
 
-## 🔍 Debug Steps if Parameter Names Not Showing
+**STATUS**: API integration working perfectly, just need UI display enhancement.
 
-1. **Check API Response**: Look in browser console for ApiNodePinInfoExService responses
+**TASK**: Update `SceneOutlinerSync.js` `addSceneItem()` to use `pinInfo.staticLabel` for display names.
+
+### **Priority 2: Node Graph Editor Enhancements**
+- Add more node types and proper connections
+- Implement node creation from context menu
+- Add node property editing capabilities
+
+### **Priority 3: Advanced Features**
+- Real-time parameter synchronization with Octane
+- Material editor integration
+- Render settings panel
+
+## 🔍 Debug Steps for Future Parameter Names Task
+
+1. **Check API Response**: Use **Ctrl+D** debug console for ApiNodePinInfoExService responses
 2. **Verify pinInfo Data**: Console.log the pinInfo object in addSceneItem()
 3. **Check staticLabel**: Ensure pinInfo.staticLabel contains the expected name
 4. **Test with Simple Case**: Focus on one parameter like "Diffuse" first
@@ -129,10 +123,12 @@ if (pinInfo && pinInfo.staticLabel) {
 
 ## 🚨 CRITICAL: Don't Break Working Code
 
+- **✅ UNIFIED SELECTION SYSTEM IS COMPLETE** - don't modify selection logic
 - The recursive scene loading is **ESSENTIAL** - don't remove it
 - The API integration is working perfectly - don't change proxy code
 - Icons are perfect - don't modify icon system
 - Connection errors in logs = network issues, not code bugs
+- **Node Graph Editor selection highlighting is FIXED** - don't change node ID matching
 
 ## 📚 Reference for New Chat
 
@@ -141,13 +137,15 @@ if (pinInfo && pinInfo.staticLabel) {
 - `octaneProxy/octane_proxy.py` - Proxy with working ApiNodePinInfoExService integration
 - `octaneWeb/js/constants/OctaneTypes.js` - Perfect icon system
 
-### Working State (commit e3a654c)
+### Working State (commit c8ef603)
+- **✅ UNIFIED SELECTION SYSTEM COMPLETE**: All three panels (Scene Outliner, Node Inspector, Node Graph Editor) synchronized
+- **✅ Node Graph Editor selection highlighting FIXED**: "Render target" shows blue highlight on startup
 - Scene Outliner loads hierarchical tree with perfect icons
 - ApiNodePinInfoExService returns real parameter data with staticLabel
 - Recursive scene loading working correctly
 - All proxy bugs fixed and API integration successful
 
-### User's Goal
+### Next Priority: Scene Outliner Parameter Names
 Make octaneWeb Scene Outliner match Octane standalone UI exactly - see `images/octane_ui.png` for reference showing expanded camera with ~30 parameters like "Orthographic", "Sensor width", etc.
 
 ### What Should Happen Next
