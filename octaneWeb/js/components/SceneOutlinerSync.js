@@ -432,7 +432,7 @@ class SceneOutlinerSync {
         // Filter items based on search term
         const filteredItems = items.filter(item => 
             !this.searchTerm || 
-            item.name.toLowerCase().includes(this.searchTerm)
+            (item.name && item.name.toLowerCase().includes(this.searchTerm))
         );
         
         filteredItems.forEach(item => {
@@ -469,10 +469,10 @@ class SceneOutlinerSync {
         if (name === 'Render target') {
             return '🎯'; // Target icon for render target
         }
-        if (name === 'teapot.obj' || name.includes('.obj')) {
+        if (name === 'teapot.obj' || (name && name.includes('.obj'))) {
             return '🫖'; // Teapot icon for mesh objects
         }
-        if (name === 'Daylight environment' || name.includes('environment')) {
+        if (name === 'Daylight environment' || (name && name.includes('environment'))) {
             return '🌍'; // Environment icon
         }
         if (name === 'Film settings') {
@@ -481,7 +481,7 @@ class SceneOutlinerSync {
         if (name === 'Animation settings') {
             return '⏱️'; // Animation icon
         }
-        if (name === 'Direct lighting kernel' || name.includes('kernel')) {
+        if (name === 'Direct lighting kernel' || (name && name.includes('kernel'))) {
             return '🔧'; // Kernel icon
         }
         if (name === 'Render layer') {
