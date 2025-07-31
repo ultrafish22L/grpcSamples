@@ -68,8 +68,7 @@ class SceneOutlinerSync {
             // All API calls are now SYNCHRONOUS and BLOCKING
             // This ensures proper sequential dependencies
             console.log('🔍 DEBUG: About to call loadSceneTreeSync()...');
-            const sceneItems = this.loadSceneTreeSync(null, []);
-            console.log('🔍 DEBUG: loadSceneTreeSync() returned:', sceneItems);
+            const sceneItems = this.loadSceneTreeSync(null, [], 0);
             
             // Store scene data for later requests
             this.lastSceneItems = sceneItems;
@@ -110,9 +109,12 @@ class SceneOutlinerSync {
      * STRUCTURED DEBUGGING: Isolate exactly where Octane crashes
      * @returns {Array} Scene items array
      */
-    loadSceneTreeSync(itemHandle, sceneItems) {
+    loadSceneTreeSync(itemHandle, sceneItems, level) {
         let result;
-        
+        if (level >= 2)
+            return sceneItems;
+        level = level + 1;
+
         try {
             if (itemHandle == null)
             {
@@ -166,7 +168,7 @@ class SceneOutlinerSync {
                     if (!result.success) {
                         throw new Error('Failed ApiItemArray/get1');
                     }
-                    this.addSceneItem(result.data.result, sceneItems);
+                    this.addSceneItem(result.data.result, sceneItems, level);
                 }
                 return sceneItems
             }
@@ -182,6 +184,7 @@ class SceneOutlinerSync {
             const pinCount = result.data.result;
 
             for (let i = 0; i < pinCount; i++) {
+/*                
                 // Get the pin info
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNode/pinInfoIx', 
@@ -192,19 +195,26 @@ class SceneOutlinerSync {
                     throw new Error('Failed ApiNode/pinInfoIx');
                 }
                 const info = result.data.result;
+*/
+                //// ID of the object on which to call the method
+                // ObjectRef objectPtr = 1;
+                //// Id identifying the pin.
+                // PinId pinId = 2;
+                //// If set to TRUE the connected node is a built-in wrapper node, then the returned node
+                // bool enterWrapperNode = 3;
 
                 // Get the pin connected node
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNode/connectedNodeIx', 
                     itemHandle,
-                    {index: i},
+                    {pinix: i},
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiNode/connectedNodeIx');
-                }
+                }                
                 if (result.data.result != null)
                 {
-                    this.addSceneItem(result.data.result, sceneItems);
+                    this.addSceneItem(result.data.result, sceneItems, level);
                 }
             }
         } catch (error) {
@@ -217,7 +227,7 @@ class SceneOutlinerSync {
     /**
 
      */
-    addSceneItem(item, sceneItems) { 
+    addSceneItem(item, sceneItems, level) { 
 
         let itemName;
         let outType;
@@ -245,7 +255,9 @@ class SceneOutlinerSync {
             console.error('❌ Failed addSceneItem:', error);
         }
         let children = [];
-        children = this.loadSceneTreeSync(item.handle, children);
+        children = this.loadSceneTreeSync(item.handle, children, level);
+
+        console.log("ADDING ", itemName);
 
         sceneItems.push({
             name: itemName,

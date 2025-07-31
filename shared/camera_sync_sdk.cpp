@@ -150,15 +150,24 @@ static bool recurseNodeTest(ApiItemProxy& item, int indent = 0)
             auto item = items.get(i);
 
             if (item.isNull())
-            {
-                std::cout << "root.getOwnedItems() == null" << std::endl;
-                return false;
-            }
-            std::cout << Indent(indent) << "item.name = " << item.name() << std::endl;
+                continue;
+
+            recurseNodeTest(item, indent + 2);
         }
         return true;
     }
     // node
+	ApiNodeProxy& node = item.toNode();
+	int pinCount = node.pinCount();
+    for (int i = 0; i < pinCount; i++)
+    {
+        ApiNodeProxy n = node.connectedNodeIx(i, false);
+
+        if (n.isNull())
+            continue;
+
+        recurseNodeTest(n, indent + 2);
+    }
     return true;
 }
 

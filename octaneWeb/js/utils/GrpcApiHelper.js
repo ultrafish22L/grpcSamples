@@ -85,7 +85,7 @@ class GrpcApiHelper {
             
             // Determine the correct ObjectPtr type for this service
             const objectPtrType = window.OctaneTypes.ObjectType[serviceName];
-            console.log(`SYNC API Call: ${serviceName}:${methodName} (handle: ${handle} type: ${objectPtrType})`);
+//            console.log(`SYNC API Call: ${serviceName}:${methodName} (handle: ${handle} type: ${objectPtrType})`);
             
             let requestData = { };
             
@@ -100,7 +100,7 @@ class GrpcApiHelper {
 
             // Make SYNCHRONOUS HTTP request using XMLHttpRequest
             const url = `${this.proxyUrl}/${servicePath}`;
-            console.log(`Calling: ${url}`, requestData);
+//            console.log(`Calling: ${url}`, requestData);
             
             const xhr = new XMLHttpRequest();
             xhr.open('POST', url, false); // false = synchronous
@@ -112,7 +112,7 @@ class GrpcApiHelper {
             }
             
             const result = JSON.parse(xhr.responseText);
-            console.log(`Response from ${servicePath}:`, result);
+//            console.log(`Response from ${servicePath}:`, result);
             
             return result;
             

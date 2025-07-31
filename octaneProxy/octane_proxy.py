@@ -164,8 +164,6 @@ class GrpcServiceRegistry:
             # Try common request class naming patterns
             request_class_patterns = [
                 f"{service_name}.{method_name}Request",  # ApiProjectManager.rootNodeGraphRequest
-#                f"{method_name}Request",                 # rootNodeGraphRequest
-#                f"{service_name}_{method_name}Request",  # ApiProjectManager_rootNodeGraph_Request
             ]
 
             for pattern in request_class_patterns:
@@ -286,7 +284,7 @@ async def handle_generic_grpc(request):
         
         # Parse the URL path to extract service and method
         path = request.path
-        print(f"\nGENERIC gRPC REQUEST ===")
+#        print(f"\nGENERIC gRPC REQUEST ===")
 #        print(f" Path: {path}")
 #        print(f" Remote: {request.remote}")
         
@@ -300,7 +298,7 @@ async def handle_generic_grpc(request):
         service_name = path_match.group(1)
         method_name = path_match.group(2)
 
-        print(f"Service/Method: {service_name}/{method_name}")
+        print(f"\nService/Method: {service_name}/{method_name}")
 
         # Get the appropriate stub
         stub = grpc_registry.get_stub(service_name, proxy.channel)
@@ -315,30 +313,24 @@ async def handle_generic_grpc(request):
         if request.content_length and request.content_length > 0:
             try:
                 request_data = await request.json()
-                print(f"Request data: {json.dumps(request_data, indent=2)}")
             except Exception:
                 pass  # Empty or invalid JSON is OK for some requests
 
         # Get the request class and create the request
         request_class = grpc_registry.get_request_class(service_name, method_name)
-        print(f"request_class: {request_class}")    
-
         grpc_request = request_class()
-        print(f"grpc request: {grpc_request}")  
 
-        for field in grpc_request.DESCRIPTOR.fields:
-            print(f"field: {field}")    
-
+        print(f"Request data: {json.dumps(request_data, indent=2)}")
         # Populate request fields from JSON data
         if request_data:
             for key, value in request_data.items():
-#                print(f"key : value: {key} : {value}")        
+                print(f"key : value: {key} : {value}")        
                 if hasattr(grpc_request, key):
-#                    print(f"hasattr: {key}")        
+                    print(f"hasattr: {key}")        
                     field_descriptor = None
 
                     for field in grpc_request.DESCRIPTOR.fields:
-#                        print(f"field: {field}")        
+                        print(f"field: {field}")        
                         if field.name == key:
                             field_descriptor = field
                             break
@@ -360,6 +352,7 @@ async def handle_generic_grpc(request):
         # Make the gRPC call
         print(f"grpc request: {grpc_request}")        
         response = await method(grpc_request)
+        print(f"response: {response}")
 
         # Convert response to dict
         if hasattr(response, 'DESCRIPTOR'):
@@ -368,7 +361,6 @@ async def handle_generic_grpc(request):
             response_dict = {}
 
         print(f"📥 SUCCESS: {service_name}.{method_name}")
-        print(f" {response_dict}")
         proxy.success_count += 1
 
         return web.json_response({
