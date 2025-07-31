@@ -16,6 +16,8 @@ class SceneOutlinerSync {
         this.lastSceneItems = [];
         this.expandedNodes = new Set(['scene-root', 'item-1000025']); // Expand Scene and Render target by default
         this.searchTerm = '';
+        this.selectedNodeHandle = null;
+        this.selectedNodeName = null;
         
         this.setupEventHandlers();
         
@@ -47,6 +49,40 @@ class SceneOutlinerSync {
         });
     }
     
+    // Unified selection function - called both on initialization and user clicks
+    selectNode(handle, nodeName, nodeId = null, source = 'programmatic') {
+        console.log('🎯 Unified selectNode called:', { handle, nodeName, nodeId, source });
+        
+        // Update internal state
+        this.selectedNodeHandle = handle;
+        this.selectedNodeName = nodeName;
+        
+        // Update visual selection in tree
+        const treeContainer = this.element.querySelector('.scene-tree');
+        if (treeContainer) {
+            // Remove previous selection
+            treeContainer.querySelectorAll('.tree-node').forEach(n => n.classList.remove('selected'));
+            
+            // Add selection to target node
+            const targetNode = treeContainer.querySelector(`[data-handle="${handle}"]`);
+            if (targetNode) {
+                targetNode.classList.add('selected');
+            }
+        }
+        
+        // Emit selection event to update other components
+        if (handle && handle !== 'scene-root') {
+            this.eventSystem.emit('sceneNodeSelected', { 
+                handle: handle,
+                nodeId: nodeId || `item-${handle}`,
+                nodeName: nodeName,
+                source: source
+            });
+            
+            console.log('🎯 Unified selection emitted:', { handle, nodeName, source });
+        }
+    }
+
     updateSelectionFromNodeGraph(data) {
         console.log('🎯 SceneOutliner received NodeGraph selection:', data);
         
@@ -544,30 +580,33 @@ class SceneOutlinerSync {
             this.addEventListener(node, 'click', (e) => {
                 if (e.target.classList.contains('node-toggle')) return;
                 
-                // Remove previous selection
-                treeContainer.querySelectorAll('.tree-node').forEach(n => n.classList.remove('selected'));
-                
-                // Add selection to clicked node
-                node.classList.add('selected');
-                
-                // Emit selection event with comprehensive node data
+                // Use unified selection function
                 const handle = node.dataset.handle;
                 const nodeId = node.dataset.nodeId;
                 const nodeName = node.querySelector('.node-name')?.textContent || '';
                 
-                if (handle && handle !== 'scene-root') {
-                    // Emit to both NodeInspector and NodeGraphEditor
-                    this.eventSystem.emit('sceneNodeSelected', { 
-                        handle: handle,
-                        nodeId: nodeId,
-                        nodeName: nodeName,
-                        source: 'sceneOutliner'
-                    });
-                    
-                    console.log('🎯 SceneOutliner selected node:', { handle, nodeId, nodeName });
-                }
+                this.selectNode(handle, nodeName, nodeId, 'sceneOutliner');
             });
         });
+        
+        // Auto-select "Render target" on initial load (matching Octane Studio behavior)
+        if (!this.selectedNodeHandle) {
+            const renderTargetNode = treeContainer.querySelector('.tree-node .node-name');
+            if (renderTargetNode) {
+                // Find the Render target node
+                const allNodes = treeContainer.querySelectorAll('.tree-node');
+                for (const node of allNodes) {
+                    const nodeName = node.querySelector('.node-name')?.textContent;
+                    if (nodeName === 'Render target') {
+                        const handle = node.dataset.handle;
+                        const nodeId = node.dataset.nodeId;
+                        console.log('🎯 Auto-selecting Render target on initialization:', { handle, nodeName, nodeId });
+                        this.selectNode(handle, nodeName, nodeId, 'initialization');
+                        break;
+                    }
+                }
+            }
+        }
     }
     
     addEventListener(element, event, handler) {
