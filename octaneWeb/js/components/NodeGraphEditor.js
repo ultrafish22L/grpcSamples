@@ -447,7 +447,8 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Debug: Only log first few draws to avoid spam
         if (this.drawCount < 5) {
-            console.log('🎨 Drawing compact Octane-style node at:', x, y, 'size:', width, height, 'type:', node.type);
+            console.log('🎨 Drawing compact Octane-style node at:', x, y, 'size:', width, height, 'type:', node.type, 'name:', node.name);
+            console.log('🎨 Node ID:', node.id, 'isSelected:', isSelected);
             this.drawCount = (this.drawCount || 0) + 1;
         }
         
@@ -598,15 +599,39 @@ class NodeGraphEditor extends OctaneComponent {
             return;
         }
         
-        const padding = 8;
-        const fontSize = 12;
-        const borderRadius = 4;
+        const padding = 10;
+        const fontSize = 11;
+        const borderRadius = 6;
+        const maxWidth = 300; // Maximum tooltip width
+        const lineHeight = fontSize + 2;
         
         // Set font for text measurement
-        this.ctx.font = `${fontSize}px Arial`;
-        const textWidth = this.ctx.measureText(this.tooltip.text).width;
-        const tooltipWidth = textWidth + padding * 2;
-        const tooltipHeight = fontSize + padding * 2;
+        this.ctx.font = `${fontSize}px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
+        
+        // Word wrap the text if it's too long
+        const words = this.tooltip.text.split(' ');
+        const lines = [];
+        let currentLine = '';
+        
+        for (const word of words) {
+            const testLine = currentLine + (currentLine ? ' ' : '') + word;
+            const testWidth = this.ctx.measureText(testLine).width;
+            
+            if (testWidth > maxWidth - padding * 2 && currentLine) {
+                lines.push(currentLine);
+                currentLine = word;
+            } else {
+                currentLine = testLine;
+            }
+        }
+        if (currentLine) {
+            lines.push(currentLine);
+        }
+        
+        // Calculate tooltip dimensions
+        const maxLineWidth = Math.max(...lines.map(line => this.ctx.measureText(line).width));
+        const tooltipWidth = Math.min(maxLineWidth + padding * 2, maxWidth);
+        const tooltipHeight = lines.length * lineHeight + padding * 2;
         
         // Position tooltip (ensure it stays within canvas bounds)
         let x = this.tooltip.x - tooltipWidth / 2;
@@ -617,27 +642,44 @@ class NodeGraphEditor extends OctaneComponent {
         if (x + tooltipWidth > this.canvas.width - 5) x = this.canvas.width - tooltipWidth - 5;
         if (y < tooltipHeight + 5) y = this.tooltip.y + 40; // Show below cursor if too close to top
         
-        // Draw tooltip background
-        this.ctx.fillStyle = 'rgba(40, 40, 40, 0.95)';
-        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+        // Draw tooltip background with subtle shadow
+        this.ctx.save();
+        
+        // Shadow
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+        this.ctx.beginPath();
+        if (this.ctx.roundRect) {
+            this.ctx.roundRect(x + 2, y - tooltipHeight + 2, tooltipWidth, tooltipHeight, borderRadius);
+        } else {
+            this.ctx.rect(x + 2, y - tooltipHeight + 2, tooltipWidth, tooltipHeight);
+        }
+        this.ctx.fill();
+        
+        // Main background
+        this.ctx.fillStyle = 'rgba(45, 45, 45, 0.98)';
+        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
         this.ctx.lineWidth = 1;
         
-        // Draw rounded rectangle background (with fallback for older browsers)
         this.ctx.beginPath();
         if (this.ctx.roundRect) {
             this.ctx.roundRect(x, y - tooltipHeight, tooltipWidth, tooltipHeight, borderRadius);
         } else {
-            // Fallback to regular rectangle
             this.ctx.rect(x, y - tooltipHeight, tooltipWidth, tooltipHeight);
         }
         this.ctx.fill();
         this.ctx.stroke();
         
-        // Draw tooltip text
+        // Draw tooltip text (multi-line)
         this.ctx.fillStyle = '#ffffff';
-        this.ctx.font = `${fontSize}px Arial`;
-        this.ctx.textAlign = 'center';
-        this.ctx.fillText(this.tooltip.text, x + tooltipWidth / 2, y - padding - 2);
+        this.ctx.font = `${fontSize}px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
+        this.ctx.textAlign = 'left';
+        
+        lines.forEach((line, index) => {
+            const textY = y - tooltipHeight + padding + (index + 1) * lineHeight - 2;
+            this.ctx.fillText(line, x + padding, textY);
+        });
+        
+        this.ctx.restore();
     }
     
     updateNodeGraph(nodeGraphState) {
@@ -718,6 +760,11 @@ class NodeGraphEditor extends OctaneComponent {
         let hoveredSocket = null;
         const hoverRadius = 8; // Slightly larger than socket radius for easier hovering
         
+        // Debug: log mouse position occasionally
+        if (Math.random() < 0.01) { // 1% chance to avoid spam
+            console.log('🎯 Mouse at:', mouseX, mouseY, 'nodes:', this.nodes.size);
+        }
+        
         // Check all nodes for socket hover
         this.nodes.forEach(node => {
             // Check input sockets (on top)
@@ -763,7 +810,8 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Update tooltip state
         if (hoveredSocket) {
-            const tooltipText = hoveredSocket.socket.name || `${hoveredSocket.socket.dataType || 'unknown'} ${hoveredSocket.type}`;
+            const tooltipText = this.getSocketTooltipText(hoveredSocket);
+            console.log('🎯 Tooltip should show:', tooltipText, 'at', screenX, screenY);
             this.tooltip = {
                 visible: true,
                 text: tooltipText,
@@ -772,10 +820,106 @@ class NodeGraphEditor extends OctaneComponent {
                 socket: hoveredSocket
             };
         } else {
+            if (this.tooltip.visible) {
+                console.log('🎯 Tooltip hidden');
+            }
             this.tooltip.visible = false;
         }
         
         this.hoveredSocket = hoveredSocket;
+    }
+    
+    getSocketTooltipText(hoveredSocket) {
+        const socket = hoveredSocket.socket;
+        const socketType = hoveredSocket.type;
+        const nodeName = hoveredSocket.node.name;
+        
+        // Create detailed tooltip based on socket type and name
+        const socketDescriptions = {
+            // Render target inputs
+            'Geometry': {
+                input: 'Geometry input - Connect 3D meshes, primitives, or procedural geometry',
+                output: 'Geometry output - Provides 3D mesh data for rendering'
+            },
+            'Material': {
+                input: 'Material input - Connect surface materials (diffuse, glossy, emission, etc.)',
+                output: 'Material output - Provides surface shading properties'
+            },
+            'Environment': {
+                input: 'Environment input - Connect environment lighting (HDRI, daylight, texture)',
+                output: 'Environment output - Provides global illumination and background'
+            },
+            'Camera': {
+                input: 'Camera input - Connect camera for viewpoint and lens settings',
+                output: 'Camera output - Provides camera transformation and projection'
+            },
+            'Light1': {
+                input: 'Light input - Connect area lights, point lights, or IES lights',
+                output: 'Light output - Provides direct illumination'
+            },
+            'Light2': {
+                input: 'Light input - Connect area lights, point lights, or IES lights',
+                output: 'Light output - Provides direct illumination'
+            },
+            'Light3': {
+                input: 'Light input - Connect area lights, point lights, or IES lights',
+                output: 'Light output - Provides direct illumination'
+            },
+            'Mesh': {
+                input: 'Mesh input - Connect 3D geometry data',
+                output: 'Mesh output - Provides 3D geometry for materials and rendering'
+            },
+            'Diffuse': {
+                input: 'Diffuse input - Connect textures or colors for surface albedo',
+                output: 'Diffuse output - Provides base surface color and reflectance'
+            },
+            'Transmission': {
+                input: 'Transmission input - Connect values for glass-like transparency',
+                output: 'Transmission output - Controls light transmission through surface'
+            },
+            'Roughness': {
+                input: 'Roughness input - Connect values for surface microsurface detail',
+                output: 'Roughness output - Controls surface reflection sharpness'
+            },
+            'Opacity': {
+                input: 'Opacity input - Connect values for surface transparency',
+                output: 'Opacity output - Controls surface visibility and cutout'
+            },
+            'Bump': {
+                input: 'Bump input - Connect normal maps or height maps for surface detail',
+                output: 'Bump output - Provides surface normal perturbation'
+            }
+        };
+        
+        // Get description for this specific socket
+        const description = socketDescriptions[socket.name];
+        let tooltipText = socket.name;
+        
+        if (description) {
+            tooltipText = description[socketType] || `${socket.name} ${socketType}`;
+        } else {
+            // Fallback for unknown sockets
+            const dataTypeDesc = {
+                'geometry': 'Geometry data',
+                'material': 'Material properties', 
+                'environment': 'Environment lighting',
+                'camera': 'Camera settings',
+                'light': 'Light properties',
+                'texture': 'Texture data',
+                'float': 'Numeric value',
+                'color': 'Color value'
+            };
+            
+            const typeDesc = dataTypeDesc[socket.dataType] || socket.dataType || 'data';
+            tooltipText = `${socket.name} - ${typeDesc} ${socketType}`;
+        }
+        
+        // Add connection status
+        if (socket.connected) {
+            tooltipText += ' (connected)';
+        }
+        
+        return tooltipText;
     }
     
     handleMouseUp(e) {
@@ -914,9 +1058,11 @@ class NodeGraphEditor extends OctaneComponent {
         let nodeFound = false;
         for (let [nodeId, node] of this.nodes) {
             // Try multiple matching strategies
-            if (node.sceneHandle === data.handle || 
-                node.sceneHandle === data.nodeId || 
+            // Primary match: NodeGraphEditor creates IDs as "scene_${handle}"
+            if (nodeId === `scene_${data.handle}` ||
+                node.sceneHandle === data.handle || 
                 node.name === data.nodeName ||
+                node.sceneHandle === data.nodeId || 
                 nodeId.includes(data.handle)) {
                 this.selectedNodes.add(nodeId);
                 console.log('🎯 Selected node in graph:', nodeId, node.name);
