@@ -96,8 +96,7 @@ class GrpcServiceRegistry:
                 'ApiNode': 'apinodesystem_7',
                 'ApiItem': 'apinodesystem_3',
                 'ApiItemArray': 'apinodesystem_1',
-                'ApiNodePinInfoExService': 'generated.apinodepininfohelper',
-                'ApiNodePinInfo': 'generated.octaneinfos',
+                'ApiNodePinInfoEx': 'apinodepininfohelper',
             }
             module_name = service_map.get(service_name)
             if not module_name:
@@ -149,6 +148,8 @@ class GrpcServiceRegistry:
     def get_request_class(self, service_name, method_name):
         """Get the request class for a service method"""
         try:
+            print(f"Get request class for {service_name}.{method_name}")
+
             module_name = self.get_moduleName(service_name, '_pb2', 1)
 
             if not module_name:
@@ -161,31 +162,39 @@ class GrpcServiceRegistry:
             except ImportError:
                 return Empty
 
-            method_name = re.sub(r'[0-9]', '', method_name)
+            method_name  = re.sub(r'[0-9]', '', method_name)
+            method_name1 = method_name[0].upper() + re.sub(r'Api', '', method_name[1:])
 
             # Try common request class naming patterns
             request_class_patterns = [
-                f"{service_name}.{method_name}Request",  # ApiProjectManager.rootNodeGraphRequest
+                f"{service_name}.{method_name}Request", 
+                f"{service_name}.{method_name1}Request",
             ]
+            # GetNodePinInfoRequest
 
             for pattern in request_class_patterns:
                 # Handle nested class names (e.g., ApiProjectManager.rootNodeGraphRequest)
                 if '.' in pattern:
                     parts = pattern.split('.')
                     request_class = pb2_module
+
                     for part in parts:
+                        print(f" CHECKING1 request class for {part} {request_class}")
                         if hasattr(request_class, part):
                             request_class = getattr(request_class, part)
                         else:
                             request_class = None
                             break
                 else:
+                    print(f" CHECKING2 request class for {pattern} {request_class}")
                     request_class = getattr(pb2_module, pattern, None)
 
                 if request_class:
+                    print(f" FINAL request class for {service_name}.{method_name} {request_class}")
                     return request_class
 
             # Default to Empty if no request class found
+            print(f"❌ Failed to get request class for {service_name}.{method_name}")
             return Empty
 
         except Exception as e:
@@ -308,6 +317,7 @@ async def handle_generic_grpc(request):
         # Get the method from the stub
         method = getattr(stub, method_name, None)
         if not method:
+            print(f"❌ can't find method: {method_name}")
             return web.json_response({'success': False, 'error': f'Method {method_name} not found on {service_name}'}, status=404)
 
         # Get request data from HTTP body

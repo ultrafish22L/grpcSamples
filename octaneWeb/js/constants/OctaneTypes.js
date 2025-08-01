@@ -106,6 +106,8 @@ window.OctaneTypes.ObjectType = {
     ApiCustomCurveEditorController_Listener: 90,
     ApiTileGridLoader: 91,
     ApiGaussianSplatCloudNode: 92,
+
+    ApiNodePinInfoEx: 44,
 };
 
 // Helper functions for creating properly typed object pointers

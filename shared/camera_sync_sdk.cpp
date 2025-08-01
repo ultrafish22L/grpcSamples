@@ -10,6 +10,7 @@
 #include "apinodegraphclient.h"
 #include "apinodeclient.h"
 #include "apiitemarrayclient.h"
+#include "apinodeinfoclient.h"
 #include "octaneids.h"
 #include "octanevectypes.h"
 using namespace OctaneVec;
@@ -162,6 +163,7 @@ static bool recurseNodeTest(ApiItemProxy& item, int indent = 0)
     for (int i = 0; i < pinCount; i++)
     {
         ApiNodeProxy n = node.connectedNodeIx(i, false);
+        ApiNodePinInfoProxy info = node.info();
 
         if (n.isNull())
             continue;

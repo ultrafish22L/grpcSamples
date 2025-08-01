@@ -97,6 +97,7 @@ class GrpcApiHelper {
                 };
             }
             requestData = { ...requestData, ...additionalData }
+            console.log(`Request to ${servicePath}:`, requestData);
 
             // Make SYNCHRONOUS HTTP request using XMLHttpRequest
             const url = `${this.proxyUrl}/${servicePath}`;
@@ -112,7 +113,7 @@ class GrpcApiHelper {
             }
             
             const result = JSON.parse(xhr.responseText);
-//            console.log(`Response from ${servicePath}:`, result);
+            console.log(`Response from ${servicePath}:`, result);
             
             return result;
             

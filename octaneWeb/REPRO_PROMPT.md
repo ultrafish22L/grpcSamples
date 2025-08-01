@@ -71,14 +71,14 @@
 
 ### Key Files to Check
 - `octaneWeb/js/components/SceneOutlinerSync.js` - Main Scene Outliner (line 255 addSceneItem function)
-- `octaneProxy/octane_proxy.py` - Proxy with working ApiNodePinInfoExService integration
+- `octaneProxy/octane_proxy.py` - Proxy with working ApiNodePinInfoEx integration
 - `octaneWeb/js/constants/OctaneTypes.js` - Perfect icon system
 
 ### Working State (commit c8ef603)
 - **✅ UNIFIED SELECTION SYSTEM COMPLETE**: All three panels (Scene Outliner, Node Inspector, Node Graph Editor) synchronized
 - **✅ Node Graph Editor selection highlighting FIXED**: "Render target" shows blue highlight on startup
 - Scene Outliner loads hierarchical tree with perfect icons
-- ApiNodePinInfoExService returns real parameter data with staticLabel
+- ApiNodePinInfoEx returns real parameter data with staticLabel
 - Recursive scene loading working correctly
 - All proxy bugs fixed and API integration successful
 
