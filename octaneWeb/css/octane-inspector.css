@@ -208,7 +208,7 @@
 .octane-parameter-label {
     color: #e0e0e0;
     font-size: 8px;
-    width: 180px;
+    width: 300px;
     flex-shrink: 0;
     text-align: left;
     padding-right: 6px;
@@ -883,16 +883,7 @@
     flex-shrink: 0;
 }
 
-.octane-parameter-label {
-    color: #d0d0d0;
-    font-size: 12px;
-    flex: 1;
-    min-width: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-weight: 500;
-}
+/* Removed conflicting rule - using the earlier definition */
 
 .octane-parameter-control {
     display: flex;
