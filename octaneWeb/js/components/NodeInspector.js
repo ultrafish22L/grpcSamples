@@ -33,15 +33,20 @@ class NodeInspector extends OctaneComponent {
     
     autoSelectRenderTarget() {
         // Auto-select Render target using cached scene data (matching Octane Studio behavior)
+        window.debugConsole?.addLog('info', ['🎯 NodeInspector: Auto-selecting render target']);
+        
         if (this.sceneDataCache && this.sceneDataCache.length > 1) {
             const renderTarget = this.sceneDataCache[1]; // Render target is typically second item
             console.log('🎯 Auto-selecting Render target to match Octane Studio behavior:', renderTarget.handle);
+            window.debugConsole?.addLog('info', ['🎯 NodeInspector: Auto-selecting', renderTarget.name, 'handle:', renderTarget.handle]);
             
             // Update this component's selection (handle only)
             this.updateSelectedNode(renderTarget.handle);
             
             // Emit selection event with handle only to sync with other components
             this.eventSystem.emit('sceneNodeSelected', renderTarget.handle);
+        } else {
+            window.debugConsole?.addLog('warn', ['⚠️ NodeInspector: No scene data available for auto-selection']);
         }
     }
     
@@ -341,6 +346,10 @@ class NodeInspector extends OctaneComponent {
      */
     updateSceneDataCache(sceneItems) {
         console.log('🚀 OPTIMIZATION: Updating Node Inspector cache with scene data');
+        window.debugConsole?.addLog('info', ['🚀 NodeInspector: Updating scene data cache', sceneItems?.length, 'items']);
+        
+        // Store the scene data cache for generic access
+        this.sceneDataCache = sceneItems;
         
         // Clear existing cache
         this.nodeCache.clear();
@@ -351,6 +360,7 @@ class NodeInspector extends OctaneComponent {
         
         this.sceneDataLoaded = true;
         console.log(`✅ OPTIMIZATION: Cached ${this.nodeCache.size} nodes for instant access`);
+        window.debugConsole?.addLog('info', ['✅ NodeInspector: Scene data cache updated', this.nodeCache.size, 'nodes cached']);
     }
     
     /**
@@ -362,6 +372,36 @@ class NodeInspector extends OctaneComponent {
             return this.sceneDataCache.find(node => node.handle === handle);
         }
         return null;
+    }
+    
+    /**
+     * GENERIC: Find node data directly from sceneItems list
+     * This replaces specialized cache lookups with direct sceneItems access
+     */
+    findNodeInSceneItems(handle) {
+        window.debugConsole?.addLog('info', ['🔍 NodeInspector: Searching for handle in sceneItems', handle]);
+        
+        if (!this.sceneDataCache || !Array.isArray(this.sceneDataCache)) {
+            window.debugConsole?.addLog('warn', ['⚠️ NodeInspector: No sceneDataCache available']);
+            return null;
+        }
+        
+        // Search recursively through sceneItems
+        const findRecursively = (items) => {
+            for (const item of items) {
+                if (item.handle === handle) {
+                    window.debugConsole?.addLog('info', ['✅ NodeInspector: Found node', item.name, 'with handle', handle]);
+                    return item;
+                }
+                if (item.children && item.children.length > 0) {
+                    const found = findRecursively(item.children);
+                    if (found) return found;
+                }
+            }
+            return null;
+        };
+        
+        return findRecursively(this.sceneDataCache);
     }
     
     /**
@@ -410,19 +450,23 @@ class NodeInspector extends OctaneComponent {
     
     async updateSelectedNode(handle) {
         console.log('🎯 NodeInspector received selection handle:', handle);
+        window.debugConsole?.addLog('info', ['🎯 NodeInspector: Updating selected node', handle]);
         
-        // Look up node data from cache using handle
-        const nodeData = this.getCachedNodeData(handle);
+        // Find node data directly from sceneItems list (generic approach)
+        const nodeData = this.findNodeInSceneItems(handle);
         if (!nodeData) {
-            console.warn('⚠️ No cached data found for handle:', handle);
+            console.warn('⚠️ No node data found for handle:', handle);
+            window.debugConsole?.addLog('warn', ['⚠️ NodeInspector: No node data found for handle', handle]);
             return;
         }
         
-        // Set selection state using handle and cached data
+        // Set selection state using handle and node data
         this.selectedNodeHandle = handle;
         this.selectedNode = handle;
         this.selectedNodeType = nodeData.outtype;
         this.selectedNodeName = nodeData.name;
+        
+        window.debugConsole?.addLog('info', ['📋 NodeInspector: Selected node', nodeData.name, 'type:', nodeData.outtype]);
         
         // Initialize expanded state for this node (expand all children by default)
         this.initializeExpandedState();
@@ -430,17 +474,275 @@ class NodeInspector extends OctaneComponent {
         // Update the dropdown to reflect the selected node
         this.updateInspectorDropdown(this.selectedNodeName);
         
-        // Special handling for render targets - show camera parameters instead
-        if (nodeData.name === 'Render target' || nodeData.outtype === 'NT_RENDERTARGET') {
-            await this.loadRenderTargetCameraParameters(handle, nodeData);
-        } else {
-            // Load and render full parameter tree for the selected node
-            await this.loadAndRenderFullParameterTree({ 
-                handle: handle,
-                nodeName: nodeData.name,
-                nodeType: nodeData.outtype
-            });
+        // Generic parameter loading based on node type mapping
+        await this.loadGenericNodeParameters({
+            handle: handle,
+            nodeName: nodeData.name,
+            nodeType: nodeData.outtype,
+            nodeData: nodeData
+        });
+    }
+    
+    /**
+     * GENERIC: Load node parameters based on node type mapping
+     * This replaces specialized functions with a generic approach
+     */
+    async loadGenericNodeParameters(nodeInfo) {
+        window.debugConsole?.addLog('info', ['🚀 NodeInspector: Loading generic parameters for', nodeInfo.nodeName, 'type:', nodeInfo.nodeType]);
+        
+        // Show loading state
+        this.showLoadingState(nodeInfo);
+        
+        try {
+            // Get node type mapping for parameter groups
+            const nodeTypeMapping = this.getNodeTypeMapping(nodeInfo.nodeType);
+            window.debugConsole?.addLog('info', ['📋 NodeInspector: Node type mapping', nodeTypeMapping]);
+            
+            // Load parameter values using generic approach
+            const parameters = await this.loadGenericParameterValues(nodeInfo.handle, nodeTypeMapping);
+            window.debugConsole?.addLog('info', ['✅ NodeInspector: Loaded parameters', Object.keys(parameters).length, 'parameters']);
+            
+            // Render the inspector with generic parameter groups
+            this.renderGenericParameterInspector(nodeInfo, parameters, nodeTypeMapping);
+            
+        } catch (error) {
+            console.error('❌ Failed to load generic node parameters:', error);
+            window.debugConsole?.addLog('error', ['❌ NodeInspector: Failed to load parameters', error.message]);
         }
+    }
+    
+    /**
+     * GENERIC: Get node type mapping for parameter organization
+     * This replaces hardcoded specialized parameter groups
+     */
+    getNodeTypeMapping(nodeType) {
+        window.debugConsole?.addLog('info', ['🗺️ NodeInspector: Getting mapping for node type', nodeType]);
+        
+        // Generic node type mappings based on Octane node types
+        const nodeTypeMappings = {
+            'NT_RENDERTARGET': {
+                displayName: 'Render Target',
+                icon: '🎯',
+                parameterGroups: [
+                    { name: 'Scene', icon: '🎬', parameters: ['camera', 'environment', 'cameraEnvironment'] },
+                    { name: 'Mesh', icon: '🫖', parameters: ['mesh'] },
+                    { name: 'Film Settings', icon: '🎞️', parameters: ['filmSettings'] },
+                    { name: 'Animation', icon: '🎭', parameters: ['animation'] },
+                    { name: 'Kernel', icon: '⚙️', parameters: ['kernel'] },
+                    { name: 'Render Layer', icon: '📚', parameters: ['renderLayer'] },
+                    { name: 'Render Passes', icon: '🎨', parameters: ['renderPasses'] },
+                    { name: 'Composite AOVs', icon: '🖼️', parameters: ['compositeAovs'] },
+                    { name: 'Imager', icon: '📷', parameters: ['imager'] },
+                    { name: 'Post Processing', icon: '✨', parameters: ['postproc'] }
+                ]
+            },
+            'NT_CAMERA': {
+                displayName: 'Camera',
+                icon: '📷',
+                parameterGroups: [
+                    { name: 'Transform', icon: '🔄', parameters: ['position', 'rotation', 'scale'] },
+                    { name: 'Lens', icon: '🔍', parameters: ['focalLength', 'aperture', 'focusDistance'] },
+                    { name: 'Film', icon: '🎞️', parameters: ['filmWidth', 'filmHeight', 'pixelAspect'] }
+                ]
+            },
+            'NT_MESH': {
+                displayName: 'Mesh',
+                icon: '🫖',
+                parameterGroups: [
+                    { name: 'Transform', icon: '🔄', parameters: ['position', 'rotation', 'scale'] },
+                    { name: 'Geometry', icon: '📐', parameters: ['vertices', 'faces', 'normals'] },
+                    { name: 'Materials', icon: '🎨', parameters: ['material', 'displacement'] }
+                ]
+            },
+            'NT_MATERIAL': {
+                displayName: 'Material',
+                icon: '🎨',
+                parameterGroups: [
+                    { name: 'Diffuse', icon: '🌈', parameters: ['diffuse', 'albedo'] },
+                    { name: 'Specular', icon: '✨', parameters: ['specular', 'roughness', 'metallic'] },
+                    { name: 'Transmission', icon: '🔍', parameters: ['transmission', 'ior'] }
+                ]
+            },
+            // Default fallback for unknown node types
+            'DEFAULT': {
+                displayName: 'Node',
+                icon: '📦',
+                parameterGroups: [
+                    { name: 'Parameters', icon: '⚙️', parameters: [] }
+                ]
+            }
+        };
+        
+        const mapping = nodeTypeMappings[nodeType] || nodeTypeMappings['DEFAULT'];
+        window.debugConsole?.addLog('info', ['✅ NodeInspector: Using mapping', mapping.displayName, 'with', mapping.parameterGroups.length, 'groups']);
+        
+        return mapping;
+    }
+    
+    /**
+     * GENERIC: Load parameter values using generic approach
+     * This replaces specialized parameter loading with direct API calls
+     */
+    async loadGenericParameterValues(nodeHandle, nodeTypeMapping) {
+        window.debugConsole?.addLog('info', ['🔧 NodeInspector: Loading parameter values for handle', nodeHandle]);
+        
+        const parameters = {};
+        
+        try {
+            // Get pin count for this node (single API call)
+            const pinCountResult = window.grpcApi.makeApiCallSync('ApiNode/pinCount', nodeHandle);
+            
+            if (pinCountResult && pinCountResult.success && pinCountResult.data > 0) {
+                const pinCount = pinCountResult.data;
+                window.debugConsole?.addLog('info', ['📌 NodeInspector: Node has', pinCount, 'pins']);
+                
+                // Load all pin values generically
+                for (let pinIndex = 0; pinIndex < pinCount; pinIndex++) {
+                    try {
+                        // Get pin name
+                        const pinNameResult = window.grpcApi.makeApiCallSync('ApiNode/pinName', [nodeHandle, pinIndex]);
+                        if (pinNameResult && pinNameResult.success) {
+                            const pinName = pinNameResult.data;
+                            
+                            // Get pin value
+                            const pinValueResult = window.grpcApi.makeApiCallSync('ApiNode/pinValue', [nodeHandle, pinIndex]);
+                            if (pinValueResult && pinValueResult.success) {
+                                parameters[pinName] = {
+                                    value: pinValueResult.data,
+                                    pinIndex: pinIndex,
+                                    type: 'generic'
+                                };
+                                
+                                window.debugConsole?.addLog('info', ['📍 NodeInspector: Loaded pin', pinName, '=', pinValueResult.data]);
+                            }
+                        }
+                    } catch (pinError) {
+                        window.debugConsole?.addLog('warn', ['⚠️ NodeInspector: Failed to load pin', pinIndex, pinError.message]);
+                    }
+                }
+            }
+            
+        } catch (error) {
+            window.debugConsole?.addLog('error', ['❌ NodeInspector: Failed to load parameter values', error.message]);
+        }
+        
+        return parameters;
+    }
+    
+    /**
+     * GENERIC: Render parameter inspector using node type mapping
+     * This replaces specialized rendering with generic parameter groups
+     */
+    renderGenericParameterInspector(nodeInfo, parameters, nodeTypeMapping) {
+        window.debugConsole?.addLog('info', ['🎨 NodeInspector: Rendering generic inspector for', nodeInfo.nodeName]);
+        
+        // Build HTML for generic parameter inspector
+        let html = `
+            <div class="node-inspector-content">
+                <div class="node-inspector-header">
+                    <div class="node-selector">
+                        <select>
+                            <option value="${nodeInfo.nodeName}" selected>${nodeInfo.nodeName}</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="parameter-sections">
+        `;
+        
+        // Render each parameter group from the node type mapping
+        nodeTypeMapping.parameterGroups.forEach(group => {
+            const isCollapsed = this.collapsedGroups.has(group.name.toLowerCase());
+            const groupId = group.name.toLowerCase().replace(/\s+/g, '-');
+            
+            html += `
+                <div class="parameter-section">
+                    <div class="parameter-group-header" data-group="${groupId}">
+                        <span class="parameter-group-icon">${isCollapsed ? '▶' : '▼'}</span>
+                        <span class="parameter-group-title">${group.icon} ${group.name}</span>
+                    </div>
+                    <div class="parameter-group-content" data-group-content="${groupId}" 
+                         style="display: ${isCollapsed ? 'none' : 'block'}">
+            `;
+            
+            // Add parameters for this group
+            if (group.parameters.length > 0) {
+                group.parameters.forEach(paramName => {
+                    const param = parameters[paramName];
+                    if (param) {
+                        html += this.renderGenericParameter(paramName, param);
+                    } else {
+                        // Show placeholder for missing parameters
+                        html += `
+                            <div class="parameter-row">
+                                <div class="parameter-label">
+                                    <span class="parameter-icon">📝</span>
+                                    <span class="parameter-name">${paramName}</span>
+                                </div>
+                                <div class="parameter-control">
+                                    <input type="text" class="parameter-input" placeholder="Not available" disabled>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+            } else {
+                // Show all available parameters if no specific ones are mapped
+                Object.keys(parameters).forEach(paramName => {
+                    const param = parameters[paramName];
+                    html += this.renderGenericParameter(paramName, param);
+                });
+            }
+            
+            html += `
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += `
+                </div>
+            </div>
+        `;
+        
+        // Update the inspector content
+        this.element.innerHTML = html;
+        
+        // Setup event listeners for the new content
+        this.setupInspectorEventListeners();
+        
+        window.debugConsole?.addLog('info', ['✅ NodeInspector: Rendered generic inspector with', nodeTypeMapping.parameterGroups.length, 'groups']);
+    }
+    
+    /**
+     * GENERIC: Render a single parameter control
+     */
+    renderGenericParameter(paramName, param) {
+        const value = param.value;
+        let controlHtml = '';
+        
+        // Determine control type based on value type
+        if (typeof value === 'boolean') {
+            controlHtml = `<input type="checkbox" class="parameter-checkbox" id="${paramName}" ${value ? 'checked' : ''}>`;
+        } else if (typeof value === 'number') {
+            controlHtml = `<input type="number" class="parameter-number-input" id="${paramName}" value="${value}" step="0.01">`;
+        } else if (typeof value === 'string') {
+            controlHtml = `<input type="text" class="parameter-input" id="${paramName}" value="${value}">`;
+        } else {
+            controlHtml = `<input type="text" class="parameter-input" id="${paramName}" value="${JSON.stringify(value)}" readonly>`;
+        }
+        
+        return `
+            <div class="parameter-row">
+                <div class="parameter-label">
+                    <span class="parameter-icon">📝</span>
+                    <span class="parameter-name">${paramName}</span>
+                </div>
+                <div class="parameter-control">
+                    ${controlHtml}
+                </div>
+            </div>
+        `;
     }
     
     updateInspectorDropdown(nodeName) {
