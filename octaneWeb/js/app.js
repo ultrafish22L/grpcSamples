@@ -94,6 +94,16 @@ class OctaneWebApp {
         // Initialize layout manager
         this.layoutManager = new LayoutManager();
         
+        // Initialize debug console
+        this.debugConsole = new DebugConsole();
+        window.debugConsole = this.debugConsole; // Make globally available
+        
+        // Test console interception with some sample logs
+        console.log('🔧 Core systems initializing...');
+        console.info('ℹ️ Debug console is now intercepting all console output');
+        console.warn('⚠️ This is a test warning message');
+        console.error('❌ This is a test error message (not a real error)');
+        
         // Initialize gRPC client (not connected yet)
         this.client = new OctaneWebClient('http://localhost:51023');
         
@@ -395,6 +405,12 @@ class OctaneWebApp {
                     this.selectAll();
                     break;
                 case 'd':
+                    // Check if this is for debug console (Ctrl+D)
+                    if (this.debugConsole) {
+                        event.preventDefault();
+                        this.debugConsole.toggle();
+                        return; // Don't call duplicate
+                    }
                     event.preventDefault();
                     this.duplicate();
                     break;
@@ -410,6 +426,13 @@ class OctaneWebApp {
             case 'F11':
                 event.preventDefault();
                 this.toggleFullscreen();
+                break;
+            case 'F12':
+                // Toggle debug console with F12
+                if (this.debugConsole) {
+                    event.preventDefault();
+                    this.debugConsole.toggle();
+                }
                 break;
             case 'Delete':
                 event.preventDefault();

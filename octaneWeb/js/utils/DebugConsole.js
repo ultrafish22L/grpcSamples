@@ -13,7 +13,13 @@ class DebugConsole {
         
         this.init();
         this.interceptConsole();
-        this.setupKeyboardShortcut();
+        // Note: Keyboard shortcuts are handled by the main app (app.js)
+        
+        // Add some initial logs to show the console is working
+        this.addLog('info', ['🚀 Debug Console initialized']);
+        this.addLog('info', ['📋 Use Ctrl+D or F12 to toggle this console']);
+        this.addLog('info', ['🧹 Use the clear button to clear logs']);
+        this.addLog('info', ['🧑‍🚒 Use the test button to run API tests']);
     }
     init() {
         // Create debug console HTML structure
@@ -105,10 +111,11 @@ class DebugConsole {
             }
             
             .debug-logs {
-                height: 100%;
-                overflow-y: hidden;
-                padding: 0px;
+                height: calc(100% - 40px);
+                overflow-y: auto;
+                padding: 8px;
                 color: #fff;
+                background: #1a1a1a;
             }
             
             .debug-log {
@@ -201,6 +208,7 @@ class DebugConsole {
         };
         
         this.logs.push(logEntry);
+        console.log(`📝 Added log: ${type} - ${message} (total: ${this.logs.length})`);
         
         // Limit log history
         if (this.logs.length > this.maxLogs) {
@@ -215,13 +223,22 @@ class DebugConsole {
     
     updateDisplay() {
         const logsContainer = document.getElementById('debug-logs');
-        if (!logsContainer) return;
+        if (!logsContainer) {
+            console.error('❌ Debug logs container not found!');
+            return;
+        }
         
-        logsContainer.innerHTML = this.logs.map(log => `
-            <div class="debug-log ${log.type}">
-                <span class="debug-message">${log.message}</span>
-            </div>
-        `).join('');
+        console.log(`🔍 Updating display with ${this.logs.length} logs`);
+        
+        if (this.logs.length === 0) {
+            logsContainer.innerHTML = '<div class="debug-log info"><span class="debug-message">No logs yet...</span></div>';
+        } else {
+            logsContainer.innerHTML = this.logs.map(log => `
+                <div class="debug-log ${log.type}">
+                    <span class="debug-message">${log.message}</span>
+                </div>
+            `).join('');
+        }
 /*        
         logsContainer.innerHTML = this.logs.map(log => `
             <div class="debug-log ${log.type}">
@@ -234,15 +251,16 @@ class DebugConsole {
         logsContainer.scrollTop = logsContainer.scrollHeight;
     }
     
-    setupKeyboardShortcut() {
-        document.addEventListener('keydown', (event) => {
-            // Ctrl-D to toggle debug console
-            if (event.ctrlKey && event.key === 'd') {
-                event.preventDefault();
-                this.toggle();
-            }
-        });
-    }
+    // setupKeyboardShortcut() {
+    //     // This is now handled by the main app (app.js) to avoid conflicts
+    //     document.addEventListener('keydown', (event) => {
+    //         // Ctrl-D to toggle debug console
+    //         if (event.ctrlKey && event.key === 'd') {
+    //             event.preventDefault();
+    //             this.toggle();
+    //         }
+    //     });
+    // }
     
     toggle() {
         this.isVisible = !this.isVisible;
@@ -250,7 +268,8 @@ class DebugConsole {
         
         if (this.isVisible) {
             this.updateDisplay();
-            console.info('🐛 Debug Console opened (Ctrl-D to toggle)');
+            // Add a log entry when console opens
+            this.addLog('info', ['🐛 Debug Console opened (Ctrl+D or F12 to toggle)']);
         }
     }
     

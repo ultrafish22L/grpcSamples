@@ -430,12 +430,17 @@ class NodeInspector extends OctaneComponent {
         // Update the dropdown to reflect the selected node
         this.updateInspectorDropdown(this.selectedNodeName);
         
-        // Load and render full parameter tree for the selected node
-        await this.loadAndRenderFullParameterTree({ 
-            handle: handle,
-            nodeName: nodeData.name,
-            nodeType: nodeData.outtype
-        });
+        // Special handling for render targets - show camera parameters instead
+        if (nodeData.name === 'Render target' || nodeData.outtype === 'NT_RENDERTARGET') {
+            await this.loadRenderTargetCameraParameters(handle, nodeData);
+        } else {
+            // Load and render full parameter tree for the selected node
+            await this.loadAndRenderFullParameterTree({ 
+                handle: handle,
+                nodeName: nodeData.name,
+                nodeType: nodeData.outtype
+            });
+        }
     }
     
     updateInspectorDropdown(nodeName) {
@@ -1287,6 +1292,104 @@ class NodeInspector extends OctaneComponent {
         this.setupOctaneInspectorEventListeners();
         
         console.log('✅ OCTANE STYLE: Full parameter inspector rendered successfully');
+    }
+    
+    /**
+     * Special handling for render targets - load camera parameters instead of render target parameters
+     */
+    async loadRenderTargetCameraParameters(renderTargetHandle, renderTargetData) {
+        console.log('🎯 Loading camera parameters for render target:', renderTargetData.name);
+        
+        try {
+            // First, load the render target's parameters to get the camera handle
+            const renderTargetParams = await this.loadNodeParameterValuesOptimized(renderTargetHandle, renderTargetData);
+            
+            // Find the camera parameter and get its handle
+            const cameraParam = renderTargetParams['camera'];
+            if (!cameraParam || !cameraParam.value) {
+                console.warn('⚠️ No camera found in render target parameters');
+                // Fallback to showing render target parameters
+                await this.loadAndRenderFullParameterTree({ 
+                    handle: renderTargetHandle,
+                    nodeName: renderTargetData.name,
+                    nodeType: renderTargetData.outtype
+                });
+                return;
+            }
+            
+            const cameraHandle = cameraParam.value;
+            console.log('📷 Found camera handle in render target:', cameraHandle);
+            
+            // Get camera node data from cache
+            const cameraNodeData = this.getCachedNodeData(cameraHandle);
+            if (!cameraNodeData) {
+                console.warn('⚠️ No cached data found for camera handle:', cameraHandle);
+                return;
+            }
+            
+            // Load camera parameters
+            const cameraParameters = await this.loadNodeParameterValuesOptimized(cameraHandle, cameraNodeData);
+            
+            // Render the camera parameters in the proper hierarchical structure
+            await this.renderRenderTargetWithCameraParameters(renderTargetData, cameraNodeData, cameraParameters);
+            
+        } catch (error) {
+            console.error('❌ Failed to load render target camera parameters:', error);
+            // Fallback to showing render target parameters
+            await this.loadAndRenderFullParameterTree({ 
+                handle: renderTargetHandle,
+                nodeName: renderTargetData.name,
+                nodeType: renderTargetData.outtype
+            });
+        }
+    }
+    
+    /**
+     * Render render target with camera parameters in hierarchical structure
+     */
+    async renderRenderTargetWithCameraParameters(renderTargetData, cameraNodeData, cameraParameters) {
+        console.log('🎨 Rendering render target with camera parameters');
+        
+        // Update the dropdown to show "Render target"
+        this.updateNodeSelectorDropdown(renderTargetData.name);
+        
+        // Create the hierarchical structure: Scene > Camera > Parameter Groups
+        let inspectorHtml = `
+            <div class="octane-section">
+                <div class="octane-section-header" data-group="scene">
+                    <span class="octane-section-icon">▼</span>
+                    <span class="octane-section-title">Scene</span>
+                </div>
+                <div class="octane-section-content" data-group-content="scene" style="display: block;">
+                    <div class="octane-subsection">
+                        <div class="octane-subsection-header">
+                            <span class="octane-node-icon">📷</span>
+                            <span class="octane-subsection-title">Thin lens camera</span>
+                        </div>
+                    </div>
+        `;
+        
+        // Render camera parameter groups
+        inspectorHtml += this.renderOctaneParameterGroups(cameraParameters);
+        
+        inspectorHtml += `
+                </div>
+            </div>
+        `;
+        
+        // Update the inspector content
+        const contentArea = this.element.querySelector('.panel-content .node-inspector');
+        if (contentArea) {
+            contentArea.innerHTML = inspectorHtml;
+        } else {
+            // Fallback: update entire element if structure is different
+            this.element.innerHTML = inspectorHtml;
+        }
+        
+        // Setup event handlers
+        this.setupOctaneInspectorEventListeners();
+        
+        console.log('✅ Render target with camera parameters rendered successfully');
     }
     
     /**
