@@ -178,6 +178,7 @@
     display: flex;
     align-items: center;
     background: #4a4a4a;
+    gap: 8px;
 }
 
 .octane-parameter-row:hover {
@@ -188,12 +189,7 @@
     border-bottom: none;
 }
 
-.octane-parameter-control {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    gap: 4px;
-}
+/* Removed duplicate rule - using the later definition */
 
 .octane-parameter-icon {
     color: #888;
@@ -208,10 +204,10 @@
 .octane-parameter-label {
     color: #e0e0e0;
     font-size: 8px;
-    width: 300px;
+    width: 180px;
     flex-shrink: 0;
     text-align: left;
-    padding-right: 6px;
+    padding-right: 8px;
     overflow: visible;
     white-space: nowrap;
 }
@@ -889,9 +885,8 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    flex-shrink: 0;
-    min-width: 120px;
-    justify-content: flex-end;
+    flex: 1;
+    justify-content: flex-start;
 }
 
 /* Octane Slider Container - Matching Reference Image Sliders */
