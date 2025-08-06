@@ -12,6 +12,11 @@ class NodeInspector extends OctaneComponent {
         this.selectedNodeType = null;
         this.parameters = {};
         this.collapsedGroups = new Set();
+        
+        // Cache for scene data from Scene Outliner (optimization)
+        this.nodeCache = new Map(); // handle -> nodeData
+        this.nodeLookup = new Map(); // name -> handle
+        this.sceneDataLoaded = false;
     }
     
     async onInitialize() {
@@ -40,6 +45,11 @@ class NodeInspector extends OctaneComponent {
     }
     
     setupEventListeners() {
+        // Listen for scene data loading from SceneOutliner (OPTIMIZATION)
+        this.eventSystem.on('sceneDataLoaded', (sceneItems) => {
+            this.updateSceneDataCache(sceneItems);
+        });
+        
         // Listen for selection updates
         this.client.on('ui:selectionUpdate', (selection) => {
             this.updateSelection(selection);
@@ -317,6 +327,68 @@ class NodeInspector extends OctaneComponent {
         } else {
             this.showNoSelection();
         }
+    }
+    
+    /**
+     * OPTIMIZATION: Update scene data cache from Scene Outliner
+     * This eliminates the need for redundant tree traversal
+     */
+    updateSceneDataCache(sceneItems) {
+        console.log('🚀 OPTIMIZATION: Updating Node Inspector cache with scene data');
+        
+        // Clear existing cache
+        this.nodeCache.clear();
+        this.nodeLookup.clear();
+        
+        // Recursively populate cache from scene tree
+        this.populateCacheRecursively(sceneItems);
+        
+        this.sceneDataLoaded = true;
+        console.log(`✅ OPTIMIZATION: Cached ${this.nodeCache.size} nodes for instant access`);
+    }
+    
+    /**
+     * Recursively populate node cache from scene tree data
+     */
+    populateCacheRecursively(items) {
+        if (!items || !Array.isArray(items)) return;
+        
+        items.forEach(item => {
+            if (item.handle) {
+                // Store node data by handle
+                this.nodeCache.set(item.handle, {
+                    name: item.name,
+                    handle: item.handle,
+                    type: item.type,
+                    outtype: item.outtype,
+                    children: item.children || []
+                });
+                
+                // Store name -> handle lookup
+                if (item.name) {
+                    this.nodeLookup.set(item.name, item.handle);
+                }
+            }
+            
+            // Recursively process children
+            if (item.children && item.children.length > 0) {
+                this.populateCacheRecursively(item.children);
+            }
+        });
+    }
+    
+    /**
+     * OPTIMIZATION: Get cached node data by handle
+     */
+    getCachedNodeData(handle) {
+        return this.nodeCache.get(handle);
+    }
+    
+    /**
+     * OPTIMIZATION: Get node handle by name
+     */
+    getNodeHandleByName(name) {
+        return this.nodeLookup.get(name);
     }
     
     async updateSelectedNode(data) {
@@ -758,34 +830,142 @@ class NodeInspector extends OctaneComponent {
     }
     
     /**
-     * Load and render full parameter tree for selected node
+     * OPTIMIZED: Load and render full parameter tree for selected node
+     * Uses cached scene data instead of redundant tree traversal
      */
     async loadAndRenderFullParameterTree(data) {
-        console.log('🔄 Loading full parameter tree for node:', data.nodeName);
+        console.log('🚀 OPTIMIZED: Loading parameter tree for node:', data.nodeName);
         
         // Show loading state
         this.showLoadingState(data);
         
         try {
-            // Load parameters recursively
-            const parameters = await this.loadNodeParametersRecursively(
-                this.selectedNodeHandle || this.selectedNode, 
-                3 // max depth
-            );
+            // OPTIMIZATION: Use cached node data if available
+            const nodeHandle = this.selectedNodeHandle || this.selectedNode;
+            let nodeData = null;
             
-            console.log('✅ Loaded parameters:', parameters);
+            if (this.sceneDataLoaded && nodeHandle) {
+                nodeData = this.getCachedNodeData(nodeHandle);
+                console.log('✅ OPTIMIZATION: Using cached node data:', nodeData);
+            }
+            
+            // Load only parameter VALUES (not tree structure)
+            const parameters = await this.loadNodeParameterValuesOptimized(nodeHandle, nodeData);
+            
+            console.log('✅ OPTIMIZED: Loaded parameter values:', parameters);
             
             // Render the full inspector with all parameters
             this.renderFullParameterInspector(data, parameters);
             
         } catch (error) {
             console.error('❌ Failed to load parameter tree:', error);
-            this.showErrorState(data, error);
+            
+            // Fallback to original method if optimization fails
+            console.log('🔄 Falling back to full tree traversal...');
+            try {
+                const parameters = await this.loadNodeParametersRecursively(
+                    this.selectedNodeHandle || this.selectedNode, 
+                    3 // max depth
+                );
+                this.renderFullParameterInspector(data, parameters);
+            } catch (fallbackError) {
+                console.error('❌ Fallback also failed:', fallbackError);
+                this.showErrorState(data, fallbackError);
+            }
         }
     }
     
     /**
-     * Recursively load all parameters for a node
+     * OPTIMIZED: Load only parameter VALUES for a node (using cached metadata)
+     * This replaces the inefficient recursive tree traversal
+     */
+    async loadNodeParameterValuesOptimized(nodeHandle, cachedNodeData) {
+        if (!nodeHandle) {
+            console.warn('⚠️ OPTIMIZATION: No node handle provided');
+            return {};
+        }
+        
+        const parameters = {};
+        
+        try {
+            console.log(`🚀 OPTIMIZATION: Loading parameter values for node ${nodeHandle} (${cachedNodeData?.name || 'unknown'})`);
+            
+            // Get pin count for this node (single API call)
+            const pinCountResult = window.grpcApi.makeApiCallSync(
+                'ApiNode/pinCount',
+                nodeHandle
+            );
+            
+            if (!pinCountResult.success) {
+                console.warn('⚠️ OPTIMIZATION: Failed to get pin count for node:', nodeHandle);
+                return parameters;
+            }
+            
+            const pinCount = pinCountResult.data.result;
+            console.log(`📌 OPTIMIZATION: Node has ${pinCount} pins (cached metadata: ${cachedNodeData ? 'available' : 'not available'})`);
+            
+            // Load parameter values efficiently (no tree traversal)
+            for (let i = 0; i < pinCount; i++) {
+                try {
+                    // Small delay to prevent API overload
+                    await this.delay(25); // Reduced from 50ms for better performance
+                    
+                    // Use SAFE ApiNode methods to get pin information
+                    const [pinNameResult, pinTypeResult, pinLabelResult] = await Promise.all([
+                        window.grpcApi.makeApiCallSync('ApiNode/pinNameIx', nodeHandle, { pinIndex: i }),
+                        window.grpcApi.makeApiCallSync('ApiNode/pinTypeIx', nodeHandle, { pinIndex: i }),
+                        window.grpcApi.makeApiCallSync('ApiNode/pinLabelIx', nodeHandle, { pinIndex: i })
+                    ]);
+                    
+                    // Skip if we can't get basic pin info
+                    if (!pinNameResult.success && !pinTypeResult.success) {
+                        continue;
+                    }
+                    
+                    const pinName = pinNameResult.success ? pinNameResult.data.result : `pin_${i}`;
+                    const pinType = pinTypeResult.success ? pinTypeResult.data.result : 'unknown';
+                    const pinLabel = pinLabelResult.success ? pinLabelResult.data.result : pinName;
+                    
+                    // Get pin value using safe methods
+                    let pinValue = null;
+                    try {
+                        const valueResult = await this.getParameterValueSafe(nodeHandle, i, pinType);
+                        if (valueResult.success) {
+                            pinValue = valueResult.data;
+                        }
+                    } catch (valueError) {
+                        console.warn(`⚠️ OPTIMIZATION: Could not get value for pin ${i}:`, valueError);
+                    }
+                    
+                    // Store parameter data
+                    parameters[pinName] = {
+                        name: pinName,
+                        label: pinLabel,
+                        type: pinType,
+                        value: pinValue,
+                        pinIndex: i,
+                        // Use cached metadata if available
+                        nodeType: cachedNodeData?.outtype || 'unknown',
+                        nodeName: cachedNodeData?.name || 'unknown'
+                    };
+                    
+                } catch (pinError) {
+                    console.warn(`⚠️ OPTIMIZATION: Error processing pin ${i}:`, pinError);
+                    continue;
+                }
+            }
+            
+            console.log(`✅ OPTIMIZATION: Loaded ${Object.keys(parameters).length} parameter values efficiently`);
+            
+        } catch (error) {
+            console.error('❌ OPTIMIZATION: Error in loadNodeParameterValuesOptimized:', error);
+        }
+        
+        return parameters;
+    }
+    
+    /**
+     * Recursively load all parameters for a node (FALLBACK METHOD)
      */
     async loadNodeParametersRecursively(nodeHandle, maxDepth = 3, currentDepth = 0) {
         if (currentDepth >= maxDepth || !nodeHandle) {
