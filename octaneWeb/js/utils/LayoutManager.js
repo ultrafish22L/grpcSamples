@@ -137,7 +137,15 @@ class LayoutManager {
         
         if (splitterData.orientation === 'vertical') {
             const deltaX = e.clientX - this.startPos.x;
-            let newWidth = this.startSizes.width + deltaX;
+            let newWidth;
+            
+            // For right panel, invert the delta (drag left = smaller, drag right = larger)
+            if (this.currentSplitter.id === 'right-splitter') {
+                newWidth = this.startSizes.width - deltaX;
+            } else {
+                // For left panel, normal behavior (drag right = larger, drag left = smaller)
+                newWidth = this.startSizes.width + deltaX;
+            }
             
             // Apply constraints
             newWidth = Math.max(panelData.minWidth, Math.min(panelData.maxWidth, newWidth));
