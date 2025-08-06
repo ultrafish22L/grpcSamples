@@ -43,13 +43,20 @@
 .panel-splitter.horizontal {
     height: var(--splitter-size, 4px);
     width: 100%;
-    top: 0;
     cursor: row-resize;
     pointer-events: auto;
 }
 
-.bottom-panel .panel-splitter.horizontal {
-    top: 0;
+/* Bottom splitter positioned in grid layout */
+#bottom-splitter {
+    position: relative;
+    background-color: var(--octane-border);
+    margin: 0;
+}
+
+#bottom-splitter:hover,
+#bottom-splitter.dragging {
+    background-color: var(--octane-accent-blue);
 }
 
 .panel-splitter.dragging {

@@ -72,7 +72,22 @@ class LayoutManager {
         splitter.dataset.panel = panel.id;
         splitter.dataset.orientation = orientation;
         
-        panel.appendChild(splitter);
+        // For bottom panel, position splitter between center and bottom areas
+        if (id === 'bottom-splitter') {
+            // Add splitter to the app-layout container, positioned above the bottom panel
+            const appLayout = document.querySelector('.app-layout');
+            if (appLayout) {
+                appLayout.appendChild(splitter);
+                // Position it at the border between center and bottom panels
+                splitter.style.gridColumn = '1 / -1'; // Span all columns
+                splitter.style.gridRow = '1'; // Position at the end of first row
+                splitter.style.alignSelf = 'end'; // Align to bottom of first row
+                splitter.style.zIndex = '1000'; // Ensure it's above other content
+            }
+        } else {
+            // For left and right panels, add splitter to the panel itself
+            panel.appendChild(splitter);
+        }
         
         this.splitters.set(id, {
             element: splitter,
