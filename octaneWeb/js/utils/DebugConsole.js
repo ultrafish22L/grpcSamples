@@ -26,14 +26,12 @@ class DebugConsole {
         this.element = document.createElement('div');
         this.element.id = 'debug-console';
         this.element.innerHTML = `
-        
             <div class="debug-header">
                 <span class="debug-title">🐛 Debug Console</span>
-                    <div class="debug-controls">
-                        <button class="debug-btn" title="Start unit testing" onclick="debugConsole.unitTest()">🧑‍🚒</button>
-                        <button class="debug-btn" title="Clear debug console logs" onclick="debugConsole.clear()">🗑️</button>
-                        <button class="debug-btn" title="Close debug console" onclick="debugConsole.toggle()">✖️</button>
-                    </div>
+                <div class="debug-controls">
+                    <button class="debug-btn" title="Start unit testing" onclick="debugConsole.unitTest()">🧑‍🚒</button>
+                    <button class="debug-btn" title="Clear debug console logs" onclick="debugConsole.clear()">🗑️</button>
+                    <button class="debug-btn" title="Close debug console" onclick="debugConsole.toggle()">✖️</button>
                 </div>
             </div>
             <div class="debug-content">
@@ -158,29 +156,29 @@ class DebugConsole {
     
     interceptConsole() {
         // Store original console methods
-        const originalLog = console.log;
-        const originalInfo = console.info;
-        const originalWarn = console.warn;
-        const originalError = console.error;
+        this.originalLog = console.log;
+        this.originalInfo = console.info;
+        this.originalWarn = console.warn;
+        this.originalError = console.error;
         
         // Override console methods
         console.log = (...args) => {
-            originalLog.apply(console, args);
+            this.originalLog.apply(console, args);
             this.addLog('log', args);
         };
         
         console.info = (...args) => {
-            originalInfo.apply(console, args);
+            this.originalInfo.apply(console, args);
             this.addLog('info', args);
         };
         
         console.warn = (...args) => {
-            originalWarn.apply(console, args);
+            this.originalWarn.apply(console, args);
             this.addLog('warn', args);
         };
         
         console.error = (...args) => {
-            originalError.apply(console, args);
+            this.originalError.apply(console, args);
             this.addLog('error', args);
         };
         
@@ -208,7 +206,11 @@ class DebugConsole {
         };
         
         this.logs.push(logEntry);
-        console.log(`📝 Added log: ${type} - ${message} (total: ${this.logs.length})`);
+        
+        // Use original console method to avoid infinite recursion
+        if (this.originalLog) {
+            this.originalLog(`📝 DebugConsole: Added ${type} log (total: ${this.logs.length})`);
+        }
         
         // Limit log history
         if (this.logs.length > this.maxLogs) {
@@ -224,11 +226,17 @@ class DebugConsole {
     updateDisplay() {
         const logsContainer = document.getElementById('debug-logs');
         if (!logsContainer) {
-            console.error('❌ Debug logs container not found!');
+            // Use original console method to avoid infinite recursion
+            if (this.originalError) {
+                this.originalError('❌ Debug logs container not found!');
+            }
             return;
         }
         
-        console.log(`🔍 Updating display with ${this.logs.length} logs`);
+        // Use original console method to avoid infinite recursion
+        if (this.originalLog) {
+            this.originalLog(`🔍 DebugConsole: Updating display with ${this.logs.length} logs`);
+        }
         
         if (this.logs.length === 0) {
             logsContainer.innerHTML = '<div class="debug-log info"><span class="debug-message">No logs yet...</span></div>';
@@ -276,11 +284,17 @@ class DebugConsole {
     clear() {
         this.logs = [];
         this.updateDisplay();
-        console.info('🧹 Debug console cleared');
+        // Use original console method to avoid infinite recursion
+        if (this.originalInfo) {
+            this.originalInfo('🧹 Debug console cleared');
+        }
     }
     
     async unitTest() {
-        console.info('🧑‍🚒 Starting comprehensive test suite...');
+        // Use original console method to avoid infinite recursion
+        if (this.originalInfo) {
+            this.originalInfo('🧑‍🚒 Starting comprehensive test suite...');
+        }
         this.addLog('info', ['🧪 Initiating comprehensive Octane gRPC API test suite']);
         
         // Execute the comprehensive test callback
@@ -388,7 +402,10 @@ class DebugConsole {
                 '  4. Verify ObjectPtr type conversion is working'
             ]);
             
-            console.error('Comprehensive test suite error:', error);
+            // Use original console method to avoid infinite recursion
+            if (this.originalError) {
+                this.originalError('Comprehensive test suite error:', error);
+            }
         }
     }
 
