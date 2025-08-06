@@ -1218,12 +1218,7 @@ class NodeInspector extends OctaneComponent {
         const nodeType = this.getCachedNodeData(this.selectedNodeHandle)?.outtype || 'NT_CAMERA';
         const nodeName = data.nodeName || this.selectedNodeName || 'Unknown Node';
         
-        // Initialize Octane parameter renderer
-        if (!this.octaneRenderer) {
-            this.octaneRenderer = new window.OctaneParameterRenderer();
-        }
-        
-        // Create the main inspector HTML structure with Octane styling
+        // Create the main inspector HTML structure matching Octane Studio exactly
         let inspectorHtml = `
             <div class="node-inspector-header">
                 <div class="node-inspector-title">Node inspector</div>
@@ -1236,10 +1231,34 @@ class NodeInspector extends OctaneComponent {
             <div class="inspector-content">
         `;
         
-        // Use Octane-style parameter grouping and rendering
-        inspectorHtml += this.octaneRenderer.renderParameterGroups(nodeType, parameters);
+        // Add Scene section (collapsible)
+        inspectorHtml += `
+            <div class="octane-section">
+                <div class="octane-section-header" data-group="scene">
+                    <span class="octane-section-icon">▼</span>
+                    <span class="octane-section-title">Scene</span>
+                </div>
+                <div class="octane-section-content" data-group-content="scene">
+        `;
+        
+        // Add Camera subsection for camera nodes
+        if (nodeType === 'NT_CAMERA' || nodeName.toLowerCase().includes('camera')) {
+            inspectorHtml += `
+                <div class="octane-subsection">
+                    <div class="octane-subsection-header">
+                        <span class="octane-node-icon">📷</span>
+                        <span class="octane-subsection-title">Thin lens camera</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Render parameter groups based on live data
+        inspectorHtml += this.renderOctaneParameterGroups(parameters);
         
         inspectorHtml += `
+                </div>
+            </div>
             </div>
         `;
         
@@ -1253,12 +1272,265 @@ class NodeInspector extends OctaneComponent {
     }
     
     /**
+     * Render parameter groups matching Octane Studio layout
+     */
+    renderOctaneParameterGroups(parameters) {
+        console.log('🎨 Rendering Octane parameter groups with', Object.keys(parameters).length, 'parameters');
+        
+        // Group parameters by category (matching reference image)
+        const parameterGroups = this.groupParametersForOctane(parameters);
+        
+        let groupsHtml = '';
+        
+        // Render each parameter group
+        Object.entries(parameterGroups).forEach(([groupName, groupParams]) => {
+            if (groupParams.length === 0) return;
+            
+            const isExpanded = this.shouldGroupBeExpanded(groupName);
+            const icon = isExpanded ? '▼' : '▶';
+            const contentStyle = isExpanded ? 'display: block;' : 'display: none;';
+            
+            groupsHtml += `
+                <div class="octane-parameter-group">
+                    <div class="octane-group-header" data-group="${groupName}">
+                        <span class="octane-group-icon">${icon}</span>
+                        <span class="octane-group-title">${this.getGroupDisplayName(groupName)}</span>
+                    </div>
+                    <div class="octane-group-content" data-group-content="${groupName}" style="${contentStyle}">
+                        ${this.renderParametersInGroup(groupParams)}
+                    </div>
+                </div>
+            `;
+        });
+        
+        return groupsHtml;
+    }
+    
+    /**
+     * Group parameters by category matching Octane Studio
+     */
+    groupParametersForOctane(parameters) {
+        const groups = {
+            'physical-camera': [],
+            'viewing-angle': [],
+            'clipping': [],
+            'depth-of-field': [],
+            'position': [],
+            'stereo': [],
+            'other': []
+        };
+        
+        Object.entries(parameters).forEach(([paramName, paramData]) => {
+            const name = paramData.label || paramName;
+            const lowerName = name.toLowerCase();
+            
+            // Group parameters based on their names (matching reference image)
+            if (lowerName.includes('orthographic') || lowerName.includes('sensor') || 
+                lowerName.includes('focal length') || lowerName.includes('f-stop')) {
+                groups['physical-camera'].push(paramData);
+            } else if (lowerName.includes('field of view') || lowerName.includes('scale of view') || 
+                       lowerName.includes('distortion') || lowerName.includes('lens shift') || 
+                       lowerName.includes('perspective') || lowerName.includes('pixel aspect')) {
+                groups['viewing-angle'].push(paramData);
+            } else if (lowerName.includes('near clip') || lowerName.includes('far clip')) {
+                groups['clipping'].push(paramData);
+            } else if (lowerName.includes('auto-focus') || lowerName.includes('focal depth') || 
+                       lowerName.includes('aperture') || lowerName.includes('bokeh')) {
+                groups['depth-of-field'].push(paramData);
+            } else if (lowerName.includes('position') || lowerName.includes('target') || 
+                       lowerName.includes('up-vector')) {
+                groups['position'].push(paramData);
+            } else if (lowerName.includes('stereo') || lowerName.includes('eye distance') || 
+                       lowerName.includes('swap eyes')) {
+                groups['stereo'].push(paramData);
+            } else {
+                groups['other'].push(paramData);
+            }
+        });
+        
+        return groups;
+    }
+    
+    /**
+     * Check if a parameter group should be expanded by default
+     */
+    shouldGroupBeExpanded(groupName) {
+        // Match reference image - these groups are expanded by default
+        const expandedGroups = ['physical-camera', 'viewing-angle', 'clipping', 'depth-of-field', 'position'];
+        return expandedGroups.includes(groupName);
+    }
+    
+    /**
+     * Get display name for parameter group
+     */
+    getGroupDisplayName(groupName) {
+        const displayNames = {
+            'physical-camera': 'Physical camera parameters',
+            'viewing-angle': 'Viewing angle',
+            'clipping': 'Clipping',
+            'depth-of-field': 'Depth of field',
+            'position': 'Position',
+            'stereo': 'Stereo',
+            'other': 'Other parameters'
+        };
+        return displayNames[groupName] || groupName;
+    }
+    
+    /**
+     * Render individual parameters within a group
+     */
+    renderParametersInGroup(parameters) {
+        return parameters.map(param => {
+            return this.renderSingleParameter(param);
+        }).join('');
+    }
+    
+    /**
+     * Render a single parameter with proper Octane styling
+     */
+    renderSingleParameter(param) {
+        const { name, label, type, value, index } = param;
+        const displayName = label || name;
+        const paramId = `param_${name}_${index}`;
+        
+        // Determine parameter type and render appropriate control
+        if (type === 'PT_BOOL' || displayName.toLowerCase().includes('orthographic') || 
+            displayName.toLowerCase().includes('auto-focus') || displayName.toLowerCase().includes('perspective')) {
+            return this.renderCheckboxParameter(paramId, displayName, value);
+        } else if (type === 'PT_FLOAT' || type === 'PT_INT' || 
+                   displayName.toLowerCase().includes('width') || displayName.toLowerCase().includes('length') ||
+                   displayName.toLowerCase().includes('depth') || displayName.toLowerCase().includes('distance')) {
+            return this.renderNumericParameter(paramId, displayName, value, type);
+        } else if (type === 'PT_FLOAT3' || displayName.toLowerCase().includes('position') || 
+                   displayName.toLowerCase().includes('target') || displayName.toLowerCase().includes('vector')) {
+            return this.renderVectorParameter(paramId, displayName, value);
+        } else if (displayName.toLowerCase().includes('stereo output') || displayName.toLowerCase().includes('stereo mode')) {
+            return this.renderDropdownParameter(paramId, displayName, value);
+        } else {
+            return this.renderGenericParameter(paramId, displayName, value, type);
+        }
+    }
+    
+    /**
+     * Render checkbox parameter
+     */
+    renderCheckboxParameter(paramId, displayName, value) {
+        const checked = value === true || value === 'true' ? 'checked' : '';
+        return `
+            <div class="octane-parameter">
+                <div class="octane-parameter-row">
+                    <div class="octane-parameter-checkbox-container">
+                        <input type="checkbox" id="${paramId}" class="octane-checkbox" ${checked}>
+                        <label for="${paramId}" class="octane-checkbox-label">${displayName}</label>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    /**
+     * Render numeric parameter with slider
+     */
+    renderNumericParameter(paramId, displayName, value, type) {
+        const numValue = parseFloat(value) || 0;
+        const displayValue = type === 'PT_INT' ? Math.round(numValue) : numValue.toFixed(3);
+        
+        return `
+            <div class="octane-parameter">
+                <div class="octane-parameter-row">
+                    <div class="octane-parameter-label">${displayName}:</div>
+                    <div class="octane-parameter-controls">
+                        <div class="octane-slider-container">
+                            <div class="octane-slider-track">
+                                <div class="octane-slider-fill" style="width: 50%;"></div>
+                                <div class="octane-slider-thumb" style="left: 50%;"></div>
+                            </div>
+                        </div>
+                        <input type="number" id="${paramId}" class="octane-number-input" value="${displayValue}" step="${type === 'PT_INT' ? '1' : '0.001'}">
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    /**
+     * Render vector parameter (3 components)
+     */
+    renderVectorParameter(paramId, displayName, value) {
+        // Parse vector value (could be array or string)
+        let x = 0, y = 0, z = 0;
+        if (Array.isArray(value)) {
+            [x, y, z] = value;
+        } else if (typeof value === 'string') {
+            const parts = value.split(',').map(v => parseFloat(v.trim()) || 0);
+            [x, y, z] = parts;
+        }
+        
+        return `
+            <div class="octane-parameter">
+                <div class="octane-parameter-row">
+                    <div class="octane-parameter-label">${displayName}:</div>
+                    <div class="octane-vector-controls">
+                        <input type="number" class="octane-vector-input" value="${x.toFixed(3)}" step="0.001" data-component="x">
+                        <input type="number" class="octane-vector-input" value="${y.toFixed(3)}" step="0.001" data-component="y">
+                        <input type="number" class="octane-vector-input" value="${z.toFixed(3)}" step="0.001" data-component="z">
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    /**
+     * Render dropdown parameter
+     */
+    renderDropdownParameter(paramId, displayName, value) {
+        return `
+            <div class="octane-parameter">
+                <div class="octane-parameter-row">
+                    <div class="octane-parameter-label">${displayName}:</div>
+                    <div class="octane-parameter-controls">
+                        <select id="${paramId}" class="octane-dropdown">
+                            <option value="${value}" selected>${value || 'None'}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    /**
+     * Render generic parameter
+     */
+    renderGenericParameter(paramId, displayName, value, type) {
+        return `
+            <div class="octane-parameter">
+                <div class="octane-parameter-row">
+                    <div class="octane-parameter-label">${displayName}:</div>
+                    <div class="octane-parameter-controls">
+                        <input type="text" id="${paramId}" class="octane-text-input" value="${value || ''}" readonly>
+                        <span class="octane-parameter-type">(${type})</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    /**
      * Setup event listeners for Octane-style controls
      */
     setupOctaneInspectorEventListeners() {
         console.log('🎛️ Setting up Octane-style event listeners');
         
-        // Group collapse/expand functionality
+        // Section collapse/expand functionality (Scene section)
+        const sectionHeaders = this.element.querySelectorAll('.octane-section-header[data-group]');
+        sectionHeaders.forEach(header => {
+            this.addEventListener(header, 'click', (e) => {
+                const groupName = header.dataset.group;
+                this.toggleOctaneSection(groupName);
+            });
+        });
+        
+        // Parameter group collapse/expand functionality
         const groupHeaders = this.element.querySelectorAll('.octane-group-header[data-group]');
         groupHeaders.forEach(header => {
             this.addEventListener(header, 'click', (e) => {
@@ -1269,6 +1541,27 @@ class NodeInspector extends OctaneComponent {
         
         // Parameter value change handlers
         this.setupOctaneParameterChangeHandlers();
+    }
+    
+    /**
+     * Toggle Octane section expand/collapse (Scene section)
+     */
+    toggleOctaneSection(sectionName) {
+        const header = this.element.querySelector(`[data-group="${sectionName}"]`);
+        const content = this.element.querySelector(`[data-group-content="${sectionName}"]`);
+        const icon = header?.querySelector('.octane-section-icon');
+        
+        if (header && content && icon) {
+            if (content.style.display === 'none') {
+                // Expand
+                content.style.display = 'block';
+                icon.textContent = '▼';
+            } else {
+                // Collapse
+                content.style.display = 'none';
+                icon.textContent = '▶';
+            }
+        }
     }
     
     /**
