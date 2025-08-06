@@ -43,10 +43,8 @@ class SceneOutlinerSync {
             });
         }
         
-        // Listen for node selection from NodeGraphEditor to sync selection
-        this.eventSystem.on('nodeGraphNodeSelected', (data) => {
-            this.updateSelectionFromNodeGraph(data);
-        });
+        // Note: NodeGraphEditor now uses unified 'sceneNodeSelected' event
+        // No need for separate nodeGraphNodeSelected listener
     }
     
     // Unified selection function - called both on initialization and user clicks
@@ -70,41 +68,15 @@ class SceneOutlinerSync {
             }
         }
         
-        // Emit selection event to update other components
+        // Emit selection event to update other components (handle only)
         if (handle && handle !== 'scene-root') {
-            this.eventSystem.emit('sceneNodeSelected', { 
-                handle: handle,
-                nodeId: nodeId || `item-${handle}`,
-                nodeName: nodeName,
-                source: source
-            });
+            this.eventSystem.emit('sceneNodeSelected', handle);
             
-            console.log('🎯 Unified selection emitted:', { handle, nodeName, source });
+            console.log('🎯 Unified selection emitted handle:', handle, 'for node:', nodeName);
         }
     }
 
-    updateSelectionFromNodeGraph(data) {
-        console.log('🎯 SceneOutliner received NodeGraph selection:', data);
-        
-        // Find and select the corresponding node in the scene tree
-        const treeContainer = this.element.querySelector('.tree-container');
-        if (!treeContainer) return;
-        
-        // Clear existing selection
-        treeContainer.querySelectorAll('.tree-node').forEach(n => n.classList.remove('selected'));
-        
-        // Find the node by name or handle and select it
-        const treeNodes = treeContainer.querySelectorAll('.tree-node');
-        treeNodes.forEach(node => {
-            const nodeName = node.querySelector('.node-name')?.textContent || '';
-            const handle = node.dataset.handle;
-            
-            if (nodeName === data.nodeName || handle === data.sceneHandle) {
-                node.classList.add('selected');
-                console.log('🎯 SceneOutliner synced selection to:', nodeName);
-            }
-        });
-    }
+
     
     /**
      * ASYNCHRONOUS function that loads scene tree

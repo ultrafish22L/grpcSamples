@@ -23,6 +23,7 @@ class OctaneWebApp {
         // Application state
         this.isInitialized = false;
         this.isConnected = false;
+        this.componentsFullyInitialized = false;
         
         // Performance monitoring
         this.performanceStats = {
@@ -150,6 +151,13 @@ class OctaneWebApp {
                 console.log(`${name} component initialized`);
             }
         }
+        
+        // Mark components as fully initialized
+        this.componentsFullyInitialized = true;
+        console.log('✅ All UI components fully initialized');
+        
+        // Emit event to signal components can now perform auto-selection
+        this.eventSystem.emit('componentsFullyInitialized');
         
         console.log('UI components initialized');
     }

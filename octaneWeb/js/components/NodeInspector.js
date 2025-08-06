@@ -20,20 +20,25 @@ class NodeInspector extends OctaneComponent {
     }
     
     async onInitialize() {
-        // Auto-select Render target by default (matching Octane Studio behavior)
-//        setTimeout(() => {
-//            this.autoSelectRenderTarget();
-//        }, 500);
+        // Wait for all components to be fully initialized before auto-selection
+        this.eventSystem.on('componentsFullyInitialized', () => {
+            setTimeout(() => {
+                this.autoSelectRenderTarget();
+            }, 100);
+        });
     }
     
-    autoSelectRenderTarget(sceneItems) {
-        // Simulate selecting the Render target node to match Octane Studio's default behavior
-        if (sceneItems.length > 1) {
-            console.log('🎯 Auto-selecting Render target to match Octane Studio behavior');
-            this.updateSelectedNode(sceneItems[1]);
+    autoSelectRenderTarget() {
+        // Auto-select Render target using cached scene data (matching Octane Studio behavior)
+        if (this.sceneDataCache && this.sceneDataCache.length > 1) {
+            const renderTarget = this.sceneDataCache[1]; // Render target is typically second item
+            console.log('🎯 Auto-selecting Render target to match Octane Studio behavior:', renderTarget.handle);
             
-            // Also emit the selection event to sync with other components
-            this.eventSystem.emit('sceneNodeSelected', sceneItems[1]);
+            // Update this component's selection (handle only)
+            this.updateSelectedNode(renderTarget.handle);
+            
+            // Emit selection event with handle only to sync with other components
+            this.eventSystem.emit('sceneNodeSelected', renderTarget.handle);
         }
     }
 
@@ -49,14 +54,9 @@ class NodeInspector extends OctaneComponent {
             this.updateSelection(selection);
         });
         
-        // Listen for scene node selection from SceneOutliner
-        this.eventSystem.on('sceneNodeSelected', (data) => {
-            this.updateSelectedNode(data);
-        });
-        
-        // Listen for node selection from NodeGraphEditor
-        this.eventSystem.on('nodeGraphNodeSelected', (data) => {
-            this.updateSelectedNode(data);
+        // Listen for scene node selection (unified event for all components)
+        this.eventSystem.on('sceneNodeSelected', (handle) => {
+            this.updateSelectedNode(handle);
         });
         
         // Listen for node parameter updates
@@ -342,6 +342,17 @@ class NodeInspector extends OctaneComponent {
     }
     
     /**
+     * Get cached node data by handle
+     */
+    getCachedNodeData(handle) {
+        // Look up node data from cache using handle
+        if (this.sceneDataCache) {
+            return this.sceneDataCache.find(node => node.handle === handle);
+        }
+        return null;
+    }
+    
+    /**
      * Recursively populate node cache from scene tree data
      */
     populateCacheRecursively(items) {
@@ -385,20 +396,31 @@ class NodeInspector extends OctaneComponent {
         return this.nodeLookup.get(name);
     }
     
-    async updateSelectedNode(data) {
-        console.log('🎯 NodeInspector received selection from', data.source + ':', data);
+    async updateSelectedNode(handle) {
+        console.log('🎯 NodeInspector received selection handle:', handle);
         
-        // Handle different data formats from SceneOutliner vs NodeGraphEditor
-        this.selectedNode = data.nodeId || data.handle;
-        this.selectedNodeType = data.nodeType;
-        this.selectedNodeName = data.nodeName;
-        this.selectedNodeHandle = data.handle || data.sceneHandle;
+        // Look up node data from cache using handle
+        const nodeData = this.getCachedNodeData(handle);
+        if (!nodeData) {
+            console.warn('⚠️ No cached data found for handle:', handle);
+            return;
+        }
+        
+        // Set selection state using handle and cached data
+        this.selectedNodeHandle = handle;
+        this.selectedNode = handle;
+        this.selectedNodeType = nodeData.outtype;
+        this.selectedNodeName = nodeData.name;
         
         // Update the dropdown to reflect the selected node
         this.updateInspectorDropdown(this.selectedNodeName);
         
         // Load and render full parameter tree for the selected node
-        await this.loadAndRenderFullParameterTree(data);
+        await this.loadAndRenderFullParameterTree({ 
+            handle: handle,
+            nodeName: nodeData.name,
+            nodeType: nodeData.outtype
+        });
     }
     
     updateInspectorDropdown(nodeName) {

@@ -68,13 +68,16 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     autoSelectRenderTarget(sceneItems) {
-        // Simulate selecting the Render target node to match Octane Studio's default behavior
-        if (sceneItems.length > 1) {
-            console.log('🎯 Auto-selecting Render target to match Octane Studio behavior');
-            this.updateSelectedNode(sceneItems[1]);
+        // Auto-select Render target using scene data (matching Octane Studio behavior)
+        if (sceneItems && sceneItems.length > 1) {
+            const renderTarget = sceneItems[1]; // Render target is typically second item
+            console.log('🎯 NodeGraphEditor auto-selecting Render target:', renderTarget.handle);
             
-            // Also emit the selection event to sync with other components
-            this.eventSystem.emit('sceneNodeSelected', sceneItems[1]);
+            // Update this component's selection (handle only)
+            this.updateSelectedNode(renderTarget.handle);
+            
+            // Emit selection event with handle only to sync with other components
+            this.eventSystem.emit('sceneNodeSelected', renderTarget.handle);
         }
     }
 
@@ -84,9 +87,9 @@ class NodeGraphEditor extends OctaneComponent {
             this.updateNodeGraph(nodeGraphState);
         });
         
-        // Listen for scene node selection from SceneOutliner
-        this.eventSystem.on('sceneNodeSelected', (data) => {
-            this.updateSelectedNode(data);
+        // Listen for scene node selection (unified event for all components)
+        this.eventSystem.on('sceneNodeSelected', (handle) => {
+            this.updateSelectedNode(handle);
         });
         
         // Listen for scene data loaded from SceneOutliner
@@ -723,14 +726,8 @@ class NodeGraphEditor extends OctaneComponent {
             }
             this.selectedNodes.add(hitNode.id);
             
-            // Emit selection event to update NodeInspector
-            this.eventSystem.emit('nodeGraphNodeSelected', {
-                nodeId: hitNode.id,
-                nodeName: hitNode.name,
-                nodeType: hitNode.type,
-                sceneHandle: hitNode.sceneHandle,
-                source: 'nodeGraphEditor'
-            });
+            // Emit unified selection event with handle only
+            this.eventSystem.emit('sceneNodeSelected', hitNode.sceneHandle);
             
             console.log('🎯 NodeGraphEditor selected node:', hitNode.name);
         } else {
@@ -1059,23 +1056,20 @@ class NodeGraphEditor extends OctaneComponent {
         }
     }
     
-    updateSelectedNode(data) {
-        console.log('🎯 NodeGraphEditor received selection:', data);
+    updateSelectedNode(handle) {
+        console.log('🎯 NodeGraphEditor received selection handle:', handle);
         console.log('🎯 Available nodes:', Array.from(this.nodes.entries()).map(([id, node]) => ({ id, name: node.name, sceneHandle: node.sceneHandle })));
         
         // Clear existing selection
         this.selectedNodes.clear();
         
-        // Find and select the corresponding node in the graph
+        // Find and select the corresponding node in the graph using handle
         let nodeFound = false;
         for (let [nodeId, node] of this.nodes) {
-            // Try multiple matching strategies
-            // Primary match: NodeGraphEditor creates IDs as "scene_${handle}"
-            if (nodeId === `scene_${data.handle}` ||
-                node.sceneHandle === data.handle || 
-                node.name === data.nodeName ||
-                node.sceneHandle === data.nodeId || 
-                nodeId.includes(data.handle)) {
+            // Match by handle - NodeGraphEditor creates IDs as "scene_${handle}"
+            if (nodeId === `scene_${handle}` || 
+                node.sceneHandle === handle || 
+                nodeId.includes(handle)) {
                 this.selectedNodes.add(nodeId);
                 console.log('🎯 Selected node in graph:', nodeId, node.name);
                 nodeFound = true;
@@ -1084,8 +1078,7 @@ class NodeGraphEditor extends OctaneComponent {
         }
         
         if (!nodeFound) {
-            console.log('⚠️ Node not found for selection:', data);
-            console.log('⚠️ Trying to match:', { handle: data.handle, nodeId: data.nodeId, nodeName: data.nodeName });
+            console.log('⚠️ Node not found for selection handle:', handle);
         }
         
         // Re-render to show selection
