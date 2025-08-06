@@ -807,8 +807,8 @@ class NodeInspector extends OctaneComponent {
                 <div class="octane-parameter-label">${label}</div>
                 <div class="octane-parameter-control">
                     <div class="octane-control-group">
-                        <input type="text" class="octane-number-input" value="${value1}" style="width: 50px;">
-                        <input type="text" class="octane-number-input" value="${value2}" style="width: 50px;">
+                        <input type="text" class="octane-number-input" value="${value1}" style="width: 40px;">
+                        <input type="text" class="octane-number-input" value="${value2}" style="width: 40px; margin-left: 2px;">
                     </div>
                 </div>
             </div>

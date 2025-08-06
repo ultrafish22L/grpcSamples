@@ -197,30 +197,32 @@
 
 .octane-parameter-icon {
     color: #888;
-    font-size: 11px;
-    width: 16px;
-    height: 16px;
+    font-size: 9px;
+    width: 12px;
+    height: 12px;
     text-align: center;
     flex-shrink: 0;
-    margin-right: 4px;
+    margin-right: 3px;
 }
 
 .octane-parameter-label {
     color: #e0e0e0;
-    font-size: 11px;
-    width: 120px;
+    font-size: 9px;
+    width: 100px;
     flex-shrink: 0;
     text-align: left;
-    padding-right: 8px;
+    padding-right: 4px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 /* Control Groups - Matching Reference Layout */
 .octane-control-group {
     display: flex;
     align-items: center;
-    gap: 2px;
-    flex: 1;
-    justify-content: flex-end;
+    gap: 0px;
+    margin-left: 104px;
+    justify-content: flex-start;
 }
 
 .octane-vector-group {
@@ -327,15 +329,15 @@
 }
 
 .octane-number-input {
-    width: 65px;
+    width: 50px;
     background: #2a2a2a;
     border: 1px solid #666;
     color: #e0e0e0;
-    padding: 1px 4px;
+    padding: 1px 3px;
     border-radius: 0px;
-    font-size: 11px;
+    font-size: 9px;
     text-align: right;
-    height: 16px;
+    height: 14px;
     border-left: none;
     border-right: none;
 }
@@ -623,12 +625,12 @@
 /* Spinner Controls - Matching Reference Image */
 .octane-spinner-left,
 .octane-spinner-right {
-    width: 12px;
-    height: 16px;
+    width: 10px;
+    height: 14px;
     background: #3a3a3a;
     border: 1px solid #666;
     color: #888;
-    font-size: 10px;
+    font-size: 8px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -655,8 +657,8 @@
 /* Units */
 .octane-unit {
     color: #888;
-    font-size: 11px;
-    margin-left: 4px;
+    font-size: 9px;
+    margin-left: 2px;
     flex-shrink: 0;
 }
 
