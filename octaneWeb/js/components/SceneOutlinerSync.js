@@ -576,7 +576,7 @@ class SceneOutlinerSync {
                 this.selectNode(handle, nodeName, nodeId, 'sceneOutliner');
             });
         });
-        
+/*        
         // Auto-select "Render target" on initial load (matching Octane Studio behavior)
         if (!this.selectedNodeHandle) {
             const renderTargetNode = treeContainer.querySelector('.tree-node .node-name');
@@ -599,6 +599,7 @@ class SceneOutlinerSync {
                 }
             }
         }
+*/            
     }
     
     addEventListener(element, event, handler) {

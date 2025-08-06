@@ -21,9 +21,9 @@ class NodeInspector extends OctaneComponent {
     
     async onInitialize() {
         // Auto-select Render target by default (matching Octane Studio behavior)
-        setTimeout(() => {
-            this.autoSelectRenderTarget();
-        }, 500);
+//        setTimeout(() => {
+//            this.autoSelectRenderTarget();
+//        }, 500);
     }
     
     autoSelectRenderTarget() {
@@ -46,6 +46,7 @@ class NodeInspector extends OctaneComponent {
         // Listen for scene data loading from SceneOutliner (OPTIMIZATION)
         this.eventSystem.on('sceneDataLoaded', (sceneItems) => {
             this.updateSceneDataCache(sceneItems);
+            this.autoSelectRenderTarget();
         });
         
         // Listen for selection updates
@@ -857,19 +858,6 @@ class NodeInspector extends OctaneComponent {
             
         } catch (error) {
             console.error('❌ Failed to load parameter tree:', error);
-            
-            // Fallback to original method if optimization fails
-            console.log('🔄 Falling back to full tree traversal...');
-            try {
-                const parameters = await this.loadNodeParametersRecursively(
-                    this.selectedNodeHandle || this.selectedNode, 
-                    3 // max depth
-                );
-                this.renderFullParameterInspector(data, parameters);
-            } catch (fallbackError) {
-                console.error('❌ Fallback also failed:', fallbackError);
-                this.showErrorState(data, fallbackError);
-            }
         }
     }
     
