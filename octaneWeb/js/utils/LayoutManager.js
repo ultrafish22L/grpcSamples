@@ -79,7 +79,7 @@ class LayoutManager {
             if (appLayout) {
                 appLayout.appendChild(splitter);
                 // Position it at the border between center and bottom panels
-                splitter.style.gridColumn = '1 / -1'; // Span all columns
+                splitter.style.gridColumn = '2'; // Only span the center column
                 splitter.style.gridRow = '1'; // Position at the end of first row
                 splitter.style.alignSelf = 'end'; // Align to bottom of first row
                 splitter.style.zIndex = '1000'; // Ensure it's above other content
