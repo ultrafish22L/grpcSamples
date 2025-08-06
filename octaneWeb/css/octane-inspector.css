@@ -94,8 +94,10 @@
 }
 
 .octane-section-title {
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     color: #f0f0f0;
+    font-size: var(--font-size-small);
+    font-family: var(--font-family);
 }
 
 .octane-section-content {
@@ -137,6 +139,9 @@
     align-items: center;
     user-select: none;
     transition: background-color 0.2s;
+    font-size: var(--font-size-small);
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-normal);
 }
 
 .octane-group-header:hover {
@@ -193,9 +198,10 @@
 
 .octane-parameter-icon {
     color: #888;
-    font-size: 8px;
-    width: 10px;
-    height: 10px;
+    font-size: var(--font-size-small);
+    font-family: var(--font-family);
+    width: 12px;
+    height: 12px;
     text-align: center;
     flex-shrink: 0;
     margin-right: 2px;
@@ -203,7 +209,8 @@
 
 .octane-parameter-label {
     color: #e0e0e0;
-    font-size: 8px;
+    font-size: var(--font-size-small);
+    font-family: var(--font-family);
     width: 100px;
     flex-shrink: 0;
     text-align: left;
@@ -791,8 +798,10 @@
 }
 
 .octane-section-title {
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     color: #f0f0f0;
+    font-size: var(--font-size-small);
+    font-family: var(--font-family);
 }
 
 .octane-section-content {
@@ -816,9 +825,10 @@
     gap: 6px;
     user-select: none;
     transition: background-color 0.2s;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     color: #f0f0f0;
-    font-size: 13px;
+    font-size: var(--font-size-small);
+    font-family: var(--font-family);
 }
 
 .octane-group-header:hover {
