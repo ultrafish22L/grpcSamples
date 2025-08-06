@@ -11,6 +11,7 @@
 #include "apinodeclient.h"
 #include "apiitemarrayclient.h"
 #include "apinodeinfoclient.h"
+#include "apinodepininfoclient.h"
 #include "octaneids.h"
 #include "octanevectypes.h"
 using namespace OctaneVec;
@@ -131,7 +132,7 @@ static const char* Indent(int i)
     return sIndent;
 }
 
-static bool recurseNodeTest(ApiItemProxy& item, int indent = 0)
+static bool recurseNodeTest(const ApiItemProxy& item, int indent = 0, const ApiNodePinInfoProxy* pinInfo = nullptr)
 {
     if (item.isNull())
     {
@@ -157,18 +158,26 @@ static bool recurseNodeTest(ApiItemProxy& item, int indent = 0)
         }
         return true;
     }
+    if (pinInfo)
+    {
+        std::cout << Indent(indent) << "pin.name = " << pinInfo->name() << std::endl;
+        std::cout << Indent(indent) << "pin.type = " << pinInfo->type() << std::endl;
+        std::cout << Indent(indent) << "pin.isConnected = " << pinInfo->isConnected() << std::endl;
+        std::cout << Indent(indent) << "pin.isInput = " << pinInfo->isInput() << std::endl;
+	}
     // node
 	ApiNodeProxy& node = item.toNode();
 	int pinCount = node.pinCount();
     for (int i = 0; i < pinCount; i++)
     {
-        ApiNodeProxy n = node.connectedNodeIx(i, false);
-        ApiNodePinInfoProxy info = node.info();
+        const ApiNodeProxy n = node.connectedNodeIx(i, false);
+//        const ApiNodeInfoProxy& info = node.info();
+        const ApiNodePinInfoProxy& info = node.pinInfoIx(i);
 
         if (n.isNull())
             continue;
 
-        recurseNodeTest(n, indent + 2);
+        recurseNodeTest(n, indent + 2, &info);
     }
     return true;
 }

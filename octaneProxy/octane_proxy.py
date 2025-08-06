@@ -148,7 +148,7 @@ class GrpcServiceRegistry:
     def get_request_class(self, service_name, method_name):
         """Get the request class for a service method"""
         try:
-            print(f"Get request class for {service_name}.{method_name}")
+#            print(f"Get request class for {service_name}.{method_name}")
 
             module_name = self.get_moduleName(service_name, '_pb2', 1)
 
@@ -179,18 +179,18 @@ class GrpcServiceRegistry:
                     request_class = pb2_module
 
                     for part in parts:
-                        print(f" CHECKING1 request class for {part} {request_class}")
+#                        print(f" CHECKING1 request class for {part} {request_class}")
                         if hasattr(request_class, part):
                             request_class = getattr(request_class, part)
                         else:
                             request_class = None
                             break
                 else:
-                    print(f" CHECKING2 request class for {pattern} {request_class}")
+#                    print(f" CHECKING2 request class for {pattern} {request_class}")
                     request_class = getattr(pb2_module, pattern, None)
 
                 if request_class:
-                    print(f" FINAL request class for {service_name}.{method_name} {request_class}")
+#                    print(f" FINAL request class for {service_name}.{method_name} {request_class}")
                     return request_class
 
             # Default to Empty if no request class found
@@ -288,6 +288,26 @@ async def handle_health(request):
     """Health check endpoint"""
     return web.json_response({'status': 'ok', 'connected': proxy.channel is not None})
 
+def recurse_attr(grpc_request, key, value):
+    if hasattr(grpc_request, key):
+        message1 = getattr(grpc_request, key)
+        if isinstance(value, dict):
+            # input is a table
+            for key1, value1 in value.items():
+                if hasattr(message1, key1):
+                    if isinstance(getattr(message1, key1), bool):
+                        setattr(message1, key1, bool(value1))
+                    elif isinstance(getattr(message1, key1), int) or key1 == "handle":
+                        setattr(message1, key1, int(value1))
+                    else:
+                        setattr(message1, key1, value1)
+        else:
+#            print(f"setattr: {key} {value}")
+            setattr(grpc_request, key, value)
+        return True
+    
+    return False
+       
 async def handle_generic_grpc(request):
     """Generic handler for any gRPC service call (URL-based routing)"""
     try:
@@ -329,57 +349,34 @@ async def handle_generic_grpc(request):
                 pass  # Empty or invalid JSON is OK for some requests
 
         # Get the request class and create the request
+#        print(f"Request data: {json.dumps(request_data, indent=2)}")
         request_class = grpc_registry.get_request_class(service_name, method_name)
         grpc_request = request_class()
 
-        print(f"Request data: {json.dumps(request_data, indent=2)}")
         # Populate request fields from JSON data
         if request_data:
+#            print(f" req: {request_data}")
             for key, value in request_data.items():
-                print(f"key : value: {key} : {value}")        
-                if hasattr(grpc_request, key):
-                    print(f"hasattr: {key}")        
-                    field_descriptor = None
-
-                    for field in grpc_request.DESCRIPTOR.fields:
-                        print(f"field: {field}")        
-                        if field.name == key:
-                            field_descriptor = field
-                            break
-
-                    if field_descriptor and field_descriptor.type == field_descriptor.TYPE_MESSAGE:
-                        # Handle nested message fields
-                        nested_message = getattr(grpc_request, key)
-                        if isinstance(value, dict):
-                            for nested_key, nested_value in value.items():
-                                if hasattr(nested_message, nested_key):
-                                    if (nested_key == 'handle'):
-                                        setattr(nested_message, nested_key, int(nested_value))
-                                    else:
-                                        setattr(nested_message, nested_key, nested_value)
-                    else:
-                        # Simple field - handle type conversion for known integer fields
-                        if key in ['pinIx', 'index', 'handle'] and isinstance(value, (str, int)):
-                            setattr(grpc_request, key, int(value))
-                        else:
-                            setattr(grpc_request, key, value)
+                if not recurse_attr(grpc_request, key, value):
+                    if not recurse_attr(grpc_request,  "nodePinInfoRef", value):
+                        print(f"❌ no ATTR: {key}")
 
         # Make the gRPC call
-        print(f"grpc request: {grpc_request}")        
+        print(f"req:  {grpc_request}")        
         response = await method(grpc_request)
-        print(f"response: {response}")
+        print(f"resp: {response}")
 
         # Convert response to dict
+        success = False
         if hasattr(response, 'DESCRIPTOR'):
             response_dict = MessageToDict(response, preserving_proto_field_name=True)
+            proxy.success_count += 1
+            success = True
         else:
-            response_dict = {}
-
-        print(f"📥 SUCCESS: {service_name}.{method_name}")
-        proxy.success_count += 1
+            print(f"❌ no response dict")
 
         return web.json_response({
-            'success': True,
+            'success': success,
             'data': response_dict
         })
 
