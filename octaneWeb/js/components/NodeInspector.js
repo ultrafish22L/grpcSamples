@@ -908,13 +908,13 @@ class NodeInspector extends OctaneComponent {
             for (let i = 0; i < pinCount; i++) {
                 try {
                     // Small delay to prevent API overload
-                    await this.delay(25); // Reduced from 50ms for better performance
+//                    await this.delay(25); // Reduced from 50ms for better performance
                     
                     // Use SAFE ApiNode methods to get pin information
                     const [pinNameResult, pinTypeResult, pinLabelResult] = await Promise.all([
-                        window.grpcApi.makeApiCallSync('ApiNode/pinNameIx', nodeHandle, { pinIndex: i }),
-                        window.grpcApi.makeApiCallSync('ApiNode/pinTypeIx', nodeHandle, { pinIndex: i }),
-                        window.grpcApi.makeApiCallSync('ApiNode/pinLabelIx', nodeHandle, { pinIndex: i })
+                        window.grpcApi.makeApiCallSync('ApiNode/pinNameIx', nodeHandle, { index: i }),
+                        window.grpcApi.makeApiCallSync('ApiNode/pinTypeIx', nodeHandle, { index: i }),
+                        window.grpcApi.makeApiCallSync('ApiNode/pinLabelIx', nodeHandle, { index: i })
                     ]);
                     
                     // Skip if we can't get basic pin info
@@ -943,7 +943,7 @@ class NodeInspector extends OctaneComponent {
                         label: pinLabel,
                         type: pinType,
                         value: pinValue,
-                        pinIndex: i,
+                        index: i,
                         // Use cached metadata if available
                         nodeType: cachedNodeData?.outtype || 'unknown',
                         nodeName: cachedNodeData?.name || 'unknown'
@@ -995,25 +995,25 @@ class NodeInspector extends OctaneComponent {
             for (let i = 0; i < pinCount; i++) {
                 try {
                     // Add small delay to prevent overwhelming the API
-                    await this.delay(50);
+//                    await this.delay(50);
                     
                     // Use SAFE ApiNode methods to get pin information (avoiding problematic ApiNodePinInfoEx)
                     const pinNameResult = window.grpcApi.makeApiCallSync(
                         'ApiNode/pinNameIx',
                         nodeHandle,
-                        { pinIndex: i }
+                        { index: i }
                     );
                     
                     const pinTypeResult = window.grpcApi.makeApiCallSync(
                         'ApiNode/pinTypeIx',
                         nodeHandle,
-                        { pinIndex: i }
+                        { index: i }
                     );
                     
                     const pinLabelResult = window.grpcApi.makeApiCallSync(
                         'ApiNode/pinLabelIx',
                         nodeHandle,
-                        { pinIndex: i }
+                        { index: i }
                     );
                     
                     // Skip if we can't get basic pin info
@@ -1031,7 +1031,7 @@ class NodeInspector extends OctaneComponent {
                         const valueResult = window.grpcApi.makeApiCallSync(
                             'ApiNode/getPinValueIx',
                             nodeHandle,
-                            { pinIndex: i }
+                            { index: i }
                         );
                         if (valueResult.success) {
                             pinValue = valueResult.data.result;
@@ -1047,7 +1047,7 @@ class NodeInspector extends OctaneComponent {
                         name: paramName,
                         type: pinType || 'unknown',
                         value: pinValue,
-                        pinIndex: i,
+                        index: i,
                         pinName: pinName,
                         pinLabel: pinLabel,
                         pinType: pinType
@@ -1097,19 +1097,16 @@ class NodeInspector extends OctaneComponent {
     /**
      * Safely get parameter value using available ApiNode methods
      */
-    async getParameterValueSafe(nodeHandle, pinIndex, pinType) {
+    async getParameterValueSafe(nodeHandle, index, pinType) {
         try {
             // Try different value getter methods based on type
             const methods = [
                 'ApiNode/getPinValueIx',
-                'ApiNode/getPinValue1',
-                'ApiNode/getPinValue2',
-                'ApiNode/getPinValue3'
             ];
             
             for (const method of methods) {
                 try {
-                    const result = window.grpcApi.makeApiCallSync(method, nodeHandle, { pinIndex });
+                    const result = window.grpcApi.makeApiCallSync(method, nodeHandle, { index });
                     if (result.success && result.data.result !== undefined) {
                         return { success: true, data: result.data.result };
                     }
@@ -1128,10 +1125,10 @@ class NodeInspector extends OctaneComponent {
     /**
      * Safely set parameter value using available ApiNode methods
      */
-    async setParameterValueSafe(nodeHandle, pinIndex, value, pinType) {
+    async setParameterValueSafe(nodeHandle, index, value, pinType) {
         try {
             const result = window.grpcApi.makeApiCallSync('ApiNode/setPinValue', nodeHandle, {
-                pinIndex: pinIndex,
+                index: index,
                 value: value
             });
             
@@ -1145,17 +1142,17 @@ class NodeInspector extends OctaneComponent {
      * Handle parameter value changes with safe API calls
      */
     async handleParameterChange(element) {
-        if (!this.selectedNodeHandle || !element.dataset.pinIndex) {
+        if (!this.selectedNodeHandle || !element.dataset.index) {
             return;
         }
         
-        const pinIndex = parseInt(element.dataset.pinIndex);
+        const index = parseInt(element.dataset.index);
         const newValue = this.getElementValue(element);
         
-        console.log(`🔄 Updating parameter at pin ${pinIndex} to:`, newValue);
+        console.log(`🔄 Updating parameter at pin ${index} to:`, newValue);
         
         try {
-            const result = await this.setParameterValueSafe(this.selectedNodeHandle, pinIndex, newValue);
+            const result = await this.setParameterValueSafe(this.selectedNodeHandle, index, newValue);
             if (result.success) {
                 console.log(`✅ Parameter updated successfully`);
                 // Update UI to reflect change

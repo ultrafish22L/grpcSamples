@@ -256,7 +256,7 @@ class SceneOutlinerSync {
 
             for (let i = 0; i < pinCount; i++) {
 
-                this.delay(300);
+//                this.delay(300);
 
                 // Get the pin connected node
                 result = window.grpcApi.makeApiCallSync(

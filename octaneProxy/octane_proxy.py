@@ -359,7 +359,7 @@ async def handle_generic_grpc(request):
             for key, value in request_data.items():
                 if not recurse_attr(grpc_request, key, value):
                     if not recurse_attr(grpc_request,  "nodePinInfoRef", value):
-                        print(f"❌ no ATTR: {key}")
+                        print(f"❌ no PIN KEY: {key}")
 
         # Make the gRPC call
         print(f"req:  {grpc_request}")        
