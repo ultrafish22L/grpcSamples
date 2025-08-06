@@ -820,14 +820,104 @@ html, body {
     width: 300px; /* 🔧 CRITICAL FIX: Explicit width to prevent 0-width on startup */
 }
 
-.node-selector {
+.node-selector-container {
+    padding: 8px;
+    border-bottom: 1px solid var(--octane-border);
     background-color: var(--octane-bg-secondary);
+}
+
+.node-selector {
+    background-color: var(--octane-bg-darker);
     border: 1px solid var(--octane-border);
     color: var(--octane-text-primary);
-    padding: 2px 6px;
+    padding: 4px 8px;
     font-size: var(--font-size-small);
     border-radius: var(--border-radius);
     cursor: pointer;
+    width: 100%;
+}
+
+/* Octane-style sections and parameter groups */
+.octane-section {
+    margin-bottom: 4px;
+}
+
+.octane-section-header {
+    background-color: var(--octane-bg-header);
+    border: 1px solid var(--octane-border);
+    padding: 4px 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+}
+
+.octane-section-header:hover {
+    background-color: var(--octane-bg-hover);
+}
+
+.octane-section-icon {
+    font-size: 10px;
+    color: var(--octane-text-secondary);
+}
+
+.octane-section-content {
+    background-color: var(--octane-bg-secondary);
+    border-left: 1px solid var(--octane-border);
+    border-right: 1px solid var(--octane-border);
+    border-bottom: 1px solid var(--octane-border);
+}
+
+.octane-subsection {
+    padding: 8px;
+    border-bottom: 1px solid var(--octane-border);
+}
+
+.octane-subsection-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+}
+
+.octane-node-icon {
+    font-size: 12px;
+}
+
+.octane-parameter-group {
+    margin-bottom: 2px;
+}
+
+.octane-group-header {
+    background-color: var(--octane-bg-darker);
+    border: 1px solid var(--octane-border);
+    padding: 4px 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+}
+
+.octane-group-header:hover {
+    background-color: var(--octane-bg-hover);
+}
+
+.octane-group-icon {
+    font-size: 10px;
+    color: var(--octane-text-secondary);
+}
+
+.octane-group-content {
+    background-color: var(--octane-bg-secondary);
+    border-left: 1px solid var(--octane-border);
+    border-right: 1px solid var(--octane-border);
+    border-bottom: 1px solid var(--octane-border);
+    padding: 4px;
 }
 
 .node-inspector {

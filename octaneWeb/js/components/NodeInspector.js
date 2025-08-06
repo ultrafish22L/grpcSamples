@@ -1233,18 +1233,11 @@ class NodeInspector extends OctaneComponent {
         const nodeType = this.getCachedNodeData(this.selectedNodeHandle)?.outtype || 'NT_CAMERA';
         const nodeName = data.nodeName || this.selectedNodeName || 'Unknown Node';
         
-        // Create the main inspector HTML structure matching Octane Studio exactly
-        let inspectorHtml = `
-            <div class="node-inspector-header">
-                <div class="node-inspector-title">Node inspector</div>
-                <div class="node-selector">
-                    <select>
-                        <option value="${nodeName}" selected>${nodeName}</option>
-                    </select>
-                </div>
-            </div>
-            <div class="inspector-content">
-        `;
+        // Update the existing dropdown in the HTML structure
+        this.updateNodeSelectorDropdown(nodeName);
+        
+        // Create the inspector content HTML structure matching reference screenshot
+        let inspectorHtml = '';
         
         // Add Scene section (collapsible)
         const sceneExpanded = this.shouldSectionBeExpanded('scene');
@@ -1281,13 +1274,39 @@ class NodeInspector extends OctaneComponent {
             </div>
         `;
         
-        // Update the inspector content
-        this.element.innerHTML = inspectorHtml;
+        // Update only the inspector content area, not the entire panel
+        const contentArea = this.element.querySelector('.panel-content .node-inspector');
+        if (contentArea) {
+            contentArea.innerHTML = inspectorHtml;
+        } else {
+            // Fallback: update entire element if structure is different
+            this.element.innerHTML = inspectorHtml;
+        }
         
         // Setup event handlers for the new Octane-style controls
         this.setupOctaneInspectorEventListeners();
         
         console.log('✅ OCTANE STYLE: Full parameter inspector rendered successfully');
+    }
+    
+    /**
+     * Update the node selector dropdown with the current selection
+     */
+    updateNodeSelectorDropdown(nodeName) {
+        const dropdown = document.querySelector('.node-selector');
+        if (dropdown && nodeName) {
+            // Clear existing options
+            dropdown.innerHTML = '';
+            
+            // Add the selected node option
+            const option = document.createElement('option');
+            option.value = nodeName;
+            option.textContent = nodeName;
+            option.selected = true;
+            dropdown.appendChild(option);
+            
+            console.log('📝 Updated node selector dropdown to:', nodeName);
+        }
     }
     
     /**
