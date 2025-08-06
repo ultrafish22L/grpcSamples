@@ -825,7 +825,7 @@
     gap: 6px;
     user-select: none;
     transition: background-color 0.2s;
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-normal);
     color: #f0f0f0;
     font-size: var(--font-size-small);
     font-family: var(--font-family);
