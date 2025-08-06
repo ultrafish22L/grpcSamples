@@ -168,6 +168,13 @@ class SceneOutlinerSync {
         }
     }
 
+    delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+
+
+
     /**
      * SYNCHRONOUS scene tree loading with blocking API calls
      * STRUCTURED DEBUGGING: Isolate exactly where Octane crashes
@@ -175,8 +182,8 @@ class SceneOutlinerSync {
      */
     loadSceneTreeSync(itemHandle, sceneItems, level) {
         let result;
-//        if (level >= 3)
-//            return sceneItems;
+        if (level >= 3)
+            return sceneItems;
         level = level + 1;
 
         try {
@@ -248,18 +255,53 @@ class SceneOutlinerSync {
             const pinCount = result.data.result;
 
             for (let i = 0; i < pinCount; i++) {
+
+                this.delay(300);
+
                 // Get the pin connected node
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNode/connectedNodeIx', 
                     itemHandle,
-                    {pinIx: i},
+                    {pinIx: i,
+                     enterWrapperNode: true
+                    },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiNode/connectedNodeIx');
                 }        
-                console.log("connectedNodeIx = ", {result})        
+                const connectedNode = result.data.result;
 
-                this.addSceneItem(result.data.result, sceneItems, level, i);
+                // Get the pin info
+                result = window.grpcApi.makeApiCallSync(
+                    'ApiNode/pinInfoIx', 
+                    itemHandle,
+                    {index: i},
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNode/pinInfoIx');
+                }
+                console.log("ApiNode/pinInfoIx = ", {result});        
+
+                let pinInfo;
+/*                
+                if (result.data != null && result.data.result != null && result.data.result.handle != null) {
+                    result = window.grpcApi.makeApiCallSync(
+                        'ApiNodePinInfoEx/getApiNodePinInfo',
+                        result.data.result.handle,
+                    );
+                    if (!result.success) {
+                        throw new Error('Failed to get item outtype');
+                    }
+                    if (result.data != null && result.data.nodePinInfo != null && result.data.nodePinInfo.id != null) {
+//                        console.log("  ", result.data);
+
+                        pinInfo = result.data.nodePinInfo;
+                    }
+                }
+*/
+//                console.log("connectedNodeIx = ", {result})        
+
+                this.addSceneItem(connectedNode, sceneItems, level, pinInfo);
             }
         } catch (error) {
             console.error('❌ Failed loadSceneTreeSync:', error);
@@ -271,7 +313,7 @@ class SceneOutlinerSync {
     /**
 
      */
-    addSceneItem(item, sceneItems, level, pinix) { 
+    addSceneItem(item, sceneItems, level, pinInfo) { 
 
         let itemName;
         let outType;
@@ -300,34 +342,10 @@ class SceneOutlinerSync {
             }
             outType = result.data.result;
 
-            // Get the pin info
-            if (pinix != null) {
-                result = window.grpcApi.makeApiCallSync(
-                    'ApiNode/pinInfoIx', 
-                    item.handle,
-                    {index: pinix},
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiNode/pinInfoIx');
-                }
-                if (result.data != null && result.data.result != null && result.data.result.handle != null) {
-                    const pinInfo = result.data.result;            
-                    console.log("  pinInfo", pinInfo);
-
-                    result = window.grpcApi.makeApiCallSync(
-                        'ApiNodePinInfoEx/getApiNodePinInfo',
-                        pinInfo.handle,
-                    );
-                    if (!result.success) {
-                        throw new Error('Failed to get item outtype');
-                    }
-                    if (result.data != null && result.data.nodePinInfo != null && result.data.nodePinInfo.id != null) {
-                        console.log("  ", result.data);
-
-                        itemName = result.data.nodePinInfo.staticLabel;
-                    }
-                }
+            if (pinInfo != null) {
+                itemName = pinInfo;
             }
+
         } catch (error) {
             console.error('❌ Failed addSceneItem:', error);
         }
@@ -336,7 +354,6 @@ class SceneOutlinerSync {
         children = this.loadSceneTreeSync(item.handle, children, level);
 
         console.log("ADDING ", itemName, outType);
-
 
         sceneItems.push({
             name: itemName,
