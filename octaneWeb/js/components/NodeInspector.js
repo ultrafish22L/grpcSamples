@@ -11,7 +11,10 @@ class NodeInspector extends OctaneComponent {
         this.selectedNode = null;
         this.selectedNodeType = null;
         this.parameters = {};
-        this.collapsedGroups = new Set();
+        
+        // Initialize all sections and groups as expanded by default
+        this.collapsedSections = new Set(); // All sections expanded by default
+        this.collapsedGroups = new Set();   // All parameter groups expanded by default
         
         // Cache for scene data from Scene Outliner (optimization)
         this.nodeCache = new Map(); // handle -> nodeData
@@ -40,6 +43,15 @@ class NodeInspector extends OctaneComponent {
             // Emit selection event with handle only to sync with other components
             this.eventSystem.emit('sceneNodeSelected', renderTarget.handle);
         }
+    }
+    
+    initializeExpandedState() {
+        // Initialize all sections and parameter groups as expanded by default
+        // (matching reference octane_ui.png behavior - when a node is selected, expand all its children)
+        this.collapsedSections = new Set(); // All sections expanded by default
+        this.collapsedGroups = new Set();   // All parameter groups expanded by default
+        
+        console.log('🎯 Initializing Node Inspector with all sections/groups expanded by default');
     }
 
     setupEventListeners() {
@@ -411,6 +423,9 @@ class NodeInspector extends OctaneComponent {
         this.selectedNode = handle;
         this.selectedNodeType = nodeData.outtype;
         this.selectedNodeName = nodeData.name;
+        
+        // Initialize expanded state for this node (expand all children by default)
+        this.initializeExpandedState();
         
         // Update the dropdown to reflect the selected node
         this.updateInspectorDropdown(this.selectedNodeName);
@@ -1232,13 +1247,17 @@ class NodeInspector extends OctaneComponent {
         `;
         
         // Add Scene section (collapsible)
+        const sceneExpanded = this.shouldSectionBeExpanded('scene');
+        const sceneIcon = sceneExpanded ? '▼' : '▶';
+        const sceneContentStyle = sceneExpanded ? 'display: block;' : 'display: none;';
+        
         inspectorHtml += `
             <div class="octane-section">
                 <div class="octane-section-header" data-group="scene">
-                    <span class="octane-section-icon">▼</span>
+                    <span class="octane-section-icon">${sceneIcon}</span>
                     <span class="octane-section-title">Scene</span>
                 </div>
-                <div class="octane-section-content" data-group-content="scene">
+                <div class="octane-section-content" data-group-content="scene" style="${sceneContentStyle}">
         `;
         
         // Add Camera subsection for camera nodes
@@ -1355,9 +1374,13 @@ class NodeInspector extends OctaneComponent {
      * Check if a parameter group should be expanded by default
      */
     shouldGroupBeExpanded(groupName) {
-        // Match reference image - these groups are expanded by default
-        const expandedGroups = ['physical-camera', 'viewing-angle', 'clipping', 'depth-of-field', 'position'];
-        return expandedGroups.includes(groupName);
+        // All groups are expanded by default unless explicitly collapsed
+        return !this.collapsedGroups.has(groupName);
+    }
+    
+    shouldSectionBeExpanded(sectionName) {
+        // All sections are expanded by default unless explicitly collapsed
+        return !this.collapsedSections.has(sectionName);
     }
     
     /**

@@ -22,11 +22,18 @@
 }
 
 .panel-splitter.vertical {
-    width: var(--splitter-size);
+    width: var(--splitter-size, 4px);
     height: 100%;
-    right: 0;
     cursor: col-resize;
-    pointer-events: none;
+    pointer-events: auto;
+}
+
+.left-panel .panel-splitter.vertical {
+    right: 0;
+}
+
+.right-panel .panel-splitter.vertical {
+    left: 0;
 }
 
 .panel-splitter.vertical:hover {
@@ -34,10 +41,15 @@
 }
 
 .panel-splitter.horizontal {
-    height: var(--splitter-size);
+    height: var(--splitter-size, 4px);
     width: 100%;
-    bottom: calc(-1 * var(--splitter-size) / 2);
+    top: 0;
     cursor: row-resize;
+    pointer-events: auto;
+}
+
+.bottom-panel .panel-splitter.horizontal {
+    top: 0;
 }
 
 .panel-splitter.dragging {
@@ -48,6 +60,18 @@
 .panel.resizing {
     pointer-events: none;
     user-select: none;
+}
+
+body.resizing {
+    user-select: none;
+}
+
+body.resizing * {
+    pointer-events: none;
+}
+
+body.resizing .panel-splitter {
+    pointer-events: auto;
 }
 
 .app-layout.resizing {

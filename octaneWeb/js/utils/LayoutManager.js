@@ -38,6 +38,9 @@ class LayoutManager {
                 minWidth: parseInt(panel.dataset.minWidth) || 150,
                 maxWidth: parseInt(panel.dataset.maxWidth) || 500,
                 defaultWidth: parseInt(panel.dataset.defaultWidth) || 200,
+                minHeight: parseInt(panel.dataset.minHeight) || 150,
+                maxHeight: parseInt(panel.dataset.maxHeight) || 600,
+                defaultHeight: parseInt(panel.dataset.defaultHeight) || 300,
                 isCollapsed: panel.classList.contains('collapsed')
             });
         });
@@ -47,6 +50,7 @@ class LayoutManager {
         // Create splitters between panels
         const leftPanel = document.querySelector('.left-panel');
         const rightPanel = document.querySelector('.right-panel');
+        const bottomPanel = document.querySelector('.bottom-panel');
         
         if (leftPanel) {
             this.createSplitter('left-splitter', leftPanel, 'vertical');
@@ -54,6 +58,10 @@ class LayoutManager {
         
         if (rightPanel) {
             this.createSplitter('right-splitter', rightPanel, 'vertical');
+        }
+        
+        if (bottomPanel) {
+            this.createSplitter('bottom-splitter', bottomPanel, 'horizontal');
         }
     }
     
@@ -139,6 +147,18 @@ class LayoutManager {
             
             // Update grid template if needed
             this.updateGridTemplate();
+        } else if (splitterData.orientation === 'horizontal') {
+            const deltaY = this.startPos.y - e.clientY; // Inverted for bottom panel
+            let newHeight = this.startSizes.height + deltaY;
+            
+            // Apply height constraints
+            newHeight = Math.max(panelData.minHeight, Math.min(panelData.maxHeight, newHeight));
+            
+            // Update panel height
+            splitterData.panel.style.height = `${newHeight}px`;
+            
+            // Update grid template if needed
+            this.updateGridTemplate();
         }
     }
     
@@ -165,9 +185,11 @@ class LayoutManager {
         
         const leftPanel = document.querySelector('.left-panel');
         const rightPanel = document.querySelector('.right-panel');
+        const bottomPanel = document.querySelector('.bottom-panel');
         
         let leftWidth = '220px';  // Match CSS default: 220px
         let rightWidth = '300px'; // Match CSS default: 300px
+        let bottomHeight = '300px'; // Match CSS default: 300px
         
         if (leftPanel) {
             const panelData = this.panels.get(leftPanel.id);
@@ -195,7 +217,21 @@ class LayoutManager {
             }
         }
         
+        if (bottomPanel) {
+            const panelData = this.panels.get(bottomPanel.id);
+            if (panelData) {
+                if (panelData.isCollapsed) {
+                    bottomHeight = '24px';
+                } else {
+                    // Only use offsetHeight if it's been calculated (> 0), otherwise use default
+                    const calculatedHeight = bottomPanel.offsetHeight;
+                    bottomHeight = calculatedHeight > 0 ? `${calculatedHeight}px` : '300px';
+                }
+            }
+        }
+        
         appLayout.style.gridTemplateColumns = `${leftWidth} 1fr ${rightWidth}`;
+        appLayout.style.gridTemplateRows = `1fr ${bottomHeight}`;
         
         // 🔧 CRITICAL FIX: Force layout recalculation to ensure right-panel is visible
         if (rightPanel && rightPanel.offsetWidth === 0) {
