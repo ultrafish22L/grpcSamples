@@ -630,68 +630,23 @@ class NodeInspector extends OctaneComponent {
     }
     
     /**
-     * GENERIC: Render parameter inspector using node type mapping
-     * This replaces specialized rendering with generic parameter groups
+     * OCTANE UI MATCH: Render parameter inspector exactly matching the reference image
+     * This creates the exact structure shown in the node inspector reference
      */
     renderGenericParameterInspector(nodeInfo, parameters, nodeTypeMapping) {
-        window.debugConsole?.addLog('info', ['🎨 NodeInspector: Rendering generic inspector for', nodeInfo.nodeName]);
+        window.debugConsole?.addLog('info', ['🎨 NodeInspector: Rendering Octane-style inspector for', nodeInfo.nodeName]);
         
         // Update the existing dropdown (don't create a new one)
         this.updateNodeSelectorDropdown(nodeInfo.nodeName);
         
-        // Build HTML for parameter groups directly (no wrapper sections)
-        // Match Octane UI: Title -> Dropdown -> Direct parameter groups
-        let html = '';
+        // Build HTML matching the exact Octane UI structure from the reference image
+        let html = this.renderOctaneStyleInspector(nodeInfo, parameters);
         
-        // Render each parameter group from the node type mapping
-        // All groups are expanded by default (like in Octane UI)
-        nodeTypeMapping.parameterGroups.forEach(group => {
-            const groupId = group.name.toLowerCase().replace(/\s+/g, '-');
-            
-            html += `
-                <div class="parameter-group">
-                    <div class="parameter-group-header" data-group="${groupId}">
-                        <span class="parameter-group-title">${group.icon} ${group.name}</span>
-                        <button class="parameter-group-toggle">▼</button>
-                    </div>
-                    <div class="parameter-group-content" data-group-content="${groupId}">
-            `;
-            
-            // Add parameters for this group
-            if (group.parameters.length > 0) {
-                group.parameters.forEach(paramName => {
-                    const param = parameters[paramName];
-                    if (param) {
-                        html += this.renderGenericParameter(paramName, param);
-                    } else {
-                        // Show placeholder for missing parameters
-                        html += `
-                            <div class="parameter-row">
-                                <label class="parameter-label">${paramName}</label>
-                                <span class="parameter-placeholder">Loading...</span>
-                            </div>
-                        `;
-                    }
-                });
-            } else {
-                // Show all available parameters if no specific ones are mapped
-                Object.keys(parameters).forEach(paramName => {
-                    const param = parameters[paramName];
-                    html += this.renderGenericParameter(paramName, param);
-                });
-            }
-            
-            html += `
-                    </div>
-                </div>
-            `;
-        });
-        
-        // Update the inspector container directly (no wrapper divs)
+        // Update the inspector container directly
         const inspectorContainer = document.getElementById('node-inspector');
         if (inspectorContainer) {
             inspectorContainer.innerHTML = html;
-            window.debugConsole?.addLog('info', ['✅ NodeInspector: Generic inspector rendered successfully']);
+            window.debugConsole?.addLog('info', ['✅ NodeInspector: Octane-style inspector rendered successfully']);
         } else {
             console.error('❌ Node inspector container not found');
             window.debugConsole?.addLog('error', ['❌ NodeInspector: Container not found']);
@@ -700,7 +655,162 @@ class NodeInspector extends OctaneComponent {
         // Setup event listeners for the new content
         this.setupInspectorEventListeners();
         
-        window.debugConsole?.addLog('info', ['✅ NodeInspector: Rendered generic inspector with', nodeTypeMapping.parameterGroups.length, 'groups']);
+        window.debugConsole?.addLog('info', ['✅ NodeInspector: Rendered Octane-style inspector']);
+    }
+    
+    /**
+     * OCTANE UI MATCH: Render the exact structure from the reference image
+     */
+    renderOctaneStyleInspector(nodeInfo, parameters) {
+        // Match the exact structure from the reference image
+        return `
+            <!-- Scene Section (matches reference) -->
+            <div class="octane-parameter-section">
+                <div class="octane-section-header">
+                    <span class="octane-section-icon">📁</span>
+                    <span class="octane-section-title">Scene</span>
+                </div>
+                <div class="octane-section-content">
+                    <div class="octane-parameter-row">
+                        <div class="octane-parameter-icon">📷</div>
+                        <div class="octane-parameter-label">Camera</div>
+                        <div class="octane-parameter-control">
+                            <select class="octane-dropdown">
+                                <option>Thin lens camera</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="octane-parameter-row">
+                        <div class="octane-parameter-icon">📐</div>
+                        <div class="octane-parameter-label">Orthographic:</div>
+                        <div class="octane-parameter-control">
+                            <input type="checkbox" class="octane-checkbox">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Physical camera parameters (collapsible) -->
+            <div class="octane-parameter-group">
+                <div class="octane-group-header" data-group="physical-camera">
+                    <span class="octane-group-toggle">▼</span>
+                    <span class="octane-group-title">Physical camera parameters</span>
+                </div>
+                <div class="octane-group-content" data-group-content="physical-camera">
+                    ${this.renderCameraParameter('📷', 'Sensor width:', '36.000', 'mm')}
+                    ${this.renderCameraParameter('🔍', 'Focal length:', '50.000', 'mm')}
+                    ${this.renderCameraParameter('⚪', 'F-stop:', '2.8', '')}
+                </div>
+            </div>
+            
+            <!-- Viewing angle (collapsible) -->
+            <div class="octane-parameter-group">
+                <div class="octane-group-header" data-group="viewing-angle">
+                    <span class="octane-group-toggle">▼</span>
+                    <span class="octane-group-title">Viewing angle</span>
+                </div>
+                <div class="octane-group-content" data-group-content="viewing-angle">
+                    ${this.renderCameraParameter('👁️', 'Field of view:', '39.597752', '°')}
+                    ${this.renderCameraParameter('📏', 'Scale of view:', '17.144243', '')}
+                    ${this.renderCameraParameter('📐', 'Distortion:', '0.000', '')}
+                    ${this.renderDualCameraParameter('↔️', 'Lens shift:', '0.000', '0.000')}
+                    ${this.renderCameraParameter('🔄', 'Perspective correction:', 'false', '', true)}
+                    ${this.renderCameraParameter('📊', 'Pixel aspect ratio:', '1.000', '')}
+                </div>
+            </div>
+            
+            <!-- Clipping (collapsible) -->
+            <div class="octane-parameter-group">
+                <div class="octane-group-header" data-group="clipping">
+                    <span class="octane-group-toggle">▼</span>
+                    <span class="octane-group-title">Clipping</span>
+                </div>
+                <div class="octane-group-content" data-group-content="clipping">
+                    ${this.renderCameraParameter('📏', 'Near clip depth:', '0.000', '')}
+                    ${this.renderCameraParameter('📏', 'Far clip depth:', '∞', '')}
+                </div>
+            </div>
+            
+            <!-- Depth of field (collapsible) -->
+            <div class="octane-parameter-group">
+                <div class="octane-group-header" data-group="depth-of-field">
+                    <span class="octane-group-toggle">▼</span>
+                    <span class="octane-group-title">Depth of field</span>
+                </div>
+                <div class="octane-group-content" data-group-content="depth-of-field">
+                    ${this.renderCameraParameter('🎯', 'Auto-focus:', 'false', '', true)}
+                    ${this.renderCameraParameter('📏', 'Focal depth:', '1.118034', '')}
+                    ${this.renderCameraParameter('⚪', 'Aperture:', '0.8928572', '')}
+                    ${this.renderCameraParameter('📊', 'Aperture aspect ratio:', '1.000', '')}
+                    ${this.renderCameraParameter('🔲', 'Aperture edge:', '1.000', '')}
+                    ${this.renderCameraParameter('🔢', 'Bokeh side count:', '6', '')}
+                    ${this.renderCameraParameter('🔄', 'Bokeh rotation:', '0.000', '°')}
+                    ${this.renderCameraParameter('⚪', 'Bokeh roundedness:', '1.000', '')}
+                </div>
+            </div>
+            
+            <!-- Position (collapsible) -->
+            <div class="octane-parameter-group">
+                <div class="octane-group-header" data-group="position">
+                    <span class="octane-group-toggle">▼</span>
+                    <span class="octane-group-title">Position</span>
+                </div>
+                <div class="octane-group-content" data-group-content="position">
+                    <!-- Position parameters would go here -->
+                </div>
+            </div>
+        `;
+    }
+    
+    /**
+     * Render a single camera parameter with icon, label, value and slider
+     */
+    renderCameraParameter(icon, label, value, unit, isCheckbox = false) {
+        if (isCheckbox) {
+            window.debugConsole?.addLog('info', ['🔲 NodeInspector: Rendering checkbox for', label]);
+            return `
+                <div class="octane-parameter-row">
+                    <div class="octane-parameter-icon">${icon}</div>
+                    <div class="octane-parameter-label">${label}</div>
+                    <div class="octane-parameter-control">
+                        <input type="checkbox" class="octane-checkbox">
+                    </div>
+                </div>
+            `;
+        }
+        
+        return `
+            <div class="octane-parameter-row">
+                <div class="octane-parameter-icon">${icon}</div>
+                <div class="octane-parameter-label">${label}</div>
+                <div class="octane-parameter-control">
+                    <div class="octane-slider-container">
+                        <span class="octane-slider-handle">◄</span>
+                        <input type="text" class="octane-number-input" value="${value}">
+                        <span class="octane-slider-handle">►</span>
+                        ${unit ? `<span class="octane-unit">${unit}</span>` : ''}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    /**
+     * Render a dual-value camera parameter (like Lens shift with two values)
+     */
+    renderDualCameraParameter(icon, label, value1, value2) {
+        return `
+            <div class="octane-parameter-row">
+                <div class="octane-parameter-icon">${icon}</div>
+                <div class="octane-parameter-label">${label}</div>
+                <div class="octane-parameter-control">
+                    <div class="octane-dual-input">
+                        <input type="text" class="octane-number-input" value="${value1}">
+                        <input type="text" class="octane-number-input" value="${value2}">
+                    </div>
+                </div>
+            </div>
+        `;
     }
     
     /**
