@@ -67,6 +67,17 @@ class NodeGraphEditor extends OctaneComponent {
         }, 200);
     }
     
+    autoSelectRenderTarget(sceneItems) {
+        // Simulate selecting the Render target node to match Octane Studio's default behavior
+        if (sceneItems.length > 1) {
+            console.log('🎯 Auto-selecting Render target to match Octane Studio behavior');
+            this.updateSelectedNode(sceneItems[1]);
+            
+            // Also emit the selection event to sync with other components
+            this.eventSystem.emit('sceneNodeSelected', sceneItems[1]);
+        }
+    }
+
     setupEventListeners() {
         // Listen for node graph updates
         this.client.on('ui:nodeGraphUpdate', (nodeGraphState) => {
@@ -83,6 +94,7 @@ class NodeGraphEditor extends OctaneComponent {
             console.log('🎨 NodeGraphEditor received sceneDataLoaded event:', sceneItems);
             this.createRealSceneNodes(sceneItems);
             this.render();
+            this.autoSelectRenderTarget(sceneItems);
         });
         
         // Request scene data if SceneOutliner has already loaded it

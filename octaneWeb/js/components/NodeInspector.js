@@ -26,27 +26,22 @@ class NodeInspector extends OctaneComponent {
 //        }, 500);
     }
     
-    autoSelectRenderTarget() {
+    autoSelectRenderTarget(sceneItems) {
         // Simulate selecting the Render target node to match Octane Studio's default behavior
-        const renderTargetData = {
-            nodeId: 'render-target',
-            nodeName: 'Render target',
-            nodeType: 'render_target',
-            source: 'autoSelect'
-        };
-        
-        console.log('🎯 Auto-selecting Render target to match Octane Studio behavior');
-        this.updateSelectedNode(renderTargetData);
-        
-        // Also emit the selection event to sync with other components
-        this.eventSystem.emit('sceneNodeSelected', renderTargetData);
+        if (sceneItems.length > 1) {
+            console.log('🎯 Auto-selecting Render target to match Octane Studio behavior');
+            this.updateSelectedNode(sceneItems[1]);
+            
+            // Also emit the selection event to sync with other components
+            this.eventSystem.emit('sceneNodeSelected', sceneItems[1]);
+        }
     }
-    
+
     setupEventListeners() {
         // Listen for scene data loading from SceneOutliner (OPTIMIZATION)
         this.eventSystem.on('sceneDataLoaded', (sceneItems) => {
             this.updateSceneDataCache(sceneItems);
-            this.autoSelectRenderTarget();
+            this.autoSelectRenderTarget(sceneItems);
         });
         
         // Listen for selection updates
