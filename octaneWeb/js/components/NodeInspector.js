@@ -636,33 +636,25 @@ class NodeInspector extends OctaneComponent {
     renderGenericParameterInspector(nodeInfo, parameters, nodeTypeMapping) {
         window.debugConsole?.addLog('info', ['🎨 NodeInspector: Rendering generic inspector for', nodeInfo.nodeName]);
         
-        // Build HTML for generic parameter inspector
-        let html = `
-            <div class="node-inspector-content">
-                <div class="node-inspector-header">
-                    <div class="node-selector">
-                        <select>
-                            <option value="${nodeInfo.nodeName}" selected>${nodeInfo.nodeName}</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="parameter-sections">
-        `;
+        // Update the existing dropdown (don't create a new one)
+        this.updateNodeSelectorDropdown(nodeInfo.nodeName);
+        
+        // Build HTML for parameter groups directly (no wrapper sections)
+        // Match Octane UI: Title -> Dropdown -> Direct parameter groups
+        let html = '';
         
         // Render each parameter group from the node type mapping
+        // All groups are expanded by default (like in Octane UI)
         nodeTypeMapping.parameterGroups.forEach(group => {
-            const isCollapsed = this.collapsedGroups.has(group.name.toLowerCase());
             const groupId = group.name.toLowerCase().replace(/\s+/g, '-');
             
             html += `
-                <div class="parameter-section">
+                <div class="parameter-group">
                     <div class="parameter-group-header" data-group="${groupId}">
-                        <span class="parameter-group-icon">${isCollapsed ? '▶' : '▼'}</span>
                         <span class="parameter-group-title">${group.icon} ${group.name}</span>
+                        <button class="parameter-group-toggle">▼</button>
                     </div>
-                    <div class="parameter-group-content" data-group-content="${groupId}" 
-                         style="display: ${isCollapsed ? 'none' : 'block'}">
+                    <div class="parameter-group-content" data-group-content="${groupId}">
             `;
             
             // Add parameters for this group
@@ -675,13 +667,8 @@ class NodeInspector extends OctaneComponent {
                         // Show placeholder for missing parameters
                         html += `
                             <div class="parameter-row">
-                                <div class="parameter-label">
-                                    <span class="parameter-icon">📝</span>
-                                    <span class="parameter-name">${paramName}</span>
-                                </div>
-                                <div class="parameter-control">
-                                    <input type="text" class="parameter-input" placeholder="Not available" disabled>
-                                </div>
+                                <label class="parameter-label">${paramName}</label>
+                                <span class="parameter-placeholder">Loading...</span>
                             </div>
                         `;
                     }
@@ -700,18 +687,31 @@ class NodeInspector extends OctaneComponent {
             `;
         });
         
-        html += `
-                </div>
-            </div>
-        `;
-        
-        // Update the inspector content
-        this.element.innerHTML = html;
+        // Update the inspector container directly (no wrapper divs)
+        const inspectorContainer = document.getElementById('node-inspector');
+        if (inspectorContainer) {
+            inspectorContainer.innerHTML = html;
+            window.debugConsole?.addLog('info', ['✅ NodeInspector: Generic inspector rendered successfully']);
+        } else {
+            console.error('❌ Node inspector container not found');
+            window.debugConsole?.addLog('error', ['❌ NodeInspector: Container not found']);
+        }
         
         // Setup event listeners for the new content
         this.setupInspectorEventListeners();
         
         window.debugConsole?.addLog('info', ['✅ NodeInspector: Rendered generic inspector with', nodeTypeMapping.parameterGroups.length, 'groups']);
+    }
+    
+    /**
+     * Update the existing node selector dropdown (don't create a new one)
+     */
+    updateNodeSelectorDropdown(nodeName) {
+        const dropdown = document.querySelector('.node-selector');
+        if (dropdown) {
+            dropdown.innerHTML = `<option value="${nodeName}" selected>${nodeName}</option>`;
+            window.debugConsole?.addLog('info', ['🔄 NodeInspector: Updated dropdown to', nodeName]);
+        }
     }
     
     /**
