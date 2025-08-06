@@ -406,8 +406,10 @@ class OctaneWebApp {
                     break;
                 case 'd':
                     // Check if this is for debug console (Ctrl+D)
+                    console.log('🔍 Ctrl+D pressed, debugConsole:', this.debugConsole);
                     if (this.debugConsole) {
                         event.preventDefault();
+                        console.log('🔍 Calling debugConsole.toggle()');
                         this.debugConsole.toggle();
                         return; // Don't call duplicate
                     }

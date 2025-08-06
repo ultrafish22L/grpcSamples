@@ -16,6 +16,7 @@ class DebugConsole {
         // Note: Keyboard shortcuts are handled by the main app (app.js)
         
         // Add some initial logs to show the console is working
+        // These will be displayed when the console becomes visible
         this.addLog('info', ['🚀 Debug Console initialized']);
         this.addLog('info', ['📋 Use Ctrl+D or F12 to toggle this console']);
         this.addLog('info', ['🧹 Use the clear button to clear logs']);
@@ -105,15 +106,18 @@ class DebugConsole {
             }
             
             .debug-content {
-                height: 100%;
+                height: 450px;
+                background: #2a2a2a;
             }
             
             .debug-logs {
-                height: calc(100% - 40px);
+                height: 400px;
                 overflow-y: auto;
                 padding: 8px;
                 color: #fff;
                 background: #1a1a1a;
+                border: 1px solid #555;
+                min-height: 400px;
             }
             
             .debug-log {
@@ -230,6 +234,15 @@ class DebugConsole {
             if (this.originalError) {
                 this.originalError('❌ Debug logs container not found!');
             }
+            // Try to find it within our element
+            const fallbackContainer = this.element?.querySelector('.debug-logs');
+            if (fallbackContainer) {
+                if (this.originalLog) {
+                    this.originalLog('🔍 Found debug-logs container via fallback method');
+                }
+                // Now render the actual logs
+                this.renderLogsToContainer(fallbackContainer);
+            }
             return;
         }
         
@@ -238,25 +251,50 @@ class DebugConsole {
             this.originalLog(`🔍 DebugConsole: Updating display with ${this.logs.length} logs`);
         }
         
-        if (this.logs.length === 0) {
-            logsContainer.innerHTML = '<div class="debug-log info"><span class="debug-message">No logs yet...</span></div>';
-        } else {
-            logsContainer.innerHTML = this.logs.map(log => `
-                <div class="debug-log ${log.type}">
-                    <span class="debug-message">${log.message}</span>
-                </div>
-            `).join('');
+        // Now render the actual logs
+        this.renderLogsToContainer(logsContainer);
+    }
+    
+    renderLogsToContainer(container) {
+        // Debug logging to original console
+        if (this.originalLog) {
+            this.originalLog(`🔍 renderLogsToContainer called with ${this.logs.length} logs`);
+            this.originalLog(`🔍 Container:`, container);
+            this.originalLog(`🔍 Container tagName:`, container.tagName);
+            this.originalLog(`🔍 Container id:`, container.id);
+            this.originalLog(`🔍 Container className:`, container.className);
         }
-/*        
-        logsContainer.innerHTML = this.logs.map(log => `
-            <div class="debug-log ${log.type}">
-                <span class="debug-timestamp">[${log.timestamp}]</span>
-                <span class="debug-message">${log.message}</span>
-            </div>
-        `).join('');
- */       
+        
+        // Clear the container first
+        container.innerHTML = '';
+        
+        // Try creating DOM elements directly instead of innerHTML
+        const testDiv = document.createElement('div');
+        testDiv.style.cssText = 'color: white; background: red; padding: 20px; margin: 10px; font-size: 16px; font-weight: bold; border: 2px solid yellow;';
+        testDiv.textContent = 'DIRECT DOM TEST - Debug Console Working!';
+        container.appendChild(testDiv);
+        
+        const logCountDiv = document.createElement('div');
+        logCountDiv.style.cssText = 'color: yellow; background: blue; padding: 10px; margin: 5px;';
+        logCountDiv.textContent = `Logs count: ${this.logs.length}`;
+        container.appendChild(logCountDiv);
+        
+        // Add actual logs
+        this.logs.forEach(log => {
+            const logDiv = document.createElement('div');
+            logDiv.className = `debug-log ${log.type}`;
+            logDiv.style.cssText = 'color: white; background: #333; padding: 5px; margin: 2px; border: 1px solid #666;';
+            logDiv.textContent = log.message;
+            container.appendChild(logDiv);
+        });
+        
         // Auto-scroll to bottom
-        logsContainer.scrollTop = logsContainer.scrollHeight;
+        container.scrollTop = container.scrollHeight;
+        
+        if (this.originalLog) {
+            this.originalLog(`🔍 Container children count after update:`, container.children.length);
+            this.originalLog(`🔍 Container scrollHeight:`, container.scrollHeight);
+        }
     }
     
     // setupKeyboardShortcut() {
@@ -271,13 +309,27 @@ class DebugConsole {
     // }
     
     toggle() {
+        // Use original console to avoid infinite recursion
+        if (this.originalLog) {
+            this.originalLog('🔍 DebugConsole.toggle() called, current isVisible:', this.isVisible);
+            this.originalLog('🔍 Element:', this.element);
+        }
+        
         this.isVisible = !this.isVisible;
         this.element.style.display = this.isVisible ? 'block' : 'none';
         
+        if (this.originalLog) {
+            this.originalLog('🔍 After toggle, isVisible:', this.isVisible, 'display:', this.element.style.display);
+        }
+        
         if (this.isVisible) {
-            this.updateDisplay();
-            // Add a log entry when console opens
-            this.addLog('info', ['🐛 Debug Console opened (Ctrl+D or F12 to toggle)']);
+            // Force update display to show accumulated logs
+            // Use a small delay to ensure DOM is ready
+            setTimeout(() => {
+                this.updateDisplay();
+                // Add a log entry when console opens
+                this.addLog('info', ['🐛 Debug Console opened (Ctrl+D or F12 to toggle)']);
+            }, 10);
         }
     }
     
