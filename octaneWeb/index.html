@@ -24,7 +24,8 @@
         const cssFiles = [
             'css/octane-theme.css',
             'css/layout.css', 
-            'css/components.css'
+            'css/components.css',
+            'css/octane-inspector.css'
         ];
         
         cssFiles.forEach(href => {
@@ -304,9 +305,11 @@
             
             // Constants (Load Early)
             'js/constants/OctaneTypes.js',
+            'js/constants/OctaneParameterGroups.js',
             
             // API Helpers (Load after constants)
             'js/utils/GrpcApiHelper.js',
+            'js/utils/OctaneParameterRenderer.js',
             
             // Core JavaScript Libraries
             'shared/js/livelink.js',
@@ -320,7 +323,6 @@
             'js/core/EventSystem.js',
             
             // UI Components
-            'js/components/SceneOutliner.js',
             'js/components/SceneOutlinerSync.js',
             'js/components/RenderViewport.js',
             'js/components/NodeInspector.js',
