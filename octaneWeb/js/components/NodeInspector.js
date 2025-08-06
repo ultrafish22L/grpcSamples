@@ -773,7 +773,9 @@ class NodeInspector extends OctaneComponent {
                     <div class="octane-parameter-icon">${icon}</div>
                     <div class="octane-parameter-label">${label}</div>
                     <div class="octane-parameter-control">
-                        <input type="checkbox" class="octane-checkbox">
+                        <div class="octane-control-group">
+                            <input type="checkbox" class="octane-checkbox">
+                        </div>
                     </div>
                 </div>
             `;
@@ -784,10 +786,10 @@ class NodeInspector extends OctaneComponent {
                 <div class="octane-parameter-icon">${icon}</div>
                 <div class="octane-parameter-label">${label}</div>
                 <div class="octane-parameter-control">
-                    <div class="octane-slider-container">
-                        <span class="octane-slider-handle">◄</span>
+                    <div class="octane-control-group">
+                        <div class="octane-spinner-left">◄</div>
                         <input type="text" class="octane-number-input" value="${value}">
-                        <span class="octane-slider-handle">►</span>
+                        <div class="octane-spinner-right">►</div>
                         ${unit ? `<span class="octane-unit">${unit}</span>` : ''}
                     </div>
                 </div>
@@ -804,9 +806,9 @@ class NodeInspector extends OctaneComponent {
                 <div class="octane-parameter-icon">${icon}</div>
                 <div class="octane-parameter-label">${label}</div>
                 <div class="octane-parameter-control">
-                    <div class="octane-dual-input">
-                        <input type="text" class="octane-number-input" value="${value1}">
-                        <input type="text" class="octane-number-input" value="${value2}">
+                    <div class="octane-control-group">
+                        <input type="text" class="octane-number-input" value="${value1}" style="width: 50px;">
+                        <input type="text" class="octane-number-input" value="${value2}" style="width: 50px;">
                     </div>
                 </div>
             </div>

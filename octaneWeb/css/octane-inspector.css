@@ -170,13 +170,18 @@
     background: #3a3a3a;
 }
 
-/* Parameter Rows */
+/* Parameter Rows - Matching Reference Image */
 .octane-parameter-row {
-    padding: 6px 12px;
-    border-bottom: 1px solid #444;
-    min-height: 28px;
+    padding: 2px 8px;
+    border-bottom: 1px solid #555;
+    min-height: 20px;
     display: flex;
     align-items: center;
+    background: #4a4a4a;
+}
+
+.octane-parameter-row:hover {
+    background: #525252;
 }
 
 .octane-parameter-row:last-child {
@@ -187,33 +192,35 @@
     display: flex;
     align-items: center;
     width: 100%;
-    gap: 8px;
+    gap: 4px;
 }
 
 .octane-parameter-icon {
     color: #888;
-    font-size: 10px;
-    width: 12px;
+    font-size: 11px;
+    width: 16px;
+    height: 16px;
     text-align: center;
     flex-shrink: 0;
+    margin-right: 4px;
 }
 
 .octane-parameter-label {
-    color: #d0d0d0;
-    font-size: 13px;
-    flex: 1;
-    min-width: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: #e0e0e0;
+    font-size: 11px;
+    width: 120px;
+    flex-shrink: 0;
+    text-align: left;
+    padding-right: 8px;
 }
 
-/* Control Groups */
+/* Control Groups - Matching Reference Layout */
 .octane-control-group {
     display: flex;
     align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
+    gap: 2px;
+    flex: 1;
+    justify-content: flex-end;
 }
 
 .octane-vector-group {
@@ -320,19 +327,23 @@
 }
 
 .octane-number-input {
-    width: 60px;
+    width: 65px;
     background: #2a2a2a;
-    border: 1px solid #555;
+    border: 1px solid #666;
     color: #e0e0e0;
-    padding: 2px 6px;
-    border-radius: 2px;
-    font-size: 12px;
+    padding: 1px 4px;
+    border-radius: 0px;
+    font-size: 11px;
     text-align: right;
+    height: 16px;
+    border-left: none;
+    border-right: none;
 }
 
 .octane-number-input:focus {
-    border-color: #d32f2f;
+    border-color: #888;
     outline: none;
+    background: #333;
 }
 
 /* Vector Controls */
@@ -607,6 +618,38 @@
 .octane-color-picker::-webkit-color-swatch {
     border: 1px solid #555;
     border-radius: 3px;
+}
+
+/* Spinner Controls - Matching Reference Image */
+.octane-spinner-left,
+.octane-spinner-right {
+    width: 12px;
+    height: 16px;
+    background: #3a3a3a;
+    border: 1px solid #666;
+    color: #888;
+    font-size: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.octane-spinner-left {
+    border-right: none;
+    border-radius: 1px 0 0 1px;
+}
+
+.octane-spinner-right {
+    border-left: none;
+    border-radius: 0 1px 1px 0;
+}
+
+.octane-spinner-left:hover,
+.octane-spinner-right:hover {
+    background: #444;
+    color: #aaa;
 }
 
 /* Units */
@@ -924,11 +967,11 @@
 
 /* Octane Checkbox - Matching Reference Image Style - FIXED */
 .octane-checkbox {
-    width: 14px !important;
-    height: 14px !important;
+    width: 12px !important;
+    height: 12px !important;
     background: #2a2a2a !important;
     border: 1px solid #666 !important;
-    border-radius: 2px !important;
+    border-radius: 1px !important;
     cursor: pointer !important;
     position: relative !important;
     appearance: none !important;
@@ -944,7 +987,7 @@
 
 .octane-checkbox:checked {
     background: #2a2a2a !important;
-    border-color: #4CAF50 !important;
+    border-color: #888 !important;
 }
 
 .octane-checkbox:checked::after {
