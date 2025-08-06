@@ -182,8 +182,8 @@ class SceneOutlinerSync {
      */
     loadSceneTreeSync(itemHandle, sceneItems, level) {
         let result;
-        if (level >= 3)
-            return sceneItems;
+//        if (level >= 3)
+//            return sceneItems;
         level = level + 1;
 
         try {
@@ -262,15 +262,24 @@ class SceneOutlinerSync {
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNode/connectedNodeIx', 
                     itemHandle,
-                    {pinIx: i,
-                     enterWrapperNode: true
-                    },
+                    { pinIx: i, enterWrapperNode: true },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiNode/connectedNodeIx');
                 }        
                 const connectedNode = result.data.result;
 
+                // Get the pin connected node
+                result = window.grpcApi.makeApiCallSync(
+                    'ApiNode/pinLabelIx', 
+                    itemHandle,
+                    { index: i },
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNode/pinLabelIx');
+                }   
+                const pinLabel = result.data.result;                 
+/*                
                 // Get the pin info
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNode/pinInfoIx', 
@@ -280,28 +289,17 @@ class SceneOutlinerSync {
                 if (!result.success) {
                     throw new Error('Failed ApiNode/pinInfoIx');
                 }
-                console.log("ApiNode/pinInfoIx = ", {result});        
-
-                let pinInfo;
-/*                
+                let pinInfoHandle = null;
                 if (result.data != null && result.data.result != null && result.data.result.handle != null) {
-                    result = window.grpcApi.makeApiCallSync(
-                        'ApiNodePinInfoEx/getApiNodePinInfo',
-                        result.data.result.handle,
-                    );
-                    if (!result.success) {
-                        throw new Error('Failed to get item outtype');
+                    if (level < 3) {
+                        console.log("ApiNode/pinInfoIx = ", {result});        
                     }
-                    if (result.data != null && result.data.nodePinInfo != null && result.data.nodePinInfo.id != null) {
-//                        console.log("  ", result.data);
-
-                        pinInfo = result.data.nodePinInfo;
+                    else {
+                        pinInfoHandle = result.data.result.handle;
                     }
                 }
 */
-//                console.log("connectedNodeIx = ", {result})        
-
-                this.addSceneItem(connectedNode, sceneItems, level, pinInfo);
+                this.addSceneItem(connectedNode, sceneItems, level, pinLabel);
             }
         } catch (error) {
             console.error('❌ Failed loadSceneTreeSync:', error);
@@ -313,7 +311,7 @@ class SceneOutlinerSync {
     /**
 
      */
-    addSceneItem(item, sceneItems, level, pinInfo) { 
+    addSceneItem(item, sceneItems, level, pinLabel) { 
 
         let itemName;
         let outType;
@@ -341,9 +339,25 @@ class SceneOutlinerSync {
                 throw new Error('Failed to get item outtype');
             }
             outType = result.data.result;
+/*
+            if (pinInfoHandle != null) {
+                  
+                result = window.grpcApi.makeApiCallSync(
+                    'ApiNodePinInfoEx/getApiNodePinInfo',
+                    pinInfoHandle,
+                );
+                if (!result.success) {
+                    throw new Error('Failed to get item outtype');
+                }
+                if (result.data != null && result.data.nodePinInfo != null && result.data.nodePinInfo.id != null) {
+//                        console.log("  ", result.data);
 
-            if (pinInfo != null) {
-                itemName = pinInfo;
+                    itemName = result.data.nodePinInfo.staticLabel;
+                }
+            }
+*/
+            if (pinLabel != null) {
+                itemName = pinLabel;
             }
 
         } catch (error) {
