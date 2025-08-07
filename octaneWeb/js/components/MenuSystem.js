@@ -320,8 +320,62 @@ class MenuSystem extends OctaneComponent {
             case 'edit.selectAll':
                 await this.selectAll();
                 break;
+            case 'script.run':
+                await this.runScript();
+                break;
+            case 'script.editor':
+                await this.showScriptEditor();
+                break;
+            case 'script.reload':
+                await this.reloadScripts();
+                break;
+            case 'module.manager':
+                await this.showModuleManager();
+                break;
+            case 'module.install':
+                await this.installModule();
+                break;
+            case 'module.refresh':
+                await this.refreshModules();
+                break;
+            case 'cloud.render':
+                await this.cloudRender();
+                break;
+            case 'cloud.account':
+                await this.showCloudAccount();
+                break;
+            case 'cloud.upload':
+                await this.uploadScene();
+                break;
+            case 'cloud.download':
+                await this.downloadResults();
+                break;
+            case 'window.sceneOutliner':
+                await this.toggleSceneOutliner();
+                break;
+            case 'window.nodeInspector':
+                await this.toggleNodeInspector();
+                break;
+            case 'window.nodeGraph':
+                await this.toggleNodeGraph();
+                break;
+            case 'window.resetLayout':
+                await this.resetLayout();
+                break;
+            case 'window.fullscreen':
+                await this.toggleFullscreen();
+                break;
             case 'view.refresh':
                 await this.refresh();
+                break;
+            case 'help.docs':
+                this.showDocumentation();
+                break;
+            case 'help.shortcuts':
+                this.showKeyboardShortcuts();
+                break;
+            case 'help.bug':
+                this.reportBug();
                 break;
             case 'help.about':
                 this.showAbout();
@@ -417,13 +471,22 @@ class MenuSystem extends OctaneComponent {
         
         try {
             // Make gRPC call to reset project (equivalent to "New")
-            if (this.octaneClient && this.octaneClient.isConnected) {
+            if (this.client && this.client.connected) {
                 console.log('📤 Making gRPC call: ApiProjectManager/resetProject');
                 
-                const response = await this.octaneClient.makeRequest('/ApiProjectManager/resetProject', {
-                    method: 'POST',
-                    data: {}
+                // Show progress notification
+                this.showNotification('🔄 Creating new scene...', 'info');
+
+                // Create a timeout promise to handle hanging calls
+                const timeoutPromise = new Promise((_, reject) => {
+                    setTimeout(() => reject(new Error('Operation timed out after 15 seconds')), 15000);
                 });
+
+                // Race between the gRPC call and timeout
+                const response = await Promise.race([
+                    this.client.makeGrpcCall('ApiProjectManager', 'resetProject', {}),
+                    timeoutPromise
+                ]);
                 
                 if (response.success && response.data && response.data.result) {
                     console.log('✅ New scene created successfully via gRPC');
@@ -448,7 +511,12 @@ class MenuSystem extends OctaneComponent {
             
         } catch (error) {
             console.error('❌ Failed to create new scene:', error);
-            this.showNotification(`❌ Failed to create new scene: ${error.message}`, 'error');
+            
+            if (error.message.includes('timed out')) {
+                this.showNotification('⏱️ New scene operation timed out. Octane may be busy processing the request.', 'warning');
+            } else {
+                this.showNotification(`❌ Failed to create new scene: ${error.message}`, 'error');
+            }
         }
     }
     
@@ -493,15 +561,12 @@ class MenuSystem extends OctaneComponent {
         
         try {
             // Make gRPC call to load project directly by path
-            if (this.octaneClient && this.octaneClient.isConnected) {
+            if (this.client && this.client.connected) {
                 console.log('📤 Making gRPC call: ApiProjectManager/loadProject');
                 
-                const response = await this.octaneClient.makeRequest('/ApiProjectManager/loadProject', {
-                    method: 'POST',
-                    data: {
-                        projectPath: filename,
-                        evaluate: true
-                    }
+                const response = await this.client.makeGrpcCall('ApiProjectManager', 'loadProject', {
+                    projectPath: filename,
+                    evaluate: true
                 });
                 
                 if (response.success && response.data && response.data.result) {
@@ -550,22 +615,16 @@ class MenuSystem extends OctaneComponent {
         
         try {
             // Make gRPC call to save current project
-            if (this.octaneClient && this.octaneClient.isConnected) {
+            if (this.client && this.client.connected) {
                 console.log('📤 Making gRPC call: ApiProjectManager/saveProject');
                 
-                const response = await this.octaneClient.makeRequest('/ApiProjectManager/saveProject', {
-                    method: 'POST',
-                    data: {}
-                });
+                const response = await this.client.makeGrpcCall('ApiProjectManager', 'saveProject', {});
                 
                 if (response.success && response.data && response.data.result) {
                     console.log('✅ Scene saved successfully via gRPC');
                     
                     // Get current project path to show in notification
-                    const currentProjectResponse = await this.octaneClient.makeRequest('/ApiProjectManager/getCurrentProject', {
-                        method: 'POST',
-                        data: {}
-                    });
+                    const currentProjectResponse = await this.client.makeGrpcCall('ApiProjectManager', 'getCurrentProject', {});
                     
                     const projectPath = currentProjectResponse.data?.result || 'current project';
                     const filename = projectPath.split(/[\\\/]/).pop() || 'project';
@@ -609,14 +668,11 @@ class MenuSystem extends OctaneComponent {
             }
             
             // Make gRPC call to save project with new path
-            if (this.octaneClient && this.octaneClient.isConnected) {
+            if (this.client && this.client.connected) {
                 console.log('📤 Making gRPC call: ApiProjectManager/saveProjectAs');
                 
-                const response = await this.octaneClient.makeRequest('/ApiProjectManager/saveProjectAs', {
-                    method: 'POST',
-                    data: {
-                        path: filename
-                    }
+                const response = await this.client.makeGrpcCall('ApiProjectManager', 'saveProjectAs', {
+                    path: filename
                 });
                 
                 if (response.success && response.data && response.data.result) {
@@ -662,19 +718,16 @@ class MenuSystem extends OctaneComponent {
             }
             
             // Make gRPC call to save project as reference package
-            if (this.octaneClient && this.octaneClient.isConnected) {
+            if (this.client && this.client.connected) {
                 console.log('📤 Making gRPC call: ApiProjectManager/saveProjectAsReferencePackage');
                 
-                const response = await this.octaneClient.makeRequest('/ApiProjectManager/saveProjectAsReferencePackage', {
-                    method: 'POST',
-                    data: {
-                        path: packagePath,
-                        referencePackageSettings: {
-                            // Default package settings - in a full implementation these would be configurable
-                            includeTextures: true,
-                            includeGeometry: true,
-                            includeMaterials: true
-                        }
+                const response = await this.client.makeGrpcCall('ApiProjectManager', 'saveProjectAsReferencePackage', {
+                    path: packagePath,
+                    referencePackageSettings: {
+                        // Default package settings - in a full implementation these would be configurable
+                        includeTextures: true,
+                        includeGeometry: true,
+                        includeMaterials: true
                     }
                 });
                 
@@ -725,16 +778,13 @@ class MenuSystem extends OctaneComponent {
             }
             
             // Make gRPC call to unpack package
-            if (this.octaneClient && this.octaneClient.isConnected) {
+            if (this.client && this.client.connected) {
                 console.log('📤 Making gRPC call: ApiProjectManager/unpackPackage');
                 
-                const response = await this.octaneClient.makeRequest('/ApiProjectManager/unpackPackage', {
-                    method: 'POST',
-                    data: {
-                        packagePath: packagePath,
-                        unpackDir: unpackDir,
-                        unpackName: unpackName
-                    }
+                const response = await this.client.makeGrpcCall('ApiProjectManager', 'unpackPackage', {
+                    packagePath: packagePath,
+                    unpackDir: unpackDir,
+                    unpackName: unpackName
                 });
                 
                 if (response.success && response.data && response.data.result) {
@@ -827,44 +877,141 @@ class MenuSystem extends OctaneComponent {
     }
     
     async undo() {
-        if (this.stateManager) {
-            this.stateManager.undo();
+        console.log('↶ Undo...');
+        
+        try {
+            // Try gRPC undo first (if available)
+            if (this.client && this.client.connected) {
+                // Note: Octane may not have a direct undo API, so we'll use local state manager as fallback
+                console.log('📤 Checking for gRPC undo capability...');
+                this.showNotification('⚠️ Undo via gRPC not yet available', 'warning');
+            }
+            
+            // Fallback to local state manager
+            if (this.stateManager && this.stateManager.undo) {
+                this.stateManager.undo();
+                this.showNotification('↶ Undo completed (local)', 'info');
+            } else {
+                this.showNotification('❌ No undo history available', 'error');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to undo:', error);
+            this.showNotification(`❌ Undo failed: ${error.message}`, 'error');
         }
     }
     
     async redo() {
-        if (this.stateManager) {
-            this.stateManager.redo();
+        console.log('↷ Redo...');
+        
+        try {
+            // Try gRPC redo first (if available)
+            if (this.client && this.client.connected) {
+                console.log('📤 Checking for gRPC redo capability...');
+                this.showNotification('⚠️ Redo via gRPC not yet available', 'warning');
+            }
+            
+            // Fallback to local state manager
+            if (this.stateManager && this.stateManager.redo) {
+                this.stateManager.redo();
+                this.showNotification('↷ Redo completed (local)', 'info');
+            } else {
+                this.showNotification('❌ No redo history available', 'error');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to redo:', error);
+            this.showNotification(`❌ Redo failed: ${error.message}`, 'error');
         }
     }
     
     async cut() {
-        console.log('Cut');
-        // TODO: Implement cut
+        console.log('✂️ Cut selected items...');
+        
+        try {
+            if (this.client && this.client.connected) {
+                // For now, show that gRPC cut is not implemented
+                this.showNotification('⚠️ Cut via gRPC not yet implemented', 'warning');
+            } else {
+                this.showNotification('❌ Cut requires Octane connection', 'error');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to cut:', error);
+            this.showNotification(`❌ Cut failed: ${error.message}`, 'error');
+        }
     }
     
     async copy() {
-        console.log('Copy');
-        // TODO: Implement copy
+        console.log('📋 Copy selected items...');
+        
+        try {
+            if (this.client && this.client.connected) {
+                // For now, show that gRPC copy is not implemented
+                this.showNotification('⚠️ Copy via gRPC not yet implemented', 'warning');
+            } else {
+                this.showNotification('❌ Copy requires Octane connection', 'error');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to copy:', error);
+            this.showNotification(`❌ Copy failed: ${error.message}`, 'error');
+        }
     }
     
     async paste() {
-        console.log('Paste');
-        // TODO: Implement paste
+        console.log('📄 Paste items...');
+        
+        try {
+            if (this.client && this.client.connected) {
+                // For now, show that gRPC paste is not implemented
+                this.showNotification('⚠️ Paste via gRPC not yet implemented', 'warning');
+            } else {
+                this.showNotification('❌ Paste requires Octane connection', 'error');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to paste:', error);
+            this.showNotification(`❌ Paste failed: ${error.message}`, 'error');
+        }
     }
     
     async deleteSelected() {
-        console.log('Delete selected');
-        // TODO: Implement delete selected
+        console.log('🗑️ Delete selected items...');
+        
+        try {
+            if (this.client && this.client.connected) {
+                // For now, show that gRPC delete is not implemented
+                this.showNotification('⚠️ Delete via gRPC not yet implemented', 'warning');
+            } else {
+                this.showNotification('❌ Delete requires Octane connection', 'error');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to delete:', error);
+            this.showNotification(`❌ Delete failed: ${error.message}`, 'error');
+        }
     }
     
     async selectAll() {
-        console.log('Select all');
-        // TODO: Implement select all
+        console.log('☑️ Select all items...');
+        
+        try {
+            if (this.client && this.client.connected) {
+                // For now, show that gRPC select all is not implemented
+                this.showNotification('⚠️ Select All via gRPC not yet implemented', 'warning');
+            } else {
+                this.showNotification('❌ Select All requires Octane connection', 'error');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to select all:', error);
+            this.showNotification(`❌ Select All failed: ${error.message}`, 'error');
+        }
     }
     
     async refresh() {
-        if (this.client && this.client.isConnected) {
+        if (this.client && this.client.connected) {
             // Use working LiveLink methods instead of old sync methods
             try {
                 await this.client.getSceneData();
@@ -879,6 +1026,332 @@ class MenuSystem extends OctaneComponent {
         }
     }
     
+    // ==================== SCRIPT MENU FUNCTIONS ====================
+    
+    async runScript() {
+        console.log('▶️ Run script...');
+        
+        try {
+            if (this.client && this.client.connected) {
+                // For now, show that script execution is not implemented
+                this.showNotification('⚠️ Script execution via gRPC not yet implemented', 'warning');
+            } else {
+                this.showNotification('❌ Script execution requires Octane connection', 'error');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to run script:', error);
+            this.showNotification(`❌ Script execution failed: ${error.message}`, 'error');
+        }
+    }
+    
+    async showScriptEditor() {
+        console.log('📝 Show script editor...');
+        this.showNotification('📝 Script editor - Not implemented yet', 'info');
+    }
+    
+    async reloadScripts() {
+        console.log('🔄 Reload scripts...');
+        
+        try {
+            if (this.client && this.client.connected) {
+                this.showNotification('⚠️ Script reload via gRPC not yet implemented', 'warning');
+            } else {
+                this.showNotification('❌ Script reload requires Octane connection', 'error');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to reload scripts:', error);
+            this.showNotification(`❌ Script reload failed: ${error.message}`, 'error');
+        }
+    }
+    
+    // ==================== MODULE MENU FUNCTIONS ====================
+    
+    async showModuleManager() {
+        console.log('🧩 Show module manager...');
+        this.showNotification('🧩 Module manager - Not implemented yet', 'info');
+    }
+    
+    async installModule() {
+        console.log('📦 Install module...');
+        
+        try {
+            if (this.client && this.client.connected) {
+                this.showNotification('⚠️ Module installation via gRPC not yet implemented', 'warning');
+            } else {
+                this.showNotification('❌ Module installation requires Octane connection', 'error');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to install module:', error);
+            this.showNotification(`❌ Module installation failed: ${error.message}`, 'error');
+        }
+    }
+    
+    async refreshModules() {
+        console.log('🔄 Refresh modules...');
+        
+        try {
+            if (this.client && this.client.connected) {
+                this.showNotification('⚠️ Module refresh via gRPC not yet implemented', 'warning');
+            } else {
+                this.showNotification('❌ Module refresh requires Octane connection', 'error');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to refresh modules:', error);
+            this.showNotification(`❌ Module refresh failed: ${error.message}`, 'error');
+        }
+    }
+    
+    // ==================== CLOUD MENU FUNCTIONS ====================
+    
+    async cloudRender() {
+        console.log('☁️ Start cloud render...');
+        
+        try {
+            if (this.client && this.client.connected) {
+                console.log('📤 Making gRPC call: ApiRenderCloudManager/newRenderTask');
+                
+                const response = await this.client.makeGrpcCall('ApiRenderCloudManager', 'newRenderTask', {
+                    // Add render task parameters as needed
+                });
+                
+                if (response.success && response.data) {
+                    console.log('✅ Cloud render task created successfully');
+                    this.showNotification('✅ Cloud render task started', 'success');
+                } else {
+                    throw new Error(response.error || 'Cloud render task creation failed');
+                }
+                
+            } else {
+                this.showNotification('❌ Cloud render requires Octane connection', 'error');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to start cloud render:', error);
+            this.showNotification(`❌ Cloud render failed: ${error.message}`, 'error');
+        }
+    }
+    
+    async showCloudAccount() {
+        console.log('👤 Show cloud account...');
+        
+        try {
+            if (this.client && this.client.connected) {
+                console.log('📤 Making gRPC call: ApiRenderCloudManager/userSubscriptionInfo');
+                
+                const response = await this.client.makeGrpcCall('ApiRenderCloudManager', 'userSubscriptionInfo', {});
+                
+                if (response.success && response.data) {
+                    console.log('✅ Retrieved cloud account info');
+                    this.showNotification('✅ Cloud account info retrieved', 'success');
+                    // TODO: Show account info in a modal
+                } else {
+                    throw new Error(response.error || 'Failed to get account info');
+                }
+                
+            } else {
+                this.showNotification('❌ Cloud account requires Octane connection', 'error');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to get cloud account info:', error);
+            this.showNotification(`❌ Cloud account failed: ${error.message}`, 'error');
+        }
+    }
+    
+    async uploadScene() {
+        console.log('📤 Upload scene to cloud...');
+        
+        try {
+            if (this.client && this.client.connected) {
+                console.log('📤 Making gRPC call: ApiRenderCloudManager/uploadCurrentProject');
+                
+                const response = await this.client.makeGrpcCall('ApiRenderCloudManager', 'uploadCurrentProject', {});
+                
+                if (response.success && response.data) {
+                    console.log('✅ Scene uploaded to cloud successfully');
+                    this.showNotification('✅ Scene uploaded to cloud', 'success');
+                } else {
+                    throw new Error(response.error || 'Scene upload failed');
+                }
+                
+            } else {
+                this.showNotification('❌ Scene upload requires Octane connection', 'error');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to upload scene:', error);
+            this.showNotification(`❌ Scene upload failed: ${error.message}`, 'error');
+        }
+    }
+    
+    async downloadResults() {
+        console.log('📥 Download cloud results...');
+        this.showNotification('📥 Download results - Not implemented yet', 'info');
+    }
+    
+    // ==================== WINDOW MENU FUNCTIONS ====================
+    
+    async toggleSceneOutliner() {
+        console.log('🌳 Toggle scene outliner...');
+        
+        try {
+            const sceneOutlinerPanel = document.querySelector('.scene-outliner-panel');
+            if (sceneOutlinerPanel) {
+                const isVisible = sceneOutlinerPanel.style.display !== 'none';
+                sceneOutlinerPanel.style.display = isVisible ? 'none' : 'block';
+                this.showNotification(`🌳 Scene outliner ${isVisible ? 'hidden' : 'shown'}`, 'info');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to toggle scene outliner:', error);
+            this.showNotification(`❌ Toggle scene outliner failed: ${error.message}`, 'error');
+        }
+    }
+    
+    async toggleNodeInspector() {
+        console.log('🔍 Toggle node inspector...');
+        
+        try {
+            const nodeInspectorPanel = document.querySelector('.node-inspector-panel');
+            if (nodeInspectorPanel) {
+                const isVisible = nodeInspectorPanel.style.display !== 'none';
+                nodeInspectorPanel.style.display = isVisible ? 'none' : 'block';
+                this.showNotification(`🔍 Node inspector ${isVisible ? 'hidden' : 'shown'}`, 'info');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to toggle node inspector:', error);
+            this.showNotification(`❌ Toggle node inspector failed: ${error.message}`, 'error');
+        }
+    }
+    
+    async toggleNodeGraph() {
+        console.log('🕸️ Toggle node graph...');
+        
+        try {
+            const nodeGraphPanel = document.querySelector('.node-graph-panel');
+            if (nodeGraphPanel) {
+                const isVisible = nodeGraphPanel.style.display !== 'none';
+                nodeGraphPanel.style.display = isVisible ? 'none' : 'block';
+                this.showNotification(`🕸️ Node graph ${isVisible ? 'hidden' : 'shown'}`, 'info');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to toggle node graph:', error);
+            this.showNotification(`❌ Toggle node graph failed: ${error.message}`, 'error');
+        }
+    }
+    
+    async resetLayout() {
+        console.log('🔄 Reset layout...');
+        
+        try {
+            // Reset all panels to default visibility and positions
+            const panels = [
+                '.scene-outliner-panel',
+                '.node-inspector-panel', 
+                '.node-graph-panel'
+            ];
+            
+            panels.forEach(selector => {
+                const panel = document.querySelector(selector);
+                if (panel) {
+                    panel.style.display = 'block';
+                    panel.style.width = '';
+                    panel.style.height = '';
+                }
+            });
+            
+            this.showNotification('🔄 Layout reset to default', 'success');
+            
+        } catch (error) {
+            console.error('❌ Failed to reset layout:', error);
+            this.showNotification(`❌ Layout reset failed: ${error.message}`, 'error');
+        }
+    }
+    
+    async toggleFullscreen() {
+        console.log('⛶ Toggle fullscreen...');
+        
+        try {
+            if (!document.fullscreenElement) {
+                await document.documentElement.requestFullscreen();
+                this.showNotification('⛶ Entered fullscreen mode', 'info');
+            } else {
+                await document.exitFullscreen();
+                this.showNotification('⛶ Exited fullscreen mode', 'info');
+            }
+            
+        } catch (error) {
+            console.error('❌ Failed to toggle fullscreen:', error);
+            this.showNotification(`❌ Fullscreen toggle failed: ${error.message}`, 'error');
+        }
+    }
+    
+    // ==================== HELP MENU FUNCTIONS ====================
+    
+    showDocumentation() {
+        console.log('📚 Show documentation...');
+        window.open('https://docs.otoy.com/octane/', '_blank');
+    }
+    
+    showKeyboardShortcuts() {
+        console.log('⌨️ Show keyboard shortcuts...');
+        
+        const modal = document.createElement('div');
+        modal.className = 'modal-overlay';
+        modal.innerHTML = `
+            <div class="modal-dialog">
+                <div class="modal-header">
+                    <div class="modal-title">Keyboard Shortcuts</div>
+                    <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">×</button>
+                </div>
+                <div class="modal-content">
+                    <div class="shortcuts-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <h4>File Operations</h4>
+                            <div class="shortcut-item"><kbd>Ctrl+N</kbd> New Scene</div>
+                            <div class="shortcut-item"><kbd>Ctrl+O</kbd> Open Scene</div>
+                            <div class="shortcut-item"><kbd>Ctrl+S</kbd> Save Scene</div>
+                            <div class="shortcut-item"><kbd>Ctrl+Shift+S</kbd> Save As</div>
+                            <div class="shortcut-item"><kbd>Ctrl+Q</kbd> Quit</div>
+                        </div>
+                        <div>
+                            <h4>Edit Operations</h4>
+                            <div class="shortcut-item"><kbd>Ctrl+Z</kbd> Undo</div>
+                            <div class="shortcut-item"><kbd>Ctrl+Y</kbd> Redo</div>
+                            <div class="shortcut-item"><kbd>Ctrl+X</kbd> Cut</div>
+                            <div class="shortcut-item"><kbd>Ctrl+C</kbd> Copy</div>
+                            <div class="shortcut-item"><kbd>Ctrl+V</kbd> Paste</div>
+                            <div class="shortcut-item"><kbd>Del</kbd> Delete</div>
+                            <div class="shortcut-item"><kbd>Ctrl+A</kbd> Select All</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <h4>Other Shortcuts</h4>
+                        <div class="shortcut-item"><kbd>F1</kbd> Documentation</div>
+                        <div class="shortcut-item"><kbd>F11</kbd> Fullscreen</div>
+                        <div class="shortcut-item"><kbd>Ctrl+,</kbd> Preferences</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-button primary" onclick="this.closest('.modal-overlay').remove()">OK</button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+    }
+    
+    reportBug() {
+        console.log('🐛 Report bug...');
+        window.open('https://github.com/ultrafish22L/grpcSamples/issues/new', '_blank');
+    }
+
     showAbout() {
         const modal = document.createElement('div');
         modal.className = 'modal-overlay';

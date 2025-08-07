@@ -159,43 +159,16 @@ function createOctaneWebClient() {
     /**
      * Override makeGrpcCall to use actual Octane service names (pure pass-through)
      */
-    async makeGrpcCall(method, request) {
+    async makeGrpcCall(serviceName, methodName, request = {}) {
         const startTime = Date.now();
-        const callId = `${method}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        const method = `${serviceName}.${methodName}`;
+        const callId = `${serviceName}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
         this.callCount++;
-
-        // Parse method to extract service and method names
-        let serviceName, methodName;
-        
-        if (method.includes('/')) {
-            // Handle formats like "octaneapi.ApiItem/name" or "ApiItem/name"
-            const parts = method.split('/');
-            const serviceFullName = parts[0];
-            methodName = parts[1];
-            
-            // Extract just the service class name (remove octaneapi. prefix if present)
-            if (serviceFullName.includes('.')) {
-                serviceName = serviceFullName.split('.').pop();
-            } else {
-                serviceName = serviceFullName;
-            }
-        } else {
-            // Handle legacy formats - try to map them
-            if (method === 'GetCamera' || method === 'GetMeshes') {
-                serviceName = 'LiveLink';
-                methodName = method;
-            } else {
-                // Default fallback
-                serviceName = 'ApiItem';
-                methodName = method;
-            }
-        }
 
         // Enhanced logging for all gRPC calls
         console.log(`\n🌐 === gRPC CALL STARTED ===`);
-        console.log(`🌐 Original Method: ${method}`);
-        console.log(`🌐 Parsed Service: ${serviceName}`);
-        console.log(`🌐 Parsed Method: ${methodName}`);
+        console.log(`🌐 Service: ${serviceName}`);
+        console.log(`🌐 Method: ${methodName}`);
         console.log(`🌐 Call ID: ${callId}`);
         console.log(`🌐 Call Number: ${this.callCount}`);
         console.log(`🌐 Connection State: ${this.connectionState}`);
