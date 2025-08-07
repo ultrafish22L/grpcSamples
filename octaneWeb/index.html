@@ -290,7 +290,7 @@
     <!-- Cache Busting Script Loader -->
     <script>
         // Generate cache busting timestamp
-        const cacheBuster = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15);
+        const cacheBuster = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + '_FORCE_REFRESH';
         const cb = `?v=${cacheBuster}`;
         
         // Connection toggle function will be defined by app.js when it loads
