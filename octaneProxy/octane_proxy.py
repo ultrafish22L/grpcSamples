@@ -39,6 +39,17 @@ from google.protobuf.empty_pb2 import Empty
 # Add generated directory to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'generated'))
 
+def get_enum_value(enum_name):
+    """Get the integer value for an enum name from octaneenums_pb2"""
+    try:
+        from generated import octaneenums_pb2 as enums
+        if hasattr(enums, enum_name):
+            return getattr(enums, enum_name)
+        return None
+    except Exception as e:
+        print(f"❌ Failed to get enum value for {enum_name}: {e}")
+        return None
+
 # Import core protobuf modules from generated directory
 try:
     from generated import common_pb2
@@ -98,6 +109,7 @@ class GrpcServiceRegistry:
                 'ApiItemArray': 'apinodesystem_1',
                 'ApiNodePinInfoEx': 'apinodepininfohelper',
                 'LiveLinkService': 'livelink',
+                'ApiRenderEngineService': 'apirender',
             }
             module_name = service_map.get(service_name)
             if not module_name:
@@ -164,11 +176,27 @@ class GrpcServiceRegistry:
             except ImportError:
                 return Empty
 
-            method_name  = re.sub(r'[0-9]', '', method_name)
+            # Don't remove numbers from method names - they're part of the API
             method_name1 = method_name[0].upper() + re.sub(r'Api', '', method_name[1:])
+
+            # Map service names to protobuf class names
+            service_to_class_map = {
+                'ApiRenderEngineService': 'ApiRenderEngine',
+                'LiveLinkService': 'LiveLinkService',
+                'ApiNodeGraph': 'ApiNodeGraph',
+                'ApiNode': 'ApiNode',
+                'ApiItem': 'ApiItem',
+                'ApiItemArray': 'ApiItemArray',
+                'ApiNodePinInfoEx': 'ApiNodePinInfoEx',
+            }
+            
+            # Get the correct class name for the service
+            class_name = service_to_class_map.get(service_name, service_name)
 
             # Try common request class naming patterns
             request_class_patterns = [
+                f"{class_name}.{method_name}Request", 
+                f"{class_name}.{method_name1}Request",
                 f"{service_name}.{method_name}Request", 
                 f"{service_name}.{method_name1}Request",
             ]
@@ -292,20 +320,61 @@ async def handle_health(request):
 
 def recurse_attr(grpc_request, key, value):
     if hasattr(grpc_request, key):
-        message1 = getattr(grpc_request, key)
+        attr = getattr(grpc_request, key)
+        
         if isinstance(value, dict):
-            # input is a table
-            for key1, value1 in value.items():
-                if hasattr(message1, key1):
-                    if isinstance(getattr(message1, key1), bool):
-                        setattr(message1, key1, bool(value1))
-                    elif isinstance(getattr(message1, key1), int) or key1 == "handle":
-                        setattr(message1, key1, int(value1))
+            # Handle nested message structures
+            for nested_key, nested_value in value.items():
+                if hasattr(attr, nested_key):
+                    nested_attr = getattr(attr, nested_key)
+                    
+                    # Handle repeated fields (arrays)
+                    if hasattr(nested_attr, 'extend') and isinstance(nested_value, list):
+                        # Clear existing data and add new values
+                        del nested_attr[:]
+                        nested_attr.extend(nested_value)
+                    elif isinstance(nested_value, dict):
+                        # Recursively handle nested dictionaries
+                        recurse_attr(attr, nested_key, nested_value)
                     else:
-                        setattr(message1, key1, value1)
+                        # Handle primitive types
+                        if isinstance(nested_attr, bool):
+                            setattr(attr, nested_key, bool(nested_value))
+                        elif isinstance(nested_attr, int) or nested_key == "handle" or hasattr(nested_attr, '__class__') and 'enum' in str(type(nested_attr)).lower():
+                            # Handle enum values and integer fields
+                            if isinstance(nested_value, str) and nested_value.isupper():
+                                enum_value = get_enum_value(nested_value)
+                                if enum_value is not None:
+                                    setattr(attr, nested_key, enum_value)
+                                else:
+                                    setattr(attr, nested_key, int(nested_value))
+                            else:
+                                setattr(attr, nested_key, int(nested_value))
+                        else:
+                            setattr(attr, nested_key, nested_value)
+        elif isinstance(value, list):
+            # Handle direct array assignment
+            if hasattr(attr, 'extend'):
+                del attr[:]
+                attr.extend(value)
+            else:
+                setattr(grpc_request, key, value)
         else:
-#            print(f"setattr: {key} {value}")
-            setattr(grpc_request, key, value)
+            # Handle primitive values
+            if isinstance(attr, bool):
+                setattr(grpc_request, key, bool(value))
+            elif isinstance(attr, int) or key == "handle" or hasattr(attr, '__class__') and 'enum' in str(type(attr)).lower():
+                # Handle enum values and integer fields
+                if isinstance(value, str) and value.isupper():
+                    enum_value = get_enum_value(value)
+                    if enum_value is not None:
+                        setattr(grpc_request, key, enum_value)
+                    else:
+                        setattr(grpc_request, key, int(value))
+                else:
+                    setattr(grpc_request, key, int(value))
+            else:
+                setattr(grpc_request, key, value)
         return True
     
     return False
@@ -367,6 +436,25 @@ async def handle_generic_grpc(request):
         print(f"req:  {grpc_request}")        
         response = await method(grpc_request)
         print(f"resp: {response}")
+
+        # Special handling for grabRenderResult to check for binary data
+        if method_name == 'grabRenderResult':
+            print(f"🔍 GRAB RENDER RESULT DEBUG:")
+            print(f"  Response type: {type(response)}")
+            if hasattr(response, 'renderImages'):
+                print(f"  renderImages type: {type(response.renderImages)}")
+                print(f"  renderImages: {response.renderImages}")
+                if hasattr(response.renderImages, 'data'):
+                    print(f"  renderImages.data type: {type(response.renderImages.data)}")
+                    print(f"  renderImages.data length: {len(response.renderImages.data) if response.renderImages.data else 0}")
+                    if response.renderImages.data:
+                        for i, img in enumerate(response.renderImages.data):
+                            print(f"    Image {i}: type={type(img)}")
+                            if hasattr(img, 'buffer'):
+                                print(f"      buffer type: {type(img.buffer)}")
+                                if hasattr(img.buffer, 'data'):
+                                    print(f"      buffer.data type: {type(img.buffer.data)}")
+                                    print(f"      buffer.data size: {len(img.buffer.data) if img.buffer.data else 0}")
 
         # Convert response to dict
         success = False
