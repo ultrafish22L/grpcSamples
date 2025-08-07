@@ -157,9 +157,42 @@ function createOctaneWebClient() {
     // ==================== GRPC CALL OVERRIDE ====================
 
     /**
-     * Override makeGrpcCall to use actual Octane service names (pure pass-through)
+     * Override makeGrpcCall to handle both parent class signature and extended signature
      */
-    async makeGrpcCall(serviceName, methodName, request = {}) {
+    async makeGrpcCall(methodOrService, requestOrMethod, request = {}) {
+        // Handle both signatures:
+        // Parent class: makeGrpcCall(method, request)
+        // Extended class: makeGrpcCall(serviceName, methodName, request)
+        
+        let serviceName, methodName, actualRequest;
+        
+        if (arguments.length === 2) {
+            // Parent class signature: makeGrpcCall(method, request)
+            const method = methodOrService;
+            actualRequest = requestOrMethod;
+            
+            // For LiveLink methods, use LiveLinkService
+            if (['SetCamera', 'GetCamera', 'GetMeshes'].includes(method)) {
+                serviceName = 'LiveLinkService';
+                methodName = method;
+            } else {
+                // For other methods, try to parse service.method format
+                const parts = method.split('.');
+                if (parts.length === 2) {
+                    serviceName = parts[0];
+                    methodName = parts[1];
+                } else {
+                    serviceName = method;
+                    methodName = method;
+                }
+            }
+        } else {
+            // Extended class signature: makeGrpcCall(serviceName, methodName, request)
+            serviceName = methodOrService;
+            methodName = requestOrMethod;
+            actualRequest = request;
+        }
+
         const startTime = Date.now();
         const method = `${serviceName}.${methodName}`;
         const callId = `${serviceName}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -172,15 +205,15 @@ function createOctaneWebClient() {
         console.log(`🌐 Call ID: ${callId}`);
         console.log(`🌐 Call Number: ${this.callCount}`);
         console.log(`🌐 Connection State: ${this.connectionState}`);
-        console.log(`🌐 Request:`, request);
-        console.log(`🌐 Request JSON:`, JSON.stringify(request, null, 2));
+        console.log(`🌐 Request:`, actualRequest);
+        console.log(`🌐 Request JSON:`, JSON.stringify(actualRequest, null, 2));
         
         this.log(`gRPC call started: ${serviceName}.${methodName}`, {
             callId: callId,
             originalMethod: method,
             serviceName: serviceName,
             methodName: methodName,
-            request: request,
+            request: actualRequest,
             callNumber: this.callCount,
             connectionState: this.connectionState
         });
@@ -194,7 +227,7 @@ function createOctaneWebClient() {
             const requestBody = {
                 service: serviceName,
                 method: methodName,
-                params: request || {}
+                params: actualRequest || {}
             };
             
             console.log(`🌐 Request Body:`, requestBody);
@@ -208,7 +241,7 @@ function createOctaneWebClient() {
 
             // Use direct service endpoint instead of /api
             const url = `${this.serverUrl}/${serviceName}/${methodName}`;
-            const body = JSON.stringify(request || {});
+            const body = JSON.stringify(actualRequest || {});
             
             console.log(`🌐 LOCKIT: Making fetch request to: ${url}`);
             console.log(`🌐 LOCKIT: Request body: ${body}`);

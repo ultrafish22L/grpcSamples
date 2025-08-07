@@ -97,6 +97,7 @@ class GrpcServiceRegistry:
                 'ApiItem': 'apinodesystem_3',
                 'ApiItemArray': 'apinodesystem_1',
                 'ApiNodePinInfoEx': 'apinodepininfohelper',
+                'LiveLinkService': 'livelink',
             }
             module_name = service_map.get(service_name)
             if not module_name:
@@ -117,12 +118,13 @@ class GrpcServiceRegistry:
 
         try:
             grpc_module = importlib.import_module(module_name)
-        except AttributeError:
+        except ImportError as e:
             print(f"❌ Failed to load module {module_name}: {e}")
+            raise
 
         # Get the stub class (convention: ServiceNameStub)
         # Handle both "Service" and non-"Service" names
-        if service_name.endswith(''):
+        if service_name.endswith('Service'):
             stub_class_name = f"{service_name}Stub"
         else:
             stub_class_name = f"{service_name}ServiceStub"
@@ -131,19 +133,19 @@ class GrpcServiceRegistry:
             stub_class = getattr(grpc_module, stub_class_name)
         except AttributeError:
             # Try alternative naming convention
-            alt_stub_class_name = f"{service_name}Stub" if not service_name.endswith('') else f"{service_name}ServiceStub"
+            alt_stub_class_name = f"{service_name}Stub" if not service_name.endswith('Service') else f"{service_name}ServiceStub"
             try:
                 stub_class = getattr(grpc_module, alt_stub_class_name)
                 stub_class_name = alt_stub_class_name
             except AttributeError:
                 raise Exception(f"Stub class not found: tried {stub_class_name} and {alt_stub_class_name}")
 
-            # Create and cache the stub
-            stub = stub_class(channel)
-            self.stubs[service_name] = stub
+        # Create and cache the stub
+        stub = stub_class(channel)
+        self.stubs[service_name] = stub
 
-#            print(f"✅ Created gRPC stub for {service_name}")
-            return stub
+        print(f"✅ Created gRPC stub for {service_name} using {stub_class_name}")
+        return stub
 
     def get_request_class(self, service_name, method_name):
         """Get the request class for a service method"""

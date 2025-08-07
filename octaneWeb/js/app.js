@@ -122,14 +122,13 @@ class OctaneWebApp {
             document.querySelector('#scene-outliner'),
             this.eventSystem
         );
-        // Initialize render viewport - DISABLED FOR TESTING
-        // this.components.renderViewport = new RenderViewport(
-        //     document.querySelector('#render-viewport'),
-        //     this.client,
-        //     this.stateManager,
-        //     this.eventSystem
-        // );
-        console.log('🚫 RenderViewport disabled for resource testing');        
+        // Initialize render viewport - 2D viewport with LiveLink camera sync
+        this.components.renderViewport = new RenderViewport(
+            document.querySelector('#render-viewport'),
+            this.client,
+            this.stateManager
+        );
+        console.log('✅ RenderViewport enabled with LiveLink camera sync');        
         // Initialize node inspector
         this.components.nodeInspector = new NodeInspector(
             document.querySelector('#node-inspector'),
@@ -205,9 +204,9 @@ class OctaneWebApp {
         });
         
         this.client.on('ui:renderUpdate', (renderState) => {
-            // this.components.renderViewport?.updateRender(renderState);
+            this.components.renderViewport?.updateRender?.(renderState);
             this.updateRenderStats(renderState);
-            console.log('🚫 RenderViewport update skipped for resource testing');
+            console.log('🎯 RenderViewport update processed');
         });
         
         this.client.on('ui:selectionUpdate', (selection) => {
