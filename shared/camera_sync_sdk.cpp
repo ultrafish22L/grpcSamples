@@ -132,7 +132,7 @@ static const char* Indent(int i)
     return sIndent;
 }
 
-static bool recurseNodeTest(const ApiItemProxy& item, int indent = 0, const ApiNodePinInfoProxy* pinInfo = nullptr)
+static bool recurseNodeTest(const ApiItemProxy& item, int indent = 0)
 {
     if (item.isNull())
     {
@@ -158,26 +158,17 @@ static bool recurseNodeTest(const ApiItemProxy& item, int indent = 0, const ApiN
         }
         return true;
     }
-    if (pinInfo)
-    {
-        std::cout << Indent(indent) << "pin.name = " << pinInfo->name() << std::endl;
-        std::cout << Indent(indent) << "pin.type = " << pinInfo->type() << std::endl;
-        std::cout << Indent(indent) << "pin.isConnected = " << pinInfo->isConnected() << std::endl;
-        std::cout << Indent(indent) << "pin.isInput = " << pinInfo->isInput() << std::endl;
-	}
     // node
 	ApiNodeProxy& node = item.toNode();
 	int pinCount = node.pinCount();
     for (int i = 0; i < pinCount; i++)
     {
         const ApiNodeProxy n = node.connectedNodeIx(i, false);
-//        const ApiNodeInfoProxy& info = node.info();
-        const ApiNodePinInfoProxy& info = node.pinInfoIx(i);
 
         if (n.isNull())
             continue;
 
-        recurseNodeTest(n, indent + 2, &info);
+        recurseNodeTest(n, indent + 2);
     }
     return true;
 }
