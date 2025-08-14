@@ -35,12 +35,13 @@ class RenderViewport extends OctaneComponent {
         // LiveLink sync state
         this.syncEnabled = true;
         this.lastSyncTime = 0;
-        this.syncThrottle = 50; // Minimum ms between sync calls
+        this.syncThrottle = 100; // Minimum ms between sync calls - reduced for more responsive camera
         this.syncCount = 0;
         
-        // Render polling state
-        this.renderPolling = false;
-        this.renderPollTimeout = null;
+        // Background image polling state
+        this.imagePolling = false;
+        this.imagePollTimeout = null;
+        this.imagePollInterval = 200; // Poll every 200ms for responsive image updates
         
         console.log('📷 Camera initialized for LiveLink sync:', {
             radius: this.camera.radius,
@@ -63,6 +64,9 @@ class RenderViewport extends OctaneComponent {
             
             // Setup mouse event handlers
             this.setupEventHandlers();
+            
+            // Start background image polling
+            this.startImagePolling();
             
             console.log('✅ RenderViewport initialized successfully');
             
@@ -135,7 +139,7 @@ class RenderViewport extends OctaneComponent {
             text-align: center;
             line-height: 1.4;
         `;
-        subtitle.innerHTML = 'Mouse drag to orbit camera<br>Mouse wheel to zoom<br>Live sync with Octane';
+        subtitle.innerHTML = 'Mouse drag to orbit camera<br>Mouse wheel to zoom<br>Automatic render polling active';
         
         this.imageDisplay.appendChild(icon);
         this.imageDisplay.appendChild(title);
@@ -156,15 +160,12 @@ class RenderViewport extends OctaneComponent {
             font-family: monospace;
             pointer-events: none;
         `;
-        this.statusOverlay.textContent = 'LiveLink: Ready';
+        this.statusOverlay.textContent = 'Polling: Active';
         
         // Assemble viewport
         this.viewport.appendChild(this.imageDisplay);
         this.viewport.appendChild(this.statusOverlay);
         this.element.appendChild(this.viewport);
-        
-        // Add render control buttons
-        this.addRenderControls();
         
         console.log('✅ 2D viewport created');
     }
@@ -420,25 +421,67 @@ class RenderViewport extends OctaneComponent {
     }
 
     /**
-     * Get rendered image from Octane and display it
+     * Start background polling for render images
      */
-    async refreshRenderImage() {
+    startImagePolling() {
+        if (this.imagePolling) {
+            return; // Already polling
+        }
+        
+        console.log('🔄 Starting background image polling...');
+        this.imagePolling = true;
+        this.pollForImages();
+    }
+    
+    /**
+     * Stop background polling for render images
+     */
+    stopImagePolling() {
+        console.log('⏹️ Stopping background image polling...');
+        this.imagePolling = false;
+        
+        if (this.imagePollTimeout) {
+            clearTimeout(this.imagePollTimeout);
+            this.imagePollTimeout = null;
+        }
+    }
+    
+    /**
+     * Poll for render images in background
+     */
+    async pollForImages() {
+        if (!this.imagePolling || !this.client) {
+            return;
+        }
+        
         try {
-            console.log('🖼️ Fetching render image from Octane...');
+            // Simply grab render result - ignore empty responses
+            const result = await this.client.makeGrpcCall('ApiRenderEngineService', 'grabRenderResult', {});
             
-            const imageData = await this.client.getRenderImage();
-            
-            if (imageData) {
-                console.log('✅ Received render image data:', imageData);
-                this.displayRenderImage(imageData);
-            } else {
-                console.log('⚠️ No render image data received');
-                this.showImageError('No render image available');
+            if (result && result.success && result.data && result.data.renderImages) {
+                const renderImages = result.data.renderImages;
+                
+                // Check if we have actual image data
+                if (renderImages.data && renderImages.data.length > 0) {
+                    console.log('📸 New render image received from background polling');
+                    this.displayRenderImage(result.data);
+                    this.updateStatus('New image received');
+                }
+                // Ignore empty responses - this is normal
             }
             
         } catch (error) {
-            console.error('❌ Failed to get render image:', error);
-            this.showImageError('Failed to get render image', error.message);
+            // Ignore connection errors during polling - don't spam console
+            if (!error.message.includes('Connection') && !error.message.includes('Network')) {
+                console.warn('⚠️ Image polling error (continuing):', error.message);
+            }
+        }
+        
+        // Schedule next poll
+        if (this.imagePolling) {
+            this.imagePollTimeout = setTimeout(() => {
+                this.pollForImages();
+            }, this.imagePollInterval);
         }
     }
 
@@ -640,239 +683,10 @@ class RenderViewport extends OctaneComponent {
     }
 
     /**
-     * Start rendering in Octane
+     * Cleanup when component is destroyed
      */
-    async startRender() {
-        try {
-            console.log('🎬 Starting render in Octane...');
-            this.updateStatus('Starting render...');
-            
-            const result = await this.client.makeGrpcCall('ApiRenderEngineService', 'restartRendering', {});
-            
-            if (result && result.success) {
-                console.log('✅ Render started successfully');
-                this.updateStatus('Render started');
-                
-                // Start polling for render progress and images
-                this.startRenderPolling();
-            } else {
-                console.error('❌ Failed to start render:', result);
-                this.updateStatus('Failed to start render');
-            }
-            
-        } catch (error) {
-            console.error('❌ Error starting render:', error);
-            this.updateStatus('Error starting render');
-        }
-    }
-
-    /**
-     * Stop rendering in Octane
-     */
-    async stopRender() {
-        try {
-            console.log('⏹️ Stopping render in Octane...');
-            this.updateStatus('Stopping render...');
-            
-            const result = await this.client.makeGrpcCall('ApiRenderEngineService', 'stopRendering', {});
-            
-            if (result && result.success) {
-                console.log('✅ Render stopped successfully');
-                this.updateStatus('Render stopped');
-                
-                // Stop polling
-                this.stopRenderPolling();
-            } else {
-                console.error('❌ Failed to stop render:', result);
-                this.updateStatus('Failed to stop render');
-            }
-            
-        } catch (error) {
-            console.error('❌ Error stopping render:', error);
-            this.updateStatus('Error stopping render');
-        }
-    }
-
-    /**
-     * Start polling for render progress and images
-     */
-    startRenderPolling() {
-        if (this.renderPolling) {
-            return; // Already polling
-        }
-        
-        console.log('🔄 Starting render polling...');
-        this.renderPolling = true;
-        this.pollRenderProgress();
-    }
-
-    /**
-     * Stop polling for render progress
-     */
-    stopRenderPolling() {
-        console.log('⏹️ Stopping render polling...');
-        this.renderPolling = false;
-        
-        if (this.renderPollTimeout) {
-            clearTimeout(this.renderPollTimeout);
-            this.renderPollTimeout = null;
-        }
-    }
-
-    /**
-     * Poll for render progress and update UI
-     */
-    async pollRenderProgress() {
-        if (!this.renderPolling) {
-            return;
-        }
-        
-        try {
-            // Get render statistics
-            const statsResult = await this.client.makeGrpcCall('ApiRenderEngineService', 'getRenderStatistics', {});
-            
-            if (statsResult && statsResult.success && statsResult.data.statistics) {
-                const stats = statsResult.data.statistics;
-                this.updateRenderProgress(stats);
-                
-                // Try to get render image if rendering
-                if (stats.state === 'RSTATE_RENDERING') {
-                    this.refreshRenderImage();
-                }
-            }
-            
-        } catch (error) {
-            console.error('❌ Error polling render progress:', error);
-        }
-        
-        // Schedule next poll
-        if (this.renderPolling) {
-            this.renderPollTimeout = setTimeout(() => {
-                this.pollRenderProgress();
-            }, 1000); // Poll every second
-        }
-    }
-
-    /**
-     * Update render progress display
-     */
-    updateRenderProgress(stats) {
-        const samples = stats.beautySamplesPerPixel || 0;
-        const maxSamples = stats.beautyMaxSamplesPerPixel || 0;
-        const renderTime = stats.renderTime || 0;
-        const state = stats.state || 'UNKNOWN';
-        
-        // Update status overlay
-        let statusText = `LiveLink: ${state}`;
-        if (samples > 0) {
-            statusText += ` - ${samples}/${maxSamples} samples`;
-        }
-        if (renderTime > 0) {
-            statusText += ` - ${renderTime.toFixed(1)}s`;
-        }
-        
-        this.updateStatus(statusText);
-        
-        // Update progress info in bottom panel
-        const progressElements = this.element.querySelectorAll('.render-progress span');
-        if (progressElements.length >= 3) {
-            progressElements[0].textContent = `${renderTime.toFixed(2)}s`;
-            progressElements[1].textContent = `${samples} samples`;
-            progressElements[2].textContent = `${stats.setSize?.x || 1920}x${stats.setSize?.y || 1080}`;
-        }
-        
-        console.log('📊 Render progress:', {
-            state,
-            samples,
-            maxSamples,
-            renderTime,
-            progress: maxSamples > 0 ? (samples / maxSamples * 100).toFixed(1) + '%' : '0%'
-        });
-    }
-
-    /**
-     * Add render control buttons to the viewport
-     */
-    addRenderControls() {
-        // Create control panel
-        const controlPanel = document.createElement('div');
-        controlPanel.className = 'render-controls';
-        controlPanel.style.cssText = `
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            display: flex;
-            gap: 8px;
-            z-index: 10;
-        `;
-        
-        // Start render button
-        const startBtn = document.createElement('button');
-        startBtn.textContent = '▶️ Start Render';
-        startBtn.title = 'Start/restart rendering in Octane';
-        startBtn.style.cssText = `
-            background: #27ae60;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 500;
-        `;
-        
-        startBtn.addEventListener('click', () => {
-            this.startRender();
-        });
-        
-        // Refresh image button
-        const refreshBtn = document.createElement('button');
-        refreshBtn.textContent = '🔄 Get Image';
-        refreshBtn.title = 'Get rendered image from Octane';
-        refreshBtn.style.cssText = `
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 500;
-        `;
-        
-        refreshBtn.addEventListener('click', () => {
-            this.refreshRenderImage();
-        });
-        
-        // Stop render button
-        const stopBtn = document.createElement('button');
-        stopBtn.textContent = '⏹️ Stop';
-        stopBtn.title = 'Stop rendering in Octane';
-        stopBtn.style.cssText = `
-            background: #e67e22;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 500;
-        `;
-        
-        stopBtn.addEventListener('click', () => {
-            this.stopRender();
-        });
-        
-        controlPanel.appendChild(startBtn);
-        controlPanel.appendChild(refreshBtn);
-        controlPanel.appendChild(stopBtn);
-        this.viewport.appendChild(controlPanel);
-        
-        // Store references for later use
-        this.renderControls = {
-            startBtn,
-            refreshBtn,
-            stopBtn
-        };
+    destroy() {
+        this.stopImagePolling();
+        console.log('🧹 RenderViewport destroyed');
     }
 }
