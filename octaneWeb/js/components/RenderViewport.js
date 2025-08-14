@@ -184,6 +184,13 @@ class RenderViewport extends OctaneComponent {
         // Prevent text selection during drag
         this.viewport.addEventListener('selectstart', (e) => e.preventDefault());
         
+        // Window resize handler for responsive viewport
+        this.resizeHandler = () => this.handleResize();
+        window.addEventListener('resize', this.resizeHandler);
+        
+        // Initial resize to set proper dimensions
+        this.handleResize();
+        
         console.log('✅ Event handlers setup complete');
     }
     
@@ -683,10 +690,36 @@ class RenderViewport extends OctaneComponent {
     }
 
     /**
+     * Handle window resize to make viewport responsive
+     */
+    handleResize() {
+        if (!this.viewport || !this.element) return;
+        
+        // Get the container dimensions
+        const containerRect = this.element.getBoundingClientRect();
+        
+        // Update viewport dimensions to fill available space
+        this.viewport.style.width = '100%';
+        this.viewport.style.height = '100%';
+        
+        console.log('📐 Viewport resized:', {
+            width: containerRect.width,
+            height: containerRect.height
+        });
+    }
+
+    /**
      * Cleanup when component is destroyed
      */
     destroy() {
         this.stopImagePolling();
+        
+        // Remove resize handler
+        if (this.resizeHandler) {
+            window.removeEventListener('resize', this.resizeHandler);
+            this.resizeHandler = null;
+        }
+        
         console.log('🧹 RenderViewport destroyed');
     }
 }

@@ -643,21 +643,23 @@ html, body {
 .viewport-container {
     flex: 1;
     position: relative;
-    /* background-color: lime; /* DEBUG: Make container visible */
     border-bottom: 1px solid var(--octane-border);
-    min-height: 200px; /* DEBUG: Ensure minimum height */
+    min-height: 200px;
     overflow: hidden; /* CRITICAL: Prevent canvas overflow */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .render-viewport {
-    width: 760px !important;
-    height: 297px !important;
+    width: 100% !important;
+    height: 100% !important;
     display: block !important;
     /* Prevent canvas flashing - match container background */
     background: var(--octane-bg-secondary);
     transition: none !important;
     animation: none !important;
-    border: 2px solid yellow !important; /* DEBUG: Make canvas visible */
+    object-fit: contain; /* Maintain aspect ratio while filling space */
 }
 
 .viewport-overlay {
