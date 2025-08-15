@@ -15,40 +15,45 @@ CameraSyncLiveLink::~CameraSyncLiveLink() {
 }
 
 bool CameraSyncLiveLink::connectToServer(const std::string& serverAddress) {
-    try {
-        std::cout << "Connecting to LiveLink gRPC server at: " << serverAddress << std::endl;
-        
-        // Create gRPC channel
-        m_channel = grpc::CreateChannel(serverAddress, grpc::InsecureChannelCredentials());
-        if (!m_channel) {
-            std::cerr << "Failed to create gRPC channel" << std::endl;
-            return false;
-        }
+    if (!m_connected)
+    {
+        try {
+            std::cout << "Connecting to LiveLink gRPC server at: " << serverAddress << std::endl;
 
-        // Create LiveLink service stub
-        m_stub = livelinkapi::LiveLinkService::NewStub(m_channel);
-        if (!m_stub) {
-            std::cerr << "Failed to create LiveLink service stub" << std::endl;
-            return false;
-        }
+            // Create gRPC channel
+            m_channel = grpc::CreateChannel(serverAddress, grpc::InsecureChannelCredentials());
+            if (!m_channel) {
+                std::cerr << "Failed to create gRPC channel" << std::endl;
+                return false;
+            }
 
-        // Test connection by trying to get camera state
-        grpc::ClientContext context;
-        livelinkapi::Empty request;
-        livelinkapi::CameraState response;
-        
-        auto status = m_stub->GetCamera(&context, request, &response);
-        if (status.ok()) {
-            m_connected = true;
-            std::cout << "Successfully connected to LiveLink server" << std::endl;
-            return true;
-        } else {
-            std::cerr << "Failed to connect to LiveLink server: " << status.error_message() << std::endl;
+            // Create LiveLink service stub
+            m_stub = livelinkapi::LiveLinkService::NewStub(m_channel);
+            if (!m_stub) {
+                std::cerr << "Failed to create LiveLink service stub" << std::endl;
+                return false;
+            }
+
+            // Test connection by trying to get camera state
+            grpc::ClientContext context;
+            livelinkapi::Empty request;
+            livelinkapi::CameraState response;
+
+            auto status = m_stub->GetCamera(&context, request, &response);
+            if (status.ok()) {
+                m_connected = true;
+                std::cout << "Successfully connected to LiveLink server" << std::endl;
+                return true;
+            }
+            else {
+                std::cerr << "Failed to connect to LiveLink server: " << status.error_message() << std::endl;
+                return false;
+            }
+        }
+        catch (const std::exception& e) {
+            std::cerr << "Exception during LiveLink connection: " << e.what() << std::endl;
             return false;
         }
-    } catch (const std::exception& e) {
-        std::cerr << "Exception during LiveLink connection: " << e.what() << std::endl;
-        return false;
     }
     m_connected = true;
     return true;

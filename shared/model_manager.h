@@ -26,7 +26,7 @@ public:
     /**
      * Initialize the model manager with a renderer
      */
-    void initialize(ModernRendering::ModernRenderer* renderer);
+    void initialize(RendererGl* renderer);
     
     /**
      * Load a model from file dialog
@@ -64,7 +64,7 @@ public:
     const ModelData& getCurrentModelData() const { return m_currentModel; }
 
 private:
-    ModernRendering::ModernRenderer* m_renderer = nullptr;
+    RendererGl* m_renderer = nullptr;
     ModelData m_currentModel;
     std::string m_currentModelName = "cube";
     bool m_hasCustomModel = false;
@@ -73,7 +73,7 @@ private:
 };
 
 // Implementation
-inline void ModelManager::initialize(ModernRendering::ModernRenderer* renderer) {
+inline void ModelManager::initialize(RendererGl* renderer) {
     m_renderer = renderer;
     m_hasCustomModel = false;
     m_currentModelName = "cube";

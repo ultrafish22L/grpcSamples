@@ -15,6 +15,7 @@
 #include "../shared/model_manager.h"
 
 // SDK integration (using actual SDK calls)
+#include "../shared/camera_sync_livelink.h"
 #include "../shared/camera_sync_sdk.h"
 
 #ifdef DO_GRPC_SDK_ENABLED
@@ -33,12 +34,121 @@ const int WINDOW_HEIGHT = 800;
 // Global objects using shared systems
 SharedUtils::CameraController cameraController;
 SharedUtils::ModelManager modelManager;
-CameraSyncSdk cameraSync;
-ModernRendering::ModernRenderer renderer;
+SharedUtils::RendererGl renderer;
+//CameraSyncSdk cameraSync;
+CameraSyncLiveLink cameraSync; 
+GLuint mTextureNameGL = 0;
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
     (void)window; // Suppress unused parameter warning
     glViewport(0, 0, width, height);
+}
+
+void renderQuad(const ApiRenderImage& image)
+{
+#if defined(DO_OCTANE_SHARED_SURFACE) && defined(WIN32)
+    if (image->mSharedSurface != nullptr)
+    {
+        if ((uint64_t)image->mSharedSurface != mSharedSurfaceId)
+        {
+            // only when changed
+            mSharedSurfaceId = (uint64_t)image->mSharedSurface;
+
+            // octane gpu texture
+            ID3D11Device1* d3d = (ID3D11Device1*)CommonD3D::GetD3DDevice();
+            ID3D11Texture2D* octaneTex = nullptr;
+            HRESULT res = d3d->OpenSharedResource1((HANDLE)mSharedSurfaceId, __uuidof(ID3D11Texture2D), (void**)&octaneTex);
+
+            D3D11_TEXTURE2D_DESC desc;
+            octaneTex->GetDesc(&desc);
+            // D3D11 surface always has a pitch that is a multiple of 32
+            int wid = (desc.Width + 31) & ~31;
+            int hgt = (desc.Height + 31) & ~31;
+
+            // for debugging, this works   
+//						CommonD3D::SaveSharedTextureToBitmap(octaneTex);
+
+                        // get the shared handle
+            HANDLE sharedHandle = 0;
+            IDXGIResource1* resource;
+            if (S_OK != octaneTex->QueryInterface(__uuidof(IDXGIResource1), (void**)&resource))
+            {
+                API_LOG("ERROR: Failed to retrieve IDXGIResource from shared texture.");
+            }
+            if (S_OK != resource->CreateSharedHandle(nullptr, DXGI_SHARED_RESOURCE_READ, nullptr, &sharedHandle))
+            {
+                API_LOG("ERROR: Failed to created shared handle.");
+            }
+            // rebuild gltexture
+            if (mTextureNameGL != 0)
+                glDeleteTextures(1, &mTextureNameGL);
+            glGenTextures(1, &mTextureNameGL);
+            glBindTexture(GL_TEXTURE_2D, mTextureNameGL);
+
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            glBindTexture(GL_TEXTURE_2D, 0);
+            GL_CHECK_ERROR(__FILE__, __LINE__);
+
+            // rebuild memobject
+            GLuint memObjGL = 0;
+            glCreateMemoryObjectsEXT(1, &memObjGL);
+            GL_CHECK_ERROR(__FILE__, __LINE__);
+
+            // import shared surface to memobject
+            glImportMemoryWin32HandleEXT(memObjGL, wid * hgt * 4, GL_HANDLE_TYPE_D3D11_IMAGE_EXT, (void*)sharedHandle);
+            GL_CHECK_ERROR(__FILE__, __LINE__);
+            // attach memobject to texture
+            if (glAcquireKeyedMutexWin32EXT(memObjGL, 0, 500))
+            {
+                glTextureStorageMem2DEXT(mTextureNameGL, 1, GL_RGBA8, desc.Width, desc.Height, memObjGL, 0);
+                GL_CHECK_ERROR(__FILE__, __LINE__);
+                glReleaseKeyedMutexWin32EXT(memObjGL, 0);
+            }
+            glDeleteMemoryObjectsEXT(1, &memObjGL);
+            GL_CHECK_ERROR(__FILE__, __LINE__);
+        }
+    }
+    else
+#endif
+//        if (image.mBuffer)
+        {
+/*
+            uint8_t pixsize = 0;
+            switch (image.mType)
+            {
+            case Octane::IMAGE_TYPE_LDR_MONO:
+                pixsize = sizeof(char);
+                break;
+            case Octane::IMAGE_TYPE_HDR_MONO:
+                pixsize = sizeof(float);
+                break;
+            case Octane::IMAGE_TYPE_LDR_MONO_ALPHA:
+                pixsize = sizeof(char) * 2;
+                break;
+            case Octane::IMAGE_TYPE_HDR_MONO_ALPHA:
+                pixsize = sizeof(float) * 2;
+                break;
+            case Octane::IMAGE_TYPE_LDR_RGBA:
+                pixsize = sizeof(char) * 4;
+                break;
+            case Octane::IMAGE_TYPE_HDR_RGBA:
+                pixsize = sizeof(float) * 4;
+                break;
+            }
+            uint64_t bytesize = image.mSize[0] * pixsize * (uint64_t)image.mSize[1];
+
+//            const char* b = (const char*)image.mBuffer;
+
+            glBindTexture(GL_TEXTURE_2D, mTextureNameGL);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, b);
+            glBindTexture(GL_TEXTURE_2D, 0);
+*/
+
+            renderer.renderQuad(mTextureNameGL);
+        }
 }
 
 int main() {
@@ -75,12 +185,6 @@ int main() {
     
     // Set callbacks
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
-    
-    // Enable depth testing and other modern OpenGL features
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_MULTISAMPLE); // Anti-aliasing
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     // Initialize systems
     renderer.initialize();
@@ -121,6 +225,22 @@ int main() {
     std::cout << "ESC: Exit" << std::endl;
     std::cout << "===============================================\n" << std::endl;
     
+    glGenTextures(1, &mTextureNameGL);
+    glBindTexture(GL_TEXTURE_2D, mTextureNameGL);
+    GL_CHECK_ERROR(__FILE__, __LINE__);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    const char* mem = new char[WINDOW_WIDTH * WINDOW_HEIGHT * 4];
+    memset((void*)mem, 0x22, WINDOW_WIDTH * WINDOW_HEIGHT * 4);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, mem);
+    GL_CHECK_ERROR(__FILE__, __LINE__);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    delete mem;
+
     // Main render loop
     while (!glfwWindowShouldClose(window)) 
     {
@@ -155,9 +275,20 @@ int main() {
         
         cameraSync.setCamera(viewPos, cameraController.camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
 
-        // Render using modern renderer
-        renderer.render(view, projection, viewPos, currentTime);
-        
+        std::vector<ApiRenderImage> images;
+        ApiRenderEngineProxy::grabRenderResult(images);
+
+        if (images.size() > 0 || false)
+        {
+//            renderQuad(images[0]);
+            ApiRenderImage image;
+            renderQuad(image);
+        }
+        else
+        {
+            // Render cube
+            renderer.renderCube(view, projection, viewPos, currentTime);
+        }
         // Swap buffers
         glfwSwapBuffers(window);
     }

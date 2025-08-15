@@ -8,6 +8,7 @@ add_library(shared_lib_base STATIC
     model_loader.h
     model_manager.h
     shared_rendering.h
+    shared_rendering.cpp
     camera_system.h
     camera_system.cpp
 )

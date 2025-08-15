@@ -95,12 +95,16 @@ void CameraSyncSdk::initialize() {
         m_cameraNode = ::ApiRenderEngineProxy::getRenderCameraNode();
         
         if (!m_cameraNode.isNull()) {
+
+
             m_cameraAvailable = true;
+            getCurrentCameraState(m_lastPosition, m_lastTarget, m_lastUp);
+            
             m_initialized = true;
             std::cout << "Camera control initialized successfully" << std::endl;
             logSdkStatus("Initialize", true);
 
-            testConnection();
+//            testConnection();
         } else {
             std::cout << "No camera node found in current render target" << std::endl;
             m_cameraAvailable = false;

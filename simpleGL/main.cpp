@@ -23,7 +23,7 @@ const int WINDOW_HEIGHT = 800;
 // Global objects using shared systems
 SharedUtils::CameraController cameraController;
 SharedUtils::ModelManager modelManager;
-ModernRendering::ModernRenderer renderer;
+SharedUtils::RendererGl renderer;
 GLFWwindow* g_window = nullptr;
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
