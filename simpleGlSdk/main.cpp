@@ -38,6 +38,7 @@ SharedUtils::RendererGl renderer;
 //CameraSyncSdk cameraSync;
 CameraSyncLiveLink cameraSync; 
 GLuint mTextureNameGL = 0;
+bool showTestQuad = false;
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
     (void)window; // Suppress unused parameter warning
@@ -222,9 +223,11 @@ int main() {
     std::cout << "Mouse Wheel: Zoom in/out (syncs with Octane via SDK)" << std::endl;
     std::cout << "L: Load 3D model file" << std::endl;
     std::cout << "R: Reset to default cube" << std::endl;
+    std::cout << "Q: Toggle test quad rendering" << std::endl;
     std::cout << "ESC: Exit" << std::endl;
     std::cout << "===============================================\n" << std::endl;
     
+    // Create a test texture with a visible pattern
     glGenTextures(1, &mTextureNameGL);
     glBindTexture(GL_TEXTURE_2D, mTextureNameGL);
     GL_CHECK_ERROR(__FILE__, __LINE__);
@@ -234,12 +237,31 @@ int main() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    const char* mem = new char[WINDOW_WIDTH * WINDOW_HEIGHT * 4];
-    memset((void*)mem, 0x22, WINDOW_WIDTH * WINDOW_HEIGHT * 4);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, mem);
+    // Create a checkerboard pattern for testing
+    unsigned char* testData = new unsigned char[WINDOW_WIDTH * WINDOW_HEIGHT * 4];
+    for (int y = 0; y < WINDOW_HEIGHT; y++) {
+        for (int x = 0; x < WINDOW_WIDTH; x++) {
+            int index = (y * WINDOW_WIDTH + x) * 4;
+            bool checker = ((x / 64) + (y / 64)) % 2;
+            if (checker) {
+                testData[index + 0] = 255; // R
+                testData[index + 1] = 100; // G
+                testData[index + 2] = 100; // B
+            } else {
+                testData[index + 0] = 100; // R
+                testData[index + 1] = 255; // G
+                testData[index + 2] = 100; // B
+            }
+            testData[index + 3] = 255; // A
+        }
+    }
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, testData);
     GL_CHECK_ERROR(__FILE__, __LINE__);
     glBindTexture(GL_TEXTURE_2D, 0);
-    delete mem;
+    delete[] testData;
+    
+    std::cout << "Created test texture with checkerboard pattern" << std::endl;
 
     // Main render loop
     while (!glfwWindowShouldClose(window)) 
@@ -255,6 +277,16 @@ int main() {
         
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
             glfwSetWindowShouldClose(window, true);
+        }
+        
+        // Toggle test quad rendering
+        static bool qKeyPressed = false;
+        if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS && !qKeyPressed) {
+            showTestQuad = !showTestQuad;
+            std::cout << "Test quad rendering: " << (showTestQuad ? "ON" : "OFF") << std::endl;
+            qKeyPressed = true;
+        } else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_RELEASE) {
+            qKeyPressed = false;
         }
         
         // Process camera and model input
@@ -275,25 +307,34 @@ int main() {
         
         cameraSync.setCamera(viewPos, cameraController.camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
 
-        std::vector<ApiRenderImage> images;
-        ApiRenderEngineProxy::grabRenderResult(images);
+        if (showTestQuad) {
+            // Force show test quad for debugging
+            if (mTextureNameGL != 0) {
+                renderer.renderQuad(mTextureNameGL);
+            }
+        } else {
+            std::vector<ApiRenderImage> images;
+            ApiRenderEngineProxy::grabRenderResult(images);
 
-        if (images.size() > 0 || false)
-        {
-//            renderQuad(images[0]);
-            ApiRenderImage image;
-            renderQuad(image);
-        }
-        else
-        {
-            // Render cube
-            renderer.renderCube(view, projection, viewPos, currentTime);
+            if (images.size() > 0)
+            {
+                // Render the Octane image if available
+                renderQuad(images[0]);
+            }
+            else
+            {
+                // Render cube as fallback
+                renderer.renderCube(view, projection, viewPos, currentTime);
+            }
         }
         // Swap buffers
         glfwSwapBuffers(window);
     }
     
     // Cleanup
+    if (mTextureNameGL != 0) {
+        glDeleteTextures(1, &mTextureNameGL);
+    }
     renderer.cleanup();
     
     glfwTerminate();

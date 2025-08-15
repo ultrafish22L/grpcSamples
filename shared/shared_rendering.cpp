@@ -69,7 +69,7 @@ const char* fragmentShaderSourceCube = R"(
         }
     )";
     const char* vertexShaderSourceQuad = R"(
-    #version 450
+    #version 330 core
 
     layout(location = 0) in vec3 pos;
     layout(location = 1) in vec2 uv_in;
@@ -85,7 +85,7 @@ const char* fragmentShaderSourceCube = R"(
     )";
 
     const char* fragmentShaderSourceQuad = R"(
-    #version 450
+    #version 330 core
 
     in vec3 color;
     in vec2 uv;
@@ -94,8 +94,7 @@ const char* fragmentShaderSourceCube = R"(
     out vec4 frag_color;
 
     void main() {
-        vec4 tcolor = texture( tex, uv);
-    //	frag_color = vec4(color, 1.0);
+        vec4 tcolor = texture(tex, uv);
 	    frag_color = tcolor;
     }
     )";
@@ -269,29 +268,28 @@ bool RendererGl::initialize() {
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    // Create VAO, VBO, EBO
+    // Create VAO, VBO, EBO for quad
     glGenVertexArrays(1, &shaderInfoQuad.VAO);
+    glGenBuffers(1, &shaderInfoQuad.VBO);
+    glGenBuffers(1, &shaderInfoQuad.EBO);
+    
     glBindVertexArray(shaderInfoQuad.VAO);
 
-    glGenBuffers(1, &shaderInfoQuad.EBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shaderInfoQuad.EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, shaderInfoQuad.indices.size(), shaderInfoQuad.indices.data(), GL_STATIC_DRAW);
-
-    glGenBuffers(1, &shaderInfoQuad.VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, shaderInfoQuad.VBO);
-    glBufferData(GL_ARRAY_BUFFER, shaderInfoQuad.vertices.size(), shaderInfoQuad.vertices.data(), GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(shaderInfoQuad.VBO);
-
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
+    // Setup VBO
     glBindBuffer(GL_ARRAY_BUFFER, shaderInfoQuad.VBO);
     glBufferData(GL_ARRAY_BUFFER, shaderInfoQuad.vertices.size() * sizeof(float), shaderInfoQuad.vertices.data(), GL_STATIC_DRAW);
 
+    // Setup EBO
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shaderInfoQuad.EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, shaderInfoQuad.indices.size() * sizeof(unsigned int), shaderInfoQuad.indices.data(), GL_STATIC_DRAW);
+
+    // Position attribute (location = 0)
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    // UV attribute (location = 1)
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     glBindVertexArray(0);
 
@@ -335,6 +333,11 @@ void RendererGl::renderQuad(GLuint tex) {
         glUseProgram(shaderInfoQuad.shaderProgram);
         GL_CHECK_ERROR(__FILE__, __LINE__);
 
+        // Bind texture uniform to texture unit 0
+        GLint texLoc = glGetUniformLocation(shaderInfoQuad.shaderProgram, "tex");
+        glUniform1i(texLoc, 0);
+        GL_CHECK_ERROR(__FILE__, __LINE__);
+
         glActiveTexture(GL_TEXTURE0);
         GL_CHECK_ERROR(__FILE__, __LINE__); 
         
@@ -348,6 +351,7 @@ void RendererGl::renderQuad(GLuint tex) {
         GL_CHECK_ERROR(__FILE__, __LINE__);
 
         glBindVertexArray(0);
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
 #else
     // blit
