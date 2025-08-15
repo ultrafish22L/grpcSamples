@@ -35,8 +35,8 @@ const int WINDOW_HEIGHT = 800;
 SharedUtils::CameraController cameraController;
 SharedUtils::ModelManager modelManager;
 SharedUtils::RendererGl renderer;
-//CameraSyncSdk cameraSync;
-CameraSyncLiveLink cameraSync; 
+CameraSyncSdk cameraSync;
+//CameraSyncLiveLink cameraSync; 
 GLuint mTextureNameGL = 0;
 bool showTestQuad = false;
 
@@ -45,7 +45,7 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
 }
 
-void renderQuad(const ApiRenderImage& image)
+void setupTexture(const ApiRenderImage& image)
 {
 #if defined(DO_OCTANE_SHARED_SURFACE) && defined(WIN32)
     if (image->mSharedSurface != nullptr)
@@ -114,7 +114,7 @@ void renderQuad(const ApiRenderImage& image)
     }
     else
 #endif
-//        if (image.mBuffer)
+        if (image.mBuffer)
         {
 /*
             uint8_t pixsize = 0;
@@ -140,15 +140,13 @@ void renderQuad(const ApiRenderImage& image)
                 break;
             }
             uint64_t bytesize = image.mSize[0] * pixsize * (uint64_t)image.mSize[1];
+*/
 
-//            const char* b = (const char*)image.mBuffer;
+            const char* b = (const char*)image.mBuffer;
 
             glBindTexture(GL_TEXTURE_2D, mTextureNameGL);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, b);
             glBindTexture(GL_TEXTURE_2D, 0);
-*/
-
-            renderer.renderQuad(mTextureNameGL);
         }
 }
 
@@ -307,25 +305,20 @@ int main() {
         
         cameraSync.setCamera(viewPos, cameraController.camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
 
+        std::vector<ApiRenderImage> images;
+        ApiRenderEngineProxy::grabRenderResult(images);
+        if (images.size() > 0)
+        {
+            setupTexture(images[0]);
+        }
         if (showTestQuad) {
-            // Force show test quad for debugging
-            if (mTextureNameGL != 0) {
-                renderer.renderQuad(mTextureNameGL);
-            }
-        } else {
-            std::vector<ApiRenderImage> images;
-            ApiRenderEngineProxy::grabRenderResult(images);
-
-            if (images.size() > 0)
-            {
-                // Render the Octane image if available
-                renderQuad(images[0]);
-            }
-            else
-            {
-                // Render cube as fallback
-                renderer.renderCube(view, projection, viewPos, currentTime);
-            }
+            // Render the Octane image if available
+            renderer.renderQuad(mTextureNameGL);
+        }
+        else
+        {
+            // Render cube as fallback
+            renderer.renderCube(view, projection, viewPos, currentTime);
         }
         // Swap buffers
         glfwSwapBuffers(window);

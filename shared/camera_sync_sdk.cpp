@@ -4,6 +4,7 @@
 
 #ifdef DO_GRPC_SDK_ENABLED
 #include "grpcsettings.h"
+#include "apichangemanagerclient.h"
 #include "apirenderengineclient.h"
 #include "apiprojectmanagerclient.h"
 #include "apirootnodegraphclient.h"
@@ -300,10 +301,11 @@ bool CameraSyncSdk::setCamera(const glm::vec3& pos, const glm::vec3& target, con
     if (result && fov > 0.0f) {
         setCameraFov(fov);
     }
-    if (!evaluate)
+    if (!m_cameraNode.isNull())
     {
 #ifdef DO_GRPC_SDK_ENABLED
-        m_cameraNode.evaluate();
+//        m_cameraNode.evaluate();
+        ApiChangeManagerProxy::update();
 #endif
     }
     return result;
