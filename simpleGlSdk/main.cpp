@@ -9,6 +9,9 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <cmath>
+#include <mutex>
+#include <atomic>
+#include <vector>
 
 #include "shared_rendering.h"
 #include "../shared/camera_system.h"
@@ -24,6 +27,7 @@
 #include "apinodeclient.h"
 #include "octaneids.h"
 #include "octanevectypes.h"
+#include "apirender.h"
 using namespace OctaneVec;
 #endif
 
@@ -39,6 +43,14 @@ CameraSyncSdk cameraSync;
 //CameraSyncLiveLink cameraSync; 
 GLuint mTextureNameGL = 0;
 bool showTestQuad = false;
+
+// Global variables for callback-based rendering
+#ifdef DO_GRPC_SDK_ENABLED
+std::mutex g_renderImageMutex;
+std::vector<Octane::ApiRenderImage> g_latestRenderImages;
+bool g_hasNewRenderData = false;
+std::atomic<int> g_callbackCount{0};
+#endif
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
     (void)window; // Suppress unused parameter warning
@@ -150,6 +162,38 @@ void setupTexture(const ApiRenderImage& image)
         }
 }
 
+#ifdef DO_GRPC_SDK_ENABLED
+// Callback function that receives new render images from Octane
+void OnNewImageCallback(const Octane::ApiArray<Octane::ApiRenderImage>& renderImages, void* userData)
+{
+    (void)userData; // Suppress unused parameter warning
+    
+    std::lock_guard<std::mutex> lock(g_renderImageMutex);
+    
+    // Copy the render images to our global storage
+    g_latestRenderImages.clear();
+    g_latestRenderImages.reserve(renderImages.mSize);
+    
+    for (size_t i = 0; i < renderImages.mSize; ++i) {
+        g_latestRenderImages.push_back(renderImages.mData[i]);
+    }
+    
+    g_hasNewRenderData = true;
+    g_callbackCount++;
+    
+    std::cout << "📸 Received render callback #" << g_callbackCount.load() 
+              << " with " << renderImages.mSize << " images" << std::endl;
+    
+    if (renderImages.mSize > 0) {
+        const auto& img = renderImages.mData[0];
+        std::cout << "   Image: " << img.mSize.x << "x" << img.mSize.y 
+                  << ", Type: " << img.mType 
+                  << ", Pass: " << img.mRenderPassId
+                  << ", Samples: " << img.mTonemappedSamplesPerPixel << std::endl;
+    }
+}
+#endif
+
 int main() {
     // Initialize GLFW
     if (!glfwInit()) {
@@ -208,6 +252,17 @@ int main() {
     const char* serverAddress = "127.0.0.1:51022";
     GRPCSettings::getInstance().setServerAddress(serverAddress);
 
+#ifdef DO_GRPC_SDK_ENABLED
+    // Register callback for receiving render images from Octane
+    std::cout << "🔗 Registering render image callback..." << std::endl;
+    try {
+        ApiRenderEngineProxy::setOnNewImageCallback(OnNewImageCallback, nullptr);
+        std::cout << "✅ Render image callback registered successfully" << std::endl;
+    } catch (const std::exception& e) {
+        std::cout << "❌ Failed to register render image callback: " << e.what() << std::endl;
+    }
+#endif
+
     // Set initial camera position in Octane
     glm::vec3 initialPosition = cameraController.camera.getPosition();
     cameraSync.setCamera(initialPosition, cameraController.camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -216,13 +271,14 @@ int main() {
     modelManager.updateWindowTitle(window, "3D Model Viewer - SDK Edition");
     
     // Print controls
-    std::cout << "\n=== 3D Model Viewer - SDK Edition Controls ===" << std::endl;
+    std::cout << "\n=== 3D Model Viewer - SDK Edition (Callback Mode) ===" << std::endl;
     std::cout << "Mouse: Drag to orbit camera (syncs with Octane via SDK)" << std::endl;
     std::cout << "Mouse Wheel: Zoom in/out (syncs with Octane via SDK)" << std::endl;
     std::cout << "L: Load 3D model file" << std::endl;
     std::cout << "R: Reset to default cube" << std::endl;
-    std::cout << "Q: Toggle test quad rendering" << std::endl;
+    std::cout << "Q: Toggle between Octane render (callback) and local cube" << std::endl;
     std::cout << "ESC: Exit" << std::endl;
+    std::cout << "📸 Using callback system for real-time Octane rendering" << std::endl;
     std::cout << "===============================================\n" << std::endl;
     
     // Create a test texture with a visible pattern
@@ -277,11 +333,11 @@ int main() {
             glfwSetWindowShouldClose(window, true);
         }
         
-        // Toggle test quad rendering
+        // Toggle between Octane render and local cube
         static bool qKeyPressed = false;
         if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS && !qKeyPressed) {
             showTestQuad = !showTestQuad;
-            std::cout << "Test quad rendering: " << (showTestQuad ? "ON" : "OFF") << std::endl;
+            std::cout << "Display mode: " << (showTestQuad ? "📸 Octane render (callback)" : "🎲 Local cube") << std::endl;
             qKeyPressed = true;
         } else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_RELEASE) {
             qKeyPressed = false;
@@ -305,12 +361,24 @@ int main() {
         
         cameraSync.setCamera(viewPos, cameraController.camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
 
+#ifdef DO_GRPC_SDK_ENABLED
+        // Check if we have new render data from the callback
+        {
+            std::lock_guard<std::mutex> lock(g_renderImageMutex);
+            if (g_hasNewRenderData && !g_latestRenderImages.empty()) {
+                setupTexture(g_latestRenderImages[0]);
+                g_hasNewRenderData = false; // Mark as processed
+            }
+        }
+#else
+        // Fallback: try the old grabRenderResult method (likely to fail)
         std::vector<ApiRenderImage> images;
         ApiRenderEngineProxy::grabRenderResult(images);
         if (images.size() > 0)
         {
             setupTexture(images[0]);
         }
+#endif
         if (showTestQuad) {
             // Render the Octane image if available
             renderer.renderQuad(mTextureNameGL);
@@ -325,6 +393,19 @@ int main() {
     }
     
     // Cleanup
+#ifdef DO_GRPC_SDK_ENABLED
+    // Unregister the callback
+    std::cout << "🔌 Unregistering render image callback..." << std::endl;
+    try {
+        ApiRenderEngineProxy::setOnNewImageCallback(nullptr, nullptr);
+        std::cout << "✅ Render image callback unregistered" << std::endl;
+    } catch (const std::exception& e) {
+        std::cout << "❌ Failed to unregister render image callback: " << e.what() << std::endl;
+    }
+    
+    std::cout << "📊 Total callbacks received: " << g_callbackCount.load() << std::endl;
+#endif
+    
     if (mTextureNameGL != 0) {
         glDeleteTextures(1, &mTextureNameGL);
     }
