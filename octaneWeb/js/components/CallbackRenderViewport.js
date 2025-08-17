@@ -11,8 +11,11 @@
  */
 
 class CallbackRenderViewport extends OctaneComponent {
-    constructor(element, client, stateManager) {
+    constructor(element, client, stateManager, eventSystem) {
         super(element, client, stateManager);
+        
+        // Store event system for scene loading events
+        this.eventSystem = eventSystem;
         
         // Callback system state
         this.callbackMode = false;
@@ -78,6 +81,42 @@ class CallbackRenderViewport extends OctaneComponent {
             // Setup mouse event handlers
             this.setupEventHandlers();
             
+            // Wait for scene data to be loaded before starting render polling
+            this.setupSceneLoadingListener();
+            
+            console.log('✅ CallbackRenderViewport initialized successfully (waiting for scene data)');
+            
+        } catch (error) {
+            console.error('❌ Failed to initialize CallbackRenderViewport:', error);
+            this.showError('Failed to initialize render viewport', error.message);
+        }
+    }
+    
+    /**
+     * Setup listener for scene data loading completion
+     */
+    setupSceneLoadingListener() {
+        // Listen for scene data loaded event
+        this.eventSystem.on('sceneDataLoaded', (sceneItems) => {
+            console.log('🎬 Scene data loaded, starting render polling...', sceneItems.length, 'items');
+            this.startRenderPolling();
+        });
+        
+        // Also listen for components fully initialized as fallback
+        this.eventSystem.on('componentsFullyInitialized', () => {
+            // Only start if scene data hasn't triggered it yet
+            if (!this.callbackMode && !this.pollingMode) {
+                console.log('🎬 Components initialized, starting render polling as fallback...');
+                this.startRenderPolling();
+            }
+        });
+    }
+    
+    /**
+     * Start render polling (callback mode with fallback to polling)
+     */
+    async startRenderPolling() {
+        try {
             // Try to start callback mode first
             const callbackSuccess = await this.startCallbackMode();
             
@@ -87,11 +126,11 @@ class CallbackRenderViewport extends OctaneComponent {
                 await this.startPollingMode();
             }
             
-            console.log('✅ CallbackRenderViewport initialized successfully');
+            console.log('🎯 Render polling started successfully');
             
         } catch (error) {
-            console.error('❌ Failed to initialize CallbackRenderViewport:', error);
-            this.showError('Failed to initialize render viewport', error.message);
+            console.error('❌ Failed to start render polling:', error);
+            this.showError('Failed to start render polling', error.message);
         }
     }
     

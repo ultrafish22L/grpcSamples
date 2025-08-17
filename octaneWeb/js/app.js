@@ -126,7 +126,8 @@ class OctaneWebApp {
         this.components.renderViewport = new CallbackRenderViewport(
             document.querySelector('#render-viewport'),
             this.client,
-            this.stateManager
+            this.stateManager,
+            this.eventSystem
         );
         console.log('✅ CallbackRenderViewport enabled with streaming callbacks');        
         // Initialize node inspector
