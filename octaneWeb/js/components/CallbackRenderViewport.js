@@ -99,7 +99,7 @@ class CallbackRenderViewport extends OctaneComponent {
         // Listen for scene data loaded event
         this.eventSystem.on('sceneDataLoaded', (sceneItems) => {
             console.log('🎬 Scene data loaded, starting render polling...', sceneItems.length, 'items');
-            this.startRenderPolling();
+//            this.startRenderPolling();
         });
         
         // Also listen for components fully initialized as fallback
@@ -107,7 +107,7 @@ class CallbackRenderViewport extends OctaneComponent {
             // Only start if scene data hasn't triggered it yet
             if (!this.callbackMode && !this.pollingMode) {
                 console.log('🎬 Components initialized, starting render polling as fallback...');
-                this.startRenderPolling();
+//                this.startRenderPolling();
             }
         });
     }
