@@ -525,15 +525,17 @@ class CallbackRenderViewport extends OctaneComponent {
      */
     setupEventHandlers() {
         // Mouse event handlers for camera control
+        // RIGHT CLICK = ORBIT, LEFT CLICK = PAN, WHEEL = ZOOM
         this.viewport.addEventListener('mousedown', (e) => {
-            if (e.button === 0) { // Left button
-                this.mouse.dragging = true;
-            } else if (e.button === 2) { // Right button
+            if (e.button === 0) { // Left button = PAN
                 this.mouse.panning = true;
+                this.viewport.style.cursor = 'move';
+            } else if (e.button === 2) { // Right button = ORBIT
+                this.mouse.dragging = true;
+                this.viewport.style.cursor = 'grabbing';
             }
             this.mouse.lastX = e.clientX;
             this.mouse.lastY = e.clientY;
-            this.viewport.style.cursor = 'grabbing';
             e.preventDefault();
         });
         
@@ -543,12 +545,15 @@ class CallbackRenderViewport extends OctaneComponent {
                 const deltaY = e.clientY - this.mouse.lastY;
                 
                 if (this.mouse.dragging) {
-                    // Rotate camera
+                    // RIGHT CLICK: Orbit camera around target
                     this.camera.theta += deltaX * this.camera.sensitivity;
                     this.camera.phi += deltaY * this.camera.sensitivity;
                     this.camera.phi = Math.max(-Math.PI/2 + 0.1, Math.min(Math.PI/2 - 0.1, this.camera.phi));
+                    
+                    console.log(`🔄 Orbiting: theta=${this.camera.theta.toFixed(2)}, phi=${this.camera.phi.toFixed(2)}`);
+                    
                 } else if (this.mouse.panning) {
-                    // Pan camera
+                    // LEFT CLICK: Pan camera target
                     const right = [
                         Math.cos(this.camera.theta + Math.PI/2),
                         0,
@@ -560,6 +565,8 @@ class CallbackRenderViewport extends OctaneComponent {
                     this.camera.center[0] -= right[0] * deltaX * panSpeed;
                     this.camera.center[1] += up[1] * deltaY * panSpeed;
                     this.camera.center[2] -= right[2] * deltaX * panSpeed;
+                    
+                    console.log(`↔️ Panning: center=[${this.camera.center.map(v => v.toFixed(2)).join(', ')}]`);
                 }
                 
                 this.mouse.lastX = e.clientX;
@@ -577,8 +584,12 @@ class CallbackRenderViewport extends OctaneComponent {
         });
         
         this.viewport.addEventListener('wheel', (e) => {
+            const oldRadius = this.camera.radius;
             this.camera.radius *= (1 + e.deltaY * this.camera.zoomSpeed * 0.001);
             this.camera.radius = Math.max(0.1, Math.min(1000, this.camera.radius));
+            
+            console.log(`🔍 Zooming: ${oldRadius.toFixed(2)} → ${this.camera.radius.toFixed(2)}`);
+            
             this.syncToOctane();
             e.preventDefault();
         });
@@ -602,14 +613,35 @@ class CallbackRenderViewport extends OctaneComponent {
             const y = this.camera.center[1] + this.camera.radius * Math.sin(this.camera.phi);
             const z = this.camera.center[2] + this.camera.radius * Math.cos(this.camera.phi) * Math.sin(this.camera.theta);
             
+            // Set camera parameters
             await this.client.setCameraPosition(x, y, z);
             await this.client.setCameraTarget(this.camera.center[0], this.camera.center[1], this.camera.center[2]);
+            
+            // CRITICAL: Call ApiChangeManager::update() to refresh Octane's display
+            await this.triggerOctaneUpdate();
             
             this.lastSyncTime = now;
             this.syncCount++;
             
+            console.log(`📷 Camera synced: pos=[${x.toFixed(2)}, ${y.toFixed(2)}, ${z.toFixed(2)}], target=[${this.camera.center.map(v => v.toFixed(2)).join(', ')}]`);
+            
         } catch (error) {
             console.warn('⚠️ Camera sync error:', error);
+        }
+    }
+    
+    /**
+     * Trigger Octane display update via ApiChangeManager::update()
+     */
+    async triggerOctaneUpdate() {
+        try {
+            // Call ApiChangeManager::update() to make Octane refresh its display
+            const response = await this.client.makeRequest('ApiChangeManager', 'update', {});
+            console.log('🔄 Octane display update triggered');
+            return response;
+        } catch (error) {
+            console.warn('⚠️ Failed to trigger Octane update:', error);
+            throw error;
         }
     }
     
