@@ -190,6 +190,9 @@ bool CameraSyncDirect::updateCameraLegacy(const glm::vec3& pos, const glm::vec3&
             std::cout << "Camera updated via gRPC - Position(" << pos.x << "," << pos.y << "," << pos.z << ")" 
                       << " Target(" << target.x << "," << target.y << "," << target.z << ")"
                       << " Up(" << up.x << "," << up.y << "," << up.z << ")" << std::endl;
+
+//            ApiChangeManagerProxy::update();
+
             return true;
             
         } catch (const std::exception& e) {
