@@ -182,7 +182,8 @@ class GrpcServiceRegistry:
             except ImportError:
                 return Empty
 
-            # Don't remove numbers from method names - they're part of the API
+            # Remove numbers from method names to match protobuf class names (v2.4 working approach)
+            method_name = re.sub(r'[0-9]', '', method_name)
             method_name1 = method_name[0].upper() + re.sub(r'Api', '', method_name[1:])
 
             # Map service names to protobuf class names
@@ -199,11 +200,11 @@ class GrpcServiceRegistry:
             # Get the correct class name for the service
             class_name = service_to_class_map.get(service_name, service_name)
 
-            # Try common request class naming patterns
+            # Try common request class naming patterns (v2.4 working patterns)
             request_class_patterns = [
-                f"{class_name}.{method_name}Request", 
+                f"{class_name}.{method_name}Request",
                 f"{class_name}.{method_name1}Request",
-                f"{service_name}.{method_name}Request", 
+                f"{service_name}.{method_name}Request",
                 f"{service_name}.{method_name1}Request",
             ]
             # GetNodePinInfoRequest
