@@ -122,13 +122,13 @@ class OctaneWebApp {
             document.querySelector('#scene-outliner'),
             this.eventSystem
         );
-        // Initialize render viewport - 2D viewport with LiveLink camera sync
-        this.components.renderViewport = new RenderViewport(
+        // Initialize callback render viewport - Real-time streaming with gRPC callbacks
+        this.components.renderViewport = new CallbackRenderViewport(
             document.querySelector('#render-viewport'),
             this.client,
             this.stateManager
         );
-        console.log('✅ RenderViewport enabled with LiveLink camera sync');        
+        console.log('✅ CallbackRenderViewport enabled with streaming callbacks');        
         // Initialize node inspector
         this.components.nodeInspector = new NodeInspector(
             document.querySelector('#node-inspector'),

@@ -28,13 +28,19 @@ import os
 import re
 import importlib
 import traceback
+import uuid
+import time
 from datetime import datetime
 from aiohttp import web, ClientSession
 from aiohttp.web import middleware
+from aiohttp.web_response import Response
 import grpc
 from google.protobuf.json_format import MessageToDict, ParseDict
 from google.protobuf.message import Message
 from google.protobuf.empty_pb2 import Empty
+
+# Import callback streaming system
+from callback_streamer import get_callback_streamer, initialize_callback_system
 
 # Add generated directory to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'generated'))
@@ -480,6 +486,167 @@ async def handle_generic_grpc(request):
             'error': str(e)
         }, status=500)
 
+# ==================== CALLBACK STREAMING ENDPOINTS ====================
+
+async def handle_register_callback(request):
+    """Register callback and start streaming"""
+    try:
+        octane_address = get_octane_address()
+        
+        # Initialize callback system
+        success = await initialize_callback_system(octane_address)
+        
+        if success:
+            streamer = get_callback_streamer(octane_address)
+            status = streamer.get_status()
+            
+            return web.json_response({
+                'success': True,
+                'message': 'Callback streaming initialized',
+                'callback_id': status['callback_id'],
+                'status': status
+            })
+        else:
+            return web.json_response({
+                'success': False,
+                'error': 'Failed to initialize callback system'
+            }, status=500)
+            
+    except Exception as e:
+        print(f"❌ Error registering callback: {e}")
+        return web.json_response({
+            'success': False,
+            'error': str(e)
+        }, status=500)
+
+async def handle_stream_events(request):
+    """Server-Sent Events endpoint for real-time callback streaming"""
+    try:
+        # Generate unique client ID
+        client_id = str(uuid.uuid4())
+        
+        print(f"📡 Starting SSE stream for client: {client_id}")
+        
+        # Create response with SSE headers
+        response = web.StreamResponse(
+            status=200,
+            reason='OK',
+            headers={
+                'Content-Type': 'text/event-stream',
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Cache-Control'
+            }
+        )
+        
+        await response.prepare(request)
+        
+        # Get callback streamer
+        streamer = get_callback_streamer()
+        
+        # Client callback function for broadcasting
+        async def client_callback(data):
+            try:
+                # Format as Server-Sent Event
+                event_data = f"data: {json.dumps(data)}\n\n"
+                await response.write(event_data.encode('utf-8'))
+            except Exception as e:
+                print(f"❌ Error sending SSE to {client_id}: {e}")
+                raise
+        
+        # Add client to streamer
+        streamer.add_client(client_id, client_callback)
+        
+        try:
+            # Send initial connection event
+            initial_event = {
+                'type': 'connected',
+                'client_id': client_id,
+                'timestamp': time.time(),
+                'status': streamer.get_status()
+            }
+            await client_callback(initial_event)
+            
+            # Send any queued images
+            latest_image = streamer.get_latest_image()
+            if latest_image:
+                await client_callback(latest_image)
+            
+            # Keep connection alive and send periodic pings
+            while True:
+                try:
+                    # Send ping every 30 seconds to keep connection alive
+                    await asyncio.sleep(30)
+                    
+                    ping_event = {
+                        'type': 'ping',
+                        'timestamp': time.time()
+                    }
+                    await client_callback(ping_event)
+                    
+                except asyncio.CancelledError:
+                    break
+                except Exception as e:
+                    print(f"❌ SSE connection error for {client_id}: {e}")
+                    break
+        
+        finally:
+            # Remove client when connection closes
+            streamer.remove_client(client_id)
+            print(f"📡 SSE stream ended for client: {client_id}")
+        
+        return response
+        
+    except Exception as e:
+        print(f"❌ Error in SSE stream: {e}")
+        return web.json_response({
+            'error': str(e)
+        }, status=500)
+
+async def handle_callback_status(request):
+    """Get current callback streaming status"""
+    try:
+        streamer = get_callback_streamer()
+        status = streamer.get_status()
+        
+        return web.json_response({
+            'success': True,
+            'status': status
+        })
+        
+    except Exception as e:
+        return web.json_response({
+            'success': False,
+            'error': str(e)
+        }, status=500)
+
+async def handle_ping_client(request):
+    """Ping client to keep connection alive"""
+    try:
+        data = await request.json()
+        client_id = data.get('client_id')
+        
+        if client_id:
+            streamer = get_callback_streamer()
+            streamer.ping_client(client_id)
+            
+            return web.json_response({
+                'success': True,
+                'message': 'Client pinged'
+            })
+        else:
+            return web.json_response({
+                'success': False,
+                'error': 'Missing client_id'
+            }, status=400)
+            
+    except Exception as e:
+        return web.json_response({
+            'success': False,
+            'error': str(e)
+        }, status=500)
+
 # ==================== APPLICATION SETUP ====================
 
 def create_app():
@@ -488,6 +655,12 @@ def create_app():
     
     # Health check
     app.router.add_get('/health', handle_health)
+    
+    # Callback streaming endpoints
+    app.router.add_post('/render/register-callback', handle_register_callback)
+    app.router.add_get('/render/stream', handle_stream_events)
+    app.router.add_get('/render/callback-status', handle_callback_status)
+    app.router.add_post('/render/ping-client', handle_ping_client)
     
     # Generic catch-all routes for any gRPC service call
     # Pattern: /[prefix.]ServiceName/methodName
