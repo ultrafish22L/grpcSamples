@@ -212,7 +212,7 @@ void setupTexture(const ApiRenderImage& image)
 // Helper function to get HRESULT error description
 std::string GetHRESULTErrorDescription(HRESULT hr) {
     _com_error err(hr);
-    std::wstring ws(err.ErrorMessage());
+    std::string ws(err.ErrorMessage());
     return std::string(ws.begin(), ws.end());
 }
 
@@ -456,7 +456,7 @@ void cleanupSharedSurface() {
     
     // Release Octane shared surface
     if (g_octaneSharedSurface) {
-        g_octaneSharedSurface->release();
+//        g_octaneSharedSurface->release();
         g_octaneSharedSurface = nullptr;
     }
     
@@ -617,7 +617,7 @@ int main() {
         std::cout << "❌ Failed to register render image callback: " << e.what() << std::endl;
     }
 
-#ifdef _WIN32
+#ifdef _WIN32X
     // Attempt to initialize shared surface rendering (Windows only)
     std::cout << "\n🚀 Attempting shared surface initialization..." << std::endl;
     

@@ -30,6 +30,7 @@ function(configure_simpleGlSdk_target target_name)
     # Include directories
     target_include_directories(${target_name}
         PRIVATE
+            ${CMAKE_SOURCE_DIR}/third_party
             ${CMAKE_SOURCE_DIR}/third_party/glew/include
             ${CMAKE_SOURCE_DIR}/third_party/glfw/include
             ${CMAKE_SOURCE_DIR}/third_party/glm
