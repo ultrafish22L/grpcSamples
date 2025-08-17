@@ -28,6 +28,11 @@ from queue import Queue, Empty as QueueEmpty
 
 import grpc
 from google.protobuf.empty_pb2 import Empty
+import sys
+import os
+
+# Add generated directory to path for imports
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'generated'))
 
 # Import generated protobuf modules
 try:
@@ -108,9 +113,18 @@ class OctaneCallbackStreamer:
             if not self.render_stub:
                 await self.initialize()
             
+            # Import common_pb2 for callback types
+            from generated import common_pb2
+            
             # Create callback registration request
             request = apirender_pb2.ApiRenderEngine.setOnNewImageCallbackRequest()
-            request.callback = 1  # Callback function ID
+            
+            # Create OnNewImageCallbackT structure
+            callback = common_pb2.OnNewImageCallbackT()
+            callback.callbackSource = "grpc_proxy"  # Identifier for this callback source
+            callback.callbackId = 1  # Callback function ID
+            
+            request.callback.CopyFrom(callback)
             request.userData = 0  # User data
             
             # Register callback
@@ -150,30 +164,47 @@ class OctaneCallbackStreamer:
         """Background thread worker for streaming callbacks"""
         print("🔄 Callback streaming worker started")
         
-        while self.stream_active:
-            try:
-                # Create new event loop for this thread
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
-                
-                # Run streaming coroutine
-                loop.run_until_complete(self._stream_callbacks())
-                
-            except Exception as e:
-                print(f"❌ Streaming worker error: {e}")
-                self.stream_errors += 1
-                
-                if self.stream_active:
-                    print(f"⏳ Reconnecting in {self.reconnect_delay} seconds...")
-                    time.sleep(self.reconnect_delay)
-            
-            finally:
+        # Create event loop for this thread and keep it
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        
+        try:
+            while self.stream_active:
                 try:
-                    loop.close()
-                except:
-                    pass
+                    # Reinitialize stubs in this thread's event loop
+                    loop.run_until_complete(self._reinitialize_for_thread())
+                    
+                    # Run streaming coroutine
+                    loop.run_until_complete(self._stream_callbacks())
+                    
+                except Exception as e:
+                    print(f"❌ Streaming worker error: {e}")
+                    self.stream_errors += 1
+                    
+                    if self.stream_active:
+                        print(f"⏳ Reconnecting in {self.reconnect_delay} seconds...")
+                        time.sleep(self.reconnect_delay)
+        finally:
+            try:
+                loop.close()
+            except:
+                pass
         
         print("⏹️ Callback streaming worker stopped")
+    
+    async def _reinitialize_for_thread(self):
+        """Reinitialize gRPC stubs for the current thread's event loop"""
+        try:
+            # Create new channel and stubs for this thread
+            self.channel = grpc.aio.insecure_channel(self.octane_address)
+            
+            # Import the correct stub
+            from generated import callback_pb2_grpc
+            self.stream_stub = callback_pb2_grpc.StreamCallbackServiceStub(self.channel)
+            print("🔧 Reinitialized gRPC stubs for streaming thread")
+        except Exception as e:
+            print(f"❌ Failed to reinitialize stubs: {e}")
+            raise
     
     async def _stream_callbacks(self):
         """Core streaming loop - receives callbacks from Octane"""

@@ -99,7 +99,7 @@ class CallbackRenderViewport extends OctaneComponent {
         // Listen for scene data loaded event
         this.eventSystem.on('sceneDataLoaded', (sceneItems) => {
             console.log('🎬 Scene data loaded, starting render polling...', sceneItems.length, 'items');
-//            this.startRenderPolling();
+            this.startRenderPolling();
         });
         
         // Also listen for components fully initialized as fallback
@@ -107,7 +107,7 @@ class CallbackRenderViewport extends OctaneComponent {
             // Only start if scene data hasn't triggered it yet
             if (!this.callbackMode && !this.pollingMode) {
                 console.log('🎬 Components initialized, starting render polling as fallback...');
-//                this.startRenderPolling();
+                this.startRenderPolling();
             }
         });
     }
@@ -224,7 +224,8 @@ class CallbackRenderViewport extends OctaneComponent {
             console.log('🚀 Attempting to start callback streaming mode...');
             
             // Register callback with proxy server
-            const response = await fetch('/render/register-callback', {
+            const callbackUrl = `${this.client.serverUrl}/render/register-callback`;
+            const response = await fetch(callbackUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -241,7 +242,8 @@ class CallbackRenderViewport extends OctaneComponent {
             console.log(`✅ Callback registered with ID: ${this.callbackId}`);
             
             // Start Server-Sent Events stream
-            this.eventSource = new EventSource('/render/stream');
+            const streamUrl = `${this.client.serverUrl}/render/stream`;
+            this.eventSource = new EventSource(streamUrl);
             
             this.eventSource.onopen = (event) => {
                 console.log('📡 SSE connection opened');
