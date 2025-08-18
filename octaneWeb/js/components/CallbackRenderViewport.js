@@ -648,7 +648,7 @@ class CallbackRenderViewport extends OctaneComponent {
      */
     async pollForImages() {
         if (!this.pollingMode) return;
-        
+ /*       
         try {
             const result = await this.client.makeGrpcCall('ApiRenderEngineService', 'grabRenderResult', {});
             
@@ -674,6 +674,7 @@ class CallbackRenderViewport extends OctaneComponent {
                 this.pollForImages();
             }, this.pollInterval);
         }
+*/            
     }
     
     /**
