@@ -332,6 +332,9 @@ class CallbackRenderViewport extends OctaneComponent {
                 console.log(`📡 Connected to callback stream, client ID: ${data.client_id}`);
                 this.clientId = data.client_id;
                 this.updateStatus(`Connected (Client: ${data.client_id.substring(0, 8)}...)`);
+                
+                // Trigger Octane to render once streaming is connected
+                this.triggerInitialRender();
                 break;
                 
             case 'newImage':
@@ -801,6 +804,22 @@ class CallbackRenderViewport extends OctaneComponent {
             throw error;
         }
     }
+    
+    /**
+     * Trigger initial render when callback streaming connects
+     */
+    async triggerInitialRender() {
+        try {
+            console.log('🎬 Triggering initial render via ApiChangeManager::update()');
+            const response = await this.client.makeGrpcCall('ApiChangeManager', 'update', {});
+            console.log('✅ Initial render triggered successfully');
+            return response;
+        } catch (error) {
+            console.warn('⚠️ Failed to trigger initial render:', error);
+            // Don't throw - this is not critical for callback streaming to work
+        }
+    }
+    
     /**
      * Sync camera from Octane
      */
