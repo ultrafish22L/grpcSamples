@@ -176,30 +176,42 @@
             </section>
 
             <!-- Right Panel: Node Inspector -->
-            <aside class="right-panel panel">
+            <aside id="right-panel" class="right-panel panel">
                 <div class="panel-header">
                     <h3>Node inspector</h3>
-                    <!-- Official OTOY Node Inspector Quick Access Buttons (Figure 2 from documentation) -->
-                    <div class="node-inspector-controls">
-                        <button class="quick-btn" title="Jump to Render Target" data-node="rendertarget">🎯</button>
-                        <button class="quick-btn" title="Jump to Camera" data-node="camera">📷</button>
-                        <button class="quick-btn" title="Jump to Resolution" data-node="resolution">📐</button>
-                        <button class="quick-btn" title="Jump to Environment" data-node="environment">🌍</button>
-                        <button class="quick-btn" title="Jump to Imager" data-node="imager">🖼️</button>
-                        <button class="quick-btn" title="Jump to Kernel" data-node="kernel">⚙️</button>
-                        <button class="quick-btn" title="Jump to Current Mesh" data-node="mesh">🔺</button>
-                        <div class="controls-spacer"></div>
-                        <button class="preview-btn" title="Enable Material Preview" data-action="preview">👁️</button>
-                        <button class="render-toggle-btn" title="Material Render Toggle" data-action="render-toggle">🎨</button>
+                </div>
+                <div class="node-inspector-layout">
+                    <!-- Official OTOY Node Inspector Quick Access Buttons (Figure 2 from documentation) - VERTICAL LAYOUT -->
+                    <!-- All 16 buttons from official documentation -->
+                    <div class="node-inspector-controls-vertical">
+                        <!-- Top Row Buttons -->
+                        <button class="quick-btn" title="Expand All Nodes" data-node="expand-all">📂</button>
+                        <button class="quick-btn" title="Render Target" data-node="rendertarget">📄</button>
+                        <button class="quick-btn" title="Camera Settings" data-node="camera">📷</button>
+                        <button class="quick-btn" title="Environment Settings" data-node="environment">🌍</button>
+                        <button class="quick-btn" title="Current Geometry" data-node="geometry">🔷</button>
+                        <button class="quick-btn" title="Animation Settings" data-node="animation">🎬</button>
+                        <button class="quick-btn" title="Active Render Layer" data-node="render-layer">🎭</button>
+                        <button class="quick-btn" title="AOV Group" data-node="aov-group">🔵</button>
+                        <button class="quick-btn" title="Post Processing" data-node="post-processing">🎨</button>
+                        <div class="controls-spacer-vertical"></div>
+                        <!-- Bottom Row Buttons -->
+                        <button class="quick-btn" title="Collapse All nodes" data-node="collapse-all">📁</button>
+                        <button class="quick-btn" title="Camera Settings" data-node="camera-alt">📸</button>
+                        <button class="quick-btn" title="Visible Environment Settings" data-node="visible-environment">🌐</button>
+                        <button class="quick-btn" title="Film Settings" data-node="film">🎞️</button>
+                        <button class="quick-btn" title="Current kernel" data-node="kernel">⚙️</button>
+                        <button class="quick-btn" title="Render AOV Node" data-node="render-aov">🔴</button>
+                        <button class="quick-btn" title="Camera Imager" data-node="camera-imager">📹</button>
                     </div>
-                </div>
-                <div class="node-selector-container">
-                    <select class="node-selector">
-                        <option>Render target</option>
-                    </select>
-                </div>
-                <div class="panel-content">
-                    <div id="node-inspector" class="node-inspector">
+                    <div class="node-inspector-main">
+                        <div class="node-selector-container">
+                            <select class="node-selector">
+                                <option>Render target</option>
+                            </select>
+                        </div>
+                        <div class="panel-content">
+                            <div id="node-inspector" class="node-inspector">
                         <!-- Node parameters will be populated here -->
                         <div class="inspector-tabs">
                             <button class="inspector-tab active">Properties</button>

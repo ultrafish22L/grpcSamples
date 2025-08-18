@@ -1735,7 +1735,33 @@ body.drag-over .drop-indicator {
     font-style: italic;
 }
 
-/* Node Inspector Control Bar - Official OTOY Quick Access Buttons */
+/* Node Inspector Layout - Official OTOY Design with Vertical Quick Access Buttons */
+.node-inspector-layout {
+    display: flex;
+    flex: 1;
+    height: 100%;
+}
+
+/* Vertical Quick Access Buttons (Left Side) - Matching Official Octane Documentation Figure 2 */
+.node-inspector-controls-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--octane-bg-secondary);
+    padding: 4px 2px;
+    border-right: 1px solid var(--octane-border);
+    width: 28px;
+    min-width: 28px;
+}
+
+/* Main Node Inspector Content (Right Side) */
+.node-inspector-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Legacy horizontal controls (deprecated - keeping for compatibility) */
 .node-inspector-controls {
     display: flex;
     gap: 1px;
@@ -1786,6 +1812,14 @@ body.drag-over .drop-indicator {
     height: 16px;
     border-left: 1px solid var(--octane-border);
     margin: 0 2px;
+}
+
+/* Vertical spacer for the new vertical layout */
+.controls-spacer-vertical {
+    width: 20px;
+    height: 4px;
+    border-top: 1px solid var(--octane-border);
+    margin: 2px 0;
 }
 
 .preview-btn, .render-toggle-btn {

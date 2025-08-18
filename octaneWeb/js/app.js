@@ -153,7 +153,7 @@ class OctaneWebApp {
         
         // Initialize Node Inspector Controls - Official OTOY quick access buttons
         this.components.nodeInspectorControls = new NodeInspectorControls(
-            'node-inspector',
+            'right-panel',
             this.client
         );
         console.log('✅ Node Inspector Controls initialized with official OTOY quick access buttons');
