@@ -5,8 +5,9 @@
  */
 
 class RenderToolbar {
-    constructor(containerId) {
+    constructor(containerId, octaneClient = null) {
         this.container = document.getElementById(containerId);
+        this.client = octaneClient; // Reference to OctaneWebClient for gRPC calls
         this.renderStats = {
             samples: 17.1,
             time: '00:00:00',
@@ -38,6 +39,48 @@ class RenderToolbar {
         this.createRenderStatsBar();
         this.createRenderToolbar();
         this.updateRenderStats();
+    }
+    
+    /**
+     * Helper method to make gRPC calls through the proxy
+     * @param {string} service - The gRPC service name (e.g., 'ApiRenderEngineService')
+     * @param {string} method - The method name (e.g., 'stopRendering')
+     * @param {Object} params - Parameters to send (optional)
+     * @returns {Promise} - The gRPC response
+     */
+    async makeGrpcCall(service, method, params = {}) {
+        if (!this.client) {
+            console.warn(`⚠️ No client available for gRPC call: ${service}.${method}`);
+            return null;
+        }
+        
+        try {
+            console.log(`🔌 Making gRPC call: ${service}.${method}`, params);
+            
+            // Use the client's serverUrl to make the call
+            const url = `${this.client.serverUrl}/${service}/${method}`;
+            
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Call-Id': `render-toolbar-${Date.now()}`
+                },
+                body: JSON.stringify(params)
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            const result = await response.json();
+            console.log(`✅ gRPC call successful: ${service}.${method}`, result);
+            return result;
+            
+        } catch (error) {
+            console.error(`❌ gRPC call failed: ${service}.${method}`, error);
+            return null;
+        }
     }
     
     createRenderStatsBar() {
@@ -337,10 +380,28 @@ class RenderToolbar {
         // Centers the render view display area without affecting zoom level
     }
     
-    resetCamera() {
+    async resetCamera() {
         console.log('📷 Resetting camera...');
-        // TODO: makeGrpcCall('ResetCamera', {})
-        // Resets camera to original position and target
+        
+        // Reset camera to default position and target
+        // Using the same camera API that's already working in the system
+        const defaultPosition = { x: 1.14, y: 11.99, z: 20.61 };
+        const defaultTarget = { x: 0, y: 0, z: 0 };
+        const defaultFov = 45;
+        
+        if (this.client && this.client.setCameraPositionAndTarget) {
+            try {
+                await this.client.setCameraPositionAndTarget(
+                    defaultPosition.x, defaultPosition.y, defaultPosition.z,
+                    defaultTarget.x, defaultTarget.y, defaultTarget.z
+                );
+                console.log('✅ Camera reset to default position successfully');
+            } catch (error) {
+                console.error('❌ Failed to reset camera:', error);
+            }
+        } else {
+            console.warn('⚠️ Camera reset not available - no client or method');
+        }
     }
     
     showCameraPresets() {
@@ -353,39 +414,93 @@ class RenderToolbar {
     // RENDER CONTROLS
     // ========================================
     
-    stopRender() {
+    async stopRender() {
         console.log('⏹️ Stopping render...');
-        this.updateRenderStatus('stopped');
-        // TODO: makeGrpcCall('StopRender', {})
-        // Aborts rendering and frees all resources
+        
+        // Make real gRPC call to stop rendering
+        const result = await this.makeGrpcCall('ApiRenderEngineService', 'stopRendering');
+        
+        if (result && result.success !== false) {
+            this.updateRenderStatus('stopped');
+            console.log('✅ Render stopped successfully');
+        } else {
+            console.error('❌ Failed to stop render');
+            // Still update UI to show stopped state for user feedback
+            this.updateRenderStatus('stopped');
+        }
     }
     
-    restartRender() {
+    async restartRender() {
         console.log('🔄 Restarting render...');
-        this.updateRenderStatus('rendering');
-        // TODO: makeGrpcCall('RestartRender', {})
-        // Halts current render, keeps contents in memory, restarts at zero samples
+        
+        // Make real gRPC call to restart rendering
+        const result = await this.makeGrpcCall('ApiRenderEngineService', 'restartRendering');
+        
+        if (result && result.success !== false) {
+            this.updateRenderStatus('rendering');
+            console.log('✅ Render restarted successfully');
+        } else {
+            console.error('❌ Failed to restart render');
+            // Still update UI to show rendering state for user feedback
+            this.updateRenderStatus('rendering');
+        }
     }
     
-    pauseRender() {
+    async pauseRender() {
         console.log('⏸️ Pausing render...');
-        this.updateRenderStatus('paused');
-        // TODO: makeGrpcCall('PauseRender', {})
-        // Pauses render without losing data, keeps GPU memory intact
+        
+        // Make real gRPC call to pause rendering
+        const result = await this.makeGrpcCall('ApiRenderEngineService', 'pauseRendering');
+        
+        if (result && result.success !== false) {
+            this.updateRenderStatus('paused');
+            console.log('✅ Render paused successfully');
+        } else {
+            console.error('❌ Failed to pause render');
+            // Still update UI to show paused state for user feedback
+            this.updateRenderStatus('paused');
+        }
     }
     
-    startRender() {
-        console.log('▶️ Starting render...');
-        this.updateRenderStatus('rendering');
-        // TODO: makeGrpcCall('StartRender', {})
-        // Starts rendering or resumes from pause
+    async startRender() {
+        console.log('▶️ Starting/resuming render...');
+        
+        // Make real gRPC call to continue rendering (resume from pause)
+        const result = await this.makeGrpcCall('ApiRenderEngineService', 'continueRendering');
+        
+        if (result && result.success !== false) {
+            this.updateRenderStatus('rendering');
+            console.log('✅ Render started/resumed successfully');
+        } else {
+            console.error('❌ Failed to start/resume render');
+            // Still update UI to show rendering state for user feedback
+            this.updateRenderStatus('rendering');
+        }
     }
     
-    toggleRealTimeRender() {
+    async toggleRealTimeRender() {
         this.realTimeMode = !this.realTimeMode;
         console.log(`⚡ Real-time rendering: ${this.realTimeMode ? 'ON' : 'OFF'}`);
-        // TODO: makeGrpcCall('SetRealTimeMode', { enabled: this.realTimeMode })
-        // Uses more GPU memory for interactive experience
+        
+        // Real-time mode typically involves setting render priority and continuous rendering
+        // For now, we'll use render priority as a proxy for real-time mode
+        const priority = this.realTimeMode ? 'high' : 'normal';
+        
+        const result = await this.makeGrpcCall('ApiRenderEngineService', 'setRenderPriority', {
+            priority: priority
+        });
+        
+        if (result && result.success !== false) {
+            console.log(`✅ Real-time mode ${this.realTimeMode ? 'enabled' : 'disabled'} successfully`);
+            this.renderPriority = priority;
+        } else {
+            console.error(`❌ Failed to ${this.realTimeMode ? 'enable' : 'disable'} real-time mode`);
+            // Revert the state if the call failed
+            this.realTimeMode = !this.realTimeMode;
+        }
+        
+        // Update button visual state
+        this.updateButtonState('real-time-render', this.realTimeMode);
     }
     
     // ========================================

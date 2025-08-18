@@ -132,9 +132,9 @@ class OctaneWebApp {
         );
         console.log('✅ CallbackRenderViewport enabled with streaming callbacks');
         
-        // Initialize Octane-style render toolbar
-        this.components.renderToolbar = new RenderToolbar('render-toolbar-container');
-        console.log('✅ RenderToolbar initialized with Octane-style interface');
+        // Initialize Octane-style render toolbar with client reference
+        this.components.renderToolbar = new RenderToolbar('render-toolbar-container', this.client);
+        console.log('✅ RenderToolbar initialized with Octane-style interface and gRPC client');
         
         // Initialize node inspector
         this.components.nodeInspector = new NodeInspector(
