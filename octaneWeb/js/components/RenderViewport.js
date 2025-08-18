@@ -9,6 +9,8 @@
  * - Global function: toggleUIDebugMode() in browser console
  */
 
+import { Camera } from '../utils/Camera.js';
+
 class RenderViewport extends OctaneComponent {
     constructor(element, client, stateManager) {
         super(element, client, stateManager);
@@ -21,30 +23,16 @@ class RenderViewport extends OctaneComponent {
         this.imageDisplay = null;
         this.statusOverlay = null;
         
-        // Camera system for LiveLink sync
-        this.camera = {
-            radius: 20.0,      // Distance from target
-            theta: 0.0,        // Horizontal rotation (radians)
-            phi: 0.0,          // Vertical rotation (radians)
-            center: [0.0, 0.0, 0.0],  // Look-at target
-            fov: 45.0,         // Field of view
-            sensitivity: 0.01,  // Mouse sensitivity
-            zoomSpeed: 0.1     // Wheel zoom speed
-        };
-        
-        // Mouse interaction state
-        this.mouse = {
-            dragging: false,
-            panning: false,
-            lastX: 0,
-            lastY: 0
-        };
-        
-        // LiveLink sync state
-        this.syncEnabled = true;
-        this.lastSyncTime = 0;
-        this.syncThrottle = 100; // Minimum ms between sync calls - reduced for more responsive camera
-        this.syncCount = 0;
+        // Initialize centralized camera system
+        this.camera = new Camera(this.client, {
+            radius: 20.0,
+            theta: 0.0,
+            phi: 0.0,
+            center: [0.0, 0.0, 0.0],
+            fov: 45.0,
+            sensitivity: 0.01,
+            zoomSpeed: 0.1
+        });
         
         // Background image polling state
         this.imagePolling = false;
@@ -67,11 +55,14 @@ class RenderViewport extends OctaneComponent {
             // Create 2D viewport container
             await this.create2DViewport();
             
-            // Get initial camera state from Octane
-            await this.syncFromOctane();
+            // Initialize camera from Octane's current state
+            await this.camera.initializeFromOctane();
             
-            // Setup mouse event handlers
-            this.setupEventHandlers();
+            // Setup camera mouse controls
+            this.camera.setupMouseControls(this.viewport);
+            
+            // Setup viewport resize handling
+            this.setupResizeHandling();
             
             // Start background image polling
             this.startImagePolling();
@@ -183,19 +174,9 @@ class RenderViewport extends OctaneComponent {
     }
     
     /**
-     * Setup event handlers for mouse interaction
+     * Setup viewport resize handling
      */
-    setupEventHandlers() {
-        // Mouse events on viewport
-        this.viewport.addEventListener('mousedown', (e) => this.handleMouseDown(e));
-        this.viewport.addEventListener('mousemove', (e) => this.handleMouseMove(e));
-        this.viewport.addEventListener('mouseup', (e) => this.handleMouseUp(e));
-        this.viewport.addEventListener('wheel', (e) => this.handleWheel(e));
-        this.viewport.addEventListener('contextmenu', (e) => e.preventDefault());
-        
-        // Prevent text selection during drag
-        this.viewport.addEventListener('selectstart', (e) => e.preventDefault());
-        
+    setupResizeHandling() {
         // Window resize handler for responsive viewport
         this.resizeHandler = () => this.handleResize();
         window.addEventListener('resize', this.resizeHandler);
@@ -203,182 +184,10 @@ class RenderViewport extends OctaneComponent {
         // Initial resize to set proper dimensions
         this.handleResize();
         
-        console.log('✅ Event handlers setup complete');
+        console.log('✅ Resize handling setup complete');
     }
     
-    /**
-     * Handle mouse down events
-     */
-    handleMouseDown(event) {
-        this.mouse.dragging = event.button === 0; // Left button
-        this.mouse.panning = event.button === 2;  // Right button
-        this.mouse.lastX = event.clientX;
-        this.mouse.lastY = event.clientY;
-        
-        if (this.mouse.dragging || this.mouse.panning) {
-            this.viewport.style.cursor = this.mouse.panning ? 'move' : 'grabbing';
-            this.updateStatus('Dragging camera...');
-        }
-        
-        console.log('🖱️ Mouse down:', {
-            button: event.button,
-            dragging: this.mouse.dragging,
-            panning: this.mouse.panning
-        });
-    }
-    
-    /**
-     * Handle mouse move events
-     */
-    handleMouseMove(event) {
-        if (this.mouse.dragging || this.mouse.panning) {
-            const deltaX = event.clientX - this.mouse.lastX;
-            const deltaY = event.clientY - this.mouse.lastY;
-            
-            if (this.mouse.dragging) {
-                // Orbit camera
-                this.camera.theta += deltaX * this.camera.sensitivity;
-                this.camera.phi = Math.max(-Math.PI/2 + 0.1, 
-                                         Math.min(Math.PI/2 - 0.1, 
-                                                this.camera.phi + deltaY * this.camera.sensitivity));
-                
-                // Sync to Octane
-                this.syncToOctane();
-            } else if (this.mouse.panning) {
-                // Pan camera (move center point)
-                // TODO: Implement panning if needed
-            }
-            
-            this.mouse.lastX = event.clientX;
-            this.mouse.lastY = event.clientY;
-        }
-    }
-    
-    /**
-     * Handle mouse up events
-     */
-    handleMouseUp(event) {
-        this.mouse.dragging = false;
-        this.mouse.panning = false;
-        this.viewport.style.cursor = 'grab';
-        this.updateStatus('LiveLink: Ready');
-    }
-    
-    /**
-     * Handle mouse wheel events
-     */
-    handleWheel(event) {
-        event.preventDefault();
-        
-        // Zoom camera
-        const zoomDelta = event.deltaY * this.camera.zoomSpeed;
-        this.camera.radius = Math.max(1.0, Math.min(100.0, this.camera.radius + zoomDelta));
-        
-        this.updateStatus(`Zoom: ${this.camera.radius.toFixed(1)}`);
-        
-        // Sync to Octane
-        this.syncToOctane();
-        
-        console.log('🔍 Wheel zoom:', {
-            deltaY: event.deltaY,
-            newRadius: this.camera.radius
-        });
-    }
-    
-    /**
-     * Calculate camera position from spherical coordinates
-     */
-    getCameraPosition() {
-        const x = this.camera.center[0] + this.camera.radius * Math.sin(this.camera.theta) * Math.cos(this.camera.phi);
-        const y = this.camera.center[1] + this.camera.radius * Math.sin(this.camera.phi);
-        const z = this.camera.center[2] + this.camera.radius * Math.cos(this.camera.theta) * Math.cos(this.camera.phi);
-        return [x, y, z];
-    }
-    
-    /**
-     * Sync camera state to Octane
-     */
-    async syncToOctane() {
-        if (!this.syncEnabled || !this.client) return;
-        
-        // Throttle sync calls
-        const now = Date.now();
-        if (now - this.lastSyncTime < this.syncThrottle) return;
-        this.lastSyncTime = now;
-        
-        try {
-            const position = this.getCameraPosition();
-            const cameraState = {
-                position: { x: position[0], y: position[1], z: position[2] },
-                target: { x: this.camera.center[0], y: this.camera.center[1], z: this.camera.center[2] },
-                up: { x: 0, y: 1, z: 0 },
-                fov: this.camera.fov
-            };
-            
-            await this.client.setCamera(cameraState);
-            this.syncCount++;
-            
-            console.log('📤 Camera synced to Octane:', {
-                position: `(${position[0].toFixed(2)}, ${position[1].toFixed(2)}, ${position[2].toFixed(2)})`,
-                radius: this.camera.radius.toFixed(2),
-                theta: (this.camera.theta * 180 / Math.PI).toFixed(1) + '°',
-                phi: (this.camera.phi * 180 / Math.PI).toFixed(1) + '°',
-                syncCount: this.syncCount
-            });
-            
-        } catch (error) {
-            console.error('❌ Failed to sync camera to Octane:', error);
-            this.updateStatus('Sync error');
-        }
-    }
-    
-    /**
-     * Sync camera state from Octane
-     */
-    async syncFromOctane() {
-        if (!this.client) return;
-        
-        try {
-            const cameraData = await this.client.getCamera();
-            if (cameraData && cameraData.position && cameraData.target) {
-                // Convert Octane camera to spherical coordinates
-                const pos = cameraData.position;
-                const target = cameraData.target;
-                
-                this.camera.center = [target.x, target.y, target.z];
-                
-                const direction = [
-                    pos.x - target.x,
-                    pos.y - target.y,
-                    pos.z - target.z
-                ];
-                
-                this.camera.radius = Math.sqrt(direction[0] * direction[0] + 
-                                             direction[1] * direction[1] + 
-                                             direction[2] * direction[2]);
-                
-                this.camera.theta = Math.atan2(direction[0], direction[2]);
-                this.camera.phi = Math.asin(direction[1] / this.camera.radius);
-                
-                if (cameraData.fov) {
-                    this.camera.fov = cameraData.fov;
-                }
-                
-                console.log('📥 Camera synced from Octane:', {
-                    position: `(${pos.x.toFixed(2)}, ${pos.y.toFixed(2)}, ${pos.z.toFixed(2)})`,
-                    target: `(${target.x.toFixed(2)}, ${target.y.toFixed(2)}, ${target.z.toFixed(2)})`,
-                    radius: this.camera.radius.toFixed(2),
-                    fov: this.camera.fov.toFixed(1) + '°'
-                });
-                
-                this.updateStatus('Synced from Octane');
-            }
-            
-        } catch (error) {
-            console.error('❌ Failed to sync camera from Octane:', error);
-            this.updateStatus('Sync error');
-        }
-    }
+
     
     /**
      * Update status overlay (controlled by uiDebugMode)
@@ -786,5 +595,34 @@ class RenderViewport extends OctaneComponent {
             this.statusOverlay.remove();
             this.statusOverlay = null;
         }
+    }
+
+    /**
+     * Cleanup on destroy
+     */
+    onDestroy() {
+        console.log('🗑️ Cleaning up RenderViewport');
+        
+        // Clean up camera system
+        if (this.camera) {
+            this.camera.destroy();
+            this.camera = null;
+        }
+        
+        // Remove resize handler
+        if (this.resizeHandler) {
+            window.removeEventListener('resize', this.resizeHandler);
+            this.resizeHandler = null;
+        }
+        
+        // Stop image polling
+        this.imagePolling = false;
+        if (this.imagePollTimeout) {
+            clearTimeout(this.imagePollTimeout);
+            this.imagePollTimeout = null;
+        }
+        
+        // Remove debug UI
+        this.removeDebugUI();
     }
 }

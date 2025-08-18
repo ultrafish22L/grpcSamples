@@ -16,6 +16,8 @@
  * - Global function: toggleUIDebugMode() in browser console
  */
 
+import { Camera } from '../utils/Camera.js';
+
 class CallbackRenderViewport extends OctaneComponent {
     constructor(element, client, stateManager, eventSystem) {
         super(element, client, stateManager);
@@ -43,8 +45,8 @@ class CallbackRenderViewport extends OctaneComponent {
         this.statusOverlay = null;
         this.modeIndicator = null;
         
-        // Camera system for LiveLink sync
-        this.camera = {
+        // Initialize centralized camera system
+        this.camera = new Camera(this.client, {
             radius: 20.0,
             theta: 0.0,
             phi: 0.0,
@@ -52,21 +54,7 @@ class CallbackRenderViewport extends OctaneComponent {
             fov: 45.0,
             sensitivity: 0.01,
             zoomSpeed: 0.1
-        };
-        
-        // Mouse interaction state
-        this.mouse = {
-            dragging: false,
-            panning: false,
-            lastX: 0,
-            lastY: 0
-        };
-        
-        // LiveLink sync state
-        this.syncEnabled = true;
-        this.lastSyncTime = 0;
-        this.syncThrottle = 100;
-        this.syncCount = 0;
+        });
         
         // Statistics
         this.callbackCount = 0;
@@ -86,11 +74,11 @@ class CallbackRenderViewport extends OctaneComponent {
             // Create 2D viewport container
             await this.create2DViewport();
             
-            // Get initial camera state from Octane
-            await this.syncFromOctane();
+            // Initialize camera from Octane's current state
+            await this.camera.initializeFromOctane();
             
-            // Setup mouse event handlers
-            this.setupEventHandlers();
+            // Setup camera mouse controls
+            this.camera.setupMouseControls(this.viewport);
             
             // Wait for scene data to be loaded before starting render polling
             this.setupSceneLoadingListener();
@@ -697,116 +685,9 @@ class CallbackRenderViewport extends OctaneComponent {
         // Implementation would be similar to original RenderViewport.displayRenderImage()
     }
     
-    /**
-     * Setup mouse event handlers for camera control
-     */
-    setupEventHandlers() {
-        // Mouse event handlers for camera control
-        // RIGHT CLICK = ORBIT, LEFT CLICK = PAN, WHEEL = ZOOM
-        this.viewport.addEventListener('mousedown', (e) => {
-            if (e.button === 0) { // Left button = PAN
-                this.mouse.panning = true;
-                this.viewport.style.cursor = 'move';
-            } else if (e.button === 2) { // Right button = ORBIT
-                this.mouse.dragging = true;
-                this.viewport.style.cursor = 'grabbing';
-            }
-            this.mouse.lastX = e.clientX;
-            this.mouse.lastY = e.clientY;
-            e.preventDefault();
-        });
-        
-        this.viewport.addEventListener('mousemove', (e) => {
-            if (this.mouse.dragging || this.mouse.panning) {
-                const deltaX = e.clientX - this.mouse.lastX;
-                const deltaY = e.clientY - this.mouse.lastY;
-                
-                if (this.mouse.dragging) {
-                    // RIGHT CLICK: Orbit camera around target
-                    this.camera.theta += deltaX * this.camera.sensitivity;
-                    this.camera.phi += deltaY * this.camera.sensitivity;
-                    this.camera.phi = Math.max(-Math.PI/2 + 0.1, Math.min(Math.PI/2 - 0.1, this.camera.phi));
-                    
-                    // console.log(`🔄 Orbiting: theta=${this.camera.theta.toFixed(2)}, phi=${this.camera.phi.toFixed(2)}`);
-                    
-                } else if (this.mouse.panning) {
-                    // LEFT CLICK: Pan camera target
-                    const right = [
-                        Math.cos(this.camera.theta + Math.PI/2),
-                        0,
-                        Math.sin(this.camera.theta + Math.PI/2)
-                    ];
-                    const up = [0, 1, 0];
-                    
-                    const panSpeed = this.camera.radius * 0.001;
-                    this.camera.center[0] -= right[0] * deltaX * panSpeed;
-                    this.camera.center[1] += up[1] * deltaY * panSpeed;
-                    this.camera.center[2] -= right[2] * deltaX * panSpeed;
-                    
-                    console.log(`↔️ Panning: center=[${this.camera.center.map(v => v.toFixed(2)).join(', ')}]`);
-                }
-                
-                this.mouse.lastX = e.clientX;
-                this.mouse.lastY = e.clientY;
-                
-                // Sync with Octane
-                this.syncToOctane();
-            }
-        });
-        
-        this.viewport.addEventListener('mouseup', () => {
-            this.mouse.dragging = false;
-            this.mouse.panning = false;
-            this.viewport.style.cursor = 'grab';
-        });
-        
-        this.viewport.addEventListener('wheel', (e) => {
-            const oldRadius = this.camera.radius;
-            this.camera.radius *= (1 + e.deltaY * this.camera.zoomSpeed * 0.001);
-            this.camera.radius = Math.max(0.1, Math.min(1000, this.camera.radius));
-            
-            console.log(`🔍 Zooming: ${oldRadius.toFixed(2)} → ${this.camera.radius.toFixed(2)}`);
-            
-            this.syncToOctane();
-            e.preventDefault();
-        });
-        
-        // Prevent context menu
-        this.viewport.addEventListener('contextmenu', (e) => e.preventDefault());
-    }
+
     
-    /**
-     * Sync camera to Octane
-     */
-    async syncToOctane() {
-        if (!this.syncEnabled) return;
-        if (!this.client.isReady()) return; // Don't sync when disconnected
-        
-        const now = Date.now();
-        if (now - this.lastSyncTime < this.syncThrottle) return;
-        
-        try {
-            // Calculate camera position (fixed coordinate system to match RenderViewport)
-            const x = this.camera.center[0] + this.camera.radius * Math.sin(this.camera.theta) * Math.cos(this.camera.phi);
-            const y = this.camera.center[1] + this.camera.radius * Math.sin(this.camera.phi);
-            const z = this.camera.center[2] + this.camera.radius * Math.cos(this.camera.theta) * Math.cos(this.camera.phi);
-            
-            // Set camera parameters
-            await this.client.setCameraPosition(x, y, z);
-            await this.client.setCameraTarget(this.camera.center[0], this.camera.center[1], this.camera.center[2]);
-            
-            // CRITICAL: Call ApiChangeManager::update() to refresh Octane's display
-            await this.triggerOctaneUpdate();
-            
-            this.lastSyncTime = now;
-            this.syncCount++;
-            
-            console.log(`📷 Camera synced: pos=[${x.toFixed(2)}, ${y.toFixed(2)}, ${z.toFixed(2)}], target=[${this.camera.center.map(v => v.toFixed(2)).join(', ')}]`);
-            
-        } catch (error) {
-            console.warn('⚠️ Camera sync error:', error);
-        }
-    }
+
     
     /**
      * Trigger Octane display update via ApiChangeManager::update()
@@ -871,31 +752,7 @@ class CallbackRenderViewport extends OctaneComponent {
         }
     }
     
-    /**
-     * Sync camera from Octane
-     */
-    async syncFromOctane() {
-        try {
-            const position = await this.client.getCameraPosition();
-            const target = await this.client.getCameraTarget();
-            
-            if (position && target) {
-                // Update camera state
-                this.camera.center = [target.x, target.y, target.z];
-                
-                const dx = position.x - target.x;
-                const dy = position.y - target.y;
-                const dz = position.z - target.z;
-                
-                this.camera.radius = Math.sqrt(dx*dx + dy*dy + dz*dz);
-                this.camera.theta = Math.atan2(dz, dx);
-                this.camera.phi = Math.asin(dy / this.camera.radius);
-            }
-            
-        } catch (error) {
-            console.warn('⚠️ Camera sync from Octane failed:', error);
-        }
-    }
+
     
     /**
      * Update status overlay (controlled by uiDebugMode)
@@ -1037,6 +894,12 @@ class CallbackRenderViewport extends OctaneComponent {
      */
     onDestroy() {
         console.log('🗑️ Cleaning up CallbackRenderViewport');
+        
+        // Clean up camera system
+        if (this.camera) {
+            this.camera.destroy();
+            this.camera = null;
+        }
         
         // Close SSE connection
         if (this.eventSource) {
