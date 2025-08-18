@@ -107,7 +107,7 @@ echo.
 
 REM Start the proxy server in background
 echo Starting proxy server...
-start "OctaneWeb Proxy" cmd /k "cd ..\octaneProxy && python octane_proxy.py --port 51023"
+start "OctaneWeb Proxy" cmd /k "cd ..\octaneProxy && python octane_proxy.py"
 
 REM Wait a moment for proxy to start
 timeout /t 3 /nobreak >nul
