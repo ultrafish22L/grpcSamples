@@ -688,7 +688,138 @@ html, body {
     gap: 12px;
 }
 
-/* Render Controls */
+/* Octane-style Render Toolbar */
+.render-toolbar-container {
+    background-color: var(--octane-bg-header);
+    border-bottom: 1px solid var(--octane-border);
+}
+
+/* Render Statistics Bar */
+.render-stats-bar {
+    background-color: var(--octane-bg-secondary);
+    border-bottom: 1px solid var(--octane-border);
+    padding: 3px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 20px;
+    font-size: 11px;
+    color: var(--octane-text-secondary);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.render-stats-left,
+.render-stats-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.stats-separator {
+    color: var(--octane-text-muted);
+    margin: 0 2px;
+}
+
+#render-samples-display {
+    color: var(--octane-text-primary);
+    font-weight: 500;
+}
+
+#render-time-display {
+    color: var(--octane-text-primary);
+    font-weight: 500;
+}
+
+.render-status-rendering {
+    color: var(--octane-accent-blue) !important;
+}
+
+.render-status-finished {
+    color: var(--octane-text-secondary);
+}
+
+.render-status-paused {
+    color: var(--octane-accent-yellow) !important;
+}
+
+.render-status-stopped,
+.render-status-error {
+    color: var(--octane-accent-red) !important;
+}
+
+/* Render Toolbar Icons */
+.render-toolbar {
+    background-color: var(--octane-bg-header);
+    padding: 2px 4px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+}
+
+.render-toolbar-icons {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+
+.render-toolbar-icons::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+.toolbar-icon-btn {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--octane-text-secondary);
+    padding: 3px;
+    font-size: 14px;
+    font-family: 'Segoe UI Symbol', 'Segoe UI', monospace;
+    font-weight: normal;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s ease;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.toolbar-icon-btn:hover {
+    background-color: var(--octane-bg-hover);
+    border-color: var(--octane-border);
+    color: var(--octane-text-primary);
+}
+
+.toolbar-icon-btn:active {
+    background-color: var(--octane-bg-active);
+    border-color: var(--octane-accent-blue);
+}
+
+.toolbar-icon-btn.important {
+    color: var(--octane-text-primary);
+    background-color: rgba(64, 128, 255, 0.1);
+}
+
+.toolbar-icon-btn.important:hover {
+    background-color: rgba(64, 128, 255, 0.2);
+    border-color: var(--octane-accent-blue);
+}
+
+.toolbar-separator {
+    width: 1px;
+    height: 18px;
+    background-color: var(--octane-border);
+    margin: 0 3px;
+    flex-shrink: 0;
+}
+
+/* Legacy render controls (keep for compatibility) */
 .render-controls {
     background-color: var(--octane-bg-header);
     border-bottom: 1px solid var(--octane-border);

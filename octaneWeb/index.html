@@ -144,19 +144,10 @@
                         </div>
                     </div>
                 </div>                
-                <!-- Render Controls -->
-                <div class="render-controls">
-                    <div class="playback-controls">
-                        <button class="control-btn" title="First Frame">⏮</button>
-                        <button class="control-btn" title="Previous Frame">⏪</button>
-                        <button class="control-btn" title="Play/Pause">⏯</button>
-                        <button class="control-btn" title="Next Frame">⏩</button>
-                        <button class="control-btn" title="Last Frame">⏭</button>
-                    </div>
-                    <div class="render-info">
-                        <span class="frame-info">Frame 1 of 1</span>
-                        <span class="gpu-info">NVIDIA GeForce RTX 4090 (RT), 1.4...</span>
-                    </div>
+                
+                <!-- Octane-style Render Toolbar -->
+                <div id="render-toolbar-container" class="render-toolbar-container">
+                    <!-- This will be populated by RenderToolbar.js -->
                 </div>
                 
             </section>
@@ -319,6 +310,7 @@
             'js/components/SceneOutlinerSync.js',
             'js/components/RenderViewport.js',
             'js/components/CallbackRenderViewport.js',
+            'js/components/RenderToolbar.js',
             'js/components/NodeInspector.js',
             'js/components/NodeGraphEditor.js',
             'js/components/MenuSystem.js',

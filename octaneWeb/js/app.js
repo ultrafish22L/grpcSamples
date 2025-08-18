@@ -15,6 +15,7 @@ class OctaneWebApp {
         this.components = {
             sceneOutliner: null,
             renderViewport: null,
+            renderToolbar: null,
             nodeInspector: null,
             nodeGraphEditor: null,
             menuSystem: null
@@ -129,7 +130,12 @@ class OctaneWebApp {
             this.stateManager,
             this.eventSystem
         );
-        console.log('✅ CallbackRenderViewport enabled with streaming callbacks');        
+        console.log('✅ CallbackRenderViewport enabled with streaming callbacks');
+        
+        // Initialize Octane-style render toolbar
+        this.components.renderToolbar = new RenderToolbar('render-toolbar-container');
+        console.log('✅ RenderToolbar initialized with Octane-style interface');
+        
         // Initialize node inspector
         this.components.nodeInspector = new NodeInspector(
             document.querySelector('#node-inspector'),
