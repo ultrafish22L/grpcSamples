@@ -138,7 +138,7 @@ void CameraController::scrollCallback(GLFWwindow* window, double xoffset, double
     if (!g_cameraController) return;
     
     g_cameraController->camera.radius -= yoffset * 0.5f;
-    g_cameraController->camera.radius = glm::clamp(g_cameraController->camera.radius, 1.0f, 20.0f);
+    g_cameraController->camera.radius = glm::clamp(g_cameraController->camera.radius, .10f, 1000.0f);
     
     // Update camera
     g_cameraController->updateCamera();

@@ -340,7 +340,7 @@ bool CameraSyncSdk::setCameraPosition(const glm::vec3& pos, bool evaluate) {
         float_3 p = {pos.x, pos.y, pos.z};
         m_cameraNode.setPinValue(Octane::P_POSITION, p, true);
         
-        logSdkStatus("SetCameraPosition", true);
+//        logSdkStatus("SetCameraPosition", true);
         
     } catch (const std::exception& e) {
         std::cout << "Exception in setCameraPosition: " << e.what() << std::endl;

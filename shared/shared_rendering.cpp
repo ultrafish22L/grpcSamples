@@ -301,6 +301,8 @@ bool RendererGl::initialize() {
     * Render the scene
     */
 void RendererGl::renderCube(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& viewPos, float time) {
+    glEnable(GL_DEPTH_TEST);
+
     glUseProgram(shaderInfoCube.shaderProgram);
         
     // Set uniforms

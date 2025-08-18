@@ -53,7 +53,7 @@ SharedUtils::RendererGl renderer;
 CameraSyncSdk cameraSync;
 //CameraSyncLiveLink cameraSync; 
 GLuint mTextureNameGL = 0;
-bool showTestQuad = false;
+bool showTestQuad = true;
 
 // Rendering mode enumeration
 enum RenderMode {
@@ -175,7 +175,7 @@ void setupTexture(const ApiRenderImage& image)
 #endif
         if (image.mBuffer)
         {
-            std::cout << "🎨 Processing new render data..." << std::endl;
+            std::cout << " Processing new render data..." << std::endl;
             std::cout << "   Image: " << image.mSize.x << "x" << image.mSize.y 
                       << ", Type: " << image.mType << std::endl;
             
@@ -217,7 +217,7 @@ void setupTexture(const ApiRenderImage& image)
                 type = GL_FLOAT;
                 break;
             default:
-                std::cout << "⚠️  Unknown image type " << image.mType << ", using RGBA8" << std::endl;
+                std::cout << "  Unknown image type " << image.mType << ", using RGBA8" << std::endl;
                 break;
             }
 
@@ -250,9 +250,9 @@ void setupTexture(const ApiRenderImage& image)
             
             GLenum error = glGetError();
             if (error != GL_NO_ERROR) {
-                std::cout << "❌ OpenGL error during texture upload: 0x" << std::hex << error << std::dec << std::endl;
+                std::cout << " OpenGL error during texture upload: 0x" << std::hex << error << std::dec << std::endl;
             } else {
-                std::cout << "✅ Texture updated successfully!" << std::endl;
+                std::cout << " Texture updated successfully!" << std::endl;
             }
             
             glBindTexture(GL_TEXTURE_2D, 0);
@@ -269,7 +269,7 @@ std::string GetHRESULTErrorDescription(HRESULT hr) {
 
 // Initialize D3D11 device and context
 bool initializeD3D11() {
-    std::cout << "🔧 Initializing D3D11 device..." << std::endl;
+    std::cout << " Initializing D3D11 device..." << std::endl;
     
     UINT createDeviceFlags = 0;
 #ifdef _DEBUG
@@ -298,11 +298,11 @@ bool initializeD3D11() {
     );
     
     if (FAILED(hr)) {
-        std::cout << "❌ Failed to create D3D11 device: " << GetHRESULTErrorDescription(hr) << std::endl;
+        std::cout << " Failed to create D3D11 device: " << GetHRESULTErrorDescription(hr) << std::endl;
         return false;
     }
     
-    std::cout << "✅ D3D11 device created successfully" << std::endl;
+    std::cout << " D3D11 device created successfully" << std::endl;
     std::cout << "   Feature level: " << std::hex << featureLevel << std::dec << std::endl;
     
     // Get adapter LUID for shared surface compatibility
@@ -328,12 +328,12 @@ bool initializeD3D11() {
 
 // Load WGL extension function pointers
 bool loadWGLExtensions() {
-    std::cout << "🔧 Loading WGL extensions..." << std::endl;
+    std::cout << " Loading WGL extensions..." << std::endl;
     
     // Check if WGL_NV_DX_interop extension is supported
     const char* extensions = (const char*)glGetString(GL_EXTENSIONS);
     if (!extensions || !strstr(extensions, "WGL_NV_DX_interop")) {
-        std::cout << "❌ WGL_NV_DX_interop extension not supported" << std::endl;
+        std::cout << " WGL_NV_DX_interop extension not supported" << std::endl;
         return false;
     }
     
@@ -347,17 +347,17 @@ bool loadWGLExtensions() {
     
     if (!wglDXOpenDeviceNV || !wglDXCloseDeviceNV || !wglDXRegisterObjectNV || 
         !wglDXUnregisterObjectNV || !wglDXLockObjectsNV || !wglDXUnlockObjectsNV) {
-        std::cout << "❌ Failed to load WGL extension functions" << std::endl;
+        std::cout << " Failed to load WGL extension functions" << std::endl;
         return false;
     }
     
-    std::cout << "✅ WGL extensions loaded successfully" << std::endl;
+    std::cout << " WGL extensions loaded successfully" << std::endl;
     return true;
 }
 
 // Create shared D3D11 texture
 bool createSharedTexture(int width, int height) {
-    std::cout << "🔧 Creating shared D3D11 texture (" << width << "x" << height << ")..." << std::endl;
+    std::cout << " Creating shared D3D11 texture (" << width << "x" << height << ")..." << std::endl;
     
     // Create shared texture descriptor
     D3D11_TEXTURE2D_DESC desc = {};
@@ -375,7 +375,7 @@ bool createSharedTexture(int width, int height) {
     
     HRESULT hr = g_d3d11Device->CreateTexture2D(&desc, nullptr, &g_sharedTexture);
     if (FAILED(hr)) {
-        std::cout << "❌ Failed to create shared texture: " << GetHRESULTErrorDescription(hr) << std::endl;
+        std::cout << " Failed to create shared texture: " << GetHRESULTErrorDescription(hr) << std::endl;
         return false;
     }
     
@@ -383,7 +383,7 @@ bool createSharedTexture(int width, int height) {
     IDXGIResource1* dxgiResource = nullptr;
     hr = g_sharedTexture->QueryInterface(__uuidof(IDXGIResource1), (void**)&dxgiResource);
     if (FAILED(hr)) {
-        std::cout << "❌ Failed to query DXGI resource: " << GetHRESULTErrorDescription(hr) << std::endl;
+        std::cout << " Failed to query DXGI resource: " << GetHRESULTErrorDescription(hr) << std::endl;
         return false;
     }
     
@@ -396,30 +396,30 @@ bool createSharedTexture(int width, int height) {
     dxgiResource->Release();
     
     if (FAILED(hr)) {
-        std::cout << "❌ Failed to create shared handle: " << GetHRESULTErrorDescription(hr) << std::endl;
+        std::cout << " Failed to create shared handle: " << GetHRESULTErrorDescription(hr) << std::endl;
         return false;
     }
     
-    std::cout << "✅ Shared D3D11 texture created successfully" << std::endl;
+    std::cout << " Shared D3D11 texture created successfully" << std::endl;
     std::cout << "   Handle: 0x" << std::hex << g_sharedHandle << std::dec << std::endl;
     return true;
 }
 
 // Setup OpenGL interop with D3D11
 bool setupOpenGLInterop() {
-    std::cout << "🔧 Setting up OpenGL/D3D11 interop..." << std::endl;
+    std::cout << " Setting up OpenGL/D3D11 interop..." << std::endl;
     
     // Open D3D11 device for OpenGL interop
     g_glD3DDevice = wglDXOpenDeviceNV(g_d3d11Device);
     if (!g_glD3DDevice) {
-        std::cout << "❌ Failed to open D3D11 device for OpenGL interop" << std::endl;
+        std::cout << " Failed to open D3D11 device for OpenGL interop" << std::endl;
         return false;
     }
     
     // Generate OpenGL texture
     glGenTextures(1, &g_sharedTextureGL);
     if (g_sharedTextureGL == 0) {
-        std::cout << "❌ Failed to generate OpenGL texture" << std::endl;
+        std::cout << " Failed to generate OpenGL texture" << std::endl;
         return false;
     }
     
@@ -433,54 +433,54 @@ bool setupOpenGLInterop() {
     );
     
     if (!g_glSharedTexture) {
-        std::cout << "❌ Failed to register shared texture with OpenGL" << std::endl;
+        std::cout << " Failed to register shared texture with OpenGL" << std::endl;
         return false;
     }
     
-    std::cout << "✅ OpenGL/D3D11 interop setup successfully" << std::endl;
+    std::cout << " OpenGL/D3D11 interop setup successfully" << std::endl;
     std::cout << "   OpenGL texture ID: " << g_sharedTextureGL << std::endl;
     return true;
 }
 
 // Register shared surface with Octane
 bool registerWithOctane() {
-    std::cout << "🔧 Registering shared surface with Octane..." << std::endl;
+    std::cout << " Registering shared surface with Octane..." << std::endl;
     
     // Check if current device supports shared surfaces
     ApiDeviceSharedSurfaceInfo sharedInfo = ApiRenderEngineProxy::deviceSharedSurfaceInfo(0);
     if (!sharedInfo.mD3D11.mSupported) {
-        std::cout << "❌ Current Octane device doesn't support D3D11 shared surfaces" << std::endl;
+        std::cout << " Current Octane device doesn't support D3D11 shared surfaces" << std::endl;
         return false;
     }
     
     if (sharedInfo.mD3D11.mAdapterLuid != g_adapterLuid) {
-        std::cout << "❌ Adapter LUID mismatch:" << std::endl;
+        std::cout << " Adapter LUID mismatch:" << std::endl;
         std::cout << "   Octane: 0x" << std::hex << sharedInfo.mD3D11.mAdapterLuid << std::dec << std::endl;
         std::cout << "   D3D11:  0x" << std::hex << g_adapterLuid << std::dec << std::endl;
         return false;
     }
     
-    std::cout << "✅ Octane device supports D3D11 shared surfaces" << std::endl;
+    std::cout << " Octane device supports D3D11 shared surfaces" << std::endl;
     std::cout << "   Adapter LUID: 0x" << std::hex << sharedInfo.mD3D11.mAdapterLuid << std::dec << std::endl;
     
     // Create Octane shared surface
     g_octaneSharedSurface = ApiSharedSurface::createD3D11(g_adapterLuid, g_sharedHandle);
     if (!g_octaneSharedSurface) {
-        std::cout << "❌ Failed to create Octane shared surface" << std::endl;
+        std::cout << " Failed to create Octane shared surface" << std::endl;
         return false;
     }
     
     // Enable shared surface output in Octane
     ApiRenderEngineProxy::setSharedSurfaceOutputType(SHARED_SURFACE_TYPE_D3D11, true);
     
-    std::cout << "✅ Shared surface registered with Octane successfully" << std::endl;
+    std::cout << " Shared surface registered with Octane successfully" << std::endl;
     std::cout << "   Real-time mode enabled" << std::endl;
     return true;
 }
 
 // Cleanup shared surface resources
 void cleanupSharedSurface() {
-    std::cout << "🔌 Cleaning up shared surface resources..." << std::endl;
+    std::cout << " Cleaning up shared surface resources..." << std::endl;
     
     // Disable shared surface output
     if (g_octaneSharedSurface) {
@@ -533,7 +533,7 @@ void cleanupSharedSurface() {
         g_d3d11Device = nullptr;
     }
     
-    std::cout << "✅ Shared surface cleanup complete" << std::endl;
+    std::cout << " Shared surface cleanup complete" << std::endl;
 }
 #endif
 
@@ -557,7 +557,7 @@ void OnNewImageCallback(const Octane::ApiArray<Octane::ApiRenderImage>& renderIm
             foundSharedSurface = true;
             g_hasSharedSurfaceData = true;
             
-            std::cout << "🚀 Received shared surface callback #" << g_callbackCount.load() << std::endl;
+            std::cout << " Received shared surface callback #" << g_callbackCount.load() << std::endl;
             std::cout << "   Surface type: " << img.mSharedSurface->getType() << std::endl;
             std::cout << "   Pass: " << img.mRenderPassId 
                       << ", Samples: " << img.mTonemappedSamplesPerPixel << std::endl;
@@ -583,7 +583,7 @@ void OnNewImageCallback(const Octane::ApiArray<Octane::ApiRenderImage>& renderIm
         g_hasNewRenderData = true;
         g_hasSharedSurfaceData = false;
         
-        std::cout << "📸 Received render callback #" << g_callbackCount.load() 
+        std::cout << " Received render callback #" << g_callbackCount.load() 
                   << " with " << renderImages.mSize << " images" << std::endl;
         
         if (renderImages.mSize > 0) {
@@ -594,7 +594,7 @@ void OnNewImageCallback(const Octane::ApiArray<Octane::ApiRenderImage>& renderIm
                       << ", Samples: " << img.mTonemappedSamplesPerPixel << std::endl;
         }
     } else {
-        std::cout << "⚠️  Received callback #" << g_callbackCount.load() 
+        std::cout << "  Received callback #" << g_callbackCount.load() 
                   << " with no usable image data" << std::endl;
     }
 }
@@ -617,7 +617,7 @@ int main() {
     glfwWindowHint(GLFW_STENCIL_BITS, 8);
     
     // Create window
-    GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "🚀 Shiny 3D Cube Viewer - SDK Edition", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, " Shiny 3D Cube Viewer - SDK Edition", NULL, NULL);
     if (!window) {
         std::cerr << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -663,7 +663,7 @@ int main() {
 
 #ifdef _WIN32X
     // Attempt to initialize shared surface rendering (Windows only)
-    std::cout << "\n🚀 Attempting shared surface initialization..." << std::endl;
+    std::cout << "\n Attempting shared surface initialization..." << std::endl;
     
     bool sharedSurfaceSuccess = false;
     if (initializeD3D11()) {
@@ -673,7 +673,7 @@ int main() {
                     if (registerWithOctane()) {
                         g_renderMode = RENDER_MODE_SHARED_SURFACE;
                         sharedSurfaceSuccess = true;
-                        std::cout << "🎉 Shared surface rendering enabled!" << std::endl;
+                        std::cout << " Shared surface rendering enabled!" << std::endl;
                         std::cout << "   Mode: MAXIMUM PERFORMANCE (Zero-copy GPU sharing)" << std::endl;
                     }
                 }
@@ -682,14 +682,14 @@ int main() {
     }
     
     if (!sharedSurfaceSuccess) {
-        std::cout << "⚠️  Shared surface initialization failed - using callback mode" << std::endl;
+        std::cout << "  Shared surface initialization failed - using callback mode" << std::endl;
         g_renderMode = RENDER_MODE_CALLBACK;
         
         // Clean up any partial initialization
         cleanupSharedSurface();
     }
 #else
-    std::cout << "ℹ️  Shared surfaces only available on Windows - using callback mode" << std::endl;
+    std::cout << "  Shared surfaces only available on Windows - using callback mode" << std::endl;
     g_renderMode = RENDER_MODE_CALLBACK;
 #endif
 #endif
@@ -705,10 +705,10 @@ int main() {
 #ifdef DO_GRPC_SDK_ENABLED
     if (g_renderMode == RENDER_MODE_SHARED_SURFACE) {
         std::cout << "\n=== 3D Model Viewer - SDK Edition (Shared Surface Mode) ===" << std::endl;
-        std::cout << "🚀 MAXIMUM PERFORMANCE: Zero-copy GPU sharing with Octane" << std::endl;
+        std::cout << " MAXIMUM PERFORMANCE: Zero-copy GPU sharing with Octane" << std::endl;
     } else {
         std::cout << "\n=== 3D Model Viewer - SDK Edition (Callback Mode) ===" << std::endl;
-        std::cout << "📸 Cross-platform callback system for Octane rendering" << std::endl;
+        std::cout << " Cross-platform callback system for Octane rendering" << std::endl;
     }
 #else
     std::cout << "\n=== 3D Model Viewer - SDK Edition ===" << std::endl;
@@ -768,13 +768,13 @@ int main() {
             
             // Register callback after successful connection (only once)
             if (!g_callbackRegistered) {
-                std::cout << "🔗 Registering render image callback..." << std::endl;
+                std::cout << " Registering render image callback..." << std::endl;
                 try {
                     ApiRenderEngineProxy::setOnNewImageCallback(OnNewImageCallback, nullptr);
-                    std::cout << "✅ Render image callback registered successfully" << std::endl;
+                    std::cout << " Render image callback registered successfully" << std::endl;
                     g_callbackRegistered = true;
                 } catch (const std::exception& e) {
-                    std::cout << "❌ Failed to register render image callback: " << e.what() << std::endl;
+                    std::cout << " Failed to register render image callback: " << e.what() << std::endl;
                 }
             }
         }
@@ -793,15 +793,15 @@ int main() {
 #ifdef DO_GRPC_SDK_ENABLED
             if (showTestQuad) {
                 if (g_renderMode == RENDER_MODE_SHARED_SURFACE) {
-                    std::cout << "Display mode: 🚀 Octane render (shared surface - maximum performance)" << std::endl;
+                    std::cout << "Display mode:  Octane render (shared surface - maximum performance)" << std::endl;
                 } else {
-                    std::cout << "Display mode: 📸 Octane render (callback)" << std::endl;
+                    std::cout << "Display mode:  Octane render (callback)" << std::endl;
                 }
             } else {
-                std::cout << "Display mode: 🎲 Local cube" << std::endl;
+                std::cout << "Display mode:  Local cube" << std::endl;
             }
 #else
-            std::cout << "Display mode: " << (showTestQuad ? "📸 Octane render" : "🎲 Local cube") << std::endl;
+            std::cout << "Display mode: " << (showTestQuad ? " Octane render" : " Local cube") << std::endl;
 #endif
             qKeyPressed = true;
         } else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_RELEASE) {
@@ -901,16 +901,16 @@ int main() {
 #ifdef DO_GRPC_SDK_ENABLED
     // Unregister the callback if it was registered
     if (g_callbackRegistered) {
-        std::cout << "🔌 Unregistering render image callback..." << std::endl;
+        std::cout << " Unregistering render image callback..." << std::endl;
         try {
             ApiRenderEngineProxy::setOnNewImageCallback(nullptr, nullptr);
-            std::cout << "✅ Render image callback unregistered" << std::endl;
+            std::cout << " Render image callback unregistered" << std::endl;
         } catch (const std::exception& e) {
-            std::cout << "❌ Failed to unregister render image callback: " << e.what() << std::endl;
+            std::cout << " Failed to unregister render image callback: " << e.what() << std::endl;
         }
     }
     
-    std::cout << "📊 Total callbacks received: " << g_callbackCount.load() << std::endl;
+    std::cout << " Total callbacks received: " << g_callbackCount.load() << std::endl;
 
 #ifdef _WIN32
     // Cleanup shared surface resources

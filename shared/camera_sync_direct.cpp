@@ -430,7 +430,7 @@ bool CameraSyncDirect::setCameraPosition(const glm::vec3& pos, bool evaluate) {
         
         if (status.ok()) {
             m_lastPosition = pos;
-            logGrpcStatus("SetCameraPosition", true);
+//            logGrpcStatus("SetCameraPosition", true);
             return true;
         } else {
             logGrpcStatus("SetCameraPosition", false);

@@ -69,7 +69,7 @@ The system is **PRODUCTION-READY** with all core functionality working. The most
 ## 🚀 **Quick Start Guide**
 
 ### **Production Deployment**
-1. **Start Servers**: Run `octaneWeb/start_servers.sh 43331` (auto-installs dependencies) or manually
+1. **Start Servers**: Run `octaneWeb/start_servers.sh 43331` (auto-installs dependencies) or manually (below)
 2. **Access Application**: Open http://localhost:43331 in browser
 3. **Connect to Octane**: Ensure Octane LiveLink is enabled (Help → LiveLink)
 4. **Test gRPC Integration**: Click render control buttons to test live API calls

@@ -136,8 +136,9 @@ bool CameraSyncLiveLink::setCameraPosition(const glm::vec3& pos, bool evaluate) 
         if (success) {
             m_cachedPosition = pos;
         }
-        
-        logGrpcStatus("SetCameraPosition", success);
+        else {
+            logGrpcStatus("SetCameraPosition", success);
+        }
         return success;
     } catch (const std::exception& e) {
         std::cerr << "Exception in setCameraPosition: " << e.what() << std::endl;

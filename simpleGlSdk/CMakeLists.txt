@@ -89,6 +89,8 @@ function(configure_simpleGlSdk_target target_name)
         # Set runtime library to match third_party libraries (static runtime)
         set_property(TARGET ${target_name} PROPERTY
             MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+        set_property(TARGET ${target_name} PROPERTY
+            VS_DEBUGGER_WORKING_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR}/../../../octane)
         
         # Add /bigobj flag for large object files
         target_compile_options(${target_name} PRIVATE /bigobj)
