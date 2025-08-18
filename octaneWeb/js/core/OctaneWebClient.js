@@ -1071,6 +1071,70 @@ function createOctaneWebClient() {
         }
     }
     
+    /**
+     * Set camera position
+     */
+    async setCameraPosition(x, y, z) {
+        try {
+            const response = await this.makeGrpcCall('SetCamera', {
+                position: { x: x, y: y, z: z }
+            });
+            
+            if (response.success) {
+                this.log(`Camera position set: [${x.toFixed(2)}, ${y.toFixed(2)}, ${z.toFixed(2)}]`);
+            }
+            
+            return response;
+            
+        } catch (error) {
+            console.error('Failed to set camera position:', error);
+            throw error;
+        }
+    }
+    
+    /**
+     * Set camera target
+     */
+    async setCameraTarget(x, y, z) {
+        try {
+            const response = await this.makeGrpcCall('SetCamera', {
+                target: { x: x, y: y, z: z }
+            });
+            
+            if (response.success) {
+                this.log(`Camera target set: [${x.toFixed(2)}, ${y.toFixed(2)}, ${z.toFixed(2)}]`);
+            }
+            
+            return response;
+            
+        } catch (error) {
+            console.error('Failed to set camera target:', error);
+            throw error;
+        }
+    }
+    
+    /**
+     * Set camera position and target together (more efficient)
+     */
+    async setCameraPositionAndTarget(posX, posY, posZ, targetX, targetY, targetZ) {
+        try {
+            const response = await this.makeGrpcCall('SetCamera', {
+                position: { x: posX, y: posY, z: posZ },
+                target: { x: targetX, y: targetY, z: targetZ }
+            });
+            
+            if (response.success) {
+                this.log(`Camera updated: pos=[${posX.toFixed(2)}, ${posY.toFixed(2)}, ${posZ.toFixed(2)}], target=[${targetX.toFixed(2)}, ${targetY.toFixed(2)}, ${targetZ.toFixed(2)}]`);
+            }
+            
+            return response;
+            
+        } catch (error) {
+            console.error('Failed to set camera position and target:', error);
+            throw error;
+        }
+    }
+    
     // ==================== AUTO-SYNC MANAGEMENT ====================
     
     /**

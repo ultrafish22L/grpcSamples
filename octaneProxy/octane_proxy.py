@@ -200,6 +200,21 @@ class GrpcServiceRegistry:
             # Get the correct class name for the service
             class_name = service_to_class_map.get(service_name, service_name)
 
+            # Special cases for methods that don't follow the standard naming pattern
+            special_cases = {
+                ('LiveLinkService', 'SetCamera'): 'CameraState',
+                ('LiveLinkService', 'GetCamera'): 'Empty',
+                ('LiveLinkService', 'GetMeshes'): 'Empty',
+                ('LiveLinkService', 'GetMesh'): 'MeshRequest',
+            }
+            
+            # Check for special cases first
+            special_key = (service_name, method_name)
+            if special_key in special_cases:
+                special_class_name = special_cases[special_key]
+                if hasattr(pb2_module, special_class_name):
+                    return getattr(pb2_module, special_class_name)
+            
             # Try common request class naming patterns (v2.4 working patterns)
             request_class_patterns = [
                 f"{class_name}.{method_name}Request",
