@@ -126,6 +126,17 @@ class NodeInspector extends OctaneComponent {
                         return;
                     }
                     
+                    // Handle spinner buttons
+                    if (element.classList && element.classList.contains('parameter-spinner-btn')) {
+                        console.log('🔄 Coordinate-based spinner button click:', element);
+                        const action = element.getAttribute('data-action');
+                        const paramName = element.getAttribute('data-param');
+                        this.handleSpinnerClick(paramName, action);
+                        event.preventDefault();
+                        event.stopPropagation();
+                        return;
+                    }
+                    
                     // Handle checkboxes
                     if (element.classList && element.classList.contains('parameter-checkbox')) {
                         console.log('☑️ Coordinate-based checkbox click:', element);
@@ -308,6 +319,34 @@ class NodeInspector extends OctaneComponent {
         if (this.selectedNode && paramName) {
             this.updateParameterValue(paramName, value);
         }
+    }
+    
+    handleSpinnerClick(paramName, action) {
+        // Find the corresponding input field
+        const input = this.element.querySelector(`input[data-param="${paramName}"]`);
+        if (!input) return;
+        
+        const currentValue = parseFloat(input.value) || 0;
+        const step = parseFloat(input.step) || 0.01;
+        const min = input.min ? parseFloat(input.min) : -Infinity;
+        const max = input.max ? parseFloat(input.max) : Infinity;
+        
+        let newValue;
+        if (action === 'increment') {
+            newValue = Math.min(max, currentValue + step);
+        } else if (action === 'decrement') {
+            newValue = Math.max(min, currentValue - step);
+        } else {
+            return;
+        }
+        
+        // Update the input value
+        input.value = newValue;
+        
+        // Trigger parameter change
+        this.handleParameterChange(input);
+        
+        console.log(`🔄 Spinner ${action}: ${paramName} = ${newValue}`);
     }
     
     updateSliderFromInput(input) {
@@ -691,12 +730,12 @@ class NodeInspector extends OctaneComponent {
             </div>
             
             <!-- Physical camera parameters (collapsible) -->
-            <div class="octane-parameter-group">
-                <div class="octane-group-header" data-group="physical-camera">
-                    <span class="octane-group-toggle">▼</span>
-                    <span class="octane-group-title">Physical camera parameters</span>
+            <div class="parameter-section">
+                <div class="parameter-group-header" data-group="physical-camera">
+                    <span class="parameter-group-icon">▼</span>
+                    <span class="parameter-group-title">Physical camera parameters</span>
                 </div>
-                <div class="octane-group-content" data-group-content="physical-camera">
+                <div class="parameter-group-content" data-group-content="physical-camera">
                     ${this.renderCameraParameter('📷', 'Sensor width:', '36.000', 'mm')}
                     ${this.renderCameraParameter('🔍', 'Focal length:', '50.000', 'mm')}
                     ${this.renderCameraParameter('⚪', 'F-stop:', '2.8', '')}
@@ -704,12 +743,12 @@ class NodeInspector extends OctaneComponent {
             </div>
             
             <!-- Viewing angle (collapsible) -->
-            <div class="octane-parameter-group">
-                <div class="octane-group-header" data-group="viewing-angle">
-                    <span class="octane-group-toggle">▼</span>
-                    <span class="octane-group-title">Viewing angle</span>
+            <div class="parameter-section">
+                <div class="parameter-group-header" data-group="viewing-angle">
+                    <span class="parameter-group-icon">▼</span>
+                    <span class="parameter-group-title">Viewing angle</span>
                 </div>
-                <div class="octane-group-content" data-group-content="viewing-angle">
+                <div class="parameter-group-content" data-group-content="viewing-angle">
                     ${this.renderCameraParameter('👁️', 'Field of view:', '39.597752', '°')}
                     ${this.renderCameraParameter('📏', 'Scale of view:', '17.144243', '')}
                     ${this.renderCameraParameter('📐', 'Distortion:', '0.000', '')}
@@ -720,24 +759,24 @@ class NodeInspector extends OctaneComponent {
             </div>
             
             <!-- Clipping (collapsible) -->
-            <div class="octane-parameter-group">
-                <div class="octane-group-header" data-group="clipping">
-                    <span class="octane-group-toggle">▼</span>
-                    <span class="octane-group-title">Clipping</span>
+            <div class="parameter-section">
+                <div class="parameter-group-header" data-group="clipping">
+                    <span class="parameter-group-icon">▼</span>
+                    <span class="parameter-group-title">Clipping</span>
                 </div>
-                <div class="octane-group-content" data-group-content="clipping">
+                <div class="parameter-group-content" data-group-content="clipping">
                     ${this.renderCameraParameter('📏', 'Near clip depth:', '0.000', '')}
                     ${this.renderCameraParameter('📏', 'Far clip depth:', '∞', '')}
                 </div>
             </div>
             
             <!-- Depth of field (collapsible) -->
-            <div class="octane-parameter-group">
-                <div class="octane-group-header" data-group="depth-of-field">
-                    <span class="octane-group-toggle">▼</span>
-                    <span class="octane-group-title">Depth of field</span>
+            <div class="parameter-section">
+                <div class="parameter-group-header" data-group="depth-of-field">
+                    <span class="parameter-group-icon">▼</span>
+                    <span class="parameter-group-title">Depth of field</span>
                 </div>
-                <div class="octane-group-content" data-group-content="depth-of-field">
+                <div class="parameter-group-content" data-group-content="depth-of-field">
                     ${this.renderCameraParameter('🎯', 'Auto-focus:', 'false', '', true)}
                     ${this.renderCameraParameter('📏', 'Focal depth:', '1.118034', '')}
                     ${this.renderCameraParameter('⚪', 'Aperture:', '0.8928572', '')}
@@ -766,32 +805,35 @@ class NodeInspector extends OctaneComponent {
      * Render a single camera parameter with icon, label, value and slider
      */
     renderCameraParameter(icon, label, value, unit, isCheckbox = false) {
+        const paramName = label.toLowerCase().replace(/[^a-z0-9]/g, '_');
+        
         if (isCheckbox) {
             window.debugConsole?.addLog('info', ['🔲 NodeInspector: Rendering checkbox for', label]);
             return `
-                <div class="octane-parameter-row">
-                    <div class="octane-parameter-icon">${icon}</div>
-                    <div class="octane-parameter-label">${label}</div>
-                    <div class="octane-parameter-control">
-                        <div class="octane-control-group">
-                            <input type="checkbox" class="octane-checkbox">
-                        </div>
-                    </div>
+                <div class="parameter-row">
+                    <div class="parameter-icon">${icon}</div>
+                    <div class="parameter-label">${label}</div>
+                    <input type="checkbox" 
+                           class="parameter-checkbox" 
+                           data-param="${paramName}" 
+                           ${value === 'true' ? 'checked' : ''} />
                 </div>
             `;
         }
         
         return `
-            <div class="octane-parameter-row">
-                <div class="octane-parameter-icon">${icon}</div>
-                <div class="octane-parameter-label">${label}</div>
-                <div class="octane-parameter-control">
-                    <div class="octane-control-group">
-                        <div class="octane-spinner-left">◄</div>
-                        <input type="text" class="octane-number-input" value="${value}">
-                        <div class="octane-spinner-right">►</div>
-                        ${unit ? `<span class="octane-unit">${unit}</span>` : ''}
-                    </div>
+            <div class="parameter-row">
+                <div class="parameter-icon">${icon}</div>
+                <div class="parameter-label">${label}</div>
+                <div class="parameter-control-group">
+                    <button class="parameter-spinner-btn" data-action="decrement" data-param="${paramName}">◄</button>
+                    <input type="number" 
+                           class="parameter-number-input" 
+                           data-param="${paramName}" 
+                           value="${value}" 
+                           step="0.01" />
+                    <button class="parameter-spinner-btn" data-action="increment" data-param="${paramName}">►</button>
+                    ${unit ? `<span class="parameter-unit">${unit}</span>` : ''}
                 </div>
             </div>
         `;
@@ -801,15 +843,26 @@ class NodeInspector extends OctaneComponent {
      * Render a dual-value camera parameter (like Lens shift with two values)
      */
     renderDualCameraParameter(icon, label, value1, value2) {
+        const paramName1 = label.toLowerCase().replace(/[^a-z0-9]/g, '_') + '_x';
+        const paramName2 = label.toLowerCase().replace(/[^a-z0-9]/g, '_') + '_y';
+        
         return `
-            <div class="octane-parameter-row">
-                <div class="octane-parameter-icon">${icon}</div>
-                <div class="octane-parameter-label">${label}</div>
-                <div class="octane-parameter-control">
-                    <div class="octane-control-group">
-                        <input type="text" class="octane-number-input" value="${value1}" style="width: 35px;">
-                        <input type="text" class="octane-number-input" value="${value2}" style="width: 35px; margin-left: 1px;">
-                    </div>
+            <div class="parameter-row">
+                <div class="parameter-icon">${icon}</div>
+                <div class="parameter-label">${label}</div>
+                <div class="parameter-control-group">
+                    <input type="number" 
+                           class="parameter-number-input" 
+                           data-param="${paramName1}" 
+                           value="${value1}" 
+                           step="0.01" 
+                           style="width: 35px;" />
+                    <input type="number" 
+                           class="parameter-number-input" 
+                           data-param="${paramName2}" 
+                           value="${value2}" 
+                           step="0.01" 
+                           style="width: 35px; margin-left: 2px;" />
                 </div>
             </div>
         `;
@@ -956,17 +1009,46 @@ class NodeInspector extends OctaneComponent {
     }
     
     renderParameter(name, param) {
-        const { type, value, min, max, label } = param;
+        const { type, value, min, max, label, icon, unit } = param;
         const displayLabel = label || name;
+        const paramIcon = icon || this.getParameterIcon(name, type);
         
         return `
             <div class="parameter-row">
+                <div class="parameter-icon">${paramIcon}</div>
                 <div class="parameter-label">${displayLabel}:</div>
                 <div class="parameter-control">
-                    ${this.renderParameterControl(name, type, value, { min, max })}
+                    ${this.renderParameterControl(name, type, value, { min, max, unit })}
                 </div>
             </div>
         `;
+    }
+    
+    getParameterIcon(name, type) {
+        // Return appropriate icons based on parameter name/type (matching official Octane)
+        const iconMap = {
+            'sensor_width': '📷',
+            'focal_length': '🔍', 
+            'f_stop': '⚪',
+            'field_of_view': '👁️',
+            'scale_of_view': '📏',
+            'distortion': '📐',
+            'lens_shift': '↔️',
+            'perspective_correction': '🔄',
+            'pixel_aspect_ratio': '📊',
+            'near_clip_depth': '📏',
+            'far_clip_depth': '📏',
+            'auto_focus': '🎯',
+            'focal_depth': '📏',
+            'aperture': '⚪',
+            'aperture_aspect_ratio': '📊',
+            'aperture_edge': '🔲',
+            'bokeh_side_count': '🔢',
+            'bokeh_rotation': '🔄',
+            'bokeh_roundedness': '⚪'
+        };
+        
+        return iconMap[name] || (type === 'bool' ? '☑️' : type === 'float' || type === 'int' ? '🔢' : '⚙️');
     }
     
     renderParameterControl(name, type, value, options = {}) {
@@ -987,20 +1069,25 @@ class NodeInspector extends OctaneComponent {
         }
     }
     
-    renderNumericControl(name, type, value, { min, max }) {
+    renderNumericControl(name, type, value, { min, max, unit }) {
         const step = type === 'int' ? '1' : '0.01';
         const minAttr = min !== undefined ? `min="${min}"` : '';
         const maxAttr = max !== undefined ? `max="${max}"` : '';
+        const unitDisplay = unit ? `<span class="parameter-unit">${unit}</span>` : '';
         
         return `
-            <input type="number" 
-                   class="parameter-input" 
-                   data-param="${name}" 
-                   value="${value}" 
-                   step="${step}" 
-                   ${minAttr} 
-                   ${maxAttr} />
-            ${min !== undefined && max !== undefined ? this.renderSlider(name, value, min, max) : ''}
+            <div class="parameter-control-group">
+                <button class="parameter-spinner-btn" data-action="decrement" data-param="${name}">◄</button>
+                <input type="number" 
+                       class="parameter-number-input" 
+                       data-param="${name}" 
+                       value="${value}" 
+                       step="${step}" 
+                       ${minAttr} 
+                       ${maxAttr} />
+                <button class="parameter-spinner-btn" data-action="increment" data-param="${name}">►</button>
+                ${unitDisplay}
+            </div>
         `;
     }
     
@@ -1017,7 +1104,10 @@ class NodeInspector extends OctaneComponent {
     
     renderBooleanControl(name, value) {
         return `
-            <div class="parameter-checkbox ${value ? 'checked' : ''}" data-param="${name}"></div>
+            <input type="checkbox" 
+                   class="parameter-checkbox" 
+                   data-param="${name}" 
+                   ${value ? 'checked' : ''} />
         `;
     }
     
