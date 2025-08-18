@@ -520,7 +520,10 @@ class OctaneCallbackStreamer:
         for client_id, client in self.clients.items():
             if client.active:
                 try:
-                    await client.callback_func(data)
+                    # Handle both sync and async callback functions
+                    result = client.callback_func(data)
+                    if asyncio.iscoroutine(result):
+                        await result
                     active_count += 1
                 except Exception as e:
                     print(f"❌ Error broadcasting to client {client_id}: {e}")
