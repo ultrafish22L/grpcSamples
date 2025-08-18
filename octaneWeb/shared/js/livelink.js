@@ -714,11 +714,7 @@ class LiveLinkClient extends SimpleEventEmitter {
         return result && result.success ? result.data : null;
     }
 
-    /**
-     * Get rendered image from Octane
-     */
-    // Removed complex getRenderImage method - now using simple background polling of grabRenderResult
-
+    
     /**
      * Get render statistics from Octane
      */

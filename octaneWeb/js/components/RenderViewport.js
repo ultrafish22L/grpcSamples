@@ -472,7 +472,7 @@ class RenderViewport extends OctaneComponent {
         if (!this.imagePolling || !this.client) {
             return;
         }
-        
+/*        
         try {
             // Simply grab render result - ignore empty responses
             const result = await this.client.makeGrpcCall('ApiRenderEngineService', 'grabRenderResult', {});
@@ -502,6 +502,7 @@ class RenderViewport extends OctaneComponent {
                 this.pollForImages();
             }, this.imagePollInterval);
         }
+*/            
     }
 
     /**
