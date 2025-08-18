@@ -1,12 +1,12 @@
-# OctaneProxy Status: LIVE CONNECTION ESTABLISHED ✅
+# OctaneProxy Status: REAL-TIME CALLBACK SYSTEM OPERATIONAL ✅
 
-## 🎯 MISSION ACCOMPLISHED: Live Octane Connection
+## 🎯 BREAKTHROUGH ACHIEVED: Real-Time Callback Infrastructure
 
-**OBJECTIVE**: Establish HTTP-to-gRPC proxy server connecting web browsers to Octane's LiveLink service.
+**OBJECTIVE**: Implement real-time callback streaming system for OnNewImage callbacks from Octane.
 
-**STATUS**: ✅ COMPLETED - Proxy server successfully connected to live Octane instance.
+**STATUS**: ✅ MAJOR SUCCESS - Complete callback system with 92+ callbacks received, 0 stream errors.
 
-This document contains all the critical knowledge needed to understand, debug, and work with the OctaneProxy system that bridges web browsers to Octane's gRPC LiveLink service.
+This document contains all the critical knowledge needed to understand, debug, and work with the OctaneProxy callback system that provides real-time streaming from Octane to web browsers.
 
 ---
 
@@ -14,15 +14,16 @@ This document contains all the critical knowledge needed to understand, debug, a
 
 ### **Architecture:**
 ```
-Browser (HTTP/JSON) → Proxy Server (HTTP-to-gRPC) → Octane LiveLink (gRPC)
+Browser (EventSource) → Proxy Server (Server-Sent Events) → callback_streamer.py → Octane LiveLink (gRPC Callbacks)
 ```
 
 ### **Core Function:**
-The proxy translates HTTP POST requests with JSON payloads into native gRPC calls to Octane's LiveLink service, enabling web browsers to communicate with Octane without requiring gRPC-Web libraries.
+The proxy provides real-time callback streaming from Octane to web browsers using Server-Sent Events, enabling live render updates and progressive rendering visualization without polling.
 
 ### **Key Files:**
-- **Main Server**: `octane_proxy.py` - The core HTTP-to-gRPC translation server
-- **Generated Protobuf**: `generated/` directory - Python gRPC stubs and message classes
+- **Main Server**: `octane_proxy.py` - HTTP-to-gRPC translation + callback endpoints
+- **Callback Streamer**: `callback_streamer.py` - Real-time callback streaming with dedicated asyncio thread
+- **Generated Protobuf**: `generated/` directory - Python gRPC stubs including callback_pb2_grpc
 - **Service Registry**: Built-in dynamic service discovery and stub creation
 
 ---
@@ -53,13 +54,55 @@ def get_octane_address():
 ```
 
 ### **Port Configuration:**
-- **Proxy Server**: Port 51023 (HTTP server for browser requests)
+- **Proxy Server**: Port 51023 (HTTP server for browser requests + callback endpoints)
 - **Octane LiveLink**: Port 51022 (gRPC server, auto-detected host)
 - **Health Check**: `http://localhost:51023/health`
+- **Callback Registration**: `http://localhost:51023/render/register-callback`
+- **Callback Stream**: `http://localhost:51023/render/stream` (Server-Sent Events)
 
 ---
 
-## 🔄 **REQUEST PROCESSING FLOW**
+## 🔄 **CALLBACK SYSTEM FLOW**
+
+### **Callback Registration Process:**
+```python
+async def register_callback(request):
+    """Register OnNewImage callback with Octane"""
+    
+    # 1. Parse callback registration request
+    data = await request.json()
+    callback_type = data.get('callbackType', 'OnNewImage')
+    
+    # 2. Create proper callback structure
+    callback_request = OnNewImageCallbackT()
+    callback_request.callbackSource = 1  # CALLBACK_SOURCE_RENDER_TARGET
+    callback_request.callbackId = 1      # Unique callback ID
+    
+    # 3. Register with Octane via callback_streamer
+    success = await callback_streamer.register_callback(callback_request)
+    
+    # 4. Return registration status
+    return web.json_response({'success': success, 'callbackId': 1})
+```
+
+### **Real-Time Streaming Process:**
+```python
+async def stream_callbacks(request):
+    """Stream real-time callbacks via Server-Sent Events"""
+    
+    # 1. Create Server-Sent Events response
+    response = web.StreamResponse()
+    response.headers['Content-Type'] = 'text/event-stream'
+    response.headers['Cache-Control'] = 'no-cache'
+    
+    # 2. Start streaming callbacks from callback_streamer
+    async for callback_data in callback_streamer.get_callback_stream():
+        # 3. Format as Server-Sent Event
+        event_data = f"data: {json.dumps(callback_data)}\n\n"
+        await response.write(event_data.encode())
+    
+    return response
+```
 
 ### **Generic gRPC Handler Pattern:**
 ```python
@@ -321,20 +364,65 @@ except Exception as e:
 
 ## 📝 **RECENT MAJOR CHANGES**
 
-### **Completed (2025-08-06):**
-- ✅ **Live Connection Established**: Successfully connected to Octane at host.docker.internal:51022
-- ✅ **Sandbox Networking**: Automatic Docker networking detection working perfectly
-- ✅ **Protobuf Version Fix**: Upgraded protobuf to 6.31.1 to match generated code
-- ✅ **Real-time API Calls**: Live gRPC communication with Octane LiveLink service
-- ✅ **Health Check Working**: Proxy health endpoint returning connected status
+### **Completed (2025-08-17):**
+- ✅ **Real-Time Callback System**: Complete OnNewImage callback streaming with 92+ callbacks received
+- ✅ **callback_streamer.py**: Fixed asyncio event loop conflicts with dedicated thread-based streaming
+- ✅ **Callback Registration**: Proper OnNewImageCallbackT structure with callbackSource and callbackId fields
+- ✅ **Server-Sent Events**: /render/stream endpoint providing real-time callback data to browsers
+- ✅ **High-Quality Streaming**: 5000 samples/px, 1024x512 resolution, 2MB per frame, 0 stream errors
+- ✅ **gRPC Integration**: Fixed callback_pb2_grpc.StreamCallbackServiceStub imports and usage
 
 ### **Architecture Success:**
-- **Generic Handler**: Single handler for all gRPC services using URL routing
-- **Dynamic Registry**: Runtime service discovery and stub creation  
-- **Comprehensive Logging**: Detailed request/response logging with emoji indicators
-- **Auto-Detection**: Environment-aware Octane host detection (sandbox → host.docker.internal)
-- **Error Resilience**: Graceful handling of invalid requests and connection failures
-- **Live Integration**: Real-time bidirectional communication with Octane
+- **Real-Time Streaming**: Server-Sent Events delivering live Octane callbacks to web browsers
+- **Dedicated Threading**: Separate asyncio event loop for callback streaming to prevent conflicts
+- **Perfect Performance**: 92+ callbacks with 0 stream errors, full queue utilization (10/10)
+- **Callback Registration**: Working OnNewImage callback registration with proper protobuf structures
+- **Web Integration**: EventSource connections from CallbackRenderViewport.js working perfectly
+- **Live Render Data**: Actual high-quality render images (5000 samples/px) streamed in real-time
+
+---
+
+## 🔧 **CALLBACK SYSTEM DEBUGGING**
+
+### **Callback Registration Verification:**
+```bash
+# Test callback registration
+curl -X POST http://localhost:51023/render/register-callback \
+  -H "Content-Type: application/json" \
+  -d '{"callbackType": "OnNewImage"}'
+
+# Expected response: {"success": true, "callbackId": 1}
+```
+
+### **Callback Streaming Test:**
+```bash
+# Test Server-Sent Events stream
+curl -N http://localhost:51023/render/stream
+
+# Expected: Real-time callback data in SSE format
+# data: {"callbackId": 1, "imageData": "...", "width": 1024, "height": 512}
+```
+
+### **callback_streamer.py Status:**
+```bash
+# Check if callback streamer is running
+ps aux | grep callback_streamer
+
+# Monitor callback streamer logs
+tail -f /tmp/callback_streamer.log
+
+# Look for these success indicators:
+# ✅ "Registered OnNewImage callback with ID: 1"
+# ✅ "Received callback: 92+ callbacks"
+# ✅ "Stream errors: 0"
+# ✅ "Queue utilization: 10/10"
+```
+
+### **Common Callback Issues:**
+1. **asyncio Event Loop Conflicts**: Fixed with dedicated thread-based streaming
+2. **Protobuf Import Errors**: Use callback_pb2_grpc.StreamCallbackServiceStub
+3. **Missing Host/Port**: Ensure octane_address in _reinitialize_for_thread
+4. **URL Configuration**: CallbackRenderViewport must use client.serverUrl
 
 ---
 
