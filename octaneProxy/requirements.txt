@@ -1,3 +1,10 @@
+# Core dependencies for octaneProxy
+aiohttp>=3.8.0
 grpcio>=1.50.0
 protobuf>=4.21.0
-asyncio
+numpy>=1.21.0
+
+# Optional dependencies for enhanced functionality
+Pillow>=9.0.0  # For PNG export functionality in callback_streamer.py
+
+# Note: asyncio is part of Python standard library (Python 3.7+)

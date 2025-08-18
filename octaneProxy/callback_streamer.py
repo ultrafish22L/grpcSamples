@@ -25,7 +25,15 @@ import base64
 from typing import List, Dict, Optional, Callable
 from dataclasses import dataclass
 from queue import Queue, Empty as QueueEmpty
-from PIL import Image
+# Optional PIL import for PNG saving functionality
+try:
+    from PIL import Image
+    PIL_AVAILABLE = True
+    print("✅ PIL/Pillow available - PNG export enabled")
+except ImportError:
+    PIL_AVAILABLE = False
+    print("⚠️ PIL/Pillow not available - PNG export disabled (install with: pip install Pillow)")
+
 import numpy as np
 
 import grpc
@@ -365,6 +373,10 @@ class OctaneCallbackStreamer:
     async def _save_image_as_png(self, img, index: int) -> Optional[str]:
         """Save render image as PNG file for visual debugging"""
         try:
+            if not PIL_AVAILABLE:
+                # PIL not available - skip PNG saving
+                return None
+                
             if not img.buffer or not img.buffer.data:
                 return None
             
