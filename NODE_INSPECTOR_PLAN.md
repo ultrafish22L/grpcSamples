@@ -1,5 +1,9 @@
 # Node Inspector Enhancement - Implementation Plan & Status
 
+## 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
+
+**⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**
+
 ## 🎯 OBJECTIVE
 Enhance the Node Inspector to recursively load and display all node parameters with professional UI controls (inc/dec buttons, color pickers, dropdowns, etc.) matching Octane standalone UI exactly.
 

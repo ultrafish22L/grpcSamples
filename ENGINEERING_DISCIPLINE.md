@@ -1,5 +1,9 @@
 # Engineering Discipline: Session Management & Code Quality Standards
 
+## 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
+
+**⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**
+
 ## 🎯 Core Philosophy: Preserve Working Code, Enhance Systematically
 
 **FUNDAMENTAL PRINCIPLE**: Never break working functionality. Always understand what's working before attempting to fix what's broken.
@@ -314,9 +318,11 @@ root - `ENGINEERING_DISCIPLINE.md` - This file, for session management standards
 - Never build complex systems without proven building blocks
 
 ### 4. **REAL DATA ENFORCEMENT**
-- No mock data, no fallbacks - connect to live Octane or show empty UI
+## 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
+**⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**
+
+- Connect to live Octane or show empty UI - no fallbacks
 - Every feature must work with actual Octane data
-- Mock servers only for development when Octane unavailable
 - User has working Octane instance - use it
 
 ## 🚨 CRITICAL TECHNICAL STANDARDS
@@ -375,7 +381,7 @@ const cacheBuster = `?v=${timestamp}`;
 ### 4. **Verification Phase** (Prove It Works)
 - Screenshot actual browser display (not just DOM inspection)
 - Capture real API responses with timestamps
-- Test with live Octane data, not mock responses
+- Test with live Octane data only - NEVER use mock responses
 - Verify cross-platform compatibility
 
 ## 🚨 ANTI-PATTERNS (IMMEDIATE SUPERVISION REQUIRED)

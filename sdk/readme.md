@@ -1,5 +1,9 @@
 #GRPC SDK
 
+## 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
+
+**⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**
+
 The GRPC API allows remote connections to octane.exe. The GRPC server can be enabled via the GRPC-API tab in the preferences window.
 
 ## Demo applications

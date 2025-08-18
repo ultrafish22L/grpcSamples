@@ -1,5 +1,9 @@
 # Node Inspector Redesign Plan - Match Octane Studio Exactly
 
+## 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
+
+**⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**
+
 ## 🎯 OBJECTIVE
 Redesign octaneWeb's Node Inspector to match the professional Octane Studio interface exactly as shown in the reference screenshot.
 

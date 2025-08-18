@@ -1,8 +1,12 @@
 # OctaneWeb Networking Setup Guide 🌐
 
-## 🎯 **FOOLPROOF NETWORKING SETUP**
+## 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
+
+**⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**
 
 This guide contains all the networking tricks needed to establish a live connection between octaneWeb and Octane LiveLink service. Follow these steps exactly to avoid connection issues.
+
+## 🎯 **FOOLPROOF NETWORKING SETUP**
 
 ---
 

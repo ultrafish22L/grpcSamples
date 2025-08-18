@@ -1,5 +1,9 @@
 # Node Inspector Optimization Plan
 
+## 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
+
+**⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**
+
 ## 🎯 OBJECTIVE
 Optimize Node Inspector to reuse Scene Outliner's cached data instead of redundant tree traversal.
 

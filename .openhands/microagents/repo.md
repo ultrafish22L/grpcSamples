@@ -1,5 +1,9 @@
 # Octane gRPC Samples Repository - Development Guide
 
+## 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
+
+**⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**
+
 ## 🎯 Repository Status: Scene Outliner SUCCESS
 
 ## 🚨 CRITICAL WARNINGS FOR DEVELOPERS
@@ -46,19 +50,19 @@ The most dangerous pattern observed is **breaking working functionality** due to
 - **Proxy Server**: Python-based HTTP-to-gRPC proxy server for web client connectivity with comprehensive logging
 - **Shared Libraries**: Common helper libraries for file dialogs, model loading, and camera controls
 - **Build System**: Cross-platform CMake configuration supporting Windows, Linux, and macOS
-- **Mock Server**: Development-time Octane simulation for testing without live Octane instance
+
+### 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
+**⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**
 
 ### Architecture Patterns
 **Desktop Applications**: C++ Application ↔ gRPC ↔ Octane LiveLink Service
 **Web Applications**: JavaScript Client ↔ HTTP Proxy Server ↔ gRPC ↔ Octane LiveLink Service
-**Development Mode**: Applications ↔ Mock Octane Server (for testing without live Octane)
 
 ### Key Technologies
 - **Desktop**: C++17, OpenGL 3.3+, gRPC, Protocol Buffers, CMake, ImGui
 - **Web Frontend**: Vanilla JavaScript, WebGL 2.0/1.0, custom gRPC-Web implementation, real-time 3D rendering
 - **Proxy Server**: Python with aiohttp, grpcio, comprehensive CORS middleware, and enhanced logging
 - **Protocol**: HTTP/JSON for browser-to-proxy, native gRPC for all Octane communication
-- **Development**: Mock server simulation and graceful degradation when Octane unavailable
 
 ## Repository Structure
 
@@ -102,9 +106,7 @@ grpcSamples/
 │   ├── octane_proxy.py          # Main proxy server with comprehensive logging
 │   ├── livelink_pb2.py        # Generated protobuf Python bindings
 │   └── *_pb2.py               # Complete Octane API protobuf bindings
-├── mock_octane/               # 🎭 Development mock server
-│   ├── mock_octane_server.py  # Simulates Octane LiveLink for development
-│   └── start_mock_octane.sh/.bat # Mock server launchers
+
 ├── sdk/                       # 📚 Octane SDK wrapper library
 │   ├── octane*.h              # Core SDK headers
 │   ├── octanewrap*.h/.cpp     # SDK wrapper classes
@@ -141,7 +143,6 @@ grpcSamples/
 
 **Infrastructure**:
 - Python proxy server for HTTP-to-gRPC translation with comprehensive logging
-- Mock Octane server for development without live Octane instance
 - Cross-platform build system supporting multiple development environments
 - Shared helper libraries for common functionality across applications
 
@@ -153,7 +154,6 @@ grpcSamples/
 - **Cross-platform Compatibility**: Windows, Linux, and macOS support
 - **Web Integration**: Browser-based clients with custom gRPC-Web implementation
 - **Comprehensive Logging**: Detailed request/response logging with emoji indicators (📤 outgoing, 📥 incoming, ❌ errors)
-- **Development-friendly**: Mock server simulation and graceful degradation when Octane unavailable
 - **Enhanced Error Handling**: Comprehensive error reporting with detailed debug information
 - **Performance Monitoring**: Real-time FPS, call statistics, and connection health tracking
 - **CORS-compliant**: Enhanced cross-origin support with X-Call-Id and gRPC-Web headers
@@ -172,7 +172,7 @@ grpcSamples/
 - **✅ SCENE OUTLINER IMPLEMENTED**: Hierarchical tree view with expand/collapse, node icons, and visibility toggles
 - **✅ NODE GRAPH EDITOR COMPLETE**: Right-click context menus, hierarchical node types, and node creation system
 - **✅ REAL API INTEGRATION**: Connected to live Octane APIs including buildSceneTree, GetMeshes, and camera sync
-- **✅ MOCK SERVER DEVELOPMENT**: Complete mock Octane server for development without live Octane instance
+
 - **✅ ENHANCED PROXY SERVER**: Comprehensive logging, error handling, and API coverage
 - **✅ PROFESSIONAL UX**: Applied OTOY.com styling with red accents, dark panels, and responsive design
 - **✅ DEVELOPMENT TOOLS**: Cache busting system, debug console, and comprehensive error reporting
@@ -243,12 +243,13 @@ The application interfaces follow a **professional dark theme** approach that pr
 - Real-time testing of live Octane integration
 
 **Workarounds**:
-- Mock server provides full Octane API simulation for development
 - Proxy server includes graceful degradation and retry logic
 - Applications detect connection failures and provide appropriate fallbacks
 
 ### Development Workflow
-1. **Mock Development**: Use mock_octane_server.py for initial development and testing
+1. **Live Integration**: Connect to real Octane LiveLink service for all development and testing
 2. **Proxy Testing**: Test HTTP-to-gRPC translation with comprehensive logging
-3. **Live Integration**: Connect to real Octane LiveLink service for production testing
-4. **Cross-platform Validation**: Build and test on multiple operating systems
+3. **Cross-platform Validation**: Build and test on multiple operating systems
+
+### 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
+**⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**

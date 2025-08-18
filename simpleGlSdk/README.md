@@ -163,7 +163,7 @@ FATAL_ERROR: Octane Linux library not found! Required: third_party/octane/linux/
 ```bash
 # SDK initialization failure
 [SDK] Failed to initialize Octane SDK connection
-[SDK] Falling back to simulation mode
+[SDK] ERROR: Real Octane connection required - no fallback mode
 
 # Camera access issues
 [SDK] Camera node not available - using cached data

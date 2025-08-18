@@ -1,5 +1,9 @@
 # HTML Applications Setup Guide
 
+## 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
+
+**⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**
+
 ## Quick Start
 
 ### 1. Start the Proxy Server

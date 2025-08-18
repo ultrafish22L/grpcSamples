@@ -80,15 +80,11 @@ Professional WebGL 3D viewer with Octane LiveLink integration featuring real-tim
 - **otoy-theme.css**: Professional OTOY branding and styling
 
 ### Development Mode (Optional)
-For development without Octane Render, you can use the mock server:
+## 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
 
-#### Start Mock Octane Server
-```bash
-cd /path/to/grpcSamples/mock_octane
-python3 mock_octane_server.py
-```
+**⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**
 
-#### Start Proxy Server (pointing to mock)
+All development and testing must be done with a real Octane LiveLink connection.
 ```bash
 cd /path/to/grpcSamples/octaneProxy
 python3 octane_proxy.py --target localhost:51023

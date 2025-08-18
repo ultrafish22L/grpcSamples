@@ -1,5 +1,9 @@
 # OctaneProxy Status: REAL-TIME CALLBACK SYSTEM OPERATIONAL ✅
 
+## 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
+
+**⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**
+
 ## 🎯 BREAKTHROUGH ACHIEVED: Real-Time Callback Infrastructure
 
 **OBJECTIVE**: Implement real-time callback streaming system for OnNewImage callbacks from Octane.

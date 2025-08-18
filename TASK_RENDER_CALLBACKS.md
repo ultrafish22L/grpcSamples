@@ -1,5 +1,9 @@
 # Task Document: Implement Render Engine Callbacks for 2D Image Display
 
+## 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
+
+**⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**
+
 ## 🎯 OBJECTIVE
 Add render engine callbacks to display live rendered images from Octane in the 2D viewport using the existing makeGrpcCall() infrastructure.
 
@@ -333,7 +337,7 @@ updateRenderImage(imageData) {
    - **Mitigation**: Add image compression, implement progressive loading
 
 ### **Fallback Plans**:
-- If render APIs unavailable: Implement mock render system for development
+- **🚨 CRITICAL REQUIREMENT: REAL OCTANE ONLY** - NEVER use mock or simulated data
 - If image display fails: Show progress-only mode
 - If polling causes issues: Reduce frequency or implement manual refresh
 

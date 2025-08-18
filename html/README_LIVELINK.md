@@ -1,5 +1,9 @@
 # LiveLink gRPC-Web Client Implementation
 
+## 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
+
+**⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**
+
 ## Overview
 
 This is a complete, standalone gRPC-Web client implementation for connecting HTML applications to Octane Render's LiveLink service. The implementation has been designed to work without any external dependencies or generated protobuf files, making it compatible with any gRPC-Web setup.

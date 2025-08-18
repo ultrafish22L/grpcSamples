@@ -1,5 +1,9 @@
 # OctaneWeb Development Status: REAL-TIME CALLBACK SYSTEM WORKING ✅
 
+## 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
+
+**⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**
+
 ## 🎯 BREAKTHROUGH ACHIEVED: Real-Time Render Callbacks
 
 **OBJECTIVE**: Enable render callback system - camera changes should trigger Octane renders with viewport callbacks.

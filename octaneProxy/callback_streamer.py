@@ -282,7 +282,9 @@ class OctaneCallbackStreamer:
                         'calculatedSamplesPerPixel': img.calculatedSamplesPerPixel,
                         'samplesPerSecond': img.samplesPerSecond,
                         'renderTime': img.renderTime,
-                        'changeLevel': img.changeLevel,
+                        'changeLevel': {
+                            'level': getattr(img.changeLevel, 'level', 0) if img.changeLevel else 0
+                        },
                         'hasPendingUpdates': img.hasPendingUpdates,
                         'hasAlpha': img.hasAlpha
                     }
