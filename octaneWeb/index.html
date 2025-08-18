@@ -96,22 +96,39 @@
             <aside class="left-panel panel">
                 <div class="panel-header">
                     <h3>Scene outliner</h3>
+                    <!-- Official OTOY Scene Outliner Control Bar -->
+                    <div class="scene-outliner-controls">
+                        <button class="control-btn collapse-btn" title="Collapse/Expand All" data-action="collapse-all">⊟</button>
+                    </div>
                 </div>
                 <div class="panel-content">
                     <div id="scene-outliner" class="scene-outliner">
-                        <!-- Octane-style toolbar -->
-                        <div class="scene-outliner-toolbar">
-                            <button class="toolbar-btn" title="File operations">📁</button>
-                            <button class="toolbar-btn" title="Edit">✏️</button>
-                            <button class="toolbar-btn" title="Script">📜</button>
-                            <button class="toolbar-btn" title="Module">🔧</button>
-                            <div class="toolbar-spacer"></div>
-                            <button class="toolbar-btn" title="List view">📋</button>
-                            <button class="toolbar-btn" title="Local DB">💾</button>
+                        <!-- Official OTOY Scene Outliner Tabs (Figure 1 from documentation) -->
+                        <div class="scene-outliner-tabs">
+                            <button class="scene-tab active" data-tab="scene" title="Scene hierarchy view">Scene</button>
+                            <button class="scene-tab" data-tab="livedb" title="Live database materials">Live DB</button>
+                            <button class="scene-tab" data-tab="localdb" title="Local database materials">Local DB</button>
+                            <button class="refresh-btn" title="Refresh database content" data-action="refresh">🔄</button>
                         </div>
-                        <!-- Hierarchical tree structure will be populated here -->
-                        <div id="scene-tree" class="scene-tree">
-                            <div class="scene-loading">Loading scene...</div>
+                        
+                        <!-- Tab Content Areas -->
+                        <div class="scene-tab-content active" data-content="scene">
+                            <!-- Hierarchical tree structure will be populated here -->
+                            <div id="scene-tree" class="scene-tree">
+                                <div class="scene-loading">Loading scene...</div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-tab-content" data-content="livedb">
+                            <div class="db-content">
+                                <div class="db-status">Live DB - Connect to access online materials</div>
+                            </div>
+                        </div>
+                        
+                        <div class="scene-tab-content" data-content="localdb">
+                            <div class="db-content">
+                                <div class="db-status">Local DB - No local materials found</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -156,6 +173,19 @@
             <aside class="right-panel panel">
                 <div class="panel-header">
                     <h3>Node inspector</h3>
+                    <!-- Official OTOY Node Inspector Quick Access Buttons (Figure 2 from documentation) -->
+                    <div class="node-inspector-controls">
+                        <button class="quick-btn" title="Jump to Render Target" data-node="rendertarget">🎯</button>
+                        <button class="quick-btn" title="Jump to Camera" data-node="camera">📷</button>
+                        <button class="quick-btn" title="Jump to Resolution" data-node="resolution">📐</button>
+                        <button class="quick-btn" title="Jump to Environment" data-node="environment">🌍</button>
+                        <button class="quick-btn" title="Jump to Imager" data-node="imager">🖼️</button>
+                        <button class="quick-btn" title="Jump to Kernel" data-node="kernel">⚙️</button>
+                        <button class="quick-btn" title="Jump to Current Mesh" data-node="mesh">🔺</button>
+                        <div class="controls-spacer"></div>
+                        <button class="preview-btn" title="Enable Material Preview" data-action="preview">👁️</button>
+                        <button class="render-toggle-btn" title="Material Render Toggle" data-action="render-toggle">🎨</button>
+                    </div>
                 </div>
                 <div class="node-selector-container">
                     <select class="node-selector">
@@ -308,10 +338,12 @@
             
             // UI Components
             'js/components/SceneOutlinerSync.js',
+            'js/components/SceneOutlinerControls.js',
             'js/components/RenderViewport.js',
             'js/components/CallbackRenderViewport.js',
             'js/components/RenderToolbar.js',
             'js/components/NodeInspector.js',
+            'js/components/NodeInspectorControls.js',
             'js/components/NodeGraphEditor.js',
             'js/components/MenuSystem.js',
             

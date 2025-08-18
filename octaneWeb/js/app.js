@@ -123,6 +123,13 @@ class OctaneWebApp {
             document.querySelector('#scene-outliner'),
             this.eventSystem
         );
+        
+        // Initialize Scene Outliner Controls - Official OTOY control bar
+        this.components.sceneOutlinerControls = new SceneOutlinerControls(
+            'scene-outliner',
+            this.client
+        );
+        console.log('✅ Scene Outliner Controls initialized with official OTOY interface');
         // Initialize callback render viewport - Real-time streaming with gRPC callbacks
         this.components.renderViewport = new CallbackRenderViewport(
             document.querySelector('#render-viewport'),
@@ -143,6 +150,13 @@ class OctaneWebApp {
             this.stateManager,
             this.eventSystem
         );
+        
+        // Initialize Node Inspector Controls - Official OTOY quick access buttons
+        this.components.nodeInspectorControls = new NodeInspectorControls(
+            'node-inspector',
+            this.client
+        );
+        console.log('✅ Node Inspector Controls initialized with official OTOY quick access buttons');
         
         // Initialize node graph editor
         this.components.nodeGraphEditor = new NodeGraphEditor(
