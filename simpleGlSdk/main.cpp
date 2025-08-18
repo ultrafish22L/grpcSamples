@@ -532,7 +532,7 @@ void OnNewImageCallback(const Octane::ApiArray<Octane::ApiRenderImage>& renderIm
         g_hasNewRenderData = true;
         g_hasSharedSurfaceData = false;
         
-        std::cout << "📸 Received buffer callback #" << g_callbackCount.load() 
+        std::cout << "📸 Received render callback #" << g_callbackCount.load() 
                   << " with " << renderImages.mSize << " images" << std::endl;
         
         if (renderImages.mSize > 0) {
@@ -650,9 +650,18 @@ int main() {
 #endif
 #endif
 
-    // Set initial camera position in Octane
-    glm::vec3 initialPosition = cameraController.camera.getPosition();
-    cameraSync.setCamera(initialPosition, cameraController.camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
+    // Connect to Octane server and initialize camera sync ONCE before main loop
+    std::cout << "🔗 Connecting to Octane server..." << std::endl;
+    if (cameraSync.connectToServer(serverAddress)) {
+        std::cout << "✅ Connected to Octane successfully" << std::endl;
+        cameraSync.initialize();
+        
+        // Set initial camera position in Octane
+        glm::vec3 initialPosition = cameraController.camera.getPosition();
+        cameraSync.setCamera(initialPosition, cameraController.camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
+    } else {
+        std::cout << "❌ Failed to connect to Octane - callbacks may not work" << std::endl;
+    }
     
     // Set initial window title
     modelManager.updateWindowTitle(window, "3D Model Viewer - SDK Edition");
@@ -717,12 +726,6 @@ int main() {
     // Main render loop
     while (!glfwWindowShouldClose(window)) 
     {
-        // Connect to Octane server and initialize camera sync
-        if (cameraSync.connectToServer(serverAddress))
-        {
-            cameraSync.initialize();
-        }
-
         // Process input
         glfwPollEvents();
         
