@@ -672,6 +672,94 @@ def create_app():
     
     return app
 
+async def debug_callback_system():
+    """Debug function to test the callback system independently"""
+    print("\n🔧 === CALLBACK SYSTEM DEBUG TEST ===")
+    
+    try:
+        octane_address = get_octane_address()
+        print(f"🎯 Testing callback system with Octane at: {octane_address}")
+        
+        # Step 1: Initialize callback system
+        print("📋 Step 1: Initializing callback system...")
+        success = await initialize_callback_system(octane_address)
+        
+        if not success:
+            print("❌ Failed to initialize callback system")
+            return False
+            
+        print("✅ Callback system initialized successfully")
+        
+        # Step 2: Get streamer instance
+        print("📋 Step 2: Getting callback streamer...")
+        streamer = get_callback_streamer(octane_address)
+        status = streamer.get_status()
+        print(f"✅ Streamer status: {status}")
+        
+        # Step 3: Test callback registration (simulate what setOnNewImageCallback does)
+        print("📋 Step 3: Testing callback registration...")
+        
+        # Create a test client ID
+        test_client_id = str(uuid.uuid4())
+        print(f"🆔 Test client ID: {test_client_id}")
+        
+        # Add test client to streamer
+        def test_callback(event_data):
+            print(f"📸 TEST CALLBACK RECEIVED: {event_data}")
+            
+        streamer.add_client(test_client_id, test_callback)
+        print("✅ Test client added to streamer")
+        
+        # Step 4: Trigger a render to test callbacks
+        print("📋 Step 4: Triggering render to test callbacks...")
+        
+        # Create proxy instance to make gRPC calls
+        test_proxy = ComprehensiveOctaneProxy()
+        if await test_proxy.connect_to_octane():
+            print("✅ Connected to Octane for testing")
+            
+            # Restart rendering to trigger callbacks
+            try:
+                # Use the grpc_registry to get the stub and make the call
+                stub = grpc_registry.get_stub('ApiRenderEngineService', test_proxy.channel)
+                method = getattr(stub, 'restartRendering')
+                
+                # Create empty request
+                request_class = grpc_registry.get_request_class('ApiRenderEngineService', 'restartRendering')
+                restart_request = request_class()
+                
+                print("🚀 Calling restartRendering...")
+                restart_response = await method(restart_request)
+                print(f"✅ Render restart response: {restart_response}")
+                
+                # Wait a bit for callbacks
+                print("⏳ Waiting 5 seconds for callbacks...")
+                await asyncio.sleep(5)
+                
+                # Check if we received any callbacks
+                print(f"📊 Final streamer status: {streamer.get_status()}")
+                
+            except Exception as e:
+                print(f"❌ Error during render test: {e}")
+                traceback.print_exc()
+                
+            await test_proxy.disconnect()
+        else:
+            print("❌ Could not connect to Octane for testing")
+            
+        # Step 5: Cleanup
+        print("📋 Step 5: Cleaning up...")
+        streamer.remove_client(test_client_id)
+        print("✅ Test client removed")
+        
+        print("🎯 Callback system debug test completed")
+        return True
+        
+    except Exception as e:
+        print(f"❌ Debug test failed: {e}")
+        traceback.print_exc()
+        return False
+
 async def main():
     """Main entry point"""
     global proxy
@@ -714,4 +802,11 @@ async def main():
         await runner.cleanup()
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    import sys
+    
+    # Check for debug flag
+    if len(sys.argv) > 1 and sys.argv[1] == '--debug-callback':
+        print("🔧 Running callback system debug test...")
+        asyncio.run(debug_callback_system())
+    else:
+        asyncio.run(main())

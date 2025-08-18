@@ -203,34 +203,12 @@ class CallbackRenderViewport extends OctaneComponent {
             border-left: 4px solid #666;
         `;
         
-        // Create manual render trigger button
-        this.renderButton = document.createElement('button');
-        this.renderButton.textContent = '🚀 Trigger Render';
-        this.renderButton.style.cssText = `
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 12px;
-            cursor: pointer;
-            z-index: 100;
-        `;
-        
-        this.renderButton.addEventListener('click', async () => {
-            console.log('🎯 Manual render trigger clicked');
-            await this.triggerRenderRestart();
-        });
+
         
         // Assemble viewport
         this.viewport.appendChild(this.imageDisplay);
         this.viewport.appendChild(this.statusOverlay);
         this.viewport.appendChild(this.modeIndicator);
-        this.viewport.appendChild(this.renderButton);
         this.element.appendChild(this.viewport);
         
         // Initial status
@@ -249,14 +227,29 @@ class CallbackRenderViewport extends OctaneComponent {
             
             // Register callback with proxy server
             const callbackUrl = `${this.client.serverUrl}/render/register-callback`;
+            console.log(`🔗 Callback registration URL: ${callbackUrl}`);
+            
+            console.log('📤 Making callback registration request...');
+            
+            // Add timeout to prevent hanging
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+            
             const response = await fetch(callbackUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                signal: controller.signal
             });
             
+            clearTimeout(timeoutId);
+            
+            console.log(`📥 Callback registration response status: ${response.status}`);
+            console.log(`📥 Callback registration response ok: ${response.ok}`);
+            
             const result = await response.json();
+            console.log('📥 Callback registration result:', result);
             
             if (!result.success) {
                 throw new Error(result.error || 'Failed to register callback');
@@ -704,130 +697,12 @@ class CallbackRenderViewport extends OctaneComponent {
             const response = await this.client.makeRequest('ApiChangeManager', 'update', {});
             console.log('🔄 Octane display update triggered');
             
-            // CRITICAL: Call restartRendering to trigger actual render and OnNewImage callbacks
-            await this.triggerRenderRestart();
-            
             return response;
         } catch (error) {
             console.warn('⚠️ Failed to trigger Octane update:', error);
             throw error;
         }
     }
-    
-    /**
-     * Trigger render restart to generate OnNewImage callbacks
-     * This is the key missing piece - without this, Octane won't render and send callbacks
-     */
-    async triggerRenderRestart() {
-        try {
-            // Call ApiRenderEngine::restartRendering() to trigger actual rendering
-            const response = await this.client.makeGrpcCall('ApiRenderEngineService', 'restartRendering', {});
-            console.log('🚀 Render restart triggered - Octane should now render and send callbacks');
-            
-            // IMMEDIATE FIX: Grab render result directly instead of waiting for callbacks
-            setTimeout(() => this.grabRenderResult(), 1000); // Wait 1 second for render to complete
-            
-            return response;
-        } catch (error) {
-            console.warn('⚠️ Failed to trigger render restart:', error);
-            // Don't throw - this is not critical for camera sync
-        }
-    }
-    
-    /**
-     * Grab render result directly from Octane (alternative to callbacks)
-     * This is the SDK approach: restartRendering() -> grabRenderResult()
-     */
-    async grabRenderResult() {
-        try {
-            console.log('📸 Grabbing render result directly from Octane...');
-            
-            const result = await this.client.makeGrpcCall('ApiRenderEngineService', 'grabRenderResult', {});
-            
-            if (result.success && result.data && result.data.renderImages && result.data.renderImages.data) {
-                console.log(`✅ Grabbed ${result.data.renderImages.data.length} render images`);
-                
-                // Process the first render image
-                const imageData = result.data.renderImages.data[0];
-                if (imageData) {
-                    await this.displayGrabbedImage(imageData);
-                    this.updateModeIndicator('GRABBED RENDER', '#00ff00');
-                }
-            } else {
-                console.warn('⚠️ No render images in grabbed result');
-            }
-            
-        } catch (error) {
-            console.error('❌ Failed to grab render result:', error);
-        }
-    }
-    
-    /**
-     * Display grabbed render image (similar to callback image display)
-     */
-    async displayGrabbedImage(imageData) {
-        try {
-            console.log('🖼️ Displaying grabbed render image...');
-            
-            // Clear previous images
-            this.imageDisplay.innerHTML = '';
-            
-            // Check if we have buffer data
-            if (!imageData.buffer || !imageData.buffer.data) {
-                console.warn('⚠️ No buffer data in grabbed image');
-                return;
-            }
-            
-            // Decode base64 buffer
-            const bufferData = imageData.buffer.data;
-            const bufferSize = imageData.buffer.size;
-            this.lastImageSize = bufferSize;
-            
-            console.log(`📊 Grabbed image buffer: ${bufferSize} bytes`);
-            
-            // Create canvas to display raw image buffer
-            const canvas = document.createElement('canvas');
-            canvas.width = imageData.size.x;
-            canvas.height = imageData.size.y;
-            canvas.style.cssText = `
-                max-width: 100%;
-                max-height: 100%;
-                border: 1px solid #444;
-                image-rendering: pixelated;
-            `;
-            
-            const ctx = canvas.getContext('2d');
-            const imageDataObj = ctx.createImageData(canvas.width, canvas.height);
-            
-            // Decode base64 to binary
-            const binaryString = atob(bufferData);
-            const bytes = new Uint8Array(binaryString.length);
-            for (let i = 0; i < binaryString.length; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
-            }
-            
-            // Convert buffer to RGBA format for canvas
-            this.convertBufferToCanvas(bytes, imageData, imageDataObj);
-            
-            ctx.putImageData(imageDataObj, 0, 0);
-            this.imageDisplay.appendChild(canvas);
-            
-            // Update status with image info
-            this.updateStatus(
-                `Grabbed: ${imageData.size.x}x${imageData.size.y} | ` +
-                `${(bufferSize / 1024).toFixed(1)}KB | ` +
-                `${imageData.tonemappedSamplesPerPixel.toFixed(1)} samples/px | ` +
-                `${imageData.renderTime.toFixed(2)}s`
-            );
-            
-            console.log('✅ Grabbed render image displayed successfully');
-            
-        } catch (error) {
-            console.error('❌ Error displaying grabbed image:', error);
-            this.showImageError('Failed to display grabbed image', error.message);
-        }
-    }
-    
     /**
      * Sync camera from Octane
      */
