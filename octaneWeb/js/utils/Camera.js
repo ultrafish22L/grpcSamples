@@ -18,7 +18,7 @@
  * - Left Click + Drag: Pan camera target
  * - Mouse Wheel: Zoom in/out (adjust radius)
  */
-export class Camera {
+class Camera {
     /**
      * Initialize camera system
      * @param {Object} client - OctaneWebClient instance for API calls
@@ -350,4 +350,10 @@ export class Camera {
         
         console.log('📷 Camera system destroyed');
     }
+}
+
+// Register Camera class globally
+if (typeof window !== 'undefined') {
+    window.Camera = Camera;
+    console.log('✅ Camera class registered globally');
 }

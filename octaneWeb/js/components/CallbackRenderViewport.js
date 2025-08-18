@@ -16,8 +16,6 @@
  * - Global function: toggleUIDebugMode() in browser console
  */
 
-import { Camera } from '../utils/Camera.js';
-
 class CallbackRenderViewport extends OctaneComponent {
     constructor(element, client, stateManager, eventSystem) {
         super(element, client, stateManager);

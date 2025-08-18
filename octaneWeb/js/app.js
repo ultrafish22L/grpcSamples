@@ -778,6 +778,12 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
+// Register globally for browser
+if (typeof window !== 'undefined') {
+    window.OctaneWebApp = OctaneWebApp;
+    console.log('✅ OctaneWebApp class registered globally');
+}
+
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = OctaneWebApp;

@@ -342,6 +342,7 @@
             // API Helpers (Load after constants)
             'js/utils/GrpcApiHelper.js',
             'js/utils/OctaneParameterRenderer.js',
+            'js/utils/Camera.js',
             
             // Core JavaScript Libraries
             'shared/js/livelink.js',
@@ -386,17 +387,107 @@
         
         console.log(`🔄 Cache Busting Active: ${cacheBuster}`);
         
+        // Initialize early debug console to monitor script loading
+        function initEarlyDebugConsole() {
+            // Create debug console HTML
+            const debugHTML = `
+                <div id="early-debug-console" style="
+                    position: fixed; 
+                    top: 10px; 
+                    right: 10px; 
+                    width: 400px; 
+                    height: 300px; 
+                    background: rgba(0,0,0,0.9); 
+                    color: #0f0; 
+                    font-family: monospace; 
+                    font-size: 12px; 
+                    padding: 10px; 
+                    border: 1px solid #333; 
+                    overflow-y: auto; 
+                    z-index: 10000;
+                    border-radius: 5px;
+                ">
+                    <div style="color: #ff0; margin-bottom: 10px;">🔍 Early Debug Console</div>
+                    <div id="early-debug-log"></div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', debugHTML);
+            
+            const logDiv = document.getElementById('early-debug-log');
+            
+            // Override console methods to capture logs
+            const originalLog = console.log;
+            const originalError = console.error;
+            const originalWarn = console.warn;
+            
+            function addToDebugLog(message, type = 'log') {
+                const timestamp = new Date().toLocaleTimeString();
+                const color = type === 'error' ? '#f00' : type === 'warn' ? '#fa0' : '#0f0';
+                logDiv.innerHTML += `<div style="color: ${color};">[${timestamp}] ${message}</div>`;
+                logDiv.scrollTop = logDiv.scrollHeight;
+            }
+            
+            console.log = function(...args) {
+                originalLog.apply(console, args);
+                addToDebugLog(args.join(' '), 'log');
+            };
+            
+            console.error = function(...args) {
+                originalError.apply(console, args);
+                addToDebugLog(args.join(' '), 'error');
+            };
+            
+            console.warn = function(...args) {
+                originalWarn.apply(console, args);
+                addToDebugLog(args.join(' '), 'warn');
+            };
+            
+            console.log('🔍 Early debug console initialized');
+        }
+        
+        // Initialize debug console immediately (disabled for production)
+        // initEarlyDebugConsole();
+        
         // Initialize the application after all scripts are loaded
         window.addEventListener('load', () => {
-            // Wait a moment for all scripts to be fully loaded
-            setTimeout(() => {
-                if (typeof OctaneWebApp !== 'undefined') {
-                    window.octaneApp = new OctaneWebApp();
-                    window.octaneApp.initialize();
+            let attempts = 0;
+            const maxAttempts = 100; // 5 seconds max wait
+            
+            // Wait for all required classes to be available
+            function waitForDependencies() {
+                attempts++;
+                const requiredClasses = ['OctaneWebApp', 'Camera', 'CallbackRenderViewport', 'RenderViewport'];
+                const available = {};
+                const missing = [];
+                
+                requiredClasses.forEach(className => {
+                    available[className] = typeof window[className] !== 'undefined';
+                    if (!available[className]) {
+                        missing.push(className);
+                    }
+                });
+                
+                console.log(`🔍 Dependency check ${attempts}/${maxAttempts}:`, available);
+                
+                if (missing.length === 0) {
+                    console.log('✅ All dependencies loaded, initializing app...');
+                    try {
+                        window.octaneApp = new OctaneWebApp();
+                        window.octaneApp.initialize();
+                    } catch (error) {
+                        console.error('❌ Error initializing app:', error);
+                    }
+                } else if (attempts >= maxAttempts) {
+                    console.error(`❌ Timeout waiting for dependencies after ${maxAttempts} attempts. Missing: ${missing.join(', ')}`);
+                    console.error('Available window objects:', Object.keys(window).filter(key => key.includes('Octane') || key.includes('Camera') || key.includes('Render')));
                 } else {
-                    console.error('❌ OctaneWebApp class not found - check script loading');
+                    console.log(`⏳ Attempt ${attempts}: Waiting for dependencies: ${missing.join(', ')}`);
+                    setTimeout(waitForDependencies, 50);
                 }
-            }, 100);
+            }
+            
+            // Start checking for dependencies
+            setTimeout(waitForDependencies, 100);
         });
     </script>
     

@@ -9,8 +9,6 @@
  * - Global function: toggleUIDebugMode() in browser console
  */
 
-import { Camera } from '../utils/Camera.js';
-
 class RenderViewport extends OctaneComponent {
     constructor(element, client, stateManager) {
         super(element, client, stateManager);
@@ -625,4 +623,10 @@ class RenderViewport extends OctaneComponent {
         // Remove debug UI
         this.removeDebugUI();
     }
+}
+
+// Register component
+if (typeof window !== 'undefined') {
+    window.RenderViewport = RenderViewport;
+    console.log('✅ RenderViewport component registered');
 }
