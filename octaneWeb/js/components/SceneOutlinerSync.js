@@ -368,7 +368,7 @@ class SceneOutlinerSync {
         let treeHTML = `
             <div class="tree-node scene-root level-0" data-node-id="scene-root">
                 <div class="node-content">
-                    <span class="node-toggle ${this.expandedNodes.has('scene-root') ? 'expanded' : 'collapsed'}"></span>
+                    <span class="node-toggle ${this.expandedNodes.has('scene-root') ? 'expanded' : 'collapsed'}">${this.expandedNodes.has('scene-root') ? '−' : '+'}</span>
                     <span class="node-icon">📁</span>
                     <span class="node-name">Scene</span>
                 </div>
@@ -406,7 +406,7 @@ class SceneOutlinerSync {
                 <div class="tree-node scene-item level-${level} ${isSelected ? 'selected' : ''}" data-node-id="${nodeId}" data-handle="${item.handle}">
                     <div class="node-content">
                         ${hasChildren ? 
-                            `<span class="node-toggle ${isExpanded ? 'expanded' : 'collapsed'}"></span>` : 
+                            `<span class="node-toggle ${isExpanded ? 'expanded' : 'collapsed'}">${isExpanded ? '−' : '+'}</span>` : 
                             '<span class="node-spacer"></span>'
                         }
                         <span class="node-icon">${icon}</span>

@@ -127,15 +127,23 @@
     color: var(--octane-text-primary);
 }
 
-.scene-node-expand.expanded::before {
+/* Disable pseudo-element symbols for database tree nodes (they have HTML symbols) */
+.scene-tab-content .node-toggle::before,
+.scene-tab-content .node-toggle::after {
+    content: "" !important;
+    display: none !important;
+}
+
+/* Keep pseudo-element symbols only for main scene tree */
+.scene-tree .scene-node-expand.expanded::before {
     content: "▼";
 }
 
-.scene-node-expand.collapsed::before {
+.scene-tree .scene-node-expand.collapsed::before {
     content: "▶";
 }
 
-.scene-node-expand.leaf::before {
+.scene-tree .scene-node-expand.leaf::before {
     content: "";
 }
 
@@ -1635,35 +1643,44 @@ body.drag-over .drop-indicator {
 /* Scene Outliner Tabs - Official OTOY Three-Tab System */
 .scene-outliner-tabs {
     display: flex;
-    background: var(--octane-bg-secondary);
+    background: var(--octane-bg-primary);
     border-bottom: 1px solid var(--octane-border);
-    padding: 2px;
-    gap: 1px;
-    align-items: center;
+    padding: 0;
+    gap: 0;
+    align-items: stretch;
+    position: relative;
 }
 
 .scene-tab {
-    background: var(--octane-bg-primary);
+    background: var(--octane-bg-secondary);
     border: 1px solid var(--octane-border);
+    border-bottom: none; /* Tab-like appearance - no bottom border */
     color: var(--octane-text-secondary);
     cursor: pointer;
-    padding: 4px 8px;
-    font-size: 10px;
-    border-radius: 2px;
+    padding: 6px 12px;
+    font-size: 11px;
+    border-radius: 4px 4px 0 0; /* Rounded top corners only for tab appearance */
     transition: all 0.15s ease;
     flex: 1;
     text-align: center;
+    position: relative;
+    margin-right: -1px; /* Overlap borders for connected appearance */
+    z-index: 0;
 }
 
 .scene-tab:hover {
     background: var(--octane-bg-hover);
     color: var(--octane-text-primary);
+    z-index: 1; /* Hover tab appears above others */
 }
 
 .scene-tab.active {
-    background: var(--octane-accent-blue);
-    color: white;
-    border-color: var(--octane-accent-blue);
+    background: var(--octane-bg-primary);
+    color: var(--octane-text-primary);
+    border-color: var(--octane-border);
+    border-bottom: 1px solid var(--octane-bg-primary); /* Active tab connects to content area */
+    z-index: 2; /* Active tab appears above all others */
+    font-weight: 500;
 }
 
 .refresh-btn {
@@ -1699,6 +1716,10 @@ body.drag-over .drop-indicator {
     display: none;
     flex: 1;
     overflow: hidden;
+    background: var(--octane-bg-primary);
+    border: 1px solid var(--octane-border);
+    border-top: none; /* Connect to tabs above */
+    border-radius: 0 0 4px 4px; /* Rounded bottom corners */
 }
 
 .scene-tab-content.active {
