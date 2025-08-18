@@ -74,6 +74,7 @@ class CallbackRenderViewport extends OctaneComponent {
         this.connectionErrors = 0;
         this.lastImageSize = 0;
         this.frameCount = 0; // Track total frames processed
+        this.debugSavePNG = false; // Debug mode to save PNG files
         
         console.log('🚀 CallbackRenderViewport initialized with streaming callbacks');
     }
@@ -451,6 +452,12 @@ class CallbackRenderViewport extends OctaneComponent {
             this.convertBufferToCanvas(bytes, imageData, imageDataObj);
             
             ctx.putImageData(imageDataObj, 0, 0);
+            
+            // DEBUG: Save PNG files to examine raw image data
+            if (this.debugSavePNG) {
+                this.savePNGDebug(canvas, this.frameCount);
+            }
+            
             this.imageDisplay.appendChild(canvas);
             
             // Update status with image info
@@ -762,6 +769,7 @@ class CallbackRenderViewport extends OctaneComponent {
      */
     async syncToOctane() {
         if (!this.syncEnabled) return;
+        if (!this.client.isReady()) return; // Don't sync when disconnected
         
         const now = Date.now();
         if (now - this.lastSyncTime < this.syncThrottle) return;
@@ -817,6 +825,38 @@ class CallbackRenderViewport extends OctaneComponent {
         } catch (error) {
             console.warn('⚠️ Failed to trigger initial render:', error);
             // Don't throw - this is not critical for callback streaming to work
+        }
+    }
+    
+    /**
+     * Save PNG debug files to examine raw image data
+     */
+    savePNGDebug(canvas, frameNumber) {
+        try {
+            // Convert canvas to blob
+            canvas.toBlob((blob) => {
+                if (blob) {
+                    // Create download link
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `debug_frame_${frameNumber.toString().padStart(3, '0')}.png`;
+                    
+                    // Trigger download
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    // Clean up
+                    URL.revokeObjectURL(url);
+                    
+                    console.log(`💾 DEBUG: Saved frame ${frameNumber} as PNG`);
+                } else {
+                    console.warn(`⚠️ DEBUG: Failed to create blob for frame ${frameNumber}`);
+                }
+            }, 'image/png');
+        } catch (error) {
+            console.error(`❌ DEBUG: Error saving PNG for frame ${frameNumber}:`, error);
         }
     }
     

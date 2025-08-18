@@ -181,6 +181,16 @@ function createOctaneWebClient() {
                 if (parts.length === 2) {
                     serviceName = parts[0];
                     methodName = parts[1];
+                } else if (method.startsWith('/')) {
+                    // Handle URL path format - extract meaningful parts
+                    const pathParts = method.substring(1).split('/'); // Remove leading slash and split
+                    if (pathParts.length >= 2) {
+                        serviceName = pathParts[0]; // e.g., "octane"
+                        methodName = pathParts.slice(1).join('/'); // e.g., "scene/select"
+                    } else {
+                        serviceName = pathParts[0] || 'unknown';
+                        methodName = 'unknown';
+                    }
                 } else {
                     serviceName = method;
                     methodName = method;
