@@ -68,6 +68,7 @@ std::vector<Octane::ApiRenderImage> g_latestRenderImages;
 bool g_hasNewRenderData = false;
 bool g_hasSharedSurfaceData = false;
 std::atomic<int> g_callbackCount{0};
+bool g_callbackRegistered = false;
 RenderMode g_renderMode = RENDER_MODE_CALLBACK;
 #endif
 
@@ -174,36 +175,86 @@ void setupTexture(const ApiRenderImage& image)
 #endif
         if (image.mBuffer)
         {
-/*
-            uint8_t pixsize = 0;
+            std::cout << "🎨 Processing new render data..." << std::endl;
+            std::cout << "   Image: " << image.mSize.x << "x" << image.mSize.y 
+                      << ", Type: " << image.mType << std::endl;
+            
+            // Determine OpenGL format and type based on Octane image type
+            GLenum internalFormat = GL_RGBA8;
+            GLenum format = GL_RGBA;
+            GLenum type = GL_UNSIGNED_BYTE;
+            
             switch (image.mType)
             {
             case Octane::IMAGE_TYPE_LDR_MONO:
-                pixsize = sizeof(char);
+                internalFormat = GL_R8;
+                format = GL_RED;
+                type = GL_UNSIGNED_BYTE;
                 break;
             case Octane::IMAGE_TYPE_HDR_MONO:
-                pixsize = sizeof(float);
+                internalFormat = GL_R32F;
+                format = GL_RED;
+                type = GL_FLOAT;
                 break;
             case Octane::IMAGE_TYPE_LDR_MONO_ALPHA:
-                pixsize = sizeof(char) * 2;
+                internalFormat = GL_RG8;
+                format = GL_RG;
+                type = GL_UNSIGNED_BYTE;
                 break;
             case Octane::IMAGE_TYPE_HDR_MONO_ALPHA:
-                pixsize = sizeof(float) * 2;
+                internalFormat = GL_RG32F;
+                format = GL_RG;
+                type = GL_FLOAT;
                 break;
             case Octane::IMAGE_TYPE_LDR_RGBA:
-                pixsize = sizeof(char) * 4;
+                internalFormat = GL_RGBA8;
+                format = GL_RGBA;
+                type = GL_UNSIGNED_BYTE;
                 break;
             case Octane::IMAGE_TYPE_HDR_RGBA:
-                pixsize = sizeof(float) * 4;
+                internalFormat = GL_RGBA32F;
+                format = GL_RGBA;
+                type = GL_FLOAT;
+                break;
+            default:
+                std::cout << "⚠️  Unknown image type " << image.mType << ", using RGBA8" << std::endl;
                 break;
             }
-            uint64_t bytesize = image.mSize[0] * pixsize * (uint64_t)image.mSize[1];
-*/
 
-            const char* b = (const char*)image.mBuffer;
+            const void* bufferData = image.mBuffer;
+            int width = image.mSize.x;
+            int height = image.mSize.y;
+
+            // Recreate texture if dimensions changed
+            static int lastWidth = 0, lastHeight = 0;
+            if (width != lastWidth || height != lastHeight) {
+                std::cout << "   Recreating texture for new dimensions: " << width << "x" << height << std::endl;
+                if (mTextureNameGL != 0) {
+                    glDeleteTextures(1, &mTextureNameGL);
+                }
+                glGenTextures(1, &mTextureNameGL);
+                lastWidth = width;
+                lastHeight = height;
+            }
 
             glBindTexture(GL_TEXTURE_2D, mTextureNameGL);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, b);
+            
+            // Set texture parameters
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            
+            // Upload texture data with correct dimensions and format
+            glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, type, bufferData);
+            
+            GLenum error = glGetError();
+            if (error != GL_NO_ERROR) {
+                std::cout << "❌ OpenGL error during texture upload: 0x" << std::hex << error << std::dec << std::endl;
+            } else {
+                std::cout << "✅ Texture updated successfully!" << std::endl;
+            }
+            
             glBindTexture(GL_TEXTURE_2D, 0);
         }
 }
@@ -608,14 +659,7 @@ int main() {
     GRPCSettings::getInstance().setServerAddress(serverAddress);
 
 #ifdef DO_GRPC_SDK_ENABLED
-    // Register callback for receiving render images from Octane
-    std::cout << "🔗 Registering render image callback..." << std::endl;
-    try {
-        ApiRenderEngineProxy::setOnNewImageCallback(OnNewImageCallback, nullptr);
-        std::cout << "✅ Render image callback registered successfully" << std::endl;
-    } catch (const std::exception& e) {
-        std::cout << "❌ Failed to register render image callback: " << e.what() << std::endl;
-    }
+    // Callback will be registered after successful connection in main loop
 
 #ifdef _WIN32X
     // Attempt to initialize shared surface rendering (Windows only)
@@ -650,18 +694,9 @@ int main() {
 #endif
 #endif
 
-    // Connect to Octane server and initialize camera sync ONCE before main loop
-    std::cout << "🔗 Connecting to Octane server..." << std::endl;
-    if (cameraSync.connectToServer(serverAddress)) {
-        std::cout << "✅ Connected to Octane successfully" << std::endl;
-        cameraSync.initialize();
-        
-        // Set initial camera position in Octane
-        glm::vec3 initialPosition = cameraController.camera.getPosition();
-        cameraSync.setCamera(initialPosition, cameraController.camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
-    } else {
-        std::cout << "❌ Failed to connect to Octane - callbacks may not work" << std::endl;
-    }
+    // Set initial camera position in Octane
+    glm::vec3 initialPosition = cameraController.camera.getPosition();
+    cameraSync.setCamera(initialPosition, cameraController.camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
     
     // Set initial window title
     modelManager.updateWindowTitle(window, "3D Model Viewer - SDK Edition");
@@ -726,6 +761,24 @@ int main() {
     // Main render loop
     while (!glfwWindowShouldClose(window)) 
     {
+        // Connect to Octane server and initialize camera sync
+        if (cameraSync.connectToServer(serverAddress))
+        {
+            cameraSync.initialize();
+            
+            // Register callback after successful connection (only once)
+            if (!g_callbackRegistered) {
+                std::cout << "🔗 Registering render image callback..." << std::endl;
+                try {
+                    ApiRenderEngineProxy::setOnNewImageCallback(OnNewImageCallback, nullptr);
+                    std::cout << "✅ Render image callback registered successfully" << std::endl;
+                    g_callbackRegistered = true;
+                } catch (const std::exception& e) {
+                    std::cout << "❌ Failed to register render image callback: " << e.what() << std::endl;
+                }
+            }
+        }
+
         // Process input
         glfwPollEvents();
         
@@ -846,13 +899,15 @@ int main() {
     
     // Cleanup
 #ifdef DO_GRPC_SDK_ENABLED
-    // Unregister the callback
-    std::cout << "🔌 Unregistering render image callback..." << std::endl;
-    try {
-        ApiRenderEngineProxy::setOnNewImageCallback(nullptr, nullptr);
-        std::cout << "✅ Render image callback unregistered" << std::endl;
-    } catch (const std::exception& e) {
-        std::cout << "❌ Failed to unregister render image callback: " << e.what() << std::endl;
+    // Unregister the callback if it was registered
+    if (g_callbackRegistered) {
+        std::cout << "🔌 Unregistering render image callback..." << std::endl;
+        try {
+            ApiRenderEngineProxy::setOnNewImageCallback(nullptr, nullptr);
+            std::cout << "✅ Render image callback unregistered" << std::endl;
+        } catch (const std::exception& e) {
+            std::cout << "❌ Failed to unregister render image callback: " << e.what() << std::endl;
+        }
     }
     
     std::cout << "📊 Total callbacks received: " << g_callbackCount.load() << std::endl;
