@@ -349,7 +349,6 @@
     align-items: center;
     padding: 2px 0;
     min-height: 20px;
-    border-bottom: 1px solid rgba(60, 60, 60, 0.3);
 }
 
 .parameter-row:last-child {

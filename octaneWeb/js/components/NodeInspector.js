@@ -742,14 +742,14 @@ class NodeInspector extends OctaneComponent {
                     <span class="parameter-group-title">Physical camera parameters</span>
                 </div>
                 <div class="parameter-group-content" data-group-content="physical-camera">
-                    <!-- Each parameter gets its own rounded box -->
-                    <div class="individual-parameter-box">
+                    <!-- Each parameter gets its own indented rounded box -->
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('▣', 'Sensor width:', '36.000', 'mm')}
                     </div>
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('◐', 'Focal length:', '50.000', 'mm')}
                     </div>
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('◯', 'F-stop:', '2.8', '')}
                     </div>
                 </div>
@@ -762,22 +762,22 @@ class NodeInspector extends OctaneComponent {
                     <span class="parameter-group-title">Viewing angle</span>
                 </div>
                 <div class="parameter-group-content" data-group-content="viewing-angle">
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('◐', 'Field of view:', '39.597752', '°')}
                     </div>
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('▤', 'Scale of view:', '17.144243', '')}
                     </div>
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('◈', 'Distortion:', '0.000', '')}
                     </div>
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderDualCameraParameter('⟷', 'Lens shift:', '0.000', '0.000')}
                     </div>
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('◐', 'Perspective correction:', 'false', '', true)}
                     </div>
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('▦', 'Pixel aspect ratio:', '1.000', '')}
                     </div>
                 </div>
@@ -790,10 +790,10 @@ class NodeInspector extends OctaneComponent {
                     <span class="parameter-group-title">Clipping</span>
                 </div>
                 <div class="parameter-group-content" data-group-content="clipping">
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('▤', 'Near clip depth:', '0.000', '')}
                     </div>
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('▤', 'Far clip depth:', '∞', '')}
                     </div>
                 </div>
@@ -806,28 +806,28 @@ class NodeInspector extends OctaneComponent {
                     <span class="parameter-group-title">Depth of field</span>
                 </div>
                 <div class="parameter-group-content" data-group-content="depth-of-field">
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('◎', 'Auto-focus:', 'false', '', true)}
                     </div>
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('▤', 'Focal depth:', '1.118034', '')}
                     </div>
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('◯', 'Aperture:', '0.8928572', '')}
                     </div>
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('▦', 'Aperture aspect ratio:', '1.000', '')}
                     </div>
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('▢', 'Aperture edge:', '1.000', '')}
                     </div>
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('#', 'Bokeh side count:', '6', '')}
                     </div>
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('↻', 'Bokeh rotation:', '0.000', '°')}
                     </div>
-                    <div class="individual-parameter-box">
+                    <div class="individual-parameter-box indented">
                         ${this.renderCameraParameter('◯', 'Bokeh roundedness:', '1.000', '')}
                     </div>
                 </div>
