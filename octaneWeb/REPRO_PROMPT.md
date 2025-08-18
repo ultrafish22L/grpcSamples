@@ -196,6 +196,43 @@ Debug access → ✅ toggleUIDebugMode() when needed
 - **Camera Methods**: Don't modify setCameraPosition/setCameraTarget - camera sync depends on these
 - Connection errors in logs = network issues, not code bugs
 
+## 🛑 **MANDATORY SERVER MANAGEMENT RULE**
+
+### **CRITICAL REQUIREMENT: Server Lifecycle Management**
+
+**⚠️ EVERY SESSION MUST FOLLOW THIS PATTERN:**
+
+1. **🚀 SESSION START**: Always restart servers fresh at beginning of work
+   ```bash
+   # Kill any existing servers first
+   cd /workspace/grpcSamples
+   ps aux | grep -E "(octane_proxy|http.server)" | grep -v grep
+   kill [PIDs if any found]
+   
+   # Start fresh servers
+   cd octaneWeb && ./start_servers.bat
+   ```
+
+2. **🛑 SESSION END**: ALWAYS stop servers when work is complete
+   ```bash
+   # Stop all servers before ending session
+   ps aux | grep -E "(octane_proxy|http.server)" | grep -v grep
+   kill [all server PIDs]
+   ```
+
+### **WHY THIS RULE EXISTS:**
+- **Resource Management**: Prevents server process accumulation
+- **Clean State**: Ensures fresh start for each session  
+- **Port Conflicts**: Avoids port binding conflicts (51023, 40281)
+- **Memory Leaks**: Prevents long-running process memory issues
+- **Debugging**: Clean server state eliminates stale connection issues
+
+### **ENFORCEMENT:**
+- **NEVER** leave servers running between sessions
+- **ALWAYS** verify servers are stopped before ending work
+- **RESTART** servers at start of each new work session
+- **DOCUMENT** server status in session notes
+
 ## 📚 PRODUCTION REFERENCE GUIDE
 
 ### **🎯 Current Production Status**

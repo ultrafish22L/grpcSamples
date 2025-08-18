@@ -49,6 +49,42 @@ root - `ENGINEERING_DISCIPLINE.md` - This file, for session management standards
 - Forget to stop servers after completing tests
 - Accumulate multiple running server processes
 
+## 🛑 **MANDATORY SERVER MANAGEMENT RULE**
+
+### **CRITICAL REQUIREMENT: Server Lifecycle Management**
+
+**⚠️ EVERY SESSION MUST FOLLOW THIS PATTERN:**
+
+1. **🚀 SESSION START**: Always restart servers fresh at beginning of work
+   ```bash
+   # Kill any existing servers first
+   ps aux | grep -E "(octane_proxy|http.server)" | grep -v grep
+   kill [PIDs if any found]
+   
+   # Start fresh servers
+   cd /workspace/grpcSamples/octaneWeb && ./start_servers.bat
+   ```
+
+2. **🛑 SESSION END**: ALWAYS stop servers when work is complete
+   ```bash
+   # Stop all servers before ending session
+   ps aux | grep -E "(octane_proxy|http.server)" | grep -v grep
+   kill [all server PIDs]
+   ```
+
+### **WHY THIS RULE EXISTS:**
+- **Resource Management**: Prevents server process accumulation
+- **Clean State**: Ensures fresh start for each session
+- **Port Conflicts**: Avoids port binding conflicts
+- **Memory Leaks**: Prevents long-running process memory issues
+- **Debugging**: Clean server state eliminates stale connection issues
+
+### **ENFORCEMENT:**
+- **NEVER** leave servers running between sessions
+- **ALWAYS** verify servers are stopped before ending work
+- **RESTART** servers at start of each new work session
+- **DOCUMENT** server status in session notes
+
 **RIGHT**:
 - **ALWAYS stop servers immediately after testing**
 - Use `pkill -f octane_proxy.py` and `pkill -f "python -m http.server"` to stop servers
