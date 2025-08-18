@@ -9,7 +9,7 @@ class MenuSystem extends OctaneComponent {
         
         this.activeMenu = null;
         this.menuDefinitions = this.getMenuDefinitions();
-        this.fileManager = new FileManager();
+        this.fileManager = new FileManager(client);
         this.activeSubmenus = new Set();
     }
     
@@ -1396,6 +1396,7 @@ class MenuSystem extends OctaneComponent {
     // Helper methods for file operations
     async loadSceneFromFile(fileResult) {
         console.log('Loading scene from file:', fileResult.name);
+        console.log('  parsed:', fileResult.parsed);
         
         try {
             if (fileResult.type === 'scene') {
