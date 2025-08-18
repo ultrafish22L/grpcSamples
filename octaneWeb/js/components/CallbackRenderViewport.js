@@ -470,16 +470,48 @@ class CallbackRenderViewport extends OctaneComponent {
     convertLDRRGBA(buffer, width, height, pitch, canvasImageData) {
         const data = canvasImageData.data;
         
-        for (let y = 0; y < height; y++) {
-            for (let x = 0; x < width; x++) {
-                const srcIndex = y * pitch + x * 4;
-                const dstIndex = (y * width + x) * 4;
-                
-                if (srcIndex + 3 < buffer.length) {
-                    data[dstIndex] = buffer[srcIndex];     // R
-                    data[dstIndex + 1] = buffer[srcIndex + 1]; // G
-                    data[dstIndex + 2] = buffer[srcIndex + 2]; // B
-                    data[dstIndex + 3] = buffer[srcIndex + 3]; // A
+        // Check if buffer size matches expected size exactly (no padding)
+        const expectedSize = width * height * 4;
+        
+        if (buffer.length === expectedSize) {
+            console.log('✅ Perfect size match - direct copy');
+            // Direct copy - no pitch issues
+            for (let i = 0; i < expectedSize; i += 4) {
+                data[i] = buffer[i];         // R
+                data[i + 1] = buffer[i + 1]; // G
+                data[i + 2] = buffer[i + 2]; // B
+                data[i + 3] = buffer[i + 3]; // A
+            }
+        } else {
+            console.log(`🔍 Size mismatch: buffer=${buffer.length}, expected=${expectedSize}, using pitch=${pitch}`);
+            
+            // Handle pitch (row stride) - pitch might be in pixels or bytes
+            let pitchBytes;
+            
+            // Try pitch as bytes first
+            if (pitch * height === buffer.length) {
+                console.log(`🔍 Pitch is in bytes: ${pitch}`);
+                pitchBytes = pitch;
+            } else if (pitch * 4 * height === buffer.length) {
+                console.log(`🔍 Pitch is in pixels: ${pitch} -> ${pitch * 4} bytes`);
+                pitchBytes = pitch * 4;
+            } else {
+                console.log(`⚠️ Pitch calculation unclear, using width-based pitch`);
+                pitchBytes = width * 4;
+            }
+            
+            // Copy with pitch consideration
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const srcIndex = y * pitchBytes + x * 4;
+                    const dstIndex = (y * width + x) * 4;
+                    
+                    if (srcIndex + 3 < buffer.length) {
+                        data[dstIndex] = buffer[srcIndex];     // R
+                        data[dstIndex + 1] = buffer[srcIndex + 1]; // G
+                        data[dstIndex + 2] = buffer[srcIndex + 2]; // B
+                        data[dstIndex + 3] = buffer[srcIndex + 3]; // A
+                    }
                 }
             }
         }
@@ -492,17 +524,50 @@ class CallbackRenderViewport extends OctaneComponent {
         const data = canvasImageData.data;
         const floatView = new Float32Array(buffer.buffer);
         
-        for (let y = 0; y < height; y++) {
-            for (let x = 0; x < width; x++) {
-                const srcIndex = (y * pitch + x * 4) / 4; // Float32 index
-                const dstIndex = (y * width + x) * 4;
-                
-                if (srcIndex + 3 < floatView.length) {
-                    // Simple tone mapping: clamp and convert to 8-bit
-                    data[dstIndex] = Math.min(255, floatView[srcIndex] * 255);     // R
-                    data[dstIndex + 1] = Math.min(255, floatView[srcIndex + 1] * 255); // G
-                    data[dstIndex + 2] = Math.min(255, floatView[srcIndex + 2] * 255); // B
-                    data[dstIndex + 3] = Math.min(255, floatView[srcIndex + 3] * 255); // A
+        // Check if buffer size matches expected size exactly (no padding)
+        const expectedFloats = width * height * 4;
+        
+        if (floatView.length === expectedFloats) {
+            console.log('✅ HDR Perfect size match - direct copy');
+            // Direct copy - no pitch issues
+            for (let i = 0; i < expectedFloats; i += 4) {
+                // Simple tone mapping: clamp and convert to 8-bit
+                data[i] = Math.min(255, Math.max(0, floatView[i] * 255));         // R
+                data[i + 1] = Math.min(255, Math.max(0, floatView[i + 1] * 255)); // G
+                data[i + 2] = Math.min(255, Math.max(0, floatView[i + 2] * 255)); // B
+                data[i + 3] = Math.min(255, Math.max(0, floatView[i + 3] * 255)); // A
+            }
+        } else {
+            console.log(`🔍 HDR Size mismatch: floats=${floatView.length}, expected=${expectedFloats}, using pitch=${pitch}`);
+            
+            // Handle pitch for HDR data - pitch might be in pixels or bytes
+            let pitchFloats;
+            
+            // Try pitch as bytes first (convert to float count)
+            if ((pitch / 4) * height === floatView.length) {
+                console.log(`🔍 HDR Pitch is in bytes: ${pitch} -> ${pitch / 4} floats`);
+                pitchFloats = pitch / 4;
+            } else if (pitch * 4 * height === floatView.length) {
+                console.log(`🔍 HDR Pitch is in pixels: ${pitch} -> ${pitch * 4} floats`);
+                pitchFloats = pitch * 4;
+            } else {
+                console.log(`⚠️ HDR Pitch calculation unclear, using width-based pitch`);
+                pitchFloats = width * 4;
+            }
+            
+            // Copy with pitch consideration
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const srcIndex = y * pitchFloats + x * 4;
+                    const dstIndex = (y * width + x) * 4;
+                    
+                    if (srcIndex + 3 < floatView.length) {
+                        // Simple tone mapping: clamp and convert to 8-bit
+                        data[dstIndex] = Math.min(255, Math.max(0, floatView[srcIndex] * 255));     // R
+                        data[dstIndex + 1] = Math.min(255, Math.max(0, floatView[srcIndex + 1] * 255)); // G
+                        data[dstIndex + 2] = Math.min(255, Math.max(0, floatView[srcIndex + 2] * 255)); // B
+                        data[dstIndex + 3] = Math.min(255, Math.max(0, floatView[srcIndex + 3] * 255)); // A
+                    }
                 }
             }
         }

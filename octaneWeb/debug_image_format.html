@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Format Debug Session</title>
+    <style>
+        body {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .debug-panel {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px 0;
+        }
+        
+        .debug-title {
+            color: #ff6b6b;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #444;
+            padding-bottom: 10px;
+        }
+        
+        .debug-section {
+            margin: 15px 0;
+            padding: 10px;
+            background: #333;
+            border-left: 4px solid #4ecdc4;
+        }
+        
+        .debug-data {
+            font-family: monospace;
+            background: #1e1e1e;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        
+        .canvas-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .canvas-item {
+            text-align: center;
+        }
+        
+        .canvas-item canvas {
+            border: 2px solid #444;
+            max-width: 300px;
+            max-height: 300px;
+        }
+        
+        .canvas-label {
+            margin-top: 10px;
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+        
+        .error {
+            color: #ff6b6b;
+            background: #3a1a1a;
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 4px solid #ff6b6b;
+        }
+        
+        .success {
+            color: #4ecdc4;
+            background: #1a3a2a;
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 4px solid #4ecdc4;
+        }
+        
+        button {
+            background: #4ecdc4;
+            color: #1a1a1a;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background: #45b7aa;
+        }
+        
+        .hex-dump {
+            font-family: monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Image Format Debug Session</h1>
+    <p>Visual debugging for Octane render callback image format and display</p>
+    
+    <div class="debug-panel">
+        <div class="debug-title">📡 Connection Status</div>
+        <div id="connectionStatus">Initializing...</div>
+        <button onclick="connectToCallback()">Connect to Callback Stream</button>
+        <button onclick="fetchSingleImage()">Fetch Single Image</button>
+    </div>
+    
+    <div class="debug-panel">
+        <div class="debug-title">📊 Image Data Analysis</div>
+        <div id="imageAnalysis">No image data received yet</div>
+    </div>
+    
+    <div class="debug-panel">
+        <div class="debug-title">🖼️ Image Display Tests</div>
+        <div class="canvas-container" id="canvasContainer">
+            <!-- Canvas elements will be added here -->
+        </div>
+    </div>
+    
+    <div class="debug-panel">
+        <div class="debug-title">🔍 Raw Data Inspection</div>
+        <div class="debug-section">
+            <strong>Buffer Hex Dump (first 256 bytes):</strong>
+            <div class="debug-data hex-dump" id="hexDump">No data</div>
+        </div>
+        <div class="debug-section">
+            <strong>Image Metadata:</strong>
+            <div class="debug-data" id="imageMetadata">No metadata</div>
+        </div>
+    </div>
+    
+    <div class="debug-panel">
+        <div class="debug-title">⚠️ Debug Log</div>
+        <div class="debug-data" id="debugLog">Debug session started...\n</div>
+    </div>
+
+    <script>
+        let eventSource = null;
+        let latestImageData = null;
+        
+        function log(message) {
+            const logElement = document.getElementById('debugLog');
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.textContent += `[${timestamp}] ${message}\n`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+        
+        function updateConnectionStatus(status, isError = false) {
+            const element = document.getElementById('connectionStatus');
+            element.innerHTML = `<div class="${isError ? 'error' : 'success'}">${status}</div>`;
+        }
+        
+        async function connectToCallback() {
+            try {
+                log('🚀 Attempting callback registration...');
+                
+                // Register callback
+                const response = await fetch('http://localhost:51023/render/register-callback', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({})
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Registration failed: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                log(`✅ Callback registered with ID: ${result.callback_id}`);
+                
+                // Connect to SSE stream
+                eventSource = new EventSource(`http://localhost:51023/render/stream?client_id=${result.client_id}`);
+                
+                eventSource.onopen = () => {
+                    updateConnectionStatus('🟢 Connected to callback stream');
+                    log('📡 SSE connection opened');
+                };
+                
+                eventSource.onmessage = (event) => {
+                    try {
+                        const data = JSON.parse(event.data);
+                        log(`📥 Received callback: ${data.type}`);
+                        
+                        // Log the full callback structure for debugging
+                        log(`🔍 Full callback data: ${JSON.stringify(data, null, 2)}`);
+                        
+                        if (data.type === 'newImage' && data.render_images) {
+                            processImageData(data.render_images);
+                        } else if (data.type === 'OnNewImage' && data.data && data.data.renderImages) {
+                            processImageData(data.data.renderImages);
+                        } else {
+                            log(`⚠️ Callback type '${data.type}' - no image data found`);
+                        }
+                    } catch (error) {
+                        log(`❌ Error processing callback: ${error.message}`);
+                    }
+                };
+                
+                eventSource.onerror = (error) => {
+                    updateConnectionStatus('🔴 SSE connection error', true);
+                    log(`❌ SSE error: ${error}`);
+                };
+                
+            } catch (error) {
+                updateConnectionStatus(`🔴 Connection failed: ${error.message}`, true);
+                log(`❌ Connection error: ${error.message}`);
+            }
+        }
+        
+        async function fetchSingleImage() {
+            try {
+                log('📸 Fetching single render image...');
+                
+                const response = await fetch('http://localhost:51023/ApiRenderEngineService/grabRenderResult', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({})
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Fetch failed: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                log(`✅ Fetched render result: ${result.success ? 'success' : 'failed'}`);
+                
+                if (result.success && result.data && result.data.renderImages) {
+                    processImageData(result.data.renderImages);
+                } else {
+                    log('⚠️ No render images in result');
+                }
+                
+            } catch (error) {
+                log(`❌ Fetch error: ${error.message}`);
+            }
+        }
+        
+        function processImageData(renderImages) {
+            if (!renderImages.data || renderImages.data.length === 0) {
+                log('⚠️ No image data in renderImages');
+                return;
+            }
+            
+            const imageData = renderImages.data[0];
+            latestImageData = imageData;
+            
+            log(`📊 Processing image: ${imageData.size.x}x${imageData.size.y}, type: ${imageData.type}, pitch: ${imageData.pitch}`);
+            
+            // Update analysis
+            updateImageAnalysis(imageData);
+            
+            // Update metadata
+            updateImageMetadata(imageData);
+            
+            // Update hex dump
+            updateHexDump(imageData);
+            
+            // Create display tests
+            createDisplayTests(imageData);
+        }
+        
+        function updateImageAnalysis(imageData) {
+            const analysis = `
+                <div class="debug-section">
+                    <strong>Image Dimensions:</strong> ${imageData.size.x} x ${imageData.size.y}
+                </div>
+                <div class="debug-section">
+                    <strong>Image Type:</strong> ${imageData.type} (${getImageTypeName(imageData.type)})
+                </div>
+                <div class="debug-section">
+                    <strong>Pitch:</strong> ${imageData.pitch} bytes per row
+                </div>
+                <div class="debug-section">
+                    <strong>Buffer Size:</strong> ${imageData.buffer.size} bytes
+                </div>
+                <div class="debug-section">
+                    <strong>Expected Size:</strong> ${imageData.size.x * imageData.size.y * getBytesPerPixel(imageData.type)} bytes
+                </div>
+                <div class="debug-section">
+                    <strong>Samples/Pixel:</strong> ${imageData.tonemappedSamplesPerPixel.toFixed(2)}
+                </div>
+                <div class="debug-section">
+                    <strong>Render Time:</strong> ${imageData.renderTime.toFixed(3)}s
+                </div>
+            `;
+            document.getElementById('imageAnalysis').innerHTML = analysis;
+        }
+        
+        function updateImageMetadata(imageData) {
+            const metadata = JSON.stringify({
+                size: imageData.size,
+                type: imageData.type,
+                pitch: imageData.pitch,
+                bufferSize: imageData.buffer.size,
+                samplesPerPixel: imageData.tonemappedSamplesPerPixel,
+                renderTime: imageData.renderTime,
+                hasBuffer: !!imageData.buffer.data
+            }, null, 2);
+            document.getElementById('imageMetadata').textContent = metadata;
+        }
+        
+        function updateHexDump(imageData) {
+            if (!imageData.buffer.data) {
+                document.getElementById('hexDump').textContent = 'No buffer data';
+                return;
+            }
+            
+            try {
+                const binaryString = atob(imageData.buffer.data);
+                const bytes = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+                
+                let hexDump = '';
+                const maxBytes = Math.min(256, bytes.length);
+                
+                for (let i = 0; i < maxBytes; i += 16) {
+                    const offset = i.toString(16).padStart(8, '0');
+                    let hexPart = '';
+                    let asciiPart = '';
+                    
+                    for (let j = 0; j < 16 && i + j < maxBytes; j++) {
+                        const byte = bytes[i + j];
+                        hexPart += byte.toString(16).padStart(2, '0') + ' ';
+                        asciiPart += (byte >= 32 && byte <= 126) ? String.fromCharCode(byte) : '.';
+                    }
+                    
+                    hexDump += `${offset}: ${hexPart.padEnd(48)} |${asciiPart}|\n`;
+                }
+                
+                document.getElementById('hexDump').textContent = hexDump;
+                
+            } catch (error) {
+                document.getElementById('hexDump').textContent = `Error decoding buffer: ${error.message}`;
+            }
+        }
+        
+        function createDisplayTests(imageData) {
+            const container = document.getElementById('canvasContainer');
+            container.innerHTML = '';
+            
+            // Test 1: Raw RGBA interpretation
+            createCanvasTest(container, 'Raw RGBA', imageData, 'raw-rgba');
+            
+            // Test 2: Corrected format based on type
+            createCanvasTest(container, 'Type-based Conversion', imageData, 'type-based');
+            
+            // Test 3: Alternative interpretations
+            createCanvasTest(container, 'BGR Format', imageData, 'bgr');
+            createCanvasTest(container, 'Grayscale', imageData, 'grayscale');
+        }
+        
+        function createCanvasTest(container, label, imageData, method) {
+            const canvasItem = document.createElement('div');
+            canvasItem.className = 'canvas-item';
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = imageData.size.x;
+            canvas.height = imageData.size.y;
+            
+            const canvasLabel = document.createElement('div');
+            canvasLabel.className = 'canvas-label';
+            canvasLabel.textContent = label;
+            
+            canvasItem.appendChild(canvas);
+            canvasItem.appendChild(canvasLabel);
+            container.appendChild(canvasItem);
+            
+            try {
+                renderImageToCanvas(canvas, imageData, method);
+                log(`✅ Created canvas test: ${label}`);
+            } catch (error) {
+                log(`❌ Canvas test failed (${label}): ${error.message}`);
+                canvasLabel.textContent += ` - ERROR`;
+                canvasLabel.style.color = '#ff6b6b';
+            }
+        }
+        
+        function renderImageToCanvas(canvas, imageData, method) {
+            const ctx = canvas.getContext('2d');
+            const imageDataObj = ctx.createImageData(canvas.width, canvas.height);
+            
+            if (!imageData.buffer.data) {
+                throw new Error('No buffer data');
+            }
+            
+            const binaryString = atob(imageData.buffer.data);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            
+            const width = imageData.size.x;
+            const height = imageData.size.y;
+            const pitch = imageData.pitch;
+            const data = imageDataObj.data;
+            
+            switch (method) {
+                case 'raw-rgba':
+                    convertRawRGBA(bytes, width, height, pitch, data);
+                    break;
+                case 'type-based':
+                    convertTypeBased(bytes, imageData, data);
+                    break;
+                case 'bgr':
+                    convertBGR(bytes, width, height, pitch, data);
+                    break;
+                case 'grayscale':
+                    convertGrayscale(bytes, width, height, pitch, data);
+                    break;
+            }
+            
+            ctx.putImageData(imageDataObj, 0, 0);
+        }
+        
+        function convertRawRGBA(buffer, width, height, pitch, data) {
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const srcIndex = y * pitch + x * 4;
+                    const dstIndex = (y * width + x) * 4;
+                    
+                    if (srcIndex + 3 < buffer.length) {
+                        data[dstIndex] = buffer[srcIndex];     // R
+                        data[dstIndex + 1] = buffer[srcIndex + 1]; // G
+                        data[dstIndex + 2] = buffer[srcIndex + 2]; // B
+                        data[dstIndex + 3] = buffer[srcIndex + 3]; // A
+                    }
+                }
+            }
+        }
+        
+        function convertTypeBased(buffer, imageData, data) {
+            const width = imageData.size.x;
+            const height = imageData.size.y;
+            const pitch = imageData.pitch;
+            const imageType = imageData.type;
+            
+            if (imageType === 1) { // HDR RGBA
+                const floatView = new Float32Array(buffer.buffer);
+                for (let y = 0; y < height; y++) {
+                    for (let x = 0; x < width; x++) {
+                        const srcIndex = (y * pitch + x * 4) / 4;
+                        const dstIndex = (y * width + x) * 4;
+                        
+                        if (srcIndex + 3 < floatView.length) {
+                            data[dstIndex] = Math.min(255, Math.max(0, floatView[srcIndex] * 255));
+                            data[dstIndex + 1] = Math.min(255, Math.max(0, floatView[srcIndex + 1] * 255));
+                            data[dstIndex + 2] = Math.min(255, Math.max(0, floatView[srcIndex + 2] * 255));
+                            data[dstIndex + 3] = Math.min(255, Math.max(0, floatView[srcIndex + 3] * 255));
+                        }
+                    }
+                }
+            } else {
+                convertRawRGBA(buffer, width, height, pitch, data);
+            }
+        }
+        
+        function convertBGR(buffer, width, height, pitch, data) {
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const srcIndex = y * pitch + x * 4;
+                    const dstIndex = (y * width + x) * 4;
+                    
+                    if (srcIndex + 3 < buffer.length) {
+                        data[dstIndex] = buffer[srcIndex + 2];     // B->R
+                        data[dstIndex + 1] = buffer[srcIndex + 1]; // G
+                        data[dstIndex + 2] = buffer[srcIndex];     // R->B
+                        data[dstIndex + 3] = buffer[srcIndex + 3]; // A
+                    }
+                }
+            }
+        }
+        
+        function convertGrayscale(buffer, width, height, pitch, data) {
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const srcIndex = y * pitch + x * 4;
+                    const dstIndex = (y * width + x) * 4;
+                    
+                    if (srcIndex + 3 < buffer.length) {
+                        const gray = (buffer[srcIndex] + buffer[srcIndex + 1] + buffer[srcIndex + 2]) / 3;
+                        data[dstIndex] = gray;     // R
+                        data[dstIndex + 1] = gray; // G
+                        data[dstIndex + 2] = gray; // B
+                        data[dstIndex + 3] = 255;  // A
+                    }
+                }
+            }
+        }
+        
+        function getImageTypeName(type) {
+            switch (type) {
+                case 0: return 'LDR_RGBA';
+                case 1: return 'HDR_RGBA';
+                default: return 'UNKNOWN';
+            }
+        }
+        
+        function getBytesPerPixel(type) {
+            switch (type) {
+                case 0: return 4; // LDR RGBA = 4 bytes
+                case 1: return 16; // HDR RGBA = 4 floats = 16 bytes
+                default: return 4;
+            }
+        }
+        
+        // Auto-connect on load
+        window.addEventListener('load', () => {
+            log('🔍 Debug session initialized');
+            log('Click "Connect to Callback Stream" to start receiving live images');
+            log('Click "Fetch Single Image" to grab one image for analysis');
+        });
+    </script>
+</body>
+</html>

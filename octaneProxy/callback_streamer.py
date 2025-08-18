@@ -25,6 +25,8 @@ import base64
 from typing import List, Dict, Optional, Callable
 from dataclasses import dataclass
 from queue import Queue, Empty as QueueEmpty
+from PIL import Image
+import numpy as np
 
 import grpc
 from google.protobuf.empty_pb2 import Empty
@@ -291,6 +293,11 @@ class OctaneCallbackStreamer:
                     
                     # Handle image buffer
                     if img.buffer and img.buffer.data:
+                        # Save image as PNG for visual debugging
+                        png_filename = await self._save_image_as_png(img, i)
+                        if png_filename:
+                            print(f"💾 Saved callback image to: {png_filename}")
+                        
                         # Encode buffer as base64 for JSON transport
                         buffer_data = base64.b64encode(img.buffer.data).decode('utf-8')
                         image_info['buffer'] = {
@@ -354,6 +361,131 @@ class OctaneCallbackStreamer:
         }
         
         await self._broadcast_to_clients(stats_data)
+    
+    async def _save_image_as_png(self, img, index: int) -> Optional[str]:
+        """Save render image as PNG file for visual debugging"""
+        try:
+            if not img.buffer or not img.buffer.data:
+                return None
+            
+            width = img.size.x
+            height = img.size.y
+            pitch = img.pitch
+            image_type = img.type
+            buffer_data = img.buffer.data
+            
+            print(f"🔍 PNG Debug - Image {index}: {width}x{height}, type={image_type}, pitch={pitch}, buffer_size={len(buffer_data)}")
+            
+            # Create filename with timestamp and callback count
+            timestamp = int(time.time())
+            filename = f"/tmp/octane_callback_{self.callback_count:04d}_{index}_{timestamp}.png"
+            
+            # Convert buffer to numpy array based on image type
+            if image_type == 0:  # LDR_RGBA (8-bit per channel)
+                # Expected: 4 bytes per pixel (RGBA)
+                expected_size = width * height * 4
+                if len(buffer_data) < expected_size:
+                    print(f"⚠️ Buffer too small: {len(buffer_data)} < {expected_size}")
+                    return None
+                
+                # Convert to numpy array
+                img_array = np.frombuffer(buffer_data, dtype=np.uint8)
+                
+                # Check if buffer size matches expected size exactly
+                if len(buffer_data) == expected_size:
+                    print(f"✅ Perfect size match - direct reshape")
+                    # Direct reshape - no pitch issues
+                    img_array = img_array.reshape((height, width, 4))
+                else:
+                    # Handle pitch (row stride) - pitch might be in pixels or bytes
+                    bytes_per_pixel = 4
+                    
+                    # Try pitch as bytes first
+                    if pitch * height == len(buffer_data):
+                        print(f"🔍 Pitch is in bytes: {pitch}")
+                        pitch_bytes = pitch
+                    elif pitch * bytes_per_pixel * height == len(buffer_data):
+                        print(f"🔍 Pitch is in pixels: {pitch} -> {pitch * bytes_per_pixel} bytes")
+                        pitch_bytes = pitch * bytes_per_pixel
+                    else:
+                        print(f"⚠️ Pitch calculation unclear, using direct reshape")
+                        img_array = img_array.reshape((height, width, 4))
+                        pitch_bytes = width * bytes_per_pixel
+                    
+                    if pitch_bytes != width * bytes_per_pixel:
+                        # Handle row padding
+                        img_array = img_array[:height * pitch_bytes].reshape((height, pitch_bytes))
+                        # Extract only the image data (ignore padding)
+                        img_array = img_array[:, :width * bytes_per_pixel].reshape((height, width, bytes_per_pixel))
+                    else:
+                        # No padding
+                        img_array = img_array.reshape((height, width, bytes_per_pixel))
+                
+                # Convert RGBA to RGB (PIL doesn't handle alpha well in some cases)
+                if img_array.shape[2] == 4:
+                    # Check if alpha channel is meaningful
+                    alpha_channel = img_array[:, :, 3]
+                    if np.all(alpha_channel == 255):
+                        # Alpha is all 255, just use RGB
+                        img_array = img_array[:, :, :3]
+                        mode = 'RGB'
+                    else:
+                        mode = 'RGBA'
+                else:
+                    mode = 'RGB'
+                
+            elif image_type == 1:  # HDR_RGBA (float32 per channel)
+                # Expected: 16 bytes per pixel (4 float32 values)
+                expected_size = width * height * 16
+                if len(buffer_data) < expected_size:
+                    print(f"⚠️ HDR Buffer too small: {len(buffer_data)} < {expected_size}")
+                    return None
+                
+                # Convert to float32 array
+                float_array = np.frombuffer(buffer_data, dtype=np.float32)
+                
+                # Handle pitch for float data
+                floats_per_pixel = 4
+                actual_width = (pitch // 4) // floats_per_pixel  # pitch is in bytes, convert to float32 count
+                
+                # Reshape considering pitch
+                float_array = float_array[:height * (pitch // 4)].reshape((height, pitch // 4))
+                
+                # Extract only the image data
+                float_array = float_array[:, :width * floats_per_pixel].reshape((height, width, floats_per_pixel))
+                
+                # Apply simple tone mapping (clamp to 0-1 range)
+                img_array = np.clip(float_array, 0.0, 1.0)
+                
+                # Convert to 8-bit
+                img_array = (img_array * 255).astype(np.uint8)
+                
+                # Handle alpha
+                if img_array.shape[2] == 4:
+                    alpha_channel = img_array[:, :, 3]
+                    if np.all(alpha_channel == 255):
+                        img_array = img_array[:, :, :3]
+                        mode = 'RGB'
+                    else:
+                        mode = 'RGBA'
+                else:
+                    mode = 'RGB'
+            else:
+                print(f"❌ Unsupported image type: {image_type}")
+                return None
+            
+            # Create PIL Image and save
+            pil_image = Image.fromarray(img_array, mode=mode)
+            pil_image.save(filename)
+            
+            print(f"✅ Saved PNG: {filename} ({mode}, {img_array.shape})")
+            return filename
+            
+        except Exception as e:
+            print(f"❌ Error saving PNG: {e}")
+            import traceback
+            traceback.print_exc()
+            return None
     
     async def _broadcast_to_clients(self, data: dict):
         """Broadcast data to all active browser clients"""
