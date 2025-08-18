@@ -295,6 +295,7 @@
     user-select: none;
     font-size: 11px;
     background: transparent;
+    margin-left: 18px; /* Indent group headers */
 }
 
 .parameter-group-header:hover {
@@ -324,7 +325,7 @@
 /* Rounded container for expanded parameter content */
 .parameter-group-content {
     margin-top: 2px;
-    margin-left: 18px; /* Indent the content */
+    margin-left: 36px; /* Indent relative to group header */
 }
 
 /* Individual parameter node containers - each gets its own rounded box */
