@@ -1,6 +1,17 @@
-# OTOY WebGL-Octane LiveLink Sync
+# OTOY WebGL-Octane LiveLink Sync (LEGACY)
 
-## 🚀 QUICKSTART - Get Running in 2 Minutes
+## ⚠️ **DEPRECATED - USE octaneWeb INSTEAD**
+
+**This is the legacy HTML application. For production use, please use the modern `octaneWeb` system:**
+- **Production System**: `octaneWeb/` - Complete production-ready real-time rendering system
+- **Quick Start**: Run `octaneWeb/start_servers.bat` and open http://localhost:43331
+- **Features**: Real-time callback rendering, camera sync, performance optimized
+
+This legacy documentation is maintained for reference only.
+
+---
+
+## 🚀 LEGACY QUICKSTART - Get Running in 2 Minutes
 
 ### Step 1: Start Octane Render
 1. **Launch Octane Render** on your system

@@ -1,4 +1,11 @@
-# HTML Applications Setup Guide
+# HTML Applications Setup Guide (LEGACY)
+
+## ⚠️ **DEPRECATED - USE octaneWeb INSTEAD**
+
+**This is legacy documentation. For production use, please use the modern `octaneWeb` system:**
+- **Production System**: `octaneWeb/` - Complete production-ready real-time rendering system
+- **Quick Start**: Run `octaneWeb/start_servers.bat` and open http://localhost:43331
+- **Features**: Real-time callback rendering, camera sync, performance optimized
 
 ## 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
 

@@ -1,10 +1,17 @@
-# LiveLink gRPC-Web Client Implementation
+# LiveLink gRPC-Web Client Implementation (LEGACY)
+
+## ⚠️ **DEPRECATED - USE octaneWeb INSTEAD**
+
+**This is legacy documentation. For production use, please use the modern `octaneWeb` system:**
+- **Production System**: `octaneWeb/` - Complete production-ready real-time rendering system
+- **Modern Client**: `octaneWeb/js/core/OctaneWebClient.js` - Advanced gRPC-Web client with callback streaming
+- **Quick Start**: Run `octaneWeb/start_servers.bat` and open http://localhost:43331
 
 ## 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
 
 **⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**
 
-## Overview
+## Legacy Overview
 
 This is a complete, standalone gRPC-Web client implementation for connecting HTML applications to Octane Render's LiveLink service. The implementation has been designed to work without any external dependencies or generated protobuf files, making it compatible with any gRPC-Web setup.
 
