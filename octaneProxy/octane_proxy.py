@@ -552,8 +552,9 @@ async def handle_stream_events(request):
                 print(f"❌ Error sending SSE to {client_id}: {e}")
                 raise
         
-        # Add client to streamer
-        streamer.add_client(client_id, client_callback)
+        # Add client to streamer with main event loop reference
+        main_loop = asyncio.get_running_loop()
+        streamer.add_client(client_id, client_callback, main_loop)
         
         try:
             # Send initial connection event

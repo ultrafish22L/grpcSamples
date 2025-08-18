@@ -22,6 +22,7 @@ import logging
 import threading
 import time
 import base64
+import hashlib
 from typing import List, Dict, Optional, Callable
 from dataclasses import dataclass
 from queue import Queue, Empty as QueueEmpty
@@ -314,9 +315,12 @@ class OctaneCallbackStreamer:
                             'encoding': 'base64'
                         }
                         
+                        # DEBUG: Check if buffer data is changing
+                        buffer_hash = hashlib.md5(img.buffer.data).hexdigest()[:8]
                         print(f"  📊 Image {i}: {img.size.x}x{img.size.y}, "
                               f"{len(img.buffer.data)} bytes, "
-                              f"{img.tonemappedSamplesPerPixel:.1f} samples/px")
+                              f"{img.tonemappedSamplesPerPixel:.1f} samples/px, "
+                              f"hash: {buffer_hash}")
                     else:
                         print(f"  ⚠️ Image {i}: No buffer data")
                         image_info['buffer'] = None
@@ -523,7 +527,24 @@ class OctaneCallbackStreamer:
                     # Handle both sync and async callback functions
                     result = client.callback_func(data)
                     if asyncio.iscoroutine(result):
-                        await result
+                        # If we have the main loop, schedule the coroutine there
+                        if hasattr(client, 'main_loop') and client.main_loop is not None:
+                            try:
+                                future = asyncio.run_coroutine_threadsafe(result, client.main_loop)
+                                # Don't wait for the result to avoid blocking
+                                # future.result(timeout=1.0)  # Optional: wait with timeout
+                            except Exception as e:
+                                print(f"❌ Error scheduling coroutine for client {client_id}: {e}")
+                                client.active = False
+                                continue
+                        else:
+                            # Fallback: try to await in current loop (may fail)
+                            try:
+                                await result
+                            except Exception as e:
+                                print(f"❌ Error awaiting coroutine for client {client_id}: {e}")
+                                client.active = False
+                                continue
                     active_count += 1
                 except Exception as e:
                     print(f"❌ Error broadcasting to client {client_id}: {e}")
@@ -532,7 +553,7 @@ class OctaneCallbackStreamer:
         if active_count > 0:
             print(f"📤 Broadcasted to {active_count} clients")
     
-    def add_client(self, client_id: str, callback_func: Callable):
+    def add_client(self, client_id: str, callback_func: Callable, main_loop=None):
         """Add a browser client for callback updates"""
         client = CallbackClient(
             client_id=client_id,
@@ -540,6 +561,14 @@ class OctaneCallbackStreamer:
             last_ping=time.time()
         )
         
+        # Store the main event loop for cross-thread async calls
+        if main_loop is None:
+            try:
+                main_loop = asyncio.get_running_loop()
+            except RuntimeError:
+                main_loop = None
+        
+        client.main_loop = main_loop
         self.clients[client_id] = client
         print(f"➕ Added client: {client_id} (total: {len(self.clients)})")
     

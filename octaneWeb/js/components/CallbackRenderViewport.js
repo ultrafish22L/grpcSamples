@@ -423,6 +423,8 @@ class CallbackRenderViewport extends OctaneComponent {
             this.lastImageSize = bufferSize;
             
             console.log(`📊 Image buffer: ${bufferSize} bytes (${imageData.buffer.encoding})`);
+            console.log(`🔍 Buffer data type: ${typeof bufferData}, length: ${bufferData ? bufferData.length : 'null'}`);
+            console.log(`🔍 Buffer data preview: ${bufferData ? bufferData.substring(0, 100) : 'null'}...`);
             
             // Create canvas to display raw image buffer
             const canvas = document.createElement('canvas');
@@ -438,11 +440,19 @@ class CallbackRenderViewport extends OctaneComponent {
             const ctx = canvas.getContext('2d');
             const imageDataObj = ctx.createImageData(canvas.width, canvas.height);
             
-            // Decode base64 to binary
-            const binaryString = atob(bufferData);
-            const bytes = new Uint8Array(binaryString.length);
-            for (let i = 0; i < binaryString.length; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
+            // Decode base64 to binary with error handling
+            let bytes;
+            try {
+                const binaryString = atob(bufferData);
+                bytes = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+            } catch (error) {
+                console.error('❌ Base64 decode error:', error);
+                console.error('❌ Buffer data that failed:', bufferData);
+                this.showImageError(`Base64 decode failed: ${error.message}`);
+                return;
             }
             
             console.log(`🔍 Buffer analysis: ${bytes.length} bytes, first 16 bytes:`, 
