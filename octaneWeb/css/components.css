@@ -282,29 +282,23 @@
     padding: 8px;
 }
 
-/* Official Octane-style Parameter Sections - Matching Studio Design */
+/* Official Octane-style Parameter Groups - No boxes around headers */
 .parameter-section {
-    margin-bottom: 2px;
-    background: #3a3a3a;
-    border: 1px solid #555;
-    border-radius: 4px;
-    overflow: hidden;
+    margin-bottom: 4px;
 }
 
 .parameter-group-header {
     display: flex;
     align-items: center;
-    padding: 4px 8px;
+    padding: 2px 0;
     cursor: pointer;
-    background: #4a4a4a;
-    border-bottom: 1px solid #555;
     user-select: none;
-    transition: background 0.2s ease;
     font-size: 11px;
+    background: transparent;
 }
 
 .parameter-group-header:hover {
-    background: #525252;
+    background: transparent;
 }
 
 .parameter-group-icon {
@@ -327,9 +321,14 @@
     color: #fff;
 }
 
+/* Rounded container for expanded parameter content */
 .parameter-group-content {
     background: #3a3a3a;
-    padding: 2px 8px 4px 8px;
+    border: 1px solid #555;
+    border-radius: 6px;
+    padding: 6px 12px;
+    margin-top: 2px;
+    margin-left: 18px; /* Indent the content */
 }
 
 /* Official Octane-style Parameter Rows - Compact Layout */

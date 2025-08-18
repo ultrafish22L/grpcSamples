@@ -703,27 +703,27 @@ class NodeInspector extends OctaneComponent {
     renderOctaneStyleInspector(nodeInfo, parameters) {
         // Match the exact structure from the reference image
         return `
-            <!-- Scene Section (matches reference) -->
-            <div class="octane-parameter-section">
-                <div class="octane-section-header">
-                    <span class="octane-section-icon">📁</span>
-                    <span class="octane-section-title">Scene</span>
+            <!-- Scene Section (no box around header) -->
+            <div class="parameter-section">
+                <div class="parameter-group-header">
+                    <span class="parameter-group-icon">▼</span>
+                    <span class="parameter-group-title">Scene</span>
                 </div>
-                <div class="octane-section-content">
-                    <div class="octane-parameter-row">
-                        <div class="octane-parameter-icon">📷</div>
-                        <div class="octane-parameter-label">Camera</div>
-                        <div class="octane-parameter-control">
-                            <select class="octane-dropdown">
+                <div class="parameter-group-content">
+                    <div class="parameter-row">
+                        <div class="parameter-icon">📷</div>
+                        <div class="parameter-label">Camera</div>
+                        <div class="parameter-control-group">
+                            <select class="parameter-dropdown">
                                 <option>Thin lens camera</option>
                             </select>
                         </div>
                     </div>
-                    <div class="octane-parameter-row">
-                        <div class="octane-parameter-icon">📐</div>
-                        <div class="octane-parameter-label">Orthographic:</div>
-                        <div class="octane-parameter-control">
-                            <input type="checkbox" class="octane-checkbox">
+                    <div class="parameter-row">
+                        <div class="parameter-icon">📐</div>
+                        <div class="parameter-label">Orthographic:</div>
+                        <div class="parameter-control-group">
+                            <input type="checkbox" class="parameter-checkbox">
                         </div>
                     </div>
                 </div>
