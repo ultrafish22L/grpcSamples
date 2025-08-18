@@ -333,9 +333,9 @@
     background: #3a3a3a;
     border: 1px solid #555;
     border-radius: 6px;
-    padding: 3px 8px 3px 3px; /* Tight padding, minimal on left for icon area */
+    padding: 1px 8px 1px 3px; /* Minimal top/bottom padding, just a few pixels */
     margin-bottom: 2px;
-    min-height: 24px; /* Tight height fit around icon and text */
+    min-height: 20px; /* Much shorter height */
     display: flex;
     align-items: center;
 }
@@ -360,16 +360,16 @@
 }
 
 .parameter-icon {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     text-align: center;
-    margin-right: 8px;
+    margin-right: 6px;
     margin-left: 2px;
-    font-size: 10px;
+    font-size: 9px;
     flex-shrink: 0;
     background: #4a90e2; /* Blue background like official Octane */
     border: 1px solid #5a9ff2;
-    border-radius: 4px; /* Rounded blue background */
+    border-radius: 3px; /* Slightly smaller rounded blue background */
     color: white;
     display: flex;
     align-items: center;
