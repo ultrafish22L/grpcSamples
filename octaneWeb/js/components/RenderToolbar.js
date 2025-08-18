@@ -1,13 +1,14 @@
 /**
- * RenderToolbar.js - Octane-style render toolbar component
- * Matches the native Octane interface with live render statistics and comprehensive icon toolbar
+ * RenderToolbar.js - Official Octane-style render toolbar component
+ * Based on official Octane Standalone documentation with exact tooltips and functionality
+ * Includes gRPC integration placeholders for real Octane API calls
  */
 
 class RenderToolbar {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
         this.renderStats = {
-            samples: 0,
+            samples: 17.1,
             time: '00:00:00',
             status: 'finished',
             resolution: '1920x1080',
@@ -16,6 +17,19 @@ class RenderToolbar {
             version: '1.48.21.224.4',
             memory: 'GB'
         };
+        
+        // Toolbar state
+        this.realTimeMode = false;
+        this.viewportLocked = false;
+        this.clayMode = false;
+        this.subSampling = 'none'; // 'none', '2x2', '4x4'
+        this.renderPriority = 'normal'; // 'low', 'normal', 'high'
+        this.currentPickingMode = 'none'; // 'none', 'focus', 'whiteBalance', 'material', 'object', 'cameraTarget', 'renderRegion', 'filmRegion'
+        this.decalWireframe = false;
+        this.worldCoordinateDisplay = true;
+        this.objectControlMode = 'world'; // 'world', 'local'
+        this.activeGizmo = 'none'; // 'none', 'translate', 'rotate', 'scale'
+        this.viewportResolutionLock = false;
         
         this.init();
     }
@@ -34,7 +48,7 @@ class RenderToolbar {
                 <span id="render-samples-display">${this.renderStats.samples} spp</span>
                 <span class="stats-separator">,</span>
                 <span id="render-time-display">${this.renderStats.time}</span>
-                <span id="render-status-display">(${this.renderStats.status})</span>
+                <span id="render-status-display" class="render-status-${this.renderStats.status}">(${this.renderStats.status})</span>
             </div>
             <div class="render-stats-right">
                 <span id="render-resolution-display">${this.renderStats.resolution}</span>
@@ -54,7 +68,6 @@ class RenderToolbar {
         const toolbar = document.createElement('div');
         toolbar.className = 'render-toolbar';
         
-        // Create the comprehensive icon toolbar matching Octane's layout
         const toolbarIcons = this.createToolbarIcons();
         toolbar.appendChild(toolbarIcons);
         
@@ -65,43 +78,68 @@ class RenderToolbar {
         const iconsContainer = document.createElement('div');
         iconsContainer.className = 'render-toolbar-icons';
         
-        // Define the toolbar icons in order (matching Octane's interface exactly)
+        // Official Octane render viewport controls based on documentation
         const icons = [
-            { id: 'center-image', icon: '⌖', tooltip: 'Centers the rendered image in the viewport. Use control to also reset the zoom.' },
-            { id: 'reset-camera', icon: '⌂', tooltip: 'Resets the camera to its initial position and target.' },
-            { id: 'camera-preset', icon: '▣', tooltip: 'Presets the camera to a pre-defined viewport.' },
-            { id: 'stop-render', icon: '■', tooltip: 'Stops the current render.', important: true },
-            { id: 'restart-render', icon: '↻', tooltip: 'Restarts the current render.', important: true },
-            { id: 'toggle-realtime', icon: '▶', tooltip: 'Toggle real-time rendering.', important: true },
-            { id: 'fit-resolution', icon: '⊡', tooltip: 'Modifies the resolution of the rendered image to fit the dimension of the render viewport.' },
-            { id: 'focus-picker', icon: '◎', tooltip: 'Toggles the camera focus picker of the render viewport.' },
-            { id: 'separator-1', type: 'separator' },
-            { id: 'white-point-picker', icon: '◯', tooltip: 'Toggles the image white point picker of the render viewport.' },
-            { id: 'material-picker', icon: '●', tooltip: 'Toggles the material picker of the render viewport.' },
-            { id: 'object-picker', icon: '▢', tooltip: 'Toggles the object picker of the render viewport.' },
-            { id: 'camera-target-picker', icon: '⊙', tooltip: 'Toggles the camera target picker of the render viewport.' },
-            { id: 'white-point-picker-2', icon: '○', tooltip: 'Toggles the image white point picker of the render viewport.' },
-            { id: 'render-region-lasso', icon: '◊', tooltip: 'Toggles the render region lasso in the render viewport.' },
-            { id: 'render-region-lasso-2', icon: '◈', tooltip: 'Toggles the render region lasso in the render viewport.' },
-            { id: 'film-region-lasso', icon: '▭', tooltip: 'Toggles the film region lasso in the render viewport.' },
-            { id: 'separator-2', type: 'separator' },
-            { id: 'clay-mode', icon: '◐', tooltip: 'The clay mode that should be used for rendering.' },
-            { id: 'subsample-mode', icon: '▦', tooltip: 'The subsample mode that should be used for rendering.' },
-            { id: 'render-priority', icon: '⚡', tooltip: 'Render priority that should be used for rendering.' },
-            { id: 'separator-3', type: 'separator' },
-            { id: 'copy-render', icon: '⧉', tooltip: 'Copies the current render to the clipboard.' },
-            { id: 'save-render', icon: '💾', tooltip: 'Saves the current render to the disk.' },
-            { id: 'separator-4', type: 'separator' },
-            { id: 'export-passes', icon: '⊞', tooltip: 'Shows a dialog to export the render passes.' },
-            { id: 'change-background', icon: '▨', tooltip: 'Shows a dialog to change the background of the render viewport.' },
-            { id: 'color-correction', icon: '◑', tooltip: 'Color correction' },
-            { id: 'separator-5', type: 'separator' },
-            { id: 'export-image', icon: '⇪', tooltip: 'Export image' },
-            { id: 'export-animation', icon: '⊟', tooltip: 'Export animation' },
-            { id: 'batch-render', icon: '▤', tooltip: 'Batch render' },
-            { id: 'separator-6', type: 'separator' },
-            { id: 'help', icon: '?', tooltip: 'Help' },
-            { id: 'about', icon: 'i', tooltip: 'About' }
+            // Camera & View Controls
+            { id: 'recenter-view', icon: '⌖', tooltip: 'Recenter View - Centers the render view display area in the Render Viewport. This is useful if you move the render view display area and part of it is no longer visible or centered. This re-centers the render view display area without affecting the current zoom level.' },
+            { id: 'reset-camera', icon: '⌂', tooltip: 'Reset Camera - Resets the camera back to the original position. If you create a scene from an imported object, then the Camera Reset button resets the camera position to the default coordinates, similar to when the object was just imported.' },
+            { id: 'camera-presets', icon: '📷', tooltip: 'Camera View Presets - Provides preset camera views of the scene in the Render Viewport.' },
+            
+            { type: 'separator' },
+            
+            // Render Controls
+            { id: 'stop-render', icon: '■', tooltip: 'Stop Render - Aborts the rendering process and frees all resources used by the current scene.', important: true },
+            { id: 'restart-render', icon: '↻', tooltip: 'Restart Render - Halts the current rendering process while keeping the loaded contents in memory, and then restarting the rendering process at zero samples.', important: true },
+            { id: 'pause-render', icon: '⏸', tooltip: 'Pause Render - Pauses the rendering process without losing the rendered data, and also keeps the contents of the GPU\'s memory intact. Pausing the render is useful when you need to free the GPU cores in order to run other GPU-intensive applications, and intend to continue the render process later.' },
+            { id: 'start-render', icon: '▶', tooltip: 'Start Render - Starts the rendering process, or resumes the render from the point where it was paused.', important: true },
+            { id: 'real-time-render', icon: '⚡', tooltip: 'Real Time Rendering - Uses more GPU memory to provide a more interactive experience. Note that some features do not work when this button is active.' },
+            
+            { type: 'separator' },
+            
+            // Picking Tools
+            { id: 'focus-picker', icon: '◎', tooltip: 'Auto Focus Picking Mode - Helps with navigating complex or difficult scenes. To enter Focus Picking mode, click on the Focus Picking icon under the Render Viewport, then click on any part of the scene to focus the camera on that point. When enabled, right-clicking on the mouse brings up a context menu for picking objects along the path of a ray, affecting that point in the scene.' },
+            { id: 'white-balance-picker', icon: '⚪', tooltip: 'White Balance Picking Mode - Selects any part of the scene to see white point colors applicable to the whole scene on the basis of a diffuse within the scene. This does not cause the render to restart, as the current white point color is used throughout the render. To restore the scene\'s original balance, click on an empty part of the scene while in this mode.' },
+            { id: 'material-picker', icon: '●', tooltip: 'Material Picker - Select any part of the rendered scene to inspect the material applied to it. Right-clicking on the mouse when this is enabled invokes a context menu to pick materials applied to the objects along the path of a ray, affecting that point in the scene. OctaneRender® invokes the Material node and it appears on the Node Inspector.' },
+            { id: 'object-picker', icon: '▢', tooltip: 'Object Picker - Select particular objects in the rendered scene to inspect its attributes on the Node Inspector pane. Right-clicking the mouse when this is enabled brings up a context menu to pick of the objects along the path of a ray, affecting that point in the scene. The object\'s node graph representation is also selected on the Graph Editor.' },
+            { id: 'camera-target-picker', icon: '⊙', tooltip: 'Camera Target Picker - Helps with navigating a scene that is very complex or is difficult to navigate. To enter Camera Target Zoom Picking mode, click on the Camera Target Zoom Picking icon under the Render Viewport, then click on any part of the scene to make the point under the mouse pointer become the center of rotation and zooming. A quick roll of the mouse wheel causes the render to zoom in to the selected point.' },
+            
+            { type: 'separator' },
+            
+            // Region Tools
+            { id: 'render-region-picker', icon: '◊', tooltip: 'Render Region Picker - Specifies a region in the Viewport to view changes and reduce noise in specific areas. To use Render Region Picking mode, click on the Render Region Picking icon under the Render Viewport, then select a rectangular area in the Viewport to restrict rendering to that area. A feathered border represents the selected area. To disable this feature and return to rendering the whole image, click once anywhere in the Viewport.' },
+            { id: 'film-region-picker', icon: '▭', tooltip: 'Film Region Picker - Specifies a region in the scene to set new values for Region Start and Region Size for Film Settings parameters, which configures the render film. Although the resolution remains the same, just the film region gets rendered. You can reset the film region back to its full size by double-clicking on the Render Viewport while the toggle is enabled.' },
+            
+            { type: 'separator' },
+            
+            // Rendering Settings
+            { id: 'clay-mode', icon: '◐', tooltip: 'Clay Mode Rendering Settings - Shows the model details while rendering is still in progress. This lets you see details without the complex texturing applied, or colors and/or textures to be applied.' },
+            { id: 'subsample-2x2', icon: '▦', tooltip: 'Sub-Sampling Settings 2×2 - Provides smoother scene navigation by reducing the render resolution. In order to improve navigation at the cost of visual quality, you can adjust 2×2 sub-sampling settings by using the checkerboard buttons under the Render Viewport. The reduced settings apply when navigating the scene, and then it returns to the render settings after stopping navigation.' },
+            { id: 'subsample-4x4', icon: '▣', tooltip: 'Sub-Sampling Settings 4×4 - Provides smoother scene navigation by reducing the render resolution. In order to improve navigation at the cost of visual quality, you can adjust 4×4 sub-sampling settings by using the checkerboard buttons under the Render Viewport. The reduced settings apply when navigating the scene, and then it returns to the render settings after stopping navigation.' },
+            { id: 'decal-wireframe', icon: '🔲', tooltip: 'Decal Wireframe Boundaries - Toggles wireframe along the boundaries of the decals.' },
+            { id: 'render-priority', icon: '⚙', tooltip: 'Render Priority Settings - This sets the priority for the active GPUs when the Use Priority option is enabled on the Devices preferences tab. The render priority is necessary when a GPU is not dedicated to rendering, but is also shared among different processes in one machine. For example, a machine that has one GPU shares the GPU for processes across the whole system, including the operating system.' },
+            
+            { type: 'separator' },
+            
+            // Output Controls
+            { id: 'copy-clipboard', icon: '📋', tooltip: 'Copy to Clipboard - Copies the current rendered image to the clipboard in low dynamic range format, which you can paste in to different applications.' },
+            { id: 'save-render', icon: '💾', tooltip: 'Save Render - Saves the current render to disk in a specific file format.' },
+            { id: 'export-passes', icon: '📤', tooltip: 'Export Render Passes - Brings up the Render Passes Export window.' },
+            { id: 'background-image', icon: '🖼', tooltip: 'Set Background Image - Places a background image in the Render Viewport. To see the background image, enable the Alpha Channel for the Kernel.' },
+            
+            { type: 'separator' },
+            
+            // Viewport Controls
+            { id: 'viewport-resolution-lock', icon: '🔒', tooltip: 'Viewport Resolution Lock - The Viewport can scroll up and down to accommodate the rendered image\'s current visible size. Enabling this facility adjusts the resolution of the rendered image to the current Viewport size. If this is enabled, OctaneRender® restarts the rendering every time you adjust the Viewport window\'s size, since the image resolution also changes.' },
+            { id: 'lock-viewport', icon: '🔐', tooltip: 'Lock Viewport - Locks and unlocks the Viewport controls. Locking the Viewport controls prevents accidental changes or render restarts.' },
+            
+            { type: 'separator' },
+            
+            // Object Manipulation
+            { id: 'object-control-alignment', icon: '🌐', tooltip: 'Object Control Alignment Mode - Specifies the coordinate system used while modifying Placement and Scatter nodes using handles for rotation, scaling, and translation in the Viewport. You can choose to align with the world axis, or with the local axis while working with the gizmos for object controls.' },
+            { id: 'translate-gizmo', icon: '↔', tooltip: 'Placement Translation Tool (Toggle Move Gizmo) - Modifies the translation of Placement and Scatter nodes using handles in the Viewport. The Move tool allows movement along each axis, or constrained to the plane defined by two axes using different parts of the control.' },
+            { id: 'rotate-gizmo', icon: '🔄', tooltip: 'Placement Rotation Tool (Toggle Rotate Gizmo) - Modifies the rotation of Placement and Scatter nodes using handles in the Viewport. The Rotation tool allows rotation around each axis via the axis rotation bands, a free rotation via the inner orange circle, and rotation around the camera-object axis via the outer yellow circle.' },
+            { id: 'scale-gizmo', icon: '⚖', tooltip: 'Placement Scale Tool (Toggle Scale Gizmo) - Adjusts the scale of Placement and Scatter nodes using handles in the Viewport. The Scale tool works along each axis by selecting one of the axis lines, constrained to two axes by selecting one of the corners near the origin, and uniform scaling works by selecting one of the axis end handles.' },
+            { id: 'world-coordinate', icon: '🧭', tooltip: 'Display World Coordinate - This displays a small representation of the World Coordinate axis at the top-left corner of the Viewport.' }
         ];
         
         icons.forEach(iconData => {
@@ -111,7 +149,7 @@ class RenderToolbar {
                 iconsContainer.appendChild(separator);
             } else {
                 const button = document.createElement('button');
-                button.className = `toolbar-icon-btn ${iconData.important ? 'important' : ''}`;
+                button.className = `toolbar-icon-btn ${iconData.important ? 'important' : ''} ${this.getButtonActiveClass(iconData.id)}`;
                 button.id = iconData.id;
                 button.innerHTML = iconData.icon;
                 button.title = iconData.tooltip;
@@ -123,229 +161,404 @@ class RenderToolbar {
         return iconsContainer;
     }
     
+    getButtonActiveClass(buttonId) {
+        switch (buttonId) {
+            case 'real-time-render':
+                return this.realTimeMode ? 'active' : '';
+            case 'lock-viewport':
+                return this.viewportLocked ? 'active' : '';
+            case 'clay-mode':
+                return this.clayMode ? 'active' : '';
+            case 'subsample-2x2':
+                return this.subSampling === '2x2' ? 'active' : '';
+            case 'subsample-4x4':
+                return this.subSampling === '4x4' ? 'active' : '';
+            case 'decal-wireframe':
+                return this.decalWireframe ? 'active' : '';
+            case 'viewport-resolution-lock':
+                return this.viewportResolutionLock ? 'active' : '';
+            case 'object-control-alignment':
+                return this.objectControlMode === 'world' ? 'active' : '';
+            case 'translate-gizmo':
+                return this.activeGizmo === 'translate' ? 'active' : '';
+            case 'rotate-gizmo':
+                return this.activeGizmo === 'rotate' ? 'active' : '';
+            case 'scale-gizmo':
+                return this.activeGizmo === 'scale' ? 'active' : '';
+            case 'world-coordinate':
+                return this.worldCoordinateDisplay ? 'active' : '';
+            case 'focus-picker':
+                return this.currentPickingMode === 'focus' ? 'active' : '';
+            case 'white-balance-picker':
+                return this.currentPickingMode === 'whiteBalance' ? 'active' : '';
+            case 'material-picker':
+                return this.currentPickingMode === 'material' ? 'active' : '';
+            case 'object-picker':
+                return this.currentPickingMode === 'object' ? 'active' : '';
+            case 'camera-target-picker':
+                return this.currentPickingMode === 'cameraTarget' ? 'active' : '';
+            case 'render-region-picker':
+                return this.currentPickingMode === 'renderRegion' ? 'active' : '';
+            case 'film-region-picker':
+                return this.currentPickingMode === 'filmRegion' ? 'active' : '';
+            default:
+                return '';
+        }
+    }
+    
     handleToolbarAction(actionId) {
-        console.log(`Toolbar action: ${actionId}`);
+        console.log(`🎬 Octane Toolbar Action: ${actionId}`);
         
-        // Handle specific render control actions
         switch (actionId) {
-            case 'center-image':
-                this.centerImage();
+            // Camera & View Controls
+            case 'recenter-view':
+                this.recenterView();
                 break;
             case 'reset-camera':
                 this.resetCamera();
                 break;
-            case 'camera-preset':
+            case 'camera-presets':
                 this.showCameraPresets();
                 break;
+                
+            // Render Controls
             case 'stop-render':
                 this.stopRender();
                 break;
             case 'restart-render':
                 this.restartRender();
                 break;
-            case 'toggle-realtime':
-                this.toggleRealtimeRendering();
+            case 'pause-render':
+                this.pauseRender();
                 break;
-            case 'fit-resolution':
-                this.fitResolution();
+            case 'start-render':
+                this.startRender();
                 break;
+            case 'real-time-render':
+                this.toggleRealTimeRender();
+                break;
+                
+            // Picking Tools
             case 'focus-picker':
-                this.toggleFocusPicker();
+                this.togglePickingMode('focus');
                 break;
-            case 'white-point-picker':
-            case 'white-point-picker-2':
-                this.toggleWhitePointPicker();
+            case 'white-balance-picker':
+                this.togglePickingMode('whiteBalance');
                 break;
             case 'material-picker':
-                this.toggleMaterialPicker();
+                this.togglePickingMode('material');
                 break;
             case 'object-picker':
-                this.toggleObjectPicker();
+                this.togglePickingMode('object');
                 break;
             case 'camera-target-picker':
-                this.toggleCameraTargetPicker();
+                this.togglePickingMode('cameraTarget');
                 break;
-            case 'render-region-lasso':
-            case 'render-region-lasso-2':
-                this.toggleRenderRegionLasso();
+                
+            // Region Tools
+            case 'render-region-picker':
+                this.togglePickingMode('renderRegion');
                 break;
-            case 'film-region-lasso':
-                this.toggleFilmRegionLasso();
+            case 'film-region-picker':
+                this.togglePickingMode('filmRegion');
                 break;
+                
+            // Rendering Settings
             case 'clay-mode':
                 this.toggleClayMode();
                 break;
-            case 'subsample-mode':
-                this.toggleSubsampleMode();
+            case 'subsample-2x2':
+                this.setSubSampling('2x2');
+                break;
+            case 'subsample-4x4':
+                this.setSubSampling('4x4');
+                break;
+            case 'decal-wireframe':
+                this.toggleDecalWireframe();
                 break;
             case 'render-priority':
-                this.toggleRenderPriority();
+                this.showRenderPriorityMenu();
                 break;
-            case 'copy-render':
-                this.copyRenderToClipboard();
+                
+            // Output Controls
+            case 'copy-clipboard':
+                this.copyToClipboard();
                 break;
             case 'save-render':
-                this.saveRenderToDisk();
+                this.saveRender();
                 break;
             case 'export-passes':
-                this.showExportPassesDialog();
+                this.exportRenderPasses();
                 break;
-            case 'change-background':
-                this.showChangeBackgroundDialog();
+            case 'background-image':
+                this.setBackgroundImage();
                 break;
-            case 'zoom-fit':
-                this.zoomToFit();
+                
+            // Viewport Controls
+            case 'viewport-resolution-lock':
+                this.toggleViewportResolutionLock();
                 break;
-            case 'zoom-in':
-                this.zoomIn();
+            case 'lock-viewport':
+                this.toggleViewportLock();
                 break;
-            case 'zoom-out':
-                this.zoomOut();
+                
+            // Object Manipulation
+            case 'object-control-alignment':
+                this.toggleObjectControlAlignment();
                 break;
+            case 'translate-gizmo':
+                this.setActiveGizmo('translate');
+                break;
+            case 'rotate-gizmo':
+                this.setActiveGizmo('rotate');
+                break;
+            case 'scale-gizmo':
+                this.setActiveGizmo('scale');
+                break;
+            case 'world-coordinate':
+                this.toggleWorldCoordinate();
+                break;
+                
             default:
-                // Placeholder for other actions
-                console.log(`Action ${actionId} not yet implemented`);
+                console.log(`⚠️ Action ${actionId} not yet implemented`);
         }
+        
+        // Refresh toolbar to update active states
+        this.refreshToolbar();
     }
     
-    // Viewport control methods
-    centerImage() {
-        console.log('Centering rendered image in viewport...');
-        // TODO: Integrate with viewport to center image and optionally reset zoom with Ctrl
+    // ========================================
+    // CAMERA & VIEW CONTROLS
+    // ========================================
+    
+    recenterView() {
+        console.log('📐 Recentering view...');
+        // TODO: makeGrpcCall('RecenterView', {})
+        // Centers the render view display area without affecting zoom level
     }
     
     resetCamera() {
-        console.log('Resetting camera to initial position and target...');
-        // TODO: Integrate with Octane API to reset camera
+        console.log('📷 Resetting camera...');
+        // TODO: makeGrpcCall('ResetCamera', {})
+        // Resets camera to original position and target
     }
     
     showCameraPresets() {
-        console.log('Showing camera presets...');
-        // TODO: Show camera preset menu/dialog
+        console.log('🎯 Showing camera presets...');
+        // TODO: makeGrpcCall('GetCameraPresets', {})
+        // Show camera preset menu/dialog
     }
     
-    // Render control methods
+    // ========================================
+    // RENDER CONTROLS
+    // ========================================
+    
     stopRender() {
-        console.log('Stopping render...');
+        console.log('⏹️ Stopping render...');
         this.updateRenderStatus('stopped');
-        // TODO: Integrate with Octane API
+        // TODO: makeGrpcCall('StopRender', {})
+        // Aborts rendering and frees all resources
     }
     
     restartRender() {
-        console.log('Restarting render...');
+        console.log('🔄 Restarting render...');
         this.updateRenderStatus('rendering');
-        // TODO: Integrate with Octane API
+        // TODO: makeGrpcCall('RestartRender', {})
+        // Halts current render, keeps contents in memory, restarts at zero samples
     }
     
-    toggleRealtimeRendering() {
-        console.log('Toggling real-time rendering...');
-        // Toggle between real-time and manual rendering modes
-        const isRealtime = this.renderStats.status === 'rendering';
-        if (isRealtime) {
-            this.updateRenderStatus('paused');
+    pauseRender() {
+        console.log('⏸️ Pausing render...');
+        this.updateRenderStatus('paused');
+        // TODO: makeGrpcCall('PauseRender', {})
+        // Pauses render without losing data, keeps GPU memory intact
+    }
+    
+    startRender() {
+        console.log('▶️ Starting render...');
+        this.updateRenderStatus('rendering');
+        // TODO: makeGrpcCall('StartRender', {})
+        // Starts rendering or resumes from pause
+    }
+    
+    toggleRealTimeRender() {
+        this.realTimeMode = !this.realTimeMode;
+        console.log(`⚡ Real-time rendering: ${this.realTimeMode ? 'ON' : 'OFF'}`);
+        // TODO: makeGrpcCall('SetRealTimeMode', { enabled: this.realTimeMode })
+        // Uses more GPU memory for interactive experience
+    }
+    
+    // ========================================
+    // PICKING TOOLS
+    // ========================================
+    
+    togglePickingMode(mode) {
+        if (this.currentPickingMode === mode) {
+            this.currentPickingMode = 'none';
+            console.log(`🎯 Disabled ${mode} picker`);
         } else {
-            this.updateRenderStatus('rendering');
+            this.currentPickingMode = mode;
+            console.log(`🎯 Enabled ${mode} picker`);
         }
-        // TODO: Integrate with Octane API
+        
+        switch (mode) {
+            case 'focus':
+                // TODO: makeGrpcCall('SetFocusPickerMode', { enabled: this.currentPickingMode === 'focus' })
+                break;
+            case 'whiteBalance':
+                // TODO: makeGrpcCall('SetWhiteBalancePickerMode', { enabled: this.currentPickingMode === 'whiteBalance' })
+                break;
+            case 'material':
+                // TODO: makeGrpcCall('SetMaterialPickerMode', { enabled: this.currentPickingMode === 'material' })
+                break;
+            case 'object':
+                // TODO: makeGrpcCall('SetObjectPickerMode', { enabled: this.currentPickingMode === 'object' })
+                break;
+            case 'cameraTarget':
+                // TODO: makeGrpcCall('SetCameraTargetPickerMode', { enabled: this.currentPickingMode === 'cameraTarget' })
+                break;
+            case 'renderRegion':
+                // TODO: makeGrpcCall('SetRenderRegionPickerMode', { enabled: this.currentPickingMode === 'renderRegion' })
+                break;
+            case 'filmRegion':
+                // TODO: makeGrpcCall('SetFilmRegionPickerMode', { enabled: this.currentPickingMode === 'filmRegion' })
+                break;
+        }
     }
     
-    fitResolution() {
-        console.log('Fitting resolution to viewport dimensions...');
-        // TODO: Modify render resolution to fit viewport
-    }
+    // ========================================
+    // RENDERING SETTINGS
+    // ========================================
     
-    toggleFocusPicker() {
-        console.log('Toggling camera focus picker...');
-        // TODO: Enable/disable focus picker tool
-    }
-    
-    // Picker tools
-    toggleWhitePointPicker() {
-        console.log('Toggling image white point picker...');
-        // TODO: Enable/disable white point picker tool
-    }
-    
-    toggleMaterialPicker() {
-        console.log('Toggling material picker...');
-        // TODO: Enable/disable material picker tool
-    }
-    
-    toggleObjectPicker() {
-        console.log('Toggling object picker...');
-        // TODO: Enable/disable object picker tool
-    }
-    
-    toggleCameraTargetPicker() {
-        console.log('Toggling camera target picker...');
-        // TODO: Enable/disable camera target picker tool
-    }
-    
-    // Region tools
-    toggleRenderRegionLasso() {
-        console.log('Toggling render region lasso...');
-        // TODO: Enable/disable render region lasso tool
-    }
-    
-    toggleFilmRegionLasso() {
-        console.log('Toggling film region lasso...');
-        // TODO: Enable/disable film region lasso tool
-    }
-    
-    // Render modes
     toggleClayMode() {
-        console.log('Toggling clay mode for rendering...');
-        // TODO: Toggle clay rendering mode
+        this.clayMode = !this.clayMode;
+        console.log(`🏺 Clay mode: ${this.clayMode ? 'ON' : 'OFF'}`);
+        // TODO: makeGrpcCall('SetClayMode', { enabled: this.clayMode })
+        // Shows model details without complex texturing
     }
     
-    toggleSubsampleMode() {
-        console.log('Toggling subsample mode for rendering...');
-        // TODO: Toggle subsample rendering mode
+    setSubSampling(mode) {
+        if (this.subSampling === mode) {
+            this.subSampling = 'none';
+        } else {
+            this.subSampling = mode;
+        }
+        console.log(`🔲 Sub-sampling: ${this.subSampling}`);
+        // TODO: makeGrpcCall('SetSubSamplingMode', { mode: this.subSampling })
+        // Reduces render resolution for smoother navigation
     }
     
-    toggleRenderPriority() {
-        console.log('Toggling render priority...');
-        // TODO: Toggle render priority settings
+    toggleDecalWireframe() {
+        this.decalWireframe = !this.decalWireframe;
+        console.log(`🔲 Decal wireframe: ${this.decalWireframe ? 'ON' : 'OFF'}`);
+        // TODO: makeGrpcCall('SetDecalWireframe', { enabled: this.decalWireframe })
+        // Toggles wireframe along decal boundaries
     }
     
-    // Render output actions
-    copyRenderToClipboard() {
-        console.log('Copying current render to clipboard...');
-        // TODO: Copy render image to system clipboard
+    showRenderPriorityMenu() {
+        console.log('⚙️ Showing render priority menu...');
+        // TODO: Show priority menu (low, normal, high)
+        // TODO: makeGrpcCall('SetRenderPriority', { priority: selectedPriority })
     }
     
-    saveRenderToDisk() {
-        console.log('Saving current render to disk...');
-        // TODO: Save render image to file
+    // ========================================
+    // OUTPUT CONTROLS
+    // ========================================
+    
+    copyToClipboard() {
+        console.log('📋 Copying render to clipboard...');
+        // TODO: makeGrpcCall('CopyRenderToClipboard', {})
+        // Copies current render to clipboard in LDR format
     }
     
-    // Dialog actions
-    showExportPassesDialog() {
-        console.log('Showing export render passes dialog...');
-        // TODO: Show dialog to export render passes
+    saveRender() {
+        console.log('💾 Saving render...');
+        // TODO: Show save dialog and makeGrpcCall('SaveRender', { filename, format })
+        // Saves current render to disk in specific format
     }
     
-    showChangeBackgroundDialog() {
-        console.log('Showing change background dialog...');
-        // TODO: Show dialog to change render viewport background
+    exportRenderPasses() {
+        console.log('📤 Exporting render passes...');
+        // TODO: makeGrpcCall('ShowExportPassesDialog', {})
+        // Brings up Render Passes Export window
     }
     
-    // Additional viewport control methods
-    zoomToFit() {
-        console.log('Zoom to fit');
-        // TODO: Integrate with viewport
+    setBackgroundImage() {
+        console.log('🖼️ Setting background image...');
+        // TODO: Show file dialog and makeGrpcCall('SetBackgroundImage', { imagePath })
+        // Places background image in Render Viewport
     }
     
-    zoomIn() {
-        console.log('Zoom in');
-        // TODO: Integrate with viewport
+    // ========================================
+    // VIEWPORT CONTROLS
+    // ========================================
+    
+    toggleViewportResolutionLock() {
+        this.viewportResolutionLock = !this.viewportResolutionLock;
+        console.log(`🔒 Viewport resolution lock: ${this.viewportResolutionLock ? 'ON' : 'OFF'}`);
+        // TODO: makeGrpcCall('SetViewportResolutionLock', { enabled: this.viewportResolutionLock })
+        // Adjusts render resolution to viewport size
     }
     
-    zoomOut() {
-        console.log('Zoom out');
-        // TODO: Integrate with viewport
+    toggleViewportLock() {
+        this.viewportLocked = !this.viewportLocked;
+        console.log(`🔐 Viewport lock: ${this.viewportLocked ? 'ON' : 'OFF'}`);
+        // TODO: makeGrpcCall('SetViewportLock', { enabled: this.viewportLocked })
+        // Prevents accidental changes or render restarts
     }
     
-    // Update methods
+    // ========================================
+    // OBJECT MANIPULATION
+    // ========================================
+    
+    toggleObjectControlAlignment() {
+        this.objectControlMode = this.objectControlMode === 'world' ? 'local' : 'world';
+        console.log(`🌐 Object control alignment: ${this.objectControlMode}`);
+        // TODO: makeGrpcCall('SetObjectControlAlignment', { mode: this.objectControlMode })
+        // Specifies coordinate system for object manipulation
+    }
+    
+    setActiveGizmo(gizmo) {
+        if (this.activeGizmo === gizmo) {
+            this.activeGizmo = 'none';
+        } else {
+            this.activeGizmo = gizmo;
+        }
+        console.log(`🎛️ Active gizmo: ${this.activeGizmo}`);
+        
+        switch (gizmo) {
+            case 'translate':
+                // TODO: makeGrpcCall('SetTranslateGizmo', { enabled: this.activeGizmo === 'translate' })
+                break;
+            case 'rotate':
+                // TODO: makeGrpcCall('SetRotateGizmo', { enabled: this.activeGizmo === 'rotate' })
+                break;
+            case 'scale':
+                // TODO: makeGrpcCall('SetScaleGizmo', { enabled: this.activeGizmo === 'scale' })
+                break;
+        }
+    }
+    
+    toggleWorldCoordinate() {
+        this.worldCoordinateDisplay = !this.worldCoordinateDisplay;
+        console.log(`🧭 World coordinate display: ${this.worldCoordinateDisplay ? 'ON' : 'OFF'}`);
+        // TODO: makeGrpcCall('SetWorldCoordinateDisplay', { enabled: this.worldCoordinateDisplay })
+        // Shows world coordinate axis in viewport corner
+    }
+    
+    // ========================================
+    // UPDATE METHODS
+    // ========================================
+    
+    refreshToolbar() {
+        // Re-render toolbar to update active states
+        const toolbar = this.container.querySelector('.render-toolbar');
+        if (toolbar) {
+            toolbar.remove();
+        }
+        this.createRenderToolbar();
+    }
+    
     updateRenderStats(stats = {}) {
         this.renderStats = { ...this.renderStats, ...stats };
         
@@ -361,7 +574,10 @@ class RenderToolbar {
         
         if (samplesEl) samplesEl.textContent = `${this.renderStats.samples} spp`;
         if (timeEl) timeEl.textContent = this.renderStats.time;
-        if (statusEl) statusEl.textContent = `(${this.renderStats.status})`;
+        if (statusEl) {
+            statusEl.textContent = `(${this.renderStats.status})`;
+            statusEl.className = `render-status-${this.renderStats.status}`;
+        }
         if (resolutionEl) resolutionEl.textContent = this.renderStats.resolution;
         if (meshCountEl) meshCountEl.textContent = `${this.renderStats.meshCount} mesh`;
         if (gpuInfoEl) gpuInfoEl.textContent = this.renderStats.gpu;
@@ -378,7 +594,10 @@ class RenderToolbar {
         }
     }
     
-    // Integration methods for external updates
+    // ========================================
+    // INTEGRATION METHODS FOR EXTERNAL UPDATES
+    // ========================================
+    
     onRenderProgress(samples, time) {
         this.updateRenderStats({
             samples: samples,
@@ -399,7 +618,7 @@ class RenderToolbar {
         this.updateRenderStats({
             status: 'error'
         });
-        console.error('Render error:', error);
+        console.error('🚨 Render error:', error);
     }
 }
 
