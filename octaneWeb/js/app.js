@@ -711,6 +711,23 @@ document.addEventListener('DOMContentLoaded', async () => {
                 window.debugConsole.clear();
             }
         };
+
+        // UI Debug Mode toggle function
+        window.toggleUIDebugMode = (enabled) => {
+            if (octaneWebApp && octaneWebApp.components.renderViewport) {
+                if (enabled === undefined) {
+                    // Toggle current state
+                    enabled = !octaneWebApp.components.renderViewport.uiDebugMode;
+                }
+                octaneWebApp.components.renderViewport.setUIDebugMode(enabled);
+                console.log(`🎛️ UI Debug Mode: ${enabled ? 'ENABLED' : 'DISABLED'}`);
+                console.log('💡 Status overlays and mode indicators are now ' + (enabled ? 'visible' : 'hidden'));
+                return enabled;
+            } else {
+                console.warn('⚠️ Render viewport not available');
+                return false;
+            }
+        };
         
     } catch (error) {
         console.error('Failed to start OctaneWeb:', error);

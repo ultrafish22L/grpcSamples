@@ -2,11 +2,19 @@
  * Render Viewport Component
  * 2D image display area with mouse-controlled camera sync to live Octane
  * Replaces WebGL viewport with simple image display for future render output
+ * 
+ * UI DEBUG MODE:
+ * - Set uiDebugMode = true to show status overlays
+ * - Use setUIDebugMode(enabled) to toggle at runtime
+ * - Global function: toggleUIDebugMode() in browser console
  */
 
 class RenderViewport extends OctaneComponent {
     constructor(element, client, stateManager) {
         super(element, client, stateManager);
+        
+        // UI Debug Mode - controls visibility of status overlays
+        this.uiDebugMode = false; // Set to true to enable debug UI elements
         
         // 2D viewport elements
         this.viewport = null;
@@ -145,26 +153,30 @@ class RenderViewport extends OctaneComponent {
         this.imageDisplay.appendChild(title);
         this.imageDisplay.appendChild(subtitle);
         
-        // Create status overlay
-        this.statusOverlay = document.createElement('div');
-        this.statusOverlay.className = 'viewport-status';
-        this.statusOverlay.style.cssText = `
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-family: monospace;
-            pointer-events: none;
-        `;
-        this.statusOverlay.textContent = 'Polling: Active';
+        // Create status overlay (controlled by uiDebugMode)
+        if (this.uiDebugMode) {
+            this.statusOverlay = document.createElement('div');
+            this.statusOverlay.className = 'viewport-status';
+            this.statusOverlay.style.cssText = `
+                position: absolute;
+                top: 8px;
+                left: 8px;
+                background: rgba(0, 0, 0, 0.7);
+                color: #fff;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 11px;
+                font-family: monospace;
+                pointer-events: none;
+            `;
+            this.statusOverlay.textContent = 'Polling: Active';
+        }
         
         // Assemble viewport
         this.viewport.appendChild(this.imageDisplay);
-        this.viewport.appendChild(this.statusOverlay);
+        if (this.uiDebugMode && this.statusOverlay) {
+            this.viewport.appendChild(this.statusOverlay);
+        }
         this.element.appendChild(this.viewport);
         
         console.log('✅ 2D viewport created');
@@ -369,15 +381,15 @@ class RenderViewport extends OctaneComponent {
     }
     
     /**
-     * Update status overlay
+     * Update status overlay (controlled by uiDebugMode)
      */
     updateStatus(message) {
-        if (this.statusOverlay) {
+        if (this.uiDebugMode && this.statusOverlay) {
             this.statusOverlay.textContent = message;
             
             // Auto-reset to ready after 2 seconds
             setTimeout(() => {
-                if (this.statusOverlay) {
+                if (this.uiDebugMode && this.statusOverlay) {
                     this.statusOverlay.textContent = 'LiveLink: Ready';
                 }
             }, 2000);
@@ -721,5 +733,57 @@ class RenderViewport extends OctaneComponent {
         }
         
         console.log('🧹 RenderViewport destroyed');
+    }
+
+    /**
+     * Toggle UI debug mode at runtime
+     */
+    setUIDebugMode(enabled) {
+        const wasEnabled = this.uiDebugMode;
+        this.uiDebugMode = enabled;
+        
+        if (enabled && !wasEnabled) {
+            // Enable debug UI - recreate elements
+            this.createDebugUI();
+        } else if (!enabled && wasEnabled) {
+            // Disable debug UI - remove elements
+            this.removeDebugUI();
+        }
+        
+        console.log(`🎛️ UI Debug Mode ${enabled ? 'enabled' : 'disabled'}`);
+    }
+
+    /**
+     * Create debug UI elements
+     */
+    createDebugUI() {
+        if (!this.statusOverlay) {
+            this.statusOverlay = document.createElement('div');
+            this.statusOverlay.className = 'viewport-status';
+            this.statusOverlay.style.cssText = `
+                position: absolute;
+                top: 8px;
+                left: 8px;
+                background: rgba(0, 0, 0, 0.7);
+                color: #fff;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 11px;
+                font-family: monospace;
+                pointer-events: none;
+            `;
+            this.statusOverlay.textContent = 'LiveLink: Ready';
+            this.viewport.appendChild(this.statusOverlay);
+        }
+    }
+
+    /**
+     * Remove debug UI elements
+     */
+    removeDebugUI() {
+        if (this.statusOverlay) {
+            this.statusOverlay.remove();
+            this.statusOverlay = null;
+        }
     }
 }

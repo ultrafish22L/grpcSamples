@@ -8,6 +8,12 @@
  * - Automatic fallback to polling mode
  * - Complete ApiRenderImage data processing
  * - Zero-copy performance with base64 image buffers
+ * - Configurable UI debug mode for status overlays
+ * 
+ * UI DEBUG MODE:
+ * - Set uiDebugMode = true to show status overlays and mode indicators
+ * - Use setUIDebugMode(enabled) to toggle at runtime
+ * - Global function: toggleUIDebugMode() in browser console
  */
 
 class CallbackRenderViewport extends OctaneComponent {
@@ -16,6 +22,9 @@ class CallbackRenderViewport extends OctaneComponent {
         
         // Store event system for scene loading events
         this.eventSystem = eventSystem;
+        
+        // UI Debug Mode - controls visibility of status overlays and mode indicators
+        this.uiDebugMode = false; // Set to true to enable debug UI elements
         
         // Callback system state
         this.callbackMode = false;
@@ -169,51 +178,61 @@ class CallbackRenderViewport extends OctaneComponent {
             position: relative;
         `;
         
-        // Create status overlay
-        this.statusOverlay = document.createElement('div');
-        this.statusOverlay.className = 'status-overlay';
-        this.statusOverlay.style.cssText = `
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            color: #fff;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 12px;
-            z-index: 100;
-            max-width: 300px;
-        `;
+        // Create status overlay (controlled by uiDebugMode)
+        if (this.uiDebugMode) {
+            this.statusOverlay = document.createElement('div');
+            this.statusOverlay.className = 'status-overlay';
+            this.statusOverlay.style.cssText = `
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                background: rgba(0, 0, 0, 0.8);
+                color: #fff;
+                padding: 8px 12px;
+                border-radius: 4px;
+                font-family: monospace;
+                font-size: 12px;
+                z-index: 100;
+                max-width: 300px;
+            `;
+        }
         
-        // Create mode indicator
-        this.modeIndicator = document.createElement('div');
-        this.modeIndicator.className = 'mode-indicator';
-        this.modeIndicator.style.cssText = `
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            color: #fff;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 12px;
-            z-index: 100;
-            border-left: 4px solid #666;
-        `;
+        // Create mode indicator (controlled by uiDebugMode)
+        if (this.uiDebugMode) {
+            this.modeIndicator = document.createElement('div');
+            this.modeIndicator.className = 'mode-indicator';
+            this.modeIndicator.style.cssText = `
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: rgba(0, 0, 0, 0.8);
+                color: #fff;
+                padding: 8px 12px;
+                border-radius: 4px;
+                font-family: monospace;
+                font-size: 12px;
+                z-index: 100;
+                border-left: 4px solid #666;
+            `;
+        }
         
 
         
         // Assemble viewport
         this.viewport.appendChild(this.imageDisplay);
-        this.viewport.appendChild(this.statusOverlay);
-        this.viewport.appendChild(this.modeIndicator);
+        if (this.uiDebugMode && this.statusOverlay) {
+            this.viewport.appendChild(this.statusOverlay);
+        }
+        if (this.uiDebugMode && this.modeIndicator) {
+            this.viewport.appendChild(this.modeIndicator);
+        }
         this.element.appendChild(this.viewport);
         
-        // Initial status
-        this.updateStatus('Initializing callback system...');
-        this.updateModeIndicator('INITIALIZING', '#ffa500');
+        // Initial status (controlled by uiDebugMode)
+        if (this.uiDebugMode) {
+            this.updateStatus('Initializing callback system...');
+            this.updateModeIndicator('INITIALIZING', '#ffa500');
+        }
         
         console.log('✅ 2D viewport created');
     }
@@ -795,19 +814,19 @@ class CallbackRenderViewport extends OctaneComponent {
     }
     
     /**
-     * Update status overlay
+     * Update status overlay (controlled by uiDebugMode)
      */
     updateStatus(message) {
-        if (this.statusOverlay) {
+        if (this.uiDebugMode && this.statusOverlay) {
             this.statusOverlay.textContent = message;
         }
     }
     
     /**
-     * Update mode indicator
+     * Update mode indicator (controlled by uiDebugMode)
      */
     updateModeIndicator(mode, color = '#666') {
-        if (this.modeIndicator) {
+        if (this.uiDebugMode && this.modeIndicator) {
             this.modeIndicator.textContent = mode;
             this.modeIndicator.style.borderLeftColor = color;
         }
@@ -819,6 +838,86 @@ class CallbackRenderViewport extends OctaneComponent {
     showError(title, message) {
         this.updateStatus(`ERROR: ${title} - ${message}`);
         this.updateModeIndicator('❌ ERROR', '#ff0000');
+    }
+
+    /**
+     * Toggle UI debug mode at runtime
+     */
+    setUIDebugMode(enabled) {
+        const wasEnabled = this.uiDebugMode;
+        this.uiDebugMode = enabled;
+        
+        if (enabled && !wasEnabled) {
+            // Enable debug UI - recreate elements
+            this.createDebugUI();
+        } else if (!enabled && wasEnabled) {
+            // Disable debug UI - remove elements
+            this.removeDebugUI();
+        }
+        
+        console.log(`🎛️ UI Debug Mode ${enabled ? 'enabled' : 'disabled'}`);
+    }
+
+    /**
+     * Create debug UI elements
+     */
+    createDebugUI() {
+        if (!this.statusOverlay) {
+            this.statusOverlay = document.createElement('div');
+            this.statusOverlay.className = 'status-overlay';
+            this.statusOverlay.style.cssText = `
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                background: rgba(0, 0, 0, 0.8);
+                color: #fff;
+                padding: 8px 12px;
+                border-radius: 4px;
+                font-family: monospace;
+                font-size: 12px;
+                z-index: 100;
+                max-width: 300px;
+            `;
+            this.viewport.appendChild(this.statusOverlay);
+        }
+
+        if (!this.modeIndicator) {
+            this.modeIndicator = document.createElement('div');
+            this.modeIndicator.className = 'mode-indicator';
+            this.modeIndicator.style.cssText = `
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: rgba(0, 0, 0, 0.8);
+                color: #fff;
+                padding: 8px 12px;
+                border-radius: 4px;
+                font-family: monospace;
+                font-size: 12px;
+                z-index: 100;
+                border-left: 4px solid #666;
+            `;
+            this.viewport.appendChild(this.modeIndicator);
+        }
+
+        // Update with current status
+        this.updateStatus('Debug UI enabled');
+        this.updateModeIndicator(this.callbackMode ? '🚀 CALLBACK MODE' : '📸 POLLING MODE', 
+                                this.callbackMode ? '#00ff00' : '#ffa500');
+    }
+
+    /**
+     * Remove debug UI elements
+     */
+    removeDebugUI() {
+        if (this.statusOverlay) {
+            this.statusOverlay.remove();
+            this.statusOverlay = null;
+        }
+        if (this.modeIndicator) {
+            this.modeIndicator.remove();
+            this.modeIndicator = null;
+        }
     }
     
     /**
