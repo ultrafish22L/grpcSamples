@@ -657,6 +657,7 @@ int main() {
     };
     const char* serverAddress = "127.0.0.1:51022";
     GRPCSettings::getInstance().setServerAddress(serverAddress);
+    GRPCSettings::getInstance().setUniqueString("grpc");
 
 #ifdef DO_GRPC_SDK_ENABLED
     // Callback will be registered after successful connection in main loop
@@ -903,6 +904,7 @@ int main() {
     if (g_callbackRegistered) {
         std::cout << " Unregistering render image callback..." << std::endl;
         try {
+            // !!! only works with module sdk 
             ApiRenderEngineProxy::setOnNewImageCallback(nullptr, nullptr);
             std::cout << " Render image callback unregistered" << std::endl;
         } catch (const std::exception& e) {
