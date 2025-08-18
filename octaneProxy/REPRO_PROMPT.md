@@ -1,14 +1,14 @@
-# OctaneProxy Status: REAL-TIME CALLBACK SYSTEM OPERATIONAL ✅
+# OctaneProxy Status: REAL-TIME CALLBACK SYSTEM + GRPC INTEGRATION OPERATIONAL ✅
 
 ## 🚨 **CRITICAL REQUIREMENT: REAL OCTANE ONLY**
 
 **⚠️ NEVER EVER use mock or simulated data - only real live connection with Octane LiveLink service.**
 
-## 🎯 BREAKTHROUGH ACHIEVED: Real-Time Callback Infrastructure
+## 🎯 BREAKTHROUGH ACHIEVED: Real-Time Callback Infrastructure + gRPC API Integration
 
-**OBJECTIVE**: Implement real-time callback streaming system for OnNewImage callbacks from Octane.
+**OBJECTIVE**: Implement real-time callback streaming system for OnNewImage callbacks from Octane + Generic gRPC API routing.
 
-**STATUS**: ✅ MAJOR SUCCESS - Complete callback system with 92+ callbacks received, 0 stream errors.
+**STATUS**: ✅ MAJOR SUCCESS - Complete callback system with 92+ callbacks received, 0 stream errors + Generic gRPC handler for all API services.
 
 This document contains all the critical knowledge needed to understand, debug, and work with the OctaneProxy callback system that provides real-time streaming from Octane to web browsers.
 
@@ -25,10 +25,17 @@ Browser (EventSource) → Proxy Server (Server-Sent Events) → callback_streame
 The proxy provides real-time callback streaming from Octane to web browsers using Server-Sent Events, enabling live render updates and progressive rendering visualization without polling.
 
 ### **Key Files:**
-- **Main Server**: `octane_proxy.py` - HTTP-to-gRPC translation + callback endpoints
+- **Main Server**: `octane_proxy.py` - HTTP-to-gRPC translation + callback endpoints + **Generic gRPC API handler**
 - **Callback Streamer**: `callback_streamer.py` - Real-time callback streaming with dedicated asyncio thread
 - **Generated Protobuf**: `generated/` directory - Python gRPC stubs including callback_pb2_grpc
 - **Service Registry**: Built-in dynamic service discovery and stub creation
+
+### **🚀 NEW: Generic gRPC API Integration**
+- **URL Pattern**: `/{service}/{method}` - Routes any gRPC service/method call
+- **Supported Services**: ApiRenderEngineService, ApiCameraService, ApiSceneService, ApiLiveLinkService
+- **Request Format**: JSON POST with parameters in body
+- **Response Format**: JSON with success/error status and result data
+- **Headers**: Content-Type: application/json, X-Call-Id for request tracking
 
 ---
 
