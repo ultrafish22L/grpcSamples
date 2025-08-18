@@ -323,6 +323,52 @@ async newFeature() {
 
 **SOURCE**: Official OTOY documentation from `docs.otoy.com/standaloneSE/TheRenderViewport.html`
 
+## 🚨 **CRITICAL DEVELOPMENT PROTOCOLS**
+
+### **🛑 MANDATORY DOCUMENTATION-FIRST APPROACH**
+
+**LESSON LEARNED**: Never implement UI components based on assumptions or common patterns. Always verify exact specifications from official documentation.
+
+**PROTOCOL**:
+1. **📖 DOCUMENTATION VERIFICATION**: Always examine official documentation figures/screenshots first
+2. **🔍 SYSTEMATIC CROSS-REFERENCE**: Create checklist of each UI element and verify implementation matches exactly
+3. **📸 SCREENSHOT COMPARISON**: Compare implementation screenshots with documentation figures when possible
+4. **❓ ASK BEFORE ASSUME**: When documentation is unclear, ask user rather than making assumptions
+
+**ANTI-PATTERN**: Implementing File/Edit/View buttons based on common UI patterns instead of researching actual OTOY specifications for Expand/Collapse/Refresh buttons.
+
+### **🧪 STRUCTURED XML TESTING FRAMEWORK**
+
+**LESSON LEARNED**: Avoid infinite testing loops by implementing systematic test state tracking.
+
+**MANDATORY TESTING PROTOCOL**:
+```xml
+<TestPlan>
+  <Component name="ComponentName">
+    <TestSuite name="FeatureGroup">
+      <Test id="unique-test-id" status="pending|passed|failed" description="Clear test description">
+        <Steps>
+          <Step>Specific action to take</Step>
+          <Step>Expected result to verify</Step>
+        </Steps>
+        <ExpectedResult>Clear success criteria</ExpectedResult>
+        <ActualResult>Record actual outcome</ActualResult>
+        <Status>Track completion state</Status>
+      </Test>
+    </TestSuite>
+  </Component>
+</TestPlan>
+```
+
+**TESTING RULES**:
+1. **📋 CREATE TEST PLAN FIRST**: Define all test cases upfront before testing
+2. **📊 TRACK TEST STATE**: Maintain running log of what's been tested and results
+3. **🎯 ONE-PASS TESTING**: Test each functionality once thoroughly rather than repeatedly
+4. **📈 SYSTEMATIC PROGRESSION**: Move through test cases in logical order
+5. **✅ CLEAR EXIT CRITERIA**: Define exactly when testing is complete
+
+**ANTI-PATTERN**: Repeatedly testing Scene tab → Collapse button → Live DB tab → Refresh button in infinite loop without tracking progress.
+
 ---
 
 **STATUS**: ✅ **PRODUCTION-READY REAL-TIME SYSTEM WITH GRPC INTEGRATION**

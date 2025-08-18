@@ -43,7 +43,35 @@ root - `ENGINEERING_DISCIPLINE.md` - This file, for session management standards
 
 ## 🚨 Critical Error Patterns to Avoid
 
-### 1. The "Server Abandonment" Anti-Pattern
+### 1. The "Documentation Hallucination" Anti-Pattern
+**WRONG**:
+- Implement UI components based on assumptions or common patterns
+- Make up button functionality without consulting official documentation
+- Use generic File/Edit/View patterns instead of researching actual specifications
+
+**RIGHT**:
+- **ALWAYS examine official documentation figures/screenshots first**
+- Create systematic checklist of each UI element and verify implementation matches exactly
+- Compare implementation screenshots with documentation figures when possible
+- Ask clarifying questions when documentation is unclear rather than making assumptions
+
+**EXAMPLE FAILURE**: Implementing File/Edit/View buttons for Scene Outliner instead of researching OTOY documentation that clearly shows Expand/Collapse/Refresh buttons.
+
+### 2. The "Infinite Testing Loop" Anti-Pattern
+**WRONG**:
+- Test the same sequence repeatedly without tracking progress
+- Re-test functionality that's already confirmed working
+- Get stuck in pattern recognition without systematic progression
+
+**RIGHT**:
+- **MANDATORY XML TESTING FRAMEWORK**: Use structured test plans with state tracking
+- Define clear test completion criteria before starting
+- Move systematically through different test scenarios
+- Track what has been tested successfully to avoid repetition
+
+**EXAMPLE FAILURE**: Repeatedly testing Scene tab → Collapse button → Live DB tab → Refresh button in infinite loop.
+
+### 3. The "Server Abandonment" Anti-Pattern
 **WRONG**:
 - Start servers for testing and leave them running indefinitely
 - Forget to stop servers after completing tests
@@ -101,7 +129,61 @@ root - `ENGINEERING_DISCIPLINE.md` - This file, for session management standards
 - Analyze what's working vs. what's failing
 - Distinguish network/environment issues from code bugs
 
-### 2. The "Wrong Debug Tool" Anti-Pattern
+## 🛑 **MANDATORY DEVELOPMENT PROTOCOLS**
+
+### **PROTOCOL 1: DOCUMENTATION-FIRST IMPLEMENTATION**
+
+**ALL UI DEVELOPMENT MUST FOLLOW THIS PROTOCOL:**
+
+1. **📖 RESEARCH PHASE**: 
+   - Access official documentation for the component being implemented
+   - Examine all figures, screenshots, and specifications
+   - Create systematic checklist of each UI element shown
+   
+2. **🔍 VERIFICATION PHASE**:
+   - Cross-reference every button, icon, and tooltip with documentation
+   - Compare implementation screenshots with official figures
+   - Verify exact functionality matches documented behavior
+   
+3. **❓ CLARIFICATION PHASE**:
+   - Ask user for clarification when documentation is unclear
+   - NEVER make assumptions based on common UI patterns
+   - Request access to additional documentation if needed
+
+**ENFORCEMENT**: Any UI implementation that deviates from official documentation without explicit user approval is considered a critical failure.
+
+### **PROTOCOL 2: STRUCTURED XML TESTING FRAMEWORK**
+
+**ALL TESTING MUST FOLLOW THIS PROTOCOL:**
+
+```xml
+<TestPlan>
+  <Component name="ComponentName">
+    <TestSuite name="FeatureGroup">
+      <Test id="unique-test-id" status="pending|passed|failed" description="Clear test description">
+        <Steps>
+          <Step>Specific action to take</Step>
+          <Step>Expected result to verify</Step>
+        </Steps>
+        <ExpectedResult>Clear success criteria</ExpectedResult>
+        <ActualResult>Record actual outcome</ActualResult>
+        <Status>Track completion state</Status>
+      </Test>
+    </TestSuite>
+  </Component>
+</TestPlan>
+```
+
+**MANDATORY TESTING RULES**:
+1. **📋 PRE-TESTING**: Create complete test plan before any testing begins
+2. **📊 STATE TRACKING**: Maintain visible progress through test plan
+3. **🎯 ONE-PASS RULE**: Test each functionality once thoroughly, mark as passed/failed
+4. **📈 SYSTEMATIC PROGRESSION**: Move through test cases in logical order
+5. **✅ CLEAR EXIT**: Define exactly when testing is complete
+
+**ENFORCEMENT**: Any testing session that repeats the same test sequence more than twice without clear progression is considered inefficient and must be restructured.
+
+### 4. The "Wrong Debug Tool" Anti-Pattern
 **WRONG**:
 - Try to use F12 browser developer console in OpenHands environment
 - Waste time trying to get browser console to work
@@ -158,27 +240,37 @@ root - `ENGINEERING_DISCIPLINE.md` - This file, for session management standards
 3. **Identify what's actually broken** vs. what's working
 4. **Confirm task understanding** with user if unclear
 
-### Phase 2: Analysis Before Action
-1. **Distinguish problem types**:
-   - Network/environment issues
-   - Configuration problems
-   - Actual code bugs
-   - Missing features
+### Phase 2: Documentation Research (MANDATORY FOR UI WORK)
+1. **PROTOCOL 1 COMPLIANCE**: Follow Documentation-First Implementation
+   - Access official documentation for any UI components
+   - Examine all figures, screenshots, and specifications
+   - Create systematic checklist of each UI element
+   - Cross-reference every detail with documentation
+2. **Verify exact specifications** before any implementation
+3. **Ask for clarification** when documentation is unclear
+
+### Phase 3: Structured Testing Plan (MANDATORY)
+1. **PROTOCOL 2 COMPLIANCE**: Create XML Testing Framework
+   - Define complete test plan before testing begins
+   - Specify clear success criteria for each test
+   - Track test state systematically
+   - Avoid repetitive testing loops
 2. **Test current functionality** to establish baseline
 3. **Identify root cause** before proposing solutions
 
-### Phase 3: Minimal Targeted Changes
+### Phase 4: Minimal Targeted Changes
 1. **Make smallest possible change** to address specific issue
-2. **Test incrementally** - don't make multiple changes at once
+2. **Test incrementally** using structured test plan
 3. **Preserve all working functionality**
 4. **Document what was changed and why**
 
-### Phase 4: Validation & Documentation
-1. **Verify fix addresses the specific problem**
-2. **Confirm no working functionality was broken**
-3. **ALWAYS stop servers immediately after testing** - Never leave servers running
-4. **Update REPRO_PROMPT.md** with new state
-5. **Commit with clear, descriptive messages**
+### Phase 5: Validation & Documentation
+1. **Execute structured test plan** systematically
+2. **Verify fix addresses the specific problem**
+3. **Confirm no working functionality was broken**
+4. **ALWAYS stop servers immediately after testing** - Never leave servers running
+5. **Update REPRO_PROMPT.md** with new state
+6. **Commit with clear, descriptive messages**
 
 ## 🎯 Code Quality Standards
 
@@ -273,10 +365,11 @@ root - `ENGINEERING_DISCIPLINE.md` - This file, for session management standards
 
 ### During Session
 1. **Focus on specific task** outlined in REPRO_PROMPT.md
-2. **Make minimal changes** to achieve goals
-3. **Test incrementally** and report progress
-4. **ALWAYS stop servers immediately after testing** - Never leave servers running
-5. **Ask for clarification** when requirements unclear
+2. **MANDATORY PROTOCOL COMPLIANCE**: Follow Documentation-First Implementation and XML Testing Framework
+3. **Make minimal changes** to achieve goals
+4. **Test incrementally** using structured test plan
+5. **ALWAYS stop servers immediately after testing** - Never leave servers running
+6. **Ask for clarification** when requirements unclear
 
 ### End of Session
 1. **Update REPRO_PROMPT.md** with new state and next steps
@@ -331,7 +424,46 @@ root - `ENGINEERING_DISCIPLINE.md` - This file, for session management standards
 - **Maintain project documentation** consistently
 - **Enable smooth session transitions** with good context
 
-**Remember: The goal is sustainable progress through disciplined engineering practices. Preserve what works, enhance systematically, and always understand the current state before making changes.**
+## 🚨 **CRITICAL PROTOCOL ENFORCEMENT**
+
+### **MANDATORY COMPLIANCE REQUIREMENTS**
+
+**ALL FUTURE DEVELOPMENT MUST FOLLOW THESE PROTOCOLS:**
+
+1. **📖 DOCUMENTATION-FIRST IMPLEMENTATION**: 
+   - NEVER implement UI components without consulting official documentation
+   - ALWAYS verify exact specifications before coding
+   - ASK for clarification rather than making assumptions
+
+2. **🧪 STRUCTURED XML TESTING FRAMEWORK**:
+   - ALWAYS create test plan before testing begins
+   - NEVER repeat the same test sequence without tracking progress
+   - ALWAYS define clear exit criteria for testing completion
+
+3. **🛑 SERVER LIFECYCLE MANAGEMENT**:
+   - ALWAYS stop servers immediately after testing
+   - NEVER leave servers running between sessions
+   - ALWAYS restart servers fresh at beginning of work
+
+### **PROTOCOL VIOLATION CONSEQUENCES**
+
+**Any development session that violates these protocols is considered a critical failure and must be immediately corrected.**
+
+**Examples of Critical Failures**:
+- Implementing UI components based on assumptions instead of documentation research
+- Entering infinite testing loops without systematic progress tracking
+- Leaving servers running indefinitely without proper lifecycle management
+
+### **SUCCESS METRICS**
+
+**A successful development session must demonstrate**:
+- ✅ Documentation research completed before implementation
+- ✅ Structured test plan created and executed systematically  
+- ✅ Server lifecycle properly managed
+- ✅ Clear progress made without repetitive patterns
+- ✅ All protocols followed consistently
+
+**Remember: The goal is sustainable progress through disciplined engineering practices. Preserve what works, enhance systematically, follow mandatory protocols, and always understand the current state before making changes.**
 
 ## 🔥 LEGACY PRINCIPLES (Preserved for Reference)
 
