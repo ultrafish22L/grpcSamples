@@ -73,6 +73,7 @@ class CallbackRenderViewport extends OctaneComponent {
         this.lastCallbackTime = 0;
         this.connectionErrors = 0;
         this.lastImageSize = 0;
+        this.frameCount = 0; // Track total frames processed
         
         console.log('🚀 CallbackRenderViewport initialized with streaming callbacks');
     }
@@ -393,10 +394,12 @@ class CallbackRenderViewport extends OctaneComponent {
      */
     displayCallbackImage(imageData) {
         try {
+            this.frameCount++;
+            
             // Clear existing content
             this.imageDisplay.innerHTML = '';
             
-            console.log('🖼️ Processing callback image:', {
+            console.log(`🖼️ Processing callback image #${this.frameCount}:`, {
                 type: imageData.type,
                 size: `${imageData.size.x}x${imageData.size.y}`,
                 pitch: imageData.pitch,
@@ -437,6 +440,9 @@ class CallbackRenderViewport extends OctaneComponent {
             for (let i = 0; i < binaryString.length; i++) {
                 bytes[i] = binaryString.charCodeAt(i);
             }
+            
+            console.log(`🔍 Buffer analysis: ${bytes.length} bytes, first 16 bytes:`, 
+                       Array.from(bytes.slice(0, 16)).map(b => b.toString(16).padStart(2, '0')).join(' '));
             
             // Convert buffer to RGBA format for canvas
             this.convertBufferToCanvas(bytes, imageData, imageDataObj);
@@ -541,7 +547,15 @@ class CallbackRenderViewport extends OctaneComponent {
      */
     convertHDRRGBA(buffer, width, height, pitch, canvasImageData) {
         const data = canvasImageData.data;
-        const floatView = new Float32Array(buffer.buffer);
+        // Create a new ArrayBuffer to avoid buffer reuse corruption
+        const floatBuffer = new ArrayBuffer(buffer.length);
+        const floatView = new Float32Array(floatBuffer);
+        const uint8View = new Uint8Array(floatBuffer);
+        
+        // Copy the original buffer data
+        uint8View.set(buffer);
+        
+        // Now reinterpret as floats safely
         
         // Check if buffer size matches expected size exactly (no padding)
         const expectedFloats = width * height * 4;
