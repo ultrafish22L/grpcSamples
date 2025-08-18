@@ -786,10 +786,10 @@ class CallbackRenderViewport extends OctaneComponent {
         if (now - this.lastSyncTime < this.syncThrottle) return;
         
         try {
-            // Calculate camera position
-            const x = this.camera.center[0] + this.camera.radius * Math.cos(this.camera.phi) * Math.cos(this.camera.theta);
+            // Calculate camera position (fixed coordinate system to match RenderViewport)
+            const x = this.camera.center[0] + this.camera.radius * Math.sin(this.camera.theta) * Math.cos(this.camera.phi);
             const y = this.camera.center[1] + this.camera.radius * Math.sin(this.camera.phi);
-            const z = this.camera.center[2] + this.camera.radius * Math.cos(this.camera.phi) * Math.sin(this.camera.theta);
+            const z = this.camera.center[2] + this.camera.radius * Math.cos(this.camera.theta) * Math.cos(this.camera.phi);
             
             // Set camera parameters
             await this.client.setCameraPosition(x, y, z);
