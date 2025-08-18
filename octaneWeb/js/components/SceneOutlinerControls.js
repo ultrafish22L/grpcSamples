@@ -16,6 +16,15 @@ class SceneOutlinerControls {
     }
     
     setupEventListeners() {
+        // Button bar functionality (always visible above tabs)
+        const outlinerBtns = this.container.querySelectorAll('.outliner-btn');
+        outlinerBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const action = e.target.dataset.action;
+                this.handleButtonBarAction(action);
+            });
+        });
+        
         // Tab switching functionality
         const tabs = this.container.querySelectorAll('.scene-tab');
         tabs.forEach(tab => {
@@ -45,6 +54,103 @@ class SceneOutlinerControls {
     }
     
     /**
+     * Handle button bar actions (always visible above tabs)
+     * Official OTOY Scene Outliner button bar functionality
+     */
+    handleButtonBarAction(action) {
+        console.log(`🔘 Button bar action: ${action}`);
+        
+        switch (action) {
+            case 'expand-tree':
+                this.expandAllNodes();
+                break;
+            case 'collapse-tree':
+                this.collapseAllNodes();
+                break;
+            case 'refresh-tree':
+                const refreshBtn = this.container.querySelector('[data-action="refresh-tree"]');
+                if (!refreshBtn.disabled) {
+                    this.refreshCurrentTab();
+                }
+                break;
+        }
+    }
+    
+    /**
+     * Expand all nodes in the current tree
+     * Official OTOY expand tree functionality
+     */
+    expandAllNodes() {
+        console.log('⊞ Expanding all tree nodes');
+        
+        const currentTab = this.getCurrentActiveTab();
+        const treeNodes = this.container.querySelectorAll(`[data-content="${currentTab}"] .tree-node .node-toggle`);
+        
+        treeNodes.forEach(toggle => {
+            if (toggle.textContent === '+') {
+                toggle.textContent = '−';
+                toggle.classList.remove('collapsed');
+                toggle.classList.add('expanded');
+            }
+        });
+        
+        console.log(`✅ Expanded ${treeNodes.length} nodes in ${currentTab} tab`);
+    }
+    
+    /**
+     * Collapse all nodes in the current tree
+     * Official OTOY collapse tree functionality
+     */
+    collapseAllNodes() {
+        console.log('⊟ Collapsing all tree nodes');
+        
+        const currentTab = this.getCurrentActiveTab();
+        const treeNodes = this.container.querySelectorAll(`[data-content="${currentTab}"] .tree-node .node-toggle`);
+        
+        treeNodes.forEach(toggle => {
+            if (toggle.textContent === '−') {
+                toggle.textContent = '+';
+                toggle.classList.remove('expanded');
+                toggle.classList.add('collapsed');
+            }
+        });
+        
+        console.log(`✅ Collapsed ${treeNodes.length} nodes in ${currentTab} tab`);
+    }
+    
+    /**
+     * Refresh the current active tab
+     * Official OTOY refresh tree functionality (greyed out for Scene tab)
+     */
+    refreshCurrentTab() {
+        const currentTab = this.getCurrentActiveTab();
+        
+        if (currentTab === 'scene') {
+            console.log('🚫 Refresh disabled for Scene tab (as per OTOY documentation)');
+            return;
+        }
+        
+        console.log(`🔄 Refreshing ${currentTab} tab`);
+        
+        switch (currentTab) {
+            case 'livedb':
+                this.loadLiveDBContent();
+                break;
+            case 'localdb':
+                this.loadLocalDBContent();
+                break;
+        }
+    }
+    
+    /**
+     * Get the currently active tab name
+     */
+    getCurrentActiveTab() {
+        const activeTab = this.container.querySelector('.scene-tab.active');
+        return activeTab ? activeTab.dataset.tab : 'scene';
+    }
+    
+    /**
      * Switch between Scene, Live DB, and Local DB tabs
      * Official OTOY three-tab system implementation
      */
@@ -70,6 +176,18 @@ class SceneOutlinerControls {
                 content.classList.remove('active');
             }
         });
+        
+        // Update refresh button state (greyed out for Scene tab as per OTOY docs)
+        const refreshBtn = this.container.querySelector('[data-action="refresh-tree"]');
+        if (refreshBtn) {
+            if (tabName === 'scene') {
+                refreshBtn.classList.add('disabled');
+                refreshBtn.disabled = true;
+            } else {
+                refreshBtn.classList.remove('disabled');
+                refreshBtn.disabled = false;
+            }
+        }
         
         this.currentTab = tabName;
         

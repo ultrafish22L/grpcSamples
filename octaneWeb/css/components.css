@@ -1574,6 +1574,64 @@ body.drag-over .drop-indicator {
     color: white;
 }
 
+/* Scene Outliner Button Bar - Official OTOY Always-Visible Button Bar Above Tabs */
+.scene-outliner-button-bar {
+    display: flex;
+    background: var(--octane-bg-secondary);
+    border-bottom: 1px solid var(--octane-border);
+    padding: 2px 4px;
+    gap: 1px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.outliner-btn {
+    background: var(--octane-bg-primary);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-secondary);
+    cursor: pointer;
+    padding: 3px 6px;
+    border-radius: 2px;
+    font-size: 10px;
+    width: 24px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+}
+
+.outliner-btn:hover {
+    background: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+    border-color: var(--octane-accent-blue);
+}
+
+.outliner-btn:active {
+    background: var(--octane-accent-blue);
+    color: white;
+}
+
+.outliner-btn.active {
+    background: var(--octane-accent-red);
+    color: white;
+    border-color: var(--octane-accent-red);
+}
+
+.outliner-btn.disabled {
+    background: var(--octane-bg-secondary);
+    color: var(--octane-text-disabled);
+    border-color: var(--octane-border);
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.outliner-btn.disabled:hover {
+    background: var(--octane-bg-secondary);
+    color: var(--octane-text-disabled);
+    border-color: var(--octane-border);
+}
+
 /* Scene Outliner Tabs - Official OTOY Three-Tab System */
 .scene-outliner-tabs {
     display: flex;
