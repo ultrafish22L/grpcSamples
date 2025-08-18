@@ -736,9 +736,9 @@ class NodeInspector extends OctaneComponent {
                     <span class="parameter-group-title">Physical camera parameters</span>
                 </div>
                 <div class="parameter-group-content" data-group-content="physical-camera">
-                    ${this.renderCameraParameter('📷', 'Sensor width:', '36.000', 'mm')}
-                    ${this.renderCameraParameter('🔍', 'Focal length:', '50.000', 'mm')}
-                    ${this.renderCameraParameter('⚪', 'F-stop:', '2.8', '')}
+                    ${this.renderCameraParameter('▣', 'Sensor width:', '36.000', 'mm')}
+                    ${this.renderCameraParameter('◐', 'Focal length:', '50.000', 'mm')}
+                    ${this.renderCameraParameter('◯', 'F-stop:', '2.8', '')}
                 </div>
             </div>
             
@@ -749,12 +749,12 @@ class NodeInspector extends OctaneComponent {
                     <span class="parameter-group-title">Viewing angle</span>
                 </div>
                 <div class="parameter-group-content" data-group-content="viewing-angle">
-                    ${this.renderCameraParameter('👁️', 'Field of view:', '39.597752', '°')}
-                    ${this.renderCameraParameter('📏', 'Scale of view:', '17.144243', '')}
-                    ${this.renderCameraParameter('📐', 'Distortion:', '0.000', '')}
-                    ${this.renderDualCameraParameter('↔️', 'Lens shift:', '0.000', '0.000')}
-                    ${this.renderCameraParameter('🔄', 'Perspective correction:', 'false', '', true)}
-                    ${this.renderCameraParameter('📊', 'Pixel aspect ratio:', '1.000', '')}
+                    ${this.renderCameraParameter('◐', 'Field of view:', '39.597752', '°')}
+                    ${this.renderCameraParameter('▤', 'Scale of view:', '17.144243', '')}
+                    ${this.renderCameraParameter('◈', 'Distortion:', '0.000', '')}
+                    ${this.renderDualCameraParameter('⟷', 'Lens shift:', '0.000', '0.000')}
+                    ${this.renderCameraParameter('◐', 'Perspective correction:', 'false', '', true)}
+                    ${this.renderCameraParameter('▦', 'Pixel aspect ratio:', '1.000', '')}
                 </div>
             </div>
             
@@ -765,8 +765,8 @@ class NodeInspector extends OctaneComponent {
                     <span class="parameter-group-title">Clipping</span>
                 </div>
                 <div class="parameter-group-content" data-group-content="clipping">
-                    ${this.renderCameraParameter('📏', 'Near clip depth:', '0.000', '')}
-                    ${this.renderCameraParameter('📏', 'Far clip depth:', '∞', '')}
+                    ${this.renderCameraParameter('▤', 'Near clip depth:', '0.000', '')}
+                    ${this.renderCameraParameter('▤', 'Far clip depth:', '∞', '')}
                 </div>
             </div>
             
@@ -777,14 +777,14 @@ class NodeInspector extends OctaneComponent {
                     <span class="parameter-group-title">Depth of field</span>
                 </div>
                 <div class="parameter-group-content" data-group-content="depth-of-field">
-                    ${this.renderCameraParameter('🎯', 'Auto-focus:', 'false', '', true)}
-                    ${this.renderCameraParameter('📏', 'Focal depth:', '1.118034', '')}
-                    ${this.renderCameraParameter('⚪', 'Aperture:', '0.8928572', '')}
-                    ${this.renderCameraParameter('📊', 'Aperture aspect ratio:', '1.000', '')}
-                    ${this.renderCameraParameter('🔲', 'Aperture edge:', '1.000', '')}
-                    ${this.renderCameraParameter('🔢', 'Bokeh side count:', '6', '')}
-                    ${this.renderCameraParameter('🔄', 'Bokeh rotation:', '0.000', '°')}
-                    ${this.renderCameraParameter('⚪', 'Bokeh roundedness:', '1.000', '')}
+                    ${this.renderCameraParameter('◎', 'Auto-focus:', 'false', '', true)}
+                    ${this.renderCameraParameter('▤', 'Focal depth:', '1.118034', '')}
+                    ${this.renderCameraParameter('◯', 'Aperture:', '0.8928572', '')}
+                    ${this.renderCameraParameter('▦', 'Aperture aspect ratio:', '1.000', '')}
+                    ${this.renderCameraParameter('▢', 'Aperture edge:', '1.000', '')}
+                    ${this.renderCameraParameter('#', 'Bokeh side count:', '6', '')}
+                    ${this.renderCameraParameter('↻', 'Bokeh rotation:', '0.000', '°')}
+                    ${this.renderCameraParameter('◯', 'Bokeh roundedness:', '1.000', '')}
                 </div>
             </div>
             
@@ -1025,30 +1025,30 @@ class NodeInspector extends OctaneComponent {
     }
     
     getParameterIcon(name, type) {
-        // Return appropriate icons based on parameter name/type (matching official Octane)
+        // Return appropriate icons based on parameter name/type (matching official Octane Studio)
         const iconMap = {
-            'sensor_width': '📷',
-            'focal_length': '🔍', 
-            'f_stop': '⚪',
-            'field_of_view': '👁️',
-            'scale_of_view': '📏',
-            'distortion': '📐',
-            'lens_shift': '↔️',
-            'perspective_correction': '🔄',
-            'pixel_aspect_ratio': '📊',
-            'near_clip_depth': '📏',
-            'far_clip_depth': '📏',
-            'auto_focus': '🎯',
-            'focal_depth': '📏',
-            'aperture': '⚪',
-            'aperture_aspect_ratio': '📊',
-            'aperture_edge': '🔲',
-            'bokeh_side_count': '🔢',
-            'bokeh_rotation': '🔄',
-            'bokeh_roundedness': '⚪'
+            'sensor_width': '▣',
+            'focal_length': '◐', 
+            'f_stop': '◯',
+            'field_of_view': '◐',
+            'scale_of_view': '▤',
+            'distortion': '◈',
+            'lens_shift': '⟷',
+            'perspective_correction': '◐',
+            'pixel_aspect_ratio': '▦',
+            'near_clip_depth': '▤',
+            'far_clip_depth': '▤',
+            'auto_focus': '◎',
+            'focal_depth': '▤',
+            'aperture': '◯',
+            'aperture_aspect_ratio': '▦',
+            'aperture_edge': '▢',
+            'bokeh_side_count': '#',
+            'bokeh_rotation': '↻',
+            'bokeh_roundedness': '◯'
         };
         
-        return iconMap[name] || (type === 'bool' ? '☑️' : type === 'float' || type === 'int' ? '🔢' : '⚙️');
+        return iconMap[name] || (type === 'bool' ? '☐' : type === 'float' || type === 'int' ? '▤' : '◦');
     }
     
     renderParameterControl(name, type, value, options = {}) {
