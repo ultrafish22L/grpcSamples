@@ -39,7 +39,19 @@ root - `ENGINEERING_DISCIPLINE.md` - This file, for session management standards
 
 ## 🚨 Critical Error Patterns to Avoid
 
-### 1. The "Panic Fix" Anti-Pattern
+### 1. The "Server Abandonment" Anti-Pattern
+**WRONG**:
+- Start servers for testing and leave them running indefinitely
+- Forget to stop servers after completing tests
+- Accumulate multiple running server processes
+
+**RIGHT**:
+- **ALWAYS stop servers immediately after testing**
+- Use `pkill -f octane_proxy.py` and `pkill -f "python -m http.server"` to stop servers
+- Verify no servers are running with `ps aux | grep -E "(octane_proxy|http.server)" | grep -v grep`
+- Never leave servers running between sessions or after task completion
+
+### 2. The "Panic Fix" Anti-Pattern
 **WRONG**:
 - See error logs → Assume code bug → Make destructive changes
 - Break working functionality to "fix" unrelated issues
@@ -124,8 +136,9 @@ root - `ENGINEERING_DISCIPLINE.md` - This file, for session management standards
 ### Phase 4: Validation & Documentation
 1. **Verify fix addresses the specific problem**
 2. **Confirm no working functionality was broken**
-3. **Update REPRO_PROMPT.md** with new state
-4. **Commit with clear, descriptive messages**
+3. **ALWAYS stop servers immediately after testing** - Never leave servers running
+4. **Update REPRO_PROMPT.md** with new state
+5. **Commit with clear, descriptive messages**
 
 ## 🎯 Code Quality Standards
 
@@ -146,6 +159,7 @@ root - `ENGINEERING_DISCIPLINE.md` - This file, for session management standards
 - **Fresh environment testing** - restart services, clear caches
 - **Incremental validation** - test each change separately
 - **User validation** - confirm changes meet requirements
+- **ALWAYS stop servers immediately after testing** - Never leave servers running
 
 ## 🔍 Error Analysis Framework
 
@@ -221,7 +235,8 @@ root - `ENGINEERING_DISCIPLINE.md` - This file, for session management standards
 1. **Focus on specific task** outlined in REPRO_PROMPT.md
 2. **Make minimal changes** to achieve goals
 3. **Test incrementally** and report progress
-4. **Ask for clarification** when requirements unclear
+4. **ALWAYS stop servers immediately after testing** - Never leave servers running
+5. **Ask for clarification** when requirements unclear
 
 ### End of Session
 1. **Update REPRO_PROMPT.md** with new state and next steps
