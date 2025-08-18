@@ -195,7 +195,7 @@ class FileManager {
             result.metadata = { type: 'orbx', version: '1.0' };
             
             // Attempt to load the project via gRPC if we have a client
-            if (this.client && this.client.isConnected) {
+            if (this.client && this.client.connected) {
                 try {
                     console.log('Loading ORBX project via gRPC:', result.file.path || result.name);
                     
