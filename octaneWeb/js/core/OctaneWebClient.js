@@ -198,15 +198,15 @@ function createOctaneWebClient() {
         const callId = `${serviceName}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
         this.callCount++;
 
-        // Enhanced logging for all gRPC calls
-        console.log(`\n🌐 === gRPC CALL STARTED ===`);
-        console.log(`🌐 Service: ${serviceName}`);
-        console.log(`🌐 Method: ${methodName}`);
-        console.log(`🌐 Call ID: ${callId}`);
-        console.log(`🌐 Call Number: ${this.callCount}`);
-        console.log(`🌐 Connection State: ${this.connectionState}`);
-        console.log(`🌐 Request:`, actualRequest);
-        console.log(`🌐 Request JSON:`, JSON.stringify(actualRequest, null, 2));
+        // Enhanced logging for all gRPC calls (disabled for performance)
+        // console.log(`\n🌐 === gRPC CALL STARTED ===`);
+        // console.log(`🌐 Service: ${serviceName}`);
+        // console.log(`🌐 Method: ${methodName}`);
+        // console.log(`🌐 Call ID: ${callId}`);
+        // console.log(`🌐 Call Number: ${this.callCount}`);
+        // console.log(`🌐 Connection State: ${this.connectionState}`);
+        // console.log(`🌐 Request:`, actualRequest);
+        // console.log(`🌐 Request JSON:`, JSON.stringify(actualRequest, null, 2));
         
         this.log(`gRPC call started: ${serviceName}.${methodName}`, {
             callId: callId,
@@ -230,8 +230,8 @@ function createOctaneWebClient() {
                 params: actualRequest || {}
             };
             
-            console.log(`🌐 Request Body:`, requestBody);
-            console.log(`🌐 Request Body JSON:`, JSON.stringify(requestBody, null, 2));
+            // console.log(`🌐 Request Body:`, requestBody);
+            // console.log(`🌐 Request Body JSON:`, JSON.stringify(requestBody, null, 2));
 
             const controller = new AbortController();
             const timeoutId = setTimeout(() => {
@@ -243,12 +243,12 @@ function createOctaneWebClient() {
             const url = `${this.serverUrl}/${serviceName}/${methodName}`;
             const body = JSON.stringify(actualRequest || {});
             
-            console.log(`🌐 LOCKIT: Making fetch request to: ${url}`);
-            console.log(`🌐 LOCKIT: Request body: ${body}`);
-            console.log(`🌐 LOCKIT: Headers:`, {
-                'Content-Type': 'application/json',
-                'X-Call-Id': callId
-            });
+            // console.log(`🌐 LOCKIT: Making fetch request to: ${url}`);
+            // console.log(`🌐 LOCKIT: Request body: ${body}`);
+            // console.log(`🌐 LOCKIT: Headers:`, {
+            //     'Content-Type': 'application/json',
+            //     'X-Call-Id': callId
+            // });
             
             const response = await fetch(url, {
                 method: 'POST',
@@ -260,8 +260,8 @@ function createOctaneWebClient() {
                 signal: controller.signal
             });
             
-            console.log(`🌐 LOCKIT: Response status: ${response.status}`);
-            console.log(`🌐 LOCKIT: Response ok: ${response.ok}`);
+            // console.log(`🌐 LOCKIT: Response status: ${response.status}`);
+            // console.log(`🌐 LOCKIT: Response ok: ${response.ok}`);
 
             clearTimeout(timeoutId);
 
@@ -272,21 +272,21 @@ function createOctaneWebClient() {
             const result = await response.json();
             const duration = Date.now() - startTime;
 
-            // Enhanced response logging
-            console.log(`\n📥 === gRPC RESPONSE RECEIVED ===`);
-            console.log(`📥 Method: ${method}`);
-            console.log(`📥 Call ID: ${callId}`);
-            console.log(`📥 Duration: ${duration}ms`);
-            console.log(`📥 HTTP Status: ${response.status} ${response.statusText}`);
-            console.log(`📥 Success: ${result.success}`);
-            console.log(`📥 Data Size: ${JSON.stringify(result).length} bytes`);
-            console.log(`📥 Result:`, result);
-            console.log(`📥 Result JSON:`, JSON.stringify(result, null, 2));
+            // Enhanced response logging (disabled for performance)
+            // console.log(`\n📥 === gRPC RESPONSE RECEIVED ===`);
+            // console.log(`📥 Method: ${method}`);
+            // console.log(`📥 Call ID: ${callId}`);
+            // console.log(`📥 Duration: ${duration}ms`);
+            // console.log(`📥 HTTP Status: ${response.status} ${response.statusText}`);
+            // console.log(`📥 Success: ${result.success}`);
+            // console.log(`📥 Data Size: ${JSON.stringify(result).length} bytes`);
+            // console.log(`📥 Result:`, result);
+            // console.log(`📥 Result JSON:`, JSON.stringify(result, null, 2));
             
-            if (result.success && result.data) {
-                console.log(`📥 Response Data:`, result.data);
-                console.log(`📥 Response Data JSON:`, JSON.stringify(result.data, null, 2));
-            }
+            // if (result.success && result.data) {
+            //     console.log(`📥 Response Data:`, result.data);
+            //     console.log(`📥 Response Data JSON:`, JSON.stringify(result.data, null, 2));
+            // }
             
             if (!result.success && result.error) {
                 console.error(`❌ gRPC Error:`, result.error);

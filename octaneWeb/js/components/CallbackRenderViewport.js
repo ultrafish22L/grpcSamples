@@ -344,11 +344,11 @@ class CallbackRenderViewport extends OctaneComponent {
             this.callbackCount++;
             this.lastCallbackTime = Date.now();
             
-            console.log(`📸 OnNewImage callback #${this.callbackCount}:`, {
-                callback_id: data.callback_id,
-                images: data.render_images?.data?.length || 0,
-                timestamp: data.timestamp
-            });
+            // console.log(`📸 OnNewImage callback #${this.callbackCount}:`, {
+            //     callback_id: data.callback_id,
+            //     images: data.render_images?.data?.length || 0,
+            //     timestamp: data.timestamp
+            // });
             
             // Update statistics
             this.updateStatus(
@@ -673,7 +673,7 @@ class CallbackRenderViewport extends OctaneComponent {
                     this.camera.phi += deltaY * this.camera.sensitivity;
                     this.camera.phi = Math.max(-Math.PI/2 + 0.1, Math.min(Math.PI/2 - 0.1, this.camera.phi));
                     
-                    console.log(`🔄 Orbiting: theta=${this.camera.theta.toFixed(2)}, phi=${this.camera.phi.toFixed(2)}`);
+                    // console.log(`🔄 Orbiting: theta=${this.camera.theta.toFixed(2)}, phi=${this.camera.phi.toFixed(2)}`);
                     
                 } else if (this.mouse.panning) {
                     // LEFT CLICK: Pan camera target
@@ -760,7 +760,7 @@ class CallbackRenderViewport extends OctaneComponent {
         try {
             // Call ApiChangeManager::update() to make Octane refresh its display
             const response = await this.client.makeRequest('ApiChangeManager', 'update', {});
-            console.log('🔄 Octane display update triggered');
+            // console.log('🔄 Octane display update triggered');
             
             return response;
         } catch (error) {
