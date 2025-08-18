@@ -48,21 +48,37 @@ python --version
 
 echo.
 echo Checking required Python packages...
-python -c "import grpcio, aiohttp" >nul 2>&1
+python -c "import grpcio, aiohttp, numpy" >nul 2>&1
 if errorlevel 1 (
     echo WARNING: Required packages not found
-    echo Installing grpcio and aiohttp...
-    pip install grpcio aiohttp protobuf
+    echo Installing core packages: grpcio, aiohttp, protobuf, numpy...
+    pip install grpcio aiohttp protobuf numpy
     if errorlevel 1 (
-        echo ERROR: Failed to install required packages
-        echo Please run manually: pip install grpcio aiohttp protobuf
+        echo ERROR: Failed to install core packages
+        echo Please run manually: pip install grpcio aiohttp protobuf numpy
         echo.
         pause
         exit /b 1
     )
 )
 
-echo Required packages found ✓
+echo Core packages found ✓
+
+echo.
+echo Checking optional packages for enhanced functionality...
+python -c "import PIL" >nul 2>&1
+if errorlevel 1 (
+    echo Installing Pillow for PNG export functionality...
+    pip install Pillow
+    if errorlevel 1 (
+        echo WARNING: Failed to install Pillow (PNG export will be disabled)
+        echo This is not critical - the system will work without it
+    ) else (
+        echo Pillow installed ✓ (PNG export enabled)
+    )
+) else (
+    echo Pillow found ✓ (PNG export enabled)
+)
 
 echo.
 echo ========================================

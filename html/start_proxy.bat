@@ -35,10 +35,20 @@ if errorlevel 1 (
 
 echo Step 1: Installing Python dependencies...
 echo -----------------------------------------
-python -m pip install grpcio grpcio-tools aiohttp aiohttp-cors
+echo Installing core packages: grpcio, aiohttp, protobuf, numpy...
+python -m pip install grpcio grpcio-tools aiohttp aiohttp-cors protobuf numpy
 if errorlevel 1 (
-    echo WARNING: Failed to install some Python packages
+    echo WARNING: Failed to install some core packages
     echo Continuing anyway - packages might already be installed
+)
+
+echo Installing optional packages for enhanced functionality...
+python -m pip install Pillow
+if errorlevel 1 (
+    echo WARNING: Failed to install Pillow (PNG export will be disabled)
+    echo This is not critical - the proxy will work without it
+) else (
+    echo Pillow installed ✓ (PNG export enabled)
 )
 
 echo.
