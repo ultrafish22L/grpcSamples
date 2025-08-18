@@ -325,7 +325,7 @@
 /* Rounded container for expanded parameter content */
 .parameter-group-content {
     margin-top: 2px;
-    margin-left: 36px; /* Indent relative to group header */
+    margin-left: 18px; /* Align with group header, not indented further */
 }
 
 /* Individual parameter node containers - each gets its own rounded box */
