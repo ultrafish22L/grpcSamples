@@ -288,23 +288,23 @@ class NodeInspector extends OctaneComponent {
             });
         });
         
-        // Initialize collapsed state
-        this.initializeCollapsedGroups();
+        // Initialize expanded state - all groups expanded by default
+        this.initializeExpandedGroups();
     }
     
-    initializeCollapsedGroups() {
-        // Start with all groups collapsed except the main ones
-        const collapsibleGroups = ['physical-camera', 'viewing-angle', 'clipping', 'depth-of-field'];
-        collapsibleGroups.forEach(groupName => {
+    initializeExpandedGroups() {
+        // Start with all groups expanded by default
+        const expandableGroups = ['physical-camera', 'viewing-angle', 'clipping', 'depth-of-field'];
+        expandableGroups.forEach(groupName => {
             const header = this.element.querySelector(`[data-group="${groupName}"]`);
             const content = this.element.querySelector(`[data-group-content="${groupName}"]`);
             const icon = header?.querySelector('.parameter-group-icon');
             
             if (header && content && icon) {
-                header.classList.add('collapsed');
-                content.style.display = 'none';
-                icon.textContent = '▶';
-                this.collapsedGroups.add(groupName);
+                header.classList.remove('collapsed');
+                content.style.display = 'block';
+                icon.textContent = '▼';
+                this.collapsedGroups.delete(groupName);
             }
         });
     }
@@ -755,7 +755,7 @@ class NodeInspector extends OctaneComponent {
                 </div>
             </div>
             
-            <!-- Viewing angle (collapsible) -->
+            <!-- Viewing angle (expanded by default) -->
             <div class="parameter-section">
                 <div class="parameter-group-header" data-group="viewing-angle">
                     <span class="parameter-group-icon">▼</span>
@@ -783,7 +783,7 @@ class NodeInspector extends OctaneComponent {
                 </div>
             </div>
             
-            <!-- Clipping (collapsible) -->
+            <!-- Clipping (expanded by default) -->
             <div class="parameter-section">
                 <div class="parameter-group-header" data-group="clipping">
                     <span class="parameter-group-icon">▼</span>
@@ -799,7 +799,7 @@ class NodeInspector extends OctaneComponent {
                 </div>
             </div>
             
-            <!-- Depth of field (collapsible) -->
+            <!-- Depth of field (expanded by default) -->
             <div class="parameter-section">
                 <div class="parameter-group-header" data-group="depth-of-field">
                     <span class="parameter-group-icon">▼</span>
