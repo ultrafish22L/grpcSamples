@@ -254,7 +254,7 @@ class OctaneCallbackStreamer:
             self.callback_count += 1
             self.last_callback_time = time.time()
             
-            print(f"📸 Received OnNewImage callback #{self.callback_count}")
+            # print(f"📸 Received OnNewImage callback #{self.callback_count}")
             
             # Extract render images
             render_images = new_image_request.render_images
@@ -301,10 +301,10 @@ class OctaneCallbackStreamer:
                     
                     # Handle image buffer
                     if img.buffer and img.buffer.data:
-                        # Save image as PNG for visual debugging
-                        png_filename = await self._save_image_as_png(img, i)
-                        if png_filename:
-                            print(f"💾 Saved callback image to: {png_filename}")
+                        # PNG saving disabled for performance
+                        # png_filename = await self._save_image_as_png(img, i)
+                        # if png_filename:
+                        #     print(f"💾 Saved callback image to: {png_filename}")
                         
                         # Encode buffer as base64 for JSON transport
                         buffer_data = base64.b64encode(img.buffer.data).decode('utf-8')
@@ -359,7 +359,7 @@ class OctaneCallbackStreamer:
     
     async def _handle_new_statistics(self, statistics_request):
         """Handle new statistics callback"""
-        print(f"📊 New statistics callback: {statistics_request}")
+        # print(f"📊 New statistics callback: {statistics_request}")
         
         stats_data = {
             'type': 'newStatistics',

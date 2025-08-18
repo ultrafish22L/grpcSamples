@@ -455,28 +455,30 @@ async def handle_generic_grpc(request):
                         print(f"❌ no PIN KEY: {key}")
 
         # Make the gRPC call
-        print(f"req:  {grpc_request}")        
+        # print(f"req:  {grpc_request}")        
         response = await method(grpc_request)
-        print(f"resp: {response}")
+        # print(f"resp: {response}")
 
         # Special handling for grabRenderResult to check for binary data
         if method_name == 'grabRenderResult':
-            print(f"🔍 GRAB RENDER RESULT DEBUG:")
-            print(f"  Response type: {type(response)}")
-            if hasattr(response, 'renderImages'):
-                print(f"  renderImages type: {type(response.renderImages)}")
-                print(f"  renderImages: {response.renderImages}")
-                if hasattr(response.renderImages, 'data'):
-                    print(f"  renderImages.data type: {type(response.renderImages.data)}")
-                    print(f"  renderImages.data length: {len(response.renderImages.data) if response.renderImages.data else 0}")
-                    if response.renderImages.data:
-                        for i, img in enumerate(response.renderImages.data):
-                            print(f"    Image {i}: type={type(img)}")
-                            if hasattr(img, 'buffer'):
-                                print(f"      buffer type: {type(img.buffer)}")
-                                if hasattr(img.buffer, 'data'):
-                                    print(f"      buffer.data type: {type(img.buffer.data)}")
-                                    print(f"      buffer.data size: {len(img.buffer.data) if img.buffer.data else 0}")
+            # Debug logging disabled for performance
+            # print(f"🔍 GRAB RENDER RESULT DEBUG:")
+            # print(f"  Response type: {type(response)}")
+            # if hasattr(response, 'renderImages'):
+            #     print(f"  renderImages type: {type(response.renderImages)}")
+            #     print(f"  renderImages: {response.renderImages}")
+            #     if hasattr(response.renderImages, 'data'):
+            #         print(f"  renderImages.data type: {type(response.renderImages.data)}")
+            #         print(f"  renderImages.data length: {len(response.renderImages.data) if response.renderImages.data else 0}")
+            #         if response.renderImages.data:
+            #             for i, img in enumerate(response.renderImages.data):
+            #                 print(f"    Image {i}: type={type(img)}")
+            #                 if hasattr(img, 'buffer'):
+            #                     print(f"      buffer type: {type(img.buffer)}")
+            #                     if hasattr(img.buffer, 'data'):
+            #                         print(f"      buffer.data type: {type(img.buffer.data)}")
+            #                         print(f"      buffer.data size: {len(img.buffer.data) if img.buffer.data else 0}")
+            pass
 
         # Convert response to dict
         success = False
