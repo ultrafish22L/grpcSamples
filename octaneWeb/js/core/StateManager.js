@@ -7,8 +7,23 @@ class StateManager {
     constructor(eventSystem) {
         this.eventSystem = eventSystem;
         
-        // Application state
-        this.state = {
+        // Initialize state
+        this.state = this.createInitialState();
+        
+        // State change listeners
+        this.listeners = new Map();
+        
+        // History for undo/redo
+        this.history = [];
+        this.historyIndex = -1;
+        this.maxHistorySize = 50;
+    }
+    
+    /**
+     * Create initial state structure
+     */
+    createInitialState() {
+        return {
             // Connection state
             connection: {
                 isConnected: false,
@@ -51,14 +66,6 @@ class StateManager {
                 showGizmos: true
             }
         };
-        
-        // State change listeners
-        this.listeners = new Map();
-        
-        // History for undo/redo
-        this.history = [];
-        this.historyIndex = -1;
-        this.maxHistorySize = 50;
     }
     
     /**
@@ -311,41 +318,7 @@ class StateManager {
      * Reset state to initial values
      */
     reset() {
-        this.state = {
-            connection: {
-                isConnected: false,
-                serverUrl: null,
-                status: 'disconnected'
-            },
-            scene: {
-                objects: new Map(),
-                hierarchy: [],
-                selection: new Set(),
-                cameras: new Map(),
-                lights: new Map(),
-                materials: new Map()
-            },
-            nodeGraph: {
-                nodes: new Map(),
-                connections: new Map(),
-                selectedNodes: new Set(),
-                viewport: { x: 0, y: 0, zoom: 1 }
-            },
-            render: {
-                isRendering: false,
-                progress: 0,
-                samples: 0,
-                renderTime: 0,
-                resolution: { width: 1920, height: 1080 }
-            },
-            ui: {
-                activePanel: null,
-                selectedTool: null,
-                showGrid: true,
-                showGizmos: true
-            }
-        };
-        
+        this.state = this.createInitialState();
         this.clearHistory();
         this.emitStateChange('*', this.state, null);
     }
