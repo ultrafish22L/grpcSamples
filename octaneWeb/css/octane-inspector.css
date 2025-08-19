@@ -3,12 +3,52 @@
  * Professional dark theme with precise control styling
  */
 
+/* ===== FONT SYSTEM - All node inspector elements use these ===== */
+.node-inspector,
+.node-inspector *,
+.node-box,
+.node-box *,
+.node-title,
+.node-title *,
+.octane-section-header,
+.octane-section-header *,
+.octane-dropdown,
+.octane-dropdown *,
+.octane-text-input,
+.octane-text-input *,
+.octane-number-input,
+.octane-number-input *,
+.octane-vector-input,
+.octane-vector-input *,
+.octane-checkbox-container,
+.octane-checkbox-container *,
+.octane-parameter-row,
+.octane-parameter-row *,
+.octane-parameter-label,
+.octane-parameter-label *,
+.octane-parameter-type,
+.octane-parameter-type *,
+.octane-parameter-value,
+.octane-parameter-value *,
+.octane-control-group,
+.octane-control-group *,
+.octane-node-selector,
+.octane-node-selector *,
+.node-selector,
+.node-selector *,
+.node-selector select,
+.node-selector select * {
+    font-size: var(--font-size-xs) !important;
+    font-family: var(--font-family) !important;
+    line-height: 1.2 !important;
+}
+
 /* Main Inspector Container - Enhanced Scrollbar */
 .node-inspector {
     background: #3a3a3a;
     color: #e0e0e0;
     font-family: var(--font-family);
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     line-height: 1.3;
     height: 100%;
     overflow-y: auto;
@@ -63,7 +103,7 @@
     color: #e0e0e0;
     padding: 4px 8px;
     border-radius: 3px;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-xs) !important;
     min-width: 150px;
 }
 
@@ -81,6 +121,7 @@
     align-items: center;
     gap: 6px;
     user-select: none;
+    font-size: var(--font-size-xs) !important;
 }
 
 .octane-section-header:hover {
@@ -88,7 +129,7 @@
 }
 
 .octane-section-icon {
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-xs) !important;
     color: #ccc;
     width: 12px;
     text-align: center;
@@ -97,7 +138,7 @@
 .octane-section-title {
     font-weight: var(--font-weight-bold);
     color: #f0f0f0;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     font-family: var(--font-family);
 }
 
@@ -118,7 +159,7 @@
 }
 
 .octane-node-icon {
-    font-size: var(--font-size-large);
+    font-size: var(--font-size-xs) !important;
 }
 
 .octane-subsection-title {
@@ -140,7 +181,7 @@
     align-items: center;
     user-select: none;
     transition: background-color 0.2s;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     font-family: var(--font-family);
     font-weight: var(--font-weight-normal);
 }
@@ -155,7 +196,7 @@
 
 .octane-group-icon {
     margin-right: 8px;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-xs) !important;
     transition: transform 0.2s;
     color: #d0d0d0;
     width: 12px;
@@ -169,7 +210,7 @@
 .octane-group-title {
     font-weight: 600;
     color: #f0f0f0;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-xs) !important;
 }
 
 .octane-group-content {
@@ -199,7 +240,7 @@
 
 .octane-parameter-icon {
     color: #888;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     font-family: var(--font-family);
     width: 12px;
     height: 12px;
@@ -210,7 +251,7 @@
 
 .octane-parameter-label {
     color: #e0e0e0;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     font-family: var(--font-family);
     width: 100px;
     flex-shrink: 0;
@@ -280,13 +321,13 @@
     top: -2px;
     left: 1px;
     color: white;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     font-weight: bold;
 }
 
 .octane-checkbox-label {
     color: #d0d0d0;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-xs) !important;
     cursor: pointer;
     user-select: none;
 }
@@ -339,7 +380,7 @@
     color: #e0e0e0;
     padding: 1px 2px;
     border-radius: 0px;
-    font-size: var(--font-size-tiny);
+    font-size: var(--font-size-xs) !important;
     text-align: right;
     height: 12px;
     border-left: none;
@@ -365,7 +406,7 @@
     color: #e0e0e0;
     padding: 2px 4px;
     border-radius: 2px;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     text-align: right;
 }
 
@@ -381,7 +422,7 @@
     color: #e0e0e0;
     padding: 2px 6px;
     border-radius: 2px;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-xs) !important;
     min-width: 100px;
 }
 
@@ -397,7 +438,7 @@
     color: #e0e0e0;
     padding: 2px 6px;
     border-radius: 2px;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-xs) !important;
     flex: 1;
 }
 
@@ -408,7 +449,7 @@
 
 .octane-parameter-type {
     color: #888;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     font-style: italic;
 }
 
@@ -459,7 +500,7 @@
     color: #e0e0e0;
     padding: 3px 6px;
     border-radius: 3px;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-xs) !important;
     text-align: right;
     font-family: var(--font-family-mono);
 }
@@ -478,7 +519,7 @@
     color: #e0e0e0;
     padding: 3px 4px;
     border-radius: 3px;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     text-align: right;
     font-family: var(--font-family-mono);
 }
@@ -491,7 +532,7 @@
 
 .octane-vector-separator {
     color: #888;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     font-weight: bold;
     margin: 0 2px;
 }
@@ -504,7 +545,7 @@
     color: #e0e0e0;
     padding: 3px 6px;
     border-radius: 3px;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-xs) !important;
 }
 
 .octane-text-input:focus {
@@ -553,7 +594,7 @@
     top: -2px;
     left: 2px;
     color: #4CAF50;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-xs) !important;
     font-weight: bold;
     opacity: 0;
     transition: opacity 0.2s;
@@ -575,7 +616,7 @@
     color: #e0e0e0;
     padding: 3px 6px;
     border-radius: 3px;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-xs) !important;
     min-width: 100px;
     cursor: pointer;
 }
@@ -634,7 +675,7 @@
     background: #3a3a3a;
     border: 1px solid #666;
     color: #888;
-    font-size: var(--font-size-micro);
+    font-size: var(--font-size-xs) !important;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -661,7 +702,7 @@
 /* Units */
 .octane-unit {
     color: #888;
-    font-size: var(--font-size-tiny);
+    font-size: var(--font-size-xs) !important;
     margin-left: 1px;
     flex-shrink: 0;
 }
@@ -752,7 +793,7 @@
     padding: 2px 0;
     cursor: pointer;
     user-select: none;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     line-height: 1.3;
 }
 
@@ -785,7 +826,7 @@
 }
 
 .node-icon {
-    font-size: var(--font-size-tiny);
+    font-size: var(--font-size-xs) !important;
     color: white;
 }
 
@@ -803,14 +844,14 @@
 .collapse-icon {
     width: 10px;
     text-align: center;
-    font-size: var(--font-size-tiny);
+    font-size: var(--font-size-xs) !important;
     color: #ccc;
     cursor: pointer;
     margin-right: 2px;
 }
 
 .node-title {
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     color: #e0e0e0;
     flex: 1;
 }
@@ -866,11 +907,11 @@
     gap: 6px;
     font-weight: 600;
     color: #f0f0f0;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-xs) !important;
 }
 
 .octane-section-icon {
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-xs) !important;
     color: #ccc;
     width: 14px;
     text-align: center;
@@ -879,7 +920,7 @@
 .octane-section-title {
     font-weight: var(--font-weight-bold);
     color: #f0f0f0;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     font-family: var(--font-family);
 }
 
@@ -906,7 +947,7 @@
     transition: background-color 0.2s;
     font-weight: var(--font-weight-normal);
     color: #f0f0f0;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     font-family: var(--font-family);
 }
 
@@ -915,7 +956,7 @@
 }
 
 .octane-group-toggle {
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     color: #ccc;
     width: 12px;
     text-align: center;
@@ -929,7 +970,7 @@
 .octane-group-title {
     font-weight: 600;
     color: #f0f0f0;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-xs) !important;
 }
 
 .octane-group-content {
@@ -962,7 +1003,7 @@
 
 .octane-parameter-icon {
     color: #888;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-xs) !important;
     width: 16px;
     text-align: center;
     flex-shrink: 0;
@@ -992,7 +1033,7 @@
 
 .octane-slider-handle {
     color: #888;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     cursor: pointer;
     user-select: none;
     padding: 0 2px;
@@ -1008,7 +1049,7 @@
     border: none;
     color: #e0e0e0;
     padding: 2px 4px;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     text-align: center;
     width: 60px;
     font-family: var(--font-family-mono);
@@ -1021,7 +1062,7 @@
 
 .octane-unit {
     color: #888;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     margin-left: 2px;
     flex-shrink: 0;
 }
@@ -1073,7 +1114,7 @@
     top: -2px !important;
     left: 1px !important;
     color: #4CAF50 !important;
-    font-size: var(--font-size-small) !important;
+    font-size: var(--font-size-xs) !important;
     font-weight: bold !important;
     display: block !important;
 }
@@ -1085,7 +1126,7 @@
     color: #e0e0e0;
     padding: 2px 6px;
     border-radius: 2px;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-xs) !important;
     min-width: 120px;
     cursor: pointer;
     font-family: var(--font-family);
