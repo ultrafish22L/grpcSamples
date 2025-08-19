@@ -504,7 +504,7 @@ class DebugConsole {
             
             // Create complete log file content
             const now = new Date();
-            let logContent = `OctaneWeb Debug Console - Persistent Log\n`;
+            let logContent = `OctaneWeb Debug Console - System Log\n`;
             logContent += `Session ID: ${this.sessionId}\n`;
             logContent += `Last Updated: ${now.toISOString()}\n`;
             logContent += `Total Logs: ${allLogs.length}\n`;
@@ -521,31 +521,47 @@ class DebugConsole {
             logContent += `System Information:\n`;
             logContent += `User Agent: ${navigator.userAgent}\n`;
             logContent += `URL: ${window.location.href}\n`;
-            logContent += `Session Duration: ${Math.round((now - new Date(this.sessionId.split('-')[1] + 'T' + this.sessionId.split('-')[2].replace(/-/g, ':'))) / 1000)}s\n`;
             logContent += `Last Updated: ${now.toISOString()}\n`;
             
-            // Create and auto-download updated file
-            const blob = new Blob([logContent], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
+            // Send logs to server for persistent file storage
+            this.saveLogsToServer(logContent);
             
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = this.persistentLogFilename || `octane-debug-${this.sessionId}.log`;
-            a.style.display = 'none';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
+        } catch (error) {
             // Use original console method to avoid infinite recursion
-            if (this.originalLog) {
-                this.originalLog(`💾 Auto-saved ${allLogs.length} logs to persistent file`);
+            if (this.originalError) {
+                this.originalError('❌ Failed to auto-save logs to server:', error);
+            }
+        }
+    }
+    
+    async saveLogsToServer(logContent) {
+        try {
+            const response = await fetch('http://localhost:43332/save-debug-logs', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    sessionId: this.sessionId,
+                    content: logContent,
+                    timestamp: new Date().toISOString()
+                })
+            });
+            
+            if (response.ok) {
+                const result = await response.json();
+                // Use original console method to avoid infinite recursion
+                if (this.originalLog) {
+                    this.originalLog(`💾 Logs saved to server file: ${result.filename}`);
+                }
+            } else {
+                throw new Error(`Server responded with status: ${response.status}`);
             }
             
         } catch (error) {
             // Use original console method to avoid infinite recursion
             if (this.originalError) {
-                this.originalError('❌ Failed to auto-save logs to file:', error);
+                this.originalError('❌ Failed to save logs to server:', error);
             }
         }
     }
