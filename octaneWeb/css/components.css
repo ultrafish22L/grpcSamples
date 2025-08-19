@@ -3002,3 +3002,179 @@ body.drag-over .drop-indicator {
 .parameter-control:focus-within .parameter-icon {
     color: var(--octane-accent);
 }
+
+/* ===== GENERIC NODE RENDERER STYLES ===== */
+/* Layout system for hierarchical node inspector matching Octane screenshot */
+
+/* Node box base styles */
+.node-box {
+    position: relative;
+    margin: 2px 0;
+    background: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: 4px;
+    min-height: 24px;
+    display: flex;
+    align-items: flex-start;
+    transition: all 0.2s ease;
+}
+
+/* Level-based indentation system */
+.node-level-0 {
+    margin-left: 30px; /* Space for icon box */
+}
+
+.node-level-1 {
+    margin-left: 50px; /* 30px base + 20px indent */
+}
+
+.node-level-2 {
+    margin-left: 70px; /* 30px base + 40px indent */
+}
+
+.node-level-3 {
+    margin-left: 90px; /* 30px base + 60px indent */
+}
+
+.node-level-4 {
+    margin-left: 110px; /* 30px base + 80px indent */
+}
+
+/* Icon box hanging to the left */
+.node-icon-box {
+    position: absolute;
+    left: -30px;
+    top: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Node content area */
+.node-content {
+    flex: 1;
+    padding: 4px 8px;
+    min-height: 16px;
+}
+
+/* Node header with title and collapse icon */
+.node-header {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.node-header:hover {
+    background: var(--octane-bg-hover);
+    border-radius: 2px;
+}
+
+/* Collapse/expand icons */
+.collapse-icon {
+    font-size: 10px;
+    color: var(--octane-text-secondary);
+    width: 12px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.collapse-icon:hover {
+    color: var(--octane-text-primary);
+}
+
+/* Node title */
+.node-title {
+    font-size: 11px;
+    color: var(--octane-text-primary);
+    font-weight: 500;
+}
+
+/* Children container */
+.node-children {
+    margin-top: 2px;
+    padding-left: 0;
+}
+
+/* Pin group specific styles */
+.pin-group {
+    background: var(--octane-bg-tertiary);
+}
+
+.pin-group .node-title {
+    font-weight: 600;
+    color: var(--octane-text-primary);
+}
+
+/* Parameter specific styles */
+.parameter {
+    background: var(--octane-bg-primary);
+    border-color: var(--octane-border-light);
+}
+
+.parameter .node-header {
+    justify-content: space-between;
+}
+
+.parameter-value {
+    font-size: 11px;
+    color: var(--octane-text-secondary);
+    margin-left: auto;
+}
+
+.parameter-unit {
+    font-size: 10px;
+    color: var(--octane-text-tertiary);
+    margin-left: 2px;
+}
+
+/* Hover states */
+.node-box:hover {
+    background: var(--octane-bg-hover);
+    border-color: var(--octane-border-hover);
+}
+
+.parameter:hover {
+    background: var(--octane-bg-secondary);
+}
+
+/* Selected state */
+.node-box.selected {
+    background: var(--octane-accent-bg);
+    border-color: var(--octane-accent);
+}
+
+.node-box.selected .node-title {
+    color: var(--octane-accent);
+}
+
+/* Empty state */
+.node-inspector-empty {
+    padding: 20px;
+    text-align: center;
+    color: var(--octane-text-secondary);
+    font-size: 11px;
+    font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .node-level-0 { margin-left: 25px; }
+    .node-level-1 { margin-left: 40px; }
+    .node-level-2 { margin-left: 55px; }
+    .node-level-3 { margin-left: 70px; }
+    .node-level-4 { margin-left: 85px; }
+    
+    .node-icon-box {
+        left: -25px;
+        width: 18px;
+        height: 18px;
+        font-size: 11px;
+    }
+}

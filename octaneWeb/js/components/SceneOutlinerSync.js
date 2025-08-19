@@ -396,7 +396,9 @@ class SceneOutlinerSync {
         );
         
         filteredItems.forEach(item => {
-            const icon = this.getOctaneIconFor(item.outtype, item.name);
+            const icon = window.OctaneIconMapper ? 
+                window.OctaneIconMapper.getNodeIcon(item.outtype, item.name) : 
+                this.getOctaneIconFor(item.outtype, item.name);
             const nodeId = `item-${item.handle}`;
             const isSelected = item.name === 'Render target'; // Match Octane screenshot
             const hasChildren = item.children && item.children.length > 0;

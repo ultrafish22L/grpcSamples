@@ -20,9 +20,20 @@ class NodeInspector extends OctaneComponent {
         this.nodeCache = new Map(); // handle -> nodeData
         this.nodeLookup = new Map(); // name -> handle
         this.sceneDataLoaded = false;
+        
+        // Initialize Generic Node Renderer
+        this.genericRenderer = null;
     }
     
     async onInitialize() {
+        // Initialize Generic Node Renderer
+        if (window.GenericNodeRenderer && window.OctaneIconMapper) {
+            this.genericRenderer = new window.GenericNodeRenderer(window.OctaneIconMapper, this.client);
+            console.log('✅ NodeInspector: GenericNodeRenderer initialized');
+        } else {
+            console.warn('⚠️ NodeInspector: GenericNodeRenderer or OctaneIconMapper not available');
+        }
+        
         // Wait for all components to be fully initialized before auto-selection
         this.eventSystem.on('componentsFullyInitialized', () => {
             setTimeout(() => {
@@ -673,19 +684,44 @@ class NodeInspector extends OctaneComponent {
      * This creates the exact structure shown in the node inspector reference
      */
     renderGenericParameterInspector(nodeInfo, parameters, nodeTypeMapping) {
-        window.debugConsole?.addLog('info', ['🎨 NodeInspector: Rendering Octane-style inspector for', nodeInfo.nodeName]);
+        window.debugConsole?.addLog('info', ['🎨 NodeInspector: Rendering generic node inspector for', nodeInfo.nodeName]);
         
-        // Update the existing dropdown (don't create a new one)
-        this.updateNodeSelectorDropdown(nodeInfo.nodeName);
+        let html = '';
         
-        // Build HTML matching the exact Octane UI structure from the reference image
-        let html = this.renderOctaneStyleInspector(nodeInfo, parameters);
+        // Use GenericNodeRenderer if available, otherwise fallback to hard-coded approach
+        if (this.genericRenderer) {
+            // Find the node data from cache
+            const nodeData = this.findNodeInSceneItems(nodeInfo.handle);
+            if (nodeData) {
+                console.log('🚀 NodeInspector: Using GenericNodeRenderer for', nodeData.name);
+                window.debugConsole?.addLog('info', ['🚀 NodeInspector: Using GenericNodeRenderer for', nodeData.name]);
+                
+                // TODO: Fetch ApiNodePinInfo for real pin group data
+                // For now, render with just the node tree data
+                html = this.genericRenderer.renderNode(nodeData, null);
+            } else {
+                console.warn('⚠️ NodeInspector: Node data not found, using fallback');
+                window.debugConsole?.addLog('warn', ['⚠️ NodeInspector: Node data not found for handle', nodeInfo.handle]);
+                html = this.renderOctaneStyleInspector(nodeInfo, parameters);
+            }
+        } else {
+            console.log('📋 NodeInspector: Using fallback hard-coded renderer');
+            window.debugConsole?.addLog('info', ['📋 NodeInspector: Using fallback renderer']);
+            html = this.renderOctaneStyleInspector(nodeInfo, parameters);
+        }
         
         // Update the inspector container directly
         const inspectorContainer = document.getElementById('node-inspector');
         if (inspectorContainer) {
             inspectorContainer.innerHTML = html;
-            window.debugConsole?.addLog('info', ['✅ NodeInspector: Octane-style inspector rendered successfully']);
+            
+            // Setup event handlers for GenericNodeRenderer if used
+            if (this.genericRenderer && html.includes('node-box')) {
+                this.genericRenderer.setupEventHandlers(inspectorContainer);
+                window.debugConsole?.addLog('info', ['✅ NodeInspector: GenericNodeRenderer event handlers setup']);
+            }
+            
+            window.debugConsole?.addLog('info', ['✅ NodeInspector: Inspector rendered successfully']);
         } else {
             console.error('❌ Node inspector container not found');
             window.debugConsole?.addLog('error', ['❌ NodeInspector: Container not found']);
@@ -694,7 +730,7 @@ class NodeInspector extends OctaneComponent {
         // Setup event listeners for the new content
         this.setupInspectorEventListeners();
         
-        window.debugConsole?.addLog('info', ['✅ NodeInspector: Rendered Octane-style inspector']);
+        window.debugConsole?.addLog('info', ['✅ NodeInspector: Rendered node inspector']);
     }
     
     /**
