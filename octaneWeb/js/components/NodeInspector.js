@@ -636,36 +636,109 @@ class NodeInspector extends OctaneComponent {
         
         try {
             // Get pin count for this node (single API call)
+            window.debugConsole?.addLog('info', ['🔍 NodeInspector: Calling ApiNode/pinCount for handle', nodeHandle]);
             const pinCountResult = window.grpcApi.makeApiCallSync('ApiNode/pinCount', nodeHandle);
+            window.debugConsole?.addLog('info', ['🔍 NodeInspector: Pin count result for handle', nodeHandle, ':', JSON.stringify(pinCountResult)]);
             
-            if (pinCountResult && pinCountResult.success && pinCountResult.data > 0) {
-                const pinCount = pinCountResult.data;
-                window.debugConsole?.addLog('info', ['📌 NodeInspector: Node has', pinCount, 'pins']);
+            if (pinCountResult && pinCountResult.success) {
+                window.debugConsole?.addLog('info', ['📌 NodeInspector: Pin count API success, data:', JSON.stringify(pinCountResult.data), 'type:', typeof pinCountResult.data]);
                 
-                // Load all pin values generically
-                for (let pinIndex = 0; pinIndex < pinCount; pinIndex++) {
-                    try {
-                        // Get pin name
-                        const pinNameResult = window.grpcApi.makeApiCallSync('ApiNode/pinName', [nodeHandle, pinIndex]);
-                        if (pinNameResult && pinNameResult.success) {
-                            const pinName = pinNameResult.data;
-                            
-                            // Get pin value
-                            const pinValueResult = window.grpcApi.makeApiCallSync('ApiNode/pinValue', [nodeHandle, pinIndex]);
-                            if (pinValueResult && pinValueResult.success) {
-                                parameters[pinName] = {
-                                    value: pinValueResult.data,
-                                    pinIndex: pinIndex,
-                                    type: 'generic'
-                                };
-                                
-                                window.debugConsole?.addLog('info', ['📍 NodeInspector: Loaded pin', pinName, '=', pinValueResult.data]);
+                // Extract the actual pin count value
+                let pinCount = 0;
+                if (typeof pinCountResult.data === 'number') {
+                    pinCount = pinCountResult.data;
+                } else if (typeof pinCountResult.data === 'object' && pinCountResult.data !== null) {
+                    // Handle different possible object structures
+                    if (pinCountResult.data.value !== undefined) {
+                        pinCount = pinCountResult.data.value;
+                    } else if (pinCountResult.data.count !== undefined) {
+                        pinCount = pinCountResult.data.count;
+                    } else if (pinCountResult.data.pinCount !== undefined) {
+                        pinCount = pinCountResult.data.pinCount;
+                    } else {
+                        // Try to get the first numeric property
+                        for (const key in pinCountResult.data) {
+                            if (typeof pinCountResult.data[key] === 'number') {
+                                pinCount = pinCountResult.data[key];
+                                window.debugConsole?.addLog('info', ['🔍 NodeInspector: Found numeric property', key, '=', pinCountResult.data[key]]);
+                                break;
                             }
                         }
-                    } catch (pinError) {
-                        window.debugConsole?.addLog('warn', ['⚠️ NodeInspector: Failed to load pin', pinIndex, pinError.message]);
                     }
                 }
+                
+                window.debugConsole?.addLog('info', ['📌 NodeInspector: Extracted pin count:', pinCount]);
+                
+                if (pinCount > 0) {
+                    window.debugConsole?.addLog('info', ['📌 NodeInspector: Node has', pinCount, 'pins']);
+                
+                // Load all pin values generically
+                window.debugConsole?.addLog('info', ['🔄 NodeInspector: Starting to load', pinCount, 'pins']);
+                for (let pinIndex = 0; pinIndex < pinCount; pinIndex++) {
+                    window.debugConsole?.addLog('info', ['🔄 NodeInspector: Loading pin', pinIndex, 'of', pinCount]);
+                    try {
+                        // Get pin name using ApiNode/pinName
+                        const pinNameResult = window.grpcApi.makeApiCallSync('ApiNode/pinName', [nodeHandle, pinIndex]);
+                        window.debugConsole?.addLog('info', ['🏷️ NodeInspector: Pin name result for index', pinIndex, ':', JSON.stringify(pinNameResult)]);
+                        if (pinNameResult && pinNameResult.success) {
+                            const pinName = pinNameResult.data;
+                            window.debugConsole?.addLog('info', ['✅ NodeInspector: Got pin name:', pinName]);
+                            
+                            // Try type-specific ApiItem methods to get pin value
+                            let pinValue = null;
+                            let pinType = 'unknown';
+                            
+                            // Try different type-specific getters (using ApiNode service)
+                            const typeGetters = [
+                                { method: 'ApiNode/getPinBoolIx', type: 'bool' },
+                                { method: 'ApiNode/getPinFloatIx', type: 'float' },
+                                { method: 'ApiNode/getPinFloat2Ix', type: 'float2' },
+                                { method: 'ApiNode/getPinFloat3Ix', type: 'float3' },
+                                { method: 'ApiNode/getPinFloat4Ix', type: 'float4' },
+                                { method: 'ApiNode/getPinIntIx', type: 'int' },
+                                { method: 'ApiNode/getPinInt2Ix', type: 'int2' },
+                                { method: 'ApiNode/getPinInt3Ix', type: 'int3' },
+                                { method: 'ApiNode/getPinInt4Ix', type: 'int4' },
+                                { method: 'ApiNode/getPinStringIx', type: 'string' },
+                                { method: 'ApiNode/getPinFilePathIx', type: 'filepath' }
+                            ];
+                            
+                            for (const getter of typeGetters) {
+                                try {
+                                    const result = window.grpcApi.makeApiCallSync(getter.method, [nodeHandle, pinIndex]);
+                                    if (result && result.success) {
+                                        pinValue = result.data;
+                                        pinType = getter.type;
+                                        window.debugConsole?.addLog('info', ['✅ NodeInspector: Got', getter.type, 'value for pin', pinName, ':', pinValue]);
+                                        break;
+                                    }
+                                } catch (error) {
+                                    // Continue to next type
+                                }
+                            }
+                            
+                            if (pinValue !== null) {
+                                parameters[pinName] = {
+                                    value: pinValue,
+                                    pinIndex: pinIndex,
+                                    type: pinType
+                                };
+                                window.debugConsole?.addLog('info', ['✅ NodeInspector: Added parameter:', pinName, 'type:', pinType, 'value:', pinValue]);
+                            } else {
+                                window.debugConsole?.addLog('warn', ['❌ NodeInspector: Failed to get value for pin', pinName, 'at index', pinIndex]);
+                            }
+                        } else {
+                            window.debugConsole?.addLog('warn', ['❌ NodeInspector: Failed to get pin name for index', pinIndex]);
+                        }
+                    } catch (pinError) {
+                        window.debugConsole?.addLog('error', ['💥 NodeInspector: Error loading pin', pinIndex, ':', pinError.message]);
+                    }
+                }
+                } else {
+                    window.debugConsole?.addLog('warn', ['⚠️ NodeInspector: Pin count is 0 for handle', nodeHandle]);
+                }
+            } else {
+                window.debugConsole?.addLog('error', ['❌ NodeInspector: Pin count API failed for handle', nodeHandle, 'result:', pinCountResult]);
             }
             
         } catch (error) {
