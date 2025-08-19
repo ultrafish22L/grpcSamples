@@ -52,8 +52,12 @@ class GenericNodeRenderer {
         }
         
         // Render pin groups if pinInfo is available
-        if (pinInfo && pinInfo.groups) {
-            html += this.renderPinGroups(pinInfo.groups, 1);
+        if (pinInfo) {
+            // Handle both formats: pinInfo.groups or direct array
+            const groups = pinInfo.groups || pinInfo;
+            if (Array.isArray(groups) && groups.length > 0) {
+                html += this.renderPinGroups(groups, 1);
+            }
         }
         
         return html;
@@ -288,41 +292,228 @@ class GenericNodeRenderer {
     }
     
     /**
-     * Render a single pin/parameter
+     * Render a single pin/parameter with interactive controls
      * @param {Object} pinData - Pin data
      * @param {number} level - Indentation level
      * @returns {string} - HTML for the pin
      */
     renderPin(pinData, level) {
-        const icon = this.iconMapper?.getParameterIcon(pinData.type) || '⚙';
+        const icon = this.getParameterIcon(pinData);
         const color = this.iconMapper?.getNodeColor('PARAMETER') || '#444';
         const hasValue = pinData.value !== undefined && pinData.value !== null;
         
         let html = `
-            <div class="node-box node-level-${level} parameter" data-pin-name="${pinData.name}">
-                <div class="node-icon-box" style="background-color: ${color}">
-                    <span class="node-icon">${icon}</span>
+            <div class="octane-parameter-row" data-pin-name="${pinData.name}">
+                <div class="octane-parameter-label">
+                    <span class="octane-parameter-icon">${icon}</span>
+                    <span class="octane-parameter-name">${pinData.name}</span>
                 </div>
-                <div class="node-content">
-                    <div class="node-header">
-                        <span class="node-title">${pinData.name}:</span>
+                <div class="octane-parameter-control">
         `;
         
-        // Add value display if available
-        if (hasValue) {
-            html += `<span class="parameter-value">${pinData.value}</span>`;
-            if (pinData.unit) {
-                html += `<span class="parameter-unit">${pinData.unit}</span>`;
-            }
-        }
+        // Create appropriate control based on parameter type and value
+        html += this.createParameterControl(pinData);
         
         html += `
-                    </div>
                 </div>
             </div>
         `;
         
         return html;
+    }
+    
+    /**
+     * Get appropriate icon for parameter type
+     * @param {Object} pinData - Pin data
+     * @returns {string} - Icon for the parameter
+     */
+    getParameterIcon(pinData) {
+        // Determine parameter type from name and value
+        const name = pinData.name.toLowerCase();
+        const value = pinData.value;
+        
+        // Boolean parameters
+        if (typeof value === 'boolean' || name.includes('enabled') || name.includes('orthographic') || 
+            name.includes('smooth') || name.includes('cast') || name.includes('swap') || 
+            name.includes('lock') || name.includes('invert') || name.includes('alpha')) {
+            return '☑️';
+        }
+        
+        // Numeric parameters
+        if (typeof value === 'number' || name.includes('width') || name.includes('length') || 
+            name.includes('stop') || name.includes('view') || name.includes('scale') || 
+            name.includes('depth') || name.includes('distance') || name.includes('ratio') || 
+            name.includes('samples') || name.includes('power') || name.includes('intensity') ||
+            name.includes('size') || name.includes('angle') || name.includes('time') ||
+            name.includes('offset') || name.includes('blur') || name.includes('exposure')) {
+            return '🔢';
+        }
+        
+        // Color parameters
+        if (name.includes('color') || name.includes('diffuse') || name.includes('filter')) {
+            return '⬜';
+        }
+        
+        // Dropdown/enum parameters
+        if (name.includes('mode') || name.includes('model') || name.includes('type') || 
+            name.includes('alignment') || name.includes('action') || name.includes('order') ||
+            name.includes('curve') || name.includes('quality') || name.includes('denoiser')) {
+            return '📋';
+        }
+        
+        // Vector/position parameters
+        if (name.includes('position') || name.includes('target') || name.includes('vector') ||
+            name.includes('direction') || name.includes('shift') || name.includes('resolution')) {
+            return '🔢';
+        }
+        
+        // Default
+        return '⚙️';
+    }
+    
+    /**
+     * Create appropriate control for parameter
+     * @param {Object} pinData - Pin data
+     * @returns {string} - HTML for the control
+     */
+    createParameterControl(pinData) {
+        const name = pinData.name.toLowerCase();
+        const value = pinData.value;
+        const index = pinData.index || 0; // Pin index for gRPC calls
+        
+        // Boolean parameters - checkbox
+        if (typeof value === 'boolean' || name.includes('enabled') || name.includes('orthographic') || 
+            name.includes('smooth') || name.includes('cast') || name.includes('swap') || 
+            name.includes('lock') || name.includes('invert') || name.includes('alpha')) {
+            const checked = value === true || value === 'true' ? 'checked' : '';
+            return `<input type="checkbox" class="octane-checkbox parameter-control" ${checked} 
+                           data-parameter="${pinData.name}" data-index="${index}" data-type="boolean">`;
+        }
+        
+        // Numeric parameters - number input
+        if (typeof value === 'number' || (!isNaN(parseFloat(value)) && isFinite(value))) {
+            const numValue = typeof value === 'number' ? value : parseFloat(value) || 0;
+            return `<input type="number" class="octane-number-input parameter-control" value="${numValue}" step="0.001" 
+                           data-parameter="${pinData.name}" data-index="${index}" data-type="number">`;
+        }
+        
+        // Color parameters - color input
+        if (name.includes('color') || name.includes('diffuse') || name.includes('filter')) {
+            const colorValue = this.formatColorValue(value);
+            return `<input type="color" class="octane-color-input parameter-control" value="${colorValue}" 
+                           data-parameter="${pinData.name}" data-index="${index}" data-type="color">`;
+        }
+        
+        // Dropdown parameters
+        if (name.includes('mode') || name.includes('model') || name.includes('type') || 
+            name.includes('alignment') || name.includes('action') || name.includes('order') ||
+            name.includes('curve') || name.includes('quality') || name.includes('denoiser')) {
+            return this.createDropdownControl(pinData);
+        }
+        
+        // Vector parameters (like position, target)
+        if (name.includes('position') || name.includes('target') || name.includes('vector') ||
+            name.includes('direction') || name.includes('shift') || name.includes('resolution')) {
+            return this.createVectorControl(pinData);
+        }
+        
+        // Default - text input
+        return `<input type="text" class="octane-text-input parameter-control" value="${value || ''}" 
+                       data-parameter="${pinData.name}" data-index="${index}" data-type="text">`;
+    }
+    
+    /**
+     * Create dropdown control for enum parameters
+     * @param {Object} pinData - Pin data
+     * @returns {string} - HTML for dropdown
+     */
+    createDropdownControl(pinData) {
+        const name = pinData.name.toLowerCase();
+        const index = pinData.index || 0;
+        let options = [];
+        
+        // Common dropdown options based on parameter name
+        if (name.includes('mode')) {
+            options = ['Auto', 'Manual', 'Custom'];
+        } else if (name.includes('model')) {
+            options = ['Standard', 'Advanced', 'Professional'];
+        } else if (name.includes('type')) {
+            options = ['Default', 'Custom', 'Advanced'];
+        } else if (name.includes('quality')) {
+            options = ['Low', 'Medium', 'High', 'Ultra'];
+        } else if (name.includes('denoiser')) {
+            options = ['None', 'OptiX', 'Open Image Denoise'];
+        } else {
+            options = ['Option 1', 'Option 2', 'Option 3'];
+        }
+        
+        let html = `<select class="octane-dropdown parameter-control" data-parameter="${pinData.name}" data-index="${index}" data-type="enum">`;
+        options.forEach((option, optIndex) => {
+            const selected = optIndex === 0 ? 'selected' : '';
+            html += `<option value="${option.toLowerCase()}" ${selected}>${option}</option>`;
+        });
+        html += `</select>`;
+        
+        return html;
+    }
+    
+    /**
+     * Create vector control for multi-value parameters
+     * @param {Object} pinData - Pin data
+     * @returns {string} - HTML for vector control
+     */
+    createVectorControl(pinData) {
+        const index = pinData.index || 0;
+        const value = pinData.value || [];
+        
+        // For vector parameters, create multiple number inputs
+        if (pinData.name.toLowerCase().includes('resolution')) {
+            const x = Array.isArray(value) ? (value[0] || 1920) : 1920;
+            const y = Array.isArray(value) ? (value[1] || 1080) : 1080;
+            return `
+                <div class="octane-vector-control">
+                    <input type="number" class="octane-vector-input parameter-control" value="${x}" 
+                           data-parameter="${pinData.name}" data-index="${index}" data-component="0" data-type="vector2">
+                    <span class="vector-separator">×</span>
+                    <input type="number" class="octane-vector-input parameter-control" value="${y}" 
+                           data-parameter="${pinData.name}" data-index="${index}" data-component="1" data-type="vector2">
+                </div>
+            `;
+        } else {
+            // 3D vector (position, target, etc.)
+            const x = Array.isArray(value) ? (value[0] || 0) : 0;
+            const y = Array.isArray(value) ? (value[1] || 0) : 0;
+            const z = Array.isArray(value) ? (value[2] || 0) : 0;
+            return `
+                <div class="octane-vector-control">
+                    <input type="number" class="octane-vector-input parameter-control" value="${x}" step="0.001" 
+                           data-parameter="${pinData.name}" data-index="${index}" data-component="0" data-type="vector3">
+                    <input type="number" class="octane-vector-input parameter-control" value="${y}" step="0.001" 
+                           data-parameter="${pinData.name}" data-index="${index}" data-component="1" data-type="vector3">
+                    <input type="number" class="octane-vector-input parameter-control" value="${z}" step="0.001" 
+                           data-parameter="${pinData.name}" data-index="${index}" data-component="2" data-type="vector3">
+                </div>
+            `;
+        }
+    }
+    
+    /**
+     * Format color value for HTML color input
+     * @param {*} value - Color value (array, string, or number)
+     * @returns {string} - Hex color string
+     */
+    formatColorValue(value) {
+        if (Array.isArray(value) && value.length >= 3) {
+            // RGB array [r, g, b] where values are 0-1
+            const r = Math.round((value[0] || 0) * 255);
+            const g = Math.round((value[1] || 0) * 255);
+            const b = Math.round((value[2] || 0) * 255);
+            return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+        }
+        if (typeof value === 'string' && value.startsWith('#')) {
+            return value;
+        }
+        return '#ffffff'; // Default white
     }
     
     /**

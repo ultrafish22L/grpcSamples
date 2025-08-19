@@ -3149,6 +3149,172 @@ body.drag-over .drop-indicator {
     margin-top: 4px;
 }
 
+/* ===== OCTANE PARAMETER ROW STYLES ===== */
+/* New parameter control styles for GenericNodeRenderer */
+.octane-parameter-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2px 8px;
+    min-height: 20px;
+    background: transparent;
+    border-radius: 2px;
+    transition: background-color 0.15s ease;
+    gap: 12px;
+}
+
+.octane-parameter-row:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.octane-parameter-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 0 0 auto;
+    min-width: 120px;
+    max-width: 180px;
+}
+
+.octane-parameter-icon {
+    font-size: 12px;
+    width: 16px;
+    text-align: center;
+    flex-shrink: 0;
+    opacity: 0.8;
+}
+
+.octane-parameter-name {
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.octane-parameter-control {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    max-width: 200px;
+}
+
+/* Individual control styles */
+.octane-checkbox {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--octane-accent);
+}
+
+.octane-number-input {
+    width: 60px;
+    height: 18px;
+    background: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 2px;
+    color: #e0e0e0;
+    font-size: var(--font-size-small);
+    padding: 1px 4px;
+    text-align: right;
+    font-family: var(--font-family-mono);
+}
+
+.octane-number-input:focus {
+    outline: none;
+    border-color: var(--octane-accent);
+    background: #333;
+}
+
+.octane-text-input {
+    width: 80px;
+    height: 18px;
+    background: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 2px;
+    color: #e0e0e0;
+    font-size: var(--font-size-small);
+    padding: 1px 4px;
+}
+
+.octane-text-input:focus {
+    outline: none;
+    border-color: var(--octane-accent);
+    background: #333;
+}
+
+.octane-color-input {
+    width: 24px;
+    height: 18px;
+    border: 1px solid #444;
+    border-radius: 2px;
+    cursor: pointer;
+    padding: 0;
+    background: none;
+}
+
+.octane-color-input::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.octane-color-input::-webkit-color-swatch {
+    border: none;
+    border-radius: 1px;
+}
+
+.octane-dropdown {
+    height: 18px;
+    background: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 2px;
+    color: #e0e0e0;
+    font-size: var(--font-size-small);
+    padding: 0 4px;
+    min-width: 80px;
+    cursor: pointer;
+}
+
+.octane-dropdown:focus {
+    outline: none;
+    border-color: var(--octane-accent);
+    background: #333;
+}
+
+/* Vector control styles */
+.octane-vector-control {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.octane-vector-input {
+    width: 45px;
+    height: 18px;
+    background: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 2px;
+    color: #e0e0e0;
+    font-size: var(--font-size-small);
+    padding: 1px 3px;
+    text-align: right;
+    font-family: var(--font-family-mono);
+}
+
+.octane-vector-input:focus {
+    outline: none;
+    border-color: var(--octane-accent);
+    background: #333;
+}
+
+.vector-separator {
+    color: var(--octane-text-secondary);
+    font-size: var(--font-size-small);
+    margin: 0 1px;
+}
+
 /* Parameter rows within nodes - ONLY for Node Inspector */
 .node-inspector .node-parameter-row {
     margin: 2px 0;

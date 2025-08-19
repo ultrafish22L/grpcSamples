@@ -295,6 +295,22 @@ class NodeInspector extends OctaneComponent {
             });
         });
         
+        // NEW: Generic parameter control handlers for GenericNodeRenderer controls
+        const parameterControls = this.element.querySelectorAll('.parameter-control');
+        parameterControls.forEach(control => {
+            this.addEventListener(control, 'change', (e) => {
+                console.log('🎛️ Parameter control changed:', e.target.dataset.parameter, e.target.value);
+                this.handleParameterChange(e.target);
+            });
+            
+            // Also handle input events for real-time updates on number inputs
+            if (control.type === 'number' || control.type === 'range') {
+                this.addEventListener(control, 'input', (e) => {
+                    this.handleParameterChange(e.target);
+                });
+            }
+        });
+        
         // Initialize expanded state - all groups expanded by default
         this.initializeExpandedGroups();
     }
@@ -662,22 +678,54 @@ class NodeInspector extends OctaneComponent {
      * This creates a hierarchical tree structure matching the scene outliner
      */
     renderGenericParameterInspector(nodeInfo, parameters, nodeTypeMapping) {
-        window.debugConsole?.addLog('info', ['🎨 NodeInspector: Rendering generic node inspector for', nodeInfo.nodeName]);
+        const nodeName = nodeInfo.nodeName || nodeInfo.name || 'Unknown Node';
+        window.debugConsole?.addLog('info', ['🎨 NodeInspector: Rendering generic node inspector for', nodeName]);
         
-        // Find the node data from cache
-        const nodeData = this.findNodeInSceneItems(nodeInfo.handle);
+        // Handle different calling patterns
+        let nodeData;
+        let nodeHandle;
+        
+        if (nodeInfo.handle) {
+            // Called from selectNode() - nodeInfo has handle
+            nodeHandle = nodeInfo.handle;
+            nodeData = this.findNodeInSceneItems(nodeHandle);
+        } else {
+            // Called from loadAndRenderFullParameterTree() - nodeInfo is the data object
+            nodeHandle = this.selectedNodeHandle;
+            nodeData = this.getCachedNodeData(nodeHandle);
+            if (!nodeData) {
+                // Create minimal node data from the provided info
+                nodeData = {
+                    name: nodeName,
+                    outtype: nodeInfo.nodeType || 'NT_UNKNOWN',
+                    handle: nodeHandle
+                };
+            }
+        }
+
         if (!nodeData) {
-            window.debugConsole?.addLog('error', ['❌ NodeInspector: No node data found for', nodeInfo.handle]);
+            console.error('❌ Node data not found for handle:', nodeHandle);
+            window.debugConsole?.addLog('error', ['❌ NodeInspector: Node data not found', nodeHandle]);
             return;
         }
         
-        // Add the color and icon from nodeTypeMapping to nodeData
-        nodeData.inspectorColor = nodeTypeMapping.color;
-        nodeData.inspectorIcon = nodeTypeMapping.icon;
+        // Add the color and icon from nodeTypeMapping to nodeData (if provided)
+        if (nodeTypeMapping) {
+            nodeData.inspectorColor = nodeTypeMapping.color;
+            nodeData.inspectorIcon = nodeTypeMapping.icon;
+        } else {
+            // Use default values for render targets
+            nodeData.inspectorColor = '#ff6600';
+            nodeData.inspectorIcon = '🎯';
+        }
         
-        // TODO: Fetch ApiNodePinInfo for real pin group data
-        // For now, use the GenericNodeRenderer with the node data
-        const html = this.genericRenderer.renderNode(nodeData, null);
+        // Convert parameters to pin format for the renderer
+        const pinData = this.convertParametersToPinData(parameters);
+        
+        console.log('🎛️ Creating interactive controls for', Object.keys(parameters).length, 'parameters');
+        
+        // Use the GenericNodeRenderer with the node data and pin data
+        const html = this.genericRenderer.renderNode(nodeData, pinData);
         
         // Update the inspector container directly
         const inspectorContainer = document.getElementById('node-inspector');
@@ -693,7 +741,102 @@ class NodeInspector extends OctaneComponent {
         // Setup event listeners for the new content
         this.setupInspectorEventListeners();
         
-        window.debugConsole?.addLog('info', ['✅ NodeInspector: Rendered node inspector']);
+        window.debugConsole?.addLog('info', ['✅ NodeInspector: Rendered node inspector with interactive controls']);
+    }
+    
+    /**
+     * Convert loaded parameters to pin data format for GenericNodeRenderer
+     * @param {Object} parameters - Parameters loaded from API
+     * @returns {Array} - Pin data array grouped by type
+     */
+    convertParametersToPinData(parameters) {
+        if (!parameters || Object.keys(parameters).length === 0) {
+            return [];
+        }
+        
+        // Group parameters by logical groups (similar to Octane's grouping)
+        const groups = {
+            'Physical camera parameters': [],
+            'Viewing angle': [],
+            'Clipping': [],
+            'Depth of field': [],
+            'Stereo': [],
+            'Environment': [],
+            'Sun direction': [],
+            'Geometry': [],
+            'Material': [],
+            'Film settings': [],
+            'Animation': [],
+            'Kernel': [],
+            'Render layer': [],
+            'Render AOVs': [],
+            'Output AOVs': [],
+            'Imager': [],
+            'Post processing': [],
+            'Post volume': []
+        };
+        
+        // Categorize parameters into groups based on their names
+        Object.entries(parameters).forEach(([paramName, paramData]) => {
+            const name = paramName.toLowerCase();
+            let groupName = 'General'; // Default group
+            
+            // Categorize based on parameter name
+            if (name.includes('sensor') || name.includes('focal') || name.includes('stop')) {
+                groupName = 'Physical camera parameters';
+            } else if (name.includes('field') || name.includes('scale') || name.includes('distortion')) {
+                groupName = 'Viewing angle';
+            } else if (name.includes('clip') || name.includes('near') || name.includes('far')) {
+                groupName = 'Clipping';
+            } else if (name.includes('focus') || name.includes('aperture') || name.includes('bokeh')) {
+                groupName = 'Depth of field';
+            } else if (name.includes('stereo') || name.includes('eye')) {
+                groupName = 'Stereo';
+            } else if (name.includes('environment') || name.includes('sky') || name.includes('sun')) {
+                groupName = 'Environment';
+            } else if (name.includes('latitude') || name.includes('longitude') || name.includes('time')) {
+                groupName = 'Sun direction';
+            } else if (name.includes('geometry') || name.includes('mesh')) {
+                groupName = 'Geometry';
+            } else if (name.includes('material') || name.includes('diffuse') || name.includes('roughness')) {
+                groupName = 'Material';
+            } else if (name.includes('resolution') || name.includes('region')) {
+                groupName = 'Film settings';
+            } else if (name.includes('shutter') || name.includes('subframe')) {
+                groupName = 'Animation';
+            } else if (name.includes('samples') || name.includes('depth') || name.includes('epsilon')) {
+                groupName = 'Kernel';
+            }
+            
+            // Create pin object
+            const pinObject = {
+                name: paramName,
+                value: paramData.value,
+                type: paramData.type || 'generic',
+                pinIndex: paramData.pinIndex
+            };
+            
+            // Add to appropriate group
+            if (!groups[groupName]) {
+                groups[groupName] = [];
+            }
+            groups[groupName].push(pinObject);
+        });
+        
+        // Convert groups to the format expected by GenericNodeRenderer
+        const pinGroups = [];
+        Object.entries(groups).forEach(([groupName, pins]) => {
+            if (pins.length > 0) {
+                pinGroups.push({
+                    name: groupName,
+                    pins: pins
+                });
+            }
+        });
+        
+        window.debugConsole?.addLog('info', ['📋 NodeInspector: Created', pinGroups.length, 'pin groups with', Object.keys(parameters).length, 'total parameters']);
+        
+        return pinGroups;
     }
     
     /**
@@ -1568,26 +1711,29 @@ class NodeInspector extends OctaneComponent {
      * Handle parameter value changes with safe API calls
      */
     async handleParameterChange(element) {
-        if (!this.selectedNodeHandle || !element.dataset.index) {
+        if (!this.selectedNodeHandle) {
+            console.warn('⚠️ No selected node handle for parameter change');
             return;
         }
         
-        const index = parseInt(element.dataset.index);
+        // Handle both old and new parameter systems
+        const index = element.dataset.index ? parseInt(element.dataset.index) : 0;
+        const parameterName = element.dataset.parameter || element.id || element.dataset.param;
         const newValue = this.getElementValue(element);
         
-        console.log(`🔄 Updating parameter at pin ${index} to:`, newValue);
+        console.log(`🔄 Updating parameter "${parameterName}" at pin ${index} to:`, newValue);
         
         try {
             const result = await this.setParameterValueSafe(this.selectedNodeHandle, index, newValue);
             if (result.success) {
-                console.log(`✅ Parameter updated successfully`);
+                console.log(`✅ Parameter "${parameterName}" updated successfully`);
                 // Update UI to reflect change
                 this.updateParameterDisplay(element, newValue);
             } else {
-                console.error(`❌ Failed to update parameter:`, result.error);
+                console.error(`❌ Failed to update parameter "${parameterName}":`, result.error);
             }
         } catch (error) {
-            console.error(`❌ Error updating parameter:`, error);
+            console.error(`❌ Error updating parameter "${parameterName}":`, error);
         }
     }
     
@@ -1599,8 +1745,25 @@ class NodeInspector extends OctaneComponent {
             return element.checked;
         } else if (element.type === 'number' || element.type === 'range') {
             return parseFloat(element.value);
+        } else if (element.type === 'color') {
+            // Convert hex color to RGB array [r, g, b] with values 0-1
+            const hex = element.value;
+            const r = parseInt(hex.substr(1, 2), 16) / 255;
+            const g = parseInt(hex.substr(3, 2), 16) / 255;
+            const b = parseInt(hex.substr(5, 2), 16) / 255;
+            return [r, g, b];
         } else if (element.tagName === 'SELECT') {
             return element.value;
+        } else if (element.dataset.type === 'vector3' || element.dataset.type === 'vector2') {
+            // For vector controls, collect all components
+            const parameterName = element.dataset.parameter;
+            const vectorContainer = element.closest('.octane-vector-control');
+            if (vectorContainer) {
+                const inputs = vectorContainer.querySelectorAll(`[data-parameter="${parameterName}"]`);
+                const values = Array.from(inputs).map(input => parseFloat(input.value) || 0);
+                return values;
+            }
+            return parseFloat(element.value) || 0;
         } else {
             return element.value;
         }
@@ -1636,65 +1799,30 @@ class NodeInspector extends OctaneComponent {
     }
     
     doRenderFullParameterInspector(data, parameters) {
-        console.log('🎨 OCTANE STYLE: Rendering full parameter inspector for:', data.nodeName);
+        console.log('🎨 GENERIC RENDERER: Rendering full parameter inspector for:', data.nodeName);
         
         const nodeType = this.getCachedNodeData(this.selectedNodeHandle)?.outtype || 'NT_CAMERA';
         const nodeName = data.nodeName || this.selectedNodeName || 'Unknown Node';
         
-        // Update the existing dropdown in the HTML structure
-        this.updateNodeSelectorDropdown(nodeName);
+        // Create node info object for GenericNodeRenderer
+        const nodeInfo = {
+            nodeName: nodeName,
+            nodeType: nodeType,
+            handle: this.selectedNodeHandle
+        };
         
-        // Create the inspector content HTML structure matching reference screenshot
-        let inspectorHtml = '';
+        // Create default node type mapping
+        const nodeTypeMapping = {
+            color: '#ff6600',
+            icon: '🎯'
+        };
         
-        // Add Scene section (collapsible)
-        const sceneExpanded = this.shouldSectionBeExpanded('scene');
-        const sceneIcon = sceneExpanded ? '▼' : '▶';
-        const sceneContentStyle = sceneExpanded ? 'display: block;' : 'display: none;';
+        console.log('🎛️ Using GenericNodeRenderer for interactive controls');
         
-        inspectorHtml += `
-            <div class="octane-section">
-                <div class="octane-section-header" data-group="scene">
-                    <span class="octane-section-icon">${sceneIcon}</span>
-                    <span class="octane-section-title">Scene</span>
-                </div>
-                <div class="octane-section-content" data-group-content="scene" style="${sceneContentStyle}">
-        `;
+        // Use the GenericNodeRenderer system for interactive controls
+        this.renderGenericParameterInspector(nodeInfo, parameters, nodeTypeMapping);
         
-        // Add Camera subsection for camera nodes
-        if (nodeType === 'NT_CAMERA' || nodeName.toLowerCase().includes('camera')) {
-            inspectorHtml += `
-                <div class="octane-subsection">
-                    <div class="octane-subsection-header">
-                        <span class="octane-node-icon">📷</span>
-                        <span class="octane-subsection-title">Thin lens camera</span>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Render parameter groups based on live data
-        inspectorHtml += this.renderOctaneParameterGroups(parameters);
-        
-        inspectorHtml += `
-                </div>
-            </div>
-            </div>
-        `;
-        
-        // Update only the inspector content area, not the entire panel
-        const contentArea = this.element.querySelector('.panel-content .node-inspector');
-        if (contentArea) {
-            contentArea.innerHTML = inspectorHtml;
-        } else {
-            // Fallback: update entire element if structure is different
-            this.element.innerHTML = inspectorHtml;
-        }
-        
-        // Setup event handlers for the new Octane-style controls
-        this.setupOctaneInspectorEventListeners();
-        
-        console.log('✅ OCTANE STYLE: Full parameter inspector rendered successfully');
+        console.log('✅ GENERIC RENDERER: Full parameter inspector rendered successfully');
     }
     
     /**
@@ -1841,7 +1969,7 @@ class NodeInspector extends OctaneComponent {
                         <span class="octane-group-title">${this.getGroupDisplayName(groupName)}</span>
                     </div>
                     <div class="octane-group-content" data-group-content="${groupName}" style="${contentStyle}">
-                        ${this.renderParametersInGroup(groupParams)}
+                        <!-- OLD METHOD REMOVED - Parameters now rendered by GenericNodeRenderer -->
                     </div>
                 </div>
             `;
@@ -1924,989 +2052,8 @@ class NodeInspector extends OctaneComponent {
         return displayNames[groupName] || groupName;
     }
     
-    /**
-     * Render individual parameters within a group
-     */
-    renderParametersInGroup(parameters) {
-        return parameters.map(param => {
-            return this.renderSingleParameter(param);
-        }).join('');
-    }
+    // OLD UNUSED METHODS REMOVED - See node_inspector_old_code.txt for backup
     
-    /**
-     * Render a single parameter with proper Octane styling
-     */
-    renderSingleParameter(param) {
-        const { name, label, type, value, index } = param;
-        const displayName = label || name;
-        const paramId = `param_${name}_${index}`;
-        
-        // Determine parameter type and render appropriate control
-        if (type === 'PT_BOOL' || displayName.toLowerCase().includes('orthographic') || 
-            displayName.toLowerCase().includes('auto-focus') || displayName.toLowerCase().includes('perspective')) {
-            return this.renderCheckboxParameter(paramId, displayName, value);
-        } else if (type === 'PT_FLOAT' || type === 'PT_INT' || 
-                   displayName.toLowerCase().includes('width') || displayName.toLowerCase().includes('length') ||
-                   displayName.toLowerCase().includes('depth') || displayName.toLowerCase().includes('distance')) {
-            return this.renderNumericParameter(paramId, displayName, value, type);
-        } else if (type === 'PT_FLOAT3' || displayName.toLowerCase().includes('position') || 
-                   displayName.toLowerCase().includes('target') || displayName.toLowerCase().includes('vector')) {
-            return this.renderVectorParameter(paramId, displayName, value);
-        } else if (displayName.toLowerCase().includes('stereo output') || displayName.toLowerCase().includes('stereo mode')) {
-            return this.renderDropdownParameter(paramId, displayName, value);
-        } else {
-            return this.renderGenericParameter(paramId, displayName, value, type);
-        }
-    }
-    
-    /**
-     * Render checkbox parameter
-     */
-    renderCheckboxParameter(paramId, displayName, value) {
-        const checked = value === true || value === 'true' ? 'checked' : '';
-        return `
-            <div class="octane-parameter">
-                <div class="octane-parameter-row">
-                    <div class="octane-parameter-checkbox-container">
-                        <input type="checkbox" id="${paramId}" class="octane-checkbox" ${checked}>
-                        <label for="${paramId}" class="octane-checkbox-label">${displayName}</label>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-    
-    /**
-     * Render numeric parameter with slider
-     */
-    renderNumericParameter(paramId, displayName, value, type) {
-        const numValue = parseFloat(value) || 0;
-        const displayValue = type === 'PT_INT' ? Math.round(numValue) : numValue.toFixed(3);
-        
-        return `
-            <div class="octane-parameter">
-                <div class="octane-parameter-row">
-                    <div class="octane-parameter-label">${displayName}:</div>
-                    <div class="octane-parameter-controls">
-                        <div class="octane-slider-container">
-                            <div class="octane-slider-track">
-                                <div class="octane-slider-fill" style="width: 50%;"></div>
-                                <div class="octane-slider-thumb" style="left: 50%;"></div>
-                            </div>
-                        </div>
-                        <input type="number" id="${paramId}" class="octane-number-input" value="${displayValue}" step="${type === 'PT_INT' ? '1' : '0.001'}">
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-    
-    /**
-     * Render vector parameter (3 components)
-     */
-    renderVectorParameter(paramId, displayName, value) {
-        // Parse vector value (could be array or string)
-        let x = 0, y = 0, z = 0;
-        if (Array.isArray(value)) {
-            [x, y, z] = value;
-        } else if (typeof value === 'string') {
-            const parts = value.split(',').map(v => parseFloat(v.trim()) || 0);
-            [x, y, z] = parts;
-        }
-        
-        return `
-            <div class="octane-parameter">
-                <div class="octane-parameter-row">
-                    <div class="octane-parameter-label">${displayName}:</div>
-                    <div class="octane-vector-controls">
-                        <input type="number" class="octane-vector-input" value="${x.toFixed(3)}" step="0.001" data-component="x">
-                        <input type="number" class="octane-vector-input" value="${y.toFixed(3)}" step="0.001" data-component="y">
-                        <input type="number" class="octane-vector-input" value="${z.toFixed(3)}" step="0.001" data-component="z">
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-    
-    /**
-     * Render dropdown parameter
-     */
-    renderDropdownParameter(paramId, displayName, value) {
-        return `
-            <div class="octane-parameter">
-                <div class="octane-parameter-row">
-                    <div class="octane-parameter-label">${displayName}:</div>
-                    <div class="octane-parameter-controls">
-                        <select id="${paramId}" class="octane-dropdown">
-                            <option value="${value}" selected>${value || 'None'}</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-    
-    /**
-     * Render generic parameter
-     */
-    renderGenericParameter(paramId, displayName, value, type) {
-        return `
-            <div class="octane-parameter">
-                <div class="octane-parameter-row">
-                    <div class="octane-parameter-label">${displayName}:</div>
-                    <div class="octane-parameter-controls">
-                        <input type="text" id="${paramId}" class="octane-text-input" value="${value || ''}" readonly>
-                        <span class="octane-parameter-type">(${type})</span>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-
-    /**
-     * Setup event listeners for Octane-style controls
-     */
-    setupOctaneInspectorEventListeners() {
-        console.log('🎛️ Setting up Octane-style event listeners');
-        
-        // Section collapse/expand functionality (Scene section)
-        const sectionHeaders = this.element.querySelectorAll('.octane-section-header[data-group]');
-        sectionHeaders.forEach(header => {
-            this.addEventListener(header, 'click', (e) => {
-                const groupName = header.dataset.group;
-                this.toggleOctaneSection(groupName);
-            });
-        });
-        
-        // Parameter group collapse/expand functionality
-        const groupHeaders = this.element.querySelectorAll('.octane-group-header[data-group]');
-        groupHeaders.forEach(header => {
-            this.addEventListener(header, 'click', (e) => {
-                const groupName = header.dataset.group;
-                this.toggleOctaneParameterGroup(groupName);
-            });
-        });
-        
-        // Parameter value change handlers
-        this.setupOctaneParameterChangeHandlers();
-    }
-    
-    /**
-     * Toggle Octane section expand/collapse (Scene section)
-     */
-    toggleOctaneSection(sectionName) {
-        const header = this.element.querySelector(`[data-group="${sectionName}"]`);
-        const content = this.element.querySelector(`[data-group-content="${sectionName}"]`);
-        const icon = header?.querySelector('.octane-section-icon');
-        
-        if (header && content && icon) {
-            if (content.style.display === 'none') {
-                // Expand
-                content.style.display = 'block';
-                icon.textContent = '▼';
-            } else {
-                // Collapse
-                content.style.display = 'none';
-                icon.textContent = '▶';
-            }
-        }
-    }
-    
-    /**
-     * Setup parameter change handlers for all Octane-style controls
-     */
-    setupOctaneParameterChangeHandlers() {
-        // Number inputs (float/integer)
-        const numberInputs = this.element.querySelectorAll('.octane-number-input');
-        numberInputs.forEach(input => {
-            this.addEventListener(input, 'change', (e) => {
-                this.handleOctaneParameterChange(e.target);
-            });
-            
-            this.addEventListener(input, 'input', (e) => {
-                this.updateOctaneSliderFromInput(e.target);
-            });
-        });
-        
-        // Sliders
-        const sliders = this.element.querySelectorAll('.octane-slider');
-        sliders.forEach(slider => {
-            this.addEventListener(slider, 'input', (e) => {
-                this.updateOctaneInputFromSlider(e.target);
-            });
-            
-            this.addEventListener(slider, 'change', (e) => {
-                this.handleOctaneParameterChange(e.target);
-            });
-        });
-        
-        // Checkboxes
-        const checkboxes = this.element.querySelectorAll('.octane-checkbox');
-        checkboxes.forEach(checkbox => {
-            this.addEventListener(checkbox, 'change', (e) => {
-                this.handleOctaneParameterChange(e.target);
-                this.updateOctaneCheckboxVisual(e.target);
-            });
-        });
-        
-        // Vector inputs
-        const vectorInputs = this.element.querySelectorAll('.octane-vector-input');
-        vectorInputs.forEach(input => {
-            this.addEventListener(input, 'change', (e) => {
-                this.handleOctaneVectorParameterChange(e.target);
-            });
-        });
-        
-        // Dropdowns
-        const dropdowns = this.element.querySelectorAll('.octane-dropdown');
-        dropdowns.forEach(dropdown => {
-            this.addEventListener(dropdown, 'change', (e) => {
-                this.handleOctaneParameterChange(e.target);
-            });
-        });
-        
-        // Color pickers
-        const colorPickers = this.element.querySelectorAll('.octane-color-picker');
-        colorPickers.forEach(picker => {
-            this.addEventListener(picker, 'change', (e) => {
-                this.handleOctaneColorParameterChange(e.target);
-            });
-        });
-        
-        // Color bars (click to open color picker)
-        const colorBars = this.element.querySelectorAll('.octane-color-bar');
-        colorBars.forEach(bar => {
-            this.addEventListener(bar, 'click', (e) => {
-                const picker = bar.parentElement.querySelector('.octane-color-picker');
-                if (picker) picker.click();
-            });
-        });
-    }
-    
-    /**
-     * Toggle Octane parameter group expand/collapse
-     */
-    toggleOctaneParameterGroup(groupName) {
-        const header = this.element.querySelector(`[data-group="${groupName}"]`);
-        const content = this.element.querySelector(`[data-group-content="${groupName}"]`);
-        const icon = header?.querySelector('.octane-group-icon');
-        
-        if (header && content && icon) {
-            if (this.collapsedGroups.has(groupName)) {
-                // Expand
-                header.classList.remove('collapsed');
-                header.classList.add('expanded');
-                content.style.display = 'block';
-                icon.textContent = '▼';
-                this.collapsedGroups.delete(groupName);
-            } else {
-                // Collapse
-                header.classList.remove('expanded');
-                header.classList.add('collapsed');
-                content.style.display = 'none';
-                icon.textContent = '▶';
-                this.collapsedGroups.add(groupName);
-            }
-        }
-    }
-    
-    /**
-     * Handle parameter value changes for Octane-style controls
-     */
-    async handleOctaneParameterChange(element) {
-        if (!this.selectedNodeHandle || !element.dataset.pinName) {
-            return;
-        }
-        
-        const pinName = element.dataset.pinName;
-        const paramType = element.dataset.paramType;
-        let newValue = this.getOctaneElementValue(element, paramType);
-        
-        console.log(`🔄 OCTANE: Updating parameter ${pinName} (${paramType}) to:`, newValue);
-        
-        try {
-            // Find the parameter index for this pin name
-            const paramIndex = await this.findParameterIndex(this.selectedNodeHandle, pinName);
-            if (paramIndex !== -1) {
-                const result = await this.setParameterValueSafe(this.selectedNodeHandle, paramIndex, newValue);
-                if (result.success) {
-                    console.log(`✅ OCTANE: Parameter ${pinName} updated successfully`);
-                } else {
-                    console.warn(`⚠️ OCTANE: Failed to update parameter ${pinName}`);
-                }
-            }
-        } catch (error) {
-            console.error(`❌ OCTANE: Error updating parameter ${pinName}:`, error);
-        }
-    }
-    
-    /**
-     * Handle vector parameter changes (multiple components)
-     */
-    async handleOctaneVectorParameterChange(element) {
-        if (!this.selectedNodeHandle || !element.dataset.pinName) {
-            return;
-        }
-        
-        const pinName = element.dataset.pinName;
-        const paramType = element.dataset.paramType;
-        const component = parseInt(element.dataset.component);
-        
-        // Get all vector components
-        const vectorInputs = this.element.querySelectorAll(`[data-pin-name="${pinName}"][data-param-type="${paramType}"]`);
-        const vectorValue = [];
-        
-        vectorInputs.forEach((input, index) => {
-            vectorValue[index] = parseFloat(input.value) || 0;
-        });
-        
-        console.log(`🔄 OCTANE: Updating vector parameter ${pinName} to:`, vectorValue);
-        
-        try {
-            const paramIndex = await this.findParameterIndex(this.selectedNodeHandle, pinName);
-            if (paramIndex !== -1) {
-                const result = await this.setParameterValueSafe(this.selectedNodeHandle, paramIndex, vectorValue);
-                if (result.success) {
-                    console.log(`✅ OCTANE: Vector parameter ${pinName} updated successfully`);
-                }
-            }
-        } catch (error) {
-            console.error(`❌ OCTANE: Error updating vector parameter ${pinName}:`, error);
-        }
-    }
-    
-    /**
-     * Handle color parameter changes
-     */
-    async handleOctaneColorParameterChange(element) {
-        const pinName = element.dataset.pinName;
-        const hexColor = element.value;
-        
-        // Convert hex to RGB (0-1 range)
-        const rgb = this.hexToRgb(hexColor);
-        const colorValue = [rgb.r / 255, rgb.g / 255, rgb.b / 255];
-        
-        // Update color bar
-        const colorBar = element.parentElement.querySelector('.octane-color-bar');
-        if (colorBar) {
-            colorBar.style.backgroundColor = hexColor;
-        }
-        
-        console.log(`🔄 OCTANE: Updating color parameter ${pinName} to:`, colorValue);
-        
-        try {
-            const paramIndex = await this.findParameterIndex(this.selectedNodeHandle, pinName);
-            if (paramIndex !== -1) {
-                const result = await this.setParameterValueSafe(this.selectedNodeHandle, paramIndex, colorValue);
-                if (result.success) {
-                    console.log(`✅ OCTANE: Color parameter ${pinName} updated successfully`);
-                }
-            }
-        } catch (error) {
-            console.error(`❌ OCTANE: Error updating color parameter ${pinName}:`, error);
-        }
-    }
-    
-    /**
-     * Update slider when number input changes
-     */
-    updateOctaneSliderFromInput(input) {
-        const slider = input.parentElement.querySelector('.octane-slider');
-        if (slider) {
-            let value = parseFloat(input.value) || 0;
-            const min = parseFloat(slider.min);
-            const max = parseFloat(slider.max);
-            
-            // Clamp value to slider range
-            value = Math.max(min, Math.min(max, value));
-            slider.value = value;
-        }
-    }
-    
-    /**
-     * Update number input when slider changes
-     */
-    updateOctaneInputFromSlider(slider) {
-        const input = slider.parentElement.querySelector('.octane-number-input');
-        if (input) {
-            const value = parseFloat(slider.value);
-            input.value = value.toFixed(6).replace(/\.?0+$/, '');
-        }
-    }
-    
-    /**
-     * Update checkbox visual state
-     */
-    updateOctaneCheckboxVisual(checkbox) {
-        const checkmark = checkbox.parentElement.querySelector('.octane-checkbox-checkmark');
-        if (checkmark) {
-            checkmark.textContent = checkbox.checked ? '✓' : '';
-        }
-    }
-    
-    /**
-     * Get value from Octane-style element based on type
-     */
-    getOctaneElementValue(element, paramType) {
-        switch (paramType) {
-            case 'boolean':
-                return element.checked;
-            case 'float':
-                return parseFloat(element.value) || 0;
-            case 'integer':
-                return parseInt(element.value) || 0;
-            case 'enum':
-            case 'generic':
-            default:
-                return element.value;
-        }
-    }
-    
-    /**
-     * Convert hex color to RGB object
-     */
-    hexToRgb(hex) {
-        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : { r: 0, g: 0, b: 0 };
-    }
-    
-    /**
-     * Find parameter index by pin name
-     */
-    async findParameterIndex(nodeHandle, pinName) {
-        try {
-            const pinCountResult = window.grpcApi.makeApiCallSync('ApiNode/pinCount', nodeHandle);
-            if (!pinCountResult.success) return -1;
-            
-            const pinCount = pinCountResult.data.result;
-            
-            for (let i = 0; i < pinCount; i++) {
-                const nameResult = window.grpcApi.makeApiCallSync('ApiNode/pinNameIx', nodeHandle, { index: i });
-                if (nameResult.success && nameResult.data.result === pinName) {
-                    return i;
-                }
-            }
-        } catch (error) {
-            console.error('Error finding parameter index:', error);
-        }
-        
-        return -1;
-    }
-    
-    /**
-     * Render parameters organized into collapsible groups
-     */
-    renderParameterGroups(parameters) {
-        const groups = this.organizeParametersIntoGroups(parameters);
-        let html = '';
-        
-        Object.keys(groups).forEach(groupName => {
-            const group = groups[groupName];
-            const isCollapsed = this.collapsedGroups.has(groupName);
-            
-            html += `
-                <div class="parameter-group">
-                    <div class="parameter-group-header ${isCollapsed ? 'collapsed' : ''}" 
-                         data-group="${groupName}">
-                        <span class="parameter-group-icon">${isCollapsed ? '▶' : '▼'}</span>
-                        <span class="parameter-group-title">${group.title}</span>
-                        <span class="parameter-group-count">(${group.parameters.length})</span>
-                    </div>
-                    <div class="parameter-group-content" 
-                         data-group-content="${groupName}"
-                         style="display: ${isCollapsed ? 'none' : 'block'}">
-                        ${this.renderParametersInGroup(group.parameters)}
-                    </div>
-                </div>
-            `;
-        });
-        
-        return html;
-    }
-    
-    /**
-     * Organize parameters into logical groups
-     */
-    organizeParametersIntoGroups(parameters) {
-        const groups = {
-            'camera': { title: 'Camera', parameters: [] },
-            'physical-camera': { title: 'Physical camera parameters', parameters: [] },
-            'viewing-angle': { title: 'Viewing angle', parameters: [] },
-            'clipping': { title: 'Clipping', parameters: [] },
-            'depth-of-field': { title: 'Depth of field', parameters: [] },
-            'transform': { title: 'Transform', parameters: [] },
-            'material': { title: 'Material', parameters: [] },
-            'lighting': { title: 'Lighting', parameters: [] },
-            'general': { title: 'General', parameters: [] }
-        };
-        
-        // Group parameters based on their names
-        Object.keys(parameters).forEach(paramName => {
-            const param = parameters[paramName];
-            const lowerName = paramName.toLowerCase();
-            
-            let assigned = false;
-            
-            // Camera parameters
-            if (lowerName.includes('orthographic') || lowerName.includes('camera type')) {
-                groups['camera'].parameters.push({ name: paramName, ...param });
-                assigned = true;
-            }
-            // Physical camera parameters
-            else if (lowerName.includes('sensor') || lowerName.includes('focal') || lowerName.includes('f-stop')) {
-                groups['physical-camera'].parameters.push({ name: paramName, ...param });
-                assigned = true;
-            }
-            // Viewing angle parameters
-            else if (lowerName.includes('field of view') || lowerName.includes('scale of view') || 
-                     lowerName.includes('distortion') || lowerName.includes('lens shift')) {
-                groups['viewing-angle'].parameters.push({ name: paramName, ...param });
-                assigned = true;
-            }
-            // Clipping parameters
-            else if (lowerName.includes('clip') || lowerName.includes('near') || lowerName.includes('far')) {
-                groups['clipping'].parameters.push({ name: paramName, ...param });
-                assigned = true;
-            }
-            // Depth of field parameters
-            else if (lowerName.includes('focus') || lowerName.includes('aperture') || lowerName.includes('bokeh')) {
-                groups['depth-of-field'].parameters.push({ name: paramName, ...param });
-                assigned = true;
-            }
-            // Transform parameters
-            else if (lowerName.includes('position') || lowerName.includes('rotation') || lowerName.includes('scale')) {
-                groups['transform'].parameters.push({ name: paramName, ...param });
-                assigned = true;
-            }
-            // Material parameters
-            else if (lowerName.includes('diffuse') || lowerName.includes('specular') || 
-                     lowerName.includes('roughness') || lowerName.includes('metallic') || lowerName.includes('opacity')) {
-                groups['material'].parameters.push({ name: paramName, ...param });
-                assigned = true;
-            }
-            // Lighting parameters
-            else if (lowerName.includes('intensity') || lowerName.includes('power') || 
-                     lowerName.includes('temperature') || lowerName.includes('color')) {
-                groups['lighting'].parameters.push({ name: paramName, ...param });
-                assigned = true;
-            }
-            
-            // Default to general group
-            if (!assigned) {
-                groups['general'].parameters.push({ name: paramName, ...param });
-            }
-        });
-        
-        // Remove empty groups
-        Object.keys(groups).forEach(groupName => {
-            if (groups[groupName].parameters.length === 0) {
-                delete groups[groupName];
-            }
-        });
-        
-        return groups;
-    }
-    
-    /**
-     * Render parameters within a group
-     */
-    renderParametersInGroup(parameters) {
-        let html = '';
-        
-        parameters.forEach(param => {
-            html += this.renderSingleParameter(param);
-        });
-        
-        return html;
-    }
-    
-    /**
-     * Render a single parameter with appropriate UI control
-     */
-    renderSingleParameter(param) {
-        const paramType = this.detectParameterType(param);
-        const icon = this.getParameterIcon(param.name, paramType);
-        
-        let controlHtml = '';
-        
-        switch (paramType) {
-            case 'checkbox':
-                controlHtml = this.renderCheckboxControl(param);
-                break;
-            case 'numeric-slider':
-                controlHtml = this.renderNumericSliderControl(param);
-                break;
-            case 'numeric-input':
-                controlHtml = this.renderNumericInputControl(param);
-                break;
-            case 'dropdown':
-                controlHtml = this.renderDropdownControl(param);
-                break;
-            case 'color-picker':
-                controlHtml = this.renderColorPickerControl(param);
-                break;
-            default:
-                controlHtml = this.renderTextInputControl(param);
-                break;
-        }
-        
-        return `
-            <div class="parameter-row" data-param="${param.name}" data-type="${paramType}">
-                <div class="parameter-label">
-                    <span class="parameter-icon">${icon}</span>
-                    <span class="parameter-name">${param.name}</span>
-                </div>
-                <div class="parameter-control">
-                    ${controlHtml}
-                </div>
-            </div>
-        `;
-    }
-    
-    // Parameter control rendering methods
-    renderCheckboxControl(param) {
-        const checked = param.value === true || param.value === 'true';
-        return `
-            <label class="parameter-checkbox-container">
-                <input type="checkbox" 
-                       class="parameter-checkbox" 
-                       id="param-${param.name}"
-                       ${checked ? 'checked' : ''}
-                       data-param="${param.name}">
-                <span class="parameter-checkbox-custom"></span>
-            </label>
-        `;
-    }
-    
-    renderNumericSliderControl(param) {
-        const value = param.value || 0;
-        const min = param.min !== undefined ? param.min : 0;
-        const max = param.max !== undefined ? param.max : 100;
-        const step = param.step || 0.01;
-        
-        return `
-            <div class="parameter-numeric-slider-container">
-                <input type="range" 
-                       class="parameter-slider" 
-                       id="slider-${param.name}"
-                       min="${min}" 
-                       max="${max}" 
-                       step="${step}" 
-                       value="${value}"
-                       data-param="${param.name}">
-                <input type="number" 
-                       class="parameter-number-input" 
-                       id="input-${param.name}"
-                       min="${min}" 
-                       max="${max}" 
-                       step="${step}" 
-                       value="${value}"
-                       data-param="${param.name}">
-                <div class="parameter-controls">
-                    <button class="param-increment" data-param="${param.name}" data-step="${step}">▲</button>
-                    <button class="param-decrement" data-param="${param.name}" data-step="${step}">▼</button>
-                </div>
-            </div>
-        `;
-    }
-    
-    renderNumericInputControl(param) {
-        const value = param.value || 0;
-        const step = param.step || 1;
-        
-        return `
-            <div class="parameter-numeric-input-container">
-                <input type="number" 
-                       class="parameter-number-input" 
-                       id="input-${param.name}"
-                       step="${step}" 
-                       value="${value}"
-                       data-param="${param.name}">
-                <div class="parameter-controls">
-                    <button class="param-increment" data-param="${param.name}" data-step="${step}">▲</button>
-                    <button class="param-decrement" data-param="${param.name}" data-step="${step}">▼</button>
-                </div>
-            </div>
-        `;
-    }
-    
-    renderDropdownControl(param) {
-        const options = param.options || [];
-        const value = param.value || '';
-        
-        let optionsHtml = '';
-        options.forEach(option => {
-            const optionValue = typeof option === 'object' ? option.value : option;
-            const optionLabel = typeof option === 'object' ? option.label : option;
-            const selected = optionValue === value ? 'selected' : '';
-            optionsHtml += `<option value="${optionValue}" ${selected}>${optionLabel}</option>`;
-        });
-        
-        return `
-            <select class="parameter-dropdown" 
-                    id="dropdown-${param.name}"
-                    data-param="${param.name}">
-                ${optionsHtml}
-            </select>
-        `;
-    }
-    
-    renderColorPickerControl(param) {
-        const value = param.value || '#ffffff';
-        const hexValue = this.colorToHex(value);
-        
-        return `
-            <div class="parameter-color-container">
-                <div class="parameter-color-preview" style="background-color: ${hexValue}"></div>
-                <input type="color" 
-                       class="parameter-color-picker" 
-                       id="color-${param.name}"
-                       value="${hexValue}"
-                       data-param="${param.name}">
-                <input type="text" 
-                       class="parameter-color-hex" 
-                       id="hex-${param.name}"
-                       value="${hexValue}"
-                       data-param="${param.name}"
-                       maxlength="7">
-            </div>
-        `;
-    }
-    
-    renderTextInputControl(param) {
-        const value = param.value || '';
-        
-        return `
-            <input type="text" 
-                   class="parameter-text-input" 
-                   id="text-${param.name}"
-                   value="${value}"
-                   data-param="${param.name}">
-        `;
-    }
-    
-    // Utility methods
-    detectParameterType(param) {
-        if (param.type) {
-            const type = param.type.toUpperCase();
-            if (type.includes('BOOL')) return 'checkbox';
-            if (type.includes('FLOAT') || type.includes('DOUBLE')) {
-                return param.min !== undefined && param.max !== undefined ? 'numeric-slider' : 'numeric-input';
-            }
-            if (type.includes('INT')) return 'numeric-input';
-            if (type.includes('ENUM') || type.includes('CHOICE')) return 'dropdown';
-            if (type.includes('COLOR')) return 'color-picker';
-        }
-        
-        // Infer from value
-        if (typeof param.value === 'boolean') return 'checkbox';
-        if (typeof param.value === 'number') {
-            return param.min !== undefined && param.max !== undefined ? 'numeric-slider' : 'numeric-input';
-        }
-        
-        // Check for options
-        if (param.options && Array.isArray(param.options)) return 'dropdown';
-        
-        // Check name patterns
-        const lowerName = param.name.toLowerCase();
-        if (lowerName.includes('color')) return 'color-picker';
-        if (lowerName.includes('enable') || lowerName.includes('orthographic')) return 'checkbox';
-        
-        return 'text-input';
-    }
-    
-    getParameterIcon(paramName, paramType) {
-        const icons = {
-            'Orthographic': '📐',
-            'Sensor width': '📏',
-            'Focal length': '🔍',
-            'F-stop': '📷',
-            'Field of view': '👁️',
-            'Scale of view': '🔍',
-            'Distortion': '🌀',
-            'Lens shift': '↔️',
-            'Near clip depth': '✂️',
-            'Far clip depth': '✂️',
-            'Auto-focus': '🎯',
-            'Focal depth': '📏',
-            'Aperture': '⭕'
-        };
-        
-        return icons[paramName] || this.getTypeIcon(paramType);
-    }
-    
-    getTypeIcon(paramType) {
-        const typeIcons = {
-            'checkbox': '☑️',
-            'numeric-slider': '🎚️',
-            'numeric-input': '🔢',
-            'dropdown': '📋',
-            'color-picker': '🎨',
-            'text-input': '📝'
-        };
-        
-        return typeIcons[paramType] || '⚙️';
-    }
-    
-    colorToHex(color) {
-        if (typeof color === 'string' && color.startsWith('#')) {
-            return color;
-        }
-        
-        if (Array.isArray(color)) {
-            const r = Math.round(color[0] * 255);
-            const g = Math.round(color[1] * 255);
-            const b = Math.round(color[2] * 255);
-            return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-        }
-        
-        return '#ffffff';
-    }
-    
-    /**
-     * Setup event listeners for all parameter controls
-     */
-    setupParameterEventListeners() {
-        // Numeric slider controls
-        this.element.querySelectorAll('.parameter-slider').forEach(slider => {
-            slider.addEventListener('input', (e) => {
-                const paramName = e.target.dataset.param;
-                const value = parseFloat(e.target.value);
-                const input = this.element.querySelector(`#input-${paramName}`);
-                if (input) input.value = value;
-                this.handleParameterChange(paramName, value);
-            });
-        });
-        
-        // Numeric input controls
-        this.element.querySelectorAll('.parameter-number-input').forEach(input => {
-            input.addEventListener('input', (e) => {
-                const paramName = e.target.dataset.param;
-                const value = parseFloat(e.target.value);
-                const slider = this.element.querySelector(`#slider-${paramName}`);
-                if (slider) slider.value = value;
-                this.handleParameterChange(paramName, value);
-            });
-        });
-        
-        // Increment/decrement buttons
-        this.element.querySelectorAll('.param-increment').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const paramName = e.target.dataset.param;
-                const step = parseFloat(e.target.dataset.step);
-                const input = this.element.querySelector(`#input-${paramName}`);
-                if (input) {
-                    const newValue = parseFloat(input.value) + step;
-                    input.value = newValue;
-                    const slider = this.element.querySelector(`#slider-${paramName}`);
-                    if (slider) slider.value = newValue;
-                    this.handleParameterChange(paramName, newValue);
-                }
-            });
-        });
-        
-        this.element.querySelectorAll('.param-decrement').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const paramName = e.target.dataset.param;
-                const step = parseFloat(e.target.dataset.step);
-                const input = this.element.querySelector(`#input-${paramName}`);
-                if (input) {
-                    const newValue = parseFloat(input.value) - step;
-                    input.value = newValue;
-                    const slider = this.element.querySelector(`#slider-${paramName}`);
-                    if (slider) slider.value = newValue;
-                    this.handleParameterChange(paramName, newValue);
-                }
-            });
-        });
-        
-        // Checkbox controls
-        this.element.querySelectorAll('.parameter-checkbox').forEach(checkbox => {
-            checkbox.addEventListener('change', (e) => {
-                const paramName = e.target.dataset.param;
-                const value = e.target.checked;
-                this.handleParameterChange(paramName, value);
-            });
-        });
-        
-        // Dropdown controls
-        this.element.querySelectorAll('.parameter-dropdown').forEach(dropdown => {
-            dropdown.addEventListener('change', (e) => {
-                const paramName = e.target.dataset.param;
-                const value = e.target.value;
-                this.handleParameterChange(paramName, value);
-            });
-        });
-        
-        // Color picker controls
-        this.element.querySelectorAll('.parameter-color-picker').forEach(picker => {
-            picker.addEventListener('input', (e) => {
-                const paramName = e.target.dataset.param;
-                const value = e.target.value;
-                const hexInput = this.element.querySelector(`#hex-${paramName}`);
-                const preview = this.element.querySelector(`#color-${paramName}`).parentElement.querySelector('.parameter-color-preview');
-                if (hexInput) hexInput.value = value;
-                if (preview) preview.style.backgroundColor = value;
-                this.handleParameterChange(paramName, value);
-            });
-        });
-        
-        // Text input controls
-        this.element.querySelectorAll('.parameter-text-input').forEach(input => {
-            input.addEventListener('input', (e) => {
-                const paramName = e.target.dataset.param;
-                const value = e.target.value;
-                this.handleParameterChange(paramName, value);
-            });
-        });
-    }
-    
-    /**
-     * Handle parameter value changes
-     */
-    handleParameterChange(paramName, value) {
-        console.log(`🔄 Parameter changed: ${paramName} = ${value}`);
-        
-        // Store the parameter value
-        this.parameters[paramName] = value;
-        
-        // Send update to Octane if we have a selected node
-        if (this.selectedNodeHandle) {
-            this.updateOctaneParameter(paramName, value);
-        }
-        
-        // Emit parameter change event for other components
-        this.eventSystem.emit('parameterChanged', {
-            nodeId: this.selectedNode,
-            paramName: paramName,
-            value: value
-        });
-    }
-    
-    /**
-     * Update parameter in Octane
-     */
-    async updateOctaneParameter(paramName, value) {
-        try {
-            // This would send the parameter update to Octane
-            // Implementation depends on the specific API for parameter updates
-            console.log(`📤 Sending parameter update to Octane: ${paramName} = ${value}`);
-            
-            // For now, just log the update
-            // In a real implementation, this would call the appropriate gRPC method
-            
-        } catch (error) {
-            console.error('❌ Failed to update Octane parameter:', error);
-        }
-    }
-    
-    /**
-     * Show loading state while parameters are being loaded
-     */
     showLoadingState(data) {
         this.element.innerHTML = `
             <div class="node-inspector-header">
