@@ -7,8 +7,9 @@
 .node-inspector {
     background: #3a3a3a;
     color: #e0e0e0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 13px;
+    font-family: var(--font-family);
+    font-size: var(--font-size-small);
+    line-height: 1.3;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
@@ -62,7 +63,7 @@
     color: #e0e0e0;
     padding: 4px 8px;
     border-radius: 3px;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
     min-width: 150px;
 }
 
@@ -87,7 +88,7 @@
 }
 
 .octane-section-icon {
-    font-size: 12px;
+    font-size: var(--font-size-normal);
     color: #ccc;
     width: 12px;
     text-align: center;
@@ -117,7 +118,7 @@
 }
 
 .octane-node-icon {
-    font-size: 14px;
+    font-size: var(--font-size-large);
 }
 
 .octane-subsection-title {
@@ -154,7 +155,7 @@
 
 .octane-group-icon {
     margin-right: 8px;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
     transition: transform 0.2s;
     color: #d0d0d0;
     width: 12px;
@@ -168,7 +169,7 @@
 .octane-group-title {
     font-weight: 600;
     color: #f0f0f0;
-    font-size: 13px;
+    font-size: var(--font-size-normal);
 }
 
 .octane-group-content {
@@ -279,13 +280,13 @@
     top: -2px;
     left: 1px;
     color: white;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     font-weight: bold;
 }
 
 .octane-checkbox-label {
     color: #d0d0d0;
-    font-size: 13px;
+    font-size: var(--font-size-normal);
     cursor: pointer;
     user-select: none;
 }
@@ -338,7 +339,7 @@
     color: #e0e0e0;
     padding: 1px 2px;
     border-radius: 0px;
-    font-size: 8px;
+    font-size: var(--font-size-tiny);
     text-align: right;
     height: 12px;
     border-left: none;
@@ -364,7 +365,7 @@
     color: #e0e0e0;
     padding: 2px 4px;
     border-radius: 2px;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     text-align: right;
 }
 
@@ -380,7 +381,7 @@
     color: #e0e0e0;
     padding: 2px 6px;
     border-radius: 2px;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
     min-width: 100px;
 }
 
@@ -396,7 +397,7 @@
     color: #e0e0e0;
     padding: 2px 6px;
     border-radius: 2px;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
     flex: 1;
 }
 
@@ -407,7 +408,7 @@
 
 .octane-parameter-type {
     color: #888;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     font-style: italic;
 }
 
@@ -458,9 +459,9 @@
     color: #e0e0e0;
     padding: 3px 6px;
     border-radius: 3px;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
     text-align: right;
-    font-family: 'Consolas', 'Monaco', monospace;
+    font-family: var(--font-family-mono);
 }
 
 .octane-number-input:focus {
@@ -477,9 +478,9 @@
     color: #e0e0e0;
     padding: 3px 4px;
     border-radius: 3px;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     text-align: right;
-    font-family: 'Consolas', 'Monaco', monospace;
+    font-family: var(--font-family-mono);
 }
 
 .octane-vector-input:focus {
@@ -490,7 +491,7 @@
 
 .octane-vector-separator {
     color: #888;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     font-weight: bold;
     margin: 0 2px;
 }
@@ -503,7 +504,7 @@
     color: #e0e0e0;
     padding: 3px 6px;
     border-radius: 3px;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
 }
 
 .octane-text-input:focus {
@@ -552,7 +553,7 @@
     top: -2px;
     left: 2px;
     color: #4CAF50;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
     font-weight: bold;
     opacity: 0;
     transition: opacity 0.2s;
@@ -574,7 +575,7 @@
     color: #e0e0e0;
     padding: 3px 6px;
     border-radius: 3px;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
     min-width: 100px;
     cursor: pointer;
 }
@@ -633,7 +634,7 @@
     background: #3a3a3a;
     border: 1px solid #666;
     color: #888;
-    font-size: 7px;
+    font-size: var(--font-size-micro);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -660,7 +661,7 @@
 /* Units */
 .octane-unit {
     color: #888;
-    font-size: 8px;
+    font-size: var(--font-size-tiny);
     margin-left: 1px;
     flex-shrink: 0;
 }
@@ -744,6 +745,84 @@
     }
 }
 
+/* Node Tree Structure - Matching Scene Outliner */
+.node-box {
+    display: flex;
+    align-items: center;
+    padding: 2px 0;
+    cursor: pointer;
+    user-select: none;
+    font-size: var(--font-size-small);
+    line-height: 1.3;
+}
+
+.node-box:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.node-box.selected {
+    background: var(--octane-accent-red);
+    color: white;
+}
+
+/* Indentation levels - matching node inspector reference image - almost no indent */
+.node-level-0 { padding-left: 4px; }
+.node-level-1 { padding-left: 4px; } /* Same as level 0 - no additional indent */
+.node-level-2 { padding-left: 4px; } /* Same as level 0 - no additional indent */
+.node-level-3 { padding-left: 6px; } /* Only 2px more for deeper levels */
+.node-level-4 { padding-left: 8px; }
+.node-level-5 { padding-left: 10px; }
+
+.node-icon-box {
+    width: 12px;
+    height: 12px;
+    border-radius: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+    flex-shrink: 0;
+}
+
+.node-icon {
+    font-size: var(--font-size-tiny);
+    color: white;
+}
+
+.node-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.node-header {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.collapse-icon {
+    width: 10px;
+    text-align: center;
+    font-size: var(--font-size-tiny);
+    color: #ccc;
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.node-title {
+    font-size: var(--font-size-small);
+    color: #e0e0e0;
+    flex: 1;
+}
+
+.node-parameter-controls {
+    margin-left: 8px;
+}
+
+.node-children {
+    /* Children are rendered as separate node-box elements with higher level */
+}
+
 /* Animation for smooth transitions */
 .octane-group-content {
     transition: all 0.3s ease;
@@ -787,11 +866,11 @@
     gap: 6px;
     font-weight: 600;
     color: #f0f0f0;
-    font-size: 13px;
+    font-size: var(--font-size-normal);
 }
 
 .octane-section-icon {
-    font-size: 12px;
+    font-size: var(--font-size-normal);
     color: #ccc;
     width: 14px;
     text-align: center;
@@ -836,7 +915,7 @@
 }
 
 .octane-group-toggle {
-    font-size: 10px;
+    font-size: var(--font-size-small);
     color: #ccc;
     width: 12px;
     text-align: center;
@@ -850,7 +929,7 @@
 .octane-group-title {
     font-weight: 600;
     color: #f0f0f0;
-    font-size: 13px;
+    font-size: var(--font-size-normal);
 }
 
 .octane-group-content {
@@ -883,7 +962,7 @@
 
 .octane-parameter-icon {
     color: #888;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
     width: 16px;
     text-align: center;
     flex-shrink: 0;
@@ -913,7 +992,7 @@
 
 .octane-slider-handle {
     color: #888;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     cursor: pointer;
     user-select: none;
     padding: 0 2px;
@@ -929,10 +1008,10 @@
     border: none;
     color: #e0e0e0;
     padding: 2px 4px;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     text-align: center;
     width: 60px;
-    font-family: 'Consolas', 'Monaco', monospace;
+    font-family: var(--font-family-mono);
 }
 
 .octane-number-input:focus {
@@ -942,7 +1021,7 @@
 
 .octane-unit {
     color: #888;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     margin-left: 2px;
     flex-shrink: 0;
 }
@@ -994,7 +1073,7 @@
     top: -2px !important;
     left: 1px !important;
     color: #4CAF50 !important;
-    font-size: 10px !important;
+    font-size: var(--font-size-small) !important;
     font-weight: bold !important;
     display: block !important;
 }
@@ -1006,10 +1085,10 @@
     color: #e0e0e0;
     padding: 2px 6px;
     border-radius: 2px;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     min-width: 120px;
     cursor: pointer;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-family);
 }
 
 .octane-dropdown:focus {

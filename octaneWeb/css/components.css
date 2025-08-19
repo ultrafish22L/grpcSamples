@@ -16,7 +16,7 @@
 
 .scene-outliner-header h3 {
     margin: 0;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     font-weight: 500;
     color: var(--octane-text-primary);
     text-transform: capitalize;
@@ -34,7 +34,7 @@
     cursor: pointer;
     padding: 1px 3px;
     border-radius: 2px;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     width: 16px;
     height: 16px;
     display: flex;
@@ -59,7 +59,7 @@
     border: 1px solid var(--octane-border);
     border-radius: 2px;
     padding: 3px 6px;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-primary);
     outline: none;
 }
@@ -83,7 +83,7 @@
 /* Scene Tree Styling - Updated for Octane UI */
 .scene-tree {
     font-family: var(--font-family);
-    font-size: 11px;
+    font-size: var(--font-size-small);
     line-height: 1.3;
     color: var(--octane-text-primary);
 }
@@ -117,8 +117,8 @@
     text-align: center;
     cursor: pointer;
     color: var(--octane-text-secondary);
-    font-size: 9px;
-    font-family: monospace;
+    font-size: var(--font-size-xs);
+    font-family: var(--font-family-mono);
     line-height: 1;
     flex-shrink: 0;
 }
@@ -151,7 +151,7 @@
     width: 14px;
     text-align: center;
     margin-right: 4px;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     flex-shrink: 0;
 }
 
@@ -162,13 +162,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-weight: 400;
+    font-size: var(--font-size-small);
 }
 
 .scene-node-handle {
     color: var(--octane-text-secondary);
-    font-size: 9px;
+    font-size: var(--font-size-xs);
     margin-left: 4px;
-    font-family: monospace;
+    font-family: var(--font-family-mono);
     flex-shrink: 0;
 }
 
@@ -180,7 +181,7 @@
     margin-left: 6px;
     cursor: pointer;
     opacity: 0.6;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     width: 14px;
     text-align: center;
     flex-shrink: 0;
@@ -239,7 +240,7 @@
 .scene-node-icon.object::before,
 .scene-node-icon.node::before,
 .scene-node-icon.unknown::before {
-    font-size: 11px; /* Restore font size for pseudo-element */
+    font-size: var(--font-size-small); /* Restore font size for pseudo-element */
 }
 
 .scene-node-children {
@@ -293,7 +294,7 @@
     padding: 2px 0;
     cursor: pointer;
     user-select: none;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     background: transparent;
     margin-left: 18px; /* Indent group headers */
 }
@@ -306,7 +307,7 @@
     width: 12px;
     text-align: center;
     margin-right: 6px;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     color: #ccc;
     transition: transform 0.2s ease;
 }
@@ -317,7 +318,7 @@
 
 .parameter-group-title {
     flex: 1;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     font-weight: 600;
     color: #fff;
 }
@@ -365,7 +366,7 @@
     text-align: center;
     margin-right: 6px;
     margin-left: 2px;
-    font-size: 9px;
+    font-size: var(--font-size-xs);
     flex-shrink: 0;
     background: #4a90e2; /* Blue background like official Octane */
     border: 1px solid #5a9ff2;
@@ -378,7 +379,7 @@
 
 .parameter-label {
     flex: 1;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-primary);
     margin-right: 6px;
     font-weight: 400;
@@ -386,9 +387,9 @@
 }
 
 .parameter-value {
-    font-size: 10px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-secondary);
-    font-family: 'Courier New', monospace;
+    font-family: var(--font-family-mono);
 }
 
 /* Official Octane-style Input Controls - Compact Studio Design */
@@ -409,10 +410,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 8px;
+    font-size: var(--font-size-tiny);
     border-radius: 0;
     transition: all 0.15s ease;
-    font-family: monospace;
+    font-family: var(--font-family-mono);
 }
 
 .parameter-spinner-btn:first-child {
@@ -437,7 +438,7 @@
     border: 1px solid #555;
     border-radius: 2px;
     color: #fff;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     font-weight: 400;
 }
 
@@ -458,9 +459,9 @@
     border-right: none;
     border-radius: 0;
     color: #fff;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     text-align: center;
-    font-family: 'Courier New', monospace;
+    font-family: var(--font-family-mono);
     font-weight: 400;
     line-height: 14px;
 }
@@ -472,7 +473,7 @@
 }
 
 .parameter-unit {
-    font-size: 9px;
+    font-size: var(--font-size-xs);
     color: #999;
     margin-left: 3px;
     font-weight: 400;
@@ -499,7 +500,7 @@
 }
 
 .error-icon, .success-icon {
-    font-size: 24px;
+    font-size: var(--font-size-icon);
     margin-bottom: 8px;
 }
 
@@ -520,8 +521,8 @@
     background-color: var(--octane-bg-secondary);
     padding: 2px 6px;
     border-radius: 3px;
-    font-family: 'Courier New', monospace;
-    font-size: 11px;
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-small);
     color: var(--octane-accent-blue);
 }
 
@@ -586,7 +587,7 @@
 
 .switch-label {
     color: var(--octane-text-primary);
-    font-size: 14px;
+    font-size: var(--font-size-large);
     font-weight: 500;
     white-space: nowrap;
 }
@@ -661,7 +662,7 @@ input:checked + .slider:before {
     cursor: pointer;
     padding: 2px 4px;
     border-radius: 2px;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     min-width: 20px;
     height: 20px;
     display: flex;
@@ -736,7 +737,7 @@ input:checked + .slider:before {
     position: absolute;
     right: 4px;
     pointer-events: none;
-    font-size: 8px;
+    font-size: var(--font-size-tiny);
     color: var(--octane-text-muted);
 }
 
@@ -764,7 +765,7 @@ input:checked + .slider:before {
 }
 
 .parameter-section-icon {
-    font-size: 10px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-muted);
 }
 
@@ -789,7 +790,7 @@ input:checked + .slider:before {
 }
 
 .parameter-subsection-icon {
-    font-size: 12px;
+    font-size: var(--font-size-normal);
 }
 
 .parameter-subsection-title {
@@ -827,7 +828,7 @@ input:checked + .slider:before {
 }
 
 .parameter-group-icon {
-    font-size: 8px;
+    font-size: var(--font-size-tiny);
     color: var(--octane-text-muted);
     transition: transform 0.15s ease;
     width: 8px;
@@ -900,7 +901,7 @@ input:checked + .slider:before {
     border-radius: 2px;
     width: 70px;
     text-align: right;
-    font-family: 'Consolas', 'Monaco', monospace;
+    font-family: var(--font-family-mono);
 }
 
 .parameter-number-input:focus {
@@ -978,7 +979,7 @@ input:checked + .slider:before {
 .parameter-checkbox.checked::after {
     content: '✓';
     color: white;
-    font-size: 9px;
+    font-size: var(--font-size-xs);
     font-weight: bold;
     line-height: 1;
 }
@@ -1062,7 +1063,7 @@ input:checked + .slider:before {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: var(--font-size-large);
     transition: all 0.15s ease;
 }
 
@@ -1115,7 +1116,7 @@ input:checked + .slider:before {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
     transition: all 0.15s ease;
 }
 
@@ -1223,19 +1224,19 @@ input:checked + .slider:before {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
 }
 
 .context-menu-shortcut {
     margin-left: auto;
     color: var(--octane-text-muted);
-    font-size: 10px;
+    font-size: var(--font-size-small);
 }
 
 .context-menu-arrow {
     margin-left: auto;
     color: var(--octane-text-muted);
-    font-size: 10px;
+    font-size: var(--font-size-small);
     transition: transform 0.15s ease;
 }
 
@@ -1303,7 +1304,7 @@ input:checked + .slider:before {
 }
 
 .notification-icon {
-    font-size: 16px;
+    font-size: var(--font-size-xl);
     flex-shrink: 0;
 }
 
@@ -1319,7 +1320,7 @@ input:checked + .slider:before {
     border: none;
     color: var(--octane-text-muted);
     cursor: pointer;
-    font-size: 18px;
+    font-size: var(--font-size-xxl);
     padding: 0;
     width: 20px;
     height: 20px;
@@ -1372,7 +1373,7 @@ input:checked + .slider:before {
 }
 
 .drop-indicator-icon {
-    font-size: 48px;
+    font-size: var(--font-size-huge);
     margin-bottom: 16px;
 }
 
@@ -1447,7 +1448,7 @@ body.drag-over .drop-indicator {
     border: none;
     color: var(--octane-text-secondary);
     cursor: pointer;
-    font-size: 16px;
+    font-size: var(--font-size-xl);
     padding: 4px;
     border-radius: var(--border-radius);
     transition: all 0.15s ease;
@@ -1664,7 +1665,7 @@ body.drag-over .drop-indicator {
     cursor: pointer;
     padding: 2px 4px;
     border-radius: 2px;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     width: 18px;
     height: 16px;
     display: flex;
@@ -1702,7 +1703,7 @@ body.drag-over .drop-indicator {
     cursor: pointer;
     padding: 3px 6px;
     border-radius: 2px;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     width: 24px;
     height: 18px;
     display: flex;
@@ -1760,7 +1761,7 @@ body.drag-over .drop-indicator {
     color: var(--octane-text-secondary);
     cursor: pointer;
     padding: 6px 12px;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     border-radius: 4px 4px 0 0; /* Rounded top corners only for tab appearance */
     transition: all 0.15s ease;
     flex: 1;
@@ -1792,7 +1793,7 @@ body.drag-over .drop-indicator {
     cursor: pointer;
     padding: 2px 4px;
     border-radius: 2px;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     width: 20px;
     height: 18px;
     display: flex;
@@ -1881,7 +1882,7 @@ body.drag-over .drop-indicator {
     cursor: pointer;
     padding: 3px 4px;
     border-radius: 2px;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     width: 22px;
     height: 18px;
     display: flex;
@@ -1931,7 +1932,7 @@ body.drag-over .drop-indicator {
     cursor: pointer;
     padding: 3px 4px;
     border-radius: 2px;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     width: 22px;
     height: 18px;
     display: flex;
@@ -1975,7 +1976,7 @@ body.drag-over .drop-indicator {
 .preview-header {
     background: var(--octane-bg-header);
     padding: 4px 8px;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     font-weight: bold;
     color: var(--octane-text-primary);
     border-bottom: 1px solid var(--octane-border);
@@ -1996,7 +1997,7 @@ body.drag-over .drop-indicator {
 }
 
 .preview-sphere {
-    font-size: 48px;
+    font-size: var(--font-size-huge);
     opacity: 0.8;
     filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
 }
@@ -2016,7 +2017,7 @@ body.drag-over .drop-indicator {
     cursor: pointer;
     padding: 2px 4px;
     border-radius: 2px;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     width: 18px;
     height: 16px;
     display: flex;
@@ -2052,7 +2053,7 @@ body.drag-over .drop-indicator {
     padding: 1px 6px;
     margin: 0;
     height: 18px;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-primary);
 }
 
@@ -2076,20 +2077,20 @@ body.drag-over .drop-indicator {
 .scene-tab-content .node-toggle {
     width: 12px;
     text-align: center;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     cursor: pointer;
     color: var(--octane-text-secondary);
 }
 
 .scene-tab-content .node-icon {
-    font-size: 11px;
+    font-size: var(--font-size-small);
     width: 14px;
     text-align: center;
 }
 
 .scene-tab-content .node-label {
     flex: 1;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2099,7 +2100,7 @@ body.drag-over .drop-indicator {
     padding: 8px;
     text-align: center;
     color: var(--octane-text-muted);
-    font-size: 10px;
+    font-size: var(--font-size-small);
     font-style: italic;
 }
 
@@ -2133,7 +2134,7 @@ body.drag-over .drop-indicator {
 
 .palette-header {
     color: #fff;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
     font-weight: bold;
     margin-bottom: 10px;
     text-align: center;
@@ -2156,7 +2157,7 @@ body.drag-over .drop-indicator {
 
 .node-type-label {
     color: #ccc;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     flex: 1;
 }
 
@@ -2222,7 +2223,7 @@ body.drag-over .drop-indicator {
     height: 100%;
     overflow-y: auto;
     background: var(--octane-bg-primary);
-    font-size: 11px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-primary);
 }
 
@@ -2236,7 +2237,7 @@ body.drag-over .drop-indicator {
 }
 
 .inspector-title {
-    font-size: 11px;
+    font-size: var(--font-size-small);
     font-weight: 500;
     color: var(--octane-text-primary);
 }
@@ -2245,7 +2246,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-primary);
     border: 1px solid var(--octane-border);
     color: var(--octane-text-primary);
-    font-size: 11px;
+    font-size: var(--font-size-small);
     padding: 2px 6px;
     border-radius: 2px;
     min-width: 120px;
@@ -2262,7 +2263,7 @@ body.drag-over .drop-indicator {
     display: flex;
     align-items: center;
     gap: 4px;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     font-weight: 500;
     border-bottom: 1px solid var(--octane-border);
 }
@@ -2272,7 +2273,7 @@ body.drag-over .drop-indicator {
 }
 
 .section-toggle {
-    font-size: 10px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-secondary);
     width: 12px;
 }
@@ -2298,14 +2299,14 @@ body.drag-over .drop-indicator {
 }
 
 .param-icon {
-    font-size: 10px;
+    font-size: var(--font-size-small);
     width: 14px;
     text-align: center;
     flex-shrink: 0;
 }
 
 .param-label {
-    font-size: 11px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-primary);
     min-width: 80px;
     flex-shrink: 0;
@@ -2315,7 +2316,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-primary);
     border: 1px solid var(--octane-border);
     color: var(--octane-text-primary);
-    font-size: 11px;
+    font-size: var(--font-size-small);
     padding: 1px 4px;
     border-radius: 2px;
     flex: 1;
@@ -2360,7 +2361,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-primary);
     border: 1px solid var(--octane-border);
     color: var(--octane-text-primary);
-    font-size: 11px;
+    font-size: var(--font-size-small);
     padding: 1px 4px;
     border-radius: 2px;
     width: 50px;
@@ -2371,7 +2372,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-primary);
     border: 1px solid var(--octane-border);
     color: var(--octane-text-primary);
-    font-size: 11px;
+    font-size: var(--font-size-small);
     padding: 1px 4px;
     border-radius: 2px;
     width: 40px;
@@ -2415,7 +2416,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-secondary);
     border: 1px solid var(--octane-border);
     color: var(--octane-text-secondary);
-    font-size: 9px;
+    font-size: var(--font-size-xs);
     padding: 1px;
     border-radius: 2px;
     cursor: pointer;
@@ -2451,13 +2452,13 @@ body.drag-over .drop-indicator {
 }
 
 .file-path-text {
-    font-size: 10px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-secondary);
-    font-family: monospace;
+    font-family: var(--font-family-mono);
 }
 
 .file-stats {
-    font-size: 10px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-tertiary);
 }
 
@@ -2501,7 +2502,7 @@ body.drag-over .drop-indicator {
 }
 
 .error-icon {
-    font-size: 32px;
+    font-size: var(--font-size-title);
     margin-bottom: 12px;
 }
 
@@ -2513,7 +2514,7 @@ body.drag-over .drop-indicator {
     border-radius: 4px;
     cursor: pointer;
     margin-top: 12px;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
 }
 
 .retry-button:hover {
@@ -2536,7 +2537,7 @@ body.drag-over .drop-indicator {
     border-bottom: 1px solid var(--octane-border);
     cursor: pointer;
     user-select: none;
-    font-size: 11px;
+    font-size: var(--font-size-small);
     font-weight: 500;
     color: var(--octane-text-primary);
 }
@@ -2551,7 +2552,7 @@ body.drag-over .drop-indicator {
 
 .parameter-group-icon {
     margin-right: 6px;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-secondary);
     transition: transform 0.2s ease;
 }
@@ -2562,7 +2563,7 @@ body.drag-over .drop-indicator {
 
 .parameter-group-count {
     color: var(--octane-text-tertiary);
-    font-size: 10px;
+    font-size: var(--font-size-small);
     margin-left: 8px;
 }
 
@@ -2595,14 +2596,14 @@ body.drag-over .drop-indicator {
 
 .parameter-icon {
     margin-right: 6px;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
     color: var(--octane-text-secondary);
     width: 16px;
     text-align: center;
 }
 
 .parameter-name {
-    font-size: 11px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-primary);
     font-weight: 400;
 }
@@ -2705,7 +2706,7 @@ body.drag-over .drop-indicator {
     border: 1px solid var(--octane-border);
     border-radius: 3px;
     color: var(--octane-text-primary);
-    font-size: 11px;
+    font-size: var(--font-size-small);
     padding: 0 6px;
     text-align: right;
 }
@@ -2730,7 +2731,7 @@ body.drag-over .drop-indicator {
     border: 1px solid var(--octane-border);
     color: var(--octane-text-secondary);
     cursor: pointer;
-    font-size: 8px;
+    font-size: var(--font-size-tiny);
     line-height: 1;
     display: flex;
     align-items: center;
@@ -2759,7 +2760,7 @@ body.drag-over .drop-indicator {
 }
 
 .parameter-unit {
-    font-size: 10px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-tertiary);
     margin-left: 4px;
     min-width: 20px;
@@ -2796,7 +2797,7 @@ body.drag-over .drop-indicator {
 .parameter-checkbox:checked + .parameter-checkbox-custom::after {
     content: '✓';
     color: white;
-    font-size: 10px;
+    font-size: var(--font-size-small);
     font-weight: bold;
 }
 
@@ -2817,7 +2818,7 @@ body.drag-over .drop-indicator {
     border: 1px solid var(--octane-border);
     border-radius: 3px;
     color: var(--octane-text-primary);
-    font-size: 11px;
+    font-size: var(--font-size-small);
     padding: 0 20px 0 6px;
     appearance: none;
     cursor: pointer;
@@ -2834,7 +2835,7 @@ body.drag-over .drop-indicator {
     right: 6px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 8px;
+    font-size: var(--font-size-tiny);
     color: var(--octane-text-secondary);
     pointer-events: none;
 }
@@ -2869,9 +2870,9 @@ body.drag-over .drop-indicator {
     border: 1px solid var(--octane-border);
     border-radius: 3px;
     color: var(--octane-text-primary);
-    font-size: 10px;
+    font-size: var(--font-size-small);
     padding: 0 4px;
-    font-family: monospace;
+    font-family: var(--font-family-mono);
     text-transform: uppercase;
 }
 
@@ -2896,7 +2897,7 @@ body.drag-over .drop-indicator {
 }
 
 .parameter-vector-input label {
-    font-size: 10px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-secondary);
     min-width: 12px;
 }
@@ -2908,7 +2909,7 @@ body.drag-over .drop-indicator {
     border: 1px solid var(--octane-border);
     border-radius: 3px;
     color: var(--octane-text-primary);
-    font-size: 10px;
+    font-size: var(--font-size-small);
     padding: 0 4px;
     text-align: right;
 }
@@ -2931,7 +2932,7 @@ body.drag-over .drop-indicator {
     border: 1px solid var(--octane-border);
     border-radius: 3px;
     color: var(--octane-text-primary);
-    font-size: 11px;
+    font-size: var(--font-size-small);
     padding: 0 6px;
 }
 
@@ -3056,7 +3057,7 @@ body.drag-over .drop-indicator {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
     border: 1px solid rgba(255, 255, 255, 0.2); /* More visible border */
     background: rgba(0, 0, 0, 0.3); /* Subtle background for better contrast */
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
@@ -3093,7 +3094,7 @@ body.drag-over .drop-indicator {
 
 /* Collapse/expand icon styling - ONLY for Node Inspector */
 .node-inspector .node-collapse-icon {
-    font-size: 12px;
+    font-size: var(--font-size-normal);
     color: var(--octane-text-secondary);
     transition: transform 0.2s ease;
     min-width: 12px;
@@ -3106,7 +3107,7 @@ body.drag-over .drop-indicator {
 
 /* Node title styling - ONLY for Node Inspector */
 .node-inspector .node-title {
-    font-size: 13px;
+    font-size: var(--font-size-normal);
     font-weight: 500;
     color: var(--octane-text-primary);
     flex-shrink: 0;
@@ -3126,7 +3127,7 @@ body.drag-over .drop-indicator {
     border-radius: 4px;
     color: #e0e0e0;
     padding: 4px 8px;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
     min-width: 120px;
     cursor: pointer;
     transition: border-color 0.2s ease;
@@ -3152,14 +3153,14 @@ body.drag-over .drop-indicator {
 .node-inspector .node-parameter-row {
     margin: 2px 0;
     padding: 2px 0;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
     color: var(--octane-text-secondary);
     line-height: 1.3;
 }
 
 /* Collapse/expand icons */
 .collapse-icon {
-    font-size: 10px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-secondary);
     width: 12px;
     text-align: center;
@@ -3172,7 +3173,7 @@ body.drag-over .drop-indicator {
 
 /* Node title */
 .node-title {
-    font-size: 11px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-primary);
     font-weight: 500;
 }
@@ -3204,13 +3205,13 @@ body.drag-over .drop-indicator {
 }
 
 .parameter-value {
-    font-size: 11px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-secondary);
     margin-left: auto;
 }
 
 .parameter-unit {
-    font-size: 10px;
+    font-size: var(--font-size-small);
     color: var(--octane-text-tertiary);
     margin-left: 2px;
 }
@@ -3240,7 +3241,7 @@ body.drag-over .drop-indicator {
     padding: 20px;
     text-align: center;
     color: var(--octane-text-secondary);
-    font-size: 11px;
+    font-size: var(--font-size-small);
     font-style: italic;
 }
 
@@ -3256,6 +3257,6 @@ body.drag-over .drop-indicator {
         left: -25px;
         width: 18px;
         height: 18px;
-        font-size: 11px;
+        font-size: var(--font-size-small);
     }
 }

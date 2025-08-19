@@ -540,15 +540,15 @@ class NodeInspector extends OctaneComponent {
         this.showLoadingState(nodeInfo);
         
         try {
-            // Get node type mapping for parameter groups
+            // Get node type mapping for color and icon only
             const nodeTypeMapping = this.getNodeTypeMapping(nodeInfo.nodeType);
             window.debugConsole?.addLog('info', ['📋 NodeInspector: Node type mapping', nodeTypeMapping]);
             
             // Load parameter values using generic approach
-            const parameters = await this.loadGenericParameterValues(nodeInfo.handle, nodeTypeMapping);
+            const parameters = await this.loadGenericParameterValues(nodeInfo.handle);
             window.debugConsole?.addLog('info', ['✅ NodeInspector: Loaded parameters', Object.keys(parameters).length, 'parameters']);
             
-            // Render the inspector with generic parameter groups
+            // Render the inspector using GenericNodeRenderer
             this.renderGenericParameterInspector(nodeInfo, parameters, nodeTypeMapping);
             
         } catch (error) {
@@ -558,69 +558,51 @@ class NodeInspector extends OctaneComponent {
     }
     
     /**
-     * GENERIC: Get node type mapping for parameter organization
-     * This replaces hardcoded specialized parameter groups
+     * SIMPLIFIED: Get node type mapping for color and icon only
+     * All other info is built into the scene tree or obtained via nodePinInfo
      */
     getNodeTypeMapping(nodeType) {
         window.debugConsole?.addLog('info', ['🗺️ NodeInspector: Getting mapping for node type', nodeType]);
         
-        // Generic node type mappings based on Octane node types
+        // Simplified node type mappings - only color and icon
         const nodeTypeMappings = {
             'NT_RENDERTARGET': {
-                displayName: 'Render Target',
                 icon: '🎯',
-                parameterGroups: [
-                    { name: 'Scene', icon: '🎬', parameters: ['camera', 'environment', 'cameraEnvironment'] },
-                    { name: 'Mesh', icon: '🫖', parameters: ['mesh'] },
-                    { name: 'Film Settings', icon: '🎞️', parameters: ['filmSettings'] },
-                    { name: 'Animation', icon: '🎭', parameters: ['animation'] },
-                    { name: 'Kernel', icon: '⚙️', parameters: ['kernel'] },
-                    { name: 'Render Layer', icon: '📚', parameters: ['renderLayer'] },
-                    { name: 'Render Passes', icon: '🎨', parameters: ['renderPasses'] },
-                    { name: 'Composite AOVs', icon: '🖼️', parameters: ['compositeAovs'] },
-                    { name: 'Imager', icon: '📷', parameters: ['imager'] },
-                    { name: 'Post Processing', icon: '✨', parameters: ['postproc'] }
-                ]
+                color: '#d32f2f'
             },
             'NT_CAMERA': {
-                displayName: 'Camera',
                 icon: '📷',
-                parameterGroups: [
-                    { name: 'Transform', icon: '🔄', parameters: ['position', 'rotation', 'scale'] },
-                    { name: 'Lens', icon: '🔍', parameters: ['focalLength', 'aperture', 'focusDistance'] },
-                    { name: 'Film', icon: '🎞️', parameters: ['filmWidth', 'filmHeight', 'pixelAspect'] }
-                ]
+                color: '#1976d2'
             },
             'NT_MESH': {
-                displayName: 'Mesh',
                 icon: '🫖',
-                parameterGroups: [
-                    { name: 'Transform', icon: '🔄', parameters: ['position', 'rotation', 'scale'] },
-                    { name: 'Geometry', icon: '📐', parameters: ['vertices', 'faces', 'normals'] },
-                    { name: 'Materials', icon: '🎨', parameters: ['material', 'displacement'] }
-                ]
+                color: '#388e3c'
             },
             'NT_MATERIAL': {
-                displayName: 'Material',
                 icon: '🎨',
-                parameterGroups: [
-                    { name: 'Diffuse', icon: '🌈', parameters: ['diffuse', 'albedo'] },
-                    { name: 'Specular', icon: '✨', parameters: ['specular', 'roughness', 'metallic'] },
-                    { name: 'Transmission', icon: '🔍', parameters: ['transmission', 'ior'] }
-                ]
+                color: '#f57c00'
+            },
+            'NT_ENVIRONMENT': {
+                icon: '🌍',
+                color: '#7b1fa2'
+            },
+            'NT_LIGHT': {
+                icon: '💡',
+                color: '#fbc02d'
+            },
+            'NT_TEXTURE': {
+                icon: '🖼️',
+                color: '#5d4037'
             },
             // Default fallback for unknown node types
             'DEFAULT': {
-                displayName: 'Node',
                 icon: '📦',
-                parameterGroups: [
-                    { name: 'Parameters', icon: '⚙️', parameters: [] }
-                ]
+                color: '#666666'
             }
         };
         
         const mapping = nodeTypeMappings[nodeType] || nodeTypeMappings['DEFAULT'];
-        window.debugConsole?.addLog('info', ['✅ NodeInspector: Using mapping', mapping.displayName, 'with', mapping.parameterGroups.length, 'groups']);
+        window.debugConsole?.addLog('info', ['✅ NodeInspector: Using mapping', mapping.icon, 'color:', mapping.color]);
         
         return mapping;
     }
@@ -629,7 +611,7 @@ class NodeInspector extends OctaneComponent {
      * GENERIC: Load parameter values using generic approach
      * This replaces specialized parameter loading with direct API calls
      */
-    async loadGenericParameterValues(nodeHandle, nodeTypeMapping) {
+    async loadGenericParameterValues(nodeHandle) {
         window.debugConsole?.addLog('info', ['🔧 NodeInspector: Loading parameter values for handle', nodeHandle]);
         
         const parameters = {};
@@ -676,16 +658,25 @@ class NodeInspector extends OctaneComponent {
     }
     
     /**
-     * OCTANE UI MATCH: Render parameter inspector exactly matching the reference image
-     * This creates the exact structure shown in the node inspector reference
+     * GENERIC: Render parameter inspector using GenericNodeRenderer
+     * This creates a hierarchical tree structure matching the scene outliner
      */
     renderGenericParameterInspector(nodeInfo, parameters, nodeTypeMapping) {
         window.debugConsole?.addLog('info', ['🎨 NodeInspector: Rendering generic node inspector for', nodeInfo.nodeName]);
         
         // Find the node data from cache
         const nodeData = this.findNodeInSceneItems(nodeInfo.handle);
+        if (!nodeData) {
+            window.debugConsole?.addLog('error', ['❌ NodeInspector: No node data found for', nodeInfo.handle]);
+            return;
+        }
+        
+        // Add the color and icon from nodeTypeMapping to nodeData
+        nodeData.inspectorColor = nodeTypeMapping.color;
+        nodeData.inspectorIcon = nodeTypeMapping.icon;
         
         // TODO: Fetch ApiNodePinInfo for real pin group data
+        // For now, use the GenericNodeRenderer with the node data
         const html = this.genericRenderer.renderNode(nodeData, null);
         
         // Update the inspector container directly

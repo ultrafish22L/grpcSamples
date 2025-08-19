@@ -65,8 +65,9 @@ class GenericNodeRenderer {
      * @returns {string} - HTML for the top node
      */
     renderTopNode(nodeData) {
-        const icon = this.iconMapper?.getNodeIcon(nodeData.outtype, nodeData.name) || '📦';
-        const color = this.iconMapper?.getNodeColor(nodeData.outtype) || '#666';
+        // Use inspector-specific color/icon if available, otherwise fall back to iconMapper
+        const icon = nodeData.inspectorIcon || this.iconMapper?.getNodeIcon(nodeData.outtype, nodeData.name) || '📦';
+        const color = nodeData.inspectorColor || this.iconMapper?.getNodeColor(nodeData.outtype) || '#666';
         
         return `
             <div class="node-box node-level-0" data-node-handle="${nodeData.handle}">
@@ -76,6 +77,7 @@ class GenericNodeRenderer {
                 <div class="node-content">
                     <div class="node-header">
                         <span class="node-title">${nodeData.name}</span>
+                        ${this.renderNodeParameters(nodeData)}
                     </div>
                 </div>
             </div>
@@ -107,8 +109,9 @@ class GenericNodeRenderer {
      * @returns {string} - HTML for the node
      */
     renderNodeAtLevel(nodeData, level) {
-        const icon = this.iconMapper?.getNodeIcon(nodeData.outtype, nodeData.name) || '📦';
-        const color = this.iconMapper?.getNodeColor(nodeData.outtype) || '#666';
+        // Use inspector-specific color/icon if available, otherwise fall back to iconMapper
+        const icon = nodeData.inspectorIcon || this.iconMapper?.getNodeIcon(nodeData.outtype, nodeData.name) || '📦';
+        const color = nodeData.inspectorColor || this.iconMapper?.getNodeColor(nodeData.outtype) || '#666';
         const hasChildren = nodeData.children && nodeData.children.length > 0;
         const nodeId = `node-${nodeData.handle}`;
         
@@ -134,19 +137,14 @@ class GenericNodeRenderer {
                         <span class="node-title">${nodeData.name}</span>
                         ${this.renderNodeParameters(nodeData)}
                     </div>
-        `;
-        
-        // Render children if expanded
-        if (hasChildren && isExpanded) {
-            html += `<div class="node-children" data-children="${nodeId}">`;
-            html += this.renderChildNodes(nodeData.children, level + 1);
-            html += `</div>`;
-        }
-        
-        html += `
                 </div>
             </div>
         `;
+        
+        // Render children if expanded - at the same level as parent, not nested inside
+        if (hasChildren && isExpanded) {
+            html += this.renderChildNodes(nodeData.children, level + 1);
+        }
         
         return html;
     }

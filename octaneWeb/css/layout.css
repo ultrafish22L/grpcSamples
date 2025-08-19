@@ -201,7 +201,7 @@ body.resizing .panel-splitter {
 }
 
 .parameter-group-toggle {
-    font-size: 10px;
+    font-size: var(--font-size-xs);
     transition: transform 0.15s ease;
 }
 
@@ -340,7 +340,7 @@ body.resizing .panel-splitter {
 }
 
 .scene-node-toggle {
-    font-size: 10px;
+    font-size: var(--font-size-xs);
     cursor: pointer;
     transition: transform 0.15s ease;
 }
@@ -356,7 +356,7 @@ body.resizing .panel-splitter {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: var(--font-size-normal);
 }
 
 .scene-node-label {
@@ -374,7 +374,7 @@ body.resizing .panel-splitter {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: var(--font-size-xs);
     color: var(--octane-text-secondary);
     border-radius: var(--border-radius);
     transition: all 0.15s ease;
