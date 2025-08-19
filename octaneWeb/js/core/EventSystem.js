@@ -1,22 +1,42 @@
 /**
  * OctaneWeb Event System
- * Centralized event management for the application
+ * 
+ * Centralized pub/sub event management system that coordinates communication
+ * between all OctaneWeb components. Provides priority-based event handling,
+ * performance monitoring, and queue management for high-frequency events.
+ * 
+ * Key Features:
+ * - Priority-based event listener ordering for critical events
+ * - One-time event listeners for initialization and cleanup
+ * - Event queue management to prevent UI blocking
+ * - Performance statistics for production debugging
+ * - Memory-safe listener cleanup and management
+ * 
+ * Event Categories:
+ * - 'connection:*' - Octane LiveLink connection state changes
+ * - 'scene:*' - Scene tree updates and object changes
+ * - 'render:*' - Rendering progress and viewport updates
+ * - 'node:*' - Node selection and parameter changes
+ * - 'ui:*' - UI component state and interaction events
  */
 
 class EventSystem {
     constructor() {
-        this.listeners = new Map();
-        this.onceListeners = new Map();
-        this.eventQueue = [];
-        this.isProcessing = false;
-        this.maxQueueSize = 1000;
+        // Event listener storage with priority-based ordering
+        this.listeners = new Map();          // Persistent event listeners
+        this.onceListeners = new Map();      // One-time event listeners
         
-        // Performance monitoring
+        // Event queue management for high-frequency events
+        this.eventQueue = [];                // Queued events awaiting processing
+        this.isProcessing = false;           // Queue processing state
+        this.maxQueueSize = 1000;            // Maximum queue size before dropping events
+        
+        // Performance monitoring for production debugging
         this.stats = {
-            eventsEmitted: 0,
-            eventsProcessed: 0,
-            averageProcessingTime: 0,
-            lastProcessingTime: 0
+            eventsEmitted: 0,                // Total events emitted
+            eventsProcessed: 0,              // Total events processed
+            averageProcessingTime: 0,        // Average processing time per event
+            lastProcessingTime: 0            // Last event processing time
         };
     }
     

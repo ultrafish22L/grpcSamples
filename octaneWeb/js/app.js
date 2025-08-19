@@ -1,73 +1,100 @@
 /**
  * OctaneWeb Main Application
- * Initializes and manages the complete OctaneWeb interface
+ * 
+ * Central orchestrator for the complete OctaneWeb real-time rendering system.
+ * Manages the lifecycle of all components, handles Octane LiveLink connectivity,
+ * and coordinates real-time callback streaming for live rendering updates.
+ * 
+ * Architecture Flow:
+ * 1. Core Systems: EventSystem → StateManager → OctaneWebClient → DebugConsole
+ * 2. UI Components: SceneOutliner → NodeInspector → RenderViewport → NodeGraph
+ * 3. Real-time Flow: Octane LiveLink → Callback Streaming → UI Updates
+ * 
+ * Key Features:
+ * - Production-ready real-time rendering with callback streaming
+ * - Mouse drag camera synchronization with live Octane updates
+ * - Scene outliner with hierarchical tree view and node selection
+ * - Node inspector with parameter editing and live updates
+ * - Debug console with session-based logging and runtime access
  */
 
 class OctaneWebApp {
     constructor() {
-        // Core components
-        this.client = null;
-        this.stateManager = null;
-        this.eventSystem = null;
-        this.layoutManager = null;
+        // Core system components - initialized in order for proper dependency chain
+        this.client = null;              // OctaneWebClient - gRPC communication with Octane LiveLink
+        this.stateManager = null;        // StateManager - centralized application state
+        this.eventSystem = null;         // EventSystem - pub/sub event coordination
+        this.layoutManager = null;       // LayoutManager - UI layout and responsive design
         
-        // UI components
+        // UI component instances - initialized after core systems are ready
         this.components = {
-            sceneOutliner: null,
-            renderViewport: null,
-            renderToolbar: null,
-            nodeInspector: null,
-            nodeGraphEditor: null,
-            menuSystem: null
+            sceneOutliner: null,         // SceneOutlinerSync - hierarchical scene tree view
+            renderViewport: null,        // CallbackRenderViewport - real-time rendering display
+            renderToolbar: null,         // RenderToolbar - render controls and camera tools
+            nodeInspector: null,         // NodeInspector - parameter editing interface
+            nodeGraphEditor: null,       // NodeGraphEditor - visual node graph editing
+            menuSystem: null             // MenuSystem - application menu and file operations
         };
         
-        // Application state
-        this.isInitialized = false;
-        this.isConnected = false;
-        this.componentsFullyInitialized = false;
+        // Application lifecycle state tracking
+        this.isInitialized = false;              // Core systems ready
+        this.isConnected = false;                // Octane LiveLink connection active
+        this.componentsFullyInitialized = false; // All UI components loaded and ready
         
-        // Performance monitoring
+        // Real-time performance monitoring for production debugging
         this.performanceStats = {
-            fps: 0,
-            frameTime: 0,
+            fps: 0,                      // Current frames per second
+            frameTime: 0,                // Time per frame in milliseconds
             lastFrameTime: performance.now()
         };
         
-        // Bind methods
+        // Method binding for event handlers to maintain proper 'this' context
         this.handleResize = this.handleResize.bind(this);
         this.handleKeyboard = this.handleKeyboard.bind(this);
         this.updatePerformanceStats = this.updatePerformanceStats.bind(this);
     }
     
     /**
-     * Initialize the application
+     * Initialize the complete OctaneWeb application
+     * 
+     * Orchestrates the startup sequence in the correct order to ensure proper
+     * dependency resolution and component initialization. This is the main
+     * entry point that transforms the loading screen into a fully functional
+     * real-time rendering interface.
+     * 
+     * Initialization Flow:
+     * 1. Core Systems: EventSystem, StateManager, OctaneWebClient, DebugConsole
+     * 2. UI Components: SceneOutliner, RenderViewport, NodeInspector, etc.
+     * 3. Event Listeners: Keyboard shortcuts, window resize, component events
+     * 4. Performance Monitoring: FPS tracking for production debugging
+     * 5. Auto-connection: Attempt Octane LiveLink connection if configured
      */
     async initialize() {
         try {
             console.log('🚀 Initializing OctaneWeb...');
             
-            // Show loading screen
+            // Display loading screen while systems initialize
             this.showLoadingScreen('Initializing application...');
             
-            // Initialize core systems
+            // Phase 1: Initialize core systems in dependency order
             await this.initializeCoreSystems();
             
-            // Initialize UI components
+            // Phase 2: Initialize UI components that depend on core systems
             await this.initializeUIComponents();
             
-            // Setup event listeners
+            // Phase 3: Setup global event listeners and keyboard shortcuts
             this.setupEventListeners();
             
-            // Setup performance monitoring
+            // Phase 4: Start real-time performance monitoring for production
             this.startPerformanceMonitoring();
             
-            // Hide loading screen and show app
+            // Phase 5: Transition from loading screen to live application
             this.hideLoadingScreen();
             
             this.isInitialized = true;
             console.log('✅ OctaneWeb initialized successfully');
             
-            // Auto-connect if server address is available
+            // Phase 6: Auto-connect to Octane LiveLink if server address configured
             const serverAddress = document.getElementById('serverAddress')?.value;
             if (serverAddress) {
                 await this.connectToOctane(serverAddress);
@@ -80,40 +107,57 @@ class OctaneWebApp {
     }
     
     /**
-     * Initialize core systems
+     * Initialize core systems in dependency order
+     * 
+     * These systems form the foundation that all UI components depend on.
+     * Order is critical - each system may depend on previously initialized ones.
+     * 
+     * Core System Dependencies:
+     * - Console capture must be first to catch all initialization errors
+     * - EventSystem provides pub/sub for all other components
+     * - StateManager depends on EventSystem for state change notifications
+     * - DebugConsole provides runtime debugging accessible via window.debugConsole
+     * - OctaneWebClient handles all gRPC communication with Octane LiveLink
      */
     async initializeCoreSystems() {
-        // Initialize console error capturing first
+        // Step 1: Setup console error capture before any other initialization
         this.setupConsoleErrorCapture();
         
-        // Initialize event system
+        // Step 2: Initialize event system - foundation for all component communication
         this.eventSystem = new EventSystem();
         
-        // Initialize state manager
+        // Step 3: Initialize state manager with event system dependency
         this.stateManager = new StateManager(this.eventSystem);
         
-        // Initialize layout manager
+        // Step 4: Initialize layout manager for responsive UI handling
         this.layoutManager = new LayoutManager();
         
-        // Initialize debug console and make globally available for runtime access
+        // Step 5: Initialize debug console and expose globally for runtime access
         this.debugConsole = new DebugConsole();
         window.debugConsole = this.debugConsole;
         
-        // Initialize gRPC client (connection established later via UI)
+        // Step 6: Initialize gRPC client (connection established later via UI)
         this.client = new OctaneWebClient('http://localhost:51023');
         
-        // Setup client event handlers
+        // Step 7: Setup client event handlers for connection state management
         this.setupClientEventHandlers();
-        
-
     }
     
     /**
      * Initialize UI components in dependency order
-     * Each component receives necessary dependencies for gRPC communication and state management
+     * 
+     * Each component receives the core system dependencies it needs for proper
+     * operation. Components are grouped by functionality and initialized in
+     * an order that respects their interdependencies.
+     * 
+     * Component Architecture:
+     * - Scene Components: Handle Octane scene tree display and interaction
+     * - Render Components: Real-time rendering display and camera controls
+     * - Node Components: Parameter editing and visual node graph editing
+     * - Menu Components: Application-level operations and file management
      */
     async initializeUIComponents() {
-        // Scene management components
+        // Scene management components - hierarchical tree view and controls
         this.components.sceneOutliner = new SceneOutlinerSync(
             document.querySelector('#scene-outliner'),
             this.eventSystem
@@ -124,7 +168,7 @@ class OctaneWebApp {
             this.client
         );
         
-        // Rendering components - CallbackRenderViewport provides real-time streaming
+        // Rendering components - real-time display with callback streaming
         this.components.renderViewport = new CallbackRenderViewport(
             document.querySelector('#render-viewport'),
             this.client,
@@ -134,7 +178,7 @@ class OctaneWebApp {
         
         this.components.renderToolbar = new RenderToolbar('render-toolbar-container', this.client);
         
-        // Node editing components
+        // Node editing components - parameter inspection and visual graph editing
         this.components.nodeInspector = new NodeInspector(
             document.querySelector('#node-inspector'),
             this.client,
@@ -154,7 +198,7 @@ class OctaneWebApp {
             this.eventSystem
         );
         
-        // Application menu system
+        // Application menu system - file operations and global commands
         this.components.menuSystem = new MenuSystem(
             document.querySelector('.main-menu'),
             this.client,

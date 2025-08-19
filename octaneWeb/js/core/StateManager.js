@@ -1,22 +1,40 @@
 /**
  * OctaneWeb State Manager
- * Centralized state management for the application
+ * 
+ * Centralized state management system that maintains the complete application
+ * state and coordinates state changes across all components. Provides undo/redo
+ * functionality, state persistence, and change notification through the event system.
+ * 
+ * Key Features:
+ * - Immutable state updates with change detection
+ * - Undo/redo history management for user actions
+ * - State persistence and restoration capabilities
+ * - Event-driven state change notifications
+ * - Component-specific state isolation and management
+ * 
+ * State Structure:
+ * - connection: Octane LiveLink connection status and configuration
+ * - scene: Scene objects, hierarchy, and selection state
+ * - nodeGraph: Visual node graph state and viewport
+ * - render: Rendering progress and viewport configuration
+ * - ui: UI component states and layout preferences
  */
 
 class StateManager {
     constructor(eventSystem) {
+        // Event system dependency for state change notifications
         this.eventSystem = eventSystem;
         
-        // Initialize state
+        // Initialize complete application state structure
         this.state = this.createInitialState();
         
-        // State change listeners
+        // Component-specific state change listeners
         this.listeners = new Map();
         
-        // History for undo/redo
-        this.history = [];
-        this.historyIndex = -1;
-        this.maxHistorySize = 50;
+        // Undo/redo history management for user actions
+        this.history = [];                    // State history stack
+        this.historyIndex = -1;               // Current position in history
+        this.maxHistorySize = 50;             // Maximum history entries to retain
     }
     
     /**

@@ -1,66 +1,76 @@
 /**
  * Callback-based Render Viewport Component
- * Real-time rendering with gRPC streaming callbacks (Option 2 implementation)
  * 
- * FEATURES:
- * - Pure gRPC streaming callbacks (no polling)
- * - Server-Sent Events for real-time updates
- * - Automatic fallback to polling mode
- * - Complete ApiRenderImage data processing
- * - Zero-copy performance with base64 image buffers
- * - Configurable UI debug mode for status overlays
+ * Production-ready real-time rendering viewport with callback streaming from
+ * Octane LiveLink. Provides live rendering updates, mouse drag camera control,
+ * and seamless integration with the Octane rendering pipeline.
  * 
- * UI DEBUG MODE:
- * - Set uiDebugMode = true to show status overlays and mode indicators
- * - Use setUIDebugMode(enabled) to toggle at runtime
- * - Global function: toggleUIDebugMode() in browser console
+ * Core Features:
+ * - Real-time callback streaming with OnNewImage events
+ * - Mouse drag camera synchronization with live Octane updates
+ * - HDR/LDR buffer processing with proper isolation to prevent garbage frames
+ * - Automatic fallback from callback streaming to polling mode
+ * - Production-optimized performance with minimal debug overhead
+ * - Configurable UI debug mode for development visibility
+ * 
+ * Technical Implementation:
+ * - Server-Sent Events (SSE) for real-time callback streaming
+ * - Centralized Camera system for smooth mouse interactions
+ * - Buffer isolation prevents corruption between render updates
+ * - Zero-copy base64 image processing for optimal performance
+ * - Graceful degradation when callback streaming unavailable
+ * 
+ * UI Debug Mode:
+ * - Default: uiDebugMode = false (clean production UI)
+ * - Runtime toggle: toggleUIDebugMode() in browser console
+ * - Shows status overlays, mode indicators, and performance metrics
  */
 
 class CallbackRenderViewport extends OctaneComponent {
     constructor(element, client, stateManager, eventSystem) {
         super(element, client, stateManager);
         
-        // Store event system for scene loading events
+        // Event system dependency for cross-component communication
         this.eventSystem = eventSystem;
         
-        // UI Debug Mode - controls visibility of status overlays and mode indicators
-        this.uiDebugMode = false; // Set to true to enable debug UI elements
+        // UI Debug Mode - production default is false for clean interface
+        this.uiDebugMode = false; // Toggle via toggleUIDebugMode() in console
         
-        // Callback system state
-        this.callbackMode = false;
-        this.eventSource = null;
-        this.clientId = null;
-        this.callbackId = null;
+        // Real-time callback streaming state management
+        this.callbackMode = false;            // Currently using callback streaming
+        this.eventSource = null;              // Server-Sent Events connection
+        this.clientId = null;                 // Unique client identifier
+        this.callbackId = null;               // Active callback registration ID
         
-        // Fallback polling system (from original RenderViewport)
-        this.pollingMode = false;
-        this.pollTimeout = null;
-        this.pollInterval = 1000; // Slower polling as fallback
+        // Fallback polling system for when callbacks unavailable
+        this.pollingMode = false;             // Currently using polling fallback
+        this.pollTimeout = null;              // Polling timer reference
+        this.pollInterval = 1000;             // Polling interval (slower than callbacks)
         
-        // 2D viewport elements
-        this.viewport = null;
-        this.imageDisplay = null;
-        this.statusOverlay = null;
-        this.modeIndicator = null;
+        // DOM viewport elements for rendering display
+        this.viewport = null;                 // Main viewport container
+        this.imageDisplay = null;             // Image display element
+        this.statusOverlay = null;            // Debug status overlay
+        this.modeIndicator = null;            // Streaming mode indicator
         
-        // Initialize centralized camera system
+        // Centralized camera system for mouse drag interactions
         this.camera = new Camera(this.client, {
-            radius: 20.0,
-            theta: 0.0,
-            phi: 0.0,
-            center: [0.0, 0.0, 0.0],
-            fov: 45.0,
-            sensitivity: 0.01,
-            zoomSpeed: 0.1
+            radius: 20.0,                     // Camera distance from target
+            theta: 0.0,                       // Horizontal rotation angle
+            phi: 0.0,                         // Vertical rotation angle
+            center: [0.0, 0.0, 0.0],          // Camera target center point
+            fov: 45.0,                        // Field of view in degrees
+            sensitivity: 0.01,                // Mouse sensitivity multiplier
+            zoomSpeed: 0.1                    // Zoom speed multiplier
         });
         
-        // Statistics
-        this.callbackCount = 0;
-        this.lastCallbackTime = 0;
-        this.connectionErrors = 0;
-        this.lastImageSize = 0;
-        this.frameCount = 0; // Track total frames processed
-        this.debugSavePNG = false; // Debug mode to save PNG files
+        // Performance and debugging statistics
+        this.callbackCount = 0;               // Total callbacks received
+        this.lastCallbackTime = 0;            // Timestamp of last callback
+        this.connectionErrors = 0;            // Connection error count
+        this.lastImageSize = 0;               // Size of last received image
+        this.frameCount = 0;                  // Total frames processed
+        this.debugSavePNG = false;            // Debug PNG saving (disabled in production)
         
         console.log('🚀 CallbackRenderViewport initialized with streaming callbacks');
     }

@@ -1,6 +1,28 @@
 /**
  * Enhanced Debug Console with Auto-Save Logging
- * Captures all console output and automatically saves to log files
+ * 
+ * Production-ready debug console system that captures all console output,
+ * provides real-time log viewing, and automatically saves logs to files
+ * for production debugging and error analysis.
+ * 
+ * Key Features:
+ * - Session-based logging with unique session IDs
+ * - Real-time console interception and display
+ * - Automatic log file saving via proxy server
+ * - Keyboard shortcuts (F12, Ctrl+D) for quick access
+ * - Color-coded log levels (info, warn, error)
+ * - Persistent log storage for post-mortem debugging
+ * 
+ * Production Usage:
+ * - Accessible globally via window.debugConsole
+ * - Toggle visibility with toggleUIDebugMode() in browser console
+ * - Logs automatically saved to debug_logs/ directory
+ * - Session-based log clearing prevents log file bloat
+ * 
+ * Critical Debugging Rule:
+ * - NEVER use browser console for debugging - ALWAYS read log files
+ * - Log files provide complete session history and error context
+ * - Browser console may miss critical errors during initialization
  */
 class DebugConsole {
     constructor() {

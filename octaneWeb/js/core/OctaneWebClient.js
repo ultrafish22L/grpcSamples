@@ -1,7 +1,23 @@
 /**
  * OctaneWeb gRPC Client
- * Extended gRPC client for complete Octane API coverage
- * Builds upon the existing LiveLinkClient from livelink.js
+ * 
+ * Extended gRPC client providing complete Octane LiveLink API coverage for
+ * real-time rendering, scene management, and parameter editing. Builds upon
+ * the base LiveLinkClient with advanced state management and callback streaming.
+ * 
+ * Key Features:
+ * - Real-time callback streaming for live rendering updates
+ * - Comprehensive scene state management with hierarchical tracking
+ * - Node graph state synchronization for visual editing
+ * - Camera synchronization for mouse drag interactions
+ * - Parameter editing with live updates to Octane
+ * - Render state monitoring for production debugging
+ * 
+ * Architecture:
+ * - Extends LiveLinkClient from livelink.js for base gRPC functionality
+ * - Maintains synchronized state maps for all Octane objects
+ * - Provides high-level API methods for UI component integration
+ * - Handles connection lifecycle and error recovery
  */
 
 // Define the class after ensuring LiveLinkClient is available
@@ -15,41 +31,43 @@ function createOctaneWebClient() {
     constructor(serverUrl) {
         super(serverUrl);
         
-        // Extended state management
+        // Scene state management - tracks all Octane scene objects and hierarchy
         this.sceneState = {
-            objects: new Map(),
-            hierarchy: [],
-            selection: new Set(),
-            cameras: new Map(),
-            lights: new Map(),
-            materials: new Map(),
-            textures: new Map()
+            objects: new Map(),        // All scene objects by ID
+            hierarchy: [],             // Hierarchical scene tree structure
+            selection: new Set(),      // Currently selected objects
+            cameras: new Map(),        // Camera objects for viewport control
+            lights: new Map(),         // Light objects for illumination
+            materials: new Map(),      // Material objects for shading
+            textures: new Map()        // Texture objects for material inputs
         };
         
+        // Node graph state management - tracks visual node editing state
         this.nodeGraphState = {
-            nodes: new Map(),
-            connections: new Map(),
-            selectedNodes: new Set(),
-            clipboard: null
+            nodes: new Map(),          // All nodes in the visual graph
+            connections: new Map(),    // Node connections and data flow
+            selectedNodes: new Set(),  // Currently selected nodes
+            clipboard: null            // Copy/paste buffer for nodes
         };
         
+        // Render state management - tracks real-time rendering progress
         this.renderState = {
-            isRendering: false,
-            progress: 0,
-            samples: 0,
-            renderTime: 0,
-            resolution: { width: 1920, height: 1080 },
-            renderTarget: null
+            isRendering: false,        // Current rendering status
+            progress: 0,               // Render progress percentage
+            samples: 0,                // Current sample count
+            renderTime: 0,             // Elapsed render time
+            resolution: { width: 1920, height: 1080 }, // Current render resolution
+            renderTarget: null         // Active render target object
         };
         
-        // Event handlers for extended functionality
+        // Setup event handlers for extended OctaneWeb functionality
         this.setupExtendedEventHandlers();
         
-        // Auto-sync intervals
+        // Auto-sync intervals for periodic state updates
         this.syncIntervals = {
-            scene: null,
-            render: null,
-            nodeGraph: null
+            scene: null,               // Scene tree synchronization timer
+            render: null,              // Render progress update timer
+            nodeGraph: null            // Node graph state sync timer
         };
     }
     

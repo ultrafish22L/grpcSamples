@@ -1,8 +1,30 @@
 /**
- * Scene Outliner with SYNCHRONOUS API calls
- * Demonstrates proper architectural pattern:
- * - gRPC calls are BLOCKING/SYNCHRONOUS (sequential dependencies)
- * - UI updates are ASYNCHRONOUS (non-blocking)
+ * Scene Outliner with Synchronous API Integration
+ * 
+ * Hierarchical scene tree component that displays the complete Octane scene
+ * structure with real-time synchronization to the Octane LiveLink service.
+ * Provides node selection, search functionality, and expand/collapse controls.
+ * 
+ * Core Features:
+ * - Real-time scene tree synchronization with Octane LiveLink
+ * - Hierarchical display with expand/collapse functionality
+ * - Node selection with cross-component event coordination
+ * - Search and filtering capabilities for large scenes
+ * - Professional Octane-style UI with proper icons and styling
+ * - Auto-selection of render target on initialization
+ * 
+ * Technical Architecture:
+ * - Synchronous gRPC API calls for reliable data consistency
+ * - Asynchronous UI updates for responsive user experience
+ * - Event-driven communication with NodeInspector and NodeGraph
+ * - Cached scene data for performance optimization
+ * - Unified selection events across all components
+ * 
+ * API Integration:
+ * - Uses buildSceneTree API for hierarchical scene data
+ * - Maintains node handle to name mapping for efficient lookups
+ * - Coordinates with NodeInspector for parameter editing
+ * - Synchronizes selection state across all UI components
  */
 
 class SceneOutlinerSync {

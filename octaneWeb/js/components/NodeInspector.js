@@ -1,28 +1,53 @@
 /**
  * Node Inspector Component
- * Professional Octane-style parameter controls for selected nodes
- * Matches the exact layout and styling of Octane Render Studio
+ * 
+ * Professional parameter editing interface that provides real-time control
+ * over Octane node parameters with live updates to the rendering engine.
+ * Matches the exact layout and styling of Octane Render Studio for consistency.
+ * 
+ * Core Features:
+ * - Real-time parameter editing with live Octane updates
+ * - Professional Octane-style UI with collapsible sections
+ * - Generic node rendering system supporting all Octane node types
+ * - Intelligent parameter grouping and organization
+ * - Auto-selection of render target on initialization
+ * - Cached scene data integration for performance
+ * 
+ * Technical Implementation:
+ * - Extends OctaneComponent for consistent lifecycle management
+ * - Uses GenericNodeRenderer for flexible parameter display
+ * - Maintains parameter state cache for performance optimization
+ * - Integrates with Scene Outliner for node selection synchronization
+ * - Provides expandable/collapsible parameter groups
+ * 
+ * Parameter Types Supported:
+ * - Numeric inputs (float, int) with range validation
+ * - Boolean checkboxes with live toggle updates
+ * - Dropdown selections for enumerated values
+ * - Color pickers for RGB/RGBA parameters
+ * - File path inputs for texture and model loading
  */
 
 class NodeInspector extends OctaneComponent {
     constructor(element, client, stateManager) {
         super(element, client, stateManager);
         
-        this.selectedNode = null;
-        this.selectedNodeType = null;
-        this.parameters = {};
+        // Current node selection state
+        this.selectedNode = null;             // Currently selected node handle
+        this.selectedNodeType = null;         // Type of selected node for rendering
+        this.parameters = {};                 // Current parameter values cache
         
-        // Initialize all sections and groups as expanded by default
-        this.collapsedSections = new Set(); // All sections expanded by default
-        this.collapsedGroups = new Set();   // All parameter groups expanded by default
+        // UI state management for collapsible sections
+        this.collapsedSections = new Set();  // Collapsed parameter sections (default: all expanded)
+        this.collapsedGroups = new Set();    // Collapsed parameter groups (default: all expanded)
         
-        // Cache for scene data from Scene Outliner (optimization)
-        this.nodeCache = new Map(); // handle -> nodeData
-        this.nodeLookup = new Map(); // name -> handle
-        this.sceneDataLoaded = false;
+        // Performance optimization caches for scene data
+        this.nodeCache = new Map();          // handle -> nodeData mapping
+        this.nodeLookup = new Map();         // name -> handle reverse lookup
+        this.sceneDataLoaded = false;        // Scene data loading state
         
-        // Initialize Generic Node Renderer
-        this.genericRenderer = null;
+        // Generic node rendering system for flexible parameter display
+        this.genericRenderer = null;         // Initialized in onInitialize()
     }
     
     async onInitialize() {

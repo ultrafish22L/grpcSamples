@@ -1,10 +1,30 @@
 /**
  * GenericNodeRenderer.js
  * 
- * Generic node inspector renderer that builds hierarchical node trees
- * from real tree data and ApiNodePinInfo, replacing hard-coded approaches.
+ * Generic node parameter rendering system that dynamically builds hierarchical
+ * node inspector interfaces from live Octane API data. Provides flexible,
+ * data-driven parameter display supporting all Octane node types.
  * 
- * Based on the actual Octane Node Inspector layout structure.
+ * Core Features:
+ * - Dynamic parameter rendering from ApiNodePinInfo data
+ * - Hierarchical node tree display with proper indentation
+ * - Expandable/collapsible parameter groups and sections
+ * - Professional Octane-style UI matching Render Studio
+ * - Icon mapping system for visual node type identification
+ * - Real-time parameter updates with live Octane synchronization
+ * 
+ * Technical Implementation:
+ * - Replaces hard-coded parameter layouts with data-driven approach
+ * - Supports all Octane parameter types (float, int, bool, enum, color)
+ * - Maintains expand/collapse state for user interface consistency
+ * - Integrates with OctaneIconMapper for node type visualization
+ * - Provides recursive child node rendering for complex hierarchies
+ * 
+ * Usage:
+ * - Used by NodeInspector component for parameter display
+ * - Receives node data from Scene Outliner selection
+ * - Renders parameters based on live ApiNodePinInfo responses
+ * - Handles user interactions and parameter value updates
  */
 
 class GenericNodeRenderer {
