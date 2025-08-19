@@ -228,21 +228,7 @@ class NodeInspector extends OctaneComponent {
         }
     }
     
-    updateParameterValue(paramName, value) {
-        console.log(`Updating parameter: ${paramName} = ${value}`);
-        
-        // Store the parameter value
-        this.parameters[paramName] = value;
-        
-        // If we have a selected node, send the update to the server
-        if (this.selectedNode) {
-            this.client.emit('ui:updateNodeParameter', {
-                nodeId: this.selectedNode,
-                parameterName: paramName,
-                value: value
-            });
-        }
-    }
+
     
     setupInspectorEventListeners() {
         // Group collapse/expand functionality
@@ -425,16 +411,7 @@ class NodeInspector extends OctaneComponent {
         window.debugConsole?.addLog('info', ['✅ NodeInspector: Scene data cache updated', this.nodeCache.size, 'nodes cached']);
     }
     
-    /**
-     * Get cached node data by handle
-     */
-    getCachedNodeData(handle) {
-        // Look up node data from cache using handle
-        if (this.sceneDataCache) {
-            return this.sceneDataCache.find(node => node.handle === handle);
-        }
-        return null;
-    }
+
     
     /**
      * GENERIC: Find node data directly from sceneItems list
@@ -910,16 +887,7 @@ class NodeInspector extends OctaneComponent {
         `;
     }
     
-    /**
-     * Update the existing node selector dropdown (don't create a new one)
-     */
-    updateNodeSelectorDropdown(nodeName) {
-        const dropdown = document.querySelector('.node-selector');
-        if (dropdown) {
-            dropdown.innerHTML = `<option value="${nodeName}" selected>${nodeName}</option>`;
-            window.debugConsole?.addLog('info', ['🔄 NodeInspector: Updated dropdown to', nodeName]);
-        }
-    }
+
     
     /**
      * GENERIC: Render a single parameter control
@@ -1334,30 +1302,7 @@ class NodeInspector extends OctaneComponent {
         return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
     }
     
-    updateInspectorDropdown(nodeName) {
-        // Update the dropdown in the existing header to show the selected node
-        const dropdown = document.querySelector('.node-inspector-panel select');
-        if (dropdown && nodeName) {
-            // Check if option exists, if not add it
-            let optionExists = false;
-            for (let option of dropdown.options) {
-                if (option.value === nodeName) {
-                    option.selected = true;
-                    optionExists = true;
-                    break;
-                }
-            }
 
-            // If option doesn't exist, add it and select it
-            if (!optionExists) {
-                const newOption = document.createElement('option');
-                newOption.value = nodeName;
-                newOption.textContent = nodeName;
-                newOption.selected = true;
-                dropdown.appendChild(newOption);
-            }
-        }
-    }
 
     setupOctaneInspectorEvents() {
         // Setup section toggle functionality
@@ -1437,7 +1382,7 @@ class NodeInspector extends OctaneComponent {
             console.log('✅ OPTIMIZED: Loaded parameter values:', parameters);
             
             // Render the full inspector with all parameters
-            this.renderFullParameterInspector(data, parameters);
+            this.doRenderFullParameterInspector(data, parameters);
             
         } catch (error) {
             console.error('❌ Failed to load parameter tree:', error);
@@ -1783,10 +1728,7 @@ class NodeInspector extends OctaneComponent {
     /**
      * Render full parameter inspector with all loaded parameters
      */
-    renderFullParameterInspector(data, parameters) {
-        // Render directly without external parameter renderer
-        this.doRenderFullParameterInspector(data, parameters);
-    }
+
     
     doRenderFullParameterInspector(data, parameters) {
         console.log('🎨 GENERIC RENDERER: Rendering full parameter inspector for:', data.nodeName);
