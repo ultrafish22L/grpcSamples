@@ -295,6 +295,21 @@ class ComprehensiveOctaneProxy:
             print(f"❌ Failed to connect to Octane at {self.octane_address}: {e}")
             return False
 
+    def clear_debug_logs(self):
+        """Clear any existing debug log files for a fresh session"""
+        try:
+            logs_dir = os.path.join(os.path.dirname(__file__), '..', 'octaneWeb', 'debug_logs')
+            if os.path.exists(logs_dir):
+                # Remove all existing log files
+                for filename in os.listdir(logs_dir):
+                    if filename.startswith('octane-debug-') and filename.endswith('.log'):
+                        filepath = os.path.join(logs_dir, filename)
+                        os.remove(filepath)
+                        print(f"🧹 Cleared old debug log: {filename}")
+            print("🧹 Debug logs cleared for fresh session")
+        except Exception as e:
+            print(f"⚠️ Could not clear debug logs: {e}")
+
     async def disconnect(self):
         """Disconnect from Octane"""
         if self.channel:
@@ -304,6 +319,9 @@ class ComprehensiveOctaneProxy:
 
 # Global proxy instance
 proxy = None
+
+# Track active sessions for log management
+active_sessions = set()
 
 @middleware
 async def cors_handler(request, handler):
@@ -335,6 +353,44 @@ async def handle_options(request):
             'Access-Control-Max-Age': '86400'
         }
     )
+
+async def handle_clear_debug_log(request):
+    """Handle clearing/initializing the log file for a new session"""
+    try:
+        # Read the request body
+        data = await request.json()
+        
+        # Extract data
+        session_id = data.get('sessionId', 'unknown')
+        timestamp = data.get('timestamp', datetime.now().isoformat())
+        
+        # Create logs directory if it doesn't exist
+        logs_dir = os.path.join(os.path.dirname(__file__), '..', 'octaneWeb', 'debug_logs')
+        os.makedirs(logs_dir, exist_ok=True)
+        
+        # Create filename
+        filename = f"octane-debug-{session_id}.log"
+        filepath = os.path.join(logs_dir, filename)
+        
+        # Clear/create log file with session header
+        header = f"=== OctaneWeb Debug Log Session ===\nSession ID: {session_id}\nStarted: {timestamp}\n" + "="*40 + "\n\n"
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(header)
+        
+        # Send success response
+        return web.json_response({'success': True, 'message': 'Log file cleared and initialized'}, headers={
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type'
+        })
+        
+    except Exception as e:
+        # Silently fail to avoid console spam
+        return web.json_response(
+            {'error': f'Failed to clear log: {str(e)}'},
+            status=500,
+            headers={'Access-Control-Allow-Origin': '*'}
+        )
 
 async def handle_append_debug_log(request):
     """Handle appending a single log entry to the running log file"""
@@ -465,7 +521,16 @@ async def handle_get_debug_logs(request):
         )
 
 async def handle_health(request):
-    """Health check endpoint"""
+    """Health check endpoint - also clears logs for new session"""
+    global active_sessions
+    
+    # Clear old logs when a new session connects (health check indicates new session)
+    if proxy:
+        proxy.clear_debug_logs()
+        # Clear session tracking for fresh start
+        active_sessions.clear()
+        print("🧹 Debug logs cleared for new session (health check)")
+    
     return web.json_response({'status': 'ok', 'connected': proxy.channel is not None})
 
 def recurse_attr(grpc_request, key, value):
@@ -783,6 +848,7 @@ def create_app():
     app.router.add_get('/health', handle_health)
     
     # Debug log endpoints
+    app.router.add_post('/debug/clear-log', handle_clear_debug_log)
     app.router.add_post('/debug/append-log', handle_append_debug_log)
     app.router.add_post('/save-debug-logs', handle_save_debug_logs)
     app.router.add_get('/debug-logs/{session_id}', handle_get_debug_logs)

@@ -25,7 +25,7 @@ class DebugConsole {
         this.addLog('info', '🚀 Debug Console initialized');
         this.addLog('info', `📋 Session ID: ${this.sessionId}`);
         this.addLog('info', '📋 Use F12 or Ctrl+D to toggle');
-        this.addLog('info', '🧹 Auto-save enabled every 30 seconds');
+        this.addLog('info', '🧹 Log file cleared by proxy on connection');
     }
     
     generateSessionId() {

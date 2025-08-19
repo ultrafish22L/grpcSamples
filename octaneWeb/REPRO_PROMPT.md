@@ -66,6 +66,35 @@ The system is **PRODUCTION-READY** with all core functionality working. The most
 4. Try restarting Octane LiveLink service
 5. Test with minimal API calls first
 
+### 🚨 **CRITICAL DEBUGGING RULE**
+
+**⚠️ NEVER USE BROWSER CONSOLE OR DEBUG CONSOLE FOR DEBUGGING**
+
+**✅ ALWAYS READ LOG FILES INSTEAD**:
+- **Log Location**: `octaneWeb/debug_logs/octane-debug-[sessionId].log`
+- **Real-time Logging**: All console output, errors, and application state automatically captured
+- **Session-based**: Fresh log file for each web app session (cleared on new connection)
+- **Complete Coverage**: Captures console.log, console.error, console.warn, uncaught errors, and promise rejections
+
+**Why Log Files Only**:
+- **Complete History**: Full session activity from start to finish
+- **No Missing Data**: Captures everything including initialization and async operations
+- **Production Ready**: Works in all environments without browser dev tools
+- **Searchable**: Easy to grep, search, and analyze patterns
+- **Persistent**: Survives page refreshes and browser crashes
+
+**Usage**:
+```bash
+# Read current session logs
+cat octaneWeb/debug_logs/octane-debug-*.log
+
+# Monitor logs in real-time
+tail -f octaneWeb/debug_logs/octane-debug-*.log
+
+# Search for specific errors
+grep -i "error\|failed\|exception" octaneWeb/debug_logs/octane-debug-*.log
+```
+
 ## 🚀 **Quick Start Guide**
 
 ### **Production Deployment**
