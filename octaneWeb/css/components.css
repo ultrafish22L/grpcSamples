@@ -3426,3 +3426,126 @@ body.drag-over .drop-indicator {
         font-size: var(--font-size-small);
     }
 }
+
+/* Parameter Control Styles for Interactive Node Inspector */
+.parameter-control-container {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 8px;
+    gap: 4px;
+}
+
+/* Checkbox Controls */
+.parameter-checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.parameter-checkbox {
+    display: none;
+}
+
+.parameter-checkbox-custom {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--octane-border);
+    border-radius: 3px;
+    background: var(--octane-bg-primary);
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.parameter-checkbox:checked + .parameter-checkbox-custom {
+    background: var(--octane-accent);
+    border-color: var(--octane-accent);
+}
+
+.parameter-checkbox:checked + .parameter-checkbox-custom::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+/* Numeric Input Controls */
+.parameter-number-input,
+.parameter-text-input {
+    width: 60px;
+    height: 20px;
+    padding: 2px 4px;
+    border: 1px solid var(--octane-border);
+    border-radius: 3px;
+    background: var(--octane-bg-primary);
+    color: var(--octane-text-primary);
+    font-size: 11px;
+    font-family: var(--font-family);
+}
+
+.parameter-number-input:focus,
+.parameter-text-input:focus {
+    outline: none;
+    border-color: var(--octane-accent);
+    box-shadow: 0 0 0 1px var(--octane-accent);
+}
+
+/* Vector Controls */
+.parameter-vector-container {
+    gap: 2px;
+}
+
+.parameter-vector-input {
+    width: 40px;
+    height: 20px;
+    padding: 2px 4px;
+    border: 1px solid var(--octane-border);
+    border-radius: 3px;
+    background: var(--octane-bg-primary);
+    color: var(--octane-text-primary);
+    font-size: 10px;
+    font-family: var(--font-family);
+    text-align: center;
+}
+
+.parameter-vector-input:focus {
+    outline: none;
+    border-color: var(--octane-accent);
+    box-shadow: 0 0 0 1px var(--octane-accent);
+}
+
+/* Color Controls */
+.parameter-color-container {
+    align-items: center;
+    gap: 4px;
+}
+
+.parameter-color-preview {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--octane-border);
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.parameter-color-picker {
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 0;
+    background: none;
+}
+
+.parameter-color-picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.parameter-color-picker::-webkit-color-swatch {
+    border: 1px solid var(--octane-border);
+    border-radius: 3px;
+}
