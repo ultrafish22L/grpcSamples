@@ -11,14 +11,27 @@ class DebugConsole {
         this.maxLogs = 1000;
         this.element = null;
         
+        // Progressive file saving
+        this.autoSaveEnabled = true;
+        this.autoSaveInterval = 2000; // Save every 2 seconds
+        this.autoSaveTimer = null;
+        this.sessionId = this.generateSessionId();
+        this.logBuffer = []; // Buffer for unsaved logs
+        this.totalLogCount = 0; // Track total logs across session
+        this.persistentLogFile = null; // File handle for continuous logging
+        
         this.init();
         this.interceptConsole();
+        this.startAutoSave();
         // Note: Keyboard shortcuts are handled by the main app (app.js)
         
         // Add some initial logs to show the console is working
         // These will be displayed when the console becomes visible
-        this.addLog('info', ['🚀 Debug Console initialized']);
+        this.addLog('info', ['🚀 Debug Console initialized with persistent logging']);
         this.addLog('info', ['📋 Use Ctrl+D or F12 to toggle this console']);
+        this.addLog('info', ['💾 Logs auto-save every 2 seconds to downloadable file']);
+        this.addLog('info', ['📁 Persistent log file always available in Downloads folder']);
+        this.addLog('info', ['💾 Use the save button for manual log export']);
         this.addLog('info', ['🧹 Use the clear button to clear logs']);
         this.addLog('info', ['🧑‍🚒 Use the test button to run API tests']);
     }
@@ -30,6 +43,7 @@ class DebugConsole {
             <div class="debug-header">
                 <span class="debug-title">🐛 Debug Console</span>
                 <div class="debug-controls">
+                    <button class="debug-btn" title="Save logs to file" onclick="debugConsole.saveLogsToFile()">💾</button>
                     <button class="debug-btn" title="Start unit testing" onclick="debugConsole.unitTest()">🧑‍🚒</button>
                     <button class="debug-btn" title="Clear debug console logs" onclick="debugConsole.clear()">🗑️</button>
                     <button class="debug-btn" title="Close debug console" onclick="debugConsole.toggle()">✖️</button>
@@ -198,7 +212,9 @@ class DebugConsole {
     }
     
     addLog(type, args) {
-        const timestamp = new Date().toLocaleTimeString();
+        const now = new Date();
+        const timestamp = now.toLocaleTimeString();
+        const isoTimestamp = now.toISOString();
         const message = args.map(arg => 
             typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
         ).join(' ');
@@ -206,17 +222,21 @@ class DebugConsole {
         const logEntry = {
             type,
             message,
-            timestamp
+            timestamp,
+            isoTimestamp,
+            sessionId: this.sessionId,
+            logId: ++this.totalLogCount
         };
         
         this.logs.push(logEntry);
+        this.logBuffer.push(logEntry); // Add to buffer for auto-save
         
         // Use original console method to avoid infinite recursion
         if (this.originalLog) {
             this.originalLog(`📝 DebugConsole: Added ${type} log (total: ${this.logs.length})`);
         }
         
-        // Limit log history
+        // Limit log history in memory
         if (this.logs.length > this.maxLogs) {
             this.logs.shift();
         }
@@ -339,6 +359,267 @@ class DebugConsole {
         // Use original console method to avoid infinite recursion
         if (this.originalInfo) {
             this.originalInfo('🧹 Debug console cleared');
+        }
+    }
+    
+    saveLogsToFile() {
+        try {
+            // Generate filename with timestamp
+            const now = new Date();
+            const timestamp = now.toISOString().replace(/[:.]/g, '-').slice(0, -5); // Remove milliseconds and colons
+            const filename = `octane-debug-logs-${timestamp}.txt`;
+            
+            // Create log content
+            let logContent = `OctaneWeb Debug Console Log\n`;
+            logContent += `Generated: ${now.toISOString()}\n`;
+            logContent += `Total Logs: ${this.logs.length}\n`;
+            logContent += `Max Log History: ${this.maxLogs}\n`;
+            logContent += `${'='.repeat(80)}\n\n`;
+            
+            // Add all logs
+            this.logs.forEach((log, index) => {
+                logContent += `[${log.timestamp}] [${log.type.toUpperCase()}] ${log.message}\n`;
+            });
+            
+            // Add system info
+            logContent += `\n${'='.repeat(80)}\n`;
+            logContent += `System Information:\n`;
+            logContent += `User Agent: ${navigator.userAgent}\n`;
+            logContent += `URL: ${window.location.href}\n`;
+            logContent += `Timestamp: ${now.toISOString()}\n`;
+            
+            // Create and download file
+            const blob = new Blob([logContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            // Log success
+            this.addLog('success', [`💾 Logs saved to file: ${filename} (${this.logs.length} entries)`]);
+            
+            // Use original console method to avoid infinite recursion
+            if (this.originalInfo) {
+                this.originalInfo(`💾 Debug logs saved to file: ${filename}`);
+            }
+            
+        } catch (error) {
+            this.addLog('error', [`❌ Failed to save logs: ${error.message}`]);
+            
+            // Use original console method to avoid infinite recursion
+            if (this.originalError) {
+                this.originalError('❌ Failed to save debug logs:', error);
+            }
+        }
+    }
+    
+    generateSessionId() {
+        const now = new Date();
+        const timestamp = now.toISOString().replace(/[:.]/g, '-').slice(0, -5);
+        const random = Math.random().toString(36).substring(2, 8);
+        return `session-${timestamp}-${random}`;
+    }
+    
+    startAutoSave() {
+        if (this.autoSaveEnabled && !this.autoSaveTimer) {
+            // Initialize persistent log file
+            this.initializePersistentLogFile();
+            
+            this.autoSaveTimer = setInterval(() => {
+                this.autoSaveToFile();
+                this.autoSaveToStorage();
+            }, this.autoSaveInterval);
+            
+            // Also save on page unload
+            window.addEventListener('beforeunload', () => {
+                this.autoSaveToFile();
+                this.autoSaveToStorage();
+            });
+            
+            // Load existing logs from storage
+            this.loadFromStorage();
+        }
+    }
+    
+    stopAutoSave() {
+        if (this.autoSaveTimer) {
+            clearInterval(this.autoSaveTimer);
+            this.autoSaveTimer = null;
+        }
+    }
+    
+    initializePersistentLogFile() {
+        try {
+            // Create initial log file content
+            const now = new Date();
+            const filename = `octane-debug-${this.sessionId}.log`;
+            
+            let initialContent = `OctaneWeb Debug Console - Persistent Log\n`;
+            initialContent += `Session ID: ${this.sessionId}\n`;
+            initialContent += `Started: ${now.toISOString()}\n`;
+            initialContent += `Auto-save interval: ${this.autoSaveInterval}ms\n`;
+            initialContent += `${'='.repeat(80)}\n\n`;
+            
+            // Create and download initial file
+            const blob = new Blob([initialContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            // Store filename for future updates
+            this.persistentLogFilename = filename;
+            
+            // Use original console method to avoid infinite recursion
+            if (this.originalInfo) {
+                this.originalInfo(`📁 Initialized persistent log file: ${filename}`);
+            }
+            
+        } catch (error) {
+            // Use original console method to avoid infinite recursion
+            if (this.originalError) {
+                this.originalError('❌ Failed to initialize persistent log file:', error);
+            }
+        }
+    }
+    
+    autoSaveToFile() {
+        if (this.logBuffer.length === 0) return;
+        
+        try {
+            // Get all logs (stored + buffer)
+            const allLogs = this.getAllStoredLogs();
+            
+            // Create complete log file content
+            const now = new Date();
+            let logContent = `OctaneWeb Debug Console - Persistent Log\n`;
+            logContent += `Session ID: ${this.sessionId}\n`;
+            logContent += `Last Updated: ${now.toISOString()}\n`;
+            logContent += `Total Logs: ${allLogs.length}\n`;
+            logContent += `Auto-save interval: ${this.autoSaveInterval}ms\n`;
+            logContent += `${'='.repeat(80)}\n\n`;
+            
+            // Add all logs
+            allLogs.forEach((log) => {
+                logContent += `[${log.isoTimestamp || log.timestamp}] [${log.type.toUpperCase()}] ${log.message}\n`;
+            });
+            
+            // Add system info
+            logContent += `\n${'='.repeat(80)}\n`;
+            logContent += `System Information:\n`;
+            logContent += `User Agent: ${navigator.userAgent}\n`;
+            logContent += `URL: ${window.location.href}\n`;
+            logContent += `Session Duration: ${Math.round((now - new Date(this.sessionId.split('-')[1] + 'T' + this.sessionId.split('-')[2].replace(/-/g, ':'))) / 1000)}s\n`;
+            logContent += `Last Updated: ${now.toISOString()}\n`;
+            
+            // Create and auto-download updated file
+            const blob = new Blob([logContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = this.persistentLogFilename || `octane-debug-${this.sessionId}.log`;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            // Use original console method to avoid infinite recursion
+            if (this.originalLog) {
+                this.originalLog(`💾 Auto-saved ${allLogs.length} logs to persistent file`);
+            }
+            
+        } catch (error) {
+            // Use original console method to avoid infinite recursion
+            if (this.originalError) {
+                this.originalError('❌ Failed to auto-save logs to file:', error);
+            }
+        }
+    }
+    
+    autoSaveToStorage() {
+        if (this.logBuffer.length === 0) return;
+        
+        try {
+            // Get existing logs from storage
+            const storageKey = `octane-debug-logs-${this.sessionId}`;
+            const existingLogs = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            
+            // Append new logs
+            existingLogs.push(...this.logBuffer);
+            
+            // Save back to storage
+            localStorage.setItem(storageKey, JSON.stringify(existingLogs));
+            
+            // Clear buffer
+            this.logBuffer = [];
+            
+            // Use original console method to avoid infinite recursion
+            if (this.originalLog) {
+                this.originalLog(`💾 Auto-saved ${existingLogs.length} total logs to storage`);
+            }
+            
+        } catch (error) {
+            // Use original console method to avoid infinite recursion
+            if (this.originalError) {
+                this.originalError('❌ Failed to auto-save logs to storage:', error);
+            }
+        }
+    }
+    
+    loadFromStorage() {
+        try {
+            const storageKey = `octane-debug-logs-${this.sessionId}`;
+            const existingLogs = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            
+            if (existingLogs.length > 0) {
+                // Update total count
+                this.totalLogCount = Math.max(this.totalLogCount, ...existingLogs.map(log => log.logId || 0));
+                
+                // Use original console method to avoid infinite recursion
+                if (this.originalLog) {
+                    this.originalLog(`📂 Loaded ${existingLogs.length} existing logs from storage`);
+                }
+            }
+        } catch (error) {
+            // Use original console method to avoid infinite recursion
+            if (this.originalError) {
+                this.originalError('❌ Failed to load logs from storage:', error);
+            }
+        }
+    }
+    
+    getAllStoredLogs() {
+        try {
+            const storageKey = `octane-debug-logs-${this.sessionId}`;
+            const storedLogs = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            
+            // Combine stored logs with current buffer
+            const allLogs = [...storedLogs, ...this.logBuffer];
+            
+            // Sort by logId to maintain order
+            allLogs.sort((a, b) => (a.logId || 0) - (b.logId || 0));
+            
+            return allLogs;
+        } catch (error) {
+            // Use original console method to avoid infinite recursion
+            if (this.originalError) {
+                this.originalError('❌ Failed to get stored logs:', error);
+            }
+            return this.logBuffer;
         }
     }
     
