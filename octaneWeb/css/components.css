@@ -3004,47 +3004,51 @@ body.drag-over .drop-indicator {
 }
 
 /* ===== GENERIC NODE RENDERER STYLES ===== */
-/* Layout system for hierarchical node inspector matching Octane screenshot */
+/* Professional hierarchical node inspector with consistent spacing and proper indentation */
 
 /* Node box base styles */
 .node-box {
     position: relative;
-    margin: 2px 0;
+    margin: 3px 0; /* Increased vertical spacing for better breathing room */
     background: var(--octane-bg-secondary);
     border: 1px solid var(--octane-border);
     border-radius: 4px;
-    min-height: 24px;
+    min-height: 28px; /* Increased height for better proportions */
     display: flex;
     align-items: flex-start;
     transition: all 0.2s ease;
 }
 
-/* Level-based indentation system */
+/* Level-based indentation system with consistent 24px increments */
 .node-level-0 {
-    margin-left: 30px; /* Space for icon box */
+    margin-left: 0; /* Top node fully left justified - no margin */
 }
 
 .node-level-1 {
-    margin-left: 50px; /* 30px base + 20px indent */
+    margin-left: 24px; /* First level indent */
 }
 
 .node-level-2 {
-    margin-left: 70px; /* 30px base + 40px indent */
+    margin-left: 48px; /* Second level indent (24px * 2) */
 }
 
 .node-level-3 {
-    margin-left: 90px; /* 30px base + 60px indent */
+    margin-left: 72px; /* Third level indent (24px * 3) */
 }
 
 .node-level-4 {
-    margin-left: 110px; /* 30px base + 80px indent */
+    margin-left: 96px; /* Fourth level indent (24px * 4) */
 }
 
-/* Icon box overlapping node box with 1/4 width hanging to the left */
+.node-level-5 {
+    margin-left: 120px; /* Fifth level indent (24px * 5) */
+}
+
+/* Icon box with better visibility and positioning */
 .node-icon-box {
     position: absolute;
-    left: -5px;
-    top: 2px;
+    left: -6px; /* Slightly more overlap for better integration */
+    top: 4px; /* Centered vertically in taller boxes */
     width: 20px;
     height: 20px;
     border-radius: 3px;
@@ -3052,36 +3056,64 @@ body.drag-over .drop-indicator {
     align-items: center;
     justify-content: center;
     font-size: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2); /* More visible border */
+    background: rgba(0, 0, 0, 0.3); /* Subtle background for better contrast */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
 }
 
-/* Node content area */
+/* Node content area with improved spacing */
 .node-content {
     flex: 1;
-    padding: 4px 8px 4px 20px; /* Extra left padding to account for overlapping icon */
-    min-height: 16px;
+    padding: 6px 12px 6px 24px; /* Increased padding for better spacing */
+    min-height: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    line-height: 1.4; /* Better line spacing */
 }
 
-/* Node header with title and collapse icon */
+/* Node header with improved spacing and alignment */
 .node-header {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 8px; /* Increased gap between elements */
     cursor: pointer;
     user-select: none;
+    width: 100%;
+    min-height: 20px;
 }
 
 .node-header:hover {
     background: var(--octane-bg-hover);
-    border-radius: 2px;
+    border-radius: 3px;
+    padding: 2px 4px;
+    margin: -2px -4px;
 }
 
-/* Node parameter controls */
+/* Collapse/expand icon styling */
+.node-collapse-icon {
+    font-size: 12px;
+    color: var(--octane-text-secondary);
+    transition: transform 0.2s ease;
+    min-width: 12px;
+    text-align: center;
+}
+
+.node-collapse-icon:hover {
+    color: var(--octane-text-primary);
+}
+
+/* Node title styling */
+.node-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--octane-text-primary);
+    flex-shrink: 0;
+}
+
+/* Node parameter controls with better spacing */
 .node-parameter-controls {
-    margin-left: auto;
+    margin-left: 12px; /* Space between title and dropdown */
     display: flex;
     align-items: center;
     gap: 8px;
@@ -3096,6 +3128,7 @@ body.drag-over .drop-indicator {
     font-size: 12px;
     min-width: 120px;
     cursor: pointer;
+    transition: border-color 0.2s ease;
 }
 
 .node-parameter-controls .parameter-dropdown:hover {
@@ -3104,8 +3137,23 @@ body.drag-over .drop-indicator {
 
 .node-parameter-controls .parameter-dropdown:focus {
     outline: none;
-    border-color: #0078d4;
-    box-shadow: 0 0 0 1px #0078d4;
+    border-color: var(--octane-accent);
+    box-shadow: 0 0 0 2px rgba(255, 165, 0, 0.2);
+}
+
+/* Child nodes container */
+.node-children {
+    width: 100%;
+    margin-top: 4px;
+}
+
+/* Parameter rows within nodes */
+.node-parameter-row {
+    margin: 2px 0;
+    padding: 2px 0;
+    font-size: 12px;
+    color: var(--octane-text-secondary);
+    line-height: 1.3;
 }
 
 /* Collapse/expand icons */
