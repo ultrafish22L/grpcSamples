@@ -336,8 +336,46 @@ async def handle_options(request):
         }
     )
 
+async def handle_append_debug_log(request):
+    """Handle appending a single log entry to the running log file"""
+    try:
+        # Read the request body
+        data = await request.json()
+        
+        # Extract data
+        session_id = data.get('sessionId', 'unknown')
+        log_entry = data.get('logEntry', '')
+        timestamp = data.get('timestamp', datetime.now().isoformat())
+        
+        # Create logs directory if it doesn't exist
+        logs_dir = os.path.join(os.path.dirname(__file__), '..', 'octaneWeb', 'debug_logs')
+        os.makedirs(logs_dir, exist_ok=True)
+        
+        # Create filename
+        filename = f"octane-debug-{session_id}.log"
+        filepath = os.path.join(logs_dir, filename)
+        
+        # Append log entry to file
+        with open(filepath, 'a', encoding='utf-8') as f:
+            f.write(log_entry + '\n')
+        
+        # Send success response (minimal to avoid spam)
+        return web.json_response({'success': True}, headers={
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type'
+        })
+        
+    except Exception as e:
+        # Silently fail to avoid console spam
+        return web.json_response(
+            {'error': f'Failed to append log: {str(e)}'},
+            status=500,
+            headers={'Access-Control-Allow-Origin': '*'}
+        )
+
 async def handle_save_debug_logs(request):
-    """Handle saving debug logs to persistent system files"""
+    """Handle saving debug logs to persistent system files (legacy endpoint)"""
     try:
         # Read the request body
         data = await request.json()
@@ -745,6 +783,7 @@ def create_app():
     app.router.add_get('/health', handle_health)
     
     # Debug log endpoints
+    app.router.add_post('/debug/append-log', handle_append_debug_log)
     app.router.add_post('/save-debug-logs', handle_save_debug_logs)
     app.router.add_get('/debug-logs/{session_id}', handle_get_debug_logs)
     

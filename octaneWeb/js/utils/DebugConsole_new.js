@@ -1,6 +1,6 @@
 /**
- * Simple Debug Console - Rewritten from scratch
- * A lightweight debug console that actually works
+ * Enhanced Debug Console with Auto-Save Logging
+ * Captures all console output and automatically saves to log files
  */
 class DebugConsole {
     constructor() {
@@ -8,6 +8,9 @@ class DebugConsole {
         this.isVisible = false;
         this.element = null;
         this.logsContainer = null;
+        this.sessionId = this.generateSessionId();
+        this.autoSaveInterval = null;
+        this.proxyUrl = 'http://localhost:51023';
         
         // Store original console methods
         this.originalLog = console.log;
@@ -16,11 +19,17 @@ class DebugConsole {
         
         this.createConsole();
         this.interceptConsole();
+        this.setupAutoSave();
         
         // Add initial test logs
         this.addLog('info', '🚀 Debug Console initialized');
+        this.addLog('info', `📋 Session ID: ${this.sessionId}`);
         this.addLog('info', '📋 Use F12 or Ctrl+D to toggle');
-        this.addLog('info', '🧹 Use clear button to clear logs');
+        this.addLog('info', '🧹 Auto-save enabled every 30 seconds');
+    }
+    
+    generateSessionId() {
+        return Date.now().toString(36) + Math.random().toString(36).substr(2);
     }
     
     createConsole() {
@@ -54,7 +63,7 @@ class DebugConsole {
             align-items: center;
         `;
         header.innerHTML = `
-            <span>🐛 Debug Console</span>
+            <span>🐛 Debug Console (${this.sessionId})</span>
             <div>
                 <button id="debug-test-btn" style="background: #555; color: white; border: none; padding: 4px 8px; margin-right: 4px; border-radius: 3px; cursor: pointer;">🧑‍🚒</button>
                 <button id="debug-clear-btn" style="background: #555; color: white; border: none; padding: 4px 8px; margin-right: 4px; border-radius: 3px; cursor: pointer;">🗑️</button>
@@ -139,6 +148,24 @@ class DebugConsole {
             this.originalWarn(...args);
             this.addLog('warn', args.join(' '));
         };
+        
+        // Capture uncaught JavaScript errors
+        window.addEventListener('error', (event) => {
+            const errorMsg = `Uncaught Error: ${event.message} at ${event.filename}:${event.lineno}:${event.colno}`;
+            this.addLog('error', errorMsg);
+            if (event.error && event.error.stack) {
+                this.addLog('error', `Stack: ${event.error.stack}`);
+            }
+        });
+        
+        // Capture unhandled promise rejections
+        window.addEventListener('unhandledrejection', (event) => {
+            const errorMsg = `Unhandled Promise Rejection: ${event.reason}`;
+            this.addLog('error', errorMsg);
+            if (event.reason && event.reason.stack) {
+                this.addLog('error', `Stack: ${event.reason.stack}`);
+            }
+        });
     }
     
     addLog(type, message) {
@@ -148,6 +175,9 @@ class DebugConsole {
             message: message,
             timestamp: timestamp
         });
+        
+        // Send to proxy immediately
+        this.sendLogToProxy(type, message, timestamp);
         
         // Keep only last 200 logs
         if (this.logs.length > 200) {
@@ -230,6 +260,32 @@ class DebugConsole {
         this.addLog('info', '🧹 Debug console cleared');
     }
     
+    setupAutoSave() {
+        // Send logs to proxy immediately when they're created
+        // No periodic saving needed - just stream to proxy
+    }
+    
+    async sendLogToProxy(type, message, timestamp) {
+        try {
+            const logEntry = `[${timestamp}] ${type.toUpperCase()}: ${message}`;
+            
+            await fetch(`${this.proxyUrl}/debug/append-log`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    sessionId: this.sessionId,
+                    logEntry: logEntry,
+                    timestamp: new Date().toISOString()
+                })
+            });
+        } catch (error) {
+            // Silently fail - don't spam console with proxy connection errors
+            // The original console methods will still work
+        }
+    }
+    
     runTest() {
         this.addLog('info', '🧑‍🚒 Running debug test...');
         this.addLog('warn', '⚠️ This is a warning message');
@@ -254,6 +310,9 @@ class DebugConsole {
         } else {
             this.addLog('warn', '⚠️ octaneClient not available - skipping API test');
         }
+        
+        // Test log streaming to proxy
+        this.addLog('info', '📡 All logs are automatically streamed to proxy log file');
     }
 }
 
