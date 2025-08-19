@@ -27,12 +27,8 @@ class NodeInspector extends OctaneComponent {
     
     async onInitialize() {
         // Initialize Generic Node Renderer
-        if (window.GenericNodeRenderer && window.OctaneIconMapper) {
-            this.genericRenderer = new window.GenericNodeRenderer(window.OctaneIconMapper, this.client);
-            console.log('✅ NodeInspector: GenericNodeRenderer initialized');
-        } else {
-            console.warn('⚠️ NodeInspector: GenericNodeRenderer or OctaneIconMapper not available');
-        }
+        this.genericRenderer = new window.GenericNodeRenderer(window.OctaneIconMapper, this.client);
+        console.log('✅ NodeInspector: GenericNodeRenderer initialized');
         
         // Wait for all components to be fully initialized before auto-selection
         this.eventSystem.on('componentsFullyInitialized', () => {
@@ -686,41 +682,17 @@ class NodeInspector extends OctaneComponent {
     renderGenericParameterInspector(nodeInfo, parameters, nodeTypeMapping) {
         window.debugConsole?.addLog('info', ['🎨 NodeInspector: Rendering generic node inspector for', nodeInfo.nodeName]);
         
-        let html = '';
+        // Find the node data from cache
+        const nodeData = this.findNodeInSceneItems(nodeInfo.handle);
         
-        // Use GenericNodeRenderer if available, otherwise fallback to hard-coded approach
-        if (this.genericRenderer) {
-            // Find the node data from cache
-            const nodeData = this.findNodeInSceneItems(nodeInfo.handle);
-            if (nodeData) {
-                console.log('🚀 NodeInspector: Using GenericNodeRenderer for', nodeData.name);
-                window.debugConsole?.addLog('info', ['🚀 NodeInspector: Using GenericNodeRenderer for', nodeData.name]);
-                
-                // TODO: Fetch ApiNodePinInfo for real pin group data
-                // For now, render with just the node tree data
-                html = this.genericRenderer.renderNode(nodeData, null);
-            } else {
-                console.warn('⚠️ NodeInspector: Node data not found, using fallback');
-                window.debugConsole?.addLog('warn', ['⚠️ NodeInspector: Node data not found for handle', nodeInfo.handle]);
-                html = this.renderOctaneStyleInspector(nodeInfo, parameters);
-            }
-        } else {
-            console.log('📋 NodeInspector: Using fallback hard-coded renderer');
-            window.debugConsole?.addLog('info', ['📋 NodeInspector: Using fallback renderer']);
-            html = this.renderOctaneStyleInspector(nodeInfo, parameters);
-        }
+        // TODO: Fetch ApiNodePinInfo for real pin group data
+        const html = this.genericRenderer.renderNode(nodeData, null);
         
         // Update the inspector container directly
         const inspectorContainer = document.getElementById('node-inspector');
         if (inspectorContainer) {
             inspectorContainer.innerHTML = html;
-            
-            // Setup event handlers for GenericNodeRenderer if used
-            if (this.genericRenderer && html.includes('node-box')) {
-                this.genericRenderer.setupEventHandlers(inspectorContainer);
-                window.debugConsole?.addLog('info', ['✅ NodeInspector: GenericNodeRenderer event handlers setup']);
-            }
-            
+            this.genericRenderer.setupEventHandlers(inspectorContainer);
             window.debugConsole?.addLog('info', ['✅ NodeInspector: Inspector rendered successfully']);
         } else {
             console.error('❌ Node inspector container not found');
@@ -736,151 +708,6 @@ class NodeInspector extends OctaneComponent {
     /**
      * OCTANE UI MATCH: Render the exact structure from the reference image
      */
-    renderOctaneStyleInspector(nodeInfo, parameters) {
-        // Match the exact structure from the reference image
-        return `
-            <!-- Scene Section (no box around header) -->
-            <div class="parameter-section">
-                <div class="parameter-group-header">
-                    <span class="parameter-group-icon">▼</span>
-                    <span class="parameter-group-title">Scene</span>
-                </div>
-                
-                <!-- Camera - Individual rounded box -->
-                <div class="individual-parameter-box">
-                    <div class="parameter-row">
-                        <div class="parameter-icon">📷</div>
-                        <div class="parameter-label">Camera</div>
-                        <div class="parameter-control-group">
-                            <select class="parameter-dropdown">
-                                <option>Thin lens camera</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Orthographic - Individual rounded box, indented -->
-                <div class="individual-parameter-box indented">
-                    <div class="parameter-row">
-                        <div class="parameter-icon">📐</div>
-                        <div class="parameter-label">Orthographic:</div>
-                        <div class="parameter-control-group">
-                            <input type="checkbox" class="parameter-checkbox">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Physical camera parameters (collapsible) -->
-            <div class="parameter-section">
-                <div class="parameter-group-header" data-group="physical-camera">
-                    <span class="parameter-group-icon">▼</span>
-                    <span class="parameter-group-title">Physical camera parameters</span>
-                </div>
-                <div class="parameter-group-content" data-group-content="physical-camera">
-                    <!-- Each parameter gets its own rounded box -->
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('▣', 'Sensor width:', '36.000', 'mm')}
-                    </div>
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('◐', 'Focal length:', '50.000', 'mm')}
-                    </div>
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('◯', 'F-stop:', '2.8', '')}
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Viewing angle (expanded by default) -->
-            <div class="parameter-section">
-                <div class="parameter-group-header" data-group="viewing-angle">
-                    <span class="parameter-group-icon">▼</span>
-                    <span class="parameter-group-title">Viewing angle</span>
-                </div>
-                <div class="parameter-group-content" data-group-content="viewing-angle">
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('◐', 'Field of view:', '39.597752', '°')}
-                    </div>
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('▤', 'Scale of view:', '17.144243', '')}
-                    </div>
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('◈', 'Distortion:', '0.000', '')}
-                    </div>
-                    <div class="individual-parameter-box">
-                        ${this.renderDualCameraParameter('⟷', 'Lens shift:', '0.000', '0.000')}
-                    </div>
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('◐', 'Perspective correction:', 'false', '', true)}
-                    </div>
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('▦', 'Pixel aspect ratio:', '1.000', '')}
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Clipping (expanded by default) -->
-            <div class="parameter-section">
-                <div class="parameter-group-header" data-group="clipping">
-                    <span class="parameter-group-icon">▼</span>
-                    <span class="parameter-group-title">Clipping</span>
-                </div>
-                <div class="parameter-group-content" data-group-content="clipping">
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('▤', 'Near clip depth:', '0.000', '')}
-                    </div>
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('▤', 'Far clip depth:', '∞', '')}
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Depth of field (expanded by default) -->
-            <div class="parameter-section">
-                <div class="parameter-group-header" data-group="depth-of-field">
-                    <span class="parameter-group-icon">▼</span>
-                    <span class="parameter-group-title">Depth of field</span>
-                </div>
-                <div class="parameter-group-content" data-group-content="depth-of-field">
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('◎', 'Auto-focus:', 'false', '', true)}
-                    </div>
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('▤', 'Focal depth:', '1.118034', '')}
-                    </div>
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('◯', 'Aperture:', '0.8928572', '')}
-                    </div>
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('▦', 'Aperture aspect ratio:', '1.000', '')}
-                    </div>
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('▢', 'Aperture edge:', '1.000', '')}
-                    </div>
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('#', 'Bokeh side count:', '6', '')}
-                    </div>
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('↻', 'Bokeh rotation:', '0.000', '°')}
-                    </div>
-                    <div class="individual-parameter-box">
-                        ${this.renderCameraParameter('◯', 'Bokeh roundedness:', '1.000', '')}
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Position (collapsible) -->
-            <div class="octane-parameter-group">
-                <div class="octane-group-header" data-group="position">
-                    <span class="octane-group-toggle">▼</span>
-                    <span class="octane-group-title">Position</span>
-                </div>
-                <div class="octane-group-content" data-group-content="position">
-                    <!-- Position parameters would go here -->
-                </div>
-            </div>
-        `;
-    }
     
     /**
      * Render a single camera parameter with icon, label, value and slider
