@@ -6,7 +6,6 @@
 
 // Define the class after ensuring LiveLinkClient is available
 function createOctaneWebClient() {
-    console.log('🔍 Creating OctaneWebClient, LiveLinkClient available:', typeof LiveLinkClient !== 'undefined');
     if (typeof LiveLinkClient === 'undefined') {
         console.error('❌ LiveLinkClient not available. Make sure livelink.js is loaded first.');
         return null;
@@ -128,25 +127,14 @@ function createOctaneWebClient() {
     
     /**
      * Initialize extended features after connection
+     * Extended initialization is handled by individual components as needed
      */
     async initializeExtendedFeatures() {
         try {
-            // Get initial scene state (TODO: implement proper scene tree method)
-            // await this.syncSceneHierarchy();
-            
-            // Get initial node graph (TODO: implement proper node graph method)
-            // await this.syncNodeGraph();
-            
-            // Get render settings (TODO: implement in proxy)
-            // await this.syncRenderSettings();
-            
-            // Get camera list
-//            await this.syncCameras();
-            
-            // Get scene data using available methods - DISABLED: SceneOutliner handles this now
-            // await this.getSceneData();
-            
-            console.log('OctaneWeb extended features initialized');
+            // Extended initialization is handled by individual components
+            // SceneOutliner handles scene data loading
+            // NodeInspector handles node graph synchronization
+            // RenderViewport handles render state management
             
         } catch (error) {
             console.error('Failed to initialize extended features:', error);
@@ -340,13 +328,8 @@ function createOctaneWebClient() {
      */
     async getSceneData() {
         try {
-            console.log('🌳 Loading scene tree using real Octane gRPC APIs...');
-            
-            // Step 1: Get the root node graph
-            console.log('📤 Calling rootNodeGraph API...');
+            // Get the root node graph
             const rootResponse = await this.makeGrpcCall('ApiProjectManager/rootNodeGraph', {});
-            
-            console.log('📥 rootNodeGraph response:', JSON.stringify(rootResponse, null, 2));
             
             if (!rootResponse.success || !rootResponse.data) {
                 console.error('❌ Failed to get root node graph:', rootResponse);
@@ -360,8 +343,6 @@ function createOctaneWebClient() {
                 return { success: false, error: 'No objectRef in root response' };
             }
             
-            console.log('✅ Root ObjectRef:', rootObjectRef);
-            
             // Step 2: Recursively build the scene tree
             const sceneHierarchy = await this.buildSceneTreeRecursive(rootObjectRef, 'Root');
             
@@ -373,7 +354,6 @@ function createOctaneWebClient() {
                 this.emit('ui:sceneUpdate', this.sceneState);
                 this.emit('ui:sceneHierarchyUpdate', [sceneHierarchy]);
                 
-                console.log('🌳 Real Octane scene tree loaded successfully');
                 return { success: true, hierarchy: [sceneHierarchy] };
             } else {
                 console.error('❌ Failed to build scene tree');
@@ -1347,12 +1327,10 @@ function createOctaneWebClient() {
 
 // Create and export the class
 const OctaneWebClient = createOctaneWebClient();
-console.log('🔍 OctaneWebClient created:', OctaneWebClient !== null ? 'SUCCESS' : 'FAILED');
 
 // Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = OctaneWebClient;
 } else if (typeof window !== 'undefined') {
     window.OctaneWebClient = OctaneWebClient;
-    console.log('🔍 OctaneWebClient exported to window:', typeof window.OctaneWebClient);
 }
