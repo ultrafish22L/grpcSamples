@@ -95,55 +95,46 @@ class OctaneWebApp {
         // Initialize layout manager
         this.layoutManager = new LayoutManager();
         
-        // Initialize debug console
+        // Initialize debug console and make globally available for runtime access
         this.debugConsole = new DebugConsole();
-        window.debugConsole = this.debugConsole; // Make globally available
+        window.debugConsole = this.debugConsole;
         
-        // Test console interception with some sample logs
-        console.log('🔧 Core systems initializing...');
-        console.info('ℹ️ Debug console is now intercepting all console output');
-        console.warn('⚠️ This is a test warning message');
-        console.error('❌ This is a test error message (not a real error)');
-        
-        // Initialize gRPC client (not connected yet)
+        // Initialize gRPC client (connection established later via UI)
         this.client = new OctaneWebClient('http://localhost:51023');
         
         // Setup client event handlers
         this.setupClientEventHandlers();
         
-        console.log('Core systems initialized');
+
     }
     
     /**
-     * Initialize UI components
+     * Initialize UI components in dependency order
+     * Each component receives necessary dependencies for gRPC communication and state management
      */
     async initializeUIComponents() {
-        // Initialize scene outliner (using SYNC version for debugging)
+        // Scene management components
         this.components.sceneOutliner = new SceneOutlinerSync(
             document.querySelector('#scene-outliner'),
             this.eventSystem
         );
         
-        // Initialize Scene Outliner Controls - Official OTOY control bar
         this.components.sceneOutlinerControls = new SceneOutlinerControls(
             'scene-outliner',
             this.client
         );
-        console.log('✅ Scene Outliner Controls initialized with official OTOY interface');
-        // Initialize callback render viewport - Real-time streaming with gRPC callbacks
+        
+        // Rendering components - CallbackRenderViewport provides real-time streaming
         this.components.renderViewport = new CallbackRenderViewport(
             document.querySelector('#render-viewport'),
             this.client,
             this.stateManager,
             this.eventSystem
         );
-        console.log('✅ CallbackRenderViewport enabled with streaming callbacks');
         
-        // Initialize Octane-style render toolbar with client reference
         this.components.renderToolbar = new RenderToolbar('render-toolbar-container', this.client);
-        console.log('✅ RenderToolbar initialized with Octane-style interface and gRPC client');
         
-        // Initialize node inspector
+        // Node editing components
         this.components.nodeInspector = new NodeInspector(
             document.querySelector('#node-inspector'),
             this.client,
@@ -151,14 +142,11 @@ class OctaneWebApp {
             this.eventSystem
         );
         
-        // Initialize Node Inspector Controls - Official OTOY quick access buttons
         this.components.nodeInspectorControls = new NodeInspectorControls(
             'right-panel',
             this.client
         );
-        console.log('✅ Node Inspector Controls initialized with official OTOY quick access buttons');
         
-        // Initialize node graph editor
         this.components.nodeGraphEditor = new NodeGraphEditor(
             document.querySelector('#node-graph'),
             this.client,
@@ -166,7 +154,7 @@ class OctaneWebApp {
             this.eventSystem
         );
         
-        // Initialize menu system
+        // Application menu system
         this.components.menuSystem = new MenuSystem(
             document.querySelector('.main-menu'),
             this.client,
@@ -174,22 +162,16 @@ class OctaneWebApp {
             this.eventSystem
         );
         
-        // Initialize all components
+        // Initialize all components in sequence
         for (const [name, component] of Object.entries(this.components)) {
             if (component && typeof component.initialize === 'function') {
                 await component.initialize();
-                console.log(`${name} component initialized`);
             }
         }
         
-        // Mark components as fully initialized
+        // Mark components as fully initialized and emit ready event
         this.componentsFullyInitialized = true;
-        console.log('✅ All UI components fully initialized');
-        
-        // Emit event to signal components can now perform auto-selection
         this.eventSystem.emit('componentsFullyInitialized');
-        
-        console.log('UI components initialized');
     }
     
     /**
@@ -631,9 +613,15 @@ class OctaneWebApp {
         }
     }
     
+    /**
+     * Delete selected objects in the scene
+     * TODO: Implement when delete API is available
+     */
     async deleteSelected() {
-        console.log('Delete selected requested');
-        // TODO: Implement delete selected
+        if (this.isConnected && this.client.isReady()) {
+            console.log('Delete selected requested - not yet implemented');
+            // await this.client.deleteSelectedObjects();
+        }
     }
     
     async clearSelection() {
@@ -643,28 +631,12 @@ class OctaneWebApp {
     }
     
     /**
-     * Setup console error capturing to display all errors in debug console
-     * Ensures errors and warnings are always visible regardless of verbose mode
+     * Setup console error capturing for debug console integration
+     * The DebugConsole class handles actual console interception
      */
     setupConsoleErrorCapture() {
-        // Create a simple logger that writes to debug console
-        const debugLogger = {
-            log: (message, type) => {
-                // Always show errors and warnings in debug console
-                if (type === 'error' || type === 'warning') {
-                    const debugLog = document.getElementById('debug-log');
-                    if (debugLog) {
-                        const entry = document.createElement('div');
-                        entry.className = `debug-entry debug-${type}`;
-                        const timestamp = new Date().toLocaleTimeString();
-                        const emoji = type === 'error' ? '❌' : '⚠️';
-                        entry.innerHTML = `<span class="debug-time">[${timestamp}]</span> <span class="debug-emoji">${emoji}</span> ${message}`;
-                        debugLog.appendChild(entry);
-                        debugLog.scrollTop = debugLog.scrollHeight;
-                    }
-                }
-            }
-        };
+        // Console interception is handled by DebugConsole class
+        // This method exists for future custom error handling if needed
     }
 
     /**
@@ -778,10 +750,9 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
-// Register globally for browser
+// Register globally for browser console access
 if (typeof window !== 'undefined') {
     window.OctaneWebApp = OctaneWebApp;
-    console.log('✅ OctaneWebApp class registered globally');
 }
 
 // Export for module systems
