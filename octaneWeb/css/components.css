@@ -3060,6 +3060,9 @@ body.drag-over .drop-indicator {
     flex: 1;
     padding: 4px 8px;
     min-height: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 /* Node header with title and collapse icon */
