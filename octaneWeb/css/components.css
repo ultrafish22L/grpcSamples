@@ -3058,7 +3058,7 @@ body.drag-over .drop-indicator {
 /* Node content area */
 .node-content {
     flex: 1;
-    padding: 4px 8px;
+    padding: 4px 8px 4px 20px; /* Extra left padding to account for overlapping icon */
     min-height: 16px;
     display: flex;
     flex-direction: column;
