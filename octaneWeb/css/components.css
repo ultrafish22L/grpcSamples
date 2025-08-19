@@ -3005,9 +3005,10 @@ body.drag-over .drop-indicator {
 
 /* ===== GENERIC NODE RENDERER STYLES ===== */
 /* Professional hierarchical node inspector with consistent spacing and proper indentation */
+/* IMPORTANT: These styles are ONLY for the Node Inspector, not Scene Outliner */
 
-/* Node box base styles */
-.node-box {
+/* Node box base styles - ONLY for Node Inspector */
+.node-inspector .node-box {
     position: relative;
     margin: 3px 0; /* Increased vertical spacing for better breathing room */
     background: var(--octane-bg-secondary);
@@ -3019,33 +3020,33 @@ body.drag-over .drop-indicator {
     transition: all 0.2s ease;
 }
 
-/* Level-based indentation system with consistent 24px increments */
-.node-level-0 {
+/* Level-based indentation system with consistent 24px increments - ONLY for Node Inspector */
+.node-inspector .node-level-0 {
     margin-left: 0; /* Top node fully left justified - no margin */
 }
 
-.node-level-1 {
+.node-inspector .node-level-1 {
     margin-left: 24px; /* First level indent */
 }
 
-.node-level-2 {
+.node-inspector .node-level-2 {
     margin-left: 48px; /* Second level indent (24px * 2) */
 }
 
-.node-level-3 {
+.node-inspector .node-level-3 {
     margin-left: 72px; /* Third level indent (24px * 3) */
 }
 
-.node-level-4 {
+.node-inspector .node-level-4 {
     margin-left: 96px; /* Fourth level indent (24px * 4) */
 }
 
-.node-level-5 {
+.node-inspector .node-level-5 {
     margin-left: 120px; /* Fifth level indent (24px * 5) */
 }
 
-/* Icon box with better visibility and positioning */
-.node-icon-box {
+/* Icon box with better visibility and positioning - ONLY for Node Inspector */
+.node-inspector .node-icon-box {
     position: absolute;
     left: -6px; /* Slightly more overlap for better integration */
     top: 4px; /* Centered vertically in taller boxes */
@@ -3061,8 +3062,8 @@ body.drag-over .drop-indicator {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
 }
 
-/* Node content area with improved spacing */
-.node-content {
+/* Node content area with improved spacing - ONLY for Node Inspector */
+.node-inspector .node-content {
     flex: 1;
     padding: 6px 12px 6px 24px; /* Increased padding for better spacing */
     min-height: 20px;
@@ -3072,8 +3073,8 @@ body.drag-over .drop-indicator {
     line-height: 1.4; /* Better line spacing */
 }
 
-/* Node header with improved spacing and alignment */
-.node-header {
+/* Node header with improved spacing and alignment - ONLY for Node Inspector */
+.node-inspector .node-header {
     display: flex;
     align-items: center;
     gap: 8px; /* Increased gap between elements */
@@ -3083,15 +3084,15 @@ body.drag-over .drop-indicator {
     min-height: 20px;
 }
 
-.node-header:hover {
+.node-inspector .node-header:hover {
     background: var(--octane-bg-hover);
     border-radius: 3px;
     padding: 2px 4px;
     margin: -2px -4px;
 }
 
-/* Collapse/expand icon styling */
-.node-collapse-icon {
+/* Collapse/expand icon styling - ONLY for Node Inspector */
+.node-inspector .node-collapse-icon {
     font-size: 12px;
     color: var(--octane-text-secondary);
     transition: transform 0.2s ease;
@@ -3099,27 +3100,27 @@ body.drag-over .drop-indicator {
     text-align: center;
 }
 
-.node-collapse-icon:hover {
+.node-inspector .node-collapse-icon:hover {
     color: var(--octane-text-primary);
 }
 
-/* Node title styling */
-.node-title {
+/* Node title styling - ONLY for Node Inspector */
+.node-inspector .node-title {
     font-size: 13px;
     font-weight: 500;
     color: var(--octane-text-primary);
     flex-shrink: 0;
 }
 
-/* Node parameter controls with better spacing */
-.node-parameter-controls {
+/* Node parameter controls with better spacing - ONLY for Node Inspector */
+.node-inspector .node-parameter-controls {
     margin-left: 12px; /* Space between title and dropdown */
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.node-parameter-controls .parameter-dropdown {
+.node-inspector .node-parameter-controls .parameter-dropdown {
     background: #2a2a2a;
     border: 1px solid #444;
     border-radius: 4px;
@@ -3131,24 +3132,24 @@ body.drag-over .drop-indicator {
     transition: border-color 0.2s ease;
 }
 
-.node-parameter-controls .parameter-dropdown:hover {
+.node-inspector .node-parameter-controls .parameter-dropdown:hover {
     border-color: #666;
 }
 
-.node-parameter-controls .parameter-dropdown:focus {
+.node-inspector .node-parameter-controls .parameter-dropdown:focus {
     outline: none;
     border-color: var(--octane-accent);
     box-shadow: 0 0 0 2px rgba(255, 165, 0, 0.2);
 }
 
-/* Child nodes container */
-.node-children {
+/* Child nodes container - ONLY for Node Inspector */
+.node-inspector .node-children {
     width: 100%;
     margin-top: 4px;
 }
 
-/* Parameter rows within nodes */
-.node-parameter-row {
+/* Parameter rows within nodes - ONLY for Node Inspector */
+.node-inspector .node-parameter-row {
     margin: 2px 0;
     padding: 2px 0;
     font-size: 12px;
