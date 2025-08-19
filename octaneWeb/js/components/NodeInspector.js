@@ -458,7 +458,7 @@ class NodeInspector extends OctaneComponent {
         this.updateInspectorDropdown(this.selectedNodeName);
         
         // Generic parameter loading based on node type mapping
-        await this.loadGenericNodeParameters({
+        await this.buildTree({
             handle: handle,
             nodeName: nodeData.name,
             nodeType: nodeData.outtype,
@@ -470,23 +470,15 @@ class NodeInspector extends OctaneComponent {
      * GENERIC: Load node parameters based on node type mapping
      * This replaces specialized functions with a generic approach
      */
-    async loadGenericNodeParameters(nodeInfo) {
+    async buildTree(nodeInfo) {
         window.debugConsole?.addLog('info', ['🚀 NodeInspector: Loading generic parameters for', nodeInfo.nodeName, 'type:', nodeInfo.nodeType]);
         
         // Show loading state
         this.showLoadingState(nodeInfo);
         
         try {
-            // Get node type mapping for color and icon only
-            const nodeTypeMapping = this.getNodeTypeMapping(nodeInfo.nodeType);
-            window.debugConsole?.addLog('info', ['📋 NodeInspector: Node type mapping', nodeTypeMapping]);
-            
-            // Load parameter values using generic approach
-            const parameters = await this.loadGenericParameterValues(nodeInfo.handle);
-            window.debugConsole?.addLog('info', ['✅ NodeInspector: Loaded parameters', Object.keys(parameters).length, 'parameters']);
-            
             // Render the inspector using GenericNodeRenderer
-            this.renderGenericParameterInspector(nodeInfo, parameters, nodeTypeMapping);
+            this.buildTreeRecurse(nodeInfo);
             
         } catch (error) {
             console.error('❌ Failed to load generic node parameters:', error);
@@ -663,38 +655,21 @@ class NodeInspector extends OctaneComponent {
     /**
      * GENERIC: Render parameter inspector using GenericNodeRenderer
      */
-    renderGenericParameterInspector(nodeInfo, parameters, nodeTypeMapping) {
+    buildTreeRecurse(nodeInfo) {
         const nodeName = nodeInfo.nodeName || nodeInfo.name || 'Unknown Node';
         window.debugConsole?.addLog('info', ['🎨 NodeInspector: Rendering generic node inspector for', nodeName]);
         
-        // Handle different calling patterns
-        let nodeData;
-        let nodeHandle;
-        
-        if (nodeInfo.handle) {
-            // Called from selectNode() - nodeInfo has handle
-            nodeHandle = nodeInfo.handle;
-            nodeData = this.findNodeInSceneItems(nodeHandle);
-        } else {
-            // Called from loadAndRenderFullParameterTree() - nodeInfo is the data object
-            nodeHandle = this.selectedNodeHandle;
-            nodeData = this.sceneItems;
-            if (!nodeData) {
-                // Create minimal node data from the provided info
-                nodeData = {
-                    name: nodeName,
-                    outtype: nodeInfo.nodeType || 'NT_UNKNOWN',
-                    handle: nodeHandle
-                };
-            }
-        }
+        const nodeHandle = nodeInfo.handle;
+        let nodeData = this.findNodeInSceneItems(nodeHandle);
 
         if (!nodeData) {
             console.error('❌ Node data not found for handle:', nodeHandle);
             window.debugConsole?.addLog('error', ['❌ NodeInspector: Node data not found', nodeHandle]);
             return;
         }
-        
+        // Get node type mapping for color and icon only
+        const nodeTypeMapping = this.getNodeTypeMapping(nodeInfo.nodeType);
+            
         // Add the color and icon from nodeTypeMapping to nodeData (if provided)
         if (nodeTypeMapping) {
             nodeData.inspectorColor = nodeTypeMapping.color;
@@ -704,11 +679,11 @@ class NodeInspector extends OctaneComponent {
             nodeData.inspectorColor = '#ff6600';
             nodeData.inspectorIcon = '🎯';
         }
-        
+        const pinData = null;
         // Convert parameters to pin format for the renderer
-        const pinData = parameters;
+//        const pinData = parameters;
         
-        console.log('🎛️ Creating interactive controls for', Object.keys(parameters).length, 'parameters');
+//        console.log('🎛️ Creating interactive controls for', Object.keys(parameters).length, 'parameters');
         
         // Use the GenericNodeRenderer with the node data and pin data
         const html = this.genericRenderer.renderNode(nodeData, pinData);
