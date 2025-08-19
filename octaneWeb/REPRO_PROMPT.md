@@ -1,8 +1,8 @@
 # OctaneWeb Production Status - REPRO_PROMPT.md
 
-## 🚀 **PRODUCTION-READY STATUS: COMPLETE REAL-TIME SYSTEM WITH GRPC INTEGRATION** ✅
+## 🔧 **DEVELOPMENT STATUS: CORE SYSTEMS WORKING, NODE INSPECTOR IN PROGRESS** 
 
-**ACHIEVEMENT**: Complete production-ready real-time rendering system with optimized performance, clean UI, robust callback streaming, and **REAL gRPC INTEGRATION** for render controls.
+**CURRENT STATE**: Core real-time rendering system complete with gRPC integration. Node Inspector API infrastructure working but needs interactive control rendering fixes.
 
 ## 🎯 Current Production Features
 
@@ -11,9 +11,14 @@
 - **Mouse Drag Camera Sync**: End-to-end camera synchronization with live Octane updates (WORKING)
 - **Scene Outliner**: Complete hierarchical tree view with expand/collapse and visibility controls
 - **Node Graph Editor**: Visual node creation with right-click context menus and node types
-- **Node Inspector**: Real-time property editing with live Octane API integration
 - **Professional UI**: Clean OTOY-branded interface with configurable debug mode
 - **🚀 REAL GRPC RENDER CONTROLS**: First 6 render buttons with live API integration
+
+### 🔧 **NODE INSPECTOR IN DEVELOPMENT**
+- **API Infrastructure**: All required API methods working (ApiNode/getPinBoolIx, getPinFloatIx, etc.)
+- **Proxy Server**: Successfully making gRPC calls to Octane LiveLink service  
+- **Current Issue**: Shows text labels instead of interactive controls (checkboxes, number inputs)
+- **Root Cause**: GenericNodeRenderer falling back to hardcoded parameter lists
 
 ### ✅ **GRPC RENDER CONTROLS IMPLEMENTED**
 - **Stop Render (■)**: `ApiRenderEngineService.stopRendering` - Aborts rendering and frees resources

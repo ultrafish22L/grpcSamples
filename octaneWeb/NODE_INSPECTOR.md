@@ -26,11 +26,18 @@ index.html
 - **`NodeInspector.js:renderGenericParameterInspector()`** - Initiates GenericNodeRenderer
 - **`components.css`** - Contains all parameter control CSS (added in commit def4709)
 
-## Current System Status (Working ✅)
+## Current System Status (In Development 🔧)
 
 ### What Works Perfectly
-- **Parameter Loading**: Complete parameter tree loaded from Octane via gRPC
+- **API Infrastructure**: All required API methods working (ApiNode/getPinBoolIx, getPinFloatIx, etc.)
+- **Proxy Server**: Successfully making gRPC calls to Octane LiveLink service
 - **Parameter Display**: All parameters visible with proper icons (☑️, 🔢, 📋, ⬜)
+- **Scene Integration**: Node selection from Scene Outliner working correctly
+
+### Current Issue
+- **Interactive Controls Missing**: Shows text labels instead of interactive controls (checkboxes, number inputs)
+- **Root Cause**: GenericNodeRenderer falling back to hardcoded parameter lists instead of rendering actual controls
+- **API Status**: Getting "invalid pointer type" errors from Octane for pin operations (node handle may be invalid)
 - **Dropdowns**: Working dropdowns for "Render target settings", "Thin lens camera", etc.
 - **Icons**: Proper parameter type icons based on AT_ types from Octane
 - **Hierarchy**: Correct hierarchical display of parameter groups and individual parameters

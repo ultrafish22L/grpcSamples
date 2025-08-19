@@ -672,63 +672,59 @@ class NodeInspector extends OctaneComponent {
                 if (pinCount > 0) {
                     window.debugConsole?.addLog('info', ['📌 NodeInspector: Node has', pinCount, 'pins']);
                 
-                // Load all pin values generically
-                window.debugConsole?.addLog('info', ['🔄 NodeInspector: Starting to load', pinCount, 'pins']);
+                // Load all pin values using pinIx functions
+                window.debugConsole?.addLog('info', ['🔄 NodeInspector: Starting to load', pinCount, 'pins using pinIx functions']);
                 for (let pinIndex = 0; pinIndex < pinCount; pinIndex++) {
                     window.debugConsole?.addLog('info', ['🔄 NodeInspector: Loading pin', pinIndex, 'of', pinCount]);
                     try {
-                        // Get pin name using ApiNode/pinName
-                        const pinNameResult = window.grpcApi.makeApiCallSync('ApiNode/pinName', [nodeHandle, pinIndex]);
-                        window.debugConsole?.addLog('info', ['🏷️ NodeInspector: Pin name result for index', pinIndex, ':', JSON.stringify(pinNameResult)]);
-                        if (pinNameResult && pinNameResult.success) {
-                            const pinName = pinNameResult.data;
-                            window.debugConsole?.addLog('info', ['✅ NodeInspector: Got pin name:', pinName]);
-                            
-                            // Try type-specific ApiItem methods to get pin value
-                            let pinValue = null;
-                            let pinType = 'unknown';
-                            
-                            // Try different type-specific getters (using ApiNode service)
-                            const typeGetters = [
-                                { method: 'ApiNode/getPinBoolIx', type: 'bool' },
-                                { method: 'ApiNode/getPinFloatIx', type: 'float' },
-                                { method: 'ApiNode/getPinFloat2Ix', type: 'float2' },
-                                { method: 'ApiNode/getPinFloat3Ix', type: 'float3' },
-                                { method: 'ApiNode/getPinFloat4Ix', type: 'float4' },
-                                { method: 'ApiNode/getPinIntIx', type: 'int' },
-                                { method: 'ApiNode/getPinInt2Ix', type: 'int2' },
-                                { method: 'ApiNode/getPinInt3Ix', type: 'int3' },
-                                { method: 'ApiNode/getPinInt4Ix', type: 'int4' },
-                                { method: 'ApiNode/getPinStringIx', type: 'string' },
-                                { method: 'ApiNode/getPinFilePathIx', type: 'filepath' }
-                            ];
-                            
-                            for (const getter of typeGetters) {
-                                try {
-                                    const result = window.grpcApi.makeApiCallSync(getter.method, [nodeHandle, pinIndex]);
-                                    if (result && result.success) {
-                                        pinValue = result.data;
-                                        pinType = getter.type;
-                                        window.debugConsole?.addLog('info', ['✅ NodeInspector: Got', getter.type, 'value for pin', pinName, ':', pinValue]);
-                                        break;
-                                    }
-                                } catch (error) {
-                                    // Continue to next type
+                        // Try type-specific ApiNode pinIx methods to get pin value
+                        let pinValue = null;
+                        let pinType = 'unknown';
+                        
+                        // Try different type-specific getters using ApiNode service (correct service for pinIx functions)
+                        const typeGetters = [
+                            { method: 'ApiNode/getPinBoolIx', type: 'bool' },
+                            { method: 'ApiNode/getPinFloatIx', type: 'float' },
+                            { method: 'ApiNode/getPinFloat2Ix', type: 'float2' },
+                            { method: 'ApiNode/getPinFloat3Ix', type: 'float3' },
+                            { method: 'ApiNode/getPinFloat4Ix', type: 'float4' },
+                            { method: 'ApiNode/getPinIntIx', type: 'int' },
+                            { method: 'ApiNode/getPinInt2Ix', type: 'int2' },
+                            { method: 'ApiNode/getPinInt3Ix', type: 'int3' },
+                            { method: 'ApiNode/getPinInt4Ix', type: 'int4' },
+                            { method: 'ApiNode/getPinStringIx', type: 'string' },
+                            { method: 'ApiNode/getPinFilePathIx', type: 'filepath' }
+                        ];
+                        
+                        for (const getter of typeGetters) {
+                            try {
+                                const result = window.grpcApi.makeApiCallSync(getter.method, {
+                                    objectPtr: nodeHandle,
+                                    index: pinIndex
+                                });
+                                if (result && result.success) {
+                                    pinValue = result.data;
+                                    pinType = getter.type;
+                                    window.debugConsole?.addLog('info', ['✅ NodeInspector: Got', getter.type, 'value for pin index', pinIndex, ':', pinValue]);
+                                    break;
                                 }
+                            } catch (error) {
+                                // Continue to next type
                             }
-                            
-                            if (pinValue !== null) {
-                                parameters[pinName] = {
-                                    value: pinValue,
-                                    pinIndex: pinIndex,
-                                    type: pinType
-                                };
-                                window.debugConsole?.addLog('info', ['✅ NodeInspector: Added parameter:', pinName, 'type:', pinType, 'value:', pinValue]);
-                            } else {
-                                window.debugConsole?.addLog('warn', ['❌ NodeInspector: Failed to get value for pin', pinName, 'at index', pinIndex]);
-                            }
+                        }
+                        
+                        if (pinValue !== null) {
+                            // Use pin index as key since we don't need pin names
+                            const paramKey = `pin_${pinIndex}`;
+                            parameters[paramKey] = {
+                                value: pinValue,
+                                pinIndex: pinIndex,
+                                type: pinType,
+                                name: paramKey
+                            };
+                            window.debugConsole?.addLog('info', ['✅ NodeInspector: Added parameter:', paramKey, 'type:', pinType, 'value:', pinValue]);
                         } else {
-                            window.debugConsole?.addLog('warn', ['❌ NodeInspector: Failed to get pin name for index', pinIndex]);
+                            window.debugConsole?.addLog('warn', ['❌ NodeInspector: Failed to get value for pin index', pinIndex]);
                         }
                     } catch (pinError) {
                         window.debugConsole?.addLog('error', ['💥 NodeInspector: Error loading pin', pinIndex, ':', pinError.message]);
