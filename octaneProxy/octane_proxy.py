@@ -336,6 +336,96 @@ async def handle_options(request):
         }
     )
 
+async def handle_save_debug_logs(request):
+    """Handle saving debug logs to persistent system files"""
+    try:
+        # Read the request body
+        data = await request.json()
+        
+        # Extract data
+        session_id = data.get('sessionId', 'unknown')
+        log_content = data.get('content', '')
+        timestamp = data.get('timestamp', datetime.now().isoformat())
+        
+        # Create logs directory if it doesn't exist
+        logs_dir = os.path.join(os.path.dirname(__file__), '..', 'octaneWeb', 'debug_logs')
+        os.makedirs(logs_dir, exist_ok=True)
+        
+        # Create filename
+        filename = f"octane-debug-{session_id}.log"
+        filepath = os.path.join(logs_dir, filename)
+        
+        # Write log content to file
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(log_content)
+        
+        # Log the save operation
+        print(f"💾 Debug logs saved: {filepath} ({len(log_content)} bytes)")
+        
+        # Send success response
+        response = {
+            'success': True,
+            'filename': filename,
+            'filepath': os.path.abspath(filepath),
+            'timestamp': timestamp,
+            'size': len(log_content)
+        }
+        
+        return web.json_response(response, headers={
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type'
+        })
+        
+    except Exception as e:
+        print(f"❌ Error saving debug logs: {e}")
+        return web.json_response(
+            {'error': f'Failed to save debug logs: {str(e)}'},
+            status=500,
+            headers={'Access-Control-Allow-Origin': '*'}
+        )
+
+async def handle_get_debug_logs(request):
+    """Handle retrieving debug logs from system files"""
+    try:
+        # Extract session ID from path
+        session_id = request.match_info.get('session_id', '')
+        
+        if not session_id:
+            return web.json_response(
+                {'error': 'Session ID required'},
+                status=400,
+                headers={'Access-Control-Allow-Origin': '*'}
+            )
+        
+        logs_dir = os.path.join(os.path.dirname(__file__), '..', 'octaneWeb', 'debug_logs')
+        filename = f"octane-debug-{session_id}.log"
+        filepath = os.path.join(logs_dir, filename)
+        
+        if os.path.exists(filepath):
+            with open(filepath, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            return web.Response(
+                text=content,
+                content_type='text/plain',
+                headers={'Access-Control-Allow-Origin': '*'}
+            )
+        else:
+            return web.json_response(
+                {'error': 'Log file not found'},
+                status=404,
+                headers={'Access-Control-Allow-Origin': '*'}
+            )
+            
+    except Exception as e:
+        print(f"❌ Error retrieving debug logs: {e}")
+        return web.json_response(
+            {'error': f'Failed to retrieve debug logs: {str(e)}'},
+            status=500,
+            headers={'Access-Control-Allow-Origin': '*'}
+        )
+
 async def handle_health(request):
     """Health check endpoint"""
     return web.json_response({'status': 'ok', 'connected': proxy.channel is not None})
@@ -653,6 +743,10 @@ def create_app():
     
     # Health check
     app.router.add_get('/health', handle_health)
+    
+    # Debug log endpoints
+    app.router.add_post('/save-debug-logs', handle_save_debug_logs)
+    app.router.add_get('/debug-logs/{session_id}', handle_get_debug_logs)
     
     # Callback streaming endpoints
     app.router.add_post('/render/register-callback', handle_register_callback)

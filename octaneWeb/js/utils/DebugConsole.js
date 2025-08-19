@@ -536,7 +536,7 @@ class DebugConsole {
     
     async saveLogsToServer(logContent) {
         try {
-            const response = await fetch('http://localhost:43332/save-debug-logs', {
+            const response = await fetch('http://localhost:51023/save-debug-logs', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
