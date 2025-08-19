@@ -3076,6 +3076,35 @@ body.drag-over .drop-indicator {
     border-radius: 2px;
 }
 
+/* Node parameter controls */
+.node-parameter-controls {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.node-parameter-controls .parameter-dropdown {
+    background: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 4px;
+    color: #e0e0e0;
+    padding: 4px 8px;
+    font-size: 12px;
+    min-width: 120px;
+    cursor: pointer;
+}
+
+.node-parameter-controls .parameter-dropdown:hover {
+    border-color: #666;
+}
+
+.node-parameter-controls .parameter-dropdown:focus {
+    outline: none;
+    border-color: #0078d4;
+    box-shadow: 0 0 0 1px #0078d4;
+}
+
 /* Collapse/expand icons */
 .collapse-icon {
     font-size: 10px;

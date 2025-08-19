@@ -132,6 +132,7 @@ class GenericNodeRenderer {
                     <div class="node-header" ${hasChildren ? `data-toggle="${nodeId}"` : ''}>
                         ${collapseIcon ? `<span class="collapse-icon">${collapseIcon}</span>` : ''}
                         <span class="node-title">${nodeData.name}</span>
+                        ${this.renderNodeParameters(nodeData)}
                     </div>
         `;
         
@@ -148,6 +149,68 @@ class GenericNodeRenderer {
         `;
         
         return html;
+    }
+    
+    /**
+     * Render node's own parameters (like camera type dropdown)
+     * @param {Object} nodeData - Node data
+     * @returns {string} - HTML for node parameters
+     */
+    renderNodeParameters(nodeData) {
+        // For Camera nodes, render the camera type dropdown
+        if (nodeData.outtype === 'NT_CAMERA' || nodeData.name === 'Camera') {
+            return `
+                <div class="node-parameter-controls">
+                    <select class="parameter-dropdown" data-parameter="camera-type">
+                        <option value="thin-lens">Thin lens camera</option>
+                        <option value="orthographic">Orthographic camera</option>
+                        <option value="panoramic">Panoramic camera</option>
+                        <option value="baking">Baking camera</option>
+                    </select>
+                </div>
+            `;
+        }
+        
+        // For Environment nodes
+        if (nodeData.outtype === 'NT_ENVIRONMENT' || nodeData.name === 'Environment') {
+            return `
+                <div class="node-parameter-controls">
+                    <select class="parameter-dropdown" data-parameter="environment-type">
+                        <option value="daylight">Daylight environment</option>
+                        <option value="texture">Texture environment</option>
+                        <option value="planetary">Planetary environment</option>
+                    </select>
+                </div>
+            `;
+        }
+        
+        // For Material nodes
+        if (nodeData.outtype === 'NT_MATERIAL' || nodeData.name === 'cube') {
+            return `
+                <div class="node-parameter-controls">
+                    <select class="parameter-dropdown" data-parameter="material-type">
+                        <option value="diffuse">Diffuse material</option>
+                        <option value="glossy">Glossy material</option>
+                        <option value="specular">Specular material</option>
+                        <option value="universal">Universal material</option>
+                    </select>
+                </div>
+            `;
+        }
+        
+        // For any other node type, add a generic dropdown
+        if (nodeData.children && nodeData.children.length > 0) {
+            return `
+                <div class="node-parameter-controls">
+                    <select class="parameter-dropdown" data-parameter="node-type">
+                        <option value="default">${nodeData.name} settings</option>
+                        <option value="advanced">Advanced ${nodeData.name}</option>
+                    </select>
+                </div>
+            `;
+        }
+        
+        return '';
     }
     
     /**
