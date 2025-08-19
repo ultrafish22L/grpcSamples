@@ -572,30 +572,7 @@ class SceneOutlinerSync {
                 this.selectNode(handle, nodeName, nodeId, 'sceneOutliner');
             });
         });
-/*        
-        // Auto-select "Render target" on initial load (matching Octane Studio behavior)
-        if (!this.selectedNodeHandle) {
-            const renderTargetNode = treeContainer.querySelector('.tree-node .node-name');
-            if (renderTargetNode) {
-                // Find the Render target node
-                const allNodes = treeContainer.querySelectorAll('.tree-node');
-                for (const node of allNodes) {
-                    const nodeName = node.querySelector('.node-name')?.textContent;
-                    if (nodeName === 'Render target') {
-                        const handle = node.dataset.handle;
-                        const nodeId = node.dataset.nodeId;
-                        console.log('🎯 Auto-selecting Render target on initialization:', { handle, nodeName, nodeId });
-                        
-                        // Small delay to ensure NodeGraphEditor has created nodes
-                        setTimeout(() => {
-                            this.selectNode(handle, nodeName, nodeId, 'initialization');
-                        }, 100);
-                        break;
-                    }
-                }
-            }
-        }
-*/            
+           
     }
     
     addEventListener(element, event, handler) {

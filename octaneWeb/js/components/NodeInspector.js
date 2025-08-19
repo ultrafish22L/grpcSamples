@@ -41,9 +41,6 @@ class NodeInspector extends OctaneComponent {
         this.collapsedSections = new Set();  // Collapsed parameter sections (default: all expanded)
         this.collapsedGroups = new Set();    // Collapsed parameter groups (default: all expanded)
         
-        // Performance optimization caches for scene data
-        this.nodeCache = new Map();          // handle -> nodeData mapping
-        this.nodeLookup = new Map();         // name -> handle reverse lookup
         this.sceneDataLoaded = false;        // Scene data loading state
         
         // Generic node rendering system for flexible parameter display
@@ -54,32 +51,6 @@ class NodeInspector extends OctaneComponent {
         // Initialize Generic Node Renderer
         this.genericRenderer = new window.GenericNodeRenderer(window.OctaneIconMapper, this.client);
         console.log('✅ NodeInspector: GenericNodeRenderer initialized');
-        
-        // Wait for all components to be fully initialized before auto-selection
-        this.eventSystem.on('componentsFullyInitialized', () => {
-            setTimeout(() => {
-                this.autoSelectRenderTarget();
-            }, 100);
-        });
-    }
-    
-    autoSelectRenderTarget() {
-        // Auto-select Render target using cached scene data (matching Octane Studio behavior)
-        window.debugConsole?.addLog('info', ['🎯 NodeInspector: Auto-selecting render target']);
-        
-        if (this.sceneDataCache && this.sceneDataCache.length > 1) {
-            const renderTarget = this.sceneDataCache[1]; // Render target is typically second item
-            console.log('🎯 Auto-selecting Render target to match Octane Studio behavior:', renderTarget.handle);
-            window.debugConsole?.addLog('info', ['🎯 NodeInspector: Auto-selecting', renderTarget.name, 'handle:', renderTarget.handle]);
-            
-            // Update this component's selection (handle only)
-            this.updateSelectedNode(renderTarget.handle);
-            
-            // Emit selection event with handle only to sync with other components
-            this.eventSystem.emit('sceneNodeSelected', renderTarget.handle);
-        } else {
-            window.debugConsole?.addLog('warn', ['⚠️ NodeInspector: No scene data available for auto-selection']);
-        }
     }
     
     initializeExpandedState() {
@@ -94,8 +65,7 @@ class NodeInspector extends OctaneComponent {
     setupEventListeners() {
         // Listen for scene data loading from SceneOutliner (OPTIMIZATION)
         this.eventSystem.on('sceneDataLoaded', (sceneItems) => {
-            this.updateSceneDataCache(sceneItems);
-            this.autoSelectRenderTarget(sceneItems);
+            this.updatesceneItems(sceneItems);
         });
         
         // Listen for selection updates
@@ -417,23 +387,15 @@ class NodeInspector extends OctaneComponent {
      * OPTIMIZATION: Update scene data cache from Scene Outliner
      * This eliminates the need for redundant tree traversal
      */
-    updateSceneDataCache(sceneItems) {
+    updatesceneItems(sceneItems) {
         console.log('🚀 OPTIMIZATION: Updating Node Inspector cache with scene data');
         window.debugConsole?.addLog('info', ['🚀 NodeInspector: Updating scene data cache', sceneItems?.length, 'items']);
         
         // Store the scene data cache for generic access
-        this.sceneDataCache = sceneItems;
-        
-        // Clear existing cache
-        this.nodeCache.clear();
-        this.nodeLookup.clear();
-        
-        // Recursively populate cache from scene tree
-        this.populateCacheRecursively(sceneItems);
+        this.sceneItems = sceneItems;
         
         this.sceneDataLoaded = true;
-        console.log(`✅ OPTIMIZATION: Cached ${this.nodeCache.size} nodes for instant access`);
-        window.debugConsole?.addLog('info', ['✅ NodeInspector: Scene data cache updated', this.nodeCache.size, 'nodes cached']);
+        window.debugConsole?.addLog('info', ['✅ NodeInspector: Scene data cache updated', this.sceneItems.size, 'scene items']);
     }
     
 
@@ -445,8 +407,8 @@ class NodeInspector extends OctaneComponent {
     findNodeInSceneItems(handle) {
         window.debugConsole?.addLog('info', ['🔍 NodeInspector: Searching for handle in sceneItems', handle]);
         
-        if (!this.sceneDataCache || !Array.isArray(this.sceneDataCache)) {
-            window.debugConsole?.addLog('warn', ['⚠️ NodeInspector: No sceneDataCache available']);
+        if (!this.sceneItems || !Array.isArray(this.sceneItems)) {
+            window.debugConsole?.addLog('warn', ['⚠️ NodeInspector: No sceneItems available']);
             return null;
         }
         
@@ -465,53 +427,10 @@ class NodeInspector extends OctaneComponent {
             return null;
         };
         
-        return findRecursively(this.sceneDataCache);
+        return findRecursively(this.sceneItems);
     }
     
-    /**
-     * Recursively populate node cache from scene tree data
-     */
-    populateCacheRecursively(items) {
-        if (!items || !Array.isArray(items)) return;
-        
-        items.forEach(item => {
-            if (item.handle) {
-                // Store node data by handle
-                this.nodeCache.set(item.handle, {
-                    name: item.name,
-                    handle: item.handle,
-                    type: item.type,
-                    outtype: item.outtype,
-                    children: item.children || []
-                });
-                
-                // Store name -> handle lookup
-                if (item.name) {
-                    this.nodeLookup.set(item.name, item.handle);
-                }
-            }
-            
-            // Recursively process children
-            if (item.children && item.children.length > 0) {
-                this.populateCacheRecursively(item.children);
-            }
-        });
-    }
-    
-    /**
-     * OPTIMIZATION: Get cached node data by handle
-     */
-    getCachedNodeData(handle) {
-        return this.nodeCache.get(handle);
-    }
-    
-    /**
-     * OPTIMIZATION: Get node handle by name
-     */
-    getNodeHandleByName(name) {
-        return this.nodeLookup.get(name);
-    }
-    
+   
     async updateSelectedNode(handle) {
         console.log('🎯 NodeInspector received selection handle:', handle);
         window.debugConsole?.addLog('info', ['🎯 NodeInspector: Updating selected node', handle]);
@@ -576,37 +495,6 @@ class NodeInspector extends OctaneComponent {
     }
     
     /**
-     * 
-     * 
-     * 
-Service/Method: ApiNode/getPinInt3Ix
-Request data: {
-  "objectPtr": {
-    "handle": {
-      "objectPtr": "1000023",
-      "index": 11
-    },
-    "type": 17
-  }
-}
-req:  objectPtr {
-  type: ApiNode
-}
-
-Service/Method: ApiNode/pinCount
-Request data: {
-  "objectPtr": {
-    "handle": "1000060",
-    "type": 17
-  }
-}
-req:  objectPtr {
-  handle: 1000060
-  type: ApiNode
-}
-
-     * 
-     * 
      * SIMPLIFIED: Get node type mapping for color and icon only
      * All other info is built into the scene tree or obtained via nodePinInfo
      */
@@ -774,7 +662,6 @@ req:  objectPtr {
     
     /**
      * GENERIC: Render parameter inspector using GenericNodeRenderer
-     * This creates a hierarchical tree structure matching the scene outliner
      */
     renderGenericParameterInspector(nodeInfo, parameters, nodeTypeMapping) {
         const nodeName = nodeInfo.nodeName || nodeInfo.name || 'Unknown Node';
@@ -791,7 +678,7 @@ req:  objectPtr {
         } else {
             // Called from loadAndRenderFullParameterTree() - nodeInfo is the data object
             nodeHandle = this.selectedNodeHandle;
-            nodeData = this.getCachedNodeData(nodeHandle);
+            nodeData = this.sceneItems;
             if (!nodeData) {
                 // Create minimal node data from the provided info
                 nodeData = {
@@ -1532,39 +1419,6 @@ req:  objectPtr {
             displayElement.textContent = newValue;
         }
     }
-    
-    /**
-     * Render full parameter inspector with all loaded parameters
-     */
-
-    
-    doRenderFullParameterInspector(data, parameters) {
-        console.log('🎨 GENERIC RENDERER: Rendering full parameter inspector for:', data.nodeName);
-        
-        const nodeType = this.getCachedNodeData(this.selectedNodeHandle)?.outtype || 'NT_CAMERA';
-        const nodeName = data.nodeName || this.selectedNodeName || 'Unknown Node';
-        
-        // Create node info object for GenericNodeRenderer
-        const nodeInfo = {
-            nodeName: nodeName,
-            nodeType: nodeType,
-            handle: this.selectedNodeHandle
-        };
-        
-        // Create default node type mapping
-        const nodeTypeMapping = {
-            color: '#ff6600',
-            icon: '🎯'
-        };
-        
-        console.log('🎛️ Using GenericNodeRenderer for interactive controls');
-        
-        // Use the GenericNodeRenderer system for interactive controls
-        this.renderGenericParameterInspector(nodeInfo, parameters, nodeTypeMapping);
-        
-        console.log('✅ GENERIC RENDERER: Full parameter inspector rendered successfully');
-    }
-    
     
     
     // OLD UNUSED METHODS REMOVED - See node_inspector_old_code.txt for backup
