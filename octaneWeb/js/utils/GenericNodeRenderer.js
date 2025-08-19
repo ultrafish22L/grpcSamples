@@ -13,6 +13,7 @@ class GenericNodeRenderer {
         this.apiClient = apiClient;
         this.expandedGroups = new Set(); // Track expanded/collapsed state
         this.expandedNodes = new Set();  // Track expanded nodes
+        this.allNodesExpandedByDefault = true; // All nodes expanded by default
         
         // Initialize with common groups expanded by default
         this.expandedGroups.add('scene');
@@ -110,7 +111,11 @@ class GenericNodeRenderer {
         const color = this.iconMapper?.getNodeColor(nodeData.outtype) || '#666';
         const hasChildren = nodeData.children && nodeData.children.length > 0;
         const nodeId = `node-${nodeData.handle}`;
-        const isExpanded = this.expandedNodes.has(nodeId);
+        
+        // Check if expanded: default to true if allNodesExpandedByDefault, otherwise check set
+        const isExpanded = this.allNodesExpandedByDefault ? 
+            !this.expandedNodes.has(`collapsed-${nodeId}`) : 
+            this.expandedNodes.has(nodeId);
         
         // Determine collapse/expand icon
         let collapseIcon = '';
@@ -271,10 +276,20 @@ class GenericNodeRenderer {
                 this.expandedGroups.add(id);
             }
         } else {
-            if (this.expandedNodes.has(id)) {
-                this.expandedNodes.delete(id);
+            // For nodes with allNodesExpandedByDefault=true, we track collapsed state
+            if (this.allNodesExpandedByDefault) {
+                const collapsedId = `collapsed-${id}`;
+                if (this.expandedNodes.has(collapsedId)) {
+                    this.expandedNodes.delete(collapsedId); // Expand (remove from collapsed set)
+                } else {
+                    this.expandedNodes.add(collapsedId); // Collapse (add to collapsed set)
+                }
             } else {
-                this.expandedNodes.add(id);
+                if (this.expandedNodes.has(id)) {
+                    this.expandedNodes.delete(id);
+                } else {
+                    this.expandedNodes.add(id);
+                }
             }
         }
     }
@@ -288,7 +303,12 @@ class GenericNodeRenderer {
         if (id.startsWith('group-')) {
             return this.expandedGroups.has(id);
         } else {
-            return this.expandedNodes.has(id);
+            // For nodes with allNodesExpandedByDefault=true, check if NOT in collapsed set
+            if (this.allNodesExpandedByDefault) {
+                return !this.expandedNodes.has(`collapsed-${id}`);
+            } else {
+                return this.expandedNodes.has(id);
+            }
         }
     }
     
