@@ -4,7 +4,7 @@
  * 
  * PHASE 1: Consolidation without breaking existing functionality
  * This file consolidates all the scattered icon and color mapping functions
- * from NodeInspector.js, SceneOutlinerSync.js, and ParameterTypes.js
+ * from NodeInspector.js and SceneOutlinerSync.js
  */
 
 class OctaneIconMapper {
@@ -142,7 +142,7 @@ class OctaneIconMapper {
             return technicalIcons[paramName];
         }
         
-        // Finally check type-based icons (from ParameterTypes.js)
+        // Finally check type-based icons
         const typeIcons = {
             'checkbox': '☑️',
             'numeric-slider': '🎚️',

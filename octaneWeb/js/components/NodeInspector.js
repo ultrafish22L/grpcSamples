@@ -1784,18 +1784,8 @@ class NodeInspector extends OctaneComponent {
      * Render full parameter inspector with all loaded parameters
      */
     renderFullParameterInspector(data, parameters) {
-        // Import parameter renderer (will be loaded dynamically)
-        this.loadParameterRenderer().then(() => {
-            this.doRenderFullParameterInspector(data, parameters);
-        });
-    }
-    
-    async loadParameterRenderer() {
-        if (!window.ParameterRenderer) {
-            // For now, we'll implement a basic version inline
-            // In production, this would import the ParameterRenderer module
-            console.log('📦 Loading parameter renderer...');
-        }
+        // Render directly without external parameter renderer
+        this.doRenderFullParameterInspector(data, parameters);
     }
     
     doRenderFullParameterInspector(data, parameters) {
