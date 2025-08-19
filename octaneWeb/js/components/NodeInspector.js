@@ -576,6 +576,37 @@ class NodeInspector extends OctaneComponent {
     }
     
     /**
+     * 
+     * 
+     * 
+Service/Method: ApiNode/getPinInt3Ix
+Request data: {
+  "objectPtr": {
+    "handle": {
+      "objectPtr": "1000023",
+      "index": 11
+    },
+    "type": 17
+  }
+}
+req:  objectPtr {
+  type: ApiNode
+}
+
+Service/Method: ApiNode/pinCount
+Request data: {
+  "objectPtr": {
+    "handle": "1000060",
+    "type": 17
+  }
+}
+req:  objectPtr {
+  handle: 1000060
+  type: ApiNode
+}
+
+     * 
+     * 
      * SIMPLIFIED: Get node type mapping for color and icon only
      * All other info is built into the scene tree or obtained via nodePinInfo
      */
@@ -698,10 +729,7 @@ class NodeInspector extends OctaneComponent {
                         
                         for (const getter of typeGetters) {
                             try {
-                                const result = window.grpcApi.makeApiCallSync(getter.method, {
-                                    objectPtr: nodeHandle,
-                                    index: pinIndex
-                                });
+                                const result = window.grpcApi.makeApiCallSync(getter.method, nodeHandle, { index: pinIndex });
                                 if (result && result.success) {
                                     pinValue = result.data;
                                     pinType = getter.type;
@@ -791,7 +819,7 @@ class NodeInspector extends OctaneComponent {
         }
         
         // Convert parameters to pin format for the renderer
-        const pinData = this.convertParametersToPinData(parameters);
+        const pinData = parameters;
         
         console.log('🎛️ Creating interactive controls for', Object.keys(parameters).length, 'parameters');
         
@@ -815,204 +843,6 @@ class NodeInspector extends OctaneComponent {
         window.debugConsole?.addLog('info', ['✅ NodeInspector: Rendered node inspector with interactive controls']);
     }
     
-    /**
-     * Convert loaded parameters to pin data format for GenericNodeRenderer
-     * @param {Object} parameters - Parameters loaded from API
-     * @returns {Array} - Pin data array grouped by type
-     */
-    convertParametersToPinData(parameters) {
-        if (!parameters || Object.keys(parameters).length === 0) {
-            return [];
-        }
-        
-        // Group parameters by logical groups (similar to Octane's grouping)
-        const groups = {
-            'Physical camera parameters': [],
-            'Viewing angle': [],
-            'Clipping': [],
-            'Depth of field': [],
-            'Stereo': [],
-            'Environment': [],
-            'Sun direction': [],
-            'Geometry': [],
-            'Material': [],
-            'Film settings': [],
-            'Animation': [],
-            'Kernel': [],
-            'Render layer': [],
-            'Render AOVs': [],
-            'Output AOVs': [],
-            'Imager': [],
-            'Post processing': [],
-            'Post volume': []
-        };
-        
-        // Categorize parameters into groups based on their names
-        Object.entries(parameters).forEach(([paramName, paramData]) => {
-            const name = paramName.toLowerCase();
-            let groupName = 'General'; // Default group
-            
-            // Categorize based on parameter name
-            if (name.includes('sensor') || name.includes('focal') || name.includes('stop')) {
-                groupName = 'Physical camera parameters';
-            } else if (name.includes('field') || name.includes('scale') || name.includes('distortion')) {
-                groupName = 'Viewing angle';
-            } else if (name.includes('clip') || name.includes('near') || name.includes('far')) {
-                groupName = 'Clipping';
-            } else if (name.includes('focus') || name.includes('aperture') || name.includes('bokeh')) {
-                groupName = 'Depth of field';
-            } else if (name.includes('stereo') || name.includes('eye')) {
-                groupName = 'Stereo';
-            } else if (name.includes('environment') || name.includes('sky') || name.includes('sun')) {
-                groupName = 'Environment';
-            } else if (name.includes('latitude') || name.includes('longitude') || name.includes('time')) {
-                groupName = 'Sun direction';
-            } else if (name.includes('geometry') || name.includes('mesh')) {
-                groupName = 'Geometry';
-            } else if (name.includes('material') || name.includes('diffuse') || name.includes('roughness')) {
-                groupName = 'Material';
-            } else if (name.includes('resolution') || name.includes('region')) {
-                groupName = 'Film settings';
-            } else if (name.includes('shutter') || name.includes('subframe')) {
-                groupName = 'Animation';
-            } else if (name.includes('samples') || name.includes('depth') || name.includes('epsilon')) {
-                groupName = 'Kernel';
-            }
-            
-            // Create pin object
-            const pinObject = {
-                name: paramName,
-                value: paramData.value,
-                type: paramData.type || 'generic',
-                pinIndex: paramData.pinIndex
-            };
-            
-            // Add to appropriate group
-            if (!groups[groupName]) {
-                groups[groupName] = [];
-            }
-            groups[groupName].push(pinObject);
-        });
-        
-        // Convert groups to the format expected by GenericNodeRenderer
-        const pinGroups = [];
-        Object.entries(groups).forEach(([groupName, pins]) => {
-            if (pins.length > 0) {
-                pinGroups.push({
-                    name: groupName,
-                    pins: pins
-                });
-            }
-        });
-        
-        window.debugConsole?.addLog('info', ['📋 NodeInspector: Created', pinGroups.length, 'pin groups with', Object.keys(parameters).length, 'total parameters']);
-        
-        return pinGroups;
-    }
-    
-    /**
-     * OCTANE UI MATCH: Render the exact structure from the reference image
-     */
-    
-    /**
-     * Render a single camera parameter with icon, label, value and slider
-     */
-    renderCameraParameter(icon, label, value, unit, isCheckbox = false) {
-        const paramName = label.toLowerCase().replace(/[^a-z0-9]/g, '_');
-        
-        if (isCheckbox) {
-            window.debugConsole?.addLog('info', ['🔲 NodeInspector: Rendering checkbox for', label]);
-            return `
-                <div class="parameter-row">
-                    <div class="parameter-icon">${icon}</div>
-                    <div class="parameter-label">${label}</div>
-                    <input type="checkbox" 
-                           class="parameter-checkbox" 
-                           data-param="${paramName}" 
-                           ${value === 'true' ? 'checked' : ''} />
-                </div>
-            `;
-        }
-        
-        return `
-            <div class="parameter-row">
-                <div class="parameter-icon">${icon}</div>
-                <div class="parameter-label">${label}</div>
-                <div class="parameter-control-group">
-                    <button class="parameter-spinner-btn" data-action="decrement" data-param="${paramName}">◄</button>
-                    <input type="number" 
-                           class="parameter-number-input" 
-                           data-param="${paramName}" 
-                           value="${value}" 
-                           step="0.01" />
-                    <button class="parameter-spinner-btn" data-action="increment" data-param="${paramName}">►</button>
-                    ${unit ? `<span class="parameter-unit">${unit}</span>` : ''}
-                </div>
-            </div>
-        `;
-    }
-    
-    /**
-     * Render a dual-value camera parameter (like Lens shift with two values)
-     */
-    renderDualCameraParameter(icon, label, value1, value2) {
-        const paramName1 = label.toLowerCase().replace(/[^a-z0-9]/g, '_') + '_x';
-        const paramName2 = label.toLowerCase().replace(/[^a-z0-9]/g, '_') + '_y';
-        
-        return `
-            <div class="parameter-row">
-                <div class="parameter-icon">${icon}</div>
-                <div class="parameter-label">${label}</div>
-                <div class="parameter-control-group">
-                    <input type="number" 
-                           class="parameter-number-input" 
-                           data-param="${paramName1}" 
-                           value="${value1}" 
-                           step="0.01" 
-                           style="width: 35px;" />
-                    <input type="number" 
-                           class="parameter-number-input" 
-                           data-param="${paramName2}" 
-                           value="${value2}" 
-                           step="0.01" 
-                           style="width: 35px; margin-left: 2px;" />
-                </div>
-            </div>
-        `;
-    }
-    
-
-    
-    /**
-     * GENERIC: Render a single parameter control
-     */
-    renderGenericParameter(paramName, param) {
-        const value = param.value;
-        let controlHtml = '';
-        
-        // Determine control type based on value type
-        if (typeof value === 'boolean') {
-            controlHtml = `<input type="checkbox" class="parameter-checkbox" id="${paramName}" ${value ? 'checked' : ''}>`;
-        } else if (typeof value === 'number') {
-            controlHtml = `<input type="number" class="parameter-number-input" id="${paramName}" value="${value}" step="0.01">`;
-        } else if (typeof value === 'string') {
-            controlHtml = `<input type="text" class="parameter-input" id="${paramName}" value="${value}">`;
-        } else {
-            controlHtml = `<input type="text" class="parameter-input" id="${paramName}" value="${JSON.stringify(value)}" readonly>`;
-        }
-        
-        return `
-            <div class="parameter-row">
-                <div class="parameter-label">
-                    <span class="parameter-icon">📝</span>
-                    <span class="parameter-name">${paramName}</span>
-                </div>
-                <div class="parameter-control">
-                    ${controlHtml}
-                </div>
-            </div>
-        `;
-    }
     
     updateInspectorDropdown(nodeName) {
         // Update the dropdown in the node inspector header to show the selected node
@@ -1450,127 +1280,6 @@ class NodeInspector extends OctaneComponent {
         });
     }
     
-    /**
-     * OPTIMIZED: Load and render full parameter tree for selected node
-     * Uses cached scene data instead of redundant tree traversal
-     */
-    async loadAndRenderFullParameterTree(data) {
-        console.log('🚀 OPTIMIZED: Loading parameter tree for node:', data.nodeName);
-        
-        // Show loading state
-        this.showLoadingState(data);
-        
-        try {
-            // OPTIMIZATION: Use cached node data if available
-            const nodeHandle = this.selectedNodeHandle || this.selectedNode;
-            let nodeData = null;
-            
-            if (this.sceneDataLoaded && nodeHandle) {
-                nodeData = this.getCachedNodeData(nodeHandle);
-                console.log('✅ OPTIMIZATION: Using cached node data:', nodeData);
-            }
-            
-            // Load only parameter VALUES (not tree structure)
-            const parameters = await this.loadNodeParameterValuesOptimized(nodeHandle, nodeData);
-            
-            console.log('✅ OPTIMIZED: Loaded parameter values:', parameters);
-            
-            // Render the full inspector with all parameters
-            this.doRenderFullParameterInspector(data, parameters);
-            
-        } catch (error) {
-            console.error('❌ Failed to load parameter tree:', error);
-        }
-    }
-    
-    /**
-     * OPTIMIZED: Load only parameter VALUES for a node (using cached metadata)
-     * This replaces the inefficient recursive tree traversal
-     */
-    async loadNodeParameterValuesOptimized(nodeHandle, cachedNodeData) {
-        if (!nodeHandle) {
-            console.warn('⚠️ OPTIMIZATION: No node handle provided');
-            return {};
-        }
-        
-        const parameters = {};
-        
-        try {
-            console.log(`🚀 OPTIMIZATION: Loading parameter values for node ${nodeHandle} (${cachedNodeData?.name || 'unknown'})`);
-            
-            // Get pin count for this node (single API call)
-            const pinCountResult = window.grpcApi.makeApiCallSync(
-                'ApiNode/pinCount',
-                nodeHandle
-            );
-            
-            if (!pinCountResult.success) {
-                console.warn('⚠️ OPTIMIZATION: Failed to get pin count for node:', nodeHandle);
-                return parameters;
-            }
-            
-            const pinCount = pinCountResult.data.result;
-            console.log(`📌 OPTIMIZATION: Node has ${pinCount} pins (cached metadata: ${cachedNodeData ? 'available' : 'not available'})`);
-            
-            // Load parameter values efficiently (no tree traversal)
-            for (let i = 0; i < pinCount; i++) {
-                try {
-                    // Small delay to prevent API overload
-//                    await this.delay(25); // Reduced from 50ms for better performance
-                    
-                    // Use SAFE ApiNode methods to get pin information
-                    const [pinNameResult, pinTypeResult, pinLabelResult] = await Promise.all([
-                        window.grpcApi.makeApiCallSync('ApiNode/pinNameIx', nodeHandle, { index: i }),
-                        window.grpcApi.makeApiCallSync('ApiNode/pinTypeIx', nodeHandle, { index: i }),
-                        window.grpcApi.makeApiCallSync('ApiNode/pinLabelIx', nodeHandle, { index: i })
-                    ]);
-                    
-                    // Skip if we can't get basic pin info
-                    if (!pinNameResult.success && !pinTypeResult.success) {
-                        continue;
-                    }
-                    
-                    const pinName = pinNameResult.success ? pinNameResult.data.result : `pin_${i}`;
-                    const pinType = pinTypeResult.success ? pinTypeResult.data.result : 'unknown';
-                    const pinLabel = pinLabelResult.success ? pinLabelResult.data.result : pinName;
-                    
-                    // Get pin value using safe methods
-                    let pinValue = null;
-                    try {
-                        const valueResult = await this.getParameterValueSafe(nodeHandle, i, pinType);
-                        if (valueResult.success) {
-                            pinValue = valueResult.data;
-                        }
-                    } catch (valueError) {
-                        console.warn(`⚠️ OPTIMIZATION: Could not get value for pin ${i}:`, valueError);
-                    }
-                    
-                    // Store parameter data
-                    parameters[pinName] = {
-                        name: pinName,
-                        label: pinLabel,
-                        type: pinType,
-                        value: pinValue,
-                        index: i,
-                        // Use cached metadata if available
-                        nodeType: cachedNodeData?.outtype || 'unknown',
-                        nodeName: cachedNodeData?.name || 'unknown'
-                    };
-                    
-                } catch (pinError) {
-                    console.warn(`⚠️ OPTIMIZATION: Error processing pin ${i}:`, pinError);
-                    continue;
-                }
-            }
-            
-            console.log(`✅ OPTIMIZATION: Loaded ${Object.keys(parameters).length} parameter values efficiently`);
-            
-        } catch (error) {
-            console.error('❌ OPTIMIZATION: Error in loadNodeParameterValuesOptimized:', error);
-        }
-        
-        return parameters;
-    }
     
     /**
      * Recursively load all parameters for a node (FALLBACK METHOD)
@@ -1714,7 +1423,11 @@ class NodeInspector extends OctaneComponent {
             
             for (const method of methods) {
                 try {
-                    const result = window.grpcApi.makeApiCallSync(method, nodeHandle, { index });
+                    const result = window.grpcApi.makeApiCallSync(
+                        method, 
+                        nodeHandle, 
+                        { index }
+                    );
                     if (result.success && result.data.result !== undefined) {
                         return { success: true, data: result.data.result };
                     }
@@ -1735,10 +1448,11 @@ class NodeInspector extends OctaneComponent {
      */
     async setParameterValueSafe(nodeHandle, index, value, pinType) {
         try {
-            const result = window.grpcApi.makeApiCallSync('ApiNode/setPinValue', nodeHandle, {
-                index: index,
-                value: value
-            });
+            const result = window.grpcApi.makeApiCallSync(
+                'ApiNode/setPinValue', 
+                nodeHandle, 
+                { index: index, value: value}
+            );
             
             return { success: result.success, data: result.data };
         } catch (error) {
@@ -1851,232 +1565,7 @@ class NodeInspector extends OctaneComponent {
         console.log('✅ GENERIC RENDERER: Full parameter inspector rendered successfully');
     }
     
-    /**
-     * Special handling for render targets - load camera parameters instead of render target parameters
-     */
-    async loadRenderTargetCameraParameters(renderTargetHandle, renderTargetData) {
-        console.log('🎯 Loading camera parameters for render target:', renderTargetData.name);
-        
-        try {
-            // First, load the render target's parameters to get the camera handle
-            const renderTargetParams = await this.loadNodeParameterValuesOptimized(renderTargetHandle, renderTargetData);
-            
-            // Find the camera parameter and get its handle
-            const cameraParam = renderTargetParams['camera'];
-            if (!cameraParam || !cameraParam.value) {
-                console.warn('⚠️ No camera found in render target parameters');
-                // Fallback to showing render target parameters
-                await this.loadAndRenderFullParameterTree({ 
-                    handle: renderTargetHandle,
-                    nodeName: renderTargetData.name,
-                    nodeType: renderTargetData.outtype
-                });
-                return;
-            }
-            
-            const cameraHandle = cameraParam.value;
-            console.log('📷 Found camera handle in render target:', cameraHandle);
-            
-            // Get camera node data from cache
-            const cameraNodeData = this.getCachedNodeData(cameraHandle);
-            if (!cameraNodeData) {
-                console.warn('⚠️ No cached data found for camera handle:', cameraHandle);
-                return;
-            }
-            
-            // Load camera parameters
-            const cameraParameters = await this.loadNodeParameterValuesOptimized(cameraHandle, cameraNodeData);
-            
-            // Render the camera parameters in the proper hierarchical structure
-            await this.renderRenderTargetWithCameraParameters(renderTargetData, cameraNodeData, cameraParameters);
-            
-        } catch (error) {
-            console.error('❌ Failed to load render target camera parameters:', error);
-            // Fallback to showing render target parameters
-            await this.loadAndRenderFullParameterTree({ 
-                handle: renderTargetHandle,
-                nodeName: renderTargetData.name,
-                nodeType: renderTargetData.outtype
-            });
-        }
-    }
     
-    /**
-     * Render render target with camera parameters in hierarchical structure
-     */
-    async renderRenderTargetWithCameraParameters(renderTargetData, cameraNodeData, cameraParameters) {
-        console.log('🎨 Rendering render target with camera parameters');
-        
-        // Update the dropdown to show "Render target"
-        this.updateNodeSelectorDropdown(renderTargetData.name);
-        
-        // Create the hierarchical structure: Scene > Camera > Parameter Groups
-        let inspectorHtml = `
-            <div class="octane-section">
-                <div class="octane-section-header" data-group="scene">
-                    <span class="octane-section-icon">▼</span>
-                    <span class="octane-section-title">Scene</span>
-                </div>
-                <div class="octane-section-content" data-group-content="scene" style="display: block;">
-                    <div class="octane-subsection">
-                        <div class="octane-subsection-header">
-                            <span class="octane-node-icon">📷</span>
-                            <span class="octane-subsection-title">Thin lens camera</span>
-                        </div>
-                    </div>
-        `;
-        
-        // Render camera parameter groups
-        inspectorHtml += this.renderOctaneParameterGroups(cameraParameters);
-        
-        inspectorHtml += `
-                </div>
-            </div>
-        `;
-        
-        // Update the inspector content
-        const contentArea = this.element.querySelector('.panel-content .node-inspector');
-        if (contentArea) {
-            contentArea.innerHTML = inspectorHtml;
-        } else {
-            // Fallback: update entire element if structure is different
-            this.element.innerHTML = inspectorHtml;
-        }
-        
-        // Setup event handlers
-        this.setupOctaneInspectorEventListeners();
-        
-        console.log('✅ Render target with camera parameters rendered successfully');
-    }
-    
-    /**
-     * Update the node selector dropdown with the current selection
-     */
-    updateNodeSelectorDropdown(nodeName) {
-        const dropdown = document.querySelector('.node-selector');
-        if (dropdown && nodeName) {
-            // Clear existing options
-            dropdown.innerHTML = '';
-            
-            // Add the selected node option
-            const option = document.createElement('option');
-            option.value = nodeName;
-            option.textContent = nodeName;
-            option.selected = true;
-            dropdown.appendChild(option);
-            
-            console.log('📝 Updated node selector dropdown to:', nodeName);
-        }
-    }
-    
-    /**
-     * Render parameter groups matching Octane Studio layout
-     */
-    renderOctaneParameterGroups(parameters) {
-        console.log('🎨 Rendering Octane parameter groups with', Object.keys(parameters).length, 'parameters');
-        
-        // Group parameters by category (matching reference image)
-        const parameterGroups = this.groupParametersForOctane(parameters);
-        
-        let groupsHtml = '';
-        
-        // Render each parameter group
-        Object.entries(parameterGroups).forEach(([groupName, groupParams]) => {
-            if (groupParams.length === 0) return;
-            
-            const isExpanded = this.shouldGroupBeExpanded(groupName);
-            const icon = isExpanded ? '▼' : '▶';
-            const contentStyle = isExpanded ? 'display: block;' : 'display: none;';
-            
-            groupsHtml += `
-                <div class="octane-parameter-group">
-                    <div class="octane-group-header" data-group="${groupName}">
-                        <span class="octane-group-icon">${icon}</span>
-                        <span class="octane-group-title">${this.getGroupDisplayName(groupName)}</span>
-                    </div>
-                    <div class="octane-group-content" data-group-content="${groupName}" style="${contentStyle}">
-                        <!-- OLD METHOD REMOVED - Parameters now rendered by GenericNodeRenderer -->
-                    </div>
-                </div>
-            `;
-        });
-        
-        return groupsHtml;
-    }
-    
-    /**
-     * Group parameters by category matching Octane Studio
-     */
-    groupParametersForOctane(parameters) {
-        const groups = {
-            'physical-camera': [],
-            'viewing-angle': [],
-            'clipping': [],
-            'depth-of-field': [],
-            'position': [],
-            'stereo': [],
-            'other': []
-        };
-        
-        Object.entries(parameters).forEach(([paramName, paramData]) => {
-            const name = paramData.label || paramName;
-            const lowerName = name.toLowerCase();
-            
-            // Group parameters based on their names (matching reference image)
-            if (lowerName.includes('orthographic') || lowerName.includes('sensor') || 
-                lowerName.includes('focal length') || lowerName.includes('f-stop')) {
-                groups['physical-camera'].push(paramData);
-            } else if (lowerName.includes('field of view') || lowerName.includes('scale of view') || 
-                       lowerName.includes('distortion') || lowerName.includes('lens shift') || 
-                       lowerName.includes('perspective') || lowerName.includes('pixel aspect')) {
-                groups['viewing-angle'].push(paramData);
-            } else if (lowerName.includes('near clip') || lowerName.includes('far clip')) {
-                groups['clipping'].push(paramData);
-            } else if (lowerName.includes('auto-focus') || lowerName.includes('focal depth') || 
-                       lowerName.includes('aperture') || lowerName.includes('bokeh')) {
-                groups['depth-of-field'].push(paramData);
-            } else if (lowerName.includes('position') || lowerName.includes('target') || 
-                       lowerName.includes('up-vector')) {
-                groups['position'].push(paramData);
-            } else if (lowerName.includes('stereo') || lowerName.includes('eye distance') || 
-                       lowerName.includes('swap eyes')) {
-                groups['stereo'].push(paramData);
-            } else {
-                groups['other'].push(paramData);
-            }
-        });
-        
-        return groups;
-    }
-    
-    /**
-     * Check if a parameter group should be expanded by default
-     */
-    shouldGroupBeExpanded(groupName) {
-        // All groups are expanded by default unless explicitly collapsed
-        return !this.collapsedGroups.has(groupName);
-    }
-    
-    shouldSectionBeExpanded(sectionName) {
-        // All sections are expanded by default unless explicitly collapsed
-        return !this.collapsedSections.has(sectionName);
-    }
-    
-    /**
-     * Get display name for parameter group
-     */
-    getGroupDisplayName(groupName) {
-        const displayNames = {
-            'physical-camera': 'Physical camera parameters',
-            'viewing-angle': 'Viewing angle',
-            'clipping': 'Clipping',
-            'depth-of-field': 'Depth of field',
-            'position': 'Position',
-            'stereo': 'Stereo',
-            'other': 'Other parameters'
-        };
-        return displayNames[groupName] || groupName;
-    }
     
     // OLD UNUSED METHODS REMOVED - See node_inspector_old_code.txt for backup
     
@@ -2110,68 +1599,12 @@ class NodeInspector extends OctaneComponent {
         `;
     }
     
-    /**
-     * Show error state if parameter loading fails
-     */
-    showErrorState(data, error) {
-        this.element.innerHTML = `
-            <div class="node-inspector-header">
-                <h3>Node inspector</h3>
-                <select class="node-selector">
-                    <option value="${data.nodeName}" selected>${data.nodeName}</option>
-                </select>
-            </div>
-            <div class="node-inspector-content">
-                <div class="parameter-section">
-                    <div class="parameter-row">
-                        <span class="parameter-icon">📦</span>
-                        <span class="parameter-label">Object Handle:</span>
-                        <span class="parameter-value">[${data.nodeId || this.selectedNodeHandle}]</span>
-                    </div>
-                    <div class="parameter-row">
-                        <span class="parameter-icon">📄</span>
-                        <span class="parameter-label">Type:</span>
-                        <span class="parameter-value">${data.nodeType}</span>
-                    </div>
-                </div>
-                
-                <div class="error-state">
-                    <div class="error-icon">❌</div>
-                    <p>Failed to load parameters</p>
-                    <details>
-                        <summary>Error details</summary>
-                        <pre>${error.message || error}</pre>
-                    </details>
-                    <button class="retry-button" onclick="this.parentElement.parentElement.parentElement.parentElement.querySelector('.node-selector select').dispatchEvent(new Event('change'))">
-                        🔄 Retry
-                    </button>
-                </div>
-            </div>
-        `;
-    }
     
     /**
      * Utility delay function
      */
     delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
-    }
-    
-    renderGenericInspector(data) {
-        // This method is now replaced by loadAndRenderFullParameterTree
-        // Keep for backward compatibility
-        this.loadAndRenderFullParameterTree(data);
-    }
-    
-    setupParameterHandlers() {
-        // Setup handlers for parameter groups
-        const groupHeaders = this.element.querySelectorAll('.parameter-group-header');
-        groupHeaders.forEach(header => {
-            header.addEventListener('click', (e) => {
-                const groupName = header.dataset.group;
-                this.toggleParameterGroup(groupName);
-            });
-        });
     }
 }
 

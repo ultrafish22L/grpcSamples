@@ -27,7 +27,7 @@ SharedUtils::CameraController cameraController;
 SharedUtils::ModelManager modelManager;
 //CameraSyncDirect cameraSync;
 CameraSyncLiveLink cameraSync;
-ModernRendering::ModernRenderer renderer;
+SharedUtils::RendererGl renderer;
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
     (void)window; // Suppress unused parameter warning
@@ -148,7 +148,7 @@ int main() {
         cameraSync.setCamera(viewPos, cameraController.camera.center, glm::vec3(0.0f, 1.0f, 0.0f));
 
         // Render using modern renderer
-        renderer.render(view, projection, viewPos, currentTime);
+        renderer.renderCube(view, projection, viewPos, currentTime);
         
         // Swap buffers
         glfwSwapBuffers(window);
