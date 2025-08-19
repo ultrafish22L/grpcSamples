@@ -183,7 +183,7 @@ class EventSystem {
      */
     queueEvent(eventData) {
         if (this.eventQueue.length >= this.maxQueueSize) {
-            console.warn('Event queue is full, dropping oldest event');
+            // Drop oldest event to prevent memory issues
             this.eventQueue.shift();
         }
         
