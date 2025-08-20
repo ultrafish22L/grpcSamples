@@ -388,11 +388,11 @@ class SceneOutlinerSync {
             } catch (error) {
                 console.error('❌ Failed addSceneItem:', error);
             }
-            console.log("EndNODE ", itemName, outType, attrType);
+            console.log("EndNODE ", itemName, outType, attrType, item.handle);
 
         }
         else {
-            console.log("ParNode ", itemName, outType);
+            console.log("ParNode ", itemName, outType, item.handle);
         }
         sceneItems.push({
             name: itemName,

@@ -210,10 +210,9 @@ class GenericNodeRenderer {
                 </div>
             `;
         }
-        window.debugConsole?.addLog('info', ' renderNodeParameters:', nodeData.outtype);
-
         if (nodeData.pinInfo == null) {
             // For any other node type, add a generic dropdown
+/*
             return `
                 <div class="node-parameter-controls">
                     <select class="parameter-dropdown" data-parameter="node-type">
@@ -222,6 +221,8 @@ class GenericNodeRenderer {
                     </select>
                 </div>
             `;
+*/
+            return ``;
         }
         return this.renderControl(nodeData);  
     }
@@ -256,15 +257,15 @@ class GenericNodeRenderer {
         const index = nodeData.pinInfo.index;
 
 //        return `<input type="text" class="octane-text-input parameter-control" value="${''}" 
-//        data-parameter="${nodeData.name}" data-index="${index}" data-type="text">`;
+//        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="text">`;
 
-        if (nodeData.attrType == "AT_BOOL") {
-            let value = false;
-            try {        
+        try {   
+            if (nodeData.attrType == "AT_BOOL") {
+                let value = false;
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getBool', 
                     nodeData.handle,
-                    { id: window.OctaneTypes.id.A_VALUE },
+                    { id: window.OctaneTypes.AttributeId.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getBool');
@@ -272,19 +273,15 @@ class GenericNodeRenderer {
                 value = result.data.result;
                 value = Array.isArray(value) ? value[0] : value;
 
-            } catch (error) {
-                console.error('❌ Failed createParameterControl:', error);
+                return `<input type="checkbox" class="octane-checkbox parameter-control" ${value} 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="boolean">`;
             }
-            return `<input type="checkbox" class="octane-checkbox parameter-control" ${value} 
-                    data-parameter="${nodeData.name}" data-index="${index}" data-type="boolean">`;
-        }
-        else if (nodeData.attrType == "AT_FLOAT") {
-            let value = 0.0;
-            try {        
+            else if (nodeData.attrType == "AT_FLOAT") {
+                let value = 0.0;
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getFloat', 
                     nodeData.handle,
-                    { id: window.OctaneTypes.id.A_VALUE },
+                    { id: window.OctaneTypes.AttributeId.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getFloat');
@@ -292,19 +289,15 @@ class GenericNodeRenderer {
                 value = result.data.result;
                 value = Array.isArray(value) ? value[0] : value;
 
-            } catch (error) {
-                console.error('❌ Failed createParameterControl:', error);
+                return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="0.001" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="number">`;
             }
-            return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="0.001" 
-                    data-parameter="${nodeData.name}" data-index="${index}" data-type="number">`;
-        }
-        else if (nodeData.attrType == "AT_FLOAT2") {
-            let value = { x: 0.0, y: 0.0 };
-            try {        
+            else if (nodeData.attrType == "AT_FLOAT2") {
+                let value = { x: 0.0, y: 0.0 };
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getFloat2', 
                     nodeData.handle,
-                    { id: window.OctaneTypes.id.A_VALUE },
+                    { id: window.OctaneTypes.AttributeId.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getFloat2');
@@ -312,25 +305,21 @@ class GenericNodeRenderer {
                 value = result.data.result;
                 value = Array.isArray(value) ? value[0] : value;
 
-            } catch (error) {
-                console.error('❌ Failed createParameterControl:', error);
+                return `
+                    <div class="octane-vector-control">
+                        <input type="number" class="octane-vector-input parameter-control" value="${value.x}" 
+                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector2">
+                        <input type="number" class="octane-vector-input parameter-control" value="${value.y}" 
+                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector2">
+                    </div>
+                `;
             }
-            return `
-                <div class="octane-vector-control">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" 
-                           data-parameter="${nodeData.name}" data-index="${index}" data-component="0" data-type="vector2">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.y}" 
-                           data-parameter="${nodeData.name}" data-index="${index}" data-component="1" data-type="vector2">
-                </div>
-            `;
-        }
-        else if (nodeData.attrType == "AT_FLOAT3") {
-            let value = { x: 0.0, y: 0.0, z: 0.0 };
-            try {        
+            else if (nodeData.attrType == "AT_FLOAT3") {
+                let value = { x: 0.0, y: 0.0, z: 0.0 };
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getFloat3', 
                     nodeData.handle,
-                    { id: window.OctaneTypes.id.A_VALUE },
+                    { id: window.OctaneTypes.AttributeId.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getFloat3');
@@ -338,27 +327,23 @@ class GenericNodeRenderer {
                 value = result.data.result;
                 value = Array.isArray(value) ? value[0] : value;
 
-            } catch (error) {
-                console.error('❌ Failed createParameterControl:', error);
+                return `
+                    <div class="octane-vector-control">
+                        <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
+                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector3">
+                        <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="0.001" 
+                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector3">
+                        <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="0.001" 
+                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector3">
+                    </div>
+                `;
             }
-            return `
-                <div class="octane-vector-control">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
-                           data-parameter="${nodeData.name}" data-index="${index}" data-component="0" data-type="vector3">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="0.001" 
-                           data-parameter="${nodeData.name}" data-index="${index}" data-component="1" data-type="vector3">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="0.001" 
-                           data-parameter="${nodeData.name}" data-index="${index}" data-component="2" data-type="vector3">
-                </div>
-            `;
-        }
-        else if (nodeData.attrType == "AT_FLOAT4") {
-            let value = { x: 0.0, y: 0.0, z: 0.0, w: 0.0 };
-            try {        
+            else if (nodeData.attrType == "AT_FLOAT4") {
+                let value = { x: 0.0, y: 0.0, z: 0.0, w: 0.0 };
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getFloat4', 
                     nodeData.handle,
-                    { id: window.OctaneTypes.id.A_VALUE },
+                    { id: window.OctaneTypes.AttributeId.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getFloat4');
@@ -366,27 +351,23 @@ class GenericNodeRenderer {
                 value = result.data.result;
                 value = Array.isArray(value) ? value[0] : value;
 
-            } catch (error) {
-                console.error('❌ Failed createParameterControl:', error);
+                return `
+                    <div class="octane-vector-control">
+                        <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
+                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector3">
+                        <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="0.001" 
+                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector3">
+                        <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="0.001" 
+                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector3">
+                    </div>
+                `;
             }
-            return `
-                <div class="octane-vector-control">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
-                           data-parameter="${nodeData.name}" data-index="${index}" data-component="0" data-type="vector3">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="0.001" 
-                           data-parameter="${nodeData.name}" data-index="${index}" data-component="1" data-type="vector3">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="0.001" 
-                           data-parameter="${nodeData.name}" data-index="${index}" data-component="2" data-type="vector3">
-                </div>
-            `;
-        }
-        else if (nodeData.attrType == "AT_INT") {
-            let value = 0;
-            try {        
+            else if (nodeData.attrType == "AT_INT") {
+                let value = 0;
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getInt', 
                     nodeData.handle,
-                    { id: window.OctaneTypes.id.A_VALUE },
+                    { id: window.OctaneTypes.AttributeId.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getInt');
@@ -394,19 +375,15 @@ class GenericNodeRenderer {
                 value = result.data.result;
                 value = Array.isArray(value) ? value[0] : value;
 
-            } catch (error) {
-                console.error('❌ Failed createParameterControl:', error);
-            }            
-            return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="1" 
-                    data-parameter="${nodeData.name}" data-index="${index}" data-type="number">`;
-        }
-        else if (nodeData.attrType == "AT_INT2") {
-            let value = { x: 0, y: 0 };
-            try {        
+                return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="1" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="number">`;
+            }
+            else if (nodeData.attrType == "AT_INT2") {
+                let value = { x: 0, y: 0 };
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getInt2', 
                     nodeData.handle,
-                    { id: window.OctaneTypes.id.A_VALUE },
+                    { id: window.OctaneTypes.AttributeId.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getInt2');
@@ -414,25 +391,21 @@ class GenericNodeRenderer {
                 value = result.data.result;
                 value = Array.isArray(value) ? value[0] : value;
 
-            } catch (error) {
-                console.error('❌ Failed createParameterControl:', error);
-            }            
-            return `
-                <div class="octane-vector-control">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" 
-                           data-parameter="${nodeData.name}" data-index="${index}" data-component="0" data-type="vector2">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.y}" 
-                           data-parameter="${nodeData.name}" data-index="${index}" data-component="1" data-type="vector2">
-                </div>
-            `;
-        }
-        else if (nodeData.attrType == "AT_INT3") {
-            let value = { x: 0, y: 0, z: 0 };
-            try {        
+                return `
+                    <div class="octane-vector-control">
+                        <input type="number" class="octane-vector-input parameter-control" value="${value.x}" 
+                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector2">
+                        <input type="number" class="octane-vector-input parameter-control" value="${value.y}" 
+                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector2">
+                    </div>
+                `;
+            }
+            else if (nodeData.attrType == "AT_INT3") {
+                let value = { x: 0, y: 0, z: 0 };
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getInt3', 
                     nodeData.handle,
-                    { id: window.OctaneTypes.id.A_VALUE },
+                    { id: window.OctaneTypes.AttributeId.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getInt3');
@@ -440,27 +413,23 @@ class GenericNodeRenderer {
                 value = result.data.result;
                 value = Array.isArray(value) ? value[0] : value;
 
-            } catch (error) {
-                console.error('❌ Failed createParameterControl:', error);
-            }  
-            return `
-                <div class="octane-vector-control">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
-                           data-parameter="${nodeData.name}" data-index="${index}" data-component="0" data-type="vector3">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="1" 
-                           data-parameter="${nodeData.name}" data-index="${index}" data-component="1" data-type="vector3">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="1" 
-                           data-parameter="${nodeData.name}" data-index="${index}" data-component="2" data-type="vector3">
-                </div>
-            `;
-        }
-        else if (nodeData.attrType == "AT_STRING" || nodeData.attrType == "AT_FILENAME") {
-            let value = "";
-            try {        
+                return `
+                    <div class="octane-vector-control">
+                        <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
+                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector3">
+                        <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="1" 
+                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector3">
+                        <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="1" 
+                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector3">
+                    </div>
+                `;
+            }
+            else if (nodeData.attrType == "AT_STRING" || nodeData.attrType == "AT_FILENAME") {
+                let value = "";
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getString', 
                     nodeData.handle,
-                    { id: window.OctaneTypes.id.A_VALUE },
+                    { id: window.OctaneTypes.AttributeId.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getString');
@@ -468,14 +437,14 @@ class GenericNodeRenderer {
                 value = result.data.result;
                 value = Array.isArray(value) ? value[0] : value;
 
-            } catch (error) {
-                console.error('❌ Failed createParameterControl:', error);
-            }             
-            return `<input type="text" class="octane-text-input parameter-control" value="${value}" 
-                    data-parameter="${nodeData.name}" data-index="${index}" data-type="text">`;
+                return `<input type="text" class="octane-text-input parameter-control" value="${value}" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="text">`;
+            }
+        } catch (error) {
+            console.error('❌ Failed createParameterControl:', error);
         }
         return `<input type="text" class="octane-text-input parameter-control" value="${''}" 
-                data-parameter="${nodeData.name}" data-index="${index}" data-type="text">`;
+                data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="text">`;
     }
     
     /**
@@ -503,7 +472,7 @@ class GenericNodeRenderer {
             options = ['Option 1', 'Option 2', 'Option 3'];
         }
         
-        let html = `<select class="octane-dropdown parameter-control" data-parameter="${nodeData.name}" data-index="${index}" data-type="enum">`;
+        let html = `<select class="octane-dropdown parameter-control" data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="enum">`;
         options.forEach((option, optIndex) => {
             const selected = optIndex === 0 ? 'selected' : '';
             html += `<option value="${option.toLowerCase()}" ${selected}>${option}</option>`;
@@ -633,3 +602,86 @@ if (typeof window !== 'undefined') {
     window.GenericNodeRenderer = GenericNodeRenderer;
 }
 
+/*
+            else if (nodeData.attrType == "AT_FLOAT4") {
+
+                let result = window.grpcApi.makeApiCallSync(
+                    'ApiItemGetter/getFloat4', 
+                    nodeData.handle,
+                    { id: window.OctaneTypes.AttributeId.A_VALUE },
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiItemGetter/getFloat4');
+                }
+                const dims = nodeData.pinInfo.floatInfo.dimCount;
+
+                switch (dims)
+                {
+                    case 1:
+                    {
+                        let value = result.data.result;
+                        value = Array.isArray(value) ? value[0] : value;
+
+                        return `
+                            <div class="octane-vector-control">
+                                <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
+                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="float">
+                            </div>
+                        `;
+                    }
+                        break;
+                    case 2:
+                    {
+                        let value = result.data.result;
+                        value = Array.isArray(value) ? value[0] : value;
+
+                        return `
+                            <div class="octane-vector-control">
+                                <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
+                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector2">
+                                <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="0.001" 
+                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector2">
+                            </div>
+                        `;
+                    }
+                        break;
+                    case 3:
+                    {
+                        let value = result.data.result;
+                        value = Array.isArray(value) ? value[0] : value;
+
+                        return `
+                            <div class="octane-vector-control">
+                                <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
+                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector3">
+                                <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="0.001" 
+                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector3">
+                                <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="0.001" 
+                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector3">
+                            </div>
+                        `;
+                    }
+                        break;
+                    case 4:
+                    {
+                        let value = result.data.result;
+                        value = Array.isArray(value) ? value[0] : value;
+
+                        return `
+                            <div class="octane-vector-control">
+                                <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
+                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector4">
+                                <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="0.001" 
+                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector4">
+                                <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="0.001" 
+                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector4">
+                                <input type="number" class="octane-vector-input parameter-control" value="${value.w}" step="0.001" 
+                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="3" data-type="vector4">
+                            </div>
+                        `;
+                    }
+                        break;
+                }
+            }
+
+            */

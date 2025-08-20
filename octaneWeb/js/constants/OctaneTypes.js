@@ -54,6 +54,8 @@ window.OctaneTypes.ObjectType = {
     RenderResultStatistics: 14,
     ReferencePackageExportSettings: 15,
     ApiItem: 16,
+    ApiItemGetter: 16,
+    ApiItemSetter: 16,
     ApiNode: 17,
     ApiRootNodeGraph: 18,
     ApiReferenceGraph: 19,

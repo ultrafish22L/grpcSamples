@@ -250,7 +250,7 @@ class GrpcServiceRegistry:
                     thepattern = str(request_class) + str(pattern)
 
                 if request_class:
-                    print(f" FINAL request class for {service_name}.{method_name} {thepattern}")
+#                    print(f" FINAL request class for {service_name}.{method_name} {thepattern}")
                     return request_class
 
             # Default to Empty if no request class found
@@ -657,7 +657,7 @@ async def handle_generic_grpc(request):
 
         # Populate request fields from JSON data
         if request_data:
-#            print(f" req: {request_data}")
+            print(f" req: {request_data}")
             for key, value in request_data.items():
                 if not recurse_attr(grpc_request, key, value):
                     if key == "objectPtr":

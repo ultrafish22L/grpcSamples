@@ -407,7 +407,7 @@ class NodeInspector extends OctaneComponent {
         // Search recursively through scene
         const findRecursively = (items) => {
             for (const item of items) {
-                if (item.handle === handle) {
+                if (item.handle == handle) {
                     window.debugConsole?.addLog('info', ['✅ NodeInspector: Found node', item.name, 'with handle', handle]);
                     return item;
                 }
@@ -1188,7 +1188,7 @@ class NodeInspector extends OctaneComponent {
     async setParameterValueSafe(nodeHandle, index, value, pinType) {
         try {
             const result = window.grpcApi.makeApiCallSync(
-                'ApiNode/setPinValue', 
+                'ApiItemSetter/setPinValue', 
                 nodeHandle, 
                 { index: index, value: value}
             );
@@ -1207,25 +1207,145 @@ class NodeInspector extends OctaneComponent {
             console.warn('⚠️ No selected node handle for parameter change');
             return;
         }
-        
-        // Handle both old and new parameter systems
-        const index = element.dataset.index ? parseInt(element.dataset.index) : 0;
-        const parameterName = element.dataset.parameter || element.id || element.dataset.param;
+//        const index = element.dataset.index ? parseInt(element.dataset.index) : 0;
+        const handle = element.dataset.handle ? parseInt(element.dataset.handle) : 0;
+//        const nodeData = this.scene.map[handle];
+        const nodeData = this.findNodeInSceneItems(handle);
+        if (nodeData == null || nodeData.attrType == null) {
+            console.warn('⚠️ node error no attr', handle);
+            console.warn('⚠️ node error no attr', {element});
+            return;
+        }
         const newValue = this.getElementValue(element);
         
-        console.log(`🔄 Updating parameter "${parameterName}" at pin ${index} to:`, newValue);
+        console.log(`🔄 Updating parameter "${nodeData.name}" to:`, newValue);
         
-        try {
-            const result = await this.setParameterValueSafe(this.selectedNodeHandle, index, newValue);
-            if (result.success) {
-                console.log(`✅ Parameter "${parameterName}" updated successfully`);
-                // Update UI to reflect change
-                this.updateParameterDisplay(element, newValue);
-            } else {
-                console.error(`❌ Failed to update parameter "${parameterName}":`, result.error);
+        try {        
+            if (nodeData.attrType == "AT_BOOL") {
+                let result = window.grpcApi.makeApiCallSync(
+                    'ApiItemSetter/set27', 
+                    nodeData.handle,
+                    { id: window.OctaneTypes.AttributeId.A_VALUE,
+                      value: newValue,
+                      evaluate: true,
+                    },
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiItemSetter/setBool');
+                }
+            }
+            else if (nodeData.attrType == "AT_FLOAT") {
+                let result = window.grpcApi.makeApiCallSync(
+                    'ApiItemSetter/setFloat', 
+                    nodeData.handle,
+                    { id: window.OctaneTypes.AttributeId.A_VALUE,
+                      value: newValue,
+                      evaluate: true,
+                    },
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiItemSetter/setFloat');
+                }
+            }
+            else if (nodeData.attrType == "AT_FLOAT2") {
+                let result = window.grpcApi.makeApiCallSync(
+                    'ApiItemSetter/setFloat2', 
+                    nodeData.handle,
+                    { id: window.OctaneTypes.AttributeId.A_VALUE,
+                      value: newValue,
+                      evaluate: true,
+                    },
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiItemSetter/setFloat2');
+                }
+            }
+            else if (nodeData.attrType == "AT_FLOAT3") {
+                let result = window.grpcApi.makeApiCallSync(
+                    'ApiItemSetter/setFloat3', 
+                    nodeData.handle,
+                    { id: window.OctaneTypes.AttributeId.A_VALUE,
+                      value: newValue,
+                      evaluate: true,
+                    },
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiItemSetter/setFloat3');
+                }
+            }
+            else if (nodeData.attrType == "AT_FLOAT4") {
+                let result = window.grpcApi.makeApiCallSync(
+                    'ApiItemSetter/setFloat4', 
+                    nodeData.handle,
+                    { id: window.OctaneTypes.AttributeId.A_VALUE,
+                      value: newValue,
+                      evaluate: true,
+                    },
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiItemSetter/setFloat4');
+                }
+            }
+            else if (nodeData.attrType == "AT_INT") {
+                let result = window.grpcApi.makeApiCallSync(
+                    'ApiItemSetter/setInt', 
+                    nodeData.handle,
+                    { id: window.OctaneTypes.AttributeId.A_VALUE,
+                      value: newValue,
+                      evaluate: true,
+                    },
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiItemSetter/setInt');
+                }
+            }
+            else if (nodeData.attrType == "AT_INT2") {
+                let result = window.grpcApi.makeApiCallSync(
+                    'ApiItemSetter/setInt2', 
+                    nodeData.handle,
+                    { id: window.OctaneTypes.AttributeId.A_VALUE,
+                      value: newValue,
+                      evaluate: true,
+                    },
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiItemSetter/setInt2');
+                }
+            }
+            else if (nodeData.attrType == "AT_INT3") {
+                let result = window.grpcApi.makeApiCallSync(
+                    'ApiItemSetter/setInt3', 
+                    nodeData.handle,
+                    { id: window.OctaneTypes.AttributeId.A_VALUE,
+                      value: newValue,
+                      evaluate: true,
+                    },
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiItemSetter/setInt3');
+                }
+            }
+            else if (nodeData.attrType == "AT_STRING" || nodeData.attrType == "AT_FILENAME") {
+                let result = window.grpcApi.makeApiCallSync(
+                    'ApiItemSetter/setString', 
+                    nodeData.handle,
+                    { id: window.OctaneTypes.AttributeId.A_VALUE,
+                      value: newValue,
+                      evaluate: true,
+                    },
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiItemSetter/setString');
+                }
+            }
+//            let result = window.grpcApi.makeApiCallSync(
+//                'ApiChangeManager/update');
+
+            if (!result.success) {
+                throw new Error('Failed ApiItemSetter/setString');
             }
         } catch (error) {
-            console.error(`❌ Error updating parameter "${parameterName}":`, error);
+            console.error('❌ Failed handleParameterChange:', error);
         }
     }
     
