@@ -255,9 +255,8 @@ class GenericNodeRenderer {
 
         const index = nodeData.pinInfo.index;
 
-        return `<input type="text" class="octane-text-input parameter-control" value="${''}" 
-        data-parameter="${nodeData.name}" data-index="${index}" data-type="text">`;
-       
+//        return `<input type="text" class="octane-text-input parameter-control" value="${''}" 
+//        data-parameter="${nodeData.name}" data-index="${index}" data-type="text">`;
 
         if (nodeData.attrType == "AT_BOOL") {
             let value = false;
@@ -265,7 +264,7 @@ class GenericNodeRenderer {
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getBool', 
                     nodeData.handle,
-                    { AttributeId: window.OctaneTypes.AttributeId.A_VALUE },
+                    { id: window.OctaneTypes.id.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getBool');
@@ -285,7 +284,7 @@ class GenericNodeRenderer {
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getFloat', 
                     nodeData.handle,
-                    { AttributeId: window.OctaneTypes.AttributeId.A_VALUE },
+                    { id: window.OctaneTypes.id.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getFloat');
@@ -305,7 +304,7 @@ class GenericNodeRenderer {
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getFloat2', 
                     nodeData.handle,
-                    { AttributeId: window.OctaneTypes.AttributeId.A_VALUE },
+                    { id: window.OctaneTypes.id.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getFloat2');
@@ -331,7 +330,7 @@ class GenericNodeRenderer {
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getFloat3', 
                     nodeData.handle,
-                    { AttributeId: window.OctaneTypes.AttributeId.A_VALUE },
+                    { id: window.OctaneTypes.id.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getFloat3');
@@ -359,7 +358,7 @@ class GenericNodeRenderer {
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getFloat4', 
                     nodeData.handle,
-                    { AttributeId: window.OctaneTypes.AttributeId.A_VALUE },
+                    { id: window.OctaneTypes.id.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getFloat4');
@@ -387,7 +386,7 @@ class GenericNodeRenderer {
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getInt', 
                     nodeData.handle,
-                    { AttributeId: window.OctaneTypes.AttributeId.A_VALUE },
+                    { id: window.OctaneTypes.id.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getInt');
@@ -407,7 +406,7 @@ class GenericNodeRenderer {
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getInt2', 
                     nodeData.handle,
-                    { AttributeId: window.OctaneTypes.AttributeId.A_VALUE },
+                    { id: window.OctaneTypes.id.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getInt2');
@@ -433,7 +432,7 @@ class GenericNodeRenderer {
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getInt3', 
                     nodeData.handle,
-                    { AttributeId: window.OctaneTypes.AttributeId.A_VALUE },
+                    { id: window.OctaneTypes.id.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getInt3');
@@ -461,7 +460,7 @@ class GenericNodeRenderer {
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getString', 
                     nodeData.handle,
-                    { AttributeId: window.OctaneTypes.AttributeId.A_VALUE },
+                    { id: window.OctaneTypes.id.A_VALUE },
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemGetter/getString');
@@ -475,7 +474,7 @@ class GenericNodeRenderer {
             return `<input type="text" class="octane-text-input parameter-control" value="${value}" 
                     data-parameter="${nodeData.name}" data-index="${index}" data-type="text">`;
         }
-        return `<input type="text" class="octane-text-input parameter-control" value="${value || ''}" 
+        return `<input type="text" class="octane-text-input parameter-control" value="${''}" 
                 data-parameter="${nodeData.name}" data-index="${index}" data-type="text">`;
     }
     
