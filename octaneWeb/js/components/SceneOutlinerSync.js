@@ -319,7 +319,7 @@ class SceneOutlinerSync {
                 if (!result.success) {
                     throw new Error('Failed ApiNode/pinLabelIx');
                 }
-                let pinInfo = { staticLabel: result.data.result };
+                let pinInfo = { staticLabel: result.data.result, index:i };
 
                 this.addSceneItem(connectedNode, sceneItems, level, pinInfo);
             }
@@ -372,7 +372,7 @@ class SceneOutlinerSync {
 
         let children = this.loadSceneTreeSync(item.handle, null, level);
 
-//        console.log("ADDING ", itemName, outType);
+        console.log("ADDING ", itemName, outType);
 
         sceneItems.push({
             name: itemName,

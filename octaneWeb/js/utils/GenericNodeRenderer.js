@@ -71,15 +71,6 @@ class GenericNodeRenderer {
             }
         }
         
-        // Render pin groups if pinInfo is available
-        if (pinInfo) {
-            // Handle both formats: pinInfo.groups or direct array
-            const groups = pinInfo.groups || pinInfo;
-            if (Array.isArray(groups) && groups.length > 0) {
-                html += this.renderPinGroups(groups, 1);
-            }
-        }
-        
         return html;
     }
     
@@ -219,9 +210,10 @@ class GenericNodeRenderer {
                 </div>
             `;
         }
-        
-        // For any other node type, add a generic dropdown
-        if (nodeData.children && nodeData.children.length > 0) {
+        window.debugConsole?.addLog('info', ' renderNodeParameters:', nodeData.outtype);
+
+        if (nodeData.pinInfo == null) {
+            // For any other node type, add a generic dropdown
             return `
                 <div class="node-parameter-controls">
                     <select class="parameter-dropdown" data-parameter="node-type">
@@ -231,10 +223,39 @@ class GenericNodeRenderer {
                 </div>
             `;
         }
-        
-        return '';
+        if (nodeData.outtype == "PT_BOOL" || nodeData.outtype == "PT_FLOAT") {
+            return this.renderPin(nodeData);  
+        }
+        return ``;
     }
     
+        
+    /**
+     * Render a single pin/parameter with interactive controls
+     * @param {Object} nodeData - Pin data
+     * @returns {string} - HTML for the pin
+     */
+    renderPin(nodeData) {
+        
+        let html = `;
+            <div class="octane-parameter-row" data-pin-name="${nodeData.name}">
+                <div class="octane-parameter-label">
+                    <span class="octane-parameter-name">${nodeData.name}</span>
+                </div>
+                <div class="octane-parameter-control">
+        `;
+       
+        // Create appropriate control based on parameter type and value
+        html = this.createParameterControl(nodeData);
+        
+//        html += `
+//                </div>
+//            </div>
+//        `;
+        
+        return html;
+    }
+
     /**
      * Render pin groups using ApiNodePinInfo data
      * @param {Array} groups - Pin group data from ApiNodePinInfo
@@ -312,144 +333,60 @@ class GenericNodeRenderer {
     }
     
     /**
-     * Render a single pin/parameter with interactive controls
-     * @param {Object} pinData - Pin data
-     * @param {number} level - Indentation level
-     * @returns {string} - HTML for the pin
-     */
-    renderPin(pinData, level) {
-        const icon = this.getParameterIcon(pinData);
-        const color = this.iconMapper?.getNodeColor('PARAMETER') || '#444';
-        const hasValue = pinData.value !== undefined && pinData.value !== null;
-        
-        let html = `
-            <div class="octane-parameter-row" data-pin-name="${pinData.name}">
-                <div class="octane-parameter-label">
-                    <span class="octane-parameter-icon">${icon}</span>
-                    <span class="octane-parameter-name">${pinData.name}</span>
-                </div>
-                <div class="octane-parameter-control">
-        `;
-        
-        // Create appropriate control based on parameter type and value
-        html += this.createParameterControl(pinData);
-        
-        html += `
-                </div>
-            </div>
-        `;
-        
-        return html;
-    }
-    
-    /**
-     * Get appropriate icon for parameter type
-     * @param {Object} pinData - Pin data
-     * @returns {string} - Icon for the parameter
-     */
-    getParameterIcon(pinData) {
-        // Determine parameter type from name and value
-        const name = pinData.name.toLowerCase();
-        const value = pinData.value;
-        
-        // Boolean parameters
-        if (typeof value === 'boolean' || name.includes('enabled') || name.includes('orthographic') || 
-            name.includes('smooth') || name.includes('cast') || name.includes('swap') || 
-            name.includes('lock') || name.includes('invert') || name.includes('alpha')) {
-            return '☑️';
-        }
-        
-        // Numeric parameters
-        if (typeof value === 'number' || name.includes('width') || name.includes('length') || 
-            name.includes('stop') || name.includes('view') || name.includes('scale') || 
-            name.includes('depth') || name.includes('distance') || name.includes('ratio') || 
-            name.includes('samples') || name.includes('power') || name.includes('intensity') ||
-            name.includes('size') || name.includes('angle') || name.includes('time') ||
-            name.includes('offset') || name.includes('blur') || name.includes('exposure')) {
-            return '🔢';
-        }
-        
-        // Color parameters
-        if (name.includes('color') || name.includes('diffuse') || name.includes('filter')) {
-            return '⬜';
-        }
-        
-        // Dropdown/enum parameters
-        if (name.includes('mode') || name.includes('model') || name.includes('type') || 
-            name.includes('alignment') || name.includes('action') || name.includes('order') ||
-            name.includes('curve') || name.includes('quality') || name.includes('denoiser')) {
-            return '📋';
-        }
-        
-        // Vector/position parameters
-        if (name.includes('position') || name.includes('target') || name.includes('vector') ||
-            name.includes('direction') || name.includes('shift') || name.includes('resolution')) {
-            return '🔢';
-        }
-        
-        // Default
-        return '⚙️';
-    }
-    
-    /**
      * Create appropriate control for parameter
-     * @param {Object} pinData - Pin data
+     * @param {Object} nodeData - Pin data
      * @returns {string} - HTML for the control
      */
-    createParameterControl(pinData) {
-        const name = pinData.name.toLowerCase();
-        const value = pinData.value;
-        const index = pinData.index || 0; // Pin index for gRPC calls
-        
+    createParameterControl(nodeData) {
+        const name = nodeData.name.toLowerCase();
+        const index = nodeData.pinInfo.index
+
         // Boolean parameters - checkbox
-        if (typeof value === 'boolean' || name.includes('enabled') || name.includes('orthographic') || 
-            name.includes('smooth') || name.includes('cast') || name.includes('swap') || 
-            name.includes('lock') || name.includes('invert') || name.includes('alpha')) {
-            const checked = value === true || value === 'true' ? 'checked' : '';
+        if (nodeData.outtype == "PT_BOOL") {
+            const checked = 'checked';
             return `<input type="checkbox" class="octane-checkbox parameter-control" ${checked} 
-                           data-parameter="${pinData.name}" data-index="${index}" data-type="boolean">`;
+                           data-parameter="${nodeData.name}" data-index="${index}" data-type="boolean">`;
         }
-        
-        // Numeric parameters - number input
-        if (typeof value === 'number' || (!isNaN(parseFloat(value)) && isFinite(value))) {
-            const numValue = typeof value === 'number' ? value : parseFloat(value) || 0;
+        else if (nodeData.outtype == "PT_FLOAT") {
+
+            const numValue = 0;
             return `<input type="number" class="octane-number-input parameter-control" value="${numValue}" step="0.001" 
-                           data-parameter="${pinData.name}" data-index="${index}" data-type="number">`;
+                           data-parameter="${nodeData.name}" data-index="${index}" data-type="number">`;
         }
-        
-        // Color parameters - color input
-        if (name.includes('color') || name.includes('diffuse') || name.includes('filter')) {
+        else if (nodeData.outtype == "PT_TEXTURE") {
+
             const colorValue = this.formatColorValue(value);
             return `<input type="color" class="octane-color-input parameter-control" value="${colorValue}" 
-                           data-parameter="${pinData.name}" data-index="${index}" data-type="color">`;
+                           data-parameter="${nodeData.name}" data-index="${index}" data-type="color">`;
         }
-        
+/*        
         // Dropdown parameters
         if (name.includes('mode') || name.includes('model') || name.includes('type') || 
             name.includes('alignment') || name.includes('action') || name.includes('order') ||
             name.includes('curve') || name.includes('quality') || name.includes('denoiser')) {
-            return this.createDropdownControl(pinData);
+            return this.createDropdownControl(nodeData);
         }
         
         // Vector parameters (like position, target)
         if (name.includes('position') || name.includes('target') || name.includes('vector') ||
             name.includes('direction') || name.includes('shift') || name.includes('resolution')) {
-            return this.createVectorControl(pinData);
+            return this.createVectorControl(nodeData);
         }
-        
+*/        
         // Default - text input
+        const value = "string";
         return `<input type="text" class="octane-text-input parameter-control" value="${value || ''}" 
-                       data-parameter="${pinData.name}" data-index="${index}" data-type="text">`;
+                       data-parameter="${nodeData.name}" data-index="${index}" data-type="text">`;
     }
     
     /**
      * Create dropdown control for enum parameters
-     * @param {Object} pinData - Pin data
+     * @param {Object} nodeData - Pin data
      * @returns {string} - HTML for dropdown
      */
-    createDropdownControl(pinData) {
-        const name = pinData.name.toLowerCase();
-        const index = pinData.index || 0;
+    createDropdownControl(nodeData) {
+        const name = nodeData.name.toLowerCase();
+        const index = nodeData.index || 0;
         let options = [];
         
         // Common dropdown options based on parameter name
@@ -467,7 +404,7 @@ class GenericNodeRenderer {
             options = ['Option 1', 'Option 2', 'Option 3'];
         }
         
-        let html = `<select class="octane-dropdown parameter-control" data-parameter="${pinData.name}" data-index="${index}" data-type="enum">`;
+        let html = `<select class="octane-dropdown parameter-control" data-parameter="${nodeData.name}" data-index="${index}" data-type="enum">`;
         options.forEach((option, optIndex) => {
             const selected = optIndex === 0 ? 'selected' : '';
             html += `<option value="${option.toLowerCase()}" ${selected}>${option}</option>`;
@@ -479,24 +416,24 @@ class GenericNodeRenderer {
     
     /**
      * Create vector control for multi-value parameters
-     * @param {Object} pinData - Pin data
+     * @param {Object} nodeData - Pin data
      * @returns {string} - HTML for vector control
      */
-    createVectorControl(pinData) {
-        const index = pinData.index || 0;
-        const value = pinData.value || [];
+    createVectorControl(nodeData) {
+        const index = nodeData.index || 0;
+        const value = nodeData.value || [];
         
         // For vector parameters, create multiple number inputs
-        if (pinData.name.toLowerCase().includes('resolution')) {
+        if (nodeData.name.toLowerCase().includes('resolution')) {
             const x = Array.isArray(value) ? (value[0] || 1920) : 1920;
             const y = Array.isArray(value) ? (value[1] || 1080) : 1080;
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${x}" 
-                           data-parameter="${pinData.name}" data-index="${index}" data-component="0" data-type="vector2">
+                           data-parameter="${nodeData.name}" data-index="${index}" data-component="0" data-type="vector2">
                     <span class="vector-separator">×</span>
                     <input type="number" class="octane-vector-input parameter-control" value="${y}" 
-                           data-parameter="${pinData.name}" data-index="${index}" data-component="1" data-type="vector2">
+                           data-parameter="${nodeData.name}" data-index="${index}" data-component="1" data-type="vector2">
                 </div>
             `;
         } else {
@@ -507,11 +444,11 @@ class GenericNodeRenderer {
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${x}" step="0.001" 
-                           data-parameter="${pinData.name}" data-index="${index}" data-component="0" data-type="vector3">
+                           data-parameter="${nodeData.name}" data-index="${index}" data-component="0" data-type="vector3">
                     <input type="number" class="octane-vector-input parameter-control" value="${y}" step="0.001" 
-                           data-parameter="${pinData.name}" data-index="${index}" data-component="1" data-type="vector3">
+                           data-parameter="${nodeData.name}" data-index="${index}" data-component="1" data-type="vector3">
                     <input type="number" class="octane-vector-input parameter-control" value="${z}" step="0.001" 
-                           data-parameter="${pinData.name}" data-index="${index}" data-component="2" data-type="vector3">
+                           data-parameter="${nodeData.name}" data-index="${index}" data-component="2" data-type="vector3">
                 </div>
             `;
         }
@@ -636,3 +573,122 @@ class GenericNodeRenderer {
 if (typeof window !== 'undefined') {
     window.GenericNodeRenderer = GenericNodeRenderer;
 }
+
+/*
+
+
+    
+
+    async loadGenericParameterValues(nodeHandle) {
+        window.debugConsole?.addLog('info', ['🔧 NodeInspector: Loading parameter values for handle', nodeHandle]);
+        
+        const parameters = {};
+        
+        try {
+            // Get pin count for this node (single API call)
+            window.debugConsole?.addLog('info', ['🔍 NodeInspector: Calling ApiNode/pinCount for handle', nodeHandle]);
+            const pinCountResult = window.grpcApi.makeApiCallSync('ApiNode/pinCount', nodeHandle);
+            window.debugConsole?.addLog('info', ['🔍 NodeInspector: Pin count result for handle', nodeHandle, ':', JSON.stringify(pinCountResult)]);
+            
+            if (pinCountResult && pinCountResult.success) {
+                window.debugConsole?.addLog('info', ['📌 NodeInspector: Pin count API success, data:', JSON.stringify(pinCountResult.data), 'type:', typeof pinCountResult.data]);
+                
+                // Extract the actual pin count value
+                let pinCount = 0;
+                if (typeof pinCountResult.data === 'number') {
+                    pinCount = pinCountResult.data;
+                } else if (typeof pinCountResult.data === 'object' && pinCountResult.data !== null) {
+                    // Handle different possible object structures
+                    if (pinCountResult.data.value !== undefined) {
+                        pinCount = pinCountResult.data.value;
+                    } else if (pinCountResult.data.count !== undefined) {
+                        pinCount = pinCountResult.data.count;
+                    } else if (pinCountResult.data.pinCount !== undefined) {
+                        pinCount = pinCountResult.data.pinCount;
+                    } else {
+                        // Try to get the first numeric property
+                        for (const key in pinCountResult.data) {
+                            if (typeof pinCountResult.data[key] === 'number') {
+                                pinCount = pinCountResult.data[key];
+                                window.debugConsole?.addLog('info', ['🔍 NodeInspector: Found numeric property', key, '=', pinCountResult.data[key]]);
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                window.debugConsole?.addLog('info', ['📌 NodeInspector: Extracted pin count:', pinCount]);
+                
+                if (pinCount > 0) {
+                    window.debugConsole?.addLog('info', ['📌 NodeInspector: Node has', pinCount, 'pins']);
+                
+                // Load all pin values using pinIx functions
+                window.debugConsole?.addLog('info', ['🔄 NodeInspector: Starting to load', pinCount, 'pins using pinIx functions']);
+                for (let pinIndex = 0; pinIndex < pinCount; pinIndex++) {
+                    window.debugConsole?.addLog('info', ['🔄 NodeInspector: Loading pin', pinIndex, 'of', pinCount]);
+                    try {
+                        // Try type-specific ApiNode pinIx methods to get pin value
+                        let pinValue = null;
+                        let pinType = 'unknown';
+                        
+                        // Try different type-specific getters using ApiNode service (correct service for pinIx functions)
+                        const typeGetters = [
+                            { method: 'ApiNode/getPinBoolIx', type: 'bool' },
+                            { method: 'ApiNode/getPinFloatIx', type: 'float' },
+                            { method: 'ApiNode/getPinFloat2Ix', type: 'float2' },
+                            { method: 'ApiNode/getPinFloat3Ix', type: 'float3' },
+                            { method: 'ApiNode/getPinFloat4Ix', type: 'float4' },
+                            { method: 'ApiNode/getPinIntIx', type: 'int' },
+                            { method: 'ApiNode/getPinInt2Ix', type: 'int2' },
+                            { method: 'ApiNode/getPinInt3Ix', type: 'int3' },
+                            { method: 'ApiNode/getPinInt4Ix', type: 'int4' },
+                            { method: 'ApiNode/getPinStringIx', type: 'string' },
+                            { method: 'ApiNode/getPinFilePathIx', type: 'filepath' }
+                        ];
+                        
+                        for (const getter of typeGetters) {
+                            try {
+                                const result = window.grpcApi.makeApiCallSync(getter.method, nodeHandle, { index: pinIndex });
+                                if (result && result.success) {
+                                    pinValue = result.data;
+                                    pinType = getter.type;
+                                    window.debugConsole?.addLog('info', ['✅ NodeInspector: Got', getter.type, 'value for pin index', pinIndex, ':', pinValue]);
+                                    break;
+                                }
+                            } catch (error) {
+                                // Continue to next type
+                            }
+                        }
+                        
+                        if (pinValue !== null) {
+                            // Use pin index as key since we don't need pin names
+                            const paramKey = `pin_${pinIndex}`;
+                            parameters[paramKey] = {
+                                value: pinValue,
+                                pinIndex: pinIndex,
+                                type: pinType,
+                                name: paramKey
+                            };
+                            window.debugConsole?.addLog('info', ['✅ NodeInspector: Added parameter:', paramKey, 'type:', pinType, 'value:', pinValue]);
+                        } else {
+                            window.debugConsole?.addLog('warn', ['❌ NodeInspector: Failed to get value for pin index', pinIndex]);
+                        }
+                    } catch (pinError) {
+                        window.debugConsole?.addLog('error', ['💥 NodeInspector: Error loading pin', pinIndex, ':', pinError.message]);
+                    }
+                }
+                } else {
+                    window.debugConsole?.addLog('warn', ['⚠️ NodeInspector: Pin count is 0 for handle', nodeHandle]);
+                }
+            } else {
+                window.debugConsole?.addLog('error', ['❌ NodeInspector: Pin count API failed for handle', nodeHandle, 'result:', pinCountResult]);
+            }
+            
+        } catch (error) {
+            window.debugConsole?.addLog('error', ['❌ NodeInspector: Failed to load parameter values', error.message]);
+        }
+        
+        return parameters;
+    }
+
+    */

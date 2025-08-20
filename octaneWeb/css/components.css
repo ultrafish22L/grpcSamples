@@ -3110,14 +3110,16 @@ body.drag-over .drop-indicator {
     font-size: var(--font-size-normal);
     font-weight: 500;
     color: var(--octane-text-primary);
-    flex-shrink: 0;
+    flex-shrink: 2;
+    display:grid;
+    width: 80px;
 }
 
 /* Node parameter controls with better spacing - ONLY for Node Inspector */
 .node-inspector .node-parameter-controls {
     margin-left: 12px; /* Space between title and dropdown */
-    display: flex;
-    align-items: center;
+    display: grid;
+    align-items: left;
     gap: 8px;
 }
 
@@ -3191,10 +3193,11 @@ body.drag-over .drop-indicator {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: grid;
 }
 
 .octane-parameter-control {
-    display: flex;
+    display: grid;
     align-items: center;
     gap: 4px;
     flex-shrink: 0;
