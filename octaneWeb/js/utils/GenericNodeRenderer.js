@@ -344,8 +344,11 @@ class GenericNodeRenderer {
         const checked = 'checked';
         const numValue = 0;
         const value = "string";
+        const x = 0;
+        const y = 0;
+        const z = 0;
             
-        // Boolean parameters - checkbox
+/*
         if (nodeData.outtype == "PT_BOOL") {
             const checked = 'checked';
             return `<input type="checkbox" class="octane-checkbox parameter-control" ${checked} 
@@ -357,7 +360,6 @@ class GenericNodeRenderer {
             return `<input type="number" class="octane-number-input parameter-control" value="${numValue}" step="0.001" 
                            data-parameter="${nodeData.name}" data-index="${index}" data-type="number">`;
         }
-/*
         else if (nodeData.outtype == "PT_TEXTURE") {
 
             const colorValue = this.formatColorValue(0);
@@ -379,22 +381,86 @@ class GenericNodeRenderer {
         }
 */        
 /*
-        switch (nodeData.attrType) {
-            case window.OctaneTypes.AttributeType.AT_BOOL:
-                return `<input type="checkbox" class="octane-checkbox parameter-control" ${checked} 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-type="boolean">`;
-            case window.OctaneTypes.AttributeType.AT_INT:
-                return `<input type="number" class="octane-number-input parameter-control" value="${numValue}" step="0.001" 
+    ATTRIBUTE_TYPE(AT_UNKNOWN   , 0)
+
+    ATTRIBUTE_TYPE(AT_BOOL      , 1)
+    ATTRIBUTE_TYPE(AT_INT       , 2)
+    ATTRIBUTE_TYPE(AT_INT2      , 3)
+    ATTRIBUTE_TYPE(AT_INT3      , 4)
+    ATTRIBUTE_TYPE(AT_INT4      , 5)
+    ATTRIBUTE_TYPE(AT_LONG      , 14)
+    ATTRIBUTE_TYPE(AT_LONG2     , 15)
+    ATTRIBUTE_TYPE(AT_FLOAT     , 6)
+    ATTRIBUTE_TYPE(AT_FLOAT2    , 7)
+    ATTRIBUTE_TYPE(AT_FLOAT3    , 8)
+    ATTRIBUTE_TYPE(AT_FLOAT4    , 9)
+    ATTRIBUTE_TYPE(AT_STRING    , 10)
+    ATTRIBUTE_TYPE(AT_FILENAME  , 11)
+    ATTRIBUTE_TYPE(AT_BYTE      , 12)
+    ATTRIBUTE_TYPE(AT_MATRIX    , 13)
+    */
+        if (nodeData.attrType == "AT_BOOL") {
+            return `<input type="checkbox" class="octane-checkbox parameter-control" ${checked} 
+                           data-parameter="${nodeData.name}" data-index="${index}" data-type="boolean">`;
+        }
+        else if (nodeData.attrType == "AT_FLOAT") {
+            return `<input type="number" class="octane-number-input parameter-control" value="${numValue}" step="0.001" 
+                           data-parameter="${nodeData.name}" data-index="${index}" data-type="number">`;
+        }
+        else if (nodeData.attrType == "AT_FLOAT2") {
+            return `
+                <div class="octane-vector-control">
+                    <input type="number" class="octane-vector-input parameter-control" value="${x}" 
+                           data-parameter="${nodeData.name}" data-index="${index}" data-component="0" data-type="vector2">
+                    <span class="vector-separator">×</span>
+                    <input type="number" class="octane-vector-input parameter-control" value="${y}" 
+                           data-parameter="${nodeData.name}" data-index="${index}" data-component="1" data-type="vector2">
+                </div>
+            `;
+        }
+        else if (nodeData.attrType == "AT_FLOAT3" || nodeData.attrType == "AT_FLOAT4") {
+            return `
+                <div class="octane-vector-control">
+                    <input type="number" class="octane-vector-input parameter-control" value="${x}" step="0.001" 
+                           data-parameter="${nodeData.name}" data-index="${index}" data-component="0" data-type="vector3">
+                    <input type="number" class="octane-vector-input parameter-control" value="${y}" step="0.001" 
+                           data-parameter="${nodeData.name}" data-index="${index}" data-component="1" data-type="vector3">
+                    <input type="number" class="octane-vector-input parameter-control" value="${z}" step="0.001" 
+                           data-parameter="${nodeData.name}" data-index="${index}" data-component="2" data-type="vector3">
+                </div>
+            `;
+        }
+        else if (nodeData.attrType == "AT_INT") {
+                return `<input type="number" class="octane-number-input parameter-control" value="${numValue}" step="1" 
                         data-parameter="${nodeData.name}" data-index="${index}" data-type="number">`;
-            case window.OctaneTypes.AttributeType.AT_FLOAT:
-                return `<input type="number" class="octane-number-input parameter-control" value="${numValue}" step="0.001" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-type="number">`;
-            case window.OctaneTypes.AttributeType.AT_STRING:
-            case window.OctaneTypes.AttributeType.AT_FILENAME:
+        }
+        else if (nodeData.attrType == "AT_INT2") {
+            return `
+                <div class="octane-vector-control">
+                    <input type="number" class="octane-vector-input parameter-control" value="${x}" 
+                           data-parameter="${nodeData.name}" data-index="${index}" data-component="0" data-type="vector2">
+                    <span class="vector-separator">×</span>
+                    <input type="number" class="octane-vector-input parameter-control" value="${y}" 
+                           data-parameter="${nodeData.name}" data-index="${index}" data-component="1" data-type="vector2">
+                </div>
+            `;
+        }
+        else if (nodeData.attrType == "AT_INT3") {
+            return `
+                <div class="octane-vector-control">
+                    <input type="number" class="octane-vector-input parameter-control" value="${x}" step="1" 
+                           data-parameter="${nodeData.name}" data-index="${index}" data-component="0" data-type="vector3">
+                    <input type="number" class="octane-vector-input parameter-control" value="${y}" step="1" 
+                           data-parameter="${nodeData.name}" data-index="${index}" data-component="1" data-type="vector3">
+                    <input type="number" class="octane-vector-input parameter-control" value="${z}" step="1" 
+                           data-parameter="${nodeData.name}" data-index="${index}" data-component="2" data-type="vector3">
+                </div>
+            `;
+        }
+        else if (nodeData.attrType == "AT_STRING" || nodeData.attrType == "AT_FILENAME") {
                 return `<input type="text" class="octane-text-input parameter-control" value="${value || ''}" 
                        data-parameter="${nodeData.name}" data-index="${index}" data-type="text">`;
         }
-*/        
         return `<input type="text" class="octane-text-input parameter-control" value="${value || ''}" 
                 data-parameter="${nodeData.name}" data-index="${index}" data-type="text">`;
     }

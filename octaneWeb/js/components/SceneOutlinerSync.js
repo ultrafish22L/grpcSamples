@@ -374,7 +374,7 @@ class SceneOutlinerSync {
 
         let attrType = null;
         if (children.length == 0) {
-
+/*
             try {        
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItem/attrType', 
@@ -390,6 +390,24 @@ class SceneOutlinerSync {
                 console.error('❌ Failed addSceneItem:', error);
             }
             console.log("EndNODE ", itemName, outType, attrType);
+*/
+
+            try {        
+                let result = window.grpcApi.makeApiCallSync(
+                    'ApiItem/attrInfo', 
+                    item.handle,
+                    { id: window.OctaneTypes.AttributeId.A_VALUE },
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiItem/attrInfo');
+                }
+                attrType = result.data.result.type;
+
+            } catch (error) {
+                console.error('❌ Failed addSceneItem:', error);
+            }
+            console.log("EndNODE ", itemName, outType, attrType);
+
         }
         else {
             console.log("ParNode ", itemName, outType);
