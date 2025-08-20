@@ -80,7 +80,7 @@ html, body {
     height: 100%;
     overflow: hidden;
     font-family: var(--font-family);
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-small);
     background-color: var(--octane-bg-primary);
     color: var(--octane-text-primary);
     user-select: none;

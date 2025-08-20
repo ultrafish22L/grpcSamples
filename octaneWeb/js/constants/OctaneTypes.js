@@ -1,4 +1,4 @@
-/**
+/*
  * Octane gRPC Type Constants
  * 
  * AUTO-GENERATED from protobuf files - DO NOT EDIT MANUALLY
@@ -11,8 +11,27 @@
 // Make constants available globally
 window.OctaneTypes = window.OctaneTypes || {};
 
-// ObjectRef.ObjectType enum values from common.proto
-window.OctaneTypes.attrTypes = {
+window.OctaneTypes.AttributeType = {
+    AT_UNKNOWN: 0,
+
+    AT_BOOL: 1,
+    AT_INT: 2,
+    AT_INT2: 3,
+    AT_INT3: 4,
+    AT_INT4: 5,
+    AT_LONG: 14,
+    AT_LONG2: 15,
+    AT_FLOAT: 6,
+    AT_FLOAT2: 7,
+    AT_FLOAT3: 8,
+    AT_FLOAT4: 9,
+    AT_STRING: 10,
+    AT_FILENAME: 11,
+    AT_BYTE: 12,
+    AT_MATRIX: 13,
+};
+
+window.OctaneTypes.AttributeId = {
     A_VALUE: 185,
 };
 
