@@ -3202,6 +3202,7 @@ body.drag-over .drop-indicator {
     gap: 4px;
     flex-shrink: 0;
     max-width: 200px;
+    display: grid;
 }
 
 /* Individual control styles */
@@ -3211,6 +3212,8 @@ body.drag-over .drop-indicator {
     margin: 0;
     cursor: pointer;
     accent-color: var(--octane-accent);
+    display: grid;
+    text-align: right;
 }
 
 .octane-number-input {
@@ -3222,8 +3225,9 @@ body.drag-over .drop-indicator {
     color: #e0e0e0;
     font-size: var(--font-size-small);
     padding: 1px 4px;
-    text-align: right;
     font-family: var(--font-family-mono);
+    display: grid;
+    text-align: right;
 }
 
 .octane-number-input:focus {
@@ -3241,6 +3245,8 @@ body.drag-over .drop-indicator {
     color: #e0e0e0;
     font-size: var(--font-size-small);
     padding: 1px 4px;
+    display: grid;
+    text-align: right;
 }
 
 .octane-text-input:focus {
@@ -3257,6 +3263,8 @@ body.drag-over .drop-indicator {
     cursor: pointer;
     padding: 0;
     background: none;
+    display: grid;
+    text-align: right;
 }
 
 .octane-color-input::-webkit-color-swatch-wrapper {
@@ -3278,6 +3286,8 @@ body.drag-over .drop-indicator {
     padding: 0 4px;
     min-width: 80px;
     cursor: pointer;
+    display: grid;
+    text-align: right;
 }
 
 .octane-dropdown:focus {
@@ -3291,6 +3301,8 @@ body.drag-over .drop-indicator {
     display: flex;
     align-items: center;
     gap: 2px;
+    display: grid;
+    text-align: right;
 }
 
 .octane-vector-input {

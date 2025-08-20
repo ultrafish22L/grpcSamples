@@ -661,7 +661,7 @@ async def handle_generic_grpc(request):
         # Make the gRPC call
         # print(f"req:  {grpc_request}")        
         response = await method(grpc_request)
-        # print(f"resp: {response}")
+        print(f"resp: {response}")
 
         # Convert response to dict
         success = False

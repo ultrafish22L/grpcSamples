@@ -12,6 +12,11 @@
 window.OctaneTypes = window.OctaneTypes || {};
 
 // ObjectRef.ObjectType enum values from common.proto
+window.OctaneTypes.attrTypes = {
+    A_VALUE: 185,
+};
+
+// ObjectRef.ObjectType enum values from common.proto
 window.OctaneTypes.ObjectType = {
     ApiFileName: 0,
     ApiGeometryExporter: 1,

@@ -223,9 +223,9 @@ class GenericNodeRenderer {
                 </div>
             `;
         }
-        if (nodeData.outtype == "PT_BOOL" || nodeData.outtype == "PT_FLOAT") {
+//        if (nodeData.outtype == "PT_BOOL" || nodeData.outtype == "PT_FLOAT") {
             return this.renderPin(nodeData);  
-        }
+//        }
         return ``;
     }
     
@@ -355,7 +355,7 @@ class GenericNodeRenderer {
         }
         else if (nodeData.outtype == "PT_TEXTURE") {
 
-            const colorValue = this.formatColorValue(value);
+            const colorValue = this.formatColorValue(0);
             return `<input type="color" class="octane-color-input parameter-control" value="${colorValue}" 
                            data-parameter="${nodeData.name}" data-index="${index}" data-type="color">`;
         }

@@ -372,8 +372,28 @@ class SceneOutlinerSync {
 
         let children = this.loadSceneTreeSync(item.handle, null, level);
 
-        console.log("ADDING ", itemName, outType);
+        let attrInfo = null;
+        if (children.length == 0) {
 
+            try {        
+                let result = window.grpcApi.makeApiCallSync(
+                    'ApiItem/attrType', 
+                    item.handle,
+                    { id: window.OctaneTypes.attrTypes.A_VALUE },
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiItem/attrType');
+                }
+                attrInfo = result.data.result;
+
+            } catch (error) {
+                console.error('❌ Failed addSceneItem:', error);
+            }
+            console.log("EndNODE ", itemName, outType, attrInfo);
+        }
+        else {
+            console.log("ParNode ", itemName, outType);
+        }
         sceneItems.push({
             name: itemName,
             handle: item.handle,
@@ -381,6 +401,7 @@ class SceneOutlinerSync {
             outtype: outType,
             children: children,
             pinInfo: pinInfo,
+            attrInfo: attrInfo,
         });
         this.scene.map[item.handle] = sceneItems[sceneItems.size-1];
     }
