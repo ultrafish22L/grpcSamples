@@ -551,7 +551,7 @@ class LiveLinkClient extends SimpleEventEmitter {
         const callId = `${method}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
         this.callCount++;
         
-        const url = `${this.serverUrl}/LiveLinkService/${method}`;
+        const url = `${this.serverUrl}/LiveLink/${method}`;
         
         this.log(`gRPC call started: ${method}`, {
             callId: callId,
@@ -723,7 +723,7 @@ class LiveLinkClient extends SimpleEventEmitter {
      */
     async getRenderStatistics() {
         const request = {};
-        const result = await this.makeGrpcCall('ApiRenderEngineService', 'getRenderStatistics', request);
+        const result = await this.makeGrpcCall('ApiRenderEngine', 'getRenderStatistics', request);
         return result && result.success ? result.data : null;
     }
 

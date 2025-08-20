@@ -282,7 +282,7 @@ class RenderViewport extends OctaneComponent {
 /*        
         try {
             // Simply grab render result - ignore empty responses
-            const result = await this.client.makeGrpcCall('ApiRenderEngineService', 'grabRenderResult', {});
+            const result = await this.client.makeGrpcCall('ApiRenderEngine', 'grabRenderResult', {});
             
             if (result && result.success && result.data && result.data.renderImages) {
                 const renderImages = result.data.renderImages;

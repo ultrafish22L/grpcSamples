@@ -114,8 +114,10 @@ class GrpcServiceRegistry:
                 'ApiItem': 'apinodesystem_3',
                 'ApiItemArray': 'apinodesystem_1',
                 'ApiNodePinInfoEx': 'apinodepininfohelper',
-                'LiveLinkService': 'livelink',
-                'ApiRenderEngineService': 'apirender',
+                'LiveLink': 'livelink',
+                'ApiRenderEngine': 'apirender',
+                'ApiItemGetter': "apinodesystem_2",
+                'ApiItemSetter': "apinodesystem_4",
             }
             module_name = service_map.get(service_name)
             if not module_name:
@@ -188,11 +190,13 @@ class GrpcServiceRegistry:
 
             # Map service names to protobuf class names
             service_to_class_map = {
-                'ApiRenderEngineService': 'ApiRenderEngine',
-                'LiveLinkService': 'LiveLinkService',
+                'ApiRenderEngine': 'ApiRenderEngine',
+                'LiveLink': 'LiveLink',
                 'ApiNodeGraph': 'ApiNodeGraph',
                 'ApiNode': 'ApiNode',
                 'ApiItem': 'ApiItem',
+                'ApiItemGetter': "ApiItem",
+                'ApiItemSetter': "ApiItem",
                 'ApiItemArray': 'ApiItemArray',
                 'ApiNodePinInfoEx': 'ApiNodePinInfoEx',
             }
@@ -202,10 +206,10 @@ class GrpcServiceRegistry:
 
             # Special cases for methods that don't follow the standard naming pattern
             special_cases = {
-                ('LiveLinkService', 'SetCamera'): 'CameraState',
-                ('LiveLinkService', 'GetCamera'): 'Empty',
-                ('LiveLinkService', 'GetMeshes'): 'Empty',
-                ('LiveLinkService', 'GetMesh'): 'MeshRequest',
+                ('LiveLink', 'SetCamera'): 'CameraState',
+                ('LiveLink', 'GetCamera'): 'Empty',
+                ('LiveLink', 'GetMeshes'): 'Empty',
+                ('LiveLink', 'GetMesh'): 'MeshRequest',
             }
             
             # Check for special cases first
@@ -224,6 +228,7 @@ class GrpcServiceRegistry:
             ]
             # GetNodePinInfoRequest
 
+            thepattern = ""
             for pattern in request_class_patterns:
                 # Handle nested class names (e.g., ApiProjectManager.rootNodeGraphRequest)
                 if '.' in pattern:
@@ -234,19 +239,22 @@ class GrpcServiceRegistry:
 #                        print(f" CHECKING1 request class for {part} {request_class}")
                         if hasattr(request_class, part):
                             request_class = getattr(request_class, part)
+                            thepattern = str(request_class) + str(part)
                         else:
                             request_class = None
+                            thepattern = ""
                             break
                 else:
 #                    print(f" CHECKING2 request class for {pattern} {request_class}")
                     request_class = getattr(pb2_module, pattern, None)
+                    thepattern = str(request_class) + str(pattern)
 
                 if request_class:
-#                    print(f" FINAL request class for {service_name}.{method_name} {request_class}")
+                    print(f" FINAL request class for {service_name}.{method_name} {thepattern}")
                     return request_class
 
             # Default to Empty if no request class found
-            print(f"❌ Failed to get request class for {service_name}.{method_name}")
+            print(f"❌ Failed to get request class for {service_name}.{method_name} = {request_class}")
             return Empty
 
         except Exception as e:
@@ -878,331 +886,6 @@ def create_app():
     app.router.add_options('/{path:.*}', handle_options)
     
     return app
-
-async def debug_callback_system():
-    """Debug function to test the callback system independently"""
-    print("\n🔧 === CALLBACK SYSTEM DEBUG TEST ===")
-    
-    try:
-        octane_address = get_octane_address()
-        print(f"🎯 Testing callback system with Octane at: {octane_address}")
-        
-        # Step 1: Initialize callback system
-        print("📋 Step 1: Initializing callback system...")
-        success = await initialize_callback_system(octane_address)
-        
-        if not success:
-            print("❌ Failed to initialize callback system")
-            return False
-            
-        print("✅ Callback system initialized successfully")
-        
-        # Step 2: Get streamer instance
-        print("📋 Step 2: Getting callback streamer...")
-        streamer = get_callback_streamer(octane_address)
-        status = streamer.get_status()
-        print(f"✅ Streamer status: {status}")
-        
-        # Step 3: Test callback registration (simulate what setOnNewImageCallback does)
-        print("📋 Step 3: Testing callback registration...")
-        
-        # Create a test client ID
-        test_client_id = str(uuid.uuid4())
-        print(f"🆔 Test client ID: {test_client_id}")
-        
-        # Add test client to streamer
-        def test_callback(event_data):
-            print(f"📸 TEST CALLBACK RECEIVED: {event_data}")
-            
-        streamer.add_client(test_client_id, test_callback)
-        print("✅ Test client added to streamer")
-        
-        # Step 4: Trigger a render to test callbacks
-        print("📋 Step 4: Triggering render to test callbacks...")
-        
-        # Create proxy instance to make gRPC calls
-        test_proxy = ComprehensiveOctaneProxy()
-        if await test_proxy.connect_to_octane():
-            print("✅ Connected to Octane for testing")
-            
-            # Restart rendering to trigger callbacks
-            try:
-                # Use the grpc_registry to get the stub and make the call
-                stub = grpc_registry.get_stub('ApiRenderEngineService', test_proxy.channel)
-                method = getattr(stub, 'restartRendering')
-                
-                # Create empty request
-                request_class = grpc_registry.get_request_class('ApiRenderEngineService', 'restartRendering')
-                restart_request = request_class()
-                
-                print("🚀 Calling restartRendering...")
-                restart_response = await method(restart_request)
-                print(f"✅ Render restart response: {restart_response}")
-                
-                # Wait a bit for callbacks
-                print("⏳ Waiting 5 seconds for callbacks...")
-                await asyncio.sleep(5)
-                
-                # Check if we received any callbacks
-                print(f"📊 Final streamer status: {streamer.get_status()}")
-                
-            except Exception as e:
-                print(f"❌ Error during render test: {e}")
-                traceback.print_exc()
-                
-            await test_proxy.disconnect()
-        else:
-            print("❌ Could not connect to Octane for testing")
-            
-        # Step 5: Cleanup
-        print("📋 Step 5: Cleaning up...")
-        streamer.remove_client(test_client_id)
-        print("✅ Test client removed")
-        
-        print("🎯 Callback system debug test completed")
-        return True
-        
-    except Exception as e:
-        print(f"❌ Debug test failed: {e}")
-        traceback.print_exc()
-        return False
-
-async def debug_camera_image_comparison():
-    """Debug function to test camera changes and compare images"""
-    print("\n🔧 === CAMERA IMAGE COMPARISON DEBUG TEST ===")
-    
-    import base64
-    from PIL import Image
-    import io
-    
-    try:
-        octane_address = get_octane_address()
-        print(f"🎯 Testing camera changes with Octane at: {octane_address}")
-        
-        # Step 1: Initialize callback system
-        print("📋 Step 1: Initializing callback system...")
-        success = await initialize_callback_system(octane_address)
-        
-        if not success:
-            print("❌ Failed to initialize callback system")
-            return False
-            
-        print("✅ Callback system initialized successfully")
-        
-        # Step 2: Get streamer instance
-        print("📋 Step 2: Getting callback streamer...")
-        streamer = get_callback_streamer(octane_address)
-        
-        # Step 3: Create proxy instance to make gRPC calls
-        test_proxy = ComprehensiveOctaneProxy()
-        if not await test_proxy.connect_to_octane():
-            print("❌ Could not connect to Octane for testing")
-            return False
-            
-        print("✅ Connected to Octane for testing")
-        
-        # Storage for captured images
-        captured_images = []
-        
-        # Create a test client to capture images
-        test_client_id = str(uuid.uuid4())
-        print(f"🆔 Test client ID: {test_client_id}")
-        
-        def image_capture_callback(event_data):
-            # Extract image data from the callback structure
-            image_data = ''
-            if 'render_images' in event_data and 'data' in event_data['render_images']:
-                images = event_data['render_images']['data']
-                if images and len(images) > 0 and 'buffer' in images[0] and images[0]['buffer']:
-                    image_data = images[0]['buffer']['data']
-            
-            print(f"📸 IMAGE CAPTURED #{len(captured_images)+1}: {len(image_data)} bytes")
-            captured_images.append(event_data)
-            
-        streamer.add_client(test_client_id, image_capture_callback)
-        print("✅ Image capture client added to streamer")
-        
-        try:
-            # Get service stubs
-            render_stub = grpc_registry.get_stub('ApiRenderEngineService', test_proxy.channel)
-            restart_method = getattr(render_stub, 'restartRendering')
-            request_class = grpc_registry.get_request_class('ApiRenderEngineService', 'restartRendering')
-            restart_request = request_class()
-            
-            camera_stub = grpc_registry.get_stub('LiveLinkService', test_proxy.channel)
-            set_camera_method = getattr(camera_stub, 'SetCamera')
-            camera_request_class = grpc_registry.get_request_class('LiveLinkService', 'SetCamera')
-            
-            # Step 4: Capture BEFORE image
-            print("📋 Step 4: Capturing BEFORE image...")
-            print("🚀 Calling restartRendering for BEFORE image...")
-            await restart_method(restart_request)
-            
-            # Wait for BEFORE image
-            print("⏳ Waiting 3 seconds for BEFORE image...")
-            await asyncio.sleep(3)
-            
-            before_image_count = len(captured_images)
-            print(f"📊 Captured {before_image_count} BEFORE images")
-            
-            # Save BEFORE image - find the one with actual image data
-            before_img_data = None
-            if before_image_count > 0:
-                # Find callback with actual image data (not empty)
-                for img_data in captured_images:
-                    if 'render_images' in img_data and 'data' in img_data['render_images']:
-                        images = img_data['render_images']['data']
-                        if images and len(images) > 0 and 'buffer' in images[0] and images[0]['buffer']:
-                            if images[0]['buffer']['data']:  # Non-empty data
-                                before_img_data = img_data
-                                break
-            if before_img_data:
-                try:
-                    # Extract image data from callback structure
-                    images = before_img_data['render_images']['data']
-                    image_data = images[0]['buffer']['data']
-                    
-                    image_bytes = base64.b64decode(image_data)
-                    filename = f"/tmp/debug_image_BEFORE_camera_change.png"
-                    
-                    with open(filename, 'wb') as f:
-                        f.write(image_bytes)
-                    
-                    print(f"💾 Saved BEFORE image: {filename} ({len(image_bytes)} bytes)")
-                    
-                    # Get image info
-                    img = Image.open(io.BytesIO(image_bytes))
-                    print(f"   📐 BEFORE image size: {img.size}, mode: {img.mode}")
-                    
-                    # Show first few bytes as hex for comparison
-                    hex_preview = image_bytes[:16].hex() if len(image_bytes) >= 16 else image_bytes.hex()
-                    print(f"   🔍 BEFORE first 16 bytes (hex): {hex_preview}")
-                    
-                except Exception as e:
-                    print(f"❌ Error saving BEFORE image: {e}")
-            else:
-                print("❌ No BEFORE image with data found")
-            
-            # Step 5: Change camera position
-            print("📋 Step 5: Changing camera position...")
-            
-            camera_request = camera_request_class()
-            
-            # Set new position and target (move camera significantly)
-            camera_request.position.x = 5.0  # Move further away
-            camera_request.position.y = 3.0  # Higher up
-            camera_request.position.z = 8.0  # Much further back
-            
-            camera_request.target.x = 0.0   # Look at origin
-            camera_request.target.y = 0.0
-            camera_request.target.z = 0.0
-            
-            print(f"🎯 Setting camera position to: ({camera_request.position.x}, {camera_request.position.y}, {camera_request.position.z})")
-            print(f"🎯 Setting camera target to: ({camera_request.target.x}, {camera_request.target.y}, {camera_request.target.z})")
-            await set_camera_method(camera_request)
-            
-            # Clear captured images to start fresh for AFTER image
-            captured_images.clear()
-            print("🧹 Cleared captured images for AFTER camera change test")
-            
-            # Step 6: Capture AFTER image
-            print("📋 Step 6: Capturing AFTER image...")
-            print("🚀 Calling restartRendering for AFTER image...")
-            await restart_method(restart_request)
-            
-            # Wait for AFTER image
-            print("⏳ Waiting 3 seconds for AFTER image...")
-            await asyncio.sleep(3)
-            
-            after_image_count = len(captured_images)
-            print(f"📊 Captured {after_image_count} AFTER images")
-            
-            # Save AFTER image - find the one with actual image data
-            after_img_data = None
-            if after_image_count > 0:
-                # Find callback with actual image data (not empty)
-                for img_data in captured_images:
-                    if 'render_images' in img_data and 'data' in img_data['render_images']:
-                        images = img_data['render_images']['data']
-                        if images and len(images) > 0 and 'buffer' in images[0] and images[0]['buffer']:
-                            if images[0]['buffer']['data']:  # Non-empty data
-                                after_img_data = img_data
-                                break
-            
-            if after_img_data:
-                try:
-                    # Extract image data from callback structure
-                    images = after_img_data['render_images']['data']
-                    image_data = images[0]['buffer']['data']
-                    
-                    image_bytes = base64.b64decode(image_data)
-                    filename = f"/tmp/debug_image_AFTER_camera_change.png"
-                    
-                    with open(filename, 'wb') as f:
-                        f.write(image_bytes)
-                    
-                    print(f"💾 Saved AFTER image: {filename} ({len(image_bytes)} bytes)")
-                    
-                    # Get image info
-                    img = Image.open(io.BytesIO(image_bytes))
-                    print(f"   📐 AFTER image size: {img.size}, mode: {img.mode}")
-                    
-                    # Show first few bytes as hex for comparison
-                    hex_preview = image_bytes[:16].hex() if len(image_bytes) >= 16 else image_bytes.hex()
-                    print(f"   🔍 AFTER first 16 bytes (hex): {hex_preview}")
-                    
-                except Exception as e:
-                    print(f"❌ Error saving AFTER image: {e}")
-            else:
-                print("❌ No AFTER image with data found")
-            
-            # Step 7: Compare BEFORE and AFTER images
-            print("📋 Step 7: Comparing BEFORE and AFTER images...")
-            
-            if before_img_data and after_img_data:
-                # Extract image data from both callbacks
-                before_data = before_img_data['render_images']['data'][0]['buffer']['data']
-                after_data = after_img_data['render_images']['data'][0]['buffer']['data']
-                
-                if before_data == after_data:
-                    print("⚠️  BEFORE and AFTER IMAGES ARE IDENTICAL!")
-                    print("   🔍 This means Octane is sending the same cached/static image")
-                    print("   🔍 Camera changes are not triggering new renders")
-                else:
-                    print("✅ BEFORE and AFTER IMAGES ARE DIFFERENT!")
-                    print("   🎉 Camera changes are working and generating new renders!")
-                    print(f"   📊 BEFORE image size: {len(before_data)} bytes")
-                    print(f"   📊 AFTER image size: {len(after_data)} bytes")
-                    
-                    # Calculate difference percentage
-                    if len(before_data) > 0 and len(after_data) > 0:
-                        min_len = min(len(before_data), len(after_data))
-                        diff_bytes = sum(1 for a, b in zip(before_data[:min_len], after_data[:min_len]) if a != b)
-                        diff_percent = (diff_bytes / min_len) * 100
-                        print(f"   📈 Difference: {diff_percent:.2f}% of bytes changed")
-            else:
-                print("❌ Could not capture both BEFORE and AFTER images with data for comparison")
-                print(f"   📊 BEFORE images total: {before_image_count}, with data: {'Yes' if before_img_data else 'No'}")
-                print(f"   📊 AFTER images total: {after_image_count}, with data: {'Yes' if after_img_data else 'No'}")
-                
-        except Exception as e:
-            print(f"❌ Error during camera test: {e}")
-            traceback.print_exc()
-            
-        finally:
-            # Cleanup
-            print("📋 Cleaning up...")
-            streamer.remove_client(test_client_id)
-            await test_proxy.disconnect()
-            print("✅ Cleanup completed")
-        
-        print("🎯 Camera image comparison debug test completed")
-        return True
-        
-    except Exception as e:
-        print(f"❌ Camera debug test failed: {e}")
-        traceback.print_exc()
-        return False
 
 async def main():
     """Main entry point"""

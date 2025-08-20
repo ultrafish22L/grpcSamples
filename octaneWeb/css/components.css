@@ -790,7 +790,7 @@ input:checked + .slider:before {
 }
 
 .parameter-subsection-icon {
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-small);
 }
 
 .parameter-subsection-title {
@@ -1116,7 +1116,7 @@ input:checked + .slider:before {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-small);
     transition: all 0.15s ease;
 }
 
@@ -1224,7 +1224,7 @@ input:checked + .slider:before {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-small);
 }
 
 .context-menu-shortcut {
@@ -1438,7 +1438,7 @@ body.drag-over .drop-indicator {
 }
 
 .modal-title {
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-small);
     font-weight: var(--font-weight-bold);
     color: var(--octane-text-primary);
 }
@@ -2134,7 +2134,7 @@ body.drag-over .drop-indicator {
 
 .palette-header {
     color: #fff;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-small);
     font-weight: bold;
     margin-bottom: 10px;
     text-align: center;
@@ -2514,7 +2514,7 @@ body.drag-over .drop-indicator {
     border-radius: 4px;
     cursor: pointer;
     margin-top: 12px;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-small);
 }
 
 .retry-button:hover {
@@ -2596,7 +2596,7 @@ body.drag-over .drop-indicator {
 
 .parameter-icon {
     margin-right: 6px;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-small);
     color: var(--octane-text-secondary);
     width: 16px;
     text-align: center;
@@ -3057,7 +3057,7 @@ body.drag-over .drop-indicator {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-small);
     border: 1px solid rgba(255, 255, 255, 0.2); /* More visible border */
     background: rgba(0, 0, 0, 0.3); /* Subtle background for better contrast */
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
@@ -3094,7 +3094,7 @@ body.drag-over .drop-indicator {
 
 /* Collapse/expand icon styling - ONLY for Node Inspector */
 .node-inspector .node-collapse-icon {
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-small);
     color: var(--octane-text-secondary);
     transition: transform 0.2s ease;
     min-width: 12px;
@@ -3107,7 +3107,7 @@ body.drag-over .drop-indicator {
 
 /* Node title styling - ONLY for Node Inspector */
 .node-inspector .node-title {
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-small);
     font-weight: 500;
     color: var(--octane-text-primary);
     flex-shrink: 2;
@@ -3129,7 +3129,7 @@ body.drag-over .drop-indicator {
     border-radius: 4px;
     color: #e0e0e0;
     padding: 4px 8px;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-small);
     min-width: 120px;
     cursor: pointer;
     transition: border-color 0.2s ease;
@@ -3299,7 +3299,7 @@ body.drag-over .drop-indicator {
 /* Vector control styles */
 .octane-vector-control {
     display: flex;
-    align-items: center;
+    align-items: left;
     gap: 2px;
     display: grid;
     text-align: right;
@@ -3334,7 +3334,7 @@ body.drag-over .drop-indicator {
 .node-inspector .node-parameter-row {
     margin: 2px 0;
     padding: 2px 0;
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-small);
     color: var(--octane-text-secondary);
     line-height: 1.3;
 }

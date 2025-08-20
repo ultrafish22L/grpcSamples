@@ -374,24 +374,6 @@ class SceneOutlinerSync {
 
         let attrType = null;
         if (children.length == 0) {
-/*
-            try {        
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItem/attrType', 
-                    item.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItem/attrType');
-                }
-                attrType = result.data.result;
-
-            } catch (error) {
-                console.error('❌ Failed addSceneItem:', error);
-            }
-            console.log("EndNODE ", itemName, outType, attrType);
-*/
-
             try {        
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItem/attrInfo', 

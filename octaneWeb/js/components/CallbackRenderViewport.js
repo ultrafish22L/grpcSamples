@@ -656,7 +656,7 @@ class CallbackRenderViewport extends OctaneComponent {
         if (!this.pollingMode) return;
  /*       
         try {
-            const result = await this.client.makeGrpcCall('ApiRenderEngineService', 'grabRenderResult', {});
+            const result = await this.client.makeGrpcCall('ApiRenderEngine', 'grabRenderResult', {});
             
             if (result && result.success && result.data && result.data.renderImages) {
                 const renderImages = result.data.renderImages;

@@ -177,9 +177,9 @@ function createOctaneWebClient() {
             const method = methodOrService;
             actualRequest = requestOrMethod;
             
-            // For LiveLink methods, use LiveLinkService
+            // For LiveLink methods, use LiveLink
             if (['SetCamera', 'GetCamera', 'GetMeshes'].includes(method)) {
-                serviceName = 'LiveLinkService';
+                serviceName = 'LiveLink';
                 methodName = method;
             } else {
                 // For other methods, try to parse service.method format

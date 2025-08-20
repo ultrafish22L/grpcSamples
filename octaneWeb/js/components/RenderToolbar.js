@@ -43,7 +43,7 @@ class RenderToolbar {
     
     /**
      * Helper method to make gRPC calls through the proxy
-     * @param {string} service - The gRPC service name (e.g., 'ApiRenderEngineService')
+     * @param {string} service - The gRPC service name (e.g., 'ApiRenderEngine')
      * @param {string} method - The method name (e.g., 'stopRendering')
      * @param {Object} params - Parameters to send (optional)
      * @returns {Promise} - The gRPC response
@@ -418,7 +418,7 @@ class RenderToolbar {
         console.log('⏹️ Stopping render...');
         
         // Make real gRPC call to stop rendering
-        const result = await this.makeGrpcCall('ApiRenderEngineService', 'stopRendering');
+        const result = await this.makeGrpcCall('ApiRenderEngine', 'stopRendering');
         
         if (result && result.success !== false) {
             this.updateRenderStatus('stopped');
@@ -434,7 +434,7 @@ class RenderToolbar {
         console.log('🔄 Restarting render...');
         
         // Make real gRPC call to restart rendering
-        const result = await this.makeGrpcCall('ApiRenderEngineService', 'restartRendering');
+        const result = await this.makeGrpcCall('ApiRenderEngine', 'restartRendering');
         
         if (result && result.success !== false) {
             this.updateRenderStatus('rendering');
@@ -450,7 +450,7 @@ class RenderToolbar {
         console.log('⏸️ Pausing render...');
         
         // Make real gRPC call to pause rendering
-        const result = await this.makeGrpcCall('ApiRenderEngineService', 'pauseRendering');
+        const result = await this.makeGrpcCall('ApiRenderEngine', 'pauseRendering');
         
         if (result && result.success !== false) {
             this.updateRenderStatus('paused');
@@ -466,7 +466,7 @@ class RenderToolbar {
         console.log('▶️ Starting/resuming render...');
         
         // Make real gRPC call to continue rendering (resume from pause)
-        const result = await this.makeGrpcCall('ApiRenderEngineService', 'continueRendering');
+        const result = await this.makeGrpcCall('ApiRenderEngine', 'continueRendering');
         
         if (result && result.success !== false) {
             this.updateRenderStatus('rendering');
@@ -486,7 +486,7 @@ class RenderToolbar {
         // For now, we'll use render priority as a proxy for real-time mode
         const priority = this.realTimeMode ? 'high' : 'normal';
         
-        const result = await this.makeGrpcCall('ApiRenderEngineService', 'setRenderPriority', {
+        const result = await this.makeGrpcCall('ApiRenderEngine', 'setRenderPriority', {
             priority: priority
         });
         

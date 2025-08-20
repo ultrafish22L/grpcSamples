@@ -394,7 +394,7 @@ class LiveLinkClient extends SimpleEventEmitter {
      */
     async testConnection() {
         const startTime = Date.now();
-        const testUrl = this.serverUrl + '/livelinkapi.LiveLinkService/GetCamera';
+        const testUrl = this.serverUrl + '/livelinkapi.LiveLink/GetCamera';
         
         this.log('Testing connection', {
             url: testUrl,
@@ -554,7 +554,7 @@ class LiveLinkClient extends SimpleEventEmitter {
         const callId = `${method}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
         this.callCount++;
         
-        const url = `${this.serverUrl}/livelinkapi.LiveLinkService/${method}`;
+        const url = `${this.serverUrl}/livelinkapi.LiveLink/${method}`;
         
         this.log(`gRPC call started: ${method}`, {
             callId: callId,
