@@ -31,8 +31,8 @@
     
     /* Panel Resize Variables */
     --splitter-size: 4px;              /* Resize handle thickness */
-    --left-panel-width: 220px;         /* Scene outliner width */
-    --right-panel-width: 300px;        /* Node inspector width */
+    --left-panel-width: 180px;         /* Scene outliner width */
+    --right-panel-width: 400px;        /* Node inspector width */
     --bottom-panel-height: 300px;      /* Node graph height */
     --octane-border-light: #666666;    /* Light borders */
     --octane-border-dark: #333333;     /* Dark borders */
@@ -953,7 +953,7 @@ html, body {
     background-color: var(--octane-bg-secondary); /* Professional dark background */
     border-left: 1px solid var(--octane-border); /* Subtle left border */
     border-right: none;
-    overflow-y: auto; /* Allow scrolling if content is tall */
+    overflow-y: visible; /* Allow scrolling if content is tall */
     display: flex;
     flex-direction: column;
     position: relative; /* Ensure proper stacking context */

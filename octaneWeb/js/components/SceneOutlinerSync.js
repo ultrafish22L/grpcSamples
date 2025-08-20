@@ -275,7 +275,7 @@ class SceneOutlinerSync {
                     continue;
                 }
 //                console.log('🔍 connectedNode', connectedNode);
-/*                    
+/*                 
                 // Get the pin info handle
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNode/pinInfoIx', 
@@ -285,31 +285,18 @@ class SceneOutlinerSync {
                 if (!result.success) {
                     throw new Error('Failed ApiNode/pinInfoIx');
                 }
-                let pinInfo = null;
-                if (result.data != null && result.data.result != null && result.data.result.handle != null) {
-
-                // Get the pin info handle
+                console.log('🔍 before ApiNodePinInfoEx/getApiNodePinInfo', result.data.result.handle);
+                // Get the pin info 
                 result = window.grpcApi.makeApiCallSync(
-                    'ApiNode/pinInfoIx', 
-                    itemHandle,
-                    {index: i},
+                    'ApiNodePinInfoEx/getApiNodePinInfo', 
+                    result.data.result.handle
                 );
                 if (!result.success) {
-                    throw new Error('Failed ApiNode/pinInfoIx');
+                    throw new Error('Failed ApiNodePinInfoEx/getApiNodePinInfo');
                 }
-                    console.log('🔍 before ApiNodePinInfoEx/getApiNodePinInfo', result.data.result.handle);
-                    // Get the pin info 
-                    result = window.grpcApi.makeApiCallSync(
-                        'ApiNodePinInfoEx/getApiNodePinInfo', 
-                        result.data.result.handle
-                    );
-                    if (!result.success) {
-                        throw new Error('Failed ApiNodePinInfoEx/getApiNodePinInfo');
-                    }
-                    console.log('pinInfo ', JSON.stringify(result));
-                    pinInfo = result.data.nodePinInfo;
-                }
-*/                   
+                console.log('pinInfo ', JSON.stringify(result));
+                const pinInfo = result.data.nodePinInfo;
+*/
                 // Get the pin info handle
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNode/pinLabelIx', 

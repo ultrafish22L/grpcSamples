@@ -657,7 +657,7 @@ async def handle_generic_grpc(request):
 
         # Populate request fields from JSON data
         if request_data:
-            print(f" req: {request_data}")
+#            print(f" req: {request_data}")
             for key, value in request_data.items():
                 if not recurse_attr(grpc_request, key, value):
                     if key == "objectPtr":
@@ -669,7 +669,7 @@ async def handle_generic_grpc(request):
         # Make the gRPC call
         # print(f"req:  {grpc_request}")        
         response = await method(grpc_request)
-        print(f"resp: {response}")
+#        print(f"resp: {response}")
 
         # Convert response to dict
         success = False

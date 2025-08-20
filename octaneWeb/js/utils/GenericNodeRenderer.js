@@ -339,6 +339,9 @@ class GenericNodeRenderer {
                 `;
             }
             else if (nodeData.attrType == "AT_FLOAT4") {
+
+                console.log(`pininfo "${nodeData.name}" type: ${JSON.stringify(nodeData.pinInfo)}`);
+                
                 let value = { x: 0.0, y: 0.0, z: 0.0, w: 0.0 };
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItemGetter/getFloat4', 

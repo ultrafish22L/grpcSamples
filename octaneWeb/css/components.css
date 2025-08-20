@@ -2221,7 +2221,7 @@ body.drag-over .drop-indicator {
 /* Octane-Style Node Inspector */
 .octane-node-inspector {
     height: 100%;
-    overflow-y: auto;
+    overflow-y: visible;
     background: var(--octane-bg-primary);
     font-size: var(--font-size-small);
     color: var(--octane-text-primary);
@@ -3298,11 +3298,10 @@ body.drag-over .drop-indicator {
 
 /* Vector control styles */
 .octane-vector-control {
-    display: flex;
     align-items: left;
     gap: 2px;
-    display: grid;
-    text-align: right;
+    display: flex; /* Makes the container a flex container */
+    flex-direction: row; /* Arranges items horizontally (default for flex) */
 }
 
 .octane-vector-input {
@@ -3455,6 +3454,7 @@ body.drag-over .drop-indicator {
     display: flex;
     align-items: center;
     cursor: pointer;
+    align-items: left;
 }
 
 .parameter-checkbox {
