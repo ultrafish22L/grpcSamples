@@ -104,8 +104,8 @@ class CallbackRenderViewport extends OctaneComponent {
      */
     setupSceneLoadingListener() {
         // Listen for scene data loaded event
-        this.eventSystem.on('sceneDataLoaded', (sceneItems) => {
-            console.log('🎬 Scene data loaded, starting render polling...', sceneItems.length, 'items');
+        this.eventSystem.on('sceneDataLoaded', (scene) => {
+            console.log('🎬 Scene data loaded, starting render polling...', scene.items.length, 'items');
             this.startRenderPolling();
         });
         
@@ -344,7 +344,7 @@ class CallbackRenderViewport extends OctaneComponent {
                 break;
                 
             case 'newStatistics':
-                console.log('📊 New statistics callback:', data);
+//                console.log('📊 New statistics callback:', data);
                 break;
                 
             case 'ping':
@@ -398,7 +398,7 @@ class CallbackRenderViewport extends OctaneComponent {
             
             // Clear existing content
             this.imageDisplay.innerHTML = '';
-            
+/*            
             console.log(`🖼️ Processing callback image #${this.frameCount}:`, {
                 type: imageData.type,
                 size: `${imageData.size.x}x${imageData.size.y}`,
@@ -407,7 +407,7 @@ class CallbackRenderViewport extends OctaneComponent {
                 renderTime: imageData.renderTime,
                 hasBuffer: !!imageData.buffer
             });
-            
+*/            
             if (!imageData.buffer || !imageData.buffer.data) {
                 this.showImageError('No image buffer in callback data');
                 return;
@@ -418,9 +418,9 @@ class CallbackRenderViewport extends OctaneComponent {
             const bufferSize = imageData.buffer.size;
             this.lastImageSize = bufferSize;
             
-            console.log(`📊 Image buffer: ${bufferSize} bytes (${imageData.buffer.encoding})`);
-            console.log(`🔍 Buffer data type: ${typeof bufferData}, length: ${bufferData ? bufferData.length : 'null'}`);
-            console.log(`🔍 Buffer data preview: ${bufferData ? bufferData.substring(0, 100) : 'null'}...`);
+//            console.log(`📊 Image buffer: ${bufferSize} bytes (${imageData.buffer.encoding})`);
+//            console.log(`🔍 Buffer data type: ${typeof bufferData}, length: ${bufferData ? bufferData.length : 'null'}`);
+//            console.log(`🔍 Buffer data preview: ${bufferData ? bufferData.substring(0, 100) : 'null'}...`);
             
             // Create canvas to display raw image buffer
             const canvas = document.createElement('canvas');
@@ -451,8 +451,8 @@ class CallbackRenderViewport extends OctaneComponent {
                 return;
             }
             
-            console.log(`🔍 Buffer analysis: ${bytes.length} bytes, first 16 bytes:`, 
-                       Array.from(bytes.slice(0, 16)).map(b => b.toString(16).padStart(2, '0')).join(' '));
+//            console.log(`🔍 Buffer analysis: ${bytes.length} bytes, first 16 bytes:`, 
+//                       Array.from(bytes.slice(0, 16)).map(b => b.toString(16).padStart(2, '0')).join(' '));
             
             // Convert buffer to RGBA format for canvas
             this.convertBufferToCanvas(bytes, imageData, imageDataObj);
@@ -474,7 +474,7 @@ class CallbackRenderViewport extends OctaneComponent {
                 `${imageData.renderTime.toFixed(2)}s`
             );
             
-            console.log('✅ Callback image displayed successfully');
+//            console.log('✅ Callback image displayed successfully');
             
         } catch (error) {
             console.error('❌ Error displaying callback image:', error);
@@ -515,7 +515,7 @@ class CallbackRenderViewport extends OctaneComponent {
         const expectedSize = width * height * 4;
         
         if (buffer.length === expectedSize) {
-            console.log('✅ Perfect size match - direct copy');
+//            console.log('✅ Perfect size match - direct copy');
             // Direct copy - no pitch issues
             for (let i = 0; i < expectedSize; i += 4) {
                 data[i] = buffer[i];         // R
@@ -524,20 +524,20 @@ class CallbackRenderViewport extends OctaneComponent {
                 data[i + 3] = buffer[i + 3]; // A
             }
         } else {
-            console.log(`🔍 Size mismatch: buffer=${buffer.length}, expected=${expectedSize}, using pitch=${pitch}`);
+//            console.log(`🔍 Size mismatch: buffer=${buffer.length}, expected=${expectedSize}, using pitch=${pitch}`);
             
             // Handle pitch (row stride) - pitch might be in pixels or bytes
             let pitchBytes;
             
             // Try pitch as bytes first
             if (pitch * height === buffer.length) {
-                console.log(`🔍 Pitch is in bytes: ${pitch}`);
+//                console.log(`🔍 Pitch is in bytes: ${pitch}`);
                 pitchBytes = pitch;
             } else if (pitch * 4 * height === buffer.length) {
-                console.log(`🔍 Pitch is in pixels: ${pitch} -> ${pitch * 4} bytes`);
+//                console.log(`🔍 Pitch is in pixels: ${pitch} -> ${pitch * 4} bytes`);
                 pitchBytes = pitch * 4;
             } else {
-                console.log(`⚠️ Pitch calculation unclear, using width-based pitch`);
+//                console.log(`⚠️ Pitch calculation unclear, using width-based pitch`);
                 pitchBytes = width * 4;
             }
             
@@ -577,7 +577,7 @@ class CallbackRenderViewport extends OctaneComponent {
         const expectedFloats = width * height * 4;
         
         if (floatView.length === expectedFloats) {
-            console.log('✅ HDR Perfect size match - direct copy');
+//            console.log('✅ HDR Perfect size match - direct copy');
             // Direct copy - no pitch issues
             for (let i = 0; i < expectedFloats; i += 4) {
                 // Simple tone mapping: clamp and convert to 8-bit
@@ -587,20 +587,20 @@ class CallbackRenderViewport extends OctaneComponent {
                 data[i + 3] = Math.min(255, Math.max(0, floatView[i + 3] * 255)); // A
             }
         } else {
-            console.log(`🔍 HDR Size mismatch: floats=${floatView.length}, expected=${expectedFloats}, using pitch=${pitch}`);
+//            console.log(`🔍 HDR Size mismatch: floats=${floatView.length}, expected=${expectedFloats}, using pitch=${pitch}`);
             
             // Handle pitch for HDR data - pitch might be in pixels or bytes
             let pitchFloats;
             
             // Try pitch as bytes first (convert to float count)
             if ((pitch / 4) * height === floatView.length) {
-                console.log(`🔍 HDR Pitch is in bytes: ${pitch} -> ${pitch / 4} floats`);
+//                console.log(`🔍 HDR Pitch is in bytes: ${pitch} -> ${pitch / 4} floats`);
                 pitchFloats = pitch / 4;
             } else if (pitch * 4 * height === floatView.length) {
-                console.log(`🔍 HDR Pitch is in pixels: ${pitch} -> ${pitch * 4} floats`);
+//                console.log(`🔍 HDR Pitch is in pixels: ${pitch} -> ${pitch * 4} floats`);
                 pitchFloats = pitch * 4;
             } else {
-                console.log(`⚠️ HDR Pitch calculation unclear, using width-based pitch`);
+//                console.log(`⚠️ HDR Pitch calculation unclear, using width-based pitch`);
                 pitchFloats = width * 4;
             }
             

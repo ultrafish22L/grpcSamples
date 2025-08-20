@@ -35,7 +35,9 @@ class SceneOutlinerSync {
         
         this.element = element;
         this.eventSystem = eventSystem;
-        this.lastSceneItems = [];
+        this.lastScene = {};
+        this.scene = { map:[], items:null };
+
         this.expandedNodes = new Set(['scene-root', 'item-1000025']); // Expand Scene and Render target by default
         this.searchTerm = '';
         this.selectedNodeHandle = null;
@@ -48,7 +50,7 @@ class SceneOutlinerSync {
         setTimeout(() => {
             console.log('🔍 DEBUG: Auto-loading scene tree...');
             this.loadSceneTree();
-        }, 1000);
+        }, 100);
     }
     
     setupEventHandlers() {
@@ -59,14 +61,19 @@ class SceneOutlinerSync {
                 this.searchTerm = e.target.value.toLowerCase();
                 
                 // Use real scene data if available
-                if (this.lastSceneItems && this.lastSceneItems.length > 0) {
-                    this.renderRealSceneTree(this.lastSceneItems);
+                if (this.lastScene && this.lastScene.items.length > 0) {
+                    this.renderRealSceneTree(this.lastScene);
                 }
             });
         }
-        
+   //!!!!     
         // Note: NodeGraphEditor now uses unified 'sceneNodeSelected' event
         // No need for separate nodeGraphNodeSelected listener
+        // Listen for scene node selection (unified event for all components)
+//        this.eventSystem.on('sceneNodeSelected', (handle) => {
+//            this.updateSelectedNode(handle);
+ //       });
+        
     }
     
     // Unified selection function - called both on initialization and user clicks
@@ -126,16 +133,16 @@ class SceneOutlinerSync {
             // All API calls are now SYNCHRONOUS and BLOCKING
             // This ensures proper sequential dependencies
             console.log('🔍 DEBUG: About to call loadSceneTreeSync()...');
-            const sceneItems = this.loadSceneTreeSync(null, [], 0);
+            this.scene.items = this.loadSceneTreeSync();
             
             // Store scene data for later requests
-            this.lastSceneItems = sceneItems;
+            this.lastScene = this.scene;
             
             // Render the real scene tree (UI update happens here)
-            this.renderRealSceneTree(sceneItems);
+            this.renderRealSceneTree(this.scene);
             
             // Update other components with real scene data
-            this.eventSystem.emit('sceneDataLoaded', sceneItems);
+            this.eventSystem.emit('sceneDataLoaded', this.scene);
             
             console.log('✅ Scene tree loading completed successfully');
             
@@ -143,8 +150,9 @@ class SceneOutlinerSync {
             console.error('❌ Failed to load scene tree:', error);
             
             // Clear stored scene data and notify other components
-            this.lastSceneItems = [];
-            this.eventSystem.emit('sceneDataLoaded', []);
+            this.lastScene = {};
+            this.scene = {}
+            this.eventSystem.emit('sceneDataLoaded', {});
             
             treeContainer.innerHTML = `
                 <div class="scene-error">
@@ -174,12 +182,15 @@ class SceneOutlinerSync {
      * STRUCTURED DEBUGGING: Isolate exactly where Octane crashes
      * @returns {Array} Scene items array
      */
-    loadSceneTreeSync(itemHandle, sceneItems, level) {
+    loadSceneTreeSync(itemHandle = null, sceneItems = null, level = 0) {
         let result;
 //        if (level >= 3)
-//            return sceneItems;
+//            return scene;
         level = level + 1;
 
+        if (sceneItems == null) {
+            sceneItems = [];
+        }
         try {
             if (itemHandle == null)
             {
@@ -249,9 +260,6 @@ class SceneOutlinerSync {
             const pinCount = result.data.result;
 
             for (let i = 0; i < pinCount; i++) {
-
-//                this.delay(300);
-
                 // Get the pin connected node
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNode/connectedNodeIx', 
@@ -263,18 +271,12 @@ class SceneOutlinerSync {
                 }        
                 const connectedNode = result.data.result;
 
-                // Get the pin connected node
-                result = window.grpcApi.makeApiCallSync(
-                    'ApiNode/pinLabelIx', 
-                    itemHandle,
-                    { index: i },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiNode/pinLabelIx');
-                }   
-                const pinLabel = result.data.result;                 
-/*                
-                // Get the pin info
+                if (connectedNode == null) {
+                    continue;
+                }
+//                console.log('🔍 connectedNode', connectedNode);
+/*                    
+                // Get the pin info handle
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNode/pinInfoIx', 
                     itemHandle,
@@ -283,17 +285,43 @@ class SceneOutlinerSync {
                 if (!result.success) {
                     throw new Error('Failed ApiNode/pinInfoIx');
                 }
-                let pinInfoHandle = null;
+                let pinInfo = null;
                 if (result.data != null && result.data.result != null && result.data.result.handle != null) {
-                    if (level < 3) {
-                        console.log("ApiNode/pinInfoIx = ", {result});        
-                    }
-                    else {
-                        pinInfoHandle = result.data.result.handle;
-                    }
+
+                // Get the pin info handle
+                result = window.grpcApi.makeApiCallSync(
+                    'ApiNode/pinInfoIx', 
+                    itemHandle,
+                    {index: i},
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNode/pinInfoIx');
                 }
-*/
-                this.addSceneItem(connectedNode, sceneItems, level, pinLabel);
+                    console.log('🔍 before ApiNodePinInfoEx/getApiNodePinInfo', result.data.result.handle);
+                    // Get the pin info 
+                    result = window.grpcApi.makeApiCallSync(
+                        'ApiNodePinInfoEx/getApiNodePinInfo', 
+                        result.data.result.handle
+                    );
+                    if (!result.success) {
+                        throw new Error('Failed ApiNodePinInfoEx/getApiNodePinInfo');
+                    }
+                    console.log('pinInfo ', JSON.stringify(result));
+                    pinInfo = result.data.nodePinInfo;
+                }
+*/                   
+                // Get the pin info handle
+                result = window.grpcApi.makeApiCallSync(
+                    'ApiNode/pinLabelIx', 
+                    itemHandle,
+                    {index: i},
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNode/pinLabelIx');
+                }
+                let pinInfo = { staticLabel: result.data.result };
+
+                this.addSceneItem(connectedNode, sceneItems, level, pinInfo);
             }
         } catch (error) {
             console.error('❌ Failed loadSceneTreeSync:', error);
@@ -305,7 +333,7 @@ class SceneOutlinerSync {
     /**
 
      */
-    addSceneItem(item, sceneItems, level, pinLabel) { 
+    addSceneItem(item, sceneItems, level, pinInfo) { 
 
         let itemName;
         let outType;
@@ -333,35 +361,18 @@ class SceneOutlinerSync {
                 throw new Error('Failed to get item outtype');
             }
             outType = result.data.result;
-/*
-            if (pinInfoHandle != null) {
-                  
-                result = window.grpcApi.makeApiCallSync(
-                    'ApiNodePinInfoEx/getApiNodePinInfo',
-                    pinInfoHandle,
-                );
-                if (!result.success) {
-                    throw new Error('Failed to get item outtype');
-                }
-                if (result.data != null && result.data.nodePinInfo != null && result.data.nodePinInfo.id != null) {
-//                        console.log("  ", result.data);
 
-                    itemName = result.data.nodePinInfo.staticLabel;
-                }
-            }
-*/
-            if (pinLabel != null) {
-                itemName = pinLabel;
+            if (pinInfo != null && pinInfo.staticLabel != "") {
+                itemName = pinInfo.staticLabel;
             }
 
         } catch (error) {
             console.error('❌ Failed addSceneItem:', error);
         }
 
-        let children = [];
-        children = this.loadSceneTreeSync(item.handle, children, level);
+        let children = this.loadSceneTreeSync(item.handle, null, level);
 
-        console.log("ADDING ", itemName, outType);
+//        console.log("ADDING ", itemName, outType);
 
         sceneItems.push({
             name: itemName,
@@ -369,14 +380,16 @@ class SceneOutlinerSync {
             type: item.type,
             outtype: outType,
             children: children,
+            pinInfo: pinInfo,
         });
+        this.scene.map[item.handle] = sceneItems[sceneItems.size-1];
     }
 
-    renderRealSceneTree(sceneItems) {
+    renderRealSceneTree(scene) {
         const treeContainer = this.element.querySelector('#scene-tree');
         if (!treeContainer) return;
         
-        if (sceneItems.length === 0) {
+        if (scene.items.length === 0) {
             treeContainer.innerHTML = `
                 <div class="scene-empty">
                     <div class="empty-icon">📁</div>
@@ -399,7 +412,7 @@ class SceneOutlinerSync {
         
         // Add child items recursively if Scene is expanded
         if (this.expandedNodes.has('scene-root')) {
-            treeHTML += this.renderTreeLevel(sceneItems, 1);
+            treeHTML += this.renderTreeLevel(scene.items, 1);
         }
         
         treeContainer.innerHTML = treeHTML;
@@ -554,7 +567,7 @@ class SceneOutlinerSync {
                 }
                 
                 // Re-render tree to show/hide children
-                this.renderRealSceneTree(this.lastSceneItems || []);
+                this.renderRealSceneTree(this.lastScene);
             });
         });
         

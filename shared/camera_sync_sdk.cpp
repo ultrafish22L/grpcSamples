@@ -165,9 +165,14 @@ static bool recurseNodeTest(const ApiItemProxy& item, int indent = 0)
     }
     // node
 	ApiNodeProxy& node = item.toNode();
+
 	int pinCount = node.pinCount();
     for (int i = 0; i < pinCount; i++)
     {
+        ApiNodePinInfoProxy pinInfo = node.pinInfoIx(i);
+        if (!pinInfo.isNull()) {
+
+        }
         const ApiNodeProxy n = node.connectedNodeIx(i, false);
 
         if (n.isNull())

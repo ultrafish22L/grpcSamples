@@ -64,8 +64,16 @@ class NodeInspector extends OctaneComponent {
 
     setupEventListeners() {
         // Listen for scene data loading from SceneOutliner (OPTIMIZATION)
-        this.eventSystem.on('sceneDataLoaded', (sceneItems) => {
-            this.updatesceneItems(sceneItems);
+        this.eventSystem.on('sceneDataLoaded', (scene) => {
+            // Store the scene data cache for generic access
+            this.scene = scene;
+            
+            this.sceneDataLoaded = true;
+            console.log('✅ NodeInspector received sceneDataLoaded event:', scene.items);
+
+            window.debugConsole?.addLog('info', ['✅ NodeInspector: updateing']);
+
+            this.updateSelectedNode(this.scene.items[1].handle)
         });
         
         // Listen for selection updates
@@ -384,35 +392,19 @@ class NodeInspector extends OctaneComponent {
     }
     
     /**
-     * OPTIMIZATION: Update scene data cache from Scene Outliner
-     * This eliminates the need for redundant tree traversal
-     */
-    updatesceneItems(sceneItems) {
-        console.log('🚀 OPTIMIZATION: Updating Node Inspector cache with scene data');
-        window.debugConsole?.addLog('info', ['🚀 NodeInspector: Updating scene data cache', sceneItems?.length, 'items']);
-        
-        // Store the scene data cache for generic access
-        this.sceneItems = sceneItems;
-        
-        this.sceneDataLoaded = true;
-        window.debugConsole?.addLog('info', ['✅ NodeInspector: Scene data cache updated', this.sceneItems.size, 'scene items']);
-    }
-    
-
-    
-    /**
-     * GENERIC: Find node data directly from sceneItems list
-     * This replaces specialized cache lookups with direct sceneItems access
+     * GENERIC: Find node data directly from scene list
+     * This replaces specialized cache lookups with direct scene access
      */
     findNodeInSceneItems(handle) {
-        window.debugConsole?.addLog('info', ['🔍 NodeInspector: Searching for handle in sceneItems', handle]);
+        window.debugConsole?.addLog('info', ['🔍 NodeInspector: Searching for handle in scene', handle]);
         
-        if (!this.sceneItems || !Array.isArray(this.sceneItems)) {
-            window.debugConsole?.addLog('warn', ['⚠️ NodeInspector: No sceneItems available']);
+        if (!this.scene || !this.scene.items || !Array.isArray(this.scene.items)) {
+            window.debugConsole?.addLog('warn', ['⚠️ NodeInspector: No scene available']);
             return null;
         }
-        
-        // Search recursively through sceneItems
+//        return this.scene.map[handle];
+
+        // Search recursively through scene
         const findRecursively = (items) => {
             for (const item of items) {
                 if (item.handle === handle) {
@@ -427,7 +419,8 @@ class NodeInspector extends OctaneComponent {
             return null;
         };
         
-        return findRecursively(this.sceneItems);
+        return findRecursively(this.scene.items);
+       
     }
     
    
@@ -435,7 +428,7 @@ class NodeInspector extends OctaneComponent {
         console.log('🎯 NodeInspector received selection handle:', handle);
         window.debugConsole?.addLog('info', ['🎯 NodeInspector: Updating selected node', handle]);
         
-        // Find node data directly from sceneItems list (generic approach)
+        // Find node data directly from scene list (generic approach)
         const nodeData = this.findNodeInSceneItems(handle);
         if (!nodeData) {
             console.warn('⚠️ No node data found for handle:', handle);

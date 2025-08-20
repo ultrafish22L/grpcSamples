@@ -638,14 +638,25 @@ async def handle_generic_grpc(request):
 #        print(f"Request data: {json.dumps(request_data, indent=2)}")
         request_class = grpc_registry.get_request_class(service_name, method_name)
         grpc_request = request_class()
+#        print(f" grpc_request: {str(grpc_request.DESCRIPTOR)}")
+
+        # Print relevant information from the descriptor
+#        print(f"Name: {grpc_request.DESCRIPTOR.name}")
+#        print(f"Full Name: {grpc_request.DESCRIPTOR.full_name}")
+#        print("Fields:")
+#        for field in grpc_request.DESCRIPTOR.fields:
+#            print(f"  - Name: {field.name}, Number: {field.number}")
 
         # Populate request fields from JSON data
         if request_data:
 #            print(f" req: {request_data}")
             for key, value in request_data.items():
                 if not recurse_attr(grpc_request, key, value):
-                    if not recurse_attr(grpc_request,  "nodePinInfoRef", value):
-                        print(f"❌ no PIN KEY: {key}")
+                    if key == "objectPtr":
+                        if not recurse_attr(grpc_request, "nodePinInfoRef", value):
+                            print(f"❌ no REQUEST KEY: {key}")
+                    else:
+                            print(f"❌ no REQUEST KEY: {key}")
 
         # Make the gRPC call
         # print(f"req:  {grpc_request}")        
