@@ -54,7 +54,6 @@ class GenericNodeRenderer {
         if (!nodeData) {
             return '<div class="node-inspector-empty">No node selected</div>';
         }
-        
         console.log(`GenericNodeRenderer: Rendering node "${nodeData.name}" type: ${nodeData.outtype}`);
         
         let html = '';

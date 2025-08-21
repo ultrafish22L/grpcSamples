@@ -652,7 +652,7 @@ class NodeInspector extends OctaneComponent {
         
         if (nodeData.children == null) return html;
 
-        for (const child of children) {
+        for (const child of nodeData.children) {
             html += this.renderNode(child, level++);
         }
     }
@@ -730,6 +730,7 @@ class NodeInspector extends OctaneComponent {
         const step = '0.01';
         const minAttr = -1000000000;
         const maxAttr = 1000000000;
+        const unit = null;
         const unitDisplay = unit ? `<span class="parameter-unit">${unit}</span>` : '';
         
         return `
