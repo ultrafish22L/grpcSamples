@@ -411,7 +411,7 @@ body.resizing .panel-splitter {
     box-shadow: 0 0 0 1px var(--octane-accent-blue);
 }
 
-.node-graph-node-header {
+.node-graph-node-label {
     background-color: var(--octane-bg-header);
     padding: 4px 8px;
     border-bottom: 1px solid var(--octane-border);

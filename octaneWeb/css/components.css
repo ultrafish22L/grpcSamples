@@ -17,7 +17,7 @@
 .scene-outliner-header h3 {
     margin: 0;
     font-size: var(--font-size-small);
-    font-weight: 500;
+    font-weight: var(--font-weight-header);
     color: var(--octane-text-primary);
     text-transform: capitalize;
 }
@@ -329,25 +329,6 @@
     margin-left: 18px; /* Align with group header, not indented further */
 }
 
-/* Individual parameter node containers - each gets its own rounded box */
-.individual-parameter-box {
-    background: #3a3a3a;
-    border: 1px solid #555;
-    border-radius: 6px;
-    padding: 1px 8px 1px 3px; /* Minimal top/bottom padding, just a few pixels */
-    margin-bottom: 2px;
-    min-height: 20px; /* Much shorter height */
-    display: flex;
-    align-items: center;
-}
-
-.individual-parameter-box.indented {
-    margin-left: 20px;
-    margin-top: -2px; /* Overlap slightly with previous box */
-    position: relative;
-    z-index: 1;
-}
-
 /* Official Octane-style Parameter Rows - Compact Layout */
 .parameter-row {
     display: flex;
@@ -588,7 +569,7 @@
 .switch-label {
     color: var(--octane-text-primary);
     font-size: var(--font-size-large);
-    font-weight: 500;
+    font-weight: var(--font-weight-header);
     white-space: nowrap;
 }
 
@@ -1783,7 +1764,7 @@ body.drag-over .drop-indicator {
     border-color: var(--octane-border);
     border-bottom: 1px solid var(--octane-bg-primary); /* Active tab connects to content area */
     z-index: 2; /* Active tab appears above all others */
-    font-weight: 500;
+    font-weight: var(--font-weight-header);
 }
 
 .refresh-btn {
@@ -1851,10 +1832,10 @@ body.drag-over .drop-indicator {
     flex-direction: column;
     gap: 1px;
     background: var(--octane-bg-secondary);
-    padding: 4px 2px;
+    padding: 2px 2px 2px 4px;
     border-right: 1px solid var(--octane-border);
-    width: 28px;
-    min-width: 28px;
+    width: 26px;
+    min-width: 26px;
 }
 
 /* Main Node Inspector Content (Right Side) */
@@ -1862,17 +1843,8 @@ body.drag-over .drop-indicator {
     flex: 1;
     display: flex;
     flex-direction: column;
-}
-
-/* Legacy horizontal controls (deprecated - keeping for compatibility) */
-.node-inspector-controls {
-    display: flex;
-    gap: 1px;
-    align-items: center;
-    background: var(--octane-bg-secondary);
-    padding: 2px;
-    border-bottom: 1px solid var(--octane-border);
-    flex-wrap: wrap;
+    width: 240px;
+    min-width: 80px;
 }
 
 .quick-btn {
@@ -1880,11 +1852,11 @@ body.drag-over .drop-indicator {
     border: 1px solid var(--octane-border);
     color: var(--octane-text-secondary);
     cursor: pointer;
-    padding: 3px 4px;
+    padding: 3px 2px 3px 2px;
     border-radius: 2px;
     font-size: var(--font-size-small);
     width: 22px;
-    height: 18px;
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2238,7 +2210,7 @@ body.drag-over .drop-indicator {
 
 .inspector-title {
     font-size: var(--font-size-small);
-    font-weight: 500;
+    font-weight: var(--font-weight-header);
     color: var(--octane-text-primary);
 }
 
@@ -2264,7 +2236,7 @@ body.drag-over .drop-indicator {
     align-items: center;
     gap: 4px;
     font-size: var(--font-size-small);
-    font-weight: 500;
+    font-weight: var(--font-weight-header);
     border-bottom: 1px solid var(--octane-border);
 }
 
@@ -2538,7 +2510,7 @@ body.drag-over .drop-indicator {
     cursor: pointer;
     user-select: none;
     font-size: var(--font-size-small);
-    font-weight: 500;
+    font-weight: var(--font-weight-header);
     color: var(--octane-text-primary);
 }
 
@@ -3011,11 +2983,11 @@ body.drag-over .drop-indicator {
 /* Node box base styles - ONLY for Node Inspector */
 .node-inspector .node-box {
     position: relative;
-    margin: 3px 0; /* Increased vertical spacing for better breathing room */
+    margin: 2px 0; /* Increased vertical spacing for better breathing room */
     background: var(--octane-bg-secondary);
     border: 1px solid var(--octane-border);
     border-radius: 4px;
-    min-height: 28px; /* Increased height for better proportions */
+    min-height: 12px; /* Increased height for better proportions */
     display: flex;
     align-items: flex-start;
     transition: all 0.2s ease;
@@ -3023,34 +2995,33 @@ body.drag-over .drop-indicator {
 
 /* Level-based indentation system with consistent 24px increments - ONLY for Node Inspector */
 .node-inspector .node-level-0 {
-    margin-left: 0; /* Top node fully left justified - no margin */
+    margin-left: 1px; /* Top node fully left justified - no margin */
 }
 
 .node-inspector .node-level-1 {
-    margin-left: 24px; /* First level indent */
+    margin-left: 20px; /* First level indent */
 }
 
 .node-inspector .node-level-2 {
-    margin-left: 48px; /* Second level indent (24px * 2) */
+    margin-left: 40px; /* Second level indent (24px * 2) */
 }
 
 .node-inspector .node-level-3 {
-    margin-left: 72px; /* Third level indent (24px * 3) */
+    margin-left: 60px; /* Third level indent (24px * 3) */
 }
 
 .node-inspector .node-level-4 {
-    margin-left: 96px; /* Fourth level indent (24px * 4) */
+    margin-left: 80px; /* Fourth level indent (24px * 4) */
 }
 
 .node-inspector .node-level-5 {
-    margin-left: 120px; /* Fifth level indent (24px * 5) */
+    margin-left: 100px; /* Fifth level indent (24px * 5) */
 }
 
 /* Icon box with better visibility and positioning - ONLY for Node Inspector */
 .node-inspector .node-icon-box {
     position: absolute;
-    left: -6px; /* Slightly more overlap for better integration */
-    top: 4px; /* Centered vertically in taller boxes */
+    left: -4px; /* Slightly more overlap for better integration */
     width: 20px;
     height: 20px;
     border-radius: 3px;
@@ -3063,11 +3034,21 @@ body.drag-over .drop-indicator {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
 }
 
+.node-inspector .panel-content {
+    padding: 0 0 0 4px;
+}
+
+.panel-content-inspector {
+    flex: 1;
+    overflow: auto;
+    padding: 0 0 0 4px;
+}
+
 /* Node content area with improved spacing - ONLY for Node Inspector */
 .node-inspector .node-content {
     flex: 1;
-    padding: 6px 12px 6px 24px; /* Increased padding for better spacing */
-    min-height: 20px;
+    padding: 0px 12px 0px 24px; /* Increased padding for better spacing */
+    min-height: 10px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -3075,7 +3056,7 @@ body.drag-over .drop-indicator {
 }
 
 /* Node header with improved spacing and alignment - ONLY for Node Inspector */
-.node-inspector .node-header {
+.node-inspector .node-label {
     display: flex;
     align-items: center;
     gap: 8px; /* Increased gap between elements */
@@ -3085,11 +3066,8 @@ body.drag-over .drop-indicator {
     min-height: 20px;
 }
 
-.node-inspector .node-header:hover {
+.node-inspector .node-label:hover {
     background: var(--octane-bg-hover);
-    border-radius: 3px;
-    padding: 2px 4px;
-    margin: -2px -4px;
 }
 
 /* Collapse/expand icon styling - ONLY for Node Inspector */
@@ -3107,12 +3085,13 @@ body.drag-over .drop-indicator {
 
 /* Node title styling - ONLY for Node Inspector */
 .node-inspector .node-title {
+    padding: 0px 0px 0px 0px;
     font-size: var(--font-size-small);
-    font-weight: 500;
+    font-weight: var(--font-weight-normal);
     color: var(--octane-text-primary);
     flex-shrink: 2;
     display:grid;
-    width: 80px;
+    width: 120px;
 }
 
 /* Node parameter controls with better spacing - ONLY for Node Inspector */
@@ -3120,7 +3099,7 @@ body.drag-over .drop-indicator {
     margin-left: 12px; /* Space between title and dropdown */
     display: grid;
     align-items: left;
-    gap: 8px;
+    gap: 0px;
 }
 
 .node-inspector .node-parameter-controls .parameter-dropdown {
@@ -3198,11 +3177,10 @@ body.drag-over .drop-indicator {
 
 .octane-parameter-control {
     display: grid;
-    align-items: center;
+    align-items: left;
     gap: 4px;
     flex-shrink: 0;
     max-width: 200px;
-    display: grid;
 }
 
 /* Individual control styles */
@@ -3214,6 +3192,7 @@ body.drag-over .drop-indicator {
     accent-color: var(--octane-accent);
     display: grid;
     text-align: right;
+    align-items: left;
 }
 
 .octane-number-input {
@@ -3355,7 +3334,7 @@ body.drag-over .drop-indicator {
 .node-title {
     font-size: var(--font-size-small);
     color: var(--octane-text-primary);
-    font-weight: 500;
+    font-weight: var(--font-weight-header);
 }
 
 /* Children container */
@@ -3380,7 +3359,7 @@ body.drag-over .drop-indicator {
     border-color: var(--octane-border-light);
 }
 
-.parameter .node-header {
+.parameter .node-label {
     justify-content: space-between;
 }
 

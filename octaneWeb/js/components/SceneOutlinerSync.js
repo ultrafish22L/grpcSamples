@@ -231,7 +231,7 @@ class SceneOutlinerSync {
                 }
                 const size = result.data.result;
 
-                for (let i = 0; i < size; i++) {
+                for (let i = size-1; i >= 0; i--) {
                     // Get the item
                     result = window.grpcApi.makeApiCallSync(
                         'ApiItemArray/get1', 
@@ -243,6 +243,11 @@ class SceneOutlinerSync {
                     }
                     this.addSceneItem(result.data.result, sceneItems, level, null);
                 }
+//                sceneItems.sort((a, b) => a.handle - b.handle); 
+
+                sceneItems.forEach((item, index) => {
+                    console.log('ITEM ', item.name, item.handle);
+                });
                 return sceneItems
             }
             // its a node
@@ -310,6 +315,7 @@ class SceneOutlinerSync {
         } catch (error) {
             console.error('❌ Failed loadSceneTreeSync:', error);
         }
+//        sceneItems.sort((a, b) => a.handle - b.handle); 
         return sceneItems;
     }
     
@@ -373,7 +379,6 @@ class SceneOutlinerSync {
                 console.error('❌ Failed addSceneItem:', error);
             }
             console.log("EndNODE ", itemName, outType, attrType, item.handle);
-
         }
         else {
             console.log("ParNode ", itemName, outType, item.handle);

@@ -531,11 +531,11 @@ class NodeInspector extends OctaneComponent {
             
         // Add the color and icon from nodeTypeMapping to nodeData (if provided)
         if (nodeTypeMapping) {
-            nodeData.inspectorColor = nodeTypeMapping.color;
+            nodeData.inspectorColor = nodeData.pinInfo ? nodeData.pinInfo.pinColor : nodeTypeMapping.color;
             nodeData.inspectorIcon = nodeTypeMapping.icon;
         } else {
             // Use default values for render targets
-            nodeData.inspectorColor = '#ff6600';
+            nodeData.inspectorColor = nodeData.pinInfo ? nodeData.pinInfo.pinColor : '#ff6600';
             nodeData.inspectorIcon = '🎯';
         }
         const html = this.genericRenderer.renderNode(nodeData);
@@ -600,7 +600,6 @@ class NodeInspector extends OctaneComponent {
     }
     
     renderNodeInspector(nodeData) {
-        
         this.element.innerHTML = `
             <div class="node-inspector-header">
                 <div class="node-type-icon">${this.getNodeTypeIcon(type)}</div>

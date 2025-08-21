@@ -89,7 +89,7 @@ class GenericNodeRenderer {
                     <span class="node-icon">${icon}</span>
                 </div>
                 <div class="node-content">
-                    <div class="node-header">
+                    <div class="node-label">
                         <span class="node-title">${nodeData.name}</span>
                         ${this.renderNodeParameters(nodeData)}
                     </div>
@@ -148,7 +148,7 @@ class GenericNodeRenderer {
                     <span class="node-icon">${icon}</span>
                 </div>
                 <div class="node-content">
-                    <div class="node-header" ${hasChildren ? `data-toggle="${nodeId}"` : ''}>
+                    <div class="node-label" ${hasChildren ? `data-toggle="${nodeId}"` : ''}>
                         ${collapseIcon ? `<span class="collapse-icon">${collapseIcon}</span>` : ''}
                         <span class="node-title">${nodeData.name}</span>
                     </div>
@@ -164,7 +164,7 @@ class GenericNodeRenderer {
                     <span class="node-icon">${icon}</span>
                 </div>
                 <div class="node-content">
-                    <div class="node-header" ${hasChildren ? `data-toggle="${nodeId}"` : ''}>
+                    <div class="node-label" ${hasChildren ? `data-toggle="${nodeId}"` : ''}>
                         ${collapseIcon ? `<span class="collapse-icon">${collapseIcon}</span>` : ''}
                         <span class="node-title">${nodeData.name}</span>
                         ${this.renderNodeParameters(nodeData)}

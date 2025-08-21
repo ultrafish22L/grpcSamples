@@ -32,7 +32,7 @@
     /* Panel Resize Variables */
     --splitter-size: 4px;              /* Resize handle thickness */
     --left-panel-width: 180px;         /* Scene outliner width */
-    --right-panel-width: 400px;        /* Node inspector width */
+    --right-panel-width: 300px;        /* Node inspector width */
     --bottom-panel-height: 300px;      /* Node graph height */
     --octane-border-light: #666666;    /* Light borders */
     --octane-border-dark: #333333;     /* Dark borders */
@@ -235,7 +235,7 @@ html, body {
 /* Main Layout */
 .app-layout {
     display: grid;
-    grid-template-columns: var(--left-panel-width, 220px) 1fr var(--right-panel-width, 300px); /* Resizable panels */
+    grid-template-columns: var(--left-panel-width, 140px) 1fr var(--right-panel-width, 300px); /* Resizable panels */
     grid-template-rows: 1fr var(--bottom-panel-height, 300px); /* Resizable bottom panel */
     grid-template-areas: 
         "left-space center-panel right-panel"
