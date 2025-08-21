@@ -38,7 +38,6 @@ class NodeInspector extends OctaneComponent {
         this.parameters = {};                 // Current parameter values cache
         
         // UI state management
-        this.collapsedGroups = new Set();    // Collapsed parameter groups (default: all expanded)
         this.sceneDataLoaded = false;        // Scene data loading state
         
         // Generic node rendering system for flexible parameter display
@@ -51,14 +50,6 @@ class NodeInspector extends OctaneComponent {
         console.log('NodeInspector: GenericNodeRenderer initialized');
     }
     
-    initializeExpandedState() {
-        // Initialize all sections and parameter groups as expanded by default
-        // (matching reference octane_ui.png behavior - when a node is selected, expand all its children)
-        this.collapsedGroups = new Set();   // All parameter groups expanded by default
-        
-        console.log('Initializing Node Inspector with all sections/groups expanded by default');
-    }
-
     setupEventListeners() {
         // Listen for scene data loading from SceneOutliner (OPTIMIZATION)
         this.eventSystem.on('sceneDataLoaded', (scene) => {
@@ -87,10 +78,10 @@ class NodeInspector extends OctaneComponent {
         });
         
         // Force click events to work by bypassing CSS pointer-events issues
-        this.setupForceClickHandlers();
+        this.setupClickHandlers();
     }
     
-    setupForceClickHandlers() {
+    setupClickHandlers() {
         // ULTIMATE SOLUTION: Global coordinate-based click detection that bypasses all CSS pointer-events issues
         const rightPanel = document.querySelector('.right-panel');
         if (!rightPanel) return;
@@ -128,7 +119,7 @@ class NodeInspector extends OctaneComponent {
                         if (element.hasAttribute('data-group')) {
                             const groupName = element.getAttribute('data-group');
                             console.log('🔽 Coordinate-based toggle of parameter group:', groupName);
-                            this.toggleParameterGroup(groupName);
+                            this.toggleGroup(groupName);
                             event.preventDefault();
                             event.stopPropagation();
                             return;
@@ -185,7 +176,7 @@ class NodeInspector extends OctaneComponent {
                         if (parent.hasAttribute && parent.hasAttribute('data-group')) {
                             const groupName = parent.getAttribute('data-group');
                             console.log('🔽 Coordinate-based toggle of parameter group (via parent):', groupName);
-                            this.toggleParameterGroup(groupName);
+                            this.toggleGroup(groupName);
                             event.preventDefault();
                             event.stopPropagation();
                             return;
@@ -197,24 +188,6 @@ class NodeInspector extends OctaneComponent {
         }, true); // Capture phase - intercepts before any other handlers
     }
     
-    handleParameterClick(target, event) {
-        // Handle collapsible group headers
-        if (target.hasAttribute('data-group')) {
-            const groupName = target.getAttribute('data-group');
-            this.toggleParameterGroup(groupName);
-            return;
-        }
-        
-        // Handle other parameter controls
-        if (target.classList.contains('parameter-checkbox')) {
-            target.checked = !target.checked;
-            this.updateParameterValue(target.id, target.checked);
-        } else if (target.classList.contains('parameter-dropdown')) {
-            // Let the dropdown handle itself
-        } else if (target.classList.contains('parameter-input')) {
-            target.focus();
-        }
-    }
     
     toggleParent(nodeid) {
         const header = this.element.querySelector(`[data-toggle="${nodeid}"]`);
@@ -236,7 +209,7 @@ class NodeInspector extends OctaneComponent {
     
 
 
-    toggleParameterGroup(groupName) {
+    toggleGroup(groupName) {
         const header = this.element.querySelector(`[data-group="${groupName}"]`);
         const content = this.element.querySelector(`[data-group-content="${groupName}"]`);
         const icon = header?.querySelector('.parameter-group-icon');
@@ -260,7 +233,7 @@ class NodeInspector extends OctaneComponent {
     
 
     
-    setupInspectorEventListeners() {
+    setupCollapseEventListeners() {
         // Group collapse/expand functionality
         const groupHeaders = this.element.querySelectorAll('.parameter-group-header[data-group]');
         groupHeaders.forEach(header => {
@@ -273,12 +246,10 @@ class NodeInspector extends OctaneComponent {
                     header.classList.remove('collapsed');
                     content.style.display = 'block';
                     icon.textContent = '▼';
-                    this.collapsedGroups.delete(groupName);
                 } else {
                     header.classList.add('collapsed');
                     content.style.display = 'none';
                     icon.textContent = '▶';
-                    this.collapsedGroups.add(groupName);
                 }
             });
         });
@@ -329,23 +300,6 @@ class NodeInspector extends OctaneComponent {
         
         // Initialize expanded state - all groups expanded by default
         this.initializeExpandedGroups();
-    }
-    
-    initializeExpandedGroups() {
-        // Start with all groups expanded by default
-        const expandableGroups = ['physical-camera', 'viewing-angle', 'clipping', 'depth-of-field'];
-        expandableGroups.forEach(groupName => {
-            const header = this.element.querySelector(`[data-group="${groupName}"]`);
-            const content = this.element.querySelector(`[data-group-content="${groupName}"]`);
-            const icon = header?.querySelector('.parameter-group-icon');
-            
-            if (header && content && icon) {
-                header.classList.remove('collapsed');
-                content.style.display = 'block';
-                icon.textContent = '▼';
-                this.collapsedGroups.delete(groupName);
-            }
-        });
     }
     
     handleParameterChange(element) {
@@ -463,12 +417,6 @@ class NodeInspector extends OctaneComponent {
         this.selectedNodeType = nodeData.outtype;
         this.selectedNodeName = nodeData.name;
         
-        // Initialize expanded state for this node (expand all children by default)
-        this.initializeExpandedState();
-        
-        // Update the dropdown to reflect the selected node
-        this.updateInspectorDropdown(this.selectedNodeName);
-        
         // Generic parameter loading based on node type mapping
         await this.buildTree({
             handle: handle,
@@ -495,53 +443,7 @@ class NodeInspector extends OctaneComponent {
         }
     }
     
-    /**
-     * SIMPLIFIED: Get node type mapping for color and icon only
-     * All other info is built into the scene tree or obtained via nodePinInfo
-     */
-    getNodeTypeMapping(nodeType) {
-        // Simplified node type mappings - only color and icon
-        const nodeTypeMappings = {
-            'NT_RENDERTARGET': {
-                icon: '🎯',
-                color: '#d32f2f'
-            },
-            'NT_CAMERA': {
-                icon: '📷',
-                color: '#1976d2'
-            },
-            'NT_MESH': {
-                icon: '🫖',
-                color: '#388e3c'
-            },
-            'NT_MATERIAL': {
-                icon: '🎨',
-                color: '#f57c00'
-            },
-            'NT_ENVIRONMENT': {
-                icon: '🌍',
-                color: '#7b1fa2'
-            },
-            'NT_LIGHT': {
-                icon: '💡',
-                color: '#fbc02d'
-            },
-            'NT_TEXTURE': {
-                icon: '🖼️',
-                color: '#5d4037'
-            },
-            // Default fallback for unknown node types
-            'DEFAULT': {
-                icon: '📦',
-                color: '#666666'
-            }
-        };
-        
-        const mapping = nodeTypeMappings[nodeType] || nodeTypeMappings['DEFAULT'];
-        
-        return mapping;
-    }
-    
+
     /**
      * GENERIC: Render parameter inspector using GenericNodeRenderer
      */
@@ -554,18 +456,6 @@ class NodeInspector extends OctaneComponent {
         if (!nodeData) {
             console.error('❌ Node data not found for handle:', nodeHandle);
             return;
-        }
-        // Get node type mapping for color and icon only
-        const nodeTypeMapping = this.getNodeTypeMapping(nodeInfo.nodeType);
-            
-        // Add the color and icon from nodeTypeMapping to nodeData (if provided)
-        if (nodeTypeMapping) {
-            nodeData.inspectorColor = nodeData.pinInfo ? nodeData.pinInfo.pinColor : nodeTypeMapping.color;
-            nodeData.inspectorIcon = nodeTypeMapping.icon;
-        } else {
-            // Use default values for render targets
-            nodeData.inspectorColor = nodeData.pinInfo ? nodeData.pinInfo.pinColor : '#ff6600';
-            nodeData.inspectorIcon = '🎯';
         }
         const html = this.genericRenderer.renderNode(nodeData);
 //        const html = this.renderNode(nodeData);
@@ -580,298 +470,9 @@ class NodeInspector extends OctaneComponent {
         }
         
         // Setup event listeners for the new content
-        this.setupInspectorEventListeners();
+        this.setupCollapseEventListeners();
     }
-    
-    
-    updateInspectorDropdown(nodeName) {
-        // Update the dropdown in the node inspector header to show the selected node
-        const dropdown = this.element.querySelector('.node-selector select');
-        if (dropdown && nodeName) {
-            // Check if option exists, if not add it
-            let optionExists = false;
-            for (let option of dropdown.options) {
-                if (option.value === nodeName) {
-                    option.selected = true;
-                    optionExists = true;
-                    break;
-                }
-            }
-            
-            // If option doesn't exist, add it and select it
-            if (!optionExists) {
-                const newOption = document.createElement('option');
-                newOption.value = nodeName;
-                newOption.textContent = nodeName;
-                newOption.selected = true;
-                dropdown.appendChild(newOption);
-            }
-            
-            console.log('Updated NodeInspector dropdown to:', nodeName);
-        }
-    }
-    
-    async loadNodeParameters(nodeId) {
-        this.selectedNode = nodeId;
-        
-        try {
-            // Get node details from client
-            const nodeData = await this.client.getObjectDetails(nodeId);
-            
-            if (nodeData.success && nodeData.data) {
-                this.parameters = nodeData.data.parameters || {};
-                this.renderNodeInspector(nodeData.data);
-            }
-        } catch (error) {
-            console.error('Failed to load node parameters:', error);
-            this.showError('Failed to load node parameters');
-        }
-    }
-    
-    renderNodeInspector(nodeData) {
-        this.element.innerHTML = `
-            <div class="node-inspector-header">
-                <div class="node-type-icon">${this.getNodeTypeIcon(type)}</div>
-                <div class="node-name">${name}</div>
-            </div>
-            <div class="inspector-content">
-                ${this.renderParameterGroups(parameters)}
-            </div>
-        `;
-        
-        this.setupParameterEventListeners();
-    }
-    
-    renderNode(nodeData, level = 0) {
-        
-        let html = this.renderParameter(nodeData, level);
-        
-        if (nodeData.children == null) return html;
 
-        for (const child of nodeData.children) {
-            html += this.renderNode(child, level++);
-        }
-    }
-    
-    renderParameter(nodeData, level) {
-
-        const paramIcon = this.getParameterIcon(nodeData.name, nodeData.type);
-        
-        return `
-            <div class="parameter-row">
-                <div class="parameter-icon">${paramIcon}</div>
-                <div class="parameter-label">${nodeData.name}:</div>
-                <div class="parameter-control">
-                    ${this.renderParameterControl(nodeData)}
-                </div>
-            </div>
-        `;
-    }
-    
-    getParameterIcon(name, type) {
-        // Return appropriate icons based on parameter name/type (matching official Octane Studio)
-        const iconMap = {
-            'sensor_width': '▣',
-            'focal_length': '◐', 
-            'f_stop': '◯',
-            'field_of_view': '◐',
-            'scale_of_view': '▤',
-            'distortion': '◈',
-            'lens_shift': '⟷',
-            'perspective_correction': '◐',
-            'pixel_aspect_ratio': '▦',
-            'near_clip_depth': '▤',
-            'far_clip_depth': '▤',
-            'auto_focus': '◎',
-            'focal_depth': '▤',
-            'aperture': '◯',
-            'aperture_aspect_ratio': '▦',
-            'aperture_edge': '▢',
-            'bokeh_side_count': '#',
-            'bokeh_rotation': '↻',
-            'bokeh_roundedness': '◯'
-        };
-        
-        return iconMap[name] || (type === 'bool' ? '☐' : type === 'float' || type === 'int' ? '▤' : '◦');
-    }
-    
-    renderParameterControl(nodeData) {
-
-        const value = this.genericRenderer.getValue(nodeData);
-
-        switch (nodeData.attrType) {
-            case 'AT_FLOAT':
-            case 'AT_FLOAT2':
-            case 'AT_FLOAT3':
-            case 'AT_FLOAT4':
-            case 'AT_INT':
-            case 'AT_INT2':
-            case 'AT_INT3':
-            case 'AT_INT4':
-                return this.renderNumericControl(nodeData, value);
-            case 'AT_BOOL':
-                return this.renderBooleanControl(nodeData, value);
-            case 'color':
-                return this.renderColorControl(nodeData, value);
-            case 'enum':
-                return this.renderEnumControl(nodeData, value);
-            default:
-            case 'AT_FILENAME':
-            case 'AT_STRING':
-                return this.renderStringControl(nodeData, value);
-        }
-    }
-    
-    renderNumericControl(nodeData, value) {
-        const step = '0.01';
-        const minAttr = -1000000000;
-        const maxAttr = 1000000000;
-        const unit = null;
-        const unitDisplay = unit ? `<span class="parameter-unit">${unit}</span>` : '';
-        
-        return `
-            <div class="parameter-control-group">
-                <button class="parameter-spinner-btn" data-action="decrement" data-param="${nodeData.name}">◄</button>
-                <input type="number" 
-                       class="parameter-number-input" 
-                       data-param="${nodeData.name}" 
-                       value="${value}" 
-                       step="${step}" 
-                       ${minAttr} 
-                       ${maxAttr} />
-                <button class="parameter-spinner-btn" data-action="increment" data-param="${nodeData.name}">►</button>
-                ${unitDisplay}
-            </div>
-        `;
-    }
-    
-    renderSlider(nodeData, value, min, max) {
-        const percentage = ((value - min) / (max - min)) * 100;
-        
-        return `
-            <div class="parameter-slider" data-param="${nodeData.name}" data-min="${min}" data-max="${max}">
-                <div class="parameter-slider-track" style="width: ${percentage}%"></div>
-                <div class="parameter-slider-thumb" style="left: ${percentage}%"></div>
-            </div>
-        `;
-    }
-    
-    renderBooleanControl(nodeData, value) {
-        return `
-            <input type="checkbox" 
-                   class="parameter-checkbox" 
-                   data-param="${nodeData.name}" 
-                   ${value ? 'checked' : ''} />
-        `;
-    }
-    
-    renderStringControl(nodeData, value) {
-        return `
-            <input type="text" 
-                   class="parameter-input" 
-                   data-param="${nodeData.name}" 
-                   value="${value}" />
-        `;
-    }
-    
-    renderColorControl(nodeData, value) {
-        const [r, g, b] = value || [1, 1, 1];
-        const hexColor = this.rgbToHex(r, g, b);
-        
-        return `
-            <div class="parameter-color" data-param="${nodeData.name}">
-                <div class="parameter-color-swatch" style="background-color: ${hexColor}"></div>
-            </div>
-            <input type="color" 
-                   class="parameter-input" 
-                   data-param="${nodeData.name}" 
-                   value="${hexColor}" 
-                   style="width: 60px;" />
-        `;
-    }
-    
-    renderEnumControl(nodeData, value, values) {
-        const options = values.map(val => 
-            `<option value="${val}" ${val === value ? 'selected' : ''}>${val}</option>`
-        ).join('');
-        
-        return `
-            <select class="parameter-dropdown" data-param="${nodeData.name}">
-                ${options}
-            </select>
-        `;
-    }
-    
-    setupParameterEventListeners() {
-        // Parameter inputs
-        const inputs = this.element.querySelectorAll('.parameter-input');
-        inputs.forEach(input => {
-            this.addEventListener(input, 'change', (e) => {
-                this.updateParameterValue(e.target.dataset.param, e.target.value);
-            });
-        });
-        
-        // Checkboxes
-        const checkboxes = this.element.querySelectorAll('.parameter-checkbox');
-        checkboxes.forEach(checkbox => {
-            this.addEventListener(checkbox, 'click', (e) => {
-                const isChecked = !checkbox.classList.contains('checked');
-                checkbox.classList.toggle('checked', isChecked);
-                this.updateParameterValue(checkbox.dataset.param, isChecked);
-            });
-        });
-        
-        // Sliders
-        const sliders = this.element.querySelectorAll('.parameter-slider');
-        sliders.forEach(slider => {
-            this.setupSliderEvents(slider);
-        });
-        
-        // Group toggles
-        const groupHeaders = this.element.querySelectorAll('.parameter-group-header');
-        groupHeaders.forEach(header => {
-            this.addEventListener(header, 'click', (e) => {
-                const group = header.parentElement;
-                group.classList.toggle('collapsed');
-            });
-        });
-    }
-    
-    setupSliderEvents(slider) {
-        let isDragging = false;
-        
-        const updateSlider = (e) => {
-            const rect = slider.getBoundingClientRect();
-            const percentage = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-            
-            const min = parseFloat(slider.dataset.min);
-            const max = parseFloat(slider.dataset.max);
-            const value = min + (max - min) * percentage;
-            
-            const track = slider.querySelector('.parameter-slider-track');
-            const thumb = slider.querySelector('.parameter-slider-thumb');
-            
-            track.style.width = `${percentage * 100}%`;
-            thumb.style.left = `${percentage * 100}%`;
-            
-            this.updateParameterValue(slider.dataset.param, value);
-        };
-        
-        this.addEventListener(slider, 'mousedown', (e) => {
-            isDragging = true;
-            updateSlider(e);
-        });
-        
-        this.addEventListener(document, 'mousemove', (e) => {
-            if (isDragging) {
-                updateSlider(e);
-            }
-        });
-        
-        this.addEventListener(document, 'mouseup', () => {
-            isDragging = false;
-        });
-    }
     
     async updateParameterValue(paramName, value) {
         if (!this.selectedNode) return;
@@ -884,6 +485,7 @@ class NodeInspector extends OctaneComponent {
         }
     }
     
+
     updateParameter(nodeId, parameterName, value) {
         if (nodeId === this.selectedNode && this.parameters[parameterName]) {
             this.parameters[parameterName].value = value;
@@ -892,6 +494,7 @@ class NodeInspector extends OctaneComponent {
         }
     }
     
+
     updateParameterUI(paramName, value) {
         const input = this.element.querySelector(`[data-param="${paramName}"]`);
         if (input) {
@@ -903,100 +506,6 @@ class NodeInspector extends OctaneComponent {
         }
     }
     
-    showMultipleSelection(selection) {
-        this.element.innerHTML = `
-            <div class="inspector-loading">
-                Multiple objects selected (${selection.size})
-                <br><small>Multi-object editing not yet supported</small>
-            </div>
-        `;
-    }
-    
-    showNoSelection() {
-        // Show the default inspector content
-//        this.renderDefaultInspector();
-    }
-    
-    showError(message) {
-        this.element.innerHTML = `
-            <div class="inspector-loading" style="color: var(--octane-accent-red);">
-                ❌ ${message}
-            </div>
-        `;
-    }
-    
-    getNodeTypeIcon(type) {
-        const icons = {
-            'environment': '🌍',
-            'material': 'M',
-            'texture': 'T',
-            'light': 'L',
-            'camera': '📷',
-            'geometry': 'G',
-            'render': 'R'
-        };
-        return icons[type] || 'N';
-    }
-    
-    rgbToHex(r, g, b) {
-        const toHex = (c) => {
-            const hex = Math.round(c * 255).toString(16);
-            return hex.length === 1 ? '0' + hex : hex;
-        };
-        return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-    }
-    
-    setupOctaneInspectorEvents() {
-        // Setup section toggle functionality
-        const sectionHeaders = this.element.querySelectorAll('.section-header');
-        sectionHeaders.forEach(header => {
-            header.addEventListener('click', () => {
-                const section = header.dataset.section;
-                const content = this.element.querySelector(`[data-content="${section}"]`);
-                const toggle = header.querySelector('.section-toggle');
-                
-                if (content.style.display === 'none') {
-                    content.style.display = 'block';
-                    toggle.textContent = '▼';
-                } else {
-                    content.style.display = 'none';
-                    toggle.textContent = '▶';
-                }
-            });
-        });
-
-        // Setup slider synchronization
-        const sliders = this.element.querySelectorAll('.param-slider');
-        sliders.forEach(slider => {
-            const numberInput = slider.parentElement.querySelector('.param-number');
-            if (numberInput) {
-                slider.addEventListener('input', () => {
-                    numberInput.value = slider.value;
-                });
-                
-                numberInput.addEventListener('input', () => {
-                    slider.value = numberInput.value;
-                });
-            }
-        });
-
-        // Setup grid button toggles
-        const gridButtons = this.element.querySelectorAll('.grid-button');
-        gridButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                button.classList.toggle('active');
-            });
-        });
-
-        // Setup color picker interactions
-        const colorPickers = this.element.querySelectorAll('.param-color-picker');
-        colorPickers.forEach(picker => {
-            picker.addEventListener('click', () => {
-                // In a real implementation, this would open a color picker dialog
-                console.log('Color picker clicked');
-            });
-        });
-    }
     
     /**
      * Handle parameter value changes with safe API calls
@@ -1069,20 +578,28 @@ class NodeInspector extends OctaneComponent {
         return this.genericRenderer.getValue(nodeData);
     }
     
-    /**
-     * Update parameter display after successful change
-     */
-    updateParameterDisplay(element, newValue) {
-        // Update any associated display elements
-        const displayElement = element.parentElement.querySelector('.parameter-value-display');
-        if (displayElement) {
-            displayElement.textContent = newValue;
-        }
+    showMultipleSelection(selection) {
+        this.element.innerHTML = `
+            <div class="inspector-loading">
+                Multiple objects selected (${selection.size})
+                <br><small>Multi-object editing not yet supported</small>
+            </div>
+        `;
     }
     
+    showNoSelection() {
+        // Show the default inspector content
+//        this.renderDefaultInspector();
+    }
     
-    // OLD UNUSED METHODS REMOVED - See node_inspector_old_code.txt for backup
-    
+    showError(message) {
+        this.element.innerHTML = `
+            <div class="inspector-loading" style="color: var(--octane-accent-red);">
+                ❌ ${message}
+            </div>
+        `;
+    }
+
     showLoadingState(data) {
         this.element.innerHTML = `
             <div class="node-inspector-header">

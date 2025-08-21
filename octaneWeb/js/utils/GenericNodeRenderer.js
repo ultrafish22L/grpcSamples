@@ -70,8 +70,8 @@ class GenericNodeRenderer {
      */
     renderNodeAtLevel(nodeData, level) {
         // Use inspector-specific color/icon if available, otherwise fall back to iconMapper
-        const icon = nodeData.inspectorIcon || this.iconMapper?.getNodeIcon(nodeData.outtype, nodeData.name) || '📦';
-        const color = nodeData.inspectorColor || this.iconMapper?.getNodeColor(nodeData.outtype) || '#666';
+        const icon =  window.OctaneIconMapper?.getNodeIcon(nodeData.outtype, nodeData.name) || '📦';
+        const color = window.OctaneIconMapper?.getNodeColor(nodeData.outtype) || '#666';
         const hasChildren = nodeData.children && nodeData.children.length > 0;
         const nodeId = `node-${nodeData.handle}`;
         
