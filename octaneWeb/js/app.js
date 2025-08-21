@@ -71,7 +71,7 @@ class OctaneWebApp {
      */
     async initialize() {
         try {
-            console.log('🚀 Initializing OctaneWeb...');
+            console.log('Initializing OctaneWeb...');
             
             // Display loading screen while systems initialize
             this.showLoadingScreen('Initializing application...');
@@ -92,7 +92,7 @@ class OctaneWebApp {
             this.hideLoadingScreen();
             
             this.isInitialized = true;
-            console.log('✅ OctaneWeb initialized successfully');
+            console.log('OctaneWeb initialized successfully');
             
             // Phase 6: Auto-connect to Octane LiveLink if server address configured
             const serverAddress = document.getElementById('serverAddress')?.value;
@@ -226,7 +226,7 @@ class OctaneWebApp {
         this.client.on('connected', () => {
             this.isConnected = true;
             this.updateConnectionStatus('connected', 'Connected to Octane');
-            console.log('🔗 Connected to Octane');
+            console.log('Connected to Octane');
         });
         
         this.client.on('disconnected', () => {
@@ -253,7 +253,7 @@ class OctaneWebApp {
         this.client.on('ui:renderUpdate', (renderState) => {
             this.components.renderViewport?.updateRender?.(renderState);
             this.updateRenderStats(renderState);
-            console.log('🎯 RenderViewport update processed');
+            console.log('RenderViewport update processed');
         });
         
         this.client.on('ui:selectionUpdate', (selection) => {
@@ -452,10 +452,10 @@ class OctaneWebApp {
                     break;
                 case 'd':
                     // Check if this is for debug console (Ctrl+D)
-                    console.log('🔍 Ctrl+D pressed, debugConsole:', this.debugConsole);
+                    console.log('Ctrl+D pressed, debugConsole:', this.debugConsole);
                     if (this.debugConsole) {
                         event.preventDefault();
-                        console.log('🔍 Calling debugConsole.toggle()');
+                        console.log('Calling debugConsole.toggle()');
                         this.debugConsole.toggle();
                         return; // Don't call duplicate
                     }
@@ -705,7 +705,7 @@ class OctaneWebApp {
         window.removeEventListener('resize', this.handleResize);
         document.removeEventListener('keydown', this.handleKeyboard);
         
-        console.log('✅ OctaneWeb shutdown complete');
+        console.log('OctaneWeb shutdown complete');
     }
 }
 

@@ -41,7 +41,7 @@ class NodeGraphEditor extends OctaneComponent {
             
             // Ensure canvas is ready before starting render loop
             if (this.canvas.width > 0 && this.canvas.height > 0) {
-                console.log('🎨 Canvas ready, starting render loop with size:', this.canvas.width, this.canvas.height);
+                console.log('Canvas ready, starting render loop with size:', this.canvas.width, this.canvas.height);
                 this.startRenderLoop();
             } else {
                 console.log('⚠️ Canvas not ready, forcing resize and starting render loop');
@@ -71,7 +71,7 @@ class NodeGraphEditor extends OctaneComponent {
         // Auto-select Render target using scene data (matching Octane Studio behavior)
         if (scene && scene.items && scene.items.length > 1) {
             const renderTarget = scene.items[0]; // Render target is typically second item
-            console.log('🎯 NodeGraphEditor auto-selecting Render target:', renderTarget.handle);
+            console.log('NodeGraphEditor auto-selecting Render target:', renderTarget.handle);
             
             // Update this component's selection (handle only)
             this.updateSelectedNode(renderTarget.handle);
@@ -94,7 +94,7 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Listen for scene data loaded from SceneOutliner
         this.eventSystem.on('sceneDataLoaded', (scene) => {
-            console.log('🎨 NodeGraphEditor received sceneDataLoaded event:', scene.items);
+            console.log('NodeGraphEditor received sceneDataLoaded event:', scene.items);
             this.createRealSceneNodes(scene.items);
             this.render();
             this.autoSelectRenderTarget(scene.items);
@@ -102,7 +102,7 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Request scene data if SceneOutliner has already loaded it
         setTimeout(() => {
-            console.log('🎨 NodeGraphEditor requesting existing scene data...');
+            console.log('NodeGraphEditor requesting existing scene data...');
             this.eventSystem.emit('requestSceneData');
         }, 100);
         
@@ -121,10 +121,10 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     initCanvas() {
-        console.log('🎨 Initializing canvas:', this.canvas);
-        console.log('🎨 Canvas element:', this.canvas.tagName, this.canvas.id, this.canvas.className);
-        console.log('🎨 Canvas size:', this.canvas.width, this.canvas.height);
-        console.log('🎨 Canvas client size:', this.canvas.clientWidth, this.canvas.clientHeight);
+        console.log('Initializing canvas:', this.canvas);
+        console.log('Canvas element:', this.canvas.tagName, this.canvas.id, this.canvas.className);
+        console.log('Canvas size:', this.canvas.width, this.canvas.height);
+        console.log('Canvas client size:', this.canvas.clientWidth, this.canvas.clientHeight);
         
         this.ctx = this.canvas.getContext('2d');
         if (!this.ctx) {
@@ -132,7 +132,7 @@ class NodeGraphEditor extends OctaneComponent {
             return;
         }
         
-        console.log('✅ Got 2D context:', this.ctx);
+        console.log('Got 2D context:', this.ctx);
         
         // Initial resize
         this.handleResize();
@@ -224,7 +224,7 @@ class NodeGraphEditor extends OctaneComponent {
             this.addEventListener(fitButton, 'click', () => {
                 this.frameAll();
                 if (window.debugConsole) {
-                    window.debugConsole.log('🔍 Framed all nodes in viewport');
+                    window.debugConsole.log('Framed all nodes in viewport');
                 }
             });
         }
@@ -242,7 +242,7 @@ class NodeGraphEditor extends OctaneComponent {
         console.log('🧪 Testing direct render call...');
         try {
             this.render();
-            console.log('✅ Direct render call succeeded');
+            console.log('Direct render call succeeded');
         } catch (error) {
             console.error('❌ Direct render call failed:', error);
         }
@@ -268,8 +268,8 @@ class NodeGraphEditor extends OctaneComponent {
     render() {
         // Debug: Check if render is being called FIRST
         if (this.renderCount < 5) {
-            console.log('🎨 Render called, ctx exists:', !!this.ctx, 'nodes count:', this.nodes.size, 'canvas size:', this.canvas.width, 'x', this.canvas.height);
-            console.log('🎨 Nodes data:', Array.from(this.nodes.keys()));
+            console.log('Render called, ctx exists:', !!this.ctx, 'nodes count:', this.nodes.size, 'canvas size:', this.canvas.width, 'x', this.canvas.height);
+            console.log('Nodes data:', Array.from(this.nodes.keys()));
             this.renderCount = (this.renderCount || 0) + 1;
         }
         
@@ -280,7 +280,7 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Debug: Log render call with node count
         if (this.renderCount < 10) {
-            console.log(`🎨 Render call ${this.renderCount || 0}: ${this.nodes.size} nodes, viewport:`, this.viewport);
+            console.log(`Render call ${this.renderCount || 0}: ${this.nodes.size} nodes, viewport:`, this.viewport);
             this.renderCount = (this.renderCount || 0) + 1;
         }
         
@@ -462,8 +462,8 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Debug: Only log first few draws to avoid spam
         if (this.drawCount < 5) {
-            console.log('🎨 Drawing compact Octane-style node at:', x, y, 'size:', width, height, 'type:', node.type, 'name:', node.name);
-            console.log('🎨 Node ID:', node.id, 'isSelected:', isSelected);
+            console.log('Drawing compact Octane-style node at:', x, y, 'size:', width, height, 'type:', node.type, 'name:', node.name);
+            console.log('Node ID:', node.id, 'isSelected:', isSelected);
             this.drawCount = (this.drawCount || 0) + 1;
         }
         
@@ -729,7 +729,7 @@ class NodeGraphEditor extends OctaneComponent {
             // Emit unified selection event with handle only
             this.eventSystem.emit('sceneNodeSelected', hitNode.sceneHandle);
             
-            console.log('🎯 NodeGraphEditor selected node:', hitNode.name);
+            console.log('NodeGraphEditor selected node:', hitNode.name);
         } else {
             // Pan viewport
             this.isDragging = true;
@@ -771,7 +771,7 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Debug: log mouse position occasionally
         if (Math.random() < 0.01) { // 1% chance to avoid spam
-            console.log('🎯 Mouse at:', mouseX, mouseY, 'nodes:', this.nodes.size);
+            console.log('Mouse at:', mouseX, mouseY, 'nodes:', this.nodes.size);
         }
         
         // Check all nodes for socket hover
@@ -820,7 +820,7 @@ class NodeGraphEditor extends OctaneComponent {
         // Update tooltip state
         if (hoveredSocket) {
             const tooltipText = this.getSocketTooltipText(hoveredSocket);
-            console.log('🎯 Tooltip should show:', tooltipText, 'at', screenX, screenY);
+            console.log('Tooltip should show:', tooltipText, 'at', screenX, screenY);
             this.tooltip = {
                 visible: true,
                 text: tooltipText,
@@ -830,7 +830,7 @@ class NodeGraphEditor extends OctaneComponent {
             };
         } else {
             if (this.tooltip.visible) {
-                console.log('🎯 Tooltip hidden');
+                console.log('Tooltip hidden');
             }
             this.tooltip.visible = false;
         }
@@ -1057,8 +1057,8 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     updateSelectedNode(handle) {
-        console.log('🎯 NodeGraphEditor received selection handle:', handle);
-        console.log('🎯 Available nodes:', Array.from(this.nodes.entries()).map(([id, node]) => ({ id, name: node.name, sceneHandle: node.sceneHandle })));
+        console.log('NodeGraphEditor received selection handle:', handle);
+        console.log('Available nodes:', Array.from(this.nodes.entries()).map(([id, node]) => ({ id, name: node.name, sceneHandle: node.sceneHandle })));
         
         // Clear existing selection
         this.selectedNodes.clear();
@@ -1071,7 +1071,7 @@ class NodeGraphEditor extends OctaneComponent {
                 node.sceneHandle === handle || 
                 nodeId.includes(handle)) {
                 this.selectedNodes.add(nodeId);
-                console.log('🎯 Selected node in graph:', nodeId, node.name);
+                console.log('Selected node in graph:', nodeId, node.name);
                 nodeFound = true;
                 break;
             }
@@ -1086,20 +1086,20 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     createRealSceneNodes(sceneItems = []) {
-        console.log('🎨 createRealSceneNodes called with:', sceneItems, 'length:', sceneItems.length);
+        console.log('createRealSceneNodes called with:', sceneItems, 'length:', sceneItems.length);
         
         // Clear existing nodes
         this.nodes.clear();
         this.connections.clear();
         
         if (sceneItems.length === 0) {
-            console.log('🎨 No scene items available - showing no data message');
+            console.log('No scene items available - showing no data message');
             // Show "no data" message instead of creating sample nodes
             this.showNoDataMessage();
             return;
         }
         
-        console.log('🎨 Creating real scene nodes from data:', sceneItems);
+        console.log('Creating real scene nodes from data:', sceneItems);
         
         // Create nodes based on real scene data
         let xOffset = 100;
@@ -1130,7 +1130,7 @@ class NodeGraphEditor extends OctaneComponent {
         // Create connections between nodes (teapot.obj -> Render target)
         this.createSceneConnections(sceneItems);
         
-        console.log('🎨 Created real scene nodes:', Array.from(this.nodes.keys()));
+        console.log('Created real scene nodes:', Array.from(this.nodes.keys()));
     }
     
     getNodeTypeFromName(name) {
@@ -1214,7 +1214,7 @@ class NodeGraphEditor extends OctaneComponent {
                 dataType: 'geometry'
             });
             
-            console.log('🔗 Created connection:', meshNode.name, '->', renderNode.name);
+            console.log('Created connection:', meshNode.name, '->', renderNode.name);
         }
     }
     
@@ -1245,7 +1245,7 @@ class NodeGraphEditor extends OctaneComponent {
         this.ctx.fillStyle = '#888';
         this.ctx.fillText('Connect to Octane to view scene nodes', centerX, centerY + 35);
         
-        console.log('🎨 Displayed "no data" message in node graph editor');
+        console.log('Displayed "no data" message in node graph editor');
     }
 
     frameAll() {
@@ -1541,7 +1541,7 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Log the creation
         if (window.debugConsole) {
-            window.debugConsole.log(`🎨 Created ${nodeInfo.name} node at (${worldX.toFixed(0)}, ${worldY.toFixed(0)})`);
+            window.debugConsole.log(`Created ${nodeInfo.name} node at (${worldX.toFixed(0)}, ${worldY.toFixed(0)})`);
         }
     }
     

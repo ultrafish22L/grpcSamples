@@ -325,7 +325,7 @@
             const script = document.createElement('script');
             script.src = src + cb;
             script.async = false; // Maintain load order
-            script.onload = () => console.log(`✅ Loaded: ${src}`);
+            script.onload = () => console.log(`Loaded: ${src}`);
             script.onerror = (e) => console.error(`❌ Failed to load: ${src}`, e);
             document.head.appendChild(script);
         });
@@ -352,7 +352,7 @@
                     z-index: 10000;
                     border-radius: 5px;
                 ">
-                    <div style="color: #ff0; margin-bottom: 10px;">🔍 Early Debug Console</div>
+                    <div style="color: #ff0; margin-bottom: 10px;">Early Debug Console</div>
                     <div id="early-debug-log"></div>
                 </div>
             `;
@@ -387,7 +387,7 @@
                 addToDebugLog(args.join(' '), 'warn');
             };
             
-            console.log('🔍 Early debug console initialized');
+            console.log('Early debug console initialized');
         }
         
         // Initialize debug console immediately (disabled for production)
@@ -412,10 +412,10 @@
                     }
                 });
                 
-                console.log(`🔍 Dependency check ${attempts}/${maxAttempts}:`, available);
+                console.log(`Dependency check ${attempts}/${maxAttempts}:`, available);
                 
                 if (missing.length === 0) {
-                    console.log('✅ All dependencies loaded, initializing app...');
+                    console.log('All dependencies loaded, initializing app...');
                     try {
                         window.octaneApp = new OctaneWebApp();
                         window.octaneApp.initialize();

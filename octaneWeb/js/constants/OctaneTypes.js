@@ -150,4 +150,4 @@ window.OctaneTypes.getObjectTypeName = (type) => {
 
 
 // Log successful loading
-console.log('✅ OctaneTypes constants loaded successfully (AUTO-GENERATED)');
+console.log('OctaneTypes constants loaded successfully (AUTO-GENERATED)');

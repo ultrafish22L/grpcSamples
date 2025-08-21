@@ -42,7 +42,7 @@ class NodeInspectorControls {
             });
         }
         
-        console.log('✅ Node Inspector Controls event listeners setup complete');
+        console.log('Node Inspector Controls event listeners setup complete');
     }
     
     /**
@@ -50,7 +50,7 @@ class NodeInspectorControls {
      * Implements the exact buttons from Figure 2 in the documentation
      */
     async jumpToNode(nodeType) {
-        console.log(`🎯 Jumping to ${nodeType} node`);
+        console.log(`Jumping to ${nodeType} node`);
         
         // Update active button state
         const quickBtns = this.container.querySelectorAll('.quick-btn');
@@ -90,7 +90,7 @@ class NodeInspectorControls {
                     break;
             }
             
-            console.log(`✅ Successfully jumped to ${nodeType} node`);
+            console.log(`Successfully jumped to ${nodeType} node`);
         } catch (error) {
             console.error(`❌ Failed to jump to ${nodeType} node:`, error);
         }
@@ -101,13 +101,13 @@ class NodeInspectorControls {
      * Official OTOY quick access to render target settings
      */
     async jumpToRenderTarget() {
-        console.log('🎯 Jumping to Render Target');
+        console.log('Jumping to Render Target');
         
         if (this.client && this.client.makeGrpcCall) {
             try {
                 const result = await this.client.makeGrpcCall('ApiProjectManager', 'rootNodeGraph', {});
                 if (result && result.success !== false) {
-                    console.log('✅ Found Render Target node');
+                    console.log('Found Render Target node');
                     this.updateNodeInspector('Render Target', result.data);
                 }
             } catch (error) {
@@ -131,7 +131,7 @@ class NodeInspectorControls {
                 // Get camera node from render target
                 const result = await this.client.makeGrpcCall('ApiRenderTarget', 'getCamera', {});
                 if (result && result.success !== false) {
-                    console.log('✅ Found Camera node');
+                    console.log('Found Camera node');
                     this.updateNodeInspector('Camera', result.data);
                 }
             } catch (error) {
@@ -153,7 +153,7 @@ class NodeInspectorControls {
             try {
                 const result = await this.client.makeGrpcCall('ApiRenderTarget', 'getResolution', {});
                 if (result && result.success !== false) {
-                    console.log('✅ Found Resolution settings');
+                    console.log('Found Resolution settings');
                     this.updateNodeInspector('Resolution', result.data);
                 }
             } catch (error) {
@@ -175,7 +175,7 @@ class NodeInspectorControls {
             try {
                 const result = await this.client.makeGrpcCall('ApiRenderTarget', 'getEnvironment', {});
                 if (result && result.success !== false) {
-                    console.log('✅ Found Environment node');
+                    console.log('Found Environment node');
                     this.updateNodeInspector('Environment', result.data);
                 }
             } catch (error) {
@@ -197,7 +197,7 @@ class NodeInspectorControls {
             try {
                 const result = await this.client.makeGrpcCall('ApiRenderTarget', 'getImager', {});
                 if (result && result.success !== false) {
-                    console.log('✅ Found Imager node');
+                    console.log('Found Imager node');
                     this.updateNodeInspector('Imager', result.data);
                 }
             } catch (error) {
@@ -219,7 +219,7 @@ class NodeInspectorControls {
             try {
                 const result = await this.client.makeGrpcCall('ApiRenderTarget', 'getKernel', {});
                 if (result && result.success !== false) {
-                    console.log('✅ Found Kernel node');
+                    console.log('Found Kernel node');
                     this.updateNodeInspector('Kernel', result.data);
                 }
             } catch (error) {
@@ -241,7 +241,7 @@ class NodeInspectorControls {
             try {
                 const result = await this.client.makeGrpcCall('ApiSelectionManager', 'getSelectedMesh', {});
                 if (result && result.success !== false) {
-                    console.log('✅ Found Current Mesh');
+                    console.log('Found Current Mesh');
                     this.updateNodeInspector('Current Mesh', result.data);
                 }
             } catch (error) {
@@ -272,7 +272,7 @@ class NodeInspectorControls {
             this.disableMaterialPreview();
         }
         
-        console.log(`✅ Material Preview ${this.previewEnabled ? 'enabled' : 'disabled'}`);
+        console.log(`Material Preview ${this.previewEnabled ? 'enabled' : 'disabled'}`);
     }
     
     /**
@@ -280,7 +280,7 @@ class NodeInspectorControls {
      * Official OTOY material render toggle (Figure 6 from documentation)
      */
     toggleRenderMode() {
-        console.log('🎨 Toggling Material Render Mode');
+        console.log('Toggling Material Render Mode');
         
         this.renderToggleEnabled = !this.renderToggleEnabled;
         const renderToggleBtn = this.container.querySelector('.render-toggle-btn');
@@ -295,7 +295,7 @@ class NodeInspectorControls {
             this.disableMaterialRendering();
         }
         
-        console.log(`✅ Material Rendering ${this.renderToggleEnabled ? 'enabled' : 'disabled'}`);
+        console.log(`Material Rendering ${this.renderToggleEnabled ? 'enabled' : 'disabled'}`);
     }
     
     /**
@@ -339,7 +339,7 @@ class NodeInspectorControls {
      * Enable material preview rendering
      */
     enableMaterialPreview() {
-        console.log('🎨 Enabling material preview rendering');
+        console.log('Enabling material preview rendering');
         
         // Add preview sphere/plane to node inspector
         const nodeInspector = document.getElementById('node-inspector');
@@ -380,7 +380,7 @@ class NodeInspectorControls {
      * Enable material rendering in node graph
      */
     enableMaterialRendering() {
-        console.log('🎨 Enabling material rendering in node graph');
+        console.log('Enabling material rendering in node graph');
         
         if (this.client && this.client.makeGrpcCall) {
             try {

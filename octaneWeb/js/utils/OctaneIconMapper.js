@@ -227,4 +227,4 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = OctaneIconMapper;
 }
 
-console.log('✅ OctaneIconMapper loaded - consolidated icon/color mapping system');
+console.log('OctaneIconMapper loaded - consolidated icon/color mapping system');

@@ -72,11 +72,11 @@ class CallbackRenderViewport extends OctaneComponent {
         this.frameCount = 0;                  // Total frames processed
         this.debugSavePNG = false;            // Debug PNG saving (disabled in production)
         
-        console.log('🚀 CallbackRenderViewport initialized with streaming callbacks');
+        console.log('CallbackRenderViewport initialized with streaming callbacks');
     }
     
     async onInitialize() {
-        console.log('🎯 Initializing Callback Render Viewport...');
+        console.log('Initializing Callback Render Viewport...');
         
         try {
             // Create 2D viewport container
@@ -91,7 +91,7 @@ class CallbackRenderViewport extends OctaneComponent {
             // Wait for scene data to be loaded before starting render polling
             this.setupSceneLoadingListener();
             
-            console.log('✅ CallbackRenderViewport initialized successfully (waiting for scene data)');
+            console.log('CallbackRenderViewport initialized successfully (waiting for scene data)');
             
         } catch (error) {
             console.error('❌ Failed to initialize CallbackRenderViewport:', error);
@@ -105,7 +105,7 @@ class CallbackRenderViewport extends OctaneComponent {
     setupSceneLoadingListener() {
         // Listen for scene data loaded event
         this.eventSystem.on('sceneDataLoaded', (scene) => {
-            console.log('🎬 Scene data loaded, starting render polling...', scene.items.length, 'items');
+            console.log('Scene data loaded, starting render polling...', scene.items.length, 'items');
             this.startRenderPolling();
         });
         
@@ -113,7 +113,7 @@ class CallbackRenderViewport extends OctaneComponent {
         this.eventSystem.on('componentsFullyInitialized', () => {
             // Only start if scene data hasn't triggered it yet
             if (!this.callbackMode && !this.pollingMode) {
-                console.log('🎬 Components initialized, starting render polling as fallback...');
+                console.log('Components initialized, starting render polling as fallback...');
                 this.startRenderPolling();
             }
         });
@@ -133,7 +133,7 @@ class CallbackRenderViewport extends OctaneComponent {
                 await this.startPollingMode();
             }
             
-            console.log('🎯 Render polling started successfully');
+            console.log('Render polling started successfully');
             
         } catch (error) {
             console.error('❌ Failed to start render polling:', error);
@@ -232,7 +232,7 @@ class CallbackRenderViewport extends OctaneComponent {
             this.updateModeIndicator('INITIALIZING', '#ffa500');
         }
         
-        console.log('✅ 2D viewport created');
+        console.log('2D viewport created');
     }
     
     /**
@@ -240,13 +240,13 @@ class CallbackRenderViewport extends OctaneComponent {
      */
     async startCallbackMode() {
         try {
-            console.log('🚀 Attempting to start callback streaming mode...');
+            console.log('Attempting to start callback streaming mode...');
             
             // Register callback with proxy server
             const callbackUrl = `${this.client.serverUrl}/render/register-callback`;
-            console.log(`🔗 Callback registration URL: ${callbackUrl}`);
+            console.log(`Callback registration URL: ${callbackUrl}`);
             
-            console.log('📤 Making callback registration request...');
+            console.log('Making callback registration request...');
             
             // Add timeout to prevent hanging
             const controller = new AbortController();
@@ -262,29 +262,29 @@ class CallbackRenderViewport extends OctaneComponent {
             
             clearTimeout(timeoutId);
             
-            console.log(`📥 Callback registration response status: ${response.status}`);
-            console.log(`📥 Callback registration response ok: ${response.ok}`);
+            console.log(`Callback registration response status: ${response.status}`);
+            console.log(`Callback registration response ok: ${response.ok}`);
             
             const result = await response.json();
-            console.log('📥 Callback registration result:', result);
+            console.log('Callback registration result:', result);
             
             if (!result.success) {
                 throw new Error(result.error || 'Failed to register callback');
             }
             
             this.callbackId = result.callback_id;
-            console.log(`✅ Callback registered with ID: ${this.callbackId}`);
+            console.log(`Callback registered with ID: ${this.callbackId}`);
             
             // Start Server-Sent Events stream
             const streamUrl = `${this.client.serverUrl}/render/stream`;
             this.eventSource = new EventSource(streamUrl);
             
             this.eventSource.onopen = (event) => {
-                console.log('📡 SSE connection opened');
+                console.log('SSE connection opened');
                 this.callbackMode = true;
                 this.connectionErrors = 0;
                 this.updateStatus('Connected to callback stream');
-                this.updateModeIndicator('🚀 CALLBACK MODE', '#00ff00');
+                this.updateModeIndicator('CALLBACK MODE', '#00ff00');
             };
             
             this.eventSource.onmessage = (event) => {
@@ -326,7 +326,7 @@ class CallbackRenderViewport extends OctaneComponent {
     handleCallbackEvent(data) {
         switch (data.type) {
             case 'connected':
-                console.log(`📡 Connected to callback stream, client ID: ${data.client_id}`);
+                console.log(`Connected to callback stream, client ID: ${data.client_id}`);
                 this.clientId = data.client_id;
                 this.updateStatus(`Connected (Client: ${data.client_id.substring(0, 8)}...)`);
                 
@@ -352,7 +352,7 @@ class CallbackRenderViewport extends OctaneComponent {
                 break;
                 
             default:
-                console.log('🔍 Unknown callback event:', data);
+                console.log('Unknown callback event:', data);
         }
     }
     
@@ -419,8 +419,8 @@ class CallbackRenderViewport extends OctaneComponent {
             this.lastImageSize = bufferSize;
             
 //            console.log(`📊 Image buffer: ${bufferSize} bytes (${imageData.buffer.encoding})`);
-//            console.log(`🔍 Buffer data type: ${typeof bufferData}, length: ${bufferData ? bufferData.length : 'null'}`);
-//            console.log(`🔍 Buffer data preview: ${bufferData ? bufferData.substring(0, 100) : 'null'}...`);
+//            console.log(`Buffer data type: ${typeof bufferData}, length: ${bufferData ? bufferData.length : 'null'}`);
+//            console.log(`Buffer data preview: ${bufferData ? bufferData.substring(0, 100) : 'null'}...`);
             
             // Create canvas to display raw image buffer
             const canvas = document.createElement('canvas');
@@ -451,7 +451,7 @@ class CallbackRenderViewport extends OctaneComponent {
                 return;
             }
             
-//            console.log(`🔍 Buffer analysis: ${bytes.length} bytes, first 16 bytes:`, 
+//            console.log(`Buffer analysis: ${bytes.length} bytes, first 16 bytes:`, 
 //                       Array.from(bytes.slice(0, 16)).map(b => b.toString(16).padStart(2, '0')).join(' '));
             
             // Convert buffer to RGBA format for canvas
@@ -474,7 +474,7 @@ class CallbackRenderViewport extends OctaneComponent {
                 `${imageData.renderTime.toFixed(2)}s`
             );
             
-//            console.log('✅ Callback image displayed successfully');
+//            console.log('Callback image displayed successfully');
             
         } catch (error) {
             console.error('❌ Error displaying callback image:', error);
@@ -515,7 +515,7 @@ class CallbackRenderViewport extends OctaneComponent {
         const expectedSize = width * height * 4;
         
         if (buffer.length === expectedSize) {
-//            console.log('✅ Perfect size match - direct copy');
+//            console.log('Perfect size match - direct copy');
             // Direct copy - no pitch issues
             for (let i = 0; i < expectedSize; i += 4) {
                 data[i] = buffer[i];         // R
@@ -524,17 +524,17 @@ class CallbackRenderViewport extends OctaneComponent {
                 data[i + 3] = buffer[i + 3]; // A
             }
         } else {
-//            console.log(`🔍 Size mismatch: buffer=${buffer.length}, expected=${expectedSize}, using pitch=${pitch}`);
+//            console.log(`Size mismatch: buffer=${buffer.length}, expected=${expectedSize}, using pitch=${pitch}`);
             
             // Handle pitch (row stride) - pitch might be in pixels or bytes
             let pitchBytes;
             
             // Try pitch as bytes first
             if (pitch * height === buffer.length) {
-//                console.log(`🔍 Pitch is in bytes: ${pitch}`);
+//                console.log(`Pitch is in bytes: ${pitch}`);
                 pitchBytes = pitch;
             } else if (pitch * 4 * height === buffer.length) {
-//                console.log(`🔍 Pitch is in pixels: ${pitch} -> ${pitch * 4} bytes`);
+//                console.log(`Pitch is in pixels: ${pitch} -> ${pitch * 4} bytes`);
                 pitchBytes = pitch * 4;
             } else {
 //                console.log(`⚠️ Pitch calculation unclear, using width-based pitch`);
@@ -577,7 +577,7 @@ class CallbackRenderViewport extends OctaneComponent {
         const expectedFloats = width * height * 4;
         
         if (floatView.length === expectedFloats) {
-//            console.log('✅ HDR Perfect size match - direct copy');
+//            console.log('HDR Perfect size match - direct copy');
             // Direct copy - no pitch issues
             for (let i = 0; i < expectedFloats; i += 4) {
                 // Simple tone mapping: clamp and convert to 8-bit
@@ -587,17 +587,17 @@ class CallbackRenderViewport extends OctaneComponent {
                 data[i + 3] = Math.min(255, Math.max(0, floatView[i + 3] * 255)); // A
             }
         } else {
-//            console.log(`🔍 HDR Size mismatch: floats=${floatView.length}, expected=${expectedFloats}, using pitch=${pitch}`);
+//            console.log(`HDR Size mismatch: floats=${floatView.length}, expected=${expectedFloats}, using pitch=${pitch}`);
             
             // Handle pitch for HDR data - pitch might be in pixels or bytes
             let pitchFloats;
             
             // Try pitch as bytes first (convert to float count)
             if ((pitch / 4) * height === floatView.length) {
-//                console.log(`🔍 HDR Pitch is in bytes: ${pitch} -> ${pitch / 4} floats`);
+//                console.log(`HDR Pitch is in bytes: ${pitch} -> ${pitch / 4} floats`);
                 pitchFloats = pitch / 4;
             } else if (pitch * 4 * height === floatView.length) {
-//                console.log(`🔍 HDR Pitch is in pixels: ${pitch} -> ${pitch * 4} floats`);
+//                console.log(`HDR Pitch is in pixels: ${pitch} -> ${pitch * 4} floats`);
                 pitchFloats = pitch * 4;
             } else {
 //                console.log(`⚠️ HDR Pitch calculation unclear, using width-based pitch`);
@@ -718,9 +718,9 @@ class CallbackRenderViewport extends OctaneComponent {
      */
     async triggerInitialRender() {
         try {
-            console.log('🎬 Triggering initial render via ApiChangeManager::update()');
+            console.log('Triggering initial render via ApiChangeManager::update()');
             const response = await this.client.makeGrpcCall('ApiChangeManager', 'update', {});
-            console.log('✅ Initial render triggered successfully');
+            console.log('Initial render triggered successfully');
             return response;
         } catch (error) {
             console.warn('⚠️ Failed to trigger initial render:', error);
@@ -851,7 +851,7 @@ class CallbackRenderViewport extends OctaneComponent {
 
         // Update with current status
         this.updateStatus('Debug UI enabled');
-        this.updateModeIndicator(this.callbackMode ? '🚀 CALLBACK MODE' : '📸 POLLING MODE', 
+        this.updateModeIndicator(this.callbackMode ? 'CALLBACK MODE' : '📸 POLLING MODE', 
                                 this.callbackMode ? '#00ff00' : '#ffa500');
     }
 
@@ -929,5 +929,5 @@ class CallbackRenderViewport extends OctaneComponent {
 // Register component
 if (typeof window !== 'undefined') {
     window.CallbackRenderViewport = CallbackRenderViewport;
-    console.log('✅ CallbackRenderViewport component registered');
+    console.log('CallbackRenderViewport component registered');
 }

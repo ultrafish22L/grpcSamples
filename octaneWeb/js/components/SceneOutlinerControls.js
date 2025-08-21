@@ -50,7 +50,7 @@ class SceneOutlinerControls {
             });
         }
         
-        console.log('✅ Scene Outliner Controls event listeners setup complete');
+        console.log('Scene Outliner Controls event listeners setup complete');
     }
     
     /**
@@ -94,7 +94,7 @@ class SceneOutlinerControls {
             }
         });
         
-        console.log(`✅ Expanded ${treeNodes.length} nodes in ${currentTab} tab`);
+        console.log(`Expanded ${treeNodes.length} nodes in ${currentTab} tab`);
     }
     
     /**
@@ -115,7 +115,7 @@ class SceneOutlinerControls {
             }
         });
         
-        console.log(`✅ Collapsed ${treeNodes.length} nodes in ${currentTab} tab`);
+        console.log(`Collapsed ${treeNodes.length} nodes in ${currentTab} tab`);
     }
     
     /**
@@ -204,7 +204,7 @@ class SceneOutlinerControls {
                 break;
         }
         
-        console.log(`✅ Switched to ${tabName} tab successfully`);
+        console.log(`Switched to ${tabName} tab successfully`);
     }
     
     /**
@@ -227,7 +227,7 @@ class SceneOutlinerControls {
             this.expandAllNodes();
         }
         
-        console.log(`✅ ${this.isCollapsed ? 'Collapsed' : 'Expanded'} all nodes`);
+        console.log(`${this.isCollapsed ? 'Collapsed' : 'Expanded'} all nodes`);
     }
     
     /**
@@ -256,7 +256,7 @@ class SceneOutlinerControls {
                 break;
         }
         
-        console.log(`✅ Refreshed ${this.currentTab} content`);
+        console.log(`Refreshed ${this.currentTab} content`);
     }
     
     /**

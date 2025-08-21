@@ -289,19 +289,19 @@ function createOctaneWebClient() {
             const duration = Date.now() - startTime;
 
             // Enhanced response logging (disabled for performance)
-            // console.log(`\n📥 === gRPC RESPONSE RECEIVED ===`);
-            // console.log(`📥 Method: ${method}`);
-            // console.log(`📥 Call ID: ${callId}`);
-            // console.log(`📥 Duration: ${duration}ms`);
-            // console.log(`📥 HTTP Status: ${response.status} ${response.statusText}`);
-            // console.log(`📥 Success: ${result.success}`);
-            // console.log(`📥 Data Size: ${JSON.stringify(result).length} bytes`);
-            // console.log(`📥 Result:`, result);
-            // console.log(`📥 Result JSON:`, JSON.stringify(result, null, 2));
+            // console.log(`\n=== gRPC RESPONSE RECEIVED ===`);
+            // console.log(`Method: ${method}`);
+            // console.log(`Call ID: ${callId}`);
+            // console.log(`Duration: ${duration}ms`);
+            // console.log(`HTTP Status: ${response.status} ${response.statusText}`);
+            // console.log(`Success: ${result.success}`);
+            // console.log(`Data Size: ${JSON.stringify(result).length} bytes`);
+            // console.log(`Result:`, result);
+            // console.log(`Result JSON:`, JSON.stringify(result, null, 2));
             
             // if (result.success && result.data) {
-            //     console.log(`📥 Response Data:`, result.data);
-            //     console.log(`📥 Response Data JSON:`, JSON.stringify(result.data, null, 2));
+            //     console.log(`Response Data:`, result.data);
+            //     console.log(`Response Data JSON:`, JSON.stringify(result.data, null, 2));
             // }
             
             if (!result.success && result.error) {
@@ -416,7 +416,7 @@ function createOctaneWebClient() {
                 objectRef: objectRef
             };
             // Check if this is a node graph - use known graph types as fallback
-            console.log(`${'  '.repeat(depth)}🔍 Checking if ${name} is a graph (type ${objectRef.type})...`);
+            console.log(`${'  '.repeat(depth)}Checking if ${name} is a graph (type ${objectRef.type})...`);
             
             let isGraph = false;
             
@@ -436,7 +436,7 @@ function createOctaneWebClient() {
             }
 
             if (isGraph) {
-                console.log(`${'  '.repeat(depth)}📤 Getting owned items for ${name} (graph supports children)...`);
+                console.log(`${'  '.repeat(depth)}Getting owned items for ${name} (graph supports children)...`);
                 
                 try {
                     // Convert to graph reference using toGraph() - with fallback for known types
@@ -461,15 +461,15 @@ function createOctaneWebClient() {
                         objectPtr: graphRef
                     });
                 
-                console.log(`${'  '.repeat(depth)}📥 getOwnedItems response:`, JSON.stringify(itemsResponse, null, 2));
+                console.log(`${'  '.repeat(depth)}getOwnedItems response:`, JSON.stringify(itemsResponse, null, 2));
                 
                 if (itemsResponse.success && itemsResponse.data && itemsResponse.data.list) {
                     const itemsArrayRef = itemsResponse.data.list;
-                    console.log(`${'  '.repeat(depth)}📋 Got items array: handle=${itemsArrayRef.objectHandle}, type=${itemsArrayRef.type}`);
+                    console.log(`${'  '.repeat(depth)}Got items array: handle=${itemsArrayRef.objectHandle}, type=${itemsArrayRef.type}`);
                     
                     // Step 2: Get the actual items from the array using ApiItemArray/items
                     try {
-                        console.log(`${'  '.repeat(depth)}📤 Getting items from array...`);
+                        console.log(`${'  '.repeat(depth)}Getting items from array...`);
                         
                         const arrayItemsResponse = await this.makeGrpcCall('ApiItemArray/items', {
                             objectPtr: {
@@ -478,7 +478,7 @@ function createOctaneWebClient() {
                             }
                         });
                         
-                        console.log(`${'  '.repeat(depth)}📥 Array items response:`, JSON.stringify(arrayItemsResponse, null, 2));
+                        console.log(`${'  '.repeat(depth)}Array items response:`, JSON.stringify(arrayItemsResponse, null, 2));
                         
                         // Extract items from the nested response structure
                         let items = null;
@@ -493,7 +493,7 @@ function createOctaneWebClient() {
                             }
                         }
                         
-                        console.log(`${'  '.repeat(depth)}🔍 Debug items extraction:`, {
+                        console.log(`${'  '.repeat(depth)}Debug items extraction:`, {
                             items: items,
                             isArray: Array.isArray(items),
                             length: items ? items.length : 'null',
@@ -501,7 +501,7 @@ function createOctaneWebClient() {
                         });
                         
                         // More detailed debugging
-                        console.log(`${'  '.repeat(depth)}🔍 Detailed condition check:`, {
+                        console.log(`${'  '.repeat(depth)}Detailed condition check:`, {
                             'items truthy': !!items,
                             'is array': Array.isArray(items),
                             'length > 0': items && items.length > 0,
@@ -509,12 +509,12 @@ function createOctaneWebClient() {
                         });
                         
                         if (items && Array.isArray(items) && items.length > 0) {
-                            console.log(`${'  '.repeat(depth)}✅ Found ${items.length} child items in array:`, items);
+                            console.log(`${'  '.repeat(depth)}Found ${items.length} child items in array:`, items);
                             
                             // Recursively process each child item
                             for (let i = 0; i < items.length && depth < 5; i++) { // Limit depth to prevent infinite recursion
                                 const item = items[i];
-                                console.log(`${'  '.repeat(depth)}🔍 Processing item ${i + 1}:`, item);
+                                console.log(`${'  '.repeat(depth)}Processing item ${i + 1}:`, item);
                                 
                                 // Create objectRef from the item data
                                 let objectRef = null;
@@ -557,7 +557,7 @@ function createOctaneWebClient() {
                 }
             } else {
                 // Check if this is a node - try API call with fallback
-                console.log(`${'  '.repeat(depth)}🔍 Checking if ${name} is a node (type ${objectRef.type})...`);
+                console.log(`${'  '.repeat(depth)}Checking if ${name} is a node (type ${objectRef.type})...`);
                 
                 let isNode = false;
                 
@@ -635,7 +635,7 @@ function createOctaneWebClient() {
                 objectPtr: window.OctaneTypes.createObjectPtr(objectRef.handle, window.OctaneTypes.ApiNode)
             });
 
-            console.log(`${indent}📥 Pin count response:`, JSON.stringify(pinCountResponse, null, 2));
+            console.log(`${indent}Pin count response:`, JSON.stringify(pinCountResponse, null, 2));
 
             if (pinCountResponse.success && pinCountResponse.data && pinCountResponse.data.count > 0) {
                 const pinCount = pinCountResponse.data.count;
@@ -651,7 +651,7 @@ function createOctaneWebClient() {
                             pinIndex: pinIndex
                         });
 
-                        console.log(`${indent}  📥 Pin ${pinIndex} owned item response:`, JSON.stringify(ownedItemResponse, null, 2));
+                        console.log(`${indent}  Pin ${pinIndex} owned item response:`, JSON.stringify(ownedItemResponse, null, 2));
 
                         if (ownedItemResponse.success && ownedItemResponse.data && ownedItemResponse.data.item) {
                             const ownedItem = ownedItemResponse.data.item;

@@ -557,7 +557,7 @@ class GrpcTestOperations {
 
         try {
             if (!suppressLogs) {
-//                this.logger.log('📤 Setting camera to Octane...', 'info');
+//                this.logger.log('Setting camera to Octane...', 'info');
             }
             const result = await client.setCamera(cameraData);
             
@@ -715,7 +715,7 @@ class DebugUtils {
         }
         
         const debugInfo = client.getDebugInfo();
-        this.logger.log('🔍 Debug Information:', 'status');
+        this.logger.log('Debug Information:', 'status');
         
         // Display key debug info in a readable format
         if (debugInfo.client) {
@@ -799,7 +799,7 @@ class ConnectionManager {
             
             // If we get here without an exception, connection was successful
             this.connectionStateManager.setState('connected');
-            this.logger.log('✅ Connected to Octane LiveLink successfully!', 'success');
+            this.logger.log('Connected to Octane LiveLink successfully!', 'success');
             return this.client;
         } catch (error) {
             this.connectionStateManager.setState('disconnected');

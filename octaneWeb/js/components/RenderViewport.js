@@ -47,7 +47,7 @@ class RenderViewport extends OctaneComponent {
     }
     
     async onInitialize() {
-        console.log('🎯 Initializing 2D Render Viewport with LiveLink camera sync...');
+        console.log('Initializing 2D Render Viewport with LiveLink camera sync...');
         
         try {
             // Create 2D viewport container
@@ -65,7 +65,7 @@ class RenderViewport extends OctaneComponent {
             // Start background image polling
             this.startImagePolling();
             
-            console.log('✅ RenderViewport initialized successfully');
+            console.log('RenderViewport initialized successfully');
             
         } catch (error) {
             console.error('❌ Failed to initialize RenderViewport:', error);
@@ -168,7 +168,7 @@ class RenderViewport extends OctaneComponent {
         }
         this.element.appendChild(this.viewport);
         
-        console.log('✅ 2D viewport created');
+        console.log('2D viewport created');
     }
     
     /**
@@ -182,7 +182,7 @@ class RenderViewport extends OctaneComponent {
         // Initial resize to set proper dimensions
         this.handleResize();
         
-        console.log('✅ Resize handling setup complete');
+        console.log('Resize handling setup complete');
     }
     
 
@@ -226,7 +226,7 @@ class RenderViewport extends OctaneComponent {
     setSyncEnabled(enabled) {
         this.syncEnabled = enabled;
         this.updateStatus(enabled ? 'LiveLink: Enabled' : 'LiveLink: Disabled');
-        console.log(`📡 Camera sync ${enabled ? 'enabled' : 'disabled'}`);
+        console.log(`Camera sync ${enabled ? 'enabled' : 'disabled'}`);
     }
     
     /**
@@ -320,7 +320,7 @@ class RenderViewport extends OctaneComponent {
             // Clear existing content
             this.imageDisplay.innerHTML = '';
             
-            console.log('🔍 Processing image data structure:', imageData);
+            console.log('Processing image data structure:', imageData);
             
             // Handle Octane render result format
             if (imageData.renderImages && imageData.renderImages.data && imageData.renderImages.data.length > 0) {
@@ -371,14 +371,14 @@ class RenderViewport extends OctaneComponent {
                 // Handle URL reference
                 img.src = imageData.url;
             } else {
-                console.log('🔍 Unknown image data format:', imageData);
+                console.log('Unknown image data format:', imageData);
                 this.showImageError('Unknown image format');
                 return;
             }
             
             // Add load handlers
             img.onload = () => {
-                console.log('✅ Render image loaded successfully');
+                console.log('Render image loaded successfully');
                 this.updateStatus('Image loaded');
             };
             
@@ -451,7 +451,7 @@ class RenderViewport extends OctaneComponent {
             const renderTime = renderImage.renderTime || 0;
             this.updateStatus(`Image: ${width}x${height}, ${samples} samples, ${renderTime.toFixed(2)}s`);
             
-            console.log('✅ Raw image buffer displayed successfully');
+            console.log('Raw image buffer displayed successfully');
             
         } catch (error) {
             console.error('❌ Failed to display raw image buffer:', error);
@@ -628,5 +628,5 @@ class RenderViewport extends OctaneComponent {
 // Register component
 if (typeof window !== 'undefined') {
     window.RenderViewport = RenderViewport;
-    console.log('✅ RenderViewport component registered');
+    console.log('RenderViewport component registered');
 }

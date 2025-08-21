@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔗 OTOY WebGL-Octane LiveLink Sync</title>
+    <title>OTOY WebGL-Octane LiveLink Sync</title>
     <link rel="stylesheet" href="otoy-theme.css">
 </head>
 <body>
@@ -271,8 +271,8 @@
                     this.setupEventHandlers();
                     
                     // Start render loop
-                    console.log('🎬 Starting render loop...');
-                    this.logger.log('🎬 Starting render loop...', 'debug');
+                    console.log('Starting render loop...');
+                    this.logger.log('Starting render loop...', 'debug');
                     this.render();
                     
                     // Initialize performance monitoring
@@ -305,7 +305,7 @@
                 const webgl2 = this.canvas.getContext('webgl2');
                 const webgl1 = this.canvas.getContext('webgl');
                 
-                console.log('🔍 WebGL Support Check:');
+                console.log('WebGL Support Check:');
                 console.log('WebGL 2.0 available:', !!webgl2);
                 console.log('WebGL 1.0 available:', !!webgl1);
                 
@@ -319,7 +319,7 @@
                 }
                 
                 const version = this.gl instanceof WebGL2RenderingContext ? '2.0' : '1.0';
-                console.log(`✅ Using WebGL ${version}`);
+                console.log(`Using WebGL ${version}`);
                 this.logger.log(`Using WebGL ${version}`, 'success');
 
                 // Configure WebGL state
@@ -327,7 +327,7 @@
                 this.gl.enable(this.gl.CULL_FACE);
                 this.gl.cullFace(this.gl.BACK);
                 this.gl.clearColor(0.1, 0.1, 0.2, 1.0);
-                console.log('✅ WebGL state configured');
+                console.log('WebGL state configured');
                 this.logger.log('WebGL state configured', 'debug');
                 
                 // Set up WebGL error logging
@@ -335,15 +335,15 @@
 
                 // Create shaders
                 await this.createShaders();
-                console.log('✅ Shaders created successfully');
+                console.log('Shaders created successfully');
                 
                 // Create geometry
                 this.createGeometry();
-                console.log('✅ Geometry created successfully');
+                console.log('Geometry created successfully');
                 
                 // Set up viewport
                 this.resizeCanvas();
-                console.log('✅ WebGL initialization complete');
+                console.log('WebGL initialization complete');
             }
 
             /**
@@ -527,7 +527,7 @@
                         gl.deleteShader(skyboxFragmentShader);
                     }
                     
-                    console.log('✅ Shaders created successfully');
+                    console.log('Shaders created successfully');
                     this.logger.log('Shaders created successfully', 'debug');
                     
                 } catch (error) {
@@ -613,7 +613,7 @@
                     this.aSkyboxPos = gl.getAttribLocation(this.skyboxProgram, 'aPos');
                 }
                 
-                console.log('✅ Geometry created successfully');
+                console.log('Geometry created successfully');
                 this.logger.log('Geometry created successfully', 'debug');
             }
 
@@ -837,7 +837,7 @@
                     
                     if (meshes && Array.isArray(meshes)) {
                         // Log the actual mesh data returned from Octane
-                        this.logger.log(`🎬 Mesh data from Octane: ${meshes.length} meshes found`, 'success');
+                        this.logger.log(`Mesh data from Octane: ${meshes.length} meshes found`, 'success');
                         
                         // Log details of first few meshes
                         meshes.slice(0, 5).forEach((mesh, index) => {
@@ -849,7 +849,7 @@
                             this.logger.log(`  ... and ${meshes.length - 5} more meshes`, 'info');
                         }
                     } else {
-                        this.logger.log('🎬 No mesh data received from Octane', 'warning');
+                        this.logger.log('No mesh data received from Octane', 'warning');
                     }
                 } catch (error) {
                     this.performanceTracker.recordError();
@@ -974,7 +974,7 @@
                 a.click();
                 URL.revokeObjectURL(url);
                 
-                this.logger.log('📤 Debug information exported successfully', 'success');
+                this.logger.log('Debug information exported successfully', 'success');
             }
 
             /**
@@ -1460,7 +1460,7 @@
                     `;
                     activityLog.appendChild(testEntry);
                     activityLog.scrollTop = activityLog.scrollHeight;
-                    console.log('✅ Activity log test entry added successfully');
+                    console.log('Activity log test entry added successfully');
                 } else {
                     console.error('❌ Activity log element not found');
                 }

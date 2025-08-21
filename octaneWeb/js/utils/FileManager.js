@@ -207,7 +207,7 @@ class FileManager {
                     result.metadata.loaded = loadResult.success;
                     
                     if (loadResult.success) {
-                        console.log('✅ ORBX project loaded successfully');
+                        console.log('ORBX project loaded successfully');
                     } else {
                         console.warn('⚠️ ORBX project load failed:', loadResult.error);
                     }

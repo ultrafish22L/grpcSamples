@@ -55,7 +55,7 @@ class GenericNodeRenderer {
             return '<div class="node-inspector-empty">No node selected</div>';
         }
         
-        console.log(`🚀 GenericNodeRenderer: Rendering node "${nodeData.name}" type: ${nodeData.outtype}`);
+        console.log(`GenericNodeRenderer: Rendering node "${nodeData.name}" type: ${nodeData.outtype}`);
         
         let html = '';
         
@@ -140,8 +140,26 @@ class GenericNodeRenderer {
         if (hasChildren) {
             collapseIcon = isExpanded ? '▼' : '►';
         }
-        
-        let html = `
+
+        let html = ``;
+        if (nodeData.attrType == null) {
+            html = `
+            <div class="node-box node-level-${level}" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
+                <div class="node-icon-box" style="background-color: ${color}">
+                    <span class="node-icon">${icon}</span>
+                </div>
+                <div class="node-content">
+                    <div class="node-header" ${hasChildren ? `data-toggle="${nodeId}"` : ''}>
+                        ${collapseIcon ? `<span class="collapse-icon">${collapseIcon}</span>` : ''}
+                        <span class="node-title">${nodeData.name}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        }
+        else {
+            html = `
             <div class="node-box node-level-${level}" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
                 <div class="node-icon-box" style="background-color: ${color}">
                     <span class="node-icon">${icon}</span>
@@ -155,7 +173,7 @@ class GenericNodeRenderer {
                 </div>
             </div>
         `;
-        
+        }        
         // Render children if expanded - at the same level as parent, not nested inside
         if (hasChildren && isExpanded) {
             html += this.renderChildNodes(nodeData.children, level + 1);
@@ -247,6 +265,40 @@ class GenericNodeRenderer {
     ATTRIBUTE_TYPE(AT_BYTE      , 12)
     ATTRIBUTE_TYPE(AT_MATRIX    , 13)
 */
+
+
+
+ /**
+     * @param {Object} nodeData - Pin data
+     */
+    getValue(nodeData) {
+
+        console.log(` GenericNodeRenderer: getValue "${nodeData.name}" type: ${nodeData.attrType}`);
+
+        const stripAtAndCamelCase = str => {
+            const result = str.startsWith("AT_") ? str.substring(3) : str;
+            return result ? result.charAt(0).toUpperCase() + result.slice(1).toLowerCase() : result;
+        };
+        let callsig = "ApiItemGetter/get" + stripAtAndCamelCase(nodeData.attrType);
+        let result;
+        try {   
+            result = window.grpcApi.makeApiCallSync(
+                callsig, 
+                nodeData.handle,
+                { id: window.OctaneTypes.AttributeId.A_VALUE },
+            );
+            if (!result.success) {
+                throw new Error('Failed getValue', callsig);
+            }
+        } catch (error) {
+            console.error('❌ Failed getValue:', callsig, error);
+        }
+        let value = result.data.result;
+        value = Array.isArray(value) ? value[0] : value;
+
+        return value
+    }
+
     /**
      * Create appropriate control for parameter
      * @param {Object} nodeData - Pin data
@@ -259,193 +311,81 @@ class GenericNodeRenderer {
 //        return `<input type="text" class="octane-text-input parameter-control" value="${''}" 
 //        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="text">`;
 
-        try {   
-            if (nodeData.attrType == "AT_BOOL") {
-                let value = false;
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemGetter/getBool', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemGetter/getBool');
-                }
-                value = result.data.result;
-                value = Array.isArray(value) ? value[0] : value;
+        const value = this.getValue(nodeData);
 
-                return `<input type="checkbox" class="octane-checkbox parameter-control" ${value} 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="boolean">`;
-            }
-            else if (nodeData.attrType == "AT_FLOAT") {
-                let value = 0.0;
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemGetter/getFloat', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemGetter/getFloat');
-                }
-                value = result.data.result;
-                value = Array.isArray(value) ? value[0] : value;
-
-                return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="0.001" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="number">`;
-            }
-            else if (nodeData.attrType == "AT_FLOAT2") {
-                let value = { x: 0.0, y: 0.0 };
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemGetter/getFloat2', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemGetter/getFloat2');
-                }
-                value = result.data.result;
-                value = Array.isArray(value) ? value[0] : value;
-
-                return `
-                    <div class="octane-vector-control">
-                        <input type="number" class="octane-vector-input parameter-control" value="${value.x}" 
-                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector2">
-                        <input type="number" class="octane-vector-input parameter-control" value="${value.y}" 
-                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector2">
-                    </div>
-                `;
-            }
-            else if (nodeData.attrType == "AT_FLOAT3") {
-                let value = { x: 0.0, y: 0.0, z: 0.0 };
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemGetter/getFloat3', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemGetter/getFloat3');
-                }
-                value = result.data.result;
-                value = Array.isArray(value) ? value[0] : value;
-
-                return `
-                    <div class="octane-vector-control">
-                        <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
-                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector3">
-                        <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="0.001" 
-                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector3">
-                        <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="0.001" 
-                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector3">
-                    </div>
-                `;
-            }
-            else if (nodeData.attrType == "AT_FLOAT4") {
-
-                console.log(`pininfo "${nodeData.name}" type: ${JSON.stringify(nodeData.pinInfo)}`);
-                
-                let value = { x: 0.0, y: 0.0, z: 0.0, w: 0.0 };
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemGetter/getFloat4', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemGetter/getFloat4');
-                }
-                value = result.data.result;
-                value = Array.isArray(value) ? value[0] : value;
-
-                return `
-                    <div class="octane-vector-control">
-                        <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
-                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector3">
-                        <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="0.001" 
-                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector3">
-                        <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="0.001" 
-                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector3">
-                    </div>
-                `;
-            }
-            else if (nodeData.attrType == "AT_INT") {
-                let value = 0;
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemGetter/getInt', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemGetter/getInt');
-                }
-                value = result.data.result;
-                value = Array.isArray(value) ? value[0] : value;
-
-                return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="1" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="number">`;
-            }
-            else if (nodeData.attrType == "AT_INT2") {
-                let value = { x: 0, y: 0 };
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemGetter/getInt2', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemGetter/getInt2');
-                }
-                value = result.data.result;
-                value = Array.isArray(value) ? value[0] : value;
-
-                return `
-                    <div class="octane-vector-control">
-                        <input type="number" class="octane-vector-input parameter-control" value="${value.x}" 
-                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector2">
-                        <input type="number" class="octane-vector-input parameter-control" value="${value.y}" 
-                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector2">
-                    </div>
-                `;
-            }
-            else if (nodeData.attrType == "AT_INT3") {
-                let value = { x: 0, y: 0, z: 0 };
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemGetter/getInt3', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemGetter/getInt3');
-                }
-                value = result.data.result;
-                value = Array.isArray(value) ? value[0] : value;
-
-                return `
-                    <div class="octane-vector-control">
-                        <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
-                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector3">
-                        <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="1" 
-                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector3">
-                        <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="1" 
-                            data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector3">
-                    </div>
-                `;
-            }
-            else if (nodeData.attrType == "AT_STRING" || nodeData.attrType == "AT_FILENAME") {
-                let value = "";
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemGetter/getString', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemGetter/getString');
-                }
-                value = result.data.result;
-                value = Array.isArray(value) ? value[0] : value;
-
-                return `<input type="text" class="octane-text-input parameter-control" value="${value}" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="text">`;
-            }
-        } catch (error) {
-            console.error('❌ Failed createParameterControl:', error);
+        if (nodeData.attrType == "AT_BOOL") {
+            return `<input type="checkbox" class="octane-checkbox parameter-control" ${value} 
+                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="boolean">`;
         }
+        else if (nodeData.attrType == "AT_FLOAT") {
+            return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="0.001" 
+                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="number">`;
+        }
+        else if (nodeData.attrType == "AT_FLOAT2") {
+            return `
+                <div class="octane-vector-control">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector2">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.y}" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector2">
+                </div>
+            `;
+        }
+        else if (nodeData.attrType == "AT_FLOAT3") {
+            return `
+                <div class="octane-vector-control">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector3">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="0.001" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector3">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="0.001" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector3">
+                </div>
+            `;
+        }
+        else if (nodeData.attrType == "AT_FLOAT4") {
+            return `
+                <div class="octane-vector-control">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector3">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="0.001" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector3">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="0.001" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector3">
+                </div>
+            `;
+        }
+        else if (nodeData.attrType == "AT_INT") {
+            return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="1" 
+                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="number">`;
+        }
+        else if (nodeData.attrType == "AT_INT2") {
+            return `
+                <div class="octane-vector-control">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector2">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.y}" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector2">
+                </div>
+            `;
+        }
+        else if (nodeData.attrType == "AT_INT3") {
+            return `
+                <div class="octane-vector-control">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector3">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="1" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector3">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="1" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector3">
+                </div>
+            `;
+        }
+        else if (nodeData.attrType == "AT_STRING" || nodeData.attrType == "AT_FILENAME") {
+            return `<input type="text" class="octane-text-input parameter-control" value="${value}" 
+                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="text">`;
+        }
+
         return `<input type="text" class="octane-text-input parameter-control" value="${''}" 
                 data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="text">`;
     }

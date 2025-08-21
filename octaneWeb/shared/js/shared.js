@@ -557,7 +557,7 @@ class GrpcTestOperations {
 
         try {
             if (!suppressLogs) {
-//                this.logger.log('📤 Setting camera to Octane...', 'info');
+//                this.logger.log('Setting camera to Octane...', 'info');
             }
             const result = await client.setCamera(cameraData);
             
@@ -746,7 +746,7 @@ class DebugUtils {
         }
         
         const debugInfo = client.getDebugInfo();
-        this.logger.log('🔍 Debug Information:', 'status');
+        this.logger.log('Debug Information:', 'status');
         
         // Display key debug info in a readable format
         if (debugInfo.client) {
@@ -830,7 +830,7 @@ class ConnectionManager {
             
             // If we get here without an exception, connection was successful
             this.connectionStateManager.setState('connected');
-            this.logger.log('✅ Connected to Octane LiveLink successfully!', 'success');
+            this.logger.log('Connected to Octane LiveLink successfully!', 'success');
             return this.client;
         } catch (error) {
             this.connectionStateManager.setState('disconnected');
@@ -995,7 +995,7 @@ class ConsoleRouter {
             this.routeToLoggers('error', [
                 `❌ JavaScript Error: ${errorMessage}`,
                 `📁 File: ${fileName}:${lineNumber}:${columnNumber}`,
-                event.error?.stack ? `📋 Stack: ${event.error.stack}` : ''
+                event.error?.stack ? `Stack: ${event.error.stack}` : ''
             ].filter(Boolean));
         });
         
@@ -1007,7 +1007,7 @@ class ConsoleRouter {
             if (reason instanceof Error) {
                 reasonMessage = `${reason.name}: ${reason.message}`;
                 if (reason.stack) {
-                    reasonMessage += `\n📋 Stack: ${reason.stack}`;
+                    reasonMessage += `\nStack: ${reason.stack}`;
                 }
             } else if (typeof reason === 'string') {
                 reasonMessage = reason;
@@ -1065,7 +1065,7 @@ class EnhancedActivityLogger extends ActivityLogger {
             window.consoleRouter.addLogger(this);
             
             // Log that console routing is active
-            this.log('🔗 Console output routing enabled', 'info');
+            this.log('Console output routing enabled', 'info');
         }
     }
     
@@ -1078,7 +1078,7 @@ class EnhancedActivityLogger extends ActivityLogger {
         if (enabled && !this.consoleRouting) {
             window.consoleRouter.addLogger(this);
             this.consoleRouting = true;
-            this.log('🔗 Console output routing enabled', 'info');
+            this.log('Console output routing enabled', 'info');
         } else if (!enabled && this.consoleRouting) {
             window.consoleRouter.removeLogger(this);
             this.consoleRouting = false;

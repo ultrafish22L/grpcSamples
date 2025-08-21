@@ -55,7 +55,7 @@ class GrpcApiHelper {
             }
             
             const result = await response.json();
-            console.log(`📥 Response from ${servicePath}:`, result);
+            console.log(`Response from ${servicePath}:`, result);
             
             return result;
             
@@ -128,4 +128,4 @@ class GrpcApiHelper {
 window.grpcApi = new GrpcApiHelper();
 
 // Log successful loading
-console.log('✅ GrpcApiHelper loaded successfully');
+console.log('GrpcApiHelper loaded successfully');

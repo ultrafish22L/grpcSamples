@@ -418,12 +418,12 @@ class LiveLinkClient extends SimpleEventEmitter {
                 }, 10000);
                 
                 // Create a simple test request
-                console.log('🔍 Starting fetch request to:', testUrl);
+                console.log('Starting fetch request to:', testUrl);
                 fetch(testUrl, {
                     method: 'GET',
                     signal: controller.signal
                 }).then(response => {
-                    console.log('✅ Fetch response received:', response.status, response.statusText);
+                    console.log('Fetch response received:', response.status, response.statusText);
                     clearTimeout(timeoutId);
                     const duration = Date.now() - startTime;
                     

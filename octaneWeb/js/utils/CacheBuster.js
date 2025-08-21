@@ -113,7 +113,7 @@ class CacheBuster {
             
             script.addEventListener('load', () => {
                 this.loadedFiles.add(src);
-                console.info(`✅ Loaded: ${src}`);
+                console.info(`Loaded: ${src}`);
                 this.updateIndicator();
             });
             

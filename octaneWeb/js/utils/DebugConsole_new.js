@@ -44,9 +44,9 @@ class DebugConsole {
         this.setupAutoSave();
         
         // Add initial test logs
-        this.addLog('info', '🚀 Debug Console initialized');
-        this.addLog('info', `📋 Session ID: ${this.sessionId}`);
-        this.addLog('info', '📋 Use F12 or Ctrl+D to toggle');
+        this.addLog('info', 'Debug Console initialized');
+        this.addLog('info', `Session ID: ${this.sessionId}`);
+        this.addLog('info', 'Use F12 or Ctrl+D to toggle');
         this.addLog('info', '🧹 Log file cleared by proxy on connection');
     }
     
@@ -149,7 +149,7 @@ class DebugConsole {
         document.getElementById('debug-clear-btn').addEventListener('click', () => this.clear());
         document.getElementById('debug-close-btn').addEventListener('click', () => this.hide());
         
-        console.log('✅ Debug console DOM created successfully');
+        console.log('Debug console DOM created successfully');
     }
     
     interceptConsole() {
@@ -312,7 +312,7 @@ class DebugConsole {
         this.addLog('info', '🧑‍🚒 Running debug test...');
         this.addLog('warn', '⚠️ This is a warning message');
         this.addLog('error', '❌ This is an error message');
-        this.addLog('info', '✅ Test completed successfully');
+        this.addLog('info', 'Test completed successfully');
         
         // Add multiple test logs to test scrolling
         for (let i = 1; i <= 10; i++) {
@@ -334,7 +334,7 @@ class DebugConsole {
         }
         
         // Test log streaming to proxy
-        this.addLog('info', '📡 All logs are automatically streamed to proxy log file');
+        this.addLog('info', 'All logs are automatically streamed to proxy log file');
     }
 }
 

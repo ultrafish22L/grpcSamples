@@ -29,9 +29,9 @@
 
 class SceneOutlinerSync {
     constructor(element, eventSystem) {
-        console.log('🔍 DEBUG: SceneOutlinerSync constructor called');
-        console.log('🔍 DEBUG: element:', element);
-        console.log('🔍 DEBUG: eventSystem:', eventSystem);
+        console.log('DEBUG: SceneOutlinerSync constructor called');
+        console.log('DEBUG: element:', element);
+        console.log('DEBUG: eventSystem:', eventSystem);
         
         this.element = element;
         this.eventSystem = eventSystem;
@@ -46,9 +46,9 @@ class SceneOutlinerSync {
         this.setupEventHandlers();
         
         // Auto-load scene tree after a short delay
-        console.log('🔍 DEBUG: Setting up auto-load timer...');
+        console.log('DEBUG: Setting up auto-load timer...');
         setTimeout(() => {
-            console.log('🔍 DEBUG: Auto-loading scene tree...');
+            console.log('DEBUG: Auto-loading scene tree...');
             this.loadSceneTree();
         }, 100);
     }
@@ -78,7 +78,7 @@ class SceneOutlinerSync {
     
     // Unified selection function - called both on initialization and user clicks
     selectNode(handle, nodeName, nodeId = null, source = 'programmatic') {
-        console.log('🎯 Unified selectNode called:', { handle, nodeName, nodeId, source });
+        console.log('Unified selectNode called:', { handle, nodeName, nodeId, source });
         
         // Update internal state
         this.selectedNodeHandle = handle;
@@ -101,7 +101,7 @@ class SceneOutlinerSync {
         if (handle && handle !== 'scene-root') {
             this.eventSystem.emit('sceneNodeSelected', handle);
             
-            console.log('🎯 Unified selection emitted handle:', handle, 'for node:', nodeName);
+            console.log('Unified selection emitted handle:', handle, 'for node:', nodeName);
         }
     }
 
@@ -112,27 +112,27 @@ class SceneOutlinerSync {
      * UI loads immediately, then updates when scene data is ready
      */
     async loadSceneTree() {
-        console.log('🔍 DEBUG: loadSceneTree() called');
+        console.log('DEBUG: loadSceneTree() called');
         const treeContainer = this.element.querySelector('#scene-tree');
         if (!treeContainer) {
             console.error('❌ Scene tree container not found');
             return;
         }
         
-        console.log('🔍 DEBUG: Found tree container, showing loading state');
+        console.log('DEBUG: Found tree container, showing loading state');
         // Show loading state immediately - UI is responsive
-        treeContainer.innerHTML = '<div class="scene-loading">🔍 Loading scene from Octane...</div>';
+        treeContainer.innerHTML = '<div class="scene-loading">Loading scene from Octane...</div>';
         
-        console.log('🔍 DEBUG: Checking grpcApi availability...');
-        console.log('🔍 DEBUG: window.grpcApi available?', !!window.grpcApi);
-        console.log('🔍 DEBUG: makeApiCallSync method available?', !!(window.grpcApi && window.grpcApi.makeApiCallSync));
+        console.log('DEBUG: Checking grpcApi availability...');
+        console.log('DEBUG: window.grpcApi available?', !!window.grpcApi);
+        console.log('DEBUG: makeApiCallSync method available?', !!(window.grpcApi && window.grpcApi.makeApiCallSync));
         
         try {
-            console.log('🔒 Starting SYNCHRONOUS scene tree loading sequence...');
+            console.log(' Starting SYNCHRONOUS scene tree loading sequence...');
             
             // All API calls are now SYNCHRONOUS and BLOCKING
             // This ensures proper sequential dependencies
-            console.log('🔍 DEBUG: About to call loadSceneTreeSync()...');
+            console.log('DEBUG: About to call loadSceneTreeSync()...');
             this.scene.items = this.loadSceneTreeSync();
             
             // Store scene data for later requests
@@ -144,7 +144,7 @@ class SceneOutlinerSync {
             // Update other components with real scene data
             this.eventSystem.emit('sceneDataLoaded', this.scene);
             
-            console.log('✅ Scene tree loading completed successfully');
+            console.log('Scene tree loading completed successfully');
             
         } catch (error) {
             console.error('❌ Failed to load scene tree:', error);
@@ -274,7 +274,7 @@ class SceneOutlinerSync {
                 if (connectedNode == null) {
                     continue;
                 }
-//                console.log('🔍 connectedNode', connectedNode);
+//                console.log('connectedNode', connectedNode);
 /*                 
                 // Get the pin info handle
                 result = window.grpcApi.makeApiCallSync(
@@ -285,7 +285,7 @@ class SceneOutlinerSync {
                 if (!result.success) {
                     throw new Error('Failed ApiNode/pinInfoIx');
                 }
-                console.log('🔍 before ApiNodePinInfoEx/getApiNodePinInfo', result.data.result.handle);
+                console.log('before ApiNodePinInfoEx/getApiNodePinInfo', result.data.result.handle);
                 // Get the pin info 
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNodePinInfoEx/getApiNodePinInfo', 

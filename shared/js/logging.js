@@ -114,7 +114,7 @@ class ConsoleRouter {
             this.routeToLoggers('error', [
                 `❌ JavaScript Error: ${errorMessage}`,
                 `📁 File: ${fileName}:${lineNumber}:${columnNumber}`,
-                event.error?.stack ? `📋 Stack: ${event.error.stack}` : ''
+                event.error?.stack ? `Stack: ${event.error.stack}` : ''
             ].filter(Boolean));
         });
         
@@ -126,7 +126,7 @@ class ConsoleRouter {
             if (reason instanceof Error) {
                 reasonMessage = `${reason.name}: ${reason.message}`;
                 if (reason.stack) {
-                    reasonMessage += `\n📋 Stack: ${reason.stack}`;
+                    reasonMessage += `\nStack: ${reason.stack}`;
                 }
             } else if (typeof reason === 'string') {
                 reasonMessage = reason;
@@ -189,7 +189,7 @@ class EnhancedActivityLogger extends ActivityLogger {
             window.consoleRouter.addLogger(this);
             
             // Log that console routing is active
-            this.log('🔗 Console output routing enabled', 'info');
+            this.log('Console output routing enabled', 'info');
         }
     }
     
@@ -202,7 +202,7 @@ class EnhancedActivityLogger extends ActivityLogger {
         if (enabled && !this.consoleRouting) {
             window.consoleRouter.addLogger(this);
             this.consoleRouting = true;
-            this.log('🔗 Console output routing enabled', 'info');
+            this.log('Console output routing enabled', 'info');
         } else if (!enabled && this.consoleRouting) {
             window.consoleRouter.removeLogger(this);
             this.consoleRouting = false;

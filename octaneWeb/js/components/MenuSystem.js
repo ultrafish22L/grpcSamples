@@ -472,7 +472,7 @@ class MenuSystem extends OctaneComponent {
         try {
             // Make gRPC call to reset project (equivalent to "New")
             if (this.client && this.client.connected) {
-                console.log('📤 Making gRPC call: ApiProjectManager/resetProject');
+                console.log('Making gRPC call: ApiProjectManager/resetProject');
                 
                 // Show progress notification
                 this.showNotification('🔄 Creating new scene...', 'info');
@@ -489,8 +489,8 @@ class MenuSystem extends OctaneComponent {
                 ]);
                 
                 if (response.success && response.data && response.data.result) {
-                    console.log('✅ New scene created successfully via gRPC');
-                    this.showNotification('✅ New scene created', 'success');
+                    console.log('New scene created successfully via gRPC');
+                    this.showNotification('New scene created', 'success');
                     
                     // Refresh scene outliner to show new empty scene
                     if (this.components?.sceneOutliner) {
@@ -536,7 +536,7 @@ class MenuSystem extends OctaneComponent {
                 if (result.loadResult && result.loadResult.success) {
                     await this.loadSceneFromFile(result);
                     this.addToRecentFiles(result.name);
-                    this.showNotification(`✅ Loaded Octane project: ${result.name}`, 'success');
+                    this.showNotification(`Loaded Octane project: ${result.name}`, 'success');
                 } else if (result.loadResult && !result.loadResult.success) {
                     // Project file was processed but gRPC load failed
                     const errorMsg = result.loadResult.error || 'Unknown error';
@@ -562,7 +562,7 @@ class MenuSystem extends OctaneComponent {
         try {
             // Make gRPC call to load project directly by path
             if (this.client && this.client.connected) {
-                console.log('📤 Making gRPC call: ApiProjectManager/loadProject');
+                console.log('Making gRPC call: ApiProjectManager/loadProject');
                 
                 const response = await this.client.makeGrpcCall('ApiProjectManager', 'loadProject', {
                     projectPath: filename,
@@ -570,8 +570,8 @@ class MenuSystem extends OctaneComponent {
                 });
                 
                 if (response.success && response.data && response.data.result) {
-                    console.log('✅ Recent project loaded successfully via gRPC');
-                    this.showNotification(`✅ Loaded ${filename}`, 'success');
+                    console.log('Recent project loaded successfully via gRPC');
+                    this.showNotification(`Loaded ${filename}`, 'success');
                     
                     // Refresh scene outliner to show loaded scene
                     if (this.components?.sceneOutliner) {
@@ -616,12 +616,12 @@ class MenuSystem extends OctaneComponent {
         try {
             // Make gRPC call to save current project
             if (this.client && this.client.connected) {
-                console.log('📤 Making gRPC call: ApiProjectManager/saveProject');
+                console.log('Making gRPC call: ApiProjectManager/saveProject');
                 
                 const response = await this.client.makeGrpcCall('ApiProjectManager', 'saveProject', {});
                 
                 if (response.success && response.data && response.data.result) {
-                    console.log('✅ Scene saved successfully via gRPC');
+                    console.log('Scene saved successfully via gRPC');
                     
                     // Get current project path to show in notification
                     const currentProjectResponse = await this.client.makeGrpcCall('ApiProjectManager', 'getCurrentProject', {});
@@ -629,7 +629,7 @@ class MenuSystem extends OctaneComponent {
                     const projectPath = currentProjectResponse.data?.result || 'current project';
                     const filename = projectPath.split(/[\\\/]/).pop() || 'project';
                     
-                    this.showNotification(`✅ Saved ${filename}`, 'success');
+                    this.showNotification(`Saved ${filename}`, 'success');
                     
                 } else {
                     throw new Error(response.error || 'Save project failed');
@@ -669,18 +669,18 @@ class MenuSystem extends OctaneComponent {
             
             // Make gRPC call to save project with new path
             if (this.client && this.client.connected) {
-                console.log('📤 Making gRPC call: ApiProjectManager/saveProjectAs');
+                console.log('Making gRPC call: ApiProjectManager/saveProjectAs');
                 
                 const response = await this.client.makeGrpcCall('ApiProjectManager', 'saveProjectAs', {
                     path: filename
                 });
                 
                 if (response.success && response.data && response.data.result) {
-                    console.log('✅ Scene saved as successfully via gRPC');
+                    console.log('Scene saved as successfully via gRPC');
                     
                     this.setCurrentSceneFilename(filename);
                     this.addToRecentFiles(filename);
-                    this.showNotification(`✅ Saved as ${filename}`, 'success');
+                    this.showNotification(`Saved as ${filename}`, 'success');
                     
                 } else {
                     throw new Error(response.error || 'Save project as failed');
@@ -719,7 +719,7 @@ class MenuSystem extends OctaneComponent {
             
             // Make gRPC call to save project as reference package
             if (this.client && this.client.connected) {
-                console.log('📤 Making gRPC call: ApiProjectManager/saveProjectAsReferencePackage');
+                console.log('Making gRPC call: ApiProjectManager/saveProjectAsReferencePackage');
                 
                 const response = await this.client.makeGrpcCall('ApiProjectManager', 'saveProjectAsReferencePackage', {
                     path: packagePath,
@@ -732,8 +732,8 @@ class MenuSystem extends OctaneComponent {
                 });
                 
                 if (response.success && response.data && response.data.result) {
-                    console.log('✅ Package saved successfully via gRPC');
-                    this.showNotification(`✅ Saved package: ${packagePath}`, 'success');
+                    console.log('Package saved successfully via gRPC');
+                    this.showNotification(`Saved package: ${packagePath}`, 'success');
                 } else {
                     throw new Error(response.error || 'Save package failed');
                 }
@@ -779,7 +779,7 @@ class MenuSystem extends OctaneComponent {
             
             // Make gRPC call to unpack package
             if (this.client && this.client.connected) {
-                console.log('📤 Making gRPC call: ApiProjectManager/unpackPackage');
+                console.log('Making gRPC call: ApiProjectManager/unpackPackage');
                 
                 const response = await this.client.makeGrpcCall('ApiProjectManager', 'unpackPackage', {
                     packagePath: packagePath,
@@ -788,8 +788,8 @@ class MenuSystem extends OctaneComponent {
                 });
                 
                 if (response.success && response.data && response.data.result) {
-                    console.log('✅ Package unpacked successfully via gRPC');
-                    this.showNotification(`✅ Package unpacked to: ${unpackDir}/${unpackName}`, 'success');
+                    console.log('Package unpacked successfully via gRPC');
+                    this.showNotification(`Package unpacked to: ${unpackDir}/${unpackName}`, 'success');
                 } else {
                     throw new Error(response.error || 'Unpack package failed');
                 }
@@ -806,7 +806,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async loadRenderState() {
-        console.log('🎨 Load render state...');
+        console.log('Load render state...');
         
         try {
             const results = await this.fileManager.openFileDialog({
@@ -825,7 +825,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async saveRenderState() {
-        console.log('🎨 Save render state...');
+        console.log('Save render state...');
         
         try {
             const renderState = this.getCurrentRenderState();
@@ -883,7 +883,7 @@ class MenuSystem extends OctaneComponent {
             // Try gRPC undo first (if available)
             if (this.client && this.client.connected) {
                 // Note: Octane may not have a direct undo API, so we'll use local state manager as fallback
-                console.log('📤 Checking for gRPC undo capability...');
+                console.log('Checking for gRPC undo capability...');
                 this.showNotification('⚠️ Undo via gRPC not yet available', 'warning');
             }
             
@@ -907,7 +907,7 @@ class MenuSystem extends OctaneComponent {
         try {
             // Try gRPC redo first (if available)
             if (this.client && this.client.connected) {
-                console.log('📤 Checking for gRPC redo capability...');
+                console.log('Checking for gRPC redo capability...');
                 this.showNotification('⚠️ Redo via gRPC not yet available', 'warning');
             }
             
@@ -943,7 +943,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async copy() {
-        console.log('📋 Copy selected items...');
+        console.log('Copy selected items...');
         
         try {
             if (this.client && this.client.connected) {
@@ -1112,15 +1112,15 @@ class MenuSystem extends OctaneComponent {
         
         try {
             if (this.client && this.client.connected) {
-                console.log('📤 Making gRPC call: ApiRenderCloudManager/newRenderTask');
+                console.log('Making gRPC call: ApiRenderCloudManager/newRenderTask');
                 
                 const response = await this.client.makeGrpcCall('ApiRenderCloudManager', 'newRenderTask', {
                     // Add render task parameters as needed
                 });
                 
                 if (response.success && response.data) {
-                    console.log('✅ Cloud render task created successfully');
-                    this.showNotification('✅ Cloud render task started', 'success');
+                    console.log('Cloud render task created successfully');
+                    this.showNotification('Cloud render task started', 'success');
                 } else {
                     throw new Error(response.error || 'Cloud render task creation failed');
                 }
@@ -1140,13 +1140,13 @@ class MenuSystem extends OctaneComponent {
         
         try {
             if (this.client && this.client.connected) {
-                console.log('📤 Making gRPC call: ApiRenderCloudManager/userSubscriptionInfo');
+                console.log('Making gRPC call: ApiRenderCloudManager/userSubscriptionInfo');
                 
                 const response = await this.client.makeGrpcCall('ApiRenderCloudManager', 'userSubscriptionInfo', {});
                 
                 if (response.success && response.data) {
-                    console.log('✅ Retrieved cloud account info');
-                    this.showNotification('✅ Cloud account info retrieved', 'success');
+                    console.log('Retrieved cloud account info');
+                    this.showNotification('Cloud account info retrieved', 'success');
                     // TODO: Show account info in a modal
                 } else {
                     throw new Error(response.error || 'Failed to get account info');
@@ -1163,17 +1163,17 @@ class MenuSystem extends OctaneComponent {
     }
     
     async uploadScene() {
-        console.log('📤 Upload scene to cloud...');
+        console.log('Upload scene to cloud...');
         
         try {
             if (this.client && this.client.connected) {
-                console.log('📤 Making gRPC call: ApiRenderCloudManager/uploadCurrentProject');
+                console.log('Making gRPC call: ApiRenderCloudManager/uploadCurrentProject');
                 
                 const response = await this.client.makeGrpcCall('ApiRenderCloudManager', 'uploadCurrentProject', {});
                 
                 if (response.success && response.data) {
-                    console.log('✅ Scene uploaded to cloud successfully');
-                    this.showNotification('✅ Scene uploaded to cloud', 'success');
+                    console.log('Scene uploaded to cloud successfully');
+                    this.showNotification('Scene uploaded to cloud', 'success');
                 } else {
                     throw new Error(response.error || 'Scene upload failed');
                 }
@@ -1189,8 +1189,8 @@ class MenuSystem extends OctaneComponent {
     }
     
     async downloadResults() {
-        console.log('📥 Download cloud results...');
-        this.showNotification('📥 Download results - Not implemented yet', 'info');
+        console.log('Download cloud results...');
+        this.showNotification('Download results - Not implemented yet', 'info');
     }
     
     // ==================== WINDOW MENU FUNCTIONS ====================
@@ -1213,14 +1213,14 @@ class MenuSystem extends OctaneComponent {
     }
     
     async toggleNodeInspector() {
-        console.log('🔍 Toggle node inspector...');
+        console.log('Toggle node inspector...');
         
         try {
             const nodeInspectorPanel = document.querySelector('.node-inspector-panel');
             if (nodeInspectorPanel) {
                 const isVisible = nodeInspectorPanel.style.display !== 'none';
                 nodeInspectorPanel.style.display = isVisible ? 'none' : 'block';
-                this.showNotification(`🔍 Node inspector ${isVisible ? 'hidden' : 'shown'}`, 'info');
+                this.showNotification(`Node inspector ${isVisible ? 'hidden' : 'shown'}`, 'info');
             }
             
         } catch (error) {

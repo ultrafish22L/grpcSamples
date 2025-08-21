@@ -246,7 +246,7 @@ class Camera {
         this.state.radius *= (1 + delta * this.state.zoomSpeed * 0.001);
         this.state.radius = Math.max(0.1, Math.min(1000, this.state.radius));
         
-        console.log(`🔍 Zooming: ${oldRadius.toFixed(2)} → ${this.state.radius.toFixed(2)}`);
+        console.log(`Zooming: ${oldRadius.toFixed(2)} → ${this.state.radius.toFixed(2)}`);
     }
     
     /**
@@ -355,5 +355,5 @@ class Camera {
 // Register Camera class globally
 if (typeof window !== 'undefined') {
     window.Camera = Camera;
-    console.log('✅ Camera class registered globally');
+    console.log('Camera class registered globally');
 }

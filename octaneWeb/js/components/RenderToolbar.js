@@ -74,7 +74,7 @@ class RenderToolbar {
             }
             
             const result = await response.json();
-            console.log(`✅ gRPC call successful: ${service}.${method}`, result);
+            console.log(`gRPC call successful: ${service}.${method}`, result);
             return result;
             
         } catch (error) {
@@ -172,7 +172,7 @@ class RenderToolbar {
             { type: 'separator' },
             
             // Viewport Controls
-            { id: 'viewport-resolution-lock', icon: '🔒', tooltip: 'Viewport Resolution Lock - The Viewport can scroll up and down to accommodate the rendered image\'s current visible size. Enabling this facility adjusts the resolution of the rendered image to the current Viewport size. If this is enabled, OctaneRender® restarts the rendering every time you adjust the Viewport window\'s size, since the image resolution also changes.' },
+            { id: 'viewport-resolution-lock', icon: '', tooltip: 'Viewport Resolution Lock - The Viewport can scroll up and down to accommodate the rendered image\'s current visible size. Enabling this facility adjusts the resolution of the rendered image to the current Viewport size. If this is enabled, OctaneRender® restarts the rendering every time you adjust the Viewport window\'s size, since the image resolution also changes.' },
             { id: 'lock-viewport', icon: '🔐', tooltip: 'Lock Viewport - Locks and unlocks the Viewport controls. Locking the Viewport controls prevents accidental changes or render restarts.' },
             
             { type: 'separator' },
@@ -250,7 +250,7 @@ class RenderToolbar {
     }
     
     handleToolbarAction(actionId) {
-        console.log(`🎬 Octane Toolbar Action: ${actionId}`);
+        console.log(`Octane Toolbar Action: ${actionId}`);
         
         switch (actionId) {
             // Camera & View Controls
@@ -395,7 +395,7 @@ class RenderToolbar {
                     defaultPosition.x, defaultPosition.y, defaultPosition.z,
                     defaultTarget.x, defaultTarget.y, defaultTarget.z
                 );
-                console.log('✅ Camera reset to default position successfully');
+                console.log('Camera reset to default position successfully');
             } catch (error) {
                 console.error('❌ Failed to reset camera:', error);
             }
@@ -405,7 +405,7 @@ class RenderToolbar {
     }
     
     showCameraPresets() {
-        console.log('🎯 Showing camera presets...');
+        console.log('Showing camera presets...');
         // TODO: makeGrpcCall('GetCameraPresets', {})
         // Show camera preset menu/dialog
     }
@@ -422,7 +422,7 @@ class RenderToolbar {
         
         if (result && result.success !== false) {
             this.updateRenderStatus('stopped');
-            console.log('✅ Render stopped successfully');
+            console.log('Render stopped successfully');
         } else {
             console.error('❌ Failed to stop render');
             // Still update UI to show stopped state for user feedback
@@ -438,7 +438,7 @@ class RenderToolbar {
         
         if (result && result.success !== false) {
             this.updateRenderStatus('rendering');
-            console.log('✅ Render restarted successfully');
+            console.log('Render restarted successfully');
         } else {
             console.error('❌ Failed to restart render');
             // Still update UI to show rendering state for user feedback
@@ -454,7 +454,7 @@ class RenderToolbar {
         
         if (result && result.success !== false) {
             this.updateRenderStatus('paused');
-            console.log('✅ Render paused successfully');
+            console.log('Render paused successfully');
         } else {
             console.error('❌ Failed to pause render');
             // Still update UI to show paused state for user feedback
@@ -470,7 +470,7 @@ class RenderToolbar {
         
         if (result && result.success !== false) {
             this.updateRenderStatus('rendering');
-            console.log('✅ Render started/resumed successfully');
+            console.log('Render started/resumed successfully');
         } else {
             console.error('❌ Failed to start/resume render');
             // Still update UI to show rendering state for user feedback
@@ -491,7 +491,7 @@ class RenderToolbar {
         });
         
         if (result && result.success !== false) {
-            console.log(`✅ Real-time mode ${this.realTimeMode ? 'enabled' : 'disabled'} successfully`);
+            console.log(`Real-time mode ${this.realTimeMode ? 'enabled' : 'disabled'} successfully`);
             this.renderPriority = priority;
         } else {
             console.error(`❌ Failed to ${this.realTimeMode ? 'enable' : 'disable'} real-time mode`);
@@ -510,10 +510,10 @@ class RenderToolbar {
     togglePickingMode(mode) {
         if (this.currentPickingMode === mode) {
             this.currentPickingMode = 'none';
-            console.log(`🎯 Disabled ${mode} picker`);
+            console.log(`Disabled ${mode} picker`);
         } else {
             this.currentPickingMode = mode;
-            console.log(`🎯 Enabled ${mode} picker`);
+            console.log(`Enabled ${mode} picker`);
         }
         
         switch (mode) {
@@ -581,7 +581,7 @@ class RenderToolbar {
     // ========================================
     
     copyToClipboard() {
-        console.log('📋 Copying render to clipboard...');
+        console.log('Copying render to clipboard...');
         // TODO: makeGrpcCall('CopyRenderToClipboard', {})
         // Copies current render to clipboard in LDR format
     }
@@ -593,7 +593,7 @@ class RenderToolbar {
     }
     
     exportRenderPasses() {
-        console.log('📤 Exporting render passes...');
+        console.log('Exporting render passes...');
         // TODO: makeGrpcCall('ShowExportPassesDialog', {})
         // Brings up Render Passes Export window
     }
@@ -610,7 +610,7 @@ class RenderToolbar {
     
     toggleViewportResolutionLock() {
         this.viewportResolutionLock = !this.viewportResolutionLock;
-        console.log(`🔒 Viewport resolution lock: ${this.viewportResolutionLock ? 'ON' : 'OFF'}`);
+        console.log(` Viewport resolution lock: ${this.viewportResolutionLock ? 'ON' : 'OFF'}`);
         // TODO: makeGrpcCall('SetViewportResolutionLock', { enabled: this.viewportResolutionLock })
         // Adjusts render resolution to viewport size
     }

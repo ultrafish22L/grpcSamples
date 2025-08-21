@@ -50,7 +50,7 @@ class NodeInspector extends OctaneComponent {
     async onInitialize() {
         // Initialize Generic Node Renderer
         this.genericRenderer = new window.GenericNodeRenderer(window.OctaneIconMapper, this.client);
-        console.log('✅ NodeInspector: GenericNodeRenderer initialized');
+        console.log('NodeInspector: GenericNodeRenderer initialized');
     }
     
     initializeExpandedState() {
@@ -59,7 +59,7 @@ class NodeInspector extends OctaneComponent {
         this.collapsedSections = new Set(); // All sections expanded by default
         this.collapsedGroups = new Set();   // All parameter groups expanded by default
         
-        console.log('🎯 Initializing Node Inspector with all sections/groups expanded by default');
+        console.log('Initializing Node Inspector with all sections/groups expanded by default');
     }
 
     setupEventListeners() {
@@ -69,9 +69,9 @@ class NodeInspector extends OctaneComponent {
             this.scene = scene;
             
             this.sceneDataLoaded = true;
-            console.log('✅ NodeInspector received sceneDataLoaded event:', scene.items);
+            console.log('NodeInspector received sceneDataLoaded event:', scene.items);
 
-            window.debugConsole?.addLog('info', ['✅ NodeInspector: updateing']);
+            window.debugConsole?.addLog('info', ['NodeInspector: updateing']);
 
             this.updateSelectedNode(this.scene.items[1].handle)
         });
@@ -100,7 +100,7 @@ class NodeInspector extends OctaneComponent {
         const rightPanel = document.querySelector('.right-panel');
         if (!rightPanel) return;
 
-        console.log('🎯 Setting up coordinate-based click detection system');
+        console.log('Setting up coordinate-based click detection system');
 
         // Global document click handler that intercepts ALL clicks
         document.addEventListener('click', (event) => {
@@ -115,11 +115,11 @@ class NodeInspector extends OctaneComponent {
             if (x >= rightPanelRect.left && x <= rightPanelRect.right &&
                 y >= rightPanelRect.top && y <= rightPanelRect.bottom) {
                 
-                console.log('🎯 Coordinate-based click detected in right panel at:', x, y);
+                console.log('Coordinate-based click detected in right panel at:', x, y);
                 
                 // Use elementsFromPoint to find what's actually under the cursor
                 const elementsUnderCursor = document.elementsFromPoint(x, y);
-                console.log('🔍 Elements under cursor:', elementsUnderCursor.map(el => `${el.tagName}.${el.className} [bid=${el.getAttribute('bid')}]`));
+                console.log('Elements under cursor:', elementsUnderCursor.map(el => `${el.tagName}.${el.className} [bid=${el.getAttribute('bid')}]`));
                 
                 // Find the first clickable element in the right panel
                 for (const element of elementsUnderCursor) {
@@ -159,7 +159,7 @@ class NodeInspector extends OctaneComponent {
                     
                     // Handle dropdowns
                     if (element.classList && element.classList.contains('parameter-dropdown')) {
-                        console.log('📋 Coordinate-based dropdown click:', element);
+                        console.log('Coordinate-based dropdown click:', element);
                         element.focus();
                         // Let dropdown handle itself naturally
                         return;
@@ -396,7 +396,7 @@ class NodeInspector extends OctaneComponent {
      * This replaces specialized cache lookups with direct scene access
      */
     findNodeInSceneItems(handle) {
-        window.debugConsole?.addLog('info', ['🔍 NodeInspector: Searching for handle in scene', handle]);
+        window.debugConsole?.addLog('info', ['NodeInspector: Searching for handle in scene', handle]);
         
         if (!this.scene || !this.scene.items || !Array.isArray(this.scene.items)) {
             window.debugConsole?.addLog('warn', ['⚠️ NodeInspector: No scene available']);
@@ -408,7 +408,7 @@ class NodeInspector extends OctaneComponent {
         const findRecursively = (items) => {
             for (const item of items) {
                 if (item.handle == handle) {
-                    window.debugConsole?.addLog('info', ['✅ NodeInspector: Found node', item.name, 'with handle', handle]);
+                    window.debugConsole?.addLog('info', ['NodeInspector: Found node', item.name, 'with handle', handle]);
                     return item;
                 }
                 if (item.children && item.children.length > 0) {
@@ -425,8 +425,8 @@ class NodeInspector extends OctaneComponent {
     
    
     async updateSelectedNode(handle) {
-        console.log('🎯 NodeInspector received selection handle:', handle);
-        window.debugConsole?.addLog('info', ['🎯 NodeInspector: Updating selected node', handle]);
+        console.log('NodeInspector received selection handle:', handle);
+        window.debugConsole?.addLog('info', ['NodeInspector: Updating selected node', handle]);
         
         // Find node data directly from scene list (generic approach)
         const nodeData = this.findNodeInSceneItems(handle);
@@ -442,7 +442,7 @@ class NodeInspector extends OctaneComponent {
         this.selectedNodeType = nodeData.outtype;
         this.selectedNodeName = nodeData.name;
         
-        window.debugConsole?.addLog('info', ['📋 NodeInspector: Selected node', nodeData.name, 'type:', nodeData.outtype]);
+        window.debugConsole?.addLog('info', ['NodeInspector: Selected node', nodeData.name, 'type:', nodeData.outtype]);
         
         // Initialize expanded state for this node (expand all children by default)
         this.initializeExpandedState();
@@ -464,7 +464,7 @@ class NodeInspector extends OctaneComponent {
      * This replaces specialized functions with a generic approach
      */
     async buildTree(nodeInfo) {
-        window.debugConsole?.addLog('info', ['🚀 NodeInspector: Loading generic parameters for', nodeInfo.nodeName, 'type:', nodeInfo.nodeType]);
+        window.debugConsole?.addLog('info', ['NodeInspector: Loading generic parameters for', nodeInfo.nodeName, 'type:', nodeInfo.nodeType]);
         
         // Show loading state
         this.showLoadingState(nodeInfo);
@@ -484,7 +484,7 @@ class NodeInspector extends OctaneComponent {
      * All other info is built into the scene tree or obtained via nodePinInfo
      */
     getNodeTypeMapping(nodeType) {
-        window.debugConsole?.addLog('info', ['🗺️ NodeInspector: Getting mapping for node type', nodeType]);
+        window.debugConsole?.addLog('info', ['NodeInspector: Getting mapping for node type', nodeType]);
         
         // Simplified node type mappings - only color and icon
         const nodeTypeMappings = {
@@ -524,7 +524,7 @@ class NodeInspector extends OctaneComponent {
         };
         
         const mapping = nodeTypeMappings[nodeType] || nodeTypeMappings['DEFAULT'];
-        window.debugConsole?.addLog('info', ['✅ NodeInspector: Using mapping', mapping.icon, 'color:', mapping.color]);
+        window.debugConsole?.addLog('info', ['NodeInspector: Using mapping', mapping.icon, 'color:', mapping.color]);
         
         return mapping;
     }
@@ -534,7 +534,7 @@ class NodeInspector extends OctaneComponent {
      */
     buildTreeRecurse(nodeInfo) {
         const nodeName = nodeInfo.nodeName || nodeInfo.name || 'Unknown Node';
-        window.debugConsole?.addLog('info', ['🎨 NodeInspector: Rendering generic node inspector for', nodeName]);
+        window.debugConsole?.addLog('info', ['NodeInspector: Rendering generic node inspector for', nodeName]);
         
         const nodeHandle = nodeInfo.handle;
         let nodeData = this.findNodeInSceneItems(nodeHandle);
@@ -556,21 +556,15 @@ class NodeInspector extends OctaneComponent {
             nodeData.inspectorColor = '#ff6600';
             nodeData.inspectorIcon = '🎯';
         }
-        const pinData = null;
-        // Convert parameters to pin format for the renderer
-//        const pinData = parameters;
-        
-//        console.log('🎛️ Creating interactive controls for', Object.keys(parameters).length, 'parameters');
-        
-        // Use the GenericNodeRenderer with the node data and pin data
-        const html = this.genericRenderer.renderNode(nodeData, pinData);
+        const html = this.genericRenderer.renderNode(nodeData);
+//        const html = this.renderNode(nodeData);
         
         // Update the inspector container directly
         const inspectorContainer = document.getElementById('node-inspector');
         if (inspectorContainer) {
             inspectorContainer.innerHTML = html;
             this.genericRenderer.setupEventHandlers(inspectorContainer);
-            window.debugConsole?.addLog('info', ['✅ NodeInspector: Inspector rendered successfully']);
+            window.debugConsole?.addLog('info', ['NodeInspector: Inspector rendered successfully']);
         } else {
             console.error('❌ Node inspector container not found');
             window.debugConsole?.addLog('error', ['❌ NodeInspector: Container not found']);
@@ -579,7 +573,7 @@ class NodeInspector extends OctaneComponent {
         // Setup event listeners for the new content
         this.setupInspectorEventListeners();
         
-        window.debugConsole?.addLog('info', ['✅ NodeInspector: Rendered node inspector with interactive controls']);
+        window.debugConsole?.addLog('info', ['NodeInspector: Rendered node inspector with interactive controls']);
     }
     
     
@@ -606,7 +600,7 @@ class NodeInspector extends OctaneComponent {
                 dropdown.appendChild(newOption);
             }
             
-            console.log('🎯 Updated NodeInspector dropdown to:', nodeName);
+            console.log('Updated NodeInspector dropdown to:', nodeName);
         }
     }
     
@@ -675,13 +669,19 @@ class NodeInspector extends OctaneComponent {
         return groups;
     }
     
-    renderParameters(parameters) {
-        return Object.entries(parameters).map(([name, param]) => {
-            return this.renderParameter(name, param);
-        }).join('');
+    renderNode(nodeData) {
+        
+        let html = this.renderParameter(name, param);
+        
+        if (!nodeData.children || !Array.isArray(nodeData.children)) return html;
+
+        for (const child of children) {
+            html += this.renderNode(child, level);
+        }
     }
     
-    renderParameter(name, param) {
+    renderParameter(nodeData) {
+
         const { type, value, min, max, label, icon, unit } = param;
         const displayLabel = label || name;
         const paramIcon = icon || this.getParameterIcon(name, type);
@@ -1031,7 +1031,7 @@ class NodeInspector extends OctaneComponent {
         const parameters = {};
         
         try {
-            console.log(`🔍 Loading parameters for node handle ${nodeHandle} (depth ${currentDepth})`);
+            console.log(`Loading parameters for node handle ${nodeHandle} (depth ${currentDepth})`);
             
             // Get pin count for this node
             const pinCountResult = window.grpcApi.makeApiCallSync(
@@ -1109,7 +1109,7 @@ class NodeInspector extends OctaneComponent {
                         pinType: pinType
                     };
                     
-                    console.log(`✅ Loaded parameter: ${paramName} (${pinType}) = ${pinValue}`);
+                    console.log(`Loaded parameter: ${paramName} (${pinType}) = ${pinValue}`);
                     
                     // Also check for connected nodes (for nested parameters)
                     const connectedNodeResult = window.grpcApi.makeApiCallSync(
@@ -1220,133 +1220,40 @@ class NodeInspector extends OctaneComponent {
         
         console.log(`🔄 Updating parameter "${nodeData.name}" to:`, newValue);
         
+        const CONST_ATTR_MAP = {
+            ["AT_BOOL"]: "set27",
+            ["AT_FLOAT"]: "set34",
+            ["AT_FLOAT2"]: "set34",
+            ["AT_FLOAT3"]: "set34",
+            ["AT_FLOAT4"]: "set37",
+            ["AT_INT"]: "set34",
+            ["AT_INT2"]: "set34",
+            ["AT_INT3"]: "set34",
+            ["AT_INT4"]: "set34",
+            ["AT_STRING"]: "set34",
+            ["AT_FILENAME"]: "set34",
+        };
+        const sig = CONST_ATTR_MAP[nodeData.attrType]
+        if (sig == null) {
+            console.log(` no callback for: `, nodeData.attrType);
+        }
+        let callsig = "ApiItemGetter/set" + sig;
+        let result;
         try {        
-            if (nodeData.attrType == "AT_BOOL") {
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemSetter/set27', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE,
-                      value: newValue,
-                      evaluate: true,
-                    },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemSetter/setBool');
-                }
-            }
-            else if (nodeData.attrType == "AT_FLOAT") {
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemSetter/setFloat', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE,
-                      value: newValue,
-                      evaluate: true,
-                    },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemSetter/setFloat');
-                }
-            }
-            else if (nodeData.attrType == "AT_FLOAT2") {
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemSetter/setFloat2', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE,
-                      value: newValue,
-                      evaluate: true,
-                    },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemSetter/setFloat2');
-                }
-            }
-            else if (nodeData.attrType == "AT_FLOAT3") {
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemSetter/setFloat3', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE,
-                      value: newValue,
-                      evaluate: true,
-                    },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemSetter/setFloat3');
-                }
-            }
-            else if (nodeData.attrType == "AT_FLOAT4") {
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemSetter/setFloat4', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE,
-                      value: newValue,
-                      evaluate: true,
-                    },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemSetter/setFloat4');
-                }
-            }
-            else if (nodeData.attrType == "AT_INT") {
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemSetter/setInt', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE,
-                      value: newValue,
-                      evaluate: true,
-                    },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemSetter/setInt');
-                }
-            }
-            else if (nodeData.attrType == "AT_INT2") {
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemSetter/setInt2', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE,
-                      value: newValue,
-                      evaluate: true,
-                    },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemSetter/setInt2');
-                }
-            }
-            else if (nodeData.attrType == "AT_INT3") {
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemSetter/setInt3', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE,
-                      value: newValue,
-                      evaluate: true,
-                    },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemSetter/setInt3');
-                }
-            }
-            else if (nodeData.attrType == "AT_STRING" || nodeData.attrType == "AT_FILENAME") {
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemSetter/setString', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE,
-                      value: newValue,
-                      evaluate: true,
-                    },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItemSetter/setString');
-                }
-            }
-//            let result = window.grpcApi.makeApiCallSync(
-//                'ApiChangeManager/update');
-
+             result = window.grpcApi.makeApiCallSync(
+                'ApiItemSetter/set27', 
+                nodeData.handle,
+                { id: window.OctaneTypes.AttributeId.A_VALUE,
+                    value: newValue,
+                    evaluate: true,
+                },
+            );
             if (!result.success) {
-                throw new Error('Failed ApiItemSetter/setString');
+                throw new Error('Failed ApiItemSetter/setBool');
             }
         } catch (error) {
-            console.error('❌ Failed handleParameterChange:', error);
-        }
+            console.error('❌ Failed createParameterControl:', error);
+        }     
     }
     
     /**
