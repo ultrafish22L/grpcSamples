@@ -430,6 +430,43 @@ class NodeGraphEditor extends OctaneComponent {
         }
     }
     
+       
+    drawIcon(x, y, width, height, radius, color, fill = true, topOnly = false) {
+        this.ctx.beginPath();
+        
+        if (topOnly) {
+            // Only round top corners for headers
+            this.ctx.moveTo(x + radius, y);
+            this.ctx.lineTo(x + width - radius, y);
+            this.ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            this.ctx.lineTo(x + width, y + height);
+            this.ctx.lineTo(x, y + height);
+            this.ctx.lineTo(x, y + radius);
+            this.ctx.quadraticCurveTo(x, y, x + radius, y);
+        } else {
+            // Full rounded rectangle
+            this.ctx.moveTo(x + radius, y);
+            this.ctx.lineTo(x + width - radius, y);
+            this.ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            this.ctx.lineTo(x + width, y + height - radius);
+            this.ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            this.ctx.lineTo(x + radius, y + height);
+            this.ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            this.ctx.lineTo(x, y + radius);
+            this.ctx.quadraticCurveTo(x, y, x + radius, y);
+        }
+        
+        this.ctx.closePath();
+        
+        if (fill) {
+            this.ctx.fillStyle = color;
+            this.ctx.fill();
+        } else {
+            this.ctx.strokeStyle = color;
+            this.ctx.stroke();
+        }
+    }
+
     drawNode(node) {
         // Calculate Octane-style node dimensions
         const minWidth = 180; // Much wider minimum width for proper pin spacing

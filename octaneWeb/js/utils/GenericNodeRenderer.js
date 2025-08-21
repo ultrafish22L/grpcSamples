@@ -34,7 +34,8 @@ class GenericNodeRenderer {
         this.expandedGroups = new Set(); // Track expanded/collapsed state
         this.expandedNodes = new Set();  // Track expanded nodes
         this.allNodesExpandedByDefault = true; // All nodes expanded by default
-        
+        this.lastGroup = null;
+
         // Initialize with common groups expanded by default
         this.expandedGroups.add('scene');
         this.expandedGroups.add('render-settings');
@@ -56,64 +57,9 @@ class GenericNodeRenderer {
         }
         console.log(`GenericNodeRenderer: Rendering node "${nodeData.name}" type: ${nodeData.outtype}`);
         
-        let html = '';
-        
-        // Render the top-level selected node (level 0, no indent, no collapse icon)
-        html += this.renderTopNode(nodeData);
-        
-        // Render child nodes recursively if they exist, but exclude the selected node itself
-        if (nodeData.children && nodeData.children.length > 0) {
-            // Filter out the selected node from children to avoid duplication
-            const filteredChildren = nodeData.children.filter(child => child.handle !== nodeData.handle);
-            if (filteredChildren.length > 0) {
-                html += this.renderChildNodes(filteredChildren, 1);
-            }
-        }
-        
-        return html;
-    }
-    
-    /**
-     * Render the top-level selected node (no indentation, no collapse icon)
-     * @param {Object} nodeData - The selected node data
-     * @returns {string} - HTML for the top node
-     */
-    renderTopNode(nodeData) {
-        // Use inspector-specific color/icon if available, otherwise fall back to iconMapper
-        const icon = nodeData.inspectorIcon || this.iconMapper?.getNodeIcon(nodeData.outtype, nodeData.name) || '📦';
-        const color = nodeData.inspectorColor || this.iconMapper?.getNodeColor(nodeData.outtype) || '#666';
-        
-        return `
-            <div class="node-box node-level-0" data-node-handle="${nodeData.handle}">
-                <div class="node-icon-box" style="background-color: ${color}">
-                    <span class="node-icon">${icon}</span>
-                </div>
-                <div class="node-content">
-                    <div class="node-label">
-                        <span class="node-title">${nodeData.name}</span>
-                        ${this.renderNodeParameters(nodeData)}
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-    
-    /**
-     * Render child nodes recursively with proper indentation
-     * @param {Array} children - Array of child node data
-     * @param {number} level - Current indentation level
-     * @returns {string} - HTML for child nodes
-     */
-    renderChildNodes(children, level) {
-        if (!children || !Array.isArray(children)) return '';
-        
-        let html = '';
-        
-        for (const child of children) {
-            html += this.renderNodeAtLevel(child, level);
-        }
-        
-        return html;
+        this.lastGroup = null;
+
+        return this.renderNodeAtLevel(nodeData, 0);        
     }
     
     /**
@@ -129,6 +75,35 @@ class GenericNodeRenderer {
         const hasChildren = nodeData.children && nodeData.children.length > 0;
         const nodeId = `node-${nodeData.handle}`;
         
+        let html = ``;
+        let groupName = null;
+        if (nodeData.pinInfo && nodeData.pinInfo.groupName && nodeData.pinInfo.groupName) {
+             groupName = nodeData.pinInfo.groupName;
+        }
+        if (groupName != this.lastGroup) {
+            if (this.lastGroup != null) {
+                // end last group
+                this.lastGroup = null;
+                html += `</div>`;
+            }  
+            if (groupName != null) {
+                console.log(`renderNodeAtLevel: GROUP "${nodeData.pinInfo.groupName}"`);
+
+                // Check if expanded: default to true if allNodesExpandedByDefault, otherwise check set
+                const isExpanded = this.allNodesExpandedByDefault ? 
+                    !this.expandedNodes.has(`collapsed-${groupName}`) : 
+                    this.expandedNodes.has(groupName);
+                const collapseIcon = isExpanded ? '▼' : '▶';
+
+                html += `<div class="octane-parameter-group">
+                            <div class="octane-group-header ${isExpanded ? 'expanded' : 'collapsed'}" data-group="${groupName}">
+                                <span class="octane-group-icon">${collapseIcon}</span>
+                                <span class="octane-group-title">${groupName}</span>
+                            </div>
+                            <div class="octane-group-content" data-group-content="${groupName}" style="display: ${isExpanded ? 'block' : 'none'}">`;
+                this.lastGroup = groupName;
+            }
+        }
         // Check if expanded: default to true if allNodesExpandedByDefault, otherwise check set
         const isExpanded = this.allNodesExpandedByDefault ? 
             !this.expandedNodes.has(`collapsed-${nodeId}`) : 
@@ -136,48 +111,49 @@ class GenericNodeRenderer {
         
         // Determine collapse/expand icon
         let collapseIcon = '';
-        if (hasChildren) {
+        if (hasChildren && level > 0) {
             collapseIcon = isExpanded ? '▼' : '►';
         }
-
-        let html = ``;
         if (nodeData.attrType == null) {
-            html = `
-            <div class="node-box node-level-${level}" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
-                <div class="node-icon-box" style="background-color: ${color}">
-                    <span class="node-icon">${icon}</span>
-                </div>
-                <div class="node-content">
-                    <div class="node-label" ${hasChildren ? `data-toggle="${nodeId}"` : ''}>
-                        ${collapseIcon ? `<span class="collapse-icon">${collapseIcon}</span>` : ''}
-                        <span class="node-title">${nodeData.name}</span>
-                    </div>
-                </div>
-            </div>
-        `;
-
+            html += `<div class="node-box node-level-${level}" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
+                        <div class="node-icon-box" style="background-color: ${color}">
+                            <span class="node-icon">${icon}</span>
+                        </div>
+                        <div class="node-content">
+                            <div class="node-label" ${hasChildren ? `data-toggle="${nodeId}"` : ''}>
+                                ${collapseIcon ? `<span class="collapse-icon">${collapseIcon}</span>` : ''}
+                                <span class="node-title">${nodeData.name}</span>
+                            </div>
+                        </div>
+                    </div>`;
         }
         else {
-            html = `
-            <div class="node-box node-level-${level}" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
-                <div class="node-icon-box" style="background-color: ${color}">
-                    <span class="node-icon">${icon}</span>
-                </div>
-                <div class="node-content">
-                    <div class="node-label" ${hasChildren ? `data-toggle="${nodeId}"` : ''}>
-                        ${collapseIcon ? `<span class="collapse-icon">${collapseIcon}</span>` : ''}
-                        <span class="node-title">${nodeData.name}</span>
-                        ${this.renderNodeParameters(nodeData)}
-                    </div>
-                </div>
-            </div>
-        `;
+            html += `<div class="node-box node-level-${level}" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
+                        <div class="node-icon-box" style="background-color: ${color}">
+                            <span class="node-icon">${icon}</span>
+                        </div>
+                        <div class="node-content">
+                            <div class="node-label" ${hasChildren ? `data-toggle="${nodeId}"` : ''}>
+                                ${collapseIcon ? `<span class="collapse-icon">${collapseIcon}</span>` : ''}
+                                <span class="node-title">${nodeData.name}</span>
+                                ${this.renderNodeParameters(nodeData)}
+                            </div>
+                        </div>
+                    </div>`;
         }        
-        // Render children if expanded - at the same level as parent, not nested inside
-        if (hasChildren && isExpanded) {
-            html += this.renderChildNodes(nodeData.children, level + 1);
+        if (hasChildren) {
+            html += `<div class="octane-group-content" data-toggle-content="${nodeId}" style="display: ${isExpanded ? 'block' : 'none'}">`;
+            level++;
+            for (const child of nodeData.children) {
+                html += this.renderNodeAtLevel(child, level);
+            }
+            html += `</div>`;
         }
-        
+        if (level == 0 && this.lastGroup != null) {
+            // end last group
+            this.lastGroup = null;
+            html += `</div>`;
+        }            
         return html;
     }
     

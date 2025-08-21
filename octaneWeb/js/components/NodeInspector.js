@@ -37,10 +37,8 @@ class NodeInspector extends OctaneComponent {
         this.selectedNodeType = null;         // Type of selected node for rendering
         this.parameters = {};                 // Current parameter values cache
         
-        // UI state management for collapsible sections
-        this.collapsedSections = new Set();  // Collapsed parameter sections (default: all expanded)
+        // UI state management
         this.collapsedGroups = new Set();    // Collapsed parameter groups (default: all expanded)
-        
         this.sceneDataLoaded = false;        // Scene data loading state
         
         // Generic node rendering system for flexible parameter display
@@ -56,7 +54,6 @@ class NodeInspector extends OctaneComponent {
     initializeExpandedState() {
         // Initialize all sections and parameter groups as expanded by default
         // (matching reference octane_ui.png behavior - when a node is selected, expand all its children)
-        this.collapsedSections = new Set(); // All sections expanded by default
         this.collapsedGroups = new Set();   // All parameter groups expanded by default
         
         console.log('Initializing Node Inspector with all sections/groups expanded by default');
@@ -117,21 +114,33 @@ class NodeInspector extends OctaneComponent {
                 
                 // Use elementsFromPoint to find what's actually under the cursor
                 const elementsUnderCursor = document.elementsFromPoint(x, y);
-                console.log('Elements under cursor:', elementsUnderCursor.map(el => `${el.tagName}.${el.className} [bid=${el.getAttribute('bid')}]`));
+//                console.log('Elements under cursor:', elementsUnderCursor.map(el => `${el.tagName}.${el.className} [bid=${el.getAttribute('bid')}]`));
                 
                 // Find the first clickable element in the right panel
                 for (const element of elementsUnderCursor) {
                     // Skip elements that are not in the right panel
                     if (!rightPanel.contains(element)) continue;
+
+                    console.log('Element:', `${element.tagName}.${element.className} [bid=${element.getAttribute('bid')}]`);
                     
                     // Handle parameter group headers (expand/collapse)
-                    if (element.hasAttribute && element.hasAttribute('data-group')) {
-                        const groupName = element.getAttribute('data-group');
-                        console.log('🔽 Coordinate-based toggle of parameter group:', groupName);
-                        this.toggleParameterGroup(groupName);
-                        event.preventDefault();
-                        event.stopPropagation();
-                        return;
+                    if (element.hasAttribute) {
+                        if (element.hasAttribute('data-group')) {
+                            const groupName = element.getAttribute('data-group');
+                            console.log('🔽 Coordinate-based toggle of parameter group:', groupName);
+                            this.toggleParameterGroup(groupName);
+                            event.preventDefault();
+                            event.stopPropagation();
+                            return;
+                        }
+                        if (element.hasAttribute('data-toggle')) {
+                            const nodeid = element.getAttribute('data-toggle');
+                            console.log('🔽 Coordinate-based toggle of parameter parent:', nodeid);
+                            this.toggleParent(nodeid);
+                            event.preventDefault();
+                            event.stopPropagation();
+                            return;
+                        }
                     }
                     
                     // Handle spinner buttons
@@ -207,13 +216,33 @@ class NodeInspector extends OctaneComponent {
         }
     }
     
+    toggleParent(nodeid) {
+        const header = this.element.querySelector(`[data-toggle="${nodeid}"]`);
+        const content = this.element.querySelector(`[data-toggle-content="${nodeid}"]`);
+        const icon = header?.querySelector('.collapse-icon');
+        
+        if (header && content && icon) {
+            if (content.style.display === 'none') {
+                // Expand
+                content.style.display = 'block';
+                icon.textContent = '▼';
+            } else {
+                // Collapse
+                content.style.display = 'none';
+                icon.textContent = '▶';
+            }
+        }
+    }
+    
+
+
     toggleParameterGroup(groupName) {
         const header = this.element.querySelector(`[data-group="${groupName}"]`);
         const content = this.element.querySelector(`[data-group-content="${groupName}"]`);
         const icon = header?.querySelector('.parameter-group-icon');
         
         if (header && content && icon) {
-            if (this.collapsedGroups.has(groupName)) {
+            if (content.style.display === 'none') {
                 // Expand
                 header.classList.remove('collapsed');
                 content.style.display = 'block';
@@ -613,38 +642,6 @@ class NodeInspector extends OctaneComponent {
         this.setupParameterEventListeners();
     }
     
-    renderParameterGroups(parameters) {
-        const groups = this.groupParameters(parameters);
-        
-        return Object.entries(groups).map(([groupName, groupParams]) => {
-            return `
-                <div class="parameter-group">
-                    <div class="parameter-group-header">
-                        <span>${groupName}</span>
-                        <span class="parameter-group-toggle">▼</span>
-                    </div>
-                    <div class="parameter-group-content">
-                        ${this.renderParameters(groupParams)}
-                    </div>
-                </div>
-            `;
-        }).join('');
-    }
-    
-    groupParameters(parameters) {
-        const groups = {};
-        
-        Object.entries(parameters).forEach(([name, param]) => {
-            const groupName = param.group || 'General';
-            if (!groups[groupName]) {
-                groups[groupName] = {};
-            }
-            groups[groupName][name] = param;
-        });
-        
-        return groups;
-    }
-    
     renderNode(nodeData, level = 0) {
         
         let html = this.renderParameter(nodeData, level);
@@ -1018,7 +1015,7 @@ class NodeInspector extends OctaneComponent {
         }
         const newValue = this.getElementValue(element);
         
-        console.log(`handleParameterChange "${nodeData.name}" to:`, newValue);
+//        console.log(`handleParameterChange "${nodeData.name}" to:`, newValue);
         
         const CONST_ATTR_MAP = {
             ["AT_BOOL"]: "set27",
@@ -1036,6 +1033,7 @@ class NodeInspector extends OctaneComponent {
         const sig = CONST_ATTR_MAP[nodeData.attrType]
         if (sig == null) {
             console.log(`handleParameterChange no callback for: `, nodeData.attrType);
+            return;
         }
         let callsig = "ApiItemGetter/set" + sig;
         let result;

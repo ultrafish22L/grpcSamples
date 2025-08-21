@@ -3087,7 +3087,7 @@ body.drag-over .drop-indicator {
 .node-inspector .node-title {
     padding: 0px 0px 0px 0px;
     font-size: var(--font-size-small);
-    font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-light);
     color: var(--octane-text-primary);
     flex-shrink: 2;
     display:grid;
