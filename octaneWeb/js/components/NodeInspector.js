@@ -69,9 +69,9 @@ class NodeInspector extends OctaneComponent {
             this.scene = scene;
             
             this.sceneDataLoaded = true;
-            console.log('NodeInspector received sceneDataLoaded event:', scene.items);
+            console.log('NodeInspector received sceneDataLoaded event:', scene.items.length);
 
-            this.updateSelectedNode(this.scene.items[1].handle)
+            this.updateSelectedNode(this.scene.items[0].handle)
         });
         
         // Listen for selection updates

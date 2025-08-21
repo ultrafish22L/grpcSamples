@@ -262,12 +262,10 @@ class CallbackRenderViewport extends OctaneComponent {
             
             clearTimeout(timeoutId);
             
-            console.log(`Callback registration response status: ${response.status}`);
-            console.log(`Callback registration response ok: ${response.ok}`);
+//            console.log(`Callback registration response status: ${response.status}`);
+//            console.log(`Callback registration response ok: ${response.ok}`);
             
             const result = await response.json();
-            console.log('Callback registration result:', result);
-            
             if (!result.success) {
                 throw new Error(result.error || 'Failed to register callback');
             }

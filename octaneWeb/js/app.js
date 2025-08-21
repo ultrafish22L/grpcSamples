@@ -116,7 +116,6 @@ class OctaneWebApp {
      * - Console capture must be first to catch all initialization errors
      * - EventSystem provides pub/sub for all other components
      * - StateManager depends on EventSystem for state change notifications
-     * - DebugConsole provides runtime debugging accessible via window.debugConsole
      * - OctaneWebClient handles all gRPC communication with Octane LiveLink
      */
     async initializeCoreSystems() {

@@ -66,13 +66,10 @@ class SceneOutlinerSync {
                 }
             });
         }
-   //!!!!     
-        // Note: NodeGraphEditor now uses unified 'sceneNodeSelected' event
-        // No need for separate nodeGraphNodeSelected listener
         // Listen for scene node selection (unified event for all components)
-//        this.eventSystem.on('sceneNodeSelected', (handle) => {
-//            this.updateSelectedNode(handle);
- //       });
+        this.eventSystem.on('sceneNodeSelected', (handle) => {
+            this.updateSelectedNode(handle);
+        });
         
     }
     

@@ -70,7 +70,7 @@ class NodeGraphEditor extends OctaneComponent {
     autoSelectRenderTarget(scene) {
         // Auto-select Render target using scene data (matching Octane Studio behavior)
         if (scene && scene.items && scene.items.length > 1) {
-            const renderTarget = scene.items[0]; // Render target is typically second item
+            const renderTarget = scene.items[1]; // Render target is typically second item
             console.log('NodeGraphEditor auto-selecting Render target:', renderTarget.handle);
             
             // Update this component's selection (handle only)
@@ -94,7 +94,7 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Listen for scene data loaded from SceneOutliner
         this.eventSystem.on('sceneDataLoaded', (scene) => {
-            console.log('NodeGraphEditor received sceneDataLoaded event:', scene.items);
+            console.log('NodeGraphEditor received sceneDataLoaded event:', scene.items.length);
             this.createRealSceneNodes(scene.items);
             this.render();
             this.autoSelectRenderTarget(scene.items);
@@ -1074,8 +1074,6 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     createRealSceneNodes(sceneItems = []) {
-        console.log('createRealSceneNodes called with:', sceneItems, 'length:', sceneItems.length);
-        
         // Clear existing nodes
         this.nodes.clear();
         this.connections.clear();
@@ -1086,9 +1084,6 @@ class NodeGraphEditor extends OctaneComponent {
             this.showNoDataMessage();
             return;
         }
-        
-        console.log('Creating real scene nodes from data:', sceneItems);
-        
         // Create nodes based on real scene data
         let xOffset = 100;
         const yCenter = this.canvas.height / 2;
