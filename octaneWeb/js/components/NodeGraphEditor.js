@@ -211,10 +211,6 @@ class NodeGraphEditor extends OctaneComponent {
             this.addEventListener(deleteButton, 'click', () => {
                 if (this.selectedNodes.size > 0) {
                     this.deleteSelectedNodes();
-                } else {
-                    if (window.debugConsole) {
-                        window.debugConsole.log(' No nodes selected for deletion');
-                    }
                 }
             });
         }
@@ -223,9 +219,6 @@ class NodeGraphEditor extends OctaneComponent {
         if (fitButton) {
             this.addEventListener(fitButton, 'click', () => {
                 this.frameAll();
-                if (window.debugConsole) {
-                    window.debugConsole.log('Framed all nodes in viewport');
-                }
             });
         }
 
@@ -1048,11 +1041,6 @@ class NodeGraphEditor extends OctaneComponent {
         
         if (deletedNodes.length > 0) {
             console.log(`🗑️ Deleted nodes: ${deletedNodes.join(', ')}`);
-            
-            // Log to debug console
-            if (window.debugConsole) {
-                window.debugConsole.log(`🗑️ Deleted ${deletedNodes.length} node(s): ${deletedNodes.join(', ')}`);
-            }
         }
     }
     
@@ -1538,11 +1526,6 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Trigger a render to show the new node
         this.render();
-        
-        // Log the creation
-        if (window.debugConsole) {
-            window.debugConsole.log(`Created ${nodeInfo.name} node at (${worldX.toFixed(0)}, ${worldY.toFixed(0)})`);
-        }
     }
     
     findNodeCategory(nodeType) {

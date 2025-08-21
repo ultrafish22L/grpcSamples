@@ -71,8 +71,6 @@ class NodeInspector extends OctaneComponent {
             this.sceneDataLoaded = true;
             console.log('NodeInspector received sceneDataLoaded event:', scene.items);
 
-            window.debugConsole?.addLog('info', ['NodeInspector: updateing']);
-
             this.updateSelectedNode(this.scene.items[1].handle)
         });
         
@@ -396,10 +394,7 @@ class NodeInspector extends OctaneComponent {
      * This replaces specialized cache lookups with direct scene access
      */
     findNodeInSceneItems(handle) {
-        window.debugConsole?.addLog('info', ['NodeInspector: Searching for handle in scene', handle]);
-        
         if (!this.scene || !this.scene.items || !Array.isArray(this.scene.items)) {
-            window.debugConsole?.addLog('warn', [' NodeInspector: No scene available']);
             return null;
         }
 //        return this.scene.map[handle];
@@ -408,7 +403,6 @@ class NodeInspector extends OctaneComponent {
         const findRecursively = (items) => {
             for (const item of items) {
                 if (item.handle == handle) {
-                    window.debugConsole?.addLog('info', ['NodeInspector: Found node', item.name, 'with handle', handle]);
                     return item;
                 }
                 if (item.children && item.children.length > 0) {
@@ -426,13 +420,11 @@ class NodeInspector extends OctaneComponent {
    
     async updateSelectedNode(handle) {
         console.log('NodeInspector received selection handle:', handle);
-        window.debugConsole?.addLog('info', ['NodeInspector: Updating selected node', handle]);
         
         // Find node data directly from scene list (generic approach)
         const nodeData = this.findNodeInSceneItems(handle);
         if (!nodeData) {
             console.warn(' No node data found for handle:', handle);
-            window.debugConsole?.addLog('warn', [' NodeInspector: No node data found for handle', handle]);
             return;
         }
         
@@ -441,8 +433,6 @@ class NodeInspector extends OctaneComponent {
         this.selectedNode = handle;
         this.selectedNodeType = nodeData.outtype;
         this.selectedNodeName = nodeData.name;
-        
-        window.debugConsole?.addLog('info', ['NodeInspector: Selected node', nodeData.name, 'type:', nodeData.outtype]);
         
         // Initialize expanded state for this node (expand all children by default)
         this.initializeExpandedState();
@@ -464,8 +454,6 @@ class NodeInspector extends OctaneComponent {
      * This replaces specialized functions with a generic approach
      */
     async buildTree(nodeInfo) {
-        window.debugConsole?.addLog('info', ['NodeInspector: Loading generic parameters for', nodeInfo.nodeName, 'type:', nodeInfo.nodeType]);
-        
         // Show loading state
         this.showLoadingState(nodeInfo);
         
@@ -475,7 +463,6 @@ class NodeInspector extends OctaneComponent {
             
         } catch (error) {
             console.error('❌ Failed to load generic node parameters:', error);
-            window.debugConsole?.addLog('error', ['❌ NodeInspector: Failed to load parameters', error.message]);
         }
     }
     
@@ -484,8 +471,6 @@ class NodeInspector extends OctaneComponent {
      * All other info is built into the scene tree or obtained via nodePinInfo
      */
     getNodeTypeMapping(nodeType) {
-        window.debugConsole?.addLog('info', ['NodeInspector: Getting mapping for node type', nodeType]);
-        
         // Simplified node type mappings - only color and icon
         const nodeTypeMappings = {
             'NT_RENDERTARGET': {
@@ -524,7 +509,6 @@ class NodeInspector extends OctaneComponent {
         };
         
         const mapping = nodeTypeMappings[nodeType] || nodeTypeMappings['DEFAULT'];
-        window.debugConsole?.addLog('info', ['NodeInspector: Using mapping', mapping.icon, 'color:', mapping.color]);
         
         return mapping;
     }
@@ -534,14 +518,12 @@ class NodeInspector extends OctaneComponent {
      */
     buildTreeRecurse(nodeInfo) {
         const nodeName = nodeInfo.nodeName || nodeInfo.name || 'Unknown Node';
-        window.debugConsole?.addLog('info', ['NodeInspector: Rendering generic node inspector for', nodeName]);
         
         const nodeHandle = nodeInfo.handle;
         let nodeData = this.findNodeInSceneItems(nodeHandle);
 
         if (!nodeData) {
             console.error('❌ Node data not found for handle:', nodeHandle);
-            window.debugConsole?.addLog('error', ['❌ NodeInspector: Node data not found', nodeHandle]);
             return;
         }
         // Get node type mapping for color and icon only
@@ -564,16 +546,12 @@ class NodeInspector extends OctaneComponent {
         if (inspectorContainer) {
             inspectorContainer.innerHTML = html;
             this.genericRenderer.setupEventHandlers(inspectorContainer);
-            window.debugConsole?.addLog('info', ['NodeInspector: Inspector rendered successfully']);
         } else {
             console.error('❌ Node inspector container not found');
-            window.debugConsole?.addLog('error', ['❌ NodeInspector: Container not found']);
         }
         
         // Setup event listeners for the new content
         this.setupInspectorEventListeners();
-        
-        window.debugConsole?.addLog('info', ['NodeInspector: Rendered node inspector with interactive controls']);
     }
     
     
@@ -622,7 +600,6 @@ class NodeInspector extends OctaneComponent {
     }
     
     renderNodeInspector(nodeData) {
-        const { name, type, parameters = {} } = nodeData;
         
         this.element.innerHTML = `
             <div class="node-inspector-header">
@@ -669,29 +646,27 @@ class NodeInspector extends OctaneComponent {
         return groups;
     }
     
-    renderNode(nodeData) {
+    renderNode(nodeData, level = 0) {
         
-        let html = this.renderParameter(name, param);
+        let html = this.renderParameter(nodeData, level);
         
-        if (!nodeData.children || !Array.isArray(nodeData.children)) return html;
+        if (nodeData.children == null) return html;
 
         for (const child of children) {
-            html += this.renderNode(child, level);
+            html += this.renderNode(child, level++);
         }
     }
     
-    renderParameter(nodeData) {
+    renderParameter(nodeData, level) {
 
-        const { type, value, min, max, label, icon, unit } = param;
-        const displayLabel = label || name;
-        const paramIcon = icon || this.getParameterIcon(name, type);
+        const paramIcon = this.getParameterIcon(nodeData.name, nodeData.type);
         
         return `
             <div class="parameter-row">
                 <div class="parameter-icon">${paramIcon}</div>
-                <div class="parameter-label">${displayLabel}:</div>
+                <div class="parameter-label">${nodeData.name}:</div>
                 <div class="parameter-control">
-                    ${this.renderParameterControl(name, type, value, { min, max, unit })}
+                    ${this.renderParameterControl(nodeData)}
                 </div>
             </div>
         `;
@@ -724,98 +699,107 @@ class NodeInspector extends OctaneComponent {
         return iconMap[name] || (type === 'bool' ? '☐' : type === 'float' || type === 'int' ? '▤' : '◦');
     }
     
-    renderParameterControl(name, type, value, options = {}) {
-        switch (type) {
-            case 'float':
-            case 'int':
-                return this.renderNumericControl(name, type, value, options);
-            case 'bool':
-                return this.renderBooleanControl(name, value);
-            case 'string':
-                return this.renderStringControl(name, value);
+    renderParameterControl(nodeData) {
+
+        const value = this.genericRenderer.getValue(nodeData);
+
+        switch (nodeData.attrType) {
+            case 'AT_FLOAT':
+            case 'AT_FLOAT2':
+            case 'AT_FLOAT3':
+            case 'AT_FLOAT4':
+            case 'AT_INT':
+            case 'AT_INT2':
+            case 'AT_INT3':
+            case 'AT_INT4':
+                return this.renderNumericControl(nodeData, value);
+            case 'AT_BOOL':
+                return this.renderBooleanControl(nodeData, value);
             case 'color':
-                return this.renderColorControl(name, value);
+                return this.renderColorControl(nodeData, value);
             case 'enum':
-                return this.renderEnumControl(name, value, options.values || []);
+                return this.renderEnumControl(nodeData, value);
             default:
-                return this.renderStringControl(name, value);
+            case 'AT_FILENAME':
+            case 'AT_STRING':
+                return this.renderStringControl(nodeData, value);
         }
     }
     
-    renderNumericControl(name, type, value, { min, max, unit }) {
-        const step = type === 'int' ? '1' : '0.01';
-        const minAttr = min !== undefined ? `min="${min}"` : '';
-        const maxAttr = max !== undefined ? `max="${max}"` : '';
+    renderNumericControl(nodeData, value) {
+        const step = '0.01';
+        const minAttr = -1000000000;
+        const maxAttr = 1000000000;
         const unitDisplay = unit ? `<span class="parameter-unit">${unit}</span>` : '';
         
         return `
             <div class="parameter-control-group">
-                <button class="parameter-spinner-btn" data-action="decrement" data-param="${name}">◄</button>
+                <button class="parameter-spinner-btn" data-action="decrement" data-param="${nodeData.name}">◄</button>
                 <input type="number" 
                        class="parameter-number-input" 
-                       data-param="${name}" 
+                       data-param="${nodeData.name}" 
                        value="${value}" 
                        step="${step}" 
                        ${minAttr} 
                        ${maxAttr} />
-                <button class="parameter-spinner-btn" data-action="increment" data-param="${name}">►</button>
+                <button class="parameter-spinner-btn" data-action="increment" data-param="${nodeData.name}">►</button>
                 ${unitDisplay}
             </div>
         `;
     }
     
-    renderSlider(name, value, min, max) {
+    renderSlider(nodeData, value, min, max) {
         const percentage = ((value - min) / (max - min)) * 100;
         
         return `
-            <div class="parameter-slider" data-param="${name}" data-min="${min}" data-max="${max}">
+            <div class="parameter-slider" data-param="${nodeData.name}" data-min="${min}" data-max="${max}">
                 <div class="parameter-slider-track" style="width: ${percentage}%"></div>
                 <div class="parameter-slider-thumb" style="left: ${percentage}%"></div>
             </div>
         `;
     }
     
-    renderBooleanControl(name, value) {
+    renderBooleanControl(nodeData, value) {
         return `
             <input type="checkbox" 
                    class="parameter-checkbox" 
-                   data-param="${name}" 
+                   data-param="${nodeData.name}" 
                    ${value ? 'checked' : ''} />
         `;
     }
     
-    renderStringControl(name, value) {
+    renderStringControl(nodeData, value) {
         return `
             <input type="text" 
                    class="parameter-input" 
-                   data-param="${name}" 
+                   data-param="${nodeData.name}" 
                    value="${value}" />
         `;
     }
     
-    renderColorControl(name, value) {
+    renderColorControl(nodeData, value) {
         const [r, g, b] = value || [1, 1, 1];
         const hexColor = this.rgbToHex(r, g, b);
         
         return `
-            <div class="parameter-color" data-param="${name}">
+            <div class="parameter-color" data-param="${nodeData.name}">
                 <div class="parameter-color-swatch" style="background-color: ${hexColor}"></div>
             </div>
             <input type="color" 
                    class="parameter-input" 
-                   data-param="${name}" 
+                   data-param="${nodeData.name}" 
                    value="${hexColor}" 
                    style="width: 60px;" />
         `;
     }
     
-    renderEnumControl(name, value, values) {
+    renderEnumControl(nodeData, value, values) {
         const options = values.map(val => 
             `<option value="${val}" ${val === value ? 'selected' : ''}>${val}</option>`
         ).join('');
         
         return `
-            <select class="parameter-dropdown" data-param="${name}">
+            <select class="parameter-dropdown" data-param="${nodeData.name}">
                 ${options}
             </select>
         `;
@@ -1022,20 +1006,19 @@ class NodeInspector extends OctaneComponent {
      */
     async handleParameterChange(element) {
         if (!this.selectedNodeHandle) {
-            console.warn(' No selected node handle for parameter change');
+            console.warn('handleParameterChange No selected node handle for parameter change');
             return;
         }
-//        const index = element.dataset.index ? parseInt(element.dataset.index) : 0;
         const handle = element.dataset.handle ? parseInt(element.dataset.handle) : 0;
 //        const nodeData = this.scene.map[handle];
         const nodeData = this.findNodeInSceneItems(handle);
         if (nodeData == null || nodeData.attrType == null) {
-            console.warn(' node error no attr', handle, {element});
+            console.warn('handleParameterChange node error no attr', handle, {element});
             return;
         }
         const newValue = this.getElementValue(element);
         
-        console.log(`Updating parameter "${nodeData.name}" to:`, newValue);
+        console.log(`handleParameterChange "${nodeData.name}" to:`, newValue);
         
         const CONST_ATTR_MAP = {
             ["AT_BOOL"]: "set27",
@@ -1052,7 +1035,7 @@ class NodeInspector extends OctaneComponent {
         };
         const sig = CONST_ATTR_MAP[nodeData.attrType]
         if (sig == null) {
-            console.log(` no callback for: `, nodeData.attrType);
+            console.log(`handleParameterChange no callback for: `, nodeData.attrType);
         }
         let callsig = "ApiItemGetter/set" + sig;
         let result;
@@ -1069,7 +1052,7 @@ class NodeInspector extends OctaneComponent {
                 throw new Error('Failed ApiItemSetter/setBool');
             }
         } catch (error) {
-            console.error('❌ Failed createParameterControl:', error);
+            console.error('❌ Failed handleParameterChange:', error);
         }     
     }
     
@@ -1077,32 +1060,15 @@ class NodeInspector extends OctaneComponent {
      * Get value from UI element based on its type
      */
     getElementValue(element) {
-        if (element.type === 'checkbox') {
-            return element.checked;
-        } else if (element.type === 'number' || element.type === 'range') {
-            return parseFloat(element.value);
-        } else if (element.type === 'color') {
-            // Convert hex color to RGB array [r, g, b] with values 0-1
-            const hex = element.value;
-            const r = parseInt(hex.substr(1, 2), 16) / 255;
-            const g = parseInt(hex.substr(3, 2), 16) / 255;
-            const b = parseInt(hex.substr(5, 2), 16) / 255;
-            return [r, g, b];
-        } else if (element.tagName === 'SELECT') {
-            return element.value;
-        } else if (element.dataset.type === 'vector3' || element.dataset.type === 'vector2') {
-            // For vector controls, collect all components
-            const parameterName = element.dataset.parameter;
-            const vectorContainer = element.closest('.octane-vector-control');
-            if (vectorContainer) {
-                const inputs = vectorContainer.querySelectorAll(`[data-parameter="${parameterName}"]`);
-                const values = Array.from(inputs).map(input => parseFloat(input.value) || 0);
-                return values;
-            }
-            return parseFloat(element.value) || 0;
-        } else {
-            return element.value;
+
+        const handle = element.dataset.handle ? parseInt(element.dataset.handle) : 0;
+//        const nodeData = this.scene.map[handle];
+        const nodeData = this.findNodeInSceneItems(handle);
+        if (nodeData == null || nodeData.attrType == null) {
+            console.warn('getElementValue node error no attr', handle, {element});
+            return;
         }
+        return this.genericRenderer.getValue(nodeData);
     }
     
     /**

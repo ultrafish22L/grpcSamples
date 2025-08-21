@@ -136,11 +136,6 @@ class KeyboardShortcuts {
             if (command) {
                 e.preventDefault();
                 command.callback(e);
-                
-                // Log shortcut usage for debugging
-                if (window.debugConsole) {
-                    window.debugConsole.addLog('info', [`⌨️ Shortcut: ${command.originalShortcut} - ${command.description}`]);
-                }
             }
         });
         

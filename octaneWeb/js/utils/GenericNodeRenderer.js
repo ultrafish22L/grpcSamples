@@ -275,6 +275,9 @@ class GenericNodeRenderer {
 
         console.log(`GenericNodeRenderer: getValue "${nodeData.name}" type: ${nodeData.attrType}`);
 
+        if (nodeData.attrType == null) {
+            return null
+        }
         const stripAtAndCamelCase = str => {
             const result = str.startsWith("AT_") ? str.substring(3) : str;
             return result ? result.charAt(0).toUpperCase() + result.slice(1).toLowerCase() : result;
