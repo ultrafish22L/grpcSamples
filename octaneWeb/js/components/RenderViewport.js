@@ -123,7 +123,7 @@ class RenderViewport extends OctaneComponent {
         const title = document.createElement('div');
         title.style.cssText = `
             font-size: 16px;
-            font-weight: 500;
+            font-weight: var(--font-weight-header);
             margin-bottom: 8px;
             color: #aaa;
         `;
@@ -214,7 +214,7 @@ class RenderViewport extends OctaneComponent {
         if (this.imageDisplay) {
             this.imageDisplay.innerHTML = `
                 <div style="color: #ff6b6b; font-size: 24px; margin-bottom: 16px;"></div>
-                <div style="color: #ff6b6b; font-weight: 500; margin-bottom: 8px;">${title}</div>
+                <div style="color: #ff6b6b; font-weight: var(--font-weight-header); margin-bottom: 8px;">${title}</div>
                 <div style="color: #ccc; font-size: 12px; text-align: center;">${message}</div>
             `;
         }
@@ -487,7 +487,7 @@ class RenderViewport extends OctaneComponent {
         const title = document.createElement('div');
         title.style.cssText = `
             font-size: 16px;
-            font-weight: 500;
+            font-weight: var(--font-weight-header);
             margin-bottom: 8px;
         `;
         title.textContent = message;

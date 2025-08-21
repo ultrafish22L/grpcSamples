@@ -44,7 +44,8 @@
 body {
     display: grid;
     grid-template-rows: auto auto 1fr auto;
-    font-family: OpenSans, "Helvetica Neue", Helvetica, Arial, sans-serif; /* OTOY.com font stack */
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+/*    font-family: OpenSans, "Helvetica Neue", Helvetica, Arial, sans-serif;*/ /* OTOY.com font stack */
     background-color: var(--otoy-bg-primary); /* OTOY.com dark background */
     color: var(--otoy-text-primary); /* OTOY.com light text */
     height: 100vh;
@@ -271,7 +272,7 @@ body {
 
 .otoy-branding h1 {
     font-size: 20px;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     color: #333; /* Dark text for light header */
     margin: 0;
 }
@@ -338,7 +339,7 @@ body {
 
 .group-label {
     font-size: 18px;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     color: var(--otoy-red);
     margin-right: 8px;
     display: block;
@@ -384,7 +385,7 @@ body {
 .section-title {
     color: var(--otoy-red);
     font-size: 11px;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 8px;
@@ -414,7 +415,7 @@ button {
     padding: 8px 12px;
     border-radius: 4px;
     font-size: 14px;
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: var(--panel-shadow);
@@ -623,7 +624,7 @@ input[type="text"]:disabled, input[type="url"]:disabled {
 .status-title, .stats-title, .activity-title {
     color: var(--otoy-red);
     font-size: 10px;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 6px;
@@ -790,7 +791,7 @@ input[type="text"]:disabled, input[type="url"]:disabled {
 }
 
 .status-indicator {
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     padding: 1px 4px;
     border-radius: 2px;
     background: #333; /* OTOY.com dark indicator background */

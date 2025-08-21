@@ -53,7 +53,8 @@
     
     /* Typography */
     --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    --font-family-mono: 'Consolas', 'Monaco', 'Courier New', monospace;
+    --font-family-mono: 'Segoe UI Symbol', 'Segoe UI', monospace;
+    --font-family-monoC: 'Consolas', 'Monaco', 'Courier New', monospace;
     --font-size-micro: 7px;
     --font-size-tiny: 8px;
     --font-size-xs: 9px;
@@ -67,6 +68,8 @@
     --font-size-huge: 48px;
     --font-weight-normal: 400;
     --font-weight-bold: 600;
+    --font-weight-bold7: 700;
+    --font-weight-header: 500;
 }
 
 /* Global Reset and Base Styles */
@@ -379,7 +382,7 @@ html, body {
     cursor: pointer;
     user-select: none;
     font-size: var(--font-size-small);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-family);
     color: #cccccc;
     padding: 1px 0;
 }
@@ -415,12 +418,12 @@ html, body {
 
 .node-toggle.expanded::before {
     content: '−';
-    font-weight: bold;
+    font-weight: var(--font-weight-bold7);
 }
 
 .node-toggle.collapsed::before {
     content: '+';
-    font-weight: bold;
+    font-weight: var(--font-weight-bold7);
 }
 
 .node-toggle:hover {
@@ -600,7 +603,7 @@ html, body {
 
 .viewport-error .error-title {
     font-size: 1.5rem;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     margin-bottom: 0.5rem;
     color: var(--octane-accent);
 }
@@ -714,7 +717,7 @@ html, body {
     height: 20px;
     font-size: var(--font-size-small);
     color: var(--octane-text-secondary);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-family);
 }
 
 .render-stats-left,
@@ -731,12 +734,12 @@ html, body {
 
 #render-samples-display {
     color: var(--octane-text-primary);
-    font-weight: 500;
+    font-weight: var(--font-weight-header);
 }
 
 #render-time-display {
     color: var(--octane-text-primary);
-    font-weight: 500;
+    font-weight: var(--font-weight-header);
 }
 
 .render-status-rendering {
@@ -785,8 +788,8 @@ html, body {
     color: var(--octane-text-secondary);
     padding: 3px;
     font-size: var(--font-size-large);
-    font-family: 'Segoe UI Symbol', 'Segoe UI', monospace;
-    font-weight: normal;
+    font-family: var(--font-family-mono);
+    font-weight: var(--font-weight-normal);
     cursor: pointer;
     border-radius: 2px;
     transition: all 0.15s ease;
@@ -1183,7 +1186,7 @@ html, body {
     border: 1px solid #555555 !important;
     border-radius: 2px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    ffont-family: var(--font-family);
     font-size: var(--font-size-normal);
     color: #ffffff !important;
     min-width: 180px;

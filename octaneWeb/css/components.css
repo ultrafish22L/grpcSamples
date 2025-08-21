@@ -161,7 +161,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-weight: 400;
+    font-weight: var(--font-weight-normal);
     font-size: var(--font-size-small);
 }
 
@@ -265,7 +265,7 @@
 .node-inspector-header h3 {
     margin: 0 0 8px 0;
     font-size: var(--font-size-small);
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     color: var(--octane-text-primary);
 }
 
@@ -319,7 +319,7 @@
 .parameter-group-title {
     flex: 1;
     font-size: var(--font-size-small);
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     color: #fff;
 }
 
@@ -382,7 +382,7 @@
     font-size: var(--font-size-small);
     color: var(--octane-text-primary);
     margin-right: 6px;
-    font-weight: 400;
+    font-weight: var(--font-weight-normal);
     min-width: 80px;
 }
 
@@ -439,7 +439,7 @@
     border-radius: 2px;
     color: #fff;
     font-size: var(--font-size-small);
-    font-weight: 400;
+    font-weight: var(--font-weight-normal);
 }
 
 .parameter-checkbox {
@@ -462,7 +462,7 @@
     font-size: var(--font-size-small);
     text-align: center;
     font-family: var(--font-family-mono);
-    font-weight: 400;
+    font-weight: var(--font-weight-normal);
     line-height: 14px;
 }
 
@@ -476,7 +476,7 @@
     font-size: var(--font-size-xs);
     color: #999;
     margin-left: 3px;
-    font-weight: 400;
+    font-weight: var(--font-weight-normal);
 }
 
 /* Scene Outliner Error States */
@@ -505,7 +505,7 @@
 }
 
 .error-title, .success-title {
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     margin-bottom: 8px;
     color: var(--octane-text-primary);
 }
@@ -980,7 +980,7 @@ input:checked + .slider:before {
     content: '✓';
     color: white;
     font-size: var(--font-size-xs);
-    font-weight: bold;
+    font-weight: var(--font-weight-bold7);
     line-height: 1;
 }
 
@@ -1379,7 +1379,7 @@ input:checked + .slider:before {
 
 .drop-indicator-text {
     font-size: var(--font-size-large);
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     margin-bottom: 8px;
 }
 
@@ -1977,7 +1977,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-header);
     padding: 4px 8px;
     font-size: var(--font-size-small);
-    font-weight: bold;
+    font-weight: var(--font-weight-bold7);
     color: var(--octane-text-primary);
     border-bottom: 1px solid var(--octane-border);
 }
@@ -2135,7 +2135,7 @@ body.drag-over .drop-indicator {
 .palette-header {
     color: #fff;
     font-size: var(--font-size-small);
-    font-weight: bold;
+    font-weight: var(--font-weight-bold7);
     margin-bottom: 10px;
     text-align: center;
     border-bottom: 1px solid #555;
@@ -2605,7 +2605,7 @@ body.drag-over .drop-indicator {
 .parameter-name {
     font-size: var(--font-size-small);
     color: var(--octane-text-primary);
-    font-weight: 400;
+    font-weight: var(--font-weight-normal);
 }
 
 .parameter-control {
@@ -2798,7 +2798,7 @@ body.drag-over .drop-indicator {
     content: '✓';
     color: white;
     font-size: var(--font-size-small);
-    font-weight: bold;
+    font-weight: var(--font-weight-bold7);
 }
 
 .parameter-checkbox-container:hover .parameter-checkbox-custom {
@@ -3189,7 +3189,7 @@ body.drag-over .drop-indicator {
 .octane-parameter-name {
     font-size: var(--font-size-small);
     color: var(--octane-text-primary);
-    font-weight: 400;
+    font-weight: var(--font-weight-normal);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -3370,7 +3370,7 @@ body.drag-over .drop-indicator {
 }
 
 .pin-group .node-title {
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     color: var(--octane-text-primary);
 }
 
@@ -3484,7 +3484,7 @@ body.drag-over .drop-indicator {
     transform: translate(-50%, -50%);
     color: white;
     font-size: 10px;
-    font-weight: bold;
+    font-weight: var(--font-weight-bold7);
 }
 
 /* Numeric Input Controls */

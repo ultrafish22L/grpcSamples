@@ -71,7 +71,7 @@ class CacheBuster {
             }
             
             .cache-bust-text {
-                font-weight: normal;
+                font-weight: var(--font-weight-normal);
                 font-size: 10px;
             }
             
