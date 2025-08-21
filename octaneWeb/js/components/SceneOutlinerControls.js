@@ -130,7 +130,7 @@ class SceneOutlinerControls {
             return;
         }
         
-        console.log(`🔄 Refreshing ${currentTab} tab`);
+        console.log(`Refreshing ${currentTab} tab`);
         
         switch (currentTab) {
             case 'livedb':
@@ -155,7 +155,7 @@ class SceneOutlinerControls {
      * Official OTOY three-tab system implementation
      */
     switchTab(tabName) {
-        console.log(`🔄 Switching to ${tabName} tab`);
+        console.log(`Switching to ${tabName} tab`);
         
         // Update tab buttons
         const tabs = this.container.querySelectorAll('.scene-tab');
@@ -235,7 +235,7 @@ class SceneOutlinerControls {
      * Official OTOY refresh functionality for database content
      */
     refreshContent() {
-        console.log(`🔄 Refreshing ${this.currentTab} content`);
+        console.log(`Refreshing ${this.currentTab} content`);
         
         const refreshBtn = this.container.querySelector('.refresh-btn');
         refreshBtn.style.animation = 'spin 0.5s linear';

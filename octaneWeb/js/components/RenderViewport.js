@@ -213,7 +213,7 @@ class RenderViewport extends OctaneComponent {
         // Update viewport to show error
         if (this.imageDisplay) {
             this.imageDisplay.innerHTML = `
-                <div style="color: #ff6b6b; font-size: 24px; margin-bottom: 16px;">⚠️</div>
+                <div style="color: #ff6b6b; font-size: 24px; margin-bottom: 16px;"></div>
                 <div style="color: #ff6b6b; font-weight: 500; margin-bottom: 8px;">${title}</div>
                 <div style="color: #ccc; font-size: 12px; text-align: center;">${message}</div>
             `;
@@ -254,7 +254,7 @@ class RenderViewport extends OctaneComponent {
             return; // Already polling
         }
         
-        console.log('🔄 Starting background image polling...');
+        console.log('Starting background image polling...');
         this.imagePolling = true;
         this.pollForImages();
     }
@@ -299,7 +299,7 @@ class RenderViewport extends OctaneComponent {
         } catch (error) {
             // Ignore connection errors during polling - don't spam console
             if (!error.message.includes('Connection') && !error.message.includes('Network')) {
-                console.warn('⚠️ Image polling error (continuing):', error.message);
+                console.warn(' Image polling error (continuing):', error.message);
             }
         }
         

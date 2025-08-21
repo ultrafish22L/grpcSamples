@@ -402,7 +402,7 @@ function createOctaneWebClient() {
                     name = response.data.result;  // Update name with real result
                 }
             } catch (error) {
-                console.warn(`${'  '.repeat(depth)}⚠️ name() API failed for ${name}:`, error);
+                console.warn(`${'  '.repeat(depth)} name() API failed for ${name}:`, error);
             }
             console.log(`${'  '.repeat(depth)}🌿 Building node: ${name} (handle=${objectRef.handle})`);
             
@@ -431,7 +431,7 @@ function createOctaneWebClient() {
                 isGraph = isGraphResponse.success && isGraphResponse.data.result;
                 console.log(`${'  '.repeat(depth)}📊 isGraph API result for ${name}: ${isGraph}`);
             } catch (error) {
-                console.warn(`${'  '.repeat(depth)}⚠️ isGraph API failed for ${name}, assuming not a graph:`, error);
+                console.warn(`${'  '.repeat(depth)} isGraph API failed for ${name}, assuming not a graph:`, error);
                 isGraph = false;
             }
 
@@ -443,13 +443,13 @@ function createOctaneWebClient() {
                     let graphRef = null;
                     
                     // For unknown types, try the API conversion
-                    console.log(`${'  '.repeat(depth)}🔄 Converting ${name} to graph reference via API...`);
+                    console.log(`${'  '.repeat(depth)}Converting ${name} to graph reference via API...`);
                     const toGraphResponse = await this.makeGrpcCall('ApiItem/toGraph', {
                         objectPtr: objectRef
                     });
                     
                     if (!toGraphResponse.success || !toGraphResponse.data.result) {
-                        console.warn(`${'  '.repeat(depth)}⚠️ Failed to convert ${name} to graph reference`);
+                        console.warn(`${'  '.repeat(depth)} Failed to convert ${name} to graph reference`);
                         return node;
                     }
                     
@@ -537,7 +537,7 @@ function createOctaneWebClient() {
                                         node.children.push(childNode);
                                     }
                                 } else {
-                                    console.log(`${'  '.repeat(depth)}⚠️ Item ${i + 1} has no valid objectRef:`, item);
+                                    console.log(`${'  '.repeat(depth)} Item ${i + 1} has no valid objectRef:`, item);
                                 }
                             }
                         } else {
@@ -545,7 +545,7 @@ function createOctaneWebClient() {
                         }
                         
                     } catch (arrayError) {
-                        console.warn(`${'  '.repeat(depth)}⚠️ Failed to get items from array:`, arrayError);
+                        console.warn(`${'  '.repeat(depth)} Failed to get items from array:`, arrayError);
                     }
                     
                 } else {
@@ -553,7 +553,7 @@ function createOctaneWebClient() {
                 }
                 
                 } catch (error) {
-                    console.warn(`${'  '.repeat(depth)}⚠️ Failed to get owned items for ${name}:`, error);
+                    console.warn(`${'  '.repeat(depth)} Failed to get owned items for ${name}:`, error);
                 }
             } else {
                 // Check if this is a node - try API call with fallback
@@ -572,7 +572,7 @@ function createOctaneWebClient() {
                     isNode = isNodeResponse.success && isNodeResponse.data.result;
                     console.log(`${'  '.repeat(depth)}📊 isNode API result for ${name}: ${isNode}`);
                 } catch (error) {
-                    console.warn(`${'  '.repeat(depth)}⚠️ isNode API failed for ${name}:`, error);
+                    console.warn(`${'  '.repeat(depth)} isNode API failed for ${name}:`, error);
                     // Fallback: assume non-graph types might be nodes (except known leaf types)
                     const knownLeafTypes = [16]; // ApiItem base type
                     isNode = !knownLeafTypes.includes(objectRef.type);
@@ -584,7 +584,7 @@ function createOctaneWebClient() {
                     let nodeRef = null;
                     
                     try {
-                        console.log(`${'  '.repeat(depth)}🔄 Converting ${name} to node reference via API...`);
+                        console.log(`${'  '.repeat(depth)}Converting ${name} to node reference via API...`);
                         const toNodeResponse = await this.makeGrpcCall('octaneapi.ApiItem/toNode', {
                             objectPtr: {
                                 handle: objectRef.handle,
@@ -596,7 +596,7 @@ function createOctaneWebClient() {
                             nodeRef = toNodeResponse.data.result;
                         }
                     } catch (error) {
-                        console.warn(`${'  '.repeat(depth)}⚠️ toNode API failed, using direct reference:`, error);
+                        console.warn(`${'  '.repeat(depth)} toNode API failed, using direct reference:`, error);
                         nodeRef = objectRef; // Fallback to direct reference
                     }
                     
@@ -604,7 +604,7 @@ function createOctaneWebClient() {
                         console.log(`${'  '.repeat(depth)}📌 ApiNode: ${name} - checking pins for owned items`);
                         await this.processNodePins(nodeRef, node, name, depth);
                     } else {
-                        console.warn(`${'  '.repeat(depth)}⚠️ Failed to get node reference for ${name}`);
+                        console.warn(`${'  '.repeat(depth)} Failed to get node reference for ${name}`);
                     }
                 } else {
                     console.log(`${'  '.repeat(depth)}📄 Plain ApiItem: ${name} - leaf object`);
@@ -675,7 +675,7 @@ function createOctaneWebClient() {
                         }
                     } catch (pinError) {
                         // This is normal for unconnected pins
-                        console.log(`${indent}  ⚠️ Pin ${pinIndex} error (normal for unconnected pins):`, pinError.message);
+                        console.log(`${indent}   Pin ${pinIndex} error (normal for unconnected pins):`, pinError.message);
                     }
                 }
             } else {
@@ -779,7 +779,7 @@ function createOctaneWebClient() {
             return response;
             
         } catch (error) {
-            console.error(`Failed to get object details for ${objectId}:`, error);
+            console.error(`❌ Failed to get object details for ${objectId}:`, error);
             throw error;
         }
     }
@@ -804,7 +804,7 @@ function createOctaneWebClient() {
             return response;
             
         } catch (error) {
-            console.error(`Failed to update object ${objectId}:`, error);
+            console.error(`❌ Failed to update object ${objectId}:`, error);
             throw error;
         }
     }

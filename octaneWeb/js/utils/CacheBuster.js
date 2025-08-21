@@ -31,7 +31,7 @@ class CacheBuster {
         this.monitorScriptLoading();
         
         // Log cache busting info
-        console.info(`🔄 Cache Busting Active - Version: ${this.version}`);
+        console.info(`Cache Busting Active - Version: ${this.version}`);
     }
     
     addCacheBustingIndicator() {
@@ -162,7 +162,7 @@ class CacheBuster {
     
     // Method to reload all scripts with fresh cache busting
     reloadAllScripts() {
-        console.warn('🔄 Reloading all scripts with fresh cache busting...');
+        console.warn('Reloading all scripts with fresh cache busting...');
         
         const scripts = document.querySelectorAll('script[src]');
         scripts.forEach(script => {
@@ -177,7 +177,7 @@ class CacheBuster {
             script.parentNode.insertBefore(newScript, script);
             script.remove();
             
-            console.info(`🔄 Reloaded: ${newSrc}`);
+            console.info(`Reloaded: ${newSrc}`);
         });
     }
 }

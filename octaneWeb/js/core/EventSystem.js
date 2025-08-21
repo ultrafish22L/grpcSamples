@@ -249,7 +249,7 @@ class EventSystem {
                     try {
                         listener.callback(eventData.data, eventData);
                     } catch (error) {
-                        console.error(`Event listener error for '${eventData.event}':`, error);
+                        console.error(`❌ Event listener error for '${eventData.event}':`, error);
                     }
                 });
             }
@@ -265,7 +265,7 @@ class EventSystem {
                     try {
                         listener.callback(eventData.data, eventData);
                     } catch (error) {
-                        console.error(`One-time event listener error for '${eventData.event}':`, error);
+                        console.error(`❌ One-time event listener error for '${eventData.event}':`, error);
                     }
                 });
             }
@@ -277,7 +277,7 @@ class EventSystem {
                     try {
                         listener.callback(eventData.data, eventData);
                     } catch (error) {
-                        console.error(`Wildcard event listener error:`, error);
+                        console.error(`❌ Wildcard event listener error:`, error);
                     }
                 });
             }

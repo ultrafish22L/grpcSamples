@@ -357,7 +357,7 @@
                     try {
                         // Ensure value is Float32Array
                         if (!(value instanceof Float32Array)) {
-                            console.warn('⚠️ Converting matrix to Float32Array:', typeof value);
+                            console.warn(' Converting matrix to Float32Array:', typeof value);
                             this.logger.log(`Converting matrix to Float32Array: ${typeof value}`, 'debug');
                             value = new Float32Array(value);
                         }
@@ -1208,7 +1208,7 @@
                 // Only resize if dimensions actually changed (prevent unnecessary flashing)
                 if (this.canvas.width !== width || this.canvas.height !== height) {
                     // Canvas resize (console logging removed for performance)
-                    this.logger.log(`🔄 Canvas resize: ${width}x${height}, aspect: ${(width/height).toFixed(2)}`, 'debug');
+                    this.logger.log(`Canvas resize: ${width}x${height}, aspect: ${(width/height).toFixed(2)}`, 'debug');
                     
                     this.canvas.width = width;
                     this.canvas.height = height;

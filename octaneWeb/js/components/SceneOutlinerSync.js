@@ -128,7 +128,7 @@ class SceneOutlinerSync {
         console.log('DEBUG: makeApiCallSync method available?', !!(window.grpcApi && window.grpcApi.makeApiCallSync));
         
         try {
-            console.log(' Starting SYNCHRONOUS scene tree loading sequence...');
+            console.log('Starting SYNCHRONOUS scene tree loading sequence...');
             
             // All API calls are now SYNCHRONOUS and BLOCKING
             // This ensures proper sequential dependencies
@@ -156,14 +156,14 @@ class SceneOutlinerSync {
             
             treeContainer.innerHTML = `
                 <div class="scene-error">
-                    <div class="error-icon">⚠️</div>
+                    <div class="error-icon"></div>
                     <div class="error-title">Octane Not Available</div>
                     <div class="error-message">
                         Please start Octane Render on 127.0.0.1:51022<br>
                         <small>Error: ${error.message}</small>
                     </div>
                     <div class="error-actions">
-                        <button onclick="window.sceneOutliner.loadSceneTree()" class="retry-btn">🔄 Retry</button>
+                        <button onclick="window.sceneOutliner.loadSceneTree()" class="retry-btn">Retry</button>
                     </div>
                 </div>
             `;

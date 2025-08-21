@@ -638,7 +638,7 @@ class OctaneWebApp {
             // Use working LiveLink methods instead of old sync methods
             try {
                 await this.client.getSceneData();
-                console.log('🔄 Scene refreshed via LiveLink');
+                console.log('Scene refreshed via LiveLink');
                 
                 // TODO: Implement node graph refresh with working LiveLink method
                 // await this.client.getNodeGraphData(); // When available
@@ -760,7 +760,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.log('💡 Status overlays and mode indicators are now ' + (enabled ? 'visible' : 'hidden'));
                 return enabled;
             } else {
-                console.warn('⚠️ Render viewport not available');
+                console.warn(' Render viewport not available');
                 return false;
             }
         };
@@ -777,7 +777,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.log('💡 ' + (enabled ? 'PNG files will be saved for each frame' : 'PNG saving disabled'));
                 return enabled;
             } else {
-                console.warn('⚠️ Render viewport not available');
+                console.warn(' Render viewport not available');
                 return false;
             }
         };

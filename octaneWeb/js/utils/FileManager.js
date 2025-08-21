@@ -209,7 +209,7 @@ class FileManager {
                     if (loadResult.success) {
                         console.log('ORBX project loaded successfully');
                     } else {
-                        console.warn('⚠️ ORBX project load failed:', loadResult.error);
+                        console.warn(' ORBX project load failed:', loadResult.error);
                     }
                 } catch (error) {
                     console.error('❌ Failed to load ORBX project:', error);
@@ -217,7 +217,7 @@ class FileManager {
                     result.metadata.loaded = false;
                 }
             } else {
-                console.warn('⚠️ Octane client not connected - ORBX file processed but not loaded');
+                console.warn(' Octane client not connected - ORBX file processed but not loaded');
                 result.metadata.loaded = false;
                 result.loadResult = { success: false, error: 'Octane client not connected' };
             }

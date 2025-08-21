@@ -102,7 +102,7 @@ class ActivityLogger {
         // Add emoji indicators for different message types
         const typeEmojis = {
             'success': '✅',
-            'warning': '⚠️',
+            'warning': '',
             'error': '❌',
             'debug': '🔍',
             'status': '🗒️',
@@ -886,7 +886,7 @@ class ErrorHandler {
         }
         
         logger.log(errorMessage, errorType);
-        console.error(`${context}:`, error);
+        console.error(`❌ ${context}:`, error);
     }
 }
 

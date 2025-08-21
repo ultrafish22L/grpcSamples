@@ -50,7 +50,7 @@ class RenderToolbar {
      */
     async makeGrpcCall(service, method, params = {}) {
         if (!this.client) {
-            console.warn(`⚠️ No client available for gRPC call: ${service}.${method}`);
+            console.warn(` No client available for gRPC call: ${service}.${method}`);
             return null;
         }
         
@@ -363,7 +363,7 @@ class RenderToolbar {
                 break;
                 
             default:
-                console.log(`⚠️ Action ${actionId} not yet implemented`);
+                console.log(` Action ${actionId} not yet implemented`);
         }
         
         // Refresh toolbar to update active states
@@ -400,7 +400,7 @@ class RenderToolbar {
                 console.error('❌ Failed to reset camera:', error);
             }
         } else {
-            console.warn('⚠️ Camera reset not available - no client or method');
+            console.warn(' Camera reset not available - no client or method');
         }
     }
     
@@ -431,7 +431,7 @@ class RenderToolbar {
     }
     
     async restartRender() {
-        console.log('🔄 Restarting render...');
+        console.log('Restarting render...');
         
         // Make real gRPC call to restart rendering
         const result = await this.makeGrpcCall('ApiRenderEngine', 'restartRendering');

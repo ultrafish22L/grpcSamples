@@ -89,7 +89,7 @@ class Camera {
                 return true;
             }
         } catch (error) {
-            console.warn('⚠️ Failed to initialize camera from Octane:', error);
+            console.warn(' Failed to initialize camera from Octane:', error);
             return false;
         }
     }
@@ -209,7 +209,7 @@ class Camera {
         // Clamp phi to prevent gimbal lock
         this.state.phi = Math.max(-Math.PI/2 + 0.1, Math.min(Math.PI/2 - 0.1, this.state.phi));
         
-        // console.log(`🔄 Orbiting: theta=${this.state.theta.toFixed(2)}, phi=${this.state.phi.toFixed(2)}`);
+        // console.log(`Orbiting: theta=${this.state.theta.toFixed(2)}, phi=${this.state.phi.toFixed(2)}`);
     }
     
     /**
@@ -279,7 +279,7 @@ class Camera {
             console.log(`📷 Camera synced: pos=[${position.map(v => v.toFixed(2)).join(', ')}], target=[${target.map(v => v.toFixed(2)).join(', ')}]`);
             
         } catch (error) {
-            console.warn('⚠️ Camera sync error:', error);
+            console.warn(' Camera sync error:', error);
         }
     }
     
@@ -293,7 +293,7 @@ class Camera {
         } catch (error) {
             // Don't log connection errors as they're expected when Octane is not running
             if (!error.message.includes('Connection') && !error.message.includes('Network')) {
-                console.warn('⚠️ Failed to trigger Octane update:', error);
+                console.warn(' Failed to trigger Octane update:', error);
             }
         }
     }

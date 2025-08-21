@@ -35,7 +35,7 @@ class OctaneComponent {
             this.isInitialized = true;
             console.log(`Component ${this.constructor.name} initialized`);
         } catch (error) {
-            console.error(`Failed to initialize component ${this.constructor.name}:`, error);
+            console.error(`❌ Failed to initialize component ${this.constructor.name}:`, error);
             throw error;
         }
     }

@@ -138,7 +138,7 @@ class NodeInspector extends OctaneComponent {
                     
                     // Handle spinner buttons
                     if (element.classList && element.classList.contains('parameter-spinner-btn')) {
-                        console.log('🔄 Coordinate-based spinner button click:', element);
+                        console.log('Coordinate-based spinner button click:', element);
                         const action = element.getAttribute('data-action');
                         const paramName = element.getAttribute('data-param');
                         this.handleSpinnerClick(paramName, action);
@@ -358,7 +358,7 @@ class NodeInspector extends OctaneComponent {
         // Trigger parameter change
         this.handleParameterChange(input);
         
-        console.log(`🔄 Spinner ${action}: ${paramName} = ${newValue}`);
+        console.log(`Spinner ${action}: ${paramName} = ${newValue}`);
     }
     
     updateSliderFromInput(input) {
@@ -399,7 +399,7 @@ class NodeInspector extends OctaneComponent {
         window.debugConsole?.addLog('info', ['NodeInspector: Searching for handle in scene', handle]);
         
         if (!this.scene || !this.scene.items || !Array.isArray(this.scene.items)) {
-            window.debugConsole?.addLog('warn', ['⚠️ NodeInspector: No scene available']);
+            window.debugConsole?.addLog('warn', [' NodeInspector: No scene available']);
             return null;
         }
 //        return this.scene.map[handle];
@@ -431,8 +431,8 @@ class NodeInspector extends OctaneComponent {
         // Find node data directly from scene list (generic approach)
         const nodeData = this.findNodeInSceneItems(handle);
         if (!nodeData) {
-            console.warn('⚠️ No node data found for handle:', handle);
-            window.debugConsole?.addLog('warn', ['⚠️ NodeInspector: No node data found for handle', handle]);
+            console.warn(' No node data found for handle:', handle);
+            window.debugConsole?.addLog('warn', [' NodeInspector: No node data found for handle', handle]);
             return;
         }
         
@@ -965,8 +965,6 @@ class NodeInspector extends OctaneComponent {
         return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
     }
     
-
-
     setupOctaneInspectorEvents() {
         // Setup section toggle functionality
         const sectionHeaders = this.element.querySelectorAll('.section-header');
@@ -1019,192 +1017,12 @@ class NodeInspector extends OctaneComponent {
         });
     }
     
-    
-    /**
-     * Recursively load all parameters for a node (FALLBACK METHOD)
-     */
-    async loadNodeParametersRecursively(nodeHandle, maxDepth = 3, currentDepth = 0) {
-        if (currentDepth >= maxDepth || !nodeHandle) {
-            return {};
-        }
-        
-        const parameters = {};
-        
-        try {
-            console.log(`Loading parameters for node handle ${nodeHandle} (depth ${currentDepth})`);
-            
-            // Get pin count for this node
-            const pinCountResult = window.grpcApi.makeApiCallSync(
-                'ApiNode/pinCount',
-                nodeHandle
-            );
-            
-            if (!pinCountResult.success) {
-                console.warn('⚠️ Failed to get pin count for node:', nodeHandle);
-                return parameters;
-            }
-            
-            const pinCount = pinCountResult.data.result;
-            console.log(`📌 Node has ${pinCount} pins`);
-            
-            // Iterate through all pins
-            for (let i = 0; i < pinCount; i++) {
-                try {
-                    // Add small delay to prevent overwhelming the API
-//                    await this.delay(50);
-                    
-                    // Use SAFE ApiNode methods to get pin information (avoiding problematic ApiNodePinInfoEx)
-                    const pinNameResult = window.grpcApi.makeApiCallSync(
-                        'ApiNode/pinNameIx',
-                        nodeHandle,
-                        { index: i }
-                    );
-                    
-                    const pinTypeResult = window.grpcApi.makeApiCallSync(
-                        'ApiNode/pinTypeIx',
-                        nodeHandle,
-                        { index: i }
-                    );
-                    
-                    const pinLabelResult = window.grpcApi.makeApiCallSync(
-                        'ApiNode/pinLabelIx',
-                        nodeHandle,
-                        { index: i }
-                    );
-                    
-                    // Skip if we can't get basic pin info
-                    if (!pinNameResult.success && !pinTypeResult.success) {
-                        continue;
-                    }
-                    
-                    const pinName = pinNameResult.success ? pinNameResult.data.result : `pin_${i}`;
-                    const pinType = pinTypeResult.success ? pinTypeResult.data.result : 'unknown';
-                    const pinLabel = pinLabelResult.success ? pinLabelResult.data.result : pinName;
-                    
-                    // Try to get pin value using safe methods
-                    let pinValue = null;
-                    try {
-                        const valueResult = window.grpcApi.makeApiCallSync(
-                            'ApiNode/getPinValueIx',
-                            nodeHandle,
-                            { index: i }
-                        );
-                        if (valueResult.success) {
-                            pinValue = valueResult.data.result;
-                        }
-                    } catch (valueError) {
-                        console.warn(`⚠️ Could not get value for pin ${i}:`, valueError);
-                    }
-                    
-                    // Extract parameter information using safe data
-                    const paramName = pinLabel || pinName || `Parameter ${i}`;
-                    
-                    parameters[paramName] = {
-                        name: paramName,
-                        type: pinType || 'unknown',
-                        value: pinValue,
-                        index: i,
-                        pinName: pinName,
-                        pinLabel: pinLabel,
-                        pinType: pinType
-                    };
-                    
-                    console.log(`Loaded parameter: ${paramName} (${pinType}) = ${pinValue}`);
-                    
-                    // Also check for connected nodes (for nested parameters)
-                    const connectedNodeResult = window.grpcApi.makeApiCallSync(
-                        'ApiNode/connectedNodeIx',
-                        nodeHandle,
-                        { pinIx: i, enterWrapperNode: true }
-                    );
-                    
-                    if (connectedNodeResult.success && connectedNodeResult.data.result) {
-                        const connectedNode = connectedNodeResult.data.result;
-                        
-                        if (connectedNode.handle && connectedNode.handle !== nodeHandle) {
-                            // Recursively load parameters from connected node
-                            const nestedParams = await this.loadNodeParametersRecursively(
-                                connectedNode.handle,
-                                maxDepth,
-                                currentDepth + 1
-                            );
-                            
-                            // Merge nested parameters with a prefix
-                            Object.keys(nestedParams).forEach(nestedParamName => {
-                                const prefixedName = `${paramName || 'Connected'}.${nestedParamName}`;
-                                parameters[prefixedName] = nestedParams[nestedParamName];
-                            });
-                        }
-                    }
-                    
-                } catch (pinError) {
-                    console.warn(`⚠️ Error loading pin ${i}:`, pinError);
-                    continue;
-                }
-            }
-            
-        } catch (error) {
-            console.error('❌ Error in loadNodeParametersRecursively:', error);
-        }
-        
-        return parameters;
-    }
-    
-    /**
-     * Safely get parameter value using available ApiNode methods
-     */
-    async getParameterValueSafe(nodeHandle, index, pinType) {
-        try {
-            // Try different value getter methods based on type
-            const methods = [
-                'ApiNode/getPinValueIx',
-            ];
-            
-            for (const method of methods) {
-                try {
-                    const result = window.grpcApi.makeApiCallSync(
-                        method, 
-                        nodeHandle, 
-                        { index }
-                    );
-                    if (result.success && result.data.result !== undefined) {
-                        return { success: true, data: result.data.result };
-                    }
-                } catch (error) {
-                    // Try next method
-                    continue;
-                }
-            }
-            
-            return { success: false, error: 'No suitable value getter method found' };
-        } catch (error) {
-            return { success: false, error: error.message };
-        }
-    }
-    
-    /**
-     * Safely set parameter value using available ApiNode methods
-     */
-    async setParameterValueSafe(nodeHandle, index, value, pinType) {
-        try {
-            const result = window.grpcApi.makeApiCallSync(
-                'ApiItemSetter/setPinValue', 
-                nodeHandle, 
-                { index: index, value: value}
-            );
-            
-            return { success: result.success, data: result.data };
-        } catch (error) {
-            return { success: false, error: error.message };
-        }
-    }
-    
     /**
      * Handle parameter value changes with safe API calls
      */
     async handleParameterChange(element) {
         if (!this.selectedNodeHandle) {
-            console.warn('⚠️ No selected node handle for parameter change');
+            console.warn(' No selected node handle for parameter change');
             return;
         }
 //        const index = element.dataset.index ? parseInt(element.dataset.index) : 0;
@@ -1212,13 +1030,12 @@ class NodeInspector extends OctaneComponent {
 //        const nodeData = this.scene.map[handle];
         const nodeData = this.findNodeInSceneItems(handle);
         if (nodeData == null || nodeData.attrType == null) {
-            console.warn('⚠️ node error no attr', handle);
-            console.warn('⚠️ node error no attr', {element});
+            console.warn(' node error no attr', handle, {element});
             return;
         }
         const newValue = this.getElementValue(element);
         
-        console.log(`🔄 Updating parameter "${nodeData.name}" to:`, newValue);
+        console.log(`Updating parameter "${nodeData.name}" to:`, newValue);
         
         const CONST_ATTR_MAP = {
             ["AT_BOOL"]: "set27",

@@ -310,7 +310,7 @@ class DebugConsole {
     
     runTest() {
         this.addLog('info', '🧑‍🚒 Running debug test...');
-        this.addLog('warn', '⚠️ This is a warning message');
+        this.addLog('warn', ' This is a warning message');
         this.addLog('error', '❌ This is an error message');
         this.addLog('info', 'Test completed successfully');
         
@@ -330,7 +330,7 @@ class DebugConsole {
                     this.addLog('error', `❌ API error: ${error.message}`);
                 });
         } else {
-            this.addLog('warn', '⚠️ octaneClient not available - skipping API test');
+            this.addLog('warn', ' octaneClient not available - skipping API test');
         }
         
         // Test log streaming to proxy

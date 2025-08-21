@@ -381,7 +381,7 @@ class CallbackRenderViewport extends OctaneComponent {
             if (data.render_images && data.render_images.data && data.render_images.data.length > 0) {
                 this.displayCallbackImage(data.render_images.data[0]); // Use first image
             } else {
-                console.warn('⚠️ No image data in callback');
+                console.warn(' No image data in callback');
             }
             
         } catch (error) {
@@ -500,7 +500,7 @@ class CallbackRenderViewport extends OctaneComponent {
                 this.convertHDRRGBA(buffer, width, height, pitch, canvasImageData);
                 break;
             default:
-                console.warn(`⚠️ Unsupported image type: ${imageType}, trying LDR RGBA`);
+                console.warn(` Unsupported image type: ${imageType}, trying LDR RGBA`);
                 this.convertLDRRGBA(buffer, width, height, pitch, canvasImageData);
         }
     }
@@ -537,7 +537,7 @@ class CallbackRenderViewport extends OctaneComponent {
 //                console.log(`Pitch is in pixels: ${pitch} -> ${pitch * 4} bytes`);
                 pitchBytes = pitch * 4;
             } else {
-//                console.log(`⚠️ Pitch calculation unclear, using width-based pitch`);
+//                console.log(` Pitch calculation unclear, using width-based pitch`);
                 pitchBytes = width * 4;
             }
             
@@ -600,7 +600,7 @@ class CallbackRenderViewport extends OctaneComponent {
 //                console.log(`HDR Pitch is in pixels: ${pitch} -> ${pitch * 4} floats`);
                 pitchFloats = pitch * 4;
             } else {
-//                console.log(`⚠️ HDR Pitch calculation unclear, using width-based pitch`);
+//                console.log(` HDR Pitch calculation unclear, using width-based pitch`);
                 pitchFloats = width * 4;
             }
             
@@ -670,7 +670,7 @@ class CallbackRenderViewport extends OctaneComponent {
             
         } catch (error) {
             if (!error.message.includes('Connection') && !error.message.includes('Network')) {
-                console.warn('⚠️ Polling error:', error.message);
+                console.warn(' Polling error:', error.message);
             }
         }
         
@@ -704,11 +704,11 @@ class CallbackRenderViewport extends OctaneComponent {
         try {
             // Call ApiChangeManager::update() to make Octane refresh its display
             const response = await this.client.makeGrpcCall('ApiChangeManager', 'update', {});
-            // console.log('🔄 Octane display update triggered');
+            // console.log('Octane display update triggered');
             
             return response;
         } catch (error) {
-            console.warn('⚠️ Failed to trigger Octane update:', error);
+            console.warn(' Failed to trigger Octane update:', error);
             throw error;
         }
     }
@@ -723,7 +723,7 @@ class CallbackRenderViewport extends OctaneComponent {
             console.log('Initial render triggered successfully');
             return response;
         } catch (error) {
-            console.warn('⚠️ Failed to trigger initial render:', error);
+            console.warn(' Failed to trigger initial render:', error);
             // Don't throw - this is not critical for callback streaming to work
         }
     }
@@ -752,7 +752,7 @@ class CallbackRenderViewport extends OctaneComponent {
                     
                     console.log(`💾 DEBUG: Saved frame ${frameNumber} as PNG`);
                 } else {
-                    console.warn(`⚠️ DEBUG: Failed to create blob for frame ${frameNumber}`);
+                    console.warn(` DEBUG: Failed to create blob for frame ${frameNumber}`);
                 }
             }, 'image/png');
         } catch (error) {
@@ -875,7 +875,7 @@ class CallbackRenderViewport extends OctaneComponent {
     showImageError(message, details = '') {
         this.imageDisplay.innerHTML = `
             <div style="color: #ff6b6b; text-align: center; padding: 20px;">
-                <div style="font-size: 18px; margin-bottom: 10px;">⚠️ ${message}</div>
+                <div style="font-size: 18px; margin-bottom: 10px;"> ${message}</div>
                 ${details ? `<div style="font-size: 12px; opacity: 0.7;">${details}</div>` : ''}
             </div>
         `;

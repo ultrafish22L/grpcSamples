@@ -475,7 +475,7 @@ class MenuSystem extends OctaneComponent {
                 console.log('Making gRPC call: ApiProjectManager/resetProject');
                 
                 // Show progress notification
-                this.showNotification('🔄 Creating new scene...', 'info');
+                this.showNotification('Creating new scene...', 'info');
 
                 // Create a timeout promise to handle hanging calls
                 const timeoutPromise = new Promise((_, reject) => {
@@ -505,7 +505,7 @@ class MenuSystem extends OctaneComponent {
                 
             } else {
                 // Fallback when not connected to Octane
-                console.warn('⚠️ Octane not connected - creating local new scene');
+                console.warn(' Octane not connected - creating local new scene');
                 this.showNotification('📄 New scene created (local only)', 'warning');
             }
             
@@ -586,7 +586,7 @@ class MenuSystem extends OctaneComponent {
                 
             } else {
                 // Fallback when not connected to Octane
-                console.warn('⚠️ Octane not connected - cannot load recent project');
+                console.warn(' Octane not connected - cannot load recent project');
                 this.showNotification(`❌ Cannot load ${filename} - Octane not connected`, 'error');
             }
             
@@ -637,7 +637,7 @@ class MenuSystem extends OctaneComponent {
                 
             } else {
                 // Fallback when not connected to Octane
-                console.warn('⚠️ Octane not connected - saving local scene data');
+                console.warn(' Octane not connected - saving local scene data');
                 
                 const currentScene = this.getCurrentSceneData();
                 const filename = this.getCurrentSceneFilename() || 'untitled.orbx';
@@ -688,7 +688,7 @@ class MenuSystem extends OctaneComponent {
                 
             } else {
                 // Fallback when not connected to Octane
-                console.warn('⚠️ Octane not connected - saving local scene data');
+                console.warn(' Octane not connected - saving local scene data');
                 
                 const currentScene = this.getCurrentSceneData();
                 await this.fileManager.saveFile(filename, JSON.stringify(currentScene, null, 2), 'application/json');
@@ -739,7 +739,7 @@ class MenuSystem extends OctaneComponent {
                 }
                 
             } else {
-                console.warn('⚠️ Octane not connected - cannot save package');
+                console.warn(' Octane not connected - cannot save package');
                 this.showNotification('❌ Cannot save package - Octane not connected', 'error');
             }
             
@@ -795,7 +795,7 @@ class MenuSystem extends OctaneComponent {
                 }
                 
             } else {
-                console.warn('⚠️ Octane not connected - cannot unpack package');
+                console.warn(' Octane not connected - cannot unpack package');
                 this.showNotification('❌ Cannot unpack package - Octane not connected', 'error');
             }
             
@@ -884,7 +884,7 @@ class MenuSystem extends OctaneComponent {
             if (this.client && this.client.connected) {
                 // Note: Octane may not have a direct undo API, so we'll use local state manager as fallback
                 console.log('Checking for gRPC undo capability...');
-                this.showNotification('⚠️ Undo via gRPC not yet available', 'warning');
+                this.showNotification(' Undo via gRPC not yet available', 'warning');
             }
             
             // Fallback to local state manager
@@ -908,7 +908,7 @@ class MenuSystem extends OctaneComponent {
             // Try gRPC redo first (if available)
             if (this.client && this.client.connected) {
                 console.log('Checking for gRPC redo capability...');
-                this.showNotification('⚠️ Redo via gRPC not yet available', 'warning');
+                this.showNotification(' Redo via gRPC not yet available', 'warning');
             }
             
             // Fallback to local state manager
@@ -931,7 +931,7 @@ class MenuSystem extends OctaneComponent {
         try {
             if (this.client && this.client.connected) {
                 // For now, show that gRPC cut is not implemented
-                this.showNotification('⚠️ Cut via gRPC not yet implemented', 'warning');
+                this.showNotification(' Cut via gRPC not yet implemented', 'warning');
             } else {
                 this.showNotification('❌ Cut requires Octane connection', 'error');
             }
@@ -948,7 +948,7 @@ class MenuSystem extends OctaneComponent {
         try {
             if (this.client && this.client.connected) {
                 // For now, show that gRPC copy is not implemented
-                this.showNotification('⚠️ Copy via gRPC not yet implemented', 'warning');
+                this.showNotification(' Copy via gRPC not yet implemented', 'warning');
             } else {
                 this.showNotification('❌ Copy requires Octane connection', 'error');
             }
@@ -965,7 +965,7 @@ class MenuSystem extends OctaneComponent {
         try {
             if (this.client && this.client.connected) {
                 // For now, show that gRPC paste is not implemented
-                this.showNotification('⚠️ Paste via gRPC not yet implemented', 'warning');
+                this.showNotification(' Paste via gRPC not yet implemented', 'warning');
             } else {
                 this.showNotification('❌ Paste requires Octane connection', 'error');
             }
@@ -982,7 +982,7 @@ class MenuSystem extends OctaneComponent {
         try {
             if (this.client && this.client.connected) {
                 // For now, show that gRPC delete is not implemented
-                this.showNotification('⚠️ Delete via gRPC not yet implemented', 'warning');
+                this.showNotification(' Delete via gRPC not yet implemented', 'warning');
             } else {
                 this.showNotification('❌ Delete requires Octane connection', 'error');
             }
@@ -999,7 +999,7 @@ class MenuSystem extends OctaneComponent {
         try {
             if (this.client && this.client.connected) {
                 // For now, show that gRPC select all is not implemented
-                this.showNotification('⚠️ Select All via gRPC not yet implemented', 'warning');
+                this.showNotification(' Select All via gRPC not yet implemented', 'warning');
             } else {
                 this.showNotification('❌ Select All requires Octane connection', 'error');
             }
@@ -1015,7 +1015,7 @@ class MenuSystem extends OctaneComponent {
             // Use working LiveLink methods instead of old sync methods
             try {
                 await this.client.getSceneData();
-                console.log('🔄 Scene data refreshed via LiveLink');
+                console.log('Scene data refreshed via LiveLink');
                 
                 // TODO: Implement node graph refresh with working LiveLink method
                 // await this.client.getNodeGraphData(); // When available
@@ -1034,7 +1034,7 @@ class MenuSystem extends OctaneComponent {
         try {
             if (this.client && this.client.connected) {
                 // For now, show that script execution is not implemented
-                this.showNotification('⚠️ Script execution via gRPC not yet implemented', 'warning');
+                this.showNotification(' Script execution via gRPC not yet implemented', 'warning');
             } else {
                 this.showNotification('❌ Script execution requires Octane connection', 'error');
             }
@@ -1051,11 +1051,11 @@ class MenuSystem extends OctaneComponent {
     }
     
     async reloadScripts() {
-        console.log('🔄 Reload scripts...');
+        console.log('Reload scripts...');
         
         try {
             if (this.client && this.client.connected) {
-                this.showNotification('⚠️ Script reload via gRPC not yet implemented', 'warning');
+                this.showNotification(' Script reload via gRPC not yet implemented', 'warning');
             } else {
                 this.showNotification('❌ Script reload requires Octane connection', 'error');
             }
@@ -1078,7 +1078,7 @@ class MenuSystem extends OctaneComponent {
         
         try {
             if (this.client && this.client.connected) {
-                this.showNotification('⚠️ Module installation via gRPC not yet implemented', 'warning');
+                this.showNotification(' Module installation via gRPC not yet implemented', 'warning');
             } else {
                 this.showNotification('❌ Module installation requires Octane connection', 'error');
             }
@@ -1090,11 +1090,11 @@ class MenuSystem extends OctaneComponent {
     }
     
     async refreshModules() {
-        console.log('🔄 Refresh modules...');
+        console.log('Refresh modules...');
         
         try {
             if (this.client && this.client.connected) {
-                this.showNotification('⚠️ Module refresh via gRPC not yet implemented', 'warning');
+                this.showNotification(' Module refresh via gRPC not yet implemented', 'warning');
             } else {
                 this.showNotification('❌ Module refresh requires Octane connection', 'error');
             }
@@ -1247,7 +1247,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async resetLayout() {
-        console.log('🔄 Reset layout...');
+        console.log('Reset layout...');
         
         try {
             // Reset all panels to default visibility and positions
@@ -1266,7 +1266,7 @@ class MenuSystem extends OctaneComponent {
                 }
             });
             
-            this.showNotification('🔄 Layout reset to default', 'success');
+            this.showNotification('Layout reset to default', 'success');
             
         } catch (error) {
             console.error('❌ Failed to reset layout:', error);
@@ -1548,7 +1548,7 @@ class MenuSystem extends OctaneComponent {
         switch (type) {
             case 'success': return '✅';
             case 'error': return '❌';
-            case 'warning': return '⚠️';
+            case 'warning': return '';
             case 'info': 
             default: return 'ℹ️';
         }

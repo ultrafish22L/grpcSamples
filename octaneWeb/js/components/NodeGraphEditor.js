@@ -44,24 +44,24 @@ class NodeGraphEditor extends OctaneComponent {
                 console.log('Canvas ready, starting render loop with size:', this.canvas.width, this.canvas.height);
                 this.startRenderLoop();
             } else {
-                console.log('⚠️ Canvas not ready, forcing resize and starting render loop');
+                console.log(' Canvas not ready, forcing resize and starting render loop');
                 this.handleResize();
                 setTimeout(() => this.startRenderLoop(), 100);
             }
             
             // Force multiple renders to ensure visibility
             setTimeout(() => {
-                console.log('🔄 Force render 1 - Canvas size:', this.canvas.width, this.canvas.height);
+                console.log('Force render 1 - Canvas size:', this.canvas.width, this.canvas.height);
                 this.render();
             }, 100);
             
             setTimeout(() => {
-                console.log('🔄 Force render 2 - Canvas size:', this.canvas.width, this.canvas.height);
+                console.log('Force render 2 - Canvas size:', this.canvas.width, this.canvas.height);
                 this.render();
             }, 300);
             
             setTimeout(() => {
-                console.log('🔄 Force render 3 - Canvas size:', this.canvas.width, this.canvas.height);
+                console.log('Force render 3 - Canvas size:', this.canvas.width, this.canvas.height);
                 this.render();
             }, 600);
         }, 200);
@@ -213,7 +213,7 @@ class NodeGraphEditor extends OctaneComponent {
                     this.deleteSelectedNodes();
                 } else {
                     if (window.debugConsole) {
-                        window.debugConsole.log('⚠️ No nodes selected for deletion');
+                        window.debugConsole.log(' No nodes selected for deletion');
                     }
                 }
             });
@@ -236,10 +236,10 @@ class NodeGraphEditor extends OctaneComponent {
         if (this.renderLoopRunning) return;
         this.renderLoopRunning = true;
         
-        console.log('🔄 Starting render loop...');
+        console.log('Starting render loop...');
         
         // Test: Try calling render directly first
-        console.log('🧪 Testing direct render call...');
+        console.log('Testing direct render call...');
         try {
             this.render();
             console.log('Direct render call succeeded');
@@ -248,7 +248,7 @@ class NodeGraphEditor extends OctaneComponent {
         }
         
         // Use setInterval instead of requestAnimationFrame as fallback
-        console.log('🔄 Using setInterval render loop...');
+        console.log('Using setInterval render loop...');
         this.renderInterval = setInterval(() => {
             if (!this.renderLoopRunning) {
                 clearInterval(this.renderInterval);
@@ -1078,7 +1078,7 @@ class NodeGraphEditor extends OctaneComponent {
         }
         
         if (!nodeFound) {
-            console.log('⚠️ Node not found for selection handle:', handle);
+            console.log(' Node not found for selection handle:', handle);
         }
         
         // Re-render to show selection
