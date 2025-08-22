@@ -213,10 +213,19 @@ class LayoutManager {
         const rightPanel = document.querySelector('.right-panel');
         const bottomPanel = document.querySelector('.bottom-panel');
         
-        let leftWidth = '220px';  // Match CSS default: 220px
-        let rightWidth = '300px'; // Match CSS default: 300px
-        let bottomHeight = '300px'; // Match CSS default: 300px
-        
+/*
+         --splitter-size: 4px;  
+    --left-panel-width: 160px;
+    --left-panel-min-width: 160px; 
+    --right-panel-width: 260px;   
+    --right-panel-min-width: 200px;
+    --bottom-panel-height: 300px; 
+    --bottom-panel-min-height: 200px;
+*/
+        let leftWidth = '220px';
+        let rightWidth = '260px'; 
+        let bottomHeight = '300px'; 
+
         if (leftPanel) {
             const panelData = this.panels.get(leftPanel.id);
             if (panelData) {
@@ -238,7 +247,7 @@ class LayoutManager {
                 } else {
                     // Only use offsetWidth if it's been calculated (> 0), otherwise use default
                     const calculatedWidth = rightPanel.offsetWidth;
-                    rightWidth = calculatedWidth > 0 ? `${calculatedWidth}px` : '300px';
+                    rightWidth = calculatedWidth > 0 ? `${calculatedWidth}px` : '260px';
                 }
             }
         }
@@ -263,11 +272,10 @@ class LayoutManager {
         appLayout.style.gridTemplateColumns = `${leftWidth} 1fr ${rightWidth}`;
         appLayout.style.gridTemplateRows = `1fr ${bottomHeight}`;
         
-        // 🔧 CRITICAL FIX: Force layout recalculation to ensure right-panel is visible
         if (rightPanel && rightPanel.offsetWidth === 0) {
             // Force a reflow to ensure the right panel gets proper dimensions
-            rightPanel.style.minWidth = '300px';
-            rightPanel.offsetHeight; // Force reflow
+//            rightPanel.style.minWidth = '300px';
+//            rightPanel.offsetHeight; // Force reflow
         }
     }
     
