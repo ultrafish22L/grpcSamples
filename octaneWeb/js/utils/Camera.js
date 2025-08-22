@@ -290,7 +290,7 @@ class Camera {
      */
     async triggerOctaneUpdate() {
         try {
-            await this.client.makeGrpcCall('ApiChangeManager', 'update', {});
+//            await this.client.makeGrpcCall('ApiChangeManager', 'update', {});
         } catch (error) {
             // Don't log connection errors as they're expected when Octane is not running
             if (!error.message.includes('Connection') && !error.message.includes('Network')) {

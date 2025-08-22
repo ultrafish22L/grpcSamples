@@ -623,7 +623,7 @@ async def handle_generic_grpc(request):
         service_name = path_match.group(1)
         method_name = path_match.group(2)
 
-        print(f"\nService/Method: {service_name}/{method_name}")
+#        print(f"\nService/Method: {service_name}/{method_name}")
 
         # Get the appropriate stub
         stub = grpc_registry.get_stub(service_name, proxy.channel)

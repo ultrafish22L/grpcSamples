@@ -562,7 +562,7 @@ class CallbackRenderViewport extends OctaneComponent {
     async triggerOctaneUpdate() {
         try {
             // Call ApiChangeManager::update() to make Octane refresh its display
-            const response = await this.client.makeGrpcCall('ApiChangeManager', 'update', {});
+//            const response = await this.client.makeGrpcCall('ApiChangeManager', 'update', {});
             // console.log('Octane display update triggered');
             
             return response;
