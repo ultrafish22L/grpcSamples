@@ -33,7 +33,7 @@
     --splitter-size: 4px;              /* Resize handle thickness */
     --left-panel-width: 180px;         /* Scene outliner width */
     --left-panel-min-width: 140px;         /* Scene outliner width */
-    --right-panel-width: 280px;        /* Node inspector width */
+    --right-panel-width: 260px;        /* Node inspector width */
     --right-panel-min-width: 200px;        /* Node inspector width */
     --bottom-panel-height: 300px;      /* Node graph height */
     --bottom-panel-min-height: 200px;      /* Node graph height */
