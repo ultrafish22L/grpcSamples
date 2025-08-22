@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🚀 Robust Octane gRPC Proxy Server
+Robust Octane gRPC Proxy Server
 Octane proxy supporting both pass-through /service/method patterns
 
 ARCHITECTURE:
@@ -61,10 +61,10 @@ try:
     from generated import common_pb2
     from generated import apiprojectmanager_pb2
     from generated import apiprojectmanager_pb2_grpc
-    print("✅ Successfully imported core gRPC protobuf modules from generated/")
+    print("Successfully imported core gRPC protobuf modules from generated/")
 except ImportError as e:
     print(f"❌ Failed to import core gRPC modules from generated/: {e}")
-    print("💡 Run ./build_protos.sh to generate protobuf files")
+    print("Run ./build_protos.sh to generate protobuf files")
     sys.exit(1)
 
 # Configuration
@@ -77,7 +77,7 @@ def get_octane_address():
     
     # Method 1: Explicit environment variable (highest priority)
     if os.environ.get('SANDBOX_USE_HOST_NETWORK') == 'true':
-        print("🐳 Using Docker networking: host.docker.internal")
+        print("Using Docker networking: host.docker.internal")
         return f'host.docker.internal:{OCTANE_PORT}'
     
     # Method 2: Check for OpenHands/sandbox environment indicators
@@ -90,7 +90,7 @@ def get_octane_address():
     ]
     
     if any(sandbox_indicators):
-        print("🐳 Detected sandbox/container environment, using Docker networking: host.docker.internal")
+        print("Detected sandbox/container environment, using Docker networking: host.docker.internal")
         return f'host.docker.internal:{OCTANE_PORT}'
     
     # Method 3: Default to localhost for Windows/native environments
@@ -164,7 +164,7 @@ class GrpcServiceRegistry:
         stub = stub_class(channel)
         self.stubs[service_name] = stub
 
-        print(f"✅ Created gRPC stub for {service_name} using {stub_class_name}")
+        print(f"Created gRPC stub for {service_name} using {stub_class_name}")
         return stub
 
     def get_request_class(self, service_name, method_name):
@@ -276,10 +276,10 @@ class ComprehensiveOctaneProxy:
         self.success_count = 0
         self.error_count = 0
 
-        print(f"🚀 LOCKIT: Robust Octane gRPC Proxy Server")
-        print(f"📡 Proxy Port: {PROXY_PORT}")
-        print(f"🎯 Octane Target: {self.octane_address}")
-        print(f"🐳 Docker Support: {os.environ.get('SANDBOX_USE_HOST_NETWORK', 'false')}")
+        print(f"LOCKIT: Robust Octane gRPC Proxy Server")
+        print(f"Proxy Port: {PROXY_PORT}")
+        print(f"Octane Target: {self.octane_address}")
+        print(f"Docker Support: {os.environ.get('SANDBOX_USE_HOST_NETWORK', 'false')}")
 
     async def connect_to_octane(self):
         """Connect to Octane with Docker networking support"""
@@ -288,15 +288,15 @@ class ComprehensiveOctaneProxy:
             self.channel = grpc.aio.insecure_channel(self.octane_address)
             
             # Test connection with a simple call
-            print(f"📤 Testing connection with GetCamera request")
+            print(f"Testing connection with GetCamera request")
             from generated import livelink_pb2
             from generated import livelink_pb2_grpc
             
             stub = livelink_pb2_grpc.LiveLinkServiceStub(self.channel)
             request = livelink_pb2.Empty()
             response = await stub.GetCamera(request)
-            print(f"✅ Successfully connected to Octane at {self.octane_address}")
-            print(f"📥 Initial camera state: pos=({response.position.x:.2f}, {response.position.y:.2f}, {response.position.z:.2f})")
+            print(f"Successfully connected to Octane at {self.octane_address}")
+            print(f"Initial camera state: pos=({response.position.x:.2f}, {response.position.y:.2f}, {response.position.z:.2f})")
             return True
             
         except Exception as e:
@@ -314,9 +314,9 @@ class ComprehensiveOctaneProxy:
                         filepath = os.path.join(logs_dir, filename)
                         os.remove(filepath)
                         print(f"🧹 Cleared old debug log: {filename}")
-            print("🧹 Debug logs cleared for fresh session")
+            print("Debug logs cleared for fresh session")
         except Exception as e:
-            print(f"⚠️ Could not clear debug logs: {e}")
+            print(f"Could not clear debug logs: {e}")
 
     async def disconnect(self):
         """Disconnect from Octane"""
@@ -537,7 +537,7 @@ async def handle_health(request):
         proxy.clear_debug_logs()
         # Clear session tracking for fresh start
         active_sessions.clear()
-        print("🧹 Debug logs cleared for new session (health check)")
+        print("Debug logs cleared for new session (health check)")
     
     return web.json_response({'status': 'ok', 'connected': proxy.channel is not None})
 
@@ -634,6 +634,9 @@ async def handle_generic_grpc(request):
             print(f"❌ can't find method: {method_name}")
             return web.json_response({'success': False, 'error': f'Method {method_name} not found on {service_name}'}, status=404)
 
+#        if (method_name == "SetCamera"):
+#            print(f"   {method_name} {request}")
+        
         # Get request data from HTTP body
         request_data = {}
         if request.content_length and request.content_length > 0:
@@ -667,9 +670,9 @@ async def handle_generic_grpc(request):
                             print(f"❌ no REQUEST KEY: {key}")
 
         # Make the gRPC call
-        print(f"req:  {grpc_request}")        
+#        print(f"req:  {grpc_request}")        
         response = await method(grpc_request)
-        print(f"resp: {response}")
+#        print(f"resp: {response}")
 
         # Convert response to dict
         success = False
@@ -734,7 +737,7 @@ async def handle_stream_events(request):
         # Generate unique client ID
         client_id = str(uuid.uuid4())
         
-        print(f"📡 Starting SSE stream for client: {client_id}")
+        print(f"Starting SSE stream for client: {client_id}")
         
         # Create response with SSE headers
         response = web.StreamResponse(
@@ -804,7 +807,7 @@ async def handle_stream_events(request):
         finally:
             # Remove client when connection closes
             streamer.remove_client(client_id)
-            print(f"📡 SSE stream ended for client: {client_id}")
+            print(f"SSE stream ended for client: {client_id}")
         
         return response
         
@@ -891,10 +894,10 @@ async def main():
     """Main entry point"""
     global proxy
     
-    print(f"🚀 LOCKIT: Starting Robust Octane gRPC Proxy Server")
-    print(f"📡 Proxy Port: {PROXY_PORT}")
-    print(f"🎯 Octane Target: {get_octane_address()}")
-    print(f"🐳 Docker Support: {os.environ.get('SANDBOX_USE_HOST_NETWORK', 'false')}")
+    print(f"LOCKIT: Starting Robust Octane gRPC Proxy Server")
+    print(f"Proxy Port: {PROXY_PORT}")
+    print(f"Octane Target: {get_octane_address()}")
+    print(f"Docker Support: {os.environ.get('SANDBOX_USE_HOST_NETWORK', 'false')}")
     
     # Create proxy instance
     proxy = ComprehensiveOctaneProxy()
@@ -923,7 +926,7 @@ async def main():
         while True:
             await asyncio.sleep(1)
     except KeyboardInterrupt:
-        print("\n🛑 Shutting down proxy server...")
+        print("\nShutting down proxy server...")
         if proxy:
             await proxy.disconnect()
         await runner.cleanup()
@@ -934,10 +937,10 @@ if __name__ == '__main__':
     # Check for debug flags
     if len(sys.argv) > 1:
         if sys.argv[1] == '--debug-callback':
-            print("🔧 Running callback system debug test...")
+            print("Running callback system debug test...")
             asyncio.run(debug_callback_system())
         elif sys.argv[1] == '--debug-camera':
-            print("🔧 Running camera image comparison debug test...")
+            print("Running camera image comparison debug test...")
             asyncio.run(debug_camera_image_comparison())
         else:
             print("❌ Unknown debug option. Available options:")

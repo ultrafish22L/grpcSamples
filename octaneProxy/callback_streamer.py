@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🚀 Octane Callback Streaming System
+Octane Callback Streaming System
 Pure gRPC implementation of OnNewImage() callbacks without SDK
 
 ARCHITECTURE:
@@ -30,10 +30,10 @@ from queue import Queue, Empty as QueueEmpty
 try:
     from PIL import Image
     PIL_AVAILABLE = True
-    print("✅ PIL/Pillow available - PNG export enabled")
+    print("PIL/Pillow available - PNG export enabled")
 except ImportError:
     PIL_AVAILABLE = False
-    print("⚠️ PIL/Pillow not available - PNG export disabled (install with: pip install Pillow)")
+    print("❌ PIL/Pillow not available - PNG export disabled (install with: pip install Pillow)")
 
 import numpy as np
 
@@ -51,8 +51,8 @@ try:
     from generated import apirender_pb2, apirender_pb2_grpc
     PROTOBUF_AVAILABLE = True
 except ImportError as e:
-    print(f"⚠️ Protobuf imports failed: {e}")
-    print("📝 Callback streaming will be disabled")
+    print(f"❌ Protobuf imports failed: {e}")
+    print("  Callback streaming will be disabled")
     PROTOBUF_AVAILABLE = False
 
 @dataclass
@@ -111,7 +111,7 @@ class OctaneCallbackStreamer:
             self.render_stub = apirender_pb2_grpc.ApiRenderEngineServiceStub(self.channel)
             self.stream_stub = callback_pb2_grpc.StreamCallbackServiceStub(self.channel)
             
-            print(f"✅ Connected to Octane at {self.octane_address}")
+            print(f"Connected to Octane at {self.octane_address}")
             return True
             
         except Exception as e:
@@ -142,7 +142,7 @@ class OctaneCallbackStreamer:
             response = await self.render_stub.setOnNewImageCallback(request)
             self.callback_id = response.callbackId
             
-            print(f"✅ Registered OnNewImage callback with ID: {self.callback_id}")
+            print(f"Registered OnNewImage callback with ID: {self.callback_id}")
             return True
             
         except grpc.RpcError as e:
@@ -163,7 +163,7 @@ class OctaneCallbackStreamer:
             self.stream_thread = threading.Thread(target=self._stream_worker, daemon=True)
             self.stream_thread.start()
             
-            print("🔄 Started callback streaming thread")
+            print("Started callback streaming thread")
             return True
             
         except Exception as e:
@@ -173,7 +173,7 @@ class OctaneCallbackStreamer:
     
     def _stream_worker(self):
         """Background thread worker for streaming callbacks"""
-        print("🔄 Callback streaming worker started")
+        print("Callback streaming worker started")
         
         # Create event loop for this thread and keep it
         loop = asyncio.new_event_loop()
@@ -201,7 +201,7 @@ class OctaneCallbackStreamer:
             except:
                 pass
         
-        print("⏹️ Callback streaming worker stopped")
+        print("Callback streaming worker stopped")
     
     async def _reinitialize_for_thread(self):
         """Reinitialize gRPC stubs for the current thread's event loop"""
@@ -212,7 +212,7 @@ class OctaneCallbackStreamer:
             # Import the correct stub
             from generated import callback_pb2_grpc
             self.stream_stub = callback_pb2_grpc.StreamCallbackServiceStub(self.channel)
-            print("🔧 Reinitialized gRPC stubs for streaming thread")
+            print("Reinitialized gRPC stubs for streaming thread")
         except Exception as e:
             print(f"❌ Failed to reinitialize stubs: {e}")
             raise
@@ -224,7 +224,7 @@ class OctaneCallbackStreamer:
             empty_request = Empty()
             stream = self.stream_stub.callbackChannel(empty_request)
             
-            print("📡 Opened callback stream channel")
+            print("Opened callback stream channel")
             
             async for callback_request in stream:
                 if not self.stream_active:
@@ -255,13 +255,13 @@ class OctaneCallbackStreamer:
             self.callback_count += 1
             self.last_callback_time = time.time()
             
-            # print(f"📸 Received OnNewImage callback #{self.callback_count}")
+            # print(f"Received OnNewImage callback #{self.callback_count}")
             
             # Extract render images
             render_images = new_image_request.render_images
             
             if not render_images or not render_images.data:
-                print("⚠️ Empty render images in callback")
+                print("Empty render images in callback")
                 return
             
             # Convert to JSON format for browser
@@ -305,7 +305,7 @@ class OctaneCallbackStreamer:
                         # PNG saving disabled for performance
                         # png_filename = await self._save_image_as_png(img, i)
                         # if png_filename:
-                        #     print(f"💾 Saved callback image to: {png_filename}")
+                        #     print(f"Saved callback image to: {png_filename}")
                         
                         # Encode buffer as base64 for JSON transport
                         buffer_data = base64.b64encode(img.buffer.data).decode('utf-8')
@@ -317,12 +317,12 @@ class OctaneCallbackStreamer:
                         
                         # DEBUG: Check if buffer data is changing
                         buffer_hash = hashlib.md5(img.buffer.data).hexdigest()[:8]
-                        print(f"  📊 Image {i}: {img.size.x}x{img.size.y}, "
-                              f"{len(img.buffer.data)} bytes, "
-                              f"{img.tonemappedSamplesPerPixel:.1f} samples/px, "
-                              f"hash: {buffer_hash}")
+#                        print(f"  Image {i}: {img.size.x}x{img.size.y}, "
+#                              f"{len(img.buffer.data)} bytes, "
+#                              f"{img.tonemappedSamplesPerPixel:.1f} samples/px, "
+#                              f"hash: {buffer_hash}")
                     else:
-                        print(f"  ⚠️ Image {i}: No buffer data")
+                        print(f"  Image {i}: No buffer data")
                         image_info['buffer'] = None
                     
                     image_data['render_images']['data'].append(image_info)
@@ -363,7 +363,7 @@ class OctaneCallbackStreamer:
     
     async def _handle_new_statistics(self, statistics_request):
         """Handle new statistics callback"""
-        # print(f"📊 New statistics callback: {statistics_request}")
+        # print(f"New statistics callback: {statistics_request}")
         
         stats_data = {
             'type': 'newStatistics',
@@ -390,7 +390,7 @@ class OctaneCallbackStreamer:
             image_type = img.type
             buffer_data = img.buffer.data
             
-            print(f"🔍 PNG Debug - Image {index}: {width}x{height}, type={image_type}, pitch={pitch}, buffer_size={len(buffer_data)}")
+            print(f"PNG Debug - Image {index}: {width}x{height}, type={image_type}, pitch={pitch}, buffer_size={len(buffer_data)}")
             
             # Create filename with timestamp and callback count
             timestamp = int(time.time())
@@ -401,7 +401,7 @@ class OctaneCallbackStreamer:
                 # Expected: 4 bytes per pixel (RGBA)
                 expected_size = width * height * 4
                 if len(buffer_data) < expected_size:
-                    print(f"⚠️ Buffer too small: {len(buffer_data)} < {expected_size}")
+                    print(f"Buffer too small: {len(buffer_data)} < {expected_size}")
                     return None
                 
                 # Convert to numpy array
@@ -409,7 +409,7 @@ class OctaneCallbackStreamer:
                 
                 # Check if buffer size matches expected size exactly
                 if len(buffer_data) == expected_size:
-                    print(f"✅ Perfect size match - direct reshape")
+                    print(f"Perfect size match - direct reshape")
                     # Direct reshape - no pitch issues
                     img_array = img_array.reshape((height, width, 4))
                 else:
@@ -418,13 +418,13 @@ class OctaneCallbackStreamer:
                     
                     # Try pitch as bytes first
                     if pitch * height == len(buffer_data):
-                        print(f"🔍 Pitch is in bytes: {pitch}")
+                        print(f"Pitch is in bytes: {pitch}")
                         pitch_bytes = pitch
                     elif pitch * bytes_per_pixel * height == len(buffer_data):
-                        print(f"🔍 Pitch is in pixels: {pitch} -> {pitch * bytes_per_pixel} bytes")
+                        print(f"Pitch is in pixels: {pitch} -> {pitch * bytes_per_pixel} bytes")
                         pitch_bytes = pitch * bytes_per_pixel
                     else:
-                        print(f"⚠️ Pitch calculation unclear, using direct reshape")
+                        print(f"Pitch calculation unclear, using direct reshape")
                         img_array = img_array.reshape((height, width, 4))
                         pitch_bytes = width * bytes_per_pixel
                     
@@ -454,7 +454,7 @@ class OctaneCallbackStreamer:
                 # Expected: 16 bytes per pixel (4 float32 values)
                 expected_size = width * height * 16
                 if len(buffer_data) < expected_size:
-                    print(f"⚠️ HDR Buffer too small: {len(buffer_data)} < {expected_size}")
+                    print(f"HDR Buffer too small: {len(buffer_data)} < {expected_size}")
                     return None
                 
                 # Convert to float32 array
@@ -494,7 +494,7 @@ class OctaneCallbackStreamer:
             pil_image = Image.fromarray(img_array, mode=mode)
             pil_image.save(filename)
             
-            print(f"✅ Saved PNG: {filename} ({mode}, {img_array.shape})")
+            print(f"Saved PNG: {filename} ({mode}, {img_array.shape})")
             return filename
             
         except Exception as e:
@@ -516,7 +516,7 @@ class OctaneCallbackStreamer:
         ]
         
         for client_id in inactive_clients:
-            print(f"🗑️ Removing inactive client: {client_id}")
+            print(f"Removing inactive client: {client_id}")
             del self.clients[client_id]
         
         # Broadcast to active clients
@@ -550,8 +550,8 @@ class OctaneCallbackStreamer:
                     print(f"❌ Error broadcasting to client {client_id}: {e}")
                     client.active = False
         
-        if active_count > 0:
-            print(f"📤 Broadcasted to {active_count} clients")
+#        if active_count > 0:
+#            print(f"Broadcasted to {active_count} clients")
     
     def add_client(self, client_id: str, callback_func: Callable, main_loop=None):
         """Add a browser client for callback updates"""
@@ -605,7 +605,7 @@ class OctaneCallbackStreamer:
     
     async def stop_streaming(self):
         """Stop callback streaming"""
-        print("⏹️ Stopping callback streaming...")
+        print("Stopping callback streaming...")
         
         self.stream_active = False
         
@@ -617,7 +617,7 @@ class OctaneCallbackStreamer:
         if self.channel:
             await self.channel.close()
         
-        print("✅ Callback streaming stopped")
+        print("Callback streaming stopped")
 
 # Global streamer instance
 _global_streamer: Optional[OctaneCallbackStreamer] = None
@@ -652,7 +652,7 @@ async def initialize_callback_system(octane_address: str = "127.0.0.1:51022") ->
         if not await streamer.start_streaming():
             return False
         
-        print("🎉 Callback system initialized successfully!")
+        print("Callback system initialized successfully!")
         return True
         
     except Exception as e:
@@ -662,11 +662,11 @@ async def initialize_callback_system(octane_address: str = "127.0.0.1:51022") ->
 if __name__ == "__main__":
     # Test the callback streamer
     async def test_streamer():
-        print("🧪 Testing Octane Callback Streamer...")
+        print("Testing Octane Callback Streamer...")
         
         success = await initialize_callback_system()
         if success:
-            print("✅ Test successful - callback system is working!")
+            print("Test successful - callback system is working!")
             
             # Keep running for a bit to see callbacks
             await asyncio.sleep(10)

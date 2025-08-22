@@ -125,10 +125,10 @@ class Camera {
         
         // Mouse down - start drag operation
         const onMouseDown = (e) => {
-            if (e.button === 0) { // Left button = PAN
+            if (e.button === 2) { // Right button = PAN
                 this.mouse.panning = true;
                 element.style.cursor = 'move';
-            } else if (e.button === 2) { // Right button = ORBIT
+            } else if (e.button === 0) { // Left button = ORBIT
                 this.mouse.dragging = true;
                 element.style.cursor = 'grabbing';
             }
@@ -165,6 +165,8 @@ class Camera {
             this.mouse.dragging = false;
             this.mouse.panning = false;
             element.style.cursor = 'grab';
+
+//            this.syncToOctane();
         };
         
         // Mouse wheel - zoom camera
@@ -267,8 +269,7 @@ class Camera {
             const target = this.getTarget();
             
             // Update Octane camera
-            await this.client.setCameraPosition(position[0], position[1], position[2]);
-            await this.client.setCameraTarget(target[0], target[1], target[2]);
+            await this.client.setCameraPositionAndTarget(position[0], position[1], position[2], target[0], target[1], target[2]);
             
             // Trigger Octane display update
             await this.triggerOctaneUpdate();
