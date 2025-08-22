@@ -37,7 +37,7 @@ class RenderViewport extends OctaneComponent {
         this.imagePollTimeout = null;
         this.imagePollInterval = 200; // Poll every 200ms for responsive image updates
         
-        console.log('📷 Camera initialized for LiveLink sync:', {
+        console.log('Camera initialized for LiveLink sync:', {
             radius: this.camera.radius,
             theta: this.camera.theta,
             phi: this.camera.phi,
@@ -263,7 +263,7 @@ class RenderViewport extends OctaneComponent {
      * Stop background polling for render images
      */
     stopImagePolling() {
-        console.log('⏹️ Stopping background image polling...');
+        console.log('Stopping background image polling...');
         this.imagePolling = false;
         
         if (this.imagePollTimeout) {
@@ -289,7 +289,7 @@ class RenderViewport extends OctaneComponent {
                 
                 // Check if we have actual image data
                 if (renderImages.data && renderImages.data.length > 0) {
-                    console.log('📸 New render image received from background polling');
+                    console.log('New render image received from background polling');
                     this.displayRenderImage(result.data);
                     this.updateStatus('New image received');
                 }
@@ -326,7 +326,7 @@ class RenderViewport extends OctaneComponent {
             if (imageData.renderImages && imageData.renderImages.data && imageData.renderImages.data.length > 0) {
                 // Get first render image from array
                 const renderImage = imageData.renderImages.data[0];
-                console.log('📸 Found render image:', renderImage);
+                console.log('Found render image:', renderImage);
                 
                 if (renderImage.buffer && renderImage.buffer.data && renderImage.size) {
                     this.displayRawImageBuffer(renderImage);
@@ -336,7 +336,7 @@ class RenderViewport extends OctaneComponent {
             
             // Handle direct renderImages.data format (single image)
             if (imageData.renderImages && imageData.renderImages.data && imageData.renderImages.data.buffer) {
-                console.log('📸 Found direct render image:', imageData.renderImages.data);
+                console.log('Found direct render image:', imageData.renderImages.data);
                 const renderImage = imageData.renderImages.data;
                 
                 if (renderImage.buffer && renderImage.buffer.data && renderImage.size) {
@@ -404,7 +404,7 @@ class RenderViewport extends OctaneComponent {
             const width = size.x;
             const height = size.y;
             
-            console.log(`🖼️ Processing raw image buffer: ${width}x${height}, pitch: ${pitch}`);
+            console.log(`Processing raw image buffer: ${width}x${height}, pitch: ${pitch}`);
             
             // Create canvas to convert raw buffer to displayable image
             const canvas = document.createElement('canvas');
@@ -422,7 +422,7 @@ class RenderViewport extends OctaneComponent {
             
             // Convert buffer data to Uint8Array
             const bufferData = new Uint8Array(buffer.data);
-            console.log(`📊 Buffer size: ${bufferData.length} bytes`);
+            console.log(`Buffer size: ${bufferData.length} bytes`);
             
             // Copy RGBA data to canvas ImageData
             // Octane format appears to be RGBA with 4 bytes per pixel
@@ -522,7 +522,7 @@ class RenderViewport extends OctaneComponent {
         this.viewport.style.width = '100%';
         this.viewport.style.height = '100%';
         
-        console.log('📐 Viewport resized:', {
+        console.log('Viewport resized:', {
             width: containerRect.width,
             height: containerRect.height
         });
@@ -540,7 +540,7 @@ class RenderViewport extends OctaneComponent {
             this.resizeHandler = null;
         }
         
-        console.log('🧹 RenderViewport destroyed');
+        console.log('RenderViewport destroyed');
     }
 
     /**
@@ -558,7 +558,7 @@ class RenderViewport extends OctaneComponent {
             this.removeDebugUI();
         }
         
-        console.log(`🎛️ UI Debug Mode ${enabled ? 'enabled' : 'disabled'}`);
+        console.log(`UI Debug Mode ${enabled ? 'enabled' : 'disabled'}`);
     }
 
     /**
@@ -599,7 +599,7 @@ class RenderViewport extends OctaneComponent {
      * Cleanup on destroy
      */
     onDestroy() {
-        console.log('🗑️ Cleaning up RenderViewport');
+        console.log('Cleaning up RenderViewport');
         
         // Clean up camera system
         if (this.camera) {

@@ -118,7 +118,7 @@ class NodeInspector extends OctaneComponent {
                     if (element.hasAttribute) {
                         if (element.hasAttribute('data-group')) {
                             const groupName = element.getAttribute('data-group');
-                            console.log('🔽 Coordinate-based toggle of parameter group:', groupName);
+                            console.log('Coordinate-based toggle of parameter group:', groupName);
                             this.toggleGroup(groupName);
                             event.preventDefault();
                             event.stopPropagation();
@@ -126,7 +126,7 @@ class NodeInspector extends OctaneComponent {
                         }
                         if (element.hasAttribute('data-toggle')) {
                             const nodeid = element.getAttribute('data-toggle');
-                            console.log('🔽 Coordinate-based toggle of parameter parent:', nodeid);
+                            console.log('Coordinate-based toggle of parameter parent:', nodeid);
                             this.toggleParent(nodeid);
                             event.preventDefault();
                             event.stopPropagation();
@@ -147,7 +147,7 @@ class NodeInspector extends OctaneComponent {
                     
                     // Handle checkboxes
                     if (element.classList && element.classList.contains('parameter-checkbox')) {
-                        console.log('☑️ Coordinate-based checkbox click:', element);
+                        console.log('Coordinate-based checkbox click:', element);
                         element.checked = !element.checked;
                         this.handleParameterChange(element);
                         event.preventDefault();
@@ -165,7 +165,7 @@ class NodeInspector extends OctaneComponent {
                     
                     // Handle number inputs
                     if (element.classList && element.classList.contains('parameter-number-input')) {
-                        console.log('🔢 Coordinate-based number input click:', element);
+                        console.log('Coordinate-based number input click:', element);
                         element.focus();
                         return;
                     }
@@ -175,7 +175,7 @@ class NodeInspector extends OctaneComponent {
                     while (parent && rightPanel.contains(parent)) {
                         if (parent.hasAttribute && parent.hasAttribute('data-group')) {
                             const groupName = parent.getAttribute('data-group');
-                            console.log('🔽 Coordinate-based toggle of parameter group (via parent):', groupName);
+                            console.log('Coordinate-based toggle of parameter group (via parent):', groupName);
                             this.toggleGroup(groupName);
                             event.preventDefault();
                             event.stopPropagation();
@@ -286,7 +286,7 @@ class NodeInspector extends OctaneComponent {
         const parameterControls = this.element.querySelectorAll('.parameter-control');
         parameterControls.forEach(control => {
             this.addEventListener(control, 'change', (e) => {
-                console.log('🎛️ Parameter control changed:', e.target.dataset.parameter, e.target.value);
+                console.log('Parameter control changed:', e.target.dataset.parameter, e.target.value);
                 this.handleParameterChange(e.target);
             });
             
@@ -557,7 +557,7 @@ class NodeInspector extends OctaneComponent {
                 },
             );
             if (!result.success) {
-                throw new Error('Failed ApiItemSetter/setBool');
+                throw new Error('Failed ApiItemSetter/set27');
             }
         } catch (error) {
             console.error('❌ Failed handleParameterChange:', error);

@@ -467,7 +467,7 @@ class MenuSystem extends OctaneComponent {
     
     // Menu action implementations
     async newScene() {
-        console.log('🆕 Creating new scene...');
+        console.log('Creating new scene...');
         
         try {
             // Make gRPC call to reset project (equivalent to "New")
@@ -521,7 +521,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async openScene() {
-        console.log('📂 Opening Octane project file...');
+        console.log('Opening Octane project file...');
         
         try {
             const results = await this.fileManager.openFileDialog({
@@ -557,7 +557,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async openRecentScene(filename) {
-        console.log('📂 Opening recent scene:', filename);
+        console.log('Opening recent scene:', filename);
         
         try {
             // Make gRPC call to load project directly by path
@@ -597,7 +597,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async clearRecentFiles() {
-        console.log('🗑️ Clearing recent files...');
+        console.log('Clearing recent files...');
         
         try {
             // Clear recent files from storage
@@ -611,7 +611,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async saveScene() {
-        console.log('💾 Saving scene...');
+        console.log('Saving scene...');
         
         try {
             // Make gRPC call to save current project
@@ -653,7 +653,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async saveSceneAs() {
-        console.log('💾 Save scene as...');
+        console.log('Save scene as...');
         
         try {
             // For now, we'll use a simple prompt for the filename
@@ -704,7 +704,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async saveAsPackage() {
-        console.log('📦 Save as package...');
+        console.log('Save as package...');
         
         try {
             // For now, we'll use a simple prompt for the package path
@@ -750,12 +750,12 @@ class MenuSystem extends OctaneComponent {
     }
     
     async saveAsPackageSettings() {
-        console.log('⚙️ Save as package settings...');
-        this.showNotification('⚙️ Package settings dialog - Not implemented yet', 'info');
+        console.log('Save as package settings...');
+        this.showNotification('Package settings dialog - Not implemented yet', 'info');
     }
     
     async unpackPackage() {
-        console.log('📦 Unpack package...');
+        console.log('Unpack package...');
         
         try {
             // For now, we'll use prompts for the package path and unpack directory
@@ -841,7 +841,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async saveAsDefault() {
-        console.log('⭐ Save as default...');
+        console.log('Save as default...');
         
         try {
             const currentScene = this.getCurrentSceneData();
@@ -855,17 +855,17 @@ class MenuSystem extends OctaneComponent {
     }
     
     async showPreferences() {
-        console.log('⚙️ Show preferences...');
+        console.log('Show preferences...');
         this.showNotification('Preferences dialog - Not implemented yet', 'info');
     }
     
     async showActivationStatus() {
-        console.log('🔑 Show activation status...');
+        console.log('Show activation status...');
         this.showNotification('Activation status - Not implemented yet', 'info');
     }
     
     async quitApplication() {
-        console.log('🚪 Quit application...');
+        console.log('Quit application...');
         
         if (confirm('Are you sure you want to quit OctaneWeb?')) {
             // In a real application, this might save state and close gracefully
@@ -926,7 +926,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async cut() {
-        console.log('✂️ Cut selected items...');
+        console.log('Cut selected items...');
         
         try {
             if (this.client && this.client.connected) {
@@ -960,7 +960,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async paste() {
-        console.log('📄 Paste items...');
+        console.log('Paste items...');
         
         try {
             if (this.client && this.client.connected) {
@@ -977,7 +977,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async deleteSelected() {
-        console.log('🗑️ Delete selected items...');
+        console.log('Delete selected items...');
         
         try {
             if (this.client && this.client.connected) {
@@ -994,7 +994,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async selectAll() {
-        console.log('☑️ Select all items...');
+        console.log('Select all items...');
         
         try {
             if (this.client && this.client.connected) {
@@ -1029,7 +1029,7 @@ class MenuSystem extends OctaneComponent {
     // ==================== SCRIPT MENU FUNCTIONS ====================
     
     async runScript() {
-        console.log('▶️ Run script...');
+        console.log('Run script...');
         
         try {
             if (this.client && this.client.connected) {
@@ -1046,8 +1046,8 @@ class MenuSystem extends OctaneComponent {
     }
     
     async showScriptEditor() {
-        console.log('📝 Show script editor...');
-        this.showNotification('📝 Script editor - Not implemented yet', 'info');
+        console.log('Show script editor...');
+        this.showNotification('Script editor - Not implemented yet', 'info');
     }
     
     async reloadScripts() {
@@ -1069,12 +1069,12 @@ class MenuSystem extends OctaneComponent {
     // ==================== MODULE MENU FUNCTIONS ====================
     
     async showModuleManager() {
-        console.log('🧩 Show module manager...');
-        this.showNotification('🧩 Module manager - Not implemented yet', 'info');
+        console.log('Show module manager...');
+        this.showNotification('Module manager - Not implemented yet', 'info');
     }
     
     async installModule() {
-        console.log('📦 Install module...');
+        console.log('Install module...');
         
         try {
             if (this.client && this.client.connected) {
@@ -1108,7 +1108,7 @@ class MenuSystem extends OctaneComponent {
     // ==================== CLOUD MENU FUNCTIONS ====================
     
     async cloudRender() {
-        console.log('☁️ Start cloud render...');
+        console.log('Start cloud render...');
         
         try {
             if (this.client && this.client.connected) {
@@ -1136,7 +1136,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async showCloudAccount() {
-        console.log('👤 Show cloud account...');
+        console.log('Show cloud account...');
         
         try {
             if (this.client && this.client.connected) {
@@ -1196,7 +1196,7 @@ class MenuSystem extends OctaneComponent {
     // ==================== WINDOW MENU FUNCTIONS ====================
     
     async toggleSceneOutliner() {
-        console.log('🌳 Toggle scene outliner...');
+        console.log('Toggle scene outliner...');
         
         try {
             const sceneOutlinerPanel = document.querySelector('.scene-outliner-panel');
@@ -1230,7 +1230,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async toggleNodeGraph() {
-        console.log('🕸️ Toggle node graph...');
+        console.log('Toggle node graph...');
         
         try {
             const nodeGraphPanel = document.querySelector('.node-graph-panel');
@@ -1295,12 +1295,12 @@ class MenuSystem extends OctaneComponent {
     // ==================== HELP MENU FUNCTIONS ====================
     
     showDocumentation() {
-        console.log('📚 Show documentation...');
+        console.log('Show documentation...');
         window.open('https://docs.otoy.com/octane/', '_blank');
     }
     
     showKeyboardShortcuts() {
-        console.log('⌨️ Show keyboard shortcuts...');
+        console.log('Show keyboard shortcuts...');
         
         const modal = document.createElement('div');
         modal.className = 'modal-overlay';
@@ -1348,7 +1348,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     reportBug() {
-        console.log('🐛 Report bug...');
+        console.log('Report bug...');
         window.open('https://github.com/ultrafish22L/grpcSamples/issues/new', '_blank');
     }
 

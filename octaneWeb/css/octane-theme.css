@@ -263,6 +263,7 @@ html, body {
     background-color: var(--octane-bg-secondary);
     border-right: 1px solid var(--octane-border);
     display: flex;
+    flex-direction: row;
 }
 
 .panel-header {

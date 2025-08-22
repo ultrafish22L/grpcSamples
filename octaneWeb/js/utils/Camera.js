@@ -60,7 +60,7 @@ class Camera {
         // Event listeners for cleanup
         this.eventListeners = [];
         
-        console.log('📷 Camera system initialized');
+        console.log('Camera system initialized');
     }
     
     /**
@@ -85,7 +85,7 @@ class Camera {
                 this.state.theta = Math.atan2(dz, dx);
                 this.state.phi = Math.asin(dy / this.state.radius);
                 
-                console.log(`📷 Camera initialized from Octane: radius=${this.state.radius.toFixed(2)}, theta=${this.state.theta.toFixed(2)}, phi=${this.state.phi.toFixed(2)}`);
+                console.log(`Camera initialized from Octane: radius=${this.state.radius.toFixed(2)}, theta=${this.state.theta.toFixed(2)}, phi=${this.state.phi.toFixed(2)}`);
                 return true;
             }
         } catch (error) {
@@ -193,7 +193,7 @@ class Camera {
             { element, event: 'contextmenu', handler: onContextMenu }
         ];
         
-        console.log('🖱️ Mouse controls attached to camera system');
+        console.log('Mouse controls attached to camera system');
     }
     
     /**
@@ -234,7 +234,7 @@ class Camera {
         this.state.center[1] += up[1] * deltaY * panSpeed;
         this.state.center[2] -= right[2] * deltaX * panSpeed;
         
-        console.log(`↔️ Panning: center=[${this.state.center.map(v => v.toFixed(2)).join(', ')}]`);
+        console.log(`Panning: center=[${this.state.center.map(v => v.toFixed(2)).join(', ')}]`);
     }
     
     /**
@@ -276,7 +276,7 @@ class Camera {
             this.sync.lastSyncTime = now;
             this.sync.syncCount++;
             
-            console.log(`📷 Camera synced: pos=[${position.map(v => v.toFixed(2)).join(', ')}], target=[${target.map(v => v.toFixed(2)).join(', ')}]`);
+            console.log(`Camera synced: pos=[${position.map(v => v.toFixed(2)).join(', ')}], target=[${target.map(v => v.toFixed(2)).join(', ')}]`);
             
         } catch (error) {
             console.warn(' Camera sync error:', error);
@@ -321,7 +321,7 @@ class Camera {
      */
     setSyncEnabled(enabled) {
         this.sync.enabled = enabled;
-        console.log(`📷 Camera sync ${enabled ? 'enabled' : 'disabled'}`);
+        console.log(`Camera sync ${enabled ? 'enabled' : 'disabled'}`);
     }
     
     /**
@@ -330,7 +330,7 @@ class Camera {
      */
     setSensitivity(sensitivity) {
         this.state.sensitivity = sensitivity;
-        console.log(`📷 Camera sensitivity set to ${sensitivity}`);
+        console.log(`Camera sensitivity set to ${sensitivity}`);
     }
     
     /**
@@ -348,7 +348,7 @@ class Camera {
             this.controlElement.style.cursor = '';
         }
         
-        console.log('📷 Camera system destroyed');
+        console.log('Camera system destroyed');
     }
 }
 

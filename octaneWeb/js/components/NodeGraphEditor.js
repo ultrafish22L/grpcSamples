@@ -48,7 +48,8 @@ class NodeGraphEditor extends OctaneComponent {
                 this.handleResize();
                 setTimeout(() => this.startRenderLoop(), 100);
             }
-            
+            this.render();
+/*            
             // Force multiple renders to ensure visibility
             setTimeout(() => {
                 console.log('Force render 1 - Canvas size:', this.canvas.width, this.canvas.height);
@@ -64,6 +65,7 @@ class NodeGraphEditor extends OctaneComponent {
                 console.log('Force render 3 - Canvas size:', this.canvas.width, this.canvas.height);
                 this.render();
             }, 600);
+*/            
         }, 200);
     }
     
@@ -121,6 +123,9 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     initCanvas() {
+//        this.canvas.width = parentNode.width;
+//        this.canvas.height = parentNode.height; 
+
         console.log('Initializing canvas:', this.canvas);
         console.log('Canvas element:', this.canvas.tagName, this.canvas.id, this.canvas.className);
         console.log('Canvas size:', this.canvas.width, this.canvas.height);
@@ -138,9 +143,9 @@ class NodeGraphEditor extends OctaneComponent {
         this.handleResize();
         
         // Multiple delayed resizes to ensure DOM layout is complete
-        setTimeout(() => this.handleResize(), 100);
-        setTimeout(() => this.handleResize(), 250);
-        setTimeout(() => this.handleResize(), 500);
+//        setTimeout(() => this.handleResize(), 100);
+//        setTimeout(() => this.handleResize(), 250);
+//        setTimeout(() => this.handleResize(), 500);
         
         // Also trigger resize on window load event
         if (document.readyState === 'loading') {
@@ -222,7 +227,7 @@ class NodeGraphEditor extends OctaneComponent {
             });
         }
 
-        console.log('🎛️ Node graph toolbar controls initialized');
+        console.log('Node graph toolbar controls initialized');
     }
     
     startRenderLoop() {
@@ -248,6 +253,16 @@ class NodeGraphEditor extends OctaneComponent {
                 return;
             }
             try {
+                // canvas fills the space
+                const parent = this.canvas.parentElement;
+                if (parent) {
+                    const cur = this.canvas.getBoundingClientRect();
+                    const par = parent.getBoundingClientRect();
+                    if (cur.width != par.width || cur.height != par.height) {
+                        this.canvas.width = par.width;
+                        this.canvas.height = par.height;
+                    }
+                }                    
                 this.render();
             } catch (error) {
                 console.error('🚨 Render error:', error);
@@ -259,6 +274,7 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     render() {
+
         // Debug: Check if render is being called FIRST
         if (this.renderCount < 5) {
             console.log('Render called, ctx exists:', !!this.ctx, 'nodes count:', this.nodes.size, 'canvas size:', this.canvas.width, 'x', this.canvas.height);
@@ -267,7 +283,7 @@ class NodeGraphEditor extends OctaneComponent {
         }
         
         if (!this.ctx) {
-            console.log('❌ No context, returning early');
+            console.error('❌ No context, returning early');
             return;
         }
         
@@ -1077,7 +1093,7 @@ class NodeGraphEditor extends OctaneComponent {
         this.selectedNodes.clear();
         
         if (deletedNodes.length > 0) {
-            console.log(`🗑️ Deleted nodes: ${deletedNodes.join(', ')}`);
+            console.log(`Deleted nodes: ${deletedNodes.join(', ')}`);
         }
     }
     
@@ -1300,41 +1316,11 @@ class NodeGraphEditor extends OctaneComponent {
     handleResize() {
         if (!this.canvas) return;
         
-        const rect = this.canvas.getBoundingClientRect();
-        
-        // If canvas rect is 0, try to get dimensions from parent container
-        if (rect.width === 0 || rect.height === 0) {
-            const parent = this.canvas.parentElement;
-            if (parent) {
-                const parentRect = parent.getBoundingClientRect();
-                console.log('Parent rect:', parentRect.width, parentRect.height);
-                
-                if (parentRect.width > 0 && parentRect.height > 0) {
-                    this.canvas.width = parentRect.width;
-                    this.canvas.height = parentRect.height;
-                    console.log('Canvas sized from parent:', this.canvas.width, this.canvas.height);
-                    this.render();
-                    return;
-                }
-            }
-            
-            // Fallback: Force minimum dimensions based on CSS
-            const nodeGraphSection = document.querySelector('.node-graph-section');
-            if (nodeGraphSection) {
-                const sectionRect = nodeGraphSection.getBoundingClientRect();
-                console.log('Section rect:', sectionRect.width, sectionRect.height);
-                
-                if (sectionRect.width > 0 && sectionRect.height > 0) {
-                    // Account for header height (approximately 32px)
-                    this.canvas.width = sectionRect.width;
-                    this.canvas.height = Math.max(sectionRect.height - 32, 150);
-                    console.log('Canvas sized from section:', this.canvas.width, this.canvas.height);
-                    this.render();
-                    return;
-                }
-            }
+        let rect = this.canvas.getBoundingClientRect();
+        const parent = this.canvas.parentElement;
+        if (parent) {
+            rect = parent.getBoundingClientRect();
         }
-        
         // Ensure we have valid dimensions
         if (rect.width > 0 && rect.height > 0) {
             this.canvas.width = rect.width;

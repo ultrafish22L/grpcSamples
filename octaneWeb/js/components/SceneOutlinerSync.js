@@ -276,8 +276,19 @@ class SceneOutlinerSync {
                 if (connectedNode == null) {
                     continue;
                 }
-//                console.log('connectedNode', connectedNode);
-/*                 
+                console.log('connectedNode', connectedNode);
+
+                // Get the pin label
+                result = window.grpcApi.makeApiCallSync(
+                    'ApiNode/pinLabelIx', 
+                    itemHandle,
+                    {index: i},
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNode/pinLabelIx');
+                }
+                let pinInfo = { staticLabel: result.data.result, index:i };
+                
                 // Get the pin info handle
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNode/pinInfoIx', 
@@ -288,6 +299,7 @@ class SceneOutlinerSync {
                     throw new Error('Failed ApiNode/pinInfoIx');
                 }
                 console.log('before ApiNodePinInfoEx/getApiNodePinInfo', result.data.result.handle);
+/*
                 // Get the pin info 
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNodePinInfoEx/getApiNodePinInfo', 
@@ -297,19 +309,8 @@ class SceneOutlinerSync {
                     throw new Error('Failed ApiNodePinInfoEx/getApiNodePinInfo');
                 }
                 console.log('pinInfo ', JSON.stringify(result));
-                const pinInfo = result.data.nodePinInfo;
+                pinInfo = result.data.result;
 */
-                // Get the pin info handle
-                result = window.grpcApi.makeApiCallSync(
-                    'ApiNode/pinLabelIx', 
-                    itemHandle,
-                    {index: i},
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiNode/pinLabelIx');
-                }
-                let pinInfo = { staticLabel: result.data.result, index:i };
-
                 this.addSceneItem(connectedNode, sceneItems, level, pinInfo);
             }
         } catch (error) {

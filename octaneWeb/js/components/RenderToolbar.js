@@ -375,13 +375,13 @@ class RenderToolbar {
     // ========================================
     
     recenterView() {
-        console.log('📐 Recentering view...');
+        console.log('Recentering view...');
         // TODO: makeGrpcCall('RecenterView', {})
         // Centers the render view display area without affecting zoom level
     }
     
     async resetCamera() {
-        console.log('📷 Resetting camera...');
+        console.log('Resetting camera...');
         
         // Reset camera to default position and target
         // Using the same camera API that's already working in the system
@@ -415,7 +415,7 @@ class RenderToolbar {
     // ========================================
     
     async stopRender() {
-        console.log('⏹️ Stopping render...');
+        console.log('Stopping render...');
         
         // Make real gRPC call to stop rendering
         const result = await this.makeGrpcCall('ApiRenderEngine', 'stopRendering');
@@ -447,7 +447,7 @@ class RenderToolbar {
     }
     
     async pauseRender() {
-        console.log('⏸️ Pausing render...');
+        console.log('Pausing render...');
         
         // Make real gRPC call to pause rendering
         const result = await this.makeGrpcCall('ApiRenderEngine', 'pauseRendering');
@@ -463,7 +463,7 @@ class RenderToolbar {
     }
     
     async startRender() {
-        console.log('▶️ Starting/resuming render...');
+        console.log('Starting/resuming render...');
         
         // Make real gRPC call to continue rendering (resume from pause)
         const result = await this.makeGrpcCall('ApiRenderEngine', 'continueRendering');
@@ -480,7 +480,7 @@ class RenderToolbar {
     
     async toggleRealTimeRender() {
         this.realTimeMode = !this.realTimeMode;
-        console.log(`⚡ Real-time rendering: ${this.realTimeMode ? 'ON' : 'OFF'}`);
+        console.log(`Real-time rendering: ${this.realTimeMode ? 'ON' : 'OFF'}`);
         
         // Real-time mode typically involves setting render priority and continuous rendering
         // For now, we'll use render priority as a proxy for real-time mode
@@ -547,7 +547,7 @@ class RenderToolbar {
     
     toggleClayMode() {
         this.clayMode = !this.clayMode;
-        console.log(`🏺 Clay mode: ${this.clayMode ? 'ON' : 'OFF'}`);
+        console.log(`Clay mode: ${this.clayMode ? 'ON' : 'OFF'}`);
         // TODO: makeGrpcCall('SetClayMode', { enabled: this.clayMode })
         // Shows model details without complex texturing
     }
@@ -558,20 +558,20 @@ class RenderToolbar {
         } else {
             this.subSampling = mode;
         }
-        console.log(`🔲 Sub-sampling: ${this.subSampling}`);
+        console.log(`Sub-sampling: ${this.subSampling}`);
         // TODO: makeGrpcCall('SetSubSamplingMode', { mode: this.subSampling })
         // Reduces render resolution for smoother navigation
     }
     
     toggleDecalWireframe() {
         this.decalWireframe = !this.decalWireframe;
-        console.log(`🔲 Decal wireframe: ${this.decalWireframe ? 'ON' : 'OFF'}`);
+        console.log(`Decal wireframe: ${this.decalWireframe ? 'ON' : 'OFF'}`);
         // TODO: makeGrpcCall('SetDecalWireframe', { enabled: this.decalWireframe })
         // Toggles wireframe along decal boundaries
     }
     
     showRenderPriorityMenu() {
-        console.log('⚙️ Showing render priority menu...');
+        console.log('Showing render priority menu...');
         // TODO: Show priority menu (low, normal, high)
         // TODO: makeGrpcCall('SetRenderPriority', { priority: selectedPriority })
     }
@@ -587,7 +587,7 @@ class RenderToolbar {
     }
     
     saveRender() {
-        console.log('💾 Saving render...');
+        console.log('Saving render...');
         // TODO: Show save dialog and makeGrpcCall('SaveRender', { filename, format })
         // Saves current render to disk in specific format
     }
@@ -599,7 +599,7 @@ class RenderToolbar {
     }
     
     setBackgroundImage() {
-        console.log('🖼️ Setting background image...');
+        console.log('Setting background image...');
         // TODO: Show file dialog and makeGrpcCall('SetBackgroundImage', { imagePath })
         // Places background image in Render Viewport
     }
@@ -617,7 +617,7 @@ class RenderToolbar {
     
     toggleViewportLock() {
         this.viewportLocked = !this.viewportLocked;
-        console.log(`🔐 Viewport lock: ${this.viewportLocked ? 'ON' : 'OFF'}`);
+        console.log(`Viewport lock: ${this.viewportLocked ? 'ON' : 'OFF'}`);
         // TODO: makeGrpcCall('SetViewportLock', { enabled: this.viewportLocked })
         // Prevents accidental changes or render restarts
     }
@@ -628,7 +628,7 @@ class RenderToolbar {
     
     toggleObjectControlAlignment() {
         this.objectControlMode = this.objectControlMode === 'world' ? 'local' : 'world';
-        console.log(`🌐 Object control alignment: ${this.objectControlMode}`);
+        console.log(`Object control alignment: ${this.objectControlMode}`);
         // TODO: makeGrpcCall('SetObjectControlAlignment', { mode: this.objectControlMode })
         // Specifies coordinate system for object manipulation
     }
@@ -639,7 +639,7 @@ class RenderToolbar {
         } else {
             this.activeGizmo = gizmo;
         }
-        console.log(`🎛️ Active gizmo: ${this.activeGizmo}`);
+        console.log(`Active gizmo: ${this.activeGizmo}`);
         
         switch (gizmo) {
             case 'translate':
@@ -656,7 +656,7 @@ class RenderToolbar {
     
     toggleWorldCoordinate() {
         this.worldCoordinateDisplay = !this.worldCoordinateDisplay;
-        console.log(`🧭 World coordinate display: ${this.worldCoordinateDisplay ? 'ON' : 'OFF'}`);
+        console.log(`World coordinate display: ${this.worldCoordinateDisplay ? 'ON' : 'OFF'}`);
         // TODO: makeGrpcCall('SetWorldCoordinateDisplay', { enabled: this.worldCoordinateDisplay })
         // Shows world coordinate axis in viewport corner
     }

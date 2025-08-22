@@ -13,7 +13,7 @@ class NodeInspectorControls {
         this.renderToggleEnabled = true;
         
         this.setupEventListeners();
-        console.log('🎛️ Node Inspector Controls initialized with official OTOY quick access buttons');
+        console.log('Node Inspector Controls initialized with official OTOY quick access buttons');
     }
     
     setupEventListeners() {
@@ -124,7 +124,7 @@ class NodeInspectorControls {
      * Official OTOY quick access to camera settings
      */
     async jumpToCamera() {
-        console.log('📷 Jumping to Camera');
+        console.log('Jumping to Camera');
         
         if (this.client && this.client.makeGrpcCall) {
             try {
@@ -147,7 +147,7 @@ class NodeInspectorControls {
      * Official OTOY quick access to resolution settings
      */
     async jumpToResolution() {
-        console.log('📐 Jumping to Resolution');
+        console.log('Jumping to Resolution');
         
         if (this.client && this.client.makeGrpcCall) {
             try {
@@ -169,7 +169,7 @@ class NodeInspectorControls {
      * Official OTOY quick access to environment settings
      */
     async jumpToEnvironment() {
-        console.log('🌍 Jumping to Environment');
+        console.log('Jumping to Environment');
         
         if (this.client && this.client.makeGrpcCall) {
             try {
@@ -191,7 +191,7 @@ class NodeInspectorControls {
      * Official OTOY quick access to imager settings
      */
     async jumpToImager() {
-        console.log('🖼️ Jumping to Imager');
+        console.log('Jumping to Imager');
         
         if (this.client && this.client.makeGrpcCall) {
             try {
@@ -213,7 +213,7 @@ class NodeInspectorControls {
      * Official OTOY quick access to render kernel settings
      */
     async jumpToKernel() {
-        console.log('⚙️ Jumping to Kernel');
+        console.log('Jumping to Kernel');
         
         if (this.client && this.client.makeGrpcCall) {
             try {
@@ -235,7 +235,7 @@ class NodeInspectorControls {
      * Official OTOY quick access to currently selected mesh
      */
     async jumpToCurrentMesh() {
-        console.log('🔺 Jumping to Current Mesh');
+        console.log('Jumping to Current Mesh');
         
         if (this.client && this.client.makeGrpcCall) {
             try {
@@ -257,7 +257,7 @@ class NodeInspectorControls {
      * Official OTOY material preview functionality (Figure 5 from documentation)
      */
     togglePreview() {
-        console.log('👁️ Toggling Material Preview');
+        console.log('Toggling Material Preview');
         
         this.previewEnabled = !this.previewEnabled;
         const previewBtn = this.container.querySelector('.preview-btn');
@@ -368,7 +368,7 @@ class NodeInspectorControls {
      * Disable material preview rendering
      */
     disableMaterialPreview() {
-        console.log('🚫 Disabling material preview rendering');
+        console.log('Disabling material preview rendering');
         
         const previewContainer = document.querySelector('.material-preview');
         if (previewContainer) {
@@ -395,7 +395,7 @@ class NodeInspectorControls {
      * Disable material rendering in node graph
      */
     disableMaterialRendering() {
-        console.log('🚫 Disabling material rendering in node graph');
+        console.log('Disabling material rendering in node graph');
         
         if (this.client && this.client.makeGrpcCall) {
             try {

@@ -29,7 +29,7 @@ class ActivityLogger {
     setVerboseMode(verbose) {
         this.verboseMode = verbose;
         // Note: Using console.log here is intentional for debugging mode changes
-        console.log(`📝 Logging mode: ${verbose ? 'VERBOSE' : 'MINIMAL'}`);
+        console.log(`Logging mode: ${verbose ? 'VERBOSE' : 'MINIMAL'}`);
     }
 
     /**
@@ -714,7 +714,7 @@ class DebugUtils {
         }
         
         const systemInfo = client.getSystemInfo();
-        this.logger.log('📊 System Information:', 'status');
+        this.logger.log('System Information:', 'status');
         
         // Display key system info in a readable format
         if (systemInfo.browser) {

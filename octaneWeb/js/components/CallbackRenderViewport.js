@@ -299,7 +299,7 @@ class CallbackRenderViewport extends OctaneComponent {
                 this.connectionErrors++;
                 
                 if (this.connectionErrors > 3) {
-                    console.log('📸 Too many connection errors, falling back to polling');
+                    console.log('Too many connection errors, falling back to polling');
                     this.fallbackToPolling();
                 } else {
                     this.updateStatus(`Connection error #${this.connectionErrors}, retrying...`);
@@ -342,7 +342,7 @@ class CallbackRenderViewport extends OctaneComponent {
                 break;
                 
             case 'newStatistics':
-//                console.log('📊 New statistics callback:', data);
+//                console.log('New statistics callback:', data);
                 break;
                 
             case 'ping':
@@ -362,7 +362,7 @@ class CallbackRenderViewport extends OctaneComponent {
             this.callbackCount++;
             this.lastCallbackTime = Date.now();
             
-            // console.log(`📸 OnNewImage callback #${this.callbackCount}:`, {
+            // console.log(`OnNewImage callback #${this.callbackCount}:`, {
             //     callback_id: data.callback_id,
             //     images: data.render_images?.data?.length || 0,
             //     timestamp: data.timestamp
@@ -397,7 +397,7 @@ class CallbackRenderViewport extends OctaneComponent {
             // Clear existing content
             this.imageDisplay.innerHTML = '';
 /*            
-            console.log(`🖼️ Processing callback image #${this.frameCount}:`, {
+            console.log(`Processing callback image #${this.frameCount}:`, {
                 type: imageData.type,
                 size: `${imageData.size.x}x${imageData.size.y}`,
                 pitch: imageData.pitch,
@@ -416,7 +416,7 @@ class CallbackRenderViewport extends OctaneComponent {
             const bufferSize = imageData.buffer.size;
             this.lastImageSize = bufferSize;
             
-//            console.log(`📊 Image buffer: ${bufferSize} bytes (${imageData.buffer.encoding})`);
+//            console.log(`Image buffer: ${bufferSize} bytes (${imageData.buffer.encoding})`);
 //            console.log(`Buffer data type: ${typeof bufferData}, length: ${bufferData ? bufferData.length : 'null'}`);
 //            console.log(`Buffer data preview: ${bufferData ? bufferData.substring(0, 100) : 'null'}...`);
             
@@ -624,7 +624,7 @@ class CallbackRenderViewport extends OctaneComponent {
      * Fallback to polling mode
      */
     async fallbackToPolling() {
-        console.log('📸 Switching to polling fallback mode');
+        console.log('Switching to polling fallback mode');
         
         // Close SSE connection
         if (this.eventSource) {
@@ -660,7 +660,7 @@ class CallbackRenderViewport extends OctaneComponent {
                 const renderImages = result.data.renderImages;
                 
                 if (renderImages.data && renderImages.data.length > 0) {
-                    console.log('📸 Polled image received');
+                    console.log('Polled image received');
                     this.displayPolledImage(result.data);
                     this.updateStatus('Polling: Image received');
                 }
@@ -687,7 +687,7 @@ class CallbackRenderViewport extends OctaneComponent {
     displayPolledImage(imageData) {
         // Use existing display logic from original RenderViewport
         // This is the fallback path
-        console.log('📸 Displaying polled image (fallback)');
+        console.log('Displaying polled image (fallback)');
         // Implementation would be similar to original RenderViewport.displayRenderImage()
     }
     
@@ -748,7 +748,7 @@ class CallbackRenderViewport extends OctaneComponent {
                     // Clean up
                     URL.revokeObjectURL(url);
                     
-                    console.log(`💾 DEBUG: Saved frame ${frameNumber} as PNG`);
+                    console.log(`DEBUG: Saved frame ${frameNumber} as PNG`);
                 } else {
                     console.warn(` DEBUG: Failed to create blob for frame ${frameNumber}`);
                 }
@@ -802,7 +802,7 @@ class CallbackRenderViewport extends OctaneComponent {
             this.removeDebugUI();
         }
         
-        console.log(`🎛️ UI Debug Mode ${enabled ? 'enabled' : 'disabled'}`);
+        console.log(`UI Debug Mode ${enabled ? 'enabled' : 'disabled'}`);
     }
 
     /**
@@ -899,7 +899,7 @@ class CallbackRenderViewport extends OctaneComponent {
      * Cleanup on destroy
      */
     onDestroy() {
-        console.log('🗑️ Cleaning up CallbackRenderViewport');
+        console.log('Cleaning up CallbackRenderViewport');
         
         // Clean up camera system
         if (this.camera) {

@@ -686,7 +686,7 @@ class OctaneWebApp {
      * Cleanup and shutdown
      */
     async shutdown() {
-        console.log('🛑 Shutting down OctaneWeb...');
+        console.log(' Shutting down OctaneWeb...');
         
         // Disconnect from Octane
         if (this.isConnected) {
@@ -755,8 +755,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     enabled = !octaneWebApp.components.renderViewport.uiDebugMode;
                 }
                 octaneWebApp.components.renderViewport.setUIDebugMode(enabled);
-                console.log(`🎛️ UI Debug Mode: ${enabled ? 'ENABLED' : 'DISABLED'}`);
-                console.log('💡 Status overlays and mode indicators are now ' + (enabled ? 'visible' : 'hidden'));
+                console.log(` UI Debug Mode: ${enabled ? 'ENABLED' : 'DISABLED'}`);
+                console.log(' Status overlays and mode indicators are now ' + (enabled ? 'visible' : 'hidden'));
                 return enabled;
             } else {
                 console.warn(' Render viewport not available');
@@ -772,8 +772,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     enabled = !octaneWebApp.components.renderViewport.debugSavePNG;
                 }
                 octaneWebApp.components.renderViewport.debugSavePNG = enabled;
-                console.log(`💾 PNG Debug Mode: ${enabled ? 'ENABLED' : 'DISABLED'}`);
-                console.log('💡 ' + (enabled ? 'PNG files will be saved for each frame' : 'PNG saving disabled'));
+                console.log(` PNG Debug Mode: ${enabled ? 'ENABLED' : 'DISABLED'}`);
+                console.log((enabled ? 'PNG files will be saved for each frame' : 'PNG saving disabled'));
                 return enabled;
             } else {
                 console.warn(' Render viewport not available');

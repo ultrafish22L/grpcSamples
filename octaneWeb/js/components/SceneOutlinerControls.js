@@ -12,7 +12,7 @@ class SceneOutlinerControls {
         this.isCollapsed = false;
         
         this.setupEventListeners();
-        console.log('🎛️ Scene Outliner Controls initialized with official OTOY interface');
+        console.log('Scene Outliner Controls initialized with official OTOY interface');
     }
     
     setupEventListeners() {
@@ -58,7 +58,7 @@ class SceneOutlinerControls {
      * Official OTOY Scene Outliner button bar functionality
      */
     handleButtonBarAction(action) {
-        console.log(`🔘 Button bar action: ${action}`);
+        console.log(`Button bar action: ${action}`);
         
         switch (action) {
             case 'expand-tree':
@@ -126,7 +126,7 @@ class SceneOutlinerControls {
         const currentTab = this.getCurrentActiveTab();
         
         if (currentTab === 'scene') {
-            console.log('🚫 Refresh disabled for Scene tab (as per OTOY documentation)');
+            console.log('Refresh disabled for Scene tab (as per OTOY documentation)');
             return;
         }
         
@@ -212,7 +212,7 @@ class SceneOutlinerControls {
      * Official OTOY collapse functionality
      */
     toggleCollapseAll() {
-        console.log('🔽 Toggling collapse/expand all nodes');
+        console.log('Toggling collapse/expand all nodes');
         
         this.isCollapsed = !this.isCollapsed;
         const collapseBtn = this.container.querySelector('.collapse-btn');
@@ -263,7 +263,7 @@ class SceneOutlinerControls {
      * Load Scene tab content (hierarchical tree)
      */
     loadSceneContent() {
-        console.log('📁 Loading Scene content');
+        console.log('Loading Scene content');
         
         // Trigger scene tree reload if Scene Outliner component exists
         if (window.sceneOutliner && typeof window.sceneOutliner.loadSceneTree === 'function') {
@@ -276,13 +276,13 @@ class SceneOutlinerControls {
      * Official OTOY: Tree structure showing macros from OctaneRender community
      */
     loadLiveDBContent() {
-        console.log('🌐 Loading Live DB content - OctaneRender community macros');
+        console.log('Loading Live DB content - OctaneRender community macros');
         
         const liveDBContent = this.container.querySelector('[data-content="livedb"]');
         if (liveDBContent) {
             liveDBContent.innerHTML = `
                 <div class="scene-tree">
-                    <div class="db-loading">🌐 Connecting to OctaneRender community...</div>
+                    <div class="db-loading">Connecting to OctaneRender community...</div>
                 </div>
             `;
             
@@ -371,13 +371,13 @@ class SceneOutlinerControls {
      * Official OTOY: Tree structure showing local asset management with thumbnails
      */
     loadLocalDBContent() {
-        console.log('💾 Loading Local DB content - Local packages and assets');
+        console.log('Loading Local DB content - Local packages and assets');
         
         const localDBContent = this.container.querySelector('[data-content="localdb"]');
         if (localDBContent) {
             localDBContent.innerHTML = `
                 <div class="scene-tree">
-                    <div class="db-loading">💾 Scanning local asset directory...</div>
+                    <div class="db-loading">Scanning local asset directory...</div>
                 </div>
             `;
             

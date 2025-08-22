@@ -219,7 +219,7 @@ class KeyboardShortcuts {
         
         // Log detection for debugging
         if (automationDetected || openHandsDetected) {
-            console.log('🤖 OpenHands environment detected:', {
+            console.log('OpenHands environment detected:', {
                 automation: automationDetected,
                 openHands: openHandsDetected,
                 userAgent: navigator.userAgent,

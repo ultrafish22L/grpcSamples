@@ -254,6 +254,10 @@ class LayoutManager {
                     bottomHeight = calculatedHeight > 0 ? `${calculatedHeight}px` : '300px';
                 }
             }
+            const nodegraph = document.getElementById('node-graph');
+            if (nodegraph && typeof nodegraph.handleResize === 'function') {            
+                nodegraph.handleResize();
+            }
         }
         
         appLayout.style.gridTemplateColumns = `${leftWidth} 1fr ${rightWidth}`;

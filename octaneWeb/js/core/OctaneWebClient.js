@@ -215,14 +215,14 @@ function createOctaneWebClient() {
         this.callCount++;
 
         // Enhanced logging for all gRPC calls (disabled for performance)
-        // console.log(`\n🌐 === gRPC CALL STARTED ===`);
-        // console.log(`🌐 Service: ${serviceName}`);
-        // console.log(`🌐 Method: ${methodName}`);
-        // console.log(`🌐 Call ID: ${callId}`);
-        // console.log(`🌐 Call Number: ${this.callCount}`);
-        // console.log(`🌐 Connection State: ${this.connectionState}`);
-        // console.log(`🌐 Request:`, actualRequest);
-        // console.log(`🌐 Request JSON:`, JSON.stringify(actualRequest, null, 2));
+        // console.log(`\n=== gRPC CALL STARTED ===`);
+        // console.log(`Service: ${serviceName}`);
+        // console.log(`Method: ${methodName}`);
+        // console.log(`Call ID: ${callId}`);
+        // console.log(`Call Number: ${this.callCount}`);
+        // console.log(`Connection State: ${this.connectionState}`);
+        // console.log(`Request:`, actualRequest);
+        // console.log(`Request JSON:`, JSON.stringify(actualRequest, null, 2));
         
         this.log(`gRPC call started: ${serviceName}.${methodName}`, {
             callId: callId,
@@ -246,8 +246,8 @@ function createOctaneWebClient() {
                 params: actualRequest || {}
             };
             
-            // console.log(`🌐 Request Body:`, requestBody);
-            // console.log(`🌐 Request Body JSON:`, JSON.stringify(requestBody, null, 2));
+            // console.log(`Request Body:`, requestBody);
+            // console.log(`Request Body JSON:`, JSON.stringify(requestBody, null, 2));
 
             const controller = new AbortController();
             const timeoutId = setTimeout(() => {
@@ -259,9 +259,9 @@ function createOctaneWebClient() {
             const url = `${this.serverUrl}/${serviceName}/${methodName}`;
             const body = JSON.stringify(actualRequest || {});
             
-            // console.log(`🌐 LOCKIT: Making fetch request to: ${url}`);
-            // console.log(`🌐 LOCKIT: Request body: ${body}`);
-            // console.log(`🌐 LOCKIT: Headers:`, {
+            // console.log(`LOCKIT: Making fetch request to: ${url}`);
+            // console.log(`LOCKIT: Request body: ${body}`);
+            // console.log(`LOCKIT: Headers:`, {
             //     'Content-Type': 'application/json',
             //     'X-Call-Id': callId
             // });
@@ -276,8 +276,8 @@ function createOctaneWebClient() {
                 signal: controller.signal
             });
             
-            // console.log(`🌐 LOCKIT: Response status: ${response.status}`);
-            // console.log(`🌐 LOCKIT: Response ok: ${response.ok}`);
+            // console.log(`LOCKIT: Response status: ${response.status}`);
+            // console.log(`LOCKIT: Response ok: ${response.ok}`);
 
             clearTimeout(timeoutId);
 
@@ -388,7 +388,7 @@ function createOctaneWebClient() {
      */
     async buildSceneTreeRecursive(objectRef, name = 'Node', depth = 0) {
         try {
-            console.log(`${'  '.repeat(depth)}📊 NAME ${name}: ${objectRef}`);
+            console.log(`${'  '.repeat(depth)}NAME ${name}: ${objectRef}`);
             // Name - FIXED: Use handle from ObjectPtr and set correct type for ApiItem
             try {
                 const response = await this.makeGrpcCall('ApiItem/name', {
@@ -397,14 +397,14 @@ function createOctaneWebClient() {
                         type: objectRef.type  // Use original type for ApiItem calls
                     }
                 });
-                console.log(`${'  '.repeat(depth)}📊 name() API result for ${name}: ${response}`);
+                console.log(`${'  '.repeat(depth)}name() API result for ${name}: ${response}`);
                 if (response.success && response.data && response.data.result) {
                     name = response.data.result;  // Update name with real result
                 }
             } catch (error) {
                 console.warn(`${'  '.repeat(depth)} name() API failed for ${name}:`, error);
             }
-            console.log(`${'  '.repeat(depth)}🌿 Building node: ${name} (handle=${objectRef.handle})`);
+            console.log(`${'  '.repeat(depth)}Building node: ${name} (handle=${objectRef.handle})`);
             
             // Create the node structure
             const node = {
@@ -429,7 +429,7 @@ function createOctaneWebClient() {
                     }
                 });
                 isGraph = isGraphResponse.success && isGraphResponse.data.result;
-                console.log(`${'  '.repeat(depth)}📊 isGraph API result for ${name}: ${isGraph}`);
+                console.log(`${'  '.repeat(depth)}isGraph API result for ${name}: ${isGraph}`);
             } catch (error) {
                 console.warn(`${'  '.repeat(depth)} isGraph API failed for ${name}, assuming not a graph:`, error);
                 isGraph = false;
@@ -455,7 +455,7 @@ function createOctaneWebClient() {
                     
                     graphRef = toGraphResponse.data.result;
                     
-                    console.log(`${'  '.repeat(depth)}📊 Graph reference:`, graphRef);
+                    console.log(`${'  '.repeat(depth)}Graph reference:`, graphRef);
                     
                     const itemsResponse = await this.makeGrpcCall('ApiNodeGraph/getOwnedItems', {
                         objectPtr: graphRef
@@ -530,7 +530,7 @@ function createOctaneWebClient() {
                                 
                                 if (objectRef) {
                                     const childName = item.name || `Node_${objectRef.objectHandle}`;
-                                    console.log(`${'  '.repeat(depth)}🌿 Recursing into child: ${childName} (handle=${objectRef.objectHandle}, type=${objectRef.type})`);
+                                    console.log(`${'  '.repeat(depth)}Recursing into child: ${childName} (handle=${objectRef.objectHandle}, type=${objectRef.type})`);
                                     
                                     const childNode = await this.buildSceneTreeRecursive(objectRef, childName, depth + 1);
                                     if (childNode) {
@@ -541,7 +541,7 @@ function createOctaneWebClient() {
                                 }
                             }
                         } else {
-                            console.log(`${'  '.repeat(depth)}ℹ️ No items found in array`);
+                            console.log(`${'  '.repeat(depth)}No items found in array`);
                         }
                         
                     } catch (arrayError) {
@@ -549,7 +549,7 @@ function createOctaneWebClient() {
                     }
                     
                 } else {
-                    console.log(`${'  '.repeat(depth)}ℹ️ No items array found for ${name}`);
+                    console.log(`${'  '.repeat(depth)}No items array found for ${name}`);
                 }
                 
                 } catch (error) {
@@ -570,13 +570,13 @@ function createOctaneWebClient() {
                         }
                     });
                     isNode = isNodeResponse.success && isNodeResponse.data.result;
-                    console.log(`${'  '.repeat(depth)}📊 isNode API result for ${name}: ${isNode}`);
+                    console.log(`${'  '.repeat(depth)}isNode API result for ${name}: ${isNode}`);
                 } catch (error) {
                     console.warn(`${'  '.repeat(depth)} isNode API failed for ${name}:`, error);
                     // Fallback: assume non-graph types might be nodes (except known leaf types)
                     const knownLeafTypes = [16]; // ApiItem base type
                     isNode = !knownLeafTypes.includes(objectRef.type);
-                    console.log(`${'  '.repeat(depth)}📊 Fallback isNode result for ${name}: ${isNode}`);
+                    console.log(`${'  '.repeat(depth)}Fallback isNode result for ${name}: ${isNode}`);
                 }
                 
                 if (isNode) {
@@ -601,13 +601,13 @@ function createOctaneWebClient() {
                     }
                     
                     if (nodeRef) {
-                        console.log(`${'  '.repeat(depth)}📌 ApiNode: ${name} - checking pins for owned items`);
+                        console.log(`${'  '.repeat(depth)}ApiNode: ${name} - checking pins for owned items`);
                         await this.processNodePins(nodeRef, node, name, depth);
                     } else {
                         console.warn(`${'  '.repeat(depth)} Failed to get node reference for ${name}`);
                     }
                 } else {
-                    console.log(`${'  '.repeat(depth)}📄 Plain ApiItem: ${name} - leaf object`);
+                    console.log(`${'  '.repeat(depth)}Plain ApiItem: ${name} - leaf object`);
                 }
             }
             
@@ -622,7 +622,7 @@ function createOctaneWebClient() {
     async processNodePins(objectRef, node, name, depth) {
         try {
             const indent = '  '.repeat(depth);
-            console.log(`${indent}📍 Getting pin count for node ${name}...`);
+            console.log(`${indent}Getting pin count for node ${name}...`);
             
             // Check if OctaneTypes is available
             if (!window.OctaneTypes || !window.OctaneTypes.createObjectPtr) {
@@ -639,12 +639,12 @@ function createOctaneWebClient() {
 
             if (pinCountResponse.success && pinCountResponse.data && pinCountResponse.data.count > 0) {
                 const pinCount = pinCountResponse.data.count;
-                console.log(`${indent}📍 Node ${name} has ${pinCount} pins`);
+                console.log(`${indent}Node ${name} has ${pinCount} pins`);
                 
                 // Iterate through each pin to get owned items
                 for (let pinIndex = 0; pinIndex < pinCount && depth < 5; pinIndex++) {
                     try {
-                        console.log(`${indent}  📎 Checking pin ${pinIndex} for owned item...`);
+                        console.log(`${indent}  Checking pin ${pinIndex} for owned item...`);
                         
                         const ownedItemResponse = await this.makeGrpcCall('octaneapi.ApiNode/ownedItemIx', {
                             objectPtr: window.OctaneTypes.createObjectPtr(objectRef.handle, window.OctaneTypes.ApiNode),
@@ -655,7 +655,7 @@ function createOctaneWebClient() {
 
                         if (ownedItemResponse.success && ownedItemResponse.data && ownedItemResponse.data.item) {
                             const ownedItem = ownedItemResponse.data.item;
-                            console.log(`${indent}  📎 Pin ${pinIndex} owns item:`, ownedItem);
+                            console.log(`${indent}  Pin ${pinIndex} owns item:`, ownedItem);
                             
                             // Create objectRef for the owned item - FIXED: Use handle format
                             const childObjectRef = {
@@ -664,14 +664,14 @@ function createOctaneWebClient() {
                             };
                             
                             const childName = `Pin${pinIndex}_${ownedItem.handle || ownedItem.objectHandle}`;
-                            console.log(`${indent}  🌿 Recursing into pin-owned item: ${childName}`);
+                            console.log(`${indent}  Recursing into pin-owned item: ${childName}`);
                             
                             const childNode = await this.buildSceneTreeRecursive(childObjectRef, childName, depth + 1);
                             if (childNode) {
                                 node.children.push(childNode);
                             }
                         } else {
-                            console.log(`${indent}  📎 Pin ${pinIndex} has no owned item`);
+                            console.log(`${indent}  Pin ${pinIndex} has no owned item`);
                         }
                     } catch (pinError) {
                         // This is normal for unconnected pins
@@ -679,7 +679,7 @@ function createOctaneWebClient() {
                     }
                 }
             } else {
-                console.log(`${indent}📍 Node ${name} has no pins or pin count unavailable`);
+                console.log(`${indent}Node ${name} has no pins or pin count unavailable`);
             }
         } catch (error) {
             console.error(`${'  '.repeat(depth)}❌ Error processing pins for ${name}:`, error);
