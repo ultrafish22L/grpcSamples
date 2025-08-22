@@ -20,14 +20,15 @@ class LayoutManager {
     }
     
     initialize() {
-        this.setupPanels();
+        this.setupPanels('.panel');
+        this.setupPanels('.panel-horz');
         this.setupSplitters();
         this.setupEventListeners();
         this.handleResize();
     }
     
-    setupPanels() {
-        const panelElements = document.querySelectorAll('.panel');
+    setupPanels(classname) {
+        const panelElements = document.querySelectorAll(classname);
         
         panelElements.forEach(panel => {
             const panelId = panel.id || this.generateId();
@@ -66,6 +67,8 @@ class LayoutManager {
     }
     
     createSplitter(id, panel, orientation) {
+        console.log(`⚠️ createSplitter: "${id}" orient: ${orientation}`);
+
         const splitter = document.createElement('div');
         splitter.id = id;
         splitter.className = `panel-splitter ${orientation}`;

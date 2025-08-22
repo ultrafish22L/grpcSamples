@@ -7,18 +7,12 @@
 ## 🎯 Current Production Features
 
 ### ✅ **CORE SYSTEMS WORKING**
-- **Real-time Callback Rendering**: OnNewImage callbacks with consistent frame display (buffer corruption FIXED)
-- **Mouse Drag Camera Sync**: End-to-end camera synchronization with live Octane updates (WORKING)
-- **Scene Outliner**: Complete hierarchical tree view with expand/collapse and visibility controls
+- **Real-time Callback Rendering**: OnNewImage callbacks with consistent frame display
+- **Mouse Drag Camera Sync**: End-to-end camera synchronization with live Octane updates (bug causing camera jumps)
+- **Scene Outliner**: Complete hierarchical tree view with expand/collapse and controls
+- **Node Inspector**: Complete hierarchical tree view with expand/collapse, controls, and grpc get/set
 - **Node Graph Editor**: Visual node creation with right-click context menus and node types
 - **Professional UI**: Clean OTOY-branded interface with configurable debug mode
-- **🚀 REAL GRPC RENDER CONTROLS**: First 6 render buttons with live API integration
-
-### 🔧 **NODE INSPECTOR IN DEVELOPMENT**
-- **API Infrastructure**: All required API methods working (ApiNode/getPinBoolIx, getPinFloatIx, etc.)
-- **Proxy Server**: Successfully making gRPC calls to Octane LiveLink service  
-- **Current Issue**: Shows text labels instead of interactive controls (checkboxes, number inputs)
-- **Root Cause**: GenericNodeRenderer falling back to hardcoded parameter lists
 
 ### ✅ **GRPC RENDER CONTROLS IMPLEMENTED**
 - **Stop Render (■)**: `ApiRenderEngineService.stopRendering` - Aborts rendering and frees resources
@@ -28,19 +22,10 @@
 - **Real-time Render Toggle (⚡)**: `ApiRenderEngineService.setRenderPriority` - High/normal priority
 - **Reset Camera (⌂)**: Uses existing `setCameraPositionAndTarget` API - Resets to default view
 
-### ✅ **PERFORMANCE OPTIMIZED**
-- **Production Settings**: PNG saves disabled, minimal logging for optimal performance
-- **Memory Management**: Proper buffer isolation prevents garbage frames
-- **UI Debug Mode**: Default uiDebugMode = false, toggleable via `toggleUIDebugMode()` in console
-- **Error Handling**: Robust connection management with graceful degradation
-- **Async gRPC Calls**: Non-blocking API calls with proper error handling
-
 ### ✅ **TECHNICAL INFRASTRUCTURE**
-- **Optimized Proxy Server**: Enhanced performance with minimal production logging
+- ** Proxy Server**: Enhanced performance with minimal production logging
 - **Real-time Streaming**: Dedicated thread-based callback system with proper asyncio
-- **Cross-platform Support**: Windows, Linux, macOS compatibility
-- **Zero External Dependencies**: Custom gRPC-Web implementation
-- **Generic gRPC Handler**: `/{service}/{method}` pattern for all API calls
+- **Generic gRPC Handler**: `{service}/{method}` pattern for all API calls
 
 ## 🚨 **CRITICAL WARNINGS FOR DEVELOPERS**
 
@@ -49,11 +34,8 @@ The system is **PRODUCTION-READY** with all core functionality working. The most
 
 **⚠️ CRITICAL SYSTEMS - DO NOT MODIFY**:
 - **Buffer Processing**: convertHDRRGBA buffer isolation prevents garbage frames
-- **Performance Settings**: PNG saves disabled, logging minimized for production
-- **Camera Sync**: setCameraPosition/setCameraTarget methods enable live camera updates
-- **UI Debug Mode**: Default uiDebugMode = false keeps production UI clean
 - **Callback System**: callback_streamer.py and registration logic optimized and stable
-- **gRPC Integration**: makeGrpcCall() helper and client reference system
+- **gRPC Integration**: makeGrpcCall() funcs
 
 ### 🔍 **Error Analysis Guidelines**
 
@@ -65,11 +47,9 @@ The system is **PRODUCTION-READY** with all core functionality working. The most
 **These are NOT indicators of code bugs** - the system is production-ready.
 
 **Before assuming code bugs**:
-1. Is Octane running?
-2. Is LiveLink enabled (Help → LiveLink in Octane)?
-3. Is port 51022 accessible?
-4. Try restarting Octane LiveLink service
-5. Test with minimal API calls first
+1. Is port 51022 accessible?
+2. Try restarting servers.
+3. Stop and ask human if Octane is running.
 
 ### 🚨 **CRITICAL DEBUGGING RULE**
 

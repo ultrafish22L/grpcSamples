@@ -32,8 +32,11 @@
     /* Panel Resize Variables */
     --splitter-size: 4px;              /* Resize handle thickness */
     --left-panel-width: 180px;         /* Scene outliner width */
-    --right-panel-width: 300px;        /* Node inspector width */
+    --left-panel-min-width: 140px;         /* Scene outliner width */
+    --right-panel-width: 280px;        /* Node inspector width */
+    --right-panel-min-width: 200px;        /* Node inspector width */
     --bottom-panel-height: 300px;      /* Node graph height */
+    --bottom-panel-min-height: 200px;      /* Node graph height */
     --octane-border-light: #666666;    /* Light borders */
     --octane-border-dark: #333333;     /* Dark borders */
     --octane-shadow: rgba(0, 0, 0, 0.3); /* Drop shadows */
@@ -236,8 +239,8 @@ html, body {
 /* Main Layout */
 .app-layout {
     display: grid;
-    grid-template-columns: var(--left-panel-width, 140px) 1fr var(--right-panel-width, 300px); /* Resizable panels */
-    grid-template-rows: 1fr var(--bottom-panel-height, 300px); /* Resizable bottom panel */
+    grid-template-columns: var(--left-panel-width) 1fr var(--right-panel-width); /* Resizable panels */
+    grid-template-rows: 1fr var(--bottom-panel-height); /* Resizable bottom panel */
     grid-template-areas: 
         "left-space center-panel right-panel"
         "left-space bottom-panel right-panel";
@@ -249,18 +252,17 @@ html, body {
     gap: 0; /* Ensure no gaps between grid areas */
 }
 
-/* Left Space - Reserved for absolute Scene Outliner */
-.left-space {
-    grid-area: left-space;
-    /* This space is reserved for the absolutely positioned Scene Outliner */
-}
-
 /* Panel Base Styles */
 .panel {
     background-color: var(--octane-bg-secondary);
     border-right: 1px solid var(--octane-border);
     display: flex;
     flex-direction: column;
+}
+.panel-horz {
+    background-color: var(--octane-bg-secondary);
+    border-right: 1px solid var(--octane-border);
+    display: flex;
 }
 
 .panel-header {
@@ -312,12 +314,11 @@ html, body {
     left: 0;
     top: var(--menu-height); /* Start below menu bar */
     bottom: var(--status-bar-height); /* End above status bar */
-    width: 220px; /* FORCE exact width to match grid */
-    min-width: 220px;
-    max-width: 220px;
     z-index: 10; /* Higher z-index to stay above other panels */
     overflow: hidden; /* Critical: prevent any overflow */
     contain: layout style paint; /* CSS containment for strict boundaries */
+    width: var(--left-panel-width);     
+    min-width: var(--left-panel-min-width);     
 }
 
 .scene-outliner {
@@ -880,6 +881,8 @@ html, body {
     background-color: var(--octane-bg-secondary);
     height: 100%; /* Use full allocated grid space */
     overflow: hidden; /* Prevent overflow beyond allocated space */
+    height: var(--bottom-panel-height);    
+    min-height: var(--bottom-panel-min-height);    
 }
 
 .node-graph-header {
@@ -962,8 +965,8 @@ html, body {
     flex-direction: column;
     position: relative; /* Ensure proper stacking context */
     z-index: 10; /* Higher z-index than center panel */
-    min-width: 300px; /* 🔧 CRITICAL FIX: Ensure minimum width on initial load */
-    width: 300px; /* 🔧 CRITICAL FIX: Explicit width to prevent 0-width on startup */
+    min-width: var(--right-panel-min-width); 
+    width: var(--right-panel-width); 
 }
 
 .node-selector-container {

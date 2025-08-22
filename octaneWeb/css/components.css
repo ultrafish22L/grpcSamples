@@ -2995,7 +2995,7 @@ body.drag-over .drop-indicator {
 
 /* Level-based indentation system with consistent 24px increments - ONLY for Node Inspector */
 .node-inspector .node-level-0 {
-    margin-left: 1px; /* Top node fully left justified - no margin */
+    margin-left: 0; /* Top node fully left justified - no margin */
 }
 
 .node-inspector .node-level-1 {

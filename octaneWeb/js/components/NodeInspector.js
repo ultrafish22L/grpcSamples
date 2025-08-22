@@ -297,9 +297,6 @@ class NodeInspector extends OctaneComponent {
                 });
             }
         });
-        
-        // Initialize expanded state - all groups expanded by default
-        this.initializeExpandedGroups();
     }
     
     handleParameterChange(element) {
@@ -418,25 +415,29 @@ class NodeInspector extends OctaneComponent {
         this.selectedNodeName = nodeData.name;
         
         // Generic parameter loading based on node type mapping
-        await this.buildTree({
+        await this.renderNodes({
             handle: handle,
             nodeName: nodeData.name,
             nodeType: nodeData.outtype,
             nodeData: nodeData
         });
+        // Emit resize event for components
+        setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+        }, 300);        
     }
     
     /**
      * GENERIC: Load node parameters based on node type mapping
      * This replaces specialized functions with a generic approach
      */
-    async buildTree(nodeInfo) {
+    async renderNodes(nodeInfo) {
         // Show loading state
         this.showLoadingState(nodeInfo);
         
         try {
             // Render the inspector using GenericNodeRenderer
-            this.buildTreeRecurse(nodeInfo);
+            this.renderNodesRecurse(nodeInfo);
             
         } catch (error) {
             console.error('❌ Failed to load generic node parameters:', error);
@@ -447,7 +448,7 @@ class NodeInspector extends OctaneComponent {
     /**
      * GENERIC: Render parameter inspector using GenericNodeRenderer
      */
-    buildTreeRecurse(nodeInfo) {
+    renderNodesRecurse(nodeInfo) {
         const nodeName = nodeInfo.nodeName || nodeInfo.name || 'Unknown Node';
         
         const nodeHandle = nodeInfo.handle;

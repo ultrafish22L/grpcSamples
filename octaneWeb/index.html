@@ -92,7 +92,7 @@
         <main class="app-layout">
             
             <!-- Left Panel: Scene Outliner -->
-            <aside class="left-panel panel">
+            <aside id="left-panel" class="left-panel panel">
                 <div class="panel-header">
                     <h3>Scene outliner</h3>
                     <!-- Official OTOY Scene Outliner Control Bar -->
@@ -212,7 +212,7 @@
             </aside>
 
             <!-- Bottom Panel: Node Graph Editor -->
-            <section class="bottom-panel">
+            <section id="bottom-panel" class="bottom-panel panel-horz">
                 <div class="node-graph-header">
                     <h3>Node graph editor</h3>
                     <div class="node-graph-controls">
@@ -287,7 +287,6 @@
             
             // Core JavaScript Libraries
             'shared/js/livelink.js',
-            'shared/js/webgl-utils.js',
             
             // OctaneWeb Core
             'js/core/OctaneWebClient.js',
