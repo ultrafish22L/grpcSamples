@@ -239,7 +239,7 @@ html, body {
 /* Main Layout */
 .app-layout {
     display: grid;
-    grid-template-columns: .2fr .5fr .3fr; /* Resizable panels */
+    grid-template-columns: var(--left-panel-width) 1fr var(--right-panel-width); /* Resizable panels with flexible center */
     grid-template-rows: 1fr var(--bottom-panel-height); /* Resizable bottom panel */
     grid-template-areas: 
         "left-panel center-panel right-panel"
@@ -567,10 +567,11 @@ html, body {
     flex-direction: column;
     background-color: var(--octane-bg-primary);
     height: 100%; /* Ensure full height usage */
+    width: 100%; /* Ensure full width usage */
+    min-width: 0; /* Allow shrinking below content size */
     overflow: hidden; /* Prevent layout overflow */
     margin: 0; /* Ensure no margins */
     padding: 0; /* Ensure no padding */
-    max-width: 100%; /* Prevent extending beyond grid area */
     position: relative; /* Ensure it stays within grid bounds */
     z-index: 1; /* Lower z-index than right panel */
 }
@@ -662,6 +663,7 @@ html, body {
     position: relative;
     border-bottom: 1px solid var(--octane-border);
     min-height: 200px;
+    width: 100%; /* Ensure full width */
     overflow: hidden; /* CRITICAL: Prevent canvas overflow */
     display: flex;
     align-items: center;
@@ -935,12 +937,13 @@ html, body {
 }
 
 .node-graph {
-    flex: 1;
     display: block;
     background-color: var(--octane-bg-darker);
     position: absolute; /* Position absolutely within container */
     top: 0;
     left: 0;
+    width: 100%; /* Fill container width */
+    height: 100%; /* Fill container height */
 }
 
 .node-palette {

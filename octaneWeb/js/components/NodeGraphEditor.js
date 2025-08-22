@@ -120,6 +120,12 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Window resize
         this.addEventListener(window, 'resize', this.handleResize.bind(this));
+        
+        // Panel resize events from LayoutManager
+        const centerPanel = document.querySelector('.center-panel');
+        if (centerPanel) {
+            this.addEventListener(centerPanel, 'panelResize', this.handleResize.bind(this));
+        }
     }
     
     initCanvas() {
@@ -1315,21 +1321,29 @@ class NodeGraphEditor extends OctaneComponent {
     
     handleResize() {
         if (!this.canvas) return;
+
+        // Get the container dimensions (node-graph-container)
+        const container = this.canvas.parentElement;
+        if (!container) return;
         
-        let rect = this.canvas.getBoundingClientRect();
-        const parent = this.canvas.parentElement;
-        if (parent) {
-            rect = parent.getBoundingClientRect();
-        }
+        const rect = container.getBoundingClientRect();
+        
         // Ensure we have valid dimensions
         if (rect.width > 0 && rect.height > 0) {
+            // Set canvas size to match container
             this.canvas.width = rect.width;
             this.canvas.height = rect.height;
             
+            // Also set CSS size to ensure proper scaling
+            this.canvas.style.width = rect.width + 'px';
+            this.canvas.style.height = rect.height + 'px';
+
+            console.log(`Node graph canvas resized to: ${rect.width}x${rect.height}`);
+
             // Trigger a render after resize
             this.render();
         } else {
-            console.log('Canvas dimensions not ready, retrying...');
+            console.log('Canvas container dimensions not ready, retrying...');
             // Retry after a short delay if dimensions aren't ready
             setTimeout(() => this.handleResize(), 50);
         }
