@@ -213,6 +213,15 @@ class LayoutManager {
         const rightPanel = document.querySelector('.right-panel');
         const bottomPanel = document.querySelector('.bottom-panel');
         
+/*
+         --splitter-size: 4px;  
+    --left-panel-width: 160px;
+    --left-panel-min-width: 160px; 
+    --right-panel-width: 260px;   
+    --right-panel-min-width: 200px;
+    --bottom-panel-height: 300px; 
+    --bottom-panel-min-height: 200px;
+*/
         let leftWidth = '220px';
         let rightWidth = '260px'; 
         let bottomHeight = '300px'; 
@@ -254,49 +263,20 @@ class LayoutManager {
                     bottomHeight = calculatedHeight > 0 ? `${calculatedHeight}px` : '300px';
                 }
             }
+            const nodegraph = document.getElementById('node-graph');
+            if (nodegraph && typeof nodegraph.handleResize === 'function') {            
+                nodegraph.handleResize();
+            }
         }
         
-        // Update CSS custom properties for responsive grid
-        document.documentElement.style.setProperty('--left-panel-width', leftWidth);
-        document.documentElement.style.setProperty('--right-panel-width', rightWidth);
-        document.documentElement.style.setProperty('--bottom-panel-height', bottomHeight);
-        
-        // Also set grid template directly for immediate effect
         appLayout.style.gridTemplateColumns = `${leftWidth} 1fr ${rightWidth}`;
         appLayout.style.gridTemplateRows = `1fr ${bottomHeight}`;
         
-        // Notify components that layout has changed
-        this.notifyLayoutChange();
-    }
-    
-    notifyLayoutChange() {
-        // Notify node graph editor to resize
-        const nodeGraph = document.getElementById('node-graph');
-        if (nodeGraph && nodeGraph.handleResize) {
-            // Use setTimeout to ensure DOM has updated
-            setTimeout(() => {
-                nodeGraph.handleResize();
-            }, 10);
+        if (rightPanel && rightPanel.offsetWidth === 0) {
+            // Force a reflow to ensure the right panel gets proper dimensions
+//            rightPanel.style.minWidth = '300px';
+//            rightPanel.offsetHeight; // Force reflow
         }
-        
-        // Notify other components that might need to resize
-        const centerPanel = document.querySelector('.center-panel');
-        if (centerPanel) {
-            // Dispatch a custom resize event
-            const resizeEvent = new CustomEvent('panelResize', {
-                detail: { 
-                    leftWidth: document.documentElement.style.getPropertyValue('--left-panel-width'),
-                    rightWidth: document.documentElement.style.getPropertyValue('--right-panel-width'),
-                    bottomHeight: document.documentElement.style.getPropertyValue('--bottom-panel-height')
-                }
-            });
-            centerPanel.dispatchEvent(resizeEvent);
-        }
-        
-        // Also dispatch a window resize event for components that listen to it
-        setTimeout(() => {
-            window.dispatchEvent(new Event('resize'));
-        }, 20);
     }
     
     togglePanel(panelId) {
