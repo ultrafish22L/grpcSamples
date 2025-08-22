@@ -9,7 +9,6 @@
  * - Real-time callback streaming with OnNewImage events
  * - Mouse drag camera synchronization with live Octane updates
  * - HDR/LDR buffer processing with proper isolation to prevent garbage frames
- * - Automatic fallback from callback streaming to polling mode
  * - Production-optimized performance with minimal debug overhead
  * - Configurable UI debug mode for development visibility
  * 
@@ -23,7 +22,7 @@
  * UI Debug Mode:
  * - Default: uiDebugMode = false (clean production UI)
  * - Runtime toggle: toggleUIDebugMode() in browser console
- * - Shows status overlays, mode indicators, and performance metrics
+ * - Shows status overlays, and performance metrics
  */
 
 class CallbackRenderViewport extends OctaneComponent {
@@ -42,16 +41,10 @@ class CallbackRenderViewport extends OctaneComponent {
         this.clientId = null;                 // Unique client identifier
         this.callbackId = null;               // Active callback registration ID
         
-        // Fallback polling system for when callbacks unavailable
-        this.pollingMode = false;             // Currently using polling fallback
-        this.pollTimeout = null;              // Polling timer reference
-        this.pollInterval = 1000;             // Polling interval (slower than callbacks)
-        
         // DOM viewport elements for rendering display
         this.viewport = null;                 // Main viewport container
         this.imageDisplay = null;             // Image display element
         this.statusOverlay = null;            // Debug status overlay
-        this.modeIndicator = null;            // Streaming mode indicator
         
         // Centralized camera system for mouse drag interactions
         this.camera = new Camera(this.client, {
@@ -88,7 +81,7 @@ class CallbackRenderViewport extends OctaneComponent {
             // Setup camera mouse controls
             this.camera.setupMouseControls(this.viewport);
             
-            // Wait for scene data to be loaded before starting render polling
+            // Wait for scene data to be loaded before starting render 
             this.setupSceneLoadingListener();
             
             console.log('CallbackRenderViewport initialized successfully (waiting for scene data)');
@@ -105,39 +98,90 @@ class CallbackRenderViewport extends OctaneComponent {
     setupSceneLoadingListener() {
         // Listen for scene data loaded event
         this.eventSystem.on('sceneDataLoaded', (scene) => {
-            console.log('Scene data loaded, starting render polling...', scene.items.length, 'items');
-            this.startRenderPolling();
+            console.log('Scene data loaded, starting render...', scene.items.length, 'items');
+            this.startRender();
         });
         
         // Also listen for components fully initialized as fallback
         this.eventSystem.on('componentsFullyInitialized', () => {
             // Only start if scene data hasn't triggered it yet
-            if (!this.callbackMode && !this.pollingMode) {
-                console.log('Components initialized, starting render polling as fallback...');
-                this.startRenderPolling();
-            }
+            this.startRender();
         });
     }
     
     /**
-     * Start render polling (callback mode with fallback to polling)
+     * Start render callback mode
      */
-    async startRenderPolling() {
+    async startRender() {
         try {
-            // Try to start callback mode first
-            const callbackSuccess = await this.startCallbackMode();
+            console.log('Attempting to start callback streaming mode...');
             
-            if (!callbackSuccess) {
-                // Fallback to polling mode
-                console.log('📸 Falling back to polling mode');
-                await this.startPollingMode();
+            // Register callback with proxy server
+            const callbackUrl = `${this.client.serverUrl}/render/register-callback`;
+            console.log(`Callback registration URL: ${callbackUrl}`);
+            
+            console.log('Making callback registration request...');
+            
+            // Add timeout to prevent hanging
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+            
+            const response = await fetch(callbackUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                signal: controller.signal
+            });
+            
+            clearTimeout(timeoutId);
+            
+//            console.log(`Callback registration response status: ${response.status}`);
+//            console.log(`Callback registration response ok: ${response.ok}`);
+            
+            const result = await response.json();
+            if (!result.success) {
+                throw new Error(result.error || 'Failed to register callback');
             }
             
-            console.log('Render polling started successfully');
+            this.callbackId = result.callback_id;
+            console.log(`Callback registered with ID: ${this.callbackId}`);
+            
+            // Start Server-Sent Events stream
+            const streamUrl = `${this.client.serverUrl}/render/stream`;
+            this.eventSource = new EventSource(streamUrl);
+            
+            this.eventSource.onopen = (event) => {
+                console.log('SSE connection opened');
+                this.connectionErrors = 0;
+                this.updateStatus('Connected to callback stream');
+            };
+            
+            this.eventSource.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    this.handleCallbackEvent(data);
+                } catch (error) {
+                    console.error('❌ Error parsing SSE data:', error);
+                }
+            };
+            
+            this.eventSource.onerror = (error) => {
+                console.error('❌ SSE connection error:', error);
+                this.connectionErrors++;
+                
+                this.updateStatus(`Connection error #${this.connectionErrors}, retrying...`);
+            };
+            
+            // Wait a moment to see if connection succeeds
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            return true;
             
         } catch (error) {
-            console.error('❌ Failed to start render polling:', error);
-            this.showError('Failed to start render polling', error.message);
+            console.error('❌ Failed to start callback mode:', error);
+            this.updateStatus(`Callback failed: ${error.message}`);
+            return false;
         }
     }
     
@@ -195,127 +239,19 @@ class CallbackRenderViewport extends OctaneComponent {
             `;
         }
         
-        // Create mode indicator (controlled by uiDebugMode)
-        if (this.uiDebugMode) {
-            this.modeIndicator = document.createElement('div');
-            this.modeIndicator.className = 'mode-indicator';
-            this.modeIndicator.style.cssText = `
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                background: rgba(0, 0, 0, 0.8);
-                color: #fff;
-                padding: 8px 12px;
-                border-radius: 4px;
-                font-family: monospace;
-                font-size: 12px;
-                z-index: 100;
-                border-left: 4px solid #666;
-            `;
-        }
-        
-
-        
         // Assemble viewport
         this.viewport.appendChild(this.imageDisplay);
         if (this.uiDebugMode && this.statusOverlay) {
             this.viewport.appendChild(this.statusOverlay);
-        }
-        if (this.uiDebugMode && this.modeIndicator) {
-            this.viewport.appendChild(this.modeIndicator);
         }
         this.element.appendChild(this.viewport);
         
         // Initial status (controlled by uiDebugMode)
         if (this.uiDebugMode) {
             this.updateStatus('Initializing callback system...');
-            this.updateModeIndicator('INITIALIZING', '#ffa500');
         }
         
         console.log('2D viewport created');
-    }
-    
-    /**
-     * Start callback streaming mode
-     */
-    async startCallbackMode() {
-        try {
-            console.log('Attempting to start callback streaming mode...');
-            
-            // Register callback with proxy server
-            const callbackUrl = `${this.client.serverUrl}/render/register-callback`;
-            console.log(`Callback registration URL: ${callbackUrl}`);
-            
-            console.log('Making callback registration request...');
-            
-            // Add timeout to prevent hanging
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-            
-            const response = await fetch(callbackUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                signal: controller.signal
-            });
-            
-            clearTimeout(timeoutId);
-            
-//            console.log(`Callback registration response status: ${response.status}`);
-//            console.log(`Callback registration response ok: ${response.ok}`);
-            
-            const result = await response.json();
-            if (!result.success) {
-                throw new Error(result.error || 'Failed to register callback');
-            }
-            
-            this.callbackId = result.callback_id;
-            console.log(`Callback registered with ID: ${this.callbackId}`);
-            
-            // Start Server-Sent Events stream
-            const streamUrl = `${this.client.serverUrl}/render/stream`;
-            this.eventSource = new EventSource(streamUrl);
-            
-            this.eventSource.onopen = (event) => {
-                console.log('SSE connection opened');
-                this.callbackMode = true;
-                this.connectionErrors = 0;
-                this.updateStatus('Connected to callback stream');
-                this.updateModeIndicator('CALLBACK MODE', '#00ff00');
-            };
-            
-            this.eventSource.onmessage = (event) => {
-                try {
-                    const data = JSON.parse(event.data);
-                    this.handleCallbackEvent(data);
-                } catch (error) {
-                    console.error('❌ Error parsing SSE data:', error);
-                }
-            };
-            
-            this.eventSource.onerror = (error) => {
-                console.error('❌ SSE connection error:', error);
-                this.connectionErrors++;
-                
-                if (this.connectionErrors > 3) {
-                    console.log('Too many connection errors, falling back to polling');
-                    this.fallbackToPolling();
-                } else {
-                    this.updateStatus(`Connection error #${this.connectionErrors}, retrying...`);
-                }
-            };
-            
-            // Wait a moment to see if connection succeeds
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            return this.callbackMode;
-            
-        } catch (error) {
-            console.error('❌ Failed to start callback mode:', error);
-            this.updateStatus(`Callback failed: ${error.message}`);
-            return false;
-        }
     }
     
     /**
@@ -621,81 +557,6 @@ class CallbackRenderViewport extends OctaneComponent {
     }
     
     /**
-     * Fallback to polling mode
-     */
-    async fallbackToPolling() {
-        console.log('Switching to polling fallback mode');
-        
-        // Close SSE connection
-        if (this.eventSource) {
-            this.eventSource.close();
-            this.eventSource = null;
-        }
-        
-        this.callbackMode = false;
-        await this.startPollingMode();
-    }
-    
-    /**
-     * Start polling mode (fallback)
-     */
-    async startPollingMode() {
-        this.pollingMode = true;
-        this.updateModeIndicator('📸 POLLING MODE', '#ffa500');
-        this.updateStatus('Using polling fallback mode');
-        
-        this.pollForImages();
-    }
-    
-    /**
-     * Poll for images (fallback method)
-     */
-    async pollForImages() {
-        if (!this.pollingMode) return;
- /*       
-        try {
-            const result = await this.client.makeGrpcCall('ApiRenderEngine', 'grabRenderResult', {});
-            
-            if (result && result.success && result.data && result.data.renderImages) {
-                const renderImages = result.data.renderImages;
-                
-                if (renderImages.data && renderImages.data.length > 0) {
-                    console.log('Polled image received');
-                    this.displayPolledImage(result.data);
-                    this.updateStatus('Polling: Image received');
-                }
-            }
-            
-        } catch (error) {
-            if (!error.message.includes('Connection') && !error.message.includes('Network')) {
-                console.warn(' Polling error:', error.message);
-            }
-        }
-        
-        // Schedule next poll
-        if (this.pollingMode) {
-            this.pollTimeout = setTimeout(() => {
-                this.pollForImages();
-            }, this.pollInterval);
-        }
-*/            
-    }
-    
-    /**
-     * Display polled image (similar to original RenderViewport)
-     */
-    displayPolledImage(imageData) {
-        // Use existing display logic from original RenderViewport
-        // This is the fallback path
-        console.log('Displaying polled image (fallback)');
-        // Implementation would be similar to original RenderViewport.displayRenderImage()
-    }
-    
-
-    
-
-    
-    /**
      * Trigger Octane display update via ApiChangeManager::update()
      */
     async triggerOctaneUpdate() {
@@ -770,21 +631,10 @@ class CallbackRenderViewport extends OctaneComponent {
     }
     
     /**
-     * Update mode indicator (controlled by uiDebugMode)
-     */
-    updateModeIndicator(mode, color = '#666') {
-        if (this.uiDebugMode && this.modeIndicator) {
-            this.modeIndicator.textContent = mode;
-            this.modeIndicator.style.borderLeftColor = color;
-        }
-    }
-    
-    /**
      * Show error message
      */
     showError(title, message) {
         this.updateStatus(`ERROR: ${title} - ${message}`);
-        this.updateModeIndicator('❌ ERROR', '#ff0000');
     }
 
     /**
@@ -828,29 +678,8 @@ class CallbackRenderViewport extends OctaneComponent {
             this.viewport.appendChild(this.statusOverlay);
         }
 
-        if (!this.modeIndicator) {
-            this.modeIndicator = document.createElement('div');
-            this.modeIndicator.className = 'mode-indicator';
-            this.modeIndicator.style.cssText = `
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                background: rgba(0, 0, 0, 0.8);
-                color: #fff;
-                padding: 8px 12px;
-                border-radius: 4px;
-                font-family: monospace;
-                font-size: 12px;
-                z-index: 100;
-                border-left: 4px solid #666;
-            `;
-            this.viewport.appendChild(this.modeIndicator);
-        }
-
         // Update with current status
         this.updateStatus('Debug UI enabled');
-        this.updateModeIndicator(this.callbackMode ? 'CALLBACK MODE' : '📸 POLLING MODE', 
-                                this.callbackMode ? '#00ff00' : '#ffa500');
     }
 
     /**
@@ -860,10 +689,6 @@ class CallbackRenderViewport extends OctaneComponent {
         if (this.statusOverlay) {
             this.statusOverlay.remove();
             this.statusOverlay = null;
-        }
-        if (this.modeIndicator) {
-            this.modeIndicator.remove();
-            this.modeIndicator = null;
         }
     }
     
@@ -884,7 +709,7 @@ class CallbackRenderViewport extends OctaneComponent {
      */
     getStatus() {
         return {
-            mode: this.callbackMode ? 'callback' : (this.pollingMode ? 'polling' : 'inactive'),
+            mode: 'callback',
             callbackCount: this.callbackCount,
             lastCallbackTime: this.lastCallbackTime,
             connectionErrors: this.connectionErrors,
@@ -912,15 +737,6 @@ class CallbackRenderViewport extends OctaneComponent {
             this.eventSource.close();
             this.eventSource = null;
         }
-        
-        // Stop polling
-        this.pollingMode = false;
-        if (this.pollTimeout) {
-            clearTimeout(this.pollTimeout);
-            this.pollTimeout = null;
-        }
-        
-        this.callbackMode = false;
     }
 }
 
