@@ -35,6 +35,16 @@ class LiveLinkServiceStub(object):
                 request_serializer=livelink__pb2.MeshRequest.SerializeToString,
                 response_deserializer=livelink__pb2.MeshData.FromString,
                 _registered_method=True)
+        self.GetFile = channel.unary_unary(
+                '/livelinkapi.LiveLinkService/GetFile',
+                request_serializer=livelink__pb2.FileRequest.SerializeToString,
+                response_deserializer=livelink__pb2.FileResponse.FromString,
+                _registered_method=True)
+        self.StreamCamera = channel.stream_unary(
+                '/livelinkapi.LiveLinkService/StreamCamera',
+                request_serializer=livelink__pb2.CameraState.SerializeToString,
+                response_deserializer=livelink__pb2.StreamStatus.FromString,
+                _registered_method=True)
 
 
 class LiveLinkServiceServicer(object):
@@ -69,6 +79,21 @@ class LiveLinkServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetFile(self, request, context):
+        """RPC to request an image by filename
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def StreamCamera(self, request_iterator, context):
+        """Client streaming: client streams CameraState messages continuously.
+        Server replies ONCE (can be an Empty or StreamStatus).
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_LiveLinkServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -91,6 +116,16 @@ def add_LiveLinkServiceServicer_to_server(servicer, server):
                     servicer.GetMesh,
                     request_deserializer=livelink__pb2.MeshRequest.FromString,
                     response_serializer=livelink__pb2.MeshData.SerializeToString,
+            ),
+            'GetFile': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetFile,
+                    request_deserializer=livelink__pb2.FileRequest.FromString,
+                    response_serializer=livelink__pb2.FileResponse.SerializeToString,
+            ),
+            'StreamCamera': grpc.stream_unary_rpc_method_handler(
+                    servicer.StreamCamera,
+                    request_deserializer=livelink__pb2.CameraState.FromString,
+                    response_serializer=livelink__pb2.StreamStatus.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -202,6 +237,60 @@ class LiveLinkService(object):
             '/livelinkapi.LiveLinkService/GetMesh',
             livelink__pb2.MeshRequest.SerializeToString,
             livelink__pb2.MeshData.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetFile(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/livelinkapi.LiveLinkService/GetFile',
+            livelink__pb2.FileRequest.SerializeToString,
+            livelink__pb2.FileResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def StreamCamera(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(
+            request_iterator,
+            target,
+            '/livelinkapi.LiveLinkService/StreamCamera',
+            livelink__pb2.CameraState.SerializeToString,
+            livelink__pb2.StreamStatus.FromString,
             options,
             channel_credentials,
             insecure,

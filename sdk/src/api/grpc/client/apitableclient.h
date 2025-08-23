@@ -17,9 +17,15 @@
 #include "apitable.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiTable
 class ApiTableProxy : public ApiGuiComponentProxy
@@ -152,6 +158,7 @@ public:
     ///     Contains the status of the gRPC call
     int lastRowSelected() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

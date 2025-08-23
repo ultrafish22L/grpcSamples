@@ -20,6 +20,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void ApiTileGridSettingsConverter::convert(
     const octaneapi::ApiTileGridSettings & in,
     Octane::ApiTileGridSettings & out)
@@ -67,4 +70,5 @@ void ApiTileGridSettingsConverter::convert(
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

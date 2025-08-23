@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiProjectWorkspaceProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -132,7 +136,6 @@ void ApiProjectWorkspaceProxy::resetLayout()
 bool ApiProjectWorkspaceProxy::loadLayout(
             const char *                              layoutString
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -239,3 +242,4 @@ std::string ApiProjectWorkspaceProxy::serializeLayout() const
 };
 
 
+} //end of namespace

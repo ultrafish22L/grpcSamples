@@ -30,7 +30,7 @@
 /// The patch level of the current Octane version.
 #define OCTANE_VERSION_PATCH    0
 /// The revision of the current Octane version.
-#define OCTANE_VERSION_REVISION 4
+#define OCTANE_VERSION_REVISION 5
 
 /// The version number used in the Windows resource files.
 #define OCTANE_WINRC_VERSION    OCTANE_VERSION_MAJOR,OCTANE_VERSION_MINOR,OCTANE_VERSION_PATCH,OCTANE_VERSION_REVISION

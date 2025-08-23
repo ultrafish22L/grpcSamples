@@ -11,7 +11,7 @@ namespace Octane
 {
 class ApiImageComponent;
 }
-
+using namespace OctaneGRPC;
 namespace OctaneWrap
 {
 class Image;
@@ -39,7 +39,7 @@ public:
 
 private:
 
-    ApiImageComponentProxy mApiImageComponent;
+    OctaneGRPC::ApiImageComponentProxy mApiImageComponent;
 };
 
 } // namespace OctaneWrap

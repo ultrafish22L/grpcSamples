@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & VdbGridSamplerProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -32,7 +36,6 @@ float VdbGridSamplerProxy::getValue(
             const float                               y,
             const float                               z
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -100,3 +103,4 @@ float VdbGridSamplerProxy::getValue(
 };
 
 
+} //end of namespace

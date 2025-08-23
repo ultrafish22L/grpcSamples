@@ -13,7 +13,7 @@
 
 namespace Octane
 {
-class ApiColorSwatch;
+    class ApiColorSwatch;
 }
 
 namespace OctaneWrap
@@ -30,7 +30,6 @@ public:
     virtual void swatchValueChanged(
         OctaneWrap::ColorSwatch &swatch) =0;
 };
-
 
 
 //--------------------------------------------------------------------------------------------------
@@ -70,13 +69,13 @@ public:
 private:
 
     /// internally wrapped api swatch
-    ApiColorSwatchProxy              mApiColorSwatch;
+    OctaneGRPC::ApiColorSwatchProxy   mApiColorSwatch;
     /// list of listeners for value changes in this color swatch.
     std::vector<ColorSwatchListener*> mListeners;
 
     /// internal C-style callback
     static void internalChangeCallback(
-        ApiColorSwatchProxy    &swatch,
+        OctaneGRPC::ApiColorSwatchProxy    &swatch,
         void                   *privateData);
 };
 

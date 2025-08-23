@@ -2,9 +2,10 @@
 
 #include "grpcsettings.h"
 
+namespace OctaneGRPC
+{
 
-
-GRPCSettings & GRPCSettings::getInstance() 
+GRPCSettings& GRPCSettings::getInstance()
 {
     static GRPCSettings instance;
     return instance;
@@ -18,11 +19,11 @@ bool GRPCSettings::isRunningAsModule()
 
 
 void GRPCSettings::releaseCallbackId(
-     const std::string & funcType,
-     int                 callbackId)
+    const std::string& funcType,
+    int                 callbackId)
 {
     std::lock_guard<std::mutex> lock(getInstance().mMutex);
-    auto & pool = getInstance().mCallbackPools[funcType];
+    auto& pool = getInstance().mCallbackPools[funcType];
 
     // Remove from used and return to available heap
     if (pool.usedIds.erase(callbackId)) // returns 1 if erased, 0 if not found
@@ -38,11 +39,11 @@ void GRPCSettings::releaseCallbackId(
 
 
 int GRPCSettings::getNextCallbackId(
-    const std::string & funcType)
+    const std::string& funcType)
 {
     return -1;
     std::lock_guard<std::mutex> lock(getInstance().mMutex);
-    auto & pool = getInstance().mCallbackPools[funcType];
+    auto& pool = getInstance().mCallbackPools[funcType];
 
     if (pool.availableIds.empty())
     {
@@ -76,7 +77,7 @@ int GRPCSettings::getNextCallbackId(
 
 
 void GRPCSettings::setServerAddress(
-    const std::string & newAddress)
+    const std::string& newAddress)
 {
     mServerAddress = newAddress;
     mInitialized = false;
@@ -84,7 +85,7 @@ void GRPCSettings::setServerAddress(
 
 
 void GRPCSettings::setUniqueString(
-    const std::string & uniqueString)
+    const std::string& uniqueString)
 {
     mUniqueString = uniqueString;
 }
@@ -96,7 +97,7 @@ std::string GRPCSettings::callbackSource()
 }
 
 
-std::shared_ptr<grpc::Channel> & GRPCSettings::getChannel()
+std::shared_ptr<grpc::Channel>& GRPCSettings::getChannel()
 {
     if (mInitialized && mChannel)
     {
@@ -113,3 +114,5 @@ std::shared_ptr<grpc::Channel> & GRPCSettings::getChannel()
 
     return mChannel;
 }
+
+} // namespace OctaneGRPC

@@ -16,9 +16,7 @@
 #include "octanereferenceexport.h"
 #include <grpcpp/grpcpp.h>
 #include "apinodesystem_1.grpc.pb.h"
-#include "apinodesystem_2.grpc.pb.h"
 #include "apinodesystem_3.grpc.pb.h"
-#include "apinodesystem_4.grpc.pb.h"
 #include "apinodesystem_5.grpc.pb.h"
 #include "apinodesystem_6.grpc.pb.h"
 #include "apinodesystem_7.grpc.pb.h"
@@ -34,6 +32,10 @@
 #include "convertapinodegraphinfo.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiNodeGraphProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -44,7 +46,6 @@ ApiNodeGraphProxy ApiNodeGraphProxy::create(
             const Octane::NodeGraphType               type,
             ApiNodeGraphProxy &                       ownerGraph
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -54,7 +55,7 @@ ApiNodeGraphProxy ApiNodeGraphProxy::create(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodeGraphType typeIn;
-    typeIn = static_cast<octaneapi::NodeGraphType>(type);
+        typeIn = static_cast<octaneapi::NodeGraphType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -208,7 +209,6 @@ Octane::NodeGraphType ApiNodeGraphProxy::type() const
 void ApiNodeGraphProxy::getOwnedItems(
             ApiItemArrayProxy &                       list
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -259,7 +259,6 @@ void ApiNodeGraphProxy::getOwnedItems(
 void ApiNodeGraphProxy::getInputNodes(
             ApiNodeArrayProxy &                       list
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -310,7 +309,6 @@ void ApiNodeGraphProxy::getInputNodes(
 void ApiNodeGraphProxy::getOutputNodes(
             ApiNodeArrayProxy &                       list
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -363,7 +361,6 @@ void ApiNodeGraphProxy::findNodes(
             ApiNodeArrayProxy &                       list,
             const bool                                recurse
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -382,7 +379,7 @@ void ApiNodeGraphProxy::findNodes(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodeType typeIn;
-    typeIn = static_cast<octaneapi::NodeType>(type);
+        typeIn = static_cast<octaneapi::NodeType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -426,7 +423,6 @@ void ApiNodeGraphProxy::findNodes(
 ApiNodeProxy ApiNodeGraphProxy::findFirstNode(
             const Octane::NodeType                    type
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -445,7 +441,7 @@ ApiNodeProxy ApiNodeGraphProxy::findFirstNode(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodeType typeIn;
-    typeIn = static_cast<octaneapi::NodeType>(type);
+        typeIn = static_cast<octaneapi::NodeType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -490,7 +486,6 @@ ApiNodeProxy ApiNodeGraphProxy::findFirstNode(
 ApiNodeProxy ApiNodeGraphProxy::findFirstOutputNode(
             const Octane::NodePinType                 pinType
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -509,7 +504,7 @@ ApiNodeProxy ApiNodeGraphProxy::findFirstOutputNode(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinType' [in] parameter to the request packet.
     octaneapi::NodePinType pintypeIn;
-    pintypeIn = static_cast<octaneapi::NodePinType>(pinType);
+        pintypeIn = static_cast<octaneapi::NodePinType>(pinType);
     request.set_pintype(pintypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -556,7 +551,6 @@ void ApiNodeGraphProxy::findItemsByName(
             ApiItemArrayProxy &                       list,
             const bool                                recurse
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -621,7 +615,6 @@ void ApiNodeGraphProxy::setLinearTimeTransform(
             const float                               speedUp,
             const Octane::TimeSpanT                   customInterval
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -841,7 +834,6 @@ std::vector<std::string> ApiNodeGraphProxy::getAssetPaths()
 void ApiNodeGraphProxy::recenter(
             const OctaneVec::float_2                  center
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -942,7 +934,6 @@ void ApiNodeGraphProxy::copyFrom(
             const size_t                              origItemCount,
             ApiItemArrayProxy *                       copiedItems
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -972,11 +963,11 @@ void ApiNodeGraphProxy::copyFrom(
     octaneapi::ObjectRefArrayT * origitemsIn = new octaneapi::ObjectRefArrayT();
     for (size_t h = 0; h < origItemCount; h++)
     {
-         // The proxy object contains the ID of the remote object. Pass this ID to the server
-         // using a `ObjectRef` object.
-         auto item = origitemsIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
-         item->set_handle(origItems[h]->getObjectHandle());
+        // The proxy object contains the ID of the remote object. Pass this ID to the server
+        // using a `ObjectRef` object.
+        auto item = origitemsIn->add_data();
+        item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
+        item->set_handle(origItems[h]->getObjectHandle());
     }
     request.set_allocated_origitems(origitemsIn);
 
@@ -1021,7 +1012,6 @@ void ApiNodeGraphProxy::copyFrom(
 ApiItemProxy ApiNodeGraphProxy::copyFrom(
             const ApiItemProxy &                      sourceItem
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1088,7 +1078,6 @@ ApiItemProxy ApiNodeGraphProxy::copyFrom(
 ApiItemProxy ApiNodeGraphProxy::copyItemTree(
             const ApiItemProxy &                      rootItem
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1160,7 +1149,6 @@ void ApiNodeGraphProxy::copyFrom(
             const size_t                              origItemsCount,
             ApiItemArrayProxy *                       origItemCopies
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1181,11 +1169,11 @@ void ApiNodeGraphProxy::copyFrom(
     octaneapi::ObjectRefArrayT * sourceitemsIn = new octaneapi::ObjectRefArrayT();
     for (size_t h = 0; h < sourceItemsCount; h++)
     {
-         // The proxy object contains the ID of the remote object. Pass this ID to the server
-         // using a `ObjectRef` object.
-         auto item = sourceitemsIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
-         item->set_handle(sourceItems[h]->getObjectHandle());
+        // The proxy object contains the ID of the remote object. Pass this ID to the server
+        // using a `ObjectRef` object.
+        auto item = sourceitemsIn->add_data();
+        item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
+        item->set_handle(sourceItems[h]->getObjectHandle());
     }
     request.set_allocated_sourceitems(sourceitemsIn);
 
@@ -1200,11 +1188,11 @@ void ApiNodeGraphProxy::copyFrom(
     octaneapi::ObjectRefArrayT * origitemsIn = new octaneapi::ObjectRefArrayT();
     for (size_t h = 0; h < origItemsCount; h++)
     {
-         // The proxy object contains the ID of the remote object. Pass this ID to the server
-         // using a `ObjectRef` object.
-         auto item = origitemsIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
-         item->set_handle(origItems[h]->getObjectHandle());
+        // The proxy object contains the ID of the remote object. Pass this ID to the server
+        // using a `ObjectRef` object.
+        auto item = origitemsIn->add_data();
+        item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
+        item->set_handle(origItems[h]->getObjectHandle());
     }
     request.set_allocated_origitems(origitemsIn);
 
@@ -1255,7 +1243,6 @@ ApiNodeGraphProxy ApiNodeGraphProxy::groupItems(
             ApiItemProxy *const *const                items,
             const size_t                              itemsCount
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1276,11 +1263,11 @@ ApiNodeGraphProxy ApiNodeGraphProxy::groupItems(
     octaneapi::ObjectRefArrayT * itemsIn = new octaneapi::ObjectRefArrayT();
     for (size_t h = 0; h < itemsCount; h++)
     {
-         // The proxy object contains the ID of the remote object. Pass this ID to the server
-         // using a `ObjectRef` object.
-         auto item = itemsIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
-         item->set_handle(items[h]->getObjectHandle());
+        // The proxy object contains the ID of the remote object. Pass this ID to the server
+        // using a `ObjectRef` object.
+        auto item = itemsIn->add_data();
+        item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiItem);
+        item->set_handle(items[h]->getObjectHandle());
     }
     request.set_allocated_items(itemsIn);
 
@@ -1332,7 +1319,6 @@ ApiNodeGraphProxy ApiNodeGraphProxy::groupItems(
 void ApiNodeGraphProxy::ungroup(
             ApiItemArrayProxy *const                  ungroupedItems
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1383,7 +1369,6 @@ void ApiNodeGraphProxy::ungroup(
 void ApiNodeGraphProxy::unfold(
             const bool                                recursive
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1438,7 +1423,6 @@ std::string ApiNodeGraphProxy::showWindow(
             const char *                              windowState,
             bool                                      alwaysOnTop
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1548,7 +1532,6 @@ void ApiNodeGraphProxy::showDbWindow(
             void *                                    userData,
             const bool                                showLiveDb
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1568,14 +1551,14 @@ void ApiNodeGraphProxy::showDbWindow(
     // Add the 'dbViewClosingCallback' [in] parameter to the request packet.
     octaneapi::DbViewClosingCallbackT * dbviewclosingcallbackIn = new octaneapi::DbViewClosingCallbackT();
     // setup callback function dbViewClosingCallback
-    dbviewclosingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        dbviewclosingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_dbviewclosingcallback(dbviewclosingcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'dbViewLoadedCallback' [in] parameter to the request packet.
     octaneapi::DbViewLoadedCallbackT * dbviewloadedcallbackIn = new octaneapi::DbViewLoadedCallbackT();
     // setup callback function dbViewLoadedCallback
-    dbviewloadedcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        dbviewloadedcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_dbviewloadedcallback(dbviewloadedcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1632,7 +1615,6 @@ void ApiNodeGraphProxy::showDbWindow(
 void ApiNodeGraphProxy::closeDbWindow(
             bool                                      clearData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1673,3 +1655,4 @@ void ApiNodeGraphProxy::closeDbWindow(
 };
 
 
+} //end of namespace

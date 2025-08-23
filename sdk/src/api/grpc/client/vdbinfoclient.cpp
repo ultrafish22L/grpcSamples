@@ -23,6 +23,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & VdbInfoProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -132,7 +136,6 @@ uint32_t VdbInfoProxy::gridCount() const
 VdbGridInfoProxy VdbInfoProxy::grid(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -197,7 +200,6 @@ VdbGridSamplerProxy VdbInfoProxy::sampler(
             const uint32_t                            index,
             const bool                                ignoreVdbTransform
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -312,7 +314,6 @@ std::string VdbInfoProxy::findGrid(
             const Octane::AttributeId                 channelAttributeId,
             const char *const                         gridName
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -331,7 +332,7 @@ std::string VdbInfoProxy::findGrid(
     /////////////////////////////////////////////////////////////////////
     // Add the 'channelAttributeId' [in] parameter to the request packet.
     octaneapi::AttributeId channelattributeidIn;
-    channelattributeidIn = static_cast<octaneapi::AttributeId>(channelAttributeId);
+        channelattributeidIn = static_cast<octaneapi::AttributeId>(channelAttributeId);
     request.set_channelattributeid(channelattributeidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -375,3 +376,4 @@ std::string VdbInfoProxy::findGrid(
 };
 
 
+} //end of namespace

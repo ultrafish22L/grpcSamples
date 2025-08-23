@@ -24,6 +24,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiChangeManagerProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -35,7 +39,6 @@ void ApiChangeManagerProxy::observeApiItem(
             GRPCChangeObserver                       observer,
             const int                                 eventMask
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -61,7 +64,7 @@ void ApiChangeManagerProxy::observeApiItem(
     //observerchangeT->set_callbackid(observerCallbackId);
     observerIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     //observerIn->set_callbackid(observerCallbackId);
-    observerIn->set_userdata(reinterpret_cast<uint64_t>(observer.mUserData));
+observerIn->set_userdata(reinterpret_cast<uint64_t>(observer.mUserData));
     //if(className == "ApiChangeManager" && method.mName == "observeApiItem") return true;
     request.set_allocated_observer(observerIn);
 
@@ -105,7 +108,6 @@ void ApiChangeManagerProxy::stopObserving(
             const ApiItemProxy &                      item,
             GRPCChangeObserver                       observer
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -129,7 +131,7 @@ void ApiChangeManagerProxy::stopObserving(
     //octaneapi::OnChangeT * observerchangeT = new octaneapi::OnChangeT();
     //observerchangeT->set_callbackid(observerCallbackId);
     observerIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    observerIn->set_callbackid(observerCallbackId);
+   observerIn->set_callbackid(observerCallbackId);
     request.set_allocated_observer(observerIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -165,7 +167,6 @@ void ApiChangeManagerProxy::stopObserving(
 void ApiChangeManagerProxy::stopObserving(
             GRPCChangeObserver                       observer
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -180,7 +181,7 @@ void ApiChangeManagerProxy::stopObserving(
     //octaneapi::OnChangeT * observerchangeT = new octaneapi::OnChangeT();
     //observerchangeT->set_callbackid(observerCallbackId);
     observerIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    observerIn->set_callbackid(observerCallbackId);
+   observerIn->set_callbackid(observerCallbackId);
     request.set_allocated_observer(observerIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -287,7 +288,6 @@ void ApiChangeManagerProxy::addTimeObserver(
             GRPCChangeTimeObserver                   observer,
             const ApiRootNodeGraphProxy &             rootNodeGraph
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -304,7 +304,7 @@ void ApiChangeManagerProxy::addTimeObserver(
     //observerchangeT->set_callbackid(observerCallbackId);
     observerIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     //observerIn->set_callbackid(observerCallbackId);
-    observerIn->set_userdata(reinterpret_cast<uint64_t>(observer.mUserData));
+observerIn->set_userdata(reinterpret_cast<uint64_t>(observer.mUserData));
     //if(className == "ApiChangeManager" && method.mName == "addTimeObserver") return true;
     request.set_allocated_observer(observerIn);
 
@@ -351,7 +351,6 @@ void ApiChangeManagerProxy::removeTimeObserver(
             GRPCChangeTimeObserver                   observer,
             const ApiRootNodeGraphProxy *             rootNodeGraph
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -366,7 +365,7 @@ void ApiChangeManagerProxy::removeTimeObserver(
     //octaneapi::OnChangeT * observerchangeT = new octaneapi::OnChangeT();
     //observerchangeT->set_callbackid(observerCallbackId);
     observerIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    observerIn->set_callbackid(observerCallbackId);
+   observerIn->set_callbackid(observerCallbackId);
     request.set_allocated_observer(observerIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -443,3 +442,4 @@ void ApiChangeManagerProxy::stopObservingTime()
 };
 
 
+} //end of namespace

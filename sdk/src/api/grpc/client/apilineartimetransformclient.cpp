@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiLinearTimeTransformProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -228,3 +232,4 @@ Octane::TimeSpanT ApiLinearTimeTransformProxy::customInterval() const
 };
 
 
+} //end of namespace

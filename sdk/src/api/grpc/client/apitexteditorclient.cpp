@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiTextEditorProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -32,7 +36,6 @@ ApiTextEditorProxy ApiTextEditorProxy::create(
             GRPCTextEditorChangedCallbackT           callback,
             void *                                    privateData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -49,7 +52,7 @@ ApiTextEditorProxy ApiTextEditorProxy::create(
     // Add the 'callback' [in] parameter to the request packet.
     octaneapi::TextEditorChangedCallbackT * callbackIn = new octaneapi::TextEditorChangedCallbackT();
     // setup callback function callback
-    callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -252,7 +255,6 @@ void ApiTextEditorProxy::setText(
             const char *                              newText,
             const bool                                sendEvent
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -355,7 +357,6 @@ void ApiTextEditorProxy::clear()
 void ApiTextEditorProxy::setReadOnly(
             const bool                                shouldBeReadOnly
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -455,3 +456,4 @@ bool ApiTextEditorProxy::isReadOnly() const
 };
 
 
+} //end of namespace

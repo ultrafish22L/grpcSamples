@@ -16,9 +16,15 @@
 #include "octanetime.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for TimeSpanT
 class TimeSpanTProxy : public GRPCBase
@@ -55,6 +61,7 @@ public:
             const Octane::TimeT   time
             ) const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

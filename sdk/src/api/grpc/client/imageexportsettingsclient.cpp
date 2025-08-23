@@ -22,6 +22,10 @@
 #include "convertimageexportsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ImageExportSettingsProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -31,7 +35,6 @@ GRPCSettings & ImageExportSettingsProxy::getGRPCSettings()
 std::string ImageExportSettingsProxy::getExtension(
             Octane::SaveImageFileType                 type
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -41,7 +44,7 @@ std::string ImageExportSettingsProxy::getExtension(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::SaveImageFileType typeIn;
-    typeIn = static_cast<octaneapi::SaveImageFileType>(type);
+        typeIn = static_cast<octaneapi::SaveImageFileType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -82,7 +85,6 @@ std::string ImageExportSettingsProxy::getExtension(
 uint32_t ImageExportSettingsProxy::getBitsPerComponent(
             const Octane::SaveImageBitDepth           bitDepth
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -92,7 +94,7 @@ uint32_t ImageExportSettingsProxy::getBitsPerComponent(
     /////////////////////////////////////////////////////////////////////
     // Add the 'bitDepth' [in] parameter to the request packet.
     octaneapi::SaveImageBitDepth bitdepthIn;
-    bitdepthIn = static_cast<octaneapi::SaveImageBitDepth>(bitDepth);
+        bitdepthIn = static_cast<octaneapi::SaveImageBitDepth>(bitDepth);
     request.set_bitdepth(bitdepthIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -132,7 +134,6 @@ uint32_t ImageExportSettingsProxy::getBitsPerComponent(
 uint32_t ImageExportSettingsProxy::getBitsPerComponent(
             const Octane::ImageSaveFormat             format
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -142,7 +143,7 @@ uint32_t ImageExportSettingsProxy::getBitsPerComponent(
     /////////////////////////////////////////////////////////////////////
     // Add the 'format' [in] parameter to the request packet.
     octaneapi::ImageSaveFormat formatIn;
-    formatIn = static_cast<octaneapi::ImageSaveFormat>(format);
+        formatIn = static_cast<octaneapi::ImageSaveFormat>(format);
     request.set_format(formatIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -182,7 +183,6 @@ uint32_t ImageExportSettingsProxy::getBitsPerComponent(
 Octane::SaveImageBitDepth ImageExportSettingsProxy::getBitDepth(
             const Octane::ImageSaveFormat             format
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -192,7 +192,7 @@ Octane::SaveImageBitDepth ImageExportSettingsProxy::getBitDepth(
     /////////////////////////////////////////////////////////////////////
     // Add the 'format' [in] parameter to the request packet.
     octaneapi::ImageSaveFormat formatIn;
-    formatIn = static_cast<octaneapi::ImageSaveFormat>(format);
+        formatIn = static_cast<octaneapi::ImageSaveFormat>(format);
     request.set_format(formatIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -233,7 +233,6 @@ Octane::ImageSaveFormat ImageExportSettingsProxy::getFormat(
             const Octane::SaveImageFileType           type,
             const Octane::SaveImageBitDepth           bitDepth
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -243,13 +242,13 @@ Octane::ImageSaveFormat ImageExportSettingsProxy::getFormat(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::SaveImageFileType typeIn;
-    typeIn = static_cast<octaneapi::SaveImageFileType>(type);
+        typeIn = static_cast<octaneapi::SaveImageFileType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'bitDepth' [in] parameter to the request packet.
     octaneapi::SaveImageBitDepth bitdepthIn;
-    bitdepthIn = static_cast<octaneapi::SaveImageBitDepth>(bitDepth);
+        bitdepthIn = static_cast<octaneapi::SaveImageBitDepth>(bitDepth);
     request.set_bitdepth(bitdepthIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -289,7 +288,6 @@ Octane::ImageSaveFormat ImageExportSettingsProxy::getFormat(
 Octane::SaveImageFileType ImageExportSettingsProxy::getType(
             const Octane::ImageSaveFormat             format
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -299,7 +297,7 @@ Octane::SaveImageFileType ImageExportSettingsProxy::getType(
     /////////////////////////////////////////////////////////////////////
     // Add the 'format' [in] parameter to the request packet.
     octaneapi::ImageSaveFormat formatIn;
-    formatIn = static_cast<octaneapi::ImageSaveFormat>(format);
+        formatIn = static_cast<octaneapi::ImageSaveFormat>(format);
     request.set_format(formatIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -342,7 +340,6 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeFromOldSettings(
             const Octane::ExrCompressionType          exrCompressionType,
             const float                               exrCompressionLevel
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -352,19 +349,19 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeFromOldSettings(
     /////////////////////////////////////////////////////////////////////
     // Add the 'imageSaveFormat' [in] parameter to the request packet.
     octaneapi::ImageSaveFormat imagesaveformatIn;
-    imagesaveformatIn = static_cast<octaneapi::ImageSaveFormat>(imageSaveFormat);
+        imagesaveformatIn = static_cast<octaneapi::ImageSaveFormat>(imageSaveFormat);
     request.set_imagesaveformat(imagesaveformatIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'premultipliedAlphaType' [in] parameter to the request packet.
     octaneapi::PremultipliedAlphaType premultipliedalphatypeIn;
-    premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
+        premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
     request.set_premultipliedalphatype(premultipliedalphatypeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'exrCompressionType' [in] parameter to the request packet.
     octaneapi::ExrCompressionType exrcompressiontypeIn;
-    exrcompressiontypeIn = static_cast<octaneapi::ExrCompressionType>(exrCompressionType);
+        exrcompressiontypeIn = static_cast<octaneapi::ExrCompressionType>(exrCompressionType);
     request.set_exrcompressiontype(exrcompressiontypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -411,7 +408,6 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeFromImageSaveFormat(
             const Octane::ImageSaveFormat             imageSaveFormat,
             const Octane::PremultipliedAlphaType      premultipliedAlphaType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -421,13 +417,13 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeFromImageSaveFormat(
     /////////////////////////////////////////////////////////////////////
     // Add the 'imageSaveFormat' [in] parameter to the request packet.
     octaneapi::ImageSaveFormat imagesaveformatIn;
-    imagesaveformatIn = static_cast<octaneapi::ImageSaveFormat>(imageSaveFormat);
+        imagesaveformatIn = static_cast<octaneapi::ImageSaveFormat>(imageSaveFormat);
     request.set_imagesaveformat(imagesaveformatIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'premultipliedAlphaType' [in] parameter to the request packet.
     octaneapi::PremultipliedAlphaType premultipliedalphatypeIn;
-    premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
+        premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
     request.set_premultipliedalphatype(premultipliedalphatypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -470,7 +466,6 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeExr(
             const Octane::ExrCompressionType          compressionType,
             const float                               compressionLevel
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -480,7 +475,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeExr(
     /////////////////////////////////////////////////////////////////////
     // Add the 'bitDepth' [in] parameter to the request packet.
     octaneapi::SaveImageBitDepth bitdepthIn;
-    bitdepthIn = static_cast<octaneapi::SaveImageBitDepth>(bitDepth);
+        bitdepthIn = static_cast<octaneapi::SaveImageBitDepth>(bitDepth);
     request.set_bitdepth(bitdepthIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -492,7 +487,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeExr(
     /////////////////////////////////////////////////////////////////////
     // Add the 'compressionType' [in] parameter to the request packet.
     octaneapi::ExrCompressionType compressiontypeIn;
-    compressiontypeIn = static_cast<octaneapi::ExrCompressionType>(compressionType);
+        compressiontypeIn = static_cast<octaneapi::ExrCompressionType>(compressionType);
     request.set_compressiontype(compressiontypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -540,7 +535,6 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeTiff(
             const Octane::PremultipliedAlphaType      premultipliedAlphaType,
             const Octane::TiffCompressionType         compressionType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -550,19 +544,19 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeTiff(
     /////////////////////////////////////////////////////////////////////
     // Add the 'bitDepth' [in] parameter to the request packet.
     octaneapi::SaveImageBitDepth bitdepthIn;
-    bitdepthIn = static_cast<octaneapi::SaveImageBitDepth>(bitDepth);
+        bitdepthIn = static_cast<octaneapi::SaveImageBitDepth>(bitDepth);
     request.set_bitdepth(bitdepthIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'premultipliedAlphaType' [in] parameter to the request packet.
     octaneapi::PremultipliedAlphaType premultipliedalphatypeIn;
-    premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
+        premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
     request.set_premultipliedalphatype(premultipliedalphatypeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'compressionType' [in] parameter to the request packet.
     octaneapi::TiffCompressionType compressiontypeIn;
-    compressiontypeIn = static_cast<octaneapi::TiffCompressionType>(compressionType);
+        compressiontypeIn = static_cast<octaneapi::TiffCompressionType>(compressionType);
     request.set_compressiontype(compressiontypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -602,7 +596,6 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeTiff(
 Octane::ImageExportSettings ImageExportSettingsProxy::makePng(
             const Octane::SaveImageBitDepth           bitDepth
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -612,7 +605,7 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makePng(
     /////////////////////////////////////////////////////////////////////
     // Add the 'bitDepth' [in] parameter to the request packet.
     octaneapi::SaveImageBitDepth bitdepthIn;
-    bitdepthIn = static_cast<octaneapi::SaveImageBitDepth>(bitDepth);
+        bitdepthIn = static_cast<octaneapi::SaveImageBitDepth>(bitDepth);
     request.set_bitdepth(bitdepthIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -652,7 +645,6 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makePng(
 Octane::ImageExportSettings ImageExportSettingsProxy::makeJpeg(
             const float                               quality
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -699,3 +691,4 @@ Octane::ImageExportSettings ImageExportSettingsProxy::makeJpeg(
 };
 
 
+} //end of namespace

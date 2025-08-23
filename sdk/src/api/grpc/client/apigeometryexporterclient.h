@@ -11,16 +11,25 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiNodeGraphProxy;
-class ApiItemProxy;
+namespace OctaneGRPC
+{
+    class ApiNodeGraphProxy;
+    class ApiItemProxy;
+}
 
 
 #include "apigeometryexporter.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiGeometryExporter
 class ApiGeometryExporterProxy : public GRPCBase
@@ -192,6 +201,7 @@ public:
     ///     Contains the status of the gRPC call
     void destroy();
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

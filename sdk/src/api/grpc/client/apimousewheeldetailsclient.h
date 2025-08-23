@@ -16,9 +16,15 @@
 #include "apimouselistener.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiMouseWheelDetails
 class ApiMouseWheelDetailsProxy : public GRPCBase
@@ -26,6 +32,7 @@ class ApiMouseWheelDetailsProxy : public GRPCBase
 public:
     static Octane::ApiMouseWheelDetails make();
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

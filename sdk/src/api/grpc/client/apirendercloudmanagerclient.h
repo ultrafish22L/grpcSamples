@@ -11,15 +11,24 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiRootNodeGraphProxy;
+namespace OctaneGRPC
+{
+    class ApiRootNodeGraphProxy;
+}
 
 
 #include "apirendercloudmanager.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiRenderCloudManager
 class ApiRenderCloudManagerProxy : public GRPCBase
@@ -130,6 +139,7 @@ public:
             const Octane::ApiRenderCloudManager::GuidT   sceneGuid
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

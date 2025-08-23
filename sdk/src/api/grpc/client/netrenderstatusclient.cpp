@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & NetRenderStatusProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -71,3 +75,4 @@ void NetRenderStatusProxy::clear()
 };
 
 
+} //end of namespace

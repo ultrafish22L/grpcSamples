@@ -15,7 +15,7 @@ namespace Octane
 {
 class ApiFileChooser;
 }
-
+using namespace OctaneGRPC;
 namespace OctaneWrap
 {
 

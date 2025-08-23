@@ -7,7 +7,13 @@
 namespace Octane { struct ApiFilePath; }
 namespace octaneapi { class ApiFilePath; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiFilePathConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiFilePath & in,
         octaneapi::ApiFilePath & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

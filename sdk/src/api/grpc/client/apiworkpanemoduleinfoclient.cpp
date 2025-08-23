@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiWorkPaneModuleInfoProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -34,7 +38,6 @@ ApiWorkPaneModuleInfoProxy ApiWorkPaneModuleInfoProxy::create(
             const char *                              author,
             const Octane::VersionT                    versionNumber
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -157,7 +160,6 @@ void ApiWorkPaneModuleInfoProxy::destroy()
 void ApiWorkPaneModuleInfoProxy::setInitFunction(
             GRPCInitFuncT                            func
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -177,7 +179,7 @@ void ApiWorkPaneModuleInfoProxy::setInitFunction(
     // Add the 'func' [in] parameter to the request packet.
     octaneapi::InitFuncT * funcIn = new octaneapi::InitFuncT();
     // setup callback function func
-    funcIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        funcIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_func(funcIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -213,7 +215,6 @@ void ApiWorkPaneModuleInfoProxy::setInitFunction(
 void ApiWorkPaneModuleInfoProxy::setCleanupFunction(
             const Octane::ApiWorkPaneModuleInfo::CleanupFuncT func
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -233,7 +234,7 @@ void ApiWorkPaneModuleInfoProxy::setCleanupFunction(
     // Add the 'func' [in] parameter to the request packet.
     octaneapi::CleanupFuncT * funcIn = new octaneapi::CleanupFuncT();
     // setup callback function func
-    funcIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        funcIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_func(funcIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -270,7 +271,6 @@ void ApiWorkPaneModuleInfoProxy::setWorkPaneToolbarIds(
             const Octane::ModuleIdT *const            toolbarModuleIds,
             const size_t                              size
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -330,3 +330,4 @@ void ApiWorkPaneModuleInfoProxy::setWorkPaneToolbarIds(
 };
 
 
+} //end of namespace

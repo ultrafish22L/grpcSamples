@@ -7,7 +7,13 @@
 namespace Octane { struct ApiOcioLookPinInfo; }
 namespace octaneapi { class ApiOcioLookPinInfo; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiOcioLookPinInfoConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiOcioLookPinInfo & in,
         octaneapi::ApiOcioLookPinInfo & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

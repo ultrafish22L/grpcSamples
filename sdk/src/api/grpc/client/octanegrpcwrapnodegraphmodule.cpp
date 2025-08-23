@@ -21,7 +21,7 @@ void NodeGraphModule::onTrigger()
 {}
 
 
-ApiModuleNodeGraphProxy* NodeGraphModule::graph() const
+OctaneGRPC::ApiModuleNodeGraphProxy* NodeGraphModule::graph() const
 {
     return mGraph;
 }

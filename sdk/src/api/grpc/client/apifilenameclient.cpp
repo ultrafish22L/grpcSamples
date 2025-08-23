@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiFileNameProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -30,7 +34,6 @@ GRPCSettings & ApiFileNameProxy::getGRPCSettings()
 ApiFileNameProxy ApiFileNameProxy::create(
             const char *                              path
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -129,7 +132,6 @@ void ApiFileNameProxy::destroy()
 void ApiFileNameProxy::set(
             const char *                              newPath
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -690,7 +692,6 @@ std::string ApiFileNameProxy::getFileString() const
 std::string ApiFileNameProxy::getSuffix(
             const bool                                toLowerCase
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -750,7 +751,6 @@ std::string ApiFileNameProxy::getSuffix(
 void ApiFileNameProxy::setSuffix(
             const char *                              suffix
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -803,7 +803,6 @@ void ApiFileNameProxy::setSuffix(
 ApiFileNameProxy ApiFileNameProxy::withSuffix(
             const char *                              suffix
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -867,7 +866,6 @@ ApiFileNameProxy ApiFileNameProxy::withSuffix(
 bool ApiFileNameProxy::makeRelativeTo(
             const ApiFileNameProxy &                  base
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -929,7 +927,6 @@ bool ApiFileNameProxy::makeRelativeTo(
 ApiFileNameProxy ApiFileNameProxy::getConcat(
             const ApiFileNameProxy &                  other
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -996,7 +993,6 @@ ApiFileNameProxy ApiFileNameProxy::getConcat(
 void ApiFileNameProxy::concat(
             const ApiFileNameProxy &                  other
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1052,7 +1048,6 @@ void ApiFileNameProxy::concat(
 bool ApiFileNameProxy::equals(
             const ApiFileNameProxy &                  other
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1114,7 +1109,6 @@ bool ApiFileNameProxy::equals(
 bool ApiFileNameProxy::notEquals(
             const ApiFileNameProxy &                  other
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1176,7 +1170,6 @@ bool ApiFileNameProxy::notEquals(
 bool ApiFileNameProxy::lessThan(
             const ApiFileNameProxy &                  other
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1238,7 +1231,6 @@ bool ApiFileNameProxy::lessThan(
 bool ApiFileNameProxy::exactlyEquals(
             const ApiFileNameProxy &                  other
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1300,7 +1292,6 @@ bool ApiFileNameProxy::exactlyEquals(
 bool ApiFileNameProxy::exactlyLessThan(
             const ApiFileNameProxy &                  other
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1362,7 +1353,6 @@ bool ApiFileNameProxy::exactlyLessThan(
 void ApiFileNameProxy::appendToFileName(
             const char *                              text
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1662,3 +1652,4 @@ bool ApiFileNameProxy::createDirectory() const
 };
 
 
+} //end of namespace

@@ -5,7 +5,13 @@
 #include "grpcbase.h"
 
 
-void GRPCBase::attachObjectHandle(int64_t handle)
+
+namespace OctaneGRPC
+{
+
+
+void GRPCBase::attachObjectHandle(
+    int64_t handle)
 {
     mHandle = handle;
 }
@@ -28,13 +34,17 @@ std::string GRPCBase::checkString(
 }
 
 
-bool GRPCBase::isNull() const
+bool GRPCBase::isNull()
 {
     return mHandle == 0;
 }
+
 
 void GRPCBase::setNull()
 {
     mHandle = 0;
 }
+
+} // namespace OctaneGRPC
+
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiMouseEventProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -73,3 +77,4 @@ ApiMouseEventProxy ApiMouseEventProxy::make()
 };
 
 
+} //end of namespace

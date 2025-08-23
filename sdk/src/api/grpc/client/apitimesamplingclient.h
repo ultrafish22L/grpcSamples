@@ -16,9 +16,15 @@
 #include "apitimesampling.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiTimeSampling
 class ApiTimeSamplingProxy : public GRPCBase
@@ -26,6 +32,7 @@ class ApiTimeSamplingProxy : public GRPCBase
 public:
     static float endTimeAuto();
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

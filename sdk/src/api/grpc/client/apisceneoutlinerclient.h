@@ -17,9 +17,15 @@
 #include "apisceneoutliner.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiSceneOutliner
 class ApiSceneOutlinerProxy : public ApiGuiComponentProxy
@@ -29,6 +35,7 @@ public:
 
     void destroy();
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

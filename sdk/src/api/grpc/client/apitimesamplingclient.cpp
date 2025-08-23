@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiTimeSamplingProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -68,3 +72,4 @@ float ApiTimeSamplingProxy::endTimeAuto()
 };
 
 
+} //end of namespace

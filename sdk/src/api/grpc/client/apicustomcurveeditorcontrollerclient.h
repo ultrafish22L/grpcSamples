@@ -11,15 +11,24 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiCustomCurveEditorControllerProxy_Drawer;
+namespace OctaneGRPC
+{
+    class ApiCustomCurveEditorControllerProxy_Drawer;
+}
 
 
 #include "apicustomcurveeditorcontroller.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiCustomCurveEditorController
 class ApiCustomCurveEditorControllerProxy : public GRPCBase
@@ -123,6 +132,7 @@ public:
             ApiCustomCurveEditorControllerProxy_Drawer &   drawer
             ) const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

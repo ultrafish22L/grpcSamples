@@ -21,9 +21,14 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiOcioLookPinInfoProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
 }
 
 
+} //end of namespace

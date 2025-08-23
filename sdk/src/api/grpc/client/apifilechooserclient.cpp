@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiFileChooserProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -32,7 +36,6 @@ ApiFileChooserProxy ApiFileChooserProxy::create(
             const char *                              initialDirectory,
             const char *                              filePatterns
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -243,7 +246,6 @@ bool ApiFileChooserProxy::browseForMultipleFilesToOpen()
 bool ApiFileChooserProxy::browseForFileToSave(
             const bool                                warnAboutOverwritingExistingFiles
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -505,3 +507,4 @@ std::vector<std::string> ApiFileChooserProxy::results() const
 };
 
 
+} //end of namespace

@@ -16,9 +16,15 @@
 #include "apicustomcurveeditorcontroller.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiCustomCurveEditorController_Listener
 class ApiCustomCurveEditorControllerProxy_Listener : public GRPCBase
@@ -54,6 +60,7 @@ public:
             Octane::ApiCustomCurveEditorController::MouseCursorType mouseCursorType
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

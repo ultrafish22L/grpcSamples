@@ -16,9 +16,15 @@
 #include "apimodule.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiWorkPaneModuleInfo
 class ApiWorkPaneModuleInfoProxy : public GRPCBase
@@ -82,6 +88,7 @@ public:
             const size_t                              size
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

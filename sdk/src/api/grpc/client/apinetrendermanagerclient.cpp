@@ -24,6 +24,10 @@
 #include "convertnetrenderstatus.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiNetRenderManagerProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -33,7 +37,6 @@ GRPCSettings & ApiNetRenderManagerProxy::getGRPCSettings()
 bool ApiNetRenderManagerProxy::configure(
             const Octane::NetRenderSettings &         settings
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -124,7 +127,6 @@ Octane::NetRenderSettings ApiNetRenderManagerProxy::configuration()
 void ApiNetRenderManagerProxy::enable(
             const bool                                enable
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -361,7 +363,6 @@ size_t ApiNetRenderManagerProxy::networkInterfaceCount()
 Octane::NetInterfaceInfo ApiNetRenderManagerProxy::networkInterface(
             const size_t                              subnetIx
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -412,7 +413,6 @@ void ApiNetRenderManagerProxy::setNetStatusListener(
             Octane::ApiNetRenderManager::OnStatusUpdateT callback,
             void *                                    userData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -423,7 +423,7 @@ void ApiNetRenderManagerProxy::setNetStatusListener(
     // Add the 'callback' [in] parameter to the request packet.
     octaneapi::OnStatusUpdateT * callbackIn = new octaneapi::OnStatusUpdateT();
     // setup callback function callback
-    callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -507,7 +507,6 @@ void ApiNetRenderManagerProxy::setDaemonListener(
             Octane::ApiNetRenderManager::OnDaemonUpdateT callback,
             void *                                    userData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -518,7 +517,7 @@ void ApiNetRenderManagerProxy::setDaemonListener(
     // Add the 'callback' [in] parameter to the request packet.
     octaneapi::OnDaemonUpdateT * callbackIn = new octaneapi::OnDaemonUpdateT();
     // setup callback function callback
-    callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -560,7 +559,6 @@ void ApiNetRenderManagerProxy::setDaemonListener(
 bool ApiNetRenderManagerProxy::bindDaemon(
             const Octane::IPv4T                       ipAddress
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -610,7 +608,6 @@ bool ApiNetRenderManagerProxy::bindDaemon(
 void ApiNetRenderManagerProxy::unbindDaemon(
             const Octane::IPv4T                       ipAddress
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -654,7 +651,6 @@ void ApiNetRenderManagerProxy::unbindDaemon(
 bool ApiNetRenderManagerProxy::stealDaemon(
             const Octane::IPv4T                       ipAddress
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -701,3 +697,4 @@ bool ApiNetRenderManagerProxy::stealDaemon(
 };
 
 
+} //end of namespace

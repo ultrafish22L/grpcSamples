@@ -89,8 +89,8 @@ private:
     
     // Octane SDK objects
 #ifdef DO_GRPC_SDK_ENABLED
-    ApiRenderEngineProxy m_renderEngine;
-    ApiNodeProxy m_cameraNode;
+    OctaneGRPC::ApiRenderEngineProxy m_renderEngine;
+    OctaneGRPC::ApiNodeProxy m_cameraNode;
 #endif
 
     // Cache for last known camera state

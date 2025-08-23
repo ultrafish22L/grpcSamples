@@ -20,6 +20,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void ApiFloatPinInfoConverter::convert(
     const octaneapi::ApiFloatPinInfo & in,
     Octane::ApiFloatPinInfo & out)
@@ -111,4 +114,5 @@ void ApiFloatPinInfoConverter::convert(
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

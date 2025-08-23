@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiBase64Proxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -33,7 +37,6 @@ bool ApiBase64Proxy::encode(
             Octane::CharArrayT &                      encoded,
             const bool                                useBase64Url
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -104,7 +107,6 @@ bool ApiBase64Proxy::decode(
             Octane::CharArrayT &                      decoded,
             const bool                                useBase64Url
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -169,3 +171,4 @@ bool ApiBase64Proxy::decode(
 };
 
 
+} //end of namespace

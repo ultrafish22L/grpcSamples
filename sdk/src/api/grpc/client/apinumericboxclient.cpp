@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiNumericBoxProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -32,7 +36,6 @@ ApiNumericBoxProxy ApiNumericBoxProxy::create(
             GRPCNumericBoxChangedCallbackT           callback,
             void *                                    privateData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -49,7 +52,7 @@ ApiNumericBoxProxy ApiNumericBoxProxy::create(
     // Add the 'callback' [in] parameter to the request packet.
     octaneapi::NumericBoxChangedCallbackT * callbackIn = new octaneapi::NumericBoxChangedCallbackT();
     // setup callback function callback
-    callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -201,7 +204,6 @@ void ApiNumericBoxProxy::setValue(
             const double                              newValue,
             const bool                                sendEvent
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -263,7 +265,6 @@ void ApiNumericBoxProxy::setLimits(
             const double                              sliderMinimum,
             const double                              sliderMaximum
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -331,3 +332,4 @@ void ApiNumericBoxProxy::setLimits(
 };
 
 
+} //end of namespace

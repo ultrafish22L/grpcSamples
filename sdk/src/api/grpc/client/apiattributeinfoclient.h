@@ -16,9 +16,15 @@
 #include "octaneinfos.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiAttributeInfo
 class ApiAttributeInfoProxy : public GRPCBase
@@ -31,6 +37,7 @@ public:
             const Octane::VersionT   version
             ) const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

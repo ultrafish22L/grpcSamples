@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiCachesProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -230,7 +234,6 @@ uint64_t ApiCachesProxy::getVirtualTextureCacheUsedSize()
 void ApiCachesProxy::pruneVirtualTextureCache(
             uint64_t                                  maximumSize
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -274,7 +277,6 @@ void ApiCachesProxy::pruneVirtualTextureCache(
 Octane::CacheStatus ApiCachesProxy::checkVirtualTextureStatus(
             ApiNodeProxy *                            node
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -332,7 +334,6 @@ Octane::CacheStatus ApiCachesProxy::checkVirtualTextureStatus(
 bool ApiCachesProxy::clearVirtualTextureCacheForNode(
             ApiNodeProxy *                            node
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -387,3 +388,4 @@ bool ApiCachesProxy::clearVirtualTextureCacheForNode(
 };
 
 
+} //end of namespace

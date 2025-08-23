@@ -7,7 +7,13 @@
 namespace Octane { struct ApiTextureValueTypeSet; }
 namespace octaneapi { class ApiTextureValueTypeSet; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiTextureValueTypeSetConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiTextureValueTypeSet & in,
         octaneapi::ApiTextureValueTypeSet & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

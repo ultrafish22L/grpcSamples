@@ -17,9 +17,15 @@
 #include "apicheckbox.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiCheckBox
 class ApiCheckBoxProxy : public ApiGuiComponentProxy
@@ -66,6 +72,7 @@ public:
     ///     Contains the status of the gRPC call
     bool isChecked() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

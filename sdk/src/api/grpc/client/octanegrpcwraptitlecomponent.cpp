@@ -11,7 +11,7 @@ using namespace OctaneWrap;
 TitleComponent::TitleComponent(
     const std::string &text)
 {
-    mApiTitleComponent = ApiTitleComponentProxy::create(text.c_str());
+    mApiTitleComponent = OctaneGRPC::ApiTitleComponentProxy::create(text.c_str());
     mComponent         = &mApiTitleComponent;
 }
 

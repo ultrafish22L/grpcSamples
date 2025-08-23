@@ -31,6 +31,10 @@
 #include "convertapirenderpassinfo.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiInfoProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -333,7 +337,6 @@ void ApiInfoProxy::cpuInfo(
             uint32_t &                                clockSpeedMhz,
             uint32_t &                                nbCores
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -435,7 +438,6 @@ void ApiInfoProxy::getAttributeTypes(
             std::vector<Octane::AttributeType> &      attributeTypes,
             size_t &                                  size
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -489,7 +491,6 @@ void ApiInfoProxy::getPinTypes(
             std::vector<Octane::NodePinType> &        pinTypes,
             size_t &                                  size
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -543,7 +544,6 @@ void ApiInfoProxy::getGraphTypes(
             std::vector<Octane::NodeGraphType> &      graphTypes,
             size_t &                                  size
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -597,7 +597,6 @@ void ApiInfoProxy::getNodeTypes(
             std::vector<Octane::NodeType> &           nodesTypes,
             size_t &                                  size
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -650,7 +649,6 @@ void ApiInfoProxy::getNodeTypes(
 const ApiNodeInfoProxy ApiInfoProxy::nodeInfo(
             const Octane::NodeType                    type
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -660,7 +658,7 @@ const ApiNodeInfoProxy ApiInfoProxy::nodeInfo(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodeType typeIn;
-    typeIn = static_cast<octaneapi::NodeType>(type);
+        typeIn = static_cast<octaneapi::NodeType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -700,7 +698,6 @@ const ApiNodeInfoProxy ApiInfoProxy::nodeInfo(
 const Octane::ApiNodeGraphInfo ApiInfoProxy::graphInfo(
             Octane::NodeGraphType                     type
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -710,7 +707,7 @@ const Octane::ApiNodeGraphInfo ApiInfoProxy::graphInfo(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodeGraphType typeIn;
-    typeIn = static_cast<octaneapi::NodeGraphType>(type);
+        typeIn = static_cast<octaneapi::NodeGraphType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -750,7 +747,6 @@ const Octane::ApiNodeGraphInfo ApiInfoProxy::graphInfo(
 ApiImageProxy ApiInfoProxy::nodeIconImage(
             const Octane::NodeType                    nodeType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -760,7 +756,7 @@ ApiImageProxy ApiInfoProxy::nodeIconImage(
     /////////////////////////////////////////////////////////////////////
     // Add the 'nodeType' [in] parameter to the request packet.
     octaneapi::NodeType nodetypeIn;
-    nodetypeIn = static_cast<octaneapi::NodeType>(nodeType);
+        nodetypeIn = static_cast<octaneapi::NodeType>(nodeType);
     request.set_nodetype(nodetypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -805,7 +801,6 @@ ApiImageProxy ApiInfoProxy::nodeIconImage(
 ApiImageProxy ApiInfoProxy::graphIconImage(
             const Octane::NodeGraphType               nodeGraphType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -815,7 +810,7 @@ ApiImageProxy ApiInfoProxy::graphIconImage(
     /////////////////////////////////////////////////////////////////////
     // Add the 'nodeGraphType' [in] parameter to the request packet.
     octaneapi::NodeGraphType nodegraphtypeIn;
-    nodegraphtypeIn = static_cast<octaneapi::NodeGraphType>(nodeGraphType);
+        nodegraphtypeIn = static_cast<octaneapi::NodeGraphType>(nodeGraphType);
     request.set_nodegraphtype(nodegraphtypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -861,7 +856,6 @@ const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
             Octane::NodeType                          type,
             Octane::AttributeId                       attrId
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -871,13 +865,13 @@ const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodeType typeIn;
-    typeIn = static_cast<octaneapi::NodeType>(type);
+        typeIn = static_cast<octaneapi::NodeType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'attrId' [in] parameter to the request packet.
     octaneapi::AttributeId attridIn;
-    attridIn = static_cast<octaneapi::AttributeId>(attrId);
+        attridIn = static_cast<octaneapi::AttributeId>(attrId);
     request.set_attrid(attridIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -918,7 +912,6 @@ const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
             Octane::NodeType                          type,
             uint32_t                                  attrIx
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -928,7 +921,7 @@ const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodeType typeIn;
-    typeIn = static_cast<octaneapi::NodeType>(type);
+        typeIn = static_cast<octaneapi::NodeType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -975,7 +968,6 @@ const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
             Octane::NodeGraphType                     type,
             uint32_t                                  attrIx
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -985,7 +977,7 @@ const Octane::ApiAttributeInfo ApiInfoProxy::attributeInfo(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodeGraphType typeIn;
-    typeIn = static_cast<octaneapi::NodeGraphType>(type);
+        typeIn = static_cast<octaneapi::NodeGraphType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1032,7 +1024,6 @@ ApiNodePinInfoProxy ApiInfoProxy::nodePinInfo(
             Octane::NodeType                          nodeType,
             uint32_t                                  pinIx
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1042,7 +1033,7 @@ ApiNodePinInfoProxy ApiInfoProxy::nodePinInfo(
     /////////////////////////////////////////////////////////////////////
     // Add the 'nodeType' [in] parameter to the request packet.
     octaneapi::NodeType nodetypeIn;
-    nodetypeIn = static_cast<octaneapi::NodeType>(nodeType);
+        nodetypeIn = static_cast<octaneapi::NodeType>(nodeType);
     request.set_nodetype(nodetypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1093,7 +1084,6 @@ ApiNodePinInfoProxy ApiInfoProxy::nodePinInfo(
 std::string ApiInfoProxy::getAttributeTypeName(
             Octane::AttributeType                     type
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1103,7 +1093,7 @@ std::string ApiInfoProxy::getAttributeTypeName(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::AttributeType typeIn;
-    typeIn = static_cast<octaneapi::AttributeType>(type);
+        typeIn = static_cast<octaneapi::AttributeType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1144,7 +1134,6 @@ std::string ApiInfoProxy::getAttributeTypeName(
 std::string ApiInfoProxy::getPinTypeName(
             Octane::NodePinType                       type
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1154,7 +1143,7 @@ std::string ApiInfoProxy::getPinTypeName(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodePinType typeIn;
-    typeIn = static_cast<octaneapi::NodePinType>(type);
+        typeIn = static_cast<octaneapi::NodePinType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1195,7 +1184,6 @@ std::string ApiInfoProxy::getPinTypeName(
 uint32_t ApiInfoProxy::getPinTypeColor(
             Octane::NodePinType                       type
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1205,7 +1193,7 @@ uint32_t ApiInfoProxy::getPinTypeColor(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodePinType typeIn;
-    typeIn = static_cast<octaneapi::NodePinType>(type);
+        typeIn = static_cast<octaneapi::NodePinType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1245,7 +1233,6 @@ uint32_t ApiInfoProxy::getPinTypeColor(
 std::string ApiInfoProxy::getGraphTypeName(
             Octane::NodeGraphType                     type
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1255,7 +1242,7 @@ std::string ApiInfoProxy::getGraphTypeName(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodeGraphType typeIn;
-    typeIn = static_cast<octaneapi::NodeGraphType>(type);
+        typeIn = static_cast<octaneapi::NodeGraphType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1296,7 +1283,6 @@ std::string ApiInfoProxy::getGraphTypeName(
 std::string ApiInfoProxy::getNodeTypeName(
             Octane::NodeType                          type
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1306,7 +1292,7 @@ std::string ApiInfoProxy::getNodeTypeName(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodeType typeIn;
-    typeIn = static_cast<octaneapi::NodeType>(type);
+        typeIn = static_cast<octaneapi::NodeType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1347,7 +1333,6 @@ std::string ApiInfoProxy::getNodeTypeName(
 std::string ApiInfoProxy::getItemTypeName(
             const ApiItemProxy &                      item
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1401,7 +1386,6 @@ std::string ApiInfoProxy::getItemTypeName(
 std::string ApiInfoProxy::getAttributeName(
             Octane::AttributeId                       id
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1411,7 +1395,7 @@ std::string ApiInfoProxy::getAttributeName(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::AttributeId idIn;
-    idIn = static_cast<octaneapi::AttributeId>(id);
+        idIn = static_cast<octaneapi::AttributeId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1452,7 +1436,6 @@ std::string ApiInfoProxy::getAttributeName(
 Octane::AttributeId ApiInfoProxy::getAttributeId(
             const char *                              attributeName
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1502,7 +1485,6 @@ Octane::AttributeId ApiInfoProxy::getAttributeId(
 std::string ApiInfoProxy::getAttributeIdName(
             Octane::AttributeId                       id
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1512,7 +1494,7 @@ std::string ApiInfoProxy::getAttributeIdName(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::AttributeId idIn;
-    idIn = static_cast<octaneapi::AttributeId>(id);
+        idIn = static_cast<octaneapi::AttributeId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1553,7 +1535,6 @@ std::string ApiInfoProxy::getAttributeIdName(
 std::string ApiInfoProxy::getAttributeIdName(
             const char *                              attributeName
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1604,7 +1585,6 @@ std::string ApiInfoProxy::getAttributeIdName(
 std::string ApiInfoProxy::getPinName(
             Octane::PinId                             id
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1614,7 +1594,7 @@ std::string ApiInfoProxy::getPinName(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1655,7 +1635,6 @@ std::string ApiInfoProxy::getPinName(
 Octane::PinId ApiInfoProxy::getPinId(
             const char *                              pinName
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1705,7 +1684,6 @@ Octane::PinId ApiInfoProxy::getPinId(
 std::string ApiInfoProxy::getPinIdName(
             Octane::PinId                             id
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1715,7 +1693,7 @@ std::string ApiInfoProxy::getPinIdName(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1756,7 +1734,6 @@ std::string ApiInfoProxy::getPinIdName(
 std::string ApiInfoProxy::getPinIdName(
             const char *                              pinName
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1807,7 +1784,6 @@ std::string ApiInfoProxy::getPinIdName(
 std::string ApiInfoProxy::getTextureValueTypeName(
             Octane::TextureValueType                  textureValueType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1817,7 +1793,7 @@ std::string ApiInfoProxy::getTextureValueTypeName(
     /////////////////////////////////////////////////////////////////////
     // Add the 'textureValueType' [in] parameter to the request packet.
     octaneapi::TextureValueType texturevaluetypeIn;
-    texturevaluetypeIn = static_cast<octaneapi::TextureValueType>(textureValueType);
+        texturevaluetypeIn = static_cast<octaneapi::TextureValueType>(textureValueType);
     request.set_texturevaluetype(texturevaluetypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1858,7 +1834,6 @@ std::string ApiInfoProxy::getTextureValueTypeName(
 Octane::TextureValueType ApiInfoProxy::getTextureValueTypeForOslType(
             const char *                              oslType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1912,7 +1887,6 @@ void ApiInfoProxy::getCompatibleTypes(
             std::vector<Octane::NodeType>             compatNodes,
             size_t &                                  compatNodesSize
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1922,7 +1896,7 @@ void ApiInfoProxy::getCompatibleTypes(
     /////////////////////////////////////////////////////////////////////
     // Add the 'outType' [in] parameter to the request packet.
     octaneapi::NodePinType outtypeIn;
-    outtypeIn = static_cast<octaneapi::NodePinType>(outType);
+        outtypeIn = static_cast<octaneapi::NodePinType>(outType);
     request.set_outtype(outtypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1987,7 +1961,6 @@ void ApiInfoProxy::getCompatibleTypes(
 const Octane::ApiRenderPassInfo ApiInfoProxy::renderPassInfo(
             Octane::RenderPassId                      id
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1997,7 +1970,7 @@ const Octane::ApiRenderPassInfo ApiInfoProxy::renderPassInfo(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::RenderPassId idIn;
-    idIn = static_cast<octaneapi::RenderPassId>(id);
+        idIn = static_cast<octaneapi::RenderPassId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2037,7 +2010,6 @@ const Octane::ApiRenderPassInfo ApiInfoProxy::renderPassInfo(
 std::vector<Octane::RenderPassId> ApiInfoProxy::getAllRenderPassIds(
             size_t &                                  length
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2091,7 +2063,6 @@ std::vector<Octane::RenderPassId> ApiInfoProxy::getAllRenderPassIds(
 Octane::RenderPassId ApiInfoProxy::getRenderPassIdFromRenderAovNode(
             const ApiNodeProxy &                      node
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2144,7 +2115,6 @@ Octane::RenderPassId ApiInfoProxy::getRenderPassIdFromRenderAovNode(
 const Octane::ApiRenderPassInfo ApiInfoProxy::getRenderAovInfoFromRenderAovNode(
             const ApiNodeProxy &                      node
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2197,7 +2167,6 @@ const Octane::ApiRenderPassInfo ApiInfoProxy::getRenderAovInfoFromRenderAovNode(
 std::string ApiInfoProxy::renderPassName(
             Octane::RenderPassId                      id
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2207,7 +2176,7 @@ std::string ApiInfoProxy::renderPassName(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::RenderPassId idIn;
-    idIn = static_cast<octaneapi::RenderPassId>(id);
+        idIn = static_cast<octaneapi::RenderPassId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2248,7 +2217,6 @@ std::string ApiInfoProxy::renderPassName(
 std::string ApiInfoProxy::renderPassShortName(
             Octane::RenderPassId                      id
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2258,7 +2226,7 @@ std::string ApiInfoProxy::renderPassShortName(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::RenderPassId idIn;
-    idIn = static_cast<octaneapi::RenderPassId>(id);
+        idIn = static_cast<octaneapi::RenderPassId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2299,7 +2267,6 @@ std::string ApiInfoProxy::renderPassShortName(
 Octane::PinId ApiInfoProxy::renderPassIdToPinId(
             Octane::RenderPassId                      id
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2309,7 +2276,7 @@ Octane::PinId ApiInfoProxy::renderPassIdToPinId(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::RenderPassId idIn;
-    idIn = static_cast<octaneapi::RenderPassId>(id);
+        idIn = static_cast<octaneapi::RenderPassId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2349,7 +2316,6 @@ Octane::PinId ApiInfoProxy::renderPassIdToPinId(
 std::string ApiInfoProxy::renderPassGroupName(
             Octane::RenderPassGroupId                 id
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2359,7 +2325,7 @@ std::string ApiInfoProxy::renderPassGroupName(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::RenderPassGroupId idIn;
-    idIn = static_cast<octaneapi::RenderPassGroupId>(id);
+        idIn = static_cast<octaneapi::RenderPassGroupId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2400,7 +2366,6 @@ std::string ApiInfoProxy::renderPassGroupName(
 Octane::RenderPassId ApiInfoProxy::pinIdToRenderPassId(
             Octane::PinId                             pinId
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2410,7 +2375,7 @@ Octane::RenderPassId ApiInfoProxy::pinIdToRenderPassId(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinId' [in] parameter to the request packet.
     octaneapi::PinId pinidIn;
-    pinidIn = static_cast<octaneapi::PinId>(pinId);
+        pinidIn = static_cast<octaneapi::PinId>(pinId);
     request.set_pinid(pinidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2451,7 +2416,6 @@ bool ApiInfoProxy::findPinIdForRenderPassId(
             Octane::RenderPassId                      renderPassId,
             Octane::PinId &                           pinId
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2461,7 +2425,7 @@ bool ApiInfoProxy::findPinIdForRenderPassId(
     /////////////////////////////////////////////////////////////////////
     // Add the 'renderPassId' [in] parameter to the request packet.
     octaneapi::RenderPassId renderpassidIn;
-    renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
+        renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
     request.set_renderpassid(renderpassidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2507,7 +2471,6 @@ bool ApiInfoProxy::findRenderPassIdForPinId(
             Octane::PinId                             pinId,
             Octane::RenderPassId &                    renderPassId
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2517,7 +2480,7 @@ bool ApiInfoProxy::findRenderPassIdForPinId(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinId' [in] parameter to the request packet.
     octaneapi::PinId pinidIn;
-    pinidIn = static_cast<octaneapi::PinId>(pinId);
+        pinidIn = static_cast<octaneapi::PinId>(pinId);
     request.set_pinid(pinidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2559,3 +2522,4 @@ bool ApiInfoProxy::findRenderPassIdForPinId(
 };
 
 
+} //end of namespace

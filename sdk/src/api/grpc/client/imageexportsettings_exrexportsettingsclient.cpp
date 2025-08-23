@@ -21,9 +21,14 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ImageExportSettingsProxy_ExrExportSettings::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
 }
 
 
+} //end of namespace

@@ -11,15 +11,24 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiBinaryTableProxy;
+namespace OctaneGRPC
+{
+    class ApiBinaryTableProxy;
+}
 
 
 #include "apimoduledata.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiModuleData
 class ApiModuleDataProxy : public GRPCBase
@@ -58,6 +67,7 @@ public:
             const ApiBinaryTableProxy &               table
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

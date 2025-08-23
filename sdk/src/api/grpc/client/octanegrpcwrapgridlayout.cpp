@@ -4,7 +4,7 @@
 #include "octanegrpcwrapgridlayout.h"
 // application includes
 #include "apigridlayout.h"
-
+using namespace OctaneGRPC;
 using namespace OctaneWrap;
 
 

@@ -17,9 +17,15 @@
 #include "apinodeinspector.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiNodeInspector
 class ApiNodeInspectorProxy : public ApiGuiComponentProxy
@@ -29,6 +35,7 @@ public:
 
     static ApiNodeInspectorProxy create();
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

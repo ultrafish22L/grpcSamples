@@ -17,9 +17,15 @@
 #include "apinumericbox.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiNumericBox
 class ApiNumericBoxProxy : public ApiGuiComponentProxy
@@ -86,6 +92,7 @@ public:
             const double                              sliderMaximum
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

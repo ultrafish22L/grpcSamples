@@ -6,14 +6,14 @@
 #include "apicheckbox.h"
 // myself
 #include "octanegrpcwrapcheckbox.h"
-
+ 
 using namespace OctaneWrap;
 
 
 CheckBox::CheckBox(
     const std::string &text) 
 {
-    mApiCheckBox = ApiCheckBoxProxy::create(text.c_str(), onClicked, this);
+    mApiCheckBox = OctaneGRPC::ApiCheckBoxProxy::create(text.c_str(), onClicked, this);
     mComponent   = &mApiCheckBox;
 }
 
@@ -54,8 +54,8 @@ void CheckBox::removeListener(
 
 
 void CheckBox::onClicked(
-    ApiCheckBoxProxy &   checkBox,
-    void                *privateData)
+    OctaneGRPC::ApiCheckBoxProxy &  checkBox,
+    void *                          privateData)
 {
     CheckBox *myCheckBox = static_cast<CheckBox*>(privateData);
     // notify the listeners

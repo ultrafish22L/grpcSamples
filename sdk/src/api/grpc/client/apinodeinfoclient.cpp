@@ -21,11 +21,15 @@
 #include "convertmatrix.h"
 #include "grpcsettings.h"
 
-/*
+
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiNodeInfoProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
 }
-*/
 
 
+} //end of namespace

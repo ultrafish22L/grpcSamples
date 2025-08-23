@@ -11,15 +11,24 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiNodeProxy;
+namespace OctaneGRPC
+{
+    class ApiNodeProxy;
+}
 
 
 #include "apisceneexporter.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiSceneExporter
 class ApiSceneExporterProxy : public GRPCBase
@@ -137,6 +146,7 @@ public:
     ///     Contains the status of the gRPC call
     std::string ocsString() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

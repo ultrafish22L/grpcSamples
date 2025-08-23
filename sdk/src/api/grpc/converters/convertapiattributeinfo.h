@@ -7,7 +7,13 @@
 namespace Octane { struct ApiAttributeInfo; }
 namespace octaneapi { class ApiAttributeInfo; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiAttributeInfoConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiAttributeInfo & in,
         octaneapi::ApiAttributeInfo & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

@@ -7,7 +7,13 @@
 namespace Octane { struct ApiMouseWheelDetails; }
 namespace octaneapi { class ApiMouseWheelDetails; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiMouseWheelDetailsConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiMouseWheelDetails & in,
         octaneapi::ApiMouseWheelDetails & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

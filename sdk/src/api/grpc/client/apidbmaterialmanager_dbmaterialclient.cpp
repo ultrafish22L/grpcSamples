@@ -21,9 +21,14 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiDBMaterialManagerProxy_DBMaterial::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
 }
 
 
+} //end of namespace

@@ -16,9 +16,15 @@
 #include "octanenet.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for NetRenderStatus
 class NetRenderStatusProxy : public GRPCBase
@@ -29,6 +35,7 @@ public:
     ///     Contains the status of the gRPC call
     void clear();
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

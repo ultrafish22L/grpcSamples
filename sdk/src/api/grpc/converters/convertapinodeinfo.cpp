@@ -12,9 +12,7 @@
 #include "apiinfo.h"
 #ifdef NO_PCH
 #include "apinodesystem_1.grpc.pb.h"
-#include "apinodesystem_2.grpc.pb.h"
 #include "apinodesystem_3.grpc.pb.h"
-#include "apinodesystem_4.grpc.pb.h"
 #include "apinodesystem_5.grpc.pb.h"
 #include "apinodesystem_6.grpc.pb.h"
 #include "apinodesystem_7.grpc.pb.h"
@@ -35,6 +33,9 @@ struct ApiNodeInfoProxy
     //stub
 };
 #endif
+
+namespace OctaneGRPC
+{
 
 #if !defined(OCTANE_STANDALONE) && !defined(OCTANE_DLLEXPORT)
 void ApiNodeInfoConverter::convert(
@@ -180,4 +181,5 @@ void ApiNodeInfoConverter::convert(
 
 
 #endif // #if defined(OCTANE_STANDALONE) || defined(OCTANE_DLLEXPORT) 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

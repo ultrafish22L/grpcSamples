@@ -13,11 +13,16 @@
 #include "grpcapinodeinfo.h" 
 #include "callbackservice.h" 
 
-class GRPCSettings;
+namespace OctaneGRPC
+{
+    class GRPCSettings;
+}
 
+namespace OctaneGRPC
+{
 //class ApiNodePinInfo;
 /// Proxy class for ApiControlService
-class ApiControlService : public GRPCBase
+class ApiControlService : public OctaneGRPC::GRPCBase
 {
     friend CallbackHandlerImpl;
 public:
@@ -41,8 +46,8 @@ public:
     /// @return  
     ///     TRUE if the blocking operation was started successfully; otherwise, FALSE.
     static bool startBlockingOperation(
-        const std::string &   uniqueModuleId,
-        const std::string &   message,
+        const std::string& uniqueModuleId,
+        const std::string& message,
         std::function<void()> callbackFunc);
 
     /// Configures Octane to save logs relating to the GRPC API to the specified file.
@@ -55,7 +60,7 @@ public:
     ///     TRUE if the log path was configured successfully; otherwise, FALSE.
     static bool setApiLogPath(
         bool                  saveLogsToTxtFile,
-        const std::string &   path);
+        const std::string& path);
 private:
 
     // calls the blocking function
@@ -69,8 +74,10 @@ private:
     ///
     /// @return
     ///     A reference to the global GRPCSettings instance.
-    static GRPCSettings & getGRPCSettings();
+    static GRPCSettings& getGRPCSettings();
 
     // the blocking function
     static std::function<void()> sBlockingOperationCallbackFunc;
 };
+
+} //namespace OctaneGRPC

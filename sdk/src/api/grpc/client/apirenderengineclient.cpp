@@ -35,6 +35,10 @@
 #include "convertrenderpassexport.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiRenderEngineProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -44,7 +48,6 @@ GRPCSettings & ApiRenderEngineProxy::getGRPCSettings()
 bool ApiRenderEngineProxy::setRenderTargetNode(
             ApiNodeProxy *                            targetNode
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -238,7 +241,6 @@ void ApiRenderEngineProxy::setRenderRegion(
             const OctaneVec::uint32_2                 regionMax,
             const uint32_t                            featherWidth
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -305,7 +307,6 @@ void ApiRenderEngineProxy::getRenderRegion(
             OctaneVec::uint32_2 &                     regionMax,
             uint32_t &                                featherWidth
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -367,7 +368,6 @@ void ApiRenderEngineProxy::setAsyncTonemapParams(
             const ApiOutputColorSpaceInfoProxy *      colorSpaceInfo,
             Octane::PremultipliedAlphaType            premultipliedAlphaType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -377,7 +377,7 @@ void ApiRenderEngineProxy::setAsyncTonemapParams(
     /////////////////////////////////////////////////////////////////////
     // Add the 'bufferType' [in] parameter to the request packet.
     octaneapi::TonemapBufferType buffertypeIn;
-    buffertypeIn = static_cast<octaneapi::TonemapBufferType>(bufferType);
+        buffertypeIn = static_cast<octaneapi::TonemapBufferType>(bufferType);
     request.set_buffertype(buffertypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -398,7 +398,7 @@ void ApiRenderEngineProxy::setAsyncTonemapParams(
     /////////////////////////////////////////////////////////////////////
     // Add the 'premultipliedAlphaType' [in] parameter to the request packet.
     octaneapi::PremultipliedAlphaType premultipliedalphatypeIn;
-    premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
+        premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
     request.set_premultipliedalphatype(premultipliedalphatypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -435,7 +435,6 @@ void ApiRenderEngineProxy::setAsyncTonemapParams(
             Octane::NamedColorSpace                   colorSpace,
             Octane::PremultipliedAlphaType            premultipliedAlphaType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -445,7 +444,7 @@ void ApiRenderEngineProxy::setAsyncTonemapParams(
     /////////////////////////////////////////////////////////////////////
     // Add the 'bufferType' [in] parameter to the request packet.
     octaneapi::TonemapBufferType buffertypeIn;
-    buffertypeIn = static_cast<octaneapi::TonemapBufferType>(bufferType);
+        buffertypeIn = static_cast<octaneapi::TonemapBufferType>(bufferType);
     request.set_buffertype(buffertypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -457,13 +456,13 @@ void ApiRenderEngineProxy::setAsyncTonemapParams(
     /////////////////////////////////////////////////////////////////////
     // Add the 'colorSpace' [in] parameter to the request packet.
     octaneapi::NamedColorSpace colorspaceIn;
-    colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
+        colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
     request.set_colorspace(colorspaceIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'premultipliedAlphaType' [in] parameter to the request packet.
     octaneapi::PremultipliedAlphaType premultipliedalphatypeIn;
-    premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
+        premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
     request.set_premultipliedalphatype(premultipliedalphatypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -707,7 +706,6 @@ Octane::PremultipliedAlphaType ApiRenderEngineProxy::asyncTonemapPremultipliedAl
 bool ApiRenderEngineProxy::setAsyncTonemapRenderPasses(
             const Octane::ApiArray<Octane::RenderPassId> & tonemapPasses
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -760,7 +758,6 @@ bool ApiRenderEngineProxy::setAsyncTonemapRenderPasses(
 void ApiRenderEngineProxy::asyncTonemapRenderPasses(
             Octane::ApiArray<Octane::RenderPassId> &  tonemapPasses
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -808,7 +805,6 @@ void ApiRenderEngineProxy::getEnabledAovs(
             const ApiNodeProxy *const                 renderTargetNode,
             std::vector<Octane::RenderPassId> &       aovIds
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -863,7 +859,6 @@ void ApiRenderEngineProxy::getEnabledAovs(
 void ApiRenderEngineProxy::freeTonemapPasses(
             Octane::ApiArray<Octane::RenderPassId> &  tonemapPasses
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -951,7 +946,6 @@ Octane::RenderPassId ApiRenderEngineProxy::displayRenderPassId()
 void ApiRenderEngineProxy::setSubSampleMode(
             const Octane::SubSampleMode               mode
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -961,7 +955,7 @@ void ApiRenderEngineProxy::setSubSampleMode(
     /////////////////////////////////////////////////////////////////////
     // Add the 'mode' [in] parameter to the request packet.
     octaneapi::SubSampleMode modeIn;
-    modeIn = static_cast<octaneapi::SubSampleMode>(mode);
+        modeIn = static_cast<octaneapi::SubSampleMode>(mode);
     request.set_mode(modeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1036,7 +1030,6 @@ Octane::SubSampleMode ApiRenderEngineProxy::getSubSampleMode()
 void ApiRenderEngineProxy::setClayMode(
             const Octane::ClayMode                    mode
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1046,7 +1039,7 @@ void ApiRenderEngineProxy::setClayMode(
     /////////////////////////////////////////////////////////////////////
     // Add the 'mode' [in] parameter to the request packet.
     octaneapi::ClayMode modeIn;
-    modeIn = static_cast<octaneapi::ClayMode>(mode);
+        modeIn = static_cast<octaneapi::ClayMode>(mode);
     request.set_mode(modeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1162,7 +1155,6 @@ float ApiRenderEngineProxy::fps()
 void ApiRenderEngineProxy::setFps(
             const float                               fps
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1453,7 +1445,6 @@ void ApiRenderEngineProxy::setAsyncUpdateCallback(
             Octane::ApiRenderEngine::AsyncUpdateCallbackT callback,
             void *                                    userData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1464,7 +1455,7 @@ void ApiRenderEngineProxy::setAsyncUpdateCallback(
     // Add the 'callback' [in] parameter to the request packet.
     octaneapi::AsyncUpdateCallbackT * callbackIn = new octaneapi::AsyncUpdateCallbackT();
     // setup callback function callback
-    callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1700,7 +1691,6 @@ void ApiRenderEngineProxy::setOnTileBlendedCallback(
             Octane::ApiRenderEngine::OnTileBlendedCallbackT callback,
             void *                                    userData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1711,7 +1701,7 @@ void ApiRenderEngineProxy::setOnTileBlendedCallback(
     // Add the 'callback' [in] parameter to the request packet.
     octaneapi::OnTileBlendedCallbackT * callbackIn = new octaneapi::OnTileBlendedCallbackT();
     // setup callback function callback
-    callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1754,7 +1744,6 @@ void ApiRenderEngineProxy::setOnNewStatisticsCallback(
             Octane::ApiRenderEngine::OnNewStatisticsCallbackT callback,
             void *                                    userData
             )
-
 {
     if ( !GRPCSettings::getInstance().isRunningAsModule())
     {
@@ -1771,7 +1760,7 @@ void ApiRenderEngineProxy::setOnNewStatisticsCallback(
     // Add the 'callback' [in] parameter to the request packet.
     octaneapi::OnNewStatisticsCallbackT * callbackIn = new octaneapi::OnNewStatisticsCallbackT();
     // setup callback function callback
-    callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1814,7 +1803,6 @@ void ApiRenderEngineProxy::setOnNewImageCallback(
             Octane::ApiRenderEngine::OnNewImageCallbackT callback,
             void *                                    userData
             )
-
 {
     if ( !GRPCSettings::getInstance().isRunningAsModule())
     {
@@ -1831,7 +1819,7 @@ void ApiRenderEngineProxy::setOnNewImageCallback(
     // Add the 'callback' [in] parameter to the request packet.
     octaneapi::OnNewImageCallbackT * callbackIn = new octaneapi::OnNewImageCallbackT();
     // setup callback function callback
-    callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1874,7 +1862,6 @@ void ApiRenderEngineProxy::setOnOcioErrorCallback(
             Octane::ApiRenderEngine::OnOcioErrorCallbackT callback,
             void *                                    userData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1885,7 +1872,7 @@ void ApiRenderEngineProxy::setOnOcioErrorCallback(
     // Add the 'callback' [in] parameter to the request packet.
     octaneapi::OnOcioErrorCallbackT * callbackIn = new octaneapi::OnOcioErrorCallbackT();
     // setup callback function callback
-    callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1928,7 +1915,6 @@ void ApiRenderEngineProxy::setOnRenderFailureCallback(
             Octane::ApiRenderEngine::OnRenderFailureCallbackT callback,
             void *                                    userData
             )
-
 {
     if ( !GRPCSettings::getInstance().isRunningAsModule())
     {
@@ -1945,7 +1931,7 @@ void ApiRenderEngineProxy::setOnRenderFailureCallback(
     // Add the 'callback' [in] parameter to the request packet.
     octaneapi::OnRenderFailureCallbackT * callbackIn = new octaneapi::OnRenderFailureCallbackT();
     // setup callback function callback
-    callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1987,7 +1973,6 @@ void ApiRenderEngineProxy::setOnRenderFailureCallback(
 void ApiRenderEngineProxy::setForceCallbacksInRenderThreads(
             const bool                                enabled
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2031,7 +2016,6 @@ void ApiRenderEngineProxy::setForceCallbacksInRenderThreads(
 bool ApiRenderEngineProxy::grabRenderResult(
             std::vector<Octane::ApiRenderImage> & renderImages
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2121,7 +2105,6 @@ bool ApiRenderEngineProxy::synchronousTonemap(
             Octane::PremultipliedAlphaType            premultipliedAlphaType,
             std::vector<Octane::ApiRenderImage> & results
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2146,7 +2129,7 @@ bool ApiRenderEngineProxy::synchronousTonemap(
     /////////////////////////////////////////////////////////////////////
     // Add the 'bufferType' [in] parameter to the request packet.
     octaneapi::TonemapBufferType buffertypeIn;
-    buffertypeIn = static_cast<octaneapi::TonemapBufferType>(bufferType);
+        buffertypeIn = static_cast<octaneapi::TonemapBufferType>(bufferType);
     request.set_buffertype(buffertypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2167,7 +2150,7 @@ bool ApiRenderEngineProxy::synchronousTonemap(
     /////////////////////////////////////////////////////////////////////
     // Add the 'premultipliedAlphaType' [in] parameter to the request packet.
     octaneapi::PremultipliedAlphaType premultipliedalphatypeIn;
-    premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
+        premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
     request.set_premultipliedalphatype(premultipliedalphatypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2218,7 +2201,6 @@ bool ApiRenderEngineProxy::synchronousTonemap(
             Octane::PremultipliedAlphaType            premultipliedAlphaType,
             std::vector<Octane::ApiRenderImage> & results
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2243,7 +2225,7 @@ bool ApiRenderEngineProxy::synchronousTonemap(
     /////////////////////////////////////////////////////////////////////
     // Add the 'bufferType' [in] parameter to the request packet.
     octaneapi::TonemapBufferType buffertypeIn;
-    buffertypeIn = static_cast<octaneapi::TonemapBufferType>(bufferType);
+        buffertypeIn = static_cast<octaneapi::TonemapBufferType>(bufferType);
     request.set_buffertype(buffertypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2255,13 +2237,13 @@ bool ApiRenderEngineProxy::synchronousTonemap(
     /////////////////////////////////////////////////////////////////////
     // Add the 'colorSpace' [in] parameter to the request packet.
     octaneapi::NamedColorSpace colorspaceIn;
-    colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
+        colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
     request.set_colorspace(colorspaceIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'premultipliedAlphaType' [in] parameter to the request packet.
     octaneapi::PremultipliedAlphaType premultipliedalphatypeIn;
-    premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
+        premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
     request.set_premultipliedalphatype(premultipliedalphatypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2310,7 +2292,6 @@ bool ApiRenderEngineProxy::synchronousTonemapAllRenderPasses(
             Octane::PremultipliedAlphaType            premultipliedAlphaType,
             std::vector<Octane::ApiRenderImage> & results
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2320,7 +2301,7 @@ bool ApiRenderEngineProxy::synchronousTonemapAllRenderPasses(
     /////////////////////////////////////////////////////////////////////
     // Add the 'bufferType' [in] parameter to the request packet.
     octaneapi::TonemapBufferType buffertypeIn;
-    buffertypeIn = static_cast<octaneapi::TonemapBufferType>(bufferType);
+        buffertypeIn = static_cast<octaneapi::TonemapBufferType>(bufferType);
     request.set_buffertype(buffertypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2341,7 +2322,7 @@ bool ApiRenderEngineProxy::synchronousTonemapAllRenderPasses(
     /////////////////////////////////////////////////////////////////////
     // Add the 'premultipliedAlphaType' [in] parameter to the request packet.
     octaneapi::PremultipliedAlphaType premultipliedalphatypeIn;
-    premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
+        premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
     request.set_premultipliedalphatype(premultipliedalphatypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2390,7 +2371,6 @@ bool ApiRenderEngineProxy::synchronousTonemapAllRenderPasses(
             Octane::PremultipliedAlphaType            premultipliedAlphaType,
             std::vector<Octane::ApiRenderImage> & results
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2400,7 +2380,7 @@ bool ApiRenderEngineProxy::synchronousTonemapAllRenderPasses(
     /////////////////////////////////////////////////////////////////////
     // Add the 'bufferType' [in] parameter to the request packet.
     octaneapi::TonemapBufferType buffertypeIn;
-    buffertypeIn = static_cast<octaneapi::TonemapBufferType>(bufferType);
+        buffertypeIn = static_cast<octaneapi::TonemapBufferType>(bufferType);
     request.set_buffertype(buffertypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2412,13 +2392,13 @@ bool ApiRenderEngineProxy::synchronousTonemapAllRenderPasses(
     /////////////////////////////////////////////////////////////////////
     // Add the 'colorSpace' [in] parameter to the request packet.
     octaneapi::NamedColorSpace colorspaceIn;
-    colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
+        colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
     request.set_colorspace(colorspaceIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'premultipliedAlphaType' [in] parameter to the request packet.
     octaneapi::PremultipliedAlphaType premultipliedalphatypeIn;
-    premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
+        premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
     request.set_premultipliedalphatype(premultipliedalphatypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2463,7 +2443,6 @@ bool ApiRenderEngineProxy::synchronousTonemapAllRenderPasses(
 void ApiRenderEngineProxy::getRenderStatistics(
             Octane::RenderResultStatistics &          statistics
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2505,7 +2484,6 @@ void ApiRenderEngineProxy::getRenderStatistics(
 void ApiRenderEngineProxy::getRenderResultStatistics(
             Octane::RenderResultStatistics &          statistics
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2554,7 +2532,6 @@ bool ApiRenderEngineProxy::saveImage(
             float                                     exrCompressionLevel,
             bool                                      asynchronous
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2564,7 +2541,7 @@ bool ApiRenderEngineProxy::saveImage(
     /////////////////////////////////////////////////////////////////////
     // Add the 'renderPassId' [in] parameter to the request packet.
     octaneapi::RenderPassId renderpassidIn;
-    renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
+        renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
     request.set_renderpassid(renderpassidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2576,7 +2553,7 @@ bool ApiRenderEngineProxy::saveImage(
     /////////////////////////////////////////////////////////////////////
     // Add the 'imageSaveFormat' [in] parameter to the request packet.
     octaneapi::ImageSaveFormat imagesaveformatIn;
-    imagesaveformatIn = static_cast<octaneapi::ImageSaveFormat>(imageSaveFormat);
+        imagesaveformatIn = static_cast<octaneapi::ImageSaveFormat>(imageSaveFormat);
     request.set_imagesaveformat(imagesaveformatIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2591,13 +2568,13 @@ bool ApiRenderEngineProxy::saveImage(
     /////////////////////////////////////////////////////////////////////
     // Add the 'premultipliedAlphaType' [in] parameter to the request packet.
     octaneapi::PremultipliedAlphaType premultipliedalphatypeIn;
-    premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
+        premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
     request.set_premultipliedalphatype(premultipliedalphatypeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'exrCompressionType' [in] parameter to the request packet.
     octaneapi::ExrCompressionType exrcompressiontypeIn;
-    exrcompressiontypeIn = static_cast<octaneapi::ExrCompressionType>(exrCompressionType);
+        exrcompressiontypeIn = static_cast<octaneapi::ExrCompressionType>(exrCompressionType);
     request.set_exrcompressiontype(exrcompressiontypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2656,7 +2633,6 @@ bool ApiRenderEngineProxy::saveImage(
             float                                     exrCompressionLevel,
             bool                                      asynchronous
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2666,7 +2642,7 @@ bool ApiRenderEngineProxy::saveImage(
     /////////////////////////////////////////////////////////////////////
     // Add the 'renderPassId' [in] parameter to the request packet.
     octaneapi::RenderPassId renderpassidIn;
-    renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
+        renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
     request.set_renderpassid(renderpassidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2678,25 +2654,25 @@ bool ApiRenderEngineProxy::saveImage(
     /////////////////////////////////////////////////////////////////////
     // Add the 'imageSaveFormat' [in] parameter to the request packet.
     octaneapi::ImageSaveFormat imagesaveformatIn;
-    imagesaveformatIn = static_cast<octaneapi::ImageSaveFormat>(imageSaveFormat);
+        imagesaveformatIn = static_cast<octaneapi::ImageSaveFormat>(imageSaveFormat);
     request.set_imagesaveformat(imagesaveformatIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'colorSpace' [in] parameter to the request packet.
     octaneapi::NamedColorSpace colorspaceIn;
-    colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
+        colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
     request.set_colorspace(colorspaceIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'premultipliedAlphaType' [in] parameter to the request packet.
     octaneapi::PremultipliedAlphaType premultipliedalphatypeIn;
-    premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
+        premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
     request.set_premultipliedalphatype(premultipliedalphatypeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'exrCompressionType' [in] parameter to the request packet.
     octaneapi::ExrCompressionType exrcompressiontypeIn;
-    exrcompressiontypeIn = static_cast<octaneapi::ExrCompressionType>(exrCompressionType);
+        exrcompressiontypeIn = static_cast<octaneapi::ExrCompressionType>(exrCompressionType);
     request.set_exrcompressiontype(exrcompressiontypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2752,7 +2728,6 @@ bool ApiRenderEngineProxy::saveImage(
             const Octane::ImageExportSettings &       exportSettings,
             bool                                      asynchronous
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2762,7 +2737,7 @@ bool ApiRenderEngineProxy::saveImage(
     /////////////////////////////////////////////////////////////////////
     // Add the 'renderPassId' [in] parameter to the request packet.
     octaneapi::RenderPassId renderpassidIn;
-    renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
+        renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
     request.set_renderpassid(renderpassidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2839,7 +2814,6 @@ bool ApiRenderEngineProxy::saveRenderPasses(
             size_t                                    metadataLength,
             bool                                      asynchronous
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2867,7 +2841,7 @@ bool ApiRenderEngineProxy::saveRenderPasses(
     /////////////////////////////////////////////////////////////////////
     // Add the 'imageSaveFormat' [in] parameter to the request packet.
     octaneapi::ImageSaveFormat imagesaveformatIn;
-    imagesaveformatIn = static_cast<octaneapi::ImageSaveFormat>(imageSaveFormat);
+        imagesaveformatIn = static_cast<octaneapi::ImageSaveFormat>(imageSaveFormat);
     request.set_imagesaveformat(imagesaveformatIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2882,13 +2856,13 @@ bool ApiRenderEngineProxy::saveRenderPasses(
     /////////////////////////////////////////////////////////////////////
     // Add the 'premultipliedAlphaType' [in] parameter to the request packet.
     octaneapi::PremultipliedAlphaType premultipliedalphatypeIn;
-    premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
+        premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
     request.set_premultipliedalphatype(premultipliedalphatypeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'exrCompressionType' [in] parameter to the request packet.
     octaneapi::ExrCompressionType exrcompressiontypeIn;
-    exrcompressiontypeIn = static_cast<octaneapi::ExrCompressionType>(exrCompressionType);
+        exrcompressiontypeIn = static_cast<octaneapi::ExrCompressionType>(exrCompressionType);
     request.set_exrcompressiontype(exrcompressiontypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2965,7 +2939,6 @@ bool ApiRenderEngineProxy::saveRenderPasses(
             size_t                                    metadataLength,
             bool                                      asynchronous
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2993,25 +2966,25 @@ bool ApiRenderEngineProxy::saveRenderPasses(
     /////////////////////////////////////////////////////////////////////
     // Add the 'imageSaveFormat' [in] parameter to the request packet.
     octaneapi::ImageSaveFormat imagesaveformatIn;
-    imagesaveformatIn = static_cast<octaneapi::ImageSaveFormat>(imageSaveFormat);
+        imagesaveformatIn = static_cast<octaneapi::ImageSaveFormat>(imageSaveFormat);
     request.set_imagesaveformat(imagesaveformatIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'colorSpace' [in] parameter to the request packet.
     octaneapi::NamedColorSpace colorspaceIn;
-    colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
+        colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
     request.set_colorspace(colorspaceIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'premultipliedAlphaType' [in] parameter to the request packet.
     octaneapi::PremultipliedAlphaType premultipliedalphatypeIn;
-    premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
+        premultipliedalphatypeIn = static_cast<octaneapi::PremultipliedAlphaType>(premultipliedAlphaType);
     request.set_premultipliedalphatype(premultipliedalphatypeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'exrCompressionType' [in] parameter to the request packet.
     octaneapi::ExrCompressionType exrcompressiontypeIn;
-    exrcompressiontypeIn = static_cast<octaneapi::ExrCompressionType>(exrCompressionType);
+        exrcompressiontypeIn = static_cast<octaneapi::ExrCompressionType>(exrCompressionType);
     request.set_exrcompressiontype(exrcompressiontypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3085,7 +3058,6 @@ bool ApiRenderEngineProxy::saveRenderPasses(
             size_t                                    metadataLength,
             bool                                      asynchronous
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3193,7 +3165,6 @@ bool ApiRenderEngineProxy::saveRenderPassesMultiExr(
             const size_t                              metadataLength,
             const bool                                asynchronous
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3242,7 +3213,7 @@ bool ApiRenderEngineProxy::saveRenderPassesMultiExr(
     /////////////////////////////////////////////////////////////////////
     // Add the 'compressionType' [in] parameter to the request packet.
     octaneapi::ExrCompressionType compressiontypeIn;
-    compressiontypeIn = static_cast<octaneapi::ExrCompressionType>(compressionType);
+        compressiontypeIn = static_cast<octaneapi::ExrCompressionType>(compressionType);
     request.set_compressiontype(compressiontypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3319,7 +3290,6 @@ bool ApiRenderEngineProxy::saveRenderPassesMultiExr(
             const size_t                              metadataLength,
             const bool                                asynchronous
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3353,7 +3323,7 @@ bool ApiRenderEngineProxy::saveRenderPassesMultiExr(
     /////////////////////////////////////////////////////////////////////
     // Add the 'colorSpace' [in] parameter to the request packet.
     octaneapi::NamedColorSpace colorspaceIn;
-    colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
+        colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
     request.set_colorspace(colorspaceIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3365,7 +3335,7 @@ bool ApiRenderEngineProxy::saveRenderPassesMultiExr(
     /////////////////////////////////////////////////////////////////////
     // Add the 'compressionType' [in] parameter to the request packet.
     octaneapi::ExrCompressionType compressiontypeIn;
-    compressiontypeIn = static_cast<octaneapi::ExrCompressionType>(compressionType);
+        compressiontypeIn = static_cast<octaneapi::ExrCompressionType>(compressionType);
     request.set_compressiontype(compressiontypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3439,7 +3409,6 @@ bool ApiRenderEngineProxy::saveRenderPassesDeepExr(
             const size_t                              metadataLength,
             const bool                                asynchronous
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3467,13 +3436,13 @@ bool ApiRenderEngineProxy::saveRenderPassesDeepExr(
     /////////////////////////////////////////////////////////////////////
     // Add the 'colorSpace' [in] parameter to the request packet.
     octaneapi::NamedColorSpace colorspaceIn;
-    colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
+        colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
     request.set_colorspace(colorspaceIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'compressionType' [in] parameter to the request packet.
     octaneapi::ExrCompressionType compressiontypeIn;
-    compressiontypeIn = static_cast<octaneapi::ExrCompressionType>(compressionType);
+        compressiontypeIn = static_cast<octaneapi::ExrCompressionType>(compressionType);
     request.set_compressiontype(compressiontypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3536,7 +3505,6 @@ bool ApiRenderEngineProxy::deepImageEnabled(
             uint32_t &                                maxDepthSamples,
             uint32_t &                                samplesBeforeCanSave
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3724,7 +3692,6 @@ bool ApiRenderEngineProxy::saveDeepImage(
             Octane::NamedColorSpace                   colorSpace,
             const bool                                saveAsync
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3740,7 +3707,7 @@ bool ApiRenderEngineProxy::saveDeepImage(
     /////////////////////////////////////////////////////////////////////
     // Add the 'colorSpace' [in] parameter to the request packet.
     octaneapi::NamedColorSpace colorspaceIn;
-    colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
+        colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
     request.set_colorspace(colorspaceIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3791,7 +3758,6 @@ bool ApiRenderEngineProxy::saveRenderState(
             const void *const                         customData,
             const uint32_t                            customDataSize
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3873,7 +3839,6 @@ bool ApiRenderEngineProxy::loadRenderState(
             GRPCLoadRenderStateProjectT              loadProjectCallback,
             void *const                               privateCallbackData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3890,7 +3855,7 @@ bool ApiRenderEngineProxy::loadRenderState(
     // Add the 'loadProjectCallback' [in] parameter to the request packet.
     octaneapi::LoadRenderStateProjectT * loadprojectcallbackIn = new octaneapi::LoadRenderStateProjectT();
     // setup callback function loadProjectCallback
-    loadprojectcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        loadprojectcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_loadprojectcallback(loadprojectcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3948,7 +3913,6 @@ bool ApiRenderEngineProxy::previewMaterial(
             const Octane::PreviewType                 type,
             unsigned char *                           buffer
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3991,7 +3955,7 @@ bool ApiRenderEngineProxy::previewMaterial(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::PreviewType typeIn;
-    typeIn = static_cast<octaneapi::PreviewType>(type);
+        typeIn = static_cast<octaneapi::PreviewType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4043,7 +4007,6 @@ bool ApiRenderEngineProxy::previewMaterialHdr(
             float *const                              buffer,
             const bool                                linear
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4086,7 +4049,7 @@ bool ApiRenderEngineProxy::previewMaterialHdr(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::PreviewType typeIn;
-    typeIn = static_cast<octaneapi::PreviewType>(type);
+        typeIn = static_cast<octaneapi::PreviewType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4148,7 +4111,6 @@ bool ApiRenderEngineProxy::previewMaterial(
             Octane::NamedColorSpace                   colorSpace,
             void *const                               buffer
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4195,19 +4157,19 @@ bool ApiRenderEngineProxy::previewMaterial(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::PreviewType typeIn;
-    typeIn = static_cast<octaneapi::PreviewType>(type);
+        typeIn = static_cast<octaneapi::PreviewType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'bufferType' [in] parameter to the request packet.
     octaneapi::TonemapBufferType buffertypeIn;
-    buffertypeIn = static_cast<octaneapi::TonemapBufferType>(bufferType);
+        buffertypeIn = static_cast<octaneapi::TonemapBufferType>(bufferType);
     request.set_buffertype(buffertypeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'colorSpace' [in] parameter to the request packet.
     octaneapi::NamedColorSpace colorspaceIn;
-    colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
+        colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
     request.set_colorspace(colorspaceIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4253,7 +4215,6 @@ void ApiRenderEngineProxy::getMemoryUsage(
             const uint32_t                            deviceIx,
             Octane::ApiDeviceMemoryUsage &            memUsage
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4303,7 +4264,6 @@ void ApiRenderEngineProxy::getResourceStatistics(
             const Octane::MemoryLocation              memoryLocation,
             Octane::ApiDeviceResourceStatistics &     resourceStats
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4319,7 +4279,7 @@ void ApiRenderEngineProxy::getResourceStatistics(
     /////////////////////////////////////////////////////////////////////
     // Add the 'memoryLocation' [in] parameter to the request packet.
     octaneapi::MemoryLocation memorylocationIn;
-    memorylocationIn = static_cast<octaneapi::MemoryLocation>(memoryLocation);
+        memorylocationIn = static_cast<octaneapi::MemoryLocation>(memoryLocation);
     request.set_memorylocation(memorylocationIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4357,7 +4317,6 @@ void ApiRenderEngineProxy::getResourceStatistics(
 void ApiRenderEngineProxy::getGeometryStatistics(
             Octane::ApiGeometryStatistics &           stats
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4399,7 +4358,6 @@ void ApiRenderEngineProxy::getGeometryStatistics(
 void ApiRenderEngineProxy::getTexturesStatistics(
             Octane::ApiTextureStatistics &            textureStats
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4442,7 +4400,6 @@ bool ApiRenderEngineProxy::getSceneBounds(
             Octane::float_3 &                         bboxMin,
             Octane::float_3 &                         bboxMax
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4541,7 +4498,6 @@ unsigned int ApiRenderEngineProxy::getDeviceCount()
 int ApiRenderEngineProxy::getDeviceComputeModel(
             const uint32_t                            index
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4591,7 +4547,6 @@ int ApiRenderEngineProxy::getDeviceComputeModel(
 std::string ApiRenderEngineProxy::getDeviceName(
             const uint32_t                            index
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4642,7 +4597,6 @@ std::string ApiRenderEngineProxy::getDeviceName(
 bool ApiRenderEngineProxy::isSupportedDevice(
             const uint32_t                            index
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4692,7 +4646,6 @@ bool ApiRenderEngineProxy::isSupportedDevice(
 bool ApiRenderEngineProxy::deviceCanRender(
             const uint32_t                            index
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4742,7 +4695,6 @@ bool ApiRenderEngineProxy::deviceCanRender(
 bool ApiRenderEngineProxy::deviceCanDenoise(
             const uint32_t                            index
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4792,7 +4744,6 @@ bool ApiRenderEngineProxy::deviceCanDenoise(
 bool ApiRenderEngineProxy::deviceSupportsHardwareRayTracing(
             const uint32_t                            index
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4842,7 +4793,6 @@ bool ApiRenderEngineProxy::deviceSupportsHardwareRayTracing(
 Octane::ApiDeviceSharedSurfaceInfo ApiRenderEngineProxy::deviceSharedSurfaceInfo(
             uint32_t                                  index
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4892,7 +4842,6 @@ Octane::ApiDeviceSharedSurfaceInfo ApiRenderEngineProxy::deviceSharedSurfaceInfo
 std::vector<OctaneVec::uint32_2> ApiRenderEngineProxy::getAvailablePeerToPeerPairs(
             uint32_t &                                count
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4959,7 +4908,6 @@ bool ApiRenderEngineProxy::setDevicesActivity(
             const uint32_t                            peerToPeerGroupCount,
             const bool                                useMetalRayTracing
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5077,7 +5025,6 @@ bool ApiRenderEngineProxy::setDevicesActivity(
 bool ApiRenderEngineProxy::isDeviceUsedForRendering(
             const uint32_t                            index
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5127,7 +5074,6 @@ bool ApiRenderEngineProxy::isDeviceUsedForRendering(
 bool ApiRenderEngineProxy::deviceUsesPriority(
             const uint32_t                            index
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5177,7 +5123,6 @@ bool ApiRenderEngineProxy::deviceUsesPriority(
 bool ApiRenderEngineProxy::deviceUsesHardwareRayTracing(
             const uint32_t                            index
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5268,7 +5213,6 @@ int32_t ApiRenderEngineProxy::imageDeviceIndex()
 bool ApiRenderEngineProxy::isDeviceUsedForDenoising(
             const uint32_t                            index
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5359,7 +5303,6 @@ Octane::ApiRenderEngine::RenderPriority ApiRenderEngineProxy::renderPriority()
 void ApiRenderEngineProxy::setRenderPriority(
             const Octane::ApiRenderEngine::RenderPriority priority
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5369,7 +5312,7 @@ void ApiRenderEngineProxy::setRenderPriority(
     /////////////////////////////////////////////////////////////////////
     // Add the 'priority' [in] parameter to the request packet.
     octaneapi::ApiRenderEngine_RenderPriority priorityIn;
-    priorityIn = static_cast<octaneapi::ApiRenderEngine_RenderPriority>(priority);
+        priorityIn = static_cast<octaneapi::ApiRenderEngine_RenderPriority>(priority);
     request.set_priority(priorityIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -5403,7 +5346,6 @@ void ApiRenderEngineProxy::setRenderPriority(
 std::vector<OctaneVec::uint32_2> ApiRenderEngineProxy::currentPeerToPeerGroups(
             uint32_t &                                groupCount
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5543,7 +5485,6 @@ void ApiRenderEngineProxy::openDeviceSettings()
 Octane::RenderDeviceState ApiRenderEngineProxy::renderDeviceState(
             const unsigned int                        deviceIx
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5593,7 +5534,6 @@ Octane::RenderDeviceState ApiRenderEngineProxy::renderDeviceState(
 Octane::RenderError ApiRenderEngineProxy::renderDeviceErrorCode(
             const unsigned int                        deviceIx
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5643,7 +5583,6 @@ Octane::RenderError ApiRenderEngineProxy::renderDeviceErrorCode(
 std::string ApiRenderEngineProxy::errorcodeToString(
             const Octane::RenderError                 code
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5653,7 +5592,7 @@ std::string ApiRenderEngineProxy::errorcodeToString(
     /////////////////////////////////////////////////////////////////////
     // Add the 'code' [in] parameter to the request packet.
     octaneapi::RenderError codeIn;
-    codeIn = static_cast<octaneapi::RenderError>(code);
+        codeIn = static_cast<octaneapi::RenderError>(code);
     request.set_code(codeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -5694,7 +5633,6 @@ std::string ApiRenderEngineProxy::errorcodeToString(
 std::string ApiRenderEngineProxy::renderDeviceErrorMessage(
             const unsigned int                        deviceIx
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5821,7 +5759,6 @@ bool ApiRenderEngineProxy::outOfCoreEnabled()
 void ApiRenderEngineProxy::enableOutOfCore(
             uint64_t                                  limit
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5904,7 +5841,6 @@ void ApiRenderEngineProxy::getOutOfCoreMemoryUsage(
             uint64_t &                                totalUsed,
             uint64_t &                                totalRam
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5966,7 +5902,6 @@ void ApiRenderEngineProxy::getOutOfCoreMemoryUsage(
 void ApiRenderEngineProxy::setGpuHeadroom(
             uint64_t                                  gpuHeadroom
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6051,7 +5986,6 @@ uint64_t ApiRenderEngineProxy::getGpuHeadroom()
 void ApiRenderEngineProxy::setCoreLimit(
             const uint32_t                            maxCores
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6130,7 +6064,6 @@ void ApiRenderEngineProxy::disableCoreLimit()
 int64_t ApiRenderEngineProxy::registerInputSharedSurface(
             const ApiSharedSurfaceProxy *             surface
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6183,7 +6116,6 @@ int64_t ApiRenderEngineProxy::registerInputSharedSurface(
 void ApiRenderEngineProxy::unregisterInputSharedSurface(
             int64_t                                   id
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6227,7 +6159,6 @@ void ApiRenderEngineProxy::unregisterInputSharedSurface(
 void ApiRenderEngineProxy::triggerAsyncTonemap(
             bool                                      force
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6272,7 +6203,6 @@ void ApiRenderEngineProxy::setSharedSurfaceOutputType(
             Octane::SharedSurfaceType                 type,
             bool                                      realTime
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6282,7 +6212,7 @@ void ApiRenderEngineProxy::setSharedSurfaceOutputType(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::SharedSurfaceType typeIn;
-    typeIn = static_cast<octaneapi::SharedSurfaceType>(type);
+        typeIn = static_cast<octaneapi::SharedSurfaceType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -6589,7 +6519,6 @@ unsigned int ApiRenderEngineProxy::pick(
             GRPCPickIntersection &                   intersections,
             const unsigned int                        intersectionsSize
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6697,7 +6626,6 @@ bool ApiRenderEngineProxy::pickWhitePoint(
             const unsigned int                        y,
             OctaneVec::float_3 &                      whitePoint
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6761,7 +6689,6 @@ bool ApiRenderEngineProxy::pickImagerWhitePoint(
             OctaneVec::uint32_2                       position,
             OctaneVec::float_3 &                      whitePoint
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6820,7 +6747,6 @@ bool ApiRenderEngineProxy::isOutputAovWhitePointPickable(
             uint32_t                                  outputAovIndex,
             uint32_t                                  nodeUniqueId
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6879,7 +6805,6 @@ bool ApiRenderEngineProxy::pickOutputAovWhitePoint(
             uint32_t                                  nodeUniqueId,
             OctaneVec::float_3 &                      whitePoint
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6953,7 +6878,6 @@ bool ApiRenderEngineProxy::pickCryptomatteMatte(
             std::string &                             matteName,
             unsigned int &                            matteNameBufferSize
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6975,7 +6899,7 @@ bool ApiRenderEngineProxy::pickCryptomatteMatte(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pass' [in] parameter to the request packet.
     octaneapi::RenderPassId passIn;
-    passIn = static_cast<octaneapi::RenderPassId>(pass);
+        passIn = static_cast<octaneapi::RenderPassId>(pass);
     request.set_pass(passIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -7030,7 +6954,6 @@ bool ApiRenderEngineProxy::modifyCryptomatteMatteSelection(
             std::string &                             outputText,
             unsigned int &                            outputTextBufferSize
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7103,7 +7026,6 @@ bool ApiRenderEngineProxy::modifyCryptomatteMatteSelection(
 std::string ApiRenderEngineProxy::toString(
             const Octane::ApiRenderEngine::RenderPriority priority
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7113,7 +7035,7 @@ std::string ApiRenderEngineProxy::toString(
     /////////////////////////////////////////////////////////////////////
     // Add the 'priority' [in] parameter to the request packet.
     octaneapi::ApiRenderEngine_RenderPriority priorityIn;
-    priorityIn = static_cast<octaneapi::ApiRenderEngine_RenderPriority>(priority);
+        priorityIn = static_cast<octaneapi::ApiRenderEngine_RenderPriority>(priority);
     request.set_priority(priorityIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -7156,7 +7078,6 @@ void ApiRenderEngineProxy::getDevicePciIds(
             uint64_t &                                pciBusId,
             uint64_t &                                pciDeviceId
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7206,3 +7127,4 @@ void ApiRenderEngineProxy::getDevicePciIds(
 };
 
 
+} //end of namespace

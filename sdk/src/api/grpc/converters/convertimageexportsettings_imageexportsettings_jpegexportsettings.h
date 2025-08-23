@@ -9,7 +9,13 @@
 #include <functional>
 #include "octaneimageexport.h"
 namespace octaneapi { class ImageExportSettings_ImageExportSettings_JpegExportSettings; }
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ImageExportSettings_ImageExportSettings_JpegExportSettingsConverter
 {
 public:
@@ -21,4 +27,6 @@ public:
         const Octane::ImageExportSettings::JpegExportSettings & in,
         octaneapi::ImageExportSettings_ImageExportSettings_JpegExportSettings & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

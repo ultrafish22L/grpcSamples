@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiAnimationTimeTransformProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -77,3 +81,4 @@ Octane::AnimationTimeTransformType ApiAnimationTimeTransformProxy::type() const
 };
 
 
+} //end of namespace

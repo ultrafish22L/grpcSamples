@@ -11,16 +11,25 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiGuiComponentProxy;
+namespace OctaneGRPC
+{
+    class ApiGuiComponentProxy;
+}
 #include "apiguicomponentclient.h"
 
 
 #include "apigridlayout.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiGridLayout
 class ApiGridLayoutProxy : public ApiGuiComponentProxy
@@ -223,6 +232,7 @@ public:
     ///     Contains the status of the gRPC call
     int height() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

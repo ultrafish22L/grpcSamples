@@ -20,6 +20,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void ApiGeometryStatisticsConverter::convert(
     const octaneapi::ApiGeometryStatistics & in,
     Octane::ApiGeometryStatistics & out)
@@ -76,4 +79,5 @@ void ApiGeometryStatisticsConverter::convert(
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

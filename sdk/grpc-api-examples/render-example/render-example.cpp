@@ -31,6 +31,7 @@ using grpc::ClientContext;
 using grpc::ClientReaderWriter;
 using grpc::Status;
 using namespace octaneapi;
+using namespace OctaneGRPC;
 
 /// Determines the size of a 1D C array in elements.
 #define ARRAY_WIDTH(a)  (sizeof(a) / sizeof(a[0]))
@@ -833,6 +834,18 @@ void testApi()
 }
 
 
+bool canConnectToServer(const std::string& serverURL)
+{
+    // Minimal check: create a channel and see if we can connect within a brief timeout
+    auto channel = grpc::CreateChannel(serverURL, grpc::InsecureChannelCredentials());
+    auto timeout = std::chrono::system_clock::now() + std::chrono::seconds(1);
+    if (!channel->WaitForConnected(timeout)) {
+        return false;
+    }
+    return true;
+}
+
+
 int main(int    argc,
          char * argv[])
 {
@@ -845,6 +858,12 @@ int main(int    argc,
  
     gServerURL = std::string(argv[1]);
     gImageDumpPath = std::string(argv[2]);
+
+    std::cout << "Attempting to connect to: " << gServerURL << "\n";
+    if (!canConnectToServer(gServerURL)) {
+        std::cout << "Failed to connect to gRPC server at " << gServerURL << ". Exiting.\n";
+        return 1;
+    }
 
     std::cout << "Connecting to octane.exe on "<<gServerURL<<"\n";
     GRPCSettings::getInstance().setServerAddress(gServerURL);
@@ -861,25 +880,26 @@ int main(int    argc,
         catch (const std::exception& e)
         {
             std::cout << "Failed to connect to GRPC server. Exiting.\n";
-            return 0;
+            return 1;
         }
     }
+    {
+        GRPCAPIEvents serverEvents(channel);
+        serverEvents.initConnection();
+        serverEvents.waitForEvents();
 
-    GRPCAPIEvents serverEvents(channel);
-    serverEvents.initConnection();
-    serverEvents.waitForEvents();
+        // call some methods on the API and render a scene
+        testApi();
 
-    // call some methods on the API and render a scene
-    testApi();
+        // render a scene in octane.exe
+        renderScene();
 
-    // render a scene in octane.exe
-    renderScene();
+        // pause before shutting down events so we can get the last newImage event
+        // optionally wait until the render is complete
+        std::this_thread::sleep_for(std::chrono::seconds(5));
 
-    // pause before shutting down events so we can get the last newImage event
-    // optionally wait until the render is complete
-    std::this_thread::sleep_for(std::chrono::seconds(5));
-
-    serverEvents.shutdown();
+        serverEvents.shutdown();
+    }
     std::cout << "Server stopped. Exiting.\n";
     return 0;
 }

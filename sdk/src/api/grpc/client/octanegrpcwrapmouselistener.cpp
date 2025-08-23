@@ -18,41 +18,41 @@ MouseListener::~MouseListener()
 
 
 void MouseListener::mouseMove(
-    const GRPCApiMouseEventData &event) 
+    const OctaneGRPC::GRPCApiMouseEventData &event) 
 {}
 
 
 void MouseListener::mouseEnter(
-    const GRPCApiMouseEventData &event)
+    const OctaneGRPC::GRPCApiMouseEventData &event)
 {}
 
 
 void MouseListener::mouseExit(
-    const GRPCApiMouseEventData &event)
+    const OctaneGRPC::GRPCApiMouseEventData &event)
 {}
 
 
 void MouseListener::mouseDown(
-    const GRPCApiMouseEventData &event)
+    const OctaneGRPC::GRPCApiMouseEventData &event)
 {}
 
 
 void MouseListener::mouseDrag(
-    const GRPCApiMouseEventData &event)
+    const OctaneGRPC::GRPCApiMouseEventData &event)
 {}
 
 
 void MouseListener::mouseUp(
-    const GRPCApiMouseEventData &event)
+    const OctaneGRPC::GRPCApiMouseEventData &event)
 {}
 
 
 void MouseListener::mouseDoubleClick(
-    const GRPCApiMouseEventData &event)
+    const OctaneGRPC::GRPCApiMouseEventData &event)
 {}
 
 
 void MouseListener::mouseWheelMove (
-    const GRPCApiMouseEventData        &event,
+    const OctaneGRPC::GRPCApiMouseEventData        &event,
     const Octane::ApiMouseWheelDetails &wheel)
 {}

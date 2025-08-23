@@ -11,15 +11,24 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiFileNameProxy;
+namespace OctaneGRPC
+{
+    class ApiFileNameProxy;
+}
 
 
 #include "apipackage.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiPackage
 class ApiPackageProxy : public GRPCBase
@@ -120,6 +129,7 @@ public:
             std::vector<uint8_t> &                    data
             ) const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

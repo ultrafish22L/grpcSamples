@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & TimeSpanTProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -31,7 +35,6 @@ Octane::TimeSpanT TimeSpanTProxy::make(
             Octane::TimeT                             begin,
             Octane::TimeT                             end
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -188,7 +191,6 @@ bool TimeSpanTProxy::empty() const
 void TimeSpanTProxy::shift(
             Octane::TimeT                             offset
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -241,7 +243,6 @@ void TimeSpanTProxy::shift(
 bool TimeSpanTProxy::contains(
             const Octane::TimeT                       time
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -297,3 +298,4 @@ bool TimeSpanTProxy::contains(
 };
 
 
+} //end of namespace

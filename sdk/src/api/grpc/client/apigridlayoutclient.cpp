@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiGridLayoutProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -124,7 +128,6 @@ void ApiGridLayoutProxy::startSetup(
             const int                                 paddingX,
             const int                                 paddingY
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -241,7 +244,6 @@ void ApiGridLayoutProxy::add(
             const uint32_t                            cellX,
             const uint32_t                            cellY
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -310,7 +312,6 @@ void ApiGridLayoutProxy::addEmpty(
             const uint32_t                            cellX,
             const uint32_t                            cellY
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -373,7 +374,6 @@ void ApiGridLayoutProxy::addSpan(
             const uint32_t                            maxCellX,
             const uint32_t                            maxCellY
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -456,7 +456,6 @@ void ApiGridLayoutProxy::setStartSize(
             const int                                 sizeX,
             const int                                 sizeY
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -528,7 +527,6 @@ void ApiGridLayoutProxy::setRowElasticity(
             const uint32_t                            rowIx,
             const float                               elasticity
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -588,7 +586,6 @@ void ApiGridLayoutProxy::setColElasticity(
             const uint32_t                            columnIx,
             const float                               elasticity
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -647,7 +644,6 @@ void ApiGridLayoutProxy::setColElasticity(
 void ApiGridLayoutProxy::setElasticityForAllRows(
             const float                               elasticity
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -700,7 +696,6 @@ void ApiGridLayoutProxy::setElasticityForAllRows(
 void ApiGridLayoutProxy::setElasticityForAllCols(
             const float                               elasticity
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -760,7 +755,6 @@ void ApiGridLayoutProxy::startNestedGrid(
             const int                                 paddingX,
             const int                                 paddingY
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -996,3 +990,4 @@ int ApiGridLayoutProxy::height() const
 };
 
 
+} //end of namespace

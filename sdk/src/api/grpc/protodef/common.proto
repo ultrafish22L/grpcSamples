@@ -142,6 +142,27 @@ message ApiNodeGraphPtr
     PointerType pointer_type = 2;  // Enumerated type to indicate the pointer's type
 }
 
+// used in GetValueResponse to identify the `oneof` type
+enum AttributeTypeId
+{
+    ATTR_ID_UNDEFINED = 0;
+    ATTR_ID_BOOL      = 1;
+    ATTR_ID_BYTE      = 2;
+    ATTR_ID_INT       = 3;
+    ATTR_ID_INT2      = 4;
+    ATTR_ID_INT3      = 5;
+    ATTR_ID_INT4      = 6;
+    ATTR_ID_LONG      = 7;
+    ATTR_ID_LONG2     = 8;
+    ATTR_ID_FLOAT     = 9;
+    ATTR_ID_FLOAT2    = 90;
+    ATTR_ID_FLOAT3    = 11;
+    ATTR_ID_FLOAT4    = 12;
+    ATTR_ID_MATRIX    = 13;
+    ATTR_ID_STRING    = 14;
+}
+
+
 message LoadRenderStateProjectT
 {
     string callbackSource = 1;

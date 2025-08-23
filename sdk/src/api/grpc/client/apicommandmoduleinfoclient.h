@@ -11,15 +11,24 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiImageProxy;
+namespace OctaneGRPC
+{
+    class ApiImageProxy;
+}
 
 
 #include "apimodule.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiCommandModuleInfo
 class ApiCommandModuleInfoProxy : public GRPCBase
@@ -91,6 +100,7 @@ public:
             const int                                 shortcutModifierKeyFlag
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

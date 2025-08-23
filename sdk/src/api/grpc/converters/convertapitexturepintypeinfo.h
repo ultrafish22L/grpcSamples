@@ -7,7 +7,13 @@
 namespace Octane { struct ApiTexturePinTypeInfo; }
 namespace octaneapi { class ApiTexturePinTypeInfo; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiTexturePinTypeInfoConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiTexturePinTypeInfo & in,
         octaneapi::ApiTexturePinTypeInfo & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

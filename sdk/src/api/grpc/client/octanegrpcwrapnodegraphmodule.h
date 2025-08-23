@@ -81,18 +81,18 @@ namespace OctaneWrap
 
         /// Returns NULL during construction and the actual node graph object which is controlled by this module
         /// instance after construction has finished .
-        ApiModuleNodeGraphProxy* graph() const;
+        OctaneGRPC::ApiModuleNodeGraphProxy* graph() const;
         
 
     private:
 
-        ApiModuleNodeGraphProxy * mGraph = nullptr;
+        OctaneGRPC::ApiModuleNodeGraphProxy * mGraph = nullptr;
 
 
         /// Helper that wraps the creation of the module by implementing the creation callback.
         template<class ModuleT>
         static void* createCallback(
-            ApiModuleNodeGraphProxy *const graph);
+            OctaneGRPC::ApiModuleNodeGraphProxy *const graph);
 
         /// Helper that wraps the destruction of the module by implementing the destroy callback.
         static void destroyCallback(
@@ -109,8 +109,8 @@ namespace OctaneWrap
 
 
     template <class ModuleT>
-    void* NodeGraphModule::createCallback(
-        ApiModuleNodeGraphProxy *const graph)
+    void * NodeGraphModule::createCallback(
+        OctaneGRPC::ApiModuleNodeGraphProxy * const graph)
     {
         // safety check
         if (!graph)
@@ -141,7 +141,7 @@ namespace OctaneWrap
         const Octane::NodePinType outType)
     {
         // create and set up new module info
-        ApiNodeGraphModuleInfoProxy info = ApiNodeGraphModuleInfoProxy::create(
+        OctaneGRPC::ApiNodeGraphModuleInfoProxy info = OctaneGRPC::ApiNodeGraphModuleInfoProxy::create(
             moduleId,
             fullName,
             description,
@@ -159,7 +159,7 @@ namespace OctaneWrap
         }
 
         // register as dynamically linked module
-        ApiModuleGlobalProxy::registerNodeGraphModule(info);
+        OctaneGRPC::ApiModuleGlobalProxy::registerNodeGraphModule(info);
 
         // destroy module info
         info.destroy();

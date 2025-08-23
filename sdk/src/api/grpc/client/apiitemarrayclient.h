@@ -11,16 +11,25 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiItemProxy;
-class ApiNodeArrayProxy;
+namespace OctaneGRPC
+{
+    class ApiItemProxy;
+    class ApiNodeArrayProxy;
+}
 
 
 #include "apinodesystem.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiItemArray
 class ApiItemArrayProxy : public GRPCBase
@@ -50,6 +59,7 @@ public:
             const size_t   size
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

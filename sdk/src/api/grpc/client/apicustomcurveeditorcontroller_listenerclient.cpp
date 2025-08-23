@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiCustomCurveEditorControllerProxy_Listener::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -33,7 +37,6 @@ void ApiCustomCurveEditorControllerProxy_Listener::onVisualChange(
             bool                                      deleteSelectedPointButtonEnabled,
             Octane::ApiCustomCurveEditorController::MouseCursorType mouseCursorType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -58,7 +61,7 @@ void ApiCustomCurveEditorControllerProxy_Listener::onVisualChange(
     /////////////////////////////////////////////////////////////////////
     // Add the 'activeSubCurveButton' [in] parameter to the request packet.
     octaneapi::ApiCustomCurveEditorController_Button activesubcurvebuttonIn;
-    activesubcurvebuttonIn = static_cast<octaneapi::ApiCustomCurveEditorController_Button>(activeSubCurveButton);
+        activesubcurvebuttonIn = static_cast<octaneapi::ApiCustomCurveEditorController_Button>(activeSubCurveButton);
     request.set_activesubcurvebutton(activesubcurvebuttonIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -70,7 +73,7 @@ void ApiCustomCurveEditorControllerProxy_Listener::onVisualChange(
     /////////////////////////////////////////////////////////////////////
     // Add the 'mouseCursorType' [in] parameter to the request packet.
     octaneapi::ApiCustomCurveEditorController_MouseCursorType mousecursortypeIn;
-    mousecursortypeIn = static_cast<octaneapi::ApiCustomCurveEditorController_MouseCursorType>(mouseCursorType);
+        mousecursortypeIn = static_cast<octaneapi::ApiCustomCurveEditorController_MouseCursorType>(mouseCursorType);
     request.set_mousecursortype(mousecursortypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -101,3 +104,4 @@ void ApiCustomCurveEditorControllerProxy_Listener::onVisualChange(
 };
 
 
+} //end of namespace

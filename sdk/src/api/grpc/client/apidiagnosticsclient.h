@@ -16,9 +16,15 @@
 #include "apidiagnostics.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiDiagnostics
 class ApiDiagnosticsProxy : public GRPCBase
@@ -35,6 +41,7 @@ public:
             const uint32_t                            delayInSeconds
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

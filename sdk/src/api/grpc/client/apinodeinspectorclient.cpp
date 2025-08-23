@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiNodeInspectorProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -117,3 +121,4 @@ ApiNodeInspectorProxy ApiNodeInspectorProxy::create()
 };
 
 
+} //end of namespace

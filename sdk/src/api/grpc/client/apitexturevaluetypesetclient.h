@@ -16,9 +16,15 @@
 #include "octaneinfos.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiTextureValueTypeSet
 class ApiTextureValueTypeSetProxy : public GRPCBase
@@ -64,6 +70,7 @@ public:
     ///     A 32-wide bit field, encoding texture value types (single bit per TextureValueType enum option).
     uint32_t bitField() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

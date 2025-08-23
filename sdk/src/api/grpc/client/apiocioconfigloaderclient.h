@@ -11,15 +11,24 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiOcioConfigProxy;
+namespace OctaneGRPC
+{
+    class ApiOcioConfigProxy;
+}
 
 
 #include "apiocioconfigloader.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiOcioConfigLoader
 class ApiOcioConfigLoaderProxy : public GRPCBase
@@ -120,6 +129,7 @@ public:
             bool   waitIfLoading
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

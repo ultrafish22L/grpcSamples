@@ -58,6 +58,19 @@ message CameraState
     {
         float fov = 4;
     }
+
+}
+
+// Request message containing the image filename
+message FileRequest
+{
+    string filepath = 1;
+}
+
+// Response message containing the image data
+message FileResponse
+{
+    bytes filedata = 1;
 }
 
 
@@ -66,6 +79,13 @@ message MeshRequest
 {
     int32 objecthandle = 1;
 }
+
+// This is optional, but it lets the server reply once when the stream ends
+message StreamStatus
+{
+    string message = 1;
+}
+
 
 // Raw geometry data for a single mesh
 message MeshData
@@ -104,4 +124,11 @@ service LiveLinkService
 
     // Fetch full mesh geometry by Object ID
     rpc GetMesh(MeshRequest) returns (MeshData);
+
+    // RPC to request an image by filename
+    rpc GetFile (FileRequest) returns (FileResponse);
+
+    // Client streaming: client streams CameraState messages continuously.
+    // Server replies ONCE (can be an Empty or StreamStatus).
+    rpc StreamCamera(stream CameraState) returns (StreamStatus);
 }

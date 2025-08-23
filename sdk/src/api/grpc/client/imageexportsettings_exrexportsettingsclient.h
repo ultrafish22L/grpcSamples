@@ -15,14 +15,21 @@
 
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ImageExportSettings_ExrExportSettings
 class ImageExportSettingsProxy_ExrExportSettings : public GRPCBase
 {
 public:
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

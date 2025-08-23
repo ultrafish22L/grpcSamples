@@ -16,6 +16,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void ImageExportSettings_ImageExportSettings_ExrExportSettingsConverter::convert(
     const octaneapi::ImageExportSettings_ImageExportSettings_ExrExportSettings & in,
     Octane::ImageExportSettings::ExrExportSettings & out)
@@ -48,4 +51,5 @@ void ImageExportSettings_ImageExportSettings_ExrExportSettingsConverter::convert
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

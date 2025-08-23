@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & RenderResultStatisticsProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -148,7 +152,6 @@ Octane::ImageChannelType RenderResultStatisticsProxy::channelType() const
 uint32_t RenderResultStatisticsProxy::samplesPerPixel(
             const Octane::RenderPassId                renderPassId
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -158,7 +161,7 @@ uint32_t RenderResultStatisticsProxy::samplesPerPixel(
     /////////////////////////////////////////////////////////////////////
     // Add the 'renderPassId' [in] parameter to the request packet.
     octaneapi::RenderPassId renderpassidIn;
-    renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
+        renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
     request.set_renderpassid(renderpassidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -198,7 +201,6 @@ uint32_t RenderResultStatisticsProxy::samplesPerPixel(
 uint32_t RenderResultStatisticsProxy::maxSamplesPerPixel(
             const Octane::RenderPassId                renderPassId
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -208,7 +210,7 @@ uint32_t RenderResultStatisticsProxy::maxSamplesPerPixel(
     /////////////////////////////////////////////////////////////////////
     // Add the 'renderPassId' [in] parameter to the request packet.
     octaneapi::RenderPassId renderpassidIn;
-    renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
+        renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
     request.set_renderpassid(renderpassidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -248,7 +250,6 @@ uint32_t RenderResultStatisticsProxy::maxSamplesPerPixel(
 double RenderResultStatisticsProxy::samplesPerSecond(
             const Octane::RenderPassId                renderPassId
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -258,7 +259,7 @@ double RenderResultStatisticsProxy::samplesPerSecond(
     /////////////////////////////////////////////////////////////////////
     // Add the 'renderPassId' [in] parameter to the request packet.
     octaneapi::RenderPassId renderpassidIn;
-    renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
+        renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
     request.set_renderpassid(renderpassidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -298,7 +299,6 @@ double RenderResultStatisticsProxy::samplesPerSecond(
 double RenderResultStatisticsProxy::progress(
             const Octane::RenderPassId                renderPassId
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -308,7 +308,7 @@ double RenderResultStatisticsProxy::progress(
     /////////////////////////////////////////////////////////////////////
     // Add the 'renderPassId' [in] parameter to the request packet.
     octaneapi::RenderPassId renderpassidIn;
-    renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
+        renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
     request.set_renderpassid(renderpassidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -348,7 +348,6 @@ double RenderResultStatisticsProxy::progress(
 bool RenderResultStatisticsProxy::started(
             const Octane::RenderPassId                renderPassId
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -358,7 +357,7 @@ bool RenderResultStatisticsProxy::started(
     /////////////////////////////////////////////////////////////////////
     // Add the 'renderPassId' [in] parameter to the request packet.
     octaneapi::RenderPassId renderpassidIn;
-    renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
+        renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
     request.set_renderpassid(renderpassidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -398,7 +397,6 @@ bool RenderResultStatisticsProxy::started(
 bool RenderResultStatisticsProxy::finished(
             const Octane::RenderPassId                renderPassId
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -408,7 +406,7 @@ bool RenderResultStatisticsProxy::finished(
     /////////////////////////////////////////////////////////////////////
     // Add the 'renderPassId' [in] parameter to the request packet.
     octaneapi::RenderPassId renderpassidIn;
-    renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
+        renderpassidIn = static_cast<octaneapi::RenderPassId>(renderPassId);
     request.set_renderpassid(renderpassidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -445,3 +443,4 @@ bool RenderResultStatisticsProxy::finished(
 };
 
 
+} //end of namespace

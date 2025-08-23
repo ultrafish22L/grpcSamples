@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiColorSwatchProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -32,7 +36,6 @@ ApiColorSwatchProxy ApiColorSwatchProxy::create(
             GRPCColorChangedT                        changeCallback,
             void *                                    privateData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -49,7 +52,7 @@ ApiColorSwatchProxy ApiColorSwatchProxy::create(
     // Add the 'changeCallback' [in] parameter to the request packet.
     octaneapi::ColorChangedT * changecallbackIn = new octaneapi::ColorChangedT();
     // setup callback function changeCallback
-    changecallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        changecallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_changecallback(changecallbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -150,7 +153,6 @@ void ApiColorSwatchProxy::destroy()
 void ApiColorSwatchProxy::setColor(
             const Octane::ApiColorHdr &               color
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -256,3 +258,4 @@ Octane::ApiColorHdr ApiColorSwatchProxy::color() const
 };
 
 
+} //end of namespace

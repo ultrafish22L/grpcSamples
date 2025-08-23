@@ -17,6 +17,7 @@ namespace Octane
     class ApiGuiComponent;
 }
 
+
 namespace OctaneWrap
 {
     class MouseListener;
@@ -70,10 +71,10 @@ public:
     bool isEnabled() const;
 
     /// Returns the component that this class wraps.
-    ApiGuiComponentProxy * wrappedComponent();
+    OctaneGRPC::ApiGuiComponentProxy * wrappedComponent();
  
     /// Returns the component that this class wraps (const-version).
-    const ApiGuiComponentProxy * wrappedComponent() const;
+    const OctaneGRPC::ApiGuiComponentProxy * wrappedComponent() const;
 
     /// Sets the tooltip for this component. Not all components support tooltips and for them,
     /// this function is a no-operation. The ones that support tooltips are: buttons, combo boxes,
@@ -96,18 +97,18 @@ public:
 protected:
 
     /// wrapped component
-    ApiGuiComponentProxy *      mComponent;
+    OctaneGRPC::ApiGuiComponentProxy *      mComponent;
     /// wrapped mouse listener
-    ApiMouseListenerProxy       mApiMouseListener;
+    OctaneGRPC::ApiMouseListenerProxy       mApiMouseListener;
     /// mouse listeners for this component
     std::vector<MouseListener*> mMouseListeners;
 
     /// internal mouse events callback
     static void mouseEventsCallback(
-        const Octane::ApiMouseEventType    type,
-        const GRPCApiMouseEventData        &event,
-        const Octane::ApiMouseWheelDetails &wheel,
-        void                               *privateData);
+        const Octane::ApiMouseEventType           type,
+        const OctaneGRPC::GRPCApiMouseEventData   &event,
+        const Octane::ApiMouseWheelDetails        &wheel,
+        void                                      *privateData);
 };
 
 } // namespace Octane

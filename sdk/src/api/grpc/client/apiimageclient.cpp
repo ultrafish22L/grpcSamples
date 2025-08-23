@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiImageProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -33,7 +37,6 @@ ApiImageProxy ApiImageProxy::create(
             const int                                 height,
             const bool                                clear
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -43,7 +46,7 @@ ApiImageProxy ApiImageProxy::create(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pixelFormat' [in] parameter to the request packet.
     octaneapi::ApiImage_PixelFormat pixelformatIn;
-    pixelformatIn = static_cast<octaneapi::ApiImage_PixelFormat>(pixelFormat);
+        pixelformatIn = static_cast<octaneapi::ApiImage_PixelFormat>(pixelFormat);
     request.set_pixelformat(pixelformatIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -109,7 +112,6 @@ ApiImageProxy ApiImageProxy::create(
             const int                                 height,
             const void *const                         data
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -119,7 +121,7 @@ ApiImageProxy ApiImageProxy::create(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pixelFormat' [in] parameter to the request packet.
     octaneapi::ApiImage_PixelFormat pixelformatIn;
-    pixelformatIn = static_cast<octaneapi::ApiImage_PixelFormat>(pixelFormat);
+        pixelformatIn = static_cast<octaneapi::ApiImage_PixelFormat>(pixelFormat);
     request.set_pixelformat(pixelformatIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -188,7 +190,6 @@ bool ApiImageProxy::saveToFile(
             Octane::ImageType                         pixelFormat,
             const bool                                isYPointUp
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -287,7 +288,7 @@ bool ApiImageProxy::saveToFile(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pixelFormat' [in] parameter to the request packet.
     octaneapi::ImageType pixelformatIn;
-    pixelformatIn = static_cast<octaneapi::ImageType>(pixelFormat);
+        pixelformatIn = static_cast<octaneapi::ImageType>(pixelFormat);
     request.set_pixelformat(pixelformatIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -333,7 +334,6 @@ bool ApiImageProxy::saveToFile(
 ApiImageProxy ApiImageProxy::loadFromFile(
             const char *                              fullPath
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -389,7 +389,6 @@ ApiImageProxy ApiImageProxy::loadFromMemory(
             const void *                              imageData,
             const size_t                              sizeInBytes
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -855,7 +854,6 @@ void ApiImageProxy::clear(
             const int                                 height,
             const Octane::ApiColorLdr                 color
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -936,7 +934,6 @@ void ApiImageProxy::updateTo(
             const void *const                         imageData,
             int                                       imageDataSize
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1003,7 +1000,6 @@ Octane::ApiColorLdr ApiImageProxy::pixelAt(
             const int                                 x,
             const int                                 y
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1073,7 +1069,6 @@ void ApiImageProxy::setPixelAt(
             const int                                 y,
             const Octane::ApiColorLdr                 color
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1143,7 +1138,6 @@ void ApiImageProxy::multiplyAlphaAt(
             const int                                 y,
             const float                               multiplier
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1208,7 +1202,6 @@ void ApiImageProxy::multiplyAlphaAt(
 void ApiImageProxy::multiplyAllAlphas(
             const float                               amountToMultiplyBy
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1306,7 +1299,6 @@ void ApiImageProxy::resize(
             const int                                 newWidth,
             const int                                 newHeight
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1362,3 +1354,4 @@ void ApiImageProxy::resize(
 };
 
 
+} //end of namespace

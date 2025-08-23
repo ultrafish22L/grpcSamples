@@ -11,15 +11,24 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiOctaneModuleInfoProxy;
+namespace OctaneGRPC
+{
+    class ApiOctaneModuleInfoProxy;
+}
 
 
 #include "apioctanemodules.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiOctaneModules
 class ApiOctaneModulesProxy : public GRPCBase
@@ -79,6 +88,7 @@ public:
             const Octane::ModuleIdT   moduleId
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

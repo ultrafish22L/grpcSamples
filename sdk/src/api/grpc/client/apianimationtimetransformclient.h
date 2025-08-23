@@ -16,9 +16,15 @@
 #include "apianimationtimetransform.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiAnimationTimeTransform
 class ApiAnimationTimeTransformProxy : public GRPCBase
@@ -29,6 +35,7 @@ public:
     ///     Contains the status of the gRPC call
     Octane::AnimationTimeTransformType type() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

@@ -20,6 +20,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void ApiOcioColorSpacePinInfoConverter::convert(
     const octaneapi::ApiOcioColorSpacePinInfo & in,
     Octane::ApiOcioColorSpacePinInfo & out)
@@ -63,4 +66,5 @@ void ApiOcioColorSpacePinInfoConverter::convert(
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

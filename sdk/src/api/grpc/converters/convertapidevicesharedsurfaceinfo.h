@@ -7,7 +7,13 @@
 namespace Octane { struct ApiDeviceSharedSurfaceInfo; }
 namespace octaneapi { class ApiDeviceSharedSurfaceInfo; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiDeviceSharedSurfaceInfoConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiDeviceSharedSurfaceInfo & in,
         octaneapi::ApiDeviceSharedSurfaceInfo & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

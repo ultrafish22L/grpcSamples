@@ -11,16 +11,25 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiImageProxy;
+namespace OctaneGRPC
+{
+    class ApiImageProxy;
+}
 #include "apiguicomponentclient.h"
 
 
 #include "apiimagecomponent.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiImageComponent
 class ApiImageComponentProxy : public ApiGuiComponentProxy
@@ -51,6 +60,7 @@ public:
             const ApiImageProxy &   image
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

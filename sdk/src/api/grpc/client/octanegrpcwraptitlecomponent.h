@@ -12,7 +12,7 @@
 
 namespace Octane
 {
-class ApiTitleComponent;
+    class ApiTitleComponent;
 }
 
 namespace OctaneWrap
@@ -38,7 +38,7 @@ public:
 
 private:
 
-    ApiTitleComponentProxy mApiTitleComponent;
+    OctaneGRPC::ApiTitleComponentProxy mApiTitleComponent;
 };
 
 } // namespace OctaneWrap

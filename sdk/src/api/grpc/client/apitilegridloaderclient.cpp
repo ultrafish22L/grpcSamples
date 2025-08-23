@@ -23,6 +23,10 @@
 #include "convertapitilegridsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiTileGridLoaderProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -122,7 +126,6 @@ void ApiTileGridLoaderProxy::destroy()
 void ApiTileGridLoaderProxy::loadFromNodeItem(
             const ApiItemProxy *                      node
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -178,7 +181,6 @@ void ApiTileGridLoaderProxy::loadFromNodeItem(
 void ApiTileGridLoaderProxy::saveToNodeItem(
             ApiItemProxy *                            node
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -231,7 +233,6 @@ void ApiTileGridLoaderProxy::applyStoredSettings(
             Octane::ApiArray<const char *>            initialFiles,
             bool                                      inPackage
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -301,7 +302,6 @@ void ApiTileGridLoaderProxy::inferSettingsFromFilename(
             const char *                              firstImg,
             Octane::uint32_2 &                        indices
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -359,7 +359,6 @@ void ApiTileGridLoaderProxy::inferSettingsFromFilename(
 void ApiTileGridLoaderProxy::scanTiles(
             OctaneVec::uint32_2                       newSize
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -508,7 +507,6 @@ const Octane::ApiTileGridSettings ApiTileGridLoaderProxy::getSettings() const
 void ApiTileGridLoaderProxy::updateSettings(
             const Octane::ApiTileGridSettings &       settings
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -617,7 +615,6 @@ std::vector<std::string> ApiTileGridLoaderProxy::getFiles()
 void ApiTileGridLoaderProxy::setFiles(
             Octane::ApiArray<const char *>            files
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -673,7 +670,6 @@ void ApiTileGridLoaderProxy::setFiles(
 bool ApiTileGridLoaderProxy::hasFileInCell(
             const Octane::uint32_2                    cellIndex
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -733,7 +729,6 @@ bool ApiTileGridLoaderProxy::hasFileInCell(
 std::string ApiTileGridLoaderProxy::fileNameForCell(
             const Octane::uint32_2                    cellIndex
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -844,7 +839,6 @@ size_t ApiTileGridLoaderProxy::count() const
 void ApiTileGridLoaderProxy::updatePattern(
             const char *                              pattern
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1201,7 +1195,6 @@ std::string ApiTileGridLoaderProxy::substitute(
             const uint32_t                            u,
             const uint32_t                            v
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1276,3 +1269,4 @@ std::string ApiTileGridLoaderProxy::substitute(
 };
 
 
+} //end of namespace

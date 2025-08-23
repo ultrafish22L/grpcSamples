@@ -23,6 +23,10 @@
 #include "convertapirendercloudmanager_apirendercloudmanager_subscriptioninfo.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiRenderCloudManagerProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -32,7 +36,6 @@ GRPCSettings & ApiRenderCloudManagerProxy::getGRPCSettings()
 bool ApiRenderCloudManagerProxy::userSubscriptionInfo(
             Octane::ApiRenderCloudManager::SubscriptionInfo & subscriptionInfo
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -84,7 +87,6 @@ void ApiRenderCloudManagerProxy::uploadCurrentProject(
             Octane::ApiRenderCloudManager::FinishCallbackT onFinish,
             void *                                    callbackData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -101,14 +103,14 @@ void ApiRenderCloudManagerProxy::uploadCurrentProject(
     // Add the 'onUpdate' [in] parameter to the request packet.
     octaneapi::UpdateCallbackT * onupdateIn = new octaneapi::UpdateCallbackT();
     // setup callback function onUpdate
-    onupdateIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        onupdateIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_onupdate(onupdateIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'onFinish' [in] parameter to the request packet.
     octaneapi::FinishCallbackT * onfinishIn = new octaneapi::FinishCallbackT();
     // setup callback function onFinish
-    onfinishIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        onfinishIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_onfinish(onfinishIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -163,7 +165,6 @@ void ApiRenderCloudManagerProxy::uploadRootNodeGraph(
             Octane::ApiRenderCloudManager::FinishCallbackT onFinish,
             void *                                    callbackData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -189,14 +190,14 @@ void ApiRenderCloudManagerProxy::uploadRootNodeGraph(
     // Add the 'onUpdate' [in] parameter to the request packet.
     octaneapi::UpdateCallbackT * onupdateIn = new octaneapi::UpdateCallbackT();
     // setup callback function onUpdate
-    onupdateIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        onupdateIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_onupdate(onupdateIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'onFinish' [in] parameter to the request packet.
     octaneapi::FinishCallbackT * onfinishIn = new octaneapi::FinishCallbackT();
     // setup callback function onFinish
-    onfinishIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        onfinishIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_onfinish(onfinishIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -247,7 +248,6 @@ void ApiRenderCloudManagerProxy::uploadRootNodeGraph(
 bool ApiRenderCloudManagerProxy::newRenderTask(
             const Octane::ApiRenderCloudManager::GuidT sceneGuid
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -294,3 +294,4 @@ bool ApiRenderCloudManagerProxy::newRenderTask(
 };
 
 
+} //end of namespace

@@ -22,6 +22,10 @@
 #include "convertapicompatibilitymodeinfo.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiCompatibilityModeInfoSetProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -81,7 +85,6 @@ uint32_t ApiCompatibilityModeInfoSetProxy::size() const
 const Octane::ApiCompatibilityModeInfo ApiCompatibilityModeInfoSetProxy::info(
             uint32_t                                  index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -138,3 +141,4 @@ const Octane::ApiCompatibilityModeInfo ApiCompatibilityModeInfoSetProxy::info(
 };
 
 
+} //end of namespace

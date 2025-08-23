@@ -11,17 +11,26 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiNodeGraphProxy;
-class ApiProjectWorkspaceProxy;
+namespace OctaneGRPC
+{
+    class ApiNodeGraphProxy;
+    class ApiProjectWorkspaceProxy;
+}
 #include "apiguicomponentclient.h"
 
 
 #include "apimainwindow.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiMainWindow
 class ApiMainWindowProxy : public ApiGuiComponentProxy
@@ -133,6 +142,7 @@ public:
     ///     Contains the status of the gRPC call
     ApiNodeGraphProxy defaultGraph() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiDBMaterialManagerProxy_DBMaterialArray::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -31,7 +35,6 @@ GRPCSettings & ApiDBMaterialManagerProxy_DBMaterialArray::getGRPCSettings()
 void ApiDBMaterialManagerProxy_DBMaterialArray::init(
             const size_t                              size
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -239,3 +242,4 @@ size_t ApiDBMaterialManagerProxy_DBMaterialArray::getCount() const
 };
 
 
+} //end of namespace

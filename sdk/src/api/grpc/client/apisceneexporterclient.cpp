@@ -23,6 +23,10 @@
 #include "convertreferencepackageexportsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiSceneExporterProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -80,7 +84,6 @@ ApiSceneExporterProxy ApiSceneExporterProxy::create(
             const Octane::GeometryExportFormat        geometryFormat,
             const Octane::ReferencePackageExportSettings * referencePackageSettings
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -98,11 +101,11 @@ ApiSceneExporterProxy ApiSceneExporterProxy::create(
     octaneapi::ObjectRefArrayT * rootnodesIn = new octaneapi::ObjectRefArrayT();
     for (size_t h = 0; h < rootNodesSize; h++)
     {
-         // The proxy object contains the ID of the remote object. Pass this ID to the server
-         // using a `ObjectRef` object.
-         auto item = rootnodesIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
-         item->set_handle(rootNodes[h]->getObjectHandle());
+        // The proxy object contains the ID of the remote object. Pass this ID to the server
+        // using a `ObjectRef` object.
+        auto item = rootnodesIn->add_data();
+        item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
+        item->set_handle(rootNodes[h]->getObjectHandle());
     }
     request.set_allocated_rootnodes(rootnodesIn);
 
@@ -137,7 +140,7 @@ ApiSceneExporterProxy ApiSceneExporterProxy::create(
     /////////////////////////////////////////////////////////////////////
     // Add the 'geometryFormat' [in] parameter to the request packet.
     octaneapi::GeometryExportFormat geometryformatIn;
-    geometryformatIn = static_cast<octaneapi::GeometryExportFormat>(geometryFormat);
+        geometryformatIn = static_cast<octaneapi::GeometryExportFormat>(geometryFormat);
     request.set_geometryformat(geometryformatIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -282,7 +285,6 @@ Octane::ExportState ApiSceneExporterProxy::state() const
 void ApiSceneExporterProxy::exportSample(
             const Octane::TimeSpanT                   interval
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -388,7 +390,6 @@ bool ApiSceneExporterProxy::finish(
             const bool                                deleteUnconnectedNodes,
             const bool                                createOcsString
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -507,3 +508,4 @@ std::string ApiSceneExporterProxy::ocsString() const
 };
 
 
+} //end of namespace

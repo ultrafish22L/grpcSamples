@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiGuiComponentProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -31,7 +35,6 @@ GRPCSettings & ApiGuiComponentProxy::getGRPCSettings()
 void ApiGuiComponentProxy::addChildComponent(
             ApiGuiComponentProxy &                    child
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -87,7 +90,6 @@ void ApiGuiComponentProxy::addChildComponent(
 void ApiGuiComponentProxy::removeChildComponent(
             ApiGuiComponentProxy &                    child
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -144,7 +146,6 @@ void ApiGuiComponentProxy::setSize(
             const int                                 width,
             const int                                 height
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -304,7 +305,6 @@ void ApiGuiComponentProxy::setTopLeftPosition(
             const int                                 x,
             const int                                 y
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -463,7 +463,6 @@ int ApiGuiComponentProxy::yPosition() const
 void ApiGuiComponentProxy::setEnabled(
             const bool                                enabled
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -566,7 +565,6 @@ bool ApiGuiComponentProxy::isEnabled() const
 void ApiGuiComponentProxy::setTooltip(
             const char *                              tooltip
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -671,7 +669,6 @@ void ApiGuiComponentProxy::addMouseListener(
             ApiMouseListenerProxy *                   newListener,
             bool                                      wantsEventsForAllNestedChildComponents
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -733,7 +730,6 @@ void ApiGuiComponentProxy::addMouseListener(
 void ApiGuiComponentProxy::removeMouseListener(
             ApiMouseListenerProxy *                   listenerToRemove
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -786,3 +782,4 @@ void ApiGuiComponentProxy::removeMouseListener(
 };
 
 
+} //end of namespace

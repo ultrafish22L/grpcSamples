@@ -90,7 +90,7 @@ public:
 
 private:
 
-    ApiModalDialogProxy mApiModalDialog;
+    OctaneGRPC::ApiModalDialogProxy mApiModalDialog;
 };
 
 } // namespace OctaneWrap

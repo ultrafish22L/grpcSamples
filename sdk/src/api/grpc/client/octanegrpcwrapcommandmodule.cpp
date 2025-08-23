@@ -16,38 +16,18 @@ void CommandModule::registerModule(
     const char *                                              author,
     const Octane::VersionT                                    versionNumber,
     const Octane::ApiCommandModuleInfo::CommandModuleRunFuncT runFunction,
-    const ApiImageProxy &                                     icon,
+    const OctaneGRPC::ApiImageProxy &                         icon,
     const char *                                              shortcutGroupName,
     const int                                                 shortcutKeyCode,
     const int                                                 shortcutModifierKeyFlag)
 {
-    ApiCommandModuleInfoProxy info = ApiCommandModuleInfoProxy::create(moduleId, fullName, description, author, versionNumber);
+    OctaneGRPC::ApiCommandModuleInfoProxy info = OctaneGRPC::ApiCommandModuleInfoProxy::create(moduleId, fullName, description, author, versionNumber);
     info.setRunFunction(runFunction);
 
     info.setIcon(&icon);
     info.assignShortcutKey(shortcutGroupName, shortcutKeyCode, shortcutModifierKeyFlag);
 
     // register as dynamically linked module
-    ApiModuleGlobalProxy::registerCommandModule(info);
+    OctaneGRPC::ApiModuleGlobalProxy::registerCommandModule(info);
     info.destroy();
-
-    //Octane::ApiCommandModuleInfo * info = Octane::ApiCommandModuleInfo::create(
-    //    moduleId, fullName, description, author, versionNumber);
-
-    //info->setRunFunction(runFunction);
-    //info->setIcon(icon);
-    //info->assignShortcutKey(shortcutGroupName, shortcutKeyCode, shortcutModifierKeyFlag);
-
-    //if (isStaticallyLinked)
-    //{
-    //    // register as statically linked module
-    //    Octane::registerStaticCommandModule(*info);
-    //}
-    //else
-    //{
-    //    // register as dynamically linked module
-    //    Octane::registerCommandModule(*info);
-    //}
-
-    //info->destroy();
  }

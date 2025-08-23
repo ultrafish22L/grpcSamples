@@ -17,9 +17,15 @@
 #include "apicombobox.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiComboBox
 class ApiComboBoxProxy : public ApiGuiComponentProxy
@@ -77,6 +83,7 @@ public:
     ///     Contains the status of the gRPC call
     std::string text() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

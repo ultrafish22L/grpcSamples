@@ -17,9 +17,15 @@
 #include "apitexteditor.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiTextEditor
 class ApiTextEditorProxy : public ApiGuiComponentProxy
@@ -88,6 +94,7 @@ public:
     ///     Contains the status of the gRPC call
     bool isReadOnly() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

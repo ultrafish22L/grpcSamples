@@ -15,9 +15,10 @@
 class Convert;
 
 class GRPCSettings;
-
+namespace OctaneGRPC
+{
 /// Class to create arrays of 'ApiNodePinInfo' objects on the server
-class ApiNodePinInfoExService : public GRPCBase
+class ApiNodePinInfoExService : public OctaneGRPC::GRPCBase
 {
 public:
     /// Creates an array of ApiNodePinInfoProxy objects on the server (Octane.exe) and returns a vector of 
@@ -30,7 +31,7 @@ public:
     /// @return
     ///     A vector containing ApiNodePinInfoProxy objects converted from the input array.
     static std::vector<ApiNodePinInfoProxy> createApiNodePinInfoArray(
-        const ApiNodePinInfo * items,
+        const ApiNodePinInfo* items,
         const int              count);
 
     /// Creates a single ApiNodePinInfo on the server (octane.exe) and returns a proxy object that references it.
@@ -39,7 +40,7 @@ public:
     /// @return
     ///     the ApiNodePinInfoProxy object we use to reference the newly created object on the server.
     static ApiNodePinInfoProxy createApiNodePinInfo(
-            const Octane::ApiNodePinInfo & nodePinInfo);
+        const Octane::ApiNodePinInfo& nodePinInfo);
 
     /// Deletes the given ApiNodePinInfo on the server.
     ///
@@ -48,7 +49,7 @@ public:
     /// @return  
     ///     TRUE if the deletion was successful; otherwise, FALSE.
     static bool deleteApiNodePinInfo(
-        const ApiNodePinInfoProxy &    nodePinInfo);
+        const ApiNodePinInfoProxy& nodePinInfo);
 
     /// Updates an existing ApiNodePinInfo entry on the server.
     ///
@@ -59,8 +60,8 @@ public:
     /// @return
     ///     TRUE if the update was successful; otherwise, FALSE.
     static bool updateApiNodePinInfo(
-        const ApiNodePinInfoProxy &        nodePinInfoProxy,
-        const Octane::ApiNodePinInfo &     nodePinInfo);
+        const ApiNodePinInfoProxy& nodePinInfoProxy,
+        const Octane::ApiNodePinInfo& nodePinInfo);
 
 
     /// Retrieves an existing ApiNodePinInfo structure from the server.
@@ -72,8 +73,8 @@ public:
     /// @return
     ///     TRUE if the update was successful; otherwise, FALSE.
     static bool getApiNodePinInfo(
-        const ApiNodePinInfoProxy &        nodePinInfoProxy,
-        Octane::ApiNodePinInfo &           nodePinInfo);
+        const ApiNodePinInfoProxy& nodePinInfoProxy,
+        Octane::ApiNodePinInfo& nodePinInfo);
 
 private:
     /// Returns a reference to the singleton GRPCSettings object,
@@ -81,8 +82,10 @@ private:
     ///
     /// @return
     ///     A reference to the global GRPCSettings instance.
-    static GRPCSettings & getGRPCSettings();
+    static GRPCSettings& getGRPCSettings();
 
     // The callback function caleld when Octane calls back after a call to PerformBlockingOperation is made
     static std::function<void()> mBlockingOperationCallback;
 };
+
+}// nnamespace OctaneGRPC;

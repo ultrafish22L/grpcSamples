@@ -80,7 +80,7 @@ service ApiItemArrayService
     /// Returns the size of the item list
     rpc size(ApiItemArray.sizeRequest) returns (ApiItemArray.sizeResponse);
     /// Returns the item at the given index
-    rpc get1(ApiItemArray.getRequest) returns (ApiItemArray.getResponse);
+    rpc get(ApiItemArray.getRequest) returns (ApiItemArray.getResponse);
     /// Returns the internal array (owned by this object)
     rpc items(ApiItemArray.itemsRequest) returns (ApiItemArray.itemsResponse);
     /// Begin function for constant range-based for loop

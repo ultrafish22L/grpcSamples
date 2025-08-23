@@ -24,6 +24,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiLocalDBProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -121,7 +125,6 @@ bool ApiLocalDBProxy::setRootDirectory(
             const char *                              newPath,
             bool                                      moveFiles
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -178,7 +181,6 @@ void ApiLocalDBProxy::addObserver(
             void *                                    opaqueData,
             Octane::ApiLocalDB::ObserverCallback *    callback
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -195,7 +197,7 @@ void ApiLocalDBProxy::addObserver(
     // Add the 'callback' [in] parameter to the request packet.
     octaneapi::ObserverCallback * callbackIn = new octaneapi::ObserverCallback();
     // setup callback function callback
-    callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -232,7 +234,6 @@ void ApiLocalDBProxy::removeObserver(
             void *                                    opaqueData,
             Octane::ApiLocalDB::ObserverCallback *    callback
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -283,3 +284,4 @@ void ApiLocalDBProxy::removeObserver(
 };
 
 
+} //end of namespace

@@ -11,19 +11,28 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiNodeProxy;
-class ApiNodeGraphProxy;
-class ApiRootNodeGraphProxy;
-class ApiItemArrayProxy;
-class ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    class ApiNodeProxy;
+    class ApiNodeGraphProxy;
+    class ApiRootNodeGraphProxy;
+    class ApiItemArrayProxy;
+    struct ApiNodeInfoProxy;
+}
 
 
 #include "apinodesystem.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiItem
 class ApiItemProxy : public GRPCBase
@@ -776,411 +785,6 @@ public:
 
     std::vector<uint8_t> getByteArrayIx(
             const uint32_t   index
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            bool &                                    value
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            int32_t &                                 value
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            OctaneVec::int32_2 &                      value
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            OctaneVec::int32_3 &                      value
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            OctaneVec::int32_4 &                      value
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            int64_t &                                 value
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            OctaneVec::int64_2 &                      value
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            float &                                   value
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            OctaneVec::float_2 &                      value
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            OctaneVec::float_3 &                      value
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            OctaneVec::float_4 &                      value
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            OctaneVec::MatrixF &                      value
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            std::string &                             value
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            std::vector<bool> &                       arr
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            std::vector<int> &                        arr
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            std::vector<OctaneVec::int32_2> &         arr
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            std::vector<OctaneVec::int32_3> &         arr
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            std::vector<OctaneVec::int32_4> &         arr
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            std::vector<long> &                       arr
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            std::vector<OctaneVec::int64_2> &         arr
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            std::vector<float> &                      arr
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            std::vector<OctaneVec::float_2> &         arr
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            std::vector<OctaneVec::float_3> &         arr
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            std::vector<OctaneVec::float_4> &         arr
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            std::vector<Octane::MatrixF> &            arr
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            std::vector<std::string> &                arr
-            ) const;
-
-    void get(
-            const Octane::AttributeId                 id,
-            std::vector<uint8_t> &                    arr
-            ) const;
-
-    void get(
-            const char *                              name,
-            bool &                                    value
-            ) const;
-
-    void get(
-            const char *                              name,
-            int32_t &                                 value
-            ) const;
-
-    void get(
-            const char *                              name,
-            OctaneVec::int32_2 &                      value
-            ) const;
-
-    void get(
-            const char *                              name,
-            OctaneVec::int32_3 &                      value
-            ) const;
-
-    void get(
-            const char *                              name,
-            OctaneVec::int32_4 &                      value
-            ) const;
-
-    void get(
-            const char *                              name,
-            int64_t &                                 value
-            ) const;
-
-    void get(
-            const char *                              name,
-            OctaneVec::int64_2 &                      value
-            ) const;
-
-    void get(
-            const char *                              name,
-            float &                                   value
-            ) const;
-
-    void get(
-            const char *                              name,
-            OctaneVec::float_2 &                      value
-            ) const;
-
-    void get(
-            const char *                              name,
-            OctaneVec::float_3 &                      value
-            ) const;
-
-    void get(
-            const char *                              name,
-            OctaneVec::float_4 &                      value
-            ) const;
-
-    void get(
-            const char *                              name,
-            OctaneVec::MatrixF &                      value
-            ) const;
-
-    void get(
-            const char *                              name,
-            std::string &                             value
-            ) const;
-
-    void get(
-            const char *                              name,
-            std::vector<bool> &                       arr
-            ) const;
-
-    void get(
-            const char *                              name,
-            std::vector<int> &                        arr
-            ) const;
-
-    void get(
-            const char *                              name,
-            std::vector<OctaneVec::int32_2> &         arr
-            ) const;
-
-    void get(
-            const char *                              name,
-            std::vector<OctaneVec::int32_3> &         arr
-            ) const;
-
-    void get(
-            const char *                              name,
-            std::vector<OctaneVec::int32_4> &         arr
-            ) const;
-
-    void get(
-            const char *                              name,
-            std::vector<long> &                       arr
-            ) const;
-
-    void get(
-            const char *                              name,
-            std::vector<OctaneVec::int64_2> &         arr
-            ) const;
-
-    void get(
-            const char *                              name,
-            std::vector<float> &                      arr
-            ) const;
-
-    void get(
-            const char *                              name,
-            std::vector<OctaneVec::float_2> &         arr
-            ) const;
-
-    void get(
-            const char *                              name,
-            std::vector<OctaneVec::float_3> &         arr
-            ) const;
-
-    void get(
-            const char *                              name,
-            std::vector<OctaneVec::float_4> &         arr
-            ) const;
-
-    void get(
-            const char *                              name,
-            std::vector<Octane::MatrixF> &            arr
-            ) const;
-
-    void get(
-            const char *                              name,
-            std::vector<std::string> &                arr
-            ) const;
-
-    void get(
-            const char *                              name,
-            std::vector<uint8_t> &                    arr
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            bool &                                    value
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            int32_t &                                 value
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            OctaneVec::int32_2 &                      value
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            OctaneVec::int32_3 &                      value
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            OctaneVec::int32_4 &                      value
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            int64_t &                                 value
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            OctaneVec::int64_2 &                      value
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            float &                                   value
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            OctaneVec::float_2 &                      value
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            OctaneVec::float_3 &                      value
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            OctaneVec::float_4 &                      value
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            OctaneVec::MatrixF &                      value
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            std::string &                             value
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            std::vector<bool> &                       arr
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            std::vector<int> &                        arr
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            std::vector<OctaneVec::int32_2> &         arr
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            std::vector<OctaneVec::int32_3> &         arr
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            std::vector<OctaneVec::int32_4> &         arr
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            std::vector<long> &                       arr
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            std::vector<OctaneVec::int64_2> &         arr
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            std::vector<float> &                      arr
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            std::vector<OctaneVec::float_2> &         arr
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            std::vector<OctaneVec::float_3> &         arr
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            std::vector<OctaneVec::float_4> &         arr
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            std::vector<Octane::MatrixF> &            arr
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            std::vector<std::string> &                arr
-            ) const;
-
-    void getIx(
-            const uint32_t                            index,
-            std::vector<uint8_t> &                    arr
             ) const;
 
     void set(
@@ -3058,6 +2662,763 @@ public:
             const char *   directory
             );
 
-private:
+
+    // --- AttributeId overloads ---
+   /* bool         getBool       (const Octane::AttributeId id) const;
+    int32_t      getInt        (const Octane::AttributeId id) const;
+    OctaneVec::int32_2 getInt2 (const Octane::AttributeId id) const;
+    OctaneVec::int32_3 getInt3 (const Octane::AttributeId id) const;
+    OctaneVec::int32_4 getInt4 (const Octane::AttributeId id) const;
+    int64_t      getLong       (const Octane::AttributeId id) const;
+    OctaneVec::int64_2 getLong2(const Octane::AttributeId id) const;
+    float        getFloat      (const Octane::AttributeId id) const;
+    OctaneVec::float_2 getFloat2(const Octane::AttributeId id) const;
+    OctaneVec::float_3 getFloat3(const Octane::AttributeId id) const;
+    OctaneVec::float_4 getFloat4(const Octane::AttributeId id) const;
+    OctaneVec::MatrixF getMatrix(const Octane::AttributeId id) const;
+    const char*  getString     (const Octane::AttributeId id) const;
+    BoolArrayT   getBoolArray  (const Octane::AttributeId id) const;
+    IntArrayT    getIntArray   (const Octane::AttributeId id) const;
+    Int2ArrayT   getInt2Array  (const Octane::AttributeId id) const;
+    Int3ArrayT   getInt3Array  (const Octane::AttributeId id) const;
+    Int4ArrayT   getInt4Array  (const Octane::AttributeId id) const;
+    LongArrayT   getLongArray  (const Octane::AttributeId id) const;
+    Long2ArrayT  getLong2Array (const Octane::AttributeId id) const;
+    FloatArrayT  getFloatArray (const Octane::AttributeId id) const;
+    Float2ArrayT getFloat2Array(const Octane::AttributeId id) const;
+    Float3ArrayT getFloat3Array(const Octane::AttributeId id) const;
+    Float4ArrayT getFloat4Array(const Octane::AttributeId id) const;
+    MatrixArrayT getMatrixArray(const Octane::AttributeId id) const;
+    StringArrayT getStringArray(const Octane::AttributeId id) const;
+    ByteArrayT   getByteArray  (const Octane::AttributeId id) const;
+
+    // --- Name overloads ---
+    bool         getBool       (const char* name) const;
+    int32_t      getInt        (const char* name) const;
+    OctaneVec::int32_2 getInt2 (const char* name) const;
+    OctaneVec::int32_3 getInt3 (const char* name) const;
+    OctaneVec::int32_4 getInt4 (const char* name) const;
+    int64_t      getLong       (const char* name) const;
+    OctaneVec::int64_2 getLong2(const char* name) const;
+    float        getFloat      (const char* name) const;
+    OctaneVec::float_2 getFloat2(const char* name) const;
+    OctaneVec::float_3 getFloat3(const char* name) const;
+    OctaneVec::float_4 getFloat4(const char* name) const;
+    OctaneVec::MatrixF getMatrix(const char* name) const;
+    const char*  getString     (const char* name) const;
+    BoolArrayT   getBoolArray  (const char* name) const;
+    IntArrayT    getIntArray   (const char* name) const;
+    Int2ArrayT   getInt2Array  (const char* name) const;
+    Int3ArrayT   getInt3Array  (const char* name) const;
+    Int4ArrayT   getInt4Array  (const char* name) const;
+    LongArrayT   getLongArray  (const char* name) const;
+    Long2ArrayT  getLong2Array (const char* name) const;
+    FloatArrayT  getFloatArray (const char* name) const;
+    Float2ArrayT getFloat2Array(const char* name) const;
+    Float3ArrayT getFloat3Array(const char* name) const;
+    Float4ArrayT getFloat4Array(const char* name) const;
+    MatrixArrayT getMatrixArray(const char* name) const;
+    StringArrayT getStringArray(const char* name) const;
+    ByteArrayT   getByteArray  (const char* name) const;
+
+    // --- Index overloads ---
+    bool         getBoolIx       (uint32_t index) const;
+    int32_t      getIntIx        (uint32_t index) const;
+    OctaneVec::int32_2 getInt2Ix (uint32_t index) const;
+    OctaneVec::int32_3 getInt3Ix (uint32_t index) const;
+    OctaneVec::int32_4 getInt4Ix (uint32_t index) const;
+    int64_t      getLongIx       (uint32_t index) const;
+    OctaneVec::int64_2 getLong2Ix(uint32_t index) const;
+    float        getFloatIx      (uint32_t index) const;
+    OctaneVec::float_2 getFloat2Ix(uint32_t index) const;
+    OctaneVec::float_3 getFloat3Ix(uint32_t index) const;
+    OctaneVec::float_4 getFloat4Ix(uint32_t index) const;
+    OctaneVec::MatrixF getMatrixIx(uint32_t index) const;
+    const char*  getStringIx     (uint32_t index) const;
+    BoolArrayT   getBoolArrayIx  (uint32_t index) const;
+    IntArrayT    getIntArrayIx   (uint32_t index) const;
+    Int2ArrayT   getInt2ArrayIx  (uint32_t index) const;
+    Int3ArrayT   getInt3ArrayIx  (uint32_t index) const;
+    Int4ArrayT   getInt4ArrayIx  (uint32_t index) const;
+    LongArrayT   getLongArrayIx  (uint32_t index) const;
+    Long2ArrayT  getLong2ArrayIx (uint32_t index) const;
+    FloatArrayT  getFloatArrayIx (uint32_t index) const;
+    Float2ArrayT getFloat2ArrayIx(uint32_t index) const;
+    Float3ArrayT getFloat3ArrayIx(uint32_t index) const;
+    Float4ArrayT getFloat4ArrayIx(uint32_t index) const;
+    MatrixArrayT getMatrixArrayIx(uint32_t index) const;
+    StringArrayT getStringArrayIx(uint32_t index) const;
+    ByteArrayT   getByteArrayIx  (uint32_t index) const;
+
+    // --- Scalar setters by AttributeId ---
+    void set(const Octane::AttributeId id, const bool value, bool evaluate);
+    void set(const Octane::AttributeId id, const int32_t value, bool evaluate);
+    void set(const Octane::AttributeId id, const OctaneVec::int32_2& value, bool evaluate);
+    void set(const Octane::AttributeId id, const OctaneVec::int32_3& value, bool evaluate);
+    void set(const Octane::AttributeId id, const OctaneVec::int32_4& value, bool evaluate);
+    void set(const Octane::AttributeId id, const int64_t value, bool evaluate);
+    void set(const Octane::AttributeId id, const OctaneVec::int64_2& value, bool evaluate);
+    void set(const Octane::AttributeId id, const float value, bool evaluate);
+    void set(const Octane::AttributeId id, const OctaneVec::float_2& value, bool evaluate);
+    void set(const Octane::AttributeId id, const OctaneVec::float_3& value, bool evaluate);
+    void set(const Octane::AttributeId id, const OctaneVec::float_4& value, bool evaluate);
+    void set(const Octane::AttributeId id, const OctaneVec::MatrixF& value, bool evaluate);
+    void set(const Octane::AttributeId id, const char* value, bool evaluate);
+
+    // --- Array setters by AttributeId ---
+    void set(const Octane::AttributeId id, const bool* arr, size_t size, bool evaluate);
+    void set(const Octane::AttributeId id, const int32_t* arr, size_t size, bool evaluate);
+    void set(const Octane::AttributeId id, const OctaneVec::int32_2* arr, size_t size, bool evaluate);
+    void set(const Octane::AttributeId id, const OctaneVec::int32_3* arr, size_t size, bool evaluate);
+    void set(const Octane::AttributeId id, const OctaneVec::int32_4* arr, size_t size, bool evaluate);
+    void set(const Octane::AttributeId id, const int64_t* arr, size_t size, bool evaluate);
+    void set(const Octane::AttributeId id, const OctaneVec::int64_2* arr, size_t size, bool evaluate);
+    void set(const Octane::AttributeId id, const float* arr, size_t size, bool evaluate);
+    void set(const Octane::AttributeId id, const OctaneVec::float_2* arr, size_t size, bool evaluate);
+    void set(const Octane::AttributeId id, const OctaneVec::float_3* arr, size_t size, bool evaluate);
+    void set(const Octane::AttributeId id, const OctaneVec::float_4* arr, size_t size, bool evaluate);
+    void set(const Octane::AttributeId id, const OctaneVec::MatrixF* arr, size_t size, bool evaluate);
+    void set(const Octane::AttributeId id, const char* const* arr, size_t size, bool evaluate);
+    void set(const Octane::AttributeId id, const uint8_t* arr, size_t size, bool evaluate);
+
+
+    void set(const char *name,  const bool         value,  const bool evaluate);
+    void set(const char *name,  const int32_t      value,  const bool evaluate);
+    void set(const char *name,  const int32_2     &value,  const bool evaluate);
+    void set(const char *name,  const int32_3     &value,  const bool evaluate);
+    void set(const char *name,  const int32_4     &value,  const bool evaluate);
+    void set(const char *name,  const int64_t      value,  const bool evaluate);
+    void set(const char *name,  const int64_2     &value,  const bool evaluate);
+    void set(const char *name,  const float        value,  const bool evaluate);
+    void set(const char *name,  const float_2     &value,  const bool evaluate);
+    void set(const char *name,  const float_3     &value,  const bool evaluate);
+    void set(const char *name,  const float_4     &value,  const bool evaluate);
+    void set(const char *name,  const MatrixF     &value,  const bool evaluate);
+    void set(const char *name,  const char *       value,  const bool evaluate);
+    void set(const char *name,  const bool        *arr,  const size_t size,  const bool evaluate);
+    void set(const char *name,  const int32_t     *arr,  const size_t size,  const bool evaluate);
+    void set(const char *name,  const int32_2     *arr,  const size_t size,  const bool evaluate);
+    void set(const char *name,  const int32_3     *arr,  const size_t size,  const bool evaluate);
+    void set(const char *name,  const int32_4     *arr,  const size_t size,  const bool evaluate);
+    void set(const char *name,  const int64_t     *arr,  const size_t size,  const bool evaluate);
+    void set(const char *name,  const int64_2     *arr,  const size_t size,  const bool evaluate);
+    void set(const char *name,  const float       *arr,  const size_t size,  const bool evaluate);
+    void set(const char *name,  const float_2     *arr,  const size_t size,  const bool evaluate);
+    void set(const char *name,  const float_3     *arr,  const size_t size,  const bool evaluate);
+    void set(const char *name,  const float_4     *arr,  const size_t size,  const bool evaluate);
+    void set(const char *name,  const MatrixF     *arr,  const size_t size,  const bool evaluate);
+    void set(const char *name,  const char *const *arr,  const size_t size,  const bool evaluate);
+    void set(const char *name,  const uint8_t     *arr,  const size_t size,  const bool evaluate);
+
+    void setIx(const uint32_t index,  const bool         value,  const bool evaluate);
+    void setIx(const uint32_t index,  const int32_t      value,  const bool evaluate);
+    void setIx(const uint32_t index,  const int32_2     &value,  const bool evaluate);
+    void setIx(const uint32_t index,  const int32_3     &value,  const bool evaluate);
+    void setIx(const uint32_t index,  const int32_4     &value,  const bool evaluate);
+    void setIx(const uint32_t index,  const int64_t      value,  const bool evaluate);
+    void setIx(const uint32_t index,  const int64_2     &value,  const bool evaluate);
+    void setIx(const uint32_t index,  const float        value,  const bool evaluate);
+    void setIx(const uint32_t index,  const float_2     &value,  const bool evaluate);
+    void setIx(const uint32_t index,  const float_3     &value,  const bool evaluate);
+    void setIx(const uint32_t index,  const float_4     &value,  const bool evaluate);
+    void setIx(const uint32_t index,  const MatrixF     &value,  const bool evaluate);
+    void setIx(const uint32_t index,  const char *       value,  const bool evaluate);
+    void setIx(const uint32_t index,  const bool        *arr,  const size_t size,  const bool evaluate);
+    void setIx(const uint32_t index,  const int32_t     *arr,  const size_t size,  const bool evaluate);
+    void setIx(const uint32_t index,  const int32_2     *arr,  const size_t size,  const bool evaluate);
+    void setIx(const uint32_t index,  const int32_3     *arr,  const size_t size,  const bool evaluate);
+    void setIx(const uint32_t index,  const int32_4     *arr,  const size_t size,  const bool evaluate);
+    void setIx(const uint32_t index,  const int64_t     *arr,  const size_t size,  const bool evaluate);
+    void setIx(const uint32_t index,  const int64_2     *arr,  const size_t size,  const bool evaluate);
+    void setIx(const uint32_t index,  const float       *arr,  const size_t size,  const bool evaluate);
+    void setIx(const uint32_t index,  const float_2     *arr,  const size_t size,  const bool evaluate);
+    void setIx(const uint32_t index,  const float_3     *arr,  const size_t size,  const bool evaluate);
+    void setIx(const uint32_t index,  const float_4     *arr,  const size_t size,  const bool evaluate);
+    void setIx(const uint32_t index,  const MatrixF     *arr,  const size_t size,  const bool evaluate);
+    void setIx(const uint32_t index,  const char *const *arr,  const size_t size,  const bool evaluate);
+    void setIx(const uint32_t index,  const uint8_t     *arr,  const size_t size,  const bool evaluate);
+
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  BoolArrayT   &values) const'
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  IntArrayT    &values) const'
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  Int2ArrayT   &values) const'
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  Int3ArrayT   &values) const'
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  Int4ArrayT   &values) const'
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  LongArrayT   &values) const'
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  Long2ArrayT  &values) const'
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  FloatArrayT  &values) const'
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  Float2ArrayT &values) const'
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  Float3ArrayT &values) const'
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  Float4ArrayT &values) const'
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  MatrixArrayT &values) const'
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  StringArrayT &values) const'
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  ByteArrayT   &values) const'
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  size_t &numTimes,  BoolArrayT   &arr) const;
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  size_t &numTimes,  IntArrayT    &arr) const;
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  size_t &numTimes,  Int2ArrayT   &arr) const;
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  size_t &numTimes,  Int3ArrayT   &arr) const;
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  size_t &numTimes,  Int4ArrayT   &arr) const;
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  size_t &numTimes,  LongArrayT   &arr) const;
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  size_t &numTimes,  Long2ArrayT  &arr) const;
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  size_t &numTimes,  FloatArrayT  &arr) const;
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  size_t &numTimes,  Float2ArrayT &arr) const;
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  size_t &numTimes,  Float3ArrayT &arr) const;
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  size_t &numTimes,  Float4ArrayT &arr) const;
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  size_t &numTimes,  MatrixArrayT &arr) const;
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  size_t &numTimes,  StringArrayT &arr) const;
+    void getAnim(const AttributeId id,  ApiTimeSampling &times,  size_t &numTimes,  ByteArrayT   &arr) const;
+
+    void getAnim(const char *name,  ApiTimeSampling &times,  BoolArrayT   &values) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  IntArrayT    &values) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  Int2ArrayT   &values) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  Int3ArrayT   &values) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  Int4ArrayT   &values) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  LongArrayT   &values) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  Long2ArrayT  &values) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  FloatArrayT  &values) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  Float2ArrayT &values) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  Float3ArrayT &values) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  Float4ArrayT &values) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  MatrixArrayT &values) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  StringArrayT &values) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  ByteArrayT   &values) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  size_t &numTimes,  BoolArrayT   &arr) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  size_t &numTimes,  IntArrayT    &arr) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  size_t &numTimes,  Int2ArrayT   &arr) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  size_t &numTimes,  Int3ArrayT   &arr) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  size_t &numTimes,  Int4ArrayT   &arr) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  size_t &numTimes,  LongArrayT   &arr) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  size_t &numTimes,  Long2ArrayT  &arr) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  size_t &numTimes,  FloatArrayT  &arr) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  size_t &numTimes,  Float2ArrayT &arr) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  size_t &numTimes,  Float3ArrayT &arr) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  size_t &numTimes,  Float4ArrayT &arr) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  size_t &numTimes,  MatrixArrayT &arr) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  size_t &numTimes,  StringArrayT &arr) const;
+    void getAnim(const char *name,  ApiTimeSampling &times,  size_t &numTimes,  ByteArrayT   &arr) const;
+
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  BoolArrayT   &values) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  IntArrayT    &values) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  Int2ArrayT   &values) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  Int3ArrayT   &values) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  Int4ArrayT   &values) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  LongArrayT   &values) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  Long2ArrayT  &values) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  FloatArrayT  &values) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  Float2ArrayT &values) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  Float3ArrayT &values) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  Float4ArrayT &values) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  MatrixArrayT &values) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  StringArrayT &values) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  ByteArrayT   &values) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  size_t &numTimes,  BoolArrayT   &arr) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  size_t &numTimes,  IntArrayT    &arr) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  size_t &numTimes,  Int2ArrayT   &arr) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  size_t &numTimes,  Int3ArrayT   &arr) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  size_t &numTimes,  Int4ArrayT   &arr) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  size_t &numTimes,  LongArrayT   &arr) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  size_t &numTimes,  Long2ArrayT  &arr) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  size_t &numTimes,  FloatArrayT  &arr) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  size_t &numTimes,  Float2ArrayT &arr) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  size_t &numTimes,  Float3ArrayT &arr) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  size_t &numTimes,  Float4ArrayT &arr) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  size_t &numTimes,  MatrixArrayT &arr) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  size_t &numTimes,  StringArrayT &arr) const;
+    void getAnimIx(const uint32_t index,  ApiTimeSampling &times,  size_t &numTimes,  ByteArrayT   &arr) const;
+
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const bool        *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const int32_t     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const int32_2     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const int32_3     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const int32_4     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const int64_t     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const int64_2     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const float       *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const float_2     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const float_3     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const float_4     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const MatrixF     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const char *const *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const uint8_t     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const size_t numTimes,  const bool        *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const size_t numTimes,  const int32_t     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const size_t numTimes,  const int32_2     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const size_t numTimes,  const int32_3     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const size_t numTimes,  const int32_4     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const size_t numTimes,  const int64_t     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const size_t numTimes,  const int64_2     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const size_t numTimes,  const float       *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const size_t numTimes,  const float_2     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const size_t numTimes,  const float_3     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const size_t numTimes,  const float_4     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const size_t numTimes,  const MatrixF     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const size_t numTimes,  const char *const *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const AttributeId id,  const ApiTimeSampling &times,  const size_t numTimes,  const uint8_t     *arr,  const size_t arrSize,  const bool evaluate);
+    ;
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const bool        *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const int32_t     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const int32_2     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const int32_3     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const int32_4     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const int64_t     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const int64_2     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const float       *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const float_2     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const float_3     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const float_4     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const MatrixF     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const char *const *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const uint8_t     *values,  const size_t numValues,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const size_t numTimes,  const bool        *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const size_t numTimes,  const int32_t     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const size_t numTimes,  const int32_2     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const size_t numTimes,  const int32_3     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const size_t numTimes,  const int32_4     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const size_t numTimes,  const int64_t     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const size_t numTimes,  const int64_2     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const size_t numTimes,  const float       *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const size_t numTimes,  const float_2     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const size_t numTimes,  const float_3     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const size_t numTimes,  const float_4     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const size_t numTimes,  const MatrixF     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const size_t numTimes,  const char *const *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnim(const char *name,  const ApiTimeSampling &times,  const size_t numTimes,  const uint8_t     *arr,  const size_t arrSize,  const bool evaluate);
+
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const bool        *values,  const size_t numValues,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const int32_t     *values,  const size_t numValues,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const int32_2     *values,  const size_t numValues,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const int32_3     *values,  const size_t numValues,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const int32_4     *values,  const size_t numValues,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const int64_t     *values,  const size_t numValues,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const int64_2     *values,  const size_t numValues,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const float       *values,  const size_t numValues,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const float_2     *values,  const size_t numValues,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const float_3     *values,  const size_t numValues,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const float_4     *values,  const size_t numValues,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const MatrixF     *values,  const size_t numValues,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const char *const *values,  const size_t numValues,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const uint8_t     *values,  const size_t numValues,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const size_t numTimes,  const bool        *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const size_t numTimes,  const int32_t     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const size_t numTimes,  const int32_2     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const size_t numTimes,  const int32_3     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const size_t numTimes,  const int32_4     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const size_t numTimes,  const int64_t     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const size_t numTimes,  const int64_2     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const size_t numTimes,  const float       *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const size_t numTimes,  const float_2     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const size_t numTimes,  const float_3     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const size_t numTimes,  const float_4     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const size_t numTimes,  const MatrixF     *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const size_t numTimes,  const char *const *arr,  const size_t arrSize,  const bool evaluate);
+    void setAnimIx(const uint32_t index,  const ApiTimeSampling &times,  const size_t numTimes,  const uint8_t     *arr,  const size_t arrSize,  const bool evaluate);
+*/
+
+    void get(
+            const Octane::AttributeId                 id,
+            bool &                                    value
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            int32_t &                                 value
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            OctaneVec::int32_2 &                      value
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            OctaneVec::int32_3 &                      value
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            OctaneVec::int32_4 &                      value
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            int64_t &                                 value
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            OctaneVec::int64_2 &                      value
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            float &                                   value
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            OctaneVec::float_2 &                      value
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            OctaneVec::float_3 &                      value
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            OctaneVec::float_4 &                      value
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            OctaneVec::MatrixF &                      value
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            std::string &                             value
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            std::vector<bool> &                       arr
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            std::vector<int> &                        arr
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            std::vector<OctaneVec::int32_2> &         arr
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            std::vector<OctaneVec::int32_3> &         arr
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            std::vector<OctaneVec::int32_4> &         arr
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            std::vector<long> &                       arr
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            std::vector<OctaneVec::int64_2> &         arr
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            std::vector<float> &                      arr
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            std::vector<OctaneVec::float_2> &         arr
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            std::vector<OctaneVec::float_3> &         arr
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            std::vector<OctaneVec::float_4> &         arr
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            std::vector<Octane::MatrixF> &            arr
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            std::vector<std::string> &                arr
+            ) const;
+
+    void get(
+            const Octane::AttributeId                 id,
+            std::vector<uint8_t> &                    arr
+            ) const;
+
+    void get(
+            const char *                              name,
+            bool &                                    value
+            ) const;
+
+    void get(
+            const char *                              name,
+            int32_t &                                 value
+            ) const;
+
+    void get(
+            const char *                              name,
+            OctaneVec::int32_2 &                      value
+            ) const;
+
+    void get(
+            const char *                              name,
+            OctaneVec::int32_3 &                      value
+            ) const;
+
+    void get(
+            const char *                              name,
+            OctaneVec::int32_4 &                      value
+            ) const;
+
+    void get(
+            const char *                              name,
+            int64_t &                                 value
+            ) const;
+
+    void get(
+            const char *                              name,
+            OctaneVec::int64_2 &                      value
+            ) const;
+
+    void get(
+            const char *                              name,
+            float &                                   value
+            ) const;
+
+    void get(
+            const char *                              name,
+            OctaneVec::float_2 &                      value
+            ) const;
+
+    void get(
+            const char *                              name,
+            OctaneVec::float_3 &                      value
+            ) const;
+
+    void get(
+            const char *                              name,
+            OctaneVec::float_4 &                      value
+            ) const;
+
+    void get(
+            const char *                              name,
+            OctaneVec::MatrixF &                      value
+            ) const;
+
+    void get(
+            const char *                              name,
+            std::string &                             value
+            ) const;
+
+    void get(
+            const char *                              name,
+            std::vector<bool> &                       arr
+            ) const;
+
+    void get(
+            const char *                              name,
+            std::vector<int> &                        arr
+            ) const;
+
+    void get(
+            const char *                              name,
+            std::vector<OctaneVec::int32_2> &         arr
+            ) const;
+
+    void get(
+            const char *                              name,
+            std::vector<OctaneVec::int32_3> &         arr
+            ) const;
+
+    void get(
+            const char *                              name,
+            std::vector<OctaneVec::int32_4> &         arr
+            ) const;
+
+    void get(
+            const char *                              name,
+            std::vector<long> &                       arr
+            ) const;
+
+    void get(
+            const char *                              name,
+            std::vector<OctaneVec::int64_2> &         arr
+            ) const;
+
+    void get(
+            const char *                              name,
+            std::vector<float> &                      arr
+            ) const;
+
+    void get(
+            const char *                              name,
+            std::vector<OctaneVec::float_2> &         arr
+            ) const;
+
+    void get(
+            const char *                              name,
+            std::vector<OctaneVec::float_3> &         arr
+            ) const;
+
+    void get(
+            const char *                              name,
+            std::vector<OctaneVec::float_4> &         arr
+            ) const;
+
+    void get(
+            const char *                              name,
+            std::vector<Octane::MatrixF> &            arr
+            ) const;
+
+    void get(
+            const char *                              name,
+            std::vector<std::string> &                arr
+            ) const;
+
+    void get(
+            const char *                              name,
+            std::vector<uint8_t> &                    arr
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            bool &                                    value
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            int32_t &                                 value
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            OctaneVec::int32_2 &                      value
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            OctaneVec::int32_3 &                      value
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            OctaneVec::int32_4 &                      value
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            int64_t &                                 value
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            OctaneVec::int64_2 &                      value
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            float &                                   value
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            OctaneVec::float_2 &                      value
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            OctaneVec::float_3 &                      value
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            OctaneVec::float_4 &                      value
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            OctaneVec::MatrixF &                      value
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            std::string &                             value
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            std::vector<bool> &                       arr
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            std::vector<int> &                        arr
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            std::vector<OctaneVec::int32_2> &         arr
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            std::vector<OctaneVec::int32_3> &         arr
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            std::vector<OctaneVec::int32_4> &         arr
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            std::vector<long> &                       arr
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            std::vector<OctaneVec::int64_2> &         arr
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            std::vector<float> &                      arr
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            std::vector<OctaneVec::float_2> &         arr
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            std::vector<OctaneVec::float_3> &         arr
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            std::vector<OctaneVec::float_4> &         arr
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            std::vector<Octane::MatrixF> &            arr
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            std::vector<std::string> &                arr
+            ) const;
+
+    void getIx(
+            const uint32_t                            index,
+            std::vector<uint8_t> &                    arr
+            ) const;
+
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

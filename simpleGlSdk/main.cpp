@@ -447,7 +447,7 @@ bool registerWithOctane() {
     std::cout << " Registering shared surface with Octane..." << std::endl;
     
     // Check if current device supports shared surfaces
-    ApiDeviceSharedSurfaceInfo sharedInfo = ApiRenderEngineProxy::deviceSharedSurfaceInfo(0);
+    ApiDeviceSharedSurfaceInfo sharedInfo = OctaneGRPC::ApiRenderEngineProxy::deviceSharedSurfaceInfo(0);
     if (!sharedInfo.mD3D11.mSupported) {
         std::cout << " Current Octane device doesn't support D3D11 shared surfaces" << std::endl;
         return false;
@@ -471,7 +471,7 @@ bool registerWithOctane() {
     }
     
     // Enable shared surface output in Octane
-    ApiRenderEngineProxy::setSharedSurfaceOutputType(SHARED_SURFACE_TYPE_D3D11, true);
+    OctaneGRPC::ApiRenderEngineProxy::setSharedSurfaceOutputType(SHARED_SURFACE_TYPE_D3D11, true);
     
     std::cout << " Shared surface registered with Octane successfully" << std::endl;
     std::cout << "   Real-time mode enabled" << std::endl;
@@ -484,7 +484,7 @@ void cleanupSharedSurface() {
     
     // Disable shared surface output
     if (g_octaneSharedSurface) {
-        ApiRenderEngineProxy::setSharedSurfaceOutputType(SHARED_SURFACE_TYPE_NONE, false);
+        OctaneGRPC::ApiRenderEngineProxy::setSharedSurfaceOutputType(SHARED_SURFACE_TYPE_NONE, false);
     }
     
     // Unregister OpenGL object
@@ -656,8 +656,8 @@ int main() {
         cameraSync.setCamera(position, center, up);
     };
     const char* serverAddress = "127.0.0.1:51022";
-    GRPCSettings::getInstance().setServerAddress(serverAddress);
-    GRPCSettings::getInstance().setUniqueString("grpc");
+    OctaneGRPC::GRPCSettings::getInstance().setServerAddress(serverAddress);
+    OctaneGRPC::GRPCSettings::getInstance().setUniqueString("grpc");
 
 #ifdef DO_GRPC_SDK_ENABLED
     // Callback will be registered after successful connection in main loop
@@ -771,7 +771,7 @@ int main() {
             if (!g_callbackRegistered) {
                 std::cout << " Registering render image callback..." << std::endl;
                 try {
-                    ApiRenderEngineProxy::setOnNewImageCallback(OnNewImageCallback, nullptr);
+                    OctaneGRPC::ApiRenderEngineProxy::setOnNewImageCallback(OnNewImageCallback, nullptr);
                     std::cout << " Render image callback registered successfully" << std::endl;
                     g_callbackRegistered = true;
                 } catch (const std::exception& e) {
@@ -905,7 +905,7 @@ int main() {
         std::cout << " Unregistering render image callback..." << std::endl;
         try {
             // !!! only works with module sdk 
-            ApiRenderEngineProxy::setOnNewImageCallback(nullptr, nullptr);
+            OctaneGRPC::ApiRenderEngineProxy::setOnNewImageCallback(nullptr, nullptr);
             std::cout << " Render image callback unregistered" << std::endl;
         } catch (const std::exception& e) {
             std::cout << " Failed to unregister render image callback: " << e.what() << std::endl;

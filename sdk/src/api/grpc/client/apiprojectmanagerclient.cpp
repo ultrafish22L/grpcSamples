@@ -25,6 +25,10 @@
 #include "convertreferencepackageexportsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiProjectManagerProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -437,7 +441,6 @@ bool ApiProjectManagerProxy::loadProject(
             void *                                    assetMissinguserData,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -454,7 +457,7 @@ bool ApiProjectManagerProxy::loadProject(
     // Add the 'assetMissingcallback' [in] parameter to the request packet.
     octaneapi::AssetMissingCallbackT * assetmissingcallbackIn = new octaneapi::AssetMissingCallbackT();
     // setup callback function assetMissingcallback
-    assetmissingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        assetmissingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_assetmissingcallback(assetmissingcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -635,7 +638,6 @@ bool ApiProjectManagerProxy::saveProject()
 bool ApiProjectManagerProxy::saveProjectAs(
             const char *                              path
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -686,7 +688,6 @@ bool ApiProjectManagerProxy::saveProjectAsReferencePackage(
             const char *                              path,
             const Octane::ReferencePackageExportSettings & referencePackageSettings
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -744,7 +745,6 @@ bool ApiProjectManagerProxy::unpackPackage(
             const char *                              packagePath,
             const char *                              unpackName
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -806,7 +806,6 @@ bool ApiProjectManagerProxy::unpackPackage(
 void ApiProjectManagerProxy::addObserver(
             GRPCProjectManagerObserver               observer
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -823,7 +822,7 @@ void ApiProjectManagerProxy::addObserver(
     //observerchangeT->set_callbackid(observerCallbackId);
     observerIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     //observerIn->set_callbackid(observerCallbackId);
-    observerIn->set_userdata(reinterpret_cast<uint64_t>(observer.mUserData));
+observerIn->set_userdata(reinterpret_cast<uint64_t>(observer.mUserData));
     //if(className == "ApiProjectManager" && method.mName == "addObserver") return true;
     request.set_allocated_observer(observerIn);
 
@@ -860,7 +859,6 @@ void ApiProjectManagerProxy::addObserver(
 void ApiProjectManagerProxy::removeObserver(
             GRPCProjectManagerObserver               removeObserver
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -875,7 +873,7 @@ void ApiProjectManagerProxy::removeObserver(
     //octaneapi::OnChangeT * removeObserverchangeT = new octaneapi::OnChangeT();
     //removeObserverchangeT->set_callbackid(removeObserverCallbackId);
     removeobserverIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    removeobserverIn->set_callbackid(removeObserverCallbackId);
+   removeobserverIn->set_callbackid(removeObserverCallbackId);
     request.set_allocated_removeobserver(removeobserverIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -908,3 +906,4 @@ void ApiProjectManagerProxy::removeObserver(
 };
 
 
+} //end of namespace

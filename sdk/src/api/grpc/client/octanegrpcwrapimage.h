@@ -146,17 +146,17 @@ public:
     void desaturate();
 
     /// Returns the wrapped image.
-    ApiImageProxy* wrappedImage();
+    OctaneGRPC::ApiImageProxy * wrappedImage();
 
     /// Returns the wrapped image. const version
-    const ApiImageProxy* wrappedImage() const;
+    const OctaneGRPC::ApiImageProxy * wrappedImage() const;
 
 private:
 
-    ApiImageProxy mApiImage;
+    OctaneGRPC::ApiImageProxy mApiImage;
 
     Image(
-        ApiImageProxy & apiImage);
+        OctaneGRPC::ApiImageProxy & apiImage);
 };
 
 } // namespace OctaneWrap

@@ -28,6 +28,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void ApiTextureNodeTypeInfo_ApiTextureNodeTypeInfo_ConfigurationConverter::convert(
     const octaneapi::ApiTextureNodeTypeInfo_ApiTextureNodeTypeInfo_Configuration & in,
     Octane::ApiTextureNodeTypeInfo::Configuration & out)
@@ -67,4 +70,5 @@ void ApiTextureNodeTypeInfo_ApiTextureNodeTypeInfo_ConfigurationConverter::conve
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

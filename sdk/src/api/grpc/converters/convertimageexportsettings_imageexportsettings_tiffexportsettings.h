@@ -9,7 +9,13 @@
 #include <functional>
 #include "octaneimageexport.h"
 namespace octaneapi { class ApiTextureNodeTypeInfo_ApiTextureNodeTypeInfo_Configuration; }
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ImageExportSettings_ImageExportSettings_TiffExportSettingsConverter
 {
 public:
@@ -21,4 +27,6 @@ public:
         const Octane::ImageExportSettings::TiffExportSettings & in,
         octaneapi::ImageExportSettings_ImageExportSettings_TiffExportSettings & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

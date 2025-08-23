@@ -16,9 +16,15 @@
 #include "octaneimageexport.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ImageExportSettings
 class ImageExportSettingsProxy : public GRPCBase
@@ -178,6 +184,7 @@ public:
             const float   quality
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

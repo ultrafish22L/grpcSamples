@@ -7,7 +7,13 @@
 namespace Octane { struct ApiGeometryStatistics; }
 namespace octaneapi { class ApiGeometryStatistics; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiGeometryStatisticsConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiGeometryStatistics & in,
         octaneapi::ApiGeometryStatistics & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

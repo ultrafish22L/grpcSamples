@@ -16,9 +16,15 @@
 #include "octanevolume.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for VdbGridInfo
 class VdbGridInfoProxy : public GRPCBase
@@ -56,6 +62,7 @@ public:
     ///     Contains the status of the gRPC call
     OctaneVec::MatrixF transform() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

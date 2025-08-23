@@ -7,7 +7,13 @@
 namespace Octane { struct NetInterfaceInfo; }
 namespace octaneapi { class NetInterfaceInfo; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class NetInterfaceInfoConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::NetInterfaceInfo & in,
         octaneapi::NetInterfaceInfo & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

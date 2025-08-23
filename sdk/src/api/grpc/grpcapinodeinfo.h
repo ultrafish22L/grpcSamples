@@ -5,10 +5,12 @@
 #include "octaneinfos.h"
 #include "grpcbase.h"
 
-
-class ApiNodeInfoProxy : public Octane::ApiNodeInfo, GRPCBase
+namespace OctaneGRPC
 {
-    std::vector<Octane::ApiCompatibilityModeInfo> mCompatibilityModeInfos;
-};
+    struct ApiNodeInfoProxy : public Octane::ApiNodeInfo, GRPCBase
+    {
+        std::vector<Octane::ApiCompatibilityModeInfo> mCompatibilityModeInfos;
+    };
+} // namespace OctaneGRPC
 
 #endif //#if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

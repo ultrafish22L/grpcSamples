@@ -16,9 +16,15 @@
 #include "octanevolume.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for VdbGridSampler
 class VdbGridSamplerProxy : public GRPCBase
@@ -42,6 +48,7 @@ public:
             const float                               z
             ) const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

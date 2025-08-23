@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiLabelProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -30,7 +34,6 @@ GRPCSettings & ApiLabelProxy::getGRPCSettings()
 ApiLabelProxy ApiLabelProxy::create(
             const char *                              text
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -181,7 +184,6 @@ void ApiLabelProxy::setText(
             const char *                              newText,
             const bool                                sendEvent
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -237,3 +239,4 @@ void ApiLabelProxy::setText(
 };
 
 
+} //end of namespace

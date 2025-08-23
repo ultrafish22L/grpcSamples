@@ -17,9 +17,15 @@
 #include "apirenderview.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiRenderView
 class ApiRenderViewProxy : public ApiGuiComponentProxy
@@ -31,6 +37,7 @@ public:
             void *   privateData
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

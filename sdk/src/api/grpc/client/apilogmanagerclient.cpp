@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiLogManagerProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -30,7 +34,6 @@ GRPCSettings & ApiLogManagerProxy::getGRPCSettings()
 bool ApiLogManagerProxy::registerLogCallbackProc(
             Octane::ApiLogManager::ApiLogCallbackProc * proc
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -41,7 +44,7 @@ bool ApiLogManagerProxy::registerLogCallbackProc(
     // Add the 'proc' [in] parameter to the request packet.
     octaneapi::ApiLogCallbackProc * procIn = new octaneapi::ApiLogCallbackProc();
     // setup callback function proc
-    procIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        procIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_proc(procIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -87,7 +90,6 @@ bool ApiLogManagerProxy::registerLogCallbackProc(
 bool ApiLogManagerProxy::unregisterLogCallbackProc(
             Octane::ApiLogManager::ApiLogCallbackProc * proc
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -98,7 +100,7 @@ bool ApiLogManagerProxy::unregisterLogCallbackProc(
     // Add the 'proc' [in] parameter to the request packet.
     octaneapi::ApiLogCallbackProc * procIn = new octaneapi::ApiLogCallbackProc();
     // setup callback function proc
-    procIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        procIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_proc(procIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -179,7 +181,6 @@ void ApiLogManagerProxy::openOctaneLogWindow()
 void ApiLogManagerProxy::log(
             const char *                              text
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -223,7 +224,6 @@ void ApiLogManagerProxy::log(
 void ApiLogManagerProxy::logError(
             const char *                              errorMsg
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -267,7 +267,6 @@ void ApiLogManagerProxy::logError(
 void ApiLogManagerProxy::logFmt(
             const char *                              fmt
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -311,7 +310,6 @@ void ApiLogManagerProxy::logFmt(
 void ApiLogManagerProxy::logErrorFmt(
             const char *                              fmt
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -355,7 +353,6 @@ void ApiLogManagerProxy::logErrorFmt(
 bool ApiLogManagerProxy::isFlagRegistered(
             const char *const                         name
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -406,7 +403,6 @@ int ApiLogManagerProxy::setFlag(
             const char *const                         name,
             const int                                 value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -465,7 +461,6 @@ int ApiLogManagerProxy::__registerLogFlag(
             const char *                              name,
             const char *                              description
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -534,7 +529,6 @@ void ApiLogManagerProxy::__logFmtPrefix(
             const char *                              prefix,
             const char *                              fmt
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -581,3 +575,4 @@ void ApiLogManagerProxy::__logFmtPrefix(
 };
 
 
+} //end of namespace

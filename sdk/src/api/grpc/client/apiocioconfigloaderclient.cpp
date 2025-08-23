@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiOcioConfigLoaderProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -122,7 +126,6 @@ void ApiOcioConfigLoaderProxy::addCallback(
             GRPCCallback1T                           callback,
             void *                                    privateData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -142,7 +145,7 @@ void ApiOcioConfigLoaderProxy::addCallback(
     // Add the 'callback' [in] parameter to the request packet.
     octaneapi::CallbackT * callbackIn = new octaneapi::CallbackT();
     // setup callback function callback
-    callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -185,7 +188,6 @@ void ApiOcioConfigLoaderProxy::removeCallback(
             GRPCCallback1T                           callback,
             void *                                    privateData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -246,7 +248,6 @@ void ApiOcioConfigLoaderProxy::removeCallback(
 void ApiOcioConfigLoaderProxy::load(
             const char *                              filename
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -299,7 +300,6 @@ void ApiOcioConfigLoaderProxy::load(
 ApiOcioConfigProxy ApiOcioConfigLoaderProxy::createConfig(
             bool                                      waitIfLoading
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -360,3 +360,4 @@ ApiOcioConfigProxy ApiOcioConfigLoaderProxy::createConfig(
 };
 
 
+} //end of namespace

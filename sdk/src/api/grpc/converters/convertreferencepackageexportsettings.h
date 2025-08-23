@@ -7,7 +7,13 @@
 namespace octaneapi { class ReferencePackageExportSettings; }
 namespace Octane { struct ReferencePackageExportSettings; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ReferencePackageExportSettingsConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const octaneapi::ReferencePackageExportSettings & in,
         Octane::ReferencePackageExportSettings & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

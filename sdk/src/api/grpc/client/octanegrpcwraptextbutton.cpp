@@ -15,7 +15,7 @@ TextButton::TextButton(
 //:
 //    mApiTextButton(NULL)
 {
-    mApiTextButton = ApiTextButtonProxy::create(text.c_str(), buttonClicked, this);
+    mApiTextButton = OctaneGRPC::ApiTextButtonProxy::create(text.c_str(), buttonClicked, this);
     mComponent     = &mApiTextButton;
 }
 
@@ -54,13 +54,13 @@ void TextButton::removeListener(
 
 
 void TextButton::buttonClicked(
-    ApiTextButtonProxy    &button,
-    void                  *privateData)
+    OctaneGRPC::ApiTextButtonProxy & button,
+    void *                           privateData)
 {
     TextButton *myButton = static_cast<TextButton*>(privateData);
 
     // notify the listeners
-    for (size_t i=0; i<myButton->mListener.size(); ++i)
+    for (size_t i = 0; i<myButton->mListener.size(); ++i)
     {
         myButton->mListener[i]->buttonClicked(*myButton);
     }

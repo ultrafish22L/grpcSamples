@@ -11,21 +11,31 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiNodeInfoProxy;
-
-
 /*
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
 
-class Convert;
 
-class GRPCSettings;
+
+
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
+
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiNodeInfo
 class ApiNodeInfoProxy : public GRPCBase
 {
 public:
-private:
     static GRPCSettings & getGRPCSettings();
 };
-*/
 
+} // end of namespace
+*/

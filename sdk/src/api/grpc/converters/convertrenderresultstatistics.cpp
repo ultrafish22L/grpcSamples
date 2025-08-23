@@ -20,6 +20,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void RenderResultStatisticsConverter::convert(
     const octaneapi::RenderResultStatistics & in,
     Octane::RenderResultStatistics & out)
@@ -199,4 +202,5 @@ void RenderResultStatisticsConverter::convert(
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

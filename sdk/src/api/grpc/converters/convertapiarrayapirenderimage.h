@@ -7,7 +7,13 @@
 #include <functional>
 #include "apirender.h"
 namespace octaneapi { class ApiArrayApiRenderImage; }
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiArrayApiRenderImageConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiArray<Octane::ApiRenderImage> & in,
         octaneapi::ApiArrayApiRenderImage & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

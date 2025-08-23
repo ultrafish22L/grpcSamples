@@ -7,7 +7,13 @@
 #include <functional>
 namespace Octane { struct ApiNodeInfo; }
 namespace octaneapi { class ApiNodeInfo; }
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiNodeInfoConverter
 {
 public:
@@ -23,4 +29,6 @@ public:
         octaneapi::ApiNodeInfo & out);
 #endif // #if defined(OCTANE_STANDALONE) || defined(OCTANE_DLLEXPORT) 
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

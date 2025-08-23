@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiWindowProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -33,7 +37,6 @@ ApiWindowProxy ApiWindowProxy::create(
             GRPCOnWindowCloseCallbackT               closeCallback,
             void *                                    privateData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -50,7 +53,7 @@ ApiWindowProxy ApiWindowProxy::create(
     // Add the 'closeCallback' [in] parameter to the request packet.
     octaneapi::OnWindowCloseCallbackT * closecallbackIn = new octaneapi::OnWindowCloseCallbackT();
     // setup callback function closeCallback
-    closecallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        closecallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_closecallback(closecallbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -151,7 +154,6 @@ void ApiWindowProxy::destroy()
 void ApiWindowProxy::addContentComponent(
             ApiGuiComponentProxy &                    contentComponent
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -392,3 +394,4 @@ void * ApiWindowProxy::nativeHandle()
 };
 
 
+} //end of namespace

@@ -16,9 +16,7 @@
 #include "octanereferenceexport.h"
 #include <grpcpp/grpcpp.h>
 #include "apinodesystem_1.grpc.pb.h"
-#include "apinodesystem_2.grpc.pb.h"
 #include "apinodesystem_3.grpc.pb.h"
-#include "apinodesystem_4.grpc.pb.h"
 #include "apinodesystem_5.grpc.pb.h"
 #include "apinodesystem_6.grpc.pb.h"
 #include "apinodesystem_7.grpc.pb.h"
@@ -36,6 +34,10 @@
 #include "convertapitexturenodetypeinfo_apitexturenodetypeinfo_configuration.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiNodeProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -47,7 +49,6 @@ ApiNodeProxy ApiNodeProxy::create(
             ApiNodeGraphProxy &                       ownerGraph,
             const bool                                configurePins
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -57,7 +58,7 @@ ApiNodeProxy ApiNodeProxy::create(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodeType typeIn;
-    typeIn = static_cast<octaneapi::NodeType>(type);
+        typeIn = static_cast<octaneapi::NodeType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -118,7 +119,6 @@ bool ApiNodeProxy::addDynamicPinForLoading(
             const Octane::NodePinType                 type,
             const char *                              name
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -137,7 +137,7 @@ bool ApiNodeProxy::addDynamicPinForLoading(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodePinType typeIn;
-    typeIn = static_cast<octaneapi::NodePinType>(type);
+        typeIn = static_cast<octaneapi::NodePinType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -334,7 +334,6 @@ bool ApiNodeProxy::setTextureTypeConfiguration(
             const Octane::ApiTextureNodeTypeInfo::Configuration & configuration,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -594,7 +593,6 @@ uint32_t ApiNodeProxy::dynPinCount() const
 bool ApiNodeProxy::hasPin(
             const Octane::PinId                       pinId
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -613,7 +611,7 @@ bool ApiNodeProxy::hasPin(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinId' [in] parameter to the request packet.
     octaneapi::PinId pinidIn;
-    pinidIn = static_cast<octaneapi::PinId>(pinId);
+        pinidIn = static_cast<octaneapi::PinId>(pinId);
     request.set_pinid(pinidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -653,7 +651,6 @@ bool ApiNodeProxy::hasPin(
 bool ApiNodeProxy::hasPin(
             const char *                              pinName
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -712,7 +709,6 @@ bool ApiNodeProxy::hasPin(
 bool ApiNodeProxy::hasPinIx(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -772,7 +768,6 @@ bool ApiNodeProxy::findPin(
             const Octane::PinId                       id,
             uint32_t &                                foundIndex
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -791,7 +786,7 @@ bool ApiNodeProxy::findPin(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -837,7 +832,6 @@ bool ApiNodeProxy::findPin(
             const char *                              name,
             uint32_t &                                foundIndex
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -901,7 +895,6 @@ bool ApiNodeProxy::findPin(
 Octane::PinId ApiNodeProxy::pinId(
             const char *                              name
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -960,7 +953,6 @@ Octane::PinId ApiNodeProxy::pinId(
 Octane::PinId ApiNodeProxy::pinIdIx(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1019,7 +1011,6 @@ Octane::PinId ApiNodeProxy::pinIdIx(
 std::string ApiNodeProxy::pinName(
             const Octane::PinId                       id
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1038,7 +1029,7 @@ std::string ApiNodeProxy::pinName(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1079,7 +1070,6 @@ std::string ApiNodeProxy::pinName(
 std::string ApiNodeProxy::pinNameIx(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1139,7 +1129,6 @@ std::string ApiNodeProxy::pinNameIx(
 std::string ApiNodeProxy::pinLabel(
             const Octane::PinId                       id
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1158,7 +1147,7 @@ std::string ApiNodeProxy::pinLabel(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1199,7 +1188,6 @@ std::string ApiNodeProxy::pinLabel(
 std::string ApiNodeProxy::pinLabel(
             const char *                              name
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1259,7 +1247,6 @@ std::string ApiNodeProxy::pinLabel(
 std::string ApiNodeProxy::pinLabelIx(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1319,7 +1306,6 @@ std::string ApiNodeProxy::pinLabelIx(
 Octane::NodePinType ApiNodeProxy::pinType(
             const Octane::PinId                       id
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1338,7 +1324,7 @@ Octane::NodePinType ApiNodeProxy::pinType(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1378,7 +1364,6 @@ Octane::NodePinType ApiNodeProxy::pinType(
 Octane::NodePinType ApiNodeProxy::pinType(
             const char *                              name
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1437,7 +1422,6 @@ Octane::NodePinType ApiNodeProxy::pinType(
 Octane::NodePinType ApiNodeProxy::pinTypeIx(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1496,7 +1480,6 @@ Octane::NodePinType ApiNodeProxy::pinTypeIx(
 Octane::TextureValueType ApiNodeProxy::pinTextureValueType(
             const char *                              name
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1555,7 +1538,6 @@ Octane::TextureValueType ApiNodeProxy::pinTextureValueType(
 Octane::TextureValueType ApiNodeProxy::pinTextureValueTypeIx(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1614,7 +1596,6 @@ Octane::TextureValueType ApiNodeProxy::pinTextureValueTypeIx(
 ApiNodePinInfoProxy ApiNodeProxy::pinInfo(
             const Octane::PinId                       id
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1633,7 +1614,7 @@ ApiNodePinInfoProxy ApiNodeProxy::pinInfo(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1678,7 +1659,6 @@ ApiNodePinInfoProxy ApiNodeProxy::pinInfo(
 ApiNodePinInfoProxy ApiNodeProxy::pinInfo(
             const char *                              name
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1742,7 +1722,6 @@ ApiNodePinInfoProxy ApiNodeProxy::pinInfo(
 ApiNodePinInfoProxy ApiNodeProxy::pinInfoIx(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1856,7 +1835,6 @@ bool ApiNodeProxy::pinsAreDirty() const
 bool ApiNodeProxy::isDirtyPin(
             const Octane::PinId                       pinId
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1875,7 +1853,7 @@ bool ApiNodeProxy::isDirtyPin(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinId' [in] parameter to the request packet.
     octaneapi::PinId pinidIn;
-    pinidIn = static_cast<octaneapi::PinId>(pinId);
+        pinidIn = static_cast<octaneapi::PinId>(pinId);
     request.set_pinid(pinidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1915,7 +1893,6 @@ bool ApiNodeProxy::isDirtyPin(
 bool ApiNodeProxy::isDirtyPin(
             const char *                              pinName
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1974,7 +1951,6 @@ bool ApiNodeProxy::isDirtyPin(
 bool ApiNodeProxy::isDirtyPinIx(
             const uint32_t                            pinIx
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2035,7 +2011,6 @@ bool ApiNodeProxy::canConnectTo(
             const ApiNodeProxy *                      sourceNode,
             const bool                                doCycleCheck
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2054,7 +2029,7 @@ bool ApiNodeProxy::canConnectTo(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinId' [in] parameter to the request packet.
     octaneapi::PinId pinidIn;
-    pinidIn = static_cast<octaneapi::PinId>(pinId);
+        pinidIn = static_cast<octaneapi::PinId>(pinId);
     request.set_pinid(pinidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2111,7 +2086,6 @@ bool ApiNodeProxy::canConnectTo(
             const ApiNodeProxy *                      sourceNode,
             const bool                                doCycleCheck
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2187,7 +2161,6 @@ bool ApiNodeProxy::canConnectToIx(
             const ApiNodeProxy *                      sourceNode,
             const bool                                doCycleCheck
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2264,7 +2237,6 @@ void ApiNodeProxy::connectTo(
             const bool                                evaluate,
             const bool                                doCycleCheck
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2283,7 +2255,7 @@ void ApiNodeProxy::connectTo(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinId' [in] parameter to the request packet.
     octaneapi::PinId pinidIn;
-    pinidIn = static_cast<octaneapi::PinId>(pinId);
+        pinidIn = static_cast<octaneapi::PinId>(pinId);
     request.set_pinid(pinidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2341,7 +2313,6 @@ void ApiNodeProxy::connectTo(
             const bool                                evaluate,
             const bool                                doCycleCheck
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2418,7 +2389,6 @@ void ApiNodeProxy::connectToIx(
             const bool                                evaluate,
             const bool                                doCycleCheck
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2493,7 +2463,6 @@ ApiNodeProxy ApiNodeProxy::connectedNode(
             const Octane::PinId                       pinId,
             const bool                                enterWrapperNode
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2512,7 +2481,7 @@ ApiNodeProxy ApiNodeProxy::connectedNode(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinId' [in] parameter to the request packet.
     octaneapi::PinId pinidIn;
-    pinidIn = static_cast<octaneapi::PinId>(pinId);
+        pinidIn = static_cast<octaneapi::PinId>(pinId);
     request.set_pinid(pinidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2564,7 +2533,6 @@ ApiNodeProxy ApiNodeProxy::connectedNode(
             const char *const                         pinName,
             const bool                                enterWrapperNode
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2635,7 +2603,6 @@ ApiNodeProxy ApiNodeProxy::connectedNodeIx(
             const uint32_t                            pinIx,
             const bool                                enterWrapperNode
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2706,7 +2673,6 @@ ApiNodeProxy ApiNodeProxy::inputNode(
             const Octane::PinId                       pinId,
             const bool                                enterWrapperNodes
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2725,7 +2691,7 @@ ApiNodeProxy ApiNodeProxy::inputNode(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinId' [in] parameter to the request packet.
     octaneapi::PinId pinidIn;
-    pinidIn = static_cast<octaneapi::PinId>(pinId);
+        pinidIn = static_cast<octaneapi::PinId>(pinId);
     request.set_pinid(pinidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2777,7 +2743,6 @@ ApiNodeProxy ApiNodeProxy::inputNode(
             const char *const                         pinName,
             const bool                                enterWrapperNodes
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2848,7 +2813,6 @@ ApiNodeProxy ApiNodeProxy::inputNodeIx(
             const uint32_t                            index,
             const bool                                enterWrapperNodes
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2919,7 +2883,6 @@ void ApiNodeProxy::destinationNodes(
             ApiNodeArrayProxy &                       nodes,
             std::vector<std::string> &                pinNames
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3089,7 +3052,6 @@ ApiNodePinInfoProxy ApiNodeProxy::buildDestinationPinInfo()
 ApiItemProxy ApiNodeProxy::ownedItem(
             const Octane::PinId                       pinId
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3108,7 +3070,7 @@ ApiItemProxy ApiNodeProxy::ownedItem(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinId' [in] parameter to the request packet.
     octaneapi::PinId pinidIn;
-    pinidIn = static_cast<octaneapi::PinId>(pinId);
+        pinidIn = static_cast<octaneapi::PinId>(pinId);
     request.set_pinid(pinidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3153,7 +3115,6 @@ ApiItemProxy ApiNodeProxy::ownedItem(
 ApiItemProxy ApiNodeProxy::ownedItem(
             const char *                              pinName
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3217,7 +3178,6 @@ ApiItemProxy ApiNodeProxy::ownedItem(
 ApiItemProxy ApiNodeProxy::ownedItemIx(
             const uint32_t                            pinIx
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3284,7 +3244,6 @@ ApiNodeProxy ApiNodeProxy::createInternal(
             const bool                                configurePins,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3303,13 +3262,13 @@ ApiNodeProxy ApiNodeProxy::createInternal(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinId' [in] parameter to the request packet.
     octaneapi::PinId pinidIn;
-    pinidIn = static_cast<octaneapi::PinId>(pinId);
+        pinidIn = static_cast<octaneapi::PinId>(pinId);
     request.set_pinid(pinidIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodeType typeIn;
-    typeIn = static_cast<octaneapi::NodeType>(type);
+        typeIn = static_cast<octaneapi::NodeType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3369,7 +3328,6 @@ ApiNodeProxy ApiNodeProxy::createInternal(
             const bool                                configurePins,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3394,7 +3352,7 @@ ApiNodeProxy ApiNodeProxy::createInternal(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodeType typeIn;
-    typeIn = static_cast<octaneapi::NodeType>(type);
+        typeIn = static_cast<octaneapi::NodeType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3454,7 +3412,6 @@ ApiNodeProxy ApiNodeProxy::createInternalIx(
             const bool                                configurePins,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3479,7 +3436,7 @@ ApiNodeProxy ApiNodeProxy::createInternalIx(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodeType typeIn;
-    typeIn = static_cast<octaneapi::NodeType>(type);
+        typeIn = static_cast<octaneapi::NodeType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3538,7 +3495,6 @@ ApiNodeGraphProxy ApiNodeProxy::createInternal(
             const Octane::NodeGraphType               type,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3557,13 +3513,13 @@ ApiNodeGraphProxy ApiNodeProxy::createInternal(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinId' [in] parameter to the request packet.
     octaneapi::PinId pinidIn;
-    pinidIn = static_cast<octaneapi::PinId>(pinId);
+        pinidIn = static_cast<octaneapi::PinId>(pinId);
     request.set_pinid(pinidIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodeGraphType typeIn;
-    typeIn = static_cast<octaneapi::NodeGraphType>(type);
+        typeIn = static_cast<octaneapi::NodeGraphType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3616,7 +3572,6 @@ ApiNodeGraphProxy ApiNodeProxy::createInternal(
             const Octane::NodeGraphType               type,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3641,7 +3596,7 @@ ApiNodeGraphProxy ApiNodeProxy::createInternal(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodeGraphType typeIn;
-    typeIn = static_cast<octaneapi::NodeGraphType>(type);
+        typeIn = static_cast<octaneapi::NodeGraphType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3694,7 +3649,6 @@ ApiNodeGraphProxy ApiNodeProxy::createInternalIx(
             const Octane::NodeGraphType               type,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3719,7 +3673,7 @@ ApiNodeGraphProxy ApiNodeProxy::createInternalIx(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::NodeGraphType typeIn;
-    typeIn = static_cast<octaneapi::NodeGraphType>(type);
+        typeIn = static_cast<octaneapi::NodeGraphType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3772,7 +3726,6 @@ ApiItemProxy ApiNodeProxy::copyFrom(
             const ApiItemProxy *                      sourceItem,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3791,7 +3744,7 @@ ApiItemProxy ApiNodeProxy::copyFrom(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinId' [in] parameter to the request packet.
     octaneapi::PinId pinidIn;
-    pinidIn = static_cast<octaneapi::PinId>(pinId);
+        pinidIn = static_cast<octaneapi::PinId>(pinId);
     request.set_pinid(pinidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -3853,7 +3806,6 @@ ApiItemProxy ApiNodeProxy::copyFrom(
             const ApiItemProxy *                      sourceItem,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3934,7 +3886,6 @@ ApiItemProxy ApiNodeProxy::copyFromIx(
             const ApiItemProxy *                      sourceItem,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4013,7 +3964,6 @@ ApiItemProxy ApiNodeProxy::copyFromIx(
 bool ApiNodeProxy::getPinBool(
             const Octane::PinId                       id
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4032,7 +3982,7 @@ bool ApiNodeProxy::getPinBool(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4072,7 +4022,6 @@ bool ApiNodeProxy::getPinBool(
 float ApiNodeProxy::getPinFloat(
             const Octane::PinId                       id
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4091,7 +4040,7 @@ float ApiNodeProxy::getPinFloat(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4131,7 +4080,6 @@ float ApiNodeProxy::getPinFloat(
 OctaneVec::float_2 ApiNodeProxy::getPinFloat2(
             const Octane::PinId                       id
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4150,7 +4098,7 @@ OctaneVec::float_2 ApiNodeProxy::getPinFloat2(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4191,7 +4139,6 @@ OctaneVec::float_2 ApiNodeProxy::getPinFloat2(
 OctaneVec::float_3 ApiNodeProxy::getPinFloat3(
             const Octane::PinId                       id
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4210,7 +4157,7 @@ OctaneVec::float_3 ApiNodeProxy::getPinFloat3(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4252,7 +4199,6 @@ OctaneVec::float_3 ApiNodeProxy::getPinFloat3(
 OctaneVec::float_4 ApiNodeProxy::getPinFloat4(
             const Octane::PinId                       id
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4271,7 +4217,7 @@ OctaneVec::float_4 ApiNodeProxy::getPinFloat4(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4314,7 +4260,6 @@ OctaneVec::float_4 ApiNodeProxy::getPinFloat4(
 int32_t ApiNodeProxy::getPinInt(
             const Octane::PinId                       id
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4333,7 +4278,7 @@ int32_t ApiNodeProxy::getPinInt(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4373,7 +4318,6 @@ int32_t ApiNodeProxy::getPinInt(
 OctaneVec::int32_2 ApiNodeProxy::getPinInt2(
             const Octane::PinId                       id
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4392,7 +4336,7 @@ OctaneVec::int32_2 ApiNodeProxy::getPinInt2(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4433,7 +4377,6 @@ OctaneVec::int32_2 ApiNodeProxy::getPinInt2(
 OctaneVec::int32_3 ApiNodeProxy::getPinInt3(
             const Octane::PinId                       id
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4452,7 +4395,7 @@ OctaneVec::int32_3 ApiNodeProxy::getPinInt3(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4494,7 +4437,6 @@ OctaneVec::int32_3 ApiNodeProxy::getPinInt3(
 OctaneVec::int32_4 ApiNodeProxy::getPinInt4(
             const Octane::PinId                       id
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4513,7 +4455,7 @@ OctaneVec::int32_4 ApiNodeProxy::getPinInt4(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4556,7 +4498,6 @@ OctaneVec::int32_4 ApiNodeProxy::getPinInt4(
 OctaneVec::MatrixF ApiNodeProxy::getPinMatrix(
             const Octane::PinId                       id
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4575,7 +4516,7 @@ OctaneVec::MatrixF ApiNodeProxy::getPinMatrix(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4615,7 +4556,6 @@ OctaneVec::MatrixF ApiNodeProxy::getPinMatrix(
 std::string ApiNodeProxy::getPinString(
             const Octane::PinId                       id
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4634,7 +4574,7 @@ std::string ApiNodeProxy::getPinString(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4675,7 +4615,6 @@ std::string ApiNodeProxy::getPinString(
 Octane::ApiFilePath ApiNodeProxy::getPinFilePath(
             const Octane::PinId                       id
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4694,7 +4633,7 @@ Octane::ApiFilePath ApiNodeProxy::getPinFilePath(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -4734,7 +4673,6 @@ Octane::ApiFilePath ApiNodeProxy::getPinFilePath(
 bool ApiNodeProxy::getPinBool(
             const char *                              name
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4793,7 +4731,6 @@ bool ApiNodeProxy::getPinBool(
 float ApiNodeProxy::getPinFloat(
             const char *                              name
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4852,7 +4789,6 @@ float ApiNodeProxy::getPinFloat(
 OctaneVec::float_2 ApiNodeProxy::getPinFloat2(
             const char *                              name
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4912,7 +4848,6 @@ OctaneVec::float_2 ApiNodeProxy::getPinFloat2(
 OctaneVec::float_3 ApiNodeProxy::getPinFloat3(
             const char *                              name
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4973,7 +4908,6 @@ OctaneVec::float_3 ApiNodeProxy::getPinFloat3(
 OctaneVec::float_4 ApiNodeProxy::getPinFloat4(
             const char *                              name
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5035,7 +4969,6 @@ OctaneVec::float_4 ApiNodeProxy::getPinFloat4(
 int32_t ApiNodeProxy::getPinInt(
             const char *                              name
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5094,7 +5027,6 @@ int32_t ApiNodeProxy::getPinInt(
 OctaneVec::int32_2 ApiNodeProxy::getPinInt2(
             const char *                              name
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5154,7 +5086,6 @@ OctaneVec::int32_2 ApiNodeProxy::getPinInt2(
 OctaneVec::int32_3 ApiNodeProxy::getPinInt3(
             const char *                              name
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5215,7 +5146,6 @@ OctaneVec::int32_3 ApiNodeProxy::getPinInt3(
 OctaneVec::int32_4 ApiNodeProxy::getPinInt4(
             const char *                              name
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5277,7 +5207,6 @@ OctaneVec::int32_4 ApiNodeProxy::getPinInt4(
 OctaneVec::MatrixF ApiNodeProxy::getPinMatrix(
             const char *                              name
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5336,7 +5265,6 @@ OctaneVec::MatrixF ApiNodeProxy::getPinMatrix(
 std::string ApiNodeProxy::getPinString(
             const char *                              name
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5396,7 +5324,6 @@ std::string ApiNodeProxy::getPinString(
 Octane::ApiFilePath ApiNodeProxy::getPinFilePath(
             const char *                              name
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5455,7 +5382,6 @@ Octane::ApiFilePath ApiNodeProxy::getPinFilePath(
 bool ApiNodeProxy::getPinBoolIx(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5514,7 +5440,6 @@ bool ApiNodeProxy::getPinBoolIx(
 float ApiNodeProxy::getPinFloatIx(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5573,7 +5498,6 @@ float ApiNodeProxy::getPinFloatIx(
 OctaneVec::float_2 ApiNodeProxy::getPinFloat2Ix(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5633,7 +5557,6 @@ OctaneVec::float_2 ApiNodeProxy::getPinFloat2Ix(
 OctaneVec::float_3 ApiNodeProxy::getPinFloat3Ix(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5694,7 +5617,6 @@ OctaneVec::float_3 ApiNodeProxy::getPinFloat3Ix(
 OctaneVec::float_4 ApiNodeProxy::getPinFloat4Ix(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5756,7 +5678,6 @@ OctaneVec::float_4 ApiNodeProxy::getPinFloat4Ix(
 int32_t ApiNodeProxy::getPinIntIx(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5815,7 +5736,6 @@ int32_t ApiNodeProxy::getPinIntIx(
 OctaneVec::int32_2 ApiNodeProxy::getPinInt2Ix(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5875,7 +5795,6 @@ OctaneVec::int32_2 ApiNodeProxy::getPinInt2Ix(
 OctaneVec::int32_3 ApiNodeProxy::getPinInt3Ix(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5936,7 +5855,6 @@ OctaneVec::int32_3 ApiNodeProxy::getPinInt3Ix(
 OctaneVec::int32_4 ApiNodeProxy::getPinInt4Ix(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5998,7 +5916,6 @@ OctaneVec::int32_4 ApiNodeProxy::getPinInt4Ix(
 OctaneVec::MatrixF ApiNodeProxy::getPinMatrixIx(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6057,7 +5974,6 @@ OctaneVec::MatrixF ApiNodeProxy::getPinMatrixIx(
 std::string ApiNodeProxy::getPinStringIx(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6117,7 +6033,6 @@ std::string ApiNodeProxy::getPinStringIx(
 Octane::ApiFilePath ApiNodeProxy::getPinFilePathIx(
             const uint32_t                            index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6177,7 +6092,6 @@ void ApiNodeProxy::getPinValue(
             const Octane::PinId                       id,
             bool &                                    value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6196,7 +6110,7 @@ void ApiNodeProxy::getPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -6235,7 +6149,6 @@ void ApiNodeProxy::getPinValue(
             const Octane::PinId                       id,
             float &                                   value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6254,7 +6167,7 @@ void ApiNodeProxy::getPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -6293,7 +6206,6 @@ void ApiNodeProxy::getPinValue(
             const Octane::PinId                       id,
             OctaneVec::float_2 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6312,7 +6224,7 @@ void ApiNodeProxy::getPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -6352,7 +6264,6 @@ void ApiNodeProxy::getPinValue(
             const Octane::PinId                       id,
             OctaneVec::float_3 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6371,7 +6282,7 @@ void ApiNodeProxy::getPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -6412,7 +6323,6 @@ void ApiNodeProxy::getPinValue(
             const Octane::PinId                       id,
             OctaneVec::float_4 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6431,7 +6341,7 @@ void ApiNodeProxy::getPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -6473,7 +6383,6 @@ void ApiNodeProxy::getPinValue(
             const Octane::PinId                       id,
             int32_t &                                 value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6492,7 +6401,7 @@ void ApiNodeProxy::getPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -6531,7 +6440,6 @@ void ApiNodeProxy::getPinValue(
             const Octane::PinId                       id,
             OctaneVec::int32_2 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6550,7 +6458,7 @@ void ApiNodeProxy::getPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -6590,7 +6498,6 @@ void ApiNodeProxy::getPinValue(
             const Octane::PinId                       id,
             OctaneVec::int32_3 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6609,7 +6516,7 @@ void ApiNodeProxy::getPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -6650,7 +6557,6 @@ void ApiNodeProxy::getPinValue(
             const Octane::PinId                       id,
             OctaneVec::int32_4 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6669,7 +6575,7 @@ void ApiNodeProxy::getPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -6711,7 +6617,6 @@ void ApiNodeProxy::getPinValue(
             const Octane::PinId                       id,
             OctaneVec::MatrixF &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6730,7 +6635,7 @@ void ApiNodeProxy::getPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -6769,7 +6674,6 @@ void ApiNodeProxy::getPinValue(
             const Octane::PinId                       id,
             std::string &                             value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6788,7 +6692,7 @@ void ApiNodeProxy::getPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -6828,7 +6732,6 @@ void ApiNodeProxy::getPinValue(
             const Octane::PinId                       id,
             Octane::ApiFilePath &                     value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6847,7 +6750,7 @@ void ApiNodeProxy::getPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -6886,7 +6789,6 @@ void ApiNodeProxy::getPinValue(
             const char *                              name,
             bool &                                    value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6944,7 +6846,6 @@ void ApiNodeProxy::getPinValue(
             const char *                              name,
             float &                                   value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7002,7 +6903,6 @@ void ApiNodeProxy::getPinValue(
             const char *                              name,
             OctaneVec::float_2 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7061,7 +6961,6 @@ void ApiNodeProxy::getPinValue(
             const char *                              name,
             OctaneVec::float_3 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7121,7 +7020,6 @@ void ApiNodeProxy::getPinValue(
             const char *                              name,
             OctaneVec::float_4 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7182,7 +7080,6 @@ void ApiNodeProxy::getPinValue(
             const char *                              name,
             int32_t &                                 value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7240,7 +7137,6 @@ void ApiNodeProxy::getPinValue(
             const char *                              name,
             OctaneVec::int32_2 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7299,7 +7195,6 @@ void ApiNodeProxy::getPinValue(
             const char *                              name,
             OctaneVec::int32_3 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7359,7 +7254,6 @@ void ApiNodeProxy::getPinValue(
             const char *                              name,
             OctaneVec::int32_4 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7420,7 +7314,6 @@ void ApiNodeProxy::getPinValue(
             const char *                              name,
             OctaneVec::MatrixF &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7478,7 +7371,6 @@ void ApiNodeProxy::getPinValue(
             const char *                              name,
             std::string &                             value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7537,7 +7429,6 @@ void ApiNodeProxy::getPinValue(
             const char *                              name,
             Octane::ApiFilePath &                     value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7595,7 +7486,6 @@ void ApiNodeProxy::getPinValueIx(
             const uint32_t                            index,
             bool &                                    value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7653,7 +7543,6 @@ void ApiNodeProxy::getPinValueIx(
             const uint32_t                            index,
             float &                                   value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7711,7 +7600,6 @@ void ApiNodeProxy::getPinValueIx(
             const uint32_t                            index,
             OctaneVec::float_2 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7770,7 +7658,6 @@ void ApiNodeProxy::getPinValueIx(
             const uint32_t                            index,
             OctaneVec::float_3 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7830,7 +7717,6 @@ void ApiNodeProxy::getPinValueIx(
             const uint32_t                            index,
             OctaneVec::float_4 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7891,7 +7777,6 @@ void ApiNodeProxy::getPinValueIx(
             const uint32_t                            index,
             int32_t &                                 value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -7949,7 +7834,6 @@ void ApiNodeProxy::getPinValueIx(
             const uint32_t                            index,
             OctaneVec::int32_2 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -8008,7 +7892,6 @@ void ApiNodeProxy::getPinValueIx(
             const uint32_t                            index,
             OctaneVec::int32_3 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -8068,7 +7951,6 @@ void ApiNodeProxy::getPinValueIx(
             const uint32_t                            index,
             OctaneVec::int32_4 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -8129,7 +8011,6 @@ void ApiNodeProxy::getPinValueIx(
             const uint32_t                            index,
             OctaneVec::MatrixF &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -8187,7 +8068,6 @@ void ApiNodeProxy::getPinValueIx(
             const uint32_t                            index,
             std::string &                             value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -8246,7 +8126,6 @@ void ApiNodeProxy::getPinValueIx(
             const uint32_t                            index,
             Octane::ApiFilePath &                     value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -8305,7 +8184,6 @@ void ApiNodeProxy::setPinValue(
             const bool                                value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -8324,7 +8202,7 @@ void ApiNodeProxy::setPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -8372,7 +8250,6 @@ void ApiNodeProxy::setPinValue(
             const float                               value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -8391,7 +8268,7 @@ void ApiNodeProxy::setPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -8439,7 +8316,6 @@ void ApiNodeProxy::setPinValue(
             const OctaneVec::float_2                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -8458,7 +8334,7 @@ void ApiNodeProxy::setPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -8507,7 +8383,6 @@ void ApiNodeProxy::setPinValue(
             const OctaneVec::float_3                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -8526,7 +8401,7 @@ void ApiNodeProxy::setPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -8576,7 +8451,6 @@ void ApiNodeProxy::setPinValue(
             const OctaneVec::float_4                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -8595,7 +8469,7 @@ void ApiNodeProxy::setPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -8646,7 +8520,6 @@ void ApiNodeProxy::setPinValue(
             const int32_t                             value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -8665,7 +8538,7 @@ void ApiNodeProxy::setPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -8713,7 +8586,6 @@ void ApiNodeProxy::setPinValue(
             const OctaneVec::int32_2                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -8732,7 +8604,7 @@ void ApiNodeProxy::setPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -8781,7 +8653,6 @@ void ApiNodeProxy::setPinValue(
             const OctaneVec::int32_3                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -8800,7 +8671,7 @@ void ApiNodeProxy::setPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -8850,7 +8721,6 @@ void ApiNodeProxy::setPinValue(
             const OctaneVec::int32_4                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -8869,7 +8739,7 @@ void ApiNodeProxy::setPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -8920,7 +8790,6 @@ void ApiNodeProxy::setPinValue(
             const OctaneVec::MatrixF &                value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -8939,13 +8808,13 @@ void ApiNodeProxy::setPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     octaneapi::MatrixF * valueIn = new octaneapi::MatrixF();
-    MatrixConverter::convertMatrixToProto(value, *valueIn);
+MatrixConverter::convertMatrixToProto(value, *valueIn);
     request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -8987,7 +8856,6 @@ void ApiNodeProxy::setPinValue(
             const char *const                         value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -9006,7 +8874,7 @@ void ApiNodeProxy::setPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -9054,7 +8922,6 @@ void ApiNodeProxy::setPinValue(
             const Octane::ApiFilePath &               value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -9073,7 +8940,7 @@ void ApiNodeProxy::setPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'id' [in] parameter to the request packet.
     octaneapi::PinId idIn;
-    idIn = static_cast<octaneapi::PinId>(id);
+        idIn = static_cast<octaneapi::PinId>(id);
     request.set_id(idIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -9121,7 +8988,6 @@ void ApiNodeProxy::setPinValue(
             const bool                                value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -9188,7 +9054,6 @@ void ApiNodeProxy::setPinValue(
             const float                               value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -9255,7 +9120,6 @@ void ApiNodeProxy::setPinValue(
             const OctaneVec::float_2                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -9323,7 +9187,6 @@ void ApiNodeProxy::setPinValue(
             const OctaneVec::float_3                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -9392,7 +9255,6 @@ void ApiNodeProxy::setPinValue(
             const OctaneVec::float_4                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -9462,7 +9324,6 @@ void ApiNodeProxy::setPinValue(
             const int32_t                             value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -9529,7 +9390,6 @@ void ApiNodeProxy::setPinValue(
             const OctaneVec::int32_2                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -9597,7 +9457,6 @@ void ApiNodeProxy::setPinValue(
             const OctaneVec::int32_3                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -9666,7 +9525,6 @@ void ApiNodeProxy::setPinValue(
             const OctaneVec::int32_4                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -9736,7 +9594,6 @@ void ApiNodeProxy::setPinValue(
             const OctaneVec::MatrixF &                value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -9761,7 +9618,7 @@ void ApiNodeProxy::setPinValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     octaneapi::MatrixF * valueIn = new octaneapi::MatrixF();
-    MatrixConverter::convertMatrixToProto(value, *valueIn);
+MatrixConverter::convertMatrixToProto(value, *valueIn);
     request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -9803,7 +9660,6 @@ void ApiNodeProxy::setPinValue(
             const char *const                         value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -9870,7 +9726,6 @@ void ApiNodeProxy::setPinValue(
             const Octane::ApiFilePath &               value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -9937,7 +9792,6 @@ void ApiNodeProxy::setPinValueIx(
             const bool                                value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -10004,7 +9858,6 @@ void ApiNodeProxy::setPinValueIx(
             const float                               value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -10071,7 +9924,6 @@ void ApiNodeProxy::setPinValueIx(
             const OctaneVec::float_2                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -10139,7 +9991,6 @@ void ApiNodeProxy::setPinValueIx(
             const OctaneVec::float_3                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -10208,7 +10059,6 @@ void ApiNodeProxy::setPinValueIx(
             const OctaneVec::float_4                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -10278,7 +10128,6 @@ void ApiNodeProxy::setPinValueIx(
             const int32_t                             value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -10345,7 +10194,6 @@ void ApiNodeProxy::setPinValueIx(
             const OctaneVec::int32_2                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -10413,7 +10261,6 @@ void ApiNodeProxy::setPinValueIx(
             const OctaneVec::int32_3                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -10482,7 +10329,6 @@ void ApiNodeProxy::setPinValueIx(
             const OctaneVec::int32_4                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -10552,7 +10398,6 @@ void ApiNodeProxy::setPinValueIx(
             const OctaneVec::MatrixF &                value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -10577,7 +10422,7 @@ void ApiNodeProxy::setPinValueIx(
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     octaneapi::MatrixF * valueIn = new octaneapi::MatrixF();
-    MatrixConverter::convertMatrixToProto(value, *valueIn);
+MatrixConverter::convertMatrixToProto(value, *valueIn);
     request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -10619,7 +10464,6 @@ void ApiNodeProxy::setPinValueIx(
             const char *const                         value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -10686,7 +10530,6 @@ void ApiNodeProxy::setPinValueIx(
             const Octane::ApiFilePath &               value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -10801,7 +10644,6 @@ bool ApiNodeProxy::storeToDb()
 void ApiNodeProxy::showOslWindow(
             bool                                      force
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -10854,7 +10696,6 @@ void ApiNodeProxy::showOslWindow(
 bool ApiNodeProxy::closeOslWindow(
             bool                                      force
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -10905,7 +10746,6 @@ bool ApiNodeProxy::unpackFileData(
             const char *                              assetPath,
             bool                                      recursive
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -10967,3 +10807,4 @@ bool ApiNodeProxy::unpackFileData(
 };
 
 
+} //end of namespace

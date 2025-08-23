@@ -7,7 +7,13 @@
 namespace octaneapi { class RenderPassExport; }
 namespace Octane { struct RenderPassExport; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class RenderPassExportConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const octaneapi::RenderPassExport & in,
         Octane::RenderPassExport & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

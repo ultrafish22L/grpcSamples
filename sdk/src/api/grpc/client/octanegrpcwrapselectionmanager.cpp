@@ -31,92 +31,92 @@ void SelectionObserver::internalCallback(
 // Implementation of SelectionManager.
 
 bool SelectionManager::isItemSelected(
-    const ApiItemProxy &item)
+    const OctaneGRPC::ApiItemProxy &item)
 {
-    return ApiSelectionManagerProxy::isItemSelected(item);
+    return OctaneGRPC::ApiSelectionManagerProxy::isItemSelected(item);
 }
 
 
 bool SelectionManager::isPinSelected(
-    const ApiNodeProxy &node,
+    const OctaneGRPC::ApiNodeProxy &node,
     const Octane::PinId   pinId)
 {
-    return ApiSelectionManagerProxy::isPinSelected(node, pinId);
+    return OctaneGRPC::ApiSelectionManagerProxy::isPinSelected(node, pinId);
 }
 
 
 bool SelectionManager::isPinSelected(
-    const ApiNodeProxy &node,
+    const OctaneGRPC::ApiNodeProxy &node,
     const std::string     &pinName)
 {
-    return ApiSelectionManagerProxy::isPinSelected(node, pinName.c_str());
+    return OctaneGRPC::ApiSelectionManagerProxy::isPinSelected(node, pinName.c_str());
 }
 
 
 bool SelectionManager::isPinSelectedIx(
-    const ApiNodeProxy &node,
+    const OctaneGRPC::ApiNodeProxy &node,
     const uint32_t        pinIx)
 {
-    return ApiSelectionManagerProxy::isPinSelectedIx(node, pinIx);
+    return OctaneGRPC::ApiSelectionManagerProxy::isPinSelectedIx(node, pinIx);
 }
 
 
 size_t SelectionManager::selectedItemCount()
 {
-    return ApiSelectionManagerProxy::selectedItemCount();
+    return OctaneGRPC::ApiSelectionManagerProxy::selectedItemCount();
 }
 
 
 size_t SelectionManager::selectedPinCount()
 {
-    return ApiSelectionManagerProxy::selectedPinCount();
+    return OctaneGRPC::ApiSelectionManagerProxy::selectedPinCount();
 }
 
 
 void SelectionManager::getSelection(
-    std::vector<ApiItemProxy> &selectedItems)
+    std::vector<OctaneGRPC::ApiItemProxy> &selectedItems)
 {
 
-    std::vector<ApiItemProxy> apiItems;
-    ApiSelectionManagerProxy::getSelection(apiItems);
+    std::vector<OctaneGRPC::ApiItemProxy> apiItems;
+    OctaneGRPC::ApiSelectionManagerProxy::getSelection(apiItems);
     selectedItems = apiItems;
 }
 
 
 void SelectionManager::getSelection(
-    std::vector<ApiPinSelectionProxy> &selectedPins)
+    std::vector<OctaneGRPC::ApiPinSelectionProxy> &selectedPins)
 {
-    std::vector<ApiPinSelectionProxy> apiPins;
-    ApiSelectionManagerProxy::getSelection(apiPins);
+    std::vector<OctaneGRPC::ApiPinSelectionProxy> apiPins;
+    OctaneGRPC::ApiSelectionManagerProxy::getSelection(apiPins);
     selectedPins = apiPins;
 }
 
 
 void SelectionManager::clearSelection()
 {
-    ApiSelectionManagerProxy::clearSelection();
+    OctaneGRPC::ApiSelectionManagerProxy::clearSelection();
 }
 
 
 void SelectionManager::setSelection(
-    std::vector<ApiItemProxy>         selectedItems,
-    std::vector<ApiPinSelectionProxy> selectedPins,
+    std::vector<OctaneGRPC::ApiItemProxy>         selectedItems,
+    std::vector<OctaneGRPC::ApiPinSelectionProxy> selectedPins,
     bool                              selectDestPins)
 {
-    std::vector<ApiItemProxy*> apiItems;
+    std::vector<OctaneGRPC::ApiItemProxy*> apiItems;
     for (auto & p : selectedItems)
     {
         apiItems.push_back(&p);
     }
-    std::vector<ApiPinSelectionProxy*> pinItems;
+    std::vector<OctaneGRPC::ApiPinSelectionProxy*> pinItems;
     for (auto & p : selectedPins)
     {
         pinItems.push_back(&p);
     }
-    Octane::ApiArray<ApiItemProxy*> apiSelectedItems(apiItems.data(), apiItems.size());
-    Octane::ApiArray<ApiPinSelectionProxy*> apiSelectedPins(pinItems.data(), pinItems.size());
+    Octane::ApiArray<OctaneGRPC::ApiItemProxy*> apiSelectedItems(apiItems.data(), apiItems.size());
+    Octane::ApiArray<OctaneGRPC::ApiPinSelectionProxy*> apiSelectedPins(pinItems.data(), pinItems.size());
 
-    ApiSelectionManagerProxy::setSelection(apiSelectedItems,
+    OctaneGRPC::ApiSelectionManagerProxy::setSelection(apiSelectedItems,
                                            apiSelectedPins,
                                            selectDestPins
                                            );
@@ -124,62 +124,62 @@ void SelectionManager::setSelection(
 
 
 void SelectionManager::select(
-    const ApiItemProxy &  item,
+    const OctaneGRPC::ApiItemProxy &  item,
     const bool            selectDestPins)
 {
-    ApiSelectionManagerProxy::select(item, selectDestPins);
+    OctaneGRPC::ApiSelectionManagerProxy::select(item, selectDestPins);
 }
 
 
 void SelectionManager::select(
-    const ApiPinSelectionProxy &pinSelection,
+    const OctaneGRPC::ApiPinSelectionProxy &pinSelection,
     const bool                                      selectConnectedItem)
 {
-    ApiSelectionManagerProxy::select(pinSelection, selectConnectedItem);
+    OctaneGRPC::ApiSelectionManagerProxy::select(pinSelection, selectConnectedItem);
 }
 
 
 void SelectionManager::deselect(
-    const ApiItemProxy &item)
+    const OctaneGRPC::ApiItemProxy &item)
 {
-    ApiSelectionManagerProxy::deselect(item);
+    OctaneGRPC::ApiSelectionManagerProxy::deselect(item);
 }
 
 
 void SelectionManager::deselect(
-    const ApiPinSelectionProxy &pin)
+    const OctaneGRPC::ApiPinSelectionProxy &pin)
 {
-    ApiSelectionManagerProxy::deselect(pin);
+    OctaneGRPC::ApiSelectionManagerProxy::deselect(pin);
 }
 
 
 void SelectionManager::swapSelection(
-    const ApiItemProxy &oldItem,
-    const ApiItemProxy &newItem)
+    const OctaneGRPC::ApiItemProxy &oldItem,
+    const OctaneGRPC::ApiItemProxy &newItem)
 {
-    ApiSelectionManagerProxy::swapSelection(oldItem, newItem);
+    OctaneGRPC::ApiSelectionManagerProxy::swapSelection(oldItem, newItem);
 }
 
 
 void SelectionManager::addSelectionObserver(
-    SelectionObserver &observer)
+    SelectionObserver & observer)
 {
-    ApiSelectionManagerProxy::addSelectionObserver(observer);
+    OctaneGRPC::ApiSelectionManagerProxy::addSelectionObserver(observer);
 }
 
 
 void SelectionManager::removeSelectionObserver(
-    SelectionObserver &observer)
+    SelectionObserver & observer)
 {
-    ApiSelectionManagerProxy::removeSelectionObserver(observer);
+    OctaneGRPC::ApiSelectionManagerProxy::removeSelectionObserver(observer);
 }
 
 
-ApiPinSelectionProxy SelectionManager::create(
-    ApiNodeProxy        &node,
+OctaneGRPC::ApiPinSelectionProxy SelectionManager::create(
+    OctaneGRPC::ApiNodeProxy        &node,
     const Octane::PinId pinId)
 {
-    ApiPinSelectionProxy selection(0, node);
+    OctaneGRPC::ApiPinSelectionProxy selection(0, node);
     
     uint32_t foundIndex;
     if (node.findPin(pinId, foundIndex))
@@ -191,11 +191,11 @@ ApiPinSelectionProxy SelectionManager::create(
 }
 
 
-ApiPinSelectionProxy SelectionManager::create(
-    ApiNodeProxy      &node,
+OctaneGRPC::ApiPinSelectionProxy SelectionManager::create(
+    OctaneGRPC::ApiNodeProxy      &node,
     const std::string &pinName)
 {
-    ApiPinSelectionProxy selection(0, node);
+    OctaneGRPC::ApiPinSelectionProxy selection(0, node);
 
     uint32_t foundIndex;
     if (node.findPin(pinName.c_str(), foundIndex))

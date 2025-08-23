@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiSceneOutlinerProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -117,3 +121,4 @@ void ApiSceneOutlinerProxy::destroy()
 };
 
 
+} //end of namespace

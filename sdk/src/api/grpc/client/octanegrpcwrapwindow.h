@@ -13,7 +13,7 @@
 
 namespace Octane
 {
-class ApiWindow;
+    class ApiWindow;
 }
 
 namespace OctaneWrap
@@ -85,14 +85,14 @@ public:
 private:
 
     /// wrapped api window
-    ApiWindowProxy               mApiWindow;
+    OctaneGRPC::ApiWindowProxy   mApiWindow;
     /// list of listeners
     std::vector<WindowListener*> mListeners;
 
     /// Internal C-style callback.
     static void windowCloseCallback(
-        ApiWindowProxy    &window,
-        void              *privateData);
+        OctaneGRPC::ApiWindowProxy & window,
+        void *                       privateData);
 };
 
 } // namespace Octane

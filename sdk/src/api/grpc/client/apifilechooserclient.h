@@ -17,9 +17,15 @@
 #include "apifilechooser.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiFileChooser
 class ApiFileChooserProxy : public ApiGuiComponentProxy
@@ -115,6 +121,7 @@ public:
     ///     Contains the status of the gRPC call
     std::vector<std::string> results() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

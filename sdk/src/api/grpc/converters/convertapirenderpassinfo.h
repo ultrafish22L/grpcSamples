@@ -7,7 +7,13 @@
 namespace Octane { struct ApiRenderPassInfo; }
 namespace octaneapi { class ApiRenderPassInfo; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiRenderPassInfoConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiRenderPassInfo & in,
         octaneapi::ApiRenderPassInfo & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

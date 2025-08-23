@@ -24,6 +24,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiLocalDBProxy_Category::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -185,7 +189,6 @@ size_t ApiLocalDBProxy_Category::subCategoryCount() const
 std::string ApiLocalDBProxy_Category::subCategoryName(
             size_t                                    index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -245,7 +248,6 @@ std::string ApiLocalDBProxy_Category::subCategoryName(
 ApiLocalDBProxy_Category ApiLocalDBProxy_Category::subCategory(
             size_t                                    index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -359,7 +361,6 @@ size_t ApiLocalDBProxy_Category::packageCount() const
 ApiLocalDBProxy_Package ApiLocalDBProxy_Category::package(
             size_t                                    index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -423,7 +424,6 @@ ApiLocalDBProxy_Package ApiLocalDBProxy_Category::package(
 ApiLocalDBProxy_Category ApiLocalDBProxy_Category::categoryByPath(
             const char *                              path
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -487,7 +487,6 @@ ApiLocalDBProxy_Category ApiLocalDBProxy_Category::categoryByPath(
 ApiLocalDBProxy_Package ApiLocalDBProxy_Category::packageByPath(
             const char *                              path
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -551,7 +550,6 @@ ApiLocalDBProxy_Package ApiLocalDBProxy_Category::packageByPath(
 ApiLocalDBProxy_Category ApiLocalDBProxy_Category::createCategory(
             const char *                              name
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -615,7 +613,6 @@ ApiLocalDBProxy_Category ApiLocalDBProxy_Category::createCategory(
 bool ApiLocalDBProxy_Category::deleteCategory(
             const char *                              name
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -678,7 +675,6 @@ bool ApiLocalDBProxy_Category::savePackage(
             int                                       thumbnailSizeInBytes,
             OctaneVec::uint32_2                       thumbnailSize
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -772,7 +768,6 @@ bool ApiLocalDBProxy_Category::savePackage(
 bool ApiLocalDBProxy_Category::deletePackage(
             const char *                              name
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -872,3 +867,4 @@ void ApiLocalDBProxy_Category::free()
 };
 
 
+} //end of namespace

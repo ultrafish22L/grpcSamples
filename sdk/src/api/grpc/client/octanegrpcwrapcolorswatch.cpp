@@ -13,7 +13,7 @@ using namespace OctaneWrap;
 ColorSwatch::ColorSwatch(
     const bool disableGammaCorrection)
 {
-    mApiColorSwatch = ApiColorSwatchProxy::create(disableGammaCorrection,
+    mApiColorSwatch = OctaneGRPC::ApiColorSwatchProxy::create(disableGammaCorrection,
                                                  internalChangeCallback,
                                                  this);
     mComponent = &mApiColorSwatch;
@@ -55,8 +55,8 @@ Octane::ApiColorHdr ColorSwatch::color() const
 
 
 void ColorSwatch::internalChangeCallback(
-    ApiColorSwatchProxy   &,
-    void                  *privateData)
+    OctaneGRPC::ApiColorSwatchProxy &,
+    void *                          privateData)
 {
     ColorSwatch * me = static_cast<ColorSwatch*>(privateData);
 

@@ -20,6 +20,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void ApiRenderCloudManager_ApiRenderCloudManager_SubscriptionInfoConverter::convert(
     const octaneapi::ApiRenderCloudManager_ApiRenderCloudManager_SubscriptionInfo & in,
     Octane::ApiRenderCloudManager::SubscriptionInfo & out)
@@ -55,4 +58,5 @@ void ApiRenderCloudManager_ApiRenderCloudManager_SubscriptionInfoConverter::conv
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

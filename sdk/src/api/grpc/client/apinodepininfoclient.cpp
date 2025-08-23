@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiNodePinInfoProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -30,7 +34,6 @@ GRPCSettings & ApiNodePinInfoProxy::getGRPCSettings()
 bool ApiNodePinInfoProxy::isValidFor(
             const Octane::VersionT                    version
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -86,3 +89,4 @@ bool ApiNodePinInfoProxy::isValidFor(
 };
 
 
+} //end of namespace

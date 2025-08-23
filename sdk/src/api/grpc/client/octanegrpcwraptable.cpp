@@ -24,7 +24,7 @@ Table::Table(
         cHeaders[i] = columnHeaders[i].c_str();
     }
 
-    mApiTable = ApiTableProxy::create(cHeaders.data(),
+    mApiTable = OctaneGRPC::ApiTableProxy::create(cHeaders.data(),
                                          columnHeaders.size(),
                                          headerVisible,
                                          numRowsCallback,

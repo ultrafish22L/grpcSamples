@@ -24,6 +24,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiModuleGlobalProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -33,7 +37,6 @@ GRPCSettings & ApiModuleGlobalProxy::getGRPCSettings()
 bool ApiModuleGlobalProxy::registerCommandModule(
             const ApiCommandModuleInfoProxy &         moduleInfo
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -86,7 +89,6 @@ bool ApiModuleGlobalProxy::registerCommandModule(
 bool ApiModuleGlobalProxy::registerWorkPaneModule(
             const ApiWorkPaneModuleInfoProxy &        moduleInfo
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -139,7 +141,6 @@ bool ApiModuleGlobalProxy::registerWorkPaneModule(
 bool ApiModuleGlobalProxy::registerNodeGraphModule(
             const ApiNodeGraphModuleInfoProxy &       moduleInfo
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -192,7 +193,6 @@ bool ApiModuleGlobalProxy::registerNodeGraphModule(
 bool ApiModuleGlobalProxy::registerStaticCommandModule(
             const ApiCommandModuleInfoProxy &         moduleInfo
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -245,7 +245,6 @@ bool ApiModuleGlobalProxy::registerStaticCommandModule(
 bool ApiModuleGlobalProxy::registerStaticWorkPaneModule(
             const ApiWorkPaneModuleInfoProxy &        moduleInfo
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -298,7 +297,6 @@ bool ApiModuleGlobalProxy::registerStaticWorkPaneModule(
 bool ApiModuleGlobalProxy::registerStaticNodeGraphModule(
             const ApiNodeGraphModuleInfoProxy &       moduleInfo
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -348,3 +346,4 @@ bool ApiModuleGlobalProxy::registerStaticNodeGraphModule(
 };
 
 
+} //end of namespace

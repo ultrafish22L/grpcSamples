@@ -18,7 +18,7 @@ Window::Window(
 //:
 //    mApiWindow(NULL)
 {
-    mApiWindow = ApiWindowProxy::create(title.c_str(), windowCloseCallback, this);
+    mApiWindow = OctaneGRPC::ApiWindowProxy::create(title.c_str(), windowCloseCallback, this);
     mComponent = &mApiWindow;
 }
 
@@ -69,8 +69,8 @@ void Window::removeListener(
 
 
 void Window::windowCloseCallback(
-    ApiWindowProxy    &window,
-    void              *privateData)
+    OctaneGRPC::ApiWindowProxy & window,
+    void *                       privateData)
 {
     Window *myWindow = static_cast<Window*>(privateData);
 

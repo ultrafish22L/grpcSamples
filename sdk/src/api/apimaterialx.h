@@ -20,8 +20,9 @@ namespace Octane
         /// A mapping entry pairing a MaterialX input name to an Octane pin-id
         struct MxInput
         {
-            const char* mMxInputName;
-            const PinId mPinId;
+            const char*    mMxInputName;
+            const PinId    mPinId;
+            const uint32_t mPinIndex;
         };
         
     

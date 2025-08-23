@@ -16,9 +16,15 @@
 #include "apiimageinfo.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for LayerInfo
 class LayerInfoProxy : public GRPCBase
@@ -54,6 +60,7 @@ public:
             const bool   needHQ
             ) const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

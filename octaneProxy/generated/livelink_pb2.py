@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0elivelink.proto\x12\x0blivelinkapi\"\'\n\x04Vec3\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"3\n\x05Vec4D\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\t\n\x01w\x18\x04 \x01(\x01\"o\n\x07MatrixD\x12 \n\x04row0\x18\x01 \x01(\x0b\x32\x12.livelinkapi.Vec4D\x12 \n\x04row1\x18\x02 \x01(\x0b\x32\x12.livelinkapi.Vec4D\x12 \n\x04row2\x18\x03 \x01(\x0b\x32\x12.livelinkapi.Vec4D\"6\n\x04Mesh\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x05\x12\x14\n\x0cobjectHandle\x18\x03 \x01(\x03\"-\n\x08MeshList\x12!\n\x06meshes\x18\x01 \x03(\x0b\x32\x11.livelinkapi.Mesh\"\xb7\x01\n\x0b\x43\x61meraState\x12%\n\x08position\x18\x01 \x01(\x0b\x32\x11.livelinkapi.Vec3H\x00\x12#\n\x06target\x18\x02 \x01(\x0b\x32\x11.livelinkapi.Vec3H\x01\x12\x1f\n\x02up\x18\x03 \x01(\x0b\x32\x11.livelinkapi.Vec3H\x02\x12\r\n\x03\x66ov\x18\x04 \x01(\x02H\x03\x42\t\n\x07pos_setB\x0c\n\ntarget_setB\x08\n\x06up_setB\t\n\x07\x66ov_set\"#\n\x0bMeshRequest\x12\x14\n\x0cobjecthandle\x18\x01 \x01(\x05\"\xed\x01\n\x08MeshData\x12\x0c\n\x04name\x18\x01 \x01(\t\x12$\n\tpositions\x18\x02 \x03(\x0b\x32\x11.livelinkapi.Vec3\x12\"\n\x07normals\x18\x03 \x03(\x0b\x32\x11.livelinkapi.Vec3\x12\x14\n\x0cvertsPerPoly\x18\x04 \x03(\r\x12\x17\n\x0fpolyVertIndices\x18\x05 \x03(\r\x12\x19\n\x11polyNormalIndices\x18\x06 \x03(\r\x12\x14\n\x0cwindingOrder\x18\x07 \x01(\x05\x12)\n\x0bworldMatrix\x18\x08 \x01(\x0b\x32\x14.livelinkapi.MatrixD\"\x07\n\x05\x45mpty2\xfb\x01\n\x0fLiveLinkService\x12\x39\n\tSetCamera\x12\x18.livelinkapi.CameraState\x1a\x12.livelinkapi.Empty\x12\x39\n\tGetCamera\x12\x12.livelinkapi.Empty\x1a\x18.livelinkapi.CameraState\x12\x36\n\tGetMeshes\x12\x12.livelinkapi.Empty\x1a\x15.livelinkapi.MeshList\x12:\n\x07GetMesh\x12\x18.livelinkapi.MeshRequest\x1a\x15.livelinkapi.MeshDatab\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0elivelink.proto\x12\x0blivelinkapi\"\'\n\x04Vec3\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"3\n\x05Vec4D\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\t\n\x01w\x18\x04 \x01(\x01\"o\n\x07MatrixD\x12 \n\x04row0\x18\x01 \x01(\x0b\x32\x12.livelinkapi.Vec4D\x12 \n\x04row1\x18\x02 \x01(\x0b\x32\x12.livelinkapi.Vec4D\x12 \n\x04row2\x18\x03 \x01(\x0b\x32\x12.livelinkapi.Vec4D\"6\n\x04Mesh\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x05\x12\x14\n\x0cobjectHandle\x18\x03 \x01(\x03\"-\n\x08MeshList\x12!\n\x06meshes\x18\x01 \x03(\x0b\x32\x11.livelinkapi.Mesh\"\xb7\x01\n\x0b\x43\x61meraState\x12%\n\x08position\x18\x01 \x01(\x0b\x32\x11.livelinkapi.Vec3H\x00\x12#\n\x06target\x18\x02 \x01(\x0b\x32\x11.livelinkapi.Vec3H\x01\x12\x1f\n\x02up\x18\x03 \x01(\x0b\x32\x11.livelinkapi.Vec3H\x02\x12\r\n\x03\x66ov\x18\x04 \x01(\x02H\x03\x42\t\n\x07pos_setB\x0c\n\ntarget_setB\x08\n\x06up_setB\t\n\x07\x66ov_set\"\x1f\n\x0b\x46ileRequest\x12\x10\n\x08\x66ilepath\x18\x01 \x01(\t\" \n\x0c\x46ileResponse\x12\x10\n\x08\x66iledata\x18\x01 \x01(\x0c\"#\n\x0bMeshRequest\x12\x14\n\x0cobjecthandle\x18\x01 \x01(\x05\"\x1f\n\x0cStreamStatus\x12\x0f\n\x07message\x18\x01 \x01(\t\"\xed\x01\n\x08MeshData\x12\x0c\n\x04name\x18\x01 \x01(\t\x12$\n\tpositions\x18\x02 \x03(\x0b\x32\x11.livelinkapi.Vec3\x12\"\n\x07normals\x18\x03 \x03(\x0b\x32\x11.livelinkapi.Vec3\x12\x14\n\x0cvertsPerPoly\x18\x04 \x03(\r\x12\x17\n\x0fpolyVertIndices\x18\x05 \x03(\r\x12\x19\n\x11polyNormalIndices\x18\x06 \x03(\r\x12\x14\n\x0cwindingOrder\x18\x07 \x01(\x05\x12)\n\x0bworldMatrix\x18\x08 \x01(\x0b\x32\x14.livelinkapi.MatrixD\"\x07\n\x05\x45mpty2\x82\x03\n\x0fLiveLinkService\x12\x39\n\tSetCamera\x12\x18.livelinkapi.CameraState\x1a\x12.livelinkapi.Empty\x12\x39\n\tGetCamera\x12\x12.livelinkapi.Empty\x1a\x18.livelinkapi.CameraState\x12\x36\n\tGetMeshes\x12\x12.livelinkapi.Empty\x1a\x15.livelinkapi.MeshList\x12:\n\x07GetMesh\x12\x18.livelinkapi.MeshRequest\x1a\x15.livelinkapi.MeshData\x12>\n\x07GetFile\x12\x18.livelinkapi.FileRequest\x1a\x19.livelinkapi.FileResponse\x12\x45\n\x0cStreamCamera\x12\x18.livelinkapi.CameraState\x1a\x19.livelinkapi.StreamStatus(\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -43,12 +43,18 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_MESHLIST']._serialized_end=339
   _globals['_CAMERASTATE']._serialized_start=342
   _globals['_CAMERASTATE']._serialized_end=525
-  _globals['_MESHREQUEST']._serialized_start=527
-  _globals['_MESHREQUEST']._serialized_end=562
-  _globals['_MESHDATA']._serialized_start=565
-  _globals['_MESHDATA']._serialized_end=802
-  _globals['_EMPTY']._serialized_start=804
-  _globals['_EMPTY']._serialized_end=811
-  _globals['_LIVELINKSERVICE']._serialized_start=814
-  _globals['_LIVELINKSERVICE']._serialized_end=1065
+  _globals['_FILEREQUEST']._serialized_start=527
+  _globals['_FILEREQUEST']._serialized_end=558
+  _globals['_FILERESPONSE']._serialized_start=560
+  _globals['_FILERESPONSE']._serialized_end=592
+  _globals['_MESHREQUEST']._serialized_start=594
+  _globals['_MESHREQUEST']._serialized_end=629
+  _globals['_STREAMSTATUS']._serialized_start=631
+  _globals['_STREAMSTATUS']._serialized_end=662
+  _globals['_MESHDATA']._serialized_start=665
+  _globals['_MESHDATA']._serialized_end=902
+  _globals['_EMPTY']._serialized_start=904
+  _globals['_EMPTY']._serialized_end=911
+  _globals['_LIVELINKSERVICE']._serialized_start=914
+  _globals['_LIVELINKSERVICE']._serialized_end=1300
 # @@protoc_insertion_point(module_scope)

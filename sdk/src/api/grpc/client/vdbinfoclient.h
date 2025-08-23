@@ -11,16 +11,25 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class VdbGridInfoProxy;
-class VdbGridSamplerProxy;
+namespace OctaneGRPC
+{
+    class VdbGridInfoProxy;
+    class VdbGridSamplerProxy;
+}
 
 
 #include "octanevolume.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for VdbInfo
 class VdbInfoProxy : public GRPCBase
@@ -98,6 +107,7 @@ public:
             const char *const                         gridName
             ) const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiTextButtonProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -32,7 +36,6 @@ ApiTextButtonProxy ApiTextButtonProxy::create(
             GRPCButtonClickedCallbackT               clickCallback,
             void *                                    privateData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -49,7 +52,7 @@ ApiTextButtonProxy ApiTextButtonProxy::create(
     // Add the 'clickCallback' [in] parameter to the request packet.
     octaneapi::ButtonClickedCallbackT * clickcallbackIn = new octaneapi::ButtonClickedCallbackT();
     // setup callback function clickCallback
-    clickcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        clickcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_clickcallback(clickcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -150,7 +153,6 @@ void ApiTextButtonProxy::destroy()
 void ApiTextButtonProxy::setText(
             const char *                              text
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -251,3 +253,4 @@ std::string ApiTextButtonProxy::text() const
 };
 
 
+} //end of namespace

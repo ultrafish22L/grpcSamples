@@ -92,14 +92,14 @@ public:
 private:
 
     /// Wrapped NumericBox
-    ApiNumericBoxProxy               mApiNumericBox;
+    OctaneGRPC::ApiNumericBoxProxy    mApiNumericBox;
     /// List of listeners.
     std::vector<NumericBoxListener*>  mListeners;
 
     /// internal C callback
     static void onValueChanged(
-        ApiNumericBoxProxy &  NumericBox,
-        void                  *privateData);
+        OctaneGRPC::ApiNumericBoxProxy &  NumericBox,
+        void *                            privateData);
 };
 
 } // namespace OctaneWrap

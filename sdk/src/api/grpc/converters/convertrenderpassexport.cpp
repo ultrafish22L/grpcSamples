@@ -19,6 +19,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void RenderPassExportConverter::convert(
     const Octane::RenderPassExport & in,
     octaneapi::RenderPassExport & out)
@@ -54,4 +57,5 @@ void RenderPassExportConverter::convert(
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

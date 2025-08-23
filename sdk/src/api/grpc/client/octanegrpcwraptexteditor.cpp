@@ -15,7 +15,7 @@ TextEditor::TextEditor(
 //:
 //    mApiTextEditor(NULL)
 {
-    mApiTextEditor = ApiTextEditorProxy::create(nbOfLines, onTextChanged, this);
+    mApiTextEditor = OctaneGRPC::ApiTextEditorProxy::create(nbOfLines, onTextChanged, this);
     mComponent     = &mApiTextEditor;
 }
 
@@ -81,8 +81,8 @@ void TextEditor::removeListener(
 
 
 void TextEditor::onTextChanged(
-    ApiTextEditorProxy &   textEditor,
-    void                  *privateData)
+    OctaneGRPC::ApiTextEditorProxy &   textEditor,
+    void *                             privateData)
 {
     TextEditor * myEditor = static_cast<TextEditor*>(privateData);
     // notify listeners

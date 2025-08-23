@@ -20,8 +20,8 @@ class ApiItemArrayServiceStub(object):
                 request_serializer=apinodesystem__1__pb2.ApiItemArray.sizeRequest.SerializeToString,
                 response_deserializer=apinodesystem__1__pb2.ApiItemArray.sizeResponse.FromString,
                 _registered_method=True)
-        self.get1 = channel.unary_unary(
-                '/octaneapi.ApiItemArrayService/get1',
+        self.get = channel.unary_unary(
+                '/octaneapi.ApiItemArrayService/get',
                 request_serializer=apinodesystem__1__pb2.ApiItemArray.getRequest.SerializeToString,
                 response_deserializer=apinodesystem__1__pb2.ApiItemArray.getResponse.FromString,
                 _registered_method=True)
@@ -57,7 +57,7 @@ class ApiItemArrayServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def get1(self, request, context):
+    def get(self, request, context):
         """/ Returns the item at the given index
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -100,8 +100,8 @@ def add_ApiItemArrayServiceServicer_to_server(servicer, server):
                     request_deserializer=apinodesystem__1__pb2.ApiItemArray.sizeRequest.FromString,
                     response_serializer=apinodesystem__1__pb2.ApiItemArray.sizeResponse.SerializeToString,
             ),
-            'get1': grpc.unary_unary_rpc_method_handler(
-                    servicer.get1,
+            'get': grpc.unary_unary_rpc_method_handler(
+                    servicer.get,
                     request_deserializer=apinodesystem__1__pb2.ApiItemArray.getRequest.FromString,
                     response_serializer=apinodesystem__1__pb2.ApiItemArray.getResponse.SerializeToString,
             ),
@@ -164,7 +164,7 @@ class ApiItemArrayService(object):
             _registered_method=True)
 
     @staticmethod
-    def get1(request,
+    def get(request,
             target,
             options=(),
             channel_credentials=None,
@@ -177,7 +177,7 @@ class ApiItemArrayService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/octaneapi.ApiItemArrayService/get1',
+            '/octaneapi.ApiItemArrayService/get',
             apinodesystem__1__pb2.ApiItemArray.getRequest.SerializeToString,
             apinodesystem__1__pb2.ApiItemArray.getResponse.FromString,
             options,

@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiOutputColorSpaceInfoProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -31,7 +35,6 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createKnownColorSpace
             Octane::NamedColorSpace                   colorSpace,
             bool                                      forceToneMapping
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -41,7 +44,7 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createKnownColorSpace
     /////////////////////////////////////////////////////////////////////
     // Add the 'colorSpace' [in] parameter to the request packet.
     octaneapi::NamedColorSpace colorspaceIn;
-    colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
+        colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
     request.set_colorspace(colorspaceIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -95,7 +98,6 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createOcioColorSpace(
             bool                                      forceToneMapping,
             Octane::ColorSpaceCurveType               curveType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -123,7 +125,7 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createOcioColorSpace(
     /////////////////////////////////////////////////////////////////////
     // Add the 'curveType' [in] parameter to the request packet.
     octaneapi::ColorSpaceCurveType curvetypeIn;
-    curvetypeIn = static_cast<octaneapi::ColorSpaceCurveType>(curveType);
+        curvetypeIn = static_cast<octaneapi::ColorSpaceCurveType>(curveType);
     request.set_curvetype(curvetypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -173,7 +175,6 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createOcioView(
             bool                                      forceToneMapping,
             Octane::ColorSpaceCurveType               curveType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -213,7 +214,7 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createOcioView(
     /////////////////////////////////////////////////////////////////////
     // Add the 'curveType' [in] parameter to the request packet.
     octaneapi::ColorSpaceCurveType curvetypeIn;
-    curvetypeIn = static_cast<octaneapi::ColorSpaceCurveType>(curveType);
+        curvetypeIn = static_cast<octaneapi::ColorSpaceCurveType>(curveType);
     request.set_curvetype(curvetypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -258,7 +259,6 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createOcioView(
 ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createUseImagerSettings(
             Octane::NamedColorSpace                   nonOcioColorSpace
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -268,7 +268,7 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::createUseImagerSettin
     /////////////////////////////////////////////////////////////////////
     // Add the 'nonOcioColorSpace' [in] parameter to the request packet.
     octaneapi::NamedColorSpace nonociocolorspaceIn;
-    nonociocolorspaceIn = static_cast<octaneapi::NamedColorSpace>(nonOcioColorSpace);
+        nonociocolorspaceIn = static_cast<octaneapi::NamedColorSpace>(nonOcioColorSpace);
     request.set_nonociocolorspace(nonociocolorspaceIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -412,7 +412,6 @@ ApiOutputColorSpaceInfoProxy ApiOutputColorSpaceInfoProxy::clone() const
 bool ApiOutputColorSpaceInfoProxy::equals(
             const ApiOutputColorSpaceInfoProxy *      other
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -471,3 +470,4 @@ bool ApiOutputColorSpaceInfoProxy::equals(
 };
 
 
+} //end of namespace

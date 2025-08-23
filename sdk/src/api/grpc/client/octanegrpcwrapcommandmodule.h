@@ -8,7 +8,10 @@
 #include "apimodulenodegraph.h"
 #include "apimodule.h"
 
-class ApiImageProxy;
+namespace OctaneGRPC
+{
+    class ApiImageProxy;
+}
 
 namespace OctaneWrap
 {
@@ -55,7 +58,7 @@ namespace OctaneWrap
             const char *                                              author,
             const Octane::VersionT                                    versionNumber,
             const Octane::ApiCommandModuleInfo::CommandModuleRunFuncT runFunction,
-            const ApiImageProxy &                                     icon,
+            const OctaneGRPC::ApiImageProxy &                         icon,
             const char *                                              shortcutGroupName       = nullptr,
             const int                                                 shortcutKeyCode         = -1,
             const int                                                 shortcutModifierKeyFlag = 0);

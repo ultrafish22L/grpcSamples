@@ -11,18 +11,27 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiRootNodeGraphProxy;
-class ApiItemProxy;
+namespace OctaneGRPC
+{
+    class ApiRootNodeGraphProxy;
+    class ApiItemProxy;
+}
 
 
 #include "apichangemanager.h"
 
 
-class Convert;
-
-class GRPCSettings;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
 #include "grpcchangeevents.h"
+
+namespace OctaneGRPC
+{
+
 /// Proxy class for ApiChangeManager
 class ApiChangeManagerProxy : public GRPCBase
 {
@@ -126,6 +135,7 @@ public:
     ///     Contains the status of the gRPC call
     static void stopObservingTime();
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

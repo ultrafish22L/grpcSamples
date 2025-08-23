@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiOcioContextManagerProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -33,7 +37,6 @@ bool ApiOcioContextManagerProxy::guessIntermediateColorSpace(
             Octane::NamedColorSpace &                 guessedOctaneValue,
             std::string &                             guessedOcioName
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -188,7 +191,6 @@ void ApiOcioContextManagerProxy::addCallback(
             GRPCCallback2T                           callback,
             void *                                    privateData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -208,7 +210,7 @@ void ApiOcioContextManagerProxy::addCallback(
     // Add the 'callback' [in] parameter to the request packet.
     octaneapi::CallbackT * callbackIn = new octaneapi::CallbackT();
     // setup callback function callback
-    callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -251,7 +253,6 @@ void ApiOcioContextManagerProxy::removeCallback(
             GRPCCallback2T                           callback,
             void *                                    privateData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -520,7 +521,6 @@ void ApiOcioContextManagerProxy::donateConfig(
             const char *                              filename,
             const ApiOcioConfigProxy *                config
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -623,3 +623,4 @@ void ApiOcioContextManagerProxy::handlePendingConfigDonation()
 };
 
 
+} //end of namespace

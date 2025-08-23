@@ -51,7 +51,7 @@ public:
 private:
 
     /// Wrapped ProgressBar
-    ApiProgressBarProxy mApiProgressBar;
+    OctaneGRPC::ApiProgressBarProxy mApiProgressBar;
 };
 
 } // namespace OctaneWrap

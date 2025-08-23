@@ -7,7 +7,13 @@
 namespace Octane { struct ImageExportSettings; }
 namespace octaneapi { class ImageExportSettings; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ImageExportSettingsConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ImageExportSettings & in,
         octaneapi::ImageExportSettings & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

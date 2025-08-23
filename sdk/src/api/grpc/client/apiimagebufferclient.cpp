@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiImageBufferProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -32,7 +36,6 @@ ApiImageBufferProxy ApiImageBufferProxy::create(
             const Octane::ImageType                   type,
             const bool                                containsAlpha
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -49,7 +52,7 @@ ApiImageBufferProxy ApiImageBufferProxy::create(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::ImageType typeIn;
-    typeIn = static_cast<octaneapi::ImageType>(type);
+        typeIn = static_cast<octaneapi::ImageType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -103,7 +106,6 @@ ApiImageBufferProxy ApiImageBufferProxy::create(
             const OctaneVec::uint32_2                 imgDim,
             const Octane::ImageType                   type
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -139,7 +141,7 @@ ApiImageBufferProxy ApiImageBufferProxy::create(
     /////////////////////////////////////////////////////////////////////
     // Add the 'type' [in] parameter to the request packet.
     octaneapi::ImageType typeIn;
-    typeIn = static_cast<octaneapi::ImageType>(type);
+        typeIn = static_cast<octaneapi::ImageType>(type);
     request.set_type(typeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -187,7 +189,6 @@ ApiImageBufferProxy ApiImageBufferProxy::load(
             const Octane::ImageChannelType            targType,
             const char *const                         layerName
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -203,13 +204,13 @@ ApiImageBufferProxy ApiImageBufferProxy::load(
     /////////////////////////////////////////////////////////////////////
     // Add the 'loadType' [in] parameter to the request packet.
     octaneapi::ImageColorType loadtypeIn;
-    loadtypeIn = static_cast<octaneapi::ImageColorType>(loadType);
+        loadtypeIn = static_cast<octaneapi::ImageColorType>(loadType);
     request.set_loadtype(loadtypeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'targType' [in] parameter to the request packet.
     octaneapi::ImageChannelType targtypeIn;
-    targtypeIn = static_cast<octaneapi::ImageChannelType>(targType);
+        targtypeIn = static_cast<octaneapi::ImageChannelType>(targType);
     request.set_targtype(targtypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -264,7 +265,6 @@ ApiImageBufferProxy ApiImageBufferProxy::load(
             const Octane::ImageChannelType            targType,
             const char *const                         layerName
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -286,13 +286,13 @@ ApiImageBufferProxy ApiImageBufferProxy::load(
     /////////////////////////////////////////////////////////////////////
     // Add the 'loadType' [in] parameter to the request packet.
     octaneapi::ImageColorType loadtypeIn;
-    loadtypeIn = static_cast<octaneapi::ImageColorType>(loadType);
+        loadtypeIn = static_cast<octaneapi::ImageColorType>(loadType);
     request.set_loadtype(loadtypeIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'targType' [in] parameter to the request packet.
     octaneapi::ImageChannelType targtypeIn;
-    targtypeIn = static_cast<octaneapi::ImageChannelType>(targType);
+        targtypeIn = static_cast<octaneapi::ImageChannelType>(targType);
     request.set_targtype(targtypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -345,7 +345,6 @@ ApiImageBufferProxy ApiImageBufferProxy::convertTo(
             const Octane::ImageType                   destType,
             const bool                                forceCopy
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -364,7 +363,7 @@ ApiImageBufferProxy ApiImageBufferProxy::convertTo(
     /////////////////////////////////////////////////////////////////////
     // Add the 'destType' [in] parameter to the request packet.
     octaneapi::ImageType desttypeIn;
-    desttypeIn = static_cast<octaneapi::ImageType>(destType);
+        desttypeIn = static_cast<octaneapi::ImageType>(destType);
     request.set_desttype(desttypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1311,7 +1310,6 @@ bool ApiImageBufferProxy::isMono() const
 bool ApiImageBufferProxy::isPixelValid(
             const OctaneVec::uint32_2                 pos
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1371,7 +1369,6 @@ bool ApiImageBufferProxy::isPixelValid(
 void ApiImageBufferProxy::compress(
             const Octane::ApiImageBuffer::ImageCompressType compressType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1390,7 +1387,7 @@ void ApiImageBufferProxy::compress(
     /////////////////////////////////////////////////////////////////////
     // Add the 'compressType' [in] parameter to the request packet.
     octaneapi::ApiImageBuffer_ImageCompressType compresstypeIn;
-    compresstypeIn = static_cast<octaneapi::ApiImageBuffer_ImageCompressType>(compressType);
+        compresstypeIn = static_cast<octaneapi::ApiImageBuffer_ImageCompressType>(compressType);
     request.set_compresstype(compresstypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1425,7 +1422,6 @@ void ApiImageBufferProxy::setPixelLdr(
             const OctaneVec::uint32_2                 pos,
             const uint8_t *const                      value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1486,7 +1482,6 @@ void ApiImageBufferProxy::setPixelHalf(
             const OctaneVec::uint32_2                 pos,
             const Octane::half_t *const               value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1547,7 +1542,6 @@ void ApiImageBufferProxy::setPixelHdr(
             const OctaneVec::uint32_2                 pos,
             const float *const                        value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1610,7 +1604,6 @@ bool ApiImageBufferProxy::copyRegion(
             const OctaneVec::uint32_2                 destPos,
             bool                                      blend
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1787,7 +1780,6 @@ void ApiImageBufferProxy::flipVertical()
 void ApiImageBufferProxy::convert(
             const Octane::ImageType                   destType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1806,7 +1798,7 @@ void ApiImageBufferProxy::convert(
     /////////////////////////////////////////////////////////////////////
     // Add the 'destType' [in] parameter to the request packet.
     octaneapi::ImageType desttypeIn;
-    desttypeIn = static_cast<octaneapi::ImageType>(destType);
+        desttypeIn = static_cast<octaneapi::ImageType>(destType);
     request.set_desttype(desttypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -1840,7 +1832,6 @@ void ApiImageBufferProxy::convert(
 void ApiImageBufferProxy::applyGaussianFilter(
             const uint8_t                             radius
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1893,7 +1884,6 @@ void ApiImageBufferProxy::applyGaussianFilter(
 void ApiImageBufferProxy::applyBoxFilter(
             const uint8_t                             radius
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1947,7 +1937,6 @@ void ApiImageBufferProxy::applyLevels(
             const float                               gamma,
             const OctaneVec::float_2                  levels
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2008,7 +1997,6 @@ void ApiImageBufferProxy::compareValues(
             const ApiImageBufferProxy *const          otherImg,
             const bool                                compareAlpha
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2072,7 +2060,6 @@ bool ApiImageBufferProxy::calculateMeanSquareError(
             const bool                                clampValues,
             double &                                  error
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2146,7 +2133,6 @@ bool ApiImageBufferProxy::save(
             const char *const                         fileName,
             const Octane::ApiImageBuffer::MetaDataList *const metaData
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2212,7 +2198,6 @@ bool ApiImageBufferProxy::saveAsync(
             const char *const                         fileName,
             const Octane::ApiImageBuffer::MetaDataList *const metaData
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2277,7 +2262,6 @@ bool ApiImageBufferProxy::saveAsync(
 std::string ApiImageBufferProxy::pixelAddr(
             const OctaneVec::uint32_2                 pos
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2338,7 +2322,6 @@ std::string ApiImageBufferProxy::pixelAddr(
 std::string ApiImageBufferProxy::pixelAddr(
             const OctaneVec::uint32_2                 pos
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2396,3 +2379,4 @@ std::string ApiImageBufferProxy::pixelAddr(
 };
 
 
+} //end of namespace

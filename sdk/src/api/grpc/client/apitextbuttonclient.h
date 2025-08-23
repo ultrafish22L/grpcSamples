@@ -17,9 +17,15 @@
 #include "apitextbutton.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiTextButton
 class ApiTextButtonProxy : public ApiGuiComponentProxy
@@ -60,6 +66,7 @@ public:
     ///     Contains the status of the gRPC call
     std::string text() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

@@ -11,17 +11,26 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiRootNodeGraphProxy;
-class ApiNodeGraphProxy;
-class ApiLocalDBProxy_Package;
+namespace OctaneGRPC
+{
+    class ApiRootNodeGraphProxy;
+    class ApiNodeGraphProxy;
+    class ApiLocalDBProxy_Package;
+}
 
 
 #include "apilocaldb.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiLocalDB_Category
 class ApiLocalDBProxy_Category : public GRPCBase
@@ -155,6 +164,7 @@ public:
     ///     Contains the status of the gRPC call
     void free();
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

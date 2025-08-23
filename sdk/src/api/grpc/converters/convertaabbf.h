@@ -7,7 +7,13 @@
 #include <functional>
 #include "octaneaabb.h"
 namespace octaneapi { class AABBF; }
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class AABBFConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::AABBF & in,
         octaneapi::AABBF & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

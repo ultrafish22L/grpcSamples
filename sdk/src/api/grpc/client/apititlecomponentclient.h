@@ -17,9 +17,15 @@
 #include "apititlecomponent.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiTitleComponent
 class ApiTitleComponentProxy : public ApiGuiComponentProxy
@@ -42,6 +48,7 @@ public:
     ///     Contains the status of the gRPC call
     void destroy();
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

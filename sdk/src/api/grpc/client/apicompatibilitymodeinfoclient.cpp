@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiCompatibilityModeInfoProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -152,3 +156,4 @@ std::string ApiCompatibilityModeInfoProxy::description() const
 };
 
 
+} //end of namespace

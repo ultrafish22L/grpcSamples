@@ -7,7 +7,13 @@
 #include <functional>
 #include "apirendercloudmanager.h"
 namespace octaneapi { class ApiRenderCloudManager_ApiRenderCloudManager_SubscriptionInfo; }
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiRenderCloudManager_ApiRenderCloudManager_SubscriptionInfoConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiRenderCloudManager::SubscriptionInfo & in,
         octaneapi::ApiRenderCloudManager_ApiRenderCloudManager_SubscriptionInfo & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

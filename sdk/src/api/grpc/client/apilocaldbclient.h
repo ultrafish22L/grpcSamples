@@ -11,17 +11,26 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiLocalDBProxy ;
-class ApiLocalDBProxy_Category;
-class ApiLocalDBProxy_Package;
+namespace OctaneGRPC
+{
+    class ApiLocalDBProxy ;
+    class ApiLocalDBProxy_Category;
+    class ApiLocalDBProxy_Package;
+}
 
 
 #include "apilocaldb.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiLocalDB
 class ApiLocalDBProxy : public GRPCBase
@@ -79,6 +88,7 @@ public:
             Octane::ApiLocalDB::ObserverCallback *    callback
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

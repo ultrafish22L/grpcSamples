@@ -7,7 +7,13 @@
 namespace Octane { struct ApiOcioColorSpacePinInfo; }
 namespace octaneapi { class ApiOcioColorSpacePinInfo; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiOcioColorSpacePinInfoConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiOcioColorSpacePinInfo & in,
         octaneapi::ApiOcioColorSpacePinInfo & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

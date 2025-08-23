@@ -10,7 +10,7 @@ using namespace OctaneWrap;
 ModalDialog::ModalDialog(
     const std::string &dialogTitle)
 {
-    mApiModalDialog = ApiModalDialogProxy::create(dialogTitle.c_str());
+    mApiModalDialog = OctaneGRPC::ApiModalDialogProxy::create(dialogTitle.c_str());
     mComponent      = &mApiModalDialog;
 }
 
@@ -46,7 +46,7 @@ void ModalDialog::showInfoMessageDialog(
     const std::string &dialogTitle,
     const std::string &infoMessage)
 {
-    ApiModalDialogProxy::showInfoMessageDialog(dialogTitle.c_str(), infoMessage.c_str());
+   OctaneGRPC::ApiModalDialogProxy::showInfoMessageDialog(dialogTitle.c_str(), infoMessage.c_str());
 }
 
 
@@ -54,7 +54,7 @@ void ModalDialog::showErrorMessageDialog(
     const std::string &dialogTitle,
     const std::string &errorMessage)
 {
-    ApiModalDialogProxy::showErrorMessageDialog(dialogTitle.c_str(), errorMessage.c_str());
+    OctaneGRPC::ApiModalDialogProxy::showErrorMessageDialog(dialogTitle.c_str(), errorMessage.c_str());
 }
 
 
@@ -64,7 +64,7 @@ bool ModalDialog::showOkCancelDialog(
     const std::string &okButtonText,
     const std::string &cancelButtonText)
 {
-    return ApiModalDialogProxy::showOkCancelDialog(dialogTitle.c_str(),
+    return OctaneGRPC::ApiModalDialogProxy::showOkCancelDialog(dialogTitle.c_str(),
                                                    message.c_str(),
                                                    okButtonText.c_str(),
                                                    cancelButtonText.c_str()
@@ -79,7 +79,7 @@ Octane::ApiModalDialog::DialogResult ModalDialog::showYesNoCancelDialog(
     const std::string &noButtonText,
     const std::string &cancelButtonText)
 {
-    return ApiModalDialogProxy::showYesNoCancelDialog(dialogTitle.c_str(),
+    return OctaneGRPC::ApiModalDialogProxy::showYesNoCancelDialog(dialogTitle.c_str(),
                                                       message.c_str(),
                                                       yesButtonText.c_str(),
                                                       noButtonText.c_str(),

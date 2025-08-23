@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiTextureValueTypeSetProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -71,7 +75,6 @@ uint32_t ApiTextureValueTypeSetProxy::size() const
 Octane::TextureValueType ApiTextureValueTypeSetProxy::at(
             uint32_t                                  index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -121,7 +124,6 @@ Octane::TextureValueType ApiTextureValueTypeSetProxy::at(
 bool ApiTextureValueTypeSetProxy::contains(
             Octane::TextureValueType                  textureValueType
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -131,7 +133,7 @@ bool ApiTextureValueTypeSetProxy::contains(
     /////////////////////////////////////////////////////////////////////
     // Add the 'textureValueType' [in] parameter to the request packet.
     octaneapi::TextureValueType texturevaluetypeIn;
-    texturevaluetypeIn = static_cast<octaneapi::TextureValueType>(textureValueType);
+        texturevaluetypeIn = static_cast<octaneapi::TextureValueType>(textureValueType);
     request.set_texturevaluetype(texturevaluetypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -209,3 +211,4 @@ uint32_t ApiTextureValueTypeSetProxy::bitField() const
 };
 
 
+} //end of namespace

@@ -127,7 +127,7 @@ int main() {
         glm::vec3 viewPos = cameraController.camera.getPosition();
         
         // Render using modern renderer
-        renderer.render(view, projection, viewPos, currentTime);
+        renderer.renderCube(view, projection, viewPos, currentTime);
         
         // Swap buffers
         glfwSwapBuffers(window);

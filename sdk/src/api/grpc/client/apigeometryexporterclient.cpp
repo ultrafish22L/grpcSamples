@@ -24,6 +24,10 @@
 #include "convertapitimesampling.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiGeometryExporterProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -77,7 +81,6 @@ ApiGeometryExporterProxy ApiGeometryExporterProxy::create(
             const Octane::GeometryExportFormat        exportFormat,
             const bool                                exportGeneratedGeometry
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -99,7 +102,7 @@ ApiGeometryExporterProxy ApiGeometryExporterProxy::create(
     /////////////////////////////////////////////////////////////////////
     // Add the 'exportFormat' [in] parameter to the request packet.
     octaneapi::GeometryExportFormat exportformatIn;
-    exportformatIn = static_cast<octaneapi::GeometryExportFormat>(exportFormat);
+        exportformatIn = static_cast<octaneapi::GeometryExportFormat>(exportFormat);
     request.set_exportformat(exportformatIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -150,7 +153,6 @@ ApiGeometryExporterProxy ApiGeometryExporterProxy::create(
 void ApiGeometryExporterProxy::setAspectRatio(
             float                                     ratio
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -208,7 +210,6 @@ void ApiGeometryExporterProxy::setFbxOptions(
             const uint32_t                            renderSizeY,
             const bool                                writeOcsData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -291,7 +292,6 @@ void ApiGeometryExporterProxy::setFbxOptions(
 bool ApiGeometryExporterProxy::addItem(
             ApiItemProxy *                            item
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -353,7 +353,6 @@ bool ApiGeometryExporterProxy::addItem(
 bool ApiGeometryExporterProxy::writeFrame(
             const Octane::TimeSpanT                   interval
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -463,7 +462,6 @@ bool ApiGeometryExporterProxy::writeFrame()
 bool ApiGeometryExporterProxy::writeTimeSampling(
             const Octane::ApiTimeSampling &           times
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -523,7 +521,6 @@ ApiNodeGraphProxy ApiGeometryExporterProxy::createGeometryArchive(
             ApiNodeGraphProxy *                       owner,
             bool                                      createObjectInputs
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -637,3 +634,4 @@ void ApiGeometryExporterProxy::destroy()
 };
 
 
+} //end of namespace

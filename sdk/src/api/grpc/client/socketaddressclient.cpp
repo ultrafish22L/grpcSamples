@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & SocketAddressProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -77,3 +81,4 @@ bool SocketAddressProxy::isValid() const
 };
 
 
+} //end of namespace

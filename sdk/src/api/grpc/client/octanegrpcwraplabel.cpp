@@ -5,7 +5,7 @@
 // application includes
 #include "apilabel.h"
 
-
+using namespace OctaneGRPC;
 using namespace OctaneWrap;
 
 Label::Label(

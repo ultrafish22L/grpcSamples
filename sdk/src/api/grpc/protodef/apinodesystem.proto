@@ -30,7 +30,402 @@ message ApiFilePath
  // GRPC proto definitions for 'ApiItem' class from 'apinodesystem.h'
 message ApiItem
 {
-    // Request packet corresponding to '[in] parameters in ApiItem::destroy'
+
+
+    // Response for "get" calls
+    message getValueResponse
+    {
+        oneof value 
+        {
+            // -- Scalar types --
+            bool       bool_value     = 10;
+            int32      int_value      = 11;
+            int32_2    int2_value     = 12;
+            int32_3    int3_value     = 13;
+            int32_4    int4_value     = 14;
+            int64      long_value     = 15;
+            int64_2    long2_value    = 16;
+            float      float_value    = 17;
+            float_2    float2_value   = 18;
+            float_3    float3_value   = 19;
+            float_4    float4_value   = 20;
+            MatrixF    matrix_value   = 21;
+            string     string_value   = 22;
+        }
+    }
+
+    // For arrays (matching getBoolArray, getIntArray, etc.)
+    message getArrayResponse 
+    {
+        oneof array_value 
+        {
+            BoolArrayT   bool_array       = 10;
+            IntArrayT    int_array        = 11;
+            Int2ArrayT   int2_array       = 12;
+            Int3ArrayT   int3_array       = 13;
+            Int4ArrayT   int4_array       = 14;
+            LongArrayT   long_array       = 15;
+            Long2ArrayT  long2_array      = 16;
+            FloatArrayT  float_array      = 17;
+            Float2ArrayT float2_array     = 18;
+            Float3ArrayT float3_array     = 19;
+            Float4ArrayT float4_array     = 20;
+            MatrixArrayT matrix_array     = 21;
+            StringArrayT string_array     = 22;
+            ByteArrayT   byte_array       = 23;
+        }
+    }
+
+    // For arrays (matching getAnimResponse)
+    message getAnimArrayResponse 
+    {
+        ApiTimeSampling times = 1;          
+        optional uint32 num_time_samples = 2;
+        oneof array_value 
+        {
+            BoolArrayT   bool_array       = 10;
+            IntArrayT    int_array        = 11;
+            Int2ArrayT   int2_array       = 12;
+            Int3ArrayT   int3_array       = 13;
+            Int4ArrayT   int4_array       = 14;
+            LongArrayT   long_array       = 15;
+            Long2ArrayT  long2_array      = 16;
+            FloatArrayT  float_array      = 17;
+            Float2ArrayT float2_array     = 18;
+            Float3ArrayT float3_array     = 19;
+            Float4ArrayT float4_array     = 20;
+            MatrixArrayT matrix_array     = 21;
+            StringArrayT string_array     = 22;
+            ByteArrayT   byte_array       = 23;
+        }
+    }
+
+    // --- For scalar retrieval --- 
+
+    message getValueByIDRequest 
+    {
+        ObjectRef       item_ref      = 1; // which object
+        AttributeId     attribute_id  = 2; // which property inside the object
+        AttributeTypeId expected_type = 3; // optional type enum for validation
+    }
+
+    message getValueByNameRequest 
+    {
+        ObjectRef       item_ref      = 1; // which object
+        string          name          = 2; // property name
+        AttributeTypeId expected_type = 3; // optional
+    }
+
+    message getValueByIxRequest 
+    {
+        ObjectRef       item_ref      = 1; // which object
+        uint32          index         = 2; // property index
+        AttributeTypeId expected_type = 3; // optional
+    }
+
+
+    // --- For array retrieval ---
+
+    message getArrayByIDRequest
+    {
+        ObjectRef       item_ref      = 1; // which object
+        AttributeId     attribute_id  = 2; // which property inside the object
+        AttributeTypeId expected_type = 3; // optional
+    }
+
+    message getArrayByNameRequest
+    {
+        ObjectRef       item_ref      = 1; // which object
+        string          name          = 2; // property name
+        AttributeTypeId expected_type = 3; // optional
+    }
+
+    message getArrayByIxRequest
+    {
+        ObjectRef       item_ref      = 1; // which object
+        uint32          index         = 2; // property index
+        AttributeTypeId expected_type = 3; // optional
+    }
+
+
+    // --- For animation array retrieval ---
+
+    message getAnimByIDRequest
+    {
+        ObjectRef       item_ref      = 1; // which object
+        AttributeId     attribute_id  = 2; // which property inside the object
+        AttributeTypeId expected_type = 3;
+	bool            want_num_samples = 4;
+//        ApiTimeSampling times         = 4;
+  //      optional uint32 num_time_samples = 5;
+    }
+
+    message getAnimByNameRequest
+    {
+        ObjectRef       item_ref      = 1; // which object
+        string          name          = 2; // property name
+        AttributeTypeId expected_type = 3;
+        bool            want_num_samples = 4;
+//        ApiTimeSampling times         = 4;
+  //      optional uint32 num_time_samples = 5;
+    }
+
+    message getAnimByIxRequest
+    {
+        ObjectRef       item_ref      = 1; // which object
+        uint32          index         = 2; // property index
+        AttributeTypeId expected_type = 3;
+        bool            want_num_samples = 4;
+//        ApiTimeSampling times         = 4;
+  //      optional uint32 num_time_samples = 5;
+    }
+
+    // A) ID-based (scalar)
+    message setValueByIDRequest
+    {
+        ObjectRef   item_ref     = 1; 
+        AttributeId attribute_id = 2;
+
+        oneof value 
+        {
+            bool       bool_value     = 10;
+            int32      int_value      = 11;
+            int32_2    int2_value     = 12;
+            int32_3    int3_value     = 13;
+            int32_4    int4_value     = 14;
+            int64      long_value     = 15;
+            int64_2    long2_value    = 16;
+            float      float_value    = 17;
+            float_2    float2_value   = 18;
+            float_3    float3_value   = 19;
+            float_4    float4_value   = 20;
+            MatrixF    matrix_value   = 21;
+            string     string_value   = 22;
+            // If you have single "bytes" or other scalar variants, add them here
+        }
+    }
+
+    // B) ID-based (array)
+    message setArrayByIDRequest
+    {
+        ObjectRef   item_ref     = 1;
+        AttributeId attribute_id = 2;
+
+        oneof array_value 
+        {
+            BoolArrayT   bool_array       = 10;
+            IntArrayT    int_array        = 11;
+            Int2ArrayT   int2_array       = 12;
+            Int3ArrayT   int3_array       = 13;
+            Int4ArrayT   int4_array       = 14;
+            LongArrayT   long_array       = 15;
+            Long2ArrayT  long2_array      = 16;
+            FloatArrayT  float_array      = 17;
+            Float2ArrayT float2_array     = 18;
+            Float3ArrayT float3_array     = 19;
+            Float4ArrayT float4_array     = 20;
+            MatrixArrayT matrix_array     = 21;
+            StringArrayT string_array     = 22;
+            ByteArrayT   byte_array       = 23;
+        }
+    }
+
+    message setAnimByIDRequest
+    {
+        ObjectRef   item_ref     = 1;
+        AttributeId attribute_id = 2;
+        ApiTimeSampling times         = 3;
+        optional uint32 num_time_samples = 4; // optional:: pass-through to C++ overload
+        optional bool evaluate = 5;          // optional:: default = true
+        oneof array_value 
+        {
+            BoolArrayT   bool_array       = 10;
+            IntArrayT    int_array        = 11;
+            Int2ArrayT   int2_array       = 12;
+            Int3ArrayT   int3_array       = 13;
+            Int4ArrayT   int4_array       = 14;
+            LongArrayT   long_array       = 15;
+            Long2ArrayT  long2_array      = 16;
+            FloatArrayT  float_array      = 17;
+            Float2ArrayT float2_array     = 18;
+            Float3ArrayT float3_array     = 19;
+            Float4ArrayT float4_array     = 20;
+            MatrixArrayT matrix_array     = 21;
+            StringArrayT string_array     = 22;
+            ByteArrayT   byte_array       = 23;
+        }
+    }
+
+
+    // C) Name-based (scalar)
+    message setValueByNameRequest
+    {
+        ObjectRef item_ref = 1;
+        string    name     = 2;
+        oneof value 
+        {
+            bool       bool_value     = 10;
+            int32      int_value      = 11;
+            int32_2    int2_value     = 12;
+            int32_3    int3_value     = 13;
+            int32_4    int4_value     = 14;
+            int64      long_value     = 15;
+            int64_2    long2_value    = 16;
+            float      float_value    = 17;
+            float_2    float2_value   = 18;
+            float_3    float3_value   = 19;
+            float_4    float4_value   = 20;
+            MatrixF    matrix_value   = 21;
+            string     string_value   = 22;
+        }
+    }
+
+    // D) Name-based (array)
+    message setArrayByNameRequest
+    {
+        ObjectRef item_ref = 1;
+        string    name     = 2;
+        oneof array_value 
+        {
+            BoolArrayT   bool_array       = 10;
+            IntArrayT    int_array        = 11;
+            Int2ArrayT   int2_array       = 12;
+            Int3ArrayT   int3_array       = 13;
+            Int4ArrayT   int4_array       = 14;
+            LongArrayT   long_array       = 15;
+            Long2ArrayT  long2_array      = 16;
+            FloatArrayT  float_array      = 17;
+            Float2ArrayT float2_array     = 18;
+            Float3ArrayT float3_array     = 19;
+            Float4ArrayT float4_array     = 20;
+            MatrixArrayT matrix_array     = 21;
+            StringArrayT string_array     = 22;
+            ByteArrayT   byte_array       = 23;
+        }
+    }
+ 
+   // D) Name-based (array)
+    message setAnimByNameRequest
+    {
+        ObjectRef item_ref = 1;
+        string    name     = 2;
+        ApiTimeSampling times         = 3;
+        optional uint32 num_time_samples = 4;
+        optional bool evaluate = 5;
+        oneof array_value 
+        {
+            BoolArrayT   bool_array       = 10;
+            IntArrayT    int_array        = 11;
+            Int2ArrayT   int2_array       = 12;
+            Int3ArrayT   int3_array       = 13;
+            Int4ArrayT   int4_array       = 14;
+            LongArrayT   long_array       = 15;
+            Long2ArrayT  long2_array      = 16;
+            FloatArrayT  float_array      = 17;
+            Float2ArrayT float2_array     = 18;
+            Float3ArrayT float3_array     = 19;
+            Float4ArrayT float4_array     = 20;
+            MatrixArrayT matrix_array     = 21;
+            StringArrayT string_array     = 22;
+            ByteArrayT   byte_array       = 23;
+        }
+    }
+ 
+
+
+    // E) Index-based (scalar)
+    message setValueByIxRequest
+    {
+        ObjectRef item_ref = 1;
+        uint32    index    = 2;
+        oneof value 
+        {
+            bool       bool_value     = 10;
+            int32      int_value      = 11;
+            int32_2    int2_value     = 12;
+            int32_3    int3_value     = 13;
+            int32_4    int4_value     = 14;
+            int64      long_value     = 15;
+            int64_2    long2_value    = 16;
+            float      float_value    = 17;
+            float_2    float2_value   = 18;
+            float_3    float3_value   = 19;
+            float_4    float4_value   = 20;
+            MatrixF    matrix_value   = 21;
+            string     string_value   = 22;
+        }
+    }
+
+    // F) Index-based (array)
+    message setArrayByIxRequest 
+    {
+        ObjectRef item_ref = 1;
+        uint32    index    = 2;
+        oneof array_value 
+        {
+            BoolArrayT   bool_array       = 10;
+            IntArrayT    int_array        = 11;
+            Int2ArrayT   int2_array       = 12;
+            Int3ArrayT   int3_array       = 13;
+            Int4ArrayT   int4_array       = 14;
+            LongArrayT   long_array       = 15;
+            Long2ArrayT  long2_array      = 16;
+            FloatArrayT  float_array      = 17;
+            Float2ArrayT float2_array     = 18;
+            Float3ArrayT float3_array     = 19;
+            Float4ArrayT float4_array     = 20;
+            MatrixArrayT matrix_array     = 21;
+            StringArrayT string_array     = 22;
+            ByteArrayT   byte_array       = 23;
+        }
+    }
+
+    message setAnimByIxRequest
+    {
+        ObjectRef item_ref = 1;
+        uint32    index    = 2;
+        ApiTimeSampling times         = 3;
+        optional uint32 num_time_samples = 4;
+        optional bool evaluate = 5;
+        oneof array_value 
+        {
+            BoolArrayT   bool_array       = 10;
+            IntArrayT    int_array        = 11;
+            Int2ArrayT   int2_array       = 12;
+            Int3ArrayT   int3_array       = 13;
+            Int4ArrayT   int4_array       = 14;
+            LongArrayT   long_array       = 15;
+            Long2ArrayT  long2_array      = 16;
+            FloatArrayT  float_array      = 17;
+            Float2ArrayT float2_array     = 18;
+            Float3ArrayT float3_array     = 19;
+            Float4ArrayT float4_array     = 20;
+            MatrixArrayT matrix_array     = 21;
+            StringArrayT string_array     = 22;
+            ByteArrayT   byte_array       = 23;
+        }
+    }
+
+    // -----------------------------------------------------------------------------
+    // 5. Response definition
+    // -----------------------------------------------------------------------------
+    message setValueResponse 
+    {
+        bool   success       = 1;
+        string error_message = 2;  // optional: for debugging
+    }
+
+    message setArrayResponse 
+    {
+        bool   success       = 1;
+        string error_message = 2;  // optional: for debugging
+    }
+
+    message setAnimArrayResponse 
+    {
+        bool   success       = 1;
+        string error_message = 2;  // optional: for debugging
+    }    // Request packet corresponding to '[in] parameters in ApiItem::destroy'
     message destroyRequest
     {
         // ID of the object on which to call the method
@@ -2075,744 +2470,744 @@ message ApiItem
         bool value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get1'
-    message get1Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get1'
-    message get1Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         int32 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get2'
-    message get2Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get2'
-    message get2Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         int32_2 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get3'
-    message get3Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get3'
-    message get3Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         int32_3 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get4'
-    message get4Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get4'
-    message get4Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         int32_4 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get5'
-    message get5Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get5'
-    message get5Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         int64 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get6'
-    message get6Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get6'
-    message get6Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         int64_2 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get7'
-    message get7Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get7'
-    message get7Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         float value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get8'
-    message get8Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get8'
-    message get8Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         float_2 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get9'
-    message get9Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get9'
-    message get9Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         float_3 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get10'
-    message get10Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get10'
-    message get10Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         float_4 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get11'
-    message get11Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get11'
-    message get11Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         MatrixF value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get12'
-    message get12Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get12'
-    message get12Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         string value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get13'
-    message get13Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get13'
-    message get13Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         BoolArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get14'
-    message get14Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get14'
-    message get14Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         IntArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get15'
-    message get15Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get15'
-    message get15Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         Int2ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get16'
-    message get16Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get16'
-    message get16Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         Int3ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get17'
-    message get17Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get17'
-    message get17Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         Int4ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get18'
-    message get18Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get18'
-    message get18Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         LongArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get19'
-    message get19Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get19'
-    message get19Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         Long2ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get20'
-    message get20Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get20'
-    message get20Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         FloatArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get21'
-    message get21Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get21'
-    message get21Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         Float2ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get22'
-    message get22Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get22'
-    message get22Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         Float3ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get23'
-    message get23Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get23'
-    message get23Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         Float4ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get24'
-    message get24Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get24'
-    message get24Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         MatrixArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get25'
-    message get25Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get25'
-    message get25Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         StringArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get26'
-    message get26Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         AttributeId id = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get26'
-    message get26Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         ByteArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get27'
-    message get27Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get27'
-    message get27Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         bool value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get28'
-    message get28Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get28'
-    message get28Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         int32 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get29'
-    message get29Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get29'
-    message get29Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         int32_2 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get30'
-    message get30Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get30'
-    message get30Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         int32_3 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get31'
-    message get31Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get31'
-    message get31Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         int32_4 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get32'
-    message get32Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get32'
-    message get32Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         int64 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get33'
-    message get33Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get33'
-    message get33Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         int64_2 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get34'
-    message get34Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get34'
-    message get34Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         float value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get35'
-    message get35Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get35'
-    message get35Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         float_2 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get36'
-    message get36Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get36'
-    message get36Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         float_3 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get37'
-    message get37Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get37'
-    message get37Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         float_4 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get38'
-    message get38Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get38'
-    message get38Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         MatrixF value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get39'
-    message get39Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get39'
-    message get39Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         string value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get40'
-    message get40Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get40'
-    message get40Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         BoolArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get41'
-    message get41Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get41'
-    message get41Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         IntArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get42'
-    message get42Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get42'
-    message get42Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         Int2ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get43'
-    message get43Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get43'
-    message get43Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         Int3ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get44'
-    message get44Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get44'
-    message get44Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         Int4ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get45'
-    message get45Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get45'
-    message get45Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         LongArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get46'
-    message get46Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get46'
-    message get46Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         Long2ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get47'
-    message get47Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get47'
-    message get47Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         FloatArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get48'
-    message get48Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get48'
-    message get48Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         Float2ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get49'
-    message get49Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get49'
-    message get49Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         Float3ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get50'
-    message get50Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get50'
-    message get50Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         Float4ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get51'
-    message get51Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get51'
-    message get51Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         MatrixArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get52'
-    message get52Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get52'
-    message get52Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         StringArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::get53'
-    message get53Request
+    // Request packet corresponding to '[in] parameters in ApiItem::get'
+    message getRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         string name = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::get53'
-    message get53Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::get'
+    message getResponse
     {
         ByteArrayT arr = 1;
     }
@@ -2831,366 +3226,366 @@ message ApiItem
         bool value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx1'
-    message getIx1Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx1'
-    message getIx1Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         int32 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx2'
-    message getIx2Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx2'
-    message getIx2Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         int32_2 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx3'
-    message getIx3Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx3'
-    message getIx3Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         int32_3 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx4'
-    message getIx4Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx4'
-    message getIx4Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         int32_4 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx5'
-    message getIx5Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx5'
-    message getIx5Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         int64 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx6'
-    message getIx6Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx6'
-    message getIx6Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         int64_2 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx7'
-    message getIx7Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx7'
-    message getIx7Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         float value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx8'
-    message getIx8Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx8'
-    message getIx8Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         float_2 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx9'
-    message getIx9Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx9'
-    message getIx9Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         float_3 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx10'
-    message getIx10Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx10'
-    message getIx10Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         float_4 value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx11'
-    message getIx11Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx11'
-    message getIx11Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         MatrixF value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx12'
-    message getIx12Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx12'
-    message getIx12Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         string value = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx13'
-    message getIx13Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx13'
-    message getIx13Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         BoolArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx14'
-    message getIx14Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx14'
-    message getIx14Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         IntArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx15'
-    message getIx15Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx15'
-    message getIx15Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         Int2ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx16'
-    message getIx16Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx16'
-    message getIx16Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         Int3ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx17'
-    message getIx17Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx17'
-    message getIx17Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         Int4ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx18'
-    message getIx18Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx18'
-    message getIx18Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         LongArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx19'
-    message getIx19Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx19'
-    message getIx19Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         Long2ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx20'
-    message getIx20Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx20'
-    message getIx20Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         FloatArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx21'
-    message getIx21Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx21'
-    message getIx21Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         Float2ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx22'
-    message getIx22Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx22'
-    message getIx22Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         Float3ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx23'
-    message getIx23Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx23'
-    message getIx23Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         Float4ArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx24'
-    message getIx24Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx24'
-    message getIx24Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         MatrixArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx25'
-    message getIx25Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx25'
-    message getIx25Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         StringArrayT arr = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiItem::getIx26'
-    message getIx26Request
+    // Request packet corresponding to '[in] parameters in ApiItem::getIx'
+    message getIxRequest
     {
         // ID of the object on which to call the method
         ObjectRef objectPtr = 1;
         uint32 index = 2;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx26'
-    message getIx26Response
+    // Response packet corresponding to '[out] parameters in 'ApiItem::getIx'
+    message getIxResponse
     {
         ByteArrayT arr = 1;
     }
@@ -10333,8 +10728,15 @@ service ApiItemService
     rpc destroy(ApiItem.destroyRequest) returns (google.protobuf.Empty);
     /// Returns the name of this item
     rpc name(ApiItem.nameRequest) returns (ApiItem.nameResponse);
+    /// Sets the name of this item
+    rpc setName(ApiItem.setNameRequest) returns (google.protobuf.Empty);
     /// Returns the position of the item inside its owner
     rpc position(ApiItem.positionRequest) returns (ApiItem.positionResponse);
+    /// Sets the position of this item
+    rpc setPosition(ApiItem.setPositionRequest) returns (google.protobuf.Empty);
+    /// Adds a UI operation flag to this node item and this flags will be only used when making a 
+    /// direct interaction from UI
+    rpc setUIOperationFlags(ApiItem.setUIOperationFlagsRequest) returns (google.protobuf.Empty);
     /// Returns the UI operation flags of this node item
     rpc uiOperationFlags(ApiItem.uiOperationFlagsRequest) returns (ApiItem.uiOperationFlagsResponse);
     /// Sets the node item to selected state (for the window opened using ApiNodeGraph::showWindow())
@@ -10466,18 +10868,41 @@ service ApiItemService
     rpc collapse(ApiItem.collapseRequest) returns (ApiItem.collapseResponse);
     /// Dump all attributes of this item to a text file
     rpc dumpAttributes(ApiItem.dumpAttributesRequest) returns (google.protobuf.Empty);
+    // Scalar getters
+    rpc getByAttrID(ApiItem.getValueByIDRequest) returns (ApiItem.getValueResponse);
+    rpc getByName(ApiItem.getValueByNameRequest) returns (ApiItem.getValueResponse);
+    rpc getByIx(ApiItem.getValueByIxRequest)     returns (ApiItem.getValueResponse);
+
+    // Array getters
+    rpc getArrayByAttrID(ApiItem.getArrayByIDRequest) returns (ApiItem.getArrayResponse);
+    rpc getArrayByName(ApiItem.getArrayByNameRequest) returns (ApiItem.getArrayResponse);
+    rpc getArrayByIx(ApiItem.getArrayByIxRequest)     returns (ApiItem.getArrayResponse);
+
+    // Scalar setters
+    rpc setByAttrID(ApiItem.setValueByIDRequest)      returns (ApiItem.setValueResponse);
+    rpc setByName(ApiItem.setValueByNameRequest)      returns (ApiItem.setValueResponse);   
+    rpc setByIx(ApiItem.setValueByIxRequest)          returns (ApiItem.setValueResponse);
+
+    // Array setters
+    rpc setArrayByName(ApiItem.setArrayByNameRequest)    returns (ApiItem.setArrayResponse);
+    rpc setArrayByAttrID(ApiItem.setArrayByIDRequest)    returns (ApiItem.setArrayResponse);
+    rpc setArrayByIx(ApiItem.setArrayByIxRequest)        returns (ApiItem.setArrayResponse);
+  
+    // Anim getters
+    rpc getAnimByAttr(ApiItem.getAnimByIDRequest)    returns (ApiItem.getAnimArrayResponse);
+    rpc getAnimByName(ApiItem.getAnimByNameRequest)    returns (ApiItem.getAnimArrayResponse);
+    rpc getAnimByIx(ApiItem.getAnimByIxRequest)       returns (ApiItem.getAnimArrayResponse);
+
+    // Anim setters
+    rpc setAnimByAttr(ApiItem.setAnimByIDRequest)    returns (ApiItem.setAnimArrayResponse);
+    rpc setAnimByName(ApiItem.setAnimByNameRequest)    returns (ApiItem.setAnimArrayResponse);
+    rpc setAnimByIx(ApiItem.setAnimByIxRequest)      returns (ApiItem.setAnimArrayResponse);
+
 }
 
 // GRPC interface definition for 'set' methods for ApiItem class'
 service ApiItemSetterService
 { /// ApiItem
-    /// Sets the name of this item
-    rpc setName(ApiItem.setNameRequest) returns (google.protobuf.Empty);
-    /// Sets the position of this item
-    rpc setPosition(ApiItem.setPositionRequest) returns (google.protobuf.Empty);
-    /// Adds a UI operation flag to this node item and this flags will be only used when making a 
-    /// direct interaction from UI
-    rpc setUIOperationFlags(ApiItem.setUIOperationFlagsRequest) returns (google.protobuf.Empty);
     rpc set(ApiItem.setRequest) returns (google.protobuf.Empty);
     rpc set1(ApiItem.set1Request) returns (google.protobuf.Empty);
     rpc set2(ApiItem.set2Request) returns (google.protobuf.Empty);
@@ -10728,87 +11153,6 @@ service ApiItemGetterService
     rpc getMatrixArrayIx(ApiItem.getMatrixArrayIxRequest) returns (ApiItem.getMatrixArrayIxResponse);
     rpc getStringArrayIx(ApiItem.getStringArrayIxRequest) returns (ApiItem.getStringArrayIxResponse);
     rpc getByteArrayIx(ApiItem.getByteArrayIxRequest) returns (ApiItem.getByteArrayIxResponse);
-    rpc get(ApiItem.getRequest) returns (ApiItem.getResponse);
-    rpc get1(ApiItem.get1Request) returns (ApiItem.get1Response);
-    rpc get2(ApiItem.get2Request) returns (ApiItem.get2Response);
-    rpc get3(ApiItem.get3Request) returns (ApiItem.get3Response);
-    rpc get4(ApiItem.get4Request) returns (ApiItem.get4Response);
-    rpc get5(ApiItem.get5Request) returns (ApiItem.get5Response);
-    rpc get6(ApiItem.get6Request) returns (ApiItem.get6Response);
-    rpc get7(ApiItem.get7Request) returns (ApiItem.get7Response);
-    rpc get8(ApiItem.get8Request) returns (ApiItem.get8Response);
-    rpc get9(ApiItem.get9Request) returns (ApiItem.get9Response);
-    rpc get10(ApiItem.get10Request) returns (ApiItem.get10Response);
-    rpc get11(ApiItem.get11Request) returns (ApiItem.get11Response);
-    rpc get12(ApiItem.get12Request) returns (ApiItem.get12Response);
-    rpc get13(ApiItem.get13Request) returns (ApiItem.get13Response);
-    rpc get14(ApiItem.get14Request) returns (ApiItem.get14Response);
-    rpc get15(ApiItem.get15Request) returns (ApiItem.get15Response);
-    rpc get16(ApiItem.get16Request) returns (ApiItem.get16Response);
-    rpc get17(ApiItem.get17Request) returns (ApiItem.get17Response);
-    rpc get18(ApiItem.get18Request) returns (ApiItem.get18Response);
-    rpc get19(ApiItem.get19Request) returns (ApiItem.get19Response);
-    rpc get20(ApiItem.get20Request) returns (ApiItem.get20Response);
-    rpc get21(ApiItem.get21Request) returns (ApiItem.get21Response);
-    rpc get22(ApiItem.get22Request) returns (ApiItem.get22Response);
-    rpc get23(ApiItem.get23Request) returns (ApiItem.get23Response);
-    rpc get24(ApiItem.get24Request) returns (ApiItem.get24Response);
-    rpc get25(ApiItem.get25Request) returns (ApiItem.get25Response);
-    rpc get26(ApiItem.get26Request) returns (ApiItem.get26Response);
-    rpc get27(ApiItem.get27Request) returns (ApiItem.get27Response);
-    rpc get28(ApiItem.get28Request) returns (ApiItem.get28Response);
-    rpc get29(ApiItem.get29Request) returns (ApiItem.get29Response);
-    rpc get30(ApiItem.get30Request) returns (ApiItem.get30Response);
-    rpc get31(ApiItem.get31Request) returns (ApiItem.get31Response);
-    rpc get32(ApiItem.get32Request) returns (ApiItem.get32Response);
-    rpc get33(ApiItem.get33Request) returns (ApiItem.get33Response);
-    rpc get34(ApiItem.get34Request) returns (ApiItem.get34Response);
-    rpc get35(ApiItem.get35Request) returns (ApiItem.get35Response);
-    rpc get36(ApiItem.get36Request) returns (ApiItem.get36Response);
-    rpc get37(ApiItem.get37Request) returns (ApiItem.get37Response);
-    rpc get38(ApiItem.get38Request) returns (ApiItem.get38Response);
-    rpc get39(ApiItem.get39Request) returns (ApiItem.get39Response);
-    rpc get40(ApiItem.get40Request) returns (ApiItem.get40Response);
-    rpc get41(ApiItem.get41Request) returns (ApiItem.get41Response);
-    rpc get42(ApiItem.get42Request) returns (ApiItem.get42Response);
-    rpc get43(ApiItem.get43Request) returns (ApiItem.get43Response);
-    rpc get44(ApiItem.get44Request) returns (ApiItem.get44Response);
-    rpc get45(ApiItem.get45Request) returns (ApiItem.get45Response);
-    rpc get46(ApiItem.get46Request) returns (ApiItem.get46Response);
-    rpc get47(ApiItem.get47Request) returns (ApiItem.get47Response);
-    rpc get48(ApiItem.get48Request) returns (ApiItem.get48Response);
-    rpc get49(ApiItem.get49Request) returns (ApiItem.get49Response);
-    rpc get50(ApiItem.get50Request) returns (ApiItem.get50Response);
-    rpc get51(ApiItem.get51Request) returns (ApiItem.get51Response);
-    rpc get52(ApiItem.get52Request) returns (ApiItem.get52Response);
-    rpc get53(ApiItem.get53Request) returns (ApiItem.get53Response);
-    rpc getIx(ApiItem.getIxRequest) returns (ApiItem.getIxResponse);
-    rpc getIx1(ApiItem.getIx1Request) returns (ApiItem.getIx1Response);
-    rpc getIx2(ApiItem.getIx2Request) returns (ApiItem.getIx2Response);
-    rpc getIx3(ApiItem.getIx3Request) returns (ApiItem.getIx3Response);
-    rpc getIx4(ApiItem.getIx4Request) returns (ApiItem.getIx4Response);
-    rpc getIx5(ApiItem.getIx5Request) returns (ApiItem.getIx5Response);
-    rpc getIx6(ApiItem.getIx6Request) returns (ApiItem.getIx6Response);
-    rpc getIx7(ApiItem.getIx7Request) returns (ApiItem.getIx7Response);
-    rpc getIx8(ApiItem.getIx8Request) returns (ApiItem.getIx8Response);
-    rpc getIx9(ApiItem.getIx9Request) returns (ApiItem.getIx9Response);
-    rpc getIx10(ApiItem.getIx10Request) returns (ApiItem.getIx10Response);
-    rpc getIx11(ApiItem.getIx11Request) returns (ApiItem.getIx11Response);
-    rpc getIx12(ApiItem.getIx12Request) returns (ApiItem.getIx12Response);
-    rpc getIx13(ApiItem.getIx13Request) returns (ApiItem.getIx13Response);
-    rpc getIx14(ApiItem.getIx14Request) returns (ApiItem.getIx14Response);
-    rpc getIx15(ApiItem.getIx15Request) returns (ApiItem.getIx15Response);
-    rpc getIx16(ApiItem.getIx16Request) returns (ApiItem.getIx16Response);
-    rpc getIx17(ApiItem.getIx17Request) returns (ApiItem.getIx17Response);
-    rpc getIx18(ApiItem.getIx18Request) returns (ApiItem.getIx18Response);
-    rpc getIx19(ApiItem.getIx19Request) returns (ApiItem.getIx19Response);
-    rpc getIx20(ApiItem.getIx20Request) returns (ApiItem.getIx20Response);
-    rpc getIx21(ApiItem.getIx21Request) returns (ApiItem.getIx21Response);
-    rpc getIx22(ApiItem.getIx22Request) returns (ApiItem.getIx22Response);
-    rpc getIx23(ApiItem.getIx23Request) returns (ApiItem.getIx23Response);
-    rpc getIx24(ApiItem.getIx24Request) returns (ApiItem.getIx24Response);
-    rpc getIx25(ApiItem.getIx25Request) returns (ApiItem.getIx25Response);
-    rpc getIx26(ApiItem.getIx26Request) returns (ApiItem.getIx26Response);
     rpc getAnim(ApiItem.getAnimRequest) returns (ApiItem.getAnimResponse);
     rpc getAnim1(ApiItem.getAnim1Request) returns (ApiItem.getAnim1Response);
     rpc getAnim2(ApiItem.getAnim2Request) returns (ApiItem.getAnim2Response);
@@ -10901,7 +11245,7 @@ service ApiItemArrayService
     /// Returns the size of the item list
     rpc size(ApiItemArray.sizeRequest) returns (ApiItemArray.sizeResponse);
     /// Returns the item at the given index
-    rpc get1(ApiItemArray.getRequest) returns (ApiItemArray.getResponse);
+    rpc get(ApiItemArray.getRequest) returns (ApiItemArray.getResponse);
     /// Returns the internal array (owned by this object)
     rpc items(ApiItemArray.itemsRequest) returns (ApiItemArray.itemsResponse);
     /// Begin function for constant range-based for loop
@@ -11179,7 +11523,7 @@ service ApiNodeArrayService
     /// Returns the size of the item list
     rpc size1(ApiNodeArray.sizeRequest) returns (ApiNodeArray.sizeResponse);
     /// Returns the item at the given index (or NULL)
-    rpc get2(ApiNodeArray.getRequest) returns (ApiNodeArray.getResponse);
+    rpc get1(ApiNodeArray.getRequest) returns (ApiNodeArray.getResponse);
     /// Returns the internal array (owned by this object)
     rpc items1(ApiNodeArray.itemsRequest) returns (ApiNodeArray.itemsResponse);
     /// Begin function for constant range-based for loop

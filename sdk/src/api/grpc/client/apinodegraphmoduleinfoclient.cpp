@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiNodeGraphModuleInfoProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -34,7 +38,6 @@ ApiNodeGraphModuleInfoProxy ApiNodeGraphModuleInfoProxy::create(
             const char *const                         author,
             const Octane::VersionT                    versionNumber
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -157,7 +160,6 @@ void ApiNodeGraphModuleInfoProxy::destroy()
 void ApiNodeGraphModuleInfoProxy::setCreateFunction(
             GRPCCreateFuncT                          func
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -177,7 +179,7 @@ void ApiNodeGraphModuleInfoProxy::setCreateFunction(
     // Add the 'func' [in] parameter to the request packet.
     octaneapi::CreateFuncT * funcIn = new octaneapi::CreateFuncT();
     // setup callback function func
-    funcIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        funcIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_func(funcIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -213,7 +215,6 @@ void ApiNodeGraphModuleInfoProxy::setCreateFunction(
 void ApiNodeGraphModuleInfoProxy::setDestroyFunction(
             const Octane::ApiNodeGraphModuleInfo::DestroyFuncT func
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -233,7 +234,7 @@ void ApiNodeGraphModuleInfoProxy::setDestroyFunction(
     // Add the 'func' [in] parameter to the request packet.
     octaneapi::DestroyFuncT * funcIn = new octaneapi::DestroyFuncT();
     // setup callback function func
-    funcIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        funcIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_func(funcIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -269,7 +270,6 @@ void ApiNodeGraphModuleInfoProxy::setDestroyFunction(
 void ApiNodeGraphModuleInfoProxy::setOnEvaluateFunction(
             const Octane::ApiNodeGraphModuleInfo::OnEvaluateFuncT func
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -289,7 +289,7 @@ void ApiNodeGraphModuleInfoProxy::setOnEvaluateFunction(
     // Add the 'func' [in] parameter to the request packet.
     octaneapi::OnEvaluateFuncT * funcIn = new octaneapi::OnEvaluateFuncT();
     // setup callback function func
-    funcIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        funcIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_func(funcIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -325,7 +325,6 @@ void ApiNodeGraphModuleInfoProxy::setOnEvaluateFunction(
 void ApiNodeGraphModuleInfoProxy::setOnTriggerFunction(
             const Octane::ApiNodeGraphModuleInfo::OnTriggerFuncT func
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -345,7 +344,7 @@ void ApiNodeGraphModuleInfoProxy::setOnTriggerFunction(
     // Add the 'func' [in] parameter to the request packet.
     octaneapi::OnTriggerFuncT * funcIn = new octaneapi::OnTriggerFuncT();
     // setup callback function func
-    funcIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        funcIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_func(funcIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -381,7 +380,6 @@ void ApiNodeGraphModuleInfoProxy::setOnTriggerFunction(
 void ApiNodeGraphModuleInfoProxy::setOutType(
             const Octane::NodePinType                 outType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -400,7 +398,7 @@ void ApiNodeGraphModuleInfoProxy::setOutType(
     /////////////////////////////////////////////////////////////////////
     // Add the 'outType' [in] parameter to the request packet.
     octaneapi::NodePinType outtypeIn;
-    outtypeIn = static_cast<octaneapi::NodePinType>(outType);
+        outtypeIn = static_cast<octaneapi::NodePinType>(outType);
     request.set_outtype(outtypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -431,3 +429,4 @@ void ApiNodeGraphModuleInfoProxy::setOutType(
 };
 
 
+} //end of namespace

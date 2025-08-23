@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiProgressBarProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -120,7 +124,6 @@ void ApiProgressBarProxy::destroy()
 void ApiProgressBarProxy::setProgress(
             const double                              newValue
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -223,7 +226,6 @@ double ApiProgressBarProxy::progress() const
 void ApiProgressBarProxy::setText(
             const char *                              newText
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -273,3 +275,4 @@ void ApiProgressBarProxy::setText(
 };
 
 
+} //end of namespace

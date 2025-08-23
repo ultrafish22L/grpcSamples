@@ -11,15 +11,24 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiNodeProxy;
+namespace OctaneGRPC
+{
+    class ApiNodeProxy;
+}
 
 
 #include "apicaches.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiCaches
 class ApiCachesProxy : public GRPCBase
@@ -95,6 +104,7 @@ public:
             ApiNodeProxy *   node
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiCollapsiblePanelStackProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -123,7 +127,6 @@ void ApiCollapsiblePanelStackProxy::addPanel(
             ApiGuiComponentProxy &                    component,
             const bool                                open
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -192,7 +195,6 @@ void ApiCollapsiblePanelStackProxy::setOpen(
             const int                                 index,
             const bool                                open
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -292,3 +294,4 @@ void ApiCollapsiblePanelStackProxy::clear()
 };
 
 
+} //end of namespace

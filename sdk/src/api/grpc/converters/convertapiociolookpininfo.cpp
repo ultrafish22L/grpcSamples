@@ -20,6 +20,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void ApiOcioLookPinInfoConverter::convert(
     const octaneapi::ApiOcioLookPinInfo & in,
     Octane::ApiOcioLookPinInfo & out)
@@ -51,4 +54,5 @@ void ApiOcioLookPinInfoConverter::convert(
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

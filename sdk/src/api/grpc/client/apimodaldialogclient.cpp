@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiModalDialogProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -31,7 +35,6 @@ GRPCSettings & ApiModalDialogProxy::getGRPCSettings()
 ApiModalDialogProxy ApiModalDialogProxy::create(
             const char *                              dialogTitle
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -130,7 +133,6 @@ void ApiModalDialogProxy::destroy()
 void ApiModalDialogProxy::addContentComponent(
             ApiGuiComponentProxy &                    contentComponent
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -236,7 +238,6 @@ int ApiModalDialogProxy::show()
 void ApiModalDialogProxy::close(
             const int                                 retValue
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -290,7 +291,6 @@ void ApiModalDialogProxy::showInfoMessageDialog(
             const char *                              dialogTitle,
             const char *                              infoMessage
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -341,7 +341,6 @@ void ApiModalDialogProxy::showErrorMessageDialog(
             const char *                              dialogTitle,
             const char *                              errorMessage
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -394,7 +393,6 @@ bool ApiModalDialogProxy::showOkCancelDialog(
             const char *                              okButtonText,
             const char *                              cancelButtonText
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -466,7 +464,6 @@ Octane::ApiModalDialog::DialogResult ApiModalDialogProxy::showYesNoCancelDialog(
             const char *                              noButtonText,
             const char *                              cancelButtonText
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -537,3 +534,4 @@ Octane::ApiModalDialog::DialogResult ApiModalDialogProxy::showYesNoCancelDialog(
 };
 
 
+} //end of namespace

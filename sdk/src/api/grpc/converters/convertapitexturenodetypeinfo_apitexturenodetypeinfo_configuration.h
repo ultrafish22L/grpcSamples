@@ -7,7 +7,13 @@
 #include <functional>
 #include "octaneinfos.h"
 namespace octaneapi { class ApiTextureNodeTypeInfo_ApiTextureNodeTypeInfo_Configuration; }
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiTextureNodeTypeInfo_ApiTextureNodeTypeInfo_ConfigurationConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiTextureNodeTypeInfo::Configuration & in,
         octaneapi::ApiTextureNodeTypeInfo_ApiTextureNodeTypeInfo_Configuration & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

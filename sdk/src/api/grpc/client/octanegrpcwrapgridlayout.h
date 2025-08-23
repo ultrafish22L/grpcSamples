@@ -181,7 +181,7 @@ public:
 private:
 
     /// Wrapped grid layout.
-    ApiGridLayoutProxy mApiGridLayout;
+    OctaneGRPC::ApiGridLayoutProxy mApiGridLayout;
 };
 
 } // namespace Octane

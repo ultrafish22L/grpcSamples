@@ -22,6 +22,10 @@
 #include "convertapimousewheeldetails.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiMouseWheelDetailsProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -70,3 +74,4 @@ Octane::ApiMouseWheelDetails ApiMouseWheelDetailsProxy::make()
 };
 
 
+} //end of namespace

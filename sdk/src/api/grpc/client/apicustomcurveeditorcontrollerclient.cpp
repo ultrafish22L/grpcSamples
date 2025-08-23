@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiCustomCurveEditorControllerProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -32,7 +36,6 @@ void ApiCustomCurveEditorControllerProxy::setBounds(
             OctaneVec::int32_2                        position,
             OctaneVec::int32_2                        size
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -93,7 +96,6 @@ void ApiCustomCurveEditorControllerProxy::setBounds(
 void ApiCustomCurveEditorControllerProxy::onButtonClick(
             Octane::ApiCustomCurveEditorController::Button button
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -112,7 +114,7 @@ void ApiCustomCurveEditorControllerProxy::onButtonClick(
     /////////////////////////////////////////////////////////////////////
     // Add the 'button' [in] parameter to the request packet.
     octaneapi::ApiCustomCurveEditorController_Button buttonIn;
-    buttonIn = static_cast<octaneapi::ApiCustomCurveEditorController_Button>(button);
+        buttonIn = static_cast<octaneapi::ApiCustomCurveEditorController_Button>(button);
     request.set_button(buttonIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -146,7 +148,6 @@ void ApiCustomCurveEditorControllerProxy::onButtonClick(
 void ApiCustomCurveEditorControllerProxy::onKeyPress(
             Octane::ApiCustomCurveEditorController::Key key
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -165,7 +166,7 @@ void ApiCustomCurveEditorControllerProxy::onKeyPress(
     /////////////////////////////////////////////////////////////////////
     // Add the 'key' [in] parameter to the request packet.
     octaneapi::ApiCustomCurveEditorController_Key keyIn;
-    keyIn = static_cast<octaneapi::ApiCustomCurveEditorController_Key>(key);
+        keyIn = static_cast<octaneapi::ApiCustomCurveEditorController_Key>(key);
     request.set_key(keyIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -199,7 +200,6 @@ void ApiCustomCurveEditorControllerProxy::onKeyPress(
 void ApiCustomCurveEditorControllerProxy::onMouseMove(
             OctaneVec::float_2                        mousePosition
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -298,7 +298,6 @@ bool ApiCustomCurveEditorControllerProxy::onMouseDown(
             OctaneVec::float_2                        mousePosition,
             bool                                      leftButton
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -364,7 +363,6 @@ bool ApiCustomCurveEditorControllerProxy::onMouseDown(
 void ApiCustomCurveEditorControllerProxy::onMouseUp(
             OctaneVec::float_2                        mousePosition
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -418,7 +416,6 @@ void ApiCustomCurveEditorControllerProxy::onMouseUp(
 void ApiCustomCurveEditorControllerProxy::draw(
             ApiCustomCurveEditorControllerProxy_Drawer &drawer
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -471,3 +468,4 @@ void ApiCustomCurveEditorControllerProxy::draw(
 };
 
 
+} //end of namespace

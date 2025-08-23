@@ -12,12 +12,16 @@
 #include <thread>
 
 // forward declarations
-class MainComponent;
-class ApiImageProxy;
-class GRPCMainInterface;
-class CallbackHandlerImpl;
+namespace OctaneGRPC
+{
+    class MainComponent;
+    class ApiImageProxy;
+    class GRPCMainInterface;
+    class CallbackHandlerImpl;
+}
 
-
+namespace OctaneGRPC
+{
 // Main class the starts/stops the grpc server. Derive from this class to create a module
 class GRPCModuleBase
 {
@@ -37,9 +41,9 @@ public:
     /// @return
     ///    TRUE if the server started successfully, otherwise FALSE.
     bool startServer(
-        GRPCMainInterface * mainInterface,
-        const std::string & clientURL,
-        const std::string & serverURL);
+        GRPCMainInterface* mainInterface,
+        const std::string& clientURL,
+        const std::string& serverURL);
 
     // Stop the server
     void stopServer();
@@ -49,7 +53,7 @@ public:
 
 private:
 
- 
+
     // start the actual grpc server
     void runGrpcServer();
 
@@ -58,9 +62,9 @@ private:
 
     // variables used to control the grpc server loop
     std::mutex                           mWaitMutex;
-    bool mServerRunning                  = false;
-    bool mServerStarted                  = false;
-    bool mFailedToStart                  = false;
+    bool mServerRunning = false;
+    bool mServerStarted = false;
+    bool mFailedToStart = false;
     std::condition_variable              mStartCV;
     std::condition_variable              mWaitCV;
     std::thread                          mServerThread;
@@ -81,5 +85,7 @@ private:
     std::string                          mOurURL;
 
     // the interface that modules must override
-    GRPCMainInterface *                  mMainInterface;
+    GRPCMainInterface* mMainInterface;
 };
+
+}// namespace OctaneGRPC

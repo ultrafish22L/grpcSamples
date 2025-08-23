@@ -9,9 +9,15 @@ cmake_minimum_required(VERSION 3.10)
 file(GLOB SDK_CLIENT_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client/*.*"
 )
+list(REMOVE_ITEM SDK_CLIENT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client/apinodeinfoclient.cpp")
+list(REMOVE_ITEM SDK_CLIENT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client/apicontrol.h")
+list(REMOVE_ITEM SDK_CLIENT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client/apicontrol.cpp")
+list(REMOVE_ITEM SDK_CLIENT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client/framerangetclient.h")
+list(REMOVE_ITEM SDK_CLIENT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client/framerangetclient.cpp")
+
+
 # Include protoc sources (protobuf-generated files)
 list(APPEND SDK_SOURCES ${SDK_CLIENT_SOURCES})
-
 
 # Collect all existing protoc files (no compilation needed)
 file(GLOB_RECURSE PROTOC_SOURCES

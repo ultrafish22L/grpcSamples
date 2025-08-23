@@ -7,7 +7,13 @@
 namespace Octane { struct ApiDeviceResourceStatistics; }
 namespace octaneapi { class ApiDeviceResourceStatistics; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiDeviceResourceStatisticsConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiDeviceResourceStatistics & in,
         octaneapi::ApiDeviceResourceStatistics & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

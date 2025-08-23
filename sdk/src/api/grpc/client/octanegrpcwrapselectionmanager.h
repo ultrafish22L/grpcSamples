@@ -16,12 +16,13 @@
 #include "apinodeclient.h"
 #include "apiselectionmanagerclient.h"
 
+
 namespace OctaneWrap
 {
 
 //--------------------------------------------------------------------------------------------------
 /// Interface for selection observers.
-class SelectionObserver : public GRPCSelectionManagerObserver// Octane::ApiSelectionManager::Observer
+class SelectionObserver : public OctaneGRPC::GRPCSelectionManagerObserver
 {
 public:
 
@@ -51,21 +52,21 @@ public:
 
     /// Returns TRUE if the specified item is currently selected.
     static bool isItemSelected(
-        const ApiItemProxy &item);
+        const OctaneGRPC::ApiItemProxy &item);
 
     /// Returns TRUE if the specified pin is currently selected on the specified node.
     static bool isPinSelected(
-        const ApiNodeProxy &node,
+        const OctaneGRPC::ApiNodeProxy &node,
         const Octane::PinId   pinId);
 
     /// Returns TRUE if the specified pin is currently selected on the specified node.
     static bool isPinSelected(
-        const ApiNodeProxy &node,
+        const OctaneGRPC::ApiNodeProxy &node,
         const std::string     &pinName);
 
     /// Returns TRUE if the specified pin is currently selected on the specified node.
     static bool isPinSelectedIx(
-        const ApiNodeProxy &node,
+        const OctaneGRPC::ApiNodeProxy &node,
         const uint32_t        pinIx);
 
     /// Returns the number of selected items.
@@ -76,11 +77,11 @@ public:
 
     /// Copies the set of currently selected items into the vector.
     static void getSelection(
-        std::vector<ApiItemProxy> &selectedItems);
+        std::vector<OctaneGRPC::ApiItemProxy> &selectedItems);
 
     /// Copies the set of currently selected pins into the vector.
     static void getSelection(
-        std::vector<ApiPinSelectionProxy> &selectedPins);
+        std::vector<OctaneGRPC::ApiPinSelectionProxy> &selectedPins);
 
     /// De-selects everything and sends a selection change event if something actually got
     /// deselected.
@@ -97,9 +98,9 @@ public:
     /// @param[in]  selectDestPins
     ///     If TRUE the destination pins of all selected items will be selected implicitely.
     static void setSelection(
-        std::vector<ApiItemProxy>         selectedItems,
-        std::vector<ApiPinSelectionProxy> selectedPins,
-        bool                              selectDestPins     = true);
+        std::vector<OctaneGRPC::ApiItemProxy>         selectedItems,
+        std::vector<OctaneGRPC::ApiPinSelectionProxy> selectedPins,
+        bool                                          selectDestPins     = true);
 
     /// Adds an item to the current selection and sends a change event if the selection changed.
     ///
@@ -108,26 +109,26 @@ public:
     /// @param[in]  selectDestPins
     ///     If TRUE the destination pins of the selected item will be selected implicitely.
     static void select(
-        const ApiItemProxy &item,
-        const bool            selectDestPins     = true);
+        const OctaneGRPC::ApiItemProxy & item,
+        const bool                       selectDestPins = true);
 
     /// Adds a pin to the current selection and sends a change event if the selection changed.
     static void select(
-        const ApiPinSelectionProxy &pinSelection,
-        const bool                                      selectConnectedItem = true);
+        const OctaneGRPC::ApiPinSelectionProxy & pinSelection,
+        const bool                               selectConnectedItem = true);
 
     /// Removed an item from the current selection and sends a change event if the selection changed.
     static void deselect(
-        const ApiItemProxy &item);
+        const OctaneGRPC::ApiItemProxy & item);
 
     /// Removes a pin from the current selection and sends a change event if the selection changed.
     static void deselect(
-        const ApiPinSelectionProxy &pin);
+        const OctaneGRPC::ApiPinSelectionProxy &pin);
 
     /// If the old item was selected, the new item will be selected and the old item deselected.
     static void swapSelection(
-        const ApiItemProxy &oldItem,
-        const ApiItemProxy &newItem);
+        const OctaneGRPC::ApiItemProxy & oldItem,
+        const OctaneGRPC::ApiItemProxy & newItem);
 
     /// Adds a selection changed observer. Any module that registers itself MUST remove itself
     /// before the application closes.
@@ -143,14 +144,14 @@ public:
 
     /// Inits a selection from a node and a pin ID. Make sure the pin ID is valid because otherwise
     /// the returned selection will be bogus.
-    static ApiPinSelectionProxy create(
-        ApiNodeProxy     &node,
+    static OctaneGRPC::ApiPinSelectionProxy create(
+        OctaneGRPC::ApiNodeProxy & node,
         const Octane::PinId pinId);
 
     /// Inits a selection from a node and a pin name.
-    static ApiPinSelectionProxy create(
-        ApiNodeProxy   &node,
-        const std::string &pinName);
+    static OctaneGRPC::ApiPinSelectionProxy create(
+        OctaneGRPC::ApiNodeProxy & node,
+        const std::string &        pinName);
 
 private:
 

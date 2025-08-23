@@ -64,6 +64,7 @@ class CallbackRenderViewport extends OctaneComponent {
         this.lastImageSize = 0;               // Size of last received image
         this.frameCount = 0;                  // Total frames processed
         this.debugSavePNG = false;            // Debug PNG saving (disabled in production)
+        this.doRendering  = false;            // render on/off
         
         console.log('CallbackRenderViewport initialized with streaming callbacks');
     }
@@ -113,6 +114,8 @@ class CallbackRenderViewport extends OctaneComponent {
      * Start render callback mode
      */
     async startRender() {
+        if (!this.doRendering) return true;
+        
         try {
             console.log('Attempting to start callback streaming mode...');
             

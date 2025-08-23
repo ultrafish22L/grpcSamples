@@ -11,17 +11,26 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiNodeProxy;
-class ApiNodeGraphProxy;
+namespace OctaneGRPC
+{
+    class ApiNodeProxy;
+    class ApiNodeGraphProxy;
+}
 #include "apinodeclient.h"
 
 
 #include "apigaussiansplatting.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiGaussianSplatCloudNode
 class ApiGaussianSplatCloudNodeProxy : public ApiNodeProxy
@@ -101,6 +110,7 @@ public:
             const bool                                evaluate
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

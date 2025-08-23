@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiTitleComponentProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -30,7 +34,6 @@ GRPCSettings & ApiTitleComponentProxy::getGRPCSettings()
 ApiTitleComponentProxy ApiTitleComponentProxy::create(
             const char *                              text
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -126,3 +129,4 @@ void ApiTitleComponentProxy::destroy()
 };
 
 
+} //end of namespace

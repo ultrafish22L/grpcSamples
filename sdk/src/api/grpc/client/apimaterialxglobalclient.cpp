@@ -25,6 +25,10 @@
 #include "convertapitexturenodetypeinfo_configuration_interface.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiMaterialXGlobalProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -36,7 +40,6 @@ ApiNodeGraphProxy ApiMaterialXGlobalProxy::importMaterialXFile(
             const ApiNodeGraphProxy *                 parentNodeGraph,
             const bool                                useNativeMaterialXNodes
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -152,7 +155,6 @@ std::vector<std::string> ApiMaterialXGlobalProxy::getAllMxNodeCategories()
 std::string ApiMaterialXGlobalProxy::getMxNodeCategory(
             Octane::NodeType                          nodeType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -162,7 +164,7 @@ std::string ApiMaterialXGlobalProxy::getMxNodeCategory(
     /////////////////////////////////////////////////////////////////////
     // Add the 'nodeType' [in] parameter to the request packet.
     octaneapi::NodeType nodetypeIn;
-    nodetypeIn = static_cast<octaneapi::NodeType>(nodeType);
+        nodetypeIn = static_cast<octaneapi::NodeType>(nodeType);
     request.set_nodetype(nodetypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -203,7 +205,6 @@ std::string ApiMaterialXGlobalProxy::getMxNodeCategory(
 std::string ApiMaterialXGlobalProxy::getMxNodeCategory(
             Octane::NodeGraphType                     nodeGraphType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -213,7 +214,7 @@ std::string ApiMaterialXGlobalProxy::getMxNodeCategory(
     /////////////////////////////////////////////////////////////////////
     // Add the 'nodeGraphType' [in] parameter to the request packet.
     octaneapi::NodeGraphType nodegraphtypeIn;
-    nodegraphtypeIn = static_cast<octaneapi::NodeGraphType>(nodeGraphType);
+        nodegraphtypeIn = static_cast<octaneapi::NodeGraphType>(nodeGraphType);
     request.set_nodegraphtype(nodegraphtypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -254,7 +255,6 @@ std::string ApiMaterialXGlobalProxy::getMxNodeCategory(
 std::string ApiMaterialXGlobalProxy::getMxValueType(
             Octane::TextureValueType                  textureValueType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -264,7 +264,7 @@ std::string ApiMaterialXGlobalProxy::getMxValueType(
     /////////////////////////////////////////////////////////////////////
     // Add the 'textureValueType' [in] parameter to the request packet.
     octaneapi::TextureValueType texturevaluetypeIn;
-    texturevaluetypeIn = static_cast<octaneapi::TextureValueType>(textureValueType);
+        texturevaluetypeIn = static_cast<octaneapi::TextureValueType>(textureValueType);
     request.set_texturevaluetype(texturevaluetypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -305,7 +305,6 @@ std::string ApiMaterialXGlobalProxy::getMxValueType(
 Octane::TextureValueType ApiMaterialXGlobalProxy::getTextureValueType(
             const char *                              mxValueTypeName
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -355,7 +354,6 @@ Octane::TextureValueType ApiMaterialXGlobalProxy::getTextureValueType(
 std::string ApiMaterialXGlobalProxy::getMxColorSpace(
             Octane::NamedColorSpace                   colorSpace
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -365,7 +363,7 @@ std::string ApiMaterialXGlobalProxy::getMxColorSpace(
     /////////////////////////////////////////////////////////////////////
     // Add the 'colorSpace' [in] parameter to the request packet.
     octaneapi::NamedColorSpace colorspaceIn;
-    colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
+        colorspaceIn = static_cast<octaneapi::NamedColorSpace>(colorSpace);
     request.set_colorspace(colorspaceIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -406,7 +404,6 @@ std::string ApiMaterialXGlobalProxy::getMxColorSpace(
 Octane::NamedColorSpace ApiMaterialXGlobalProxy::getNamedColorSpace(
             const char *                              mxColorSpace
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -456,7 +453,6 @@ Octane::NamedColorSpace ApiMaterialXGlobalProxy::getNamedColorSpace(
 std::vector<Octane::NodeType> ApiMaterialXGlobalProxy::getNodeTypes(
             const char *                              mxNodeCategory
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -512,7 +508,6 @@ std::vector<Octane::NodeType> ApiMaterialXGlobalProxy::getNodeTypes(
 Octane::NodeGraphType ApiMaterialXGlobalProxy::getGraphType(
             const char *                              mxNodeCategory
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -562,7 +557,6 @@ Octane::NodeGraphType ApiMaterialXGlobalProxy::getGraphType(
 std::vector<Octane::ApiMaterialX::MxInput> ApiMaterialXGlobalProxy::getMxInputNamesAndPinIds(
             Octane::NodeType                          nodeType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -572,7 +566,7 @@ std::vector<Octane::ApiMaterialX::MxInput> ApiMaterialXGlobalProxy::getMxInputNa
     /////////////////////////////////////////////////////////////////////
     // Add the 'nodeType' [in] parameter to the request packet.
     octaneapi::NodeType nodetypeIn;
-    nodetypeIn = static_cast<octaneapi::NodeType>(nodeType);
+        nodetypeIn = static_cast<octaneapi::NodeType>(nodeType);
     request.set_nodetype(nodetypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -623,7 +617,6 @@ std::vector<Octane::ApiMaterialX::MxInput> ApiMaterialXGlobalProxy::getMxInputNa
 std::vector<std::string> ApiMaterialXGlobalProxy::getGraphMxInputNames(
             Octane::NodeGraphType                     nodeGraphType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -633,7 +626,7 @@ std::vector<std::string> ApiMaterialXGlobalProxy::getGraphMxInputNames(
     /////////////////////////////////////////////////////////////////////
     // Add the 'nodeGraphType' [in] parameter to the request packet.
     octaneapi::NodeGraphType nodegraphtypeIn;
-    nodegraphtypeIn = static_cast<octaneapi::NodeGraphType>(nodeGraphType);
+        nodegraphtypeIn = static_cast<octaneapi::NodeGraphType>(nodeGraphType);
     request.set_nodegraphtype(nodegraphtypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -678,7 +671,6 @@ std::vector<std::string> ApiMaterialXGlobalProxy::getGraphMxInputNames(
 std::vector<std::string> ApiMaterialXGlobalProxy::getGraphMxOutputNames(
             Octane::NodeGraphType                     nodeGraphType
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -688,7 +680,7 @@ std::vector<std::string> ApiMaterialXGlobalProxy::getGraphMxOutputNames(
     /////////////////////////////////////////////////////////////////////
     // Add the 'nodeGraphType' [in] parameter to the request packet.
     octaneapi::NodeGraphType nodegraphtypeIn;
-    nodegraphtypeIn = static_cast<octaneapi::NodeGraphType>(nodeGraphType);
+        nodegraphtypeIn = static_cast<octaneapi::NodeGraphType>(nodeGraphType);
     request.set_nodegraphtype(nodegraphtypeIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -730,3 +722,4 @@ std::vector<std::string> ApiMaterialXGlobalProxy::getGraphMxOutputNames(
 };
 
 
+} //end of namespace

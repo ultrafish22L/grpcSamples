@@ -22,6 +22,8 @@
 #include "grpcsettings.h"
 #include "apicontrol.h"
 
+namespace OctaneGRPC
+{
 
 void CallbackHandlerImpl::setInterface(
     GRPCMainInterface * mainInterface)
@@ -1207,3 +1209,5 @@ grpc::Status CallbackHandlerImpl::OnWindowClose(
     response->set_success(true);
     return grpc:: Status::OK;
 }
+
+} // namespace OctaneGRPC

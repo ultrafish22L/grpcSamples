@@ -11,16 +11,25 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiNodeArrayProxy;
+namespace OctaneGRPC
+{
+    class ApiNodeArrayProxy;
+}
 #include "apinodegraphclient.h"
 
 
 #include "apinodesystem.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiRootNodeGraph
 class ApiRootNodeGraphProxy : public ApiNodeGraphProxy
@@ -235,6 +244,7 @@ public:
     ///     Contains the status of the gRPC call
     void unloadAllReferences();
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

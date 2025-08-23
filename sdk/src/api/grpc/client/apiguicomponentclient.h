@@ -11,15 +11,24 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiMouseListenerProxy;
+namespace OctaneGRPC
+{
+    class ApiMouseListenerProxy;
+}
 
 
 #include "apiguicomponent.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiGuiComponent
 class ApiGuiComponentProxy : public GRPCBase
@@ -117,6 +126,7 @@ public:
             ApiMouseListenerProxy *   listenerToRemove
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

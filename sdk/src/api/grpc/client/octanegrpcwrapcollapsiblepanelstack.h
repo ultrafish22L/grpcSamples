@@ -60,7 +60,7 @@ public:
 private:
 
     /// the wrapped api panel stack
-    ApiCollapsiblePanelStackProxy mApiPanelStack;
+    OctaneGRPC::ApiCollapsiblePanelStackProxy mApiPanelStack;
 };
 
 };

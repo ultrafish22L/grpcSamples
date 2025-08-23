@@ -137,7 +137,7 @@ public:
 private:
 
     /// The API table we are wrapping.
-    ApiTableProxy   mApiTable;
+    OctaneGRPC::ApiTableProxy   mApiTable;
     /// Data driver for this table.
     TableModel       &mModel;
     /// Stores the last returned cell data.

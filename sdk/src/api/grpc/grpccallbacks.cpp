@@ -4,7 +4,7 @@
 
 #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)
 
-//#include "libjuce.h"
+#include "libjuce.h"
 
 #include "grpccallbacks.h"
 #include "pointermap.h"
@@ -16,6 +16,7 @@
 //#include "grpcstreaming.h"
 #include "callback.grpc.pb.h"
 
+ 
 
 template<typename RequestType,
     typename ResponseType,
@@ -467,7 +468,7 @@ Octane::ApiNode * GRPCCallbackMgr::LoadRenderStateProject(
 
             uint64_t handle = ref.handle();
             // Convert handle to a pointer using your manager
-            auto & objMgr = ObjectReferenceManager::getInstance();
+            auto & objMgr = OctaneGRPC::ObjectReferenceManager::getInstance();
             // Suppose we expect an Octane::ApiNode*
             Octane::ApiNode * nodePtr =
                 objMgr.getPointer<Octane::ApiNode>(handle);
@@ -885,7 +886,7 @@ doSyncCallback<
     // 1) BuildRequestFn
     [callbackId, &colorSwatch, userData](octaneapi::ColorChangedRequest& request)
     {
-        auto& objMgr = ObjectReferenceManager::getInstance();
+        auto& objMgr = OctaneGRPC::ObjectReferenceManager::getInstance();
 
         // Convert the colorSwatch into an ObjectRef
         uint64_t colorSwatchHandle = objMgr.addPointer(&colorSwatch);
@@ -951,7 +952,7 @@ void * GRPCCallbackMgr::CreateFunc(
             // 1) BuildRequestFn: populate the request
             [callbackId, moduleNodeGraph](octaneapi::CreateFuncRequest& request)
             {
-                auto & objMgr = ObjectReferenceManager::getInstance();
+                auto & objMgr = OctaneGRPC::ObjectReferenceManager::getInstance();
 
                 // Convert the moduleNodeGraph pointer into a handle
                 uint64_t moduleNodeGraphHandle = objMgr.addPointer(moduleNodeGraph);
@@ -1022,7 +1023,7 @@ void * GRPCCallbackMgr::InitFunc(
             // BuildRequestFn:
             [callbackId, gridLayout](octaneapi::InitFuncRequest& request)
             {
-                ObjectReferenceManager & objMgr = ObjectReferenceManager::getInstance();
+                OctaneGRPC::ObjectReferenceManager & objMgr = OctaneGRPC::ObjectReferenceManager::getInstance();
 
                 octaneapi::ObjectRef * gridLayoutPtr = new octaneapi::ObjectRef();
                 uint64_t gridLayoutHandle = objMgr.addPointer(gridLayout);
@@ -1082,7 +1083,7 @@ void GRPCCallbackMgr::ApiChangeManagerChangeObserver(
     // 1) BuildRequestFn
     [callbackId, &changeEvent, userData](octaneapi::ChangeManagerObserverRequest& request)
     {
-        auto& objMgr = ObjectReferenceManager::getInstance();
+        auto& objMgr = OctaneGRPC::ObjectReferenceManager::getInstance();
 
         // Set callbackId and userData
         request.set_callback_id(callbackId);
@@ -1178,7 +1179,7 @@ void GRPCCallbackMgr::ApiChangeManagerChangeTimeObserver(
         // 1) BuildRequestFn
         [callbackId, &timeChangeEvent, userData](octaneapi::ChangeManagerTimeObserverRequest& request)
         {
-            auto& objMgr = ObjectReferenceManager::getInstance();
+            auto& objMgr = OctaneGRPC::ObjectReferenceManager::getInstance();
 
             // Set callbackId and userData
             request.set_callback_id(callbackId);
@@ -2004,7 +2005,7 @@ void GRPCCallbackMgr::CheckedCallback(
         // 1) BuildRequestFn
         [callbackId, &button, userData](octaneapi::CheckedRequest& request)
         {
-            auto& objMgr = ObjectReferenceManager::getInstance();
+            auto& objMgr = OctaneGRPC::ObjectReferenceManager::getInstance();
 
             request.set_callback_id(callbackId);
             request.set_user_data(reinterpret_cast<uint64_t>(userData));
@@ -2071,7 +2072,7 @@ void GRPCCallbackMgr::ComboBoxChangedCallback(
         // 1) BuildRequestFn
         [callbackId, &comboBox, userData](octaneapi::ComboBoxChangedRequest& request)
         {
-            auto& objMgr = ObjectReferenceManager::getInstance();
+            auto& objMgr = OctaneGRPC::ObjectReferenceManager::getInstance();
 
             request.set_callback_id(callbackId);
             request.set_user_data(reinterpret_cast<uint64_t>(userData));
@@ -2254,7 +2255,7 @@ void GRPCCallbackMgr::MouseEventCallback(
             // 1) BuildRequestFn
             [callbackId, type, &event, &wheelDetails, privateData](octaneapi::MouseEventRequest& request)
     {
-        auto& objMgr = ObjectReferenceManager::getInstance();
+        auto& objMgr = OctaneGRPC::ObjectReferenceManager::getInstance();
 
         request.set_callback_id(callbackId);
         request.set_user_data(reinterpret_cast<uint64_t>(privateData));
@@ -2406,7 +2407,7 @@ void GRPCCallbackMgr::NumericBoxChangedCallback(
             // 1) BuildRequestFn
             [callbackId, &numericBox, userData](octaneapi::NumericBoxChangedRequest& request)
             {
-                auto& objMgr = ObjectReferenceManager::getInstance();
+                auto& objMgr = OctaneGRPC::ObjectReferenceManager::getInstance();
 
                 request.set_callback_id(callbackId);
                 request.set_user_data(reinterpret_cast<uint64_t>(userData));
@@ -2473,7 +2474,7 @@ void GRPCCallbackMgr::Callback(
                                        // 1) BuildRequestFn
             [callbackId, loading, config, privateData](octaneapi::Callback1Request& request)
             {
-                auto& objMgr = ObjectReferenceManager::getInstance();
+                auto& objMgr = OctaneGRPC::ObjectReferenceManager::getInstance();
 
                 request.set_callback_id(callbackId);
                 request.set_user_data(reinterpret_cast<uint64_t>(privateData));
@@ -2548,7 +2549,7 @@ void GRPCCallbackMgr::Callback(
     (octaneapi::Callback2Request& request)
             {
                 // Fill in the request object
-                auto& objMgr = ObjectReferenceManager::getInstance();
+                auto& objMgr = OctaneGRPC::ObjectReferenceManager::getInstance();
 
                 request.set_callback_id(callbackId);
                 request.set_user_data(reinterpret_cast<uint64_t>(privateData));
@@ -2668,7 +2669,7 @@ const char * GRPCCallbackMgr::ApiProjectManagerAssetMissingCallback(
 
                 // Otherwise, mark status as OK and return the missing path
                 status = st;
-                return StringManager::getInstance().addString(resp.resolved_file_path());
+                return OctaneGRPC::StringManager::getInstance().addString(resp.resolved_file_path());
             }
             );
 
@@ -2869,7 +2870,7 @@ const char * GRPCCallbackMgr::AssetMissingCallback(
 
                 // Mark status as OK
                 status = st;
-                return StringManager::getInstance().addString( resp.resolved_file_path());
+                return OctaneGRPC::StringManager::getInstance().addString( resp.resolved_file_path());
             }
             );
 
@@ -3010,7 +3011,7 @@ const char * GRPCCallbackMgr::ContentCallback(
     // Otherwise, copy the server's content into a newly allocated buffer
     // or use a string manager if appropriate
     status = st;
-    return StringManager::getInstance().addString(response.content());
+    return OctaneGRPC::StringManager::getInstance().addString(response.content());
 
     //// Use our generic doSyncCallback to avoid manual thread/promise code
     //const char* resultPtr = doSyncCallback<
@@ -3073,7 +3074,7 @@ void GRPCCallbackMgr::ButtonClickedCallback(
         // 1) BuildRequestFn: populate the gRPC request
         [callbackId, &textButton, userData](octaneapi::ButtonClickedRequest& request)
         {
-            auto& objMgr = ObjectReferenceManager::getInstance();
+            auto& objMgr = OctaneGRPC::ObjectReferenceManager::getInstance();
 
             // Set callbackId and userData
             request.set_callback_id(callbackId);
@@ -3125,7 +3126,7 @@ void GRPCCallbackMgr::ButtonClickedCallback(
     // Set the out-parameter "status" to our final status
     status = finalStatus;
 
-    //auto& objMgr = ObjectReferenceManager::getInstance();
+    //auto& objMgr = OctaneGRPC::ObjectReferenceManager::getInstance();
     //auto* call   = new ButtonClickedCallbackCall();
 
     //call->mRequest.set_callback_id(callbackId);
@@ -3217,7 +3218,7 @@ void GRPCCallbackMgr::TextEditorChangedCallback(
         // 1) BuildRequestFn
         [callbackId, &textEdit, userData](octaneapi::TextEditorChangedRequest& request)
         {
-            auto& objMgr = ObjectReferenceManager::getInstance();
+            auto& objMgr = OctaneGRPC::ObjectReferenceManager::getInstance();
 
             // Set callbackId and userData
             request.set_callback_id(callbackId);
@@ -3285,7 +3286,7 @@ void GRPCCallbackMgr::OnWindowCloseCallback(
         // 1) BuildRequestFn
         [callbackId, &window, userData](octaneapi::OnWindowCloseRequest& request)
         {
-            auto& objMgr = ObjectReferenceManager::getInstance();
+            auto& objMgr = OctaneGRPC::ObjectReferenceManager::getInstance();
 
             request.set_callback_id(callbackId);
             request.set_user_data(reinterpret_cast<uint64_t>(userData));
@@ -3334,5 +3335,4 @@ void GRPCCallbackMgr::OnWindowCloseCallback(
         }
         );
 }
-
 #endif //#if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

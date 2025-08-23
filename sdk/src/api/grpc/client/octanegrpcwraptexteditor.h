@@ -13,7 +13,7 @@
 
 namespace Octane
 {
-class ApiTextEditor;
+    class ApiTextEditor;
 }
 
 namespace OctaneWrap
@@ -88,14 +88,14 @@ public:
 private:
 
     /// Wrapped TextEditor
-    ApiTextEditorProxy             mApiTextEditor;
+    OctaneGRPC::ApiTextEditorProxy   mApiTextEditor;
     /// List of listeners.
     std::vector<TextEditorListener*> mListeners;
 
     /// internal C callback
     static void onTextChanged(
-        ApiTextEditorProxy    &TextEditor,
-        void                  *privateData);
+        OctaneGRPC::ApiTextEditorProxy & TextEditor,
+        void *                           privateData);
 };
 
 } // namespace OctaneWrap

@@ -13,14 +13,14 @@ FileName::FileName()
 FileName::FileName(
     const char* str)
 {
-    mApiFileName = ApiFileNameProxy::create(str);
+    mApiFileName = OctaneGRPC::ApiFileNameProxy::create(str);
 }
 
 
 FileName::FileName(
     const std::string &str)
 {
-    mApiFileName = ApiFileNameProxy::create(str.c_str());
+    mApiFileName = OctaneGRPC::ApiFileNameProxy::create(str.c_str());
 }
 
 
@@ -225,7 +225,7 @@ bool FileName::createDirectory() const
 
 
 FileName::FileName(
-    const ApiFileNameProxy &apiFileName)
+    const OctaneGRPC::ApiFileNameProxy &apiFileName)
 {
     mApiFileName = apiFileName;
 }

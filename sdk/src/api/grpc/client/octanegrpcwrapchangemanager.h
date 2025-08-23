@@ -7,34 +7,35 @@
 #include "apichangemanagerclient.h"
 #include "grpcchangeevents.h"
 
+
 namespace OctaneWrap
 {
 
-//--------------------------------------------------------------------------------------------------
-/// Interface for observers of the node system.
-struct NodeItemObserver : public GRPCChangeObserver
-{
-public:
+    //--------------------------------------------------------------------------------------------------
+    /// Interface for observers of the node system.
+    struct NodeItemObserver : public OctaneGRPC::GRPCChangeObserver
+    {
+    public:
 
-    NodeItemObserver();
+        NodeItemObserver();
 
-    virtual void onNodeItemChange(
-        const GRPCChangeManagerChangeEvent &event) =0;
-};
+        virtual void onNodeItemChange(
+            const OctaneGRPC::GRPCChangeManagerChangeEvent &event) =0;
+    };
 
 
 
-//--------------------------------------------------------------------------------------------------
-/// Interface for time observers.
-struct TimeObserver : public GRPCChangeTimeObserver
-{
-public:
+    //--------------------------------------------------------------------------------------------------
+    /// Interface for time observers.
+    struct TimeObserver : public OctaneGRPC::GRPCChangeTimeObserver
+    {
+    public:
 
-    TimeObserver();
+        TimeObserver();
 
-    virtual void onTimeChanged(
-        const GRPCChangeManagerTimeChangeEvent &event) =0;
-};
+        virtual void onTimeChanged(
+            const OctaneGRPC::GRPCChangeManagerTimeChangeEvent &event) =0;
+    };
 
 } // namespace OctaneWrap
 

@@ -7,7 +7,6 @@
 // application includes
 #include "apiguicomponent.h"
 #include "octanegrpcwrapmouselistener.h"
- 
 
 
 using namespace OctaneWrap;
@@ -17,7 +16,7 @@ GuiComponent::GuiComponent()
 //:
 //    mComponent(NULL)
 {
-    mApiMouseListener = ApiMouseListenerProxy::create(
+    mApiMouseListener = OctaneGRPC::ApiMouseListenerProxy::create(
         &GuiComponent::mouseEventsCallback,
         this
         );
@@ -100,13 +99,13 @@ bool GuiComponent::isEnabled() const
 }
 
 
-ApiGuiComponentProxy* GuiComponent::wrappedComponent()
+OctaneGRPC::ApiGuiComponentProxy * GuiComponent::wrappedComponent()
 {
     return mComponent;
 }
 
 
-const ApiGuiComponentProxy* GuiComponent::wrappedComponent() const
+const OctaneGRPC::ApiGuiComponentProxy * GuiComponent::wrappedComponent() const
 {
     return mComponent;
 }
@@ -148,10 +147,10 @@ void GuiComponent::removeMouseListener (
 
 
 void GuiComponent::mouseEventsCallback(
-    const Octane::ApiMouseEventType    type,
-    const GRPCApiMouseEventData        &event,
-    const Octane::ApiMouseWheelDetails &wheelDetails,
-    void                               *privateData)
+    const Octane::ApiMouseEventType           type,
+    const OctaneGRPC::GRPCApiMouseEventData   &event,
+    const Octane::ApiMouseWheelDetails        &wheelDetails,
+    void                                      *privateData)
 {
     GuiComponent * myGuiComponent = static_cast<GuiComponent*>(privateData);
     for (size_t i = 0; i< myGuiComponent->mMouseListeners.size(); i++)

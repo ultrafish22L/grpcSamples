@@ -11,20 +11,29 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiItemProxy;
-class ApiNodeGraphProxy;
-class ApiRootNodeGraphProxy;
-class ApiNodePinInfoProxy;
-class ApiNodeArrayProxy;
+namespace OctaneGRPC
+{
+    class ApiItemProxy;
+    class ApiNodeGraphProxy;
+    class ApiRootNodeGraphProxy;
+    class ApiNodePinInfoProxy;
+    class ApiNodeArrayProxy;
+}
 #include "apiitemclient.h"
 
 
 #include "apinodesystem.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiNode
 class ApiNodeProxy : public ApiItemProxy
@@ -1278,6 +1287,7 @@ public:
             bool                                      recursive
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

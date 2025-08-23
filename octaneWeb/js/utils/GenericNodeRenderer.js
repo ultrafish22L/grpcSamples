@@ -257,7 +257,7 @@ class GenericNodeRenderer {
             const result = str.startsWith("AT_") ? str.substring(3) : str;
             return result ? result.charAt(0).toUpperCase() + result.slice(1).toLowerCase() : result;
         };
-        let callsig = "ApiItemGetter/get" + stripAtAndCamelCase(nodeData.attrType);
+        let callsig = "ApiItem/get"; // + stripAtAndCamelCase(nodeData.attrType);
         let result;
         try {   
             result = window.grpcApi.makeApiCallSync(
@@ -527,12 +527,12 @@ if (typeof window !== 'undefined') {
             else if (nodeData.attrType == "AT_FLOAT4") {
 
                 let result = window.grpcApi.makeApiCallSync(
-                    'ApiItemGetter/getFloat4', 
+                    'ApiItem/getFloat4', 
                     nodeData.handle,
                     { id: window.OctaneTypes.AttributeId.A_VALUE },
                 );
                 if (!result.success) {
-                    throw new Error('Failed ApiItemGetter/getFloat4');
+                    throw new Error('Failed ApiItem/getFloat4');
                 }
                 const dims = nodeData.pinInfo.floatInfo.dimCount;
 

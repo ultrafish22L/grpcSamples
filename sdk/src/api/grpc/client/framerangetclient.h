@@ -16,9 +16,15 @@
 #include "octanetime.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for FrameRangeT
 class FrameRangeTProxy : public GRPCBase
@@ -34,6 +40,7 @@ public:
     ///     Contains the status of the gRPC call
     uint32_t count() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

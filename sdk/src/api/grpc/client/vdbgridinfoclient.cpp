@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & VdbGridInfoProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -335,3 +339,4 @@ OctaneVec::MatrixF VdbGridInfoProxy::transform() const
 };
 
 
+} //end of namespace

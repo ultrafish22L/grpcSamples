@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & LayerInfoProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -231,7 +235,6 @@ Octane::ImageType LayerInfoProxy::type() const
 Octane::ImageType LayerInfoProxy::prefCompressType(
             const bool                                needHQ
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -287,3 +290,4 @@ Octane::ImageType LayerInfoProxy::prefCompressType(
 };
 
 
+} //end of namespace

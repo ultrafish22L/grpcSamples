@@ -16,9 +16,15 @@
 #include "apiocioconfig.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiOcioConfig
 class ApiOcioConfigProxy : public GRPCBase
@@ -186,6 +192,7 @@ public:
             size_t   lookIndex
             ) const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

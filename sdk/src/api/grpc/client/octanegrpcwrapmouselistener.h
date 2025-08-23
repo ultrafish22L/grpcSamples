@@ -5,7 +5,10 @@
 
 #include "apimouselistener.h"
 
-struct GRPCApiMouseEventData;
+namespace OctaneGRPC
+{
+    struct GRPCApiMouseEventData;
+}
 
 namespace OctaneWrap
 {
@@ -30,7 +33,7 @@ public:
     ///     event details about the position and status of the mouse event, including
     ///     the source component in which it occurred
     virtual void mouseMove(
-        const GRPCApiMouseEventData &event);
+        const OctaneGRPC::GRPCApiMouseEventData &event);
 
     /// Called when the mouse first enters a component.
     ///
@@ -46,7 +49,7 @@ public:
     ///     event details about the position and status of the mouse event, including
     ///     the source component in which it occurred
     virtual void mouseEnter(
-        const GRPCApiMouseEventData &event);
+        const OctaneGRPC::GRPCApiMouseEventData &event);
 
     /// Called when the mouse moves out of a component.
     ///
@@ -61,7 +64,7 @@ public:
     ///     event details about the position and status of the mouse event, including
     ///     the source component in which it occurred
     virtual void mouseExit(
-        const GRPCApiMouseEventData &event);
+        const OctaneGRPC::GRPCApiMouseEventData &event);
 
     /// Called when a mouse button is pressed.
     ///
@@ -76,7 +79,7 @@ public:
     ///     event details about the position and status of the mouse event, including
     ///     the source component in which it occurred
     virtual void mouseDown(
-        const GRPCApiMouseEventData &event);
+        const OctaneGRPC::GRPCApiMouseEventData &event);
 
     /// Called when the mouse is moved while a button is held down.
     ///
@@ -88,7 +91,7 @@ public:
     ///     event details about the position and status of the mouse event, including
     ///     the source component in which it occurred
     virtual void mouseDrag(
-        const GRPCApiMouseEventData &event);
+        const OctaneGRPC::GRPCApiMouseEventData &event);
 
     /// Called when a mouse button is released.
     ///
@@ -103,7 +106,7 @@ public:
     ///     event details about the position and status of the mouse event, including
     ///     the source component in which it occurred
     virtual void mouseUp(
-        const GRPCApiMouseEventData &event);
+        const OctaneGRPC::GRPCApiMouseEventData &event);
 
     /// Called when a mouse button has been double-clicked on a component.
     ///
@@ -115,7 +118,7 @@ public:
     ///     event details about the position and status of the mouse event, including
     ///     the source component in which it occurred
     virtual void mouseDoubleClick(
-        const GRPCApiMouseEventData &event);
+        const OctaneGRPC::GRPCApiMouseEventData &event);
 
     /// Called when the mouse-wheel is moved.
     ///
@@ -132,7 +135,7 @@ public:
     /// @param[in] wheel   
     ///     details about the wheel movement
     virtual void mouseWheelMove(
-        const GRPCApiMouseEventData        &event,
+        const OctaneGRPC::GRPCApiMouseEventData        &event,
         const Octane::ApiMouseWheelDetails &wheelDetails);
 
 };

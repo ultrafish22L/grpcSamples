@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiLocalDBProxy_Package::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -183,7 +187,6 @@ bool ApiLocalDBProxy_Package::hasThumbnail() const
 std::string ApiLocalDBProxy_Package::getThumbnail(
             OctaneVec::uint32_2 &                     size
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -243,7 +246,6 @@ std::string ApiLocalDBProxy_Package::getThumbnail(
 bool ApiLocalDBProxy_Package::loadPackage(
             ApiNodeGraphProxy &                       destinationGraph
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -346,3 +348,4 @@ void ApiLocalDBProxy_Package::free()
 };
 
 
+} //end of namespace

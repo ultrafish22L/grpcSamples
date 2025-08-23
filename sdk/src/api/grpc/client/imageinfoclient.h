@@ -11,15 +11,24 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class LayerInfoProxy;
+namespace OctaneGRPC
+{
+    class LayerInfoProxy;
+}
 
 
 #include "apiimageinfo.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ImageInfo
 class ImageInfoProxy : public GRPCBase
@@ -81,6 +90,7 @@ public:
     ///     Contains the status of the gRPC call
     bool isCompressed() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

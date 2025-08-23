@@ -16,9 +16,15 @@
 #include "octaneinfos.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiCompatibilityModeInfo
 class ApiCompatibilityModeInfoProxy : public GRPCBase
@@ -53,6 +59,7 @@ public:
     ///     will never be modified or deallocated.
     std::string description() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

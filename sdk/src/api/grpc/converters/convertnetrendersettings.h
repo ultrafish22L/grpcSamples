@@ -7,7 +7,13 @@
 namespace Octane { struct NetRenderSettings; }
 namespace octaneapi { class NetRenderSettings; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class NetRenderSettingsConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::NetRenderSettings & in,
         octaneapi::NetRenderSettings & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

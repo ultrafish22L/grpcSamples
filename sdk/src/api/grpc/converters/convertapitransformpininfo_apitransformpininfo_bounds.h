@@ -9,7 +9,13 @@
 #include <functional>
 #include "octaneinfos.h"
 namespace octaneapi { class ApiTextureNodeTypeInfo_ApiTextureNodeTypeInfo_Configuration; }
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiTransformPinInfo_ApiTransformPinInfo_BoundsConverter
 {
 public:
@@ -21,4 +27,6 @@ public:
         const Octane::ApiTransformPinInfo::Bounds & in,
         octaneapi::ApiTransformPinInfo_ApiTransformPinInfo_Bounds & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

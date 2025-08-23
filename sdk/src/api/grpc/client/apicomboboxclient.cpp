@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiComboBoxProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -34,7 +38,6 @@ ApiComboBoxProxy ApiComboBoxProxy::create(
             GRPCComboBoxChangedCallbackT             callback,
             void *                                    privateData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -62,7 +65,7 @@ ApiComboBoxProxy ApiComboBoxProxy::create(
     // Add the 'callback' [in] parameter to the request packet.
     octaneapi::ComboBoxChangedCallbackT * callbackIn = new octaneapi::ComboBoxChangedCallbackT();
     // setup callback function callback
-    callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -164,7 +167,6 @@ void ApiComboBoxProxy::setSelectedId(
             const int                                 newItemId,
             const bool                                sendEvent
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -321,3 +323,4 @@ std::string ApiComboBoxProxy::text() const
 };
 
 
+} //end of namespace

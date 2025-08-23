@@ -16,9 +16,7 @@
 #include "octanereferenceexport.h"
 #include <grpcpp/grpcpp.h>
 #include "apinodesystem_1.grpc.pb.h"
-#include "apinodesystem_2.grpc.pb.h"
 #include "apinodesystem_3.grpc.pb.h"
-#include "apinodesystem_4.grpc.pb.h"
 #include "apinodesystem_5.grpc.pb.h"
 #include "apinodesystem_6.grpc.pb.h"
 #include "apinodesystem_7.grpc.pb.h"
@@ -27,6 +25,10 @@
 #include "stringmgr.h"
 #include "convertmatrix.h"
 #include "grpcsettings.h"
+
+
+namespace OctaneGRPC
+{
 
 
 GRPCSettings & ApiRootNodeGraphProxy::getGRPCSettings()
@@ -38,7 +40,6 @@ GRPCSettings & ApiRootNodeGraphProxy::getGRPCSettings()
 ApiRootNodeGraphProxy ApiRootNodeGraphProxy::create(
             const Octane::VersionT                    version
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -93,7 +94,6 @@ ApiRootNodeGraphProxy ApiRootNodeGraphProxy::create(
 void ApiRootNodeGraphProxy::init(
             const Octane::VersionT                    version
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -241,7 +241,6 @@ Octane::TimeSpanT ApiRootNodeGraphProxy::animationTimeSpan() const
 void ApiRootNodeGraphProxy::updateTime(
             const Octane::TimeT                       time
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -297,7 +296,6 @@ bool ApiRootNodeGraphProxy::importFromFile(
             Octane::AssetMissingCallbackT             assetMissingCallback,
             void *                                    assetsMissingCallbackUserData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -323,7 +321,7 @@ bool ApiRootNodeGraphProxy::importFromFile(
     // Add the 'assetMissingCallback' [in] parameter to the request packet.
     octaneapi::AssetMissingCallbackT * assetmissingcallbackIn = new octaneapi::AssetMissingCallbackT();
     // setup callback function assetMissingCallback
-    assetmissingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        assetmissingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_assetmissingcallback(assetmissingcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -385,7 +383,6 @@ bool ApiRootNodeGraphProxy::importOcsFromMemory(
             Octane::AssetMissingCallbackT             assetMissingCallback,
             void *                                    assetsMissingCallbackUserData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -423,7 +420,7 @@ bool ApiRootNodeGraphProxy::importOcsFromMemory(
     // Add the 'assetMissingCallback' [in] parameter to the request packet.
     octaneapi::AssetMissingCallbackT * assetmissingcallbackIn = new octaneapi::AssetMissingCallbackT();
     // setup callback function assetMissingCallback
-    assetmissingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        assetmissingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_assetmissingcallback(assetmissingcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -485,7 +482,6 @@ bool ApiRootNodeGraphProxy::importOrbxFromCallback(
             Octane::AssetMissingCallbackT             assetMissingCallback,
             void *                                    assetMissingCallbackUserData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -511,7 +507,7 @@ bool ApiRootNodeGraphProxy::importOrbxFromCallback(
     // Add the 'getOrbxChunkCallback' [in] parameter to the request packet.
     octaneapi::NextChunkCallbackT * getorbxchunkcallbackIn = new octaneapi::NextChunkCallbackT();
     // setup callback function getOrbxChunkCallback
-    getorbxchunkcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        getorbxchunkcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_getorbxchunkcallback(getorbxchunkcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -524,7 +520,7 @@ bool ApiRootNodeGraphProxy::importOrbxFromCallback(
     // Add the 'assetMissingCallback' [in] parameter to the request packet.
     octaneapi::AssetMissingCallbackT * assetmissingcallbackIn = new octaneapi::AssetMissingCallbackT();
     // setup callback function assetMissingCallback
-    assetmissingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        assetmissingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_assetmissingcallback(assetmissingcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -592,7 +588,6 @@ bool ApiRootNodeGraphProxy::importOrbxFromMemory(
             Octane::AssetMissingCallbackT             assetMissingCallback,
             void *                                    assetsMissingCallbackUserData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -637,7 +632,7 @@ bool ApiRootNodeGraphProxy::importOrbxFromMemory(
     // Add the 'assetMissingCallback' [in] parameter to the request packet.
     octaneapi::AssetMissingCallbackT * assetmissingcallbackIn = new octaneapi::AssetMissingCallbackT();
     // setup callback function assetMissingCallback
-    assetmissingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        assetmissingcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_assetmissingcallback(assetmissingcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -695,7 +690,6 @@ bool ApiRootNodeGraphProxy::exportToFile(
             const char *                              filePath,
             bool                                      useRelativePaths
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -761,7 +755,6 @@ std::string ApiRootNodeGraphProxy::exportToString(
             const char *                              baseDirectory,
             bool                                      useRelativePaths
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -962,3 +955,4 @@ void ApiRootNodeGraphProxy::unloadAllReferences()
 };
 
 
+} //end of namespace

@@ -14,10 +14,11 @@
 #include <grpcpp/grpcpp.h>
 
 
-
+namespace OctaneGRPC
+{
 std::function<void()> ApiControlService::sBlockingOperationCallbackFunc;
 
-GRPCSettings & ApiControlService::getGRPCSettings()
+GRPCSettings& ApiControlService::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
 }
@@ -40,8 +41,8 @@ void ApiControlService::setBlockingFunc(
 
 
 bool ApiControlService::startBlockingOperation(
-    const std::string &   uniqueModuleId,
-    const std::string &   message,
+    const std::string& uniqueModuleId,
+    const std::string& message,
     std::function<void()> callbackFunc)
 {
     /////////////////////////////////////////////////////////////////////
@@ -54,7 +55,7 @@ bool ApiControlService::startBlockingOperation(
     octaneapi::ApiControl::ControlResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiControlService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiControlService::Stub> stub =
         octaneapi::ApiControlService::NewStub(getGRPCSettings().getChannel());
 
     setBlockingFunc(callbackFunc);
@@ -77,7 +78,7 @@ bool ApiControlService::startBlockingOperation(
 
 bool ApiControlService::setApiLogPath(
     bool                 saveLogsToTxtFile,
-    const std::string &  filePath)
+    const std::string& filePath)
 {
     /////////////////////////////////////////////////////////////////////
     // Define the request packet to send to the gRPC server.
@@ -89,9 +90,9 @@ bool ApiControlService::setApiLogPath(
     octaneapi::ApiControl::ControlResponse response;
     std::shared_ptr<grpc::ClientContext> context;
     context = std::make_unique<grpc::ClientContext>();
-    std::unique_ptr<octaneapi::ApiControlService::Stub> stub = 
+    std::unique_ptr<octaneapi::ApiControlService::Stub> stub =
         octaneapi::ApiControlService::NewStub(getGRPCSettings().getChannel());
- 
+
     grpc::Status status = stub->setApiLogFilePath(context.get(), request, &response);
     if (!status.ok())
     {
@@ -106,3 +107,5 @@ bool ApiControlService::setApiLogPath(
     }
     return true;
 }
+
+}// namespace OctaneGRPC;

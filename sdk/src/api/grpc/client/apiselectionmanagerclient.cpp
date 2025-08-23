@@ -24,6 +24,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiSelectionManagerProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -33,7 +37,6 @@ GRPCSettings & ApiSelectionManagerProxy::getGRPCSettings()
 bool ApiSelectionManagerProxy::isItemSelected(
             const ApiItemProxy &                      item
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -87,7 +90,6 @@ bool ApiSelectionManagerProxy::isPinSelected(
             const ApiNodeProxy &                      node,
             const Octane::PinId                       pinId
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -106,7 +108,7 @@ bool ApiSelectionManagerProxy::isPinSelected(
     /////////////////////////////////////////////////////////////////////
     // Add the 'pinId' [in] parameter to the request packet.
     octaneapi::PinId pinidIn;
-    pinidIn = static_cast<octaneapi::PinId>(pinId);
+        pinidIn = static_cast<octaneapi::PinId>(pinId);
     request.set_pinid(pinidIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -147,7 +149,6 @@ bool ApiSelectionManagerProxy::isPinSelected(
             const ApiNodeProxy &                      node,
             const char *                              pinName
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -207,7 +208,6 @@ bool ApiSelectionManagerProxy::isPinSelectedIx(
             const ApiNodeProxy &                      node,
             const uint32_t                            pinIx
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -348,7 +348,6 @@ size_t ApiSelectionManagerProxy::selectedPinCount()
 void ApiSelectionManagerProxy::getSelection(
             std::vector<ApiItemProxy> &               selectedItems
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -396,7 +395,6 @@ void ApiSelectionManagerProxy::getSelection(
 void ApiSelectionManagerProxy::getSelection(
             std::vector<ApiPinSelectionProxy> &       selectedPins
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -481,7 +479,6 @@ void ApiSelectionManagerProxy::setSelection(
             Octane::ApiArray<ApiPinSelectionProxy *>  selectedPins,
             const bool                                selectDestPins
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -511,7 +508,7 @@ void ApiSelectionManagerProxy::setSelection(
 
          // The proxy object contains the ID of the remote object. Pass this ID to the server
          // using a `ObjectRef` object.
-         auto node = new octaneapi::ObjectRef();
+             auto node = new octaneapi::ObjectRef();
          node->set_handle(selectedPins.mData[h]->mNode.getObjectHandle());
          item->set_allocated_node(node);
     }
@@ -555,7 +552,6 @@ void ApiSelectionManagerProxy::select(
             const ApiItemProxy &                      item,
             const bool                                selectDestPins
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -609,7 +605,6 @@ void ApiSelectionManagerProxy::select(
             ApiPinSelectionProxy                      pinSelection,
             const bool                                selectConnectedItem
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -662,7 +657,6 @@ void ApiSelectionManagerProxy::select(
 void ApiSelectionManagerProxy::deselect(
             const ApiItemProxy &                      item
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -709,7 +703,6 @@ void ApiSelectionManagerProxy::deselect(
 void ApiSelectionManagerProxy::deselect(
             ApiPinSelectionProxy                      pin
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -757,7 +750,6 @@ void ApiSelectionManagerProxy::swapSelection(
             const ApiItemProxy &                      oldItem,
             const ApiItemProxy &                      newItem
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -813,7 +805,6 @@ void ApiSelectionManagerProxy::swapSelection(
 void ApiSelectionManagerProxy::addSelectionObserver(
             GRPCSelectionManagerObserver             observer
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -830,7 +821,7 @@ void ApiSelectionManagerProxy::addSelectionObserver(
     //observerchangeT->set_callbackid(observerCallbackId);
     observerIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     //observerIn->set_callbackid(observerCallbackId);
-    observerIn->set_userdata(reinterpret_cast<uint64_t>(observer.mUserData));
+observerIn->set_userdata(reinterpret_cast<uint64_t>(observer.mUserData));
     //if(className == "ApiSelectionManager" && method.mName == "addSelectionObserver") return true;
     request.set_allocated_observer(observerIn);
 
@@ -867,7 +858,6 @@ void ApiSelectionManagerProxy::addSelectionObserver(
 void ApiSelectionManagerProxy::removeSelectionObserver(
             GRPCSelectionManagerObserver             observer
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -882,7 +872,7 @@ void ApiSelectionManagerProxy::removeSelectionObserver(
     //octaneapi::OnChangeT * observerchangeT = new octaneapi::OnChangeT();
     //observerchangeT->set_callbackid(observerCallbackId);
     observerIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
-    observerIn->set_callbackid(observerCallbackId);
+   observerIn->set_callbackid(observerCallbackId);
     request.set_allocated_observer(observerIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -915,3 +905,4 @@ void ApiSelectionManagerProxy::removeSelectionObserver(
 };
 
 
+} //end of namespace

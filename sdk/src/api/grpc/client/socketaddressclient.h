@@ -16,9 +16,15 @@
 #include "octanenet.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for SocketAddress
 class SocketAddressProxy : public GRPCBase
@@ -29,6 +35,7 @@ public:
     ///     Contains the status of the gRPC call
     bool isValid() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

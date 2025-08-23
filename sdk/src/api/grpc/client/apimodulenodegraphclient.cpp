@@ -25,6 +25,10 @@
 #include "convertapifilepath.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiModuleNodeGraphProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -36,7 +40,6 @@ void ApiModuleNodeGraphProxy::setInputLinkers(
             const uint32_t                            inputInfosCount,
             const OctaneVec::uint32_2                 range
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -57,11 +60,11 @@ void ApiModuleNodeGraphProxy::setInputLinkers(
     octaneapi::ObjectRefArrayT * inputinfosIn = new octaneapi::ObjectRefArrayT();
     for (uint32_t h = 0; h < inputInfosCount; h++)
     {
-         // The proxy object contains the ID of the remote object. Pass this ID to the server
-         // using a `ObjectRef` object.
-         auto item = inputinfosIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);
-         item->set_handle(inputInfos[h].getObjectHandle());
+        // The proxy object contains the ID of the remote object. Pass this ID to the server
+        // using a `ObjectRef` object.
+        auto item = inputinfosIn->add_data();
+        item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);
+        item->set_handle(inputInfos[h].getObjectHandle());
     }
     request.set_allocated_inputinfos(inputinfosIn);
 
@@ -111,7 +114,6 @@ void ApiModuleNodeGraphProxy::setOutputLinkers(
             const uint32_t                            outputInfosCount,
             const OctaneVec::uint32_2                 range
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -132,11 +134,11 @@ void ApiModuleNodeGraphProxy::setOutputLinkers(
     octaneapi::ObjectRefArrayT * outputinfosIn = new octaneapi::ObjectRefArrayT();
     for (uint32_t h = 0; h < outputInfosCount; h++)
     {
-         // The proxy object contains the ID of the remote object. Pass this ID to the server
-         // using a `ObjectRef` object.
-         auto item = outputinfosIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);
-         item->set_handle(outputInfos[h].getObjectHandle());
+        // The proxy object contains the ID of the remote object. Pass this ID to the server
+        // using a `ObjectRef` object.
+        auto item = outputinfosIn->add_data();
+        item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);
+        item->set_handle(outputInfos[h].getObjectHandle());
     }
     request.set_allocated_outputinfos(outputinfosIn);
 
@@ -187,7 +189,6 @@ void ApiModuleNodeGraphProxy::insertLinkers(
             const uint32_t                            ix,
             const bool                                isInputLinkers
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -208,11 +209,11 @@ void ApiModuleNodeGraphProxy::insertLinkers(
     octaneapi::ObjectRefArrayT * infosIn = new octaneapi::ObjectRefArrayT();
     for (uint32_t h = 0; h < infosCount; h++)
     {
-         // The proxy object contains the ID of the remote object. Pass this ID to the server
-         // using a `ObjectRef` object.
-         auto item = infosIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);
-         item->set_handle(infos[h].getObjectHandle());
+        // The proxy object contains the ID of the remote object. Pass this ID to the server
+        // using a `ObjectRef` object.
+        auto item = infosIn->add_data();
+        item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);
+        item->set_handle(infos[h].getObjectHandle());
     }
     request.set_allocated_infos(infosIn);
 
@@ -267,7 +268,6 @@ void ApiModuleNodeGraphProxy::removeLinkers(
             const OctaneVec::uint32_2                 range,
             const bool                                isInputLinkers
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -288,11 +288,11 @@ void ApiModuleNodeGraphProxy::removeLinkers(
     octaneapi::ObjectRefArrayT * infosIn = new octaneapi::ObjectRefArrayT();
     for (size_t h = range.x; h < range.y; ++h)
     {
-         // The proxy object contains the ID of the remote object. Pass this ID to the server
-         // using a `ObjectRef` object.
-         auto item = infosIn->add_data();
-         item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);
-         item->set_handle(infos[h].getObjectHandle());
+        // The proxy object contains the ID of the remote object. Pass this ID to the server
+        // using a `ObjectRef` object.
+        auto item = infosIn->add_data();
+        item->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNodePinInfo);
+        item->set_handle(infos[h].getObjectHandle());
     }
     request.set_allocated_infos(infosIn);
 
@@ -341,7 +341,6 @@ void ApiModuleNodeGraphProxy::setInputInfo(
             const ApiNodeProxy *const                 linkerNode,
             const ApiNodePinInfoProxy &               info
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -406,7 +405,6 @@ void ApiModuleNodeGraphProxy::setInputInfo(
 bool ApiModuleNodeGraphProxy::inputWasChanged(
             const ApiNodeProxy *const                 linkerNode
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -469,7 +467,6 @@ bool ApiModuleNodeGraphProxy::getInputValue(
             const ApiNodeProxy *const                 linkerNode,
             bool &                                    value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -537,7 +534,6 @@ bool ApiModuleNodeGraphProxy::getInputValue(
             const ApiNodeProxy *const                 linkerNode,
             float &                                   value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -605,7 +601,6 @@ bool ApiModuleNodeGraphProxy::getInputValue(
             const ApiNodeProxy *const                 linkerNode,
             OctaneVec::float_2 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -674,7 +669,6 @@ bool ApiModuleNodeGraphProxy::getInputValue(
             const ApiNodeProxy *const                 linkerNode,
             OctaneVec::float_3 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -744,7 +738,6 @@ bool ApiModuleNodeGraphProxy::getInputValue(
             const ApiNodeProxy *const                 linkerNode,
             OctaneVec::float_4 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -815,7 +808,6 @@ bool ApiModuleNodeGraphProxy::getInputValue(
             const ApiNodeProxy *const                 linkerNode,
             int32_t &                                 value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -883,7 +875,6 @@ bool ApiModuleNodeGraphProxy::getInputValue(
             const ApiNodeProxy *const                 linkerNode,
             OctaneVec::int32_2 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -952,7 +943,6 @@ bool ApiModuleNodeGraphProxy::getInputValue(
             const ApiNodeProxy *const                 linkerNode,
             OctaneVec::int32_3 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1022,7 +1012,6 @@ bool ApiModuleNodeGraphProxy::getInputValue(
             const ApiNodeProxy *const                 linkerNode,
             OctaneVec::int32_4 &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1093,7 +1082,6 @@ bool ApiModuleNodeGraphProxy::getInputValue(
             const ApiNodeProxy *const                 linkerNode,
             OctaneVec::MatrixF &                      value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1161,7 +1149,6 @@ bool ApiModuleNodeGraphProxy::getInputValue(
             const ApiNodeProxy *const                 linkerNode,
             std::string &                             value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1230,7 +1217,6 @@ bool ApiModuleNodeGraphProxy::getInputValue(
             const ApiNodeProxy *const                 linkerNode,
             Octane::ApiFilePath &                     value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1299,7 +1285,6 @@ void ApiModuleNodeGraphProxy::setInputValue(
             const bool                                value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1369,7 +1354,6 @@ void ApiModuleNodeGraphProxy::setInputValue(
             const float                               value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1439,7 +1423,6 @@ void ApiModuleNodeGraphProxy::setInputValue(
             const OctaneVec::float_2                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1510,7 +1493,6 @@ void ApiModuleNodeGraphProxy::setInputValue(
             const OctaneVec::float_3                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1582,7 +1564,6 @@ void ApiModuleNodeGraphProxy::setInputValue(
             const OctaneVec::float_4                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1655,7 +1636,6 @@ void ApiModuleNodeGraphProxy::setInputValue(
             const int32_t                             value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1725,7 +1705,6 @@ void ApiModuleNodeGraphProxy::setInputValue(
             const OctaneVec::int32_2                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1796,7 +1775,6 @@ void ApiModuleNodeGraphProxy::setInputValue(
             const OctaneVec::int32_3                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1868,7 +1846,6 @@ void ApiModuleNodeGraphProxy::setInputValue(
             const OctaneVec::int32_4                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1941,7 +1918,6 @@ void ApiModuleNodeGraphProxy::setInputValue(
             const OctaneVec::MatrixF                  value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1969,7 +1945,7 @@ void ApiModuleNodeGraphProxy::setInputValue(
     /////////////////////////////////////////////////////////////////////
     // Add the 'value' [in] parameter to the request packet.
     octaneapi::MatrixF * valueIn = new octaneapi::MatrixF();
-    MatrixConverter::convertMatrixToProto(value, *valueIn);
+MatrixConverter::convertMatrixToProto(value, *valueIn);
     request.set_allocated_value(valueIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -2011,7 +1987,6 @@ void ApiModuleNodeGraphProxy::setInputValue(
             const char *                              value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2081,7 +2056,6 @@ void ApiModuleNodeGraphProxy::setInputValue(
             const Octane::ApiFilePath                 value,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2194,7 +2168,6 @@ void ApiModuleNodeGraphProxy::setEvaluateTimeChanges(
             const bool                                shouldEvaluate,
             const OctaneVec::float_2                  timeInterval
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2254,7 +2227,6 @@ void ApiModuleNodeGraphProxy::setEvaluateTimeChanges(
 void ApiModuleNodeGraphProxy::setIcon(
             const ApiImageProxy *                     image
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2360,7 +2332,6 @@ bool ApiModuleNodeGraphProxy::wasTimeChanged() const
 size_t ApiModuleNodeGraphProxy::appendAsset(
             const Octane::ApiFilePath &               filePath
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2419,7 +2390,6 @@ size_t ApiModuleNodeGraphProxy::appendAsset(
 void ApiModuleNodeGraphProxy::removeAsset(
             const size_t                              index
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2472,7 +2442,6 @@ void ApiModuleNodeGraphProxy::removeAsset(
 Octane::ApiFilePath ApiModuleNodeGraphProxy::getAsset(
             const size_t                              index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2583,7 +2552,6 @@ bool ApiModuleNodeGraphProxy::readAsset(
             std::string &                             data,
             uint64_t &                                size
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2655,7 +2623,6 @@ bool ApiModuleNodeGraphProxy::readAsset(
             std::string &                             data,
             uint64_t &                                size
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2769,7 +2736,6 @@ void ApiModuleNodeGraphProxy::removeAllAssets()
 void ApiModuleNodeGraphProxy::setSaveData(
             const char *                              data
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2873,7 +2839,6 @@ std::string ApiModuleNodeGraphProxy::getSaveData()
 void ApiModuleNodeGraphProxy::setCustomData(
             void *                                    data
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3020,7 +2985,6 @@ void ApiModuleNodeGraphProxy::trigger() const
 void ApiModuleNodeGraphProxy::setTriggerButtonIcon(
             const ApiImageProxy *                     image
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3076,7 +3040,6 @@ void ApiModuleNodeGraphProxy::setTriggerButtonIcon(
 void ApiModuleNodeGraphProxy::setTriggerButtonTooltip(
             const char *                              tooltip
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3131,7 +3094,6 @@ void ApiModuleNodeGraphProxy::setProgressState(
             float                                     progress,
             const char *                              statusText
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3193,3 +3155,4 @@ void ApiModuleNodeGraphProxy::setProgressState(
 };
 
 
+} //end of namespace

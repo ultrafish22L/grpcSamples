@@ -29,6 +29,7 @@ message MxInput
 {
     string mxInputName = 1;
     PinId pinId = 2;
+    uint32 pinIndex = 3;
 }
  // GRPC proto definitions for 'ApiMaterialXGlobal' class from ''
 message ApiMaterialXGlobal

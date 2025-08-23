@@ -5,14 +5,14 @@
 // application includes
 #include "apiimagecomponent.h"
 #include "octanegrpcwrapimage.h"
-
+;
 using namespace OctaneWrap;
 
 
 ImageComponent::ImageComponent(
     Image &image)
 {
-    mApiImageComponent = ApiImageComponentProxy::create(image.mApiImage);
+    mApiImageComponent = OctaneGRPC::ApiImageComponentProxy::create(image.mApiImage);
     mComponent         = &mApiImageComponent;
 }
 
@@ -27,6 +27,7 @@ ImageComponent::~ImageComponent()
 void ImageComponent::updateTo(
     const Image & image)
 {
+    // not supported by the grpc api
     //grpc::Status status;
     //mApiImageComponent.updateTo(image.wrappedImage(), status);
 }

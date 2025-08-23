@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiPackageProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -31,7 +35,6 @@ GRPCSettings & ApiPackageProxy::getGRPCSettings()
 void ApiPackageProxy::freeArray(
             Octane::StringArrayT &                    stringArray
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -78,7 +81,6 @@ void ApiPackageProxy::freeArray(
 ApiPackageProxy ApiPackageProxy::open(
             const char *const                         packagePath
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -178,7 +180,6 @@ void ApiPackageProxy::getFileList(
             std::vector<std::string> &                fileList,
             const char *const                         regExpr
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -239,7 +240,6 @@ void ApiPackageProxy::getFileList(
 bool ApiPackageProxy::fileExists(
             const char *const                         path
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -298,7 +298,6 @@ bool ApiPackageProxy::fileExists(
 bool ApiPackageProxy::fileExists(
             const ApiFileNameProxy &                  path
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -361,7 +360,6 @@ bool ApiPackageProxy::readFile(
             const char *const                         path,
             std::vector<uint8_t> &                    data
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -428,7 +426,6 @@ bool ApiPackageProxy::readFile(
             const ApiFileNameProxy &                  path,
             std::vector<uint8_t> &                    data
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -494,3 +491,4 @@ bool ApiPackageProxy::readFile(
 };
 
 
+} //end of namespace

@@ -3,6 +3,8 @@
 #pragma once
 #include <string>
 
+namespace OctaneGRPC
+{
 // interface used to simplfy Module development. New modules can implement this interface.
 class GRPCMainInterface
 {
@@ -10,7 +12,7 @@ public:
 
     // called by octane when loading the module
     virtual void start(
-        const std::string & callbackSourse,
+        const std::string& callbackSourse,
         const bool          displayEnglish,
         const int           secondLanguage) = 0;
 
@@ -21,4 +23,4 @@ public:
     virtual bool isReady() = 0;
 };
 
-
+}// namespace OctaneGRPC

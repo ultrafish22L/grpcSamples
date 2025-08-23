@@ -23,6 +23,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiGaussianSplatCloudNodeProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -32,7 +36,6 @@ GRPCSettings & ApiGaussianSplatCloudNodeProxy::getGRPCSettings()
 ApiGaussianSplatCloudNodeProxy ApiGaussianSplatCloudNodeProxy::create(
             ApiNodeGraphProxy &                       ownerGraph
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -90,7 +93,6 @@ ApiGaussianSplatCloudNodeProxy ApiGaussianSplatCloudNodeProxy::create(
 ApiGaussianSplatCloudNodeProxy ApiGaussianSplatCloudNodeProxy::obtain(
             ApiNodeProxy *                            node
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -165,7 +167,6 @@ bool ApiGaussianSplatCloudNodeProxy::setAttributesFromPly(
             const float *const *                      restAttributePointers,
             const bool                                evaluate
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -371,3 +372,4 @@ bool ApiGaussianSplatCloudNodeProxy::setAttributesFromPly(
 };
 
 
+} //end of namespace

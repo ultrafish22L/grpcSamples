@@ -23,6 +23,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiMainWindowProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -33,7 +37,6 @@ ApiMainWindowProxy ApiMainWindowProxy::fetchOrCreateInstance(
             Octane::ApiMainWindow::OnMainWindowCloseCallbackT callback,
             void *const                               callbackPrivateData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -44,7 +47,7 @@ ApiMainWindowProxy ApiMainWindowProxy::fetchOrCreateInstance(
     // Add the 'callback' [in] parameter to the request packet.
     octaneapi::OnMainWindowCloseCallbackT * callbackIn = new octaneapi::OnMainWindowCloseCallbackT();
     // setup callback function callback
-    callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -101,7 +104,6 @@ ApiMainWindowProxy ApiMainWindowProxy::fetchOrCreateInstance(
 void ApiMainWindowProxy::runDispatchLoopUntil(
             const int                                 millis
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -145,7 +147,6 @@ void ApiMainWindowProxy::runDispatchLoopUntil(
 void ApiMainWindowProxy::setDpi(
             const uint32_t                            dpi
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -189,7 +190,6 @@ void ApiMainWindowProxy::setDpi(
 void ApiMainWindowProxy::addContentComponent(
             ApiGuiComponentProxy &                    contentComponent
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -355,7 +355,6 @@ ApiProjectWorkspaceProxy ApiMainWindowProxy::projectWorkspace()
 void ApiMainWindowProxy::show(
             bool                                      maximized
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -502,7 +501,6 @@ bool ApiMainWindowProxy::visible() const
 void ApiMainWindowProxy::setDefaultGraph(
             ApiNodeGraphProxy *                       graph
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -610,3 +608,4 @@ ApiNodeGraphProxy ApiMainWindowProxy::defaultGraph() const
 };
 
 
+} //end of namespace

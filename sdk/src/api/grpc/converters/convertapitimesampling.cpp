@@ -8,9 +8,7 @@
 #include "objectmgr.h"
 #ifdef NO_PCH
 #include "apinodesystem_1.grpc.pb.h"
-#include "apinodesystem_2.grpc.pb.h"
 #include "apinodesystem_3.grpc.pb.h"
-#include "apinodesystem_4.grpc.pb.h"
 #include "apinodesystem_5.grpc.pb.h"
 #include "apinodesystem_6.grpc.pb.h"
 #include "apinodesystem_7.grpc.pb.h"
@@ -27,37 +25,8 @@ struct ApiNodeInfoProxy
 };
 #endif
 
-void ApiTimeSamplingConverter::convert(
-    const octaneapi::ApiTimeSampling & in,
-    Octane::ApiTimeSampling & out)
+namespace OctaneGRPC
 {
-
-    // Found structure 1 ApiTimeSampling
-    // from proto type = const octaneapi::ApiTimeSampling &,
-        //to octane type = Octane::ApiTimeSampling &
-    // list out parameters
-    //cl=ApiTimeSampling, field.mName = pattern field.mType = const Octane::TimeT *, protoType=TimeArrayT
-    //TEST 89765 
-    Octane::TimeT * patternTemp = new Octane::TimeT[in.pattern().data_size()];////221////
-    // Store the array for auto deletion. The pointer returned to the caller will be valid until the next time this function is called.
-    ObjectStore::getInstance().addPointer<Octane::TimeT>("pattern", patternTemp);
-    for(int h = 0; h < in.pattern().data_size(); h++)
-    {
-        patternTemp[h] = static_cast<Octane::TimeT>(in.pattern().data(h).value());
-    }
-    // memory leak
-    out.mPattern = patternTemp;
-    //cl=ApiTimeSampling, field.mName = patternSize field.mType = size_t, protoType=uint32
-    out.mPatternSize = in.patternsize();////simple 3////
-    //cl=ApiTimeSampling, field.mName = period field.mType = Octane::TimeT, protoType=TimeT
-    out.mPeriod = in.period().value();////TimeT////
-    //cl=ApiTimeSampling, field.mName = animationType field.mType = Octane::AnimationType, protoType=AnimationType
-    out.mAnimationType = static_cast<Octane::AnimationType>(in.animationtype());// enum 1 
-    //cl=ApiTimeSampling, field.mName = endTime field.mType = Octane::TimeT, protoType=TimeT
-    out.mEndTime = in.endtime().value();////TimeT////
-    // all fields resolved OK;
-}
-
 
 void ApiTimeSamplingConverter::convert(
     const Octane::ApiTimeSampling & in,
@@ -91,4 +60,37 @@ void ApiTimeSamplingConverter::convert(
 }
 
 
+void ApiTimeSamplingConverter::convert(
+    const octaneapi::ApiTimeSampling & in,
+    Octane::ApiTimeSampling & out)
+{
+
+    // Found structure 1 ApiTimeSampling
+    // from proto type = const octaneapi::ApiTimeSampling &,
+        //to octane type = Octane::ApiTimeSampling &
+    // list out parameters
+    //cl=ApiTimeSampling, field.mName = pattern field.mType = const Octane::TimeT *, protoType=TimeArrayT
+    //TEST 89765 
+    Octane::TimeT * patternTemp = new Octane::TimeT[in.pattern().data_size()];////221////
+    // Store the array for auto deletion. The pointer returned to the caller will be valid until the next time this function is called.
+    ObjectStore::getInstance().addPointer<Octane::TimeT>("pattern", patternTemp);
+    for(int h = 0; h < in.pattern().data_size(); h++)
+    {
+        patternTemp[h] = static_cast<Octane::TimeT>(in.pattern().data(h).value());
+    }
+    // memory leak
+    out.mPattern = patternTemp;
+    //cl=ApiTimeSampling, field.mName = patternSize field.mType = size_t, protoType=uint32
+    out.mPatternSize = in.patternsize();////simple 3////
+    //cl=ApiTimeSampling, field.mName = period field.mType = Octane::TimeT, protoType=TimeT
+    out.mPeriod = in.period().value();////TimeT////
+    //cl=ApiTimeSampling, field.mName = animationType field.mType = Octane::AnimationType, protoType=AnimationType
+    out.mAnimationType = static_cast<Octane::AnimationType>(in.animationtype());// enum 1 
+    //cl=ApiTimeSampling, field.mName = endTime field.mType = Octane::TimeT, protoType=TimeT
+    out.mEndTime = in.endtime().value();////TimeT////
+    // all fields resolved OK;
+}
+
+
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

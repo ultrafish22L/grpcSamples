@@ -20,6 +20,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void ApiTextureValueTypeSetConverter::convert(
     const octaneapi::ApiTextureValueTypeSet & in,
     Octane::ApiTextureValueTypeSet & out)
@@ -46,4 +49,5 @@ void ApiTextureValueTypeSetConverter::convert(
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

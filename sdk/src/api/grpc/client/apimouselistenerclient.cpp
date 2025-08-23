@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiMouseListenerProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -31,7 +35,6 @@ ApiMouseListenerProxy ApiMouseListenerProxy::create(
             GRPCMouseEventCallbackT                  mouseEventsCallback,
             void *                                    privateData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -42,7 +45,7 @@ ApiMouseListenerProxy ApiMouseListenerProxy::create(
     // Add the 'mouseEventsCallback' [in] parameter to the request packet.
     octaneapi::MouseEventCallbackT * mouseeventscallbackIn = new octaneapi::MouseEventCallbackT();
     // setup callback function mouseEventsCallback
-    mouseeventscallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        mouseeventscallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_mouseeventscallback(mouseeventscallbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -140,3 +143,4 @@ void ApiMouseListenerProxy::destroy()
 };
 
 
+} //end of namespace

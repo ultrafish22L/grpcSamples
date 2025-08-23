@@ -16,9 +16,15 @@
 #include "octanerenderpasses.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for RenderResultStatistics
 class RenderResultStatisticsProxy : public GRPCBase
@@ -83,6 +89,7 @@ public:
             const Octane::RenderPassId   renderPassId
             ) const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

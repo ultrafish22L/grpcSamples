@@ -20,6 +20,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void NetRenderSettingsConverter::convert(
     const octaneapi::NetRenderSettings & in,
     Octane::NetRenderSettings & out)
@@ -92,4 +95,5 @@ void NetRenderSettingsConverter::convert(
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

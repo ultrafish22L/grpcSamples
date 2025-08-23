@@ -54,7 +54,7 @@ ComboBox::ComboBox(
         apiItems.push_back(Octane::ApiComboBoxItem(items[i].mId, items[i].mText.c_str()));
     }
 
-    mApiComboBox = ApiComboBoxProxy::create(apiItems.data(),
+    mApiComboBox = OctaneGRPC::ApiComboBoxProxy::create(apiItems.data(),
                                                apiItems.size(), 
                                                onComboBoxChanged,
                                                this);
@@ -104,8 +104,8 @@ void ComboBox::removeListener(
 
 
 void ComboBox::onComboBoxChanged(
-    ApiComboBoxProxy    &comboBox,
-    void                *privateData)
+    OctaneGRPC::ApiComboBoxProxy & comboBox,
+    void *                         privateData)
 {
     ComboBox *myBox = static_cast<ComboBox*>(privateData);
     // notify listeners

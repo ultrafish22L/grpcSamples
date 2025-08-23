@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & FrameRangeTProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -31,7 +35,6 @@ Octane::FrameRangeT FrameRangeTProxy::make(
             const int32_t                             begin,
             const int32_t                             end
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -66,7 +69,7 @@ Octane::FrameRangeT FrameRangeTProxy::make(
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::FrameRangeT resultOut = response.result();
         // Using Converter 7, type = Octane::FrameRangeT, protoType = FrameRangeT
-//        FrameRangeTConverter::convert(resultOut, retVal); // 22 Convert Called type 4 =FrameRangeT;
+        FrameRangeT::convert(resultOut, retVal); // 22 Convert Called type 4 =FrameRangeT;
     }
     else
     {
@@ -135,3 +138,4 @@ uint32_t FrameRangeTProxy::count() const
 };
 
 
+} //end of namespace

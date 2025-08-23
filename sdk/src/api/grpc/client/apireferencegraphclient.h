@@ -17,9 +17,15 @@
 #include "apireferencegraph.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiReferenceGraph
 class ApiReferenceGraphProxy : public ApiNodeGraphProxy
@@ -137,6 +143,7 @@ public:
             size_t                                    bufferSize
             ) const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

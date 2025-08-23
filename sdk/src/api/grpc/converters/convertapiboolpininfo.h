@@ -7,7 +7,13 @@
 namespace Octane { struct ApiBoolPinInfo; }
 namespace octaneapi { class ApiBoolPinInfo; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiBoolPinInfoConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiBoolPinInfo & in,
         octaneapi::ApiBoolPinInfo & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

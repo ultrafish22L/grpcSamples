@@ -20,6 +20,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void ApiArrayApiRenderImageConverter::convert(
     const octaneapi::ApiArrayApiRenderImage & in,
     std::vector<Octane::ApiRenderImage> & out)
@@ -139,4 +142,5 @@ void ApiArrayApiRenderImageConverter::convert(
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

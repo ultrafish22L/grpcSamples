@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiBinaryGroupProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -309,7 +313,6 @@ void ApiBinaryGroupProxy::popBack()
 int32_t ApiBinaryGroupProxy::getId(
             const size_t                              ix
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -368,7 +371,6 @@ int32_t ApiBinaryGroupProxy::getId(
 bool ApiBinaryGroupProxy::equals(
             const ApiBinaryGroupProxy &               other
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -431,7 +433,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             bool &                                    value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -496,7 +497,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             int8_t &                                  value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -561,7 +561,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::int8_2 &                          value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -627,7 +626,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::int8_3 &                          value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -694,7 +692,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::int8_4 &                          value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -762,7 +759,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             uint8_t &                                 value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -827,7 +823,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::uint8_2 &                         value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -893,7 +888,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::uint8_3 &                         value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -960,7 +954,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::uint8_4 &                         value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1028,7 +1021,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             int16_t &                                 value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1093,7 +1085,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::int16_2 &                         value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1159,7 +1150,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::int16_3 &                         value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1226,7 +1216,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::int16_4 &                         value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1294,7 +1283,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             uint16_t &                                value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1359,7 +1347,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::uint16_2 &                        value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1425,7 +1412,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::uint16_3 &                        value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1492,7 +1478,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::uint16_4 &                        value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1560,7 +1545,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             int32_t &                                 value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1625,7 +1609,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::int32_2 &                         value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1691,7 +1674,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::int32_3 &                         value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1758,7 +1740,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::int32_4 &                         value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1826,7 +1807,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             uint32_t &                                value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1891,7 +1871,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::uint32_2 &                        value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -1957,7 +1936,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::uint32_3 &                        value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2024,7 +2002,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::uint32_4 &                        value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2092,7 +2069,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             int64_t &                                 value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2157,7 +2133,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::int64_2 &                         value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2223,7 +2198,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::int64_3 &                         value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2290,7 +2264,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::int64_4 &                         value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2358,7 +2331,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             uint64_t &                                value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2423,7 +2395,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::uint64_2 &                        value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2489,7 +2460,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::uint64_3 &                        value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2556,7 +2526,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::uint64_4 &                        value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2624,7 +2593,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             float &                                   value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2689,7 +2657,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::float_2 &                         value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2755,7 +2722,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::float_3 &                         value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2822,7 +2788,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::float_4 &                         value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2890,7 +2855,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             double &                                  value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -2955,7 +2919,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::double_2 &                        value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3021,7 +2984,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::double_3 &                        value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3088,7 +3050,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             Octane::double_4 &                        value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3156,7 +3117,6 @@ bool ApiBinaryGroupProxy::get(
             const size_t                              ix,
             std::string &                             value
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3222,7 +3182,6 @@ bool ApiBinaryGroupProxy::getGroup(
             const size_t                              ix,
             ApiBinaryGroupProxy *&                    group
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3287,7 +3246,6 @@ bool ApiBinaryGroupProxy::getTable(
             const size_t                              ix,
             ApiBinaryTableProxy *&                    table
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3352,7 +3310,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const bool                                value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3412,7 +3369,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const int8_t                              value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3472,7 +3428,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::int8_2                      value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3533,7 +3488,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::int8_3                      value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3595,7 +3549,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::int8_4                      value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3658,7 +3611,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const uint8_t                             value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3718,7 +3670,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::uint8_2                     value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3779,7 +3730,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::uint8_3                     value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3841,7 +3791,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::uint8_4                     value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3904,7 +3853,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const int16_t                             value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -3964,7 +3912,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::int16_2                     value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4025,7 +3972,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::int16_3                     value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4087,7 +4033,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::int16_4                     value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4150,7 +4095,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const uint16_t                            value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4210,7 +4154,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::uint16_2                    value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4271,7 +4214,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::uint16_3                    value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4333,7 +4275,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::uint16_4                    value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4396,7 +4337,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const int32_t                             value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4456,7 +4396,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::int32_2                     value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4517,7 +4456,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::int32_3                     value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4579,7 +4517,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::int32_4                     value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4642,7 +4579,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const uint32_t                            value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4702,7 +4638,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::uint32_2                    value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4763,7 +4698,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::uint32_3                    value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4825,7 +4759,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::uint32_4                    value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4888,7 +4821,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const int64_t                             value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -4948,7 +4880,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::int64_2                     value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5009,7 +4940,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::int64_3                     value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5071,7 +5001,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::int64_4                     value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5134,7 +5063,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const uint64_t                            value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5194,7 +5122,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::uint64_2                    value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5255,7 +5182,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::uint64_3                    value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5317,7 +5243,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::uint64_4                    value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5380,7 +5305,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const float                               value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5440,7 +5364,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::float_2                     value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5501,7 +5424,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::float_3                     value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5563,7 +5485,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::float_4                     value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5626,7 +5547,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const double                              value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5686,7 +5606,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::double_2                    value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5747,7 +5666,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::double_3                    value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5809,7 +5727,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const Octane::double_4                    value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5872,7 +5789,6 @@ void ApiBinaryGroupProxy::add(
             const int32_t                             id,
             const char *                              value
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5932,7 +5848,6 @@ void ApiBinaryGroupProxy::addGroup(
             const int32_t                             id,
             const ApiBinaryGroupProxy &               group
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -5995,7 +5910,6 @@ void ApiBinaryGroupProxy::addTable(
             const int32_t                             id,
             const ApiBinaryTableProxy &               table
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6057,7 +5971,6 @@ void ApiBinaryGroupProxy::addTable(
 void ApiBinaryGroupProxy::dump(
             const uint32_t                            indent
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -6107,3 +6020,4 @@ void ApiBinaryGroupProxy::dump(
 };
 
 
+} //end of namespace

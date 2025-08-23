@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ImageInfoProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -31,7 +35,6 @@ GRPCSettings & ImageInfoProxy::getGRPCSettings()
 void ImageInfoProxy::initFromFile(
             const char *const                         pathUTF8
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -85,7 +88,6 @@ void ImageInfoProxy::initFromBuffer(
             const void *const                         data,
             const size_t                              length
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -144,7 +146,6 @@ void ImageInfoProxy::initFromBuffer(
 LayerInfoProxy ImageInfoProxy::layerInfo(
             const uint32_t                            layerIx
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -406,3 +407,4 @@ bool ImageInfoProxy::isCompressed() const
 };
 
 
+} //end of namespace

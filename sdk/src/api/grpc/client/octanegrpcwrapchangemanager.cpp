@@ -10,7 +10,7 @@ using namespace OctaneWrap;
 // Implementation of NodeItemObserver.
 
 static void internalOnChange(
-    const GRPCChangeManagerChangeEvent &event,
+    const OctaneGRPC::GRPCChangeManagerChangeEvent &event,
     void                               *privateData)
 {
     static_cast<NodeItemObserver*>(privateData)->onNodeItemChange(event);
@@ -29,7 +29,7 @@ NodeItemObserver::NodeItemObserver()
 // Implementation of TimeObserver.
 
 static void internalOnTimeChange(
-    const GRPCChangeManagerTimeChangeEvent &event,
+    const OctaneGRPC::GRPCChangeManagerTimeChangeEvent &event,
     void                                      *privateData)
 {
     static_cast<TimeObserver*>(privateData)->onTimeChanged(event);

@@ -16,9 +16,15 @@
 #include "apilogmanager.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiLogManager
 class ApiLogManagerProxy : public GRPCBase
@@ -131,6 +137,7 @@ public:
             const char *                              fmt
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

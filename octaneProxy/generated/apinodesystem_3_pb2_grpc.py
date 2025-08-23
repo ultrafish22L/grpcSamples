@@ -26,10 +26,25 @@ class ApiItemServiceStub(object):
                 request_serializer=apinodesystem__3__pb2.ApiItem.nameRequest.SerializeToString,
                 response_deserializer=apinodesystem__3__pb2.ApiItem.nameResponse.FromString,
                 _registered_method=True)
+        self.setName = channel.unary_unary(
+                '/octaneapi.ApiItemService/setName',
+                request_serializer=apinodesystem__3__pb2.ApiItem.setNameRequest.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                _registered_method=True)
         self.position = channel.unary_unary(
                 '/octaneapi.ApiItemService/position',
                 request_serializer=apinodesystem__3__pb2.ApiItem.positionRequest.SerializeToString,
                 response_deserializer=apinodesystem__3__pb2.ApiItem.positionResponse.FromString,
+                _registered_method=True)
+        self.setPosition = channel.unary_unary(
+                '/octaneapi.ApiItemService/setPosition',
+                request_serializer=apinodesystem__3__pb2.ApiItem.setPositionRequest.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                _registered_method=True)
+        self.setUIOperationFlags = channel.unary_unary(
+                '/octaneapi.ApiItemService/setUIOperationFlags',
+                request_serializer=apinodesystem__3__pb2.ApiItem.setUIOperationFlagsRequest.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 _registered_method=True)
         self.uiOperationFlags = channel.unary_unary(
                 '/octaneapi.ApiItemService/uiOperationFlags',
@@ -351,6 +366,96 @@ class ApiItemServiceStub(object):
                 request_serializer=apinodesystem__3__pb2.ApiItem.dumpAttributesRequest.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 _registered_method=True)
+        self.getByAttrID = channel.unary_unary(
+                '/octaneapi.ApiItemService/getByAttrID',
+                request_serializer=apinodesystem__3__pb2.ApiItem.getValueByIDRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.getValueResponse.FromString,
+                _registered_method=True)
+        self.getByName = channel.unary_unary(
+                '/octaneapi.ApiItemService/getByName',
+                request_serializer=apinodesystem__3__pb2.ApiItem.getValueByNameRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.getValueResponse.FromString,
+                _registered_method=True)
+        self.getByIx = channel.unary_unary(
+                '/octaneapi.ApiItemService/getByIx',
+                request_serializer=apinodesystem__3__pb2.ApiItem.getValueByIxRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.getValueResponse.FromString,
+                _registered_method=True)
+        self.getArrayByAttrID = channel.unary_unary(
+                '/octaneapi.ApiItemService/getArrayByAttrID',
+                request_serializer=apinodesystem__3__pb2.ApiItem.getArrayByIDRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.getArrayResponse.FromString,
+                _registered_method=True)
+        self.getArrayByName = channel.unary_unary(
+                '/octaneapi.ApiItemService/getArrayByName',
+                request_serializer=apinodesystem__3__pb2.ApiItem.getArrayByNameRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.getArrayResponse.FromString,
+                _registered_method=True)
+        self.getArrayByIx = channel.unary_unary(
+                '/octaneapi.ApiItemService/getArrayByIx',
+                request_serializer=apinodesystem__3__pb2.ApiItem.getArrayByIxRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.getArrayResponse.FromString,
+                _registered_method=True)
+        self.setByAttrID = channel.unary_unary(
+                '/octaneapi.ApiItemService/setByAttrID',
+                request_serializer=apinodesystem__3__pb2.ApiItem.setValueByIDRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.setValueResponse.FromString,
+                _registered_method=True)
+        self.setByName = channel.unary_unary(
+                '/octaneapi.ApiItemService/setByName',
+                request_serializer=apinodesystem__3__pb2.ApiItem.setValueByNameRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.setValueResponse.FromString,
+                _registered_method=True)
+        self.setByIx = channel.unary_unary(
+                '/octaneapi.ApiItemService/setByIx',
+                request_serializer=apinodesystem__3__pb2.ApiItem.setValueByIxRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.setValueResponse.FromString,
+                _registered_method=True)
+        self.setArrayByName = channel.unary_unary(
+                '/octaneapi.ApiItemService/setArrayByName',
+                request_serializer=apinodesystem__3__pb2.ApiItem.setArrayByNameRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.setArrayResponse.FromString,
+                _registered_method=True)
+        self.setArrayByAttrID = channel.unary_unary(
+                '/octaneapi.ApiItemService/setArrayByAttrID',
+                request_serializer=apinodesystem__3__pb2.ApiItem.setArrayByIDRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.setArrayResponse.FromString,
+                _registered_method=True)
+        self.setArrayByIx = channel.unary_unary(
+                '/octaneapi.ApiItemService/setArrayByIx',
+                request_serializer=apinodesystem__3__pb2.ApiItem.setArrayByIxRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.setArrayResponse.FromString,
+                _registered_method=True)
+        self.getAnimByAttr = channel.unary_unary(
+                '/octaneapi.ApiItemService/getAnimByAttr',
+                request_serializer=apinodesystem__3__pb2.ApiItem.getAnimByIDRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.getAnimArrayResponse.FromString,
+                _registered_method=True)
+        self.getAnimByName = channel.unary_unary(
+                '/octaneapi.ApiItemService/getAnimByName',
+                request_serializer=apinodesystem__3__pb2.ApiItem.getAnimByNameRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.getAnimArrayResponse.FromString,
+                _registered_method=True)
+        self.getAnimByIx = channel.unary_unary(
+                '/octaneapi.ApiItemService/getAnimByIx',
+                request_serializer=apinodesystem__3__pb2.ApiItem.getAnimByIxRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.getAnimArrayResponse.FromString,
+                _registered_method=True)
+        self.setAnimByAttr = channel.unary_unary(
+                '/octaneapi.ApiItemService/setAnimByAttr',
+                request_serializer=apinodesystem__3__pb2.ApiItem.setAnimByIDRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.setAnimArrayResponse.FromString,
+                _registered_method=True)
+        self.setAnimByName = channel.unary_unary(
+                '/octaneapi.ApiItemService/setAnimByName',
+                request_serializer=apinodesystem__3__pb2.ApiItem.setAnimByNameRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.setAnimArrayResponse.FromString,
+                _registered_method=True)
+        self.setAnimByIx = channel.unary_unary(
+                '/octaneapi.ApiItemService/setAnimByIx',
+                request_serializer=apinodesystem__3__pb2.ApiItem.setAnimByIxRequest.SerializeToString,
+                response_deserializer=apinodesystem__3__pb2.ApiItem.setAnimArrayResponse.FromString,
+                _registered_method=True)
 
 
 class ApiItemServiceServicer(object):
@@ -371,8 +476,30 @@ class ApiItemServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def setName(self, request, context):
+        """/ Sets the name of this item
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def position(self, request, context):
         """/ Returns the position of the item inside its owner
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def setPosition(self, request, context):
+        """/ Sets the position of this item
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def setUIOperationFlags(self, request, context):
+        """/ Adds a UI operation flag to this node item and this flags will be only used when making a 
+        / direct interaction from UI
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -829,6 +956,120 @@ class ApiItemServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def getByAttrID(self, request, context):
+        """Scalar getters
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def getByName(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def getByIx(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def getArrayByAttrID(self, request, context):
+        """Array getters
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def getArrayByName(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def getArrayByIx(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def setByAttrID(self, request, context):
+        """Scalar setters
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def setByName(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def setByIx(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def setArrayByName(self, request, context):
+        """Array setters
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def setArrayByAttrID(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def setArrayByIx(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def getAnimByAttr(self, request, context):
+        """Anim getters
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def getAnimByName(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def getAnimByIx(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def setAnimByAttr(self, request, context):
+        """Anim setters
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def setAnimByName(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def setAnimByIx(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ApiItemServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -842,10 +1083,25 @@ def add_ApiItemServiceServicer_to_server(servicer, server):
                     request_deserializer=apinodesystem__3__pb2.ApiItem.nameRequest.FromString,
                     response_serializer=apinodesystem__3__pb2.ApiItem.nameResponse.SerializeToString,
             ),
+            'setName': grpc.unary_unary_rpc_method_handler(
+                    servicer.setName,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.setNameRequest.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
             'position': grpc.unary_unary_rpc_method_handler(
                     servicer.position,
                     request_deserializer=apinodesystem__3__pb2.ApiItem.positionRequest.FromString,
                     response_serializer=apinodesystem__3__pb2.ApiItem.positionResponse.SerializeToString,
+            ),
+            'setPosition': grpc.unary_unary_rpc_method_handler(
+                    servicer.setPosition,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.setPositionRequest.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'setUIOperationFlags': grpc.unary_unary_rpc_method_handler(
+                    servicer.setUIOperationFlags,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.setUIOperationFlagsRequest.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             ),
             'uiOperationFlags': grpc.unary_unary_rpc_method_handler(
                     servicer.uiOperationFlags,
@@ -1167,6 +1423,96 @@ def add_ApiItemServiceServicer_to_server(servicer, server):
                     request_deserializer=apinodesystem__3__pb2.ApiItem.dumpAttributesRequest.FromString,
                     response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             ),
+            'getByAttrID': grpc.unary_unary_rpc_method_handler(
+                    servicer.getByAttrID,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.getValueByIDRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.getValueResponse.SerializeToString,
+            ),
+            'getByName': grpc.unary_unary_rpc_method_handler(
+                    servicer.getByName,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.getValueByNameRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.getValueResponse.SerializeToString,
+            ),
+            'getByIx': grpc.unary_unary_rpc_method_handler(
+                    servicer.getByIx,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.getValueByIxRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.getValueResponse.SerializeToString,
+            ),
+            'getArrayByAttrID': grpc.unary_unary_rpc_method_handler(
+                    servicer.getArrayByAttrID,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.getArrayByIDRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.getArrayResponse.SerializeToString,
+            ),
+            'getArrayByName': grpc.unary_unary_rpc_method_handler(
+                    servicer.getArrayByName,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.getArrayByNameRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.getArrayResponse.SerializeToString,
+            ),
+            'getArrayByIx': grpc.unary_unary_rpc_method_handler(
+                    servicer.getArrayByIx,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.getArrayByIxRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.getArrayResponse.SerializeToString,
+            ),
+            'setByAttrID': grpc.unary_unary_rpc_method_handler(
+                    servicer.setByAttrID,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.setValueByIDRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.setValueResponse.SerializeToString,
+            ),
+            'setByName': grpc.unary_unary_rpc_method_handler(
+                    servicer.setByName,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.setValueByNameRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.setValueResponse.SerializeToString,
+            ),
+            'setByIx': grpc.unary_unary_rpc_method_handler(
+                    servicer.setByIx,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.setValueByIxRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.setValueResponse.SerializeToString,
+            ),
+            'setArrayByName': grpc.unary_unary_rpc_method_handler(
+                    servicer.setArrayByName,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.setArrayByNameRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.setArrayResponse.SerializeToString,
+            ),
+            'setArrayByAttrID': grpc.unary_unary_rpc_method_handler(
+                    servicer.setArrayByAttrID,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.setArrayByIDRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.setArrayResponse.SerializeToString,
+            ),
+            'setArrayByIx': grpc.unary_unary_rpc_method_handler(
+                    servicer.setArrayByIx,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.setArrayByIxRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.setArrayResponse.SerializeToString,
+            ),
+            'getAnimByAttr': grpc.unary_unary_rpc_method_handler(
+                    servicer.getAnimByAttr,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.getAnimByIDRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.getAnimArrayResponse.SerializeToString,
+            ),
+            'getAnimByName': grpc.unary_unary_rpc_method_handler(
+                    servicer.getAnimByName,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.getAnimByNameRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.getAnimArrayResponse.SerializeToString,
+            ),
+            'getAnimByIx': grpc.unary_unary_rpc_method_handler(
+                    servicer.getAnimByIx,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.getAnimByIxRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.getAnimArrayResponse.SerializeToString,
+            ),
+            'setAnimByAttr': grpc.unary_unary_rpc_method_handler(
+                    servicer.setAnimByAttr,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.setAnimByIDRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.setAnimArrayResponse.SerializeToString,
+            ),
+            'setAnimByName': grpc.unary_unary_rpc_method_handler(
+                    servicer.setAnimByName,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.setAnimByNameRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.setAnimArrayResponse.SerializeToString,
+            ),
+            'setAnimByIx': grpc.unary_unary_rpc_method_handler(
+                    servicer.setAnimByIx,
+                    request_deserializer=apinodesystem__3__pb2.ApiItem.setAnimByIxRequest.FromString,
+                    response_serializer=apinodesystem__3__pb2.ApiItem.setAnimArrayResponse.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
             'octaneapi.ApiItemService', rpc_method_handlers)
@@ -1234,6 +1580,33 @@ class ApiItemService(object):
             _registered_method=True)
 
     @staticmethod
+    def setName(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/setName',
+            apinodesystem__3__pb2.ApiItem.setNameRequest.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
     def position(request,
             target,
             options=(),
@@ -1250,6 +1623,60 @@ class ApiItemService(object):
             '/octaneapi.ApiItemService/position',
             apinodesystem__3__pb2.ApiItem.positionRequest.SerializeToString,
             apinodesystem__3__pb2.ApiItem.positionResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def setPosition(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/setPosition',
+            apinodesystem__3__pb2.ApiItem.setPositionRequest.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def setUIOperationFlags(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/setUIOperationFlags',
+            apinodesystem__3__pb2.ApiItem.setUIOperationFlagsRequest.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options,
             channel_credentials,
             insecure,
@@ -2978,6 +3405,492 @@ class ApiItemService(object):
             '/octaneapi.ApiItemService/dumpAttributes',
             apinodesystem__3__pb2.ApiItem.dumpAttributesRequest.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def getByAttrID(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/getByAttrID',
+            apinodesystem__3__pb2.ApiItem.getValueByIDRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.getValueResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def getByName(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/getByName',
+            apinodesystem__3__pb2.ApiItem.getValueByNameRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.getValueResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def getByIx(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/getByIx',
+            apinodesystem__3__pb2.ApiItem.getValueByIxRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.getValueResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def getArrayByAttrID(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/getArrayByAttrID',
+            apinodesystem__3__pb2.ApiItem.getArrayByIDRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.getArrayResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def getArrayByName(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/getArrayByName',
+            apinodesystem__3__pb2.ApiItem.getArrayByNameRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.getArrayResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def getArrayByIx(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/getArrayByIx',
+            apinodesystem__3__pb2.ApiItem.getArrayByIxRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.getArrayResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def setByAttrID(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/setByAttrID',
+            apinodesystem__3__pb2.ApiItem.setValueByIDRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.setValueResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def setByName(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/setByName',
+            apinodesystem__3__pb2.ApiItem.setValueByNameRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.setValueResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def setByIx(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/setByIx',
+            apinodesystem__3__pb2.ApiItem.setValueByIxRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.setValueResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def setArrayByName(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/setArrayByName',
+            apinodesystem__3__pb2.ApiItem.setArrayByNameRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.setArrayResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def setArrayByAttrID(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/setArrayByAttrID',
+            apinodesystem__3__pb2.ApiItem.setArrayByIDRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.setArrayResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def setArrayByIx(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/setArrayByIx',
+            apinodesystem__3__pb2.ApiItem.setArrayByIxRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.setArrayResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def getAnimByAttr(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/getAnimByAttr',
+            apinodesystem__3__pb2.ApiItem.getAnimByIDRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.getAnimArrayResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def getAnimByName(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/getAnimByName',
+            apinodesystem__3__pb2.ApiItem.getAnimByNameRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.getAnimArrayResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def getAnimByIx(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/getAnimByIx',
+            apinodesystem__3__pb2.ApiItem.getAnimByIxRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.getAnimArrayResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def setAnimByAttr(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/setAnimByAttr',
+            apinodesystem__3__pb2.ApiItem.setAnimByIDRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.setAnimArrayResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def setAnimByName(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/setAnimByName',
+            apinodesystem__3__pb2.ApiItem.setAnimByNameRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.setAnimArrayResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def setAnimByIx(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/octaneapi.ApiItemService/setAnimByIx',
+            apinodesystem__3__pb2.ApiItem.setAnimByIxRequest.SerializeToString,
+            apinodesystem__3__pb2.ApiItem.setAnimArrayResponse.FromString,
             options,
             channel_credentials,
             insecure,

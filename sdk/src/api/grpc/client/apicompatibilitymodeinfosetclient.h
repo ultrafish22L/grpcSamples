@@ -16,9 +16,15 @@
 #include "octaneinfos.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiCompatibilityModeInfoSet
 class ApiCompatibilityModeInfoSetProxy : public GRPCBase
@@ -44,6 +50,7 @@ public:
             uint32_t   index
             ) const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

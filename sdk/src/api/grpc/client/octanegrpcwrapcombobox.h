@@ -104,14 +104,14 @@ public:
 private:
 
     /// Wrapped ComboBox
-    ApiComboBoxProxy           mApiComboBox;
+    OctaneGRPC::ApiComboBoxProxy   mApiComboBox;
     /// List of listeners.
     std::vector<ComboBoxListener*> mListeners;
 
     /// internal C callback
     static void onComboBoxChanged(
-        ApiComboBoxProxy    &comboBox,
-        void                *privateData);
+        OctaneGRPC::ApiComboBoxProxy & comboBox,
+        void *                         privateData);
 };
 
 } // namespace OctaneWrap

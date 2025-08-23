@@ -11,34 +11,46 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiNodeProxy;
-class ApiNodeGraphProxy;
-class ApiOutputColorSpaceInfoProxy;
-class ApiSharedSurfaceProxy;
+namespace OctaneGRPC
+{
+    class ApiNodeProxy;
+    class ApiNodeGraphProxy;
+    class ApiOutputColorSpaceInfoProxy;
+    class ApiSharedSurfaceProxy;
+}
 
 
 #include "apirender.h"
 
 
-class Convert;
-
-class GRPCSettings;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
 #include "apinodeclient.h"
 
-/// Stores the information about one intersection along the picking ray.
-struct GRPCPickIntersection : public GRPCBase
+namespace OctaneGRPC
 {
-    ApiNodeProxy           mNode;
-    unsigned int          mMaterialPinIx;
-    float                 mDepth;
-    OctaneVec::float_3    mPosition;
-    OctaneVec::float_3    mGeometricNormal;
-    OctaneVec::float_3    mSmoothedNormal;
-    Octane::PrimitiveType mPrimitiveType;
-    OctaneVec::float_3    mPrimitiveVertices[3];
-    OctaneVec::float_3    mPositionOnPrimitive;
-};
+/// Stores the information about one intersection along the picking ray.
+    struct GRPCPickIntersection : public GRPCBase
+    {
+        ApiNodeProxy           mNode;
+        unsigned int          mMaterialPinIx;
+        float                 mDepth;
+        OctaneVec::float_3    mPosition;
+        OctaneVec::float_3    mGeometricNormal;
+        OctaneVec::float_3    mSmoothedNormal;
+        Octane::PrimitiveType mPrimitiveType;
+        OctaneVec::float_3    mPrimitiveVertices[3];
+        OctaneVec::float_3    mPositionOnPrimitive;
+    };
+
+} // namespace OctaneGRPC
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiRenderEngine
 class ApiRenderEngineProxy : public GRPCBase
@@ -1957,6 +1969,7 @@ public:
             uint64_t &                                pciDeviceId
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

@@ -15,14 +15,21 @@
 
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiImageBuffer_RegionRect
 class ApiImageBufferProxy_RegionRect : public GRPCBase
 {
 public:
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

@@ -54,7 +54,7 @@ bool CameraSyncSdk::connectToServer(const std::string& serverAddress) {
         // Note: In a real implementation, ApiRenderEngine would be a singleton
         // or obtained through a factory method. For now, we'll assume it's already initialized.
 //        m_renderEngine = new ApiRenderEngineProxy(); // Hypothetical singleton access
-		GRPCSettings::getInstance().setServerAddress(serverAddress);
+        OctaneGRPC::GRPCSettings::getInstance().setServerAddress(serverAddress);
         
         std::cout << "Octane SDK connection established" << std::endl;
         m_connected = true;
@@ -93,7 +93,7 @@ void CameraSyncSdk::initialize() {
 #ifdef DO_GRPC_SDK_ENABLED
     try {
         // Get the current camera node from the render engine
-        m_cameraNode = ::ApiRenderEngineProxy::getRenderCameraNode();
+        m_cameraNode = OctaneGRPC::ApiRenderEngineProxy::getRenderCameraNode();
         
         if (!m_cameraNode.isNull()) {
 
@@ -137,18 +137,13 @@ static const char* Indent(int i)
     return sIndent;
 }
 
-static bool recurseNodeTest(const ApiItemProxy& item, int indent = 0)
+static bool recurseNodeTest(const OctaneGRPC::ApiItemProxy& item, int indent = 0)
 {
-    if (item.isNull())
-    {
-        std::cout << "recurseNodes: item == null" << std::endl;
-        return false;
-    }
     std::cout << Indent(indent) << "item.name = " << item.name() << std::endl;
 
     if (item.isGraph())
     {
-        ApiItemArrayProxy items;
+        OctaneGRPC::ApiItemArrayProxy items;
         item.toGraph().getOwnedItems(items);
         indent++;
 
@@ -164,19 +159,16 @@ static bool recurseNodeTest(const ApiItemProxy& item, int indent = 0)
         return true;
     }
     // node
-	ApiNodeProxy& node = item.toNode();
+    OctaneGRPC::ApiNodeProxy& node = item.toNode();
 
 	int pinCount = node.pinCount();
     for (int i = 0; i < pinCount; i++)
     {
-        ApiNodePinInfoProxy pinInfo = node.pinInfoIx(i);
+        OctaneGRPC::ApiNodePinInfoProxy pinInfo = node.pinInfoIx(i);
         if (!pinInfo.isNull()) {
 
         }
-        const ApiNodeProxy n = node.connectedNodeIx(i, false);
-
-        if (n.isNull())
-            continue;
+        const OctaneGRPC::ApiNodeProxy n = node.connectedNodeIx(i, false);
 
         recurseNodeTest(n, indent + 2);
     }
@@ -189,7 +181,7 @@ bool CameraSyncSdk::testConnection() {
     }
     std::cout << "octane camera.name = " << m_cameraNode.name() << std::endl;
 
-    auto root = ApiProjectManagerProxy::rootNodeGraph();
+    auto root = OctaneGRPC::ApiProjectManagerProxy::rootNodeGraph();
     if (root.isNull())
     {
         std::cout << "ApiProjectManager::rootNodeGraph() == null" << std::endl;
@@ -241,7 +233,7 @@ void CameraSyncSdk::shutdown() {
 
 void CameraSyncSdk::getCurrentCameraState(glm::vec3& pos, glm::vec3& target, glm::vec3& up) const {
 #ifdef DO_GRPC_SDK_ENABLED
-    if (m_cameraAvailable && !m_cameraNode.isNull()) {
+    if (m_cameraAvailable) {
         try {
             // Get current camera state from SDK using pin values
             float_3 p, t, u;
@@ -310,7 +302,7 @@ bool CameraSyncSdk::setCamera(const glm::vec3& pos, const glm::vec3& target, con
     {
 #ifdef DO_GRPC_SDK_ENABLED
 //        m_cameraNode.evaluate();
-        ApiChangeManagerProxy::update();
+        OctaneGRPC::ApiChangeManagerProxy::update();
 #endif
     }
     return result;

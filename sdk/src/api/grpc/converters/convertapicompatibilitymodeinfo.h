@@ -7,7 +7,13 @@
 namespace Octane { class ApiCompatibilityModeInfo; }
 namespace octaneapi { class ApiCompatibilityModeInfo; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiCompatibilityModeInfoConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiCompatibilityModeInfo & in,
         octaneapi::ApiCompatibilityModeInfo & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

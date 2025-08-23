@@ -7,7 +7,13 @@
 namespace Octane { struct ApiDeviceMemoryUsage; }
 namespace octaneapi { class ApiDeviceMemoryUsage; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiDeviceMemoryUsageConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiDeviceMemoryUsage & in,
         octaneapi::ApiDeviceMemoryUsage & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

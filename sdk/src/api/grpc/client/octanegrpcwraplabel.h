@@ -52,7 +52,7 @@ public:
 private:
 
     /// wrapped label
-    ApiLabelProxy mApiLabel;
+    OctaneGRPC::ApiLabelProxy mApiLabel;
 };
 
 } // namespace OctaneWrap

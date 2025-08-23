@@ -16,9 +16,15 @@
 #include "apicustomcurveeditorcontroller.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiCustomCurveEditorController_Drawer
 class ApiCustomCurveEditorControllerProxy_Drawer : public GRPCBase
@@ -161,6 +167,7 @@ public:
             float   thickness
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

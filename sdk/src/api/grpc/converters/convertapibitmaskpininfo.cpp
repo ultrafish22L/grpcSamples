@@ -20,6 +20,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void ApiBitMaskPinInfoConverter::convert(
     const octaneapi::ApiBitMaskPinInfo & in,
     Octane::ApiBitMaskPinInfo & out)
@@ -86,4 +89,5 @@ void ApiBitMaskPinInfoConverter::convert(
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

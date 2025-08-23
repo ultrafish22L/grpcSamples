@@ -16,9 +16,15 @@
 #include "apiimagebuffer.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiImageBuffer
 class ApiImageBufferProxy : public GRPCBase
@@ -440,6 +446,7 @@ public:
             const OctaneVec::uint32_2   pos
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

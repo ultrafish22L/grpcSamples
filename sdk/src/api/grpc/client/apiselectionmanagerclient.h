@@ -11,32 +11,44 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiItemProxy;
-class ApiNodeProxy;
+namespace OctaneGRPC
+{
+    class ApiItemProxy;
+    class ApiNodeProxy;
+}
 
 
 #include "apiselectionmanager.h"
 
 
-class Convert;
-
-class GRPCSettings;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
 #include "grpcchangeevents.h"
 #include "apinodeclient.h"
 
-struct ApiPinSelectionProxy : public GRPCBase
+namespace OctaneGRPC
 {
-    ApiPinSelectionProxy() = default;
+    struct ApiPinSelectionProxy : public GRPCBase
+    {
+        ApiPinSelectionProxy() = default;
 
-    ApiPinSelectionProxy(uint32_t pinIndex, const ApiNodeProxy& node)
-:
-    mPinIndex(pinIndex), mNode(node)
-    {}
+        ApiPinSelectionProxy(uint32_t pinIndex, const ApiNodeProxy& node)
+    :
+        mPinIndex(pinIndex), mNode(node)
+        {}
 
-    uint32_t mPinIndex = 0;
-    ApiNodeProxy mNode;
-};
+        uint32_t mPinIndex = 0;
+        ApiNodeProxy mNode;
+    };
+
+} // namespace OctaneGRPC
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiSelectionManager
 class ApiSelectionManagerProxy : public GRPCBase
@@ -184,6 +196,7 @@ public:
             GRPCSelectionManagerObserver   observer
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

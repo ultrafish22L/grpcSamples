@@ -12,18 +12,27 @@
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
 #include <memory>
-class ApiNodeProxy;
-class ApiNodeGraphProxy;
-class ApiDBMaterialManagerProxy_DBCategoryArray;
-class ApiDBMaterialManagerProxy_DBMaterialArray;
+namespace OctaneGRPC
+{
+    class ApiNodeProxy;
+    class ApiNodeGraphProxy;
+    class ApiDBMaterialManagerProxy_DBCategoryArray;
+    class ApiDBMaterialManagerProxy_DBMaterialArray;
+}
 
 
 #include "apidbmaterialmanager.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiDBMaterialManager
 class ApiDBMaterialManagerProxy : public GRPCBase
@@ -132,6 +141,7 @@ public:
             const char *                              assetPath
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

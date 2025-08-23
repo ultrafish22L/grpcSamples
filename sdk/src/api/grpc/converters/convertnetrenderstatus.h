@@ -7,7 +7,13 @@
 namespace Octane { struct NetRenderStatus; }
 namespace octaneapi { class NetRenderStatus; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class NetRenderStatusConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::NetRenderStatus & in,
         octaneapi::NetRenderStatus & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

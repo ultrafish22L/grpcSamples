@@ -16,9 +16,15 @@
 #include "apisharedsurface.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiSharedSurface
 class ApiSharedSurfaceProxy : public GRPCBase
@@ -133,6 +139,7 @@ public:
     ///     Contains the status of the gRPC call
     uint64_t getD3D11AdapterLuid() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

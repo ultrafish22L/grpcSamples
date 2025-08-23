@@ -11,7 +11,7 @@ CollapsiblePanelStack::CollapsiblePanelStack()
 //:
   //  mApiPanelStack(NULL)
 {
-    mApiPanelStack = ApiCollapsiblePanelStackProxy::create();
+    mApiPanelStack = OctaneGRPC::ApiCollapsiblePanelStackProxy::create();
     mComponent     = &mApiPanelStack;
 }
 

@@ -20,6 +20,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void ApiCompatibilityModeInfoConverter::convert(
     const octaneapi::ApiCompatibilityModeInfo & in,
     Octane::ApiCompatibilityModeInfo & out)
@@ -46,4 +49,5 @@ void ApiCompatibilityModeInfoConverter::convert(
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

@@ -9,7 +9,7 @@ using namespace OctaneWrap;
 
 ProgressBar::ProgressBar()
 {
-    mApiProgressBar = ApiProgressBarProxy::create();
+    mApiProgressBar = OctaneGRPC::ApiProgressBarProxy::create();
     mComponent      = &mApiProgressBar;
 }
 

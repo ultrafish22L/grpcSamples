@@ -16,9 +16,15 @@
 #include "apinetrendermanager.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiNetRenderManager
 class ApiNetRenderManagerProxy : public GRPCBase
@@ -162,6 +168,7 @@ public:
             const Octane::IPv4T   ipAddress
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

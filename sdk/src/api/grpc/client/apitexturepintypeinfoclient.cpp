@@ -22,6 +22,10 @@
 #include "convertapitexturenodetypeinfo_configuration_parameters.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiTexturePinTypeInfoProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -31,7 +35,6 @@ GRPCSettings & ApiTexturePinTypeInfoProxy::getGRPCSettings()
 Octane::TextureValueType ApiTexturePinTypeInfoProxy::getTextureValueType(
             const Octane::ApiTextureNodeTypeInfo::Configuration::Parameters & configurationParameters
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -79,3 +82,4 @@ Octane::TextureValueType ApiTexturePinTypeInfoProxy::getTextureValueType(
 };
 
 
+} //end of namespace

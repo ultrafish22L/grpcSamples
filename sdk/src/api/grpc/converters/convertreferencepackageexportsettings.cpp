@@ -18,6 +18,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void ReferencePackageExportSettingsConverter::convert(
     const Octane::ReferencePackageExportSettings & in,
     octaneapi::ReferencePackageExportSettings & out)
@@ -75,4 +78,5 @@ void ReferencePackageExportSettingsConverter::convert(
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

@@ -13,7 +13,13 @@
 namespace Octane { struct RenderResultStatistics; }
 namespace octaneapi { class RenderResultStatistics; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class RenderResultStatisticsConverter
 {
 public:
@@ -25,4 +31,6 @@ public:
         const Octane::RenderResultStatistics & in,
         octaneapi::RenderResultStatistics & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

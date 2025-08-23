@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiCommandModuleInfoProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -35,7 +39,6 @@ ApiCommandModuleInfoProxy ApiCommandModuleInfoProxy::create(
             const char *const                         author,
             const Octane::VersionT                    versionNumber
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -158,7 +161,6 @@ void ApiCommandModuleInfoProxy::destroy()
 void ApiCommandModuleInfoProxy::setRunFunction(
             CommandModuleRunFuncT                     func
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -178,7 +180,7 @@ void ApiCommandModuleInfoProxy::setRunFunction(
     // Add the 'func' [in] parameter to the request packet.
     octaneapi::CommandModuleRunFuncT * funcIn = new octaneapi::CommandModuleRunFuncT();
     // setup callback function func
-    funcIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        funcIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_func(funcIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -214,7 +216,6 @@ void ApiCommandModuleInfoProxy::setRunFunction(
 void ApiCommandModuleInfoProxy::setIcon(
             const ApiImageProxy *const                icon
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -272,7 +273,6 @@ void ApiCommandModuleInfoProxy::assignShortcutKey(
             const int                                 shortcutKeyCode,
             const int                                 shortcutModifierKeyFlag
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -334,3 +334,4 @@ void ApiCommandModuleInfoProxy::assignShortcutKey(
 };
 
 
+} //end of namespace

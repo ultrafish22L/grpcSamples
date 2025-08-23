@@ -16,9 +16,15 @@
 #include "apioutputcolorspaceinfo.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiOutputColorSpaceInfo
 class ApiOutputColorSpaceInfoProxy : public GRPCBase
@@ -140,6 +146,7 @@ public:
             const ApiOutputColorSpaceInfoProxy *   other
             ) const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

@@ -106,20 +106,30 @@ class GrpcServiceRegistry:
         self.stubs = {}
         self.service_modules = {}
 
-    def get_moduleName(self, service_name, suffix, iter):
+    def get_moduleName(self, service_name, method_name, suffix, iter):
         try:
-            service_map = {
+            base_service_map = {
                 'ApiNodeGraph': 'apinodesystem_6',
                 'ApiNode': 'apinodesystem_7',
                 'ApiItem': 'apinodesystem_3',
                 'ApiItemArray': 'apinodesystem_1',
+#                'ApiItemArray': 'apiitemarray',
                 'ApiNodePinInfoEx': 'apinodepininfohelper',
                 'LiveLink': 'livelink',
                 'ApiRenderEngine': 'apirender',
-                'ApiItemGetter': "apinodesystem_2",
-                'ApiItemSetter': "apinodesystem_4",
+#                'ApiItemGetter': "apinodesystem_2",
+#                'ApiItemSetter': "apinodesystem_4",
             }
-            module_name = service_map.get(service_name)
+            get_service_map = {
+                'ApiNode': 'apinodesystem',
+                'ApiItem': 'apinodesystem_1',
+            }
+            module_name = None
+            if method_name == "get": 
+                module_name = get_service_map.get(service_name)
+            if not module_name:
+                module_name = base_service_map.get(service_name)
+            
             if not module_name:
                 module_name = service_name.lower()
     
@@ -129,13 +139,12 @@ class GrpcServiceRegistry:
             print(f"❌ Failed to find module for {service_name}: {e}")
             raise
         
-    def get_stub(self, service_name, channel):
+    def get_stub(self, service_name, method_name, channel):
         """Get or create a gRPC stub for the given service"""
+        module_name = self.get_moduleName(service_name, method_name, '_pb2_grpc', 1)
         if service_name in self.stubs:
-            return self.stubs[service_name]
-
-        module_name = self.get_moduleName(service_name, '_pb2_grpc', 1)
-
+            return self.stubs[module_name]
+        
         try:
             grpc_module = importlib.import_module(module_name)
         except ImportError as e:
@@ -162,7 +171,7 @@ class GrpcServiceRegistry:
 
         # Create and cache the stub
         stub = stub_class(channel)
-        self.stubs[service_name] = stub
+        self.stubs[module_name] = stub
 
         print(f"Created gRPC stub for {service_name} using {stub_class_name}")
         return stub
@@ -172,7 +181,7 @@ class GrpcServiceRegistry:
         try:
 #            print(f"Get request class for {service_name}.{method_name}")
 
-            module_name = self.get_moduleName(service_name, '_pb2', 1)
+            module_name = self.get_moduleName(service_name, method_name, '_pb2', 1)
 
             if not module_name:
                 # Default to Empty for unknown services
@@ -183,7 +192,7 @@ class GrpcServiceRegistry:
                 pb2_module = importlib.import_module(module_name)
             except ImportError:
                 return Empty
-
+ 
             # Remove numbers from method names to match protobuf class names (v2.4 working approach)
             method_name = re.sub(r'[0-9]', '', method_name)
             method_name1 = method_name[0].upper() + re.sub(r'Api', '', method_name[1:])
@@ -195,8 +204,8 @@ class GrpcServiceRegistry:
                 'ApiNodeGraph': 'ApiNodeGraph',
                 'ApiNode': 'ApiNode',
                 'ApiItem': 'ApiItem',
-                'ApiItemGetter': "ApiItem",
-                'ApiItemSetter': "ApiItem",
+#                'ApiItemGetter': "ApiItem",
+#                'ApiItemSetter': "ApiItem",
                 'ApiItemArray': 'ApiItemArray',
                 'ApiNodePinInfoEx': 'ApiNodePinInfoEx',
             }
@@ -623,10 +632,10 @@ async def handle_generic_grpc(request):
         service_name = path_match.group(1)
         method_name = path_match.group(2)
 
-#        print(f"\nService/Method: {service_name}/{method_name}")
+        print(f"\nService/Method: {service_name}/{method_name}")
 
         # Get the appropriate stub
-        stub = grpc_registry.get_stub(service_name, proxy.channel)
+        stub = grpc_registry.get_stub(service_name, method_name, proxy.channel)
 
         # Get the method from the stub
         method = getattr(stub, method_name, None)
@@ -634,9 +643,6 @@ async def handle_generic_grpc(request):
             print(f"❌ can't find method: {method_name}")
             return web.json_response({'success': False, 'error': f'Method {method_name} not found on {service_name}'}, status=404)
 
-#        if (method_name == "SetCamera"):
-#            print(f"   {method_name} {request}")
-        
         # Get request data from HTTP body
         request_data = {}
         if request.content_length and request.content_length > 0:

@@ -165,11 +165,11 @@ public:
 private:
 
     /// wrapped API filename instance
-    ApiFileNameProxy  mApiFileName;
+    OctaneGRPC::ApiFileNameProxy  mApiFileName;
 
     /// Takes ownership over passed in object.
     FileName(
-        const ApiFileNameProxy &apiFileName);
+        const OctaneGRPC::ApiFileNameProxy &apiFileName);
 };
 
 } // namespace OctaneWrap

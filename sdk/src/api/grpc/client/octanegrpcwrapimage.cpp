@@ -9,7 +9,7 @@ using namespace OctaneWrap;
 Image* Image::loadFromFile(
     const std::string &fullPath)
 {
-    ApiImageProxy apiImage = ApiImageProxy::loadFromFile(fullPath.c_str());
+    OctaneGRPC::ApiImageProxy apiImage = OctaneGRPC::ApiImageProxy::loadFromFile(fullPath.c_str());
     if (!apiImage.isNull())
     {
         return new Image(apiImage);
@@ -22,7 +22,7 @@ Image* Image::loadFromMemory(
     const void   *imageData,
     const size_t sizeInBytes)
 {
-    ApiImageProxy apiImage = ApiImageProxy::loadFromMemory(imageData, sizeInBytes);
+    OctaneGRPC::ApiImageProxy apiImage = OctaneGRPC::ApiImageProxy::loadFromMemory(imageData, sizeInBytes);
     if (!apiImage.isNull())
     {
         return new Image(apiImage);
@@ -37,7 +37,7 @@ Image::Image(
     const int                           height,
     const bool                          clear)
 {
-    mApiImage = ApiImageProxy::create(pixelFormat, width, height, clear);
+    mApiImage = OctaneGRPC::ApiImageProxy::create(pixelFormat, width, height, clear);
 }
 
 
@@ -47,7 +47,7 @@ Image::Image(
     const int                           height,
     const void *const                   data)
 {
-    mApiImage = ApiImageProxy::create(pixelFormat, width, height, data);
+    mApiImage = OctaneGRPC::ApiImageProxy::create(pixelFormat, width, height, data);
 }
 
 
@@ -157,20 +157,20 @@ void Image::desaturate()
 }
 
 
-ApiImageProxy* Image::wrappedImage()
+OctaneGRPC::ApiImageProxy* Image::wrappedImage()
 {
     return &mApiImage;
 }
 
 
-const ApiImageProxy* Image::wrappedImage() const
+const OctaneGRPC::ApiImageProxy* Image::wrappedImage() const
 {
     return &mApiImage;
 }
 
 
 Image::Image(
-    ApiImageProxy & apiImage)
+    OctaneGRPC::ApiImageProxy & apiImage)
 {
      mApiImage = apiImage;
 }

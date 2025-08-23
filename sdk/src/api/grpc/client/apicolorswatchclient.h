@@ -17,9 +17,15 @@
 #include "apicolorswatch.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiColorSwatch
 class ApiColorSwatchProxy : public ApiGuiComponentProxy
@@ -61,6 +67,7 @@ public:
     ///     Contains the status of the gRPC call
     Octane::ApiColorHdr color() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

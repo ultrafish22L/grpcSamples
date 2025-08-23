@@ -69,14 +69,14 @@ public:
 private:
 
     /// Wrapped ApiTextButton.
-    ApiTextButtonProxy          mApiTextButton;
+    OctaneGRPC::ApiTextButtonProxy  mApiTextButton;
     /// List of button listeners.
     std::vector<ButtonListener*> mListener;
 
     /// internal C callback
     static void buttonClicked(
-        ApiTextButtonProxy    &button,
-        void                  *privateData);
+        OctaneGRPC::ApiTextButtonProxy & button,
+        void *                           privateData);
 };
 
 } // namespace OctaneWrap

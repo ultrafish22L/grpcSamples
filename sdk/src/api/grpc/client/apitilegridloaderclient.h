@@ -11,15 +11,24 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiNodeProxy;
+namespace OctaneGRPC
+{
+    class ApiNodeProxy;
+}
 
 
 #include "apitilegrid.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiTileGridLoader
 class ApiTileGridLoaderProxy : public GRPCBase
@@ -232,6 +241,7 @@ public:
             const uint32_t                            v
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

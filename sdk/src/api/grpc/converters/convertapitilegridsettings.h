@@ -7,7 +7,13 @@
 namespace Octane { struct ApiTileGridSettings; }
 namespace octaneapi { class ApiTileGridSettings; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiTileGridSettingsConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiTileGridSettings & in,
         octaneapi::ApiTileGridSettings & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

@@ -234,12 +234,12 @@ class SceneOutlinerSync {
                 for (let i = size-1; i >= 0; i--) {
                     // Get the item
                     result = window.grpcApi.makeApiCallSync(
-                        'ApiItemArray/get1', 
+                        'ApiItemArray/get', 
                         ownedItemsHandle,
                         {index: i},
                     );
                     if (!result.success) {
-                        throw new Error('Failed ApiItemArray/get1');
+                        throw new Error('Failed ApiItemArray/get');
                     }
                     this.addSceneItem(result.data.result, sceneItems, level, null);
                 }

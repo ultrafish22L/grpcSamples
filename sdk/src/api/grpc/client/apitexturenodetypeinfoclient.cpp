@@ -24,9 +24,14 @@
 #include "convertapitexturenodetypeinfo_configuration_parameters.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiTextureNodeTypeInfoProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
 }
 
 
+} //end of namespace

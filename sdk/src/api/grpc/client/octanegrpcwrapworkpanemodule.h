@@ -63,14 +63,14 @@ namespace OctaneWrap
 
         /// Populates the grid with random components. We don't take ownership over the grid.
         virtual void onInit(
-            ApiGridLayoutProxy &parentGrid) = 0;
+            OctaneGRPC::ApiGridLayoutProxy &parentGrid) = 0;
 
     private:
 
         // Create function is called once after the workPane is created.
         template<class T> 
         static void* initCallback(
-            ApiGridLayoutProxy * parentGrid);
+            OctaneGRPC::ApiGridLayoutProxy * parentGrid);
 
         // Cleanup function is called when a work pane is being destroyed.
         static void cleanupCallback(
@@ -80,7 +80,7 @@ namespace OctaneWrap
 
     template<class T> 
     void* WorkPaneModule::initCallback(
-            ApiGridLayoutProxy * parentGrid)
+            OctaneGRPC::ApiGridLayoutProxy * parentGrid)
     {
         T* t = new T();
         t->onInit(*parentGrid);
@@ -99,7 +99,7 @@ namespace OctaneWrap
         const size_t            toolbarModuleIdsSize,
         const bool              isStaticallyLinked)
 {
-        ApiWorkPaneModuleInfoProxy info = ApiWorkPaneModuleInfoProxy::create(
+        OctaneGRPC::ApiWorkPaneModuleInfoProxy info = OctaneGRPC::ApiWorkPaneModuleInfoProxy::create(
             moduleId, fullName, description, author, versionNumber);
 
         info.setInitFunction(WorkPaneModule::initCallback<T>);
@@ -109,12 +109,12 @@ namespace OctaneWrap
         if (isStaticallyLinked)
         {
             // register as statically linked module
-            ApiModuleGlobalProxy::registerStaticWorkPaneModule(info);
+            OctaneGRPC::ApiModuleGlobalProxy::registerStaticWorkPaneModule(info);
         }
         else
         {
             // register as dynamically linked module
-            ApiModuleGlobalProxy::registerWorkPaneModule(info);
+            OctaneGRPC::ApiModuleGlobalProxy::registerWorkPaneModule(info);
         }
 
         info.destroy();

@@ -11,16 +11,25 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiGuiComponentProxy;
+namespace OctaneGRPC
+{
+    class ApiGuiComponentProxy;
+}
 #include "apiguicomponentclient.h"
 
 
 #include "apimodaldialog.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiModalDialog
 class ApiModalDialogProxy : public ApiGuiComponentProxy
@@ -116,6 +125,7 @@ public:
             const char *                              cancelButtonText
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiCustomCurveEditorControllerProxy_Drawer::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -31,7 +35,6 @@ void ApiCustomCurveEditorControllerProxy_Drawer::setColor(
             Octane::ApiCustomCurveEditorController::Drawer::Color color,
             float                                     opacity
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -50,7 +53,7 @@ void ApiCustomCurveEditorControllerProxy_Drawer::setColor(
     /////////////////////////////////////////////////////////////////////
     // Add the 'color' [in] parameter to the request packet.
     octaneapi::ApiCustomCurveEditorController_ApiCustomCurveEditorController_Drawer_Color colorIn;
-    colorIn = static_cast<octaneapi::ApiCustomCurveEditorController_ApiCustomCurveEditorController_Drawer_Color>(color);
+        colorIn = static_cast<octaneapi::ApiCustomCurveEditorController_ApiCustomCurveEditorController_Drawer_Color>(color);
     request.set_color(colorIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -92,7 +95,6 @@ void ApiCustomCurveEditorControllerProxy_Drawer::setClipRegionAndFillBackground(
             OctaneVec::int32_2                        size,
             int                                       cornerRadius
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -160,7 +162,6 @@ void ApiCustomCurveEditorControllerProxy_Drawer::drawRectangle(
             OctaneVec::int32_2                        position,
             OctaneVec::int32_2                        size
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -222,7 +223,6 @@ void ApiCustomCurveEditorControllerProxy_Drawer::fillRectangle(
             OctaneVec::int32_2                        position,
             OctaneVec::int32_2                        size
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -284,7 +284,6 @@ void ApiCustomCurveEditorControllerProxy_Drawer::fillCircle(
             OctaneVec::float_2                        center,
             float                                     radius
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -344,7 +343,6 @@ void ApiCustomCurveEditorControllerProxy_Drawer::fillCircle(
 void ApiCustomCurveEditorControllerProxy_Drawer::startPath(
             OctaneVec::float_2                        point
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -398,7 +396,6 @@ void ApiCustomCurveEditorControllerProxy_Drawer::startPath(
 void ApiCustomCurveEditorControllerProxy_Drawer::lineTo(
             OctaneVec::float_2                        point
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -454,7 +451,6 @@ void ApiCustomCurveEditorControllerProxy_Drawer::cubicBezierTo(
             OctaneVec::float_2                        controlPoint1,
             OctaneVec::float_2                        point
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -522,7 +518,6 @@ void ApiCustomCurveEditorControllerProxy_Drawer::cubicBezierTo(
 void ApiCustomCurveEditorControllerProxy_Drawer::finishPath(
             float                                     thickness
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -572,3 +567,4 @@ void ApiCustomCurveEditorControllerProxy_Drawer::finishPath(
 };
 
 
+} //end of namespace

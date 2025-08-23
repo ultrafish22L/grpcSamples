@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiSharedSurfaceProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -31,7 +35,6 @@ ApiSharedSurfaceProxy ApiSharedSurfaceProxy::createD3D11(
             uint64_t                                  adapterLuid,
             void *                                    handle
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -93,7 +96,6 @@ bool ApiSharedSurfaceProxy::equals(
             const ApiSharedSurfaceProxy *             a,
             const ApiSharedSurfaceProxy *             b
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -156,7 +158,6 @@ bool ApiSharedSurfaceProxy::isLessThan(
             const ApiSharedSurfaceProxy *             a,
             const ApiSharedSurfaceProxy *             b
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -218,7 +219,6 @@ bool ApiSharedSurfaceProxy::isLessThan(
 size_t ApiSharedSurfaceProxy::hash(
             const ApiSharedSurfaceProxy *             surface
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -467,3 +467,4 @@ uint64_t ApiSharedSurfaceProxy::getD3D11AdapterLuid() const
 };
 
 
+} //end of namespace

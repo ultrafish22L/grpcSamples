@@ -7,7 +7,13 @@
 namespace Octane { struct ApiBitMaskPinInfo; }
 namespace octaneapi { class ApiBitMaskPinInfo; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiBitMaskPinInfoConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiBitMaskPinInfo & in,
         octaneapi::ApiBitMaskPinInfo & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

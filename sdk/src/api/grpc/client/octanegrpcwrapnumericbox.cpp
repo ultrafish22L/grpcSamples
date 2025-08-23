@@ -12,7 +12,7 @@ using namespace OctaneWrap;
 NumericBox::NumericBox(
     const double step)
 {
-    mApiNumericBox = ApiNumericBoxProxy::create(step, onValueChanged, this);
+    mApiNumericBox = OctaneGRPC::ApiNumericBoxProxy::create(step, onValueChanged, this);
     mComponent     = &mApiNumericBox;
 }
 
@@ -62,8 +62,8 @@ void NumericBox::removeListener(
 
 
 void NumericBox::onValueChanged(
-    ApiNumericBoxProxy &   numericBox,
-    void                  *privateData)
+    OctaneGRPC::ApiNumericBoxProxy &   numericBox,
+    void *                             privateData)
 {
     NumericBox * myBox = static_cast<NumericBox*>(privateData);
     // notify listeners

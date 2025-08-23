@@ -7,7 +7,13 @@
 namespace Octane { struct ApiNodePinInfo; }
 namespace octaneapi { class ApiNodePinInfo; }
 
-struct ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    struct ApiNodeInfoProxy;
+}
+namespace OctaneGRPC
+{
+
 class ApiNodePinInfoConverter
 {
 public:
@@ -19,4 +25,6 @@ public:
         const Octane::ApiNodePinInfo & in,
         octaneapi::ApiNodePinInfo & out);
 };
+
+} //namespace OctaneGRPC;
 #endif // if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

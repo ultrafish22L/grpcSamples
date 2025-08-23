@@ -75,14 +75,14 @@ public:
 private:
 
     /// Wrapped checkbox
-    ApiCheckBoxProxy             mApiCheckBox;
+    OctaneGRPC::ApiCheckBoxProxy   mApiCheckBox;
     /// List of listeners.
     std::vector<CheckBoxListener*> mListeners;
 
     /// internal C callback
     static void onClicked(
-        ApiCheckBoxProxy &   checkBox,
-        void *               privateData);
+        OctaneGRPC::ApiCheckBoxProxy &  checkBox,
+        void *                          privateData);
 };
 
 } // namespace OctaneWrap

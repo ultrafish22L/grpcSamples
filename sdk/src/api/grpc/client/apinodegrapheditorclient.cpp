@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiNodeGraphEditorProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -33,7 +37,6 @@ ApiNodeGraphEditorProxy ApiNodeGraphEditorProxy::create(
             const bool                                unfold,
             void *                                    privateData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -147,7 +150,6 @@ void ApiNodeGraphEditorProxy::destroy()
 void ApiNodeGraphEditorProxy::setContentGraph(
             const ApiNodeGraphProxy *const            graph
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -203,7 +205,6 @@ void ApiNodeGraphEditorProxy::setContentGraph(
 void ApiNodeGraphEditorProxy::addGraph(
             const ApiNodeGraphProxy *const            graph
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -256,3 +257,4 @@ void ApiNodeGraphEditorProxy::addGraph(
 };
 
 
+} //end of namespace

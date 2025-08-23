@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiImageComponentProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -31,7 +35,6 @@ GRPCSettings & ApiImageComponentProxy::getGRPCSettings()
 ApiImageComponentProxy ApiImageComponentProxy::create(
             const ApiImageProxy &                     image
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -133,7 +136,6 @@ void ApiImageComponentProxy::destroy()
 void ApiImageComponentProxy::updateTo(
             const ApiImageProxy &                     image
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -186,3 +188,4 @@ void ApiImageComponentProxy::updateTo(
 };
 
 
+} //end of namespace

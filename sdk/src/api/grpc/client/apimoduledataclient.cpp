@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiModuleDataProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -32,7 +36,6 @@ ApiBinaryTableProxy ApiModuleDataProxy::loadApplicationData(
             const Octane::ModuleIdT                   moduleId,
             uint32_t &                                octaneVersion
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -93,7 +96,6 @@ bool ApiModuleDataProxy::storeApplicationData(
             const Octane::ModuleIdT                   moduleId,
             const ApiBinaryTableProxy &               table
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -149,3 +151,4 @@ bool ApiModuleDataProxy::storeApplicationData(
 };
 
 
+} //end of namespace

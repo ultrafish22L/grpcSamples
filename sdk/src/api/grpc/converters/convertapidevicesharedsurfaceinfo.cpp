@@ -20,6 +20,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void ApiDeviceSharedSurfaceInfoConverter::convert(
     const octaneapi::ApiDeviceSharedSurfaceInfo & in,
     Octane::ApiDeviceSharedSurfaceInfo & out)
@@ -44,4 +47,5 @@ void ApiDeviceSharedSurfaceInfoConverter::convert(
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

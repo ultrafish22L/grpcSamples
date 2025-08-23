@@ -16,9 +16,15 @@
 #include "apifilename.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiFileName
 class ApiFileNameProxy : public GRPCBase
@@ -258,6 +264,7 @@ public:
     ///     Contains the status of the gRPC call
     bool createDirectory() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

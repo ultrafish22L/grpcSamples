@@ -11,16 +11,25 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiNodeGraphProxy;
-class ApiTextureNodeTypeInfoProxy;
+namespace OctaneGRPC
+{
+    class ApiNodeGraphProxy;
+    class ApiTextureNodeTypeInfoProxy;
+}
 
 
 #include "apimaterialx.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiMaterialXGlobal
 class ApiMaterialXGlobalProxy : public GRPCBase
@@ -78,6 +87,7 @@ public:
             Octane::NodeGraphType   nodeGraphType
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

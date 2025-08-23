@@ -11,18 +11,27 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiNodePinInfoProxy;
-class ApiNodeProxy;
-class ApiImageProxy;
+namespace OctaneGRPC
+{
+    class ApiNodePinInfoProxy;
+    class ApiNodeProxy;
+    class ApiImageProxy;
+}
 #include "apinodegraphclient.h"
 
 
 #include "apimodulenodegraph.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiModuleNodeGraph
 class ApiModuleNodeGraphProxy : public ApiNodeGraphProxy
@@ -445,6 +454,7 @@ public:
             const char *                              statusText
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

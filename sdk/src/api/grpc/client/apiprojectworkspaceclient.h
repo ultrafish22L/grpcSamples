@@ -11,16 +11,25 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiNodeGraphEditorProxy;
+namespace OctaneGRPC
+{
+    class ApiNodeGraphEditorProxy;
+}
 #include "apiguicomponentclient.h"
 
 
 #include "apiprojectworkspace.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiProjectWorkspace
 class ApiProjectWorkspaceProxy : public ApiGuiComponentProxy
@@ -58,6 +67,7 @@ public:
     ///     The layout (OCL) serialized from the current layout.
     std::string serializeLayout() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

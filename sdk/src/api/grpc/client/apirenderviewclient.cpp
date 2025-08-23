@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiRenderViewProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -74,7 +78,6 @@ void ApiRenderViewProxy::destroy()
 ApiRenderViewProxy ApiRenderViewProxy::create(
             void *                                    privateData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -126,3 +129,4 @@ ApiRenderViewProxy ApiRenderViewProxy::create(
 };
 
 
+} //end of namespace

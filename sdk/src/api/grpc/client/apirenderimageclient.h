@@ -16,9 +16,15 @@
 #include "apirender.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiRenderImage
 class ApiRenderImageProxy : public GRPCBase
@@ -35,6 +41,7 @@ public:
     ///     Contains the status of the gRPC call
     bool isHdr() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

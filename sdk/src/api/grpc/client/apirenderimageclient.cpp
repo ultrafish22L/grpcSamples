@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiRenderImageProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -127,3 +131,4 @@ bool ApiRenderImageProxy::isHdr() const
 };
 
 
+} //end of namespace

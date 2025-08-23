@@ -14,7 +14,7 @@ namespace OctaneWrap
 
 //--------------------------------------------------------------------------------------------------
 /// Interface for observers of the project manager
-struct ProjectManagerObserver : public GRPCProjectManagerObserver
+struct ProjectManagerObserver : public OctaneGRPC::GRPCProjectManagerObserver
 {
 public:
 

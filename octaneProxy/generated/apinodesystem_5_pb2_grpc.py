@@ -20,8 +20,8 @@ class ApiNodeArrayServiceStub(object):
                 request_serializer=apinodesystem__5__pb2.ApiNodeArray.sizeRequest.SerializeToString,
                 response_deserializer=apinodesystem__5__pb2.ApiNodeArray.sizeResponse.FromString,
                 _registered_method=True)
-        self.get2 = channel.unary_unary(
-                '/octaneapi.ApiNodeArrayService/get2',
+        self.get1 = channel.unary_unary(
+                '/octaneapi.ApiNodeArrayService/get1',
                 request_serializer=apinodesystem__5__pb2.ApiNodeArray.getRequest.SerializeToString,
                 response_deserializer=apinodesystem__5__pb2.ApiNodeArray.getResponse.FromString,
                 _registered_method=True)
@@ -57,7 +57,7 @@ class ApiNodeArrayServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def get2(self, request, context):
+    def get1(self, request, context):
         """/ Returns the item at the given index (or NULL)
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -100,8 +100,8 @@ def add_ApiNodeArrayServiceServicer_to_server(servicer, server):
                     request_deserializer=apinodesystem__5__pb2.ApiNodeArray.sizeRequest.FromString,
                     response_serializer=apinodesystem__5__pb2.ApiNodeArray.sizeResponse.SerializeToString,
             ),
-            'get2': grpc.unary_unary_rpc_method_handler(
-                    servicer.get2,
+            'get1': grpc.unary_unary_rpc_method_handler(
+                    servicer.get1,
                     request_deserializer=apinodesystem__5__pb2.ApiNodeArray.getRequest.FromString,
                     response_serializer=apinodesystem__5__pb2.ApiNodeArray.getResponse.SerializeToString,
             ),
@@ -164,7 +164,7 @@ class ApiNodeArrayService(object):
             _registered_method=True)
 
     @staticmethod
-    def get2(request,
+    def get1(request,
             target,
             options=(),
             channel_credentials=None,
@@ -177,7 +177,7 @@ class ApiNodeArrayService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/octaneapi.ApiNodeArrayService/get2',
+            '/octaneapi.ApiNodeArrayService/get1',
             apinodesystem__5__pb2.ApiNodeArray.getRequest.SerializeToString,
             apinodesystem__5__pb2.ApiNodeArray.getResponse.FromString,
             options,

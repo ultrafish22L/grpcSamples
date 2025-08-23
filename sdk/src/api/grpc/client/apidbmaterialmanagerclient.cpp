@@ -25,6 +25,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiDBMaterialManagerProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -34,7 +38,6 @@ GRPCSettings & ApiDBMaterialManagerProxy::getGRPCSettings()
 bool ApiDBMaterialManagerProxy::getCategories(
             ApiDBMaterialManagerProxy_DBCategoryArray &list
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -84,7 +87,6 @@ bool ApiDBMaterialManagerProxy::getMaterials(
             const int                                 categoryId,
             ApiDBMaterialManagerProxy_DBMaterialArray &list
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -142,7 +144,6 @@ std::unique_ptr<uint8_t> ApiDBMaterialManagerProxy::getMaterialPreview(
             Octane::LiveDbThumbnailView               view,
             Octane::uint32_2 &                        size
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -164,7 +165,7 @@ std::unique_ptr<uint8_t> ApiDBMaterialManagerProxy::getMaterialPreview(
     /////////////////////////////////////////////////////////////////////
     // Add the 'view' [in] parameter to the request packet.
     octaneapi::LiveDbThumbnailView viewIn;
-    viewIn = static_cast<octaneapi::LiveDbThumbnailView>(view);
+        viewIn = static_cast<octaneapi::LiveDbThumbnailView>(view);
     request.set_view(viewIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -203,7 +204,7 @@ std::unique_ptr<uint8_t> ApiDBMaterialManagerProxy::getMaterialPreview(
                     throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
             }
         }
-        return nullptr;
+       return nullptr;
     }
 };
 
@@ -213,7 +214,6 @@ bool ApiDBMaterialManagerProxy::downloadMaterial(
             ApiNodeGraphProxy &                       destinationGraph,
             ApiNodeProxy **                           outputNode
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -278,7 +278,6 @@ ApiNodeProxy ApiDBMaterialManagerProxy::downloadMaterial(
             const int                                 materialId,
             const char *                              assetPath
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -336,3 +335,4 @@ ApiNodeProxy ApiDBMaterialManagerProxy::downloadMaterial(
 };
 
 
+} //end of namespace

@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiOcioConfigProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -30,7 +34,6 @@ GRPCSettings & ApiOcioConfigProxy::getGRPCSettings()
 ApiOcioConfigProxy ApiOcioConfigProxy::create(
             const char *                              filename
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -234,7 +237,6 @@ size_t ApiOcioConfigProxy::getRoleCount() const
 std::string ApiOcioConfigProxy::getRoleName(
             size_t                                    roleIndex
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -294,7 +296,6 @@ std::string ApiOcioConfigProxy::getRoleName(
 std::string ApiOcioConfigProxy::getRoleColorSpaceName(
             size_t                                    roleIndex
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -404,7 +405,6 @@ size_t ApiOcioConfigProxy::getColorSpaceCount() const
 std::string ApiOcioConfigProxy::getColorSpaceName(
             size_t                                    colorSpaceIndex
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -464,7 +464,6 @@ std::string ApiOcioConfigProxy::getColorSpaceName(
 size_t ApiOcioConfigProxy::getColorSpaceFamilyComponentCount(
             size_t                                    colorSpaceIndex
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -524,7 +523,6 @@ std::string ApiOcioConfigProxy::getColorSpaceFamilyComponent(
             size_t                                    colorSpaceIndex,
             size_t                                    familyComponentIndex
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -640,7 +638,6 @@ size_t ApiOcioConfigProxy::getDisplayCount() const
 std::string ApiOcioConfigProxy::getDisplayName(
             size_t                                    displayIndex
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -700,7 +697,6 @@ std::string ApiOcioConfigProxy::getDisplayName(
 size_t ApiOcioConfigProxy::getDisplayViewCount(
             size_t                                    displayIndex
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -760,7 +756,6 @@ std::string ApiOcioConfigProxy::getDisplayViewName(
             size_t                                    displayIndex,
             size_t                                    viewIndex
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -876,7 +871,6 @@ size_t ApiOcioConfigProxy::getLookCount() const
 std::string ApiOcioConfigProxy::getLookName(
             size_t                                    lookIndex
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -933,3 +927,4 @@ std::string ApiOcioConfigProxy::getLookName(
 };
 
 
+} //end of namespace

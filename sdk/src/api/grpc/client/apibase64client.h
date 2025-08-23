@@ -16,9 +16,15 @@
 #include "apibase64.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiBase64
 class ApiBase64Proxy : public GRPCBase
@@ -68,6 +74,7 @@ public:
             const bool                                useBase64Url
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

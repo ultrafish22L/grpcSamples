@@ -11,20 +11,29 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-class ApiNodePinInfoProxy;
-class ApiItemProxy;
-class ApiNodeProxy;
-class ApiImageProxy;
-class ApiRenderPassInfoProxy;
-class ApiNodeInfoProxy;
+namespace OctaneGRPC
+{
+    class ApiNodePinInfoProxy;
+    class ApiItemProxy;
+    class ApiNodeProxy;
+    class ApiImageProxy;
+    class ApiRenderPassInfoProxy;
+    struct ApiNodeInfoProxy;
+}
 
 
 #include "apiinfo.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiInfo
 class ApiInfoProxy : public GRPCBase
@@ -454,6 +463,7 @@ public:
             Octane::RenderPassId &                    renderPassId
             );
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

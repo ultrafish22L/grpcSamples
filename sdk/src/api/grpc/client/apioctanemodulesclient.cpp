@@ -22,6 +22,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiOctaneModulesProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -31,7 +35,6 @@ GRPCSettings & ApiOctaneModulesProxy::getGRPCSettings()
 bool ApiOctaneModulesProxy::setDirectory(
             const char *                              newPath
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -123,7 +126,6 @@ std::string ApiOctaneModulesProxy::getDirectory()
 ApiOctaneModuleInfoProxy ApiOctaneModulesProxy::getModuleInfo(
             const Octane::ModuleIdT                   moduleId
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -270,7 +272,6 @@ std::vector<Octane::ModuleIdT> ApiOctaneModulesProxy::getCommandModules()
 bool ApiOctaneModulesProxy::runCommandModule(
             const Octane::ModuleIdT                   moduleId
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -317,3 +318,4 @@ bool ApiOctaneModulesProxy::runCommandModule(
 };
 
 
+} //end of namespace

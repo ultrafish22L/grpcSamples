@@ -22,6 +22,10 @@
 #include "convertaabbf.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiReferenceGraphProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -31,7 +35,6 @@ GRPCSettings & ApiReferenceGraphProxy::getGRPCSettings()
 ApiReferenceGraphProxy ApiReferenceGraphProxy::create(
             ApiNodeGraphProxy &                       ownerGraph
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -89,7 +92,6 @@ ApiReferenceGraphProxy ApiReferenceGraphProxy::create(
 ApiReferenceGraphProxy ApiReferenceGraphProxy::obtain(
             ApiNodeGraphProxy *                       nodeGraph
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -248,7 +250,6 @@ size_t ApiReferenceGraphProxy::fetchAllBounds(
             Octane::AABBF *                           buffer,
             size_t                                    bufferSize
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -315,7 +316,6 @@ size_t ApiReferenceGraphProxy::fetchAllBounds(
 uint32_t ApiReferenceGraphProxy::totalAabbEntriesForOutput(
             uint32_t                                  outputIndex
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -376,7 +376,6 @@ size_t ApiReferenceGraphProxy::fetchBoundsForOutput(
             Octane::AABBF *                           buffer,
             size_t                                    bufferSize
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -446,3 +445,4 @@ size_t ApiReferenceGraphProxy::fetchBoundsForOutput(
 };
 
 
+} //end of namespace

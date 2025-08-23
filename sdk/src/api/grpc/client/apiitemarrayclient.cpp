@@ -16,9 +16,7 @@
 #include "octanereferenceexport.h"
 #include <grpcpp/grpcpp.h>
 #include "apinodesystem_1.grpc.pb.h"
-#include "apinodesystem_2.grpc.pb.h"
 #include "apinodesystem_3.grpc.pb.h"
-#include "apinodesystem_4.grpc.pb.h"
 #include "apinodesystem_5.grpc.pb.h"
 #include "apinodesystem_6.grpc.pb.h"
 #include "apinodesystem_7.grpc.pb.h"
@@ -28,6 +26,10 @@
 #include "stringmgr.h"
 #include "convertmatrix.h"
 #include "grpcsettings.h"
+
+
+namespace OctaneGRPC
+{
 
 
 GRPCSettings & ApiItemArrayProxy::getGRPCSettings()
@@ -89,7 +91,6 @@ size_t ApiItemArrayProxy::size() const
 ApiItemProxy ApiItemArrayProxy::get(
             const size_t                              index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -118,7 +119,7 @@ ApiItemProxy ApiItemArrayProxy::get(
     context = std::make_unique<grpc::ClientContext>();
     std::unique_ptr<octaneapi::ApiItemArrayService::Stub> stub =
         octaneapi::ApiItemArrayService::NewStub(getGRPCSettings().getChannel());
-    status = stub->get1(context.get(), request, &response);
+    status = stub->get(context.get(), request, &response);
 
     if (status.ok())
     {
@@ -210,7 +211,6 @@ std::vector<ApiItemProxy> ApiItemArrayProxy::items()
 void ApiItemArrayProxy::init(
             const size_t                              size
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -260,3 +260,4 @@ void ApiItemArrayProxy::init(
 };
 
 
+} //end of namespace

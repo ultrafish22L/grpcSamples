@@ -21,6 +21,9 @@ struct ApiNodeInfoProxy
 };
 #endif
 
+namespace OctaneGRPC
+{
+
 void ApiRenderPassInfoConverter::convert(
     const octaneapi::ApiRenderPassInfo & in,
     Octane::ApiRenderPassInfo & out)
@@ -105,4 +108,5 @@ void ApiRenderPassInfoConverter::convert(
 }
 
 
+} // namespace octaneGRPC
 #endif // #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

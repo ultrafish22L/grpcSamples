@@ -16,9 +16,15 @@
 #include "apidbmaterialmanager.h"
 
 
-class Convert;
+namespace OctaneGRPC
+{
+    class Convert;
+    class GRPCSettings;
+}
 
-class GRPCSettings;
+
+namespace OctaneGRPC
+{
 
 /// Proxy class for ApiDBMaterialManager_DBMaterialArray
 class ApiDBMaterialManagerProxy_DBMaterialArray : public GRPCBase
@@ -46,6 +52,7 @@ public:
     ///     Contains the status of the gRPC call
     size_t getCount() const;
 
-private:
     static GRPCSettings & getGRPCSettings();
 };
+
+} // end of namespace

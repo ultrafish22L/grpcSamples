@@ -1274,7 +1274,8 @@ message ApiArrayImageTypeT
         RENDER_ERROR_MODULE_LOAD_FAILED = 7;
         RENDER_ERROR_OSL = 8;
         RENDER_ERROR_OSL_INTERNAL = 9;
-        RENDER_ERROR_UNSPECIFIED = 10;
+        RENDER_ERROR_LOD_DATA = 10;
+        RENDER_ERROR_UNSPECIFIED = 11;
     }
 
     enum RenderJobAction 

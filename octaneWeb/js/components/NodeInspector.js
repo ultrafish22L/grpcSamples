@@ -545,11 +545,11 @@ class NodeInspector extends OctaneComponent {
             console.log(`handleParameterChange no callback for: `, nodeData.attrType);
             return;
         }
-        let callsig = "ApiItemGetter/set" + sig;
+        let callsig = "ApiItem/set" + sig;
         let result;
         try {        
              result = window.grpcApi.makeApiCallSync(
-                'ApiItemSetter/set27', 
+                'ApiItem/set27', 
                 nodeData.handle,
                 { id: window.OctaneTypes.AttributeId.A_VALUE,
                     value: newValue,
@@ -557,7 +557,7 @@ class NodeInspector extends OctaneComponent {
                 },
             );
             if (!result.success) {
-                throw new Error('Failed ApiItemSetter/set27');
+                throw new Error('Failed ApiItem/set27');
             }
         } catch (error) {
             console.error('❌ Failed handleParameterChange:', error);

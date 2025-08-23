@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiCheckBoxProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -32,7 +36,6 @@ ApiCheckBoxProxy ApiCheckBoxProxy::create(
             GRPCCheckedCallbackT                     callback,
             void *                                    privateData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -49,7 +52,7 @@ ApiCheckBoxProxy ApiCheckBoxProxy::create(
     // Add the 'callback' [in] parameter to the request packet.
     octaneapi::CheckedCallbackT * callbackIn = new octaneapi::CheckedCallbackT();
     // setup callback function callback
-    callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        callbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_callback(callbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -151,7 +154,6 @@ void ApiCheckBoxProxy::setChecked(
             const bool                                checked,
             const bool                                sendEvent
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -257,3 +259,4 @@ bool ApiCheckBoxProxy::isChecked() const
 };
 
 
+} //end of namespace

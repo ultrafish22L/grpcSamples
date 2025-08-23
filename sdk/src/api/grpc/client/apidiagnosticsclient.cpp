@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiDiagnosticsProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -31,7 +35,6 @@ void ApiDiagnosticsProxy::diagnosticCommand(
             const uint32_t                            commandType,
             const uint32_t                            delayInSeconds
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -78,3 +81,4 @@ void ApiDiagnosticsProxy::diagnosticCommand(
 };
 
 
+} //end of namespace

@@ -21,6 +21,10 @@
 #include "grpcsettings.h"
 
 
+namespace OctaneGRPC
+{
+
+
 GRPCSettings & ApiTableProxy::getGRPCSettings()
 {
     return GRPCSettings::getInstance();
@@ -36,7 +40,6 @@ ApiTableProxy ApiTableProxy::create(
             Octane::ApiTable::SelectionChangedCallbackT selectionChangedCallback,
             void *                                    privateData
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -68,21 +71,21 @@ ApiTableProxy ApiTableProxy::create(
     // Add the 'numRowsCallback' [in] parameter to the request packet.
     octaneapi::NumRowsCallbackT * numrowscallbackIn = new octaneapi::NumRowsCallbackT();
     // setup callback function numRowsCallback
-    numrowscallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        numrowscallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_numrowscallback(numrowscallbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'contentForCellCallback' [in] parameter to the request packet.
     octaneapi::ContentCallbackT * contentforcellcallbackIn = new octaneapi::ContentCallbackT();
     // setup callback function contentForCellCallback
-    contentforcellcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        contentforcellcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_contentforcellcallback(contentforcellcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
     // Add the 'selectionChangedCallback' [in] parameter to the request packet.
     octaneapi::SelectionChangedCallbackT * selectionchangedcallbackIn = new octaneapi::SelectionChangedCallbackT();
     // setup callback function selectionChangedCallback
-    selectionchangedcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
+        selectionchangedcallbackIn->set_callbacksource( GRPCSettings::getInstance().callbackSource() );
     request.set_allocated_selectionchangedcallback(selectionchangedcallbackIn);
 
     /////////////////////////////////////////////////////////////////////
@@ -241,7 +244,6 @@ void ApiTableProxy::selectRow(
             const bool                                dontScrollToShowThisRow,
             const bool                                deselectOthersFirst
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -307,7 +309,6 @@ void ApiTableProxy::selectRangeOfRows(
             const int                                 firstRow,
             const int                                 lastRow
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -366,7 +367,6 @@ void ApiTableProxy::selectRangeOfRows(
 void ApiTableProxy::deselectRow(
             const int                                 rowNumber
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -463,7 +463,6 @@ void ApiTableProxy::deselectAllRows()
 void ApiTableProxy::flipRowSelection(
             const int                                 rowNumber
             )
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -516,7 +515,6 @@ void ApiTableProxy::flipRowSelection(
 bool ApiTableProxy::isRowSelected(
             const int                                 rowNumber
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -625,7 +623,6 @@ int ApiTableProxy::numSelectedRows() const
 int ApiTableProxy::selectedRow(
             const int                                 index
             ) const
-
 {
     grpc::Status status = grpc::Status::OK;
     /////////////////////////////////////////////////////////////////////
@@ -731,3 +728,4 @@ int ApiTableProxy::lastRowSelected() const
 };
 
 
+} //end of namespace
