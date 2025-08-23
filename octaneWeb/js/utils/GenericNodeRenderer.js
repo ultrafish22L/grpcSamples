@@ -257,11 +257,11 @@ class GenericNodeRenderer {
             const result = str.startsWith("AT_") ? str.substring(3) : str;
             return result ? result.charAt(0).toUpperCase() + result.slice(1).toLowerCase() : result;
         };
-        let callsig = "ApiItem/get"; // + stripAtAndCamelCase(nodeData.attrType);
+        // getByAttrID
         let result;
         try {   
             result = window.grpcApi.makeApiCallSync(
-                callsig, 
+                "ApiItem/getByAttrID", 
                 nodeData.handle,
                 { id: window.OctaneTypes.AttributeId.A_VALUE },
             );

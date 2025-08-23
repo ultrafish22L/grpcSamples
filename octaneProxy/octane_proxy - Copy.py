@@ -167,111 +167,47 @@ class GrpcServiceRegistry:
 
         print(f"Created gRPC stub for {service_name} using {stub_class_name}")
         return stub
-    
+
     def get_request_class(self, service_name, method_name):
         """Get the request class for a service method"""
         try:
 #            print(f"Get request class for {service_name}.{method_name}")
-
             module_name = self.get_moduleName(service_name, method_name, '_pb2', 1)
-
             if not module_name:
                 # Default to Empty for unknown services
+                print(f"❌ Failed get_request_class get_moduleName {service_name}.{method_name}")
                 return Empty
 
             # Import the protobuf module
             try:
                 pb2_module = importlib.import_module(module_name)
             except ImportError:
+                print(f"❌ Failed get_request_class import_module {service_name}.{method_name}")
                 return Empty
- 
-            # GetNodePinInfoRequest
-# Service/Method: ApiProjectManager/rootNodeGraph
-# Created gRPC stub for ApiProjectManager using ApiProjectManagerServiceStub
-# GOT request class for ApiProjectManager.rootNodeGraph <class 'apiprojectmanager_pb2.ApiProjectManager.rootNodeGraphRequest'> : rootNodeGraphRequest
 
-
-#Service/Method: ApiNode/pinLabelIx
-# CHECKING1 request class for ApiNode <module 'apinodesystem_7_pb2' from 'C:\\otoyla\\GRPC\\dev\\grpcSamples\\octaneProxy\\generated\\apinodesystem_7_pb2.py'>
-# CHECKING1 request class for pinLabelIxRequest <class 'apinodesystem_7_pb2.ApiNode'>
-# GOT request class for ApiNode.pinLabelIx <class 'apinodesystem_7_pb2.ApiNode.pinLabelIxRequest'> : pinLabelIxRequest
-# CHECKING1 request class for apiprojectmanager_pb2 <module 'apiprojectmanager_pb2' from 'C:\\otoyla\\GRPC\\dev\\grpcSamples\\octaneProxy\\generated\\apiprojectmanager_pb2.py'>
+            methodRequestMap = {
+                "getByAttrID": "getValueByIDRequest", 
+                "getByName": "getValueByNameRequest",
+                "getByIx": "getValueByIx"
+                } 
             
-            # Remove numbers from method names to match protobuf class names (v2.4 working approach)
-            method_name = re.sub(r'[0-9]', '', method_name)
-            method_name1 = method_name[0].upper() + re.sub(r'Api', '', method_name[1:])
+            request_class = methodRequestMap.get(method_name)
+            if not request_class:
+                request_class = method_name
+            request_class += "Request"
 
-            # Map service names to protobuf class names
-            service_to_class_map = {
-                'ApiRenderEngine': 'ApiRenderEngine',
-                'LiveLink': 'LiveLink',
-                'ApiNodeGraph': 'ApiNodeGraph',
-                'ApiNode': 'ApiNode',
-                'ApiItem': 'ApiItem',
-                'ApiItemGetter': "ApiItem",
-                'ApiItemSetter': "ApiItem",
-                'ApiItemArray': 'ApiItemArray',
-                'ApiNodePinInfoEx': 'ApiNodePinInfoEx',
-            }
-            
-            # Get the correct class name for the service
-            class_name = service_to_class_map.get(service_name, service_name)
-
-            # Special cases for methods that don't follow the standard naming pattern
-            special_cases = {
-                ('LiveLink', 'SetCamera'): 'CameraState',
-                ('LiveLink', 'GetCamera'): 'Empty',
-                ('LiveLink', 'GetMeshes'): 'Empty',
-                ('LiveLink', 'GetMesh'): 'MeshRequest',
-            }
-            
-            # Check for special cases first
-            special_key = (service_name, method_name)
-            if special_key in special_cases:
-                special_class_name = special_cases[special_key]
-                if hasattr(pb2_module, special_class_name):
-                    return getattr(pb2_module, special_class_name)
-            
-            # Try common request class naming patterns (v2.4 working patterns)
-            request_class_patterns = [
-                f"{class_name}.{method_name}Request",
-                f"{class_name}.{method_name1}Request",
-                f"{service_name}.{method_name}Request",
-                f"{service_name}.{method_name1}Request",
-            ]
-            # GetNodePinInfoRequest
-
-            thepattern = ""
-            for pattern in request_class_patterns:
-                # Handle nested class names (e.g., ApiProjectManager.rootNodeGraphRequest)
-                if '.' in pattern:
-                    parts = pattern.split('.')
-                    request_class = pb2_module
-
-                    for part in parts:
-#                        print(f" CHECKING1 request class for {part} {request_class}")
-                        if hasattr(request_class, part):
-                            request_class = getattr(request_class, part)
-                            thepattern = str(request_class) + str(part)
-                        else:
-                            request_class = None
-                            thepattern = ""
-                            break
-                else:
-#                    print(f" CHECKING2 request class for {pattern} {request_class}")
-                    request_class = getattr(pb2_module, pattern, None)
-                    thepattern = str(request_class) + str(pattern)
-
+            if  hasattr(pb2_module, request_class):
+                request_class = getattr(pb2_module, request_class)
                 if request_class:
-#                    print(f" FINAL request class for {service_name}.{method_name} {thepattern}")
+                    print(f"GOT request class for {service_name}.{method_name}: {request_class}")
                     return request_class
-
-            # Default to Empty if no request class found
-            print(f"❌ Failed to get request class for {service_name}.{method_name} = {request_class}")
+                
+            print(f"❌ Failed to get request class for {service_name}.{method_name}: {request_class}")
+            # Default to Empty for unknown services
             return Empty
 
         except Exception as e:
-            print(f"❌ Failed to get request class for {service_name}.{method_name}: {e}")
+            print(f"❌ Exception request class for {service_name}.{method_name}: {e}")
             return Empty
 
 # Global service registry
