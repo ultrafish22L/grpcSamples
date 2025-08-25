@@ -193,9 +193,13 @@ class GrpcServiceRegistry:
 #                'getByName': 'getValueByNameRequest',
 #                'getByIx': 'getValueByIxRequest',
 #            }
-#            special_class  = special_request_classes[method_name]
-#            if special_class:
+#            special_class = special_request_classes[method_name]
+#            if special_class != None:
 #                method_name = special_class
+            if method_name == 'getByAttrID':
+                method_name = 'getValueByID'
+            elif method_name == 'getApiNodePinInfo':
+                method_name = 'GetNodePinInfo'
 
             pattern = f"{service_name}.{method_name}Request"
             if '.' in pattern:
@@ -577,9 +581,6 @@ async def handle_generic_grpc(request):
         
         # Parse the URL path to extract service and method
         path = request.path
-#        print(f"\nGENERIC gRPC REQUEST ===")
-#        print(f" Path: {path}")
-#        print(f" Remote: {request.remote}")
         
         # Extract service and method from path
         # Patterns: /octaneapi.ServiceName/methodName or /livelinkapi.ServiceName/methodName
@@ -611,33 +612,32 @@ async def handle_generic_grpc(request):
                 pass  # Empty or invalid JSON is OK for some requests
 
         # Get the request class and create the request
-#        print(f"Request data: {json.dumps(request_data, indent=2)}")
+        print(f"Request data: {json.dumps(request_data, indent=2)}")
         request_class = grpc_registry.get_request_class(service_name, method_name)
         grpc_request = request_class()
-#        print(f" grpc_request: {str(grpc_request.DESCRIPTOR)}")
-
-        # Print relevant information from the descriptor
-#        print(f"Name: {grpc_request.DESCRIPTOR.name}")
-#        print(f"Full Name: {grpc_request.DESCRIPTOR.full_name}")
-#        print("Fields:")
-#        for field in grpc_request.DESCRIPTOR.fields:
-#            print(f"  - Name: {field.name}, Number: {field.number}")
 
         # Populate request fields from JSON data
         if request_data:
-#            print(f" req: {request_data}")
+            print(f" req: {request_data}")
             for key, value in request_data.items():
                 if not recurse_attr(grpc_request, key, value):
                     if key == "objectPtr":
-                        if not recurse_attr(grpc_request, "nodePinInfoRef", value):
-                            print(f"❌ no REQUEST KEY: {key}")
-                    else:
-                            print(f"❌ no REQUEST KEY: {key}")
+                        print(f"REQUEST KEY: {key}")
+                        # Print relevant information from the descriptor
+                        print(f"Name: {grpc_request.DESCRIPTOR.name}")
+                        print(f"Full Name: {grpc_request.DESCRIPTOR.full_name}")
+                        print("Fields:")
+                        for field in grpc_request.DESCRIPTOR.fields:
+                            print(f"  - Name: {field.name}, Number: {field.number}")
+
+                        if not recurse_attr(grpc_request, "nodePinInfoRef", value): # GetNodePinInfoRequest
+                            if not recurse_attr(grpc_request, "item_ref", value):     # getValueByIDRequest                          
+                                print(f"❌ no REQUEST KEY: {key}")
 
         # Make the gRPC call
-#        print(f"req:  {grpc_request}")        
+        print(f"req:  {grpc_request}")        
         response = await method(grpc_request)
-#        print(f"resp: {response}")
+        print(f"resp: {response}")
 
         # Convert response to dict
         success = False

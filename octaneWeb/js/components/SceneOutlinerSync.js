@@ -288,7 +288,18 @@ class SceneOutlinerSync {
                     throw new Error('Failed ApiNode/pinLabelIx');
                 }
                 let pinInfo = { staticLabel: result.data.result, index:i };
-                
+
+                // Get the pin info handle
+                result = window.grpcApi.makeApiCallSync(
+                    'ApiNode/pinTypeIx', 
+                    itemHandle,
+                    {index: i},
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNode/pinTypeIx');
+                }
+                pinInfo.attrType = result.data.result;
+/*                
                 // Get the pin info handle
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNode/pinInfoIx', 
@@ -298,8 +309,9 @@ class SceneOutlinerSync {
                 if (!result.success) {
                     throw new Error('Failed ApiNode/pinInfoIx');
                 }
+
                 console.log('before ApiNodePinInfoEx/getApiNodePinInfo', result.data.result.handle);
-/*
+
                 // Get the pin info 
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNodePinInfoEx/getApiNodePinInfo', 

@@ -257,19 +257,21 @@ class GenericNodeRenderer {
             const result = str.startsWith("AT_") ? str.substring(3) : str;
             return result ? result.charAt(0).toUpperCase() + result.slice(1).toLowerCase() : result;
         };
-        // getByAttrID
+        // get the end node's value
         let result;
         try {   
             result = window.grpcApi.makeApiCallSync(
                 "ApiItem/getByAttrID", 
                 nodeData.handle,
-                { id: window.OctaneTypes.AttributeId.A_VALUE },
+                { attribute_id: window.OctaneTypes.AttributeId.A_VALUE,
+                  expected_type: nodeData.pinInfo.attrType,
+                },
             );
             if (!result.success) {
-                throw new Error('Failed getValue', callsig);
+                throw new Error('Failed getValue', "ApiItem/getByAttrID");
             }
         } catch (error) {
-            console.error('❌ Failed getValue:', callsig, error);
+            console.error('❌ Failed getValue:', "ApiItem/getByAttrID", error);
         }
         let value = result.data.result;
         value = Array.isArray(value) ? value[0] : value;
