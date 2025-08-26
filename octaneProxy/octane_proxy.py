@@ -39,6 +39,8 @@ from google.protobuf.json_format import MessageToDict, ParseDict
 from google.protobuf.message import Message
 from google.protobuf.empty_pb2 import Empty
 
+DO_LOGGING_LEVEL = 2
+
 # Import callback streaming system
 from callback_streamer import get_callback_streamer, initialize_callback_system
 
@@ -53,7 +55,7 @@ def get_enum_value(enum_name):
             return getattr(enums, enum_name)
         return None
     except Exception as e:
-        print(f"❌ Failed to get enum value for {enum_name}: {e}")
+        print(f"❌ Failed get_enum_value(): {enum_name}: {e}")
         return None
 
 # Import core protobuf modules from generated directory
@@ -124,7 +126,7 @@ class GrpcServiceRegistry:
             return module_name + suffix
         
         except Exception as e:
-            print(f"❌ Failed to find module for {service_name}: {e}")
+            print(f"❌ Failed get_moduleName(): {service_name}: {e}")
             raise
         
     def get_stub(self, service_name, method_name, channel):
@@ -137,7 +139,7 @@ class GrpcServiceRegistry:
         try:
             grpc_module = importlib.import_module(module_name)
         except ImportError as e:
-            print(f"❌ Failed to load module {module_name}: {e}")
+            print(f"❌ Failed get_stub(): no module {module_name}: {e}")
             raise
 
         # Get the stub class (convention: ServiceNameStub)
@@ -164,12 +166,10 @@ class GrpcServiceRegistry:
     def get_request_class(self, service_name, method_name):
         """Get the request class for a service method"""
         try:
-#            print(f"Get request class for {service_name}.{method_name}")
-
             module_name = self.get_moduleName(service_name, method_name, '_pb2', 1)
 
             if not module_name:
-                # Default to Empty for unknown services
+                print(f"❌ Failed get_request_class(): no module {module_name}: {e}")
                 return Empty
 
             # Import the protobuf module
@@ -192,6 +192,8 @@ class GrpcServiceRegistry:
                 method_name = 'setValueByIx'
             elif method_name == 'getApiNodePinInfo':
                 method_name = 'GetNodePinInfo'
+            elif method_name == 'info1':
+                method_name = 'info'
 
             pattern = f"{service_name}.{method_name}Request"
             if '.' in pattern:
@@ -199,30 +201,29 @@ class GrpcServiceRegistry:
                 request_class = pb2_module
 
                 for part in parts:
-#                        print(f" CHECKING1 request class for {part} {request_class}")
                     if hasattr(request_class, part):
                         request_class = getattr(request_class, part)
                     else:
                         request_class = None
                         break
             else:
-#                    print(f" CHECKING2 request class for {pattern} {request_class}")
                 request_class = getattr(pb2_module, pattern, None)
 
             if request_class:
-#                print(f"GOT request class for {service_name}.{method_name} {pattern}")
+                if DO_LOGGING_LEVEL > 1:
+                    print(f"GOT request class for {service_name}.{method_name} {pattern}")
                 return request_class
 
             # Default to Empty if no request class found
-            print(f"❌ Failed to get request class for {service_name}.{method_name} = {pattern}")
+            print(f"❌ Failed get_request_class(): {service_name}.{method_name} = {pattern}")
             return Empty
 
         except Exception as e:
-            print(f"❌ Failed to get request class for {service_name}.{method_name}: {e}")
+            print(f"❌ Failed get_request_class(): {service_name}.{method_name}: {e}")
             return Empty
 
         except Exception as e:
-            print(f"❌ Failed to get request class for {service_name}.{method_name}: {e}")
+            print(f"❌ Failed get_request_class(): {service_name}.{method_name}: {e}")
             return Empty
 
 # Global service registry
@@ -240,7 +241,7 @@ class ComprehensiveOctaneProxy:
         self.success_count = 0
         self.error_count = 0
 
-        print(f"LOCKIT: Robust Octane gRPC Proxy Server")
+        print(f"Octane gRPC Passthrough Proxy Server")
         print(f"Proxy Port: {PROXY_PORT}")
         print(f"Octane Target: {self.octane_address}")
         print(f"Docker Support: {os.environ.get('SANDBOX_USE_HOST_NETWORK', 'false')}")
@@ -264,7 +265,7 @@ class ComprehensiveOctaneProxy:
             return True
             
         except Exception as e:
-            print(f"❌ Failed to connect to Octane at {self.octane_address}: {e}")
+            print(f"❌ Failed connect_to_octane(): {self.octane_address}: {e}")
             return False
 
     def clear_debug_logs(self):
@@ -444,7 +445,7 @@ async def handle_save_debug_logs(request):
         })
         
     except Exception as e:
-        print(f"❌ Error saving debug logs: {e}")
+        print(f"❌ Error handle_save_debug_logs(): {e}")
         return web.json_response(
             {'error': f'Failed to save debug logs: {str(e)}'},
             status=500,
@@ -485,7 +486,7 @@ async def handle_get_debug_logs(request):
             )
             
     except Exception as e:
-        print(f"❌ Error retrieving debug logs: {e}")
+        print(f"❌ Error handle_get_debug_logs(): {e}")
         return web.json_response(
             {'error': f'Failed to retrieve debug logs: {str(e)}'},
             status=500,
@@ -578,13 +579,14 @@ async def handle_generic_grpc(request):
         # Patterns: /octaneapi.ServiceName/methodName or /livelinkapi.ServiceName/methodName
         path_match = re.match(r'^/(?:octaneapi\.|livelinkapi\.)?([^/]+)/([^/]+)$', path)
         if not path_match:
-            print(f"❌ Invalid path format: {path}")
+            print(f"❌ Error handle_generic_grpc(): call path: {path}")
             return web.json_response({'success': False, 'error': 'Invalid path format'}, status=400)
 
         service_name = path_match.group(1)
         method_name = path_match.group(2)
 
-#        print(f"\nService/Method: {service_name}/{method_name}")
+        if DO_LOGGING_LEVEL > 0:
+            print(f"\nService/Method: {service_name}/{method_name}")
 
         # Get the appropriate stub
         stub = grpc_registry.get_stub(service_name, method_name, proxy.channel)
@@ -592,7 +594,7 @@ async def handle_generic_grpc(request):
         # Get the method from the stub
         method = getattr(stub, method_name, None)
         if not method:
-            print(f"❌ can't find method: {method_name}")
+            print(f"❌ Error handle_generic_grpc(): no method: {method_name}")
             return web.json_response({'success': False, 'error': f'Method {method_name} not found on {service_name}'}, status=404)
 
         # Get request data from HTTP body
@@ -604,31 +606,34 @@ async def handle_generic_grpc(request):
                 pass  # Empty or invalid JSON is OK for some requests
 
         # Get the request class and create the request
-        print(f"Request data: {json.dumps(request_data, indent=2)}")
+        if DO_LOGGING_LEVEL > 1:
+            print(f"Request sent: {json.dumps(request_data, indent=2)}")
         request_class = grpc_registry.get_request_class(service_name, method_name)
         grpc_request = request_class()
 
         # Populate request fields from JSON data
         if request_data:
-#            print(f" req: {request_data}")
             for key, value in request_data.items():
                 if not recurse_attr(grpc_request, key, value):
                     if key == "objectPtr":
-                        print(f"REQUEST KEY: {key}")
-                        print(f"Name: {grpc_request.DESCRIPTOR.name}")
-                        print(f"Full Name: {grpc_request.DESCRIPTOR.full_name}")
-                        print("Fields:")
-                        for field in grpc_request.DESCRIPTOR.fields:
-                            print(f"  - Name: {field.name}, Number: {field.number}")
+                        if DO_LOGGING_LEVEL > 1:
+                            print(f"REQUEST KEY: {key}")
+                            print(f"Name: {grpc_request.DESCRIPTOR.name}")
+                            print(f"Full Name: {grpc_request.DESCRIPTOR.full_name}")
+                            print("Fields:")
+                            for field in grpc_request.DESCRIPTOR.fields:
+                                print(f"  - Name: {field.name}, Number: {field.number}")
 
                         if not recurse_attr(grpc_request, "nodePinInfoRef", value): # GetNodePinInfoRequest
                             if not recurse_attr(grpc_request, "item_ref", value):     # getValueByIDRequest                          
-                                print(f"❌ no REQUEST KEY: {key}")
+                                print(f"❌ Error handle_generic_grpc(): no REQUEST KEY: {key}")
 
         # Make the gRPC call
-        print(f"req:  {grpc_request}")        
+        if DO_LOGGING_LEVEL > 0:
+            print(f"req:  {grpc_request}")        
         response = await method(grpc_request)
-#        print(f"resp: {response}")
+        if DO_LOGGING_LEVEL > 0:
+            print(f"resp: {response}")
 
         # Convert response to dict
         success = False
@@ -637,7 +642,7 @@ async def handle_generic_grpc(request):
             proxy.success_count += 1
             success = True
         else:
-            print(f"❌ no response dict")
+            print(f"❌ Error handle_generic_grpc(): no response dict")
 
         return web.json_response({
             'success': success,
@@ -645,7 +650,7 @@ async def handle_generic_grpc(request):
         })
 
     except Exception as e:
-        print(f"❌ ERROR: {e}")
+        print(f"❌ Error handle_generic_grpc(): {e}")
         print(f"❌ Traceback: {traceback.format_exc()}")
         proxy.error_count += 1
 
@@ -681,7 +686,7 @@ async def handle_register_callback(request):
             }, status=500)
             
     except Exception as e:
-        print(f"❌ Error registering callback: {e}")
+        print(f"❌ Error handle_register_callback(): {e}")
         return web.json_response({
             'success': False,
             'error': str(e)
@@ -720,7 +725,7 @@ async def handle_stream_events(request):
                 event_data = f"data: {json.dumps(data)}\n\n"
                 await response.write(event_data.encode('utf-8'))
             except Exception as e:
-                print(f"❌ Error sending SSE to {client_id}: {e}")
+                print(f"❌ Error client_callback(): sending SSE to {client_id}: {e}")
                 raise
         
         # Add client to streamer with main event loop reference
@@ -757,7 +762,7 @@ async def handle_stream_events(request):
                 except asyncio.CancelledError:
                     break
                 except Exception as e:
-                    print(f"❌ SSE connection error for {client_id}: {e}")
+                    print(f"❌ Error handle_stream_events(): SSE connection error for {client_id}: {e}")
                     break
         
         finally:
@@ -768,7 +773,7 @@ async def handle_stream_events(request):
         return response
         
     except Exception as e:
-        print(f"❌ Error in SSE stream: {e}")
+        print(f"❌ Error handle_stream_events(): in SSE stream: {e}")
         return web.json_response({
             'error': str(e)
         }, status=500)
@@ -850,7 +855,7 @@ async def main():
     """Main entry point"""
     global proxy
     
-    print(f"LOCKIT: Starting Robust Octane gRPC Proxy Server")
+    print(f"Starting Robust Octane gRPC Passthrough Proxy Server")
     print(f"Proxy Port: {PROXY_PORT}")
     print(f"Octane Target: {get_octane_address()}")
     print(f"Docker Support: {os.environ.get('SANDBOX_USE_HOST_NETWORK', 'false')}")

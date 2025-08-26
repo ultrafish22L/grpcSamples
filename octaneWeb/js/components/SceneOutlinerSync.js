@@ -179,10 +179,12 @@ class SceneOutlinerSync {
         if (sceneItems == null) {
             sceneItems = [];
         }
+        let graphInfo
+        let nodeInfo
         try {
             if (itemHandle == null)
             {
-                // Get the itemHandle node
+                // first call, get the root
                 result = window.grpcApi.makeApiCallSync(
                     'ApiProjectManager/rootNodeGraph'
                 );
@@ -191,7 +193,7 @@ class SceneOutlinerSync {
                 }
                 itemHandle = result.data.result.handle;
             }
-            // Get isGraph
+            // is it a graph or node?
             result = window.grpcApi.makeApiCallSync(
                 'ApiItem/isGraph', 
                 itemHandle 
@@ -202,10 +204,19 @@ class SceneOutlinerSync {
             if (result.data.result)
             {
                 // its a graph
+                result = window.grpcApi.makeApiCallSync(
+                    'ApiNodeGraph/info1', 
+                    itemHandle,
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNodeGraph/info1');
+                }
+                graphInfo = result.data.data;
+
                 // Get owned items
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNodeGraph/getOwnedItems', 
-                    itemHandle
+                    itemHandle,
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiNodeGraph/getOwnedItems');
@@ -215,15 +226,15 @@ class SceneOutlinerSync {
                 // Get the size of the item array
                 result = window.grpcApi.makeApiCallSync(
                     'ApiItemArray/size', 
-                    ownedItemsHandle
+                    ownedItemsHandle,
                 );
                 if (!result.success) {
                     throw new Error('Failed ApiItemArray/size');
                 }
                 const size = result.data.result;
 
-                for (let i = size-1; i >= 0; i--) {
-                    // Get the item
+                for (let i = 0; i < size; i++) {
+                    // get it
                     result = window.grpcApi.makeApiCallSync(
                         'ApiItemArray/get', 
                         ownedItemsHandle,
@@ -232,17 +243,27 @@ class SceneOutlinerSync {
                     if (!result.success) {
                         throw new Error('Failed ApiItemArray/get');
                     }
-                    this.addSceneItem(result.data.result, sceneItems, level, null);
+                    // will recurse to loadSceneTreeSync()
+                    this.addSceneItem(sceneItems, result.data.result, level, graphInfo);
                 }
 //                sceneItems.sort((a, b) => a.handle - b.handle); 
 
-                sceneItems.forEach((item, index) => {
-                    console.log('ITEM ', item.name, item.handle);
-                });
                 return sceneItems
             }
             // its a node
+            result = window.grpcApi.makeApiCallSync(
+                'ApiNode/info', 
+                itemHandle,
+            );
+            if (!result.success) {
+                throw new Error('Failed ApiNode/info');
+            }
+            nodeInfo = result.data.result
+                        
             // Get the pins
+            // pinCount may not == pinInfoCount
+            let pinCount = nodeInfo.pinInfoCount;
+
             result = window.grpcApi.makeApiCallSync(
                 'ApiNode/pinCount', 
                 itemHandle
@@ -250,7 +271,8 @@ class SceneOutlinerSync {
             if (!result.success) {
                 throw new Error('Failed ApiNode/pinCount');
             }
-            const pinCount = result.data.result;
+            pinCount = result.data.result;
+            console.log(`pinCount = ${pinCount} nodeInfo.pinInfoCount = ${nodeInfo.pinInfoCount}`);  
 
             for (let i = 0; i < pinCount; i++) {
                 // Get the pin connected node
@@ -316,7 +338,8 @@ class SceneOutlinerSync {
                 console.log('pinInfo ', JSON.stringify(result));
                 pinInfo = result.data.result;
 */
-                this.addSceneItem(connectedNode, sceneItems, level, pinInfo);
+                // will recurse to loadSceneTreeSync()
+                this.addSceneItem(sceneItems, connectedNode, level, graphInfo, nodeInfo, pinInfo);
             }
         } catch (error) {
             console.error('❌ Failed loadSceneTreeSync:', error);
@@ -329,7 +352,7 @@ class SceneOutlinerSync {
     /**
 
      */
-    addSceneItem(item, sceneItems, level, pinInfo) { 
+    addSceneItem(sceneItems, item, level = 0, graphInfo = null, nodeInfo = null, pinInfo = null) { 
 
         let itemName;
         let outType;
@@ -340,6 +363,8 @@ class SceneOutlinerSync {
         try {
             let result;
             
+            // basic item params
+            // name
             result = window.grpcApi.makeApiCallSync(
                 'ApiItem/name',
                 item.handle
@@ -349,6 +374,7 @@ class SceneOutlinerSync {
             }
             itemName = result.data.result;
 
+            // outtype
             result = window.grpcApi.makeApiCallSync(
                 'ApiItem/outType',
                 item.handle
@@ -370,6 +396,7 @@ class SceneOutlinerSync {
         let attrInfo = null;
         if (children.length == 0) {
             try {        
+                // end node, get value's attribute
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItem/attrInfo', 
                     item.handle,
@@ -388,13 +415,16 @@ class SceneOutlinerSync {
         else {
             console.log(`ParentNode ${item.handle} ${itemName} ${outType} ${pinInfo?.type}`);            
         }
+        // save it
         sceneItems.push({
             name: itemName,
             handle: item.handle,
             outType: outType,
+            graphInfo: graphInfo,
+            nodeInfo: nodeInfo,
             attrInfo: attrInfo,
-            children: children,
             pinInfo: pinInfo,
+            children: children,
         });
         this.scene.map[item.handle] = sceneItems[sceneItems.size-1];
     }
