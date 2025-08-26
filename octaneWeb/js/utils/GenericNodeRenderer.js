@@ -75,7 +75,7 @@ class GenericNodeRenderer {
         const hasChildren = nodeData.children && nodeData.children.length > 0;
         const nodeId = `node-${nodeData.handle}`;
         
-        console.log(`GenericNodeRenderer.renderNodeAtLevel() ${nodeData.name} ${nodeData.outType}`);
+//        console.log(`GenericNodeRenderer.renderNodeAtLevel() ${nodeData.name} ${nodeData.outType}`);
 
         let html = ``;
         let groupName = null;
@@ -166,7 +166,7 @@ class GenericNodeRenderer {
      */
     renderNodeParameters(nodeData) {
 
-        console.log(`GenericNodeRenderer.renderNodeParameters() ${nodeData.name} ${nodeData.outType}`);
+//        console.log(`GenericNodeRenderer.renderNodeParameters() ${nodeData.name} ${nodeData.outType}`);
 
         // For Camera nodes, render the camera type dropdown
         if (nodeData.outType === 'NT_CAMERA' || nodeData.name === 'Camera') {
