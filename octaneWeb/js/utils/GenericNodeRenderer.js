@@ -75,7 +75,7 @@ class GenericNodeRenderer {
         const hasChildren = nodeData.children && nodeData.children.length > 0;
         const nodeId = `node-${nodeData.handle}`;
         
-//        console.log(`GenericNodeRenderer.renderNodeAtLevel() ${nodeData.name} ${nodeData.outType}`);
+        console.log(`GenericNodeRenderer.renderNodeAtLevel() ${nodeData.name} ${nodeData.outType}`);
 
         let html = ``;
         let groupName = null;
@@ -166,7 +166,7 @@ class GenericNodeRenderer {
      */
     renderNodeParameters(nodeData) {
 
-//        console.log(`GenericNodeRenderer.renderNodeParameters() ${nodeData.name} ${nodeData.outType}`);
+        console.log(`GenericNodeRenderer.renderNodeParameters() ${nodeData.name} ${nodeData.outType}`);
 
         // For Camera nodes, render the camera type dropdown
         if (nodeData.outType === 'NT_CAMERA' || nodeData.name === 'Camera') {
@@ -207,20 +207,6 @@ class GenericNodeRenderer {
                     </select>
                 </div>
             `;
-        }
-        if (nodeData.pinInfo == null) {
-            // For any other node type, add a generic dropdown
-/*
-            return `
-                <div class="node-parameter-controls">
-                    <select class="parameter-dropdown" data-parameter="node-type">
-                        <option value="default">${nodeData.name} settings</option>
-                        <option value="advanced">Advanced ${nodeData.name}</option>
-                    </select>
-                </div>
-            `;
-*/
-            return ``;
         }
         return this.renderControl(nodeData);  
     }
@@ -276,12 +262,9 @@ class GenericNodeRenderer {
         } catch (error) {
             console.error(`❌ Failed GenericNodeRenderer.getValue() ${nodeData.name} type: ${nodeData.attrInfo.type} ${type}`, error);
         }
-        let value
-        if (result.data != null && result.data.result != null) {
-            value = result.data.result;
-            value = Array.isArray(value) ? value[0] : value;
-        }
-        return value
+        console.log(`GenericNodeRenderer.getValue() ${JSON.stringify(result)}`);
+
+        return result.data;
     }
 
     /**
@@ -292,9 +275,10 @@ class GenericNodeRenderer {
     renderControl(nodeData) {
 
         if (nodeData.attrInfo == null) {
+            console.log(`GenericNodeRenderer.renderControl() nodeData.attrInfo == null`);
             return null
         }
-//        console.log(`GenericNodeRenderer.renderControl() "${nodeData.name}" type: ${nodeData.attrInfo?.type}`);
+        console.log(`GenericNodeRenderer.renderControl() ${nodeData.name} type: ${nodeData.attrInfo?.type}`);
 
         const index = nodeData.pinInfo.index;
         const type = nodeData.attrInfo.type;
@@ -302,19 +286,20 @@ class GenericNodeRenderer {
 //        return `<input type="text" class="octane-text-input parameter-control" value="${''}" 
 //        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="text">`;
 
-        const value = this.getValue(nodeData);
-        if (!value) {
-            return null
-        }
+        let value = this.getValue(nodeData);
+
         if (type == "AT_BOOL") {
+            value = value.bool_value;
             return `<input type="checkbox" class="octane-checkbox parameter-control" ${value} 
                     data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="boolean">`;
         }
         else if (type == "AT_FLOAT") {
+            value = value.float_value;
             return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="0.001" 
                     data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="number">`;
         }
         else if (type == "AT_FLOAT2") {
+            value = value.float2_value;
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" 
@@ -325,6 +310,7 @@ class GenericNodeRenderer {
             `;
         }
         else if (type == "AT_FLOAT3") {
+            value = value.float3_value;
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
@@ -337,6 +323,7 @@ class GenericNodeRenderer {
             `;
         }
         else if (type == "AT_FLOAT4") {
+            value = value.float4_value;
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
@@ -349,10 +336,12 @@ class GenericNodeRenderer {
             `;
         }
         else if (type == "AT_INT") {
+            value = value.int_value;
             return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="1" 
                     data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="number">`;
         }
         else if (type == "AT_INT2") {
+            value = value.int2_value;
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" 
@@ -363,6 +352,7 @@ class GenericNodeRenderer {
             `;
         }
         else if (type == "AT_INT3") {
+            value = value.int2_value;
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
@@ -375,6 +365,7 @@ class GenericNodeRenderer {
             `;
         }
         else if (type == "AT_STRING" || type == "AT_FILENAME") {
+            value = value.string_value;
             return `<input type="text" class="octane-text-input parameter-control" value="${value}" 
                     data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="text">`;
         }

@@ -185,17 +185,6 @@ class GrpcServiceRegistry:
             except ImportError:
                 return Empty
  
-#Service/Method: ApiItem/attrInfo
-#GOT request class for ApiItem.attrInfo ApiItem.attrInfoRequest
- 
-#            special_request_classes = {
-#                'getByAttrID': 'getValueByIDRequest',
-#                'getByName': 'getValueByNameRequest',
-#                'getByIx': 'getValueByIxRequest',
-#            }
-#            special_class = special_request_classes[method_name]
-#            if special_class != None:
-#                method_name = special_class
             if method_name == 'getByAttrID':
                 method_name = 'getValueByID'
             elif method_name == 'getApiNodePinInfo':
@@ -218,7 +207,7 @@ class GrpcServiceRegistry:
                 request_class = getattr(pb2_module, pattern, None)
 
             if request_class:
-                print(f"GOT request class for {service_name}.{method_name} {pattern}")
+#                print(f"GOT request class for {service_name}.{method_name} {pattern}")
                 return request_class
 
             # Default to Empty if no request class found
@@ -612,30 +601,29 @@ async def handle_generic_grpc(request):
                 pass  # Empty or invalid JSON is OK for some requests
 
         # Get the request class and create the request
-        print(f"Request data: {json.dumps(request_data, indent=2)}")
+#        print(f"Request data: {json.dumps(request_data, indent=2)}")
         request_class = grpc_registry.get_request_class(service_name, method_name)
         grpc_request = request_class()
 
         # Populate request fields from JSON data
         if request_data:
-            print(f" req: {request_data}")
+#            print(f" req: {request_data}")
             for key, value in request_data.items():
                 if not recurse_attr(grpc_request, key, value):
                     if key == "objectPtr":
-                        print(f"REQUEST KEY: {key}")
-                        # Print relevant information from the descriptor
-                        print(f"Name: {grpc_request.DESCRIPTOR.name}")
-                        print(f"Full Name: {grpc_request.DESCRIPTOR.full_name}")
-                        print("Fields:")
-                        for field in grpc_request.DESCRIPTOR.fields:
-                            print(f"  - Name: {field.name}, Number: {field.number}")
+#                        print(f"REQUEST KEY: {key}")
+#                        print(f"Name: {grpc_request.DESCRIPTOR.name}")
+#                        print(f"Full Name: {grpc_request.DESCRIPTOR.full_name}")
+#                        print("Fields:")
+#                        for field in grpc_request.DESCRIPTOR.fields:
+#                            print(f"  - Name: {field.name}, Number: {field.number}")
 
                         if not recurse_attr(grpc_request, "nodePinInfoRef", value): # GetNodePinInfoRequest
                             if not recurse_attr(grpc_request, "item_ref", value):     # getValueByIDRequest                          
                                 print(f"❌ no REQUEST KEY: {key}")
 
         # Make the gRPC call
-        print(f"req:  {grpc_request}")        
+#        print(f"req:  {grpc_request}")        
         response = await method(grpc_request)
         print(f"resp: {response}")
 
