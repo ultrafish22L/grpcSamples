@@ -407,20 +407,9 @@ class NodeInspector extends OctaneComponent {
             console.warn(' No node data found for handle:', handle);
             return;
         }
-        
-        // Set selection state using handle and node data
-        this.selectedNodeHandle = handle;
-        this.selectedNode = handle;
-        this.selectedNodeType = nodeData.outtype;
-        this.selectedNodeName = nodeData.name;
-        
         // Generic parameter loading based on node type mapping
-        await this.renderNodes({
-            handle: handle,
-            nodeName: nodeData.name,
-            nodeType: nodeData.outtype,
-            nodeData: nodeData
-        });
+        await this.renderNodes(nodeData);
+
         // Emit resize event for components
         setTimeout(() => {
             window.dispatchEvent(new Event('resize'));
@@ -431,16 +420,16 @@ class NodeInspector extends OctaneComponent {
      * GENERIC: Load node parameters based on node type mapping
      * This replaces specialized functions with a generic approach
      */
-    async renderNodes(nodeInfo) {
+    async renderNodes(nodeData) {
         // Show loading state
-        this.showLoadingState(nodeInfo);
+        this.showLoadingState(nodeData);
         
         try {
             // Render the inspector using GenericNodeRenderer
-            this.renderNodesRecurse(nodeInfo);
+            this.renderNodesRecurse(nodeData);
             
         } catch (error) {
-            console.error('❌ Failed to load generic node parameters:', error);
+            console.error('❌ Failed NodeInspector.renderNodes():', error);
         }
     }
     
@@ -448,16 +437,13 @@ class NodeInspector extends OctaneComponent {
     /**
      * GENERIC: Render parameter inspector using GenericNodeRenderer
      */
-    renderNodesRecurse(nodeInfo) {
-        const nodeName = nodeInfo.nodeName || nodeInfo.name || 'Unknown Node';
-        
-        const nodeHandle = nodeInfo.handle;
-        let nodeData = this.findNodeInSceneItems(nodeHandle);
-
+    renderNodesRecurse(nodeData) {
         if (!nodeData) {
-            console.error('❌ Node data not found for handle:', nodeHandle);
+            console.error('❌ Failed NodeInspector.renderNodesRecurse() : nodeData == null');
             return;
         }
+        console.log(`NodeInspector.renderNodesRecurse() ${nodeData.name} ${nodeData.outType}`);
+
         const html = this.genericRenderer.renderNode(nodeData);
 //        const html = this.renderNode(nodeData);
         
@@ -467,7 +453,7 @@ class NodeInspector extends OctaneComponent {
             inspectorContainer.innerHTML = html;
             this.genericRenderer.setupEventHandlers(inspectorContainer);
         } else {
-            console.error('❌ Node inspector container not found');
+            console.error('❌ Failed NodeInspector.renderNodesRecurse()');
         }
         
         // Setup event listeners for the new content
@@ -482,7 +468,7 @@ class NodeInspector extends OctaneComponent {
             await this.client.updateNodeParameter(this.selectedNode, paramName, value);
             this.parameters[paramName] = { ...this.parameters[paramName], value };
         } catch (error) {
-            console.error('Failed to update parameter:', error);
+            console.error('NodeInspector.updateParameterValue(): ', error);
         }
     }
     
@@ -519,37 +505,17 @@ class NodeInspector extends OctaneComponent {
         const handle = element.dataset.handle ? parseInt(element.dataset.handle) : 0;
 //        const nodeData = this.scene.map[handle];
         const nodeData = this.findNodeInSceneItems(handle);
-        if (nodeData == null || nodeData.attrType == null) {
-            console.warn('handleParameterChange node error no attr', handle, {element});
+        if (nodeData == null || nodeData.attrInfo == null) {
+            console.warn('NodeInspector.handleParameterChange() nnodeData == null || nodeData.attrInfo == nullr', handle, {element});
             return;
         }
         const newValue = this.getElementValue(element);
+//        console.log(`handleParameterChange ${nodeData.name} to:`, newValue);
         
-//        console.log(`handleParameterChange "${nodeData.name}" to:`, newValue);
-        
-        const CONST_ATTR_MAP = {
-            ["AT_BOOL"]: "set27",
-            ["AT_FLOAT"]: "set34",
-            ["AT_FLOAT2"]: "set34",
-            ["AT_FLOAT3"]: "set34",
-            ["AT_FLOAT4"]: "set37",
-            ["AT_INT"]: "set34",
-            ["AT_INT2"]: "set34",
-            ["AT_INT3"]: "set34",
-            ["AT_INT4"]: "set34",
-            ["AT_STRING"]: "set34",
-            ["AT_FILENAME"]: "set34",
-        };
-        const sig = CONST_ATTR_MAP[nodeData.attrType]
-        if (sig == null) {
-            console.log(`handleParameterChange no callback for: `, nodeData.attrType);
-            return;
-        }
-        let callsig = "ApiItem/set" + sig;
         let result;
         try {        
              result = window.grpcApi.makeApiCallSync(
-                'ApiItem/set27', 
+                'ApiItem/setByAttrId', 
                 nodeData.handle,
                 { id: window.OctaneTypes.AttributeId.A_VALUE,
                     value: newValue,
@@ -557,10 +523,10 @@ class NodeInspector extends OctaneComponent {
                 },
             );
             if (!result.success) {
-                throw new Error('Failed ApiItem/set27');
+                throw new Error('NodeInspector.Failed ApiItem/setByAttrId');
             }
         } catch (error) {
-            console.error('❌ Failed handleParameterChange:', error);
+            console.error('❌ Failed NodeInspector.handleParameterChange(): ', error);
         }     
     }
     
@@ -572,8 +538,8 @@ class NodeInspector extends OctaneComponent {
         const handle = element.dataset.handle ? parseInt(element.dataset.handle) : 0;
 //        const nodeData = this.scene.map[handle];
         const nodeData = this.findNodeInSceneItems(handle);
-        if (nodeData == null || nodeData.attrType == null) {
-            console.warn('getElementValue node error no attr', handle, {element});
+        if (nodeData == null || nodeData.attrInfo == null) {
+            console.warn('NodeInspector.getElementValue() node error no attr', handle, {element});
             return;
         }
         return this.genericRenderer.getValue(nodeData);
@@ -601,28 +567,15 @@ class NodeInspector extends OctaneComponent {
         `;
     }
 
-    showLoadingState(data) {
+    showLoadingState(nodeData) {
         this.element.innerHTML = `
             <div class="node-inspector-header">
                 <h3>Node inspector</h3>
                 <select class="node-selector">
-                    <option value="${data.nodeName}" selected>${data.nodeName}</option>
+                    <option value="${nodeData.name}" selected>${nodeData.name}</option>
                 </select>
             </div>
             <div class="node-inspector-content">
-                <div class="parameter-section">
-                    <div class="parameter-row">
-                        <span class="parameter-icon">📦</span>
-                        <span class="parameter-label">Object Handle:</span>
-                        <span class="parameter-value">[${data.nodeId || this.selectedNodeHandle}]</span>
-                    </div>
-                    <div class="parameter-row">
-                        <span class="parameter-icon">📄</span>
-                        <span class="parameter-label">Type:</span>
-                        <span class="parameter-value">${data.nodeType}</span>
-                    </div>
-                </div>
-                
                 <div class="loading-parameters">
                     <div class="loading-spinner"></div>
                     <p>Loading parameters...</p>

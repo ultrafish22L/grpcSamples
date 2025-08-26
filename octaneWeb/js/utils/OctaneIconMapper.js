@@ -13,7 +13,7 @@ class OctaneIconMapper {
      * Get icon for node types (consolidated from SceneOutlinerSync.js)
      * This replaces getOctaneIconFor() function
      */
-    static getNodeIcon(outtype, name) {
+    static getNodeIcon(outType, name) {
         // Match exact Octane icons based on name and type
         if (name === 'Render target') {
             return '🎯'; // Target icon for render target
@@ -50,19 +50,19 @@ class OctaneIconMapper {
         }
         
         // Handle parameter types with specific icons
-        if (outtype === 'PT_BOOL' || name === 'Bool value') {
+        if (outType === 'PT_BOOL' || name === 'Bool value') {
             return '☑️'; // Checkbox for boolean parameters
         }
-        if (outtype === 'PT_FLOAT' || name === 'Float value') {
+        if (outType === 'PT_FLOAT' || name === 'Float value') {
             return '🔢'; // Numbers for float parameters
         }
-        if (outtype === 'PT_INT' || name === 'Int value') {
+        if (outType === 'PT_INT' || name === 'Int value') {
             return '🔢'; // Numbers for integer parameters
         }
-        if (outtype === 'PT_ENUM' || name === 'Enum value') {
+        if (outType === 'PT_ENUM' || name === 'Enum value') {
             return '📋'; // List for enum parameters
         }
-        if (outtype === 'PT_RGB' || name === 'RGB color') {
+        if (outType === 'PT_RGB' || name === 'RGB color') {
             return '🎨'; // Color palette for RGB parameters
         }
         
@@ -86,7 +86,7 @@ class OctaneIconMapper {
             'unknown': '⬜'
         };
         
-        return iconMap[outtype] || '⬜';
+        return iconMap[outType] || '⬜';
     }
     
     /**
@@ -171,7 +171,7 @@ class OctaneIconMapper {
      * Get color for node types
      * This can be expanded to include color mappings as needed
      */
-    static getNodeColor(outtype, name) {
+    static getNodeColor(outType, name) {
         // Color mapping based on node types
         const colorMap = {
             'PT_RENDER_TARGET': '#ff6b6b',  // Red for render targets
@@ -183,7 +183,7 @@ class OctaneIconMapper {
             'unknown': '#95a5a6'            // Gray for unknown
         };
         
-        return colorMap[outtype] || colorMap['unknown'];
+        return colorMap[outType] || colorMap['unknown'];
     }
     
     /**
@@ -214,8 +214,8 @@ class OctaneIconMapper {
      * Backward compatibility method for existing SceneOutlinerSync.js
      * This allows existing code to work without changes
      */
-    static getOctaneIconFor(outtype, name) {
-        return this.getNodeIcon(outtype, name);
+    static getOctaneIconFor(outType, name) {
+        return this.getNodeIcon(outType, name);
     }
 }
 

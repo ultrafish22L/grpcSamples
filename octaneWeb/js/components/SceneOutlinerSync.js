@@ -276,8 +276,6 @@ class SceneOutlinerSync {
                 if (connectedNode == null) {
                     continue;
                 }
-                console.log('connectedNode', connectedNode);
-
                 // Get the pin label
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNode/pinLabelIx', 
@@ -289,7 +287,7 @@ class SceneOutlinerSync {
                 }
                 let pinInfo = { staticLabel: result.data.result, index:i };
 
-                // Get the pin info handle
+                // Get the pin type
                 result = window.grpcApi.makeApiCallSync(
                     'ApiNode/pinTypeIx', 
                     itemHandle,
@@ -298,7 +296,11 @@ class SceneOutlinerSync {
                 if (!result.success) {
                     throw new Error('Failed ApiNode/pinTypeIx');
                 }
-                pinInfo.attrType = result.data.result;
+                pinInfo.type = result.data.result;
+//                console.log('pinInfo.type', pinInfo.type);
+
+//                pinInfo.type = window.OctaneTypes.NodePinType[pinInfo.type];
+//                console.log('pinInfo.type', pinInfo.type);
 /*                
                 // Get the pin info handle
                 result = window.grpcApi.makeApiCallSync(
@@ -361,7 +363,7 @@ class SceneOutlinerSync {
                 item.handle
             );
             if (!result.success) {
-                throw new Error('Failed to get item outtype');
+                throw new Error('Failed to get item outType');
             }
             outType = result.data.result;
 
@@ -372,10 +374,9 @@ class SceneOutlinerSync {
         } catch (error) {
             console.error('❌ Failed addSceneItem:', error);
         }
-
         let children = this.loadSceneTreeSync(item.handle, null, level);
 
-        let attrType = null;
+        let attrInfo = null;
         if (children.length == 0) {
             try {        
                 let result = window.grpcApi.makeApiCallSync(
@@ -386,24 +387,23 @@ class SceneOutlinerSync {
                 if (!result.success) {
                     throw new Error('Failed ApiItem/attrInfo');
                 }
-                attrType = result.data.result.type;
+                attrInfo = result.data.result;
 
             } catch (error) {
                 console.error('❌ Failed addSceneItem:', error);
             }
-            console.log("EndNODE ", itemName, outType, attrType, item.handle);
+            console.log(`EndNode    ${item.handle} ${itemName} ${outType} ${attrInfo?.type}`);            
         }
         else {
-            console.log("ParNode ", itemName, outType, item.handle);
+            console.log(`ParentNode ${item.handle} ${itemName} ${outType} ${pinInfo?.type}`);            
         }
         sceneItems.push({
             name: itemName,
             handle: item.handle,
-            type: item.type,
-            outtype: outType,
+            outType: outType,
+            attrInfo: attrInfo,
             children: children,
             pinInfo: pinInfo,
-            attrType: attrType,
         });
         this.scene.map[item.handle] = sceneItems[sceneItems.size-1];
     }
@@ -455,8 +455,8 @@ class SceneOutlinerSync {
         
         filteredItems.forEach(item => {
             const icon = window.OctaneIconMapper ? 
-                window.OctaneIconMapper.getNodeIcon(item.outtype, item.name) : 
-                this.getOctaneIconFor(item.outtype, item.name);
+                window.OctaneIconMapper.getNodeIcon(item.outType, item.name) : 
+                this.getOctaneIconFor(item.outType, item.name);
             const nodeId = `item-${item.handle}`;
             const isSelected = item.name === 'Render target'; // Match Octane screenshot
             const hasChildren = item.children && item.children.length > 0;
@@ -484,7 +484,7 @@ class SceneOutlinerSync {
         return html;
     }
     
-    getOctaneIconFor(outtype, name) {
+    getOctaneIconFor(outType, name) {
         // Match exact Octane icons based on name and type
         if (name === 'Render target') {
             return '🎯'; // Target icon for render target
@@ -521,19 +521,19 @@ class SceneOutlinerSync {
         }
         
         // Handle parameter types with specific icons
-        if (outtype === 'PT_BOOL' || name === 'Bool value') {
+        if (outType === 'PT_BOOL' || name === 'Bool value') {
             return '☑️'; // Checkbox for boolean parameters
         }
-        if (outtype === 'PT_FLOAT' || name === 'Float value') {
+        if (outType === 'PT_FLOAT' || name === 'Float value') {
             return '🔢'; // Numbers for float parameters
         }
-        if (outtype === 'PT_INT' || name === 'Int value') {
+        if (outType === 'PT_INT' || name === 'Int value') {
             return '🔢'; // Numbers for integer parameters
         }
-        if (outtype === 'PT_ENUM' || name === 'Enum value') {
+        if (outType === 'PT_ENUM' || name === 'Enum value') {
             return '📋'; // List for enum parameters
         }
-        if (outtype === 'PT_RGB' || name === 'RGB color') {
+        if (outType === 'PT_RGB' || name === 'RGB color') {
             return '🎨'; // Color palette for RGB parameters
         }
         
@@ -557,10 +557,10 @@ class SceneOutlinerSync {
             'unknown': '⬜'
         };
         
-        return iconMap[outtype] || '⬜';
+        return iconMap[outType] || '⬜';
     }
     
-    getIconFor(outtype) {
+    getIconFor(outType) {
         const iconMap = {
             'unknown': '⬜',
             'mesh': '▲',
@@ -571,7 +571,7 @@ class SceneOutlinerSync {
             'group': '📁'
         };
         
-        return iconMap[outtype] || '⬜';
+        return iconMap[outType] || '⬜';
     }
     
     addTreeEventHandlers(treeContainer) {

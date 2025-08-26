@@ -119,7 +119,8 @@ class GrpcApiHelper {
             
         } catch (error) {
             console.error(`❌ SYNC API call failed for ${servicePath}:`, error);
-            throw error;
+//            throw error;
+            return { success: false }
         }
     }
 }

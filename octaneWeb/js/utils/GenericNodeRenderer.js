@@ -55,7 +55,7 @@ class GenericNodeRenderer {
         if (!nodeData) {
             return '<div class="node-inspector-empty">No node selected</div>';
         }
-        console.log(`GenericNodeRenderer: Rendering node "${nodeData.name}" type: ${nodeData.outtype}`);
+        console.log(`GenericNodeRenderer.renderNode() ${nodeData.name} ${nodeData.outType}`);
         
         this.lastGroup = null;
 
@@ -70,15 +70,17 @@ class GenericNodeRenderer {
      */
     renderNodeAtLevel(nodeData, level) {
         // Use inspector-specific color/icon if available, otherwise fall back to iconMapper
-        const icon =  window.OctaneIconMapper?.getNodeIcon(nodeData.outtype, nodeData.name) || '📦';
-        const color = window.OctaneIconMapper?.getNodeColor(nodeData.outtype) || '#666';
+        const icon =  window.OctaneIconMapper?.getNodeIcon(nodeData.outType, nodeData.name) || '📦';
+        const color = window.OctaneIconMapper?.getNodeColor(nodeData.outType) || '#666';
         const hasChildren = nodeData.children && nodeData.children.length > 0;
         const nodeId = `node-${nodeData.handle}`;
         
+        console.log(`GenericNodeRenderer.renderNodeAtLevel() ${nodeData.name} ${nodeData.outType}`);
+
         let html = ``;
         let groupName = null;
-        if (nodeData.pinInfo && nodeData.pinInfo.groupName && nodeData.pinInfo.groupName) {
-             groupName = nodeData.pinInfo.groupName;
+        if (nodeData.pinInfo && nodeData.pinInfo.groupName) {
+            groupName = nodeData.pinInfo.groupName;
         }
         if (groupName != this.lastGroup) {
             if (this.lastGroup != null) {
@@ -87,7 +89,7 @@ class GenericNodeRenderer {
                 html += `</div>`;
             }  
             if (groupName != null) {
-                console.log(`renderNodeAtLevel: GROUP "${nodeData.pinInfo.groupName}"`);
+                console.log(`renderNodeAtLevel: GROUP "${groupName}"`);
 
                 // Check if expanded: default to true if allNodesExpandedByDefault, otherwise check set
                 const isExpanded = this.allNodesExpandedByDefault ? 
@@ -114,7 +116,7 @@ class GenericNodeRenderer {
         if (hasChildren && level > 0) {
             collapseIcon = isExpanded ? '▼' : '►';
         }
-        if (nodeData.attrType == null) {
+        if (nodeData.attrInfo?.type == null) {
             html += `<div class="node-box node-level-${level}" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
                         <div class="node-icon-box" style="background-color: ${color}">
                             <span class="node-icon">${icon}</span>
@@ -163,8 +165,11 @@ class GenericNodeRenderer {
      * @returns {string} - HTML for node parameters
      */
     renderNodeParameters(nodeData) {
+
+        console.log(`GenericNodeRenderer.renderNodeParameters() ${nodeData.name} ${nodeData.outType}`);
+
         // For Camera nodes, render the camera type dropdown
-        if (nodeData.outtype === 'NT_CAMERA' || nodeData.name === 'Camera') {
+        if (nodeData.outType === 'NT_CAMERA' || nodeData.name === 'Camera') {
             return `
                 <div class="node-parameter-controls">
                     <select class="parameter-dropdown" data-parameter="camera-type">
@@ -178,7 +183,7 @@ class GenericNodeRenderer {
         }
         
         // For Environment nodes
-        if (nodeData.outtype === 'NT_ENVIRONMENT' || nodeData.name === 'Environment') {
+        if (nodeData.outType === 'NT_ENVIRONMENT' || nodeData.name === 'Environment') {
             return `
                 <div class="node-parameter-controls">
                     <select class="parameter-dropdown" data-parameter="environment-type">
@@ -191,7 +196,7 @@ class GenericNodeRenderer {
         }
         
         // For Material nodes
-        if (nodeData.outtype === 'NT_MATERIAL' || nodeData.name === 'cube') {
+        if (nodeData.outType === 'NT_MATERIAL' || nodeData.name === 'cube') {
             return `
                 <div class="node-parameter-controls">
                     <select class="parameter-dropdown" data-parameter="material-type">
@@ -248,15 +253,11 @@ class GenericNodeRenderer {
      */
     getValue(nodeData) {
 
-        console.log(`GenericNodeRenderer: getValue "${nodeData.name}" type: ${nodeData.attrType}`);
-
-        if (nodeData.attrType == null) {
+        if (nodeData.attrInfo == null) {
             return null
         }
-        const stripAtAndCamelCase = str => {
-            const result = str.startsWith("AT_") ? str.substring(3) : str;
-            return result ? result.charAt(0).toUpperCase() + result.slice(1).toLowerCase() : result;
-        };
+        console.log(`GenericNodeRenderer.getValue() "${nodeData.name}" type: ${nodeData.attrInfo.type}`);
+
         // get the end node's value
         let result;
         try {   
@@ -264,18 +265,20 @@ class GenericNodeRenderer {
                 "ApiItem/getByAttrID", 
                 nodeData.handle,
                 { attribute_id: window.OctaneTypes.AttributeId.A_VALUE,
-                  expected_type: nodeData.pinInfo.attrType,
+                  expected_type: window.OctaneTypes.AttributeType[nodeData.attrInfo.type],
                 },
             );
             if (!result.success) {
-                throw new Error('Failed getValue', "ApiItem/getByAttrID");
+                throw new Error('Failed GenericNodeRenderer.getValue(): ApiItem/getByAttrID');
             }
         } catch (error) {
-            console.error('❌ Failed getValue:', "ApiItem/getByAttrID", error);
+            console.error('❌ Failed GenericNodeRenderer.getValue(): ApiItem/getByAttrID', error);
         }
-        let value = result.data.result;
-        value = Array.isArray(value) ? value[0] : value;
-
+        let value
+        if (result.data != null && result.data.result != null) {
+            value = result.data.result;
+            value = Array.isArray(value) ? value[0] : value;
+        }
         return value
     }
 
@@ -286,22 +289,30 @@ class GenericNodeRenderer {
      */
     renderControl(nodeData) {
 
+        if (nodeData.attrInfo == null) {
+            return null
+        }
+//        console.log(`GenericNodeRenderer.renderControl() "${nodeData.name}" type: ${nodeData.attrInfo?.type}`);
+
         const index = nodeData.pinInfo.index;
+        const type = nodeData.attrInfo.type;
 
 //        return `<input type="text" class="octane-text-input parameter-control" value="${''}" 
 //        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="text">`;
 
         const value = this.getValue(nodeData);
-
-        if (nodeData.attrType == "AT_BOOL") {
+        if (!value) {
+            return null
+        }
+        if (type == "AT_BOOL") {
             return `<input type="checkbox" class="octane-checkbox parameter-control" ${value} 
                     data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="boolean">`;
         }
-        else if (nodeData.attrType == "AT_FLOAT") {
+        else if (type == "AT_FLOAT") {
             return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="0.001" 
                     data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="number">`;
         }
-        else if (nodeData.attrType == "AT_FLOAT2") {
+        else if (type == "AT_FLOAT2") {
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" 
@@ -311,7 +322,7 @@ class GenericNodeRenderer {
                 </div>
             `;
         }
-        else if (nodeData.attrType == "AT_FLOAT3") {
+        else if (type == "AT_FLOAT3") {
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
@@ -323,7 +334,7 @@ class GenericNodeRenderer {
                 </div>
             `;
         }
-        else if (nodeData.attrType == "AT_FLOAT4") {
+        else if (type == "AT_FLOAT4") {
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
@@ -335,11 +346,11 @@ class GenericNodeRenderer {
                 </div>
             `;
         }
-        else if (nodeData.attrType == "AT_INT") {
+        else if (type == "AT_INT") {
             return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="1" 
                     data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="number">`;
         }
-        else if (nodeData.attrType == "AT_INT2") {
+        else if (type == "AT_INT2") {
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" 
@@ -349,7 +360,7 @@ class GenericNodeRenderer {
                 </div>
             `;
         }
-        else if (nodeData.attrType == "AT_INT3") {
+        else if (type == "AT_INT3") {
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
@@ -361,7 +372,7 @@ class GenericNodeRenderer {
                 </div>
             `;
         }
-        else if (nodeData.attrType == "AT_STRING" || nodeData.attrType == "AT_FILENAME") {
+        else if (type == "AT_STRING" || type == "AT_FILENAME") {
             return `<input type="text" class="octane-text-input parameter-control" value="${value}" 
                     data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="text">`;
         }
@@ -526,7 +537,7 @@ if (typeof window !== 'undefined') {
 }
 
 /*
-            else if (nodeData.attrType == "AT_FLOAT4") {
+            else if (type == "AT_FLOAT4") {
 
                 let result = window.grpcApi.makeApiCallSync(
                     'ApiItem/getFloat4', 
