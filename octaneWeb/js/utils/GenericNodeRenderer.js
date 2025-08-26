@@ -245,7 +245,6 @@ class GenericNodeRenderer {
         const type = window.OctaneTypes.AttributeType[nodeData.attrInfo.type];
 //        console.log(`GenericNodeRenderer.getValue() ${nodeData.name} type: ${nodeData.attrInfo.type} ${type}`);
 
-        // !!! FIXME
         // get the end node's value
         let result;
         try {   
@@ -288,17 +287,17 @@ class GenericNodeRenderer {
 
         let value = this.getValue(nodeData);
 
-        if (type == "AT_BOOL") {
+        switch (type) {
+        case "AT_BOOL":
             value = value.bool_value;
             return `<input type="checkbox" class="octane-checkbox parameter-control" ${value} 
                     data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="boolean">`;
-        }
-        else if (type == "AT_FLOAT") {
+        
+        case "AT_FLOAT":
             value = value.float_value;
             return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="0.001" 
                     data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="number">`;
-        }
-        else if (type == "AT_FLOAT2") {
+        case "AT_FLOAT2":
             value = value.float2_value;
             return `
                 <div class="octane-vector-control">
@@ -308,8 +307,7 @@ class GenericNodeRenderer {
                         data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector2">
                 </div>
             `;
-        }
-        else if (type == "AT_FLOAT3") {
+        case "AT_FLOAT3":
             value = value.float3_value;
             return `
                 <div class="octane-vector-control">
@@ -321,8 +319,7 @@ class GenericNodeRenderer {
                         data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector3">
                 </div>
             `;
-        }
-        else if (type == "AT_FLOAT4") {
+        case "AT_FLOAT4":
             value = value.float4_value;
             return `
                 <div class="octane-vector-control">
@@ -334,13 +331,11 @@ class GenericNodeRenderer {
                         data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector3">
                 </div>
             `;
-        }
-        else if (type == "AT_INT") {
+        case "AT_INT":
             value = value.int_value;
             return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="1" 
                     data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="number">`;
-        }
-        else if (type == "AT_INT2") {
+        case "AT_INT2":
             value = value.int2_value;
             return `
                 <div class="octane-vector-control">
@@ -350,8 +345,7 @@ class GenericNodeRenderer {
                         data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector2">
                 </div>
             `;
-        }
-        else if (type == "AT_INT3") {
+        case "AT_INT3":
             value = value.int3_value;
             return `
                 <div class="octane-vector-control">
@@ -363,8 +357,7 @@ class GenericNodeRenderer {
                         data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector3">
                 </div>
             `;
-        }
-        else if (type == "AT_INT4") {
+        case "AT_INT4":
             value = value.int4_value;
             return `
                 <div class="octane-vector-control">
@@ -376,8 +369,7 @@ class GenericNodeRenderer {
                         data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector4">
                 </div>
             `;
-        }
-        else if (type == "AT_LONG") {
+        case "AT_LONG":
             value = value.long_value;
             return `
                 <div class="octane-vector-control">
@@ -385,8 +377,7 @@ class GenericNodeRenderer {
                         data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="long">
                 </div>
             `;
-        }        
-        else if (type == "AT_LONG2") {
+        case "AT_LONG2":
             value = value.long2_value;
             return `
                 <div class="octane-vector-control">
@@ -396,8 +387,7 @@ class GenericNodeRenderer {
                         data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="long2">
                 </div>
             `;
-        }     
-        else if (type == "AT_STRING" || type == "AT_FILENAME") {
+        case "AT_STRING" || type == "AT_FILENAME":
             value = value.string_value;
             return `<input type="text" class="octane-text-input parameter-control" value="${value}" 
                     data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="text">`;

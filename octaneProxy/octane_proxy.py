@@ -113,12 +113,9 @@ class GrpcServiceRegistry:
                 'ApiNode': 'apinodesystem_7',
                 'ApiItem': 'apinodesystem_3',
                 'ApiItemArray': 'apinodesystem_1',
-#                'ApiItemArray': 'apiitemarray',
                 'ApiNodePinInfoEx': 'apinodepininfohelper',
                 'LiveLink': 'livelink',
                 'ApiRenderEngine': 'apirender',
-#                'ApiItemGetter': "apinodesystem_2",
-#                'ApiItemSetter': "apinodesystem_4",
             }
             module_name = base_service_map.get(service_name)
             if not module_name:
@@ -144,11 +141,7 @@ class GrpcServiceRegistry:
             raise
 
         # Get the stub class (convention: ServiceNameStub)
-        # Handle both "Service" and non-"Service" names
-        if service_name.endswith('Service'):
-            stub_class_name = f"{service_name}Stub"
-        else:
-            stub_class_name = f"{service_name}ServiceStub"
+        stub_class_name = f"{service_name}ServiceStub"
         
         try:
             stub_class = getattr(grpc_module, stub_class_name)
@@ -187,6 +180,16 @@ class GrpcServiceRegistry:
  
             if method_name == 'getByAttrID':
                 method_name = 'getValueByID'
+            elif method_name == 'setByAttrID':
+                method_name = 'setValueByID'
+            elif method_name == 'getByName':
+                method_name = 'getValueByName'
+            elif method_name == 'setByAttrName':
+                method_name = 'setValueByName'
+            elif method_name == 'getByAttrIx':
+                method_name = 'getValueByIx'
+            elif method_name == 'setByAttrIx':
+                method_name = 'setValueByIx'
             elif method_name == 'getApiNodePinInfo':
                 method_name = 'GetNodePinInfo'
 
@@ -601,7 +604,7 @@ async def handle_generic_grpc(request):
                 pass  # Empty or invalid JSON is OK for some requests
 
         # Get the request class and create the request
-#        print(f"Request data: {json.dumps(request_data, indent=2)}")
+        print(f"Request data: {json.dumps(request_data, indent=2)}")
         request_class = grpc_registry.get_request_class(service_name, method_name)
         grpc_request = request_class()
 
@@ -611,19 +614,19 @@ async def handle_generic_grpc(request):
             for key, value in request_data.items():
                 if not recurse_attr(grpc_request, key, value):
                     if key == "objectPtr":
-#                        print(f"REQUEST KEY: {key}")
-#                        print(f"Name: {grpc_request.DESCRIPTOR.name}")
-#                        print(f"Full Name: {grpc_request.DESCRIPTOR.full_name}")
-#                        print("Fields:")
-#                        for field in grpc_request.DESCRIPTOR.fields:
-#                            print(f"  - Name: {field.name}, Number: {field.number}")
+                        print(f"REQUEST KEY: {key}")
+                        print(f"Name: {grpc_request.DESCRIPTOR.name}")
+                        print(f"Full Name: {grpc_request.DESCRIPTOR.full_name}")
+                        print("Fields:")
+                        for field in grpc_request.DESCRIPTOR.fields:
+                            print(f"  - Name: {field.name}, Number: {field.number}")
 
                         if not recurse_attr(grpc_request, "nodePinInfoRef", value): # GetNodePinInfoRequest
                             if not recurse_attr(grpc_request, "item_ref", value):     # getValueByIDRequest                          
                                 print(f"❌ no REQUEST KEY: {key}")
 
         # Make the gRPC call
-#        print(f"req:  {grpc_request}")        
+        print(f"req:  {grpc_request}")        
         response = await method(grpc_request)
 #        print(f"resp: {response}")
 

@@ -407,6 +407,8 @@ class NodeInspector extends OctaneComponent {
             console.warn(' No node data found for handle:', handle);
             return;
         }
+        this.selectedNodeHandle = nodeData.handle;
+
         // Generic parameter loading based on node type mapping
         await this.renderNodes(nodeData);
 
@@ -506,20 +508,63 @@ class NodeInspector extends OctaneComponent {
 //        const nodeData = this.scene.map[handle];
         const nodeData = this.findNodeInSceneItems(handle);
         if (nodeData == null || nodeData.attrInfo == null) {
-            console.warn('NodeInspector.handleParameterChange() nnodeData == null || nodeData.attrInfo == nullr', handle, {element});
+            console.warn('NodeInspector.handleParameterChange() nodeData == null || nodeData.attrInfo == null', handle, {element});
             return;
         }
         const newValue = this.getElementValue(element);
-//        console.log(`handleParameterChange ${nodeData.name} to:`, newValue);
-        
+        console.log(`handleParameterChange ${nodeData.name} to:`, JSON.stringify(newValue));
+/*
+        let label = "value";
+        switch (nodeData.attrInfo.type) {
+        case "AT_BOOL":
+            label = "bool_value";
+            break;
+        case "AT_FLOAT":
+            label = "float_value";
+            break;
+        case "AT_FLOAT2":
+            label = "float2_value";
+            break;
+        case "AT_FLOAT3":
+            label = "float3_value";
+            break;
+        case "AT_FLOAT4":
+            label = "float4_value";
+            break;
+        case "AT_INT":
+            label = "int_value";
+            break;
+        case "AT_INT2":
+            label = "int2_value";
+            break;
+        case "AT_INT3":
+            label = "int3_value";
+            break;
+        case "AT_INT4":
+            label = "int4_value";
+            break;
+        case "AT_LONG":
+            label = "long_value";
+            break;
+        case "AT_LONG2":
+            label = "long2_value";
+            break;
+        case "AT_STRING":
+            label = "string_value";
+            break;
+        case "AT_FILENAME":
+            label = "filename_value";
+            break;
+        }
+*/
         let result;
         try {        
              result = window.grpcApi.makeApiCallSync(
-                'ApiItem/setByAttrId', 
+                'ApiItem/setByAttrID', 
                 nodeData.handle,
                 { id: window.OctaneTypes.AttributeId.A_VALUE,
-                    value: newValue,
                     evaluate: true,
+                    ...newValue,
                 },
             );
             if (!result.success) {
