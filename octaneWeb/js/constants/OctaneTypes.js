@@ -11,6 +11,7 @@
 // Make constants available globally
 window.OctaneTypes = window.OctaneTypes || {};
 
+/*
 window.OctaneTypes.AttributeType = {
     AT_UNKNOWN: 0,
 
@@ -29,6 +30,25 @@ window.OctaneTypes.AttributeType = {
     AT_FILENAME: 11,
     AT_BYTE: 12,
     AT_MATRIX: 13,
+};
+*/
+
+window.OctaneTypes.AttributeType = {
+    AT_UNKNOWN:0,
+    AT_BOOL:1,
+    AT_BYTE:2,
+    AT_INT:3,
+    AT_INT2:4,
+    AT_INT3:5,
+    AT_INT4:6,
+    AT_LONG:7,
+    AT_LONG2:8,
+    AT_FLOAT:9,
+    AT_FLOAT2:90,
+    AT_FLOAT3:11,
+    AT_FLOAT4:12,
+    AT_MATRIX:13,
+    AT_STRING:14,
 };
 
 window.OctaneTypes.NodePinType = {

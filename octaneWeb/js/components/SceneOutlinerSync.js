@@ -354,7 +354,7 @@ class SceneOutlinerSync {
                 item.handle
             );
             if (!result.success) {
-                throw new Error('Failed to get item name');
+                throw new Error('Failed GenericNodeRenderer.addSceneItem()');
             }
             itemName = result.data.result;
 
@@ -372,7 +372,7 @@ class SceneOutlinerSync {
             }
 
         } catch (error) {
-            console.error('❌ Failed addSceneItem:', error);
+            console.error('❌ Failed GenericNodeRenderer.addSceneItem(): ', error);
         }
         let children = this.loadSceneTreeSync(item.handle, null, level);
 
@@ -385,12 +385,12 @@ class SceneOutlinerSync {
                     { id: window.OctaneTypes.AttributeId.A_VALUE },
                 );
                 if (!result.success) {
-                    throw new Error('Failed ApiItem/attrInfo');
+                    throw new Error('Failed GenericNodeRenderer.addSceneItem(): ApiItem/attrInfo');
                 }
                 attrInfo = result.data.result;
 
             } catch (error) {
-                console.error('❌ Failed addSceneItem:', error);
+                console.error('❌ Failed GenericNodeRenderer.addSceneItem(): ', error);
             }
             console.log(`EndNode    ${item.handle} ${itemName} ${outType} ${attrInfo?.type}`);            
         }

@@ -256,8 +256,10 @@ class GenericNodeRenderer {
         if (nodeData.attrInfo == null) {
             return null
         }
-        console.log(`GenericNodeRenderer.getValue() "${nodeData.name}" type: ${nodeData.attrInfo.type}`);
+        const type = window.OctaneTypes.AttributeType[nodeData.attrInfo.type];
+        console.log(`GenericNodeRenderer.getValue() ${nodeData.name} type: ${nodeData.attrInfo.type} ${type}`);
 
+        // !!! FIXME
         // get the end node's value
         let result;
         try {   
@@ -265,14 +267,14 @@ class GenericNodeRenderer {
                 "ApiItem/getByAttrID", 
                 nodeData.handle,
                 { attribute_id: window.OctaneTypes.AttributeId.A_VALUE,
-                  expected_type: window.OctaneTypes.AttributeType[nodeData.attrInfo.type],
+                  expected_type: type,
                 },
             );
             if (!result.success) {
                 throw new Error('Failed GenericNodeRenderer.getValue(): ApiItem/getByAttrID');
             }
         } catch (error) {
-            console.error('❌ Failed GenericNodeRenderer.getValue(): ApiItem/getByAttrID', error);
+            console.error(`❌ Failed GenericNodeRenderer.getValue() ${nodeData.name} type: ${nodeData.attrInfo.type} ${type}`, error);
         }
         let value
         if (result.data != null && result.data.result != null) {
