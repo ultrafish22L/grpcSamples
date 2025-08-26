@@ -581,7 +581,7 @@ async def handle_generic_grpc(request):
         service_name = path_match.group(1)
         method_name = path_match.group(2)
 
-        print(f"\nService/Method: {service_name}/{method_name}")
+#        print(f"\nService/Method: {service_name}/{method_name}")
 
         # Get the appropriate stub
         stub = grpc_registry.get_stub(service_name, method_name, proxy.channel)
@@ -625,7 +625,7 @@ async def handle_generic_grpc(request):
         # Make the gRPC call
 #        print(f"req:  {grpc_request}")        
         response = await method(grpc_request)
-        print(f"resp: {response}")
+#        print(f"resp: {response}")
 
         # Convert response to dict
         success = False

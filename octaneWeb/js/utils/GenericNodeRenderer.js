@@ -55,7 +55,7 @@ class GenericNodeRenderer {
         if (!nodeData) {
             return '<div class="node-inspector-empty">No node selected</div>';
         }
-        console.log(`GenericNodeRenderer.renderNode() ${nodeData.name} ${nodeData.outType}`);
+//        console.log(`GenericNodeRenderer.renderNode() ${nodeData.name} ${nodeData.outType}`);
         
         this.lastGroup = null;
 
@@ -75,7 +75,7 @@ class GenericNodeRenderer {
         const hasChildren = nodeData.children && nodeData.children.length > 0;
         const nodeId = `node-${nodeData.handle}`;
         
-        console.log(`GenericNodeRenderer.renderNodeAtLevel() ${nodeData.name} ${nodeData.outType}`);
+//        console.log(`GenericNodeRenderer.renderNodeAtLevel() ${nodeData.name} ${nodeData.outType}`);
 
         let html = ``;
         let groupName = null;
@@ -166,7 +166,7 @@ class GenericNodeRenderer {
      */
     renderNodeParameters(nodeData) {
 
-        console.log(`GenericNodeRenderer.renderNodeParameters() ${nodeData.name} ${nodeData.outType}`);
+//        console.log(`GenericNodeRenderer.renderNodeParameters() ${nodeData.name} ${nodeData.outType}`);
 
         // For Camera nodes, render the camera type dropdown
         if (nodeData.outType === 'NT_CAMERA' || nodeData.name === 'Camera') {
@@ -243,7 +243,7 @@ class GenericNodeRenderer {
             return null
         }
         const type = window.OctaneTypes.AttributeType[nodeData.attrInfo.type];
-        console.log(`GenericNodeRenderer.getValue() ${nodeData.name} type: ${nodeData.attrInfo.type} ${type}`);
+//        console.log(`GenericNodeRenderer.getValue() ${nodeData.name} type: ${nodeData.attrInfo.type} ${type}`);
 
         // !!! FIXME
         // get the end node's value
@@ -262,7 +262,7 @@ class GenericNodeRenderer {
         } catch (error) {
             console.error(`❌ Failed GenericNodeRenderer.getValue() ${nodeData.name} type: ${nodeData.attrInfo.type} ${type}`, error);
         }
-        console.log(`GenericNodeRenderer.getValue() ${JSON.stringify(result)}`);
+//        console.log(`GenericNodeRenderer.getValue() ${JSON.stringify(result)}`);
 
         return result.data;
     }
@@ -352,7 +352,7 @@ class GenericNodeRenderer {
             `;
         }
         else if (type == "AT_INT3") {
-            value = value.int2_value;
+            value = value.int3_value;
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
@@ -364,6 +364,39 @@ class GenericNodeRenderer {
                 </div>
             `;
         }
+        else if (type == "AT_INT4") {
+            value = value.int4_value;
+            return `
+                <div class="octane-vector-control">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector4">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="1" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector4">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="1" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector4">
+                </div>
+            `;
+        }
+        else if (type == "AT_LONG") {
+            value = value.long_value;
+            return `
+                <div class="octane-vector-control">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="long">
+                </div>
+            `;
+        }        
+        else if (type == "AT_LONG2") {
+            value = value.long2_value;
+            return `
+                <div class="octane-vector-control">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="long2">
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="1" 
+                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="long2">
+                </div>
+            `;
+        }     
         else if (type == "AT_STRING" || type == "AT_FILENAME") {
             value = value.string_value;
             return `<input type="text" class="octane-text-input parameter-control" value="${value}" 

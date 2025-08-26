@@ -41,7 +41,6 @@ class SceneOutlinerSync {
         this.expandedNodes = new Set(['scene-root', 'item-1000025']); // Expand Scene and Render target by default
         this.searchTerm = '';
         this.selectedNodeHandle = null;
-        this.selectedNodeName = null;
         
         this.setupEventHandlers();
         
@@ -68,7 +67,7 @@ class SceneOutlinerSync {
         }
         // Listen for scene node selection (unified event for all components)
         this.eventSystem.on('sceneNodeSelected', (handle) => {
-            this.updateSelectedNode(handle);
+//            this.updateSelectedNode(handle);
         });
         
     }
@@ -79,7 +78,6 @@ class SceneOutlinerSync {
         
         // Update internal state
         this.selectedNodeHandle = handle;
-        this.selectedNodeName = nodeName;
         
         // Update visual selection in tree
         const treeContainer = this.element.querySelector('.scene-tree');
@@ -92,13 +90,6 @@ class SceneOutlinerSync {
             if (targetNode) {
                 targetNode.classList.add('selected');
             }
-        }
-        
-        // Emit selection event to update other components (handle only)
-        if (handle && handle !== 'scene-root') {
-            this.eventSystem.emit('sceneNodeSelected', handle);
-            
-            console.log('Unified selection emitted handle:', handle, 'for node:', nodeName);
         }
     }
 
@@ -605,7 +596,9 @@ class SceneOutlinerSync {
                 const nodeId = node.dataset.nodeId;
                 const nodeName = node.querySelector('.node-name')?.textContent || '';
                 
-                this.selectNode(handle, nodeName, nodeId, 'sceneOutliner');
+                this.selectNode(handle, nodeName, nodeId);
+
+                this.eventSystem.emit('sceneNodeSelected', handle);
             });
         });
            

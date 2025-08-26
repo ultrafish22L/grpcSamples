@@ -306,7 +306,7 @@ class NodeInspectorControls {
         if (nodeInspector) {
             // Trigger node inspector update
             if (window.nodeInspector && typeof window.nodeInspector.updateSelectedNode === 'function') {
-                window.nodeInspector.updateSelectedNode(nodeData);
+                window.nodeInspector.updateSelectedNode(nodeData.handle);
             }
         }
     }
