@@ -285,7 +285,7 @@ class NodeInspector extends OctaneComponent {
 
         let result;
         try {        
-             result = window.grpcApi.makeApiCallSync(
+             result = window.grpcApi.makeApiCall(
                 'ApiItem/setByAttrID', 
                 nodeData.handle,
                 { id: window.OctaneTypes.AttributeId.A_VALUE,
@@ -296,7 +296,7 @@ class NodeInspector extends OctaneComponent {
             if (!result.success) {
                 throw new Error('NodeInspector.Failed ApiItem/setByAttrId');
             }
-            result = window.grpcApi.makeApiCallSync('ApiChangeManager/update');            
+            result = window.grpcApi.makeApiCall('ApiChangeManager/update');            
             if (!result.success) {
                 throw new Error('Failed ApiChangeManager/update');
             }

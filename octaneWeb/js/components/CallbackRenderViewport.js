@@ -106,7 +106,7 @@ class CallbackRenderViewport extends OctaneComponent {
         // Also listen for components fully initialized as fallback
         this.eventSystem.on('componentsFullyInitialized', () => {
             // Only start if scene data hasn't triggered it yet
-            this.startRender();
+//            this.startRender();
         });
     }
     
@@ -564,7 +564,7 @@ class CallbackRenderViewport extends OctaneComponent {
      */
     async triggerOctaneUpdate() {
         try {
-            const result = window.grpcApi.makeApiCallSync('ApiChangeManager/update');            
+            const result = window.grpcApi.makeApiCall('ApiChangeManager/update');            
             if (!result.success) {
                 throw new Error('Failed ApiChangeManager/update');
             }
@@ -580,7 +580,7 @@ class CallbackRenderViewport extends OctaneComponent {
      */
     async triggerInitialRender() {
         try {
-            const result = window.grpcApi.makeApiCallSync('ApiChangeManager/update');            
+            const result = window.grpcApi.makeApiCall('ApiChangeManager/update');            
             if (!result.success) {
                 throw new Error('Failed ApiChangeManager/update');
             }

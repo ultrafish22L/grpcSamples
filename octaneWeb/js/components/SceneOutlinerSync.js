@@ -175,7 +175,7 @@ class SceneOutlinerSync {
             if (itemHandle == null)
             {
                 // first call, get the root
-                result = window.grpcApi.makeApiCallSync(
+                result = window.grpcApi.makeApiCall(
                     'ApiProjectManager/rootNodeGraph'
                 );
                 if (!result.success) {
@@ -184,7 +184,7 @@ class SceneOutlinerSync {
                 itemHandle = result.data.result.handle;
             }
             // is it a graph or node?
-            result = window.grpcApi.makeApiCallSync(
+            result = window.grpcApi.makeApiCall(
                 'ApiItem/isGraph', 
                 itemHandle 
             );
@@ -194,7 +194,7 @@ class SceneOutlinerSync {
             if (result.data.result)
             {
                 // its a graph
-                result = window.grpcApi.makeApiCallSync(
+                result = window.grpcApi.makeApiCall(
                     'ApiNodeGraph/info1', 
                     itemHandle,
                 );
@@ -204,7 +204,7 @@ class SceneOutlinerSync {
                 graphInfo = result.data.data;
 
                 // Get owned items
-                result = window.grpcApi.makeApiCallSync(
+                result = window.grpcApi.makeApiCall(
                     'ApiNodeGraph/getOwnedItems', 
                     itemHandle,
                 );
@@ -214,7 +214,7 @@ class SceneOutlinerSync {
                 const ownedItemsHandle = result.data.list.handle
 
                 // Get the size of the item array
-                result = window.grpcApi.makeApiCallSync(
+                result = window.grpcApi.makeApiCall(
                     'ApiItemArray/size', 
                     ownedItemsHandle,
                 );
@@ -225,7 +225,7 @@ class SceneOutlinerSync {
 
                 for (let i = 0; i < size; i++) {
                     // get it
-                    result = window.grpcApi.makeApiCallSync(
+                    result = window.grpcApi.makeApiCall(
                         'ApiItemArray/get', 
                         ownedItemsHandle,
                         {index: i},
@@ -241,7 +241,7 @@ class SceneOutlinerSync {
                 return sceneItems
             }
             // its a node
-            result = window.grpcApi.makeApiCallSync(
+            result = window.grpcApi.makeApiCall(
                 'ApiNode/info', 
                 itemHandle,
             );
@@ -254,7 +254,7 @@ class SceneOutlinerSync {
             // pinCount may not == pinInfoCount
             let pinCount = nodeInfo.pinInfoCount;
 
-            result = window.grpcApi.makeApiCallSync(
+            result = window.grpcApi.makeApiCall(
                 'ApiNode/pinCount', 
                 itemHandle
             );
@@ -266,7 +266,7 @@ class SceneOutlinerSync {
 
             for (let i = 0; i < pinCount; i++) {
                 // Get the pin connected node
-                result = window.grpcApi.makeApiCallSync(
+                result = window.grpcApi.makeApiCall(
                     'ApiNode/connectedNodeIx', 
                     itemHandle,
                     { pinIx: i, enterWrapperNode: true },
@@ -280,7 +280,7 @@ class SceneOutlinerSync {
                     continue;
                 }
                 // Get the pin label
-                result = window.grpcApi.makeApiCallSync(
+                result = window.grpcApi.makeApiCall(
                     'ApiNode/pinLabelIx', 
                     itemHandle,
                     {index: i},
@@ -291,7 +291,7 @@ class SceneOutlinerSync {
                 let pinInfo = { staticLabel: result.data.result, index:i };
 
                 // Get the pin type
-                result = window.grpcApi.makeApiCallSync(
+                result = window.grpcApi.makeApiCall(
                     'ApiNode/pinTypeIx', 
                     itemHandle,
                     {index: i},
@@ -306,7 +306,7 @@ class SceneOutlinerSync {
 //                console.log('pinInfo.type', pinInfo.type);
 /*                
                 // Get the pin info handle
-                result = window.grpcApi.makeApiCallSync(
+                result = window.grpcApi.makeApiCall(
                     'ApiNode/pinInfoIx', 
                     itemHandle,
                     {index: i},
@@ -318,7 +318,7 @@ class SceneOutlinerSync {
                 console.log('before ApiNodePinInfoEx/getApiNodePinInfo', result.data.result.handle);
 
                 // Get the pin info 
-                result = window.grpcApi.makeApiCallSync(
+                result = window.grpcApi.makeApiCall(
                     'ApiNodePinInfoEx/getApiNodePinInfo', 
                     result.data.result.handle
                 );
@@ -355,7 +355,7 @@ class SceneOutlinerSync {
             
             // basic item params
             // name
-            result = window.grpcApi.makeApiCallSync(
+            result = window.grpcApi.makeApiCall(
                 'ApiItem/name',
                 item.handle
             );
@@ -365,7 +365,7 @@ class SceneOutlinerSync {
             itemName = result.data.result;
 
             // outtype
-            result = window.grpcApi.makeApiCallSync(
+            result = window.grpcApi.makeApiCall(
                 'ApiItem/outType',
                 item.handle
             );
@@ -387,7 +387,7 @@ class SceneOutlinerSync {
         if (children.length == 0) {
             try {        
                 // end node, get value's attribute
-                const result = window.grpcApi.makeApiCallSync(
+                const result = window.grpcApi.makeApiCall(
                     'ApiItem/attrInfo', 
                     item.handle,
                     { id: window.OctaneTypes.AttributeId.A_VALUE },

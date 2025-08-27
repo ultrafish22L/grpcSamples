@@ -70,7 +70,7 @@ except ImportError as e:
     sys.exit(1)
 
 # Configuration
-OCTANE_PORT = 51022  # Octane LiveLink Server (always)
+OCTANE_PORT = 51022  # Octane Server (always)
 PROXY_PORT = 51023   # This proxy server (for octaneWeb)
 
 # Docker networking support
