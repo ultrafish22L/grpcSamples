@@ -86,10 +86,12 @@ class NodeInspector extends OctaneComponent {
                 console.log('.parameter-control change:', e.target.dataset.parameter, e.target.value);
                 this.handleParameterChange(e.target);
             });
+/*
             this.addEventListener(control, 'input', (e) => {
                 console.log('.parameter-control input:', e.target.dataset.parameter, e.target.value);
                 this.handleParameterChange(e.target);
             });
+*/
         });
     }
 
@@ -293,6 +295,12 @@ class NodeInspector extends OctaneComponent {
             );
             if (!result.success) {
                 throw new Error('NodeInspector.Failed ApiItem/setByAttrId');
+            }
+            result = window.grpcApi.makeApiCallSync(
+                'ApiChangeManager/update', 
+            );            
+            if (!result.success) {
+                throw new Error('NodeInspector.Failed ApiChangeManager/update');
             }
         } catch (error) {
             console.error('❌ Failed NodeInspector.handleParameterChange(): ', error);
