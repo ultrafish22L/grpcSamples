@@ -35,14 +35,6 @@ class GenericNodeRenderer {
         this.expandedNodes = new Set();  // Track expanded nodes
         this.allNodesExpandedByDefault = true; // All nodes expanded by default
         this.lastGroup = null;
-
-        // Initialize with common groups expanded by default
-        this.expandedGroups.add('scene');
-        this.expandedGroups.add('render-settings');
-        this.expandedGroups.add('film-settings');
-        this.expandedGroups.add('animation');
-        this.expandedGroups.add('kernel');
-        this.expandedGroups.add('quality');
     }
     
     /**
@@ -144,10 +136,9 @@ class GenericNodeRenderer {
                     </div>`;
         }        
         if (hasChildren) {
-            html += `<div class="octane-group-content" data-toggle-content="${nodeId}" style="display: ${isExpanded ? 'block' : 'none'}">`;
-            level++;
+            html += `<div class="octane-group-content node-level-${level}"" data-toggle-content="${nodeId}" style="display: ${isExpanded ? 'block' : 'none'}">`;
             for (const child of nodeData.children) {
-                html += this.renderNodeAtLevel(child, level);
+                html += this.renderNodeAtLevel(child, level+1);
             }
             html += `</div>`;
         }

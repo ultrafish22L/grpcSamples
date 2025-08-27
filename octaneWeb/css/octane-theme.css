@@ -1066,6 +1066,7 @@ html, body {
     border-left: 1px solid var(--octane-border);
     border-right: 1px solid var(--octane-border);
     border-bottom: 1px solid var(--octane-border);
+    border-radius: 4px;    
     padding: 4px;
 }
 
