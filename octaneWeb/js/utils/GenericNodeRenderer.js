@@ -282,29 +282,28 @@ class GenericNodeRenderer {
         const index = nodeData.pinInfo.index;
         const type = nodeData.attrInfo.type;
 
-//        return `<input type="text" class="octane-text-input parameter-control" value="${''}" 
-//        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="text">`;
-
+        // grpc call
         let value = this.getValue(nodeData);
+        nodeData.value = value
 
         switch (type) {
         case "AT_BOOL":
             value = value.bool_value;
             return `<input type="checkbox" class="octane-checkbox parameter-control" ${value} 
-                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="boolean">`;
+                    data-handle="${nodeData.handle}" data-type="bool_value">`;
         
         case "AT_FLOAT":
             value = value.float_value;
             return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="0.001" 
-                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="number">`;
+                    data-handle="${nodeData.handle}" data-type="float_value">`;
         case "AT_FLOAT2":
             value = value.float2_value;
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector2">
+                        data-handle="${nodeData.handle}" data-component="x" data-type="float2_value">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.y}" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector2">
+                        data-handle="${nodeData.handle}" data-component="y" data-type="float2_value">
                 </div>
             `;
         case "AT_FLOAT3":
@@ -312,11 +311,11 @@ class GenericNodeRenderer {
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector3">
+                        data-handle="${nodeData.handle}" data-component="x" data-type="float3_value">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="0.001" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector3">
+                        data-handle="${nodeData.handle}" data-component="y" data-type="float3_value">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="0.001" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector3">
+                        data-handle="${nodeData.handle}" data-component="z" data-type="float3_value">
                 </div>
             `;
         case "AT_FLOAT4":
@@ -324,25 +323,25 @@ class GenericNodeRenderer {
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector3">
+                        data-handle="${nodeData.handle}" data-component="x" data-type="float4_value">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="0.001" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector3">
+                        data-handle="${nodeData.handle}" data-component="y" data-type="float4_value">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="0.001" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector3">
+                        data-handle="${nodeData.handle}" data-component="z" data-type="float4_value">
                 </div>
             `;
         case "AT_INT":
             value = value.int_value;
             return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="1" 
-                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="number">`;
+                    data-handle="${nodeData.handle}" data-type="int_value">`;
         case "AT_INT2":
             value = value.int2_value;
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector2">
+                        data-handle="${nodeData.handle}" data-component="x" data-type="int2_value">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.y}" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector2">
+                        data-handle="${nodeData.handle}" data-component="y" data-type="int2_value">
                 </div>
             `;
         case "AT_INT3":
@@ -350,11 +349,11 @@ class GenericNodeRenderer {
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector3">
+                        data-handle="${nodeData.handle}" data-component="x" data-type="int3_value">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="1" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector3">
+                        data-handle="${nodeData.handle}" data-component="y" data-type="int3_value">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="1" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector3">
+                        data-handle="${nodeData.handle}" data-component="z" data-type="int3_value">
                 </div>
             `;
         case "AT_INT4":
@@ -362,11 +361,11 @@ class GenericNodeRenderer {
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector4">
+                        data-handle="${nodeData.handle}" data-component="x" data-type="int4_value">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="1" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector4">
+                        data-handle="${nodeData.handle}" data-component="y" data-type="int4_value">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="1" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector4">
+                        data-handle="${nodeData.handle}" data-component="z" data-type="int4_value">
                 </div>
             `;
         case "AT_LONG":
@@ -374,7 +373,7 @@ class GenericNodeRenderer {
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="long">
+                        data-handle="${nodeData.handle}" data-component="x" data-type="long_value">
                 </div>
             `;
         case "AT_LONG2":
@@ -382,19 +381,19 @@ class GenericNodeRenderer {
             return `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="long2">
+                        data-handle="${nodeData.handle}" data-component="x" data-type="long2_value">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="1" 
-                        data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="long2">
+                        data-handle="${nodeData.handle}" data-component="y" data-type="long2_value">
                 </div>
             `;
         case "AT_STRING" || type == "AT_FILENAME":
             value = value.string_value;
             return `<input type="text" class="octane-text-input parameter-control" value="${value}" 
-                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="text">`;
+                    data-handle="${nodeData.handle}" data-type="string_value">`;
         }
 
         return `<input type="text" class="octane-text-input parameter-control" value="${''}" 
-                data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="text">`;
+                data-handle="${nodeData.handle}" data-type="string_value">`;
     }
     
     /**
@@ -422,7 +421,7 @@ class GenericNodeRenderer {
             options = ['Option 1', 'Option 2', 'Option 3'];
         }
         
-        let html = `<select class="octane-dropdown parameter-control" data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-type="enum">`;
+        let html = `<select class="octane-dropdown parameter-control" data-handle="${nodeData.handle}" data-type="enum">`;
         options.forEach((option, optIndex) => {
             const selected = optIndex === 0 ? 'selected' : '';
             html += `<option value="${option.toLowerCase()}" ${selected}>${option}</option>`;
@@ -551,87 +550,3 @@ class GenericNodeRenderer {
 if (typeof window !== 'undefined') {
     window.GenericNodeRenderer = GenericNodeRenderer;
 }
-
-/*
-            else if (type == "AT_FLOAT4") {
-
-                let result = window.grpcApi.makeApiCallSync(
-                    'ApiItem/getFloat4', 
-                    nodeData.handle,
-                    { id: window.OctaneTypes.AttributeId.A_VALUE },
-                );
-                if (!result.success) {
-                    throw new Error('Failed ApiItem/getFloat4');
-                }
-                const dims = nodeData.pinInfo.floatInfo.dimCount;
-
-                switch (dims)
-                {
-                    case 1:
-                    {
-                        let value = result.data.result;
-                        value = Array.isArray(value) ? value[0] : value;
-
-                        return `
-                            <div class="octane-vector-control">
-                                <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
-                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="float">
-                            </div>
-                        `;
-                    }
-                        break;
-                    case 2:
-                    {
-                        let value = result.data.result;
-                        value = Array.isArray(value) ? value[0] : value;
-
-                        return `
-                            <div class="octane-vector-control">
-                                <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
-                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector2">
-                                <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="0.001" 
-                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector2">
-                            </div>
-                        `;
-                    }
-                        break;
-                    case 3:
-                    {
-                        let value = result.data.result;
-                        value = Array.isArray(value) ? value[0] : value;
-
-                        return `
-                            <div class="octane-vector-control">
-                                <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
-                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector3">
-                                <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="0.001" 
-                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector3">
-                                <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="0.001" 
-                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector3">
-                            </div>
-                        `;
-                    }
-                        break;
-                    case 4:
-                    {
-                        let value = result.data.result;
-                        value = Array.isArray(value) ? value[0] : value;
-
-                        return `
-                            <div class="octane-vector-control">
-                                <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
-                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="0" data-type="vector4">
-                                <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="0.001" 
-                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="1" data-type="vector4">
-                                <input type="number" class="octane-vector-input parameter-control" value="${value.z}" step="0.001" 
-                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="2" data-type="vector4">
-                                <input type="number" class="octane-vector-input parameter-control" value="${value.w}" step="0.001" 
-                                    data-parameter="${nodeData.name}" data-index="${index}" data-handle="${nodeData.handle}" data-component="3" data-type="vector4">
-                            </div>
-                        `;
-                    }
-                        break;
-                }
-            }
-
-            */

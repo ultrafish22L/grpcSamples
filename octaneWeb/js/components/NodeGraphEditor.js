@@ -1099,7 +1099,6 @@ class NodeGraphEditor extends OctaneComponent {
     
     updateSelectedNode(handle) {
         console.log('NodeGraphEditor received selection handle:', handle);
-        console.log('Available nodes:', Array.from(this.nodes.entries()).map(([id, node]) => ({ id, name: node.name, sceneHandle: node.sceneHandle })));
         
         // Clear existing selection
         this.selectedNodes.clear();

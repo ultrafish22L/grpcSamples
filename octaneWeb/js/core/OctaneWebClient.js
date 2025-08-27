@@ -61,7 +61,7 @@ function createOctaneWebClient() {
         };
         
         // Setup event handlers for extended OctaneWeb functionality
-        this.setupExtendedEventHandlers();
+        this.setupEventHandlers();
         
         // Auto-sync intervals for periodic state updates
         this.syncIntervals = {
@@ -74,32 +74,12 @@ function createOctaneWebClient() {
     /**
      * Setup extended event handlers for OctaneWeb functionality
      */
-    setupExtendedEventHandlers() {
-        // Scene synchronization events
-        this.on('sceneChanged', (data) => {
-            this.updateSceneState(data);
-            this.emit('ui:sceneUpdate', this.sceneState);
-        });
-        
-        // Node graph events
-        this.on('nodeGraphChanged', (data) => {
-            this.updateNodeGraphState(data);
-            this.emit('ui:nodeGraphUpdate', this.nodeGraphState);
-        });
-        
+    setupEventHandlers() {
+
         // Render events
         this.on('renderProgress', (data) => {
             this.updateRenderState(data);
             this.emit('ui:renderUpdate', this.renderState);
-        });
-        
-        // Selection events
-        this.on('selectionChanged', (data) => {
-            this.sceneState.selection.clear();
-            if (data.selectedObjects) {
-                data.selectedObjects.forEach(id => this.sceneState.selection.add(id));
-            }
-            this.emit('ui:selectionUpdate', this.sceneState.selection);
         });
     }
     
@@ -110,9 +90,6 @@ function createOctaneWebClient() {
         try {
             // Call parent connect method
             await super.connect();
-            
-            // Initialize extended functionality
-            await this.initializeExtendedFeatures();
             
             // Start auto-sync intervals
             this.startAutoSync();
@@ -141,23 +118,6 @@ function createOctaneWebClient() {
         await super.disconnect();
         
         this.emit('octaneWeb:disconnected');
-    }
-    
-    /**
-     * Initialize extended features after connection
-     * Extended initialization is handled by individual components as needed
-     */
-    async initializeExtendedFeatures() {
-        try {
-            // Extended initialization is handled by individual components
-            // SceneOutliner handles scene data loading
-            // NodeInspector handles node graph synchronization
-            // RenderViewport handles render state management
-            
-        } catch (error) {
-            console.error('Failed to initialize extended features:', error);
-            throw error;
-        }
     }
     
     // ==================== GRPC CALL OVERRIDE ====================
@@ -854,107 +814,7 @@ function createOctaneWebClient() {
             throw error;
         }
     }
-    
-    /**
-     * Create new node
-     */
-    async createNode(nodeType, position) {
-        try {
-            const response = await this.makeGrpcCall('/octane/nodegraph/node/create', {
-                method: 'POST',
-                data: { nodeType, position }
-            });
-            
-            if (response.success && response.data) {
-                const nodeId = response.data.nodeId;
-                this.nodeGraphState.nodes.set(nodeId, response.data);
-                this.emit('ui:nodeCreated', response.data);
-            }
-            
-            return response;
-            
-        } catch (error) {
-            console.error('Failed to create node:', error);
-            throw error;
-        }
-    }
-    
-    /**
-     * Delete node
-     */
-    async deleteNode(nodeId) {
-        try {
-            const response = await this.makeGrpcCall('/octane/nodegraph/node/delete', {
-                method: 'POST',
-                data: { nodeId }
-            });
-            
-            if (response.success) {
-                this.nodeGraphState.nodes.delete(nodeId);
-                this.nodeGraphState.selectedNodes.delete(nodeId);
-                this.emit('ui:nodeDeleted', { nodeId });
-            }
-            
-            return response;
-            
-        } catch (error) {
-            console.error('Failed to delete node:', error);
-            throw error;
-        }
-    }
-    
-    /**
-     * Connect nodes
-     */
-    async connectNodes(outputNodeId, outputSocket, inputNodeId, inputSocket) {
-        try {
-            const response = await this.makeGrpcCall('/octane/nodegraph/connect', {
-                method: 'POST',
-                data: { outputNodeId, outputSocket, inputNodeId, inputSocket }
-            });
-            
-            if (response.success && response.data) {
-                const connectionId = response.data.connectionId;
-                this.nodeGraphState.connections.set(connectionId, response.data);
-                this.emit('ui:nodesConnected', response.data);
-            }
-            
-            return response;
-            
-        } catch (error) {
-            console.error('Failed to connect nodes:', error);
-            throw error;
-        }
-    }
-    
-    /**
-     * Update node parameter
-     */
-    async updateNodeParameter(nodeId, parameterName, value) {
-        try {
-            const response = await this.makeGrpcCall('/octane/nodegraph/node/parameter', {
-                method: 'POST',
-                data: { nodeId, parameterName, value }
-            });
-            
-            if (response.success) {
-                // Update local node state
-                const node = this.nodeGraphState.nodes.get(nodeId);
-                if (node) {
-                    if (!node.parameters) node.parameters = {};
-                    node.parameters[parameterName] = value;
-                    this.emit('ui:nodeParameterUpdate', { nodeId, parameterName, value });
-                }
-            }
-            
-            return response;
-            
-        } catch (error) {
-            console.error('Failed to update node parameter:', error);
-            throw error;
-        }
-    }
-    
+
     // ==================== RENDER MANAGEMENT ====================
     
     /**
@@ -1149,28 +1009,13 @@ function createOctaneWebClient() {
      * Start auto-sync intervals
      */
     startAutoSync() {
-        // Scene sync every 5 seconds
-        // TODO: implement proper scene tree method
-        // this.syncIntervals.scene = setInterval(() => {
-        //     if (this.isConnected) {
-        //         this.syncSceneHierarchy().catch(console.error);
-        //     }
-        // }, 5000);
-        
+
         // Render progress sync every 1 second when rendering
         this.syncIntervals.render = setInterval(() => {
             if (this.isConnected && this.renderState.isRendering) {
                 this.getRenderProgress().catch(console.error);
             }
         }, 1000);
-        
-        // Node graph sync every 10 seconds
-        // TODO: implement proper node graph method
-        // this.syncIntervals.nodeGraph = setInterval(() => {
-        //     if (this.isConnected) {
-        //         this.syncNodeGraph().catch(console.error);
-        //     }
-        // }, 10000);
     }
     
     /**

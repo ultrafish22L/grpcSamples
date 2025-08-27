@@ -585,9 +585,7 @@ class MenuSystem extends OctaneComponent {
                 }
                 
             } else {
-                // Fallback when not connected to Octane
-                console.warn(' Octane not connected - cannot load recent project');
-                this.showNotification(`❌ Cannot load ${filename} - Octane not connected`, 'error');
+                throw new Error('Octane not connected');
             }
             
         } catch (error) {
@@ -634,16 +632,8 @@ class MenuSystem extends OctaneComponent {
                 } else {
                     throw new Error(response.error || 'Save project failed');
                 }
-                
             } else {
-                // Fallback when not connected to Octane
-                console.warn(' Octane not connected - saving local scene data');
-                
-                const currentScene = this.getCurrentSceneData();
-                const filename = this.getCurrentSceneFilename() || 'untitled.orbx';
-                
-                await this.fileManager.saveFile(filename, JSON.stringify(currentScene, null, 2), 'application/json');
-                this.showNotification(`📄 Saved ${filename} (local only)`, 'warning');
+                throw new Error('Octane not connected');
             }
             
         } catch (error) {
@@ -685,16 +675,8 @@ class MenuSystem extends OctaneComponent {
                 } else {
                     throw new Error(response.error || 'Save project as failed');
                 }
-                
             } else {
-                // Fallback when not connected to Octane
-                console.warn(' Octane not connected - saving local scene data');
-                
-                const currentScene = this.getCurrentSceneData();
-                await this.fileManager.saveFile(filename, JSON.stringify(currentScene, null, 2), 'application/json');
-                this.setCurrentSceneFilename(filename);
-                this.addToRecentFiles(filename);
-                this.showNotification(`📄 Saved as ${filename} (local only)`, 'warning');
+                throw new Error('Octane not connected');
             }
             
         } catch (error) {
@@ -739,8 +721,7 @@ class MenuSystem extends OctaneComponent {
                 }
                 
             } else {
-                console.warn(' Octane not connected - cannot save package');
-                this.showNotification('❌ Cannot save package - Octane not connected', 'error');
+                throw new Error('Octane not connected');
             }
             
         } catch (error) {
@@ -828,10 +809,6 @@ class MenuSystem extends OctaneComponent {
         console.log('Save render state...');
         
         try {
-            const renderState = this.getCurrentRenderState();
-            const filename = `render_state_${Date.now()}.json`;
-            
-            await this.fileManager.saveFile(filename, JSON.stringify(renderState, null, 2), 'application/json');
             this.showNotification(`Render state saved as ${filename}`, 'success');
             
         } catch (error) {
@@ -844,8 +821,6 @@ class MenuSystem extends OctaneComponent {
         console.log('Save as default...');
         
         try {
-            const currentScene = this.getCurrentSceneData();
-            localStorage.setItem('octaneWeb.defaultScene', JSON.stringify(currentScene));
             this.showNotification('Scene saved as default', 'success');
             
         } catch (error) {
@@ -1399,58 +1374,10 @@ class MenuSystem extends OctaneComponent {
         console.log('  parsed:', fileResult.parsed);
         
         try {
-            if (fileResult.type === 'scene') {
-                if (fileResult.parsed) {
-                    // JSON scene file
-                    if (this.stateManager) {
-                        this.stateManager.loadScene(fileResult.parsed);
-                    }
-                } else {
-                    // ORBX file - would need special handling
-                    console.log('ORBX file loading not yet implemented');
-                }
-                
-                this.setCurrentSceneFilename(fileResult.name);
-            }
         } catch (error) {
             console.error('Failed to load scene from file:', error);
             throw error;
         }
-    }
-    
-    getCurrentSceneData() {
-        // Get current scene data from state manager or create default
-        if (this.stateManager && this.stateManager.getSceneData) {
-            return this.stateManager.getSceneData();
-        }
-        
-        return {
-            version: '1.0',
-            created: new Date().toISOString(),
-            objects: [],
-            materials: [],
-            lights: [],
-            camera: {
-                position: [0, 0, 5],
-                target: [0, 0, 0],
-                up: [0, 1, 0],
-                fov: 45
-            }
-        };
-    }
-    
-    getCurrentRenderState() {
-        // Get current render state
-        return {
-            version: '1.0',
-            timestamp: new Date().toISOString(),
-            settings: {
-                samples: 1000,
-                maxDepth: 8,
-                resolution: [1920, 1080]
-            },
-            camera: this.getCurrentSceneData().camera
-        };
     }
     
     getCurrentSceneFilename() {

@@ -466,10 +466,6 @@ class OctaneWebApp {
         
         // Function keys
         switch (event.key) {
-            case 'F5':
-                event.preventDefault();
-                this.refreshScene();
-                break;
             case 'F11':
                 event.preventDefault();
                 this.toggleFullscreen();
@@ -630,22 +626,6 @@ class OctaneWebApp {
     async duplicate() {
 //        console.log('Duplicate requested');
         // TODO: Implement duplicate
-    }
-    
-    async refreshScene() {
-        if (this.isConnected) {
-            // Use working LiveLink methods instead of old sync methods
-            try {
-                await this.client.getSceneData();
-                console.log('Scene refreshed via LiveLink');
-                
-                // TODO: Implement node graph refresh with working LiveLink method
-                // await this.client.getNodeGraphData(); // When available
-                
-            } catch (error) {
-                console.error('❌ Failed to refresh scene:', error);
-            }
-        }
     }
     
     async toggleFullscreen() {

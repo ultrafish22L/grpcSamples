@@ -29,9 +29,9 @@
 
 class SceneOutlinerSync {
     constructor(element, eventSystem) {
-        console.log('DEBUG: SceneOutlinerSync constructor called');
-        console.log('DEBUG: element:', element);
-        console.log('DEBUG: eventSystem:', eventSystem);
+        console.log('SceneOutlinerSync constructor called');
+        console.log('element:', element);
+        console.log('eventSystem:', eventSystem);
         
         this.element = element;
         this.eventSystem = eventSystem;
@@ -45,9 +45,9 @@ class SceneOutlinerSync {
         this.setupEventHandlers();
         
         // Auto-load scene tree after a short delay
-        console.log('DEBUG: Setting up auto-load timer...');
+        console.log('Setting up auto-load timer...');
         setTimeout(() => {
-            console.log('DEBUG: Auto-loading scene tree...');
+            console.log('Auto-loading scene tree...');
             this.loadSceneTree();
         }, 100);
     }
@@ -100,27 +100,17 @@ class SceneOutlinerSync {
      * UI loads immediately, then updates when scene data is ready
      */
     async loadSceneTree() {
-        console.log('DEBUG: loadSceneTree() called');
+        console.log('loadSceneTree() called');
         const treeContainer = this.element.querySelector('#scene-tree');
         if (!treeContainer) {
-            console.error('❌ Scene tree container not found');
+            console.error('❌ loadSceneTree(): #scene-tree container not found');
             return;
         }
-        
-        console.log('DEBUG: Found tree container, showing loading state');
         // Show loading state immediately - UI is responsive
         treeContainer.innerHTML = '<div class="scene-loading">Loading scene from Octane...</div>';
         
-        console.log('DEBUG: Checking grpcApi availability...');
-        console.log('DEBUG: window.grpcApi available?', !!window.grpcApi);
-        console.log('DEBUG: makeApiCallSync method available?', !!(window.grpcApi && window.grpcApi.makeApiCallSync));
-        
         try {
             console.log('Starting SYNCHRONOUS scene tree loading sequence...');
-            
-            // All API calls are now SYNCHRONOUS and BLOCKING
-            // This ensures proper sequential dependencies
-            console.log('DEBUG: About to call loadSceneTreeSync()...');
             this.scene.items = this.loadSceneTreeSync();
             
             // Store scene data for later requests
@@ -135,7 +125,7 @@ class SceneOutlinerSync {
             console.log('Scene tree loading completed successfully');
             
         } catch (error) {
-            console.error('❌ Failed to load scene tree:', error);
+            console.error('❌ Failed loadSceneTree(): ', error);
             
             // Clear stored scene data and notify other components
             this.lastScene = {};
@@ -342,7 +332,7 @@ class SceneOutlinerSync {
                 this.addSceneItem(sceneItems, connectedNode, level, graphInfo, nodeInfo, pinInfo);
             }
         } catch (error) {
-            console.error('❌ Failed loadSceneTreeSync:', error);
+            console.error('❌ Failed loadSceneTreeSync(): ', error);
         }
 //        sceneItems.sort((a, b) => a.handle - b.handle); 
         return sceneItems;
@@ -389,7 +379,7 @@ class SceneOutlinerSync {
             }
 
         } catch (error) {
-            console.error('❌ Failed GenericNodeRenderer.addSceneItem(): ', error);
+            console.error('❌ Failed addSceneItem(): ', error);
         }
         let children = this.loadSceneTreeSync(item.handle, null, level);
 
@@ -397,7 +387,7 @@ class SceneOutlinerSync {
         if (children.length == 0) {
             try {        
                 // end node, get value's attribute
-                let result = window.grpcApi.makeApiCallSync(
+                const result = window.grpcApi.makeApiCallSync(
                     'ApiItem/attrInfo', 
                     item.handle,
                     { id: window.OctaneTypes.AttributeId.A_VALUE },
@@ -408,7 +398,7 @@ class SceneOutlinerSync {
                 attrInfo = result.data.result;
 
             } catch (error) {
-                console.error('❌ Failed GenericNodeRenderer.addSceneItem(): ', error);
+                console.error('❌ Failed addSceneItem(): ', error);
             }
             console.log(`EndNode    ${item.handle} ${itemName} ${outType} ${attrInfo?.type}`);            
         }
