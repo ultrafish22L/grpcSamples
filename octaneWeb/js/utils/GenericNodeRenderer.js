@@ -70,14 +70,14 @@ class GenericNodeRenderer {
 //        console.log(`GenericNodeRenderer.renderNodeAtLevel() ${nodeData.name} ${nodeData.outType}`);
 
         // Check if expanded: default to true if allNodesExpandedByDefault, otherwise check set
-        const isExpanded = this.allNodesExpandedByDefault ? 
+        const isExpanded = this.allNodesExpandedByDefault && level < 2 ? 
             !this.expandedNodes.has(`collapsed-${nodeId}`) : 
             this.expandedNodes.has(nodeId);
         
         // Determine collapse/expand icon
         let collapseIcon = '';
         if (hasChildren && level > 0) {
-            collapseIcon = isExpanded ? '▼' : '►';
+            collapseIcon = isExpanded ? '▼' : '▶'
         }
 
         const indent = level == 0 ? "node-indent-0" : "node-indent";
