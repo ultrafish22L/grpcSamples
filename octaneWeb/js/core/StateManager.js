@@ -13,7 +13,7 @@
  * - Component-specific state isolation and management
  * 
  * State Structure:
- * - connection: Octane LiveLink connection status and configuration
+ * - connection: Octane connection status and configuration
  * - scene: Scene objects, hierarchy, and selection state
  * - nodeGraph: Visual node graph state and viewport
  * - render: Rendering progress and viewport configuration

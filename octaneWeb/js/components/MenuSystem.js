@@ -987,12 +987,12 @@ class MenuSystem extends OctaneComponent {
     
     async refresh() {
         if (this.client && this.client.connected) {
-            // Use working LiveLink methods instead of old sync methods
+            // Use working  methods instead of old sync methods
             try {
                 await this.client.getSceneData();
-                console.log('Scene data refreshed via LiveLink');
+                console.log('Scene data refreshed via ');
                 
-                // TODO: Implement node graph refresh with working LiveLink method
+                // TODO: Implement node graph refresh with working  method
                 // await this.client.getNodeGraphData(); // When available
                 
             } catch (error) {
@@ -1346,7 +1346,7 @@ class MenuSystem extends OctaneComponent {
                     <p><strong>Version:</strong> 1.0.0 Beta</p>
                     <p><strong>Build:</strong> ${new Date().toISOString().split('T')[0]}</p>
                     <br>
-                    <p>A complete web-based interface for Octane Render, providing pixel-perfect recreation of the native application through gRPC LiveLink integration.</p>
+                    <p>A complete web-based interface for Octane Render, providing pixel-perfect recreation of the native application through gRPC integration.</p>
                     <br>
                     <p><strong>Features:</strong></p>
                     <ul style="text-align: left; margin-left: 20px;">

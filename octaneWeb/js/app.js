@@ -2,13 +2,13 @@
  * OctaneWeb Main Application
  * 
  * Central orchestrator for the complete OctaneWeb real-time rendering system.
- * Manages the lifecycle of all components, handles Octane LiveLink connectivity,
+ * Manages the lifecycle of all components, handles Octane connectivity,
  * and coordinates real-time callback streaming for live rendering updates.
  * 
  * Architecture Flow:
  * 1. Core Systems: EventSystem → StateManager → OctaneWebClient → DebugConsole
  * 2. UI Components: SceneOutliner → NodeInspector → RenderViewport → NodeGraph
- * 3. Real-time Flow: Octane LiveLink → Callback Streaming → UI Updates
+ * 3. Real-time Flow: Octane → Callback Streaming → UI Updates
  * 
  * Key Features:
  * - Production-ready real-time rendering with callback streaming
@@ -21,7 +21,7 @@
 class OctaneWebApp {
     constructor() {
         // Core system components - initialized in order for proper dependency chain
-        this.client = null;              // OctaneWebClient - gRPC communication with Octane LiveLink
+        this.client = null;              // OctaneWebClient - gRPC communication with Octane
         this.stateManager = null;        // StateManager - centralized application state
         this.eventSystem = null;         // EventSystem - pub/sub event coordination
         this.layoutManager = null;       // LayoutManager - UI layout and responsive design
@@ -38,7 +38,7 @@ class OctaneWebApp {
         
         // Application lifecycle state tracking
         this.isInitialized = false;              // Core systems ready
-        this.isConnected = false;                // Octane LiveLink connection active
+        this.isConnected = false;                // Octane connection active
         this.componentsFullyInitialized = false; // All UI components loaded and ready
         
         // Real-time performance monitoring for production debugging
@@ -67,7 +67,7 @@ class OctaneWebApp {
      * 2. UI Components: SceneOutliner, RenderViewport, NodeInspector, etc.
      * 3. Event Listeners: Keyboard shortcuts, window resize, component events
      * 4. Performance Monitoring: FPS tracking for production debugging
-     * 5. Auto-connection: Attempt Octane LiveLink connection if configured
+     * 5. Auto-connection: Attempt Octane connection if configured
      */
     async initialize() {
         try {
@@ -94,7 +94,7 @@ class OctaneWebApp {
             this.isInitialized = true;
             console.log('OctaneWeb initialized successfully');
             
-            // Phase 6: Auto-connect to Octane LiveLink if server address configured
+            // Phase 6: Auto-connect to Octane if server address configured
             const serverAddress = document.getElementById('serverAddress')?.value;
             if (serverAddress) {
                 await this.connectToOctane(serverAddress);
@@ -116,7 +116,7 @@ class OctaneWebApp {
      * - Console capture must be first to catch all initialization errors
      * - EventSystem provides pub/sub for all other components
      * - StateManager depends on EventSystem for state change notifications
-     * - OctaneWebClient handles all gRPC communication with Octane LiveLink
+     * - OctaneWebClient handles all gRPC communication with Octane
      */
     async initializeCoreSystems() {
         // Step 1: Setup console error capture before any other initialization

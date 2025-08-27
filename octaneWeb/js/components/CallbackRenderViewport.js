@@ -2,7 +2,7 @@
  * Callback-based Render Viewport Component
  * 
  * Production-ready real-time rendering viewport with callback streaming from
- * Octane LiveLink. Provides live rendering updates, mouse drag camera control,
+ * Octane. Provides live rendering updates, mouse drag camera control,
  * and seamless integration with the Octane rendering pipeline.
  * 
  * Core Features:
@@ -564,11 +564,11 @@ class CallbackRenderViewport extends OctaneComponent {
      */
     async triggerOctaneUpdate() {
         try {
-            // Call ApiChangeManager::update() to make Octane refresh its display
-//            const response = await this.client.makeGrpcCall('ApiChangeManager', 'update', {});
-            // console.log('Octane display update triggered');
-            
-            return response;
+            const result = window.grpcApi.makeApiCallSync('ApiChangeManager/update');            
+            if (!result.success) {
+                throw new Error('Failed ApiChangeManager/update');
+            }
+            return result;
         } catch (error) {
             console.warn(' Failed to trigger Octane update:', error);
             throw error;
@@ -580,10 +580,11 @@ class CallbackRenderViewport extends OctaneComponent {
      */
     async triggerInitialRender() {
         try {
-            console.log('Triggering initial render via ApiChangeManager::update()');
-            const response = await this.client.makeGrpcCall('ApiChangeManager', 'update', {});
-            console.log('Initial render triggered successfully');
-            return response;
+            const result = window.grpcApi.makeApiCallSync('ApiChangeManager/update');            
+            if (!result.success) {
+                throw new Error('Failed ApiChangeManager/update');
+            }
+            return result;
         } catch (error) {
             console.warn(' Failed to trigger initial render:', error);
             // Don't throw - this is not critical for callback streaming to work

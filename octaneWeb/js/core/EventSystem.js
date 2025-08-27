@@ -13,7 +13,7 @@
  * - Memory-safe listener cleanup and management
  * 
  * Event Categories:
- * - 'connection:*' - Octane LiveLink connection state changes
+ * - 'connection:*' - Octane connection state changes
  * - 'scene:*' - Scene tree updates and object changes
  * - 'render:*' - Rendering progress and viewport updates
  * - 'node:*' - Node selection and parameter changes

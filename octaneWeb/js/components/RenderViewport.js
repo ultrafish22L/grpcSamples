@@ -37,7 +37,7 @@ class RenderViewport extends OctaneComponent {
         this.imagePollTimeout = null;
         this.imagePollInterval = 200; // Poll every 200ms for responsive image updates
         
-        console.log('Camera initialized for LiveLink sync:', {
+        console.log('Camera initialized for sync:', {
             radius: this.camera.radius,
             theta: this.camera.theta,
             phi: this.camera.phi,
@@ -47,7 +47,7 @@ class RenderViewport extends OctaneComponent {
     }
     
     async onInitialize() {
-        console.log('Initializing 2D Render Viewport with LiveLink camera sync...');
+        console.log('Initializing 2D Render Viewport with camera sync...');
         
         try {
             // Create 2D viewport container

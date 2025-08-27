@@ -2,11 +2,11 @@
  * Scene Outliner with Synchronous API Integration
  * 
  * Hierarchical scene tree component that displays the complete Octane scene
- * structure with real-time synchronization to the Octane LiveLink service.
+ * structure with real-time synchronization to the Octane service.
  * Provides node selection, search functionality, and expand/collapse controls.
  * 
  * Core Features:
- * - Real-time scene tree synchronization with Octane LiveLink
+ * - Real-time scene tree synchronization with Octane
  * - Hierarchical display with expand/collapse functionality
  * - Node selection with cross-component event coordination
  * - Search and filtering capabilities for large scenes

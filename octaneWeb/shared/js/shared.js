@@ -1,7 +1,7 @@
 /**
  * Shared Utilities for LiveLink gRPC Applications
  * Consolidated utilities for logging, UI management, testing, and debugging
- * Used by all HTML applications in the LiveLink suite
+ * Used by all HTML applications in the suite
  */
 
 /**
@@ -516,7 +516,7 @@ class StatsDisplayManager {
 
 /**
  * gRPC Test Operations
- * Comprehensive testing operations for LiveLink gRPC functionality
+ * Comprehensive testing operations for gRPC functionality
  */
 class GrpcTestOperations {
     constructor(logger, statsManager) {
@@ -587,7 +587,7 @@ class GrpcTestOperations {
             this.logger.log('🔺 Getting mesh list from Octane...', 'info');
             const meshes = await client.getMeshes();
             
-            // Note: Detailed mesh logging is handled by livelink.js logResponse method
+            // Note: Detailed mesh logging is handled by.js logResponse method
             if (!meshes || !Array.isArray(meshes)) {
                 this.logger.log('No mesh data received', 'warning');
             }

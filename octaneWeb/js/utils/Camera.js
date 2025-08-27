@@ -1,11 +1,11 @@
 /**
- * Camera System for Octane LiveLink Integration
+ * Camera System for Octane Integration
  * 
  * Centralized camera management system that handles:
  * - Spherical coordinate system for intuitive camera controls
  * - Mouse interaction (orbit, pan, zoom)
  * - Coordinate system conversions (spherical ↔ cartesian)
- * - Synchronization with Octane LiveLink service
+ * - Synchronization with Octane service
  * - Throttled updates for performance
  * 
  * Coordinate System:
@@ -252,7 +252,7 @@ class Camera {
     }
     
     /**
-     * Synchronize camera state with Octane LiveLink
+     * Synchronize camera state with Octane
      * Throttled to prevent excessive API calls
      */
     async syncToOctane() {
@@ -290,7 +290,7 @@ class Camera {
      */
     async triggerOctaneUpdate() {
         try {
-//            await this.client.makeGrpcCall('ApiChangeManager', 'update', {});
+//            const result = window.grpcApi.makeApiCallSync('ApiChangeManager/update');            
         } catch (error) {
             // Don't log connection errors as they're expected when Octane is not running
             if (!error.message.includes('Connection') && !error.message.includes('Network')) {

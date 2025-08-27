@@ -1,7 +1,7 @@
 /**
  * OctaneWeb gRPC Client
  * 
- * Extended gRPC client providing complete Octane LiveLink API coverage for
+ * Extended gRPC client providing complete Octane API coverage for
  * real-time rendering, scene management, and parameter editing. Builds upon
  * the base LiveLinkClient with advanced state management and callback streaming.
  * 
@@ -14,7 +14,7 @@
  * - Render state monitoring for production debugging
  * 
  * Architecture:
- * - Extends LiveLinkClient from livelink.js for base gRPC functionality
+ * - Extends LiveLinkClient from.js for base gRPC functionality
  * - Maintains synchronized state maps for all Octane objects
  * - Provides high-level API methods for UI component integration
  * - Handles connection lifecycle and error recovery
@@ -137,7 +137,6 @@ function createOctaneWebClient() {
             const method = methodOrService;
             actualRequest = requestOrMethod;
             
-            // For LiveLink methods, use LiveLink
             if (['SetCamera', 'GetCamera', 'GetMeshes'].includes(method)) {
                 serviceName = 'LiveLink';
                 methodName = method;

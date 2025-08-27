@@ -296,11 +296,9 @@ class NodeInspector extends OctaneComponent {
             if (!result.success) {
                 throw new Error('NodeInspector.Failed ApiItem/setByAttrId');
             }
-            result = window.grpcApi.makeApiCallSync(
-                'ApiChangeManager/update', 
-            );            
+            result = window.grpcApi.makeApiCallSync('ApiChangeManager/update');            
             if (!result.success) {
-                throw new Error('NodeInspector.Failed ApiChangeManager/update');
+                throw new Error('Failed ApiChangeManager/update');
             }
         } catch (error) {
             console.error('❌ Failed NodeInspector.handleParameterChange(): ', error);
