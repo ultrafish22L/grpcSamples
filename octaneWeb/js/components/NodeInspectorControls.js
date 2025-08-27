@@ -105,7 +105,7 @@ class NodeInspectorControls {
         
         if (this.client && this.client.makeGrpcCall) {
             try {
-                const result = await this.client.makeGrpcCall('ApiProjectManager', 'rootNodeGraph', {});
+                const result = await this.client.makeGrpcCall('ApiProjectManager/rootNodeGraph');
                 if (result && result.success !== false) {
                     console.log('Found Render Target node');
                     this.updateNodeInspector('Render Target', result.data);
@@ -129,7 +129,7 @@ class NodeInspectorControls {
         if (this.client && this.client.makeGrpcCall) {
             try {
                 // Get camera node from render target
-                const result = await this.client.makeGrpcCall('ApiRenderTarget', 'getCamera', {});
+                const result = await this.client.makeGrpcCall('ApiRenderTarget/getCamera');
                 if (result && result.success !== false) {
                     console.log('Found Camera node');
                     this.updateNodeInspector('Camera', result.data);
@@ -151,7 +151,7 @@ class NodeInspectorControls {
         
         if (this.client && this.client.makeGrpcCall) {
             try {
-                const result = await this.client.makeGrpcCall('ApiRenderTarget', 'getResolution', {});
+                const result = await this.client.makeGrpcCall('ApiRenderTarget/getResolution');
                 if (result && result.success !== false) {
                     console.log('Found Resolution settings');
                     this.updateNodeInspector('Resolution', result.data);
@@ -173,7 +173,7 @@ class NodeInspectorControls {
         
         if (this.client && this.client.makeGrpcCall) {
             try {
-                const result = await this.client.makeGrpcCall('ApiRenderTarget', 'getEnvironment', {});
+                const result = await this.client.makeGrpcCall('ApiRenderTarget/getEnvironment');
                 if (result && result.success !== false) {
                     console.log('Found Environment node');
                     this.updateNodeInspector('Environment', result.data);
@@ -195,7 +195,7 @@ class NodeInspectorControls {
         
         if (this.client && this.client.makeGrpcCall) {
             try {
-                const result = await this.client.makeGrpcCall('ApiRenderTarget', 'getImager', {});
+                const result = await this.client.makeGrpcCall('ApiRenderTarget/getImager');
                 if (result && result.success !== false) {
                     console.log('Found Imager node');
                     this.updateNodeInspector('Imager', result.data);
@@ -217,7 +217,7 @@ class NodeInspectorControls {
         
         if (this.client && this.client.makeGrpcCall) {
             try {
-                const result = await this.client.makeGrpcCall('ApiRenderTarget', 'getKernel', {});
+                const result = await this.client.makeGrpcCall('ApiRenderTarget/getKernel');
                 if (result && result.success !== false) {
                     console.log('Found Kernel node');
                     this.updateNodeInspector('Kernel', result.data);
@@ -239,7 +239,7 @@ class NodeInspectorControls {
         
         if (this.client && this.client.makeGrpcCall) {
             try {
-                const result = await this.client.makeGrpcCall('ApiSelectionManager', 'getSelectedMesh', {});
+                const result = await this.client.makeGrpcCall('ApiSelectionManager/getSelectedMesh');
                 if (result && result.success !== false) {
                     console.log('Found Current Mesh');
                     this.updateNodeInspector('Current Mesh', result.data);
@@ -384,7 +384,7 @@ class NodeInspectorControls {
         
         if (this.client && this.client.makeGrpcCall) {
             try {
-                this.client.makeGrpcCall('ApiNodeGraphEditor', 'enableMaterialRender', {});
+                this.client.makeGrpcCall('ApiNodeGraphEditor/enableMaterialRender');
             } catch (error) {
                 console.error('❌ Failed to enable material rendering:', error);
             }
@@ -399,7 +399,7 @@ class NodeInspectorControls {
         
         if (this.client && this.client.makeGrpcCall) {
             try {
-                this.client.makeGrpcCall('ApiNodeGraphEditor', 'disableMaterialRender', {});
+                this.client.makeGrpcCall('ApiNodeGraphEditor/disableMaterialRender');
             } catch (error) {
                 console.error('❌ Failed to disable material rendering:', error);
             }

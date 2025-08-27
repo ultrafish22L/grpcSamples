@@ -41,48 +41,6 @@ class RenderToolbar {
         this.updateRenderStats();
     }
     
-    /**
-     * Helper method to make gRPC calls through the proxy
-     * @param {string} service - The gRPC service name (e.g., 'ApiRenderEngine')
-     * @param {string} method - The method name (e.g., 'stopRendering')
-     * @param {Object} params - Parameters to send (optional)
-     * @returns {Promise} - The gRPC response
-     */
-    async makeGrpcCall(service, method, params = {}) {
-        if (!this.client) {
-            console.warn(` No client available for gRPC call: ${service}.${method}`);
-            return null;
-        }
-        
-        try {
-            console.log(`🔌 Making gRPC call: ${service}.${method}`, params);
-            
-            // Use the client's serverUrl to make the call
-            const url = `${this.client.serverUrl}/${service}/${method}`;
-            
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Call-Id': `render-toolbar-${Date.now()}`
-                },
-                body: JSON.stringify(params)
-            });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-            }
-            
-            const result = await response.json();
-            console.log(`gRPC call successful: ${service}.${method}`, result);
-            return result;
-            
-        } catch (error) {
-            console.error(`❌ gRPC call failed: ${service}.${method}`, error);
-            return null;
-        }
-    }
-    
     createRenderStatsBar() {
         const statsBar = document.createElement('div');
         statsBar.className = 'render-stats-bar';
@@ -376,7 +334,7 @@ class RenderToolbar {
     
     recenterView() {
         console.log('Recentering view...');
-        // TODO: makeGrpcCall('RecenterView', {})
+        // TODO: 
         // Centers the render view display area without affecting zoom level
     }
     
@@ -406,7 +364,7 @@ class RenderToolbar {
     
     showCameraPresets() {
         console.log('Showing camera presets...');
-        // TODO: makeGrpcCall('GetCameraPresets', {})
+        // TODO:
         // Show camera preset menu/dialog
     }
     
@@ -418,7 +376,7 @@ class RenderToolbar {
         console.log('Stopping render...');
         
         // Make real gRPC call to stop rendering
-        const result = await this.makeGrpcCall('ApiRenderEngine', 'stopRendering');
+        const result = window.grpcApi.makeApiCall('ApiRenderEngine/stopRendering');
         
         if (result && result.success !== false) {
             this.updateRenderStatus('stopped');
@@ -434,7 +392,7 @@ class RenderToolbar {
         console.log('Restarting render...');
         
         // Make real gRPC call to restart rendering
-        const result = await this.makeGrpcCall('ApiRenderEngine', 'restartRendering');
+        const result = window.grpcApi.makeApiCall('ApiRenderEngine/restartRendering');
         
         if (result && result.success !== false) {
             this.updateRenderStatus('rendering');
@@ -450,7 +408,7 @@ class RenderToolbar {
         console.log('Pausing render...');
         
         // Make real gRPC call to pause rendering
-        const result = await this.makeGrpcCall('ApiRenderEngine', 'pauseRendering');
+        const result = window.grpcApi.makeApiCall('ApiRenderEngine/pauseRendering');
         
         if (result && result.success !== false) {
             this.updateRenderStatus('paused');
@@ -466,7 +424,7 @@ class RenderToolbar {
         console.log('Starting/resuming render...');
         
         // Make real gRPC call to continue rendering (resume from pause)
-        const result = await this.makeGrpcCall('ApiRenderEngine', 'continueRendering');
+        const result = window.grpcApi.makeApiCall('ApiRenderEngine/continueRendering');
         
         if (result && result.success !== false) {
             this.updateRenderStatus('rendering');
@@ -486,7 +444,7 @@ class RenderToolbar {
         // For now, we'll use render priority as a proxy for real-time mode
         const priority = this.realTimeMode ? 'high' : 'normal';
         
-        const result = await this.makeGrpcCall('ApiRenderEngine', 'setRenderPriority', {
+        const result = window.grpcApi.makeApiCall('ApiRenderEngine/setRenderPriority', {
             priority: priority
         });
         
@@ -582,7 +540,7 @@ class RenderToolbar {
     
     copyToClipboard() {
         console.log('Copying render to clipboard...');
-        // TODO: makeGrpcCall('CopyRenderToClipboard', {})
+        // TODO: 
         // Copies current render to clipboard in LDR format
     }
     
@@ -594,7 +552,7 @@ class RenderToolbar {
     
     exportRenderPasses() {
         console.log('Exporting render passes...');
-        // TODO: makeGrpcCall('ShowExportPassesDialog', {})
+        // TODO: 
         // Brings up Render Passes Export window
     }
     

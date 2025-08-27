@@ -25,28 +25,25 @@ class GrpcApiHelper {
             if (!window.OctaneTypes) {
                 throw new Error('OctaneTypes not loaded - ensure js/constants/OctaneTypes.js is loaded');
             }            
-            // Build request data using the same logic as async version
+            // Build request data
             const [serviceName, methodName] = servicePath.split('/');
             
-            // Determine the correct ObjectPtr type for this service
-            const objectPtrType = window.OctaneTypes.ObjectType[serviceName];
-//            console.log(`SYNC API Call: ${serviceName}:${methodName} (handle: ${handle} type: ${objectPtrType})`);
-            
-            let requestData = { };
-            
+            let requestData = additionalData;
             // Add objectPtr if handle is provided and service needs it
-            if (handle !== null && objectPtrType !== undefined) {
-                requestData.objectPtr = {
-                    handle: handle,
-                    type: objectPtrType
-                };
-            }
-            requestData = { ...requestData, ...additionalData }
-//            console.log(`Request to ${servicePath}:`, requestData);
+            if (handle !== null) {
 
+                // Determine the correct ObjectPtr type for this service
+                const objectPtrType = window.OctaneTypes.ObjectType[serviceName];
+        
+                if (objectPtrType !== undefined) {
+                    requestData.objectPtr = {
+                        handle: handle,
+                        type: objectPtrType
+                    };
+                }
+            }
             // Make SYNCHRONOUS HTTP request using XMLHttpRequest
             const url = `${this.proxyUrl}/${servicePath}`;
-//            console.log(`Calling: ${url}`, requestData);
             
             const xhr = new XMLHttpRequest();
             xhr.open('POST', url, false); // false = synchronous
@@ -56,7 +53,6 @@ class GrpcApiHelper {
             if (xhr.status !== 200) {
                 throw new Error(`HTTP ${xhr.status}: ${xhr.statusText}`);
             }
-            
             const result = JSON.parse(xhr.responseText);
 //            console.log(`Response from ${servicePath}:`, result);
             

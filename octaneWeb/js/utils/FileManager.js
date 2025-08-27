@@ -7,9 +7,9 @@ class FileManager {
     constructor(octaneClient = null) {
         this.supportedFormats = {
             scene: ['.orbx'],  // Only support .orbx files for Octane projects
-            model: ['.obj', '.fbx', '.dae', '.3ds', '.ply', '.stl'],
-            texture: ['.jpg', '.jpeg', '.png', '.tiff', '.tga', '.exr', '.hdr'],
-            material: ['.mtl', '.mat']
+            model: ['.obj/.fbx/.dae/.3ds/.ply/.stl'],
+            texture: ['.jpg/.jpeg/.png/.tiff/.tga/.exr/.hdr'],
+            material: ['.mtl/.mat']
         };
         this.client = octaneClient;
 
@@ -179,7 +179,7 @@ class FileManager {
             
             // Read as appropriate type
             const ext = this.getFileExtension(file.name);
-            if (['.jpg', '.jpeg', '.png', '.tiff', '.tga'].includes(ext)) {
+            if (['.jpg/.jpeg/.png/.tiff/.tga'].includes(ext)) {
                 reader.readAsDataURL(file);
             } else {
                 reader.readAsText(file);
@@ -234,7 +234,7 @@ class FileManager {
             }
             
             // Make gRPC call to load project
-            const response = await this.client.makeGrpcCall('ApiProjectManager', 'loadProject', {
+            const response = await this.client.makeGrpcCall('ApiProjectManager/loadProject', {
                 projectPath: projectPath
             });
             

@@ -472,8 +472,7 @@ class MenuSystem extends OctaneComponent {
         try {
             // Make gRPC call to reset project (equivalent to "New")
             if (this.client && this.client.connected) {
-                console.log('Making gRPC call: ApiProjectManager/resetProject');
-                
+
                 // Show progress notification
                 this.showNotification('Creating new scene...', 'info');
 
@@ -484,7 +483,7 @@ class MenuSystem extends OctaneComponent {
 
                 // Race between the gRPC call and timeout
                 const response = await Promise.race([
-                    this.client.makeGrpcCall('ApiProjectManager', 'resetProject', {}),
+                    this.client.makeGrpcCall('ApiProjectManager/resetProject'),
                     timeoutPromise
                 ]);
                 
@@ -564,7 +563,7 @@ class MenuSystem extends OctaneComponent {
             if (this.client && this.client.connected) {
                 console.log('Making gRPC call: ApiProjectManager/loadProject');
                 
-                const response = await this.client.makeGrpcCall('ApiProjectManager', 'loadProject', {
+                const response = await this.client.makeGrpcCall('ApiProjectManager/loadProject', {
                     projectPath: filename,
                     evaluate: true
                 });
@@ -616,13 +615,13 @@ class MenuSystem extends OctaneComponent {
             if (this.client && this.client.connected) {
                 console.log('Making gRPC call: ApiProjectManager/saveProject');
                 
-                const response = await this.client.makeGrpcCall('ApiProjectManager', 'saveProject', {});
+                const response = await this.client.makeGrpcCall('ApiProjectManager/saveProject');
                 
                 if (response.success && response.data && response.data.result) {
                     console.log('Scene saved successfully via gRPC');
                     
                     // Get current project path to show in notification
-                    const currentProjectResponse = await this.client.makeGrpcCall('ApiProjectManager', 'getCurrentProject', {});
+                    const currentProjectResponse = await this.client.makeGrpcCall('ApiProjectManager/getCurrentProject');
                     
                     const projectPath = currentProjectResponse.data?.result || 'current project';
                     const filename = projectPath.split(/[\\\/]/).pop() || 'project';
@@ -661,7 +660,7 @@ class MenuSystem extends OctaneComponent {
             if (this.client && this.client.connected) {
                 console.log('Making gRPC call: ApiProjectManager/saveProjectAs');
                 
-                const response = await this.client.makeGrpcCall('ApiProjectManager', 'saveProjectAs', {
+                const response = await this.client.makeGrpcCall('ApiProjectManager/saveProjectAs', {
                     path: filename
                 });
                 
@@ -703,7 +702,7 @@ class MenuSystem extends OctaneComponent {
             if (this.client && this.client.connected) {
                 console.log('Making gRPC call: ApiProjectManager/saveProjectAsReferencePackage');
                 
-                const response = await this.client.makeGrpcCall('ApiProjectManager', 'saveProjectAsReferencePackage', {
+                const response = await this.client.makeGrpcCall('ApiProjectManager/saveProjectAsReferencePackage', {
                     path: packagePath,
                     referencePackageSettings: {
                         // Default package settings - in a full implementation these would be configurable
@@ -762,7 +761,7 @@ class MenuSystem extends OctaneComponent {
             if (this.client && this.client.connected) {
                 console.log('Making gRPC call: ApiProjectManager/unpackPackage');
                 
-                const response = await this.client.makeGrpcCall('ApiProjectManager', 'unpackPackage', {
+                const response = await this.client.makeGrpcCall('ApiProjectManager/unpackPackage', {
                     packagePath: packagePath,
                     unpackDir: unpackDir,
                     unpackName: unpackName
@@ -1089,7 +1088,7 @@ class MenuSystem extends OctaneComponent {
             if (this.client && this.client.connected) {
                 console.log('Making gRPC call: ApiRenderCloudManager/newRenderTask');
                 
-                const response = await this.client.makeGrpcCall('ApiRenderCloudManager', 'newRenderTask', {
+                const response = await this.client.makeGrpcCall('ApiRenderCloudManager/newRenderTask', {
                     // Add render task parameters as needed
                 });
                 
@@ -1117,7 +1116,7 @@ class MenuSystem extends OctaneComponent {
             if (this.client && this.client.connected) {
                 console.log('Making gRPC call: ApiRenderCloudManager/userSubscriptionInfo');
                 
-                const response = await this.client.makeGrpcCall('ApiRenderCloudManager', 'userSubscriptionInfo', {});
+                const response = await this.client.makeGrpcCall('ApiRenderCloudManager/userSubscriptionInfo');
                 
                 if (response.success && response.data) {
                     console.log('Retrieved cloud account info');
@@ -1144,7 +1143,7 @@ class MenuSystem extends OctaneComponent {
             if (this.client && this.client.connected) {
                 console.log('Making gRPC call: ApiRenderCloudManager/uploadCurrentProject');
                 
-                const response = await this.client.makeGrpcCall('ApiRenderCloudManager', 'uploadCurrentProject', {});
+                const response = await this.client.makeGrpcCall('ApiRenderCloudManager/uploadCurrentProject');
                 
                 if (response.success && response.data) {
                     console.log('Scene uploaded to cloud successfully');

@@ -279,37 +279,7 @@ class RenderViewport extends OctaneComponent {
         if (!this.imagePolling || !this.client) {
             return;
         }
-/*        
-        try {
-            // Simply grab render result - ignore empty responses
-            const result = await this.client.makeGrpcCall('ApiRenderEngine', 'grabRenderResult', {});
-            
-            if (result && result.success && result.data && result.data.renderImages) {
-                const renderImages = result.data.renderImages;
-                
-                // Check if we have actual image data
-                if (renderImages.data && renderImages.data.length > 0) {
-                    console.log('New render image received from background polling');
-                    this.displayRenderImage(result.data);
-                    this.updateStatus('New image received');
-                }
-                // Ignore empty responses - this is normal
-            }
-            
-        } catch (error) {
-            // Ignore connection errors during polling - don't spam console
-            if (!error.message.includes('Connection') && !error.message.includes('Network')) {
-                console.warn(' Image polling error (continuing):', error.message);
-            }
-        }
-        
-        // Schedule next poll
-        if (this.imagePolling) {
-            this.imagePollTimeout = setTimeout(() => {
-                this.pollForImages();
-            }, this.imagePollInterval);
-        }
-*/            
+           
     }
 
     /**
