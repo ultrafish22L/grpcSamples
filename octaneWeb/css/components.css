@@ -2999,7 +2999,7 @@ body.drag-over .drop-indicator {
 }
 
 .node-inspector .node-level-1 {
-    margin-left: 20px; /* First level indent */
+    margin-left: 2px; /* First level indent */
 }
 
 .node-inspector .node-level-2 {
@@ -3406,12 +3406,7 @@ body.drag-over .drop-indicator {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .node-level-0 { margin-left: 25px; }
-    .node-level-1 { margin-left: 40px; }
-    .node-level-2 { margin-left: 55px; }
-    .node-level-3 { margin-left: 70px; }
-    .node-level-4 { margin-left: 85px; }
-    
+
     .node-icon-box {
         left: -25px;
         width: 18px;

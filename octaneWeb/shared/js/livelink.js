@@ -418,7 +418,7 @@ class LiveLinkClient extends SimpleEventEmitter {
                 }, 10000);
                 
                 // Create a simple test request
-                console.log('Starting fetch request to:', testUrl);
+//                console.log('Starting fetch request to:', testUrl);
                 fetch(testUrl, {
                     method: 'GET',
                     signal: controller.signal

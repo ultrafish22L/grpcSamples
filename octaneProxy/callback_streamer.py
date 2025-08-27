@@ -30,7 +30,7 @@ from queue import Queue, Empty as QueueEmpty
 try:
     from PIL import Image
     PIL_AVAILABLE = True
-    print("PIL/Pillow available - PNG export enabled")
+#    print("PIL/Pillow available - PNG export enabled")
 except ImportError:
     PIL_AVAILABLE = False
     print("❌ PIL/Pillow not available - PNG export disabled (install with: pip install Pillow)")
@@ -92,7 +92,7 @@ class OctaneCallbackStreamer:
         self.reconnect_delay = 5.0  # Seconds between reconnection attempts
         self.client_timeout = 30.0  # Seconds before removing inactive clients
         
-        print(f"🔧 Initialized OctaneCallbackStreamer for {octane_address}")
+        print(f"Initialized OctaneCallbackStreamer for {octane_address}")
     
     async def initialize(self):
         """Initialize gRPC connection and stubs"""
@@ -193,7 +193,7 @@ class OctaneCallbackStreamer:
                     self.stream_errors += 1
                     
                     if self.stream_active:
-                        print(f"⏳ Reconnecting in {self.reconnect_delay} seconds...")
+                        print(f"Reconnecting in {self.reconnect_delay} seconds...")
                         time.sleep(self.reconnect_delay)
         finally:
             try:
@@ -238,7 +238,7 @@ class OctaneCallbackStreamer:
                 elif callback_request.HasField('newStatistics'):
                     await self._handle_new_statistics(callback_request.newStatistics)
                 else:
-                    print(f"🔍 Received unknown callback type: {callback_request}")
+                    print(f"Received unknown callback type: {callback_request}")
             
         except grpc.RpcError as e:
             if self.stream_active:  # Only log if we're supposed to be streaming

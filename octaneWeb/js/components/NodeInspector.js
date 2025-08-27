@@ -76,10 +76,213 @@ class NodeInspector extends OctaneComponent {
         this.client.on('ui:nodeParameterUpdate', (data) => {
             this.updateParameter(data.nodeId, data.parameterName, data.value);
         });
+        
+        // Force click events to work by bypassing CSS pointer-events issues
+        this.setupClickHandlers();
     }
     
+    setupClickHandlers() {
+        // ULTIMATE SOLUTION: Global coordinate-based click detection that bypasses all CSS pointer-events issues
+        const rightPanel = document.querySelector('.right-panel');
+        if (!rightPanel) return;
+
+        console.log('Setting up coordinate-based click detection system');
+
+        // Global document click handler that intercepts ALL clicks
+        document.addEventListener('click', (event) => {
+            // Get click coordinates
+            const x = event.clientX;
+            const y = event.clientY;
+            
+            // Get right panel bounds
+            const rightPanelRect = rightPanel.getBoundingClientRect();
+            
+            // Check if click is within right panel area
+            if (x >= rightPanelRect.left && x <= rightPanelRect.right &&
+                y >= rightPanelRect.top && y <= rightPanelRect.bottom) {
+                
+                console.log('Coordinate-based click detected in right panel at:', x, y);
+                
+                // Use elementsFromPoint to find what's actually under the cursor
+                const elementsUnderCursor = document.elementsFromPoint(x, y);
+//                console.log('Elements under cursor:', elementsUnderCursor.map(el => `${el.tagName}.${el.className} [bid=${el.getAttribute('bid')}]`));
+                
+                // Find the first clickable element in the right panel
+                for (const element of elementsUnderCursor) {
+                    // Skip elements that are not in the right panel
+                    if (!rightPanel.contains(element)) continue;
+
+                    console.log('Element:', `${element.tagName}.${element.className} [bid=${element.getAttribute('bid')}]`);
+                    
+                    // Handle parameter group headers (expand/collapse)
+                    if (element.hasAttribute) {
+                        if (element.hasAttribute('data-group')) {
+                            const groupName = element.getAttribute('data-group');
+                            console.log('Coordinate-based toggle of parameter group:', groupName);
+                            this.toggleGroup(groupName);
+                            event.preventDefault();
+                            event.stopPropagation();
+                            return;
+                        }
+                        if (element.hasAttribute('data-toggle')) {
+                            const nodeid = element.getAttribute('data-toggle');
+                            console.log('Coordinate-based toggle of parameter parent:', nodeid);
+                            this.toggleParent(nodeid);
+                            event.preventDefault();
+                            event.stopPropagation();
+                            return;
+                        }
+                    }
+                    
+                    // Handle spinner buttons
+                    if (element.classList && element.classList.contains('parameter-spinner-btn')) {
+                        console.log('Coordinate-based spinner button click:', element);
+                        const action = element.getAttribute('data-action');
+                        const paramName = element.getAttribute('data-param');
+                        this.handleSpinnerClick(paramName, action);
+                        event.preventDefault();
+                        event.stopPropagation();
+                        return;
+                    }
+                    
+                    // Handle checkboxes
+                    if (element.classList && element.classList.contains('parameter-checkbox')) {
+                        console.log('Coordinate-based checkbox click:', element);
+                        element.checked = !element.checked;
+                        this.handleParameterChange(element);
+                        event.preventDefault();
+                        event.stopPropagation();
+                        return;
+                    }
+                    
+                    // Handle dropdowns
+                    if (element.classList && element.classList.contains('parameter-dropdown')) {
+                        console.log('Coordinate-based dropdown click:', element);
+                        element.focus();
+                        // Let dropdown handle itself naturally
+                        return;
+                    }
+                    
+                    // Handle number inputs
+                    if (element.classList && element.classList.contains('parameter-number-input')) {
+                        console.log('Coordinate-based number input click:', element);
+                        element.focus();
+                        return;
+                    }
+                    
+                    // Handle parameter group headers by checking parent elements
+                    let parent = element.parentElement;
+                    while (parent && rightPanel.contains(parent)) {
+                        if (parent.hasAttribute && parent.hasAttribute('data-group')) {
+                            const groupName = parent.getAttribute('data-group');
+                            console.log('Coordinate-based toggle of parameter group (via parent):', groupName);
+                            this.toggleGroup(groupName);
+                            event.preventDefault();
+                            event.stopPropagation();
+                            return;
+                        }
+                        parent = parent.parentElement;
+                    }
+                }
+            }
+        }, true); // Capture phase - intercepts before any other handlers
+    }
+    
+    
+    toggleParent(nodeid) {
+        const header = this.element.querySelector(`[data-toggle="${nodeid}"]`);
+        const content = this.element.querySelector(`[data-toggle-content="${nodeid}"]`);
+        const icon = header?.querySelector('.collapse-icon');
+        
+        if (header && content && icon) {
+            if (content.style.display === 'none') {
+                // Expand
+                content.style.display = 'block';
+                icon.textContent = '▼';
+            } else {
+                // Collapse
+                content.style.display = 'none';
+                icon.textContent = '▶';
+            }
+        }
+    }
+    
+
+
+    toggleGroup(groupName) {
+        const header = this.element.querySelector(`[data-group="${groupName}"]`);
+        const content = this.element.querySelector(`[data-group-content="${groupName}"]`);
+        const icon = header?.querySelector('.parameter-group-icon');
+        
+        if (header && content && icon) {
+            if (content.style.display === 'none') {
+                // Expand
+                header.classList.remove('collapsed');
+                content.style.display = 'block';
+                icon.textContent = '▼';
+                this.collapsedGroups.delete(groupName);
+            } else {
+                // Collapse
+                header.classList.add('collapsed');
+                content.style.display = 'none';
+                icon.textContent = '▶';
+                this.collapsedGroups.add(groupName);
+            }
+        }
+    }
+    
+
+    
     setupControlEventListeners() {
-        //  Generic parameter control handlers for GenericNodeRenderer controls
+        // Group collapse/expand functionality
+        const groupHeaders = this.element.querySelectorAll('.parameter-group-header[data-group]');
+        groupHeaders.forEach(header => {
+            this.addEventListener(header, 'click', (e) => {
+                const groupName = header.dataset.group;
+                const content = this.element.querySelector(`[data-group-content="${groupName}"]`);
+                const icon = header.querySelector('.parameter-group-icon');
+                
+                if (header.classList.contains('collapsed')) {
+                    header.classList.remove('collapsed');
+                    content.style.display = 'block';
+                    icon.textContent = '▼';
+                } else {
+                    header.classList.add('collapsed');
+                    content.style.display = 'none';
+                    icon.textContent = '▶';
+                }
+            });
+        });
+        
+        // Parameter input change handlers
+        const numberInputs = this.element.querySelectorAll('.parameter-number-input');
+        numberInputs.forEach(input => {
+            this.addEventListener(input, 'change', (e) => {
+                this.handleParameterChange(e.target);
+            });
+            
+            this.addEventListener(input, 'input', (e) => {
+                this.updateSliderFromInput(e.target);
+            });
+        });
+        
+        // Checkbox handlers
+        const checkboxes = this.element.querySelectorAll('.parameter-checkbox');
+        checkboxes.forEach(checkbox => {
+            this.addEventListener(checkbox, 'change', (e) => {
+                this.handleParameterChange(e.target);
+            });
+        });
+        
+        // Dropdown handlers
+        const dropdowns = this.element.querySelectorAll('.parameter-dropdown, .inspector-target-select');
+        dropdowns.forEach(dropdown => {
+            this.addEventListener(dropdown, 'change', (e) => {
+                this.handleParameterChange(e.target);
+            });
+        });
+        
+        // NEW: Generic parameter control handlers for GenericNodeRenderer controls
         const parameterControls = this.element.querySelectorAll('.parameter-control');
         parameterControls.forEach(control => {
             this.addEventListener(control, 'change', (e) => {

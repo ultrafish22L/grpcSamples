@@ -63,7 +63,7 @@ try:
     from generated import common_pb2
     from generated import apiprojectmanager_pb2
     from generated import apiprojectmanager_pb2_grpc
-    print("Successfully imported core gRPC protobuf modules from generated/")
+#    print("Successfully imported core gRPC protobuf modules from generated/")
 except ImportError as e:
     print(f"❌ Failed to import core gRPC modules from generated/: {e}")
     print("Run ./build_protos.sh to generate protobuf files")
@@ -77,12 +77,12 @@ PROXY_PORT = 51023   # This proxy server (for octaneWeb)
 def get_octane_address():
     """Get Octane address with automatic Docker/sandbox environment detection"""
     
-    # Method 1: Explicit environment variable (highest priority)
+    # host.docker.internal
     if os.environ.get('SANDBOX_USE_HOST_NETWORK') == 'true':
         print("Using Docker networking: host.docker.internal")
         return f'host.docker.internal:{OCTANE_PORT}'
     
-    # Method 2: Check for OpenHands/sandbox environment indicators
+    # openhands
     sandbox_indicators = [
         '/openhands' in os.getcwd(),  # OpenHands workspace path
         os.environ.get('OPENHANDS_WORKSPACE_BASE'),  # OpenHands env var
@@ -95,8 +95,7 @@ def get_octane_address():
         print("Detected sandbox/container environment, using Docker networking: host.docker.internal")
         return f'host.docker.internal:{OCTANE_PORT}'
     
-    # Method 3: Default to localhost for Windows/native environments
-    print("🖥️ Using native networking: 127.0.0.1")
+    # localhost for Windows/native environments
     return f'127.0.0.1:{OCTANE_PORT}'
 
 # ==================== GRPC SERVICE REGISTRY ====================
@@ -243,7 +242,6 @@ class ComprehensiveOctaneProxy:
     async def connect_to_octane(self):
         """Connect to Octane with Docker networking support"""
         try:
-            print(f"🔌 Creating gRPC channel to {self.octane_address}")
             self.channel = grpc.aio.insecure_channel(self.octane_address)
             
             # Test connection with a simple call
@@ -257,9 +255,8 @@ class ComprehensiveOctaneProxy:
             print(f"Successfully connected to Octane at {self.octane_address}")
             print(f"Initial camera state: pos=({response.position.x:.2f}, {response.position.y:.2f}, {response.position.z:.2f})")
             return True
-            
         except Exception as e:
-            print(f"❌ Failed connect_to_octane(): {self.octane_address}: {e}")
+            print(f"Failed connect_to_octane(): {self.octane_address}")
             return False
 
     def clear_debug_logs(self):
@@ -847,20 +844,15 @@ def create_app():
 
 async def main():
     """Main entry point"""
-    global proxy
-    
-    print(f"Starting Robust Octane gRPC Passthrough Proxy Server")
-    print(f"Proxy Port: {PROXY_PORT}")
-    print(f"Octane Target: {get_octane_address()}")
-    print(f"Docker Support: {os.environ.get('SANDBOX_USE_HOST_NETWORK', 'false')}")
-    
     # Create proxy instance
+    global proxy
     proxy = ComprehensiveOctaneProxy()
     
-    # Connect to Octane
-    if not await proxy.connect_to_octane():
-        print("❌ Failed to connect to Octane - continuing anyway for development")
-    
+    # Connect to Octane, keep trying
+    while not await proxy.connect_to_octane():
+        print(" - reattempt in 5 secs")
+        time.sleep(5)
+
     # Create web application
     app = create_app()
     
@@ -873,8 +865,8 @@ async def main():
     print(f"Proxy server running on http://0.0.0.0:{PROXY_PORT}")
     print(f"Available endpoints:")
     print(f"  GET /health - Health check")
-    print(f"  POST /ServiceName/methodName - URL-based routing")
-    print(f"Ready to proxy ALL Octane services dynamically")
+    print(f"  POST /ServiceName/methodName - json -> grpc -> Octane")
+    print(f"Ready to proxy Octane services dynamically")
     
     # Keep server running
     try:
