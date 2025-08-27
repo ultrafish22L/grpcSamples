@@ -247,60 +247,38 @@ class NodeInspector extends OctaneComponent {
         }
         const datatype = element.dataset.type;
         const component = element.dataset.component;
-        console.log(`handleParameterChange ${nodeData.name} to: ${datatype} ${component ? component:""} `, JSON.stringify(element.value));
+        console.log(`handleParameterChange ${nodeData.name} ${datatype} ${component ? component:""} `, element.value);
 
         let value = nodeData.value
-        let label
-        switch (datatype) {
+        console.log(`handleParameterChange nodeData.value = `, JSON.stringify(value));
+        switch (nodeData.attrInfo.type) {
         case "AT_BOOL":
-            label = "bool_value";
-            value = element.value
+            value[datatype] = element.value == "on" ? 1 : 0;
             break;
         case "AT_FLOAT":
-            label = "float_value";
-            value = element.value
-            break;
-        case "AT_FLOAT2":
-            label = "float2_value";
-            value[component] = element.value
-            break;
-        case "AT_FLOAT3":
-            label = "float3_value";
-            value[component] = element.value
-            break;
-        case "AT_FLOAT4":
-            label = "float4_value";
-            value[component] = element.value
+            value[datatype] = parseFloat(element.value);
             break;
         case "AT_INT":
-            label = "int_value";
-            value = element.value
+        case "AT_LONG":
+            value[datatype] = parseInt(element.value);
+            break;
+        case "AT_STRING":
+        case "AT_FILENAME":
+            value[datatype] = element.value
+            break;
+        case "AT_FLOAT2":
+        case "AT_FLOAT3":
+        case "AT_FLOAT4":
+            value[datatype][component] = parseFloat(element.value);
             break;
         case "AT_INT2":
-            label = "int2_value";
-            value[component] = element.value
-            break;
         case "AT_INT3":
-            label = "int3_value";
-            value[component] = element.value
-            break;
         case "AT_INT4":
-            label = "int4_value";
-            value[component] = element.value
-            break;
-        case "AT_LONG":
-            label = "long_value";
-            value = element.value
-            break;
         case "AT_LONG2":
-            label = "long2_value";
-            value[component] = element.value
-            break;
-        case "AT_STRING" || type == "AT_FILENAME":
-            label = "string_value";
-            value = element.value
+            value[datatype][component] = parseInt(element.value);
             break;
         }
+        console.log(`handleParameterChange newValue = `, JSON.stringify(value));
         nodeData.value = value
 
         let result;
