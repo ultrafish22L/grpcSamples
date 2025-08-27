@@ -171,30 +171,40 @@ class GrpcServiceRegistry:
             except ImportError:
                 return Empty
  
-            if method_name == 'getByAttrID':
-                method_name = 'getValueByID'
-            elif method_name == 'setByAttrID':
-                method_name = 'setValueByID'
-            elif method_name == 'getByName':
-                method_name = 'getValueByName'
-            elif method_name == 'setByAttrName':
-                method_name = 'setValueByName'
-            elif method_name == 'getByAttrIx':
-                method_name = 'getValueByIx'
-            elif method_name == 'setByAttrIx':
-                method_name = 'setValueByIx'
-            elif method_name == 'getApiNodePinInfo':
-                method_name = 'GetNodePinInfo'
-            elif method_name == 'info1':
-                method_name = 'info'
+            pattern = f"{service_name}.{method_name}"
+            if service_name == 'LiveLink':
+                if method_name == 'GetCamera':
+                    pattern = "CameraState"
+                elif method_name == 'SetCamera':
+                    pattern = "CameraState"
+            else:
+                if method_name == 'getByAttrID':
+                    method_name = 'getValueByID'
+                elif method_name == 'setByAttrID':
+                    method_name = 'setValueByID'
+                elif method_name == 'getByName':
+                    method_name = 'getValueByName'
+                elif method_name == 'setByAttrName':
+                    method_name = 'setValueByName'
+                elif method_name == 'getByAttrIx':
+                    method_name = 'getValueByIx'
+                elif method_name == 'setByAttrIx':
+                    method_name = 'setValueByIx'
+                elif method_name == 'getApiNodePinInfo':
+                    method_name = 'GetNodePinInfo'
+                elif method_name == 'info1':
+                    method_name = 'info'
+                pattern = f"{service_name}.{method_name}Request"
 
-            pattern = f"{service_name}.{method_name}Request"
+ #           print(f"check request class for {service_name}.{method_name} {pattern}")
+
             if '.' in pattern:
                 parts = pattern.split('.')
                 request_class = pb2_module
 
                 for part in parts:
                     if hasattr(request_class, part):
+#                        print(f"request class for {part}")
                         request_class = getattr(request_class, part)
                     else:
                         request_class = None

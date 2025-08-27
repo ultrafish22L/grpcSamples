@@ -112,7 +112,7 @@ class NodeInspector extends OctaneComponent {
                     // Skip elements that are not in the right panel
                     if (!rightPanel.contains(element)) continue;
 
-                    console.log('Element:', `${element.tagName}.${element.className} [bid=${element.getAttribute('bid')}]`);
+//                    console.log('Element:', `${element.tagName}.${element.className} [bid=${element.getAttribute('bid')}]`);
                     
                     // Handle parameter group headers (expand/collapse)
                     if (element.hasAttribute) {
@@ -452,13 +452,12 @@ class NodeInspector extends OctaneComponent {
         }
         const datatype = element.dataset.type;
         const component = element.dataset.component;
-        console.log(`handleParameterChange ${nodeData.name} ${datatype} ${component ? component:""} `, element.value);
 
         let value = nodeData.value
-        console.log(`handleParameterChange nodeData.value = `, JSON.stringify(value));
         switch (nodeData.attrInfo.type) {
         case "AT_BOOL":
-            value[datatype] = element.value == "on" ? 1 : 0;
+//            console.log(`handleParameterChange element.checked = ${element.checked}`);
+            value[datatype] = element.checked;
             break;
         case "AT_FLOAT":
             value[datatype] = parseFloat(element.value);
@@ -483,7 +482,7 @@ class NodeInspector extends OctaneComponent {
             value[datatype][component] = parseInt(element.value);
             break;
         }
-        console.log(`handleParameterChange newValue = `, JSON.stringify(value));
+        console.log(`handleParameterChange ${nodeData.name} ${datatype} ${component ? component:""} newValue = `, JSON.stringify(value));
         nodeData.value = value
 
         let result;

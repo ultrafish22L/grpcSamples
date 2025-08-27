@@ -92,9 +92,9 @@ function createOctaneWebClient() {
             await super.connect();
             
             // Start auto-sync intervals
-            this.startAutoSync();
+//            this.startAutoSync();
             
-            this.emit('octaneWeb:connected');
+//            this.emit('octaneWeb:connected');
             return true;
             
         } catch (error) {
@@ -243,7 +243,7 @@ function createOctaneWebClient() {
      */
     async syncCameras() {
         try {
-            const response = await this.makeGrpcCall('GetCamera');
+            const response = await this.makeGrpcCall('LiveLink/GetCamera');
             
             if (response.success && response.data) {
                 this.sceneState.cameras.clear();
@@ -272,7 +272,7 @@ function createOctaneWebClient() {
      */
     async setCameraPosition(x, y, z) {
         try {
-            const response = await this.makeGrpcCall('SetCamera', {
+            const response = await this.makeGrpcCall('LiveLink/SetCamera', {
                 position: { x: x, y: y, z: z }
             });
             
@@ -293,7 +293,7 @@ function createOctaneWebClient() {
      */
     async setCameraTarget(x, y, z) {
         try {
-            const response = await this.makeGrpcCall('SetCamera', {
+            const response = await this.makeGrpcCall('LiveLink/SetCamera', {
                 target: { x: x, y: y, z: z }
             });
             
@@ -314,7 +314,7 @@ function createOctaneWebClient() {
      */
     async setCameraPositionAndTarget(posX, posY, posZ, targetX, targetY, targetZ) {
         try {
-            const response = await this.makeGrpcCall('SetCamera', {
+            const response = await this.makeGrpcCall('LiveLink/SetCamera', {
                 position: { x: posX, y: posY, z: posZ },
                 target: { x: targetX, y: targetY, z: targetZ }
             });
@@ -322,12 +322,12 @@ function createOctaneWebClient() {
             if (response.success) {
                 this.log(`Camera updated: pos=[${posX.toFixed(2)}, ${posY.toFixed(2)}, ${posZ.toFixed(2)}], target=[${targetX.toFixed(2)}, ${targetY.toFixed(2)}, ${targetZ.toFixed(2)}]`);
             }
-            
-            return response;
+            return response.succes;
             
         } catch (error) {
             console.error('Failed to set camera position and target:', error);
-            throw error;
+//            throw error;
+            return false;
         }
     }
     

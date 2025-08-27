@@ -269,15 +269,16 @@ class Camera {
             const target = this.getTarget();
             
             // Update Octane camera
-            await this.client.setCameraPositionAndTarget(position[0], position[1], position[2], target[0], target[1], target[2]);
-            
-            // Trigger Octane display update
-            await this.triggerOctaneUpdate();
-            
-            this.sync.lastSyncTime = now;
-            this.sync.syncCount++;
-            
-            console.log(`Camera synced: pos=[${position.map(v => v.toFixed(2)).join(', ')}], target=[${target.map(v => v.toFixed(2)).join(', ')}]`);
+            if (await this.client.setCameraPositionAndTarget(position[0], position[1], position[2], target[0], target[1], target[2])) {
+                
+                // Trigger Octane display update
+                await this.triggerOctaneUpdate();
+                
+                this.sync.lastSyncTime = now;
+                this.sync.syncCount++;
+                
+                console.log(`Camera synced: pos=[${position.map(v => v.toFixed(2)).join(', ')}], target=[${target.map(v => v.toFixed(2)).join(', ')}]`);
+            }
             
         } catch (error) {
             console.warn(' Camera sync error:', error);

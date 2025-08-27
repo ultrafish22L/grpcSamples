@@ -69,7 +69,14 @@ class GenericNodeRenderer {
         
 //        console.log(`GenericNodeRenderer.renderNodeAtLevel() ${nodeData.name} ${nodeData.outType}`);
 
-        let html = ``;
+        let html = "";
+        if (!nodeData.attrInfo) {
+             html += `<div class="octane-group-content node-level-${level}" style="display:'block'}">`;
+        }
+        else {
+             html += `<div class="node-level-${level}" style="display:'block'}">`;
+        }
+/*            
         let groupName = null;
         if (nodeData.pinInfo && nodeData.pinInfo.groupName) {
             groupName = nodeData.pinInfo.groupName;
@@ -98,6 +105,7 @@ class GenericNodeRenderer {
                 this.lastGroup = groupName;
             }
         }
+*/
         // Check if expanded: default to true if allNodesExpandedByDefault, otherwise check set
         const isExpanded = this.allNodesExpandedByDefault ? 
             !this.expandedNodes.has(`collapsed-${nodeId}`) : 
@@ -109,7 +117,7 @@ class GenericNodeRenderer {
             collapseIcon = isExpanded ? '▼' : '►';
         }
         if (nodeData.attrInfo?.type == null) {
-            html += `<div class="node-box node-level-${level}" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
+            html += `<div class="node-box" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
                         <div class="node-icon-box" style="background-color: ${color}">
                             <span class="node-icon">${icon}</span>
                         </div>
@@ -122,7 +130,7 @@ class GenericNodeRenderer {
                     </div>`;
         }
         else {
-            html += `<div class="node-box node-level-${level}" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
+            html += `<div class="node-box" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
                         <div class="node-icon-box" style="background-color: ${color}">
                             <span class="node-icon">${icon}</span>
                         </div>
@@ -135,18 +143,17 @@ class GenericNodeRenderer {
                         </div>
                     </div>`;
         }        
-        if (hasChildren) {
-            html += `<div class="octane-group-content node-level-${level}"" data-toggle-content="${nodeId}" style="display: ${isExpanded ? 'block' : 'none'}">`;
-            for (const child of nodeData.children) {
-                html += this.renderNodeAtLevel(child, level+1);
-            }
-            html += `</div>`;
+        for (const child of nodeData.children) {
+            html += this.renderNodeAtLevel(child, level+1);
         }
         if (level == 0 && this.lastGroup != null) {
             // end last group
             this.lastGroup = null;
             html += `</div>`;
         }            
+        // end this node
+        html += `</div>`;
+
         return html;
     }
     
