@@ -85,11 +85,10 @@ target_compile_definitions(shared_lib_base
 )
 
 # grpc proto definition files - always process these
-get_filename_component(ABS_PROTO_DIR "${CMAKE_CURRENT_SOURCE_DIR}/protos/definitions" ABSOLUTE)
+get_filename_component(ABS_PROTO_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../sdk/src/api/grpc/protodef" ABSOLUTE)
 get_filename_component(ABS_PROTO_OUT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/protos" ABSOLUTE)
-file(GLOB PROTO_FILES "${ABS_PROTO_DIR}/*.proto")
-#list(APPEND PROTO_FILES  "${ABS_PROTO_DIR}/protos/camera_control.proto")
-#list(APPEND PROTO_FILES  "${ABS_PROTO_DIR}/protos/livelink.proto")
+list(APPEND PROTO_FILES  "${ABS_PROTO_DIR}/camera_control.proto")
+list(APPEND PROTO_FILES  "${ABS_PROTO_DIR}/livelink.proto")
 
 #add_subdirectory(protos)
 

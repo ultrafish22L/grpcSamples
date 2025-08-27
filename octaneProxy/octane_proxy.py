@@ -148,13 +148,7 @@ class GrpcServiceRegistry:
         try:
             stub_class = getattr(grpc_module, stub_class_name)
         except AttributeError:
-            # Try alternative naming convention
-            alt_stub_class_name = f"{service_name}Stub" if not service_name.endswith('Service') else f"{service_name}ServiceStub"
-            try:
-                stub_class = getattr(grpc_module, alt_stub_class_name)
-                stub_class_name = alt_stub_class_name
-            except AttributeError:
-                raise Exception(f"Stub class not found: tried {stub_class_name} and {alt_stub_class_name}")
+            raise Exception(f"Stub class not found: tried {stub_class_name} and {alt_stub_class_name}")
 
         # Create and cache the stub
         stub = stub_class(channel)

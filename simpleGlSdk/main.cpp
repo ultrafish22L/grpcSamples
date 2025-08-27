@@ -95,7 +95,7 @@ PFNWGLDXLOCKOBJECTSNVPROC wglDXLockObjectsNV = nullptr;
 PFNWGLDXUNLOCKOBJECTSNVPROC wglDXUnlockObjectsNV = nullptr;
 
 // Octane shared surface
-const Octane::ApiSharedSurface* g_octaneSharedSurface = nullptr;
+//const Octane::ApiSharedSurface* g_octaneSharedSurface = nullptr;
 int64_t g_sharedSurfaceId = 0;
 #endif
 
@@ -445,7 +445,7 @@ bool setupOpenGLInterop() {
 // Register shared surface with Octane
 bool registerWithOctane() {
     std::cout << " Registering shared surface with Octane..." << std::endl;
-    
+/*
     // Check if current device supports shared surfaces
     ApiDeviceSharedSurfaceInfo sharedInfo = OctaneGRPC::ApiRenderEngineProxy::deviceSharedSurfaceInfo(0);
     if (!sharedInfo.mD3D11.mSupported) {
@@ -475,6 +475,7 @@ bool registerWithOctane() {
     
     std::cout << " Shared surface registered with Octane successfully" << std::endl;
     std::cout << "   Real-time mode enabled" << std::endl;
+*/
     return true;
 }
 
@@ -483,9 +484,9 @@ void cleanupSharedSurface() {
     std::cout << " Cleaning up shared surface resources..." << std::endl;
     
     // Disable shared surface output
-    if (g_octaneSharedSurface) {
-        OctaneGRPC::ApiRenderEngineProxy::setSharedSurfaceOutputType(SHARED_SURFACE_TYPE_NONE, false);
-    }
+//    if (g_octaneSharedSurface) {
+//        OctaneGRPC::ApiRenderEngineProxy::setSharedSurfaceOutputType(SHARED_SURFACE_TYPE_NONE, false);
+//    }
     
     // Unregister OpenGL object
     if (g_glSharedTexture && wglDXUnregisterObjectNV) {
@@ -506,10 +507,9 @@ void cleanupSharedSurface() {
     }
     
     // Release Octane shared surface
-    if (g_octaneSharedSurface) {
-//        g_octaneSharedSurface->release();
-        g_octaneSharedSurface = nullptr;
-    }
+//    if (g_octaneSharedSurface) {
+//        g_octaneSharedSurface = nullptr;
+//    }
     
     // Close shared handle
     if (g_sharedHandle) {
@@ -551,7 +551,7 @@ void OnNewImageCallback(const Octane::ApiArray<Octane::ApiRenderImage>& renderIm
     
     for (size_t i = 0; i < renderImages.mSize; ++i) {
         const auto& img = renderImages.mData[i];
-        
+/*
         // Check if this image uses shared surface (highest priority)
         if (img.mSharedSurface != nullptr) {
             foundSharedSurface = true;
@@ -565,7 +565,8 @@ void OnNewImageCallback(const Octane::ApiArray<Octane::ApiRenderImage>& renderIm
             // No need to copy data - it's already in shared GPU memory!
             break; // Prioritize shared surface over regular buffers
             
-        } else if (img.mBuffer != nullptr) {
+        } else */
+        if (img.mBuffer != nullptr) {
             foundRegularBuffer = true;
             // Store regular buffer as fallback
             if (i == 0) { // Only store the first image to avoid excessive copying

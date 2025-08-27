@@ -131,13 +131,6 @@ target_compile_definitions(octane_sdk
 
 # Platform-specific library linking
 if(WIN32 AND MSVC)
-    # Windows-specific library linking
-    # Link with octane_standalone.lib
-    target_link_libraries(octane_sdk
-        PUBLIC
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/api/module/octane_standalone.lib"
-    )
-    message(STATUS "Windows MSVC SDK with octane_standalone.lib configured")
 
 elseif(APPLE)
     # macOS: Use ALL available third_party libraries

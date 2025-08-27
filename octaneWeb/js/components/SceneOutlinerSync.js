@@ -152,9 +152,6 @@ class SceneOutlinerSync {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-
-
-
     /**
      * SYNCHRONOUS scene tree loading with blocking API calls
      * STRUCTURED DEBUGGING: Isolate exactly where Octane crashes
@@ -262,7 +259,7 @@ class SceneOutlinerSync {
                 throw new Error('Failed ApiNode/pinCount');
             }
             pinCount = result.data.result;
-            console.log(`pinCount = ${pinCount} nodeInfo.pinInfoCount = ${nodeInfo.pinInfoCount}`);  
+//            console.log(`pinCount = ${pinCount} nodeInfo.pinInfoCount = ${nodeInfo.pinInfoCount}`);  
 
             for (let i = 0; i < pinCount; i++) {
                 // Get the pin connected node
