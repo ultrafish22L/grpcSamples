@@ -279,10 +279,6 @@
     font-size: var(--font-size-small);
 }
 
-.node-inspector-content {
-    padding: 8px;
-}
-
 /* Official Octane-style Parameter Groups - No boxes around headers */
 .parameter-section {
     margin-bottom: 4px;
@@ -2983,7 +2979,6 @@ body.drag-over .drop-indicator {
 /* Node box base styles - ONLY for Node Inspector */
 .node-inspector .node-box {
     position: relative;
-    margin: 2px 0; /* Increased vertical spacing for better breathing room */
     background: var(--octane-bg-secondary);
     border: 1px solid var(--octane-border);
     border-radius: 4px;
@@ -2994,34 +2989,36 @@ body.drag-over .drop-indicator {
 }
 
 /* Level-based indentation system with consistent 24px increments - ONLY for Node Inspector */
-.node-inspector .node-level-0 {
-    margin-left: 0; /* Top node fully left justified - no margin */
+.node-inspector .node-indent-0 {
+    background-color: var(--octane-bg-secondary);
+    border-left: 1px solid var(--octane-border);
+    border-right: 1px solid var(--octane-border);
+    border-bottom: 1px solid var(--octane-border);
+    border-radius: 4px;    
+    padding: 0 0 0 4px;
+    margin: 2px 0 0 0;
 }
 
-.node-inspector .node-level-1 {
-    margin-left: 2px; /* First level indent */
+.node-inspector .node-indent {
+    background-color: var(--octane-bg-secondary);
+    border-left: 1px solid var(--octane-border);
+    border-right: 1px solid var(--octane-border);
+    border-bottom: 1px solid var(--octane-border);
+    border-radius: 4px;      
+    padding: 0 0 0 4px;
+    margin: 2px 0 0 20px;
 }
 
-.node-inspector .node-level-2 {
-    margin-left: 40px; /* Second level indent (24px * 2) */
-}
-
-.node-inspector .node-level-3 {
-    margin-left: 60px; /* Third level indent (24px * 3) */
-}
-
-.node-inspector .node-level-4 {
-    margin-left: 80px; /* Fourth level indent (24px * 4) */
-}
-
-.node-inspector .node-level-5 {
-    margin-left: 100px; /* Fifth level indent (24px * 5) */
+.node-inspector .node-toggle-content {
+    background-color: var(--octane-bg-secondary);
+    padding: 0;
+    margin: 0;
 }
 
 /* Icon box with better visibility and positioning - ONLY for Node Inspector */
 .node-inspector .node-icon-box {
     position: absolute;
-    left: -4px; /* Slightly more overlap for better integration */
+    left: -8px; /* Slightly more overlap for better integration */
     width: 20px;
     height: 20px;
     border-radius: 3px;

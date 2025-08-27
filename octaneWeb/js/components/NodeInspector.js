@@ -193,6 +193,8 @@ class NodeInspector extends OctaneComponent {
         const header = this.element.querySelector(`[data-toggle="${nodeid}"]`);
         const content = this.element.querySelector(`[data-toggle-content="${nodeid}"]`);
         const icon = header?.querySelector('.collapse-icon');
+
+        console.log('toggleParent: ', this.element);
         
         if (header && content && icon) {
             if (content.style.display === 'none') {
