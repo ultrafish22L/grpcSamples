@@ -315,12 +315,15 @@ class OctaneWebApp {
             this.client.serverUrl = serverUrl;
             
             // Attempt connection
-            await this.client.connect();
+            const success = await this.client.connect();
             
             // Update UI
             const connectionToggle = document.getElementById('connectionToggle');
             if (connectionToggle) {
-                connectionToggle.checked = true;
+                connectionToggle.checked = success;
+            }
+            if (success) {
+                this.client.loadSceneTree();
             }
             
         } catch (error) {

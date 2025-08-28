@@ -32,7 +32,7 @@ function createOctaneWebClient() {
         super(serverUrl);
                 
         this.eventSystem = eventSystem;
-        this.scene = { map:[], items:null };
+        this.scene = { items: null}
 
         // Scene state management - tracks all Octane scene objects and hierarchy
         this.sceneState = {
@@ -103,7 +103,8 @@ function createOctaneWebClient() {
         } catch (error) {
             console.error('OctaneWeb connection failed:', error);
             this.emit('connectionError', error);
-            throw error;
+//            throw error;
+            return false;
         }
     }
     
@@ -123,8 +124,319 @@ function createOctaneWebClient() {
         this.emit('disconnected');
     }
     
-
+    getScene() {
+        return this.scene;
+    }
     
+    /**
+     * ASYNCHRONOUS function that loads scene tree
+     * UI loads immediately, then updates when scene data is ready
+     */
+    async loadSceneTree() {
+        console.log('createOctaneWebClient.loadSceneTree() called');
+        
+        try {
+            console.log('Starting SYNCHRONOUS scene tree loading sequence...');
+
+            this.scene = { items: this.loadSceneTreeSync()};
+            this.eventSystem.emit('sceneDataLoaded', this.scene);
+            
+        } catch (error) {
+            console.error('❌ Failed loadSceneTree(): ', error);
+            
+            // Clear stored scene data and notify other components
+            this.scene = { items:[]}
+            this.eventSystem.emit('sceneDataLoaded', this.scene);
+        }
+    }
+
+    /**
+     * SYNCHRONOUS scene tree loading with blocking API calls
+     * STRUCTURED DEBUGGING: Isolate exactly where Octane crashes
+     * @returns {Array} Scene items array
+     */
+    loadSceneTreeSync(itemHandle, sceneItems, isGraph, level = 0) {
+        let result;
+//        if (level >= 3)
+//            return scene;
+        level = level + 1;
+
+        if (sceneItems == null) {
+            sceneItems = [];
+        }
+        try {
+            if (itemHandle == null)
+            {
+                // first call, get the root
+                result = window.grpcApi.makeApiCall(
+                    'ApiProjectManager/rootNodeGraph'
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiProjectManager/rootNodeGraph');
+                }
+                itemHandle = result.data.result.handle;
+                // is it a graph or node?
+                result = window.grpcApi.makeApiCall(
+                    'ApiItem/isGraph', 
+                    itemHandle 
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiItem/isGraph');
+                }
+                isGraph = result.data.result;
+            }
+            if (isGraph)
+            {
+                // Get owned items
+                result = window.grpcApi.makeApiCall(
+                    'ApiNodeGraph/getOwnedItems', 
+                    itemHandle,
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNodeGraph/getOwnedItems');
+                }
+                const ownedItemsHandle = result.data.list.handle
+
+                // Get the size of the item array
+                result = window.grpcApi.makeApiCall(
+                    'ApiItemArray/size', 
+                    ownedItemsHandle,
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiItemArray/size');
+                }
+                const size = result.data.result;
+
+                for (let i = 0; i < size; i++) {
+                    // get it
+                    result = window.grpcApi.makeApiCall(
+                        'ApiItemArray/get', 
+                        ownedItemsHandle,
+                        {index: i},
+                    );
+                    if (!result.success) {
+                        throw new Error('Failed ApiItemArray/get');
+                    }
+                    // will recurse to loadSceneTreeSync()
+                    this.addSceneItem(sceneItems, result.data.result, null, level);
+                }
+//                sceneItems.sort((a, b) => a.handle - b.handle); 
+
+                return sceneItems
+            }
+            // its a node
+            result = window.grpcApi.makeApiCall(
+                'ApiNode/pinCount', 
+                itemHandle
+            );
+            if (!result.success) {
+                throw new Error('Failed ApiNode/pinCount');
+            }
+            const pinCount = result.data.result;
+//            console.log(`pinCount = ${pinCount} nodeInfo.pinInfoCount = ${nodeInfo.pinInfoCount}`);  
+
+            for (let i = 0; i < pinCount; i++) {
+                // Get the pin connected node
+                result = window.grpcApi.makeApiCall(
+                    'ApiNode/connectedNodeIx', 
+                    itemHandle,
+                    { pinIx: i, enterWrapperNode: true },
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNode/connectedNodeIx');
+                }        
+                const connectedNode = result.data.result;
+
+                if (connectedNode == null) {
+                    continue;
+                }
+                // Get the pin label
+                result = window.grpcApi.makeApiCall(
+                    'ApiNode/pinLabelIx', 
+                    itemHandle,
+                    {index: i},
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNode/pinLabelIx');
+                }
+                let pinInfo = { staticLabel: result.data.result, index:i };
+
+                // Get the pin type
+                result = window.grpcApi.makeApiCall(
+                    'ApiNode/pinTypeIx', 
+                    itemHandle,
+                    {index: i},
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNode/pinTypeIx');
+                }
+                pinInfo.parent = itemHandle;
+                pinInfo.type = result.data.result;
+
+//                console.log('pinInfo.type', pinInfo.type);
+
+//                pinInfo.type = window.OctaneTypes.NodePinType[pinInfo.type];
+//                console.log('pinInfo.type', pinInfo.type);
+/*                
+                // Get the pin info handle
+                result = window.grpcApi.makeApiCall(
+                    'ApiNode/pinInfoIx', 
+                    itemHandle,
+                    {index: i},
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNode/pinInfoIx');
+                }
+
+                console.log('before ApiNodePinInfoEx/getApiNodePinInfo', result.data.result.handle);
+
+                // Get the pin info 
+                result = window.grpcApi.makeApiCall(
+                    'ApiNodePinInfoEx/getApiNodePinInfo', 
+                    result.data.result.handle
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNodePinInfoEx/getApiNodePinInfo');
+                }
+                console.log('pinInfo ', JSON.stringify(result, null, 2));
+                pinInfo = result.data.result;
+*/
+                // will recurse to loadSceneTreeSync()
+                this.addSceneItem(sceneItems, connectedNode, pinInfo, level);
+            }
+        } catch (error) {
+            console.error('❌ Failed loadSceneTreeSync(): ', error);
+        }
+//        sceneItems.sort((a, b) => a.handle - b.handle); 
+        return sceneItems;
+    }
+    
+        
+    /**
+
+     */
+    addSceneItem(sceneItems, item, pinInfo, level = 0) { 
+
+        let itemName;
+        let outType;
+        let graphInfo;
+        let nodeInfo;
+        let isGraph;
+
+        if (!item || !item.handle)
+            return;
+
+        try {
+            let result;
+            
+            // basic item params
+            // name
+            result = window.grpcApi.makeApiCall(
+                'ApiItem/name',
+                item.handle
+            );
+            if (!result.success) {
+                throw new Error('Failed GenericNodeRenderer.addSceneItem()');
+            }
+            itemName = result.data.result;
+
+            // outtype
+            result = window.grpcApi.makeApiCall(
+                'ApiItem/outType',
+                item.handle
+            );
+            if (!result.success) {
+                throw new Error('Failed to get item outType');
+            }
+            outType = result.data.result;
+
+            if (pinInfo != null && pinInfo.staticLabel != "") {
+                itemName = pinInfo.staticLabel;
+            }
+            console.log(`addSceneItem = ${itemName}`);  
+
+            // is it a graph or node?
+            result = window.grpcApi.makeApiCall(
+                'ApiItem/isGraph', 
+                item.handle 
+            );
+            if (!result.success) {
+                throw new Error('Failed ApiItem/isGraph');
+            }
+            isGraph = result.data.result;
+            if (isGraph) {
+                // its a graph
+                result = window.grpcApi.makeApiCall(
+                    'ApiNodeGraph/info1', 
+                    item.handle,
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNodeGraph/info1');
+                }
+                graphInfo = result.data.result;
+                console.log(`graphInfo = `, JSON.stringify(graphInfo, null, 2));  
+            }
+            else {
+                // its a node
+                result = window.grpcApi.makeApiCall(
+                    'ApiNode/info', 
+                    item.handle,
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNode/info');
+                }
+                nodeInfo = result.data.result
+                console.log(`nodeInfo = `, JSON.stringify(nodeInfo, null, 2));  
+            }
+
+        } catch (error) {
+            console.error('❌ Failed addSceneItem(): ', error);
+        }
+        let children = this.loadSceneTreeSync(item.handle, null, isGraph, level);
+
+        let attrInfo = null;
+        if (children.length == 0) {
+            try {        
+                // end node, get value's attribute
+                const result = window.grpcApi.makeApiCall(
+                    'ApiItem/attrInfo', 
+                    item.handle,
+                    { id: window.OctaneTypes.AttributeId.A_VALUE },
+                );
+                if (!result.success) {
+                    throw new Error('Failed GenericNodeRenderer.addSceneItem(): ApiItem/attrInfo');
+                }
+                attrInfo = result.data.result;
+
+            } catch (error) {
+                console.error('❌ Failed addSceneItem(): ', error);
+            }
+            console.log(`EndNode    ${item.handle} ${itemName} ${outType} ${attrInfo?.type}`);            
+        }
+        else {
+            console.log(`ParentNode ${item.handle} ${itemName} ${outType} ${pinInfo?.type}`);            
+        }
+       
+        const icon = window.OctaneIconMapper?.getNodeIcon(outType);
+
+        if (pinInfo) {
+            pinInfo.pinColor = window.OctaneIconMapper?.gePinColor(outType);
+        }
+
+        // save it
+        sceneItems.push({
+            name: itemName,
+            handle: item.handle,
+            outType: outType,
+            graphInfo: graphInfo,
+            nodeInfo: nodeInfo,
+            attrInfo: attrInfo,
+            pinInfo: pinInfo,
+            children: children,
+            icon: icon,
+        });
+    }
+
     // ==================== GRPC CALL OVERRIDE ====================
 
     /**
