@@ -35,7 +35,6 @@ class SceneOutlinerSync {
         this.expandedNodes = new Set(['scene-root', 'item-1000025']); // Expand Scene and Render target by default
         this.searchTerm = '';
         this.selectedNodeHandle = null;
-        this.scene = null
 
         this.setupEventHandlers();
 
@@ -62,8 +61,7 @@ class SceneOutlinerSync {
         });
                 // Listen for scene data loaded from SceneOutliner
         this.eventSystem.on('sceneDataLoaded', (scene) => {
-            this.scene = scene
-            console.log('SceneOutlinerSync received sceneDataLoaded event:', scene.items.length);
+            console.log('SceneOutlinerSync received sceneDataLoaded event:', scene.tree.length);
             this.render();
         });
     }
@@ -108,9 +106,9 @@ class SceneOutlinerSync {
         const treeContainer = this.element.querySelector('#scene-tree');
         if (!treeContainer) return;
         
-        const scene = this.scene
+        const scene = window.octaneClient.scene
 
-        if (scene.items.length === 0) {
+        if (scene.tree.length === 0) {
             treeContainer.innerHTML = `
                 <div class="scene-empty">
                     <div class="empty-icon">📁</div>
@@ -133,7 +131,7 @@ class SceneOutlinerSync {
         
         // Add child items recursively if Scene is expanded
         if (this.expandedNodes.has('scene-root')) {
-            treeHTML += this.renderTreeLevel(scene.items, 1);
+            treeHTML += this.renderTreeLevel(scene.tree, 1);
         }
         
         treeContainer.innerHTML = treeHTML;

@@ -55,8 +55,8 @@ class NodeGraphEditor extends OctaneComponent {
     
     autoSelectRenderTarget(scene) {
         // Auto-select Render target using scene data (matching Octane Studio behavior)
-        if (scene && scene.items && scene.items.length > 1) {
-            const renderTarget = scene.items[1]; // Render target is typically second item
+        if (scene && scene.tree && scene.tree.length > 1) {
+            const renderTarget = scene.tree[1]; // Render target is typically second item
             console.log('NodeGraphEditor auto-selecting Render target:', renderTarget.handle);
             
             // Update this component's selection (handle only)
@@ -80,10 +80,10 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Listen for scene data loaded from SceneOutliner
         this.eventSystem.on('sceneDataLoaded', (scene) => {
-            console.log('NodeGraphEditor received sceneDataLoaded event:', scene.items.length);
-            this.createNodes(scene.items);
+            console.log('NodeGraphEditor received sceneDataLoaded event:', scene.tree.length);
+            this.createNodes(scene.tree);
             this.render();
-            this.autoSelectRenderTarget(scene.items);
+            this.autoSelectRenderTarget(scene.tree);
         });
         
         // Request scene data if SceneOutliner has already loaded it
@@ -1034,8 +1034,8 @@ class NodeGraphEditor extends OctaneComponent {
                 inputs: item.children,
                 outputs: this.getNodeOutputs(item.outType)
             };
-            console.log(`NodeGraphEditor.createNodes `, node.nodeData.name);
-            console.log(`NodeGraphEditor.createNodes `, JSON.stringify(node.nodeData.nodeInfo, null, 2));
+            console.log(`NodeGraphEditor.createNodes `, item.name);
+            console.log(`NodeGraphEditor.createNodes `, JSON.stringify(item.nodeInfo, null, 2));
             
             this.nodes.set(nodeId, node);
             xOffset += node.width + 80; // Space between nodes

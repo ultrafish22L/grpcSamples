@@ -98,7 +98,7 @@ class CallbackRenderViewport extends OctaneComponent {
     setupSceneLoadingListener() {
         // Listen for scene data loaded event
         this.eventSystem.on('sceneDataLoaded', (scene) => {
-            console.log('Scene data loaded, starting render...', scene.items.length, 'items');
+            console.log('Scene data loaded, starting render...', scene.tree.length, 'items');
             this.startRender();
         });
         

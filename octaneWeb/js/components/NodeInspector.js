@@ -54,13 +54,11 @@ class NodeInspector extends OctaneComponent {
     setupEventListeners() {
         // Listen for scene data loading from SceneOutliner (OPTIMIZATION)
         this.eventSystem.on('sceneDataLoaded', (scene) => {
-            // Store the scene data cache for generic access
-            this.scene = scene;
-            
-            this.sceneDataLoaded = true;
-            console.log('NodeInspector received sceneDataLoaded event:', scene.items.length);
 
-            this.updateSelectedNode(this.scene.items[0].handle)
+            this.sceneDataLoaded = true;
+            console.log('NodeInspector received sceneDataLoaded event:', scene.tree.length);
+
+            this.updateSelectedNode(scene.tree[0].handle)
         });
         
         // Listen for selection updates
@@ -317,11 +315,11 @@ class NodeInspector extends OctaneComponent {
      * Find node data directly from scene list
      */
     findNodeInSceneItems(handle) {
-        if (!this.scene || !this.scene.items || !Array.isArray(this.scene.items)) {
+        const scene = window.octaneClient.scene
+
+        if (!scene || !scene.tree || !Array.isArray(scene.tree)) {
             return null;
         }
-//        return this.scene.map[handle];
-
         // Search recursively through scene
         const findRecursively = (items) => {
             for (const item of items) {
@@ -336,7 +334,7 @@ class NodeInspector extends OctaneComponent {
             return null;
         };
         
-        return findRecursively(this.scene.items);
+        return findRecursively(scene.tree);
        
     }
     
@@ -519,7 +517,6 @@ class NodeInspector extends OctaneComponent {
     getElementValue(element) {
 
         const handle = element.dataset.handle ? parseInt(element.dataset.handle) : 0;
-//        const nodeData = this.scene.map[handle];
         const nodeData = this.findNodeInSceneItems(handle);
         if (nodeData == null || nodeData.attrInfo == null) {
             console.warn('NodeInspector.getElementValue() node error no attr', handle, {element});

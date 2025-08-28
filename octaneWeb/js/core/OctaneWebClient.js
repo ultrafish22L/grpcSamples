@@ -32,7 +32,7 @@ function createOctaneWebClient() {
         super(serverUrl);
                 
         this.eventSystem = eventSystem;
-        this.scene = { items: null}
+        this.scene = { tree: [], map: new Map()}
 
         // Scene state management - tracks all Octane scene objects and hierarchy
         this.sceneState = {
@@ -138,14 +138,14 @@ function createOctaneWebClient() {
         try {
             console.log('Starting SYNCHRONOUS scene tree loading sequence...');
 
-            this.scene = { items: this.loadSceneTreeSync()};
+            this.scene = { tree: this.loadSceneTreeSync()};
             this.eventSystem.emit('sceneDataLoaded', this.scene);
             
         } catch (error) {
             console.error('❌ Failed loadSceneTree(): ', error);
             
             // Clear stored scene data and notify other components
-            this.scene = { items:[]}
+            this.scene = { tree:[]}
             this.eventSystem.emit('sceneDataLoaded', this.scene);
         }
     }
@@ -153,7 +153,7 @@ function createOctaneWebClient() {
     /**
      * SYNCHRONOUS scene tree loading with blocking API calls
      * STRUCTURED DEBUGGING: Isolate exactly where Octane crashes
-     * @returns {Array} Scene items array
+     * @returns {Array} Scene tree array
      */
     loadSceneTreeSync(itemHandle, sceneItems, isGraph, level = 0) {
         let result;
@@ -422,9 +422,7 @@ function createOctaneWebClient() {
         if (pinInfo) {
             pinInfo.pinColor = window.OctaneIconMapper?.gePinColor(outType);
         }
-
-        // save it
-        sceneItems.push({
+        const entry = {
             name: itemName,
             handle: item.handle,
             outType: outType,
@@ -434,7 +432,11 @@ function createOctaneWebClient() {
             pinInfo: pinInfo,
             children: children,
             icon: icon,
-        });
+        };
+
+        // save it
+        sceneItems.push( entry );
+        this.scene.map[item.handle] = entry;
     }
 
     // ==================== GRPC CALL OVERRIDE ====================
