@@ -922,7 +922,6 @@ class LiveLinkClient extends SimpleEventEmitter {
  */
 class LiveLinkManager {
     constructor() {
-        this.client = null;
         this.defaultServerUrl = 'http://127.0.0.1:51024';
     }
 

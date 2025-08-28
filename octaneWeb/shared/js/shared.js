@@ -808,7 +808,6 @@ class ConnectionManager {
     constructor(logger, connectionStateManager) {
         this.logger = logger;
         this.connectionStateManager = connectionStateManager;
-        this.client = null;
         this.liveLinkManager = null;
     }
 

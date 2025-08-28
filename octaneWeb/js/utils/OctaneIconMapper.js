@@ -9,45 +9,33 @@
 
 class OctaneIconMapper {
     
+            /**
+     * Format color value for HTML color input
+     * @param {*} value - Color value (array, string, or number)
+     * @returns {string} - Hex color string
+     */
+    static formatColorValue(value) {
+        if (typeof value === 'string' && value.startsWith('#')) {
+            return value;
+        }
+        if (Array.isArray(value) && value.length >= 3) {
+            // RGB array [r, g, b] where values are 0-1
+            const r = Math.round((value[0] || 0) * 255);
+            const g = Math.round((value[1] || 0) * 255);
+            const b = Math.round((value[2] || 0) * 255);
+            return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+        }
+        if (typeof value === 'number') {
+            return `#${value.toString(16).padStart(2, '0')}`;
+        }
+        return '#ffffff'; // Default white
+    }
+
     /**
      * Get icon for node types (consolidated from SceneOutlinerSync.js)
      * This replaces getOctaneIconFor() function
      */
-    static getNodeIcon(outType, name) {
-        // Match exact Octane icons based on name and type
-        if (name === 'Render target') {
-            return '🎯'; // Target icon for render target
-        }
-        if (name === 'teapot.obj' || (name && name.includes('.obj'))) {
-            return '🫖'; // Teapot icon for mesh objects
-        }
-        if (name === 'Daylight environment' || (name && name.includes('environment'))) {
-            return '🌍'; // Environment icon
-        }
-        if (name === 'Film settings') {
-            return '🎬'; // Film settings icon
-        }
-        if (name === 'Animation settings') {
-            return '⏱️'; // Animation icon
-        }
-        if (name === 'Direct lighting kernel' || (name && name.includes('kernel'))) {
-            return '🔧'; // Kernel icon
-        }
-        if (name === 'Render layer') {
-            return '🎭'; // Render layer icon
-        }
-        if (name === 'Render passes') {
-            return '📊'; // Render passes icon
-        }
-        if (name === 'Output AOV group') {
-            return '📤'; // Output AOVs icon
-        }
-        if (name === 'Imager') {
-            return '📷'; // Imager icon
-        }
-        if (name === 'Post processing') {
-            return '⚙️'; // Post processing icon
-        }
+    static getNodeIcon(outType) {
         
         // Handle parameter types with specific icons
         if (outType === 'PT_BOOL' || name === 'Bool value') {
@@ -86,7 +74,7 @@ class OctaneIconMapper {
             'unknown': '⬜'
         };
         
-        return iconMap[outType] || '⬜';
+        return iconMap[outType] || iconMap['unknown'];
     }
     
     /**
@@ -171,7 +159,7 @@ class OctaneIconMapper {
      * Get color for node types
      * This can be expanded to include color mappings as needed
      */
-    static getNodeColor(outType, name) {
+    static gePinColor(outType) {
         // Color mapping based on node types
         const colorMap = {
             'PT_RENDER_TARGET': '#ff6b6b',  // Red for render targets
@@ -209,14 +197,7 @@ class OctaneIconMapper {
         
         return groupIcons[groupName] || '📁';
     }
-    
-    /**
-     * Backward compatibility method for existing SceneOutlinerSync.js
-     * This allows existing code to work without changes
-     */
-    static getOctaneIconFor(outType, name) {
-        return this.getNodeIcon(outType, name);
-    }
+
 }
 
 // Make available globally for backward compatibility

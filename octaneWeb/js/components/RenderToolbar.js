@@ -5,9 +5,8 @@
  */
 
 class RenderToolbar {
-    constructor(containerId, octaneClient = null) {
+    constructor(containerId) {
         this.container = document.getElementById(containerId);
-        this.client = octaneClient; // Reference to OctaneWebClient for gRPC calls
         this.renderStats = {
             samples: 17.1,
             time: '00:00:00',
@@ -347,9 +346,9 @@ class RenderToolbar {
         const defaultTarget = { x: 0, y: 0, z: 0 };
         const defaultFov = 45;
         
-        if (this.client && this.client.setCameraPositionAndTarget) {
+        if (window.octaneClient && window.octaneClient.setCameraPositionAndTarget) {
             try {
-                await this.client.setCameraPositionAndTarget(
+                await window.octaneClient.setCameraPositionAndTarget(
                     defaultPosition.x, defaultPosition.y, defaultPosition.z,
                     defaultTarget.x, defaultTarget.y, defaultTarget.z
                 );

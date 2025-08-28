@@ -4,15 +4,13 @@
  */
 
 class FileManager {
-    constructor(octaneClient = null) {
+    constructor() {
         this.supportedFormats = {
             scene: ['.orbx'],  // Only support .orbx files for Octane projects
             model: ['.obj/.fbx/.dae/.3ds/.ply/.stl'],
             texture: ['.jpg/.jpeg/.png/.tiff/.tga/.exr/.hdr'],
             material: ['.mtl/.mat']
         };
-        this.client = octaneClient;
-
         this.dropZones = new Set();
         this.isInitialized = false;
         
@@ -195,7 +193,7 @@ class FileManager {
             result.metadata = { type: 'orbx', version: '1.0' };
             
             // Attempt to load the project via gRPC if we have a client
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 try {
                     console.log('Loading ORBX project via gRPC:', result.file.path || result.name);
                     
@@ -229,12 +227,12 @@ class FileManager {
          * Load ORBX project via gRPC ApiProjectManager.loadProject()
          */
         try {
-            if (!this.client) {
+            if (!window.octaneClient) {
                 throw new Error('Octane client not available');
             }
             
             // Make gRPC call to load project
-            const response = await this.client.makeGrpcCall('ApiProjectManager/loadProject', {
+            const response = await window.octaneClient.makeGrpcCall('ApiProjectManager/loadProject', {
                 projectPath: projectPath
             });
             

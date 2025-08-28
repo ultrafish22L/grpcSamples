@@ -29,8 +29,8 @@
  */
 
 class NodeInspector extends OctaneComponent {
-    constructor(element, client, stateManager) {
-        super(element, client, stateManager);
+    constructor(element, stateManager) {
+        super(element, stateManager);
         
         // Current node selection state
         this.selectedNode = null;             // Currently selected node handle
@@ -42,11 +42,12 @@ class NodeInspector extends OctaneComponent {
         
         // Generic node rendering system for flexible parameter display
         this.genericRenderer = null;         // Initialized in onInitialize()
+        this.nodeHtmlMap = new Map();
     }
     
     async onInitialize() {
         // Initialize Generic Node Renderer
-        this.genericRenderer = new window.GenericNodeRenderer(window.OctaneIconMapper, this.client);
+        this.genericRenderer = new window.GenericNodeRenderer(window.OctaneIconMapper);
         console.log('NodeInspector: GenericNodeRenderer initialized');
     }
     
@@ -63,7 +64,7 @@ class NodeInspector extends OctaneComponent {
         });
         
         // Listen for selection updates
-        this.client.on('ui:selectionUpdate', (selection) => {
+        window.octaneClient.on('ui:selectionUpdate', (selection) => {
             this.updateSelection(selection);
         });
         
@@ -73,7 +74,7 @@ class NodeInspector extends OctaneComponent {
         });
         
         // Listen for node parameter updates
-        this.client.on('ui:nodeParameterUpdate', (data) => {
+        window.octaneClient.on('ui:nodeParameterUpdate', (data) => {
             this.updateParameter(data.nodeId, data.parameterName, data.value);
         });
         
@@ -349,6 +350,9 @@ class NodeInspector extends OctaneComponent {
             console.warn(' No node data found for handle:', handle);
             return;
         }
+        if (this.selectedNodeHandle == nodeData.handle) {
+            return;
+        }
         this.selectedNodeHandle = nodeData.handle;
 
         // Generic parameter loading based on node type mapping
@@ -409,7 +413,7 @@ class NodeInspector extends OctaneComponent {
         if (!this.selectedNode) return;
         
         try {
-            await this.client.updateNodeParameter(this.selectedNode, paramName, value);
+            await window.octaneClient.updateNodeParameter(this.selectedNode, paramName, value);
             this.parameters[paramName] = { ...this.parameters[paramName], value };
         } catch (error) {
             console.error('NodeInspector.updateParameterValue(): ', error);

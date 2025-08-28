@@ -4,8 +4,8 @@
  */
 
 class NodeGraphEditor extends OctaneComponent {
-    constructor(element, client, stateManager) {
-        super(element, client, stateManager);
+    constructor(element, stateManager) {
+        super(element, stateManager);
         
         this.canvas = element;
         this.ctx = null;
@@ -49,23 +49,7 @@ class NodeGraphEditor extends OctaneComponent {
                 setTimeout(() => this.startRenderLoop(), 100);
             }
             this.render();
-/*            
-            // Force multiple renders to ensure visibility
-            setTimeout(() => {
-                console.log('Force render 1 - Canvas size:', this.canvas.width, this.canvas.height);
-                this.render();
-            }, 100);
-            
-            setTimeout(() => {
-                console.log('Force render 2 - Canvas size:', this.canvas.width, this.canvas.height);
-                this.render();
-            }, 300);
-            
-            setTimeout(() => {
-                console.log('Force render 3 - Canvas size:', this.canvas.width, this.canvas.height);
-                this.render();
-            }, 600);
-*/            
+      
         }, 200);
     }
     
@@ -85,7 +69,7 @@ class NodeGraphEditor extends OctaneComponent {
 
     setupEventListeners() {
         // Listen for node graph updates
-        this.client.on('ui:nodeGraphUpdate', (nodeGraphState) => {
+        window.octaneClient.on('ui:nodeGraphUpdate', (nodeGraphState) => {
             this.updateNodeGraph(nodeGraphState);
         });
         
@@ -97,7 +81,7 @@ class NodeGraphEditor extends OctaneComponent {
         // Listen for scene data loaded from SceneOutliner
         this.eventSystem.on('sceneDataLoaded', (scene) => {
             console.log('NodeGraphEditor received sceneDataLoaded event:', scene.items.length);
-            this.createRealSceneNodes(scene.items);
+            this.createNodes(scene.items);
             this.render();
             this.autoSelectRenderTarget(scene.items);
         });
@@ -141,11 +125,6 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Initial resize
         this.handleResize();
-        
-        // Multiple delayed resizes to ensure DOM layout is complete
-//        setTimeout(() => this.handleResize(), 100);
-//        setTimeout(() => this.handleResize(), 250);
-//        setTimeout(() => this.handleResize(), 500);
         
         // Also trigger resize on window load event
         if (document.readyState === 'loading') {
@@ -265,8 +244,8 @@ class NodeGraphEditor extends OctaneComponent {
                 }                    
                 this.render();
             } catch (error) {
-                console.error('🚨 Render error:', error);
-                console.error('🚨 Error stack:', error.stack);
+                console.error('❌ Render error:', error);
+                console.error('❌ Error stack:', error.stack);
                 this.renderLoopRunning = false;
                 clearInterval(this.renderInterval);
             }
@@ -275,24 +254,10 @@ class NodeGraphEditor extends OctaneComponent {
     
     render() {
 
-        // Debug: Check if render is being called FIRST
-        if (this.renderCount < 5) {
-            console.log('Render called, ctx exists:', !!this.ctx, 'nodes count:', this.nodes.size, 'canvas size:', this.canvas.width, 'x', this.canvas.height);
-            console.log('Nodes data:', Array.from(this.nodes.keys()));
-            this.renderCount = (this.renderCount || 0) + 1;
-        }
-        
         if (!this.ctx) {
             console.error('❌ No context, returning early');
             return;
         }
-        
-        // Debug: Log render call with node count
-        if (this.renderCount < 10) {
-            console.log(`Render call ${this.renderCount || 0}: ${this.nodes.size} nodes, viewport:`, this.viewport);
-            this.renderCount = (this.renderCount || 0) + 1;
-        }
-        
         // Clear canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
@@ -359,33 +324,8 @@ class NodeGraphEditor extends OctaneComponent {
         const inputPos = this.getSocketPosition(inputNode, connection.inputSocket, 'input');
         
         // Connection color based on data type
-        let connectionColor = '#888888';
-        if (connection.dataType) {
-            switch (connection.dataType) {
-                case 'color':
-                    connectionColor = '#ff6b6b';
-                    break;
-                case 'float':
-                    connectionColor = '#4ecdc4';
-                    break;
-                case 'vector':
-                    connectionColor = '#45b7d1';
-                    break;
-                case 'texture':
-                    connectionColor = '#96ceb4';
-                    break;
-                case 'material':
-                    connectionColor = '#feca57';
-                    break;
-                case 'geometry':
-                    connectionColor = '#a8c4a2';
-                    break;
-                case 'camera':
-                    connectionColor = '#9b59b6';
-                    break;
-            }
-        }
-        
+        let connectionColor = window.OctaneIconMapper.formatColorValue(outputNode.nodeData.pinInfo?.pinColor) || '#666';
+
         this.ctx.strokeStyle = connection.selected ? '#4a90e2' : connectionColor;
         this.ctx.lineWidth = 2 / this.viewport.zoom;
         
@@ -496,7 +436,7 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Also consider text width
         this.ctx.font = `${11 / this.viewport.zoom}px Arial`;
-        const textWidth = this.ctx.measureText(node.name || node.type).width;
+        const textWidth = this.ctx.measureText(node.nodeData.name).width;
         const textBasedWidth = textWidth + textPadding;
         
         // Use the larger of pin-based width or text-based width
@@ -506,33 +446,15 @@ class NodeGraphEditor extends OctaneComponent {
         const height = nodeHeight;
         const isSelected = this.selectedNodes.has(node.id);
         
-        // Debug: Only log first few draws to avoid spam
-        if (this.drawCount < 5) {
-            console.log('Drawing compact Octane-style node at:', x, y, 'size:', width, height, 'type:', node.type, 'name:', node.name);
-            console.log('Node ID:', node.id, 'isSelected:', isSelected);
-            this.drawCount = (this.drawCount || 0) + 1;
-        }
-        
+        if (this.drawCount < 2) {
+//            console.log('Drawing compact Octane-style node at:', x, y, 'size:', width, height, 'type:', node.nodeData.outType, 'name:', node.nodeData.name);
+//            console.log('Node ID:', node.id, 'isSelected:', isSelected);
+//            this.drawCount = (this.drawCount || 0) + 1;
+                console.log(`node = `, JSON.stringify(node, null, 2));  
+        }        
         // Professional node colors based on type (matching Octane reference)
-        let nodeColor, textColor;
-        switch (node.type.toLowerCase()) {
-            case 'material':
-                nodeColor = '#d4b896';  // Beige/tan like Octane
-                textColor = '#2a2a2a';
-                break;
-            case 'texture':
-                nodeColor = '#7ba7d4';  // Blue like Octane
-                textColor = '#ffffff';
-                break;
-            case 'mesh':
-            case 'geometry':
-                nodeColor = '#a8c4a2';  // Green like Octane
-                textColor = '#2a2a2a';
-                break;
-            default:
-                nodeColor = '#8a8a8a';  // Gray default
-                textColor = '#ffffff';
-        }
+        const nodeColor = window.OctaneIconMapper.formatColorValue(node.nodeData.nodeInfo?.nodeColor) || '#666';
+        const textColor = '#ffffff';
 
         // Selection highlight
         if (isSelected) {
@@ -552,7 +474,7 @@ class NodeGraphEditor extends OctaneComponent {
         this.ctx.fillStyle = textColor;
         this.ctx.font = `${11 / this.viewport.zoom}px Arial`;
         this.ctx.textAlign = 'center';
-        this.ctx.fillText(node.name || node.type, x + width / 2, y + height / 2 + 4);
+        this.ctx.fillText(node.nodeData.name || node.nodeData.outType, x + width / 2, y + height / 2 + 4);
         
         // Input sockets on TOP (horizontal layout)
         if (node.inputs && node.inputs.length > 0) {
@@ -578,55 +500,13 @@ class NodeGraphEditor extends OctaneComponent {
         node.width = width;
         node.height = height;
     }
-    
+
+
     drawSocket(x, y, socket, type) {
         const radius = 4 / this.viewport.zoom; // Smaller sockets like Octane
-        
-        // Socket colors based on type (matching Octane's color coding)
-        let socketColor;
-        switch (socket.dataType || 'default') {
-            case 'color':
-                socketColor = '#ff6b6b'; // Red for color
-                break;
-            case 'float':
-                socketColor = '#4ecdc4'; // Teal for float
-                break;
-            case 'vector':
-                socketColor = '#45b7d1'; // Blue for vector
-                break;
-            case 'texture':
-                socketColor = '#96ceb4'; // Green for texture
-                break;
-            case 'material':
-                socketColor = '#feca57'; // Yellow for material
-                break;
-            case 'geometry':
-                socketColor = '#a8c4a2'; // Green for geometry
-                break;
-            case 'camera':
-                socketColor = '#9b59b6'; // Purple for camera
-                break;
-            case 'light':
-                socketColor = '#f39c12'; // Orange for light
-                break;
-            case 'environment':
-                socketColor = '#27ae60'; // Green for environment
-                break;
-            case 'medium':
-                socketColor = '#e74c3c'; // Red for medium
-                break;
-            case 'kernel':
-                socketColor = '#34495e'; // Dark gray for kernel
-                break;
-            case 'imager':
-                socketColor = '#8e44ad'; // Purple for imager
-                break;
-            case 'postfx':
-                socketColor = '#16a085'; // Teal for post effects
-                break;
-            default:
-                socketColor = socket.connected ? '#4a90e2' : '#888888';
-        }
+    
+//       console.log(`NodeGraphEditor.drawSocket `, JSON.stringify(socket, null, 2));
+       let socketColor = window.OctaneIconMapper.formatColorValue(socket.pinInfo?.pinColor) || '#4ecdc4';
         
         // Draw socket circle
         this.ctx.fillStyle = socketColor;
@@ -640,7 +520,7 @@ class NodeGraphEditor extends OctaneComponent {
         this.ctx.stroke();
         
         // Socket labels (optional - can be hidden for cleaner look)
-        if (socket.showLabel !== false) {
+        if (socket.showLabel === true) {
             this.ctx.fillStyle = '#cccccc';
             this.ctx.font = `${8 / this.viewport.zoom}px Arial`;
             this.ctx.textAlign = 'center';
@@ -773,9 +653,9 @@ class NodeGraphEditor extends OctaneComponent {
             this.selectedNodes.add(hitNode.id);
             
             // Emit unified selection event with handle only
-            this.eventSystem.emit('sceneNodeSelected', hitNode.sceneHandle);
+            this.eventSystem.emit('sceneNodeSelected', hitNode.nodeData.handle);
             
-            console.log('NodeGraphEditor selected node:', hitNode.name);
+            console.log('NodeGraphEditor selected node:', hitNode.nodeData.name);
         } else {
             // Pan viewport
             this.isDragging = true;
@@ -887,7 +767,7 @@ class NodeGraphEditor extends OctaneComponent {
     getSocketTooltipText(hoveredSocket) {
         const socket = hoveredSocket.socket;
         const socketType = hoveredSocket.type;
-        const nodeName = hoveredSocket.node.name;
+        const nodeName = hoveredSocket.node.nodeData.name;
         
         // Create detailed tooltip based on socket type and name
         const socketDescriptions = {
@@ -1036,7 +916,7 @@ class NodeGraphEditor extends OctaneComponent {
         const width = node.width || 100;
         const height = node.height || 40;
         const sockets = type === 'input' ? node.inputs : node.outputs;
-        const socketIndex = sockets?.findIndex(s => s.name === socketName) || 0;
+        let socketIndex = sockets?.findIndex(s => s.name === socketName) || 0;
         
         if (type === 'input') {
             // Input sockets on TOP (horizontal layout)
@@ -1046,6 +926,7 @@ class NodeGraphEditor extends OctaneComponent {
                 y: node.y
             };
         } else {
+            socketIndex = 0;
             // Output sockets on BOTTOM (horizontal layout)
             const outputSpacing = width / (sockets.length + 1);
             return {
@@ -1086,7 +967,7 @@ class NodeGraphEditor extends OctaneComponent {
                 
                 // Remove the node
                 this.nodes.delete(nodeId);
-                deletedNodes.push(node.name);
+                deletedNodes.push(node.nodeData.name);
             }
         }
         
@@ -1108,10 +989,10 @@ class NodeGraphEditor extends OctaneComponent {
         for (let [nodeId, node] of this.nodes) {
             // Match by handle - NodeGraphEditor creates IDs as "scene_${handle}"
             if (nodeId === `scene_${handle}` || 
-                node.sceneHandle === handle || 
+                node.nodeData.handle === handle || 
                 nodeId.includes(handle)) {
                 this.selectedNodes.add(nodeId);
-                console.log('Selected node in graph:', nodeId, node.name);
+                console.log('Selected node in graph:', nodeId, node.nodeData.name);
                 nodeFound = true;
                 break;
             }
@@ -1125,7 +1006,7 @@ class NodeGraphEditor extends OctaneComponent {
         this.render();
     }
     
-    createRealSceneNodes(sceneItems = []) {
+    createNodes(sceneItems = []) {
         // Clear existing nodes
         this.nodes.clear();
         this.connections.clear();
@@ -1142,21 +1023,19 @@ class NodeGraphEditor extends OctaneComponent {
         
         sceneItems.forEach((item, index) => {
             const nodeId = `scene_${item.handle}`;
-            const nodeType = this.getNodeTypeFromName(item.name);
             
             const node = {
+                nodeData: item,
                 id: nodeId,
-                name: item.name,
-                type: nodeType,
-                sceneHandle: item.handle,
-                sceneType: item.type,
                 x: xOffset,
                 y: yCenter - 40 + (index * 20), // Slight vertical offset
                 width: this.getNodeWidth(item.name),
                 height: 80,
-                inputs: this.getNodeInputs(nodeType),
-                outputs: this.getNodeOutputs(nodeType)
+                inputs: item.children,
+                outputs: this.getNodeOutputs(item.outType)
             };
+            console.log(`NodeGraphEditor.createNodes `, node.nodeData.name);
+            console.log(`NodeGraphEditor.createNodes `, JSON.stringify(node.nodeData.nodeInfo, null, 2));
             
             this.nodes.set(nodeId, node);
             xOffset += node.width + 80; // Space between nodes
@@ -1164,16 +1043,6 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Create connections between nodes (teapot.obj -> Render target)
         this.createSceneConnections(sceneItems);
-        
-        console.log('Created real scene nodes:', Array.from(this.nodes.keys()));
-    }
-    
-    getNodeTypeFromName(name) {
-        if (name.toLowerCase().includes('render target')) return 'render';
-        if (name.toLowerCase().includes('.obj') || name.toLowerCase().includes('.fbx')) return 'geometry';
-        if (name.toLowerCase().includes('camera')) return 'camera';
-        if (name.toLowerCase().includes('material')) return 'material';
-        return 'generic';
     }
     
     getNodeWidth(name) {
@@ -1213,20 +1082,32 @@ class NodeGraphEditor extends OctaneComponent {
                 return [];
         }
     }
-    
+
     getNodeOutputs(nodeType) {
         switch (nodeType) {
-            case 'geometry':
+            case 'PT_RENDER_TARGET':
+                return [
+                    { name: 'RenderTarget', dataType: 'rendertarget', connected: true, showLabel: false }
+                ];
+            case 'PT_MESH':
                 return [
                     { name: 'Mesh', dataType: 'geometry', connected: true, showLabel: false }
                 ];
-            case 'material':
+            case 'PT_GEOMETRY':
                 return [
-                    { name: 'Material', dataType: 'material', connected: true, showLabel: false }
+                    { name: 'Geometry', dataType: 'geometry', connected: true, showLabel: false }
                 ];
-            case 'camera':
+            case 'PT_CAMERA':
                 return [
                     { name: 'Camera', dataType: 'camera', connected: true, showLabel: false }
+                ];
+            case 'PT_LIGHT':
+                return [
+                    { name: 'Light', dataType: 'light', connected: true, showLabel: false }
+                ];
+            case 'PT_MATERIAL':
+                return [
+                    { name: 'Material', dataType: 'material', connected: true, showLabel: false }
                 ];
             default:
                 return [];
@@ -1235,8 +1116,8 @@ class NodeGraphEditor extends OctaneComponent {
     
     createSceneConnections(sceneItems) {
         // Create connection from teapot.obj to Render target
-        const meshNode = Array.from(this.nodes.values()).find(n => n.name.includes('.obj'));
-        const renderNode = Array.from(this.nodes.values()).find(n => n.name.includes('Render target'));
+        const meshNode = Array.from(this.nodes.values()).find(n => n.nodeData.name.includes('.obj'));
+        const renderNode = Array.from(this.nodes.values()).find(n => n.nodeData.name.includes('Render target'));
         
         if (meshNode && renderNode) {
             const connectionId = `${meshNode.id}_to_${renderNode.id}`;
@@ -1249,7 +1130,7 @@ class NodeGraphEditor extends OctaneComponent {
                 dataType: 'geometry'
             });
             
-            console.log('Created connection:', meshNode.name, '->', renderNode.name);
+            console.log('Created connection:', meshNode.nodeData.name, '->', renderNode.nodeData.name);
         }
     }
     
@@ -1508,7 +1389,8 @@ class NodeGraphEditor extends OctaneComponent {
         }
         
         const nodeInfo = this.nodeTypes[category][nodeType];
-        console.log('Node info:', nodeInfo);
+        console.log(`nodeInfo = `, JSON.stringify(nodeInfo, null, 2));  
+
         
         // For now, create nodes at the center of the visible area
         const centerX = this.canvas.width / 2;
@@ -1519,7 +1401,7 @@ class NodeGraphEditor extends OctaneComponent {
         const worldY = (centerY - this.viewport.y) / this.viewport.zoom;
         
         console.log('World coordinates:', worldX, worldY);
-        console.log('Viewport:', JSON.stringify(this.viewport));
+        console.log('Viewport:', JSON.stringify(this.viewport, null, 2));
         console.log('Canvas size:', this.canvas.width, this.canvas.height);
         console.log('Center calc:', centerX, centerY);
         

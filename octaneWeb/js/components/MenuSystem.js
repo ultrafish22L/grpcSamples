@@ -4,12 +4,12 @@
  */
 
 class MenuSystem extends OctaneComponent {
-    constructor(element, client, stateManager) {
-        super(element, client, stateManager);
+    constructor(element, stateManager) {
+        super(element, stateManager);
         
         this.activeMenu = null;
         this.menuDefinitions = this.getMenuDefinitions();
-        this.fileManager = new FileManager(client);
+        this.fileManager = new FileManager();
         this.activeSubmenus = new Set();
     }
     
@@ -471,7 +471,7 @@ class MenuSystem extends OctaneComponent {
         
         try {
             // Make gRPC call to reset project (equivalent to "New")
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
 
                 // Show progress notification
                 this.showNotification('Creating new scene...', 'info');
@@ -483,7 +483,7 @@ class MenuSystem extends OctaneComponent {
 
                 // Race between the gRPC call and timeout
                 const response = await Promise.race([
-                    this.client.makeGrpcCall('ApiProjectManager/resetProject'),
+                    window.octaneClient.makeGrpcCall('ApiProjectManager/resetProject'),
                     timeoutPromise
                 ]);
                 
@@ -560,10 +560,10 @@ class MenuSystem extends OctaneComponent {
         
         try {
             // Make gRPC call to load project directly by path
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 console.log('Making gRPC call: ApiProjectManager/loadProject');
                 
-                const response = await this.client.makeGrpcCall('ApiProjectManager/loadProject', {
+                const response = await window.octaneClient.makeGrpcCall('ApiProjectManager/loadProject', {
                     projectPath: filename,
                     evaluate: true
                 });
@@ -612,16 +612,16 @@ class MenuSystem extends OctaneComponent {
         
         try {
             // Make gRPC call to save current project
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 console.log('Making gRPC call: ApiProjectManager/saveProject');
                 
-                const response = await this.client.makeGrpcCall('ApiProjectManager/saveProject');
+                const response = await window.octaneClient.makeGrpcCall('ApiProjectManager/saveProject');
                 
                 if (response.success && response.data && response.data.result) {
                     console.log('Scene saved successfully via gRPC');
                     
                     // Get current project path to show in notification
-                    const currentProjectResponse = await this.client.makeGrpcCall('ApiProjectManager/getCurrentProject');
+                    const currentProjectResponse = await window.octaneClient.makeGrpcCall('ApiProjectManager/getCurrentProject');
                     
                     const projectPath = currentProjectResponse.data?.result || 'current project';
                     const filename = projectPath.split(/[\\\/]/).pop() || 'project';
@@ -657,10 +657,10 @@ class MenuSystem extends OctaneComponent {
             }
             
             // Make gRPC call to save project with new path
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 console.log('Making gRPC call: ApiProjectManager/saveProjectAs');
                 
-                const response = await this.client.makeGrpcCall('ApiProjectManager/saveProjectAs', {
+                const response = await window.octaneClient.makeGrpcCall('ApiProjectManager/saveProjectAs', {
                     path: filename
                 });
                 
@@ -699,10 +699,10 @@ class MenuSystem extends OctaneComponent {
             }
             
             // Make gRPC call to save project as reference package
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 console.log('Making gRPC call: ApiProjectManager/saveProjectAsReferencePackage');
                 
-                const response = await this.client.makeGrpcCall('ApiProjectManager/saveProjectAsReferencePackage', {
+                const response = await window.octaneClient.makeGrpcCall('ApiProjectManager/saveProjectAsReferencePackage', {
                     path: packagePath,
                     referencePackageSettings: {
                         // Default package settings - in a full implementation these would be configurable
@@ -758,10 +758,10 @@ class MenuSystem extends OctaneComponent {
             }
             
             // Make gRPC call to unpack package
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 console.log('Making gRPC call: ApiProjectManager/unpackPackage');
                 
-                const response = await this.client.makeGrpcCall('ApiProjectManager/unpackPackage', {
+                const response = await window.octaneClient.makeGrpcCall('ApiProjectManager/unpackPackage', {
                     packagePath: packagePath,
                     unpackDir: unpackDir,
                     unpackName: unpackName
@@ -855,7 +855,7 @@ class MenuSystem extends OctaneComponent {
         
         try {
             // Try gRPC undo first (if available)
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 // Note: Octane may not have a direct undo API, so we'll use local state manager as fallback
                 console.log('Checking for gRPC undo capability...');
                 this.showNotification(' Undo via gRPC not yet available', 'warning');
@@ -880,7 +880,7 @@ class MenuSystem extends OctaneComponent {
         
         try {
             // Try gRPC redo first (if available)
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 console.log('Checking for gRPC redo capability...');
                 this.showNotification(' Redo via gRPC not yet available', 'warning');
             }
@@ -903,7 +903,7 @@ class MenuSystem extends OctaneComponent {
         console.log('Cut selected items...');
         
         try {
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 // For now, show that gRPC cut is not implemented
                 this.showNotification(' Cut via gRPC not yet implemented', 'warning');
             } else {
@@ -920,7 +920,7 @@ class MenuSystem extends OctaneComponent {
         console.log('Copy selected items...');
         
         try {
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 // For now, show that gRPC copy is not implemented
                 this.showNotification(' Copy via gRPC not yet implemented', 'warning');
             } else {
@@ -937,7 +937,7 @@ class MenuSystem extends OctaneComponent {
         console.log('Paste items...');
         
         try {
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 // For now, show that gRPC paste is not implemented
                 this.showNotification(' Paste via gRPC not yet implemented', 'warning');
             } else {
@@ -954,7 +954,7 @@ class MenuSystem extends OctaneComponent {
         console.log('Delete selected items...');
         
         try {
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 // For now, show that gRPC delete is not implemented
                 this.showNotification(' Delete via gRPC not yet implemented', 'warning');
             } else {
@@ -971,7 +971,7 @@ class MenuSystem extends OctaneComponent {
         console.log('Select all items...');
         
         try {
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 // For now, show that gRPC select all is not implemented
                 this.showNotification(' Select All via gRPC not yet implemented', 'warning');
             } else {
@@ -985,14 +985,14 @@ class MenuSystem extends OctaneComponent {
     }
     
     async refresh() {
-        if (this.client && this.client.connected) {
+        if (window.octaneClient && window.octaneClient.connected) {
             // Use working  methods instead of old sync methods
             try {
-                await this.client.getSceneData();
+                await window.octaneClient.getSceneData();
                 console.log('Scene data refreshed via ');
                 
                 // TODO: Implement node graph refresh with working  method
-                // await this.client.getNodeGraphData(); // When available
+                // await window.octaneClient.getNodeGraphData(); // When available
                 
             } catch (error) {
                 console.error('❌ Failed to refresh scene data:', error);
@@ -1006,7 +1006,7 @@ class MenuSystem extends OctaneComponent {
         console.log('Run script...');
         
         try {
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 // For now, show that script execution is not implemented
                 this.showNotification(' Script execution via gRPC not yet implemented', 'warning');
             } else {
@@ -1028,7 +1028,7 @@ class MenuSystem extends OctaneComponent {
         console.log('Reload scripts...');
         
         try {
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 this.showNotification(' Script reload via gRPC not yet implemented', 'warning');
             } else {
                 this.showNotification('❌ Script reload requires Octane connection', 'error');
@@ -1051,7 +1051,7 @@ class MenuSystem extends OctaneComponent {
         console.log('Install module...');
         
         try {
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 this.showNotification(' Module installation via gRPC not yet implemented', 'warning');
             } else {
                 this.showNotification('❌ Module installation requires Octane connection', 'error');
@@ -1067,7 +1067,7 @@ class MenuSystem extends OctaneComponent {
         console.log('Refresh modules...');
         
         try {
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 this.showNotification(' Module refresh via gRPC not yet implemented', 'warning');
             } else {
                 this.showNotification('❌ Module refresh requires Octane connection', 'error');
@@ -1085,10 +1085,10 @@ class MenuSystem extends OctaneComponent {
         console.log('Start cloud render...');
         
         try {
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 console.log('Making gRPC call: ApiRenderCloudManager/newRenderTask');
                 
-                const response = await this.client.makeGrpcCall('ApiRenderCloudManager/newRenderTask', {
+                const response = await window.octaneClient.makeGrpcCall('ApiRenderCloudManager/newRenderTask', {
                     // Add render task parameters as needed
                 });
                 
@@ -1113,10 +1113,10 @@ class MenuSystem extends OctaneComponent {
         console.log('Show cloud account...');
         
         try {
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 console.log('Making gRPC call: ApiRenderCloudManager/userSubscriptionInfo');
                 
-                const response = await this.client.makeGrpcCall('ApiRenderCloudManager/userSubscriptionInfo');
+                const response = await window.octaneClient.makeGrpcCall('ApiRenderCloudManager/userSubscriptionInfo');
                 
                 if (response.success && response.data) {
                     console.log('Retrieved cloud account info');
@@ -1140,10 +1140,10 @@ class MenuSystem extends OctaneComponent {
         console.log('Upload scene to cloud...');
         
         try {
-            if (this.client && this.client.connected) {
+            if (window.octaneClient && window.octaneClient.connected) {
                 console.log('Making gRPC call: ApiRenderCloudManager/uploadCurrentProject');
                 
-                const response = await this.client.makeGrpcCall('ApiRenderCloudManager/uploadCurrentProject');
+                const response = await window.octaneClient.makeGrpcCall('ApiRenderCloudManager/uploadCurrentProject');
                 
                 if (response.success && response.data) {
                     console.log('Scene uploaded to cloud successfully');
@@ -1402,7 +1402,7 @@ class MenuSystem extends OctaneComponent {
             // Keep only last 10
             recentFiles = recentFiles.slice(0, 10);
             
-            localStorage.setItem('octaneWeb.recentFiles', JSON.stringify(recentFiles));
+            localStorage.setItem('octaneWeb.recentFiles', JSON.stringify(recentFiles, null, 2));
             
             // Update menu definitions
             this.updateRecentFilesMenu();

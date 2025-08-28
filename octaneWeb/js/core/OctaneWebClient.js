@@ -28,9 +28,12 @@ function createOctaneWebClient() {
     }
 
     class OctaneWebClient extends LiveLinkClient {
-    constructor(serverUrl) {
+    constructor(eventSystem, serverUrl) {
         super(serverUrl);
-        
+                
+        this.eventSystem = eventSystem;
+        this.scene = { map:[], items:null };
+
         // Scene state management - tracks all Octane scene objects and hierarchy
         this.sceneState = {
             objects: new Map(),        // All scene objects by ID
@@ -94,12 +97,12 @@ function createOctaneWebClient() {
             // Start auto-sync intervals
 //            this.startAutoSync();
             
-//            this.emit('octaneWeb:connected');
+            this.emit('connected');
             return true;
             
         } catch (error) {
             console.error('OctaneWeb connection failed:', error);
-            this.emit('octaneWeb:connectionError', error);
+            this.emit('connectionError', error);
             throw error;
         }
     }
@@ -117,8 +120,10 @@ function createOctaneWebClient() {
         // Call parent disconnect
         await super.disconnect();
         
-        this.emit('octaneWeb:disconnected');
+        this.emit('disconnected');
     }
+    
+
     
     // ==================== GRPC CALL OVERRIDE ====================
 
@@ -256,7 +261,7 @@ function createOctaneWebClient() {
                 };
                 this.sceneState.cameras.set(camera.id, camera);
                 this.emit('ui:camerasUpdate', this.sceneState.cameras);
-                this.log(`Synced camera: ${JSON.stringify(camera)}`);
+                this.log(`Synced camera: ${JSON.stringify(camera, null, 2)}`);
             }
             
             return response;

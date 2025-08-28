@@ -10,8 +10,8 @@
  */
 
 class RenderViewport extends OctaneComponent {
-    constructor(element, client, stateManager) {
-        super(element, client, stateManager);
+    constructor(element, stateManager) {
+        super(element, stateManager);
         
         // UI Debug Mode - controls visibility of status overlays
         this.uiDebugMode = false; // Set to true to enable debug UI elements
@@ -22,7 +22,7 @@ class RenderViewport extends OctaneComponent {
         this.statusOverlay = null;
         
         // Initialize centralized camera system
-        this.camera = new Camera(this.client, {
+        this.camera = new Camera(window.octaneClient, {
             radius: 20.0,
             theta: 0.0,
             phi: 0.0,
@@ -276,7 +276,7 @@ class RenderViewport extends OctaneComponent {
      * Poll for render images in background
      */
     async pollForImages() {
-        if (!this.imagePolling || !this.client) {
+        if (!this.imagePolling || !window.octaneClient) {
             return;
         }
            

@@ -29,19 +29,14 @@
 
 class SceneOutlinerSync {
     constructor(element, eventSystem) {
-        console.log('SceneOutlinerSync constructor called');
-        console.log('element:', element);
-        console.log('eventSystem:', eventSystem);
-        
         this.element = element;
         this.eventSystem = eventSystem;
-        this.lastScene = {};
-        this.scene = { map:[], items:null };
 
         this.expandedNodes = new Set(['scene-root', 'item-1000025']); // Expand Scene and Render target by default
         this.searchTerm = '';
         this.selectedNodeHandle = null;
-        
+        this.scene = { items: null}
+
         this.setupEventHandlers();
         
         // Auto-load scene tree after a short delay
@@ -52,48 +47,6 @@ class SceneOutlinerSync {
         }, 100);
     }
     
-    setupEventHandlers() {
-        // Search functionality
-        const searchInput = this.element.querySelector('#scene-search');
-        if (searchInput) {
-            this.addEventListener(searchInput, 'input', (e) => {
-                this.searchTerm = e.target.value.toLowerCase();
-                
-                // Use real scene data if available
-                if (this.lastScene && this.lastScene.items.length > 0) {
-                    this.renderRealSceneTree(this.lastScene);
-                }
-            });
-        }
-        // Listen for scene node selection (unified event for all components)
-        this.eventSystem.on('sceneNodeSelected', (handle) => {
-//            this.updateSelectedNode(handle);
-        });
-        
-    }
-    
-    // Unified selection function - called both on initialization and user clicks
-    selectNode(handle, nodeName, nodeId = null, source = 'programmatic') {
-        console.log('Unified selectNode called:', { handle, nodeName, nodeId, source });
-        
-        // Update internal state
-        this.selectedNodeHandle = handle;
-        
-        // Update visual selection in tree
-        const treeContainer = this.element.querySelector('.scene-tree');
-        if (treeContainer) {
-            // Remove previous selection
-            treeContainer.querySelectorAll('.tree-node').forEach(n => n.classList.remove('selected'));
-            
-            // Add selection to target node
-            const targetNode = treeContainer.querySelector(`[data-handle="${handle}"]`);
-            if (targetNode) {
-                targetNode.classList.add('selected');
-            }
-        }
-    }
-
-
     
     /**
      * ASYNCHRONOUS function that loads scene tree
@@ -111,13 +64,13 @@ class SceneOutlinerSync {
         
         try {
             console.log('Starting SYNCHRONOUS scene tree loading sequence...');
-            this.scene.items = this.loadSceneTreeSync();
+            this.scene = { items: this.loadSceneTreeSync()};
             
             // Store scene data for later requests
             this.lastScene = this.scene;
             
             // Render the real scene tree (UI update happens here)
-            this.renderRealSceneTree(this.scene);
+            this.render(this.scene);
             
             // Update other components with real scene data
             this.eventSystem.emit('sceneDataLoaded', this.scene);
@@ -129,8 +82,8 @@ class SceneOutlinerSync {
             
             // Clear stored scene data and notify other components
             this.lastScene = {};
-            this.scene = {}
-            this.eventSystem.emit('sceneDataLoaded', {});
+            this.scene = { items:[]}
+            this.eventSystem.emit('sceneDataLoaded', this.scene);
             
             treeContainer.innerHTML = `
                 <div class="scene-error">
@@ -148,16 +101,12 @@ class SceneOutlinerSync {
         }
     }
 
-    delay(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
     /**
      * SYNCHRONOUS scene tree loading with blocking API calls
      * STRUCTURED DEBUGGING: Isolate exactly where Octane crashes
      * @returns {Array} Scene items array
      */
-    loadSceneTreeSync(itemHandle = null, sceneItems = null, level = 0) {
+    loadSceneTreeSync(itemHandle, sceneItems, isGraph, level = 0) {
         let result;
 //        if (level >= 3)
 //            return scene;
@@ -166,8 +115,6 @@ class SceneOutlinerSync {
         if (sceneItems == null) {
             sceneItems = [];
         }
-        let graphInfo
-        let nodeInfo
         try {
             if (itemHandle == null)
             {
@@ -179,27 +126,18 @@ class SceneOutlinerSync {
                     throw new Error('Failed ApiProjectManager/rootNodeGraph');
                 }
                 itemHandle = result.data.result.handle;
-            }
-            // is it a graph or node?
-            result = window.grpcApi.makeApiCall(
-                'ApiItem/isGraph', 
-                itemHandle 
-            );
-            if (!result.success) {
-                throw new Error('Failed ApiItem/isGraph');
-            }
-            if (result.data.result)
-            {
-                // its a graph
+                // is it a graph or node?
                 result = window.grpcApi.makeApiCall(
-                    'ApiNodeGraph/info1', 
-                    itemHandle,
+                    'ApiItem/isGraph', 
+                    itemHandle 
                 );
                 if (!result.success) {
-                    throw new Error('Failed ApiNodeGraph/info1');
+                    throw new Error('Failed ApiItem/isGraph');
                 }
-                graphInfo = result.data.data;
-
+                isGraph = result.data.result;
+            }
+            if (isGraph)
+            {
                 // Get owned items
                 result = window.grpcApi.makeApiCall(
                     'ApiNodeGraph/getOwnedItems', 
@@ -231,7 +169,7 @@ class SceneOutlinerSync {
                         throw new Error('Failed ApiItemArray/get');
                     }
                     // will recurse to loadSceneTreeSync()
-                    this.addSceneItem(sceneItems, result.data.result, level, graphInfo);
+                    this.addSceneItem(sceneItems, result.data.result, null, level);
                 }
 //                sceneItems.sort((a, b) => a.handle - b.handle); 
 
@@ -239,26 +177,13 @@ class SceneOutlinerSync {
             }
             // its a node
             result = window.grpcApi.makeApiCall(
-                'ApiNode/info', 
-                itemHandle,
-            );
-            if (!result.success) {
-                throw new Error('Failed ApiNode/info');
-            }
-            nodeInfo = result.data.result
-                        
-            // Get the pins
-            // pinCount may not == pinInfoCount
-            let pinCount = nodeInfo.pinInfoCount;
-
-            result = window.grpcApi.makeApiCall(
                 'ApiNode/pinCount', 
                 itemHandle
             );
             if (!result.success) {
                 throw new Error('Failed ApiNode/pinCount');
             }
-            pinCount = result.data.result;
+            const pinCount = result.data.result;
 //            console.log(`pinCount = ${pinCount} nodeInfo.pinInfoCount = ${nodeInfo.pinInfoCount}`);  
 
             for (let i = 0; i < pinCount; i++) {
@@ -296,7 +221,9 @@ class SceneOutlinerSync {
                 if (!result.success) {
                     throw new Error('Failed ApiNode/pinTypeIx');
                 }
+                pinInfo.parent = itemHandle;
                 pinInfo.type = result.data.result;
+
 //                console.log('pinInfo.type', pinInfo.type);
 
 //                pinInfo.type = window.OctaneTypes.NodePinType[pinInfo.type];
@@ -322,11 +249,11 @@ class SceneOutlinerSync {
                 if (!result.success) {
                     throw new Error('Failed ApiNodePinInfoEx/getApiNodePinInfo');
                 }
-                console.log('pinInfo ', JSON.stringify(result));
+                console.log('pinInfo ', JSON.stringify(result, null, 2));
                 pinInfo = result.data.result;
 */
                 // will recurse to loadSceneTreeSync()
-                this.addSceneItem(sceneItems, connectedNode, level, graphInfo, nodeInfo, pinInfo);
+                this.addSceneItem(sceneItems, connectedNode, pinInfo, level);
             }
         } catch (error) {
             console.error('❌ Failed loadSceneTreeSync(): ', error);
@@ -339,10 +266,13 @@ class SceneOutlinerSync {
     /**
 
      */
-    addSceneItem(sceneItems, item, level = 0, graphInfo = null, nodeInfo = null, pinInfo = null) { 
+    addSceneItem(sceneItems, item, pinInfo, level = 0) { 
 
         let itemName;
         let outType;
+        let graphInfo;
+        let nodeInfo;
+        let isGraph;
 
         if (!item || !item.handle)
             return;
@@ -374,11 +304,46 @@ class SceneOutlinerSync {
             if (pinInfo != null && pinInfo.staticLabel != "") {
                 itemName = pinInfo.staticLabel;
             }
+            console.log(`addSceneItem = ${itemName}`);  
+
+            // is it a graph or node?
+            result = window.grpcApi.makeApiCall(
+                'ApiItem/isGraph', 
+                item.handle 
+            );
+            if (!result.success) {
+                throw new Error('Failed ApiItem/isGraph');
+            }
+            isGraph = result.data.result;
+            if (isGraph) {
+                // its a graph
+                result = window.grpcApi.makeApiCall(
+                    'ApiNodeGraph/info1', 
+                    item.handle,
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNodeGraph/info1');
+                }
+                graphInfo = result.data.result;
+                console.log(`graphInfo = `, JSON.stringify(graphInfo, null, 2));  
+            }
+            else {
+                // its a node
+                result = window.grpcApi.makeApiCall(
+                    'ApiNode/info', 
+                    item.handle,
+                );
+                if (!result.success) {
+                    throw new Error('Failed ApiNode/info');
+                }
+                nodeInfo = result.data.result
+                console.log(`nodeInfo = `, JSON.stringify(nodeInfo, null, 2));  
+            }
 
         } catch (error) {
             console.error('❌ Failed addSceneItem(): ', error);
         }
-        let children = this.loadSceneTreeSync(item.handle, null, level);
+        let children = this.loadSceneTreeSync(item.handle, null, isGraph, level);
 
         let attrInfo = null;
         if (children.length == 0) {
@@ -402,6 +367,13 @@ class SceneOutlinerSync {
         else {
             console.log(`ParentNode ${item.handle} ${itemName} ${outType} ${pinInfo?.type}`);            
         }
+       
+        const icon = window.OctaneIconMapper?.getNodeIcon(outType);
+
+        if (pinInfo) {
+            pinInfo.pinColor = window.OctaneIconMapper?.gePinColor(outType);
+        }
+
         // save it
         sceneItems.push({
             name: itemName,
@@ -412,11 +384,48 @@ class SceneOutlinerSync {
             attrInfo: attrInfo,
             pinInfo: pinInfo,
             children: children,
+            icon: icon,
         });
-        this.scene.map[item.handle] = sceneItems[sceneItems.size-1];
     }
 
-    renderRealSceneTree(scene) {
+    setupEventHandlers() {
+        // Search functionality
+        const searchInput = this.element.querySelector('#scene-search');
+        if (searchInput) {
+            this.addEventListener(searchInput, 'input', (e) => {
+                this.searchTerm = e.target.value.toLowerCase();
+                
+                this.render(this.scene);
+            });
+        }
+        // Listen for scene node selection (unified event for all components)
+        this.eventSystem.on('sceneNodeSelected', (handle) => {
+//            this.updateSelectedNode(handle);
+        });
+    }
+    
+    // Unified selection function - called both on initialization and user clicks
+    selectNode(handle, nodeName, nodeId = null, source = 'programmatic') {
+        console.log('Unified selectNode called:', { handle, nodeName, nodeId, source });
+        
+        // Update internal state
+        this.selectedNodeHandle = handle;
+        
+        // Update visual selection in tree
+        const treeContainer = this.element.querySelector('.scene-tree');
+        if (treeContainer) {
+            // Remove previous selection
+            treeContainer.querySelectorAll('.tree-node').forEach(n => n.classList.remove('selected'));
+            
+            // Add selection to target node
+            const targetNode = treeContainer.querySelector(`[data-handle="${handle}"]`);
+            if (targetNode) {
+                targetNode.classList.add('selected');
+            }
+        }
+    }
+
+    render(scene) {
         const treeContainer = this.element.querySelector('#scene-tree');
         if (!treeContainer) return;
         
@@ -462,9 +471,7 @@ class SceneOutlinerSync {
         );
         
         filteredItems.forEach(item => {
-            const icon = window.OctaneIconMapper ? 
-                window.OctaneIconMapper.getNodeIcon(item.outType, item.name) : 
-                this.getOctaneIconFor(item.outType, item.name);
+            const icon = item.icon; 
             const nodeId = `item-${item.handle}`;
             const isSelected = item.name === 'Render target'; // Match Octane screenshot
             const hasChildren = item.children && item.children.length > 0;
@@ -492,95 +499,6 @@ class SceneOutlinerSync {
         return html;
     }
     
-    getOctaneIconFor(outType, name) {
-        // Match exact Octane icons based on name and type
-        if (name === 'Render target') {
-            return '🎯'; // Target icon for render target
-        }
-        if (name === 'teapot.obj' || (name && name.includes('.obj'))) {
-            return '🫖'; // Teapot icon for mesh objects
-        }
-        if (name === 'Daylight environment' || (name && name.includes('environment'))) {
-            return '🌍'; // Environment icon
-        }
-        if (name === 'Film settings') {
-            return '🎬'; // Film settings icon
-        }
-        if (name === 'Animation settings') {
-            return '⏱️'; // Animation icon
-        }
-        if (name === 'Direct lighting kernel' || (name && name.includes('kernel'))) {
-            return '🔧'; // Kernel icon
-        }
-        if (name === 'Render layer') {
-            return '🎭'; // Render layer icon
-        }
-        if (name === 'Render passes') {
-            return '📊'; // Render passes icon
-        }
-        if (name === 'Output AOV group') {
-            return '📤'; // Output AOVs icon
-        }
-        if (name === 'Imager') {
-            return '📷'; // Imager icon
-        }
-        if (name === 'Post processing') {
-            return '⚙️'; // Post processing icon
-        }
-        
-        // Handle parameter types with specific icons
-        if (outType === 'PT_BOOL' || name === 'Bool value') {
-            return '☑️'; // Checkbox for boolean parameters
-        }
-        if (outType === 'PT_FLOAT' || name === 'Float value') {
-            return '🔢'; // Numbers for float parameters
-        }
-        if (outType === 'PT_INT' || name === 'Int value') {
-            return '🔢'; // Numbers for integer parameters
-        }
-        if (outType === 'PT_ENUM' || name === 'Enum value') {
-            return '📋'; // List for enum parameters
-        }
-        if (outType === 'PT_RGB' || name === 'RGB color') {
-            return '🎨'; // Color palette for RGB parameters
-        }
-        
-        // Fallback based on type
-        const iconMap = {
-            'PT_RENDER_TARGET': '🎯',
-            'PT_MESH': '🫖',
-            'PT_GEOMETRY': '🫖',
-            'PT_CAMERA': '📷',
-            'PT_LIGHT': '💡',
-            'PT_MATERIAL': '🎨',
-            'PT_ENVIRONMENT': '🌍',
-            'PT_FILM_SETTINGS': '🎬',
-            'PT_ANIMATION_SETTINGS': '⏱️',
-            'PT_KERNEL': '🔧',
-            'PT_RENDER_LAYER': '🎭',
-            'PT_RENDER_PASSES': '📊',
-            'PT_OUTPUT_AOV_GROUP': '📤',
-            'PT_IMAGER': '📷',
-            'PT_POSTPROCESSING': '⚙️',
-            'unknown': '⬜'
-        };
-        
-        return iconMap[outType] || '⬜';
-    }
-    
-    getIconFor(outType) {
-        const iconMap = {
-            'unknown': '⬜',
-            'mesh': '▲',
-            'camera': '📷',
-            'light': '💡',
-            'material': '🎨',
-            'texture': '🖼️',
-            'group': '📁'
-        };
-        
-        return iconMap[outType] || '⬜';
-    }
     
     addTreeEventHandlers(treeContainer) {
         // Add click handlers for expand/collapse
@@ -598,7 +516,7 @@ class SceneOutlinerSync {
                 }
                 
                 // Re-render tree to show/hide children
-                this.renderRealSceneTree(this.lastScene);
+                this.render();
             });
         });
         

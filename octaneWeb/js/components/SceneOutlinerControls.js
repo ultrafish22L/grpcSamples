@@ -5,9 +5,8 @@
  */
 
 class SceneOutlinerControls {
-    constructor(containerId, octaneClient = null) {
+    constructor(containerId) {
         this.container = document.getElementById(containerId);
-        this.client = octaneClient;
         this.currentTab = 'scene';
         this.isCollapsed = false;
         

@@ -74,7 +74,7 @@ class OctaneWebApp {
             console.log('Initializing OctaneWeb...');
             
             // Display loading screen while systems initialize
-            this.showLoadingScreen('Initializing application...');
+            this.showLoadingScreen('Initializing...');
             
             // Phase 1: Initialize core systems in dependency order
             await this.initializeCoreSystems();
@@ -89,17 +89,19 @@ class OctaneWebApp {
             this.startPerformanceMonitoring();
             
             // Phase 5: Transition from loading screen to live application
-            this.hideLoadingScreen();
+//            this.hideLoadingScreen();
             
             this.isInitialized = true;
             console.log('OctaneWeb initialized successfully');
+            
+            this.showLoadingScreen('Syncing...');     
             
             // Phase 6: Auto-connect to Octane if server address configured
             const serverAddress = document.getElementById('serverAddress')?.value;
             if (serverAddress) {
                 await this.connectToOctane(serverAddress);
             }
-            
+
         } catch (error) {
             console.error('❌ Failed to initialize OctaneWeb:', error);
             this.showError('Failed to initialize application', error.message);
@@ -125,18 +127,19 @@ class OctaneWebApp {
         // Step 2: Initialize event system - foundation for all component communication
         this.eventSystem = new EventSystem();
         
+         // Step 5: Initialize debug console and expose globally for runtime access
+        const debugConsole = new DebugConsole();
+        window.debugConsole = debugConsole;
+
+        // Step 6: Initialize gRPC client (connection established later via UI)
+        this.client = new OctaneWebClient(this.eventSystem, 'http://localhost:51023');
+        window.octaneClient = this.client;
+
         // Step 3: Initialize state manager with event system dependency
         this.stateManager = new StateManager(this.eventSystem);
         
         // Step 4: Initialize layout manager for responsive UI handling
         this.layoutManager = new LayoutManager();
-        
-        // Step 5: Initialize debug console and expose globally for runtime access
-        this.debugConsole = new DebugConsole();
-        window.debugConsole = this.debugConsole;
-        
-        // Step 6: Initialize gRPC client (connection established later via UI)
-        this.client = new OctaneWebClient('http://localhost:51023');
         
         // Step 7: Setup client event handlers for connection state management
         this.setupClientEventHandlers();
@@ -170,29 +173,25 @@ class OctaneWebApp {
         // Rendering components - real-time display with callback streaming
         this.components.renderViewport = new CallbackRenderViewport(
             document.querySelector('#render-viewport'),
-            this.client,
             this.stateManager,
             this.eventSystem
         );
         
-        this.components.renderToolbar = new RenderToolbar('render-toolbar-container', this.client);
+        this.components.renderToolbar = new RenderToolbar('render-toolbar-container');
         
         // Node editing components - parameter inspection and visual graph editing
         this.components.nodeInspector = new NodeInspector(
             document.querySelector('#node-inspector'),
-            this.client,
             this.stateManager,
             this.eventSystem
         );
         
         this.components.nodeInspectorControls = new NodeInspectorControls(
             'right-panel',
-            this.client
         );
         
         this.components.nodeGraphEditor = new NodeGraphEditor(
             document.querySelector('#node-graph'),
-            this.client,
             this.stateManager,
             this.eventSystem
         );
@@ -200,7 +199,6 @@ class OctaneWebApp {
         // Application menu system - file operations and global commands
         this.components.menuSystem = new MenuSystem(
             document.querySelector('.main-menu'),
-            this.client,
             this.stateManager,
             this.eventSystem
         );
@@ -226,6 +224,7 @@ class OctaneWebApp {
             this.isConnected = true;
             this.updateConnectionStatus('connected', 'Connected to Octane');
             console.log('Connected to Octane');
+
         });
         
         this.client.on('disconnected', () => {
@@ -239,7 +238,12 @@ class OctaneWebApp {
             this.updateConnectionStatus('error', 'Connection Error');
             console.error('❌ Connection error:', error);
         });
-        
+        // Listen for scene data loading from SceneOutliner (OPTIMIZATION)
+        this.eventSystem.on('sceneDataLoaded', (scene) => {
+            // Phase 5: Transition from loading screen to live application
+            this.hideLoadingScreen();
+        });
+
         // UI update events
         this.client.on('ui:sceneUpdate', (sceneState) => {
             this.components.sceneOutliner?.updateScene(sceneState);
@@ -451,11 +455,11 @@ class OctaneWebApp {
                     break;
                 case 'd':
                     // Check if this is for debug console (Ctrl+D)
-                    console.log('Ctrl+D pressed, debugConsole:', this.debugConsole);
-                    if (this.debugConsole) {
+                    console.log('Ctrl+D pressed, debugConsole:', window.debugConsole);
+                    if (window.debugConsole) {
                         event.preventDefault();
                         console.log('Calling debugConsole.toggle()');
-                        this.debugConsole.toggle();
+                        window.debugConsole.toggle();
                         return; // Don't call duplicate
                     }
                     event.preventDefault();
@@ -472,9 +476,9 @@ class OctaneWebApp {
                 break;
             case 'F12':
                 // Toggle debug console with F12
-                if (this.debugConsole) {
+                if (window.debugConsole) {
                     event.preventDefault();
-                    this.debugConsole.toggle();
+                    window.debugConsole.toggle();
                 }
                 break;
             case 'Delete':
@@ -530,6 +534,11 @@ class OctaneWebApp {
         
         if (loadingStatus) {
             loadingStatus.textContent = message;
+        }
+        const appContainer = document.getElementById('app-container');
+        
+        if (appContainer) {
+            appContainer.style.display = 'none';
         }
     }
     

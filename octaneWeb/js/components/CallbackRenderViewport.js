@@ -26,8 +26,8 @@
  */
 
 class CallbackRenderViewport extends OctaneComponent {
-    constructor(element, client, stateManager, eventSystem) {
-        super(element, client, stateManager);
+    constructor(element, stateManager, eventSystem) {
+        super(element, stateManager);
         
         // Event system dependency for cross-component communication
         this.eventSystem = eventSystem;
@@ -38,7 +38,6 @@ class CallbackRenderViewport extends OctaneComponent {
         // Real-time callback streaming state management
         this.callbackMode = false;            // Currently using callback streaming
         this.eventSource = null;              // Server-Sent Events connection
-        this.clientId = null;                 // Unique client identifier
         this.callbackId = null;               // Active callback registration ID
         
         // DOM viewport elements for rendering display
@@ -47,7 +46,7 @@ class CallbackRenderViewport extends OctaneComponent {
         this.statusOverlay = null;            // Debug status overlay
         
         // Centralized camera system for mouse drag interactions
-        this.camera = new Camera(this.client, {
+        this.camera = new Camera(window.octaneClient, {
             radius: 20.0,                     // Camera distance from target
             theta: 0.0,                       // Horizontal rotation angle
             phi: 0.0,                         // Vertical rotation angle
@@ -120,7 +119,7 @@ class CallbackRenderViewport extends OctaneComponent {
             console.log('Attempting to start callback streaming mode...');
             
             // Register callback with proxy server
-            const callbackUrl = `${this.client.serverUrl}/render/register-callback`;
+            const callbackUrl = `${window.octaneClient.serverUrl}/render/register-callback`;
             console.log(`Callback registration URL: ${callbackUrl}`);
             
             console.log('Making callback registration request...');
@@ -151,7 +150,7 @@ class CallbackRenderViewport extends OctaneComponent {
             console.log(`Callback registered with ID: ${this.callbackId}`);
             
             // Start Server-Sent Events stream
-            const streamUrl = `${this.client.serverUrl}/render/stream`;
+            const streamUrl = `${window.octaneClient.serverUrl}/render/stream`;
             this.eventSource = new EventSource(streamUrl);
             
             this.eventSource.onopen = (event) => {
@@ -264,7 +263,7 @@ class CallbackRenderViewport extends OctaneComponent {
         switch (data.type) {
             case 'connected':
                 console.log(`Connected to callback stream, client ID: ${data.client_id}`);
-                this.clientId = data.client_id;
+                window.octaneClientId = data.client_id;
                 this.updateStatus(`Connected (Client: ${data.client_id.substring(0, 8)}...)`);
                 
                 // Trigger Octane to render once streaming is connected
@@ -717,7 +716,7 @@ class CallbackRenderViewport extends OctaneComponent {
             callbackCount: this.callbackCount,
             lastCallbackTime: this.lastCallbackTime,
             connectionErrors: this.connectionErrors,
-            clientId: this.clientId,
+            clientId: window.octaneClientId,
             callbackId: this.callbackId,
             syncCount: this.syncCount,
             lastImageSize: this.lastImageSize

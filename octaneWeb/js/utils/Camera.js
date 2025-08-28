@@ -21,11 +21,9 @@
 class Camera {
     /**
      * Initialize camera system
-     * @param {Object} client - OctaneWebClient instance for API calls
      * @param {Object} options - Camera configuration options
      */
-    constructor(client, options = {}) {
-        this.client = client;
+    constructor(options = {}) {
         
         // Camera state in spherical coordinates
         this.state = {
@@ -69,8 +67,8 @@ class Camera {
      */
     async initializeFromOctane() {
         try {
-            const position = await this.client.getCameraPosition();
-            const target = await this.client.getCameraTarget();
+            const position = await window.octaneClient.getCameraPosition();
+            const target = await window.octaneClient.getCameraTarget();
             
             if (position && target) {
                 // Update target (center point)
@@ -257,7 +255,7 @@ class Camera {
      */
     async syncToOctane() {
         if (!this.sync.enabled) return;
-        if (!this.client.isReady()) return;
+        if (!window.octaneClient.isReady()) return;
         
         // Throttle sync calls
         const now = Date.now();
@@ -269,7 +267,7 @@ class Camera {
             const target = this.getTarget();
             
             // Update Octane camera
-            if (await this.client.setCameraPositionAndTarget(position[0], position[1], position[2], target[0], target[1], target[2])) {
+            if (await window.octaneClient.setCameraPositionAndTarget(position[0], position[1], position[2], target[0], target[1], target[2])) {
                 
                 // Trigger Octane display update
                 await this.triggerOctaneUpdate();

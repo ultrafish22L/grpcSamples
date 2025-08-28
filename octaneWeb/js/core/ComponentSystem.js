@@ -4,9 +4,8 @@
  */
 
 class OctaneComponent {
-    constructor(element, client, stateManager, eventSystem) {
+    constructor(element, stateManager, eventSystem) {
         this.element = element;
-        this.client = client;
         this.stateManager = stateManager;
         this.eventSystem = eventSystem || (stateManager && stateManager.eventSystem);
         this.isInitialized = false;

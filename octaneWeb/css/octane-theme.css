@@ -442,8 +442,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--font-size-normal);
-    margin-right: 4px;
+    font-size: 14px;
 }
 
 .node-name {

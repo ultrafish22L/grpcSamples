@@ -62,8 +62,8 @@ class GenericNodeRenderer {
      */
     renderNodeAtLevel(nodeData, level) {
         // Use inspector-specific color/icon if available, otherwise fall back to iconMapper
-        const icon =  window.OctaneIconMapper?.getNodeIcon(nodeData.outType, nodeData.name) || '📦';
-        const color = window.OctaneIconMapper?.getNodeColor(nodeData.outType) || '#666';
+        const icon =  nodeData.icon;
+        const color = window.OctaneIconMapper.formatColorValue(nodeData.nodeInfo?.nodeColor) || '#666';
         const hasChildren = nodeData.children && nodeData.children.length > 0;
         const nodeId = `node-${nodeData.handle}`;
         
@@ -214,28 +214,6 @@ class GenericNodeRenderer {
         }
         return this.renderControl(nodeData);  
     }
-    
-           
-/*
-    ATTRIBUTE_TYPE(AT_UNKNOWN   , 0)
-
-    ATTRIBUTE_TYPE(AT_BOOL      , 1)
-    ATTRIBUTE_TYPE(AT_INT       , 2)
-    ATTRIBUTE_TYPE(AT_INT2      , 3)
-    ATTRIBUTE_TYPE(AT_INT3      , 4)
-    ATTRIBUTE_TYPE(AT_INT4      , 5)
-    ATTRIBUTE_TYPE(AT_LONG      , 14)
-    ATTRIBUTE_TYPE(AT_LONG2     , 15)
-    ATTRIBUTE_TYPE(AT_FLOAT     , 6)
-    ATTRIBUTE_TYPE(AT_FLOAT2    , 7)
-    ATTRIBUTE_TYPE(AT_FLOAT3    , 8)
-    ATTRIBUTE_TYPE(AT_FLOAT4    , 9)
-    ATTRIBUTE_TYPE(AT_STRING    , 10)
-    ATTRIBUTE_TYPE(AT_FILENAME  , 11)
-    ATTRIBUTE_TYPE(AT_BYTE      , 12)
-    ATTRIBUTE_TYPE(AT_MATRIX    , 13)
-*/
-
 
 
  /**
@@ -265,7 +243,7 @@ class GenericNodeRenderer {
         } catch (error) {
             console.error(`❌ Failed GenericNodeRenderer.getValue() ${nodeData.name} type: ${nodeData.attrInfo.type} ${type}`, error);
         }
-//        console.log(`GenericNodeRenderer.getValue() ${JSON.stringify(result)}`);
+//        console.log(`GenericNodeRenderer.getValue() ${JSON.stringify(result, null, 2)}`);
 
         return result.data;
     }

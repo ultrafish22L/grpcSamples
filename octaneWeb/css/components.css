@@ -3018,7 +3018,7 @@ body.drag-over .drop-indicator {
 /* Icon box with better visibility and positioning - ONLY for Node Inspector */
 .node-inspector .node-icon-box {
     position: absolute;
-    left: -8px; /* Slightly more overlap for better integration */
+    left: -8px; 
     width: 20px;
     height: 20px;
     border-radius: 3px;
@@ -3155,11 +3155,10 @@ body.drag-over .drop-indicator {
 }
 
 .octane-parameter-icon {
-    font-size: 12px;
+    font-size: 14px;
     width: 16px;
     text-align: center;
     flex-shrink: 0;
-    opacity: 0.8;
 }
 
 .octane-parameter-name {
