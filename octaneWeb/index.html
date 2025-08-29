@@ -327,67 +327,6 @@
         
         console.log(`Cache Busting Active: ${cacheBuster}`);
         
-        // Initialize early debug console to monitor script loading
-        function initEarlyDebugConsole() {
-            // Create debug console HTML
-            const debugHTML = `
-                <div id="early-debug-console" style="
-                    position: fixed; 
-                    top: 10px; 
-                    right: 10px; 
-                    width: 400px; 
-                    height: 300px; 
-                    background: rgba(0,0,0,0.9); 
-                    color: #0f0; 
-                    font-family: monospace; 
-                    font-size: 12px; 
-                    padding: 10px; 
-                    border: 1px solid #333; 
-                    overflow-y: auto; 
-                    z-index: 10000;
-                    border-radius: 5px;
-                ">
-                    <div style="color: #ff0; margin-bottom: 10px;">Early Debug Console</div>
-                    <div id="early-debug-log"></div>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', debugHTML);
-            
-            const logDiv = document.getElementById('early-debug-log');
-            
-            // Override console methods to capture logs
-            const originalLog = console.log;
-            const originalError = console.error;
-            const originalWarn = console.warn;
-            
-            function addToDebugLog(message, type = 'log') {
-                const timestamp = new Date().toLocaleTimeString();
-                const color = type === 'error' ? '#f00' : type === 'warn' ? '#fa0' : '#0f0';
-                logDiv.innerHTML += `<div style="color: ${color};">[${timestamp}] ${message}</div>`;
-                logDiv.scrollTop = logDiv.scrollHeight;
-            }
-            
-            console.log = function(...args) {
-                originalLog.apply(console, args);
-                addToDebugLog(args.join(' '), 'log');
-            };
-            
-            console.error = function(...args) {
-                originalError.apply(console, args);
-                addToDebugLog(args.join(' '), 'error');
-            };
-            
-            console.warn = function(...args) {
-                originalWarn.apply(console, args);
-                addToDebugLog(args.join(' '), 'warn');
-            };
-            
-            console.log('Early debug console initialized');
-        }
-        
-        // Initialize debug console immediately (disabled for production)
-        // initEarlyDebugConsole();
-        
         // Initialize the application after all scripts are loaded
         window.addEventListener('load', () => {
             let attempts = 0;

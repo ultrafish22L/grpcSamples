@@ -33,7 +33,11 @@ class DebugConsole {
         this.sessionId = this.generateSessionId();
         this.autoSaveInterval = null;
         this.proxyUrl = 'http://localhost:51023';
-        
+        this.isDragging = false;
+        this.dragTarget = null;
+        this.lastMousePos = { x: 0, y: 0 };
+        this.eventListeners = [];
+
         // Store original console methods
         this.originalLog = console.log;
         this.originalError = console.error;
@@ -41,15 +45,43 @@ class DebugConsole {
         
         this.createConsole();
         this.interceptConsole();
-        this.setupAutoSave();
+        this.setupEventListeners();
         
         // Add initial test logs
         this.addLog('info', 'Debug Console initialized');
         this.addLog('info', `Session ID: ${this.sessionId}`);
         this.addLog('info', 'Use F12 or Ctrl+D to toggle');
-        this.addLog('info', '🧹 Log file cleared by proxy on connection');
     }
     
+        /**
+     * Add event listener with automatic cleanup
+     */
+    addEventListener(event, handler, options = {}) {
+        this.eventListeners.push({event, handler, options });
+    }
+
+    handleMouseDown(e) {
+        this.isDragging = true;
+    }
+    
+    handleMouseMove(e) {
+        // Handle dragging
+        if (this.isDragging) {
+        }
+    }
+    
+        
+    handleMouseUp(e) {
+        this.isDragging = false;
+    }
+    
+    setupEventListeners() {
+        // Mouse events
+        this.addEventListener('mousedown', this.handleMouseDown.bind(this));
+        this.addEventListener('mousemove', this.handleMouseMove.bind(this));
+        this.addEventListener('mouseup', this.handleMouseUp.bind(this));
+    }
+
     generateSessionId() {
         return Date.now().toString(36) + Math.random().toString(36).substr(2);
     }
@@ -59,11 +91,11 @@ class DebugConsole {
         this.element = document.createElement('div');
         this.element.id = 'debug-console';
         this.element.style.cssText = `
-            position: fixed;
+            position: absolute;
             top: 20px;
-            right: 20px;
-            width: 400px;
-            height: 500px;
+            left: 200px;
+            width: 900px;
+            height: 800px;
             background: #2a2a2a;
             border: 1px solid #555;
             border-radius: 5px;
@@ -83,6 +115,7 @@ class DebugConsole {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            cursor: move;
         `;
         header.innerHTML = `
             <span>🐛 Debug Console (${this.sessionId})</span>
@@ -97,12 +130,10 @@ class DebugConsole {
         this.logsContainer = document.createElement('div');
         this.logsContainer.id = 'debug-logs-container';
         this.logsContainer.style.cssText = `
-            height: calc(100% - 50px);
             overflow-y: scroll;
-            overflow-x: hidden;
             padding: 8px;
             background: #1a1a1a;
-            max-height: 450px;
+            max-height: 800px;
             scrollbar-width: auto;
             scrollbar-color: #888 #2a2a2a;
         `;
@@ -280,11 +311,6 @@ class DebugConsole {
         this.logs = [];
         this.updateDisplay();
         this.addLog('info', '🧹 Debug console cleared');
-    }
-    
-    setupAutoSave() {
-        // Send logs to proxy immediately when they're created
-        // No periodic saving needed - just stream to proxy
     }
     
     async sendLogToProxy(type, message, timestamp) {

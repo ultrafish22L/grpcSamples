@@ -226,31 +226,19 @@ class FileManager {
         /**
          * Load ORBX project via gRPC ApiProjectManager.loadProject()
          */
-        try {
-            if (!window.octaneClient) {
-                throw new Error('Octane client not available');
-            }
-            
-            // Make gRPC call to load project
-            const response = await window.octaneClient.makeGrpcCall('ApiProjectManager/loadProject', {
-                projectPath: projectPath
-            });
-            
-            if (response.success && response.data) {
-                return {
-                    success: response.data.success,
-                    callbackId: response.data.callbackId,
-                    projectPath: projectPath
-                };
-            } else {
-                throw new Error(response.error || 'Load project request failed');
-            }
-            
-        } catch (error) {
-            console.error('Failed to load ORBX project:', error);
+        if (!window.octaneClient) {
+            throw new Error('Octane client not available');
+        }
+        
+        // Make gRPC call to load project
+        const response = await window.octaneClient.makeGrpcCall('ApiProjectManager/loadProject', {
+            projectPath: projectPath
+        });
+        
+        if (response.success && response.data) {
             return {
-                success: false,
-                error: error.message,
+                success: response.data.success,
+                callbackId: response.data.callbackId,
                 projectPath: projectPath
             };
         }
