@@ -57,7 +57,7 @@ class SceneOutlinerSync {
         }
         // Listen for scene node selection (unified event for all components)
         this.eventSystem.on('sceneNodeSelected', (handle) => {
-//            this.updateSelectedNode(handle);
+            this.updateSelectedNode(handle);
         });
                 // Listen for scene data loaded from SceneOutliner
         this.eventSystem.on('sceneDataLoaded', (scene) => {
@@ -67,8 +67,7 @@ class SceneOutlinerSync {
     }
     
     // Unified selection function - called both on initialization and user clicks
-    selectNode(handle, nodeName, nodeId = null, source = 'programmatic') {
-        console.log('Unified selectNode called:', { handle, nodeName, nodeId, source });
+    updateSelectedNode(handle) {
         
         // Update internal state
         this.selectedNodeHandle = handle;
@@ -103,16 +102,16 @@ class SceneOutlinerSync {
 */
 
     render() {
+
         const treeContainer = this.element.querySelector('#scene-tree');
         if (!treeContainer) return;
         
-        const scene = window.octaneClient.scene
+        const scene = window.octaneClient.getScene();
 
         if (scene.tree.length === 0) {
             treeContainer.innerHTML = `
                 <div class="scene-empty">
-                    <div class="empty-icon">📁</div>
-                    <div class="empty-message">No scene items found</div>
+                    <div class="empty-message">Empty</div>
                 </div>
             `;
             return;
@@ -210,8 +209,6 @@ class SceneOutlinerSync {
                 const nodeId = node.dataset.nodeId;
                 const nodeName = node.querySelector('.node-name')?.textContent || '';
                 
-                this.selectNode(handle, nodeName, nodeId);
-
                 this.eventSystem.emit('sceneNodeSelected', handle);
             });
         });

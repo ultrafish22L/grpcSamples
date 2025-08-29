@@ -237,6 +237,8 @@ class OctaneCallbackStreamer:
                     await self._handle_render_failure(callback_request.renderFailure)
                 elif callback_request.HasField('newStatistics'):
                     await self._handle_new_statistics(callback_request.newStatistics)
+                elif callback_request == 'projectManagerChanged':
+                    await self._handle_projectManagerChanged(callback_request)
                 else:
                     print(f"Received unknown callback type: {callback_request}")
             
@@ -373,6 +375,17 @@ class OctaneCallbackStreamer:
         }
         
         await self._broadcast_to_clients(stats_data)
+    
+    async def _handle_projectManagerChanged(self, callback_request):
+        """_handle_projectManagerChanged"""
+        print(f"projectManagerChanged {callback_request}")
+        
+        changed_data = {
+            'type': 'projectManagerChanged',
+            'timestamp': time.time()
+        }
+        
+        await self._broadcast_to_clients(changed_data)
     
     async def _save_image_as_png(self, img, index: int) -> Optional[str]:
         """Save render image as PNG file for visual debugging"""

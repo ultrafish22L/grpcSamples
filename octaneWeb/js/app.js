@@ -322,6 +322,8 @@ class OctaneWebApp {
             if (connectionToggle) {
                 connectionToggle.checked = success;
             }
+            console.log('Connect to Octane:', success);
+            
             if (success) {
                 this.client.loadSceneTree();
             }

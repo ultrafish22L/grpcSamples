@@ -45,7 +45,7 @@ class GenericNodeRenderer {
      */
     renderNode(nodeData, pinInfo = null) {
         if (!nodeData) {
-            return '<div class="node-inspector-empty">No node selected</div>';
+            return '<div class="empty-message">No node selected</div>';
         }
 //        console.log(`GenericNodeRenderer.renderNode() ${nodeData.name} ${nodeData.outType}`);
         

@@ -53,20 +53,6 @@ class NodeGraphEditor extends OctaneComponent {
         }, 200);
     }
     
-    autoSelectRenderTarget(scene) {
-        // Auto-select Render target using scene data (matching Octane Studio behavior)
-        if (scene && scene.tree && scene.tree.length > 1) {
-            const renderTarget = scene.tree[1]; // Render target is typically second item
-            console.log('NodeGraphEditor auto-selecting Render target:', renderTarget.handle);
-            
-            // Update this component's selection (handle only)
-            this.updateSelectedNode(renderTarget.handle);
-            
-            // Emit selection event with handle only to sync with other components
-            this.eventSystem.emit('sceneNodeSelected', renderTarget.handle);
-        }
-    }
-
     setupEventListeners() {
         // Listen for node graph updates
         window.octaneClient.on('ui:nodeGraphUpdate', (nodeGraphState) => {
@@ -83,14 +69,7 @@ class NodeGraphEditor extends OctaneComponent {
             console.log('NodeGraphEditor received sceneDataLoaded event:', scene.tree.length);
             this.createNodes(scene.tree);
             this.render();
-            this.autoSelectRenderTarget(scene.tree);
         });
-        
-        // Request scene data if SceneOutliner has already loaded it
-        setTimeout(() => {
-            console.log('NodeGraphEditor requesting existing scene data...');
-            this.eventSystem.emit('requestSceneData');
-        }, 100);
         
         // Mouse events
         this.addEventListener(this.canvas, 'mousedown', this.handleMouseDown.bind(this));
@@ -1006,12 +985,15 @@ class NodeGraphEditor extends OctaneComponent {
         this.render();
     }
     
-    createNodes(sceneItems = []) {
+    createNodes() {
+        
+        const scene = window.octaneClient.getScene();
+        
         // Clear existing nodes
         this.nodes.clear();
         this.connections.clear();
         
-        if (sceneItems.length === 0) {
+        if (scene.tree.length === 0) {
             console.log('No scene items available - showing no data message');
             // Show "no data" message instead of creating sample nodes
             this.showNoDataMessage();
@@ -1021,7 +1003,7 @@ class NodeGraphEditor extends OctaneComponent {
         let xOffset = 100;
         const yCenter = this.canvas.height / 2;
         
-        sceneItems.forEach((item, index) => {
+        scene.tree.forEach((item, index) => {
             const nodeId = `scene_${item.handle}`;
             
             const node = {
@@ -1042,7 +1024,7 @@ class NodeGraphEditor extends OctaneComponent {
         });
         
         // Create connections between nodes (teapot.obj -> Render target)
-        this.createSceneConnections(sceneItems);
+        this.createSceneConnections(scene.tree);
     }
     
     getNodeWidth(name) {
@@ -1114,7 +1096,7 @@ class NodeGraphEditor extends OctaneComponent {
         }
     }
     
-    createSceneConnections(sceneItems) {
+    createSceneConnections() {
         // Create connection from teapot.obj to Render target
         const meshNode = Array.from(this.nodes.values()).find(n => n.nodeData.name.includes('.obj'));
         const renderNode = Array.from(this.nodes.values()).find(n => n.nodeData.name.includes('Render target'));

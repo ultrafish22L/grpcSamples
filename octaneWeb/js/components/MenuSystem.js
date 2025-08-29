@@ -481,23 +481,15 @@ class MenuSystem extends OctaneComponent {
                     setTimeout(() => reject(new Error('Operation timed out after 15 seconds')), 15000);
                 });
 
-                // Race between the gRPC call and timeout
-                const response = await Promise.race([
-                    window.octaneClient.makeGrpcCall('ApiProjectManager/resetProject'),
-                    timeoutPromise
-                ]);
+                const response = await window.octaneClient.makeGrpcCall('ApiProjectManager/resetProject');
                 
                 if (response.success && response.data && response.data.result) {
                     console.log('New scene created successfully via gRPC');
                     this.showNotification('New scene created', 'success');
                     
                     // Refresh scene outliner to show new empty scene
-                    if (this.components?.sceneOutliner) {
-                        setTimeout(() => {
-                            this.components.sceneOutliner.refreshTree();
-                        }, 500);
-                    }
-                    
+                    window.octaneClient.loadSceneTree();
+
                 } else {
                     throw new Error(response.error || 'Reset project failed');
                 }
@@ -575,7 +567,7 @@ class MenuSystem extends OctaneComponent {
                     // Refresh scene outliner to show loaded scene
                     if (this.components?.sceneOutliner) {
                         setTimeout(() => {
-                            this.components.sceneOutliner.refreshTree();
+                            window.octaneClient.loadSceneTree();
                         }, 1000);
                     }
                     

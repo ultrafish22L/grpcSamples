@@ -129,23 +129,69 @@ function createOctaneWebClient() {
     }
     
     /**
+     * Find node data directly from scene list
+    */
+    lookupItem(handle) {
+
+        // Search recursively through scene
+        const findRecursively = (items) => {
+            for (const item of items) {
+                if (item.handle == handle) {
+                    return item;
+                }
+                if (item.children && item.children.length > 0) {
+                    const found = findRecursively(item.children);
+                    if (found) return found;
+                }
+            }
+            return null;
+        };
+        return findRecursively(this.scene.tree);
+    }
+    
+        /**
+     * Find node data directly from scene list
+    */
+    lookupItemType(type) {
+
+        // Search recursively through scene
+        const findRecursively = (items) => {
+            for (const item of items) {
+                if (item.nodeInfo?.type == type  || item.graphInfo?.type == type) {
+                    return item;
+                }
+                if (item.children && item.children.length > 0) {
+                    const found = findRecursively(item.children);
+                    if (found) return found;
+                }
+            }
+            return null;
+        };
+        return findRecursively(this.scene.tree);
+    }
+
+    /**
      * ASYNCHRONOUS function that loads scene tree
      * UI loads immediately, then updates when scene data is ready
      */
     async loadSceneTree() {
-        console.log('createOctaneWebClient.loadSceneTree() called');
-        
         try {
             console.log('Starting SYNCHRONOUS scene tree loading sequence...');
 
-            this.scene = { tree: this.loadSceneTreeSync()};
+            this.scene = { tree: this.loadSceneTreeSync(), map: new Map() }
             this.eventSystem.emit('sceneDataLoaded', this.scene);
+
+            const item = this.lookupItemType("NT_RENDERTARGET");
+
+            if (item) {
+                this.eventSystem.emit('sceneNodeSelected', item.handle);
+            }
             
         } catch (error) {
             console.error('❌ Failed loadSceneTree(): ', error);
             
             // Clear stored scene data and notify other components
-            this.scene = { tree:[]}
+            this.scene = { tree:[], map: new Map() }
             this.eventSystem.emit('sceneDataLoaded', this.scene);
         }
     }

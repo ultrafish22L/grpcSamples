@@ -49,6 +49,8 @@ class NodeInspector extends OctaneComponent {
         // Initialize Generic Node Renderer
         this.genericRenderer = new window.GenericNodeRenderer(window.OctaneIconMapper);
         console.log('NodeInspector: GenericNodeRenderer initialized');
+
+         this.renderNodes();
     }
     
     setupEventListeners() {
@@ -57,8 +59,6 @@ class NodeInspector extends OctaneComponent {
 
             this.sceneDataLoaded = true;
             console.log('NodeInspector received sceneDataLoaded event:', scene.tree.length);
-
-            this.updateSelectedNode(scene.tree[0].handle)
         });
         
         // Listen for selection updates
@@ -311,44 +311,16 @@ class NodeInspector extends OctaneComponent {
         }
     }
     
-    /**
-     * Find node data directly from scene list
-     */
-    findNodeInSceneItems(handle) {
-        const scene = window.octaneClient.scene
 
-        if (!scene || !scene.tree || !Array.isArray(scene.tree)) {
-            return null;
-        }
-        // Search recursively through scene
-        const findRecursively = (items) => {
-            for (const item of items) {
-                if (item.handle == handle) {
-                    return item;
-                }
-                if (item.children && item.children.length > 0) {
-                    const found = findRecursively(item.children);
-                    if (found) return found;
-                }
-            }
-            return null;
-        };
-        
-        return findRecursively(scene.tree);
-       
-    }
     
    
     async updateSelectedNode(handle) {
         console.log('NodeInspector received selection handle:', handle);
         
         // Find node data directly from scene list (generic approach)
-        const nodeData = this.findNodeInSceneItems(handle);
-        if (!nodeData) {
-            console.warn(' No node data found for handle:', handle);
-            return;
-        }
-        if (this.selectedNodeHandle == nodeData.handle) {
+        const nodeData = window.octaneClient.lookupItem(handle);
+        if (nodeData.handle && nodeData.handle == this.selectedNodeHandle) {
+            // no change
             return;
         }
         this.selectedNodeHandle = nodeData.handle;
@@ -449,7 +421,7 @@ class NodeInspector extends OctaneComponent {
             return;
         }
         const handle = element.dataset.handle;
-        const nodeData = this.findNodeInSceneItems( handle);
+        const nodeData = window.octaneClient.lookupItem( handle);
         if (nodeData == null || nodeData.attrInfo == null) {
             console.warn('NodeInspector.handleParameterChange() nodeData == null || nodeData.attrInfo == null', handle, {element});
             return;
@@ -517,7 +489,7 @@ class NodeInspector extends OctaneComponent {
     getElementValue(element) {
 
         const handle = element.dataset.handle ? parseInt(element.dataset.handle) : 0;
-        const nodeData = this.findNodeInSceneItems(handle);
+        const nodeData = window.octaneClient.lookupItem(handle);
         if (nodeData == null || nodeData.attrInfo == null) {
             console.warn('NodeInspector.getElementValue() node error no attr', handle, {element});
             return;
@@ -548,20 +520,34 @@ class NodeInspector extends OctaneComponent {
     }
 
     showLoadingState(nodeData) {
-        this.element.innerHTML = `
-            <div class="node-inspector-header">
-                <h3>Node inspector</h3>
-                <select class="node-selector">
-                    <option value="${nodeData.name}" selected>${nodeData.name}</option>
-                </select>
-            </div>
-            <div class="node-inspector-content">
-                <div class="loading-parameters">
-                    <div class="loading-spinner"></div>
-                    <p>Loading parameters...</p>
+        if (!nodeData) {
+            this.element.innerHTML = `
+                <div class="node-inspector-header">
+                    <h3>Node inspector</h3>
                 </div>
-            </div>
-        `;
+                <div class="node-inspector-content">
+                    <div class="empty-message">
+                        <p>Empty</p>
+                    </div>
+                </div>
+            `;
+        }
+        else {
+            this.element.innerHTML = `
+                <div class="node-inspector-header">
+                    <h3>Node inspector</h3>
+                    <select class="node-selector">
+                        <option value="${nodeData.name}" selected>${nodeData.name}</option>
+                    </select>
+                </div>
+                <div class="node-inspector-content">
+                    <div class="loading-parameters">
+                        <div class="loading-spinner"></div>
+                        <p>Loading parameters...</p>
+                    </div>
+                </div>
+            `;
+        }
     }
 }
 
