@@ -392,7 +392,7 @@ class LayoutManager {
             };
         });
         
-        localStorage.setItem('octaneWeb.panelSizes', JSON.stringify(sizes));
+        localStorage.setItem('octaneWeb.panelSizes', JSON.stringify(sizes, null, 2));
     }
     
     loadPanelSizes() {

@@ -53,11 +53,6 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     setupEventListeners() {
-        // Listen for node graph updates
-        window.octaneClient.on('ui:nodeGraphUpdate', (nodeGraphState) => {
-            this.updateNodeGraph(nodeGraphState);
-        });
-        
         // Listen for scene node selection (unified event for all components)
         this.eventSystem.on('sceneNodeSelected', (handle) => {
             this.updateSelectedNode(handle);

@@ -67,25 +67,25 @@ class NodeInspectorControls {
         try {
             switch (nodeType) {
                 case 'rendertarget':
-                    await this.jumpToRenderTarget();
+                    this.updateNodeSelector('Render target');
                     break;
                 case 'camera':
-                    await this.jumpToCamera();
+                    this.updateNodeSelector('Camera');
                     break;
                 case 'resolution':
-                    await this.jumpToResolution();
+                    this.updateNodeSelector('Resolution');
                     break;
                 case 'environment':
-                    await this.jumpToEnvironment();
+                    this.updateNodeSelector('Environment');
                     break;
                 case 'imager':
-                    await this.jumpToImager();
+                    this.updateNodeSelector('Imager');
                     break;
                 case 'kernel':
-                    await this.jumpToKernel();
+                    this.updateNodeSelector('Kernel');
                     break;
                 case 'mesh':
-                    await this.jumpToCurrentMesh();
+                    this.updateNodeSelector('Current Mesh');
                     break;
             }
             
@@ -93,162 +93,6 @@ class NodeInspectorControls {
         } catch (error) {
             console.error(`❌ Failed to jump to ${nodeType} node:`, error);
         }
-    }
-    
-    /**
-     * Jump to Render Target node
-     * Official OTOY quick access to render target settings
-     */
-    async jumpToRenderTarget() {
-        console.log('Jumping to Render Target');
-        
-        if (window.octaneClient && window.octaneClient.makeGrpcCall) {
-            try {
-                const result = await window.octaneClient.makeGrpcCall('ApiProjectManager/rootNodeGraph');
-                if (result && result.success !== false) {
-                    console.log('Found Render Target node');
-                    this.updateNodeInspector('Render Target', result.data);
-                }
-            } catch (error) {
-                console.error('❌ Failed to access Render Target:', error);
-            }
-        }
-        
-        // Update node selector
-        this.updateNodeSelector('Render target');
-    }
-    
-    /**
-     * Jump to Camera node
-     * Official OTOY quick access to camera settings
-     */
-    async jumpToCamera() {
-        console.log('Jumping to Camera');
-        
-        if (window.octaneClient && window.octaneClient.makeGrpcCall) {
-            try {
-                // Get camera node from render target
-                const result = await window.octaneClient.makeGrpcCall('ApiRenderTarget/getCamera');
-                if (result && result.success !== false) {
-                    console.log('Found Camera node');
-                    this.updateNodeInspector('Camera', result.data);
-                }
-            } catch (error) {
-                console.error('❌ Failed to access Camera:', error);
-            }
-        }
-        
-        this.updateNodeSelector('Camera');
-    }
-    
-    /**
-     * Jump to Resolution settings
-     * Official OTOY quick access to resolution settings
-     */
-    async jumpToResolution() {
-        console.log('Jumping to Resolution');
-        
-        if (window.octaneClient && window.octaneClient.makeGrpcCall) {
-            try {
-                const result = await window.octaneClient.makeGrpcCall('ApiRenderTarget/getResolution');
-                if (result && result.success !== false) {
-                    console.log('Found Resolution settings');
-                    this.updateNodeInspector('Resolution', result.data);
-                }
-            } catch (error) {
-                console.error('❌ Failed to access Resolution:', error);
-            }
-        }
-        
-        this.updateNodeSelector('Resolution');
-    }
-    
-    /**
-     * Jump to Environment node
-     * Official OTOY quick access to environment settings
-     */
-    async jumpToEnvironment() {
-        console.log('Jumping to Environment');
-        
-        if (window.octaneClient && window.octaneClient.makeGrpcCall) {
-            try {
-                const result = await window.octaneClient.makeGrpcCall('ApiRenderTarget/getEnvironment');
-                if (result && result.success !== false) {
-                    console.log('Found Environment node');
-                    this.updateNodeInspector('Environment', result.data);
-                }
-            } catch (error) {
-                console.error('❌ Failed to access Environment:', error);
-            }
-        }
-        
-        this.updateNodeSelector('Environment');
-    }
-    
-    /**
-     * Jump to Imager node
-     * Official OTOY quick access to imager settings
-     */
-    async jumpToImager() {
-        console.log('Jumping to Imager');
-        
-        if (window.octaneClient && window.octaneClient.makeGrpcCall) {
-            try {
-                const result = await window.octaneClient.makeGrpcCall('ApiRenderTarget/getImager');
-                if (result && result.success !== false) {
-                    console.log('Found Imager node');
-                    this.updateNodeInspector('Imager', result.data);
-                }
-            } catch (error) {
-                console.error('❌ Failed to access Imager:', error);
-            }
-        }
-        
-        this.updateNodeSelector('Imager');
-    }
-    
-    /**
-     * Jump to Kernel node
-     * Official OTOY quick access to render kernel settings
-     */
-    async jumpToKernel() {
-        console.log('Jumping to Kernel');
-        
-        if (window.octaneClient && window.octaneClient.makeGrpcCall) {
-            try {
-                const result = await window.octaneClient.makeGrpcCall('ApiRenderTarget/getKernel');
-                if (result && result.success !== false) {
-                    console.log('Found Kernel node');
-                    this.updateNodeInspector('Kernel', result.data);
-                }
-            } catch (error) {
-                console.error('❌ Failed to access Kernel:', error);
-            }
-        }
-        
-        this.updateNodeSelector('Kernel');
-    }
-    
-    /**
-     * Jump to Current Mesh
-     * Official OTOY quick access to currently selected mesh
-     */
-    async jumpToCurrentMesh() {
-        console.log('Jumping to Current Mesh');
-        
-        if (window.octaneClient && window.octaneClient.makeGrpcCall) {
-            try {
-                const result = await window.octaneClient.makeGrpcCall('ApiSelectionManager/getSelectedMesh');
-                if (result && result.success !== false) {
-                    console.log('Found Current Mesh');
-                    this.updateNodeInspector('Current Mesh', result.data);
-                }
-            } catch (error) {
-                console.error('❌ Failed to access Current Mesh:', error);
-            }
-        }
-        
-        this.updateNodeSelector('Current Mesh');
     }
     
     /**
@@ -279,19 +123,17 @@ class NodeInspectorControls {
      * Official OTOY material render toggle (Figure 6 from documentation)
      */
     toggleRenderMode() {
-        console.log('Toggling Material Render Mode');
-        
         this.renderToggleEnabled = !this.renderToggleEnabled;
         const renderToggleBtn = this.container.querySelector('.render-toggle-btn');
         
         if (this.renderToggleEnabled) {
             renderToggleBtn.classList.add('active');
             renderToggleBtn.title = 'Disable Material Rendering';
-            this.enableMaterialRendering();
+            window.octaneClient.makeApiCall('ApiNodeGraphEditor/enableMaterialRender');
         } else {
             renderToggleBtn.classList.remove('active');
             renderToggleBtn.title = 'Enable Material Rendering';
-            this.disableMaterialRendering();
+            window.octaneClient.makeApiCall('ApiNodeGraphEditor/disableMaterialRender');
         }
         
         console.log(`Material Rendering ${this.renderToggleEnabled ? 'enabled' : 'disabled'}`);
@@ -372,36 +214,6 @@ class NodeInspectorControls {
         const previewContainer = document.querySelector('.material-preview');
         if (previewContainer) {
             previewContainer.style.display = 'none';
-        }
-    }
-    
-    /**
-     * Enable material rendering in node graph
-     */
-    enableMaterialRendering() {
-        console.log('Enabling material rendering in node graph');
-        
-        if (window.octaneClient && window.octaneClient.makeGrpcCall) {
-            try {
-                window.octaneClient.makeGrpcCall('ApiNodeGraphEditor/enableMaterialRender');
-            } catch (error) {
-                console.error('❌ Failed to enable material rendering:', error);
-            }
-        }
-    }
-    
-    /**
-     * Disable material rendering in node graph
-     */
-    disableMaterialRendering() {
-        console.log('Disabling material rendering in node graph');
-        
-        if (window.octaneClient && window.octaneClient.makeGrpcCall) {
-            try {
-                window.octaneClient.makeGrpcCall('ApiNodeGraphEditor/disableMaterialRender');
-            } catch (error) {
-                console.error('❌ Failed to disable material rendering:', error);
-            }
         }
     }
 }

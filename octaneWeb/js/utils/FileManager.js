@@ -186,62 +186,18 @@ class FileManager {
     }
     
     async processSceneFile(result) {
-        console.log('Processing scene file:', result.name);
-        
-        if (result.name.endsWith('.orbx')) {
-            // Handle ORBX files - load via gRPC
-            result.metadata = { type: 'orbx', version: '1.0' };
-            
-            // Attempt to load the project via gRPC if we have a client
-            if (window.octaneClient && window.octaneClient.connected) {
-                try {
-                    console.log('Loading ORBX project via gRPC:', result.file.path || result.name);
-                    
-                    // Use the file path if available, otherwise use the name
-                    const projectPath = result.file.path || result.name;
-                    
-                    const loadResult = await this.loadOrbxProject(projectPath);
-                    result.loadResult = loadResult;
-                    result.metadata.loaded = loadResult.success;
-                    
-                    if (loadResult.success) {
-                        console.log('ORBX project loaded successfully');
-                    } else {
-                        console.warn(' ORBX project load failed:', loadResult.error);
-                    }
-                } catch (error) {
-                    console.error('❌ Failed to load ORBX project:', error);
-                    result.loadResult = { success: false, error: error.message };
-                    result.metadata.loaded = false;
-                }
-            } else {
-                console.warn(' Octane client not connected - ORBX file processed but not loaded');
-                result.metadata.loaded = false;
-                result.loadResult = { success: false, error: 'Octane client not connected' };
-            }
+
+        // Use the file path if available, otherwise use the name
+        const projectPath = result.file.path || result.name;
+
+        if (!window.octaneClient.connected || !projectPath.endsWith('.orbx')) {
+            return false;
         }
-    }
-    
-    async loadOrbxProject(projectPath) {
-        /**
-         * Load ORBX project via gRPC ApiProjectManager.loadProject()
-         */
-        if (!window.octaneClient) {
-            throw new Error('Octane client not available');
-        }
-        
-        // Make gRPC call to load project
-        const response = await window.octaneClient.makeGrpcCall('ApiProjectManager/loadProject', {
+        const response = await window.octaneClient.makeApiCall('ApiProjectManager/loadProject', {
             projectPath: projectPath
         });
-        
-        if (response.success && response.data) {
-            return {
-                success: response.data.success,
-                callbackId: response.data.callbackId,
-                projectPath: projectPath
-            };
-        }
+        console.log(`FileManager.processSceneFile(): ${response}`);
+        return response;
     }
     
     async processModelFile(result) {
@@ -403,7 +359,7 @@ class FileManager {
         return materials;
     }
     
-    async openFileDialog(options = {}) {
+    async showFileDialog(options = {}) {
         const {
             accept = '*/*',
             multiple = false,
@@ -419,13 +375,16 @@ class FileManager {
             if (directory) {
                 input.webkitdirectory = true;
             }
-            
+            document.body.appendChild(input) 
+
             input.onchange = async (e) => {
-                const files = Array.from(e.target.files);
+                const fileList = e.target.files || input.files;
+                console.log(`showFileDialog files = `, JSON.stringify(files, null, 2) );
+            
+                document.body.removeChild(input) 
                 if (files.length > 0) {
                     try {
-                        const results = await this.processFiles(files);
-                        resolve(results);
+                        resolve(files);
                     } catch (error) {
                         reject(error);
                     }

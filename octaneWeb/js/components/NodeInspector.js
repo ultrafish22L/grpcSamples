@@ -54,25 +54,20 @@ class NodeInspector extends OctaneComponent {
     }
     
     setupEventListeners() {
-        // Listen for scene data loading from SceneOutliner (OPTIMIZATION)
+        // Listen for scene data loading 
         this.eventSystem.on('sceneDataLoaded', (scene) => {
 
             this.sceneDataLoaded = true;
             console.log('NodeInspector received sceneDataLoaded event:', scene.tree.length);
         });
         
-        // Listen for selection updates
-        window.octaneClient.on('ui:selectionUpdate', (selection) => {
-            this.updateSelection(selection);
-        });
-        
-        // Listen for scene node selection (unified event for all components)
+        // Listen for node selection 
         this.eventSystem.on('sceneNodeSelected', (handle) => {
             this.updateSelectedNode(handle);
         });
         
         // Listen for node parameter updates
-        window.octaneClient.on('ui:nodeParameterUpdate', (data) => {
+        window.octaneClient.on('nodeParameterUpdate', (data) => {
             this.updateParameter(data.nodeId, data.parameterName, data.value);
         });
         
@@ -461,7 +456,7 @@ class NodeInspector extends OctaneComponent {
         console.log(`handleParameterChange ${nodeData.name} ${datatype} ${component ? component:""} newValue = `, JSON.stringify(value));
         nodeData.value = value
 
-        let result = window.OctaneWebClient.makeGrpcCallAsync(
+        let result = window.octaneClient.makeApiCallAsync(
             'ApiItem/setByAttrID', 
             nodeData.handle,
             { id: window.OctaneTypes.AttributeId.A_VALUE,
@@ -470,7 +465,7 @@ class NodeInspector extends OctaneComponent {
             },
         );
         if (result.success) {
-            window.OctaneWebClient.makeGrpcCallAsync('ApiChangeManager/update');         
+            window.octaneClient.makeApiCallAsync('ApiChangeManager/update');         
         }   
     }
     

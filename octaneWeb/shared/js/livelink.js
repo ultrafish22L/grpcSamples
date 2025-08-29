@@ -546,7 +546,7 @@ class LiveLinkClient extends SimpleEventEmitter {
     /**
      * Make a gRPC-Web call (simplified HTTP-based implementation)
      */
-    async makeGrpcCall(method, request) {
+    async makeApiCall(method, request) {
         const startTime = Date.now();
         const callId = `${method}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
         this.callCount++;
@@ -704,7 +704,7 @@ class LiveLinkClient extends SimpleEventEmitter {
         this.syncCallCount++;
         this.updateSyncRate();
         
-        const result = await this.makeGrpcCall('SetCamera', request);
+        const result = await this.makeApiCall('SetCamera', request);
         return result && result.success ? result.data : null;
     }
 
@@ -713,7 +713,7 @@ class LiveLinkClient extends SimpleEventEmitter {
      */
     async getCamera() {
         const request = {};
-        const result = await this.makeGrpcCall('GetCamera', request);
+        const result = await this.makeApiCall('GetCamera', request);
         return result && result.success ? result.data : null;
     }
 
@@ -723,7 +723,7 @@ class LiveLinkClient extends SimpleEventEmitter {
      */
     async getRenderStatistics() {
         const request = {};
-        const result = await this.makeGrpcCall('ApiRenderEngine', 'getRenderStatistics', request);
+        const result = await this.makeApiCall('ApiRenderEngine', 'getRenderStatistics', request);
         return result && result.success ? result.data : null;
     }
 
@@ -732,7 +732,7 @@ class LiveLinkClient extends SimpleEventEmitter {
      */
     async getMeshes() {
         const request = {};
-        const result = await this.makeGrpcCall('GetMeshes', request);
+        const result = await this.makeApiCall('GetMeshes', request);
         return result && result.success ? result.data : null;
     }
 
@@ -741,7 +741,7 @@ class LiveLinkClient extends SimpleEventEmitter {
      */
     async getMeshData(meshId) {
         const request = { objecthandle: meshId };
-        const result = await this.makeGrpcCall('GetMesh', request);
+        const result = await this.makeApiCall('GetMesh', request);
         return result && result.success ? result.data : null;
     }
 

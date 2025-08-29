@@ -289,7 +289,7 @@ class Camera {
      */
     async triggerOctaneUpdate() {
         try {
-//            const result = window.grpcApi.makeApiCall('ApiChangeManager/update');            
+//            const result = window.octaneClient.makeApiCall('ApiChangeManager/update');            
         } catch (error) {
             // Don't log connection errors as they're expected when Octane is not running
             if (!error.message.includes('Connection') && !error.message.includes('Network')) {

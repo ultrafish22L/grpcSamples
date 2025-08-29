@@ -560,14 +560,14 @@ class CallbackRenderViewport extends OctaneComponent {
      * Trigger Octane display update via ApiChangeManager::update()
      */
     async triggerOctaneUpdate() {
-        window.grpcApi.makeApiCall('ApiChangeManager/update');            
+        window.octaneClient.makeApiCall('ApiChangeManager/update');            
     }
     
     /**
      * Trigger initial render when callback streaming connects
      */
     async triggerInitialRender() {
-        window.grpcApi.makeApiCall('ApiChangeManager/update');            
+        window.octaneClient.makeApiCall('ApiChangeManager/update');            
     }
     
     /**

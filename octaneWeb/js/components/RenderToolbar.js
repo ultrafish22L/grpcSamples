@@ -346,7 +346,7 @@ class RenderToolbar {
         const defaultTarget = { x: 0, y: 0, z: 0 };
         const defaultFov = 45;
         
-        if (window.octaneClient && window.octaneClient.setCameraPositionAndTarget) {
+        if (window.octaneClient.setCameraPositionAndTarget) {
             try {
                 await window.octaneClient.setCameraPositionAndTarget(
                     defaultPosition.x, defaultPosition.y, defaultPosition.z,
@@ -375,7 +375,7 @@ class RenderToolbar {
         console.log('Stopping render...');
         
         // Make real gRPC call to stop rendering
-        window.grpcApi.makeApiCall('ApiRenderEngine/stopRendering');
+        window.octaneClient.makeApiCall('ApiRenderEngine/stopRendering');
         this.updateRenderStatus('stopped');
     }
     
@@ -383,7 +383,7 @@ class RenderToolbar {
         console.log('Restarting render...');
         
         // Make real gRPC call to restart rendering
-        window.grpcApi.makeApiCall('ApiRenderEngine/restartRendering');
+        window.octaneClient.makeApiCall('ApiRenderEngine/restartRendering');
         this.updateRenderStatus('rendering');
     }
     
@@ -391,7 +391,7 @@ class RenderToolbar {
         console.log('Pausing render...');
         
         // Make real gRPC call to pause rendering
-        window.grpcApi.makeApiCall('ApiRenderEngine/pauseRendering');
+        window.octaneClient.makeApiCall('ApiRenderEngine/pauseRendering');
         this.updateRenderStatus('paused');
     }
     
@@ -399,7 +399,7 @@ class RenderToolbar {
         console.log('Starting/resuming render...');
         
         // Make real gRPC call to continue rendering (resume from pause)
-        window.grpcApi.makeApiCall('ApiRenderEngine/continueRendering');
+        window.octaneClient.makeApiCall('ApiRenderEngine/continueRendering');
         this.updateRenderStatus('rendering');
     }
     
@@ -411,7 +411,7 @@ class RenderToolbar {
         // For now, we'll use render priority as a proxy for real-time mode
         const priority = this.realTimeMode ? 'high' : 'normal';
         
-        const result = window.grpcApi.makeApiCall('ApiRenderEngine/setRenderPriority', {
+        const result = window.octaneClient.makeApiCall('ApiRenderEngine/setRenderPriority', {
             priority: priority
         });
         this.renderPriority = priority;
@@ -435,25 +435,25 @@ class RenderToolbar {
         
         switch (mode) {
             case 'focus':
-                // TODO: makeGrpcCall('SetFocusPickerMode', { enabled: this.currentPickingMode === 'focus' })
+                // TODO: makeApiCall('SetFocusPickerMode', { enabled: this.currentPickingMode === 'focus' })
                 break;
             case 'whiteBalance':
-                // TODO: makeGrpcCall('SetWhiteBalancePickerMode', { enabled: this.currentPickingMode === 'whiteBalance' })
+                // TODO: makeApiCall('SetWhiteBalancePickerMode', { enabled: this.currentPickingMode === 'whiteBalance' })
                 break;
             case 'material':
-                // TODO: makeGrpcCall('SetMaterialPickerMode', { enabled: this.currentPickingMode === 'material' })
+                // TODO: makeApiCall('SetMaterialPickerMode', { enabled: this.currentPickingMode === 'material' })
                 break;
             case 'object':
-                // TODO: makeGrpcCall('SetObjectPickerMode', { enabled: this.currentPickingMode === 'object' })
+                // TODO: makeApiCall('SetObjectPickerMode', { enabled: this.currentPickingMode === 'object' })
                 break;
             case 'cameraTarget':
-                // TODO: makeGrpcCall('SetCameraTargetPickerMode', { enabled: this.currentPickingMode === 'cameraTarget' })
+                // TODO: makeApiCall('SetCameraTargetPickerMode', { enabled: this.currentPickingMode === 'cameraTarget' })
                 break;
             case 'renderRegion':
-                // TODO: makeGrpcCall('SetRenderRegionPickerMode', { enabled: this.currentPickingMode === 'renderRegion' })
+                // TODO: makeApiCall('SetRenderRegionPickerMode', { enabled: this.currentPickingMode === 'renderRegion' })
                 break;
             case 'filmRegion':
-                // TODO: makeGrpcCall('SetFilmRegionPickerMode', { enabled: this.currentPickingMode === 'filmRegion' })
+                // TODO: makeApiCall('SetFilmRegionPickerMode', { enabled: this.currentPickingMode === 'filmRegion' })
                 break;
         }
     }
@@ -465,7 +465,7 @@ class RenderToolbar {
     toggleClayMode() {
         this.clayMode = !this.clayMode;
         console.log(`Clay mode: ${this.clayMode ? 'ON' : 'OFF'}`);
-        // TODO: makeGrpcCall('SetClayMode', { enabled: this.clayMode })
+        // TODO: makeApiCall('SetClayMode', { enabled: this.clayMode })
         // Shows model details without complex texturing
     }
     
@@ -476,21 +476,21 @@ class RenderToolbar {
             this.subSampling = mode;
         }
         console.log(`Sub-sampling: ${this.subSampling}`);
-        // TODO: makeGrpcCall('SetSubSamplingMode', { mode: this.subSampling })
+        // TODO: makeApiCall('SetSubSamplingMode', { mode: this.subSampling })
         // Reduces render resolution for smoother navigation
     }
     
     toggleDecalWireframe() {
         this.decalWireframe = !this.decalWireframe;
         console.log(`Decal wireframe: ${this.decalWireframe ? 'ON' : 'OFF'}`);
-        // TODO: makeGrpcCall('SetDecalWireframe', { enabled: this.decalWireframe })
+        // TODO: makeApiCall('SetDecalWireframe', { enabled: this.decalWireframe })
         // Toggles wireframe along decal boundaries
     }
     
     showRenderPriorityMenu() {
         console.log('Showing render priority menu...');
         // TODO: Show priority menu (low, normal, high)
-        // TODO: makeGrpcCall('SetRenderPriority', { priority: selectedPriority })
+        // TODO: makeApiCall('SetRenderPriority', { priority: selectedPriority })
     }
     
     // ========================================
@@ -505,7 +505,7 @@ class RenderToolbar {
     
     saveRender() {
         console.log('Saving render...');
-        // TODO: Show save dialog and makeGrpcCall('SaveRender', { filename, format })
+        // TODO: Show save dialog and makeApiCall('SaveRender', { filename, format })
         // Saves current render to disk in specific format
     }
     
@@ -517,7 +517,7 @@ class RenderToolbar {
     
     setBackgroundImage() {
         console.log('Setting background image...');
-        // TODO: Show file dialog and makeGrpcCall('SetBackgroundImage', { imagePath })
+        // TODO: Show file dialog and makeApiCall('SetBackgroundImage', { imagePath })
         // Places background image in Render Viewport
     }
     
@@ -528,14 +528,14 @@ class RenderToolbar {
     toggleViewportResolutionLock() {
         this.viewportResolutionLock = !this.viewportResolutionLock;
         console.log(` Viewport resolution lock: ${this.viewportResolutionLock ? 'ON' : 'OFF'}`);
-        // TODO: makeGrpcCall('SetViewportResolutionLock', { enabled: this.viewportResolutionLock })
+        // TODO: makeApiCall('SetViewportResolutionLock', { enabled: this.viewportResolutionLock })
         // Adjusts render resolution to viewport size
     }
     
     toggleViewportLock() {
         this.viewportLocked = !this.viewportLocked;
         console.log(`Viewport lock: ${this.viewportLocked ? 'ON' : 'OFF'}`);
-        // TODO: makeGrpcCall('SetViewportLock', { enabled: this.viewportLocked })
+        // TODO: makeApiCall('SetViewportLock', { enabled: this.viewportLocked })
         // Prevents accidental changes or render restarts
     }
     
@@ -546,7 +546,7 @@ class RenderToolbar {
     toggleObjectControlAlignment() {
         this.objectControlMode = this.objectControlMode === 'world' ? 'local' : 'world';
         console.log(`Object control alignment: ${this.objectControlMode}`);
-        // TODO: makeGrpcCall('SetObjectControlAlignment', { mode: this.objectControlMode })
+        // TODO: makeApiCall('SetObjectControlAlignment', { mode: this.objectControlMode })
         // Specifies coordinate system for object manipulation
     }
     
@@ -560,13 +560,13 @@ class RenderToolbar {
         
         switch (gizmo) {
             case 'translate':
-                // TODO: makeGrpcCall('SetTranslateGizmo', { enabled: this.activeGizmo === 'translate' })
+                // TODO: makeApiCall('SetTranslateGizmo', { enabled: this.activeGizmo === 'translate' })
                 break;
             case 'rotate':
-                // TODO: makeGrpcCall('SetRotateGizmo', { enabled: this.activeGizmo === 'rotate' })
+                // TODO: makeApiCall('SetRotateGizmo', { enabled: this.activeGizmo === 'rotate' })
                 break;
             case 'scale':
-                // TODO: makeGrpcCall('SetScaleGizmo', { enabled: this.activeGizmo === 'scale' })
+                // TODO: makeApiCall('SetScaleGizmo', { enabled: this.activeGizmo === 'scale' })
                 break;
         }
     }
@@ -574,7 +574,7 @@ class RenderToolbar {
     toggleWorldCoordinate() {
         this.worldCoordinateDisplay = !this.worldCoordinateDisplay;
         console.log(`World coordinate display: ${this.worldCoordinateDisplay ? 'ON' : 'OFF'}`);
-        // TODO: makeGrpcCall('SetWorldCoordinateDisplay', { enabled: this.worldCoordinateDisplay })
+        // TODO: makeApiCall('SetWorldCoordinateDisplay', { enabled: this.worldCoordinateDisplay })
         // Shows world coordinate axis in viewport corner
     }
     

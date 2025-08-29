@@ -244,23 +244,8 @@ class OctaneWebApp {
         });
 
         // UI update events
-        this.client.on('ui:sceneUpdate', (sceneState) => {
-            this.components.sceneOutliner?.updateScene(sceneState);
-        });
-        
-        this.client.on('ui:nodeGraphUpdate', (nodeGraphState) => {
-            this.components.nodeGraphEditor?.updateNodeGraph(nodeGraphState);
-        });
-        
-        this.client.on('ui:renderUpdate', (renderState) => {
-            this.components.renderViewport?.updateRender?.(renderState);
+        this.client.on('ui:renderStateUpdate', (renderState) => {
             this.updateRenderStats(renderState);
-            console.log('RenderViewport update processed');
-        });
-        
-        this.client.on('ui:selectionUpdate', (selection) => {
-            this.components.sceneOutliner?.updateSelection(selection);
-            this.components.nodeInspector?.updateSelection(selection);
         });
     }
     

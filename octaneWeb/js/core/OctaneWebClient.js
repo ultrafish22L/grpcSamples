@@ -82,7 +82,7 @@ function createOctaneWebClient() {
         // Render events
         this.on('renderProgress', (data) => {
             this.updateRenderState(data);
-            this.emit('ui:renderUpdate', this.renderState);
+            this.emit('ui:renderStateUpdate', this.renderState);
         });
     }
     
@@ -95,7 +95,7 @@ function createOctaneWebClient() {
             await super.connect();
             
             // Start auto-sync intervals
-//            this.startAutoSync();
+            this.startAutoSync();
             
             this.emit('connected');
             return true;
@@ -214,7 +214,7 @@ function createOctaneWebClient() {
             if (itemHandle == null)
             {
                 // first call, get the root
-                result = window.grpcApi.makeApiCall(
+                result = window.octaneClient.makeApiCall(
                     'ApiProjectManager/rootNodeGraph'
                 );
                 if (!result.success) {
@@ -222,7 +222,7 @@ function createOctaneWebClient() {
                 }
                 itemHandle = result.data.result.handle;
                 // is it a graph or node?
-                result = window.grpcApi.makeApiCall(
+                result = window.octaneClient.makeApiCall(
                     'ApiItem/isGraph', 
                     itemHandle 
                 );
@@ -234,7 +234,7 @@ function createOctaneWebClient() {
             if (isGraph)
             {
                 // Get owned items
-                result = window.grpcApi.makeApiCall(
+                result = window.octaneClient.makeApiCall(
                     'ApiNodeGraph/getOwnedItems', 
                     itemHandle,
                 );
@@ -244,7 +244,7 @@ function createOctaneWebClient() {
                 const ownedItemsHandle = result.data.list.handle
 
                 // Get the size of the item array
-                result = window.grpcApi.makeApiCall(
+                result = window.octaneClient.makeApiCall(
                     'ApiItemArray/size', 
                     ownedItemsHandle,
                 );
@@ -255,7 +255,7 @@ function createOctaneWebClient() {
 
                 for (let i = 0; i < size; i++) {
                     // get it
-                    result = window.grpcApi.makeApiCall(
+                    result = window.octaneClient.makeApiCall(
                         'ApiItemArray/get', 
                         ownedItemsHandle,
                         {index: i},
@@ -271,7 +271,7 @@ function createOctaneWebClient() {
                 return sceneItems
             }
             // its a node
-            result = window.grpcApi.makeApiCall(
+            result = window.octaneClient.makeApiCall(
                 'ApiNode/pinCount', 
                 itemHandle
             );
@@ -283,7 +283,7 @@ function createOctaneWebClient() {
 
             for (let i = 0; i < pinCount; i++) {
                 // Get the pin connected node
-                result = window.grpcApi.makeApiCall(
+                result = window.octaneClient.makeApiCall(
                     'ApiNode/connectedNodeIx', 
                     itemHandle,
                     { pinIx: i, enterWrapperNode: true },
@@ -297,7 +297,7 @@ function createOctaneWebClient() {
                     continue;
                 }
                 // Get the pin label
-                result = window.grpcApi.makeApiCall(
+                result = window.octaneClient.makeApiCall(
                     'ApiNode/pinLabelIx', 
                     itemHandle,
                     {index: i},
@@ -308,7 +308,7 @@ function createOctaneWebClient() {
                 let pinInfo = { staticLabel: result.data.result, index:i };
 
                 // Get the pin type
-                result = window.grpcApi.makeApiCall(
+                result = window.octaneClient.makeApiCall(
                     'ApiNode/pinTypeIx', 
                     itemHandle,
                     {index: i},
@@ -325,7 +325,7 @@ function createOctaneWebClient() {
 //                console.log('pinInfo.type', pinInfo.type);
 /*                
                 // Get the pin info handle
-                result = window.grpcApi.makeApiCall(
+                result = window.octaneClient.makeApiCall(
                     'ApiNode/pinInfoIx', 
                     itemHandle,
                     {index: i},
@@ -337,7 +337,7 @@ function createOctaneWebClient() {
                 console.log('before ApiNodePinInfoEx/getApiNodePinInfo', result.data.result.handle);
 
                 // Get the pin info 
-                result = window.grpcApi.makeApiCall(
+                result = window.octaneClient.makeApiCall(
                     'ApiNodePinInfoEx/getApiNodePinInfo', 
                     result.data.result.handle
                 );
@@ -377,7 +377,7 @@ function createOctaneWebClient() {
             
             // basic item params
             // name
-            result = window.grpcApi.makeApiCall(
+            result = window.octaneClient.makeApiCall(
                 'ApiItem/name',
                 item.handle
             );
@@ -387,7 +387,7 @@ function createOctaneWebClient() {
             itemName = result.data.result;
 
             // outtype
-            result = window.grpcApi.makeApiCall(
+            result = window.octaneClient.makeApiCall(
                 'ApiItem/outType',
                 item.handle
             );
@@ -402,7 +402,7 @@ function createOctaneWebClient() {
             console.log(`addSceneItem = ${itemName}`);  
 
             // is it a graph or node?
-            result = window.grpcApi.makeApiCall(
+            result = window.octaneClient.makeApiCall(
                 'ApiItem/isGraph', 
                 item.handle 
             );
@@ -412,7 +412,7 @@ function createOctaneWebClient() {
             isGraph = result.data.result;
             if (isGraph) {
                 // its a graph
-                result = window.grpcApi.makeApiCall(
+                result = window.octaneClient.makeApiCall(
                     'ApiNodeGraph/info1', 
                     item.handle,
                 );
@@ -424,7 +424,7 @@ function createOctaneWebClient() {
             }
             else {
                 // its a node
-                result = window.grpcApi.makeApiCall(
+                result = window.octaneClient.makeApiCall(
                     'ApiNode/info', 
                     item.handle,
                 );
@@ -444,7 +444,7 @@ function createOctaneWebClient() {
         if (children.length == 0) {
             try {        
                 // end node, get value's attribute
-                const result = window.grpcApi.makeApiCall(
+                const result = window.octaneClient.makeApiCall(
                     'ApiItem/attrInfo', 
                     item.handle,
                     { id: window.OctaneTypes.AttributeId.A_VALUE },
@@ -490,7 +490,7 @@ function createOctaneWebClient() {
     /**
      * call octane
      */
-    async makeGrpcCallAsync(servicePath, handle, request = {}) {
+    async makeApiCallAsync(servicePath, handle, request = {}) {
 
         let result;
         try {        
@@ -498,7 +498,7 @@ function createOctaneWebClient() {
 
         } catch (error) {
             result = { success: false }
-            console.error(`❌ Exception OctaneWebClient.makeGrpcCallAsync(): ${servicePath} `, error);
+            console.error(`❌ Exception OctaneWebClient.makeApiCallAsync(): ${servicePath} `, error);
         }     
         return result;    
     }
@@ -506,7 +506,7 @@ function createOctaneWebClient() {
     /**
      * call octane
      */
-    makeGrpcCall(servicePath, handle,  request = {}) {
+    makeApiCall(servicePath, handle,  request = {}) {
 
         let result;
         try {        
@@ -516,7 +516,7 @@ function createOctaneWebClient() {
             }
         } catch (error) {
             result = { success: false }
-            console.error(`❌ Exception OctaneWebClient.makeGrpcCall(): ${servicePath} `, error);
+            console.error(`❌ Exception OctaneWebClient.makeApiCall(): ${servicePath} `, error);
         }     
         return result;        
     }
@@ -542,7 +542,7 @@ function createOctaneWebClient() {
      */
     async startRender(settings = {}) {
         try {
-            const response = await this.makeGrpcCall('/octane/render/start', {
+            const response = await this.makeApiCall('/octane/render/start', {
                 method: 'POST',
                 data: settings
             });
@@ -567,7 +567,7 @@ function createOctaneWebClient() {
      */
     async stopRender() {
         try {
-            const response = await this.makeGrpcCall('/octane/render/stop', {
+            const response = await this.makeApiCall('/octane/render/stop', {
                 method: 'POST'
             });
             
@@ -589,7 +589,7 @@ function createOctaneWebClient() {
      */
     async getRenderProgress() {
         try {
-            const response = await this.makeGrpcCall('/octane/render/progress', {
+            const response = await this.makeApiCall('/octane/render/progress', {
                 method: 'GET'
             });
             
@@ -611,7 +611,7 @@ function createOctaneWebClient() {
      */
     async syncRenderSettings() {
         try {
-            const response = await this.makeGrpcCall('/octane/render/settings', {
+            const response = await this.makeApiCall('/octane/render/settings', {
                 method: 'GET'
             });
             
@@ -635,7 +635,7 @@ function createOctaneWebClient() {
      */
     async syncCameras() {
         try {
-            const response = await this.makeGrpcCall('LiveLink/GetCamera');
+            const response = await this.makeApiCall('LiveLink/GetCamera');
             
             if (response.success && response.data) {
                 this.sceneState.cameras.clear();
@@ -664,7 +664,7 @@ function createOctaneWebClient() {
      */
     async setCameraPosition(x, y, z) {
         try {
-            const response = await this.makeGrpcCall('LiveLink/SetCamera', {
+            const response = await this.makeApiCall('LiveLink/SetCamera', {
                 position: { x: x, y: y, z: z }
             });
             
@@ -685,7 +685,7 @@ function createOctaneWebClient() {
      */
     async setCameraTarget(x, y, z) {
         try {
-            const response = await this.makeGrpcCall('LiveLink/SetCamera', {
+            const response = await this.makeApiCall('LiveLink/SetCamera', {
                 target: { x: x, y: y, z: z }
             });
             
@@ -706,7 +706,7 @@ function createOctaneWebClient() {
      */
     async setCameraPositionAndTarget(posX, posY, posZ, targetX, targetY, targetZ) {
         try {
-            const response = await this.makeGrpcCall('LiveLink/SetCamera', {
+            const response = await this.makeApiCall('LiveLink/SetCamera', {
                 position: { x: posX, y: posY, z: posZ },
                 target: { x: targetX, y: targetY, z: targetZ }
             });
@@ -915,5 +915,5 @@ const OctaneWebClient = createOctaneWebClient();
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = OctaneWebClient;
 } else if (typeof window !== 'undefined') {
-    window.OctaneWebClient = OctaneWebClient;
+    window.octaneClient = OctaneWebClient;
 }

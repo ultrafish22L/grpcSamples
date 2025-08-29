@@ -230,7 +230,7 @@ class GenericNodeRenderer {
         // get the end node's value
         let result;
         try {   
-            result = window.grpcApi.makeApiCall(
+            result = window.octaneClient.makeApiCall(
                 "ApiItem/getByAttrID", 
                 nodeData.handle,
                 { attribute_id: window.OctaneTypes.AttributeId.A_VALUE,
