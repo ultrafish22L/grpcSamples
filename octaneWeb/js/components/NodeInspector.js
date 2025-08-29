@@ -461,26 +461,17 @@ class NodeInspector extends OctaneComponent {
         console.log(`handleParameterChange ${nodeData.name} ${datatype} ${component ? component:""} newValue = `, JSON.stringify(value));
         nodeData.value = value
 
-        let result;
-        try {        
-             result = window.grpcApi.makeApiCall(
-                'ApiItem/setByAttrID', 
-                nodeData.handle,
-                { id: window.OctaneTypes.AttributeId.A_VALUE,
-                    evaluate: true,
-                    ...value,
-                },
-            );
-            if (!result.success) {
-                throw new Error('NodeInspector.Failed ApiItem/setByAttrId');
-            }
-            result = window.grpcApi.makeApiCall('ApiChangeManager/update');            
-            if (!result.success) {
-                throw new Error('Failed ApiChangeManager/update');
-            }
-        } catch (error) {
-            console.error('❌ Failed NodeInspector.handleParameterChange(): ', error);
-        }     
+        let result = window.OctaneWebClient.makeGrpcCallAsync(
+            'ApiItem/setByAttrID', 
+            nodeData.handle,
+            { id: window.OctaneTypes.AttributeId.A_VALUE,
+                evaluate: true,
+                ...value,
+            },
+        );
+        if (result.success) {
+            window.OctaneWebClient.makeGrpcCallAsync('ApiChangeManager/update');         
+        }   
     }
     
     /**

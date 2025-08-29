@@ -41,7 +41,6 @@ class NodeGraphEditor extends OctaneComponent {
             
             // Ensure canvas is ready before starting render loop
             if (this.canvas.width > 0 && this.canvas.height > 0) {
-                console.log('Canvas ready, starting render loop with size:', this.canvas.width, this.canvas.height);
                 this.startRenderLoop();
             } else {
                 console.log(' Canvas not ready, forcing resize and starting render loop');
@@ -194,17 +193,7 @@ class NodeGraphEditor extends OctaneComponent {
         
         console.log('Starting render loop...');
         
-        // Test: Try calling render directly first
-        console.log('Testing direct render call...');
-        try {
-            this.render();
-            console.log('Direct render call succeeded');
-        } catch (error) {
-            console.error('❌ Direct render call failed:', error);
-        }
-        
         // Use setInterval instead of requestAnimationFrame as fallback
-        console.log('Using setInterval render loop...');
         this.renderInterval = setInterval(() => {
             if (!this.renderLoopRunning) {
                 clearInterval(this.renderInterval);
@@ -1142,8 +1131,6 @@ class NodeGraphEditor extends OctaneComponent {
         this.ctx.font = '14px Arial';
         this.ctx.fillStyle = '#888';
         this.ctx.fillText('Connect to Octane to view scene nodes', centerX, centerY + 35);
-        
-        console.log('Displayed "no data" message in node graph editor');
     }
 
     frameAll() {

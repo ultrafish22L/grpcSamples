@@ -223,7 +223,6 @@ class OctaneWebApp {
         this.client.on('connected', () => {
             this.isConnected = true;
             this.updateConnectionStatus('connected', 'Connected to Octane');
-            console.log('Connected to Octane');
 
         });
         
@@ -322,8 +321,8 @@ class OctaneWebApp {
             if (connectionToggle) {
                 connectionToggle.checked = success;
             }
-            console.log('Connect to Octane:', success);
-            
+            console.log('Connected to Octane:', success);
+
             if (success) {
                 this.client.loadSceneTree();
             }

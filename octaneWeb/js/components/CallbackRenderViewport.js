@@ -122,8 +122,6 @@ class CallbackRenderViewport extends OctaneComponent {
             const callbackUrl = `${window.octaneClient.serverUrl}/render/register-callback`;
             console.log(`Callback registration URL: ${callbackUrl}`);
             
-            console.log('Making callback registration request...');
-            
             // Add timeout to prevent hanging
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
@@ -562,32 +560,14 @@ class CallbackRenderViewport extends OctaneComponent {
      * Trigger Octane display update via ApiChangeManager::update()
      */
     async triggerOctaneUpdate() {
-        try {
-            const result = window.grpcApi.makeApiCall('ApiChangeManager/update');            
-            if (!result.success) {
-                throw new Error('Failed ApiChangeManager/update');
-            }
-            return result;
-        } catch (error) {
-            console.warn(' Failed to trigger Octane update:', error);
-            throw error;
-        }
+        window.grpcApi.makeApiCall('ApiChangeManager/update');            
     }
     
     /**
      * Trigger initial render when callback streaming connects
      */
     async triggerInitialRender() {
-        try {
-            const result = window.grpcApi.makeApiCall('ApiChangeManager/update');            
-            if (!result.success) {
-                throw new Error('Failed ApiChangeManager/update');
-            }
-            return result;
-        } catch (error) {
-            console.warn(' Failed to trigger initial render:', error);
-            // Don't throw - this is not critical for callback streaming to work
-        }
+        window.grpcApi.makeApiCall('ApiChangeManager/update');            
     }
     
     /**

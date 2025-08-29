@@ -176,7 +176,7 @@ function createOctaneWebClient() {
      */
     async loadSceneTree() {
         try {
-            console.log('Starting SYNCHRONOUS scene tree loading sequence...');
+            console.log('Loading Octane scene...');
 
             this.scene = { tree: this.loadSceneTreeSync(), map: new Map() }
             this.eventSystem.emit('sceneDataLoaded', this.scene);
@@ -488,10 +488,37 @@ function createOctaneWebClient() {
     // ==================== GRPC CALL OVERRIDE ====================
 
     /**
-     * Override makeGrpcCall to handle both parent class signature and extended signature
+     * call octane
      */
-    async makeGrpcCall(servicePath, request = {}) {
-        const result = window.grpcApi.makeApiCall(servicePath, null, request);            
+    async makeGrpcCallAsync(servicePath, handle, request = {}) {
+
+        let result;
+        try {        
+            result = window.grpcApi.makeApiCall(servicePath, handle, request);
+
+        } catch (error) {
+            result = { success: false }
+            console.error(`❌ Exception OctaneWebClient.makeGrpcCallAsync(): ${servicePath} `, error);
+        }     
+        return result;    
+    }
+
+    /**
+     * call octane
+     */
+    makeGrpcCall(servicePath, handle,  request = {}) {
+
+        let result;
+        try {        
+            result = window.grpcApi.makeApiCall(servicePath, handle, request);
+            if (!result.success) {
+                return null;
+            }
+        } catch (error) {
+            result = { success: false }
+            console.error(`❌ Exception OctaneWebClient.makeGrpcCall(): ${servicePath} `, error);
+        }     
+        return result;        
     }
 
     // ==================== SCENE MANAGEMENT ====================

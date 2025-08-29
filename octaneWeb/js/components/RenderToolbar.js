@@ -375,64 +375,32 @@ class RenderToolbar {
         console.log('Stopping render...');
         
         // Make real gRPC call to stop rendering
-        const result = window.grpcApi.makeApiCall('ApiRenderEngine/stopRendering');
-        
-        if (result && result.success !== false) {
-            this.updateRenderStatus('stopped');
-            console.log('Render stopped successfully');
-        } else {
-            console.error('❌ Failed to stop render');
-            // Still update UI to show stopped state for user feedback
-            this.updateRenderStatus('stopped');
-        }
+        window.grpcApi.makeApiCall('ApiRenderEngine/stopRendering');
+        this.updateRenderStatus('stopped');
     }
     
     async restartRender() {
         console.log('Restarting render...');
         
         // Make real gRPC call to restart rendering
-        const result = window.grpcApi.makeApiCall('ApiRenderEngine/restartRendering');
-        
-        if (result && result.success !== false) {
-            this.updateRenderStatus('rendering');
-            console.log('Render restarted successfully');
-        } else {
-            console.error('❌ Failed to restart render');
-            // Still update UI to show rendering state for user feedback
-            this.updateRenderStatus('rendering');
-        }
+        window.grpcApi.makeApiCall('ApiRenderEngine/restartRendering');
+        this.updateRenderStatus('rendering');
     }
     
     async pauseRender() {
         console.log('Pausing render...');
         
         // Make real gRPC call to pause rendering
-        const result = window.grpcApi.makeApiCall('ApiRenderEngine/pauseRendering');
-        
-        if (result && result.success !== false) {
-            this.updateRenderStatus('paused');
-            console.log('Render paused successfully');
-        } else {
-            console.error('❌ Failed to pause render');
-            // Still update UI to show paused state for user feedback
-            this.updateRenderStatus('paused');
-        }
+        window.grpcApi.makeApiCall('ApiRenderEngine/pauseRendering');
+        this.updateRenderStatus('paused');
     }
     
     async startRender() {
         console.log('Starting/resuming render...');
         
         // Make real gRPC call to continue rendering (resume from pause)
-        const result = window.grpcApi.makeApiCall('ApiRenderEngine/continueRendering');
-        
-        if (result && result.success !== false) {
-            this.updateRenderStatus('rendering');
-            console.log('Render started/resumed successfully');
-        } else {
-            console.error('❌ Failed to start/resume render');
-            // Still update UI to show rendering state for user feedback
-            this.updateRenderStatus('rendering');
-        }
+        window.grpcApi.makeApiCall('ApiRenderEngine/continueRendering');
+        this.updateRenderStatus('rendering');
     }
     
     async toggleRealTimeRender() {
@@ -446,16 +414,8 @@ class RenderToolbar {
         const result = window.grpcApi.makeApiCall('ApiRenderEngine/setRenderPriority', {
             priority: priority
         });
-        
-        if (result && result.success !== false) {
-            console.log(`Real-time mode ${this.realTimeMode ? 'enabled' : 'disabled'} successfully`);
-            this.renderPriority = priority;
-        } else {
-            console.error(`❌ Failed to ${this.realTimeMode ? 'enable' : 'disable'} real-time mode`);
-            // Revert the state if the call failed
-            this.realTimeMode = !this.realTimeMode;
-        }
-        
+        this.renderPriority = priority;
+
         // Update button visual state
         this.updateButtonState('real-time-render', this.realTimeMode);
     }
