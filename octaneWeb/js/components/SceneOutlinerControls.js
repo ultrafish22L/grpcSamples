@@ -265,8 +265,8 @@ class SceneOutlinerControls {
         console.log('Loading Scene content');
         
         // Trigger scene tree reload if Scene Outliner component exists
-        if (window.sceneOutliner && typeof window.sceneOutliner.loadSceneTree === 'function') {
-            window.sceneOutliner.loadSceneTree();
+        if (window.sceneOutliner && typeof window.sceneOutliner.syncScene === 'function') {
+            window.sceneOutliner.syncScene();
         }
     }
     
@@ -464,8 +464,8 @@ class SceneOutlinerControls {
      * Refresh Scene content
      */
     refreshSceneContent() {
-        if (window.sceneOutliner && typeof window.sceneOutliner.loadSceneTree === 'function') {
-            window.sceneOutliner.loadSceneTree();
+        if (window.sceneOutliner && typeof window.sceneOutliner.syncScene === 'function') {
+            window.sceneOutliner.syncScene();
         }
     }
     

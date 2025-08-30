@@ -34,6 +34,7 @@ function createOctaneWebClient() {
         this.proxyUrl = 'http://localhost:51023';
         this.eventSystem = eventSystem;
         this.scene = { tree: [], map: new Map()}
+        this.isSyncing = false;
 
         // Scene state management - tracks all Octane scene objects and hierarchy
         this.sceneState = {
@@ -175,11 +176,13 @@ function createOctaneWebClient() {
      * ASYNCHRONOUS function that loads scene tree
      * UI loads immediately, then updates when scene data is ready
      */
-    async loadSceneTree() {
+    async syncScene() {
         try {
             console.log('Loading Octane scene...');
 
-            this.scene = { tree: this.loadSceneTreeSync(), map: new Map() }
+            this.isSyncing = true;
+            this.scene = { tree: this.syncSceneRecurse(), map: new Map() }
+            this.isSyncing = false;
             this.eventSystem.emit('sceneDataLoaded', this.scene);
 
             const item = this.lookupItemType("NT_RENDERTARGET");
@@ -189,7 +192,7 @@ function createOctaneWebClient() {
             }
             
         } catch (error) {
-            console.error('❌ Failed loadSceneTree(): ', error);
+            console.error('❌ Failed syncScene(): ', error);
             
             // Clear stored scene data and notify other components
             this.scene = { tree:[], map: new Map() }
@@ -202,7 +205,7 @@ function createOctaneWebClient() {
      * STRUCTURED DEBUGGING: Isolate exactly where Octane crashes
      * @returns {Array} Scene tree array
      */
-    loadSceneTreeSync(itemHandle, sceneItems, isGraph, level = 0) {
+    syncSceneRecurse(itemHandle, sceneItems, isGraph, level = 0) {
         let result;
 //        if (level >= 3)
 //            return scene;
@@ -215,7 +218,7 @@ function createOctaneWebClient() {
             if (itemHandle == null)
             {
                 // first call, get the root
-                result = window.octaneClient.makeApiCall(
+                result = this.makeApiCall(
                     'ApiProjectManager/rootNodeGraph'
                 );
                 if (!result.success) {
@@ -223,7 +226,7 @@ function createOctaneWebClient() {
                 }
                 itemHandle = result.data.result.handle;
                 // is it a graph or node?
-                result = window.octaneClient.makeApiCall(
+                result = this.makeApiCall(
                     'ApiItem/isGraph', 
                     itemHandle 
                 );
@@ -235,7 +238,7 @@ function createOctaneWebClient() {
             if (isGraph)
             {
                 // Get owned items
-                result = window.octaneClient.makeApiCall(
+                result = this.makeApiCall(
                     'ApiNodeGraph/getOwnedItems', 
                     itemHandle,
                 );
@@ -245,7 +248,7 @@ function createOctaneWebClient() {
                 const ownedItemsHandle = result.data.list.handle
 
                 // Get the size of the item array
-                result = window.octaneClient.makeApiCall(
+                result = this.makeApiCall(
                     'ApiItemArray/size', 
                     ownedItemsHandle,
                 );
@@ -256,7 +259,7 @@ function createOctaneWebClient() {
 
                 for (let i = 0; i < size; i++) {
                     // get it
-                    result = window.octaneClient.makeApiCall(
+                    result = this.makeApiCall(
                         'ApiItemArray/get', 
                         ownedItemsHandle,
                         {index: i},
@@ -264,7 +267,7 @@ function createOctaneWebClient() {
                     if (!result.success) {
                         throw new Error('Failed ApiItemArray/get');
                     }
-                    // will recurse to loadSceneTreeSync()
+                    // will recurse to syncSceneRecurse()
                     this.addSceneItem(sceneItems, result.data.result, null, level);
                 }
 //                sceneItems.sort((a, b) => a.handle - b.handle); 
@@ -272,7 +275,7 @@ function createOctaneWebClient() {
                 return sceneItems
             }
             // its a node
-            result = window.octaneClient.makeApiCall(
+            result = this.makeApiCall(
                 'ApiNode/pinCount', 
                 itemHandle
             );
@@ -284,7 +287,7 @@ function createOctaneWebClient() {
 
             for (let i = 0; i < pinCount; i++) {
                 // Get the pin connected node
-                result = window.octaneClient.makeApiCall(
+                result = this.makeApiCall(
                     'ApiNode/connectedNodeIx', 
                     itemHandle,
                     { pinIx: i, enterWrapperNode: true },
@@ -298,7 +301,7 @@ function createOctaneWebClient() {
                     continue;
                 }
                 // Get the pin label
-                result = window.octaneClient.makeApiCall(
+                result = this.makeApiCall(
                     'ApiNode/pinLabelIx', 
                     itemHandle,
                     {index: i},
@@ -309,7 +312,7 @@ function createOctaneWebClient() {
                 let pinInfo = { staticLabel: result.data.result, index:i };
 
                 // Get the pin type
-                result = window.octaneClient.makeApiCall(
+                result = this.makeApiCall(
                     'ApiNode/pinTypeIx', 
                     itemHandle,
                     {index: i},
@@ -326,7 +329,7 @@ function createOctaneWebClient() {
 //                console.log('pinInfo.type', pinInfo.type);
 /*                
                 // Get the pin info handle
-                result = window.octaneClient.makeApiCall(
+                result = this.makeApiCall(
                     'ApiNode/pinInfoIx', 
                     itemHandle,
                     {index: i},
@@ -338,7 +341,7 @@ function createOctaneWebClient() {
                 console.log('before ApiNodePinInfoEx/getApiNodePinInfo', result.data.result.handle);
 
                 // Get the pin info 
-                result = window.octaneClient.makeApiCall(
+                result = this.makeApiCall(
                     'ApiNodePinInfoEx/getApiNodePinInfo', 
                     result.data.result.handle
                 );
@@ -348,11 +351,11 @@ function createOctaneWebClient() {
                 console.log('pinInfo ', JSON.stringify(result, null, 2));
                 pinInfo = result.data.result;
 */
-                // will recurse to loadSceneTreeSync()
+                // will recurse to syncSceneRecurse()
                 this.addSceneItem(sceneItems, connectedNode, pinInfo, level);
             }
         } catch (error) {
-            console.error('❌ Failed loadSceneTreeSync(): ', error);
+            console.error('❌ Failed syncSceneRecurse(): ', error);
         }
 //        sceneItems.sort((a, b) => a.handle - b.handle); 
         return sceneItems;
@@ -378,7 +381,7 @@ function createOctaneWebClient() {
             
             // basic item params
             // name
-            result = window.octaneClient.makeApiCall(
+            result = this.makeApiCall(
                 'ApiItem/name',
                 item.handle
             );
@@ -388,7 +391,7 @@ function createOctaneWebClient() {
             itemName = result.data.result;
 
             // outtype
-            result = window.octaneClient.makeApiCall(
+            result = this.makeApiCall(
                 'ApiItem/outType',
                 item.handle
             );
@@ -403,7 +406,7 @@ function createOctaneWebClient() {
             console.log(`addSceneItem = ${itemName}`);  
 
             // is it a graph or node?
-            result = window.octaneClient.makeApiCall(
+            result = this.makeApiCall(
                 'ApiItem/isGraph', 
                 item.handle 
             );
@@ -413,7 +416,7 @@ function createOctaneWebClient() {
             isGraph = result.data.result;
             if (isGraph) {
                 // its a graph
-                result = window.octaneClient.makeApiCall(
+                result = this.makeApiCall(
                     'ApiNodeGraph/info1', 
                     item.handle,
                 );
@@ -421,11 +424,13 @@ function createOctaneWebClient() {
                     throw new Error('Failed ApiNodeGraph/info1');
                 }
                 graphInfo = result.data.result;
-                console.log(`graphInfo = `, JSON.stringify(graphInfo, null, 2));  
+                if (!this.isSyncing || window.debugConsole.logLevel > 1) {
+                    console.log(`graphInfo = `, JSON.stringify(graphInfo, null, 2));  
+                }
             }
             else {
                 // its a node
-                result = window.octaneClient.makeApiCall(
+                result = this.makeApiCall(
                     'ApiNode/info', 
                     item.handle,
                 );
@@ -433,19 +438,21 @@ function createOctaneWebClient() {
                     throw new Error('Failed ApiNode/info');
                 }
                 nodeInfo = result.data.result
-                console.log(`nodeInfo = `, JSON.stringify(nodeInfo, null, 2));  
+                if (!this.isSyncing || window.debugConsole.logLevel > 1) {
+                    console.log(`nodeInfo = `, JSON.stringify(nodeInfo, null, 2));  
+                }
             }
 
         } catch (error) {
             console.error('❌ Failed addSceneItem(): ', error);
         }
-        let children = this.loadSceneTreeSync(item.handle, null, isGraph, level);
+        let children = this.syncSceneRecurse(item.handle, null, isGraph, level);
 
         let attrInfo = null;
         if (children.length == 0) {
             try {        
                 // end node, get value's attribute
-                const result = window.octaneClient.makeApiCall(
+                const result = this.makeApiCall(
                     'ApiItem/attrInfo', 
                     item.handle,
                     { id: window.OctaneTypes.AttributeId.A_VALUE },
@@ -484,64 +491,6 @@ function createOctaneWebClient() {
         // save it
         sceneItems.push( entry );
         this.scene.map[item.handle] = entry;
-    }
-
-    // ==================== GRPC CALL OVERRIDE ====================
-
-    /**
-     * call octane
-     */
-    async makeApiCallAsync(servicePath, handle, request = {}) {
-
-        return makeApiCall(servicePath, handle, request, true);
-    }
-
-    /**
-     * call octane
-     */
-    makeApiCall(servicePath, handle,  request = {}, doAsync = false) {
-
-        try {
-            // Build request data
-            const [serviceName, methodName] = servicePath.split('/');
-            
-            // !!! TODO fix for new
-            // Add objectPtr if handle is provided and service needs it
-            if (handle !== null) {
-                // Determine the correct type for this service
-                const objectPtrType = window.OctaneTypes.ObjectType[serviceName];
-        
-                if (objectPtrType !== undefined) {
-                    request.objectPtr = {
-                        handle: handle,
-                        type: objectPtrType
-                    };
-                }
-            }
-            request = JSON.stringify(request);
-
-            // Make SYNCHRONOUS HTTP request using XMLHttpRequest
-            console.log(`makeApiCall(): ${servicePath}: `, request);
-
-            const url = `${this.proxyUrl}/${servicePath}`;
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', url, doAsync); // false = synchronous
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send(request);
-            
-            if (xhr.status !== 200) {
-                throw new Error(`HTTP ${xhr.status}: ${xhr.statusText}`);
-            }
-            console.log(`  response: `, xhr.responseText);
-
-            const result = JSON.parse(xhr.responseText);
-            return result;
-            
-        } catch (error) {
-            console.error(`❌ makeApiCall() failed: ${servicePath}:`, error);
-//            throw error;
-            return false;
-        }
     }
 
     // ==================== SCENE MANAGEMENT ====================
@@ -926,6 +875,66 @@ function createOctaneWebClient() {
     getSelectedNodes() {
         return Array.from(this.nodeGraphState.selectedNodes);
     }
+
+
+    // ==================== GRPC CALLS ====================
+
+    /**
+     * call octane
+     */
+    async makeApiCallAsync(servicePath, handle, request = {}) {
+
+        return this.makeApiCall(servicePath, handle, request, true);
+    }
+
+    /**
+     * call octane
+     */
+    makeApiCall(servicePath, handle,  request = {}, doAsync = false) {
+
+        try {
+            // Build request data
+            const [serviceName, methodName] = servicePath.split('/');
+            
+            // !!! TODO fix for new
+            // Add objectPtr if handle is provided and service needs it
+            if (handle !== null) {
+                // Determine the correct type for this service
+                const objectPtrType = window.OctaneTypes.ObjectType[serviceName];
+        
+                if (objectPtrType !== undefined) {
+                    request.objectPtr = {
+                        handle: handle,
+                        type: objectPtrType
+                    };
+                }
+            }
+            request = JSON.stringify(request);
+
+            if (!this.isSyncing || window.debugConsole.logLevel > 1) {
+                console.log(`makeApiCall(): ${servicePath}: `, request);
+            }
+            const url = `${this.proxyUrl}/${servicePath}`;
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', url, doAsync); // false = synchronous
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(request);
+            
+            if (xhr.status !== 200) {
+                throw new Error(`HTTP ${xhr.status}: ${xhr.statusText}`);
+            }
+            if (!this.isSyncing || window.debugConsole.logLevel > 1) {
+                console.log(`  response: `, xhr.responseText);
+            }
+            const result = JSON.parse(xhr.responseText);
+            return result;
+            
+        } catch (error) {
+            console.error(`❌ makeApiCall() failed: ${servicePath}:`, error);
+//            throw error;
+            return false;
+        }
+    }    
 }
 
     return OctaneWebClient;
@@ -940,3 +949,4 @@ if (typeof module !== 'undefined' && module.exports) {
 } else if (typeof window !== 'undefined') {
     window.octaneClient = OctaneWebClient;
 }
+

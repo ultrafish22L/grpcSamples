@@ -95,7 +95,7 @@ class SceneOutlinerSync {
                         <small>Error: ${error.message}</small>
                     </div>
                     <div class="error-actions">
-                        <button onclick="window.sceneOutliner.loadSceneTree()" class="retry-btn">Retry</button>
+                        <button onclick="window.sceneOutliner.syncScene()" class="retry-btn">Retry</button>
                     </div>
                 </div>
             `;

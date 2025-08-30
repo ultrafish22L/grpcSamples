@@ -37,6 +37,7 @@ class DebugConsole {
         this.dragTarget = null;
         this.lastMousePos = { x: 0, y: 0 };
         this.eventListeners = [];
+        this.logLevel = 1;
 
         // Store original console methods
         this.originalLog = console.log;

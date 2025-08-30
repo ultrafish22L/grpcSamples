@@ -159,6 +159,15 @@ class OctaneWebApp {
      * - Menu Components: Application-level operations and file management
      */
     async initializeUIComponents() {
+
+        // Application menu system - file operations and global commands
+        this.components.menuSystem = new MenuSystem(
+            document.querySelector('.main-menu'),
+            this.stateManager,
+            this.eventSystem
+        );
+        window.menuSystem = this.components.menuSystem;
+
         // Scene management components - hierarchical tree view and controls
         this.components.sceneOutliner = new SceneOutlinerSync(
             document.querySelector('#scene-outliner'),
@@ -192,13 +201,6 @@ class OctaneWebApp {
         
         this.components.nodeGraphEditor = new NodeGraphEditor(
             document.querySelector('#node-graph'),
-            this.stateManager,
-            this.eventSystem
-        );
-        
-        // Application menu system - file operations and global commands
-        this.components.menuSystem = new MenuSystem(
-            document.querySelector('.main-menu'),
             this.stateManager,
             this.eventSystem
         );
@@ -309,7 +311,7 @@ class OctaneWebApp {
             console.log('Connected to Octane:', success);
 
             if (success) {
-                this.client.loadSceneTree();
+                this.client.syncScene();
             }
             
         } catch (error) {

@@ -476,7 +476,7 @@ class MenuSystem extends OctaneComponent {
         if (response.success) {
             console.log('New scene created successfully');
             // Refresh scene
-            window.octaneClient.loadSceneTree();
+            window.octaneClient.syncScene();
         }      
         response.success;      
     }
@@ -737,7 +737,7 @@ class MenuSystem extends OctaneComponent {
     }
     
     async refresh() {
-        window.octaneClient.loadSceneTree();
+        window.octaneClient.syncScene();
     }
     
     // ==================== SCRIPT MENU FUNCTIONS ====================

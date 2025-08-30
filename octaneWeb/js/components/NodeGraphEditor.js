@@ -1183,12 +1183,13 @@ class NodeGraphEditor extends OctaneComponent {
         // Octane node type hierarchy based on octaneids.h
         this.nodeTypes = {
             'Cameras': {
-                'NT_CAM_THINLENS': { name: 'Thin lens camera', color: '#8B4513' },
-                'NT_CAM_PANORAMIC': { name: 'Panoramic camera', color: '#8B4513' },
-                'NT_CAM_UNIVERSAL': { name: 'Universal camera', color: '#8B4513' },
                 'NT_CAM_BAKING': { name: 'Baking camera', color: '#8B4513' },
+                'NT_CAM_OSL_BAKING': { name: 'OSL baking camera', color: '#8B4513' },
                 'NT_CAM_OSL': { name: 'OSL camera', color: '#8B4513' },
-                'NT_CAM_SIMULATED_LENS': { name: 'Simulated lens camera', color: '#8B4513' }
+                'NT_CAM_PANORAMIC': { name: 'Panoramic camera', color: '#8B4513' },
+                'NT_CAM_SIMULATED_LENS': { name: 'Realistic lens camera', color: '#8B4513' },
+                'NT_CAM_THINLENS': { name: 'Thin lens camera', color: '#8B4513' },
+                'NT_CAM_UNIVERSAL': { name: 'Universal camera', color: '#8B4513' },
             },
             'Displacement': {
                 'NT_DISPLACEMENT': { name: 'Displacement', color: '#FF6B35' }
@@ -1289,8 +1290,8 @@ class NodeGraphEditor extends OctaneComponent {
                 nodeItem.className = 'context-menu-item';
                 nodeItem.textContent = nodeInfo.name;
                 nodeItem.addEventListener('click', () => {
-                    this.createNodeFromType(nodeType, x, y);
                     this.hideContextMenu();
+                    this.createNodeFromType(nodeType, x, y);
                 });
                 submenu.appendChild(nodeItem);
             });
@@ -1342,19 +1343,11 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     createNodeFromType(nodeType, x, y) {
+        if (!window.octaneClient.connected) {
+            window.menuSystem.showWarnNotConnected("createNodeFromType");            
+            return false;
+        }            
         console.log('createNodeFromType called with:', nodeType, x, y);
-        
-        const category = this.findNodeCategory(nodeType);
-        console.log('Found category:', category);
-        
-        if (!this.nodeTypes[category] || !this.nodeTypes[category][nodeType]) {
-            console.error('Node type not found:', nodeType, 'in category:', category);
-            return;
-        }
-        
-        const nodeInfo = this.nodeTypes[category][nodeType];
-        console.log(`nodeInfo = `, JSON.stringify(nodeInfo, null, 2));  
-
         
         // For now, create nodes at the center of the visible area
         const centerX = this.canvas.width / 2;
@@ -1369,26 +1362,20 @@ class NodeGraphEditor extends OctaneComponent {
         console.log('Canvas size:', this.canvas.width, this.canvas.height);
         console.log('Center calc:', centerX, centerY);
         
-        const node = {
-            id: this.nextNodeId++,
-            type: nodeType,
-            name: nodeInfo.name,
-            x: worldX,
-            y: worldY,
-            width: 140,
-            height: 80,
-            color: nodeInfo.color,
-            inputs: this.getNodeInputs(nodeType),
-            outputs: this.getNodeOutputs(nodeType)
-        };
-        
-        console.log('Created node:', node);
-        
-        this.nodes.set(node.id, node);
-        console.log('Total nodes:', this.nodes.size);
-        
-        // Trigger a render to show the new node
-        this.render();
+        let response = window.octaneClient.makeApiCall('ApiProjectManager/rootNodeGraph');
+        const type = window.OctaneTypes.NodeType[nodeType];
+
+        let owner = response.data.result;
+        owner.type = window.OctaneTypes.NodeType[owner.type];
+
+        response = window.octaneClient.makeApiCallAsync('ApiNode/create', null, 
+            {
+                type:type,
+                ownerGraph:owner,
+                configurePins:true,
+            }
+        );
+        window.octaneClient.syncScene();
     }
     
     findNodeCategory(nodeType) {
