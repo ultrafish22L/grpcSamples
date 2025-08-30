@@ -471,7 +471,7 @@ class MenuSystem extends OctaneComponent {
             showWarnNotConnected("newScene");            
             return false;
         }            
-        const response = window.octaneClient.makeApiCall('ApiProjectManager/resetProject');
+        const response = window.octaneClient.makeApiCallAsync('ApiProjectManager/resetProject');
         
         if (response.success) {
             console.log('New scene created successfully');

@@ -31,6 +31,7 @@ function createOctaneWebClient() {
     constructor(eventSystem, serverUrl) {
         super(serverUrl);
                 
+        this.proxyUrl = 'http://localhost:51023';
         this.eventSystem = eventSystem;
         this.scene = { tree: [], map: new Map()}
 
@@ -492,33 +493,55 @@ function createOctaneWebClient() {
      */
     async makeApiCallAsync(servicePath, handle, request = {}) {
 
-        let result;
-        try {        
-            result = window.grpcApi.makeApiCall(servicePath, handle, request);
-
-        } catch (error) {
-            result = { success: false }
-            console.error(`❌ Exception OctaneWebClient.makeApiCallAsync(): ${servicePath} `, error);
-        }     
-        return result;    
+        return makeApiCall(servicePath, handle, request, true);
     }
 
     /**
      * call octane
      */
-    makeApiCall(servicePath, handle,  request = {}) {
+    makeApiCall(servicePath, handle,  request = {}, doAsync = false) {
 
-        let result;
-        try {        
-            result = window.grpcApi.makeApiCall(servicePath, handle, request);
-            if (!result.success) {
-                return null;
+        try {
+            // Build request data
+            const [serviceName, methodName] = servicePath.split('/');
+            
+            // !!! TODO fix for new
+            // Add objectPtr if handle is provided and service needs it
+            if (handle !== null) {
+                // Determine the correct type for this service
+                const objectPtrType = window.OctaneTypes.ObjectType[serviceName];
+        
+                if (objectPtrType !== undefined) {
+                    request.objectPtr = {
+                        handle: handle,
+                        type: objectPtrType
+                    };
+                }
             }
+            request = JSON.stringify(request);
+
+            // Make SYNCHRONOUS HTTP request using XMLHttpRequest
+            console.log(`makeApiCall(): ${servicePath}: `, request);
+
+            const url = `${this.proxyUrl}/${servicePath}`;
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', url, doAsync); // false = synchronous
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(request);
+            
+            if (xhr.status !== 200) {
+                throw new Error(`HTTP ${xhr.status}: ${xhr.statusText}`);
+            }
+            console.log(`  response: `, xhr.responseText);
+
+            const result = JSON.parse(xhr.responseText);
+            return result;
+            
         } catch (error) {
-            result = { success: false }
-            console.error(`❌ Exception OctaneWebClient.makeApiCall(): ${servicePath} `, error);
-        }     
-        return result;        
+            console.error(`❌ makeApiCall() failed: ${servicePath}:`, error);
+//            throw error;
+            return false;
+        }
     }
 
     // ==================== SCENE MANAGEMENT ====================
