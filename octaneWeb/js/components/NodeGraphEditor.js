@@ -1375,7 +1375,7 @@ class NodeGraphEditor extends OctaneComponent {
                 configurePins:true,
             }
         );
-        window.octaneClient.syncScene();
+        window.octaneClient.syncScene(response.data.result.handle);
     }
     
     findNodeCategory(nodeType) {

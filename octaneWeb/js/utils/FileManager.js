@@ -188,7 +188,7 @@ class FileManager {
     async processSceneFile(result) {
 
         // Use the file path if available, otherwise use the name
-        const projectPath = result.file.path || result.name;
+        const projectPath = result.name;
 
         if (!window.octaneClient.connected || !projectPath.endsWith('.orbx')) {
             return false;
@@ -358,7 +358,25 @@ class FileManager {
         
         return materials;
     }
-    
+    /*
+    name
+The file's name.
+
+lastModified
+A number specifying the date and time at which the file was last modified, in milliseconds since the UNIX epoch (January 1, 1970, at midnight).
+
+lastModifiedDate Deprecated
+A Date object representing the date and time at which the file was last modified. This is deprecated and should not be used. Use lastModified instead.
+
+size
+The size of the file in bytes.
+
+type
+The file's MIME type.
+
+webkitRelativePath Non-standard
+A string specifying the file's path relative to the base directory selected in a directory picker (that is, a file picker in which the webkitdirectory attribute is set). This is non-standard and should be used with caution.
+    */
     async showFileDialog(options = {}) {
         const {
             accept = '*/*',
@@ -379,12 +397,12 @@ class FileManager {
 
             input.onchange = async (e) => {
                 const fileList = e.target.files || input.files;
-                console.log(`showFileDialog files = `, JSON.stringify(files, null, 2) );
             
                 document.body.removeChild(input) 
-                if (files.length > 0) {
+                if (fileList.length > 0) {
+                    console.log(`showFileDialog files = `, fileList[0].name );
                     try {
-                        resolve(files);
+                        resolve(fileList);
                     } catch (error) {
                         reject(error);
                     }

@@ -411,7 +411,7 @@ class RenderToolbar {
         // For now, we'll use render priority as a proxy for real-time mode
         const priority = this.realTimeMode ? 'high' : 'normal';
         
-        const result = window.octaneClient.makeApiCall('ApiRenderEngine/setRenderPriority', {
+        const response = window.octaneClient.makeApiCall('ApiRenderEngine/setRenderPriority', {
             priority: priority
         });
         this.renderPriority = priority;

@@ -456,7 +456,7 @@ class NodeInspector extends OctaneComponent {
         console.log(`handleParameterChange ${nodeData.name} ${datatype} ${component ? component:""} newValue = `, JSON.stringify(value));
         nodeData.value = value
 
-        let result = window.octaneClient.makeApiCallAsync(
+        let response = window.octaneClient.makeApiCallAsync(
             'ApiItem/setByAttrID', 
             nodeData.handle,
             { id: window.OctaneTypes.AttributeId.A_VALUE,
@@ -464,7 +464,7 @@ class NodeInspector extends OctaneComponent {
                 ...value,
             },
         );
-        if (result.success) {
+        if (response.success) {
             window.octaneClient.makeApiCallAsync('ApiChangeManager/update');         
         }   
     }

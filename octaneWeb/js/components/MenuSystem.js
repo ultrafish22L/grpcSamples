@@ -491,14 +491,14 @@ class MenuSystem extends OctaneComponent {
         }
         if (results.length > 0) {
             let result = results[0];
-            console.log(`openScene `, JSON.stringify(result, null, 2) );
+            console.log(`openScene `, result.name );
 
-            result = await this.fileManager.processSceneFile(result);
-            if (result.success) {
+            const response = await this.fileManager.processSceneFile(result);
+            if (response.success) {
                 if (!isRecent) {
-                    this.addToRecentFiles(result.name);
+                    this.addToRecentFiles(response.name);
                 }
-                this.showNotification(`Loaded: ${result.name}`, 'success');
+                this.showNotification(`Loaded: ${response.name}`, 'success');
             } 
         }
     }

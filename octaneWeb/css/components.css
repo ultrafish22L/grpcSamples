@@ -3423,7 +3423,7 @@ body.drag-over .drop-indicator {
 /* Parameter Control Styles for Interactive Node Inspector */
 .parameter-control-container {
     display: inline-flex;
-    align-items: center;
+    align-items: left;
     margin-left: 8px;
     gap: 4px;
 }
@@ -3438,6 +3438,7 @@ body.drag-over .drop-indicator {
 
 .parameter-checkbox {
     display: none;
+    align-items: left;    
 }
 
 .parameter-checkbox-custom {
@@ -3448,6 +3449,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-primary);
     position: relative;
     transition: all 0.2s ease;
+    align-items: left;    
 }
 
 .parameter-checkbox:checked + .parameter-checkbox-custom {

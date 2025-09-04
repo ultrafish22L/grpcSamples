@@ -176,17 +176,23 @@ function createOctaneWebClient() {
      * ASYNCHRONOUS function that loads scene tree
      * UI loads immediately, then updates when scene data is ready
      */
-    async syncScene() {
+    async syncScene(handle) {
         try {
-            console.log('Loading Octane scene...');
+            console.log('Loading Octane scene...', handle);
 
             this.isSyncing = true;
-            this.scene = { tree: this.syncSceneRecurse(), map: new Map() }
-            this.isSyncing = false;
-            this.eventSystem.emit('sceneDataLoaded', this.scene);
 
-            const item = this.lookupItemType("NT_RENDERTARGET");
-
+            let item;
+            if (handle) {
+                syncSceneRecurse(handle, this.scene.tree);               
+                item = this.lookupItem(handle);
+            }
+            else {
+                this.scene = { tree: this.syncSceneRecurse(), map: new Map() }
+                this.isSyncing = false;
+                this.eventSystem.emit('sceneDataLoaded', this.scene);
+                item = this.lookupItemType("NT_RENDERTARGET");
+            }
             if (item) {
                 this.eventSystem.emit('sceneNodeSelected', item.handle);
             }
@@ -206,7 +212,7 @@ function createOctaneWebClient() {
      * @returns {Array} Scene tree array
      */
     syncSceneRecurse(itemHandle, sceneItems, isGraph, level = 0) {
-        let result;
+        let response;
 //        if (level >= 3)
 //            return scene;
         level = level + 1;
@@ -218,110 +224,110 @@ function createOctaneWebClient() {
             if (itemHandle == null)
             {
                 // first call, get the root
-                result = this.makeApiCall(
+                response = this.makeApiCall(
                     'ApiProjectManager/rootNodeGraph'
                 );
-                if (!result.success) {
+                if (!response.success) {
                     throw new Error('Failed ApiProjectManager/rootNodeGraph');
                 }
-                itemHandle = result.data.result.handle;
+                itemHandle = response.data.result.handle;
                 // is it a graph or node?
-                result = this.makeApiCall(
+                response = this.makeApiCall(
                     'ApiItem/isGraph', 
                     itemHandle 
                 );
-                if (!result.success) {
+                if (!response.success) {
                     throw new Error('Failed ApiItem/isGraph');
                 }
-                isGraph = result.data.result;
+                isGraph = response.data.result;
             }
             if (isGraph)
             {
                 // Get owned items
-                result = this.makeApiCall(
+                response = this.makeApiCall(
                     'ApiNodeGraph/getOwnedItems', 
                     itemHandle,
                 );
-                if (!result.success) {
+                if (!response.success) {
                     throw new Error('Failed ApiNodeGraph/getOwnedItems');
                 }
-                const ownedItemsHandle = result.data.list.handle
+                const ownedItemsHandle = response.data.list.handle
 
                 // Get the size of the item array
-                result = this.makeApiCall(
+                response = this.makeApiCall(
                     'ApiItemArray/size', 
                     ownedItemsHandle,
                 );
-                if (!result.success) {
+                if (!response.success) {
                     throw new Error('Failed ApiItemArray/size');
                 }
-                const size = result.data.result;
+                const size = response.data.result;
 
                 for (let i = 0; i < size; i++) {
                     // get it
-                    result = this.makeApiCall(
+                    response = this.makeApiCall(
                         'ApiItemArray/get', 
                         ownedItemsHandle,
                         {index: i},
                     );
-                    if (!result.success) {
+                    if (!response.success) {
                         throw new Error('Failed ApiItemArray/get');
                     }
                     // will recurse to syncSceneRecurse()
-                    this.addSceneItem(sceneItems, result.data.result, null, level);
+                    this.addSceneItem(sceneItems, response.data.result, null, level);
                 }
 //                sceneItems.sort((a, b) => a.handle - b.handle); 
 
                 return sceneItems
             }
             // its a node
-            result = this.makeApiCall(
+            response = this.makeApiCall(
                 'ApiNode/pinCount', 
                 itemHandle
             );
-            if (!result.success) {
+            if (!response.success) {
                 throw new Error('Failed ApiNode/pinCount');
             }
-            const pinCount = result.data.result;
+            const pinCount = response.data.result;
 //            console.log(`pinCount = ${pinCount} nodeInfo.pinInfoCount = ${nodeInfo.pinInfoCount}`);  
 
             for (let i = 0; i < pinCount; i++) {
                 // Get the pin connected node
-                result = this.makeApiCall(
+                response = this.makeApiCall(
                     'ApiNode/connectedNodeIx', 
                     itemHandle,
                     { pinIx: i, enterWrapperNode: true },
                 );
-                if (!result.success) {
+                if (!response.success) {
                     throw new Error('Failed ApiNode/connectedNodeIx');
                 }        
-                const connectedNode = result.data.result;
+                const connectedNode = response.data.result;
 
                 if (connectedNode == null) {
                     continue;
                 }
                 // Get the pin label
-                result = this.makeApiCall(
+                response = this.makeApiCall(
                     'ApiNode/pinLabelIx', 
                     itemHandle,
                     {index: i},
                 );
-                if (!result.success) {
+                if (!response.success) {
                     throw new Error('Failed ApiNode/pinLabelIx');
                 }
-                let pinInfo = { staticLabel: result.data.result, index:i };
+                let pinInfo = { staticLabel: response.data.result, index:i };
 
                 // Get the pin type
-                result = this.makeApiCall(
+                response = this.makeApiCall(
                     'ApiNode/pinTypeIx', 
                     itemHandle,
                     {index: i},
                 );
-                if (!result.success) {
+                if (!response.success) {
                     throw new Error('Failed ApiNode/pinTypeIx');
                 }
                 pinInfo.parent = itemHandle;
-                pinInfo.type = result.data.result;
+                pinInfo.type = response.data.result;
 
 //                console.log('pinInfo.type', pinInfo.type);
 
@@ -329,27 +335,27 @@ function createOctaneWebClient() {
 //                console.log('pinInfo.type', pinInfo.type);
 /*                
                 // Get the pin info handle
-                result = this.makeApiCall(
+                response = this.makeApiCall(
                     'ApiNode/pinInfoIx', 
                     itemHandle,
                     {index: i},
                 );
-                if (!result.success) {
+                if (!response.success) {
                     throw new Error('Failed ApiNode/pinInfoIx');
                 }
 
-                console.log('before ApiNodePinInfoEx/getApiNodePinInfo', result.data.result.handle);
+                console.log('before ApiNodePinInfoEx/getApiNodePinInfo', response.data.result.handle);
 
                 // Get the pin info 
-                result = this.makeApiCall(
+                response = this.makeApiCall(
                     'ApiNodePinInfoEx/getApiNodePinInfo', 
-                    result.data.result.handle
+                    response.data.result.handle
                 );
-                if (!result.success) {
+                if (!response.success) {
                     throw new Error('Failed ApiNodePinInfoEx/getApiNodePinInfo');
                 }
-                console.log('pinInfo ', JSON.stringify(result, null, 2));
-                pinInfo = result.data.result;
+                console.log('pinInfo ', JSON.stringify(response, null, 2));
+                pinInfo = response.data.result;
 */
                 // will recurse to syncSceneRecurse()
                 this.addSceneItem(sceneItems, connectedNode, pinInfo, level);
@@ -377,67 +383,65 @@ function createOctaneWebClient() {
             return;
 
         try {
-            let result;
+            let response;
             
             // basic item params
             // name
-            result = this.makeApiCall(
+            response = this.makeApiCall(
                 'ApiItem/name',
                 item.handle
             );
-            if (!result.success) {
+            if (!response.success) {
                 throw new Error('Failed GenericNodeRenderer.addSceneItem()');
             }
-            itemName = result.data.result;
+            itemName = response.data.result;
 
             // outtype
-            result = this.makeApiCall(
+            response = this.makeApiCall(
                 'ApiItem/outType',
                 item.handle
             );
-            if (!result.success) {
+            if (!response.success) {
                 throw new Error('Failed to get item outType');
             }
-            outType = result.data.result;
+            outType = response.data.result;
 
             if (pinInfo != null && pinInfo.staticLabel != "") {
                 itemName = pinInfo.staticLabel;
             }
-            console.log(`addSceneItem = ${itemName}`);  
-
             // is it a graph or node?
-            result = this.makeApiCall(
+            response = this.makeApiCall(
                 'ApiItem/isGraph', 
                 item.handle 
             );
-            if (!result.success) {
+            if (!response.success) {
                 throw new Error('Failed ApiItem/isGraph');
             }
-            isGraph = result.data.result;
+            isGraph = response.data.result;
             if (isGraph) {
                 // its a graph
-                result = this.makeApiCall(
+                response = this.makeApiCall(
                     'ApiNodeGraph/info1', 
                     item.handle,
                 );
-                if (!result.success) {
+                if (!response.success) {
                     throw new Error('Failed ApiNodeGraph/info1');
                 }
-                graphInfo = result.data.result;
+                graphInfo = response.data.result;
                 if (!this.isSyncing || window.debugConsole.logLevel > 1) {
                     console.log(`graphInfo = `, JSON.stringify(graphInfo, null, 2));  
                 }
             }
             else {
                 // its a node
-                result = this.makeApiCall(
+                response = this.makeApiCall(
                     'ApiNode/info', 
                     item.handle,
                 );
-                if (!result.success) {
+                if (!response.success) {
                     throw new Error('Failed ApiNode/info');
                 }
-                nodeInfo = result.data.result
+                nodeInfo = response.data.result
                 if (!this.isSyncing || window.debugConsole.logLevel > 1) {
                     console.log(`nodeInfo = `, JSON.stringify(nodeInfo, null, 2));  
                 }
@@ -452,15 +456,15 @@ function createOctaneWebClient() {
         if (children.length == 0) {
             try {        
                 // end node, get value's attribute
-                const result = this.makeApiCall(
+                const response = this.makeApiCall(
                     'ApiItem/attrInfo', 
                     item.handle,
                     { id: window.OctaneTypes.AttributeId.A_VALUE },
                 );
-                if (!result.success) {
+                if (!response.success) {
                     throw new Error('Failed GenericNodeRenderer.addSceneItem(): ApiItem/attrInfo');
                 }
-                attrInfo = result.data.result;
+                attrInfo = response.data.result;
 
             } catch (error) {
                 console.error('❌ Failed addSceneItem(): ', error);
@@ -926,8 +930,8 @@ function createOctaneWebClient() {
             if (!this.isSyncing || window.debugConsole.logLevel > 1) {
                 console.log(`  response: `, xhr.responseText);
             }
-            const result = JSON.parse(xhr.responseText);
-            return result;
+            const response = JSON.parse(xhr.responseText);
+            return response;
             
         } catch (error) {
             console.error(`❌ makeApiCall() failed: ${servicePath}:`, error);

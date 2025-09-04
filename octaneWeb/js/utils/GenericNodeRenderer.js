@@ -228,24 +228,24 @@ class GenericNodeRenderer {
 //        console.log(`GenericNodeRenderer.getValue() ${nodeData.name} type: ${nodeData.attrInfo.type} ${type}`);
 
         // get the end node's value
-        let result;
+        let response;
         try {   
-            result = window.octaneClient.makeApiCall(
+            response = window.octaneClient.makeApiCall(
                 "ApiItem/getByAttrID", 
                 nodeData.handle,
                 { attribute_id: window.OctaneTypes.AttributeId.A_VALUE,
                   expected_type: type,
                 },
             );
-            if (!result.success) {
+            if (!response.success) {
                 throw new Error('Failed GenericNodeRenderer.getValue(): ApiItem/getByAttrID');
             }
         } catch (error) {
             console.error(`❌ Failed GenericNodeRenderer.getValue() ${nodeData.name} type: ${nodeData.attrInfo.type} ${type}`, error);
         }
-//        console.log(`GenericNodeRenderer.getValue() ${JSON.stringify(result, null, 2)}`);
+//        console.log(`GenericNodeRenderer.getValue() ${JSON.stringify(response, null, 2)}`);
 
-        return result.data;
+        return response.data;
     }
 
     /**

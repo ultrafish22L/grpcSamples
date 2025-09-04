@@ -350,8 +350,8 @@ class DebugConsole {
         if (window.octaneClient) {
             this.addLog('info', 'Testing API call...');
             window.octaneClient.getPinCount()
-                .then(result => {
-                    this.addLog('info', `📌 Pin count: ${result.count}`);
+                .then(response => {
+                    this.addLog('info', `📌 Pin count: ${response.count}`);
                 })
                 .catch(error => {
                     this.addLog('error', `❌ API error: ${error.message}`);
