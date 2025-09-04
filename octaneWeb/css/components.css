@@ -3052,6 +3052,13 @@ body.drag-over .drop-indicator {
     line-height: 1.4; /* Better line spacing */
 }
 
+/* Node parameters container - ONLY for Node Inspector */
+.node-inspector .node-parameters {
+    width: 100%;
+    margin-top: 4px;
+    padding-left: 0;
+}
+
 /* Node header with improved spacing and alignment - ONLY for Node Inspector */
 .node-inspector .node-label {
     display: flex;
@@ -3172,8 +3179,9 @@ body.drag-over .drop-indicator {
 }
 
 .octane-parameter-control {
-    display: grid;
-    align-items: left;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     gap: 4px;
     flex-shrink: 0;
     max-width: 200px;
@@ -3186,9 +3194,8 @@ body.drag-over .drop-indicator {
     margin: 0;
     cursor: pointer;
     accent-color: var(--octane-accent);
-    display: grid;
-    text-align: right;
-    align-items: left;
+    display: block;
+    flex-shrink: 0;
 }
 
 .octane-number-input {
@@ -3201,7 +3208,7 @@ body.drag-over .drop-indicator {
     font-size: var(--font-size-small);
     padding: 1px 4px;
     font-family: var(--font-family-mono);
-    display: grid;
+    display: block;
     text-align: right;
 }
 
@@ -3273,10 +3280,11 @@ body.drag-over .drop-indicator {
 
 /* Vector control styles */
 .octane-vector-control {
-    align-items: left;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     gap: 2px;
-    display: flex; /* Makes the container a flex container */
-    flex-direction: row; /* Arranges items horizontally (default for flex) */
+    flex-direction: row;
 }
 
 .octane-vector-input {

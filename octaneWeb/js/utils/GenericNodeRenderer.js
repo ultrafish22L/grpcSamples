@@ -125,6 +125,9 @@ class GenericNodeRenderer {
                                 ${collapseIcon ? `<span class="collapse-icon">${collapseIcon}</span>` : ''}
                                 <span class="node-title">${nodeData.name}</span>
                             </div>
+                            <div class="node-parameters">
+                                ${this.renderNodeParameters(nodeData)}
+                            </div>
                         </div>
                     </div>`;
         }
@@ -137,6 +140,8 @@ class GenericNodeRenderer {
                             <div class="node-label" ${hasChildren ? `data-toggle="${nodeId}"` : ''}>
                                 ${collapseIcon ? `<span class="collapse-icon">${collapseIcon}</span>` : ''}
                                 <span class="node-title">${nodeData.name}</span>
+                            </div>
+                            <div class="node-parameters">
                                 ${this.renderNodeParameters(nodeData)}
                             </div>
                         </div>
@@ -172,47 +177,72 @@ class GenericNodeRenderer {
 
 //        console.log(`GenericNodeRenderer.renderNodeParameters() ${nodeData.name} ${nodeData.outType}`);
 
-        // For Camera nodes, render the camera type dropdown
+        // For nodes with attribute info, render the parameter control
+        if (nodeData.attrInfo?.type != null) {
+            return this.renderControl(nodeData);
+        }
+        
+        // For Camera nodes, render the camera type dropdown as a parameter row
         if (nodeData.outType === 'NT_CAMERA' || nodeData.name === 'Camera') {
             return `
-                <div class="node-parameter-controls">
-                    <select class="parameter-dropdown" data-parameter="camera-type">
-                        <option value="thin-lens">Thin lens camera</option>
-                        <option value="orthographic">Orthographic camera</option>
-                        <option value="panoramic">Panoramic camera</option>
-                        <option value="baking">Baking camera</option>
-                    </select>
+                <div class="octane-parameter-row">
+                    <div class="octane-parameter-label">
+                        <span class="octane-parameter-icon">📷</span>
+                        <span class="octane-parameter-name">Camera type:</span>
+                    </div>
+                    <div class="octane-parameter-control">
+                        <select class="parameter-dropdown" data-parameter="camera-type">
+                            <option value="thin-lens">Thin lens camera</option>
+                            <option value="orthographic">Orthographic camera</option>
+                            <option value="panoramic">Panoramic camera</option>
+                            <option value="baking">Baking camera</option>
+                        </select>
+                    </div>
                 </div>
             `;
         }
         
-        // For Environment nodes
+        // For Environment nodes, render the environment type dropdown as a parameter row
         if (nodeData.outType === 'NT_ENVIRONMENT' || nodeData.name === 'Environment') {
             return `
-                <div class="node-parameter-controls">
-                    <select class="parameter-dropdown" data-parameter="environment-type">
-                        <option value="daylight">Daylight environment</option>
-                        <option value="texture">Texture environment</option>
-                        <option value="planetary">Planetary environment</option>
-                    </select>
+                <div class="octane-parameter-row">
+                    <div class="octane-parameter-label">
+                        <span class="octane-parameter-icon">🌍</span>
+                        <span class="octane-parameter-name">Environment type:</span>
+                    </div>
+                    <div class="octane-parameter-control">
+                        <select class="parameter-dropdown" data-parameter="environment-type">
+                            <option value="daylight">Daylight environment</option>
+                            <option value="texture">Texture environment</option>
+                            <option value="planetary">Planetary environment</option>
+                        </select>
+                    </div>
                 </div>
             `;
         }
         
-        // For Material nodes
+        // For Material nodes, render the material type dropdown as a parameter row
         if (nodeData.outType === 'NT_MATERIAL' || nodeData.name === 'cube') {
             return `
-                <div class="node-parameter-controls">
-                    <select class="parameter-dropdown" data-parameter="material-type">
-                        <option value="diffuse">Diffuse material</option>
-                        <option value="glossy">Glossy material</option>
-                        <option value="specular">Specular material</option>
-                        <option value="universal">Universal material</option>
-                    </select>
+                <div class="octane-parameter-row">
+                    <div class="octane-parameter-label">
+                        <span class="octane-parameter-icon">🎨</span>
+                        <span class="octane-parameter-name">Material type:</span>
+                    </div>
+                    <div class="octane-parameter-control">
+                        <select class="parameter-dropdown" data-parameter="material-type">
+                            <option value="diffuse">Diffuse material</option>
+                            <option value="glossy">Glossy material</option>
+                            <option value="specular">Specular material</option>
+                            <option value="universal">Universal material</option>
+                        </select>
+                    </div>
                 </div>
             `;
         }
-        return this.renderControl(nodeData);  
+        
+        // Return empty string if no parameters to show
+        return '';
     }
 
 
@@ -249,9 +279,9 @@ class GenericNodeRenderer {
     }
 
     /**
-     * Create appropriate control for parameter
+     * Create appropriate control for parameter with proper row structure
      * @param {Object} nodeData - Pin data
-     * @returns {string} - HTML for the control
+     * @returns {string} - HTML for the parameter row with label and control
      */
     renderControl(nodeData) {
 
@@ -268,29 +298,39 @@ class GenericNodeRenderer {
         let value = this.getValue(nodeData);
         nodeData.value = value
 
+        // Get parameter icon (if available)
+        const icon = nodeData.icon || '⚙';
+        
+        // Create the control HTML based on type
+        let controlHtml = '';
+        
         switch (type) {
         case "AT_BOOL":
             value = value.bool_value;
-            return `<input type="checkbox" class="octane-checkbox parameter-control" ${value} 
+            controlHtml = `<input type="checkbox" class="octane-checkbox parameter-control" ${value ? 'checked' : ''} 
                     data-handle="${nodeData.handle}" data-type="bool_value">`;
+            break;
         
         case "AT_FLOAT":
             value = value.float_value;
-            return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="0.001" 
+            controlHtml = `<input type="number" class="octane-number-input parameter-control" value="${value}" step="0.001" 
                     data-handle="${nodeData.handle}" data-type="float_value">`;
+            break;
+            
         case "AT_FLOAT2":
             value = value.float2_value;
-            return `
+            controlHtml = `
                 <div class="octane-vector-control">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" 
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001"
                         data-handle="${nodeData.handle}" data-component="x" data-type="float2_value">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.y}" 
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="0.001"
                         data-handle="${nodeData.handle}" data-component="y" data-type="float2_value">
                 </div>
             `;
+            break;
         case "AT_FLOAT3":
             value = value.float3_value;
-            return `
+            controlHtml = `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
                         data-handle="${nodeData.handle}" data-component="x" data-type="float3_value">
@@ -300,9 +340,11 @@ class GenericNodeRenderer {
                         data-handle="${nodeData.handle}" data-component="z" data-type="float3_value">
                 </div>
             `;
+            break;
+            
         case "AT_FLOAT4":
             value = value.float4_value;
-            return `
+            controlHtml = `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="0.001" 
                         data-handle="${nodeData.handle}" data-component="x" data-type="float4_value">
@@ -312,23 +354,29 @@ class GenericNodeRenderer {
                         data-handle="${nodeData.handle}" data-component="z" data-type="float4_value">
                 </div>
             `;
+            break;
+            
         case "AT_INT":
             value = value.int_value;
-            return `<input type="number" class="octane-number-input parameter-control" value="${value}" step="1" 
+            controlHtml = `<input type="number" class="octane-number-input parameter-control" value="${value}" step="1" 
                     data-handle="${nodeData.handle}" data-type="int_value">`;
+            break;
+            
         case "AT_INT2":
             value = value.int2_value;
-            return `
+            controlHtml = `
                 <div class="octane-vector-control">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" 
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1"
                         data-handle="${nodeData.handle}" data-component="x" data-type="int2_value">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.y}" 
+                    <input type="number" class="octane-vector-input parameter-control" value="${value.y}" step="1"
                         data-handle="${nodeData.handle}" data-component="y" data-type="int2_value">
                 </div>
             `;
+            break;
+            
         case "AT_INT3":
             value = value.int3_value;
-            return `
+            controlHtml = `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
                         data-handle="${nodeData.handle}" data-component="x" data-type="int3_value">
@@ -338,9 +386,11 @@ class GenericNodeRenderer {
                         data-handle="${nodeData.handle}" data-component="z" data-type="int3_value">
                 </div>
             `;
+            break;
+            
         case "AT_INT4":
             value = value.int4_value;
-            return `
+            controlHtml = `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
                         data-handle="${nodeData.handle}" data-component="x" data-type="int4_value">
@@ -350,17 +400,17 @@ class GenericNodeRenderer {
                         data-handle="${nodeData.handle}" data-component="z" data-type="int4_value">
                 </div>
             `;
+            break;
+            
         case "AT_LONG":
             value = value.long_value;
-            return `
-                <div class="octane-vector-control">
-                    <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
-                        data-handle="${nodeData.handle}" data-component="x" data-type="long_value">
-                </div>
-            `;
+            controlHtml = `<input type="number" class="octane-number-input parameter-control" value="${value.x}" step="1" 
+                        data-handle="${nodeData.handle}" data-component="x" data-type="long_value">`;
+            break;
+            
         case "AT_LONG2":
             value = value.long2_value;
-            return `
+            controlHtml = `
                 <div class="octane-vector-control">
                     <input type="number" class="octane-vector-input parameter-control" value="${value.x}" step="1" 
                         data-handle="${nodeData.handle}" data-component="x" data-type="long2_value">
@@ -368,14 +418,33 @@ class GenericNodeRenderer {
                         data-handle="${nodeData.handle}" data-component="y" data-type="long2_value">
                 </div>
             `;
-        case "AT_STRING" || type == "AT_FILENAME":
+            break;
+            
+        case "AT_STRING":
+        case "AT_FILENAME":
             value = value.string_value;
-            return `<input type="text" class="octane-text-input parameter-control" value="${value}" 
+            controlHtml = `<input type="text" class="octane-text-input parameter-control" value="${value}" 
                     data-handle="${nodeData.handle}" data-type="string_value">`;
+            break;
+            
+        default:
+            controlHtml = `<input type="text" class="octane-text-input parameter-control" value="" 
+                    data-handle="${nodeData.handle}" data-type="string_value">`;
+            break;
         }
 
-        return `<input type="text" class="octane-text-input parameter-control" value="${''}" 
-                data-handle="${nodeData.handle}" data-type="string_value">`;
+        // Return the complete parameter row with label and control, properly aligned
+        return `
+            <div class="octane-parameter-row">
+                <div class="octane-parameter-label">
+                    <span class="octane-parameter-icon">${icon}</span>
+                    <span class="octane-parameter-name">${nodeData.name}:</span>
+                </div>
+                <div class="octane-parameter-control">
+                    ${controlHtml}
+                </div>
+            </div>
+        `;
     }
     
     /**
