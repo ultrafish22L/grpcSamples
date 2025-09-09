@@ -2580,7 +2580,7 @@ body.drag-over .drop-indicator {
     display: flex;
     align-items: center;
     flex: 1;
-    max-width: 200px;
+    max-width: var(--param-max-weight);
 }
 
 /* Numeric Slider Controls */
@@ -3431,9 +3431,9 @@ body.drag-over .drop-indicator {
 /* Parameter Control Styles for Interactive Node Inspector */
 .parameter-control-container {
     display: inline-flex;
+    flex: 1;
     align-items: left;
-    margin-left: 8px;
-    gap: 4px;
+    gap: 1px;
 }
 
 /* Checkbox Controls */

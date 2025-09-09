@@ -53,6 +53,8 @@
     --status-bar-height: 22px;
     --splitter-size: 4px;
     --border-radius: 2px;
+
+    --param-max-weight: 288px;
     
     /* Typography */
     --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
