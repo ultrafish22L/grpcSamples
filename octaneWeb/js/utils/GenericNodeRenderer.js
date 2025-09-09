@@ -125,9 +125,6 @@ class GenericNodeRenderer {
                                 ${collapseIcon ? `<span class="collapse-icon">${collapseIcon}</span>` : ''}
                                 <span class="node-title">${nodeData.name}</span>
                             </div>
-                            <div class="node-parameters">
-                                ${this.renderNodeParameters(nodeData)}
-                            </div>
                         </div>
                     </div>`;
         }
@@ -140,8 +137,6 @@ class GenericNodeRenderer {
                             <div class="node-label" ${hasChildren ? `data-toggle="${nodeId}"` : ''}>
                                 ${collapseIcon ? `<span class="collapse-icon">${collapseIcon}</span>` : ''}
                                 <span class="node-title">${nodeData.name}</span>
-                            </div>
-                            <div class="node-parameters">
                                 ${this.renderNodeParameters(nodeData)}
                             </div>
                         </div>
@@ -177,72 +172,47 @@ class GenericNodeRenderer {
 
 //        console.log(`GenericNodeRenderer.renderNodeParameters() ${nodeData.name} ${nodeData.outType}`);
 
-        // For nodes with attribute info, render the parameter control
-        if (nodeData.attrInfo?.type != null) {
-            return this.renderControl(nodeData);
-        }
-        
-        // For Camera nodes, render the camera type dropdown as a parameter row
+        // For Camera nodes, render the camera type dropdown
         if (nodeData.outType === 'NT_CAMERA' || nodeData.name === 'Camera') {
             return `
-                <div class="octane-parameter-row">
-                    <div class="octane-parameter-label">
-                        <span class="octane-parameter-icon">📷</span>
-                        <span class="octane-parameter-name">Camera type:</span>
-                    </div>
-                    <div class="octane-parameter-control">
-                        <select class="parameter-dropdown" data-parameter="camera-type">
-                            <option value="thin-lens">Thin lens camera</option>
-                            <option value="orthographic">Orthographic camera</option>
-                            <option value="panoramic">Panoramic camera</option>
-                            <option value="baking">Baking camera</option>
-                        </select>
-                    </div>
+                <div class="node-parameter-controls">
+                    <select class="parameter-dropdown" data-parameter="camera-type">
+                        <option value="thin-lens">Thin lens camera</option>
+                        <option value="orthographic">Orthographic camera</option>
+                        <option value="panoramic">Panoramic camera</option>
+                        <option value="baking">Baking camera</option>
+                    </select>
                 </div>
             `;
         }
         
-        // For Environment nodes, render the environment type dropdown as a parameter row
+        // For Environment nodes
         if (nodeData.outType === 'NT_ENVIRONMENT' || nodeData.name === 'Environment') {
             return `
-                <div class="octane-parameter-row">
-                    <div class="octane-parameter-label">
-                        <span class="octane-parameter-icon">🌍</span>
-                        <span class="octane-parameter-name">Environment type:</span>
-                    </div>
-                    <div class="octane-parameter-control">
-                        <select class="parameter-dropdown" data-parameter="environment-type">
-                            <option value="daylight">Daylight environment</option>
-                            <option value="texture">Texture environment</option>
-                            <option value="planetary">Planetary environment</option>
-                        </select>
-                    </div>
+                <div class="node-parameter-controls">
+                    <select class="parameter-dropdown" data-parameter="environment-type">
+                        <option value="daylight">Daylight environment</option>
+                        <option value="texture">Texture environment</option>
+                        <option value="planetary">Planetary environment</option>
+                    </select>
                 </div>
             `;
         }
         
-        // For Material nodes, render the material type dropdown as a parameter row
+        // For Material nodes
         if (nodeData.outType === 'NT_MATERIAL' || nodeData.name === 'cube') {
             return `
-                <div class="octane-parameter-row">
-                    <div class="octane-parameter-label">
-                        <span class="octane-parameter-icon">🎨</span>
-                        <span class="octane-parameter-name">Material type:</span>
-                    </div>
-                    <div class="octane-parameter-control">
-                        <select class="parameter-dropdown" data-parameter="material-type">
-                            <option value="diffuse">Diffuse material</option>
-                            <option value="glossy">Glossy material</option>
-                            <option value="specular">Specular material</option>
-                            <option value="universal">Universal material</option>
-                        </select>
-                    </div>
+                <div class="node-parameter-controls">
+                    <select class="parameter-dropdown" data-parameter="material-type">
+                        <option value="diffuse">Diffuse material</option>
+                        <option value="glossy">Glossy material</option>
+                        <option value="specular">Specular material</option>
+                        <option value="universal">Universal material</option>
+                    </select>
                 </div>
             `;
         }
-        
-        // Return empty string if no parameters to show
-        return '';
+        return this.renderControl(nodeData);  
     }
 
 
@@ -279,9 +249,9 @@ class GenericNodeRenderer {
     }
 
     /**
-     * Create appropriate control for parameter with proper row structure
+     * Create appropriate control for parameter
      * @param {Object} nodeData - Pin data
-     * @returns {string} - HTML for the parameter row with label and control
+     * @returns {string} - HTML for the control
      */
     renderControl(nodeData) {
 
@@ -292,18 +262,33 @@ class GenericNodeRenderer {
         console.log(`GenericNodeRenderer.renderControl() ${nodeData.name} type: ${nodeData.attrInfo?.type}`);
 
         const index = nodeData.pinInfo.index;
-        const type = nodeData.attrInfo.type;
+        let type = nodeData.attrInfo.type;
 
         // grpc call
         let value = this.getValue(nodeData);
         nodeData.value = value
+        let controlHtml
 
-        // Get parameter icon (if available)
-        const icon = nodeData.icon || '⚙';
-        
-        // Create the control HTML based on type
-        let controlHtml = '';
-        
+
+        if (type == "AT_FLOAT4") {
+            console.log(`GenericNodeRenderer.renderControl() dimCount = ${nodeData.pinInfo?.floatInfo.dimCount}`);
+            switch (nodeData.pinInfo?.floatInfo.dimCount)
+            {
+                case 1:
+                    type = "AT_FLOAT";
+                    value = { float_value: value.float4_value.x };
+                    break;
+                case 2:
+                    type = "AT_FLOAT2";
+                    value = { float2_value: { x: value.float4_value.x, y: value.float4_value.y }};
+                    break;
+                case 3:
+                    type = "AT_FLOAT3";
+                    value = { float3_value: { x: value.float4_value.x, y: value.float4_value.y, z: value.float4_value.z }};
+                    break;
+            }
+        }
+
         switch (type) {
         case "AT_BOOL":
             value = value.bool_value;
@@ -434,17 +419,11 @@ class GenericNodeRenderer {
         }
 
         // Return the complete parameter row with label and control, properly aligned
-        return `
-            <div class="octane-parameter-row">
-                <div class="octane-parameter-label">
-                    <span class="octane-parameter-icon">${icon}</span>
-                    <span class="octane-parameter-name">${nodeData.name}:</span>
-                </div>
-                <div class="octane-parameter-control">
-                    ${controlHtml}
-                </div>
-            </div>
-        `;
+        return `<div class="octane-parameter-row">
+                    <div class="octane-parameter-control">
+                        ${controlHtml}
+                    </div>
+                </div>`;
     }
     
     /**
