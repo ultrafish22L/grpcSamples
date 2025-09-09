@@ -178,7 +178,7 @@ function createOctaneWebClient() {
      */
     async syncScene(handle) {
         try {
-            console.log('Loading Octane scene...', handle);
+            window.debugConsole.log( 'Loading Octane scene...', handle);
 
             this.isSyncing = true;
 
@@ -289,7 +289,7 @@ function createOctaneWebClient() {
                 throw new Error('Failed ApiNode/pinCount');
             }
             const pinCount = response.data.result;
-//            console.log(`pinCount = ${pinCount} nodeInfo.pinInfoCount = ${nodeInfo.pinInfoCount}`);  
+//            window.debugConsole.log( `pinCount = ${pinCount} nodeInfo.pinInfoCount = ${nodeInfo.pinInfoCount}`);  
 
             for (let i = 0; i < pinCount; i++) {
                 // Get the pin connected node
@@ -306,6 +306,7 @@ function createOctaneWebClient() {
                 if (connectedNode == null) {
                     continue;
                 }
+/*                
                 // Get the pin label
                 response = this.makeApiCall(
                     'ApiNode/pinLabelIx', 
@@ -326,14 +327,12 @@ function createOctaneWebClient() {
                 if (!response.success) {
                     throw new Error('Failed ApiNode/pinTypeIx');
                 }
-                pinInfo.parent = itemHandle;
                 pinInfo.type = response.data.result;
-
-//                console.log('pinInfo.type', pinInfo.type);
+//                window.debugConsole.log( 'pinInfo.type', pinInfo.type);
 
 //                pinInfo.type = window.OctaneTypes.NodePinType[pinInfo.type];
-//                console.log('pinInfo.type', pinInfo.type);
-/*                
+//                window.debugConsole.log( 'pinInfo.type', pinInfo.type);
+*/
                 // Get the pin info handle
                 response = this.makeApiCall(
                     'ApiNode/pinInfoIx', 
@@ -343,9 +342,6 @@ function createOctaneWebClient() {
                 if (!response.success) {
                     throw new Error('Failed ApiNode/pinInfoIx');
                 }
-
-                console.log('before ApiNodePinInfoEx/getApiNodePinInfo', response.data.result.handle);
-
                 // Get the pin info 
                 response = this.makeApiCall(
                     'ApiNodePinInfoEx/getApiNodePinInfo', 
@@ -354,9 +350,9 @@ function createOctaneWebClient() {
                 if (!response.success) {
                     throw new Error('Failed ApiNodePinInfoEx/getApiNodePinInfo');
                 }
-                console.log('pinInfo ', JSON.stringify(response, null, 2));
-                pinInfo = response.data.result;
-*/
+                let pinInfo = response.data.nodePinInfo;
+                pinInfo.parent = itemHandle;
+
                 // will recurse to syncSceneRecurse()
                 this.addSceneItem(sceneItems, connectedNode, pinInfo, level);
             }
@@ -428,9 +424,6 @@ function createOctaneWebClient() {
                     throw new Error('Failed ApiNodeGraph/info1');
                 }
                 graphInfo = response.data.result;
-                if (!this.isSyncing || window.debugConsole.logLevel > 1) {
-                    console.log(`graphInfo = `, JSON.stringify(graphInfo, null, 2));  
-                }
             }
             else {
                 // its a node
@@ -442,9 +435,6 @@ function createOctaneWebClient() {
                     throw new Error('Failed ApiNode/info');
                 }
                 nodeInfo = response.data.result
-                if (!this.isSyncing || window.debugConsole.logLevel > 1) {
-                    console.log(`nodeInfo = `, JSON.stringify(nodeInfo, null, 2));  
-                }
             }
 
         } catch (error) {
@@ -469,17 +459,13 @@ function createOctaneWebClient() {
             } catch (error) {
                 console.error('❌ Failed addSceneItem(): ', error);
             }
-            console.log(`EndNode    ${item.handle} ${itemName} ${outType} ${attrInfo?.type}`);            
+            window.debugConsole.log( `EndNode    ${item.handle} ${itemName} ${outType} ${attrInfo?.type}`);            
         }
         else {
-            console.log(`ParentNode ${item.handle} ${itemName} ${outType} ${pinInfo?.type}`);            
+            window.debugConsole.log( `ParentNode ${item.handle} ${itemName} ${outType} ${pinInfo?.type}`);            
         }
-       
         const icon = window.OctaneIconMapper?.getNodeIcon(outType);
 
-        if (pinInfo) {
-            pinInfo.pinColor = window.OctaneIconMapper?.gePinColor(outType);
-        }
         const entry = {
             name: itemName,
             handle: item.handle,
@@ -914,10 +900,7 @@ function createOctaneWebClient() {
                 }
             }
             request = JSON.stringify(request);
-
-            if (!this.isSyncing || window.debugConsole.logLevel > 1) {
-                console.log(`makeApiCall(): ${servicePath}: `, request);
-            }
+            window.debugConsole.logLevel(!this.isSyncing ? 1:2, `makeApiCall(): ${servicePath}`, request);
             const url = `${this.proxyUrl}/${servicePath}`;
             const xhr = new XMLHttpRequest();
             xhr.open('POST', url, doAsync); // false = synchronous
@@ -927,10 +910,9 @@ function createOctaneWebClient() {
             if (xhr.status !== 200) {
                 throw new Error(`HTTP ${xhr.status}: ${xhr.statusText}`);
             }
-            if (!this.isSyncing || window.debugConsole.logLevel > 1) {
-                console.log(`  response: `, xhr.responseText);
-            }
             const response = JSON.parse(xhr.responseText);
+            window.debugConsole.logLevel(!this.isSyncing ? 1:2, `response`, JSON.stringify(response, null, 2));
+
             return response;
             
         } catch (error) {
