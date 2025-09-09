@@ -312,12 +312,7 @@ Press F1 to show/hide this help.
 Press Ctrl+D to toggle debug console.
         `;
         
-        if (window.debugConsole) {
-            window.debugConsole.addLog('info', [helpText]);
-            window.debugConsole.show();
-        } else {
-            alert(helpText);
-        }
+        alert(helpText);
     }
     
     enable() {

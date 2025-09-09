@@ -156,25 +156,6 @@ class OctaneIconMapper {
     }
     
     /**
-     * Get color for node types
-     * This can be expanded to include color mappings as needed
-     */
-    static gePinColor(outType) {
-        // Color mapping based on node types
-        const colorMap = {
-            'PT_RENDER_TARGET': '#ff6b6b',  // Red for render targets
-            'PT_CAMERA': '#4ecdc4',         // Teal for cameras
-            'PT_LIGHT': '#ffe66d',          // Yellow for lights
-            'PT_MATERIAL': '#a8e6cf',       // Green for materials
-            'PT_MESH': '#ffd93d',           // Gold for meshes
-            'PT_ENVIRONMENT': '#6c5ce7',    // Purple for environments
-            'unknown': '#95a5a6'            // Gray for unknown
-        };
-        
-        return colorMap[outType] || colorMap['unknown'];
-    }
-    
-    /**
      * Get icon for pin groups
      * This will be used for parameter group headers
      */
