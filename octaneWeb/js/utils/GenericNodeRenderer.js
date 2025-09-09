@@ -43,7 +43,7 @@ class GenericNodeRenderer {
      * @param {Object} pinInfo - ApiNodePinInfo data for the node
      * @returns {string} - HTML string for the node inspector
      */
-    renderNode(nodeData, pinInfo = null) {
+    renderNode(nodeData) {
         if (!nodeData) {
             return '<div class="empty-message">No node selected</div>';
         }
@@ -322,16 +322,30 @@ class GenericNodeRenderer {
             break;
         case "AT_FLOAT3":
             value = value.float3_value;
-            controlHtml = `
-                <div class="parameter-control-container">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="0.001" 
-                        data-handle="${nodeData.handle}" data-component="x" data-type="float3_value">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.y}" step="0.001" 
-                        data-handle="${nodeData.handle}" data-component="y" data-type="float3_value">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.z}" step="0.001" 
-                        data-handle="${nodeData.handle}" data-component="z" data-type="float3_value">
-                </div>
-            `;
+            if (nodeData.nodeInfo.type == "NT_TEX_RGB") {
+                const hexColor = this.formatColorValue(value);
+                console.log(`GenericNodeRenderer.renderControl() ${nodeData.name} color: ${hexColor}`);
+
+                controlHtml = `
+                    <div class="parameter-control-container">
+                        <input type="color" class="octane-color-input parameter-control" value="${value}" 
+                            data-handle="${nodeData.handle}" data-type="float3_value" style="background: ${hexColor}; color: ${hexColor};">
+                    </div>
+                `;
+
+            }
+            else {
+                controlHtml = `
+                    <div class="parameter-control-container">
+                        <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="0.001" 
+                            data-handle="${nodeData.handle}" data-component="x" data-type="float3_value">
+                        <input type="number" class="octane-number-input parameter-control" value="${value.y}" step="0.001" 
+                            data-handle="${nodeData.handle}" data-component="y" data-type="float3_value">
+                        <input type="number" class="octane-number-input parameter-control" value="${value.z}" step="0.001" 
+                            data-handle="${nodeData.handle}" data-component="z" data-type="float3_value">
+                    </div>
+                `;
+            }
             break;
             
         case "AT_FLOAT4":
@@ -481,16 +495,15 @@ class GenericNodeRenderer {
      * @returns {string} - Hex color string
      */
     formatColorValue(value) {
-        if (Array.isArray(value) && value.length >= 3) {
-            // RGB array [r, g, b] where values are 0-1
-            const r = Math.round((value[0] || 0) * 255);
-            const g = Math.round((value[1] || 0) * 255);
-            const b = Math.round((value[2] || 0) * 255);
-            return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-        }
+
         if (typeof value === 'string' && value.startsWith('#')) {
             return value;
         }
+        const r = Math.round(((Array.isArray(value) && value.length >= 3 ? value[0] : value.x) || 0) * 255);
+        const g = Math.round(((Array.isArray(value) && value.length >= 3 ? value[1] : value.y) || 0) * 255);
+        const b = Math.round(((Array.isArray(value) && value.length >= 3 ? value[2] : value.z) || 0) * 255);
+        
+        return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
         return '#ffffff'; // Default white
     }
     

@@ -128,42 +128,6 @@ class NodeInspector extends OctaneComponent {
                         }
                     }
                     
-                    // Handle spinner buttons
-                    if (element.classList && element.classList.contains('parameter-spinner-btn')) {
-                        console.log('Coordinate-based spinner button click:', element);
-                        const action = element.getAttribute('data-action');
-                        const paramName = element.getAttribute('data-param');
-                        this.handleSpinnerClick(paramName, action);
-                        event.preventDefault();
-                        event.stopPropagation();
-                        return;
-                    }
-                    
-                    // Handle checkboxes
-                    if (element.classList && element.classList.contains('parameter-checkbox')) {
-                        console.log('Coordinate-based checkbox click:', element);
-                        element.checked = !element.checked;
-                        this.handleParameterChange(element);
-                        event.preventDefault();
-                        event.stopPropagation();
-                        return;
-                    }
-                    
-                    // Handle dropdowns
-                    if (element.classList && element.classList.contains('parameter-dropdown')) {
-                        console.log('Coordinate-based dropdown click:', element);
-                        element.focus();
-                        // Let dropdown handle itself naturally
-                        return;
-                    }
-                    
-                    // Handle number inputs
-                    if (element.classList && element.classList.contains('parameter-number-input')) {
-                        console.log('Coordinate-based number input click:', element);
-                        element.focus();
-                        return;
-                    }
-                    
                     // Handle parameter group headers by checking parent elements
                     let parent = element.parentElement;
                     while (parent && rightPanel.contains(parent)) {

@@ -983,7 +983,7 @@ input:checked + .slider:before {
 }
 
 .parameter-color {
-    width: 24px;
+    width: 72px;
     height: 16px;
     border: 1px solid var(--octane-border);
     border-radius: var(--border-radius);
@@ -992,20 +992,6 @@ input:checked + .slider:before {
     overflow: hidden;
 }
 
-.parameter-color::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, #ccc 25%, transparent 25%), 
-                linear-gradient(-45deg, #ccc 25%, transparent 25%), 
-                linear-gradient(45deg, transparent 75%, #ccc 75%), 
-                linear-gradient(-45deg, transparent 75%, #ccc 75%);
-    background-size: 8px 8px;
-    background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
-}
 
 .parameter-color-swatch {
     position: absolute;
@@ -1820,6 +1806,7 @@ body.drag-over .drop-indicator {
     display: flex;
     flex: 1;
     height: 100%;
+    background: var(--octane-bg-darker);    
 }
 
 /* Vertical Quick Access Buttons (Left Side) - Matching Official Octane Documentation Figure 2 */
@@ -1827,9 +1814,8 @@ body.drag-over .drop-indicator {
     display: flex;
     flex-direction: column;
     gap: 1px;
-    background: var(--octane-bg-secondary);
-    padding: 2px 2px 2px 4px;
-    border-right: 1px solid var(--octane-border);
+    background: var(--octane-bg-darker);
+    padding: 2px 2px 2px 2px;
     width: 26px;
     min-width: 26px;
 }
@@ -2190,9 +2176,7 @@ body.drag-over .drop-indicator {
 .octane-node-inspector {
     height: 100%;
     overflow-y: visible;
-    background: var(--octane-bg-primary);
     font-size: var(--font-size-small);
-    color: var(--octane-text-primary);
 }
 
 .inspector-header {
@@ -2980,8 +2964,10 @@ body.drag-over .drop-indicator {
 .node-inspector .node-box {
     position: relative;
     background: var(--octane-bg-secondary);
-    border: 1px solid var(--octane-border);
-    border-radius: 4px;
+    border-left: 1px solid var(--octane-border);
+    border-top: 1px solid var(--octane-border);
+    border-bottom: 1px solid var(--octane-border);
+    border-radius: 4px; 
     min-height: 12px; /* Increased height for better proportions */
     display: flex;
     align-items: flex-start;
@@ -2990,13 +2976,12 @@ body.drag-over .drop-indicator {
 
 /* Level-based indentation system with consistent 24px increments - ONLY for Node Inspector */
 .node-inspector .node-indent-0 {
-    background-color: var(--octane-bg-secondary);
+    background-color: var(--octane-bg-darker);
+    margin: 2px 0 0 4px;
     border-left: 1px solid var(--octane-border);
     border-right: 1px solid var(--octane-border);
     border-bottom: 1px solid var(--octane-border);
-    border-radius: 4px;    
-    padding: 0 0 0 4px;
-    margin: 2px 0 0 0;
+    border-radius: 4px;      
 }
 
 .node-inspector .node-indent {
@@ -3005,8 +2990,8 @@ body.drag-over .drop-indicator {
     border-right: 1px solid var(--octane-border);
     border-bottom: 1px solid var(--octane-border);
     border-radius: 4px;      
-    padding: 0 0 0 4px;
-    margin: 2px 0 0 20px;
+    padding: 0 0 0 0;
+    margin: 0 0 0 20px;
 }
 
 .node-inspector .node-toggle-content {
@@ -3119,7 +3104,6 @@ body.drag-over .drop-indicator {
 }
 
 .node-inspector .node-parameter-controls .parameter-dropdown:hover {
-    border-color: #666;
 }
 
 .node-inspector .node-parameter-controls .parameter-dropdown:focus {
@@ -3191,25 +3175,39 @@ body.drag-over .drop-indicator {
 .octane-checkbox {
     width: 14px;
     height: 14px;
+    display: block;
     margin: 0;
     cursor: pointer;
     accent-color: var(--octane-accent);
-    display: block;
-    flex-shrink: 0;
+    background: #333;
 }
 
 .octane-number-input {
-    width: 60px;
+    min-width: 72px;
     height: 18px;
     background: #2a2a2a;
     border: 1px solid #444;
     border-radius: 2px;
     color: #e0e0e0;
     font-size: var(--font-size-small);
-    padding: 1px 4px;
+    padding: 1px 8px;
     font-family: var(--font-family-mono);
-    display: block;
-    text-align: right;
+    display: grid;
+    align-items: center;
+}
+
+.octane-color-input {
+    min-width: 72px;
+    height: 18px;
+    background: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 2px;
+    color: #e0e0e0;
+    font-size: var(--font-size-small);
+    padding: 1px 8px;
+    font-family: var(--font-family-mono);
+    display: grid;
+    align-items: center;
 }
 
 .octane-number-input:focus {
@@ -3439,9 +3437,8 @@ body.drag-over .drop-indicator {
 /* Checkbox Controls */
 .parameter-checkbox-container {
     display: flex;
-    align-items: center;
-    cursor: pointer;
     align-items: left;
+    cursor: pointer;
 }
 
 .parameter-checkbox {

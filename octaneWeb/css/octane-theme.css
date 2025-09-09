@@ -256,10 +256,12 @@ html, body {
     gap: 0; /* Ensure no gaps between grid areas */
 }
 
-/* Panel Base Styles */
+/* Panel Base Styles 
+    border-right: 1px solid var(--octane-border);
+
+*/
 .panel {
     background-color: var(--octane-bg-secondary);
-    border-right: 1px solid var(--octane-border);
     display: flex;
     flex-direction: column;
 }
