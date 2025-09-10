@@ -1039,39 +1039,6 @@ html, body {
     font-size: var(--font-size-normal);
 }
 
-.octane-parameter-group {
-    margin-bottom: 2px;
-}
-
-.octane-group-header {
-    background-color: var(--octane-bg-darker);
-    border: 1px solid var(--octane-border);
-    padding: 4px 8px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: var(--font-size-small);
-    color: var(--octane-text-primary);
-}
-
-.octane-group-header:hover {
-    background-color: var(--octane-bg-hover);
-}
-
-.octane-group-icon {
-    font-size: var(--font-size-xs);
-    color: var(--octane-text-secondary);
-}
-
-.octane-group-content {
-    background-color: var(--octane-bg-secondary);
-    border-left: 1px solid var(--octane-border);
-    border-right: 1px solid var(--octane-border);
-    border-bottom: 1px solid var(--octane-border);
-    border-radius: 4px;    
-    padding: 4px;
-}
 
 .node-inspector {
     color: var(--octane-text-primary);

@@ -279,64 +279,6 @@
     font-size: var(--font-size-small);
 }
 
-/* Official Octane-style Parameter Groups - No boxes around headers */
-.parameter-section {
-    margin-bottom: 4px;
-}
-
-.parameter-group-header {
-    display: flex;
-    align-items: center;
-    padding: 2px 0;
-    cursor: pointer;
-    user-select: none;
-    font-size: var(--font-size-small);
-    background: transparent;
-    margin-left: 18px; /* Indent group headers */
-}
-
-.parameter-group-header:hover {
-    background: transparent;
-}
-
-.parameter-group-icon {
-    width: 12px;
-    text-align: center;
-    margin-right: 6px;
-    font-size: var(--font-size-small);
-    color: #ccc;
-    transition: transform 0.2s ease;
-}
-
-.parameter-group-header.collapsed .parameter-group-icon {
-    transform: rotate(-90deg);
-}
-
-.parameter-group-title {
-    flex: 1;
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-bold);
-    color: #fff;
-}
-
-/* Rounded container for expanded parameter content */
-.parameter-group-content {
-    margin-top: 2px;
-    margin-left: 18px; /* Align with group header, not indented further */
-}
-
-/* Official Octane-style Parameter Rows - Compact Layout */
-.parameter-row {
-    display: flex;
-    align-items: center;
-    padding: 2px 0;
-    min-height: 20px;
-}
-
-.parameter-row:last-child {
-    border-bottom: none;
-}
-
 .parameter-icon {
     width: 16px;
     height: 16px;
@@ -777,59 +719,6 @@ input:checked + .slider:before {
 
 .parameter-subsection-dropdown {
     margin-left: auto;
-}
-
-/* Parameter Groups */
-.parameter-group {
-    border-bottom: 1px solid var(--octane-border-subtle);
-}
-
-.parameter-group-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 4px 24px;
-    background-color: var(--octane-bg-primary);
-    cursor: pointer;
-    font-size: var(--font-size-small);
-    color: var(--octane-text-primary);
-    min-height: 24px;
-}
-
-.parameter-group-header:hover {
-    background-color: var(--octane-bg-hover);
-}
-
-.parameter-group-header.collapsed .parameter-group-icon {
-    transform: rotate(-90deg);
-}
-
-.parameter-group-icon {
-    font-size: var(--font-size-tiny);
-    color: var(--octane-text-muted);
-    transition: transform 0.15s ease;
-    width: 8px;
-    text-align: center;
-}
-
-.parameter-group-title {
-    flex: 1;
-    font-weight: var(--font-weight-normal);
-}
-
-.parameter-group-checkbox {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-}
-
-.parameter-group-content {
-    padding: 0;
-    background-color: var(--octane-bg-primary);
-}
-
-.parameter-group-content[style*="display: none"] {
-    display: none !important;
 }
 
 /* Parameter Rows */
@@ -2473,55 +2362,6 @@ body.drag-over .drop-indicator {
     background: var(--octane-accent-hover);
 }
 
-/* Parameter Groups */
-.parameter-group {
-    margin-bottom: 8px;
-    border: 1px solid var(--octane-border);
-    border-radius: 4px;
-    background: var(--octane-bg-primary);
-}
-
-.parameter-group-header {
-    display: flex;
-    align-items: center;
-    padding: 8px 12px;
-    background: var(--octane-bg-secondary);
-    border-bottom: 1px solid var(--octane-border);
-    cursor: pointer;
-    user-select: none;
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-header);
-    color: var(--octane-text-primary);
-}
-
-.parameter-group-header:hover {
-    background: var(--octane-bg-hover);
-}
-
-.parameter-group-header.collapsed {
-    border-bottom: none;
-}
-
-.parameter-group-icon {
-    margin-right: 6px;
-    font-size: var(--font-size-small);
-    color: var(--octane-text-secondary);
-    transition: transform 0.2s ease;
-}
-
-.parameter-group-title {
-    flex: 1;
-}
-
-.parameter-group-count {
-    color: var(--octane-text-tertiary);
-    font-size: var(--font-size-small);
-    margin-left: 8px;
-}
-
-.parameter-group-content {
-    padding: 8px;
-}
 
 /* Parameter Rows */
 .parameter-row {
@@ -2956,11 +2796,52 @@ body.drag-over .drop-indicator {
     color: var(--octane-accent);
 }
 
-/* ===== GENERIC NODE RENDERER STYLES ===== */
-/* Professional hierarchical node inspector with consistent spacing and proper indentation */
-/* IMPORTANT: These styles are ONLY for the Node Inspector, not Scene Outliner */
+/* ===== NODE INSPECTOR ===== */
+.inspector-group-indent {
+    background-color: var(--octane-bg-secondary);
+    padding: 0 0 0 0;
+    margin: 0 0 0 20px;    
+}
 
-/* Node box base styles - ONLY for Node Inspector */
+.inspector-group {
+    background-color: var(--octane-bg-secondary);
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;    
+}
+
+.inspector-group-header {
+    background: var(--octane-bg-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+}
+
+.inspector-group-header:hover {
+    background-color: var(--octane-bg-hover);
+}
+
+.inspector-group-icon {
+    font-size: var(--font-size-xs);
+    color: var(--octane-text-secondary);
+}
+
+.inspector-group-label {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Increased gap between elements */
+    cursor: pointer;
+    user-select: none;
+    width: 100%;
+    min-height: 20px;
+}
+
+.inspector-group-content {
+    background-color: var(--octane-bg-secondary);
+}
+
 .node-inspector .node-box {
     position: relative;
     background: var(--octane-bg-secondary);
@@ -2991,7 +2872,7 @@ body.drag-over .drop-indicator {
     border-bottom: 1px solid var(--octane-border);
     border-radius: 4px;      
     padding: 0 0 0 0;
-    margin: 0 0 0 20px;
+    margin: 0 0 0 20px;   
 }
 
 .node-inspector .node-toggle-content {

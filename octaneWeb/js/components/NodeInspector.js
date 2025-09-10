@@ -172,7 +172,7 @@ class NodeInspector extends OctaneComponent {
     toggleGroup(groupName) {
         const header = this.element.querySelector(`[data-group="${groupName}"]`);
         const content = this.element.querySelector(`[data-group-content="${groupName}"]`);
-        const icon = header?.querySelector('.parameter-group-icon');
+        const icon = header?.querySelector('.inspector-group-icon');
         
         if (header && content && icon) {
             if (content.style.display === 'none') {

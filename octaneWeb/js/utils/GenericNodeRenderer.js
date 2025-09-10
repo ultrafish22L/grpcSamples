@@ -34,7 +34,7 @@ class GenericNodeRenderer {
         this.expandedGroups = new Set(); // Track expanded/collapsed state
         this.expandedNodes = new Set();  // Track expanded nodes
         this.allNodesExpandedByDefault = true; // All nodes expanded by default
-        this.lastGroup = null;
+        this.lastGroup = [];
     }
     
     /**
@@ -47,10 +47,6 @@ class GenericNodeRenderer {
         if (!nodeData) {
             return '<div class="empty-message">No node selected</div>';
         }
-//        console.log(`GenericNodeRenderer.renderNode() ${nodeData.name} ${nodeData.outType}`);
-        
-        this.lastGroup = null;
-
         return this.renderNodeAtLevel(nodeData, 0);        
     }
     
@@ -80,41 +76,46 @@ class GenericNodeRenderer {
             collapseIcon = isExpanded ? '▼' : '▶'
         }
 
-        const indent = level == 0 ? "node-indent-0" : "node-indent";
+        // start this node
         let html = "";
-        html += `<div class="${indent}" style="display:'block'}">`;
-        
-/*            
-        let groupName = null;
-        if (nodeData.pinInfo && nodeData.pinInfo.groupName) {
-            groupName = nodeData.pinInfo.groupName;
+        let groupName = nodeData.pinInfo?.groupName;
+//        console.log(`  GROUP "${groupName}" ${nodeData.name} ${level}`);
+       
+        // parameter groups
+        const lgroup = this.lastGroup[level];
+        let groupclass = "inspector-group";
+
+        if (!lgroup && groupName) {
+            // first group for this level
+//            this.lastGroup[level] = groupName;
+            console.log(` top GROUP "${groupName}" for ${level}`);
+            groupclass = "inspector-group-indent";
         }
-        if (groupName != this.lastGroup) {
-            if (this.lastGroup != null) {
-                // end last group
-                this.lastGroup = null;
+        if (groupName && groupName != lgroup) {
+            // change group
+            console.log(` new GROUP "${groupName}" was ${lgroup} for ${level}`);
+            if (lgroup) {
+                // end last group for this level
                 html += `</div>`;
-            }  
-            if (groupName != null) {
-                console.log(`renderNodeAtLevel: GROUP "${groupName}"`);
-
-                // Check if expanded: default to true if allNodesExpandedByDefault, otherwise check set
-                const isExpanded = this.allNodesExpandedByDefault ? 
-                    !this.expandedNodes.has(`collapsed-${groupName}`) : 
-                    this.expandedNodes.has(groupName);
-                const collapseIcon = isExpanded ? '▼' : '▶';
-
-                html += `<div class="octane-parameter-group">
-                            <div class="octane-group-header ${isExpanded ? 'expanded' : 'collapsed'}" data-group="${groupName}">
-                                <span class="octane-group-icon">${collapseIcon}</span>
-                                <span class="octane-group-title">${groupName}</span>
-                            </div>
-                            <div class="octane-group-content" data-group-content="${groupName}" style="display: ${isExpanded ? 'block' : 'none'}">`;
-                this.lastGroup = groupName;
             }
-        }
-*/
+            this.lastGroup[level] = groupName;
 
+            // Check if expanded: default to true if allNodesExpandedByDefault, otherwise check set
+            const isExpanded = this.allNodesExpandedByDefault ? 
+                !this.expandedNodes.has(`collapsed-${groupName}`) : 
+                this.expandedNodes.has(groupName);
+            const collapseIcon = isExpanded ? '▼' : '▶';
+
+            html += `<div class="${groupclass}">
+                        <div class="inspector-group-header ${isExpanded ? 'expanded' : 'collapsed'}" data-group="${groupName}">
+                            <span class="inspector-group-icon">${collapseIcon}</span>
+                            <span class="inspector-group-label">${groupName}</span>
+                        </div>
+                        <div class="inspector-group-content" data-group-content="${groupName}" style="display: ${isExpanded ? 'block' : 'none'}">`;
+        }
+        const indent = level == 0 || this.lastGroup[level] ? "node-indent-0" : "node-indent";
+        html += `<div class="${indent}" style="display:'block'}">`;
+           
         if (nodeData.attrInfo?.type == null) {
             html += `<div class="node-box" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
                         <div class="node-icon-box" style="background-color: ${color}">
@@ -137,29 +138,30 @@ class GenericNodeRenderer {
                             <div class="node-label" ${hasChildren ? `data-toggle="${nodeId}"` : ''}>
                                 ${collapseIcon ? `<span class="collapse-icon">${collapseIcon}</span>` : ''}
                                 <span class="node-title">${nodeData.name}</span>
-                                ${this.renderNodeParameters(nodeData)}
+                                ${this.renderNodeParameter(nodeData)}
                             </div>
                         </div>
                     </div>`;
         }        
         html += `<div class="node-toggle-content" data-toggle-content="${nodeId}" style="display: ${isExpanded ? 'block' : 'none'}">`;
 
-//        html += `<div class="node-data-content="${nodeId}" style="display:${isExpanded ? 'block' : 'none'}">`;
-
         for (const child of nodeData.children) {
             html += this.renderNodeAtLevel(child, level+1);
         }
-        if (level == 0 && this.lastGroup != null) {
-            // end last group
-            this.lastGroup = null;
-            html += `</div>`;
-        }            
-        // node-data-content
+        // node-toggle-content
         html += `</div>`;
 
         // end this node
         html += `</div>`;
 
+        // end last parameter group for children
+        const lcg = this.lastGroup[level+1];
+        if (lcg) {
+            console.log(` pop GROUP "${lcg}"`);
+            html += `</div>`;
+            this.lastGroup[level+1] = null;
+        } 
+        
         return html;
     }
     
@@ -168,9 +170,9 @@ class GenericNodeRenderer {
      * @param {Object} nodeData - Node data
      * @returns {string} - HTML for node parameters
      */
-    renderNodeParameters(nodeData) {
+    renderNodeParameter(nodeData) {
 
-//        console.log(`GenericNodeRenderer.renderNodeParameters() ${nodeData.name} ${nodeData.outType}`);
+//        console.log(`GenericNodeRenderer.renderNodeParameter() ${nodeData.name} ${nodeData.outType}`);
 
         // For Camera nodes, render the camera type dropdown
         if (nodeData.outType === 'NT_CAMERA' || nodeData.name === 'Camera') {
@@ -259,7 +261,7 @@ class GenericNodeRenderer {
             console.log(`GenericNodeRenderer.renderControl() nodeData.attrInfo == null`);
             return null
         }
-        console.log(`GenericNodeRenderer.renderControl() ${nodeData.name} type: ${nodeData.attrInfo?.type}`);
+//        console.log(`GenericNodeRenderer.renderControl() ${nodeData.name} type: ${nodeData.attrInfo?.type}`);
 
         const index = nodeData.pinInfo.index;
         let type = nodeData.attrInfo.type;
