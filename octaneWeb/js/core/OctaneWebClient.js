@@ -403,7 +403,7 @@ function createOctaneWebClient() {
             outType = response.data.result;
 
             if (pinInfo != null && pinInfo.staticLabel != "") {
-                itemName = pinInfo.staticLabel;
+//                itemName = pinInfo.staticLabel;
             }
             // is it a graph or node?
             response = this.makeApiCall(

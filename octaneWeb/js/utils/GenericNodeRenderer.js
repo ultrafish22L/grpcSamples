@@ -35,6 +35,7 @@ class GenericNodeRenderer {
         this.expandedNodes = new Set();  // Track expanded nodes
         this.allNodesExpandedByDefault = true; // All nodes expanded by default
         this.lastGroup = [];
+        this.doGroups = true;
     }
     
     /**
@@ -56,66 +57,73 @@ class GenericNodeRenderer {
      * @param {number} level - Indentation level
      * @returns {string} - HTML for the node
      */
-    renderNodeAtLevel(nodeData, level) {
+    renderNodeAtLevel(nodeData, level, childindex) {
         // Use inspector-specific color/icon if available, otherwise fall back to iconMapper
         const icon =  nodeData.icon;
         const color = window.OctaneIconMapper.formatColorValue(nodeData.nodeInfo?.nodeColor) || '#666';
         const hasChildren = nodeData.children && nodeData.children.length > 0;
         const nodeId = `node-${nodeData.handle}`;
-        
-//        console.log(`GenericNodeRenderer.renderNodeAtLevel() ${nodeData.name} ${nodeData.outType}`);
 
         // Check if expanded: default to true if allNodesExpandedByDefault, otherwise check set
         const isExpanded = this.allNodesExpandedByDefault && level < 2 ? 
             !this.expandedNodes.has(`collapsed-${nodeId}`) : 
             this.expandedNodes.has(nodeId);
         
+        // start this node
+        let html = "";
+        let indentclass = level == 0 ? "node-indent-0" : "node-indent";
+
+        const name = nodeData.pinInfo?.staticLabel || nodeData.name;
+        console.log(` NODE ${name} ${level}  ${childindex}`);
+
+        // parameter groups
+        if (this.doGroups) {
+            const lgroup = this.lastGroup[level];
+            let groupName = nodeData.pinInfo?.groupName;
+
+            let groupclass = "inspector-group";
+
+            if (childindex === 0 && groupName) {
+                // first group for this level
+                groupclass = "inspector-group-indent";
+                indentclass = "node-indent-done";
+            }
+            if (groupName != lgroup) {
+                // change group
+                console.log(` new GROUP "${groupName}" was ${lgroup} for ${level}`);
+                if (lgroup) {
+                    // end last group for this level
+                    html += `</div>`;
+                }
+                this.lastGroup[level] = groupName;
+
+                // Check if expanded: default to true if allNodesExpandedByDefault, otherwise check set
+                const isExpanded = this.allNodesExpandedByDefault ? 
+                    !this.expandedNodes.has(`collapsed-${groupName}`) : 
+                    this.expandedNodes.has(groupName);
+                const collapseIcon = isExpanded ? '▼' : '▶';
+
+                if (true || groupName) {
+                    html += `<div class="${groupclass}">
+                                <div class="inspector-group-header ${isExpanded ? 'expanded' : 'collapsed'}" data-group="${groupName}">
+                                    <span class="inspector-group-icon">${collapseIcon}</span>
+                                    <span class="inspector-group-label">${groupName}</span>
+                                </div>
+                                <div class="inspector-group-content" data-group-content="${groupName}" style="display: ${isExpanded ? 'block' : 'none'}">`;
+                }
+                else {
+                    html += `<div class="${groupclass}">
+                                <div class="inspector-group-content">`;
+                }
+            }
+        }
+        html += `<div class="${indentclass}" style="display:'block'}">`;
+           
         // Determine collapse/expand icon
         let collapseIcon = '';
         if (hasChildren && level > 0) {
             collapseIcon = isExpanded ? '▼' : '▶'
-        }
-
-        // start this node
-        let html = "";
-        let groupName = nodeData.pinInfo?.groupName;
-//        console.log(`  GROUP "${groupName}" ${nodeData.name} ${level}`);
-       
-        // parameter groups
-        const lgroup = this.lastGroup[level];
-        let groupclass = "inspector-group";
-
-        if (!lgroup && groupName) {
-            // first group for this level
-//            this.lastGroup[level] = groupName;
-            console.log(` top GROUP "${groupName}" for ${level}`);
-            groupclass = "inspector-group-indent";
-        }
-        if (groupName && groupName != lgroup) {
-            // change group
-            console.log(` new GROUP "${groupName}" was ${lgroup} for ${level}`);
-            if (lgroup) {
-                // end last group for this level
-                html += `</div>`;
-            }
-            this.lastGroup[level] = groupName;
-
-            // Check if expanded: default to true if allNodesExpandedByDefault, otherwise check set
-            const isExpanded = this.allNodesExpandedByDefault ? 
-                !this.expandedNodes.has(`collapsed-${groupName}`) : 
-                this.expandedNodes.has(groupName);
-            const collapseIcon = isExpanded ? '▼' : '▶';
-
-            html += `<div class="${groupclass}">
-                        <div class="inspector-group-header ${isExpanded ? 'expanded' : 'collapsed'}" data-group="${groupName}">
-                            <span class="inspector-group-icon">${collapseIcon}</span>
-                            <span class="inspector-group-label">${groupName}</span>
-                        </div>
-                        <div class="inspector-group-content" data-group-content="${groupName}" style="display: ${isExpanded ? 'block' : 'none'}">`;
-        }
-        const indent = level == 0 || this.lastGroup[level] ? "node-indent-0" : "node-indent";
-        html += `<div class="${indent}" style="display:'block'}">`;
-           
+        }        
         if (nodeData.attrInfo?.type == null) {
             html += `<div class="node-box" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
                         <div class="node-icon-box" style="background-color: ${color}">
@@ -124,7 +132,7 @@ class GenericNodeRenderer {
                         <div class="node-content">
                             <div class="node-label" ${hasChildren ? `data-toggle="${nodeId}"` : ''}>
                                 ${collapseIcon ? `<span class="collapse-icon">${collapseIcon}</span>` : ''}
-                                <span class="node-title">${nodeData.name}</span>
+                                <span class="node-title">${name}</span>
                             </div>
                         </div>
                     </div>`;
@@ -137,31 +145,36 @@ class GenericNodeRenderer {
                         <div class="node-content">
                             <div class="node-label" ${hasChildren ? `data-toggle="${nodeId}"` : ''}>
                                 ${collapseIcon ? `<span class="collapse-icon">${collapseIcon}</span>` : ''}
-                                <span class="node-title">${nodeData.name}</span>
+                                <span class="node-title">${name}</span>
                                 ${this.renderNodeParameter(nodeData)}
                             </div>
                         </div>
                     </div>`;
         }        
-        html += `<div class="node-toggle-content" data-toggle-content="${nodeId}" style="display: ${isExpanded ? 'block' : 'none'}">`;
-
-        for (const child of nodeData.children) {
-            html += this.renderNodeAtLevel(child, level+1);
-        }
-        // node-toggle-content
-        html += `</div>`;
-
-        // end this node
-        html += `</div>`;
-
-        // end last parameter group for children
-        const lcg = this.lastGroup[level+1];
-        if (lcg) {
-            console.log(` pop GROUP "${lcg}"`);
-            html += `</div>`;
+        if (hasChildren) {
             this.lastGroup[level+1] = null;
-        } 
-        
+
+            html += `<div class="node-toggle-content" data-toggle-content="${nodeId}" style="display: ${isExpanded ? 'block' : 'none'}">`;
+
+            let index = 0;
+            for (const child of nodeData.children) {
+                html += this.renderNodeAtLevel(child, level+1, index++);
+            }
+            if (this.doGroups) {        
+                // end last parameter group for children
+                const lcg = this.lastGroup[level+1];
+                if (lcg) {
+                    console.log(`GROUP  POP ${lcg} ${level+1}`);
+                    html += `</div>`;
+                    this.lastGroup[level+1] = null;
+                } 
+            }
+            // node-toggle-content
+            html += `</div>`;
+        }
+        // <div class="${indentclass}"
+        html += `</div>`;
+
         return html;
     }
     

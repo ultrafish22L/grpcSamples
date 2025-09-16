@@ -658,11 +658,6 @@ class NodeGraphEditor extends OctaneComponent {
         let hoveredSocket = null;
         const hoverRadius = 8; // Slightly larger than socket radius for easier hovering
         
-        // Debug: log mouse position occasionally
-        if (Math.random() < 0.01) { // 1% chance to avoid spam
-            console.log('Mouse at:', mouseX, mouseY, 'nodes:', this.nodes.size);
-        }
-        
         // Check all nodes for socket hover
         this.nodes.forEach(node => {
             // Check input sockets (on top)

@@ -39,7 +39,9 @@ class NodeInspector extends OctaneComponent {
         
         // UI state management
         this.sceneDataLoaded = false;        // Scene data loading state
-        
+        this.collapsedGroups = new Set(); // Track expanded/collapsed state
+        this.collapsedNodes = new Set();  // Track expanded nodes
+
         // Generic node rendering system for flexible parameter display
         this.genericRenderer = null;         // Initialized in onInitialize()
         this.nodeHtmlMap = new Map();
@@ -81,9 +83,42 @@ class NodeInspector extends OctaneComponent {
         if (!rightPanel) return;
 
         console.log('Setting up coordinate-based click detection system');
+        //
+
+        // Handle expand/collapse clicks
+        rightPanel.addEventListener('click', (event) => {
+
+            // Get click coordinates
+            const x = event.clientX;
+            const y = event.clientY;
+            console.log('click detected in right panel at:', x, y);
+
+            let element = event.target.closest('[data-toggle]');
+            if (element) {
+                const nodeid = element.getAttribute('data-toggle');
+                console.log('Coordinate-based toggle of parameter parent:', nodeid);
+                this.toggleParent(nodeid);
+
+                event.preventDefault();
+                event.stopPropagation();
+                return;
+            }
+            element = event.target.closest('[data-group]');
+            if (element) {
+                const nodeid = element.getAttribute('data-group');
+                console.log('Coordinate-based toggle of parameter group:', nodeid);
+                this.toggleGroup(nodeid);
+
+                event.preventDefault();
+                event.stopPropagation();
+                return;
+            }
+        });
+
+        return;
 
         // Global document click handler that intercepts ALL clicks
-        document.addEventListener('click', (event) => {
+        rightPanel.addEventListener('click', (event) => {
             // Get click coordinates
             const x = event.clientX;
             const y = event.clientY;
@@ -106,7 +141,6 @@ class NodeInspector extends OctaneComponent {
                     // Skip elements that are not in the right panel
                     if (!rightPanel.contains(element)) continue;
 
-//                    console.log('Element:', `${element.tagName}.${element.className} [bid=${element.getAttribute('bid')}]`);
                     
                     // Handle parameter group headers (expand/collapse)
                     if (element.hasAttribute) {
@@ -152,7 +186,8 @@ class NodeInspector extends OctaneComponent {
         const content = this.element.querySelector(`[data-toggle-content="${nodeid}"]`);
         const icon = header?.querySelector('.collapse-icon');
 
-        console.log('toggleParent: ', this.element);
+        console.log('toggleParent:', nodeid);
+//        console.log('toggleParent:', `${this.element.tagName}.${this.element.className} [bid=${this.element.getAttribute('bid')}]`);
         
         if (header && content && icon) {
             if (content.style.display === 'none') {
@@ -174,16 +209,19 @@ class NodeInspector extends OctaneComponent {
         const content = this.element.querySelector(`[data-group-content="${groupName}"]`);
         const icon = header?.querySelector('.inspector-group-icon');
         
+        console.log('toggleGroup:', groupName);
+//        console.log('toggleGroup:', `${element.tagName}.${element.className} [bid=${element.getAttribute('bid')}]`);
+
         if (header && content && icon) {
             if (content.style.display === 'none') {
                 // Expand
-                header.classList.remove('collapsed');
+//                header.classList.remove('collapsed');
                 content.style.display = 'block';
                 icon.textContent = '▼';
                 this.collapsedGroups.delete(groupName);
             } else {
                 // Collapse
-                header.classList.add('collapsed');
+//                header.classList.add('collapsed');
                 content.style.display = 'none';
                 icon.textContent = '▶';
                 this.collapsedGroups.add(groupName);
@@ -194,6 +232,7 @@ class NodeInspector extends OctaneComponent {
 
     
     setupControlEventListeners() {
+/*        
         // Group collapse/expand functionality
         const groupHeaders = this.element.querySelectorAll('.parameter-group-header[data-group]');
         groupHeaders.forEach(header => {
@@ -213,7 +252,7 @@ class NodeInspector extends OctaneComponent {
                 }
             });
         });
-        
+  */      
         // Parameter input change handlers
         const numberInputs = this.element.querySelectorAll('.parameter-number-input');
         numberInputs.forEach(input => {
@@ -249,12 +288,6 @@ class NodeInspector extends OctaneComponent {
                 console.log('.parameter-control change:', e.target.dataset.parameter, e.target.value);
                 this.handleParameterChange(e.target);
             });
-/*
-            this.addEventListener(control, 'input', (e) => {
-                console.log('.parameter-control input:', e.target.dataset.parameter, e.target.value);
-                this.handleParameterChange(e.target);
-            });
-*/
         });
     }
 
@@ -328,7 +361,7 @@ class NodeInspector extends OctaneComponent {
         const inspectorContainer = document.getElementById('node-inspector');
         if (inspectorContainer) {
             inspectorContainer.innerHTML = html;
-            this.genericRenderer.setupEventHandlers(inspectorContainer);
+//            this.genericRenderer.setupEventHandlers(inspectorContainer);
         } else {
             console.error('❌ Failed NodeInspector.renderNodesRecurse()');
         }
