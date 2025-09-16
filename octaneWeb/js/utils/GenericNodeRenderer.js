@@ -35,7 +35,7 @@ class GenericNodeRenderer {
         this.expandedNodes = new Set();  // Track expanded nodes
         this.allNodesExpandedByDefault = true; // All nodes expanded by default
         this.lastGroup = [];
-        this.doGroups = true;
+        this.doGroups = false;
     }
     
     /**
@@ -79,15 +79,18 @@ class GenericNodeRenderer {
         // parameter groups
         if (this.doGroups) {
             const lgroup = this.lastGroup[level];
-            let groupName = nodeData.pinInfo?.groupName;
-
             let groupclass = "inspector-group";
+            let groupName = nodeData.pinInfo?.groupName;
+            this.lastGroup[level] = groupName;
 
-            if (childindex === 0 && groupName) {
+            if (groupName && childindex == 0) {
                 // first group for this level
                 groupclass = "inspector-group-indent";
+            }
+            else if (childindex > 0) {
                 indentclass = "node-indent-done";
             }
+
             if (groupName != lgroup) {
                 // change group
                 console.log(` new GROUP "${groupName}" was ${lgroup} for ${level}`);
@@ -95,7 +98,6 @@ class GenericNodeRenderer {
                     // end last group for this level
                     html += `</div>`;
                 }
-                this.lastGroup[level] = groupName;
 
                 // Check if expanded: default to true if allNodesExpandedByDefault, otherwise check set
                 const isExpanded = this.allNodesExpandedByDefault ? 
@@ -103,7 +105,7 @@ class GenericNodeRenderer {
                     this.expandedNodes.has(groupName);
                 const collapseIcon = isExpanded ? '▼' : '▶';
 
-                if (true || groupName) {
+                if (groupName) {
                     html += `<div class="${groupclass}">
                                 <div class="inspector-group-header ${isExpanded ? 'expanded' : 'collapsed'}" data-group="${groupName}">
                                     <span class="inspector-group-icon">${collapseIcon}</span>
@@ -163,11 +165,9 @@ class GenericNodeRenderer {
             if (this.doGroups) {        
                 // end last parameter group for children
                 const lcg = this.lastGroup[level+1];
-                if (lcg) {
-                    console.log(`GROUP  POP ${lcg} ${level+1}`);
-                    html += `</div>`;
-                    this.lastGroup[level+1] = null;
-                } 
+                console.log(`GROUP  POP ${lcg} ${level+1}`);
+                html += `</div>`;
+                this.lastGroup[level+1] = null;
             }
             // node-toggle-content
             html += `</div>`;
