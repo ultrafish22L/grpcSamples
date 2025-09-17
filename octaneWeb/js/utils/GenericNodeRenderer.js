@@ -58,7 +58,7 @@ class GenericNodeRenderer {
      * @param {number} level - Indentation level
      * @returns {string} - HTML for the node
      */
-    renderNodeAtLevel(nodeData, level, childindex) {
+    renderNodeAtLevel(nodeData, level) {
         // Use inspector-specific color/icon if available, otherwise fall back to iconMapper
         const icon =  nodeData.icon;
         const color = window.OctaneIconMapper.formatColorValue(nodeData.nodeInfo?.nodeColor) || '#666';
@@ -72,49 +72,43 @@ class GenericNodeRenderer {
         
         // start this node
         let html = "";
-        let indentclass = level == 0 ? "node-indent-0" : "node-indent";
-        const name = nodeData.pinInfo?.staticLabel || nodeData.name;
 
         // parameter groups
         let groupName = nodeData.pinInfo?.groupName;
-        if (groupName == 'undefined') {
+        if (groupName == undefined) {
             groupName = null
         }
         if (this.doGroups) {
             const lgroup = this.lastGroup[level];
             let groupclass = "inspector-group";
 
-            if (groupName && !lgroup) {
+            if (groupName && !lgroup && !this.hasGroup[level]) {
                 // first group for this level
                 groupclass = "inspector-group-indent";
                 this.hasGroup[level] = true;
             }
             else if (groupName) {
-                indentclass = "node-indent-done";
                 this.hasGroup[level] = true;
-            }
-            else if (this.hasGroup[level])
-            {
-                indentclass = "node-indent-done";
             }
             this.lastGroup[level] = groupName;
 
 //            if (groupName && groupName != lgroup) {
             if (groupName != lgroup) {
                 // change group
-                window.debugConsole.logIndent(level,  `GROUP ${groupName} ${level} ${groupclass}`);
                 if (lgroup) {
                     // end last group for this level
                     html += `</div>`;
                     window.debugConsole.logIndent(level,  `POP G  ${lgroup} ${level}`);
                 }
-                // Check if expanded: default to true if allNodesExpandedByDefault, otherwise check set
-                const isExpanded = this.allNodesExpandedByDefault ? 
-                    !this.expandedNodes.has(`collapsed-${groupName}`) : 
-                    this.expandedNodes.has(groupName);
-                const collapseIcon = isExpanded ? '▼' : '▶';
-
                 if (groupName) {
+                    window.debugConsole.logIndent(level,  `PUSH G ${groupName} ${level} ${groupclass}`);
+
+                    // Check if expanded: default to true if allNodesExpandedByDefault, otherwise check set
+                    const isExpanded = this.allNodesExpandedByDefault ? 
+                        !this.expandedNodes.has(`collapsed-${groupName}`) : 
+                        this.expandedNodes.has(groupName);
+                    const collapseIcon = isExpanded ? '▼' : '▶';
+
                     html += `<div class="${groupclass}">
                                 <div class="inspector-group-header ${isExpanded ? 'expanded' : 'collapsed'}" data-group="${groupName}">
                                     <span class="inspector-group-icon">${collapseIcon}</span>
@@ -126,17 +120,20 @@ class GenericNodeRenderer {
                 else if (lgroup) {
                     html += `<div class="${groupclass}">
                                 <div class="inspector-group-header">
+                                    <span class="inspector-group-label"> </span>
                                 </div>
                                 <div class="inspector-group-content">`;
+                    html += `</div>`;
                     window.debugConsole.logIndent(level,  `LGROUP ${lgroup}`);
-                }
-                else {
-                    html += `<div class="${groupclass}">
-                                <div class="inspector-group-content">`;
-                    window.debugConsole.logIndent(level,  `NOGROUP`);
                 }
             }
         }
+        let indentclass = level == 0 ? "node-indent-0" : "node-indent";
+        if (this.hasGroup[level])
+        {
+            indentclass = "node-indent-done";
+        }
+        const name = nodeData.pinInfo?.staticLabel || nodeData.name;
         window.debugConsole.logIndent(level, `NODE  ${name} ${level} ${indentclass}  group ${groupName}`);
         html += `<div class="${indentclass}" style="display:'block'}">`;
            
@@ -173,29 +170,31 @@ class GenericNodeRenderer {
                     </div>`;
         }        
         if (hasChildren) {
-            this.lastGroup[level+1] = null;
+//            this.lastGroup[level+1] = null;
 
             html += `<div class="node-toggle-content" data-toggle-content="${nodeId}" style="display: ${isExpanded ? 'block' : 'none'}">`;
 
-            let index = 0;
             for (const child of nodeData.children) {
-                html += this.renderNodeAtLevel(child, level+1, index);
-                index += 1;
-            }
-            if (this.doGroups) {        
-                // end last parameter group for children
-                const lcg = this.lastGroup[level+1];
-                window.debugConsole.logIndent(level+1,  `POP G  ${lcg} ${level+1}`);
-                html += `</div>`;
-                this.lastGroup[level+1] = null;
-                this.hasGroup[level] = true;
+                html += this.renderNodeAtLevel(child, level+1);
             }
             // node-toggle-content
             html += `</div>`;
+
+            if (this.doGroups) {        
+                // end last parameter group for children
+                const lcg = this.lastGroup[level+1];
+                if (this.hasGroup[level+1]) {
+                    window.debugConsole.logIndent(level+1,  `POP GDONE  ${lcg} ${level+1}`);
+                    html += `</div>`;
+                    html += `</div>`;
+                    this.lastGroup[level+1] = null;
+                    this.hasGroup[level+1] = false;
+                }
+            }
         }
         // <div class="${indentclass}"
         html += `</div>`;
-        window.debugConsole.logIndent(level,  `POP N  ${name} ${level}`);
+        window.debugConsole.logIndent(level, `PNODE ${name} ${level} ${indentclass}  group ${groupName}`);
 
         return html;
     }
