@@ -37,7 +37,7 @@ class DebugConsole {
         this.dragTarget = null;
         this.lastMousePos = { x: 0, y: 0 };
         this.eventListeners = [];
-        this.theLogLevel = 1;
+        this.theLogLevel = 0;
 
         // Store original console methods
         this.originalLog = console.log;
@@ -230,6 +230,11 @@ class DebugConsole {
         if (this.theLogLevel >= level) {
             this.addLog(type, message);
         }
+    }
+
+    logIndent(indent, message) {
+        const indents = "  ".repeat(indent) + message; // 2 spaces per level
+        this.addLog("info", indents);
     }
 
     addLog(type, message) {

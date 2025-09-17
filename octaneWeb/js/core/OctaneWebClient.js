@@ -900,7 +900,7 @@ function createOctaneWebClient() {
                 }
             }
             request = JSON.stringify(request);
-            window.debugConsole.logLevel(!this.isSyncing ? 1:2, `makeApiCall(): ${servicePath}`, request);
+            window.debugConsole.logLevel(!this.isSyncing ? 2:1, `makeApiCall(): ${servicePath}`, request);
             const url = `${this.proxyUrl}/${servicePath}`;
             const xhr = new XMLHttpRequest();
             xhr.open('POST', url, doAsync); // false = synchronous
@@ -911,7 +911,7 @@ function createOctaneWebClient() {
                 throw new Error(`HTTP ${xhr.status}: ${xhr.statusText}`);
             }
             const response = JSON.parse(xhr.responseText);
-            window.debugConsole.logLevel(!this.isSyncing ? 1:2, `response`, JSON.stringify(response, null, 2));
+            window.debugConsole.logLevel(!this.isSyncing ? 2:1, `response`, JSON.stringify(response, null, 2));
 
             return response;
             

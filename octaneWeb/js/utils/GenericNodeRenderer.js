@@ -35,7 +35,8 @@ class GenericNodeRenderer {
         this.expandedNodes = new Set();  // Track expanded nodes
         this.allNodesExpandedByDefault = true; // All nodes expanded by default
         this.lastGroup = [];
-        this.doGroups = false;
+        this.hasGroup = [];
+        this.doGroups = true;
     }
     
     /**
@@ -72,33 +73,41 @@ class GenericNodeRenderer {
         // start this node
         let html = "";
         let indentclass = level == 0 ? "node-indent-0" : "node-indent";
-
         const name = nodeData.pinInfo?.staticLabel || nodeData.name;
-        console.log(` NODE ${name} ${level}  ${childindex}`);
 
         // parameter groups
+        let groupName = nodeData.pinInfo?.groupName;
+        if (groupName == 'undefined') {
+            groupName = null
+        }
         if (this.doGroups) {
             const lgroup = this.lastGroup[level];
             let groupclass = "inspector-group";
-            let groupName = nodeData.pinInfo?.groupName;
-            this.lastGroup[level] = groupName;
 
-            if (groupName && childindex == 0) {
+            if (groupName && !lgroup) {
                 // first group for this level
                 groupclass = "inspector-group-indent";
+                this.hasGroup[level] = true;
             }
-            else if (childindex > 0) {
+            else if (groupName) {
+                indentclass = "node-indent-done";
+                this.hasGroup[level] = true;
+            }
+            else if (this.hasGroup[level])
+            {
                 indentclass = "node-indent-done";
             }
+            this.lastGroup[level] = groupName;
 
+//            if (groupName && groupName != lgroup) {
             if (groupName != lgroup) {
                 // change group
-                console.log(` new GROUP "${groupName}" was ${lgroup} for ${level}`);
+                window.debugConsole.logIndent(level,  `GROUP ${groupName} ${level} ${groupclass}`);
                 if (lgroup) {
                     // end last group for this level
                     html += `</div>`;
+                    window.debugConsole.logIndent(level,  `POP G  ${lgroup} ${level}`);
                 }
-
                 // Check if expanded: default to true if allNodesExpandedByDefault, otherwise check set
                 const isExpanded = this.allNodesExpandedByDefault ? 
                     !this.expandedNodes.has(`collapsed-${groupName}`) : 
@@ -112,13 +121,23 @@ class GenericNodeRenderer {
                                     <span class="inspector-group-label">${groupName}</span>
                                 </div>
                                 <div class="inspector-group-content" data-group-content="${groupName}" style="display: ${isExpanded ? 'block' : 'none'}">`;
+                    window.debugConsole.logIndent(level,  `GROUP ${groupName}`);
+                }
+                else if (lgroup) {
+                    html += `<div class="${groupclass}">
+                                <div class="inspector-group-header">
+                                </div>
+                                <div class="inspector-group-content">`;
+                    window.debugConsole.logIndent(level,  `LGROUP ${lgroup}`);
                 }
                 else {
                     html += `<div class="${groupclass}">
                                 <div class="inspector-group-content">`;
+                    window.debugConsole.logIndent(level,  `NOGROUP`);
                 }
             }
         }
+        window.debugConsole.logIndent(level, `NODE  ${name} ${level} ${indentclass}  group ${groupName}`);
         html += `<div class="${indentclass}" style="display:'block'}">`;
            
         // Determine collapse/expand icon
@@ -160,20 +179,23 @@ class GenericNodeRenderer {
 
             let index = 0;
             for (const child of nodeData.children) {
-                html += this.renderNodeAtLevel(child, level+1, index++);
+                html += this.renderNodeAtLevel(child, level+1, index);
+                index += 1;
             }
             if (this.doGroups) {        
                 // end last parameter group for children
                 const lcg = this.lastGroup[level+1];
-                console.log(`GROUP  POP ${lcg} ${level+1}`);
+                window.debugConsole.logIndent(level+1,  `POP G  ${lcg} ${level+1}`);
                 html += `</div>`;
                 this.lastGroup[level+1] = null;
+                this.hasGroup[level] = true;
             }
             // node-toggle-content
             html += `</div>`;
         }
         // <div class="${indentclass}"
         html += `</div>`;
+        window.debugConsole.logIndent(level,  `POP N  ${name} ${level}`);
 
         return html;
     }
@@ -339,7 +361,7 @@ class GenericNodeRenderer {
             value = value.float3_value;
             if (nodeData.nodeInfo.type == "NT_TEX_RGB") {
                 const hexColor = this.formatColorValue(value);
-                console.log(`GenericNodeRenderer.renderControl() ${nodeData.name} color: ${hexColor}`);
+//                console.log(`GenericNodeRenderer.renderControl() ${nodeData.name} color: ${hexColor}`);
 
                 controlHtml = `
                     <div class="parameter-control-container">
