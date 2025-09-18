@@ -8,6 +8,7 @@
     /* Octane Studio Color Palette - Extracted from native application */
     --octane-bg-primary: #2b2b2b;      /* Main background */
     --octane-bg-secondary: #3c3c3c;    /* Panel backgrounds */
+    --octane-bg-parameter: #4c4c4c;    /* Panel backgrounds */
     --octane-bg-darker: #1e1e1e;       /* Darker panels */
     --octane-bg-header: #404040;       /* Header/menu backgrounds */
     --octane-bg-selected: #4a4a4a;     /* Selected items */
@@ -45,7 +46,7 @@
     --octane-viewport-bg: #2a2a2a;     /* Viewport background */
     --octane-node-bg: #3a3a3a;         /* Node backgrounds */
     --octane-connection-line: #888888; /* Node connections */
-    --octane-parameter-bg: #353535;    /* Parameter backgrounds */
+    --octane-parameter-bg: #151515;    /* Parameter backgrounds */
     
     /* Layout Dimensions */
     --menu-height: 40px;
