@@ -2803,12 +2803,6 @@ body.drag-over .drop-indicator {
     margin: 0 0 0 20px;    
 }
 
-.inspector-group {
-    background-color: var(--octane-bg-secondary);
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;    
-}
-
 .inspector-group-header {
     background: var(--octane-bg-secondary);
     cursor: pointer;
@@ -2824,8 +2818,11 @@ body.drag-over .drop-indicator {
 }
 
 .inspector-group-icon {
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-small);
     color: var(--octane-text-secondary);
+    transition: transform 0.2s ease;
+    min-width: 12px;
+    text-align: center;
 }
 
 .inspector-group-label {
@@ -2842,11 +2839,11 @@ body.drag-over .drop-indicator {
     background-color: var(--octane-bg-secondary);
 }
 
-.node-inspector .node-box {
+.node-box {
     position: relative;
     background: var(--octane-bg-secondary);
-    border-left: 1px solid var(--octane-border);
     border-top: 1px solid var(--octane-border);
+    border-right: 1px solid var(--octane-border);
     border-bottom: 1px solid var(--octane-border);
     border-radius: 4px; 
     min-height: 12px; /* Increased height for better proportions */
@@ -2855,24 +2852,51 @@ body.drag-over .drop-indicator {
     transition: all 0.2s ease;
 }
 
+.node-box-expanded {
+    position: relative;
+    background: var(--octane-bg-secondary);
+    border-top: 1px solid var(--octane-border);
+    border-right: 1px solid var(--octane-border);
+    border-radius: 4px; 
+    min-height: 12px; /* Increased height for better proportions */
+    display: flex;
+    align-items: flex-start;
+    transition: all 0.2s ease;
+}
+
+.node-box:hover {
+    background: var(--octane-bg-hover);
+    border-color: var(--octane-border-hover);
+}
+
+.node-box.selected {
+    background: var(--octane-accent-bg);
+    border-color: var(--octane-accent);
+}
+
+.node-box.selected .node-title {
+    color: var(--octane-accent);
+}
+
 /* Level-based indentation system with consistent 24px increments - ONLY for Node Inspector */
 .node-inspector .node-indent-0 {
     background-color: var(--octane-bg-darker);
-    margin: 2px 0 0 4px;
-    border-left: 1px solid var(--octane-border);
+    border-top: 1px solid var(--octane-border);
     border-right: 1px solid var(--octane-border);
     border-bottom: 1px solid var(--octane-border);
-    border-radius: 4px;      
+    border-radius: 4px; 
+    padding: 0 0 0 0;
+    margin: 2px 1px 1px 4px;
 }
 
 .node-inspector .node-indent {
     background-color: var(--octane-bg-secondary);
-    border-left: 1px solid var(--octane-border);
     border-right: 1px solid var(--octane-border);
+    border-top: 1px solid var(--octane-border);
     border-bottom: 1px solid var(--octane-border);
-    border-radius: 4px;      
+    border-radius: 4px; 
     padding: 0 0 0 0;
-    margin: 0 0 0 20px;   
+    margin: 0 1px 1px 20px;   
 }
 
 .node-inspector .node-indent-done {
@@ -2880,9 +2904,9 @@ body.drag-over .drop-indicator {
     border-left: 1px solid var(--octane-border);
     border-right: 1px solid var(--octane-border);
     border-bottom: 1px solid var(--octane-border);
-    border-radius: 4px;      
+    border-radius: 4px; 
     padding: 0 0 0 0;
-    margin: 0 0 0 0;   
+    margin: 0 1px 1px 0;   
 }
 
 .node-inspector .node-toggle-content {
@@ -3269,24 +3293,13 @@ body.drag-over .drop-indicator {
 }
 
 /* Hover states */
-.node-box:hover {
-    background: var(--octane-bg-hover);
-    border-color: var(--octane-border-hover);
-}
 
 .parameter:hover {
     background: var(--octane-bg-secondary);
 }
 
 /* Selected state */
-.node-box.selected {
-    background: var(--octane-accent-bg);
-    border-color: var(--octane-accent);
-}
 
-.node-box.selected .node-title {
-    color: var(--octane-accent);
-}
 
 /* Empty state */
 .node-inspector-empty {

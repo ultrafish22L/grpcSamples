@@ -135,8 +135,9 @@ class GenericNodeRenderer {
         if (hasChildren && level > 0) {
             collapseIcon = isExpanded ? '▼' : '▶'
         }        
+        const boxclass = "node-box-expanded";
         if (nodeData.attrInfo?.type == null) {
-            html += `<div class="node-box" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
+            html += `<div class="${boxclass}" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
                         <div class="node-icon-box" style="background-color: ${color}">
                             <span class="node-icon">${icon}</span>
                         </div>
@@ -149,7 +150,7 @@ class GenericNodeRenderer {
                     </div>`;
         }
         else {
-            html += `<div class="node-box" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
+            html += `<div class="${boxclass}" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
                         <div class="node-icon-box" style="background-color: ${color}">
                             <span class="node-icon">${icon}</span>
                         </div>
