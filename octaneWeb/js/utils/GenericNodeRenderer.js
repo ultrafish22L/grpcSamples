@@ -80,24 +80,18 @@ class GenericNodeRenderer {
         }
         if (this.doGroups) {
             const lgroup = this.lastGroup[level];
-            let groupclass = "inspector-group";
+            let groupclass = "inspector-group-indent";
 
-            if (groupName && !lgroup && !this.hasGroup[level]) {
-                // first group for this level
-                groupclass = "inspector-group-indent";
-                this.hasGroup[level] = true;
-            }
-            else if (groupName) {
+             if (groupName) {
                 this.hasGroup[level] = true;
             }
             this.lastGroup[level] = groupName;
 
-//            if (groupName && groupName != lgroup) {
             if (groupName != lgroup) {
                 // change group
                 if (lgroup) {
                     // end last group for this level
-                    html += `</div>`;
+                    html += `</div></div>`;
                     window.debugConsole.logIndent(level,  `POP G  ${lgroup} ${level}`);
                 }
                 if (groupName) {
@@ -109,7 +103,7 @@ class GenericNodeRenderer {
                         this.expandedNodes.has(groupName);
                     const collapseIcon = isExpanded ? '▼' : '▶';
 
-                    html += `<div class="${groupclass}">
+                    html += `<div class="inspector-group-indent">
                                 <div class="inspector-group-header ${isExpanded ? 'expanded' : 'collapsed'}" data-group="${groupName}">
                                     <span class="inspector-group-icon">${collapseIcon}</span>
                                     <span class="inspector-group-label">${groupName}</span>
@@ -118,12 +112,11 @@ class GenericNodeRenderer {
                     window.debugConsole.logIndent(level,  `GROUP ${groupName}`);
                 }
                 else if (lgroup) {
-                    html += `<div class="${groupclass}">
+                    html += `<div class="inspector-group-indent">
                                 <div class="inspector-group-header">
                                     <span class="inspector-group-label"> </span>
                                 </div>
-                                <div class="inspector-group-content">`;
-                    html += `</div>`;
+                            <div>`;
                     window.debugConsole.logIndent(level,  `LGROUP ${lgroup}`);
                 }
             }
@@ -177,20 +170,18 @@ class GenericNodeRenderer {
             for (const child of nodeData.children) {
                 html += this.renderNodeAtLevel(child, level+1);
             }
-            // node-toggle-content
-            html += `</div>`;
-
             if (this.doGroups) {        
                 // end last parameter group for children
                 const lcg = this.lastGroup[level+1];
                 if (this.hasGroup[level+1]) {
                     window.debugConsole.logIndent(level+1,  `POP GDONE  ${lcg} ${level+1}`);
-                    html += `</div>`;
-                    html += `</div>`;
+                    html += `</div></div>`;
                     this.lastGroup[level+1] = null;
                     this.hasGroup[level+1] = false;
                 }
             }
+            // node-toggle-content
+            html += `</div>`;
         }
         // <div class="${indentclass}"
         html += `</div>`;
