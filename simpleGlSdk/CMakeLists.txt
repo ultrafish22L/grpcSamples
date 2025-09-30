@@ -6,24 +6,13 @@ project(simpleGlSdk)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Check for Octane SDK availability (optional for simpleGlSdk)
-set(OCTANE_SDK_AVAILABLE FALSE)
-
-# Check for SDK headers
-if(EXISTS "${CMAKE_SOURCE_DIR}/sdk/apirender.h")
-    set(OCTANE_SDK_AVAILABLE TRUE)
-    message(STATUS "Octane SDK headers found - enabling SDK integration")
-else()
-    message(STATUS "Octane SDK headers not found - building without SDK integration")
-endif()
-
 # Assume Octane libraries are available in sdk folder for all platforms
 
 # Create the main executable with SDK integration
 add_executable(simpleGlSdk
     main.cpp
 )
-add_dependencies(simpleGlSdk octane_sdk)
+add_dependencies(simpleGlSdk grpcproxylib)
 
 # Function to configure a target
 function(configure_simpleGlSdk_target target_name)
@@ -64,7 +53,7 @@ function(configure_simpleGlSdk_target target_name)
     target_link_libraries(${target_name}
         PRIVATE
             shared_lib_sdk
-            octane_sdk
+            grpcproxylib
             glfw
             glew
             glm

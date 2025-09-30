@@ -17,11 +17,15 @@ html/protoc-gen-grpc-web
 *.o
 *.obj
 sdk/*.lib
+
 # exceptions
 #!third_party/**/*.lib
 #!third_party/**/*.a
 #!third_party/**/*.dylib
-!third_party/**/*.exe
+!third_party/protobuf/windows/*
+!third_party/protobuf/windows/bin/*
+!third_party/grpc/windows/*
+!third_party/grpc/windows/bin/*
 
 # assets
 !octaneWeb/assets/teapot.obj
@@ -35,8 +39,8 @@ Makefile.cmake
 # IDE files
 .vscode/
 .vs/
-*.vcxproj*
-*.sln
+#*.vcxproj*
+#*.sln
 *.pdb
 
 # OS files
@@ -52,10 +56,10 @@ Thumbs.db
 # Generated protobuf files
 #**/generated/
 **/__pycache__/
-*.pb.h
-*.pb.cc
-*.grpc.pb.h
-*.grpc.pb.cc
+#*.pb.h
+#*.pb.cc
+#*.grpc.pb.h
+#*.grpc.pb.cc
 
 # Log files
 *.log

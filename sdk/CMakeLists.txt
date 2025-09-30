@@ -1,176 +1,426 @@
 # SDK CMakeLists.txt
-cmake_minimum_required(VERSION 3.10)
-
-# SDK CMakeLists.txt
-cmake_minimum_required(VERSION 3.10)
-
-# Collect all SDK source files
-
-file(GLOB SDK_CLIENT_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client/*.*"
-)
-list(REMOVE_ITEM SDK_CLIENT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client/apinodeinfoclient.cpp")
-list(REMOVE_ITEM SDK_CLIENT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client/apicontrol.h")
-list(REMOVE_ITEM SDK_CLIENT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client/apicontrol.cpp")
-list(REMOVE_ITEM SDK_CLIENT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client/framerangetclient.h")
-list(REMOVE_ITEM SDK_CLIENT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client/framerangetclient.cpp")
-
-
-# Include protoc sources (protobuf-generated files)
-list(APPEND SDK_SOURCES ${SDK_CLIENT_SOURCES})
-
-# Collect all existing protoc files (no compilation needed)
-file(GLOB_RECURSE PROTOC_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/protoc/*.*"
+set(THIRD_PARTY_INCLUDE_DIR
+${CMAKE_SOURCE_DIR}/libraries/libcommon
+${CMAKE_SOURCE_DIR}/src/globals
+${CMAKE_SOURCE_DIR}/src/api
+${CMAKE_SOURCE_DIR}/src/api/module
+${CMAKE_SOURCE_DIR}/src/api/module/gui
+${CMAKE_SOURCE_DIR}/src/api/grpc/protoc
+${CMAKE_SOURCE_DIR}/src/api/grpc/converters
+${CMAKE_SOURCE_DIR}/src/api/grpc/client
+${CMAKE_SOURCE_DIR}/src/api/grpc
+${CMAKE_SOURCE_DIR}/
+${CMAKE_SOURCE_DIR}/src/api/ui
+${CMAKE_SOURCE_DIR}/grpcproxy
+${CMAKE_SOURCE_DIR}/../third_party/grpc/${THIRDPARTY_PLATFORM}/include
+${CMAKE_SOURCE_DIR}/../third_party/absl/${THIRDPARTY_PLATFORM}/include
+${CMAKE_SOURCE_DIR}/../third_party/cares/${THIRDPARTY_PLATFORM}/include
+${CMAKE_SOURCE_DIR}/../third_party/re2/${THIRDPARTY_PLATFORM}/include
+${CMAKE_SOURCE_DIR}/../third_party/protobuf/${THIRDPARTY_PLATFORM}/include
 )
 
-# Include protoc sources (protobuf-generated files)
-list(APPEND SDK_SOURCES ${PROTOC_SOURCES})
+#set(THIRD_PARTY_LIB_DIR ${CMAKE_SOURCE_DIR}/thirdparty/mylib/lib)
+#set(THIRD_PARTY_LIB ${THIRD_PARTY_LIB_DIR}/libmylib.a)
 
-# Collect all existing converter files 
-file(GLOB_RECURSE CONVERTER_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/converters/*.*"
+# List for core C++ sources
+set(CORE_SOURCES
+    apicontrol.cpp
+    apinodepininfohelper.cpp
+    callbackservice.cpp
+    grpcmodulebase.cpp
+    src/api/grpc/clientcallbackmgr.cpp
+    src/api/grpc/grpcbase.cpp
+    src/api/grpc/grpcsettings.cpp
+    src/api/grpc/objectmgr.cpp
+    src/api/grpc/stringmgr.cpp
 )
 
-# Include converter sources
-list(APPEND SDK_SOURCES ${CONVERTER_SOURCES})
-
-# Collect all existing base files 
-#file(GLOB_RECURSE GRPCBASE_SOURCES
-#    "${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/*.*"
-#)
-
-# Include base sources
-list(APPEND SDK_SOURCES 
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpcbase.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpcbase.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpcsettings.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpcsettings.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/convertmatrix.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/convertmatrix.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/clientcallbackmgr.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/clientcallbackmgr.h
-#    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpccallbacks.h
-#    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpccallbacks.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpcsettings.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/grpcsettings.cpp    
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/objectmgr.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/objectmgr.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/stringmgr.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/stringmgr.cpp
+# List for gRPC-related sources
+set(CLIENT_WRAPPER_SOURCES
+     src/api/grpc/client/apianimationtimetransformclient.cpp
+     src/api/grpc/client/apiattributeinfoclient.cpp
+     src/api/grpc/client/apibase64client.cpp
+     src/api/grpc/client/apibinarygroupclient.cpp
+     src/api/grpc/client/apibinarytableclient.cpp
+     src/api/grpc/client/apicachesclient.cpp
+     src/api/grpc/client/apichangemanagerclient.cpp
+     src/api/grpc/client/apicheckboxclient.cpp
+     src/api/grpc/client/apicollapsiblepanelstackclient.cpp
+     src/api/grpc/client/apicolorswatchclient.cpp
+     src/api/grpc/client/apicomboboxclient.cpp
+     src/api/grpc/client/apicommandmoduleinfoclient.cpp
+     src/api/grpc/client/apicustomcurveeditorcontrollerclient.cpp
+     src/api/grpc/client/apicustomcurveeditorcontroller_drawerclient.cpp
+     src/api/grpc/client/apicustomcurveeditorcontroller_listenerclient.cpp
+     src/api/grpc/client/apidbmaterialmanagerclient.cpp
+     src/api/grpc/client/apidbmaterialmanager_dbcategoryarrayclient.cpp
+     src/api/grpc/client/apidbmaterialmanager_dbmaterialarrayclient.cpp
+     src/api/grpc/client/apidiagnosticsclient.cpp
+     src/api/grpc/client/apifilechooserclient.cpp
+     src/api/grpc/client/apifilenameclient.cpp
+     src/api/grpc/client/apigaussiansplatcloudnodeclient.cpp
+     src/api/grpc/client/apigeometryexporterclient.cpp
+     src/api/grpc/client/apigridlayoutclient.cpp
+     src/api/grpc/client/apiguicomponentclient.cpp
+     src/api/grpc/client/apiimagebufferclient.cpp
+     src/api/grpc/client/apiimageclient.cpp
+     src/api/grpc/client/apiimagecomponentclient.cpp
+     src/api/grpc/client/apiinfoclient.cpp
+     src/api/grpc/client/apiitemarrayclient.cpp
+     src/api/grpc/client/apiitemclient.cpp
+     src/api/grpc/client/apilabelclient.cpp
+     src/api/grpc/client/apilineartimetransformclient.cpp
+     src/api/grpc/client/apilocaldbclient.cpp
+     src/api/grpc/client/apilocaldb_categoryclient.cpp
+     src/api/grpc/client/apilocaldb_packageclient.cpp
+     src/api/grpc/client/apilogmanagerclient.cpp
+     src/api/grpc/client/apimainwindowclient.cpp
+     src/api/grpc/client/apimaterialxglobalclient.cpp
+     src/api/grpc/client/apimodaldialogclient.cpp
+     src/api/grpc/client/apimoduledataclient.cpp
+     src/api/grpc/client/apimoduleglobalclient.cpp
+     src/api/grpc/client/apimodulenodegraphclient.cpp
+     src/api/grpc/client/apimouseeventclient.cpp
+     src/api/grpc/client/apimouselistenerclient.cpp
+     src/api/grpc/client/apimousewheeldetailsclient.cpp
+     src/api/grpc/client/apinetrendermanagerclient.cpp
+     src/api/grpc/client/apinodearrayclient.cpp
+     src/api/grpc/client/apinodeclient.cpp
+     src/api/grpc/client/apinodegraphclient.cpp
+     src/api/grpc/client/apinodegrapheditorclient.cpp
+     src/api/grpc/client/apinodegraphmoduleinfoclient.cpp
+     src/api/grpc/client/apinodeinspectorclient.cpp
+     src/api/grpc/client/apinodepininfoclient.cpp
+     src/api/grpc/client/apinumericboxclient.cpp
+     src/api/grpc/client/apiocioconfigclient.cpp
+     src/api/grpc/client/apiocioconfigloaderclient.cpp
+     src/api/grpc/client/apiociocontextmanagerclient.cpp
+     src/api/grpc/client/apioctanemodulesclient.cpp
+     src/api/grpc/client/apioutputcolorspaceinfoclient.cpp
+     src/api/grpc/client/apipackageclient.cpp
+     src/api/grpc/client/apiprogressbarclient.cpp
+     src/api/grpc/client/apiprojectmanagerclient.cpp
+     src/api/grpc/client/apiprojectworkspaceclient.cpp
+     src/api/grpc/client/apireferencegraphclient.cpp
+     src/api/grpc/client/apirendercloudmanagerclient.cpp
+     src/api/grpc/client/apirenderengineclient.cpp
+     src/api/grpc/client/apirenderimageclient.cpp
+     src/api/grpc/client/apirenderviewclient.cpp
+     src/api/grpc/client/apirootnodegraphclient.cpp
+     src/api/grpc/client/apisceneexporterclient.cpp
+     src/api/grpc/client/apisceneoutlinerclient.cpp
+     src/api/grpc/client/apiselectionmanagerclient.cpp
+     src/api/grpc/client/apisharedsurfaceclient.cpp
+     src/api/grpc/client/apitableclient.cpp
+     src/api/grpc/client/apitextbuttonclient.cpp
+     src/api/grpc/client/apitexteditorclient.cpp
+     src/api/grpc/client/apitexturenodetypeinfoclient.cpp
+     src/api/grpc/client/apitexturepintypeinfoclient.cpp
+     src/api/grpc/client/apitexturevaluetypesetclient.cpp
+     src/api/grpc/client/apitilegridloaderclient.cpp
+     src/api/grpc/client/apitimesamplingclient.cpp
+     src/api/grpc/client/apititlecomponentclient.cpp
+     src/api/grpc/client/apiwindowclient.cpp
+     src/api/grpc/client/apiworkpanemoduleinfoclient.cpp
+     src/api/grpc/client/imageinfoclient.cpp
+     src/api/grpc/client/layerinfoclient.cpp
+     src/api/grpc/client/netrenderstatusclient.cpp
+     src/api/grpc/client/octanegrpcwrapchangemanager.cpp
+     src/api/grpc/client/octanegrpcwrapcheckbox.cpp
+     src/api/grpc/client/octanegrpcwrapcollapsiblepanelstack.cpp
+     src/api/grpc/client/octanegrpcwrapcolorswatch.cpp
+     src/api/grpc/client/octanegrpcwrapcombobox.cpp
+     src/api/grpc/client/octanegrpcwrapcommandmodule.cpp
+     src/api/grpc/client/octanegrpcwrapfilechooser.cpp
+     src/api/grpc/client/octanegrpcwrapfilename.cpp
+     src/api/grpc/client/octanegrpcwrapgridlayout.cpp
+     src/api/grpc/client/octanegrpcwrapguicomponent.cpp
+     src/api/grpc/client/octanegrpcwrapimage.cpp
+     src/api/grpc/client/octanegrpcwrapimagecomponent.cpp
+     src/api/grpc/client/octanegrpcwrapinfos.cpp
+     src/api/grpc/client/octanegrpcwraplabel.cpp
+     src/api/grpc/client/octanegrpcwrapmodaldialog.cpp
+     src/api/grpc/client/octanegrpcwrapmouselistener.cpp
+     src/api/grpc/client/octanegrpcwrapnodegraphmodule.cpp
+     src/api/grpc/client/octanegrpcwrapnumericbox.cpp
+     src/api/grpc/client/octanegrpcwrapprogressbar.cpp
+     src/api/grpc/client/octanegrpcwrapprojectmanager.cpp
+     src/api/grpc/client/octanegrpcwrapselectionmanager.cpp
+     src/api/grpc/client/octanegrpcwraptable.cpp
+     src/api/grpc/client/octanegrpcwraptextbutton.cpp
+     src/api/grpc/client/octanegrpcwraptexteditor.cpp
+     src/api/grpc/client/octanegrpcwraptitlecomponent.cpp
+     src/api/grpc/client/octanegrpcwraputil.cpp
+     src/api/grpc/client/octanegrpcwrapwindow.cpp
+     src/api/grpc/client/octanegrpcwrapworkpanemodule.cpp
+     src/api/grpc/client/renderresultstatisticsclient.cpp
+     src/api/grpc/client/socketaddressclient.cpp
+     src/api/grpc/client/timespantclient.cpp
+     src/api/grpc/client/vdbgridinfoclient.cpp
+     src/api/grpc/client/vdbgridsamplerclient.cpp
+     src/api/grpc/client/vdbinfoclient.cpp
 )
 
-# Exclude octanewrappers.cpp if it exists
-list(REMOVE_ITEM SDK_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/octanewrappers.cpp")
 
-# Create the SDK library
-add_library(octane_sdk STATIC
-    ${SDK_SOURCES}
+set(CONVERTER_SOURCES
+     src/api/grpc/converters/convertaabbf.cpp
+     src/api/grpc/converters/convertapiarrayapirenderimage.cpp
+     src/api/grpc/converters/convertapiattributeinfo.cpp
+     src/api/grpc/converters/convertapibitmaskpininfo.cpp
+     src/api/grpc/converters/convertapiboolpininfo.cpp
+     src/api/grpc/converters/convertapicompatibilitymodeinfo.cpp
+     src/api/grpc/converters/convertapidevicememoryusage.cpp
+     src/api/grpc/converters/convertapideviceresourcestatistics.cpp
+     src/api/grpc/converters/convertapidevicesharedsurfaceinfo.cpp
+     src/api/grpc/converters/convertapienumpininfo.cpp
+     src/api/grpc/converters/convertapifilepath.cpp
+     src/api/grpc/converters/convertapifloatpininfo.cpp
+     src/api/grpc/converters/convertapigaussiansplatcloudnode.cpp
+     src/api/grpc/converters/convertapigeometrystatistics.cpp
+     src/api/grpc/converters/convertapiintpininfo.cpp
+     src/api/grpc/converters/convertapimousewheeldetails.cpp
+     src/api/grpc/converters/convertapinodegraphinfo.cpp
+     src/api/grpc/converters/convertapinodeinfo.cpp
+     src/api/grpc/converters/convertapinodepininfo.cpp
+     src/api/grpc/converters/convertapiociocolorspacepininfo.cpp
+     src/api/grpc/converters/convertapiociolookpininfo.cpp
+     src/api/grpc/converters/convertapiocioviewpininfo.cpp
+     src/api/grpc/converters/convertapiprojectionpininfo.cpp
+     src/api/grpc/converters/convertapirendercloudmanager_apirendercloudmanager_subscriptioninfo.cpp
+     src/api/grpc/converters/convertapirenderpassinfo.cpp
+     src/api/grpc/converters/convertapistringpininfo.cpp
+     src/api/grpc/converters/convertapitexturenodetypeinfo.cpp
+     src/api/grpc/converters/convertapitexturenodetypeinfo_apitexturenodetypeinfo_configuration.cpp
+     src/api/grpc/converters/convertapitexturenodetypeinfo_configuration_interface.cpp
+     src/api/grpc/converters/convertapitexturenodetypeinfo_configuration_parameters.cpp
+     src/api/grpc/converters/convertapitexturepininfo.cpp
+     src/api/grpc/converters/convertapitexturepintypeinfo.cpp
+     src/api/grpc/converters/convertapitexturestatistics.cpp
+     src/api/grpc/converters/convertapitexturevaluetypeset.cpp
+     src/api/grpc/converters/convertapitilegridsettings.cpp
+     src/api/grpc/converters/convertapitimesampling.cpp
+     src/api/grpc/converters/convertapitransformpininfo.cpp
+     src/api/grpc/converters/convertapitransformpininfo_apitransformpininfo_bounds.cpp
+     src/api/grpc/converters/convertimageexportsettings.cpp
+     src/api/grpc/converters/convertimageexportsettings_imageexportsettings_exrexportsettings.cpp
+     src/api/grpc/converters/convertimageexportsettings_imageexportsettings_jpegexportsettings.cpp
+     src/api/grpc/converters/convertimageexportsettings_imageexportsettings_tiffexportsettings.cpp
+     src/api/grpc/converters/convertnetinterfaceinfo.cpp
+     src/api/grpc/converters/convertnetrendersettings.cpp
+     src/api/grpc/converters/convertnetrenderstatus.cpp
+     src/api/grpc/converters/convertreferencepackageexportsettings.cpp
+     src/api/grpc/converters/convertrenderpassexport.cpp
+     src/api/grpc/converters/convertrenderresultstatistics.cpp
+     src/api/grpc/convertmatrix.cpp
+     )
+
+set(GRPC_SOURCES
+     src/api/grpc/protoc/apianimationtimetransform.grpc.pb.cc
+     src/api/grpc/protoc/apianimationtimetransform.pb.cc
+     src/api/grpc/protoc/apiarray.grpc.pb.cc
+     src/api/grpc/protoc/apiarray.pb.cc
+     src/api/grpc/protoc/apibase64.grpc.pb.cc
+     src/api/grpc/protoc/apibase64.pb.cc
+     src/api/grpc/protoc/apibinaryfile.grpc.pb.cc
+     src/api/grpc/protoc/apibinaryfile.pb.cc
+     src/api/grpc/protoc/apicaches.grpc.pb.cc
+     src/api/grpc/protoc/apicaches.pb.cc
+     src/api/grpc/protoc/apichangemanager.grpc.pb.cc
+     src/api/grpc/protoc/apichangemanager.pb.cc
+     src/api/grpc/protoc/apicheckbox.grpc.pb.cc
+     src/api/grpc/protoc/apicheckbox.pb.cc
+     src/api/grpc/protoc/apicollapsiblepanelstack.grpc.pb.cc
+     src/api/grpc/protoc/apicollapsiblepanelstack.pb.cc
+     src/api/grpc/protoc/apicolorswatch.grpc.pb.cc
+     src/api/grpc/protoc/apicolorswatch.pb.cc
+     src/api/grpc/protoc/apicombobox.grpc.pb.cc
+     src/api/grpc/protoc/apicombobox.pb.cc
+     src/api/grpc/protoc/apicustomcurveeditorcontroller.grpc.pb.cc
+     src/api/grpc/protoc/apicustomcurveeditorcontroller.pb.cc
+     src/api/grpc/protoc/apidbmaterialmanager.grpc.pb.cc
+     src/api/grpc/protoc/apidbmaterialmanager.pb.cc
+     src/api/grpc/protoc/apidiagnostics.grpc.pb.cc
+     src/api/grpc/protoc/apidialogfeedback.grpc.pb.cc
+     src/api/grpc/protoc/apidialogfeedback.pb.cc
+     src/api/grpc/protoc/apifilechooser.grpc.pb.cc
+     src/api/grpc/protoc/apifilechooser.pb.cc
+     src/api/grpc/protoc/apifilename.grpc.pb.cc
+     src/api/grpc/protoc/apifilename.pb.cc
+     src/api/grpc/protoc/apigaussiansplatting.grpc.pb.cc
+     src/api/grpc/protoc/apigaussiansplatting.pb.cc    
+     src/api/grpc/protoc/apigeometryexporter.grpc.pb.cc
+     src/api/grpc/protoc/apigeometryexporter.pb.cc
+     src/api/grpc/protoc/apigridlayout.grpc.pb.cc
+     src/api/grpc/protoc/apigridlayout.pb.cc
+     src/api/grpc/protoc/apiguicomponent.grpc.pb.cc
+     src/api/grpc/protoc/apiguicomponent.pb.cc
+     src/api/grpc/protoc/apiimage.grpc.pb.cc
+     src/api/grpc/protoc/apiimage.pb.cc
+     src/api/grpc/protoc/apiimagebuffer.grpc.pb.cc
+     src/api/grpc/protoc/apiimagebuffer.pb.cc
+     src/api/grpc/protoc/apiimagecomponent.grpc.pb.cc
+     src/api/grpc/protoc/apiimagecomponent.pb.cc
+     src/api/grpc/protoc/apiimageinfo.grpc.pb.cc
+     src/api/grpc/protoc/apiimageinfo.pb.cc
+     src/api/grpc/protoc/apiinfo.grpc.pb.cc
+     src/api/grpc/protoc/apiinfo.pb.cc
+     src/api/grpc/protoc/apilabel.grpc.pb.cc
+     src/api/grpc/protoc/apilabel.pb.cc
+     src/api/grpc/protoc/apilocaldb.grpc.pb.cc
+     src/api/grpc/protoc/apilocaldb.pb.cc
+     src/api/grpc/protoc/apilogmanager.grpc.pb.cc
+     src/api/grpc/protoc/apilogmanager.pb.cc
+     src/api/grpc/protoc/apimainwindow.grpc.pb.cc
+     src/api/grpc/protoc/apimainwindow.pb.cc
+     src/api/grpc/protoc/apimaterialx.grpc.pb.cc
+     src/api/grpc/protoc/apimaterialx.pb.cc
+     src/api/grpc/protoc/apimodaldialog.grpc.pb.cc
+     src/api/grpc/protoc/apimodaldialog.pb.cc
+     src/api/grpc/protoc/apimodule.grpc.pb.cc
+     src/api/grpc/protoc/apimodule.pb.cc
+     src/api/grpc/protoc/apimoduledata.grpc.pb.cc
+     src/api/grpc/protoc/apimoduledata.pb.cc
+     src/api/grpc/protoc/apimodulenodegraph.grpc.pb.cc
+     src/api/grpc/protoc/apimodulenodegraph.pb.cc
+     src/api/grpc/protoc/apimouselistener.grpc.pb.cc
+     src/api/grpc/protoc/apimouselistener.pb.cc
+     src/api/grpc/protoc/apinetrendermanager.grpc.pb.cc
+     src/api/grpc/protoc/apinetrendermanager.pb.cc
+     src/api/grpc/protoc/apinodegrapheditor.grpc.pb.cc
+     src/api/grpc/protoc/apinodegrapheditor.pb.cc
+     src/api/grpc/protoc/apinodeinspector.grpc.pb.cc
+     src/api/grpc/protoc/apinodeinspector.pb.cc
+     src/api/grpc/protoc/apinodepininfohelper.grpc.pb.cc
+     src/api/grpc/protoc/apinodepininfohelper.pb.cc
+     src/api/grpc/protoc/apinodesystem_1.grpc.pb.cc
+     src/api/grpc/protoc/apinodesystem_1.pb.cc
+     src/api/grpc/protoc/apinodesystem_2.grpc.pb.cc
+     src/api/grpc/protoc/apinodesystem_2.pb.cc
+     src/api/grpc/protoc/apinodesystem_3.grpc.pb.cc
+     src/api/grpc/protoc/apinodesystem_3.pb.cc
+     src/api/grpc/protoc/apinodesystem_4.grpc.pb.cc
+     src/api/grpc/protoc/apinodesystem_4.pb.cc
+     src/api/grpc/protoc/apinodesystem_5.grpc.pb.cc
+     src/api/grpc/protoc/apinodesystem_5.pb.cc
+     src/api/grpc/protoc/apinodesystem_6.grpc.pb.cc
+     src/api/grpc/protoc/apinodesystem_6.pb.cc
+     src/api/grpc/protoc/apinodesystem_7.grpc.pb.cc
+     src/api/grpc/protoc/apinodesystem_7.pb.cc
+     src/api/grpc/protoc/apinodesystem_8.grpc.pb.cc
+     src/api/grpc/protoc/apinodesystem_8.pb.cc
+     src/api/grpc/protoc/apinumericbox.grpc.pb.cc
+     src/api/grpc/protoc/apinumericbox.pb.cc
+     src/api/grpc/protoc/apiocioconfig.grpc.pb.cc
+     src/api/grpc/protoc/apiocioconfig.pb.cc
+     src/api/grpc/protoc/apiocioconfigloader.grpc.pb.cc
+     src/api/grpc/protoc/apiocioconfigloader.pb.cc
+     src/api/grpc/protoc/apiociocontextmanager.grpc.pb.cc
+     src/api/grpc/protoc/apiociocontextmanager.pb.cc
+     src/api/grpc/protoc/apioctanemodules.grpc.pb.cc
+     src/api/grpc/protoc/apioctanemodules.pb.cc
+     src/api/grpc/protoc/apioutputcolorspaceinfo.grpc.pb.cc
+     src/api/grpc/protoc/apioutputcolorspaceinfo.pb.cc
+     src/api/grpc/protoc/apipackage.grpc.pb.cc
+     src/api/grpc/protoc/apipackage.pb.cc
+     src/api/grpc/protoc/apiplugin.grpc.pb.cc
+     src/api/grpc/protoc/apiplugin.pb.cc
+     src/api/grpc/protoc/apiprogressbar.grpc.pb.cc
+     src/api/grpc/protoc/apiprogressbar.pb.cc
+     src/api/grpc/protoc/apiprojectmanager.grpc.pb.cc
+     src/api/grpc/protoc/apiprojectmanager.pb.cc
+     src/api/grpc/protoc/apiprojectworkspace.grpc.pb.cc
+     src/api/grpc/protoc/apiprojectworkspace.pb.cc
+     src/api/grpc/protoc/apireferencegraph.grpc.pb.cc
+     src/api/grpc/protoc/apireferencegraph.pb.cc
+     src/api/grpc/protoc/apirender.grpc.pb.cc
+     src/api/grpc/protoc/apirender.pb.cc
+     src/api/grpc/protoc/apirendercloudmanager.grpc.pb.cc
+     src/api/grpc/protoc/apirendercloudmanager.pb.cc
+     src/api/grpc/protoc/apirenderview.grpc.pb.cc
+     src/api/grpc/protoc/apirenderview.pb.cc
+     src/api/grpc/protoc/apisceneexporter.grpc.pb.cc
+     src/api/grpc/protoc/apisceneexporter.pb.cc
+     src/api/grpc/protoc/apisceneoutliner.grpc.pb.cc
+     src/api/grpc/protoc/apisceneoutliner.pb.cc
+     src/api/grpc/protoc/apiselectionmanager.grpc.pb.cc
+     src/api/grpc/protoc/apiselectionmanager.pb.cc
+     src/api/grpc/protoc/apisharedsurface.grpc.pb.cc
+     src/api/grpc/protoc/apisharedsurface.pb.cc
+     src/api/grpc/protoc/apistart.grpc.pb.cc
+     src/api/grpc/protoc/apistart.pb.cc
+     src/api/grpc/protoc/apitable.grpc.pb.cc
+     src/api/grpc/protoc/apitable.pb.cc
+     src/api/grpc/protoc/apitextbutton.grpc.pb.cc
+     src/api/grpc/protoc/apitextbutton.pb.cc
+     src/api/grpc/protoc/apitexteditor.grpc.pb.cc
+     src/api/grpc/protoc/apitexteditor.pb.cc
+     src/api/grpc/protoc/apitilegrid.grpc.pb.cc
+     src/api/grpc/protoc/apitilegrid.pb.cc
+     src/api/grpc/protoc/apitimesampling.grpc.pb.cc
+     src/api/grpc/protoc/apitimesampling.pb.cc
+     src/api/grpc/protoc/apititlecomponent.grpc.pb.cc
+     src/api/grpc/protoc/apititlecomponent.pb.cc
+     src/api/grpc/protoc/apiwindow.grpc.pb.cc
+     src/api/grpc/protoc/apiwindow.pb.cc
+     src/api/grpc/protoc/callback.grpc.pb.cc
+     src/api/grpc/protoc/callback.pb.cc
+     src/api/grpc/protoc/common.grpc.pb.cc
+     src/api/grpc/protoc/common.pb.cc
+     src/api/grpc/protoc/control.grpc.pb.cc
+     src/api/grpc/protoc/control.pb.cc
+     src/api/grpc/protoc/octaneenums.grpc.pb.cc
+     src/api/grpc/protoc/octaneenums.pb.cc
+     src/api/grpc/protoc/octaneids.grpc.pb.cc
+     src/api/grpc/protoc/octaneids.pb.cc
+     src/api/grpc/protoc/octaneimageexport.grpc.pb.cc
+     src/api/grpc/protoc/octaneimageexport.pb.cc
+     src/api/grpc/protoc/octaneinfos.grpc.pb.cc
+     src/api/grpc/protoc/octaneinfos.pb.cc
+     src/api/grpc/protoc/octanemodulesinfo.grpc.pb.cc
+     src/api/grpc/protoc/octanemodulesinfo.pb.cc
+     src/api/grpc/protoc/octanenet.grpc.pb.cc
+     src/api/grpc/protoc/octanenet.pb.cc
+     src/api/grpc/protoc/octanereferenceexport.grpc.pb.cc
+     src/api/grpc/protoc/octanereferenceexport.pb.cc
+     src/api/grpc/protoc/octanerenderpasses.grpc.pb.cc
+     src/api/grpc/protoc/octanerenderpasses.pb.cc
+     src/api/grpc/protoc/octanetime.grpc.pb.cc
+     src/api/grpc/protoc/octanetime.pb.cc
+     src/api/grpc/protoc/octanevectypes.grpc.pb.cc
+     src/api/grpc/protoc/octanevectypes.pb.cc
+     src/api/grpc/protoc/octanevolume.grpc.pb.cc
+     src/api/grpc/protoc/octanevolume.pb.cc
 )
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES 
-    ${SDK_SOURCES} 
+
+
+# Now create the library
+add_library(grpcproxylib STATIC
+    ${CORE_SOURCES}
+    ${CONVERTER_SOURCES}
+    ${CLIENT_WRAPPER_SOURCES}
+    ${GRPC_SOURCES}
 )
 
-# Set include directories
-target_include_directories(octane_sdk
-    PUBLIC
-#        ${CMAKE_CURRENT_SOURCE_DIR}/src/api
-#        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/module
-#        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/module/gui
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/protoc
-#        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/converters
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/client
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/ui
+target_compile_definitions(grpcproxylib PRIVATE NO_PCH)
 
-        $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/../third_party/protobuf/windows/include>
-        $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/../third_party/grpc/windows/include>
-        $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/../third_party/absl/windows/include>
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/ui
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/module/gui
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/module
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/api/grpc/converters
-)
+target_include_directories(grpcproxylib PUBLIC ${THIRD_PARTY_INCLUDE_DIR})
 
-# Add Windows-specific compiler flags
-if(WIN32 AND MSVC)
-    target_compile_options(octane_sdk PRIVATE /bigobj)
-endif()
+#target_link_libraries(grpcproxylib PUBLIC ${THIRD_PARTY_LIB})
 
-# Windows MSVC specific configurations
-if(MSVC)
-    # Enable parallel compilation
-    target_compile_options(octane_sdk PRIVATE /MP)
-    
-    # Set warning level and disable specific warnings
-    target_compile_options(octane_sdk PRIVATE /W3)
-    target_compile_options(octane_sdk PRIVATE /wd4996)  # Disable deprecated function warnings
-    
-    # Enable proper exception handling
-    target_compile_options(octane_sdk PRIVATE /EHsc)
-    
-    # Set runtime library to static (to match third_party libraries)
-    set_property(TARGET octane_sdk PROPERTY
-        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-endif()
-
-# Set folder for Visual Studio organization
-set_target_properties(octane_sdk PROPERTIES FOLDER "SDK")
-
-# Add compile definitions
-target_compile_definitions(octane_sdk
-    PRIVATE
-        # Windows-specific definitions
-        $<$<PLATFORM_ID:Windows>:WIN32_LEAN_AND_MEAN>
-        $<$<PLATFORM_ID:Windows>:NOMINMAX>
-        # Add any other necessary definitions here
-        NO_PCH
-)
-
-# Platform-specific library linking
-if(WIN32 AND MSVC)
-
-elseif(APPLE)
-    # macOS: Use ALL available third_party libraries
-    file(GLOB MACOS_GRPC_LIBS "${CMAKE_SOURCE_DIR}/third_party/grpc/macos/*.a")
-    file(GLOB MACOS_PROTOBUF_LIBS "${CMAKE_SOURCE_DIR}/third_party/protobuf/macos/*.a")
-    file(GLOB MACOS_ABSL_LIBS "${CMAKE_SOURCE_DIR}/third_party/absl/macos/*.a")
-    file(GLOB MACOS_OPENSSL_LIBS "${CMAKE_SOURCE_DIR}/third_party/openssl/macos/*.a")
-    file(GLOB MACOS_ZLIB_LIBS "${CMAKE_SOURCE_DIR}/third_party/zlib/macos/*.a")
-    target_link_libraries(octane_sdk
-        PRIVATE
-            ${MACOS_GRPC_LIBS}
-            ${MACOS_PROTOBUF_LIBS}
-            ${MACOS_ABSL_LIBS}
-            ${MACOS_OPENSSL_LIBS}
-            ${MACOS_ZLIB_LIBS}
-    )
-else()
-    # Linux: Use ALL available third_party libraries
-    file(GLOB LINUX_GRPC_LIBS "${CMAKE_SOURCE_DIR}/third_party/grpc/linux/*.a")
-    file(GLOB LINUX_PROTOBUF_LIBS "${CMAKE_SOURCE_DIR}/third_party/protobuf/linux/*.a")
-    file(GLOB LINUX_ABSL_LIBS "${CMAKE_SOURCE_DIR}/third_party/absl/linux/*.a")
-    file(GLOB LINUX_OPENSSL_LIBS "${CMAKE_SOURCE_DIR}/third_party/openssl/linux/*.a")
-    file(GLOB LINUX_ZLIB_LIBS "${CMAKE_SOURCE_DIR}/third_party/zlib/linux/*.a")
-    target_link_libraries(octane_sdk
-        PRIVATE
-            ${LINUX_GRPC_LIBS}
-            ${LINUX_PROTOBUF_LIBS}
-            ${LINUX_ABSL_LIBS}
-            ${LINUX_OPENSSL_LIBS}
-            ${LINUX_ZLIB_LIBS}
-            # Linux system libraries
-            pthread dl
-    )
-endif()
-
-# Set output directory
-set_target_properties(octane_sdk PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
-    ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/bin
-    ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/bin
-    ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_SOURCE_DIR}/bin
-    ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL ${CMAKE_SOURCE_DIR}/bin
-)
+# Export include directories to be used by projects linking this
+target_include_directories(grpcproxylib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+ 
+target_link_libraries(grpcproxylib
+ PRIVATE
+    #${CMAKE_CURRENT_SOURCE_DIR}  # includes
+    #${GRPC_LIB}
+    #${ABSL_LIB}
+    #${OPENSSL_LIB}    
+    #dl
+    #rt
+    #pthread
+    #${PROTOBUF_LIB}
+    #${RE2_LIB}   
+    #z # zlib
+    #resolv # cares static lib depends on "resolv" 
+) 

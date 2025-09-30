@@ -13,7 +13,7 @@ ELSE(APPLE)
     SET(THIRDPARTY_PLATFORM linux)
 ENDIF(APPLE)
 
-SET(THIRD_PARTY_PATH ${CMAKE_SOURCE_DIR}/../thirdparty)
+SET(THIRD_PARTY_PATH ${CMAKE_SOURCE_DIR}/../../third_party)
 
 # OpenSSL
 SET(OPENSSL_LIB             ssl crypto)

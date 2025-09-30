@@ -105,7 +105,8 @@ void CameraSyncSdk::initialize() {
             std::cout << "Camera control initialized successfully" << std::endl;
             logSdkStatus("Initialize", true);
 
-//            testConnection();
+            // run some api calls
+            testConnection();
         } else {
             std::cout << "No camera node found in current render target" << std::endl;
             m_cameraAvailable = false;
@@ -161,14 +162,23 @@ static bool recurseNodeTest(const OctaneGRPC::ApiItemProxy& item, int indent = 0
     // node
     OctaneGRPC::ApiNodeProxy& node = item.toNode();
 
-	int pinCount = node.pinCount();
+    
+    int pinCount = node.pinCount();
     for (int i = 0; i < pinCount; i++)
     {
         OctaneGRPC::ApiNodePinInfoProxy pinInfo = node.pinInfoIx(i);
         if (!pinInfo.isNull()) {
 
         }
-        const OctaneGRPC::ApiNodeProxy n = node.connectedNodeIx(i, false);
+        OctaneGRPC::ApiNodeProxy n = node.connectedNodeIx(i, false);
+
+        if (n.isNull())
+            continue;
+
+        if (node.pinLabelIx(i) == "Sensor width") {
+            n.set(Octane::A_VALUE, 44.f, true);
+//            OctaneGRPC::ApiChangeManagerProxy::update();
+        }
 
         recurseNodeTest(n, indent + 2);
     }

@@ -53,7 +53,7 @@ SharedUtils::RendererGl renderer;
 CameraSyncSdk cameraSync;
 //CameraSyncLiveLink cameraSync; 
 GLuint mTextureNameGL = 0;
-bool showTestQuad = true;
+bool showTestQuad = false;
 
 // Rendering mode enumeration
 enum RenderMode {

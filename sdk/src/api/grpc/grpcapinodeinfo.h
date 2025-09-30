@@ -7,9 +7,13 @@
 
 namespace OctaneGRPC
 {
+    class GRPCSettings;
+
     struct ApiNodeInfoProxy : public Octane::ApiNodeInfo, GRPCBase
     {
         std::vector<Octane::ApiCompatibilityModeInfo> mCompatibilityModeInfos;
+
+        GRPCSettings& getGRPCSettings();
     };
 } // namespace OctaneGRPC
 

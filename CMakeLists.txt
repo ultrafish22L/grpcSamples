@@ -31,6 +31,7 @@ if(WIN32)
     add_compile_options(/wd4996)  # Deprecated function warnings
     add_compile_options(/wd4267)  # Size_t conversion warnings
     add_compile_options(/wd4244)  # Type conversion warnings
+    add_compile_options(/wd4018)  # warning C4018: '>=': signed/unsigned mismatch
 
     # Ignore warnings about missing pdb
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /ignore:4099")
@@ -153,7 +154,8 @@ endif()
 
 # common projects
 add_subdirectory(shared)
-add_subdirectory(sdk)
+#add_subdirectory(sdk)
+add_subdirectory(sdk/grpc-api-examples/grpcproxy)
 
 # Add main projects
 add_subdirectory(simpleGL)

@@ -1,0 +1,2194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\wrappers">
+      <UniqueIdentifier>{baf46905-ff37-4ea7-b9ef-e6eb9f2f07f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\wrappers\headers">
+      <UniqueIdentifier>{f8ebca66-a6f8-4726-ae9e-04daa2737962}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\converters">
+      <UniqueIdentifier>{59c2269b-04f2-4b2c-b791-f92632ad174a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\converters\headers">
+      <UniqueIdentifier>{d953753a-b5c5-4519-9f34-cb2d16b79fa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protoc">
+      <UniqueIdentifier>{b3ae7150-c6d6-4e1f-be8b-cc8343306123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protoc\headers">
+      <UniqueIdentifier>{f4803de5-fd77-423e-b98d-ba33494c7989}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\api\grpc\convertmatrix.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\grpcsettings.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\objectmgr.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\stringmgr.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apianimationtimetransformclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiattributeinfoclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apibase64client.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apibinarygroupclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apibinarytableclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apichangemanagerclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apicheckboxclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apicollapsiblepanelstackclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apicolorswatchclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apicomboboxclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apicommandmoduleinfoclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apicompatibilitymodeinfoclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apicustomcurveeditorcontroller_drawerclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apicustomcurveeditorcontroller_listenerclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apicustomcurveeditorcontrollerclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apidbmaterialmanager_dbcategoryarrayclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apidbmaterialmanager_dbmaterialarrayclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apidbmaterialmanagerclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apidiagnosticsclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apifilechooserclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apifilenameclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apigeometryexporterclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apigridlayoutclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiguicomponentclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiimagebufferclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiimageclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiimagecomponentclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiinfoclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiintpininfoclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiitemarrayclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiitemclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apilabelclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apilineartimetransformclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apilocaldb_categoryclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apilocaldb_packageclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apilocaldbclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apilogmanagerclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apimainwindowclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apimaterialxglobalclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apimodaldialogclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apimoduledataclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apimoduleglobalclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apimodulenodegraphclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apimouseeventclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apimouselistenerclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apimousewheeldetailsclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apinetrendermanagerclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apinodearrayclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apinodeclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apinodegraphclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apinodegrapheditorclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apinodeinspectorclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apinodepininfoclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apinumericboxclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiocioconfigclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiocioconfigloaderclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiociocontextmanagerclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apioctanemodulesclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apioutputcolorspaceinfoclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apipackageclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiprogressbarclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiprojectmanagerclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiprojectworkspaceclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apireferencegraphclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apirendercloudmanagerclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apirenderengineclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apirenderimageclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apirenderviewclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apirootnodegraphclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apisceneexporterclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apisceneoutlinerclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiselectionmanagerclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apisharedsurfaceclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apitableclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apitextbuttonclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apitexteditorclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apitexturepintypeinfoclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apitexturevaluetypesetclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apitimesamplingclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apititlecomponentclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiwindowclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apiworkpanemoduleinfoclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\imageinfoclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\layerinfoclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\netrenderstatusclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\renderresultstatisticsclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\socketaddressclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\timespantclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\vdbgridinfoclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\vdbgridsamplerclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\vdbinfoclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertaabbf.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapiarrayapirenderimage.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapiattributeinfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapibitmaskpininfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapiboolpininfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapicompatibilitymodeinfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapidevicememoryusage.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapideviceresourcestatistics.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapidevicesharedsurfaceinfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapienumpininfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapifilepath.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapifloatpininfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapigeometrystatistics.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapiintpininfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapimousewheeldetails.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapinodegraphinfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapinodeinfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapinodepininfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapiociocolorspacepininfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapiociolookpininfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapiocioviewpininfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapiprojectionpininfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapirendercloudmanager_apirendercloudmanager_subscriptioninfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapirenderpassinfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapistringpininfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapitexturenodetypeinfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapitexturenodetypeinfo_apitexturenodetypeinfo_configuration.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapitexturenodetypeinfo_configuration_interface.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapitexturenodetypeinfo_configuration_parameters.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapitexturepininfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapitexturepintypeinfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapitexturestatistics.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapitexturevaluetypeset.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapitimesampling.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapitransformpininfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapitransformpininfo_apitransformpininfo_bounds.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertimageexportsettings.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertimageexportsettings_imageexportsettings_exrexportsettings.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertimageexportsettings_imageexportsettings_jpegexportsettings.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertimageexportsettings_imageexportsettings_tiffexportsettings.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertnetinterfaceinfo.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertnetrendersettings.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertnetrenderstatus.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertreferencepackageexportsettings.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertrenderpassexport.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertrenderresultstatistics.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\grpcchangeevents.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\clientcallbackmgr.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="callbackservice.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apianimationtimetransform.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apianimationtimetransform.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiarray.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiarray.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apibase64.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apibase64.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apibinaryfile.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apibinaryfile.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apichangemanager.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apichangemanager.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apicheckbox.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apicheckbox.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apicollapsiblepanelstack.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apicollapsiblepanelstack.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apicolorswatch.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apicolorswatch.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apicombobox.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apicombobox.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apicustomcurveeditorcontroller.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apicustomcurveeditorcontroller.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apidbmaterialmanager.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apidbmaterialmanager.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apidiagnostics.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apidiagnostics.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apidialogfeedback.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apidialogfeedback.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apifilechooser.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apifilechooser.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apifilename.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apifilename.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apigeometryexporter.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apigeometryexporter.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apigridlayout.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apigridlayout.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiguicomponent.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiguicomponent.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiimage.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiimage.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiimagebuffer.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiimagebuffer.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiimagecomponent.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiimagecomponent.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiimageinfo.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiimageinfo.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiinfo.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiinfo.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apilabel.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apilabel.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apilocaldb.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apilocaldb.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apilogmanager.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apilogmanager.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apimainwindow.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apimainwindow.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apimaterialx.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apimaterialx.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apimodaldialog.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apimodaldialog.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apimodule.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apimodule.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apimoduledata.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apimoduledata.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apimodulenodegraph.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apimodulenodegraph.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apimouselistener.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apimouselistener.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinetrendermanager.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinetrendermanager.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodegrapheditor.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodegrapheditor.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodeinspector.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodeinspector.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinumericbox.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinumericbox.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiocioconfig.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiocioconfig.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiocioconfigloader.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiocioconfigloader.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiociocontextmanager.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiociocontextmanager.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apioctanemodules.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apioctanemodules.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apioutputcolorspaceinfo.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apioutputcolorspaceinfo.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apipackage.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apipackage.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiplugin.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiplugin.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiprogressbar.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiprogressbar.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiprojectmanager.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiprojectmanager.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiprojectworkspace.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiprojectworkspace.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apireferencegraph.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apireferencegraph.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apirender.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apirender.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apirendercloudmanager.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apirendercloudmanager.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apirenderview.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apirenderview.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apisceneexporter.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apisceneexporter.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apisceneoutliner.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apisceneoutliner.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiselectionmanager.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiselectionmanager.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apisharedsurface.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apisharedsurface.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apistart.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apistart.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apitable.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apitable.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apitextbutton.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apitextbutton.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apitexteditor.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apitexteditor.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apitimesampling.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apitimesampling.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apititlecomponent.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apititlecomponent.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiwindow.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiwindow.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\callback.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\callback.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\common.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\common.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\custom.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\custom.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneenums.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneenums.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneids.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneids.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneimageexport.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneimageexport.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneinfos.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneinfos.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanemodulesinfo.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanemodulesinfo.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanenet.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanenet.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanereferenceexport.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanereferenceexport.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanerenderpasses.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanerenderpasses.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanetime.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanetime.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanevectypes.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanevectypes.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanevolume.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanevolume.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanewrapfilename.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanewrapfilename.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanewrapinfos.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanewrapinfos.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanewraplock.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanewraplock.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanewrapprojectmanager.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanewrapprojectmanager.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanewraputil.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanewraputil.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\grpcbase.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="grpcmodulebase.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="grpcmaininterface.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="octanegrpcwrappers.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpctoolbarbuttonIcons.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapchangemanager.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapcheckbox.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapcollapsiblepanelstack.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapcolorswatch.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapcombobox.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapcommandmodule.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapfilechooser.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapfilename.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapgridlayout.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapguicomponent.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapimage.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapimagecomponent.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapinfos.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwraplabel.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwraplock.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapmodaldialog.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapmouselistener.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapnodegraphmodule.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapnumericbox.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapprogressbar.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapprojectmanager.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapselectionmanager.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwraptable.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwraptextbutton.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwraptexteditor.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwraptitlecomponent.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwraputil.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapwindow.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\octanegrpcwrapworkpanemodule.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="apinodepininfohelper.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="apicontrol.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodepininfohelper.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodepininfohelper.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\control.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\control.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\converters\convertapitilegridsettings.h">
+      <Filter>Source Files\converters\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apicaches.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apicaches.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apitilegrid.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apitilegrid.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apicachesclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apitilegridsettingsclient.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apitilegridloaderclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_1.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_1.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_3.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_3.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_5.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_5.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_6.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_6.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_7.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_7.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_8.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_8.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apigaussiansplatcloudnodeclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apigaussiansplatting.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apigaussiansplatting.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\grpcapinodeinfo.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\api\grpc\client\apianimationtimetransformclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apiattributeinfoclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apibase64client.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apibinarygroupclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apibinarytableclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apichangemanagerclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apicheckboxclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apicollapsiblepanelstackclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apicolorswatchclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apicomboboxclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apicommandmoduleinfoclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apicustomcurveeditorcontroller_drawerclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apicustomcurveeditorcontroller_listenerclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apicustomcurveeditorcontrollerclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apidbmaterialmanager_dbcategoryarrayclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apidbmaterialmanager_dbmaterialarrayclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apidbmaterialmanagerclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apidiagnosticsclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apifilechooserclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apifilenameclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apigeometryexporterclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apigridlayoutclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apiguicomponentclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apiimagebufferclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apiimageclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apiimagecomponentclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apiinfoclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apiitemarrayclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apiitemclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apilabelclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apilineartimetransformclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apilocaldb_categoryclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apilocaldb_packageclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apilocaldbclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apilogmanagerclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apimainwindowclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apimaterialxglobalclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apimodaldialogclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apimoduledataclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apimoduleglobalclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apimodulenodegraphclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apimouseeventclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apimouselistenerclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apimousewheeldetailsclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apinetrendermanagerclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apinodearrayclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apinodeclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apinodegraphclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apinodegrapheditorclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apinodegraphmoduleinfoclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apinodeinspectorclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apinodepininfoclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apinumericboxclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apiocioconfigclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apiocioconfigloaderclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apiociocontextmanagerclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apioctanemodulesclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apioutputcolorspaceinfoclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apipackageclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apiprogressbarclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apiprojectmanagerclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apiprojectworkspaceclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apireferencegraphclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apirendercloudmanagerclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apirenderengineclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apirenderimageclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apirenderviewclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apirootnodegraphclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apisceneexporterclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apisceneoutlinerclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apiselectionmanagerclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apisharedsurfaceclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apitableclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apitextbuttonclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apitexteditorclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apitexturenodetypeinfoclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apitexturepintypeinfoclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apitexturevaluetypesetclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apitimesamplingclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apititlecomponentclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apiwindowclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apiworkpanemoduleinfoclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\imageinfoclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\layerinfoclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\netrenderstatusclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\renderresultstatisticsclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\socketaddressclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\timespantclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\vdbgridinfoclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\vdbgridsamplerclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\vdbinfoclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\convertmatrix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\grpcsettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertaabbf.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapiarrayapirenderimage.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapiattributeinfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapibitmaskpininfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapiboolpininfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapicompatibilitymodeinfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapidevicememoryusage.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapideviceresourcestatistics.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapidevicesharedsurfaceinfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapienumpininfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapifilepath.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapifloatpininfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapigeometrystatistics.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapiintpininfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapimousewheeldetails.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapinodegraphinfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapinodeinfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapinodepininfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapiociocolorspacepininfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapiociolookpininfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapiocioviewpininfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapiprojectionpininfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapirendercloudmanager_apirendercloudmanager_subscriptioninfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapirenderpassinfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapistringpininfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapitexturenodetypeinfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapitexturenodetypeinfo_apitexturenodetypeinfo_configuration.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapitexturenodetypeinfo_configuration_interface.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapitexturenodetypeinfo_configuration_parameters.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapitexturepininfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapitexturepintypeinfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapitexturestatistics.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapitexturevaluetypeset.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapitimesampling.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapitransformpininfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapitransformpininfo_apitransformpininfo_bounds.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertimageexportsettings.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertimageexportsettings_imageexportsettings_exrexportsettings.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertimageexportsettings_imageexportsettings_jpegexportsettings.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertimageexportsettings_imageexportsettings_tiffexportsettings.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertnetinterfaceinfo.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertnetrendersettings.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertnetrenderstatus.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertreferencepackageexportsettings.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertrenderpassexport.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertrenderresultstatistics.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\clientcallbackmgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grpcmodulebase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="callbackservice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apianimationtimetransform.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apianimationtimetransform.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiarray.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiarray.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apibase64.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apibase64.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apibinaryfile.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apibinaryfile.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apichangemanager.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apichangemanager.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apicheckbox.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apicheckbox.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apicollapsiblepanelstack.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apicollapsiblepanelstack.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apicolorswatch.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apicolorswatch.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apicombobox.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apicombobox.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apicustomcurveeditorcontroller.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apicustomcurveeditorcontroller.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apidbmaterialmanager.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apidbmaterialmanager.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apidiagnostics.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apidiagnostics.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apidialogfeedback.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apidialogfeedback.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apifilechooser.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apifilechooser.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apifilename.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apifilename.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apigeometryexporter.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apigeometryexporter.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apigridlayout.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apigridlayout.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiguicomponent.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiguicomponent.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiimage.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiimage.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiimagebuffer.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiimagebuffer.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiimagecomponent.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiimagecomponent.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiimageinfo.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiimageinfo.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiinfo.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiinfo.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apilabel.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apilabel.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apilocaldb.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apilocaldb.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apilogmanager.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apilogmanager.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apimainwindow.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apimainwindow.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apimaterialx.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apimaterialx.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apimodaldialog.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apimodaldialog.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apimodule.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apimodule.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apimoduledata.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apimoduledata.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apimodulenodegraph.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apimodulenodegraph.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apimouselistener.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apimouselistener.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinetrendermanager.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinetrendermanager.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodegrapheditor.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodegrapheditor.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodeinspector.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodeinspector.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinumericbox.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinumericbox.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiocioconfig.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiocioconfig.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiocioconfigloader.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiocioconfigloader.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiociocontextmanager.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiociocontextmanager.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apioctanemodules.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apioctanemodules.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apioutputcolorspaceinfo.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apioutputcolorspaceinfo.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apipackage.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apipackage.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiplugin.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiplugin.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiprogressbar.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiprogressbar.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiprojectmanager.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiprojectmanager.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiprojectworkspace.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiprojectworkspace.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apireferencegraph.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apireferencegraph.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apirender.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apirender.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apirendercloudmanager.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apirendercloudmanager.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apirenderview.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apirenderview.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apisceneexporter.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apisceneexporter.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apisceneoutliner.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apisceneoutliner.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiselectionmanager.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiselectionmanager.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apisharedsurface.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apisharedsurface.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apistart.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apistart.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apitable.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apitable.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apitextbutton.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apitextbutton.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apitexteditor.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apitexteditor.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apitimesampling.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apitimesampling.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apititlecomponent.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apititlecomponent.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiwindow.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiwindow.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\callback.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\callback.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\common.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\common.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneenums.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneenums.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneids.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneids.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneimageexport.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneimageexport.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneinfos.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneinfos.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanemodulesinfo.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanemodulesinfo.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanenet.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanenet.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanereferenceexport.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanereferenceexport.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanerenderpasses.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanerenderpasses.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanetime.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanetime.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanevectypes.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanevectypes.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanevolume.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanevolume.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\grpcbase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapchangemanager.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapcheckbox.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapcollapsiblepanelstack.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapcolorswatch.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapcombobox.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapcommandmodule.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapfilechooser.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapfilename.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapgridlayout.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapguicomponent.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapimage.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapimagecomponent.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapinfos.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwraplabel.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapmodaldialog.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapmouselistener.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapnodegraphmodule.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapnumericbox.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapprogressbar.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapprojectmanager.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapselectionmanager.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwraptable.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwraptextbutton.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwraptexteditor.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwraptitlecomponent.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwraputil.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapwindow.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\octanegrpcwrapworkpanemodule.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="apinodepininfohelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="apicontrol.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodepininfohelper.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodepininfohelper.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\control.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\control.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\stringmgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\objectmgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\converters\convertapitilegridsettings.cpp">
+      <Filter>Source Files\converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apicaches.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apicaches.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apitilegrid.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apitilegrid.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apicachesclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apitilegridloaderclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_1.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_1.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_3.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_3.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_5.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_5.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_6.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_6.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_7.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_7.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_8.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_8.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\client\apigaussiansplatcloudnodeclient.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apigaussiansplatting.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apigaussiansplatting.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

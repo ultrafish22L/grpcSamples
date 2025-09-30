@@ -3,25 +3,33 @@
 # Create a static library named grpcproxylibusing this source file
 # grpcproxylib/CMakeLists.txt
 
+#SET(BUILD_TYPE release)
+SET(THIRDPARTY_PLATFORM windows)
+# set platform dependent parameters
+IF(APPLE)
+#    SET(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++ --sysroot ${CMAKE_OSX_SYSROOT} ${CMAKE_CXX_FLAGS}")
+    SET(THIRDPARTY_PLATFORM osx)
+ELSE(APPLE)
+#    SET(CMAKE_CXX_FLAGS "-std=c++11")
+#    SET(THIRDPARTY_PLATFORM linux)
+ENDIF(APPLE)
 
 set(THIRD_PARTY_INCLUDE_DIR
-${CMAKE_SOURCE_DIR}/../libraries/libcommon
-${CMAKE_SOURCE_DIR}/../src/globals
-${CMAKE_SOURCE_DIR}/../src/api
-${CMAKE_SOURCE_DIR}/../src/api/module
-${CMAKE_SOURCE_DIR}/../src/api/module/gui
-${CMAKE_SOURCE_DIR}/../src/api/grpc/protoc
-${CMAKE_SOURCE_DIR}/../src/api/grpc/converters
-${CMAKE_SOURCE_DIR}/../src/api/grpc/client
-${CMAKE_SOURCE_DIR}/../src/api/grpc
-${CMAKE_SOURCE_DIR}/../
-${CMAKE_SOURCE_DIR}/../src/api/ui
-${CMAKE_SOURCE_DIR}/grpcproxy
-${CMAKE_SOURCE_DIR}/../thirdparty/grpc/${THIRDPARTY_PLATFORM}/include
-${CMAKE_SOURCE_DIR}/../thirdparty/absl/${THIRDPARTY_PLATFORM}/include
-${CMAKE_SOURCE_DIR}/../thirdparty/cares/${THIRDPARTY_PLATFORM}/include
-${CMAKE_SOURCE_DIR}/../thirdparty/re2/${THIRDPARTY_PLATFORM}/include
-${CMAKE_SOURCE_DIR}/../thirdparty/protobuf/${THIRDPARTY_PLATFORM}/include
+${CMAKE_SOURCE_DIR}/sdk/src/globals
+${CMAKE_SOURCE_DIR}/sdk/src/api
+${CMAKE_SOURCE_DIR}/sdk/src/api/module
+${CMAKE_SOURCE_DIR}/sdk/src/api/module/gui
+${CMAKE_SOURCE_DIR}/sdk/src/api/grpc/protoc
+${CMAKE_SOURCE_DIR}/sdk/src/api/grpc/converters
+${CMAKE_SOURCE_DIR}/sdk/src/api/grpc/client
+${CMAKE_SOURCE_DIR}/sdk/src/api/grpc
+${CMAKE_SOURCE_DIR}/sdk/src/api/ui
+${CMAKE_SOURCE_DIR}/sdk
+${CMAKE_SOURCE_DIR}/third_party/grpc/${THIRDPARTY_PLATFORM}/include
+${CMAKE_SOURCE_DIR}/third_party/absl/${THIRDPARTY_PLATFORM}/include
+${CMAKE_SOURCE_DIR}/third_party/cares/${THIRDPARTY_PLATFORM}/include
+${CMAKE_SOURCE_DIR}/third_party/re2/${THIRDPARTY_PLATFORM}/include
+${CMAKE_SOURCE_DIR}/third_party/protobuf/${THIRDPARTY_PLATFORM}/include
 )
 
 #set(THIRD_PARTY_LIB_DIR ${CMAKE_SOURCE_DIR}/thirdparty/mylib/lib)
@@ -299,12 +307,12 @@ set(GRPC_SOURCES
      ../../src/api/grpc/protoc/apinodepininfohelper.pb.cc
      ../../src/api/grpc/protoc/apinodesystem_1.grpc.pb.cc
      ../../src/api/grpc/protoc/apinodesystem_1.pb.cc
-     ../../src/api/grpc/protoc/apinodesystem_2.grpc.pb.cc
-     ../../src/api/grpc/protoc/apinodesystem_2.pb.cc
+#     ../../src/api/grpc/protoc/apinodesystem_2.grpc.pb.cc
+#     ../../src/api/grpc/protoc/apinodesystem_2.pb.cc
      ../../src/api/grpc/protoc/apinodesystem_3.grpc.pb.cc
      ../../src/api/grpc/protoc/apinodesystem_3.pb.cc
-     ../../src/api/grpc/protoc/apinodesystem_4.grpc.pb.cc
-     ../../src/api/grpc/protoc/apinodesystem_4.pb.cc
+#     ../../src/api/grpc/protoc/apinodesystem_4.grpc.pb.cc
+#     ../../src/api/grpc/protoc/apinodesystem_4.pb.cc
      ../../src/api/grpc/protoc/apinodesystem_5.grpc.pb.cc
      ../../src/api/grpc/protoc/apinodesystem_5.pb.cc
      ../../src/api/grpc/protoc/apinodesystem_6.grpc.pb.cc
