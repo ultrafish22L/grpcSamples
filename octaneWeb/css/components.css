@@ -350,7 +350,7 @@
 .parameter-dropdown {
     min-width: 80px;
     padding: 1px 4px;
-    background: #2a2a2a;
+    background: var(--octane-bg-primary);
     border: 1px solid #555;
     border-radius: 2px;
     color: #fff;
@@ -369,7 +369,7 @@
     width: 50px;
     height: 16px;
     padding: 0 2px;
-    background: #2a2a2a;
+    background: var(--octane-bg-primary);
     border: 1px solid #555;
     border-left: none;
     border-right: none;
@@ -553,7 +553,7 @@ input:checked + .slider {
 
 input:checked + .slider:before {
     transform: translateX(18px);
-    background-color: white;
+    background-color: var(--octane-bg-primary);
 }
 
 .slider:hover {
@@ -814,7 +814,7 @@ input:checked + .slider:before {
 .parameter-checkbox {
     width: 14px;
     height: 14px;
-    background-color: var(--octane-bg-secondary);
+    background-color: var(--octane-bg-primary);
     border: 1px solid var(--octane-border);
     border-radius: 2px;
     cursor: pointer;
@@ -831,14 +831,12 @@ input:checked + .slider:before {
 
 .parameter-checkbox:checked,
 .parameter-checkbox.checked {
-    background-color: var(--octane-accent-blue);
-    border-color: var(--octane-accent-blue);
+    background-color: var(--octane-bg-primary);
 }
 
 .parameter-checkbox:checked::after,
 .parameter-checkbox.checked::after {
     content: '✓';
-    color: white;
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-bold7);
     line-height: 1;
@@ -2044,7 +2042,7 @@ body.drag-over .drop-indicator {
 
 .slider-switch input:checked + .slider:before {
     transform: translateX(16px);
-    background-color: #fff;
+    background-color: var(--octane-bg-primary);
 }
 
 .slider-switch:hover .slider {
@@ -2566,7 +2564,7 @@ body.drag-over .drop-indicator {
 .parameter-checkbox-custom {
     width: 16px;
     height: 16px;
-    background: var(--octane-bg-secondary);
+    background: var(--octane-bg-primary);
     border: 1px solid var(--octane-border);
     border-radius: 3px;
     position: relative;
@@ -2576,13 +2574,11 @@ body.drag-over .drop-indicator {
 }
 
 .parameter-checkbox:checked + .parameter-checkbox-custom {
-    background: var(--octane-accent);
-    border-color: var(--octane-accent);
+    background: var(--octane-bg-primary);
 }
 
 .parameter-checkbox:checked + .parameter-checkbox-custom::after {
     content: '✓';
-    color: white;
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-bold7);
 }
@@ -2870,24 +2866,24 @@ body.drag-over .drop-indicator {
     background-color: var(--octane-bg-darker);
     border: 1px solid var(--octane-parameter-bg);
     border-radius: 4px; 
+    margin: 2px 2px 2px 4px;
     padding: 0 0 0 0;
-    margin: 2px 1px 2px 4px;
 }
 
 .node-inspector .node-indent {
     background-color: var(--octane-bg-secondary);
     border: 1px solid var(--octane-parameter-bg);
     border-radius: 4px; 
+    margin: 2px 2px 2px 20px;   
     padding: 0 0 0 0;
-    margin: 2px 1px 2px 20px;   
 }
 
 .node-inspector .node-indent-done {
     background-color: var(--octane-bg-secondary);
     border: 1px solid var(--octane-parameter-bg);
     border-radius: 4px; 
-    padding: 0 0 0 0;
-    margin: 2px 1px 2px 1px;   
+    margin: 2px 2px 2px 1px;   
+    padding: 0 0 0 0; 
 }
 
 .node-inspector .node-toggle-content {
@@ -2988,7 +2984,7 @@ body.drag-over .drop-indicator {
 }
 
 .node-inspector .node-parameter-controls .parameter-dropdown {
-    background: #2a2a2a;
+    background: var(--octane-bg-primary);
     border: 1px solid #444;
     border-radius: 4px;
     color: #e0e0e0;
@@ -3074,14 +3070,13 @@ body.drag-over .drop-indicator {
     display: block;
     margin: 0;
     cursor: pointer;
-    accent-color: var(--octane-accent);
-    background: #333;
+    background: var(--octane-bg-primary);
 }
 
 .octane-number-input {
     min-width: 36px;
     height: 18px;
-    background: #2a2a2a;
+    background: var(--octane-bg-primary);
     border: 1px solid #444;
     border-radius: 2px;
     color: #e0e0e0;
@@ -3095,7 +3090,7 @@ body.drag-over .drop-indicator {
 .octane-color-input {
     min-width: 36px;
     height: 18px;
-    background: #2a2a2a;
+    background: var(--octane-bg-primary);
     border: 1px solid #444;
     border-radius: 2px;
     color: #e0e0e0;
@@ -3115,7 +3110,7 @@ body.drag-over .drop-indicator {
 .octane-text-input {
     width: 80px;
     height: 18px;
-    background: #2a2a2a;
+    background: var(--octane-bg-primary);
     border: 1px solid #444;
     border-radius: 2px;
     color: #e0e0e0;
@@ -3154,7 +3149,7 @@ body.drag-over .drop-indicator {
 
 .octane-dropdown {
     height: 18px;
-    background: #2a2a2a;
+    background: var(--octane-bg-primary);
     border: 1px solid #444;
     border-radius: 2px;
     color: #e0e0e0;
@@ -3184,7 +3179,7 @@ body.drag-over .drop-indicator {
 .octane-vector-input {
     width: 45px;
     height: 18px;
-    background: #2a2a2a;
+    background: var(--octane-bg-primary);
     border: 1px solid #444;
     border-radius: 2px;
     color: #e0e0e0;
@@ -3343,7 +3338,7 @@ body.drag-over .drop-indicator {
 }
 
 .parameter-checkbox:checked + .parameter-checkbox-custom {
-    background: var(--octane-accent);
+    background-color: var(--octane-bg-primary);
     border-color: var(--octane-accent);
 }
 
@@ -3353,7 +3348,6 @@ body.drag-over .drop-indicator {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: white;
     font-size: 10px;
     font-weight: var(--font-weight-bold7);
 }

@@ -296,25 +296,6 @@ class GenericNodeRenderer {
         nodeData.value = value
         let controlHtml
 
-
-        if (type == "AT_FLOAT4") {
-            switch (nodeData.pinInfo?.floatInfo.dimCount)
-            {
-                case 1:
-                    type = "AT_FLOAT";
-                    value = { float_value: value.float4_value.x };
-                    break;
-                case 2:
-                    type = "AT_FLOAT2";
-                    value = { float2_value: { x: value.float4_value.x, y: value.float4_value.y }};
-                    break;
-                case 3:
-                    type = "AT_FLOAT3";
-                    value = { float3_value: { x: value.float4_value.x, y: value.float4_value.y, z: value.float4_value.z }};
-                    break;
-            }
-        }
-
         switch (type) {
         case "AT_BOOL":
             value = value.bool_value;
@@ -377,16 +358,51 @@ class GenericNodeRenderer {
             
         case "AT_FLOAT4":
             value = value.float4_value;
-            controlHtml = `
-                <div class="parameter-control-container">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="0.001" 
-                        data-handle="${nodeData.handle}" data-component="x" data-type="float4_value">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.y}" step="0.001" 
-                        data-handle="${nodeData.handle}" data-component="y" data-type="float4_value">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.z}" step="0.001" 
-                        data-handle="${nodeData.handle}" data-component="z" data-type="float4_value">
-                </div>
-            `;
+            switch (nodeData.pinInfo?.floatInfo.dimCount)
+            {
+            case 1:
+                controlHtml = `
+                    <div class="parameter-control-container">
+                        <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="0.001" 
+                            data-handle="${nodeData.handle}" data-component="x" data-type="float4_value">
+                    </div>
+                `;
+                break;
+            case 2:
+                controlHtml = `
+                    <div class="parameter-control-container">
+                        <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="0.001" 
+                            data-handle="${nodeData.handle}" data-component="x" data-type="float4_value">
+                        <input type="number" class="octane-number-input parameter-control" value="${value.y}" step="0.001" 
+                            data-handle="${nodeData.handle}" data-component="y" data-type="float4_value">
+                    </div>
+                `;
+                break;
+            case 3:
+                controlHtml = `
+                    <div class="parameter-control-container">
+                        <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="0.001" 
+                            data-handle="${nodeData.handle}" data-component="x" data-type="float4_value">
+                        <input type="number" class="octane-number-input parameter-control" value="${value.y}" step="0.001" 
+                            data-handle="${nodeData.handle}" data-component="y" data-type="float4_value">
+                        <input type="number" class="octane-number-input parameter-control" value="${value.z}" step="0.001" 
+                            data-handle="${nodeData.handle}" data-component="z" data-type="float4_value">
+                    </div>
+                `;
+                break;
+            default:
+                controlHtml = `
+                    <div class="parameter-control-container">
+                        <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="0.001" 
+                            data-handle="${nodeData.handle}" data-component="x" data-type="float4_value">
+                        <input type="number" class="octane-number-input parameter-control" value="${value.y}" step="0.001" 
+                            data-handle="${nodeData.handle}" data-component="y" data-type="float4_value">
+                        <input type="number" class="octane-number-input parameter-control" value="${value.z}" step="0.001" 
+                            data-handle="${nodeData.handle}" data-component="z" data-type="float4_value">
+                    </div>
+                `;
+                break;
+            }
             break;
             
         case "AT_INT":

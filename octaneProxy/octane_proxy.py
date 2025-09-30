@@ -213,7 +213,7 @@ class GrpcServiceRegistry:
                 request_class = getattr(pb2_module, pattern, None)
 
             if request_class:
-                if DO_LOGGING_LEVEL > 1:
+                if DO_LOGGING_LEVEL > 2:
                     print(f"GOT request class for {service_name}.{method_name} {pattern}")
                 return request_class
 
@@ -587,7 +587,7 @@ async def handle_generic_grpc(request):
         method_name = path_match.group(2)
 
         if DO_LOGGING_LEVEL > 0:
-            print(f"\nService/Method: {service_name}/{method_name}")
+            print(f"Service/Method: {service_name}/{method_name}")
 
         # Get the appropriate stub
         stub = grpc_registry.get_stub(service_name, method_name, proxy.channel)
@@ -607,7 +607,7 @@ async def handle_generic_grpc(request):
                 pass  # Empty or invalid JSON is OK for some requests
 
         # Get the request class and create the request
-        if DO_LOGGING_LEVEL > 1:
+        if DO_LOGGING_LEVEL > 2:
             print(f"Request sent: {json.dumps(request_data, indent=2)}")
         request_class = grpc_registry.get_request_class(service_name, method_name)
         grpc_request = request_class()
@@ -617,7 +617,7 @@ async def handle_generic_grpc(request):
             for key, value in request_data.items():
                 if not recurse_attr(grpc_request, key, value):
                     if key == "objectPtr":
-                        if DO_LOGGING_LEVEL > 1:
+                        if DO_LOGGING_LEVEL > 2:
                             print(f"REQUEST KEY: {key}")
                             print(f"Name: {grpc_request.DESCRIPTOR.name}")
                             print(f"Full Name: {grpc_request.DESCRIPTOR.full_name}")
@@ -630,11 +630,9 @@ async def handle_generic_grpc(request):
                                 print(f"❌ Error handle_generic_grpc(): no REQUEST KEY: {key}")
 
         # Make the gRPC call
-        if DO_LOGGING_LEVEL > 0:
+        if DO_LOGGING_LEVEL > 1 and request_data:
             print(f"req:  {grpc_request}")        
         response = await method(grpc_request)
-        if DO_LOGGING_LEVEL > 0:
-            print(f"resp: {response}")
 
         # Convert response to dict
         success = False
@@ -642,8 +640,11 @@ async def handle_generic_grpc(request):
             response_dict = MessageToDict(response, preserving_proto_field_name=True)
             proxy.success_count += 1
             success = True
+            if DO_LOGGING_LEVEL > 1 and response != Empty():
+                print(f"resp: {response}")
         else:
             print(f"❌ Error handle_generic_grpc(): no response dict")
+            print(f"resp: {response}")
 
         return web.json_response({
             'success': success,

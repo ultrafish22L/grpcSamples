@@ -114,70 +114,6 @@ class NodeInspector extends OctaneComponent {
                 return;
             }
         });
-
-        return;
-
-        // Global document click handler that intercepts ALL clicks
-        rightPanel.addEventListener('click', (event) => {
-            // Get click coordinates
-            const x = event.clientX;
-            const y = event.clientY;
-            
-            // Get right panel bounds
-            const rightPanelRect = rightPanel.getBoundingClientRect();
-            
-            // Check if click is within right panel area
-            if (x >= rightPanelRect.left && x <= rightPanelRect.right &&
-                y >= rightPanelRect.top && y <= rightPanelRect.bottom) {
-                
-                console.log('Coordinate-based click detected in right panel at:', x, y);
-                
-                // Use elementsFromPoint to find what's actually under the cursor
-                const elementsUnderCursor = document.elementsFromPoint(x, y);
-//                console.log('Elements under cursor:', elementsUnderCursor.map(el => `${el.tagName}.${el.className} [bid=${el.getAttribute('bid')}]`));
-                
-                // Find the first clickable element in the right panel
-                for (const element of elementsUnderCursor) {
-                    // Skip elements that are not in the right panel
-                    if (!rightPanel.contains(element)) continue;
-
-                    
-                    // Handle parameter group headers (expand/collapse)
-                    if (element.hasAttribute) {
-                        if (element.hasAttribute('data-group')) {
-                            const groupName = element.getAttribute('data-group');
-                            console.log('Coordinate-based toggle of parameter group:', groupName);
-                            this.toggleGroup(groupName);
-                            event.preventDefault();
-                            event.stopPropagation();
-                            return;
-                        }
-                        if (element.hasAttribute('data-toggle')) {
-                            const nodeid = element.getAttribute('data-toggle');
-                            console.log('Coordinate-based toggle of parameter parent:', nodeid);
-                            this.toggleParent(nodeid);
-                            event.preventDefault();
-                            event.stopPropagation();
-                            return;
-                        }
-                    }
-                    
-                    // Handle parameter group headers by checking parent elements
-                    let parent = element.parentElement;
-                    while (parent && rightPanel.contains(parent)) {
-                        if (parent.hasAttribute && parent.hasAttribute('data-group')) {
-                            const groupName = parent.getAttribute('data-group');
-                            console.log('Coordinate-based toggle of parameter group (via parent):', groupName);
-                            this.toggleGroup(groupName);
-                            event.preventDefault();
-                            event.stopPropagation();
-                            return;
-                        }
-                        parent = parent.parentElement;
-                    }
-                }
-            }
-        }, true); // Capture phase - intercepts before any other handlers
     }
     
     
@@ -232,60 +168,12 @@ class NodeInspector extends OctaneComponent {
 
     
     setupControlEventListeners() {
-/*        
-        // Group collapse/expand functionality
-        const groupHeaders = this.element.querySelectorAll('.parameter-group-header[data-group]');
-        groupHeaders.forEach(header => {
-            this.addEventListener(header, 'click', (e) => {
-                const groupName = header.dataset.group;
-                const content = this.element.querySelector(`[data-group-content="${groupName}"]`);
-                const icon = header.querySelector('.parameter-group-icon');
-                
-                if (header.classList.contains('collapsed')) {
-                    header.classList.remove('collapsed');
-                    content.style.display = 'block';
-                    icon.textContent = '▼';
-                } else {
-                    header.classList.add('collapsed');
-                    content.style.display = 'none';
-                    icon.textContent = '▶';
-                }
-            });
-        });
-  */      
-        // Parameter input change handlers
-        const numberInputs = this.element.querySelectorAll('.parameter-number-input');
-        numberInputs.forEach(input => {
-            this.addEventListener(input, 'change', (e) => {
-                this.handleParameterChange(e.target);
-            });
-            
-            this.addEventListener(input, 'input', (e) => {
-                this.updateSliderFromInput(e.target);
-            });
-        });
-        
-        // Checkbox handlers
-        const checkboxes = this.element.querySelectorAll('.parameter-checkbox');
-        checkboxes.forEach(checkbox => {
-            this.addEventListener(checkbox, 'change', (e) => {
-                this.handleParameterChange(e.target);
-            });
-        });
-        
-        // Dropdown handlers
-        const dropdowns = this.element.querySelectorAll('.parameter-dropdown, .inspector-target-select');
-        dropdowns.forEach(dropdown => {
-            this.addEventListener(dropdown, 'change', (e) => {
-                this.handleParameterChange(e.target);
-            });
-        });
-        
+       
         // NEW: Generic parameter control handlers for GenericNodeRenderer controls
         const parameterControls = this.element.querySelectorAll('.parameter-control');
         parameterControls.forEach(control => {
             this.addEventListener(control, 'change', (e) => {
-                console.log('.parameter-control change:', e.target.dataset.parameter, e.target.value);
+//                console.log('.parameter-control change:', e.target.dataset.parameter, e.target.value);
                 this.handleParameterChange(e.target);
             });
         });
@@ -371,18 +259,6 @@ class NodeInspector extends OctaneComponent {
     }
 
     
-    async updateParameterValue(paramName, value) {
-        if (!this.selectedNode) return;
-        
-        try {
-            await window.octaneClient.updateNodeParameter(this.selectedNode, paramName, value);
-            this.parameters[paramName] = { ...this.parameters[paramName], value };
-        } catch (error) {
-            console.error('NodeInspector.updateParameterValue(): ', error);
-        }
-    }
-    
-
     updateParameter(nodeId, parameterName, value) {
         if (nodeId === this.selectedNode && this.parameters[parameterName]) {
             this.parameters[parameterName].value = value;
@@ -395,6 +271,8 @@ class NodeInspector extends OctaneComponent {
     updateParameterUI(paramName, value) {
         const input = this.element.querySelector(`[data-param="${paramName}"]`);
         if (input) {
+            console.log(`updateParameterUI ${paramName} ${value}`);
+
             if (input.type === 'checkbox') {
                 input.classList.toggle('checked', value);
             } else {
@@ -420,8 +298,10 @@ class NodeInspector extends OctaneComponent {
         }
         const datatype = element.dataset.type;
         const component = element.dataset.component;
+        console.log(`handleParameterChange ${datatype} ${component} ${element.value}`);
 
         let value = nodeData.value
+        console.log(`handleParameterChange ${nodeData.name} ${datatype} ${component ? component:""} value = `, JSON.stringify(value));
         switch (nodeData.attrInfo.type) {
         case "AT_BOOL":
 //            console.log(`handleParameterChange element.checked = ${element.checked}`);
@@ -441,27 +321,41 @@ class NodeInspector extends OctaneComponent {
         case "AT_FLOAT2":
         case "AT_FLOAT3":
         case "AT_FLOAT4":
-            value[datatype][component] = parseFloat(element.value);
+            if (component == undefined) {
+                value[datatype] = parseFloat(element.value);
+            }
+            else {
+                value[datatype].x = parseFloat(element.value);
+            }
             break;
         case "AT_INT2":
         case "AT_INT3":
         case "AT_INT4":
         case "AT_LONG2":
-            value[datatype][component] = parseInt(element.value);
+            if (component == undefined) {
+                value[datatype] = parseInt(element.value);
+            }
+            else {
+                value[datatype][component] = parseInt(element.value);
+            }
             break;
         }
         console.log(`handleParameterChange ${nodeData.name} ${datatype} ${component ? component:""} newValue = `, JSON.stringify(value));
         nodeData.value = value
 
-        let response = window.octaneClient.makeApiCallAsync(
+//        let response = window.octaneClient.makeApiCallAsync(
+        const response = window.octaneClient.makeApiCall(
             'ApiItem/setByAttrID', 
             nodeData.handle,
-            { id: window.OctaneTypes.AttributeId.A_VALUE,
-                evaluate: true,
+            {   attribute_id: window.OctaneTypes.AttributeId.A_VALUE,
                 ...value,
+                evaluate: true,
             },
         );
+        console.log(`  response `, JSON.stringify(response));
+
         if (response.success) {
+            // forces render update
             window.octaneClient.makeApiCallAsync('ApiChangeManager/update');         
         }   
     }
