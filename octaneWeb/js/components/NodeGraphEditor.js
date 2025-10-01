@@ -284,6 +284,7 @@ class NodeGraphEditor extends OctaneComponent {
         if (!outputNode || !inputNode) return;
         
         const outputPos = this.getSocketPosition(outputNode, connection.outputSocket, 'output');
+//        window.console.log("outputPos", outputPos.x, outputPos.y, outputPos.z);
         const inputPos = this.getSocketPosition(inputNode, connection.inputSocket, 'input');
         
         // Connection color based on data type
@@ -875,10 +876,13 @@ class NodeGraphEditor extends OctaneComponent {
         const height = node.height || 40;
         const sockets = type === 'input' ? node.inputs : node.outputs;
         let socketIndex = sockets?.findIndex(s => s.name === socketName) || 0;
-        
+        if (socketIndex < 0) {
+            socketIndex = 0;
+        }
         if (type === 'input') {
             // Input sockets on TOP (horizontal layout)
             const inputSpacing = width / (sockets.length + 1);
+            window.console.log("input connect ", socketName, inputSpacing, node.x + inputSpacing * (socketIndex + 1))
             return {
                 x: node.x + inputSpacing * (socketIndex + 1),
                 y: node.y
