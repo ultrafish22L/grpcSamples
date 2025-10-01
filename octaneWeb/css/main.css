@@ -1,0 +1,23 @@
+/**
+ * OctaneWeb Main Stylesheet
+ * Consolidated entry point for all styles
+ * 
+ * This file imports all necessary stylesheets in the correct order:
+ * 1. Theme variables and base styles
+ * 2. Original theme definitions
+ * 3. Layout system
+ * 4. Component styles
+ */
+
+/* Theme Foundation */
+@import url('./theme/variables.css');
+@import url('./theme/base.css');
+
+/* Original Octane Theme */
+@import url('./octane-theme.css');
+
+/* Layout System */
+@import url('./layout.css');
+
+/* Component Styles */
+@import url('./components.css');

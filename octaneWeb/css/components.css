@@ -842,9 +842,7 @@ input:checked + .slider:before {
     line-height: 1;
 }
 
-.checkbox-label {
-    display: none;
-}
+
 
 /* Parameter Dropdowns */
 .parameter-dropdown {
@@ -1465,33 +1463,7 @@ body.drag-over .drop-indicator {
     -ms-user-select: none;
 }
 
-.full-width {
-    width: 100% !important;
-}
 
-.full-height {
-    height: 100% !important;
-}
-
-.text-center {
-    text-align: center !important;
-}
-
-.text-right {
-    text-align: right !important;
-}
-
-.flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.flex-between {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
 
 /* ===== OFFICIAL OTOY CONTROL BARS ===== */
 
@@ -2245,31 +2217,7 @@ body.drag-over .drop-indicator {
     max-width: 200px;
 }
 
-.grid-button {
-    background: var(--octane-bg-secondary);
-    border: 1px solid var(--octane-border);
-    color: var(--octane-text-secondary);
-    font-size: var(--font-size-xs);
-    padding: 1px;
-    border-radius: 2px;
-    cursor: pointer;
-    min-width: 18px;
-    height: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-.grid-button:hover {
-    background: var(--octane-bg-hover);
-    color: var(--octane-text-primary);
-}
-
-.grid-button.active {
-    background: var(--octane-accent);
-    color: white;
-    border-color: var(--octane-accent);
-}
 
 .file-path {
     flex-direction: column;
@@ -2290,10 +2238,7 @@ body.drag-over .drop-indicator {
     font-family: var(--font-family-mono);
 }
 
-.file-stats {
-    font-size: var(--font-size-small);
-    color: var(--octane-text-tertiary);
-}
+
 
 /* ========================================
    ENHANCED PARAMETER CONTROLS
@@ -2325,14 +2270,7 @@ body.drag-over .drop-indicator {
     100% { transform: rotate(360deg); }
 }
 
-.error-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-    color: var(--octane-text-secondary);
-}
+
 
 .error-icon {
     font-size: var(--font-size-title);

@@ -1,0 +1,81 @@
+/**
+ * OctaneWeb Theme Variables
+ * Centralized CSS custom properties for consistent theming
+ */
+
+:root {
+    /* Octane Studio Color Palette - Extracted from native application */
+    --octane-bg-primary: #2b2b2b;      /* Main background */
+    --octane-bg-secondary: #3c3c3c;    /* Panel backgrounds */
+    --octane-bg-parameter: #4c4c4c;    /* Panel backgrounds */
+    --octane-bg-darker: #1e1e1e;       /* Darker panels */
+    --octane-bg-header: #404040;       /* Header/menu backgrounds */
+    --octane-bg-selected: #4a4a4a;     /* Selected items */
+    --octane-bg-hover: #484848;        /* Hover states */
+    
+    /* Octane Text Colors */
+    --octane-text-primary: #ffffff;    /* Primary text */
+    --octane-text-secondary: #cccccc;  /* Secondary text */
+    --octane-text-muted: #999999;      /* Muted text */
+    --octane-text-disabled: #666666;   /* Disabled text */
+    --octane-text-tertiary: #aaaaaa;   /* Tertiary text */
+    
+    /* Octane Accent Colors */
+    --octane-accent: #ff8c00;          /* Primary accent - Octane orange */
+    --octane-accent-blue: #4a90e2;     /* Selection blue */
+    --octane-accent-orange: #ff8c00;   /* Warning/active orange */
+    --octane-accent-green: #5cb85c;    /* Success green */
+    --octane-accent-red: #d9534f;      /* Error red */
+    
+    /* Octane UI Elements */
+    --octane-border: #555555;          /* Standard borders */
+    --octane-border-light: #666666;    /* Light borders */
+    --octane-border-dark: #333333;     /* Dark borders */
+    --octane-shadow: rgba(0, 0, 0, 0.3); /* Drop shadows */
+    
+    /* Panel Layout Variables */
+    --splitter-size: 4px;              /* Resize handle thickness */
+    --left-panel-width: 180px;         /* Scene outliner width */
+    --left-panel-min-width: 140px;     /* Scene outliner min width */
+    --right-panel-width: 260px;        /* Node inspector width */
+    --right-panel-min-width: 200px;    /* Node inspector min width */
+    --bottom-panel-height: 300px;      /* Node graph height */
+    --bottom-panel-min-height: 200px;  /* Node graph min height */
+    
+    /* Octane Specific Colors */
+    --octane-viewport-bg: #2a2a2a;     /* Viewport background */
+    --octane-node-bg: #3a3a3a;         /* Node backgrounds */
+    --octane-connection-line: #888888; /* Node connections */
+    --octane-parameter-bg: #151515;    /* Parameter backgrounds */
+    
+    /* Typography */
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-family-mono: 'Consolas', 'Monaco', 'Courier New', monospace;
+    --font-size-xs: 10px;
+    --font-size-small: 11px;
+    --font-size-normal: 12px;
+    --font-size-medium: 13px;
+    --font-size-large: 14px;
+    --font-size-title: 16px;
+    --font-weight-normal: 400;
+    --font-weight-bold: 600;
+    --font-weight-header: 500;
+    --font-weight-bold7: 700;
+    
+    /* Spacing */
+    --spacing-xs: 2px;
+    --spacing-sm: 4px;
+    --spacing-md: 8px;
+    --spacing-lg: 12px;
+    --spacing-xl: 16px;
+    
+    /* Border Radius */
+    --border-radius-sm: 2px;
+    --border-radius-md: 4px;
+    --border-radius-lg: 6px;
+    
+    /* Transitions */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.25s ease;
+    --transition-slow: 0.35s ease;
+}
