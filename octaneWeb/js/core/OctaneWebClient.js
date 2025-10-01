@@ -886,9 +886,11 @@ function createOctaneWebClient() {
             // Build request data
             const [serviceName, methodName] = servicePath.split('/');
             
-            // !!! TODO fix for new
-            // Add objectPtr if handle is provided and service needs it
-            if (handle !== null) {
+            if (typeof handle !== "string") {
+                request = handle;
+            }
+            else {
+                // Add objectPtr if handle is provided and service needs it
                 // Determine the correct type for this service
                 const objectPtrType = window.OctaneTypes.ObjectType[serviceName];
         
@@ -901,6 +903,7 @@ function createOctaneWebClient() {
             }
             request = JSON.stringify(request);
             window.debugConsole.logLevel(!this.isSyncing ? 2:1, `makeApiCall(): ${servicePath}`, request);
+            
             const url = `${this.proxyUrl}/${servicePath}`;
             const xhr = new XMLHttpRequest();
             xhr.open('POST', url, doAsync); // false = synchronous

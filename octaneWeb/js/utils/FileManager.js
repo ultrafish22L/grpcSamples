@@ -193,10 +193,11 @@ class FileManager {
         if (!window.octaneClient.connected || !projectPath.endsWith('.orbx')) {
             return false;
         }
-        const response = await window.octaneClient.makeApiCall('ApiProjectManager/loadProject', {
+        console.log(`FileManager.processSceneFile(${projectPath})`);
+        const response = window.octaneClient.makeApiCall('ApiProjectManager/loadProject', {
             projectPath: projectPath
         });
-        console.log(`FileManager.processSceneFile(): ${response}`);
+        console.log(`${JSON.stringify(response, null, 2)}`);
         return response;
     }
     
