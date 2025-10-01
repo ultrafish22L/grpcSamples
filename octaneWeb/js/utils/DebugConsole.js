@@ -222,19 +222,25 @@ class DebugConsole {
         });
     }
 
-    log(type, message) {
-        this.addLog(type, message);
+    log(message) {
+        this.addLog("info", message);
     }
 
-    logLevel(level, type, message) {
+    logLevel(level, message) {
         if (this.theLogLevel >= level) {
-            this.addLog(type, message);
+            this.addLog("info", message);
         }
     }
 
     logIndent(indent, message) {
         const indents = "  ".repeat(indent) + message; // 2 spaces per level
         this.addLog("info", indents);
+    }
+
+    logLevelIndent(level, indent, message) {
+        if (this.theLogLevel >= level) {
+            this.logIndent(indent, message);
+        }
     }
 
     addLog(type, message) {

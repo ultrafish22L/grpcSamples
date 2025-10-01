@@ -92,10 +92,10 @@ class GenericNodeRenderer {
                 if (lgroup) {
                     // end last group for this level
                     html += `</div></div>`;
-                    window.debugConsole.logIndent(level,  `POP G  ${lgroup} ${level}`);
+                    window.debugConsole.logLevelIndent(1, level,  `POP G  ${lgroup} ${level}`);
                 }
                 if (groupName) {
-                    window.debugConsole.logIndent(level,  `PUSH G ${groupName} ${level} ${groupclass}`);
+                    window.debugConsole.logLevelIndent(1, level,  `PUSH G ${groupName} ${level} ${groupclass}`);
 
                     // Check if expanded: default to true if allNodesExpandedByDefault, otherwise check set
                     const isExpanded = this.allNodesExpandedByDefault ? 
@@ -109,7 +109,7 @@ class GenericNodeRenderer {
                                     <span class="inspector-group-label">${groupName}</span>
                                 </div>
                                 <div class="inspector-group-content" data-group-content="${groupName}" style="display: ${isExpanded ? 'block' : 'none'}">`;
-                    window.debugConsole.logIndent(level,  `GROUP ${groupName}`);
+                    window.debugConsole.logLevelIndent(1, level,  `GROUP ${groupName}`);
                 }
                 else if (lgroup) {
                     html += `<div class="inspector-group-indent">
@@ -117,7 +117,7 @@ class GenericNodeRenderer {
                                     <span class="inspector-group-label"> </span>
                                 </div>
                             <div>`;
-                    window.debugConsole.logIndent(level,  `LGROUP ${lgroup}`);
+                    window.debugConsole.logLevelIndent(1, level,  `LGROUP ${lgroup}`);
                 }
             }
         }
@@ -127,7 +127,7 @@ class GenericNodeRenderer {
             indentclass = "node-indent-done";
         }
         const name = nodeData.pinInfo?.staticLabel || nodeData.name;
-        window.debugConsole.logIndent(level, `NODE  ${name} ${level} ${indentclass}  group ${groupName}`);
+        window.debugConsole.logLevelIndent(1, level, `NODE  ${name} ${level} ${indentclass}  group ${groupName}`);
         html += `<div class="${indentclass}" style="display:'block'}">`;
            
         // Determine collapse/expand icon
@@ -149,6 +149,7 @@ class GenericNodeRenderer {
                     </div>`;
         }
         else {
+            // end node
             html += `<div class="node-box-parameter" data-node-handle="${nodeData.handle}" data-node-id="${nodeId}">
                         <div class="node-icon-box" style="background-color: ${color}">
                             <span class="node-icon">${icon}</span>
@@ -163,8 +164,6 @@ class GenericNodeRenderer {
                     </div>`;
         }        
         if (hasChildren) {
-//            this.lastGroup[level+1] = null;
-
             html += `<div class="node-toggle-content" data-toggle-content="${nodeId}" style="display: ${isExpanded ? 'block' : 'none'}">`;
 
             for (const child of nodeData.children) {
@@ -174,7 +173,7 @@ class GenericNodeRenderer {
                 // end last parameter group for children
                 const lcg = this.lastGroup[level+1];
                 if (this.hasGroup[level+1]) {
-                    window.debugConsole.logIndent(level+1,  `POP GDONE  ${lcg} ${level+1}`);
+                    window.debugConsole.logLevelIndent(1, level+1,  `POP GDONE  ${lcg} ${level+1}`);
                     html += `</div></div>`;
                     this.lastGroup[level+1] = null;
                     this.hasGroup[level+1] = false;
@@ -185,7 +184,7 @@ class GenericNodeRenderer {
         }
         // <div class="${indentclass}"
         html += `</div>`;
-        window.debugConsole.logIndent(level, `PNODE ${name} ${level} ${indentclass}  group ${groupName}`);
+        window.debugConsole.logLevelIndent(1, level, `PNODE ${name} ${level} ${indentclass}  group ${groupName}`);
 
         return html;
     }

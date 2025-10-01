@@ -203,7 +203,7 @@ class Camera {
      */
     orbitCamera(deltaX, deltaY) {
         // Update spherical coordinates
-        this.state.theta += deltaX * this.state.sensitivity;
+        this.state.theta -= deltaX * this.state.sensitivity;
         this.state.phi += deltaY * this.state.sensitivity;
         
         // Clamp phi to prevent gimbal lock

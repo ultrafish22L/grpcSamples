@@ -286,7 +286,7 @@
     flex-shrink: 0;
     background: #4a90e2; /* Blue background like official Octane */
     border: 1px solid #5a9ff2;
-    border-radius: 3px; /* Slightly smaller rounded blue background */
+    border-radius: 4px; /* Slightly smaller rounded blue background */
     color: white;
     display: flex;
     align-items: center;
@@ -2832,19 +2832,19 @@ body.drag-over .drop-indicator {
 .node-box {
     position: relative;
     background: var(--octane-bg-secondary);
-    min-height: 12px; /* Increased height for better proportions */
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     transition: all 0.2s ease;
 }
 
 .node-box-parameter {
     position: relative;
     background: var(--octane-bg-parameter);
-    min-height: 12px; /* Increased height for better proportions */
+    border-radius: 6px; 
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     transition: all 0.2s ease;
+    padding: 0 4px 0 0;
 }
 
 .node-box:hover {
@@ -2865,7 +2865,7 @@ body.drag-over .drop-indicator {
 .node-inspector .node-indent-0 {
     background-color: var(--octane-bg-darker);
     border: 1px solid var(--octane-parameter-bg);
-    border-radius: 4px; 
+    border-radius: 6px; 
     margin: 2px 2px 2px 4px;
     padding: 0 0 0 0;
 }
@@ -2873,7 +2873,7 @@ body.drag-over .drop-indicator {
 .node-inspector .node-indent {
     background-color: var(--octane-bg-secondary);
     border: 1px solid var(--octane-parameter-bg);
-    border-radius: 4px; 
+    border-radius: 6px; 
     margin: 2px 2px 2px 20px;   
     padding: 0 0 0 0;
 }
@@ -2881,7 +2881,7 @@ body.drag-over .drop-indicator {
 .node-inspector .node-indent-done {
     background-color: var(--octane-bg-secondary);
     border: 1px solid var(--octane-parameter-bg);
-    border-radius: 4px; 
+    border-radius: 6px; 
     margin: 2px 2px 2px 1px;   
     padding: 0 0 0 0; 
 }
@@ -2921,12 +2921,12 @@ body.drag-over .drop-indicator {
 /* Node content area with improved spacing - ONLY for Node Inspector */
 .node-inspector .node-content {
     flex: 1;
-    padding: 0px 12px 0px 18px; /* Increased padding for better spacing */
+    padding: 0 0 0 18px; /* Increased padding for better spacing */
     min-height: 10px;
+    border-radius: 6px; 
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    line-height: 1.4; /* Better line spacing */
+    align-items: center;
 }
 
 /* Node parameters container - ONLY for Node Inspector */
@@ -2939,12 +2939,12 @@ body.drag-over .drop-indicator {
 /* Node header with improved spacing and alignment - ONLY for Node Inspector */
 .node-inspector .node-label {
     display: flex;
-    align-items: left;
+    align-items: center;
     cursor: pointer;
     user-select: none;
     width: 100%;
     min-height: 20px;
-    gap: 2px;
+    gap: 0;
 }
 
 .node-inspector .node-label:hover {
@@ -2979,14 +2979,14 @@ body.drag-over .drop-indicator {
 .node-inspector .node-parameter-controls {
     margin-left: 12px; /* Space between title and dropdown */
     display: grid;
-    align-items: left;
+    align-items: center;
     gap: 0px;
 }
 
 .node-inspector .node-parameter-controls .parameter-dropdown {
     background: var(--octane-bg-primary);
     border: 1px solid #444;
-    border-radius: 4px;
+    border-radius: 6px;
     color: #e0e0e0;
     padding: 4px 8px;
     font-size: var(--font-size-small);
@@ -3078,10 +3078,10 @@ body.drag-over .drop-indicator {
     height: 18px;
     background: var(--octane-bg-primary);
     border: 1px solid #444;
-    border-radius: 2px;
+    border-radius: 4px;
     color: #e0e0e0;
     font-size: var(--font-size-small);
-    padding: 1px 8px;
+    padding: 0 8px;
     font-family: var(--font-family-mono);
     display: grid;
     align-items: center;
@@ -3092,10 +3092,10 @@ body.drag-over .drop-indicator {
     height: 18px;
     background: var(--octane-bg-primary);
     border: 1px solid #444;
-    border-radius: 2px;
+    border-radius: 4px;
     color: #e0e0e0;
     font-size: var(--font-size-small);
-    padding: 1px 8px;
+    padding: 0 8px;
     font-family: var(--font-family-mono);
     display: grid;
     align-items: center;
@@ -3310,8 +3310,7 @@ body.drag-over .drop-indicator {
 .parameter-control-container {
     display: inline-flex;
     flex: 1;
-    align-items: left;
-    gap: 1px;
+    align-items: center;
 }
 
 /* Checkbox Controls */
