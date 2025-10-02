@@ -244,6 +244,27 @@ class DebugConsole {
     }
 
     addLog(type, message) {
+
+        if (type == 'error') {
+            const STACK_LINE_REGEX = /(\d+):(\d+)\)?$/;
+
+            let err;
+
+            try {
+                throw new Error();
+            } catch (error) {
+                err = error;
+            }
+
+            try {
+                const stacks = err.stack.split('\\n');
+                const [, line] = STACK_LINE_REGEX.exec(stacks[2]);
+
+                message = '[${line}] ' + message;
+            } catch (err) {
+                
+            }
+        }
         const timestamp = new Date().toLocaleTimeString();
         this.logs.push({
             type: type,

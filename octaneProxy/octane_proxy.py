@@ -39,7 +39,7 @@ from google.protobuf.json_format import MessageToDict, ParseDict
 from google.protobuf.message import Message
 from google.protobuf.empty_pb2 import Empty
 
-DO_LOGGING_LEVEL = 1
+DO_LOGGING_LEVEL = 3
 
 # Import callback streaming system
 from callback_streamer import get_callback_streamer, initialize_callback_system
@@ -114,6 +114,7 @@ class GrpcServiceRegistry:
                 'ApiNode': 'apinodesystem_7',
                 'ApiItem': 'apinodesystem_3',
                 'ApiItemArray': 'apinodesystem_1',
+                'ApiNodeArray': 'apinodesystem_5',
                 'ApiNodePinInfoEx': 'apinodepininfohelper',
                 'LiveLink': 'livelink',
                 'ApiRenderEngine': 'apirender',
@@ -194,6 +195,11 @@ class GrpcServiceRegistry:
                     method_name = 'GetNodePinInfo'
                 elif method_name == 'info1':
                     method_name = 'info'
+                elif method_name == 'size1':
+                    method_name = 'size'
+                elif method_name == 'get1':
+                    method_name = 'get'
+                    
                 pattern = f"{service_name}.{method_name}Request"
 
  #           print(f"check request class for {service_name}.{method_name} {pattern}")
