@@ -335,7 +335,7 @@ class GenericNodeRenderer {
 
                 controlHtml = `
                     <div class="parameter-control-container">
-                        <input type="color" class="octane-color-input parameter-control" value="${value}" 
+                        <input type="color" class="octane-color-input parameter-control" value="${hexColor}" 
                             data-handle="${nodeData.handle}" data-type="float3_value" style="background:${hexColor}; color:${hexColor};">
                     </div>
                 `;
