@@ -237,8 +237,10 @@ class OctaneCallbackStreamer:
                     await self._handle_render_failure(callback_request.renderFailure)
                 elif callback_request.HasField('newStatistics'):
                     await self._handle_new_statistics(callback_request.newStatistics)
+                elif callback_request.HasField('projectManagerChanged'):
+                    await self._handle_CallbackRequest('projectManagerChanged')
                 else:
-                    await self._handle_CallbackRequest(callback_request)
+                    print(f"Received unknown callback type: {callback_request}")
             
         except grpc.RpcError as e:
             if self.stream_active:  # Only log if we're supposed to be streaming
@@ -383,7 +385,7 @@ class OctaneCallbackStreamer:
         print(f"_handle_CallbackRequest {callback_request}")
         
         changed_data = {
-            'type': 'generic',
+            'type': callback_request,
             'timestamp': time.time()
         }
         
@@ -395,7 +397,7 @@ class OctaneCallbackStreamer:
             if not PIL_AVAILABLE:
                 # PIL not available - skip PNG saving
                 return None
-                
+                 
             if not img.buffer or not img.buffer.data:
                 return None
             

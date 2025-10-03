@@ -149,9 +149,10 @@ class SceneOutlinerSync {
         );
         
         filteredItems.forEach(item => {
+            const name = item.pinInfo?.staticLabel || item.name;
             const icon = item.icon; 
             const nodeId = `item-${item.handle}`;
-            const isSelected = item.name === 'Render target'; // Match Octane screenshot
+            const isSelected = name === 'Render target'; // Match Octane screenshot
             const hasChildren = item.children && item.children.length > 0;
             const isExpanded = this.expandedNodes.has(nodeId);
             
@@ -163,7 +164,7 @@ class SceneOutlinerSync {
                             '<span class="node-spacer"></span>'
                         }
                         <span class="node-icon">${icon}</span>
-                        <span class="node-name">${item.name}</span>
+                        <span class="node-name">${name}</span>
                     </div>
                 </div>
             `;

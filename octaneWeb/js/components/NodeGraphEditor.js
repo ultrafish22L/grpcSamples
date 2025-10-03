@@ -902,7 +902,7 @@ class NodeGraphEditor extends OctaneComponent {
                 outputs: this.getNodeOutputs(item)
             };
             console.log(`NodeGraphEditor.createNodes `, item.name);
-            console.log(`NodeGraphEditor.createNodes `, JSON.stringify(item.nodeInfo, null, 2));
+//            console.log(`NodeGraphEditor.createNodes `, JSON.stringify(item.nodeInfo, null, 2));
             
             this.nodes.set(nodeId, node);
             xOffset += node.width + 80; // Space between nodes

@@ -258,6 +258,9 @@ class CallbackRenderViewport extends OctaneComponent {
      * Handle callback events from Server-Sent Events
      */
     handleCallbackEvent(data) {
+        
+//        console.log('handleCallbackEvent ',  data.type);
+
         switch (data.type) {
             case 'connected':
                 console.log(`Connected to callback stream, client ID: ${data.client_id}`);
@@ -280,10 +283,14 @@ class CallbackRenderViewport extends OctaneComponent {
             case 'newStatistics':
 //                console.log('New statistics callback:', data);
                 break;
-                
+            
+            case 'projectManagerChanged':
+                window.octaneClient.syncScene();
+                break;
+
             case 'ping':
                 // Keep-alive ping
-                console.log('ping keep-alive callback:');
+//                console.log('ping keep-alive callback:');
                 break;
                 
             default:

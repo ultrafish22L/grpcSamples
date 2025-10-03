@@ -178,6 +178,9 @@ function createOctaneWebClient() {
      */
     async syncScene(handle) {
         try {
+            if (this.isSyncing) {
+                return;
+            }
             window.debugConsole.log( 'Loading Octane scene...', handle);
 
             this.isSyncing = true;
@@ -185,6 +188,7 @@ function createOctaneWebClient() {
             let item;
             if (handle) {
                 syncSceneRecurse(handle, this.scene.tree);               
+                this.isSyncing = false;
                 item = this.lookupItem(handle);
             }
             else {
@@ -202,6 +206,7 @@ function createOctaneWebClient() {
             
             // Clear stored scene data and notify other components
             this.scene = { tree:[], map: new Map() }
+            this.isSyncing = false;
             this.eventSystem.emit('sceneDataLoaded', this.scene);
         }
     }
@@ -402,9 +407,6 @@ function createOctaneWebClient() {
             }
             outType = response.data.result;
 
-            if (pinInfo != null && pinInfo.staticLabel != "") {
-//                itemName = pinInfo.staticLabel;
-            }
             // is it a graph or node?
             response = this.makeApiCall(
                 'ApiItem/isGraph', 
@@ -910,7 +912,7 @@ function createOctaneWebClient() {
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(request);
             
-            if (xhr.status !== 200) {
+            if (xhr.status !== 200 && xhr.status !== 0) {
                 throw new Error(`HTTP ${xhr.status}: ${xhr.statusText}`);
             }
             const response = JSON.parse(xhr.responseText);
