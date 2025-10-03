@@ -37,8 +37,10 @@ class CallbackRenderViewport extends OctaneComponent {
         
         // Real-time callback streaming state management
         this.callbackMode = false;            // Currently using callback streaming
-        this.eventSource = null;              // Server-Sent Events connection
+        this.eventSource = null;              // Server-Sent Events connection (legacy)
+        this.binaryWebSocket = null;          // Binary WebSocket connection (optimized)
         this.callbackId = null;               // Active callback registration ID
+        this.useBinaryTransport = true;      // Prefer binary WebSocket over SSE
         
         // DOM viewport elements for rendering display
         this.viewport = null;                 // Main viewport container
@@ -64,6 +66,15 @@ class CallbackRenderViewport extends OctaneComponent {
         this.frameCount = 0;                  // Total frames processed
         this.debugSavePNG = false;            // Debug PNG saving (disabled in production)
         this.doRendering  = true;            // render on/off
+        
+        // Binary WebSocket performance tracking
+        this.performanceStats = {
+            binaryTransportUsed: false,
+            bandwidthSavedMB: 0,
+            decodingTimeSavedMs: 0,
+            messagesReceived: 0,
+            averageFrameSize: 0
+        };
         
         console.log('CallbackRenderViewport initialized with streaming callbacks');
     }
@@ -110,7 +121,7 @@ class CallbackRenderViewport extends OctaneComponent {
     }
     
     /**
-     * Start render callback mode
+     * Start render callback mode with binary WebSocket transport
      */
     async startRender() {
         if (!this.doRendering) return true;
@@ -118,26 +129,114 @@ class CallbackRenderViewport extends OctaneComponent {
         try {
             console.log('Attempting to start callback streaming mode...');
             
-            // Register callback with proxy server
-            const callbackUrl = `${window.octaneClient.serverUrl}/render/register-callback`;
-            console.log(`Callback registration URL: ${callbackUrl}`);
+            // Try binary WebSocket transport first (optimized)
+            if (this.useBinaryTransport && typeof BinaryWebSocketClient !== 'undefined') {
+                console.log('🚀 Using optimized binary WebSocket transport');
+                return await this.startBinaryWebSocketStream();
+            } else {
+                console.log('📡 Falling back to Server-Sent Events transport');
+                return await this.startServerSentEventsStream();
+            }
             
-            // Add timeout to prevent hanging
+        } catch (error) {
+            console.error('❌ Failed to start callback mode:', error);
+            this.updateStatus(`Callback failed: ${error.message}`);
+            
+            // Try fallback transport if primary fails
+            if (this.useBinaryTransport) {
+                console.log('🔄 Binary WebSocket failed, trying SSE fallback...');
+                this.useBinaryTransport = false;
+                return await this.startServerSentEventsStream();
+            }
+            
+            return false;
+        }
+    }
+    
+    /**
+     * Start binary WebSocket streaming (optimized transport)
+     */
+    async startBinaryWebSocketStream() {
+        try {
+            // Register callback with proxy server first
+            const callbackUrl = `${window.octaneClient.serverUrl}/render/register-callback`;
+            
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+            const timeoutId = setTimeout(() => controller.abort(), 10000);
             
             const response = await fetch(callbackUrl, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 signal: controller.signal
             });
             
             clearTimeout(timeoutId);
             
-//            console.log(`Callback registration response status: ${response.status}`);
-//            console.log(`Callback registration response ok: ${response.ok}`);
+            const result = await response.json();
+            if (!result.success) {
+                throw new Error(result.error || 'Failed to register callback');
+            }
+            
+            this.callbackId = result.callback_id;
+            console.log(`✅ Callback registered with ID: ${this.callbackId}`);
+            
+            // Create binary WebSocket client
+            this.binaryWebSocket = new BinaryWebSocketClient(
+                window.octaneClient.serverUrl,
+                {
+                    handleCallbackEvent: (data) => this.handleCallbackEvent(data),
+                    onConnectionStateChange: (state) => this.handleConnectionStateChange(state)
+                }
+            );
+            
+            // Connect to binary WebSocket
+            await this.binaryWebSocket.connect();
+            
+            // Wait for connection to establish
+            await new Promise((resolve, reject) => {
+                const timeout = setTimeout(() => reject(new Error('WebSocket connection timeout')), 5000);
+                
+                const checkConnection = () => {
+                    if (this.binaryWebSocket.isConnected()) {
+                        clearTimeout(timeout);
+                        resolve();
+                    } else {
+                        setTimeout(checkConnection, 100);
+                    }
+                };
+                
+                checkConnection();
+            });
+            
+            console.log('🚀 Binary WebSocket streaming started successfully');
+            this.updateStatus('Connected to binary WebSocket stream');
+            this.performanceStats.binaryTransportUsed = true;
+            return true;
+            
+        } catch (error) {
+            console.error('❌ Binary WebSocket streaming failed:', error);
+            throw error;
+        }
+    }
+    
+    /**
+     * Start Server-Sent Events streaming (legacy fallback)
+     */
+    async startServerSentEventsStream() {
+        try {
+            // Register callback with proxy server
+            const callbackUrl = `${window.octaneClient.serverUrl}/render/register-callback`;
+            
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000);
+            
+            const response = await fetch(callbackUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                signal: controller.signal
+            });
+            
+            clearTimeout(timeoutId);
             
             const result = await response.json();
             if (!result.success) {
@@ -152,9 +251,9 @@ class CallbackRenderViewport extends OctaneComponent {
             this.eventSource = new EventSource(streamUrl);
             
             this.eventSource.onopen = (event) => {
-                console.log('SSE connection opened');
+                console.log('📡 SSE connection opened');
                 this.connectionErrors = 0;
-                this.updateStatus('Connected to callback stream');
+                this.updateStatus('Connected to SSE callback stream');
             };
             
             this.eventSource.onmessage = (event) => {
@@ -169,8 +268,7 @@ class CallbackRenderViewport extends OctaneComponent {
             this.eventSource.onerror = (error) => {
                 console.error('❌ SSE connection error:', error);
                 this.connectionErrors++;
-                
-                this.updateStatus(`Connection error #${this.connectionErrors}, retrying...`);
+                this.updateStatus(`SSE error #${this.connectionErrors}, retrying...`);
             };
             
             // Wait a moment to see if connection succeeds
@@ -179,9 +277,27 @@ class CallbackRenderViewport extends OctaneComponent {
             return true;
             
         } catch (error) {
-            console.error('❌ Failed to start callback mode:', error);
-            this.updateStatus(`Callback failed: ${error.message}`);
-            return false;
+            console.error('❌ SSE streaming failed:', error);
+            throw error;
+        }
+    }
+    
+    /**
+     * Handle connection state changes
+     */
+    handleConnectionStateChange(state) {
+        switch (state) {
+            case 'connected':
+                this.connectionErrors = 0;
+                this.updateStatus('Binary WebSocket connected');
+                break;
+            case 'disconnected':
+                this.updateStatus('Binary WebSocket disconnected');
+                break;
+            case 'error':
+                this.connectionErrors++;
+                this.updateStatus(`Binary WebSocket error #${this.connectionErrors}`);
+                break;
         }
     }
     
@@ -355,14 +471,11 @@ class CallbackRenderViewport extends OctaneComponent {
                 return;
             }
             
-            // Decode base64 buffer
+            // Get buffer data (binary or base64)
             const bufferData = imageData.buffer.data;
             const bufferSize = imageData.buffer.size;
+            const encoding = imageData.buffer.encoding || 'base64';
             this.lastImageSize = bufferSize;
-            
-//            console.log(`Image buffer: ${bufferSize} bytes (${imageData.buffer.encoding})`);
-//            console.log(`Buffer data type: ${typeof bufferData}, length: ${bufferData ? bufferData.length : 'null'}`);
-//            console.log(`Buffer data preview: ${bufferData ? bufferData.substring(0, 100) : 'null'}...`);
             
             // Create canvas to display raw image buffer
             const canvas = document.createElement('canvas');
@@ -378,18 +491,48 @@ class CallbackRenderViewport extends OctaneComponent {
             const ctx = canvas.getContext('2d');
             const imageDataObj = ctx.createImageData(canvas.width, canvas.height);
             
-            // Decode base64 to binary with error handling
+            // Process buffer based on encoding
             let bytes;
             try {
-                const binaryString = atob(bufferData);
-                bytes = new Uint8Array(binaryString.length);
-                for (let i = 0; i < binaryString.length; i++) {
-                    bytes[i] = binaryString.charCodeAt(i);
+                if (encoding === 'binary') {
+                    // Direct binary data from WebSocket (optimized path)
+                    if (bufferData instanceof ArrayBuffer) {
+                        bytes = new Uint8Array(bufferData);
+                    } else if (bufferData instanceof Uint8Array) {
+                        bytes = bufferData;
+                    } else {
+                        throw new Error('Invalid binary buffer format');
+                    }
+                    
+                    // Track performance improvements
+                    const base64Size = bytes.length * 1.33; // 33% base64 overhead
+                    this.performanceStats.bandwidthSavedMB += (base64Size - bytes.length) / (1024 * 1024);
+                    this.performanceStats.decodingTimeSavedMs += bytes.length * 0.001; // Estimated 1μs per byte
+                    
+                    console.log(`🚀 Binary buffer: ${bytes.length} bytes (no decoding needed)`);
+                    
+                } else {
+                    // Legacy base64 decoding (fallback for SSE)
+                    const decodeStart = performance.now();
+                    const binaryString = atob(bufferData);
+                    bytes = new Uint8Array(binaryString.length);
+                    for (let i = 0; i < binaryString.length; i++) {
+                        bytes[i] = binaryString.charCodeAt(i);
+                    }
+                    const decodeTime = performance.now() - decodeStart;
+                    
+                    console.log(`📡 Base64 buffer: ${bytes.length} bytes (decoded in ${decodeTime.toFixed(2)}ms)`);
                 }
+                
+                // Update performance statistics
+                this.performanceStats.messagesReceived++;
+                this.performanceStats.averageFrameSize = 
+                    (this.performanceStats.averageFrameSize * (this.performanceStats.messagesReceived - 1) + bytes.length) / 
+                    this.performanceStats.messagesReceived;
+                
             } catch (error) {
-                console.error('❌ Base64 decode error:', error);
-                console.error('❌ Buffer data that failed:', bufferData);
-                this.showImageError(`Base64 decode failed: ${error.message}`);
+                console.error(`❌ Buffer decode error (${encoding}):`, error);
+                this.showImageError(`Buffer decode failed: ${error.message}`);
                 return;
             }
             
@@ -618,6 +761,42 @@ class CallbackRenderViewport extends OctaneComponent {
     updateStatus(message) {
         if (this.uiDebugMode && this.statusOverlay) {
             this.statusOverlay.textContent = message;
+        }
+    }
+    
+    /**
+     * Get performance statistics for binary WebSocket optimization
+     */
+    getPerformanceStats() {
+        const stats = { ...this.performanceStats };
+        
+        // Add WebSocket client stats if available
+        if (this.binaryWebSocket) {
+            const wsStats = this.binaryWebSocket.getStats();
+            stats.websocketStats = wsStats;
+            stats.bandwidthSavedMB = Math.max(stats.bandwidthSavedMB, wsStats.bandwidthSavedMB || 0);
+            stats.decodingTimeSavedMs = Math.max(stats.decodingTimeSavedMs, wsStats.decodingTimeSavedMs || 0);
+        }
+        
+        return stats;
+    }
+    
+    /**
+     * Log performance improvements to console
+     */
+    logPerformanceStats() {
+        const stats = this.getPerformanceStats();
+        
+        console.log('🚀 Binary WebSocket Performance Stats:');
+        console.log(`  Transport: ${stats.binaryTransportUsed ? 'Binary WebSocket' : 'Server-Sent Events'}`);
+        console.log(`  Messages received: ${stats.messagesReceived}`);
+        console.log(`  Average frame size: ${(stats.averageFrameSize / 1024).toFixed(1)} KB`);
+        console.log(`  Bandwidth saved: ${stats.bandwidthSavedMB.toFixed(2)} MB`);
+        console.log(`  Decoding time saved: ${stats.decodingTimeSavedMs.toFixed(1)} ms`);
+        
+        if (stats.websocketStats) {
+            console.log(`  WebSocket messages: ${stats.websocketStats.messagesReceived}`);
+            console.log(`  WebSocket bytes: ${(stats.websocketStats.bytesReceived / 1024 / 1024).toFixed(2)} MB`);
         }
     }
     

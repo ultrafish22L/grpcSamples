@@ -43,6 +43,7 @@ DO_LOGGING_LEVEL = 0
 
 # Import callback streaming system
 from callback_streamer import get_callback_streamer, initialize_callback_system
+from binary_websocket_streamer import get_binary_websocket_streamer, initialize_binary_websocket_system
 
 # Add generated directory to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'generated'))
@@ -831,6 +832,62 @@ async def handle_ping_client(request):
             'error': str(e)
         }, status=500)
 
+# ==================== BINARY WEBSOCKET ENDPOINTS ====================
+
+async def handle_websocket_stream(request):
+    """Binary WebSocket endpoint for optimized callback streaming"""
+    try:
+        # Initialize binary WebSocket system if needed
+        octane_address = get_octane_address()
+        await initialize_binary_websocket_system(octane_address)
+        
+        # Get binary WebSocket streamer
+        binary_streamer = get_binary_websocket_streamer()
+        if not binary_streamer:
+            return web.json_response({
+                'error': 'Binary WebSocket system not available'
+            }, status=503)
+        
+        # Handle WebSocket connection
+        return await binary_streamer.handle_websocket_connection(request)
+        
+    except Exception as e:
+        print(f"❌ Error in WebSocket stream: {e}")
+        return web.json_response({
+            'error': str(e)
+        }, status=500)
+
+async def handle_binary_callback_status(request):
+    """Get binary WebSocket streaming status and performance stats"""
+    try:
+        binary_streamer = get_binary_websocket_streamer()
+        if not binary_streamer:
+            return web.json_response({
+                'success': False,
+                'error': 'Binary WebSocket system not initialized'
+            })
+        
+        # Get comprehensive status including performance metrics
+        status = binary_streamer.get_status()
+        binary_stats = binary_streamer.get_binary_stats()
+        
+        return web.json_response({
+            'success': True,
+            'status': status,
+            'binary_stats': binary_stats,
+            'performance': {
+                'bandwidth_saved_mb': binary_stats.get('bandwidth_savings_mb', 0),
+                'messages_sent': binary_stats.get('messages_sent', 0),
+                'active_websocket_clients': binary_stats.get('active_websocket_clients', 0)
+            }
+        })
+        
+    except Exception as e:
+        return web.json_response({
+            'success': False,
+            'error': str(e)
+        }, status=500)
+
 # ==================== APPLICATION SETUP ====================
 
 def create_app():
@@ -846,11 +903,15 @@ def create_app():
     app.router.add_post('/save-debug-logs', handle_save_debug_logs)
     app.router.add_get('/debug-logs/{session_id}', handle_get_debug_logs)
     
-    # Callback streaming endpoints
+    # Callback streaming endpoints (legacy SSE)
     app.router.add_post('/render/register-callback', handle_register_callback)
     app.router.add_get('/render/stream', handle_stream_events)
     app.router.add_get('/render/callback-status', handle_callback_status)
     app.router.add_post('/render/ping-client', handle_ping_client)
+    
+    # Binary WebSocket streaming endpoints (optimized)
+    app.router.add_get('/render/websocket', handle_websocket_stream)
+    app.router.add_get('/render/binary-status', handle_binary_callback_status)
     
     # Generic catch-all routes for any gRPC service call
     # Pattern: /[prefix.]ServiceName/methodName

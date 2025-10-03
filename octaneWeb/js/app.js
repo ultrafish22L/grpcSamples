@@ -761,6 +761,39 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         };
         
+        // Binary WebSocket performance monitoring functions
+        window.getPerformanceStats = () => {
+            if (octaneWebApp && octaneWebApp.components.renderViewport) {
+                return octaneWebApp.components.renderViewport.getPerformanceStats();
+            } else {
+                console.warn(' Render viewport not available');
+                return null;
+            }
+        };
+        
+        window.logPerformanceStats = () => {
+            if (octaneWebApp && octaneWebApp.components.renderViewport) {
+                octaneWebApp.components.renderViewport.logPerformanceStats();
+            } else {
+                console.warn(' Render viewport not available');
+            }
+        };
+        
+        window.toggleBinaryTransport = (enabled) => {
+            if (octaneWebApp && octaneWebApp.components.renderViewport) {
+                if (enabled === undefined) {
+                    // Toggle current state
+                    enabled = !octaneWebApp.components.renderViewport.useBinaryTransport;
+                }
+                octaneWebApp.components.renderViewport.useBinaryTransport = enabled;
+                console.log(` Binary WebSocket Transport: ${enabled ? 'ENABLED' : 'DISABLED'} (restart required)`);
+                return enabled;
+            } else {
+                console.warn(' Render viewport not available');
+                return false;
+            }
+        };
+        
     } catch (error) {
         console.error('Failed to start OctaneWeb:', error);
     }
