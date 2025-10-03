@@ -254,10 +254,10 @@ class OctaneCallbackStreamer:
     async def _handle_new_image(self, new_image_request):
         """Handle OnNewImage callback"""
         try:
-            self.callback_count += 1
-            self.last_callback_time = time.time()
-            
-            # print(f"Received OnNewImage callback #{self.callback_count}")
+            last_callback_time = time.time()
+
+#            if (self.last_callback_time == 0 or self.last_callback_time - last_callback_time < .1):
+#                return
             
             # Extract render images
             render_images = new_image_request.render_images
@@ -265,6 +265,11 @@ class OctaneCallbackStreamer:
             if not render_images or not render_images.data:
                 print("Empty render images in callback")
                 return
+
+            self.callback_count += 1
+            self.last_callback_time = last_callback_time
+           
+#            print(f"Received OnNewImage callback #{self.callback_count}", new_image_request.callback_id, len(render_images.data))
             
             # Convert to JSON format for browser
             image_data = {
@@ -316,19 +321,14 @@ class OctaneCallbackStreamer:
                             'size': len(img.buffer.data),
                             'encoding': 'base64'
                         }
-                        
-                        # DEBUG: Check if buffer data is changing
-                        buffer_hash = hashlib.md5(img.buffer.data).hexdigest()[:8]
-#                        print(f"  Image {i}: {img.size.x}x{img.size.y}, "
-#                              f"{len(img.buffer.data)} bytes, "
-#                              f"{img.tonemappedSamplesPerPixel:.1f} samples/px, "
-#                              f"hash: {buffer_hash}")
+#                        print("sending base64 image ", self.callback_count, i, img.type, img.size.x, img.size.x)    
                     else:
                         print(f"  Image {i}: No buffer data")
                         image_info['buffer'] = None
                     
                     image_data['render_images']['data'].append(image_info)
-                    
+                    break;
+                
                 except Exception as e:
                     print(f"❌ Error processing image {i}: {e}")
                     continue

@@ -349,7 +349,7 @@ class NodeInspector extends OctaneComponent {
             nodeData.handle,
             {   attribute_id: window.OctaneTypes.AttributeId.A_VALUE,
                 ...value,
-                evaluate: true,
+                evaluate: false,
             },
         );
         console.log(`  response `, JSON.stringify(response));
