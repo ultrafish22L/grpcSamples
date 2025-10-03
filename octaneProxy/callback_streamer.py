@@ -237,10 +237,8 @@ class OctaneCallbackStreamer:
                     await self._handle_render_failure(callback_request.renderFailure)
                 elif callback_request.HasField('newStatistics'):
                     await self._handle_new_statistics(callback_request.newStatistics)
-                elif callback_request == 'projectManagerChanged':
-                    await self._handle_projectManagerChanged(callback_request)
                 else:
-                    print(f"Received unknown callback type: {callback_request}")
+                    await self._handle_CallbackRequest(callback_request)
             
         except grpc.RpcError as e:
             if self.stream_active:  # Only log if we're supposed to be streaming
@@ -380,12 +378,12 @@ class OctaneCallbackStreamer:
         
         await self._broadcast_to_clients(stats_data)
     
-    async def _handle_projectManagerChanged(self, callback_request):
-        """_handle_projectManagerChanged"""
-        print(f"projectManagerChanged {callback_request}")
+    async def _handle_CallbackRequest(self, callback_request):
+        """_handle_CallbackRequest"""
+        print(f"_handle_CallbackRequest {callback_request}")
         
         changed_data = {
-            'type': 'projectManagerChanged',
+            'type': 'generic',
             'timestamp': time.time()
         }
         

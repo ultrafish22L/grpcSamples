@@ -298,10 +298,10 @@ class NodeInspector extends OctaneComponent {
         }
         const datatype = element.dataset.type;
         const component = element.dataset.component;
-        console.log(`handleParameterChange ${datatype} ${component} ${element.value}`);
+//        console.log(`handleParameterChange ${nodeData.attrInfo.type} ${datatype} ${component} ${element.value}`);
 
         let value = nodeData.value
-        console.log(`handleParameterChange ${nodeData.name} ${datatype} ${component ? component:""} value = `, JSON.stringify(value));
+//        console.log(`handleParameterChange ${nodeData.name} ${datatype} ${component ? component:""} value = `, JSON.stringify(value));
         switch (nodeData.attrInfo.type) {
         case "AT_BOOL":
 //            console.log(`handleParameterChange element.checked = ${element.checked}`);
@@ -320,9 +320,19 @@ class NodeInspector extends OctaneComponent {
             break;
         case "AT_FLOAT2":
         case "AT_FLOAT3":
+            if (nodeData.nodeInfo.type == "NT_TEX_RGB") {
+                value[datatype] = window.OctaneIconMapper.getColorValue(element.value);
+            }
+            else if (component == undefined) {
+                value[datatype].x = parseFloat(element.value.x);
+            }
+            else {
+                value[datatype].x = parseFloat(element.value);
+            }
+            break;
         case "AT_FLOAT4":
             if (component == undefined) {
-                value[datatype] = parseFloat(element.value);
+                value[datatype].x = parseFloat(element.value.x);
             }
             else {
                 value[datatype].x = parseFloat(element.value);

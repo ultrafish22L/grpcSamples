@@ -11,7 +11,7 @@ class OctaneIconMapper {
     
             /**
      * Format color value for HTML color input
-     * @param {*} value - Color value (array, string, or number)
+     * @param {*} value - Color value (object, array, string, or number)
      * @returns {string} - Hex color string
      */
     static formatColorValue(value) {
@@ -25,11 +25,40 @@ class OctaneIconMapper {
             const b = Math.round((value[2] || 0) * 255);
             return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
         }
+        if (typeof value === 'object')
+        {
+            console.log(`formatColorValue `, JSON.stringify(value));
+
+            const r = Math.round((value["x"] || 0) * 255);
+            const g = Math.round((value["y"] || 0) * 255);
+            const b = Math.round((value["z"] || 0) * 255);
+
+            return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+        }
         if (typeof value === 'number') {
             return `#${value.toString(16).padStart(2, '0')}`;
         }
         return '#ffffff'; // Default white
     }
+
+    /**
+     * decode HTML color input
+     * @param {string} - Hex color string
+     * @returns {object:{x,y,z}}
+     */
+    static getColorValue(value) {
+
+        if (typeof value === 'string' && value.startsWith('#')) {
+            let out = {};
+            out.x = parseInt(value.substring(1,3),16)/255;
+            out.y = parseInt(value.substring(3,5),16)/255;
+            out.z = parseInt(value.substring(5,7),16)/255;
+            return out;
+        }
+//        console.log(`getColorValue `, JSON.stringify(value), JSON.stringify(out));
+        return value;
+    }
+
 
     /**
      * Get icon for node types (consolidated from SceneOutlinerSync.js)

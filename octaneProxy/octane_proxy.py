@@ -39,7 +39,7 @@ from google.protobuf.json_format import MessageToDict, ParseDict
 from google.protobuf.message import Message
 from google.protobuf.empty_pb2 import Empty
 
-DO_LOGGING_LEVEL = 0
+DO_LOGGING_LEVEL = 1
 
 # Import callback streaming system
 from callback_streamer import get_callback_streamer, initialize_callback_system
@@ -532,6 +532,8 @@ def recurse_attr(grpc_request, key, value):
                     else:
                         # Handle primitive types
                         if isinstance(nested_attr, bool):
+                            if DO_LOGGING_LEVEL > 1:
+                                print(f"settattr: {attr} {nested_key}")
                             setattr(attr, nested_key, bool(nested_value))
                         elif isinstance(nested_attr, int) or nested_key == "handle" or hasattr(nested_attr, '__class__') and 'enum' in str(type(nested_attr)).lower():
                             # Handle enum values and integer fields
@@ -554,6 +556,8 @@ def recurse_attr(grpc_request, key, value):
                 setattr(grpc_request, key, value)
         else:
             # Handle primitive values
+            if DO_LOGGING_LEVEL > 1:
+                print(f"settattr: {grpc_request} {key} {value}")
             if isinstance(attr, bool):
                 setattr(grpc_request, key, bool(value))
             elif isinstance(attr, int) or key == "handle" or hasattr(attr, '__class__') and 'enum' in str(type(attr)).lower():
@@ -620,15 +624,15 @@ async def handle_generic_grpc(request):
         if request_data:
             for key, value in request_data.items():
                 if not recurse_attr(grpc_request, key, value):
-                    if key == "objectPtr":
-                        if DO_LOGGING_LEVEL > 2:
-                            print(f"REQUEST KEY: {key}")
-                            print(f"Name: {grpc_request.DESCRIPTOR.name}")
-                            print(f"Full Name: {grpc_request.DESCRIPTOR.full_name}")
-                            print("Fields:")
-                            for field in grpc_request.DESCRIPTOR.fields:
-                                print(f"  - Name: {field.name}, Number: {field.number}")
+                    if DO_LOGGING_LEVEL > 1:
+                        print(f"REQUEST KEY: {key}")
+                        print(f"Name: {grpc_request.DESCRIPTOR.name}")
+                        print(f"Full Name: {grpc_request.DESCRIPTOR.full_name}")
+                        print("Fields:")
+                        for field in grpc_request.DESCRIPTOR.fields:
+                            print(f"  - Name: {field.name}, Number: {field.number}")
 
+                    if key == "objectPtr":
                         if not recurse_attr(grpc_request, "nodePinInfoRef", value): # GetNodePinInfoRequest
                             if not recurse_attr(grpc_request, "item_ref", value):     # getValueByIDRequest                          
                                 print(f"❌ Error handle_generic_grpc(): no REQUEST KEY: {key}")

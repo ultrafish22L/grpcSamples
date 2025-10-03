@@ -330,13 +330,13 @@ class GenericNodeRenderer {
         case "AT_FLOAT3":
             value = value.float3_value;
             if (nodeData.nodeInfo.type == "NT_TEX_RGB") {
-                const hexColor = this.formatColorValue(value);
-//                console.log(`GenericNodeRenderer.renderControl() ${nodeData.name} color: ${hexColor}`);
+                const hexColor = window.OctaneIconMapper.formatColorValue(value);
+                console.log(`GenericNodeRenderer.renderControl() ${nodeData.name} color: ${hexColor} ${JSON.stringify(value)}`);
 
                 controlHtml = `
                     <div class="parameter-control-container">
                         <input type="color" class="octane-color-input parameter-control" value="${value}" 
-                            data-handle="${nodeData.handle}" data-type="float3_value" style="background: ${hexColor}; color: ${hexColor};">
+                            data-handle="${nodeData.handle}" data-type="float3_value" style="background:${hexColor}; color:${hexColor};">
                     </div>
                 `;
 
@@ -529,24 +529,6 @@ class GenericNodeRenderer {
         html += `</select>`;
         
         return html;
-    }
-    
-    /**
-     * Format color value for HTML color input
-     * @param {*} value - Color value (array, string, or number)
-     * @returns {string} - Hex color string
-     */
-    formatColorValue(value) {
-
-        if (typeof value === 'string' && value.startsWith('#')) {
-            return value;
-        }
-        const r = Math.round(((Array.isArray(value) && value.length >= 3 ? value[0] : value.x) || 0) * 255);
-        const g = Math.round(((Array.isArray(value) && value.length >= 3 ? value[1] : value.y) || 0) * 255);
-        const b = Math.round(((Array.isArray(value) && value.length >= 3 ? value[2] : value.z) || 0) * 255);
-        
-        return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-        return '#ffffff'; // Default white
     }
     
     /**
