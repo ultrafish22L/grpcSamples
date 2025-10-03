@@ -145,7 +145,7 @@ class SceneOutlinerSync {
         // Filter items based on search term
         const filteredItems = items.filter(item => 
             !this.searchTerm || 
-            (item.name && item.name.toLowerCase().includes(this.searchTerm))
+            ((item.pinInfo?.staticLabel || item.name) && (item.pinInfo?.staticLabel || item.name).toLowerCase().includes(this.searchTerm))
         );
         
         filteredItems.forEach(item => {
