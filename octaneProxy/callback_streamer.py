@@ -90,7 +90,7 @@ class OctaneCallbackStreamer:
         
         # Configuration
         self.reconnect_delay = 1.0  # Seconds between reconnection attempts
-        self.client_timeout = 3000.0  # Seconds before removing inactive clients
+        self.client_timeout = 333333.0  # Seconds before removing inactive clients
         
         print(f"Initialized OctaneCallbackStreamer for {octane_address}")
     
@@ -267,6 +267,10 @@ class OctaneCallbackStreamer:
                 return
 
             self.callback_count += 1
+            if (self.callback_count % 2 == 0):
+                # hack for double callback
+                return
+        
             self.last_callback_time = last_callback_time
            
 #            print(f"Received OnNewImage callback #{self.callback_count}", new_image_request.callback_id, len(render_images.data))

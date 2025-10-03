@@ -273,7 +273,7 @@ class CallbackRenderViewport extends OctaneComponent {
                 break;
                 
             case 'renderFailure':
-                console.error('❌ Render failure callback:', data);
+                console.error('❌ Render failure callback:', JSON.stringify(data, null, 2));
                 this.updateStatus('Render failure detected');
                 break;
                 
@@ -283,10 +283,11 @@ class CallbackRenderViewport extends OctaneComponent {
                 
             case 'ping':
                 // Keep-alive ping
+                console.log('ping keep-alive callback:');
                 break;
                 
             default:
-                console.log('Unknown callback event:', data);
+                console.log('Unknown callback event:', JSON.stringify(data, null, 2));
         }
     }
     

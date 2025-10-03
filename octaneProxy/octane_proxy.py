@@ -759,11 +759,11 @@ async def handle_stream_events(request):
                     # Send ping every 30 seconds to keep connection alive
                     await asyncio.sleep(30)
                     
-#                    ping_event = {
-#                        'type': 'ping',
-#                        'timestamp': time.time()
-#                    }
-#                    await client_callback(ping_event)
+                    ping_event = {
+                        'type': 'ping',
+                        'timestamp': time.time()
+                    }
+                    await client_callback(ping_event)
                     
                 except asyncio.CancelledError:
                     break
