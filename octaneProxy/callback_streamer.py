@@ -81,7 +81,7 @@ class OctaneCallbackStreamer:
         
         # Client management
         self.clients: Dict[str, CallbackClient] = {}
-        self.image_queue = Queue(maxsize=10)  # Buffer recent images
+        self.image_queue = Queue(maxsize=1)  # Buffer recent images
         
         # Statistics
         self.callback_count = 0
@@ -89,8 +89,8 @@ class OctaneCallbackStreamer:
         self.stream_errors = 0
         
         # Configuration
-        self.reconnect_delay = 5.0  # Seconds between reconnection attempts
-        self.client_timeout = 30.0  # Seconds before removing inactive clients
+        self.reconnect_delay = 1.0  # Seconds between reconnection attempts
+        self.client_timeout = 3000.0  # Seconds before removing inactive clients
         
         print(f"Initialized OctaneCallbackStreamer for {octane_address}")
     

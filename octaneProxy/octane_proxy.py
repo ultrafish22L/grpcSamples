@@ -39,7 +39,7 @@ from google.protobuf.json_format import MessageToDict, ParseDict
 from google.protobuf.message import Message
 from google.protobuf.empty_pb2 import Empty
 
-DO_LOGGING_LEVEL = 3
+DO_LOGGING_LEVEL = 0
 
 # Import callback streaming system
 from callback_streamer import get_callback_streamer, initialize_callback_system
@@ -199,7 +199,7 @@ class GrpcServiceRegistry:
                     method_name = 'size'
                 elif method_name == 'get1':
                     method_name = 'get'
-                    
+
                 pattern = f"{service_name}.{method_name}Request"
 
  #           print(f"check request class for {service_name}.{method_name} {pattern}")
@@ -285,8 +285,7 @@ class ComprehensiveOctaneProxy:
                     if filename.startswith('octane-debug-') and filename.endswith('.log'):
                         filepath = os.path.join(logs_dir, filename)
                         os.remove(filepath)
-                        print(f"🧹 Cleared old debug log: {filename}")
-            print("Debug logs cleared for fresh session")
+                        print(f"Cleared old debug log: {filename}")
         except Exception as e:
             print(f"Could not clear debug logs: {e}")
 
@@ -509,7 +508,6 @@ async def handle_health(request):
         proxy.clear_debug_logs()
         # Clear session tracking for fresh start
         active_sessions.clear()
-        print("Debug logs cleared for new session (health check)")
     
     return web.json_response({'status': 'ok', 'connected': proxy.channel is not None})
 
