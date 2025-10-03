@@ -310,7 +310,7 @@ class GenericNodeRenderer {
             value = value.float_value;
             controlHtml = `
                 <div class="parameter-control-container">
-                    <input type="number" class="octane-number-input parameter-control" value="${value}" step="0.001" 
+                    <input type="number" class="octane-number-input parameter-control" value="${value || 0}" step="0.001" 
                         data-handle="${nodeData.handle}" data-type="float_value">
                 </div>
             `;
@@ -320,9 +320,9 @@ class GenericNodeRenderer {
             value = value.float2_value;
             controlHtml = `
                 <div class="parameter-control-container">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="0.001"
+                    <input type="number" class="octane-number-input parameter-control" value="${value.x || 0}" step="0.001"
                         data-handle="${nodeData.handle}" data-component="x" data-type="float2_value">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.y}" step="0.001"
+                    <input type="number" class="octane-number-input parameter-control" value="${value.y || 0}" step="0.001"
                         data-handle="${nodeData.handle}" data-component="y" data-type="float2_value">
                 </div>
             `;
@@ -344,11 +344,11 @@ class GenericNodeRenderer {
             else {
                 controlHtml = `
                     <div class="parameter-control-container">
-                        <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="0.001" 
+                        <input type="number" class="octane-number-input parameter-control" value="${value.x || 0}" step="0.001" 
                             data-handle="${nodeData.handle}" data-component="x" data-type="float3_value">
-                        <input type="number" class="octane-number-input parameter-control" value="${value.y}" step="0.001" 
+                        <input type="number" class="octane-number-input parameter-control" value="${value.y || 0}" step="0.001" 
                             data-handle="${nodeData.handle}" data-component="y" data-type="float3_value">
-                        <input type="number" class="octane-number-input parameter-control" value="${value.z}" step="0.001" 
+                        <input type="number" class="octane-number-input parameter-control" value="${value.z || 0}" step="0.001" 
                             data-handle="${nodeData.handle}" data-component="z" data-type="float3_value">
                     </div>
                 `;
@@ -362,7 +362,7 @@ class GenericNodeRenderer {
             case 1:
                 controlHtml = `
                     <div class="parameter-control-container">
-                        <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="0.001" 
+                        <input type="number" class="octane-number-input parameter-control" value="${value.x || 0}" step="0.001" 
                             data-handle="${nodeData.handle}" data-component="x" data-type="float4_value">
                     </div>
                 `;
@@ -370,9 +370,9 @@ class GenericNodeRenderer {
             case 2:
                 controlHtml = `
                     <div class="parameter-control-container">
-                        <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="0.001" 
+                        <input type="number" class="octane-number-input parameter-control" value="${value.x || 0}" step="0.001" 
                             data-handle="${nodeData.handle}" data-component="x" data-type="float4_value">
-                        <input type="number" class="octane-number-input parameter-control" value="${value.y}" step="0.001" 
+                        <input type="number" class="octane-number-input parameter-control" value="${value.y || 0}" step="0.001" 
                             data-handle="${nodeData.handle}" data-component="y" data-type="float4_value">
                     </div>
                 `;
@@ -380,11 +380,11 @@ class GenericNodeRenderer {
             case 3:
                 controlHtml = `
                     <div class="parameter-control-container">
-                        <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="0.001" 
+                        <input type="number" class="octane-number-input parameter-control" value="${value.x || 0}" step="0.001" 
                             data-handle="${nodeData.handle}" data-component="x" data-type="float4_value">
-                        <input type="number" class="octane-number-input parameter-control" value="${value.y}" step="0.001" 
+                        <input type="number" class="octane-number-input parameter-control" value="${value.y || 0}" step="0.001" 
                             data-handle="${nodeData.handle}" data-component="y" data-type="float4_value">
-                        <input type="number" class="octane-number-input parameter-control" value="${value.z}" step="0.001" 
+                        <input type="number" class="octane-number-input parameter-control" value="${value.z || 0}" step="0.001" 
                             data-handle="${nodeData.handle}" data-component="z" data-type="float4_value">
                     </div>
                 `;
@@ -392,11 +392,11 @@ class GenericNodeRenderer {
             default:
                 controlHtml = `
                     <div class="parameter-control-container">
-                        <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="0.001" 
+                        <input type="number" class="octane-number-input parameter-control" value="${value.x || 0}" step="0.001" 
                             data-handle="${nodeData.handle}" data-component="x" data-type="float4_value">
-                        <input type="number" class="octane-number-input parameter-control" value="${value.y}" step="0.001" 
+                        <input type="number" class="octane-number-input parameter-control" value="${value.y || 0}" step="0.001" 
                             data-handle="${nodeData.handle}" data-component="y" data-type="float4_value">
-                        <input type="number" class="octane-number-input parameter-control" value="${value.z}" step="0.001" 
+                        <input type="number" class="octane-number-input parameter-control" value="${value.z || 0}" step="0.001" 
                             data-handle="${nodeData.handle}" data-component="z" data-type="float4_value">
                     </div>
                 `;
@@ -412,7 +412,7 @@ class GenericNodeRenderer {
             else {            
                 controlHtml = `
                     <div class="parameter-control-container">
-                        <input type="number" class="octane-number-input parameter-control" value="${value}" step="1" 
+                        <input type="number" class="octane-number-input parameter-control" value="${value || 0}" step="1" 
                             data-handle="${nodeData.handle}" data-type="int_value">
                     </div>
                 `;
@@ -423,9 +423,9 @@ class GenericNodeRenderer {
             value = value.int2_value;
             controlHtml = `
                 <div class="parameter-control-container">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="1"
+                    <input type="number" class="octane-number-input parameter-control" value="${value.x || 0}" step="1"
                         data-handle="${nodeData.handle}" data-component="x" data-type="int2_value">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.y}" step="1"
+                    <input type="number" class="octane-number-input parameter-control" value="${value.y || 0}" step="1"
                         data-handle="${nodeData.handle}" data-component="y" data-type="int2_value">
                 </div>
             `;
@@ -435,11 +435,11 @@ class GenericNodeRenderer {
             value = value.int3_value;
             controlHtml = `
                 <div class="parameter-control-container">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="1" 
+                    <input type="number" class="octane-number-input parameter-control" value="${value.x || 0}" step="1" 
                         data-handle="${nodeData.handle}" data-component="x" data-type="int3_value">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.y}" step="1" 
+                    <input type="number" class="octane-number-input parameter-control" value="${value.y || 0}" step="1" 
                         data-handle="${nodeData.handle}" data-component="y" data-type="int3_value">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.z}" step="1" 
+                    <input type="number" class="octane-number-input parameter-control" value="${value.z || 0}" step="1" 
                         data-handle="${nodeData.handle}" data-component="z" data-type="int3_value">
                 </div>
             `;
@@ -449,11 +449,11 @@ class GenericNodeRenderer {
             value = value.int4_value;
             controlHtml = `
                 <div class="parameter-control-container">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="1" 
+                    <input type="number" class="octane-number-input parameter-control" value="${value.x || 0}" step="1" 
                         data-handle="${nodeData.handle}" data-component="x" data-type="int4_value">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.y}" step="1" 
+                    <input type="number" class="octane-number-input parameter-control" value="${value.y || 0}" step="1" 
                         data-handle="${nodeData.handle}" data-component="y" data-type="int4_value">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.z}" step="1" 
+                    <input type="number" class="octane-number-input parameter-control" value="${value.z || 0}" step="1" 
                         data-handle="${nodeData.handle}" data-component="z" data-type="int4_value">
                 </div>
             `;
@@ -463,7 +463,7 @@ class GenericNodeRenderer {
             value = value.long_value;
             controlHtml = `
                 <div class="parameter-control-container">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="1" 
+                    <input type="number" class="octane-number-input parameter-control" value="${value.x || 0}" step="1" 
                         data-handle="${nodeData.handle}" data-component="x" data-type="long_value">
                 </div>
             `;
@@ -473,9 +473,9 @@ class GenericNodeRenderer {
             value = value.long2_value;
             controlHtml = `
                 <div class="parameter-control-container">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.x}" step="1" 
+                    <input type="number" class="octane-number-input parameter-control" value="${value.x || 0}" step="1" 
                         data-handle="${nodeData.handle}" data-component="x" data-type="long2_value">
-                    <input type="number" class="octane-number-input parameter-control" value="${value.y}" step="1" 
+                    <input type="number" class="octane-number-input parameter-control" value="${value.y || 0}" step="1" 
                         data-handle="${nodeData.handle}" data-component="y" data-type="long2_value">
                 </div>
             `;
