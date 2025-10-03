@@ -27,7 +27,7 @@ class OctaneIconMapper {
         }
         if (typeof value === 'object')
         {
-            console.log(`formatColorValue `, JSON.stringify(value));
+//            console.log(`formatColorValue `, JSON.stringify(value));
 
             const r = Math.round((value["x"] || 0) * 255);
             const g = Math.round((value["y"] || 0) * 255);

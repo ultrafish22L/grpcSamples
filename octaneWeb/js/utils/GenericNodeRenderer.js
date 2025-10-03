@@ -285,7 +285,7 @@ class GenericNodeRenderer {
             console.log(`GenericNodeRenderer.renderControl() nodeData.attrInfo == null`);
             return null
         }
-//        console.log(`GenericNodeRenderer.renderControl() ${nodeData.name} type: ${nodeData.attrInfo?.type}`);
+//        console.log(`GenericNodeRenderer.renderControl() ${nodeData.name} ${JSON.stringify(nodeData.nodeInfo, null, 2)} ${JSON.stringify(nodeData.attrInfo, null, 2)}  ${JSON.stringify(nodeData.pinInfo, null, 2)}`);
 
         const index = nodeData.pinInfo.index;
         let type = nodeData.attrInfo.type;
@@ -301,7 +301,7 @@ class GenericNodeRenderer {
             controlHtml = `
                 <div class="parameter-checkbox-container">
                     <input type="checkbox" class="octane-checkbox parameter-control" ${value ? 'checked' : ''} 
-                        data-handle="${nodeData.handle}" data-type="bool_value">
+                        data-handle="${nodeData.handle}" data-type="bool_value"  style="background: #2b2b2b">
                 </div>
             `;
             break;
@@ -331,7 +331,7 @@ class GenericNodeRenderer {
             value = value.float3_value;
             if (nodeData.nodeInfo.type == "NT_TEX_RGB") {
                 const hexColor = window.OctaneIconMapper.formatColorValue(value);
-                console.log(`GenericNodeRenderer.renderControl() ${nodeData.name} color: ${hexColor} ${JSON.stringify(value)}`);
+//                console.log(`GenericNodeRenderer.renderControl() ${nodeData.name} color: ${hexColor} ${JSON.stringify(value)}`);
 
                 controlHtml = `
                     <div class="parameter-control-container">
@@ -406,12 +406,17 @@ class GenericNodeRenderer {
             
         case "AT_INT":
             value = value.int_value;
-            controlHtml = `
-                <div class="parameter-control-container">
-                    <input type="number" class="octane-number-input parameter-control" value="${value}" step="1" 
-                        data-handle="${nodeData.handle}" data-type="int_value">
-                </div>
-            `;
+            if (nodeData.nodeInfo.type == "NT_ENUM") {
+                controlHtml = this.createDropdownControl(nodeData);
+            }
+            else {            
+                controlHtml = `
+                    <div class="parameter-control-container">
+                        <input type="number" class="octane-number-input parameter-control" value="${value}" step="1" 
+                            data-handle="${nodeData.handle}" data-type="int_value">
+                    </div>
+                `;
+            }
             break;
             
         case "AT_INT2":
@@ -502,29 +507,18 @@ class GenericNodeRenderer {
      * @returns {string} - HTML for dropdown
      */
     createDropdownControl(nodeData) {
+
+//        console.log(`GenericNodeRenderer.renderControl() ${nodeData.name} ${JSON.stringify(nodeData.nodeInfo, null, 2)} ${JSON.stringify(nodeData.attrInfo, null, 2)}  ${JSON.stringify(nodeData.pinInfo, null, 2)}`);
+//        console.log(`GenericNodeRenderer.createDropdownControl() ${nodeData.name}`);
+
         const name = nodeData.name.toLowerCase();
-        const index = nodeData.index || 0;
-        let options = [];
-        
-        // Common dropdown options based on parameter name
-        if (name.includes('mode')) {
-            options = ['Auto', 'Manual', 'Custom'];
-        } else if (name.includes('model')) {
-            options = ['Standard', 'Advanced', 'Professional'];
-        } else if (name.includes('type')) {
-            options = ['Default', 'Custom', 'Advanced'];
-        } else if (name.includes('quality')) {
-            options = ['Low', 'Medium', 'High', 'Ultra'];
-        } else if (name.includes('denoiser')) {
-            options = ['None', 'OptiX', 'Open Image Denoise'];
-        } else {
-            options = ['Option 1', 'Option 2', 'Option 3'];
-        }
+        let options = nodeData.pinInfo.enumInfo.values;
         
         let html = `<select class="octane-dropdown parameter-control" data-handle="${nodeData.handle}" data-type="enum">`;
         options.forEach((option, optIndex) => {
+//            console.log(`  ${option.label}`);
             const selected = optIndex === 0 ? 'selected' : '';
-            html += `<option value="${option.toLowerCase()}" ${selected}>${option}</option>`;
+            html += `<option value="${option.value}" ${selected}>${option.label}</option>`;
         });
         html += `</select>`;
         
