@@ -87,7 +87,7 @@ class Camera {
                 return true;
             }
         } catch (error) {
-            console.warn(' Failed to initialize camera from Octane:', error);
+//            console.warn(' Failed to initialize camera from Octane:', error);
             return false;
         }
     }

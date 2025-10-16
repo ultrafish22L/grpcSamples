@@ -67,7 +67,7 @@ class LayoutManager {
     }
     
     createSplitter(id, panel, orientation) {
-        console.log(`⚠️ createSplitter: "${id}" orient: ${orientation}`);
+        console.log(`createSplitter: "${id}" orient: ${orientation}`);
 
         const splitter = document.createElement('div');
         splitter.id = id;

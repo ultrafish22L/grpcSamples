@@ -244,7 +244,7 @@ class DebugConsole {
     }
 
     addLog(type, message) {
-
+/*
         if (type == 'error') {
             const STACK_LINE_REGEX = /(\d+):(\d+)\)?$/;
 
@@ -265,6 +265,7 @@ class DebugConsole {
                 
             }
         }
+*/            
         const timestamp = new Date().toLocaleTimeString();
         this.logs.push({
             type: type,

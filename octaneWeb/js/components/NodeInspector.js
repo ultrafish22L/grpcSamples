@@ -237,7 +237,7 @@ class NodeInspector extends OctaneComponent {
      */
     renderNodesRecurse(nodeData) {
         if (!nodeData) {
-            console.error('❌ Failed NodeInspector.renderNodesRecurse() : nodeData == null');
+//            console.warn('Failed NodeInspector.renderNodesRecurse() : nodeData == null');
             return;
         }
         console.log(`NodeInspector.renderNodesRecurse() ${nodeData.name} ${nodeData.outType}`);

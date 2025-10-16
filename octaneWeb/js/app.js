@@ -465,7 +465,7 @@ class OctaneWebApp {
                 event.preventDefault();
                 this.toggleFullscreen();
                 break;
-            case 'F12':
+            case 'F10':
                 // Toggle debug console with F12
                 if (window.debugConsole) {
                     event.preventDefault();

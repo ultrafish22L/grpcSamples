@@ -133,22 +133,24 @@ function createOctaneWebClient() {
     /**
      * Find node data directly from scene list
     */
-    lookupItem(handle) {
+    lookupItem(handle, onlyTop = false) {
 
         // Search recursively through scene
-        const findRecursively = (items) => {
+        const findRecursively = (items, level, onlyTop) => {
             for (const item of items) {
                 if (item.handle == handle) {
                     return item;
                 }
-                if (item.children && item.children.length > 0) {
-                    const found = findRecursively(item.children);
-                    if (found) return found;
+                if (!onlyTop) {
+                    if (item.children && item.children.length > 0) {
+                        const found = findRecursively(item.children);
+                        if (found) return found;
+                    }
                 }
             }
             return null;
         };
-        return findRecursively(this.scene.tree);
+        return findRecursively(this.scene.tree, onlyTop);
     }
     
         /**
@@ -915,7 +917,7 @@ function createOctaneWebClient() {
             if (xhr.status !== 200 && xhr.status !== 0) {
                 throw new Error(`HTTP ${xhr.status}: ${xhr.statusText}`);
             }
-            const response = JSON.parse(xhr.responseText);
+            const response = xhr.responseText ? JSON.parse(xhr.responseText) : {};
             window.debugConsole.logLevel(!this.isSyncing ? 2:1, `response`, JSON.stringify(response, null, 2));
 
             return response;

@@ -10,6 +10,7 @@ class NodeGraphEditor extends OctaneComponent {
         this.canvas = element;
         this.ctx = null;
         this.nodes = new Map();
+        this.outputs = new Map();
         this.connections = new Map();
         this.selectedNodes = new Set();
         this.viewport = { x: 0, y: 0, zoom: 1 };
@@ -272,25 +273,27 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     drawConnections() {
-        this.connections.forEach(connection => {
-            this.drawConnection(connection);
+//        this.connections.forEach(connection => {
+//            this.drawConnection(connection);
+//        });
+        return;
+        this.nodes.forEach((item, index) => {
+            item.inputs.forEach((input) => {
+                this.drawConnection(input);
+            });
         });
     }
     
-    drawConnection(connection) {
-        const outputNode = this.nodes.get(connection.outputNodeId);
-        const inputNode = this.nodes.get(connection.inputNodeId);
+    drawConnection(input) {
         
-        if (!outputNode || !inputNode) return;
-        
-        const outputPos = this.getSocketPosition(outputNode, connection.outputSocket, 'output');
+        const inputPos = this.getSocketPosition(input, input.pinInfo?.staticLabel || input.name, 'input');
+        const outputPos = this.getSocketPosition(output, output.name, 'output');
 //        window.console.log("outputPos", outputPos.x, outputPos.y, outputPos.z);
-        const inputPos = this.getSocketPosition(inputNode, connection.inputSocket, 'input');
         
         // Connection color based on data type
-        let connectionColor = window.OctaneIconMapper.formatColorValue(outputNode.nodeData.pinInfo?.pinColor) || '#666';
+        let connectionColor = window.OctaneIconMapper.formatColorValue(output.nodeData.pinInfo?.pinColor) || '#666';
 
-        this.ctx.strokeStyle = connection.selected ? '#4a90e2' : connectionColor;
+        this.ctx.strokeStyle = false ? '#4a90e2' : connectionColor;
         this.ctx.lineWidth = 2 / this.viewport.zoom;
         
         this.ctx.beginPath();
@@ -449,16 +452,7 @@ class NodeGraphEditor extends OctaneComponent {
                 this.drawSocket(socketX, socketY, input, 'input');
             });
         }
-        
-        // Output sockets on BOTTOM (horizontal layout)
-        if (node.outputs && node.outputs.length > 0) {
-            const outputSpacing = width / (node.outputs.length + 1);
-            node.outputs.forEach((output, index) => {
-                const socketX = x + outputSpacing * (index + 1);
-                const socketY = y + height;
-                this.drawSocket(socketX, socketY, output, 'output');
-            });
-        }
+        this.drawSocket(x + width/2, y + height, this.outputs[0], 'output');
         
         // Update node dimensions for hit testing
         node.width = width;
@@ -470,7 +464,7 @@ class NodeGraphEditor extends OctaneComponent {
         const radius = 4 / this.viewport.zoom; // Smaller sockets like Octane
     
 //       console.log(`NodeGraphEditor.drawSocket `, JSON.stringify(socket, null, 2));
-        const socketColor = window.OctaneIconMapper.formatColorValue(socket.pinInfo?.pinColor);
+        const socketColor = window.OctaneIconMapper.formatColorValue(socket?.pinInfo?.pinColor || 'rgba(243, 220, 222, 1)');
         
         // Draw socket circle
         this.ctx.fillStyle = socketColor;
@@ -483,10 +477,6 @@ class NodeGraphEditor extends OctaneComponent {
         this.ctx.strokeStyle = '#f4f7f6ff';
         this.ctx.lineWidth = 1 / this.viewport.zoom;
         this.ctx.stroke();
-        
-        // Store socket position for connection drawing
-        socket.x = x;
-        socket.y = y;
     }
     
     drawTooltip() {
@@ -902,13 +892,10 @@ class NodeGraphEditor extends OctaneComponent {
                 outputs: this.getNodeOutputs(item)
             };
             console.log(`NodeGraphEditor.createNodes `, item.name);
-//            console.log(`NodeGraphEditor.createNodes `, JSON.stringify(item.nodeInfo, null, 2));
             
             this.nodes.set(nodeId, node);
             xOffset += node.width + 80; // Space between nodes
         });
-        
-        // Create connections between nodes (teapot.obj -> Render target)
         this.createSceneConnections(scene.tree);
     }
     
@@ -938,6 +925,7 @@ class NodeGraphEditor extends OctaneComponent {
             throw new Error('NodeGraphEditor.getNodeOutputs Failed ApiNodeArray/size1');
         }
         const size = response.data.result;
+        console.log('getNodeOutputs :', nodeData.name, '->', size);
 
         let outputs = [];
         for (let i = 0; i < size; i++) {
@@ -950,31 +938,44 @@ class NodeGraphEditor extends OctaneComponent {
             if (!response.success) {
                 throw new Error('Failed ApiNodeArray/get1');
             }
-            const item = window.octaneClient.lookupItem(response.data.result.handle);
+            const item = window.octaneClient.lookupItem(response.data.result.handle, true);
+            console.log(' item :', item?.name);
 
             outputs.push(item);
+
+            const nodeId = `scene_${item.handle}`;            
+            this.outputs[nodeId] = item;
         }
         return outputs;
     }
     
     createSceneConnections() {
-        // Create connection from teapot.obj to Render target
-        const meshNode = Array.from(this.nodes.values()).find(n => n.nodeData.name.includes('.obj'));
-        const renderNode = Array.from(this.nodes.values()).find(n => n.nodeData.name.includes('Render target'));
-        
-        if (meshNode && renderNode) {
-            const connectionId = `${meshNode.id}_to_${renderNode.id}`;
-            this.connections.set(connectionId, {
-                id: connectionId,
-                outputNodeId: meshNode.id,
-                inputNodeId: renderNode.id,
-                outputSocket: 'Mesh',
-                inputSocket: 'Geometry',
-                dataType: 'geometry'
+
+        let outs = new Map(); 
+        this.outputs.forEach((out) => {
+            const nodeId = `scene_${out.handle}`;
+            const outNode = this.nodes[nodeId];
+
+            if (outNode) {
+                outs[nodeId] = outNode;
+            }
+        });
+        this.outputs = outs;
+
+        this.nodes.forEach((item) => {
+            item.inputs.forEach((input, index) => {
+                const nodeId = `scene_${input.handle}`;
+                const out = this.outputs[nodeId];
+                if (out) {
+                    this.connections.set(nodeId, {
+                        node: item,
+                        index: index,
+                        output: out,
+                    });
+                    console.log('Created connection:', item.name, '.', input.pinInfo?.staticLabel, '->', input.name);
+                }
             });
-            
-            console.log('Created connection:', meshNode.nodeData.name, '->', renderNode.nodeData.name);
-        }
+        });
     }
     
     showNoDataMessage() {
