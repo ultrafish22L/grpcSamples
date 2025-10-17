@@ -928,6 +928,7 @@ class NodeGraphEditor extends OctaneComponent {
         console.log('getNodeOutputs :', nodeData.name, '->', size);
 
         let outputs = [];
+        outputs.push(nodeData);
         for (let i = 0; i < size; i++) {
             // get it
             response = window.octaneClient.makeApiCall(
@@ -941,7 +942,7 @@ class NodeGraphEditor extends OctaneComponent {
             const item = window.octaneClient.lookupItem(response.data.result.handle, true);
             console.log(' item :', item?.name);
 
-            outputs.push(item);
+//            outputs.push(item);
 
             const nodeId = `scene_${item.handle}`;            
             this.outputs[nodeId] = item;
