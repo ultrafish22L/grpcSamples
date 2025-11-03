@@ -273,21 +273,25 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     drawConnections() {
-//        this.connections.forEach(connection => {
-//            this.drawConnection(connection);
-//        });
-        return;
-        this.nodes.forEach((item, index) => {
-            item.inputs.forEach((input) => {
-                this.drawConnection(input);
-            });
+
+        this.connections?.forEach(connection => {
+            this.drawConnection(connection);
         });
     }
     
-    drawConnection(input) {
+    drawConnection(connection) {
         
-        const inputPos = this.getSocketPosition(input, input.pinInfo?.staticLabel || input.name, 'input');
-        const outputPos = this.getSocketPosition(output, output.name, 'output');
+//                    this.connections.set(out.handle, {
+//                        node: node,
+//                        index: index,
+//                        output: out,
+        const input = connection.input;
+        const output = connection.output;
+
+//        console.log("drawCON", input.nodeData.name, output.nodeData.name);
+
+        const inputPos = this.getSocketPosition(input, connection.pinInfo.ix, 'input');
+        const outputPos = this.getSocketPosition(output, 0, 'output');
 //        window.console.log("outputPos", outputPos.x, outputPos.y, outputPos.z);
         
         // Connection color based on data type
@@ -763,11 +767,10 @@ class NodeGraphEditor extends OctaneComponent {
         return null;
     }
     
-    getSocketPosition(node, socketName, type) {
+    getSocketPosition(node, socketIndex, type) {
         const width = node.width || 100;
         const height = node.height || 40;
         const sockets = type === 'input' ? node.inputs : node.outputs;
-        let socketIndex = sockets?.findIndex(s => s.name === socketName) || 0;
         if (socketIndex < 0) {
             socketIndex = 0;
         }
@@ -782,7 +785,7 @@ class NodeGraphEditor extends OctaneComponent {
         } else {
             socketIndex = 0;
             // Output sockets on BOTTOM (horizontal layout)
-            const outputSpacing = width / (sockets.length + 1);
+            const outputSpacing = width / 2;
             return {
                 x: node.x + outputSpacing * (socketIndex + 1),
                 y: node.y + height
@@ -842,7 +845,7 @@ class NodeGraphEditor extends OctaneComponent {
         let nodeFound = false;
         for (let [nodeId, node] of this.nodes) {
             // Match by handle - NodeGraphEditor creates IDs as "scene_${handle}"
-            if (nodeId === `scene_${handle}` || 
+            if (nodeId === handle || 
                 node.nodeData.handle === handle || 
                 nodeId.includes(handle)) {
                 this.selectedNodes.add(nodeId);
@@ -866,7 +869,6 @@ class NodeGraphEditor extends OctaneComponent {
         
         // Clear existing nodes
         this.nodes.clear();
-        this.connections.clear();
         
         if (scene.tree.length === 0) {
             console.log('No scene items available - showing no data message');
@@ -879,7 +881,7 @@ class NodeGraphEditor extends OctaneComponent {
         const yCenter = this.canvas.height / 2;
         
         scene.tree.forEach((item, index) => {
-            const nodeId = `scene_${item.handle}`;
+            const nodeId = item.handle;
             
             const node = {
                 nodeData: item,
@@ -891,12 +893,12 @@ class NodeGraphEditor extends OctaneComponent {
                 inputs: item.children,
                 outputs: this.getNodeOutputs(item)
             };
-            console.log(`NodeGraphEditor.createNodes `, item.name);
+            console.log(`NodeGraphEditor.createNodes `, item.name, item.handle);
             
             this.nodes.set(nodeId, node);
             xOffset += node.width + 80; // Space between nodes
         });
-        this.createSceneConnections(scene.tree);
+        this.createConnections(scene);
     }
     
     getNodeWidth(name) {
@@ -909,8 +911,12 @@ class NodeGraphEditor extends OctaneComponent {
     getNodeOutputs(nodeData) {
 
         if (!nodeData) {
+            console.log('getNodeOutputs : !nodeData');
             return [];
         }
+        const outs = [nodeData.dest];
+        return outs;
+
         let response = window.octaneClient.makeApiCall(
             'ApiNode/destinationNodes', 
             nodeData.handle);
@@ -924,11 +930,10 @@ class NodeGraphEditor extends OctaneComponent {
         if (!response.success) {
             throw new Error('NodeGraphEditor.getNodeOutputs Failed ApiNodeArray/size1');
         }
+//        console.log('getNodeOutputs: ', nodeData.name, nodeData.handle, JSON.stringify(response.data));
         const size = response.data.result;
-        console.log('getNodeOutputs :', nodeData.name, '->', size);
 
-        let outputs = [];
-        outputs.push(nodeData);
+        const outputs = [];
         for (let i = 0; i < size; i++) {
             // get it
             response = window.octaneClient.makeApiCall(
@@ -939,43 +944,38 @@ class NodeGraphEditor extends OctaneComponent {
             if (!response.success) {
                 throw new Error('Failed ApiNodeArray/get1');
             }
-            const item = window.octaneClient.lookupItem(response.data.result.handle, true);
-            console.log(' item :', item?.name);
+            const dest = window.octaneClient.lookupItem(response.data.result.handle);
+            console.log('getNodeOutputs: ', nodeData.name, nodeData.handle, dest.name, dest.handle);
 
-//            outputs.push(item);
-
-            const nodeId = `scene_${item.handle}`;            
-            this.outputs[nodeId] = item;
+            const node = this.nodes.get(response.data.result.handle);
+            if (node) {
+                this.outputs.set(node.nodeData.handle, node);
+                outputs.push(node);
+                console.log('getNodeOutputs: ', nodeData.name, nodeData.handle, '->', node.nodeData.name, node.nodeData.handle);
+                console.log('getNodeOutputs: ', JSON.stringify(response.data));
+            }
         }
         return outputs;
     }
     
-    createSceneConnections() {
+    createConnections(scene) {
 
-        let outs = new Map(); 
-        this.outputs.forEach((out) => {
-            const nodeId = `scene_${out.handle}`;
-            const outNode = this.nodes[nodeId];
+        this.connections.clear();
+        // create connections map
+        scene.connections.forEach((connect) => {
 
-            if (outNode) {
-                outs[nodeId] = outNode;
-            }
+            const input = this.nodes.get(connect.input.handle);                 
+            const output = this.nodes.get(connect.output.handle);                 
+            this.connections.set(output.nodeData.handle, 
+                {
+                    input: input,
+                    pinInfo: connect.pinInfo,
+                    output: output,
+                });
+            console.log('createConnections: ', output.nodeData.name, output.nodeData.handle, '->', input.nodeData.name, input.nodeData.handle, connect.pinInfo.ix);
         });
-        this.outputs = outs;
-
-        this.nodes.forEach((item) => {
-            item.inputs.forEach((input, index) => {
-                const nodeId = `scene_${input.handle}`;
-                const out = this.outputs[nodeId];
-                if (out) {
-                    this.connections.set(nodeId, {
-                        node: item,
-                        index: index,
-                        output: out,
-                    });
-                    console.log('Created connection:', item.name, '.', input.pinInfo?.staticLabel, '->', input.name);
-                }
-            });
+        this.connections.forEach((connect) => { 
+            console.log('connect: ', connect.output.nodeData.name, connect.output.nodeData.handle, '->', connect.input.nodeData.name, connect.input.nodeData.handle, connect.pinInfo.ix);
         });
     }
     

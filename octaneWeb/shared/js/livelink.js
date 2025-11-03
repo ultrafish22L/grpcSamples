@@ -120,7 +120,7 @@ class LiveLinkClient extends SimpleEventEmitter {
             // Fix: Properly format the details object to avoid [object Object] display
             const detailsStr = details && Object.keys(details).length > 0 ? 
                 ` | ${JSON.stringify(details)}` : '';
-            console.log(`%c[${timestamp}] ${level.toUpperCase()}: ${message}${detailsStr}`, colors[level] || colors.info);
+            console.log(`${level.toUpperCase()}: ${message}${detailsStr}`, colors[level] || colors.info);
         }
         
         // Create clean activity monitor message (time only, no date)

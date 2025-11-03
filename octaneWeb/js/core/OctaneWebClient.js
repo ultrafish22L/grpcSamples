@@ -33,7 +33,7 @@ function createOctaneWebClient() {
                 
         this.proxyUrl = 'http://localhost:51023';
         this.eventSystem = eventSystem;
-        this.scene = { tree: [], map: new Map()}
+        this.scene = { tree: [], map: new Map(), connections: new Map()}
         this.isSyncing = false;
 
         // Scene state management - tracks all Octane scene objects and hierarchy
@@ -194,7 +194,8 @@ function createOctaneWebClient() {
                 item = this.lookupItem(handle);
             }
             else {
-                this.scene = { tree: this.syncSceneRecurse(), map: new Map() }
+//                this.scene = { tree: this.syncSceneRecurse(), map: new Map(), connections: new Map() }
+                this.syncSceneRecurse(null, this.scene.tree);
                 this.isSyncing = false;
                 this.eventSystem.emit('sceneDataLoaded', this.scene);
                 item = this.lookupItemType("NT_RENDERTARGET");
@@ -202,6 +203,8 @@ function createOctaneWebClient() {
             if (item) {
                 this.eventSystem.emit('sceneNodeSelected', item.handle);
             }
+//            console.log("");
+//            console.log(JSON.stringify(this.scene.tree, null, 2));
             
         } catch (error) {
             console.error('❌ Failed syncScene(): ', error);
@@ -212,6 +215,49 @@ function createOctaneWebClient() {
             this.eventSystem.emit('sceneDataLoaded', this.scene);
         }
     }
+
+    getDestination(nodeData) {
+
+        if (!nodeData) {
+            return null;
+        }
+        let response = window.octaneClient.makeApiCall(
+            'ApiNode/destinationNodes', 
+            nodeData.handle);
+        const handle = response.data.nodes.handle
+
+        // Get the size of the item array
+        response = window.octaneClient.makeApiCall(
+            'ApiNodeArray/size1', 
+            handle,
+        );
+        if (!response.success) {
+            throw new Error('NodeGraphEditor.getNodeOutputs Failed ApiNodeArray/size1');
+        }
+        const size = response.data.result;
+
+        const outputs = [];
+        for (let i = 0; i < size; i++) {
+            // get it
+            response = window.octaneClient.makeApiCall(
+                'ApiNodeArray/get1', 
+                handle,
+                {index: i},
+            ); 
+            if (!response.success) {
+                throw new Error('Failed ApiNodeArray/get1');
+            }
+            const node = this.scene.map[response.data.result.handle];
+
+            if (node) {
+                console.log('getDestination: ', nodeData.name, nodeData.handle, '->', node.name, node.handle);
+
+                const dest = node; //node.level > 1 ? this.getDestination(node) : node;
+                return dest;
+            }
+        }
+    }
+
 
     /**
      * SYNCHRONOUS scene tree loading with blocking API calls
@@ -284,7 +330,11 @@ function createOctaneWebClient() {
                     this.addSceneItem(sceneItems, response.data.result, null, level);
                 }
 //                sceneItems.sort((a, b) => a.handle - b.handle); 
-
+                if (level == 1) {
+                    sceneItems.forEach((item) => {
+                        this.addItemChildren(sceneItems, item)                        
+                    });
+                }
                 return sceneItems
             }
             // its a node
@@ -309,9 +359,14 @@ function createOctaneWebClient() {
                     throw new Error('Failed ApiNode/connectedNodeIx');
                 }        
                 const connectedNode = response.data.result;
+//                console.log(JSON.stringify(connectedNode, null, 2));
 
                 if (connectedNode == null) {
                     continue;
+                }
+                const topNode = this.lookupItem(connectedNode.handle, true);
+                if (topNode) {
+                    console.log("DEST ->", JSON.stringify(topNode, null, 2));
                 }
 /*                
                 // Get the pin label
@@ -358,6 +413,7 @@ function createOctaneWebClient() {
                     throw new Error('Failed ApiNodePinInfoEx/getApiNodePinInfo');
                 }
                 let pinInfo = response.data.nodePinInfo;
+                pinInfo.ix = i;
                 pinInfo.parent = itemHandle;
 
                 // will recurse to syncSceneRecurse()
@@ -384,7 +440,27 @@ function createOctaneWebClient() {
 
         if (!item || !item.handle)
             return;
-
+        
+        const existing = this.scene.map[item.handle];
+        if (existing)
+        {
+            if (existing.level == 1)
+            {
+                const dest = this.getDestination(existing);
+                const connect = { 
+                    output: existing,
+                    pinInfo: pinInfo,
+                    input: dest,
+                }
+                if (this.scene.connections == null) {
+                    this.scene.connections = new Map();
+                }
+                this.scene.connections.set(existing.handle, connect);
+                console.log("Connect", connect.output.name, connect.output.handle, connect.pinInfo.staticName, "->", connect.input.name, connect.input.handle);
+                console.log("Connections", this.scene.connections.size);
+            }
+            return;
+        }
         try {
             let response;
             
@@ -444,7 +520,36 @@ function createOctaneWebClient() {
         } catch (error) {
             console.error('❌ Failed addSceneItem(): ', error);
         }
-        let children = this.syncSceneRecurse(item.handle, null, isGraph, level);
+        const icon = window.OctaneIconMapper?.getNodeIcon(outType);
+
+        const entry = {
+            level: level,
+            name: itemName,
+            handle: item.handle,
+            outType: outType,
+            graphInfo: graphInfo,
+            nodeInfo: nodeInfo,
+            pinInfo: pinInfo,
+            icon: icon,
+//            attrInfo: attrInfo,
+//            children: children,
+        };
+
+        // save it
+        sceneItems.push( entry );
+        this.scene.map[item.handle] = entry;
+        
+        if (level > 1)
+        {
+            this.addItemChildren(sceneItems, item)
+        }
+    }
+
+    addItemChildren(sceneItems, item) { 
+
+        let iitem = this.scene.map[item.handle];
+        const children = this.syncSceneRecurse(iitem.handle, null, iitem.graphInfo != null, iitem.level);
+        iitem['children'] = children;
 
         let attrInfo = null;
         if (children.length == 0) {
@@ -458,33 +563,17 @@ function createOctaneWebClient() {
                 if (!response.success) {
                     throw new Error('Failed GenericNodeRenderer.addSceneItem(): ApiItem/attrInfo');
                 }
-                attrInfo = response.data.result;
+                iitem['attrInfo'] = response.data.result;
 
             } catch (error) {
                 console.error('❌ Failed addSceneItem(): ', error);
             }
-            window.debugConsole.log( `EndNode    ${item.handle} ${itemName} ${outType} ${attrInfo?.type}`);            
+            window.debugConsole.log( `${iitem.level == 1 ? "TopNode" : "EndNode"} ${iitem.handle} ${iitem.name} ${iitem.outType} ${iitem.attrInfo ? iitem.attrInfo.type : ""}`);            
         }
         else {
-            window.debugConsole.log( `ParentNode ${item.handle} ${itemName} ${outType} ${pinInfo?.type}`);            
+            window.debugConsole.log( `${iitem.level == 1 ? "TopNode" : "ParNode"} ${iitem.handle} ${iitem.name} ${iitem.outType} ${iitem.pinInfo ? iitem.pinInfo.type : ""}`);            
         }
-        const icon = window.OctaneIconMapper?.getNodeIcon(outType);
 
-        const entry = {
-            name: itemName,
-            handle: item.handle,
-            outType: outType,
-            graphInfo: graphInfo,
-            nodeInfo: nodeInfo,
-            attrInfo: attrInfo,
-            pinInfo: pinInfo,
-            children: children,
-            icon: icon,
-        };
-
-        // save it
-        sceneItems.push( entry );
-        this.scene.map[item.handle] = entry;
     }
 
     // ==================== SCENE MANAGEMENT ====================
