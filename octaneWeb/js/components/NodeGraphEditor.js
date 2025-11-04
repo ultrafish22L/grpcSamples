@@ -709,7 +709,9 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     getSocketTooltipText(hoveredSocket) {
-        return hoveredSocket.socket?.name || "pin";
+//        console.log("tooltip", JSON.stringify(hoveredSocket, null, 2));
+
+        return hoveredSocket.socket?.name || hoveredSocket.node?.nodeData?.name || "pin";
     }
     
     handleMouseUp(e) {

@@ -330,6 +330,7 @@ function createOctaneWebClient() {
                     this.addSceneItem(sceneItems, response.data.result, null, level);
                 }
 //                sceneItems.sort((a, b) => a.handle - b.handle); 
+
                 if (level == 1) {
                     sceneItems.forEach((item) => {
                         this.addItemChildren(sceneItems, item)                        
@@ -456,6 +457,8 @@ function createOctaneWebClient() {
                 this.scene.connections.set(existing.handle, connect);
                 console.log("Connect", connect.output.name, connect.output.handle, connect.pinInfo.staticLabel, "->", connect.input.name, connect.input.handle);
                 console.log("Connections", this.scene.connections.size);
+
+                sceneItems.push(existing);
                 return;
             }
             else {
