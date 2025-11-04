@@ -203,8 +203,8 @@ function createOctaneWebClient() {
             if (item) {
                 this.eventSystem.emit('sceneNodeSelected', item.handle);
             }
-//            console.log("");
-//            console.log(JSON.stringify(this.scene.tree, null, 2));
+            console.log("");
+            console.log(JSON.stringify(this.scene.tree, null, 2));
             
         } catch (error) {
             console.error('❌ Failed syncScene(): ', error);
@@ -364,10 +364,10 @@ function createOctaneWebClient() {
                 if (connectedNode == null) {
                     continue;
                 }
-                const topNode = this.lookupItem(connectedNode.handle, true);
-                if (topNode) {
-                    console.log("DEST ->", JSON.stringify(topNode, null, 2));
-                }
+//                const topNode = this.lookupItem(connectedNode.handle, true);
+//                if (topNode) {
+//                    console.log("DEST ->", JSON.stringify(topNode, null, 2));
+//                }
 /*                
                 // Get the pin label
                 response = this.makeApiCall(
@@ -414,7 +414,6 @@ function createOctaneWebClient() {
                 }
                 let pinInfo = response.data.nodePinInfo;
                 pinInfo.ix = i;
-                pinInfo.parent = itemHandle;
 
                 // will recurse to syncSceneRecurse()
                 this.addSceneItem(sceneItems, connectedNode, pinInfo, level);
@@ -432,19 +431,18 @@ function createOctaneWebClient() {
      */
     addSceneItem(sceneItems, item, pinInfo, level = 0) { 
 
-        let itemName;
-        let outType;
+        let itemName = item.name || pinInfo?.staticLabel;
+        let outType = pinInfo?.outType;
         let graphInfo;
         let nodeInfo;
-        let isGraph;
+        let isGraph = false;
 
-        if (!item || !item.handle)
-            return;
-        
-        const existing = this.scene.map[item.handle];
-        if (existing)
-        {
-            if (existing.level == 1)
+        if (pinInfo) {
+            console.log("pinInfo", JSON.stringify(pinInfo));
+        }
+        if (item && item.handle) {
+            const existing = this.scene.map[item.handle];
+            if (existing && existing.handle && existing.level == 1)
             {
                 const dest = this.getDestination(existing);
                 const connect = { 
@@ -456,69 +454,71 @@ function createOctaneWebClient() {
                     this.scene.connections = new Map();
                 }
                 this.scene.connections.set(existing.handle, connect);
-                console.log("Connect", connect.output.name, connect.output.handle, connect.pinInfo.staticName, "->", connect.input.name, connect.input.handle);
+                console.log("Connect", connect.output.name, connect.output.handle, connect.pinInfo.staticLabel, "->", connect.input.name, connect.input.handle);
                 console.log("Connections", this.scene.connections.size);
-            }
-            return;
-        }
-        try {
-            let response;
-            
-            // basic item params
-            // name
-            response = this.makeApiCall(
-                'ApiItem/name',
-                item.handle
-            );
-            if (!response.success) {
-                throw new Error('Failed GenericNodeRenderer.addSceneItem()');
-            }
-            itemName = response.data.result;
-
-            // outtype
-            response = this.makeApiCall(
-                'ApiItem/outType',
-                item.handle
-            );
-            if (!response.success) {
-                throw new Error('Failed to get item outType');
-            }
-            outType = response.data.result;
-
-            // is it a graph or node?
-            response = this.makeApiCall(
-                'ApiItem/isGraph', 
-                item.handle 
-            );
-            if (!response.success) {
-                throw new Error('Failed ApiItem/isGraph');
-            }
-            isGraph = response.data.result;
-            if (isGraph) {
-                // its a graph
-                response = this.makeApiCall(
-                    'ApiNodeGraph/info1', 
-                    item.handle,
-                );
-                if (!response.success) {
-                    throw new Error('Failed ApiNodeGraph/info1');
-                }
-                graphInfo = response.data.result;
+                return;
             }
             else {
-                // its a node
+                try {
+                let response;
+                
+                // basic item params
+                // name
                 response = this.makeApiCall(
-                    'ApiNode/info', 
-                    item.handle,
+                    'ApiItem/name',
+                    item.handle
                 );
                 if (!response.success) {
-                    throw new Error('Failed ApiNode/info');
+                    throw new Error('Failed GenericNodeRenderer.addSceneItem() ApiItem/name');
                 }
-                nodeInfo = response.data.result
-            }
+                itemName = response.data.result;
 
-        } catch (error) {
-            console.error('❌ Failed addSceneItem(): ', error);
+                // outtype
+                response = this.makeApiCall(
+                    'ApiItem/outType',
+                    item.handle
+                );
+                if (!response.success) {
+                    throw new Error('Failed to get item outType');
+                }
+                outType = response.data.result;
+
+                // is it a graph or node?
+                response = this.makeApiCall(
+                    'ApiItem/isGraph', 
+                    item.handle 
+                );
+                if (!response.success) {
+                    throw new Error('Failed ApiItem/isGraph');
+                }
+                isGraph = response.data.result;
+                if (isGraph) {
+                    // its a graph
+                    response = this.makeApiCall(
+                        'ApiNodeGraph/info1', 
+                        item.handle,
+                    );
+                    if (!response.success) {
+                        throw new Error('Failed ApiNodeGraph/info1');
+                    }
+                    graphInfo = response.data.result;
+                }
+                else {
+                    // its a node
+                    response = this.makeApiCall(
+                        'ApiNode/info', 
+                        item.handle,
+                    );
+                    if (!response.success) {
+                        throw new Error('Failed ApiNode/info');
+                    }
+                    nodeInfo = response.data.result
+                }
+
+            } catch (error) {
+                console.error('❌ Failed addSceneItem(): ', error);
+            }
+            }
         }
         const icon = window.OctaneIconMapper?.getNodeIcon(outType);
 
@@ -534,14 +534,16 @@ function createOctaneWebClient() {
 //            attrInfo: attrInfo,
 //            children: children,
         };
-
         // save it
         sceneItems.push( entry );
-        this.scene.map[item.handle] = entry;
-        
-        if (level > 1)
-        {
-            this.addItemChildren(sceneItems, item)
+
+        if (item && item.handle) {
+            this.scene.map[item.handle] = entry;
+            
+            if (level > 1)
+            {
+                this.addItemChildren(sceneItems, item)
+            }
         }
     }
 

@@ -281,7 +281,7 @@ class GenericNodeRenderer {
      */
     renderControl(nodeData) {
 
-        if (nodeData.attrInfo == null) {
+        if (nodeData.attrInfo == null || nodeData.nodeInfo == null) {
             console.log(`GenericNodeRenderer.renderControl() nodeData.attrInfo == null`);
             return null
         }

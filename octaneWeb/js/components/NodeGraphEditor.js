@@ -709,7 +709,7 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     getSocketTooltipText(hoveredSocket) {
-        return hoveredSocket.socket.name;
+        return hoveredSocket.socket?.name || "pin";
     }
     
     handleMouseUp(e) {
@@ -776,7 +776,7 @@ class NodeGraphEditor extends OctaneComponent {
         }
         if (type === 'input') {
             // Input sockets on TOP (horizontal layout)
-            const inputSpacing = width / (sockets.length + 1);
+            const inputSpacing = width / ((sockets ? sockets.length : 1) + 1);
 //            window.console.log("input connect ", socketName, inputSpacing, node.x + inputSpacing * (socketIndex + 1))
             return {
                 x: node.x + inputSpacing * (socketIndex + 1),
@@ -893,7 +893,7 @@ class NodeGraphEditor extends OctaneComponent {
                 inputs: item.children,
                 outputs: this.getNodeOutputs(item)
             };
-            console.log(`NodeGraphEditor.createNodes `, item.name, item.handle);
+            console.log(`NodeGraphEditor.createNodes `, item.name, item.handle, item.children.length);
             
             this.nodes.set(nodeId, node);
             xOffset += node.width + 80; // Space between nodes
