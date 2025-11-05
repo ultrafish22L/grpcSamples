@@ -203,8 +203,8 @@ function createOctaneWebClient() {
             if (item) {
                 this.eventSystem.emit('sceneNodeSelected', item.handle);
             }
-            console.log("");
-            console.log(JSON.stringify(this.scene.tree, null, 2));
+//            console.log("");
+//            console.log(JSON.stringify(this.scene.tree, null, 2));
             
         } catch (error) {
             console.error('❌ Failed syncScene(): ', error);
@@ -438,9 +438,9 @@ function createOctaneWebClient() {
         let nodeInfo;
         let isGraph = false;
 
-        if (pinInfo) {
-            console.log("pinInfo", JSON.stringify(pinInfo));
-        }
+//        if (pinInfo) {
+//            console.log("pinInfo", JSON.stringify(pinInfo));
+//        }
         if (item && item.handle) {
             const existing = this.scene.map[item.handle];
             if (existing && existing.handle && existing.level == 1)
@@ -456,7 +456,6 @@ function createOctaneWebClient() {
                 }
                 this.scene.connections.set(existing.handle, connect);
                 console.log("Connect", connect.output.name, connect.output.handle, connect.pinInfo.staticLabel, "->", connect.input.name, connect.input.handle);
-                console.log("Connections", this.scene.connections.size);
 
                 sceneItems.push(existing);
                 return;
@@ -581,6 +580,52 @@ function createOctaneWebClient() {
 
     }
 
+    removeRecurse(item, itemlist) {
+    
+        let iitem = this.scene.map[item.handle];
+
+        if (iitem == undefined) {
+            console.error("removeRecurse item == undefined");
+            return;
+        }
+        this.scene.map.delete(iitem.handle);
+
+        item.children.forEach((child) => {
+
+            this.removeRecurse(child);
+        });
+    }
+
+    
+    removeItem(handle) {
+
+        let iitem = this.scene.map[handle];
+
+        console.log("OctaneWebClient.removeItem", handle);
+
+        if (iitem?.level == 1) {
+            // remove top level node
+
+            // delete it in octane
+            const response = this.makeApiCall(
+                'ApiItem/destroy', 
+                handle,
+            );
+            if (!response.success) {
+                throw new Error('Failed removeItem() ApiItem/destroy');
+            }
+            // clean up map
+            this.removeRecurse(handle);
+
+            // remove from tree
+            const ix = this.scene.tree.indexOf(handle);
+            this.scene.tree.splice(ix, 1);
+
+            // clean up connections
+            this.scene.connections.delete(handle);
+        }
+    }
+    
     // ==================== SCENE MANAGEMENT ====================
     
     /**
@@ -808,80 +853,6 @@ function createOctaneWebClient() {
         this.syncIntervals = { scene: null, render: null, nodeGraph: null };
     }
     
-    // ==================== STATE MANAGEMENT ====================
-    
-    /**
-     * Update scene state from server data
-     */
-    updateSceneState(data) {
-        if (data.objects) {
-            data.objects.forEach(obj => {
-                this.sceneState.objects.set(obj.id, obj);
-            });
-        }
-        
-        if (data.hierarchy) {
-            this.sceneState.hierarchy = data.hierarchy;
-        }
-        
-        if (data.selection) {
-            this.sceneState.selection.clear();
-            data.selection.forEach(id => this.sceneState.selection.add(id));
-        }
-    }
-    
-    /**
-     * Update scene hierarchy
-     */
-    updateSceneHierarchy(hierarchyData) {
-        // Ensure hierarchyData is an array
-        if (!Array.isArray(hierarchyData)) {
-            console.warn('updateSceneHierarchy: hierarchyData is not an array:', hierarchyData);
-            this.sceneState.hierarchy = [];
-            return;
-        }
-        
-        this.sceneState.hierarchy = hierarchyData;
-        
-        // Flatten hierarchy to update objects map
-        const flattenHierarchy = (nodes) => {
-            if (!Array.isArray(nodes)) {
-                console.warn('flattenHierarchy: nodes is not an array:', nodes);
-                return;
-            }
-            nodes.forEach(node => {
-                this.sceneState.objects.set(node.id, node);
-                if (node.children && Array.isArray(node.children)) {
-                    flattenHierarchy(node.children);
-                }
-            });
-        };
-        
-        flattenHierarchy(hierarchyData);
-    }
-    
-    /**
-     * Update node graph state
-     */
-    updateNodeGraphState(data) {
-        if (data.nodes && Array.isArray(data.nodes)) {
-            this.nodeGraphState.nodes.clear();
-            data.nodes.forEach(node => {
-                this.nodeGraphState.nodes.set(node.id, node);
-            });
-        } else if (data.nodes) {
-            console.warn('updateNodeGraphState: data.nodes is not an array:', data.nodes);
-        }
-        
-        if (data.connections && Array.isArray(data.connections)) {
-            this.nodeGraphState.connections.clear();
-            data.connections.forEach(conn => {
-                this.nodeGraphState.connections.set(conn.id, conn);
-            });
-        } else if (data.connections) {
-            console.warn('updateNodeGraphState: data.connections is not an array:', data.connections);
-        }
-    }
     
     /**
      * Update render state

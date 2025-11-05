@@ -204,6 +204,7 @@ class OctaneWebApp {
             this.stateManager,
             this.eventSystem
         );
+        window.nodeGraphEditor = this.components.nodeGraphEditor;
         
         // Initialize all components in sequence
         for (const [name, component] of Object.entries(this.components)) {
@@ -472,10 +473,6 @@ class OctaneWebApp {
                     window.debugConsole.toggle();
                 }
                 break;
-            case 'Delete':
-                event.preventDefault();
-                this.deleteSelected();
-                break;
             case 'Escape':
                 event.preventDefault();
                 this.clearSelection();
@@ -635,18 +632,7 @@ class OctaneWebApp {
             document.documentElement.requestFullscreen();
         }
     }
-    
-    /**
-     * Delete selected objects in the scene
-     * TODO: Implement when delete API is available
-     */
-    async deleteSelected() {
-        if (this.isConnected && this.client.isReady()) {
-            console.log('Delete selected requested - not yet implemented');
-            // await this.client.deleteSelectedObjects();
-        }
-    }
-    
+
     async clearSelection() {
         if (this.isConnected && this.client.isReady()) {
             await this.client.selectObjects([]);

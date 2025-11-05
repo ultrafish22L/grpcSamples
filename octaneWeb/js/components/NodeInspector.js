@@ -68,6 +68,11 @@ class NodeInspector extends OctaneComponent {
             this.updateSelectedNode(handle);
         });
         
+        // Listen for scene node deletion (unified event for all components)
+        this.eventSystem.on('sceneNodeDeteted', (handle) => {
+            this.updateSelectedDeleted(handle);
+        });
+
         // Listen for node parameter updates
         window.octaneClient.on('nodeParameterUpdate', (data) => {
             this.updateParameter(data.nodeId, data.parameterName, data.value);
@@ -116,7 +121,10 @@ class NodeInspector extends OctaneComponent {
         });
     }
     
+    updateSelectedDeleted(nodeid) {
     
+    }
+
     toggleParent(nodeid) {
         const header = this.element.querySelector(`[data-toggle="${nodeid}"]`);
         const content = this.element.querySelector(`[data-toggle-content="${nodeid}"]`);

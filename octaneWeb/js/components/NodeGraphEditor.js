@@ -168,7 +168,7 @@ class NodeGraphEditor extends OctaneComponent {
         if (deleteButton) {
             this.addEventListener(deleteButton, 'click', () => {
                 if (this.selectedNodes.size > 0) {
-                    this.deleteSelectedNodes();
+                    this.deleteSelected();
                 }
             });
         }
@@ -749,9 +749,7 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     handleKeyDown(e) {
-        if (e.key === 'Delete' && this.selectedNodes.size > 0) {
-            this.deleteSelectedNodes();
-        } else if (e.key === 'f' || e.key === 'F') {
+        if (e.key === 'f' || e.key === 'F') {
             this.frameAll();
         }
     }
@@ -806,35 +804,27 @@ class NodeGraphEditor extends OctaneComponent {
         this.showContextMenu(screenX, screenY);
     }
     
-    async deleteSelectedNodes() {
-        const deletedNodes = [];
+    async deleteSelected() {
         
         for (const nodeId of this.selectedNodes) {
             const node = this.nodes.get(nodeId);
             if (node) {
-                // Remove connections involving this node
-                const connectionsToRemove = [];
-                this.connections.forEach((connection, connId) => {
-                    if (connection.outputNodeId === nodeId || connection.inputNodeId === nodeId) {
-                        connectionsToRemove.push(connId);
-                    }
-                });
-                
-                connectionsToRemove.forEach(connId => {
-                    this.connections.delete(connId);
-                });
-                
+                window.octaneClient.removeItem(nodeId);
+
+                this.connections.delete(nodeId);
                 // Remove the node
                 this.nodes.delete(nodeId);
-                deletedNodes.push(node.nodeData.name);
+
             }
         }
-        
         this.selectedNodes.clear();
-        
-        if (deletedNodes.length > 0) {
-            console.log(`Deleted nodes: ${deletedNodes.join(', ')}`);
-        }
+
+        this.nodes.forEach((node) => {
+
+//            this.eventSystem.emit('sceneNodeSelected', node.nodeData.handle);
+            return;
+        });
+//        this.eventSystem.emit('sceneNodeSelected', );
     }
     
     updateSelectedNode(handle) {
@@ -847,9 +837,7 @@ class NodeGraphEditor extends OctaneComponent {
         let nodeFound = false;
         for (let [nodeId, node] of this.nodes) {
             // Match by handle - NodeGraphEditor creates IDs as "scene_${handle}"
-            if (nodeId === handle || 
-                node.nodeData.handle === handle || 
-                nodeId.includes(handle)) {
+            if (nodeId == handle) {
                 this.selectedNodes.add(nodeId);
                 console.log('Selected node in graph:', nodeId, node.nodeData.name);
                 nodeFound = true;

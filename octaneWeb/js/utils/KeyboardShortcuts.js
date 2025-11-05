@@ -52,7 +52,7 @@ class KeyboardShortcuts {
         
         this.register('delete', () => {
             // Delete selected nodes
-            this.deleteSelectedNodes();
+            this.deleteSelected();
         }, 'Delete Selected');
         
         this.register('ctrl+z', () => {
@@ -262,10 +262,9 @@ class KeyboardShortcuts {
         }
     }
     
-    deleteSelectedNodes() {
-        if (window.nodeGraphEditor) {
-            window.nodeGraphEditor.deleteSelectedNodes();
-        }
+    deleteSelected() {
+        console.log("KeyboardShortcuts.deleteSelected");
+        window.menuSystem.executeMenuAction('edit.delete');
     }
     
     undo() {

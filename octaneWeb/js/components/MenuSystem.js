@@ -682,14 +682,9 @@ class MenuSystem extends OctaneComponent {
     }
     
     async cut() {
-        console.log('Cut selected items...');
+        console.log('MenuSystem.cut()');
         
-        if (window.octaneClient.connected) {
-            // For now, show that gRPC cut is not implemented
-            this.showNotification(' Cut via gRPC not yet implemented', 'warning');
-        } else {
-            this.showNotification('❌ Cut requires Octane connection', 'error');
-        }
+        window.nodeGraphEditor.deleteSelected(); 
     }
     
     async copy() {
@@ -715,14 +710,9 @@ class MenuSystem extends OctaneComponent {
     }
     
     async deleteSelected() {
-        console.log('Delete selected items...');
+        console.log('MenuSystem.deleteSelected()');
         
-        if (window.octaneClient.connected) {
-            // For now, show that gRPC delete is not implemented
-            this.showNotification(' Delete via gRPC not yet implemented', 'warning');
-        } else {
-            this.showNotification('❌ Delete requires Octane connection', 'error');
-        }
+        window.nodeGraphEditor.deleteSelected(); 
     }
     
     async selectAll() {

@@ -59,13 +59,23 @@ class SceneOutlinerSync {
         this.eventSystem.on('sceneNodeSelected', (handle) => {
             this.updateSelectedNode(handle);
         });
-                // Listen for scene data loaded from SceneOutliner
+        // Listen for scene node deletion (unified event for all components)
+        this.eventSystem.on('sceneNodeDeteted', (handle) => {
+            this.updateSelectedDeleted(handle);
+        });
+        // Listen for scene data loaded from SceneOutliner
         this.eventSystem.on('sceneDataLoaded', (scene) => {
             console.log('SceneOutlinerSync received sceneDataLoaded event:', scene.tree.length);
             this.render();
         });
     }
-    
+
+        // Unified selection function - called both on initialization and user clicks
+    updateSelectedDeleted(handle) {
+        this.render();
+    }
+
+
     // Unified selection function - called both on initialization and user clicks
     updateSelectedNode(handle) {
         
