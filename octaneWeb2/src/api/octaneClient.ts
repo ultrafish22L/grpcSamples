@@ -1,452 +1,792 @@
-/**
- * Octane API Client
- * 
- * TypeScript implementation of the octaneWeb LiveLink client
- * Based on the proven patterns from octaneWeb/shared/js/livelink.js
- * 
- * HTTP client for communicating with the octaneProxy server (HTTP-to-gRPC bridge)
- * URL pattern: http://localhost:51023/LiveLink/MethodName
- */
+import { ObjectType } from '../constants/octaneTypes'
 
-import { ObjectType } from '../constants/octaneTypes';
+// ============================================================================
+// TYPE DEFINITIONS
+// ============================================================================
+
+export interface ObjectPtr {
+  handle: string
+  type: number
+}
 
 export interface SceneNode {
-  id: string;
-  name: string;
-  type: string;
-  handle?: string;  // Changed to string to match Octane API
-  children?: SceneNode[];
-  visible?: boolean;
-  locked?: boolean;
+  id: string
+  handle: string
+  name: string
+  objectType: number
+  visible: boolean
+  hasChildren: boolean
+  children: SceneNode[]
+  parent?: string
+  depth: number
 }
 
-export interface SceneData {
-  nodes: SceneNode[];
-  connections: any[];
+export interface Parameter {
+  name: string
+  value: any
+  type: string
+  min?: number
+  max?: number
+  enumValues?: string[]
+  readonly?: boolean
 }
 
-export interface NodeParameter {
-  name: string;
-  type: string;
-  value: any;
-  min?: number;
-  max?: number;
-  options?: string[];
+export interface CameraInfo {
+  position: [number, number, number]
+  target: [number, number, number]
+  fov: number
 }
 
-export interface RenderInfo {
-  isRendering: boolean;
-  samples: number;
-  renderTime: number;
-  progress: number;
+export interface ServerInfo {
+  version: string
+  buildDate: string
+  platform: string
 }
 
+export interface CallbackConfig {
+  width?: number
+  height?: number
+  format?: string
+  quality?: number
+}
+
+export interface CallbackData {
+  type: string
+  imageData?: string
+  width?: number
+  height?: number
+  [key: string]: any
+}
+
+// ============================================================================
+// MAIN CLIENT CLASS
+// ============================================================================
+
+/**
+ * Complete Octane gRPC Client for React Application
+ * 
+ * Provides full API coverage for:
+ * - Connection management
+ * - Scene tree building and synchronization
+ * - Camera control with live sync
+ * - Parameter reading and editing
+ * - Callback streaming for live rendering
+ * - Node graph operations
+ * - File operations (load/save ORBX)
+ */
 class OctaneClient {
-  private serverUrl: string;
-  private connected: boolean = false;
-  private connectionState: string = 'disconnected';
-  private listeners: Map<string, Set<Function>> = new Map();
-  private callCount: number = 0;
-  private errorCount: number = 0;
+  private serverUrl: string
+  private connected: boolean = false
+  private eventSource: EventSource | null = null
+  private callbackId: string | null = null
+
+  // Performance tracking
+  private callCount: number = 0
+  private lastCallTime: number = 0
+  
+  // Scene cache
+  private sceneCache: Map<string, SceneNode> = new Map()
 
   constructor(serverUrl: string = 'http://localhost:51023') {
-    this.serverUrl = serverUrl;
+    this.serverUrl = serverUrl
   }
 
-  // Event system for component communication
-  on(event: string, callback: Function) {
-    if (!this.listeners.has(event)) {
-      this.listeners.set(event, new Set());
-    }
-    this.listeners.get(event)!.add(callback);
-  }
+  // ============================================================================
+  // CONNECTION MANAGEMENT
+  // ============================================================================
 
-  off(event: string, callback: Function) {
-    if (this.listeners.has(event)) {
-      this.listeners.get(event)!.delete(callback);
-    }
-  }
-
-  emit(event: string, data: any) {
-    if (this.listeners.has(event)) {
-      this.listeners.get(event)!.forEach(callback => callback(data));
-    }
-  }
-
-  // Connection Management
   async connect(): Promise<boolean> {
-    console.log('🔌 Connecting to Octane proxy...');
-    this.connectionState = 'connecting';
-    
     try {
-      // Test connection with health endpoint
-      const response = await fetch(`${this.serverUrl}/health`);
-      const data = await response.json();
+      const response = await this.makeServiceCall(
+        'octane.render.RenderServerInfo',
+        'GetServerInfo',
+        {}
+      )
       
-      if (data.status === 'ok' && data.connected) {
-        this.connected = true;
-        this.connectionState = 'connected';
-        console.log('✅ Connected to Octane');
-        
-        // Emit connection event
-        this.emit('connected', { timestamp: new Date().toISOString() });
-        return true;
-      } else {
-        this.connected = false;
-        this.connectionState = 'disconnected';
-        console.warn('⚠️ Proxy OK but Octane not connected');
-        return false;
-      }
+      this.connected = true
+      console.log('✅ Connected to Octane:', response)
+      return true
     } catch (error) {
-      console.error('❌ Connection failed:', error);
-      this.connected = false;
-      this.connectionState = 'disconnected';
-      this.emit('connectionError', { error });
-      return false;
+      console.error('❌ Failed to connect to Octane:', error)
+      this.connected = false
+      return false
     }
   }
 
-  async disconnect(): Promise<void> {
-    this.connected = false;
-    this.connectionState = 'disconnected';
-    this.emit('disconnected', {});
+  disconnect(): void {
+    // Disconnect callback stream if active
+    if (this.eventSource) {
+      this.eventSource.close()
+      this.eventSource = null
+    }
+    
+    this.connected = false
+    this.sceneCache.clear()
+    console.log('Disconnected from Octane')
   }
 
   isConnected(): boolean {
-    return this.connected;
+    return this.connected
   }
 
-  isReady(): boolean {
-    return this.connected && this.connectionState === 'connected';
-  }
-
-  // Generic API call method (matches livelink.js pattern)
-  private async makeApiCall(method: string, request: any = {}): Promise<any> {
-    const startTime = Date.now();
-    const callId = `${method}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    this.callCount++;
-    
-    // URL pattern from livelink.js: ${this.serverUrl}/LiveLink/${method}
-    const url = `${this.serverUrl}/LiveLink/${method}`;
-    
-    console.log(`📡 gRPC call: ${method}`, { callId, request });
-    
+  async testConnection(): Promise<boolean> {
     try {
-      if (!this.isReady()) {
-        throw new Error(`Client not ready. State: ${this.connectionState}`);
-      }
-      
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => {
-        controller.abort();
-        console.error(`⏱️ Timeout: ${method}`);
-      }, 30000); // 30 second timeout
-      
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/grpc-web+proto',
-          'Accept': 'application/grpc-web+proto',
-          'X-Call-ID': callId
-        },
-        body: JSON.stringify(request),
-        signal: controller.signal
-      });
-      
-      clearTimeout(timeoutId);
-      const responseTime = Date.now() - startTime;
-      
-      console.log(`✅ Response: ${method}`, {
-        callId,
-        status: response.status,
-        duration: responseTime
-      });
-      
-      if (!response.ok) {
-        const errorText = await response.text().catch(() => 'Unable to read error response');
-        const error = new Error(`gRPC call failed: ${response.status} ${response.statusText}`);
-        console.error(`❌ Call failed: ${method}`, {
-          status: response.status,
-          error: errorText
-        });
-        this.errorCount++;
-        throw error;
-      }
-      
-      const responseText = await response.text();
-      const result = JSON.parse(responseText);
-      
-      console.log(`📦 Result: ${method}`, result);
-      
-      return {
-        success: true,
-        data: result
-      };
-    } catch (error) {
-      console.error(`❌ API call error: ${method}`, error);
-      this.errorCount++;
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      };
+      await this.getServerInfo()
+      return true
+    } catch {
+      return false
     }
   }
 
-  // Camera API (matches livelink.js)
-  async getCamera(): Promise<any> {
-    const result = await this.makeApiCall('GetCamera', {});
-    return result && result.success ? result.data : null;
-  }
-
-  async setCamera(position?: {x: number, y: number, z: number}, target?: {x: number, y: number, z: number}): Promise<void> {
-    const request: any = {};
-    if (position) request.position = position;
-    if (target) request.target = target;
-    await this.makeApiCall('SetCamera', request);
-  }
-
-  async setCameraPosition(x: number, y: number, z: number): Promise<void> {
-    await this.setCamera({ x, y, z }, undefined);
-  }
-
-  async setCameraTarget(x: number, y: number, z: number): Promise<void> {
-    await this.setCamera(undefined, { x, y, z });
-  }
-
-  // Mesh API (matches livelink.js)
-  async getMeshes(): Promise<any> {
-    const result = await this.makeApiCall('GetMeshes', {});
-    return result && result.success ? result.data : null;
-  }
-
-  async getMesh(meshId: number): Promise<any> {
-    const result = await this.makeApiCall('GetMesh', { objecthandle: meshId });
-    return result && result.success ? result.data : null;
-  }
-
-  // Scene API - based on OctaneWebClient.js syncSceneRecurse
-  private async makeServiceCall(service: string, method: string, handle?: string | number, params?: any): Promise<any> {
-    const url = `${this.serverUrl}/${service}/${method}`;
-    const callId = `${service}/${method}_${Date.now()}`;
+  async getServerInfo(): Promise<ServerInfo> {
+    const response = await this.makeServiceCall(
+      'octane.render.RenderServerInfo',
+      'GetServerInfo',
+      {}
+    )
     
-    console.log(`📡 Service call: ${service}/${method}`, { handle, params });
+    return {
+      version: response.version || 'Unknown',
+      buildDate: response.buildDate || 'Unknown',
+      platform: response.platform || 'Unknown'
+    }
+  }
+
+  // ============================================================================
+  // CORE RPC METHOD
+  // ============================================================================
+
+  async makeServiceCall(service: string, method: string, params: any): Promise<any> {
+    const url = `${this.serverUrl}/rpc/${service}/${method}`
+    
+    const startTime = performance.now()
+    this.callCount++
     
     try {
-      if (!this.isReady()) {
-        throw new Error(`Client not ready. State: ${this.connectionState}`);
-      }
-      
-      // Build request body - matches OctaneWebClient.js makeApiCall() logic
-      let body: any = {};
-      
-      // If handle is a string, construct objectPtr with type
-      if (typeof handle === 'string') {
-        // Lookup the ObjectType for this service (e.g., ApiItem -> 16)
-        const objectPtrType = ObjectType[service as keyof typeof ObjectType];
-        
-        if (objectPtrType !== undefined) {
-          body.objectPtr = {
-            handle: handle,
-            type: objectPtrType
-          };
-        } else {
-          // Fallback: just send handle if no type mapping found
-          body.handle = handle;
-        }
-      } else if (handle !== undefined) {
-        // Handle is a number or other params object
-        if (typeof handle === 'object') {
-          body = handle;
-        } else {
-          body.handle = handle;
-        }
-      }
-      
-      // Merge additional params
-      if (params && typeof params === 'object') {
-        body = { ...body, ...params };
-      }
-      
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Call-ID': callId
         },
-        body: JSON.stringify(body)
-      });
-      
+        body: JSON.stringify(params),
+      })
+
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        const errorText = await response.text()
+        throw new Error(`HTTP ${response.status}: ${errorText}`)
+      }
+
+      const result = await response.json()
+      
+      const elapsed = performance.now() - startTime
+      this.lastCallTime = elapsed
+      
+      if (elapsed > 100) {
+        console.warn(`Slow API call: ${service}.${method} took ${elapsed.toFixed(1)}ms`)
       }
       
-      const result = await response.json();
-      console.log(`✅ Service result: ${service}/${method}`, result);
-      
-      return result; // Return the full result (contains success, data, error)
+      return result
     } catch (error) {
-      console.error(`❌ Service call failed: ${service}/${method}`, error);
-      return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
+      console.error(`API call failed: ${service}.${method}`, error)
+      throw error
     }
   }
 
-  async syncScene(): Promise<SceneNode[]> {
-    console.log('🔄 Starting scene sync...');
+  // ============================================================================
+  // SCENE OPERATIONS
+  // ============================================================================
+
+  async getRootNode(): Promise<string> {
     try {
-      const tree: SceneNode[] = [];
-      await this.syncSceneRecurse(null, tree, false, 0);
-      console.log('✅ Scene sync complete:', tree);
-      return tree;
+      // Try to get the project root
+      const response = await this.makeServiceCall(
+        'octane.project.Project',
+        'GetActiveProject',
+        {}
+      )
+      return response.handle || '/octane/1'
     } catch (error) {
-      console.error('❌ Scene sync failed:', error);
-      return [];
+      console.warn('Could not get active project, using default root')
+      return '/octane/1'
     }
   }
 
-  private async syncSceneRecurse(itemHandle: string | null, sceneItems: SceneNode[], isGraph: boolean, level: number): Promise<void> {
-    let response;
-    level = level + 1;
+  async getNodeInfo(handle: string, type: number): Promise<any> {
+    return await this.makeServiceCall(
+      'octane.base.Base',
+      'GetNodeInfo',
+      { objectPtr: { handle, type } }
+    )
+  }
+
+  async getNodeName(handle: string, type: number): Promise<string> {
+    try {
+      const response = await this.makeServiceCall(
+        'octane.base.Base',
+        'GetNodeName',
+        { objectPtr: { handle, type } }
+      )
+      return response.name || 'Unnamed'
+    } catch (error) {
+      return 'Unknown'
+    }
+  }
+
+  async getNodeType(handle: string): Promise<number> {
+    try {
+      const response = await this.makeServiceCall(
+        'octane.base.Base',
+        'GetNodeType',
+        { handle }
+      )
+      return response.type || ObjectType.NT_UNKNOWN
+    } catch (error) {
+      return ObjectType.NT_UNKNOWN
+    }
+  }
+
+  async getNodeChildren(handle: string, type: number): Promise<SceneNode[]> {
+    try {
+      const response = await this.makeServiceCall(
+        'octane.base.Base',
+        'GetChildNodes',
+        { objectPtr: { handle, type } }
+      )
+      
+      if (!response.children || response.children.length === 0) {
+        return []
+      }
+      
+      const children: SceneNode[] = []
+      
+      for (const child of response.children) {
+        const childNode: SceneNode = {
+          id: child.handle,
+          handle: child.handle,
+          name: child.name || 'Unnamed',
+          objectType: child.type || ObjectType.NT_UNKNOWN,
+          visible: true,
+          hasChildren: false, // Will be determined lazily
+          children: [],
+          parent: handle,
+          depth: 0
+        }
+        children.push(childNode)
+      }
+      
+      return children
+    } catch (error) {
+      console.error(`Failed to get children for ${handle}:`, error)
+      return []
+    }
+  }
+
+  async getNodeVisible(handle: string, type: number): Promise<boolean> {
+    try {
+      const response = await this.makeServiceCall(
+        'octane.base.Base',
+        'GetNodeVisible',
+        { objectPtr: { handle, type } }
+      )
+      return response.visible !== false
+    } catch (error) {
+      return true
+    }
+  }
+
+  async setNodeVisible(handle: string, type: number, visible: boolean): Promise<void> {
+    await this.makeServiceCall(
+      'octane.base.Base',
+      'SetNodeVisible',
+      { objectPtr: { handle, type }, visible }
+    )
+  }
+
+  /**
+   * Build complete scene tree recursively
+   */
+  async syncScene(rootHandle: string): Promise<SceneNode[]> {
+    console.log('🔄 Syncing scene tree from Octane...')
     
-    try {
-      // First call - get the root node graph
-      if (itemHandle === null) {
-        response = await this.makeServiceCall('ApiProjectManager', 'rootNodeGraph');
-        if (!response.success) {
-          throw new Error('Failed ApiProjectManager/rootNodeGraph');
-        }
-        itemHandle = response.data.result.handle;  // This is a string
-        
-        if (!itemHandle) {
-          throw new Error('No root node graph handle returned');
-        }
-        
-        // Check if it's a graph or node
-        response = await this.makeServiceCall('ApiItem', 'isGraph', itemHandle);
-        if (!response.success) {
-          throw new Error('Failed ApiItem/isGraph');
-        }
-        isGraph = response.data.result;
-      }
+    // Clear cache
+    this.sceneCache.clear()
+    
+    // Get root node type
+    const rootType = await this.getNodeType(rootHandle)
+    const rootName = await this.getNodeName(rootHandle, rootType)
+    
+    // Build tree recursively
+    const rootNode = await this.buildSceneTree(
+      rootHandle,
+      rootName,
+      rootType,
+      0
+    )
+    
+    console.log(`✅ Scene tree synced: ${this.sceneCache.size} nodes`)
+    
+    return [rootNode]
+  }
+
+  /**
+   * Recursively build scene tree with depth limiting
+   */
+  async buildSceneTree(
+    handle: string,
+    name: string,
+    type: number,
+    depth: number,
+    maxDepth: number = 10
+  ): Promise<SceneNode> {
+    // Create node
+    const node: SceneNode = {
+      id: handle,
+      handle,
+      name,
+      objectType: type,
+      visible: await this.getNodeVisible(handle, type),
+      hasChildren: false,
+      children: [],
+      depth
+    }
+    
+    // Cache it
+    this.sceneCache.set(handle, node)
+    
+    // Get children if depth allows
+    if (depth < maxDepth) {
+      const children = await this.getNodeChildren(handle, type)
       
-      if (!itemHandle) {
-        throw new Error('No item handle available');
-      }
-      
-      if (isGraph) {
-        // Get owned items in this graph
-        response = await this.makeServiceCall('ApiNodeGraph', 'getOwnedItems', itemHandle);
-        if (!response.success) {
-          throw new Error('Failed ApiNodeGraph/getOwnedItems');
-        }
-        const ownedItemsHandle = response.data.list.handle;
+      if (children.length > 0) {
+        node.hasChildren = true
         
-        // Get the size of the item array
-        response = await this.makeServiceCall('ApiItemArray', 'size', ownedItemsHandle);
-        if (!response.success) {
-          throw new Error('Failed ApiItemArray/size');
-        }
-        const size = response.data.result;
-        
-        console.log(`📦 Found ${size} items in graph`);
-        
-        // Iterate through all items
-        for (let i = 0; i < size; i++) {
-          response = await this.makeServiceCall('ApiItemArray', 'get', ownedItemsHandle, { index: i });
-          if (!response.success) {
-            throw new Error('Failed ApiItemArray/get');
+        // Recursively build children (but only expand first level by default)
+        if (depth === 0) {
+          for (const child of children) {
+            const childNode = await this.buildSceneTree(
+              child.handle,
+              child.name,
+              child.objectType,
+              depth + 1,
+              maxDepth
+            )
+            node.children.push(childNode)
           }
-          
-          const item = response.data.result;
-          const sceneNode: SceneNode = {
-            id: `node_${item.handle}`,
-            name: item.name || `Item ${item.handle}`,
-            type: item.type || 'unknown',
-            handle: item.handle,
-            children: [],
-            visible: true,
-            locked: false
-          };
-          
-          sceneItems.push(sceneNode);
-          
-          // Recurse if this item is also a graph
-          if (item.graphInfo) {
-            await this.syncSceneRecurse(item.handle, sceneNode.children!, true, level);
-          }
+        } else {
+          // For deeper levels, just add placeholder children (lazy loading)
+          node.children = children.map(child => ({
+            ...child,
+            depth: depth + 1
+          }))
         }
       }
-    } catch (error) {
-      console.error('❌ syncSceneRecurse failed:', error);
-      throw error;
+    }
+    
+    return node
+  }
+
+  // ============================================================================
+  // CAMERA OPERATIONS
+  // ============================================================================
+
+  async getCameraInfo(): Promise<CameraInfo> {
+    const response = await this.makeServiceCall(
+      'octane.camera.Camera',
+      'GetCameraInfo',
+      {}
+    )
+    
+    return {
+      position: response.position || [0, 0, 20],
+      target: response.target || [0, 0, 0],
+      fov: response.fov || 45
     }
   }
 
-  async getNodeInfo(handle: number): Promise<any> {
-    const result = await this.makeServiceCall('ApiItem', 'getInfo', handle);
-    return result && result.success ? result.data : null;
+  async getCameraPosition(): Promise<[number, number, number]> {
+    const response = await this.makeServiceCall(
+      'octane.camera.Camera',
+      'GetCameraPosition',
+      {}
+    )
+    return response.position || [0, 0, 20]
   }
 
-  async getNodeParameters(_handle: number): Promise<NodeParameter[]> {
-    // This needs to be implemented based on the specific node type
-    // For now, return empty array
-    return [];
+  async getCameraTarget(): Promise<[number, number, number]> {
+    const response = await this.makeServiceCall(
+      'octane.camera.Camera',
+      'GetCameraTarget',
+      {}
+    )
+    return response.target || [0, 0, 0]
   }
 
-  async setNodeParameter(_handle: number, _name: string, _value: any): Promise<boolean> {
-    // This needs to be implemented based on the specific parameter type
-    return false;
+  async setCameraPosition(x: number, y: number, z: number): Promise<void> {
+    await this.makeServiceCall(
+      'octane.camera.Camera',
+      'SetCameraPosition',
+      { position: { x, y, z } }
+    )
   }
 
-  // Render API
-  async getRenderInfo(): Promise<RenderInfo | null> {
-    const result = await this.makeApiCall('GetRenderInfo', {});
-    return result && result.success ? result.data : null;
+  async setCameraTarget(x: number, y: number, z: number): Promise<void> {
+    await this.makeServiceCall(
+      'octane.camera.Camera',
+      'SetCameraTarget',
+      { target: { x, y, z } }
+    )
   }
+
+  async setCameraFov(fov: number): Promise<void> {
+    await this.makeServiceCall(
+      'octane.camera.Camera',
+      'SetCameraFov',
+      { fov }
+    )
+  }
+
+  // ============================================================================
+  // PARAMETER OPERATIONS
+  // ============================================================================
+
+  async getNodeParameters(handle: string, type: number): Promise<Parameter[]> {
+    try {
+      const response = await this.makeServiceCall(
+        'octane.base.Base',
+        'GetNodeParameters',
+        { objectPtr: { handle, type } }
+      )
+      
+      if (!response.parameters) {
+        return []
+      }
+      
+      return response.parameters.map((p: any) => ({
+        name: p.name,
+        value: p.value,
+        type: p.type || 'unknown',
+        min: p.min,
+        max: p.max,
+        enumValues: p.enumValues,
+        readonly: p.readonly || false
+      }))
+    } catch (error) {
+      console.error(`Failed to get parameters for ${handle}:`, error)
+      return []
+    }
+  }
+
+  async getNodeParameter(handle: string, type: number, paramName: string): Promise<any> {
+    const response = await this.makeServiceCall(
+      'octane.base.Base',
+      'GetNodeParameter',
+      { objectPtr: { handle, type }, parameterName: paramName }
+    )
+    return response.value
+  }
+
+  async setNodeParameter(handle: string, type: number, paramName: string, value: any): Promise<void> {
+    await this.makeServiceCall(
+      'octane.base.Base',
+      'SetNodeParameter',
+      { objectPtr: { handle, type }, parameterName: paramName, value }
+    )
+  }
+
+  // ============================================================================
+  // CALLBACK STREAMING (LIVE RENDERING)
+  // ============================================================================
+
+  async registerCallback(callbackType: string, config: CallbackConfig = {}): Promise<string> {
+    const response = await this.makeServiceCall(
+      'octane.callback.Callback',
+      'RegisterCallback',
+      {
+        callbackType,
+        config: {
+          width: config.width || 1920,
+          height: config.height || 1080,
+          format: config.format || 'png',
+          quality: config.quality || 90
+        }
+      }
+    )
+    
+    return response.callbackId
+  }
+
+  async unregisterCallback(callbackId: string): Promise<void> {
+    await this.makeServiceCall(
+      'octane.callback.Callback',
+      'UnregisterCallback',
+      { callbackId }
+    )
+  }
+
+  connectCallbackStream(
+    callbackId: string,
+    onData: (data: CallbackData) => void,
+    onError?: (error: Error) => void
+  ): () => void {
+    // Close existing stream if any
+    if (this.eventSource) {
+      this.eventSource.close()
+    }
+    
+    const url = `${this.serverUrl}/callback-stream/${callbackId}`
+    this.eventSource = new EventSource(url)
+    this.callbackId = callbackId
+    
+    this.eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data)
+        onData(data)
+      } catch (error) {
+        console.error('Failed to parse callback data:', error)
+      }
+    }
+    
+    this.eventSource.onerror = (error) => {
+      console.error('Callback stream error:', error)
+      if (onError) {
+        onError(new Error('Callback stream connection failed'))
+      }
+    }
+    
+    // Return cleanup function
+    return () => {
+      if (this.eventSource) {
+        this.eventSource.close()
+        this.eventSource = null
+      }
+    }
+  }
+
+  disconnectCallbackStream(): void {
+    if (this.eventSource) {
+      this.eventSource.close()
+      this.eventSource = null
+    }
+    
+    if (this.callbackId) {
+      this.unregisterCallback(this.callbackId).catch(console.error)
+      this.callbackId = null
+    }
+  }
+
+  // ============================================================================
+  // NODE GRAPH OPERATIONS
+  // ============================================================================
+
+  async getNodeInputs(handle: string, type: number): Promise<any[]> {
+    try {
+      const response = await this.makeServiceCall(
+        'octane.nodegraph.NodeGraph',
+        'GetNodeInputs',
+        { objectPtr: { handle, type } }
+      )
+      return response.inputs || []
+    } catch (error) {
+      return []
+    }
+  }
+
+  async getNodeOutputs(handle: string, type: number): Promise<any[]> {
+    try {
+      const response = await this.makeServiceCall(
+        'octane.nodegraph.NodeGraph',
+        'GetNodeOutputs',
+        { objectPtr: { handle, type } }
+      )
+      return response.outputs || []
+    } catch (error) {
+      return []
+    }
+  }
+
+  async getNodeConnections(handle: string, type: number): Promise<any[]> {
+    try {
+      const response = await this.makeServiceCall(
+        'octane.nodegraph.NodeGraph',
+        'GetNodeConnections',
+        { objectPtr: { handle, type } }
+      )
+      return response.connections || []
+    } catch (error) {
+      return []
+    }
+  }
+
+  async connectNodes(
+    sourceHandle: string,
+    sourceType: number,
+    sourcePin: string,
+    targetHandle: string,
+    targetType: number,
+    targetPin: string
+  ): Promise<void> {
+    await this.makeServiceCall(
+      'octane.nodegraph.NodeGraph',
+      'ConnectNodes',
+      {
+        source: { handle: sourceHandle, type: sourceType },
+        sourcePin,
+        target: { handle: targetHandle, type: targetType },
+        targetPin
+      }
+    )
+  }
+
+  async disconnectNodes(connectionId: string): Promise<void> {
+    await this.makeServiceCall(
+      'octane.nodegraph.NodeGraph',
+      'DisconnectNodes',
+      { connectionId }
+    )
+  }
+
+  // ============================================================================
+  // NODE CREATION/DELETION
+  // ============================================================================
+
+  async createNode(nodeType: number, name: string, parentHandle: string, parentType: number): Promise<string> {
+    const response = await this.makeServiceCall(
+      'octane.base.Base',
+      'CreateNode',
+      {
+        nodeType,
+        name,
+        parent: { handle: parentHandle, type: parentType }
+      }
+    )
+    return response.handle
+  }
+
+  async deleteNode(handle: string, type: number): Promise<void> {
+    await this.makeServiceCall(
+      'octane.base.Base',
+      'DeleteNode',
+      { objectPtr: { handle, type } }
+    )
+  }
+
+  async duplicateNode(handle: string, type: number): Promise<string> {
+    const response = await this.makeServiceCall(
+      'octane.base.Base',
+      'DuplicateNode',
+      { objectPtr: { handle, type } }
+    )
+    return response.handle
+  }
+
+  // ============================================================================
+  // FILE OPERATIONS
+  // ============================================================================
+
+  async loadOrbx(filePath: string): Promise<void> {
+    await this.makeServiceCall(
+      'octane.file.File',
+      'LoadOrbx',
+      { filePath }
+    )
+  }
+
+  async saveOrbx(filePath: string): Promise<void> {
+    await this.makeServiceCall(
+      'octane.file.File',
+      'SaveOrbx',
+      { filePath }
+    )
+  }
+
+  async importObj(filePath: string): Promise<string> {
+    const response = await this.makeServiceCall(
+      'octane.file.File',
+      'ImportObj',
+      { filePath }
+    )
+    return response.handle
+  }
+
+  async exportImage(filePath: string, width: number, height: number): Promise<void> {
+    await this.makeServiceCall(
+      'octane.file.File',
+      'ExportImage',
+      { filePath, width, height }
+    )
+  }
+
+  // ============================================================================
+  // RENDER CONTROL
+  // ============================================================================
 
   async startRender(): Promise<void> {
-    await this.makeApiCall('StartRender', {});
+    await this.makeServiceCall(
+      'octane.render.Render',
+      'StartRender',
+      {}
+    )
   }
 
   async stopRender(): Promise<void> {
-    await this.makeApiCall('StopRender', {});
+    await this.makeServiceCall(
+      'octane.render.Render',
+      'StopRender',
+      {}
+    )
   }
 
-  // WebSocket callback stream for real-time rendering
-  connectCallbackStream(onFrame: (data: any) => void): WebSocket | null {
+  async pauseRender(): Promise<void> {
+    await this.makeServiceCall(
+      'octane.render.Render',
+      'PauseRender',
+      {}
+    )
+  }
+
+  async resumeRender(): Promise<void> {
+    await this.makeServiceCall(
+      'octane.render.Render',
+      'ResumeRender',
+      {}
+    )
+  }
+
+  async getRenderProgress(): Promise<number> {
     try {
-      const wsUrl = this.serverUrl.replace('http', 'ws') + '/stream/events';
-      const ws = new WebSocket(wsUrl);
-      
-      ws.onopen = () => {
-        console.log('🔌 WebSocket connected');
-      };
-      
-      ws.onmessage = (event) => {
-        try {
-          const data = JSON.parse(event.data);
-          if (data.type === 'frame') {
-            onFrame(data);
-          }
-        } catch (error) {
-          console.error('WebSocket message parse error:', error);
-        }
-      };
-
-      ws.onerror = (error) => {
-        console.error('WebSocket error:', error);
-      };
-      
-      ws.onclose = () => {
-        console.log('🔌 WebSocket disconnected');
-      };
-
-      return ws;
+      const response = await this.makeServiceCall(
+        'octane.render.Render',
+        'GetRenderProgress',
+        {}
+      )
+      return response.progress || 0
     } catch (error) {
-      console.error('WebSocket connection error:', error);
-      return null;
+      return 0
     }
+  }
+
+  // ============================================================================
+  // UTILITY METHODS
+  // ============================================================================
+
+  getStats() {
+    return {
+      callCount: this.callCount,
+      lastCallTime: this.lastCallTime,
+      cacheSize: this.sceneCache.size,
+      connected: this.connected,
+      hasActiveCallback: this.eventSource !== null
+    }
+  }
+
+  clearCache(): void {
+    this.sceneCache.clear()
   }
 }
 
-// Export singleton instance
-export const octaneClient = new OctaneClient();
+// ============================================================================
+// SINGLETON EXPORT
+// ============================================================================
+
+export const octaneClient = new OctaneClient()
+export default octaneClient
