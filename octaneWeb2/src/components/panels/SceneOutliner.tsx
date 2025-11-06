@@ -57,24 +57,25 @@ export const SceneOutliner: React.FC<SceneOutlinerProps> = ({ className = '' }) 
   };
 
   const renderTreeNode = (node: SceneNode, level: number = 0) => {
-    const isExpanded = expandedNodes.has(node.handle);
-    const isSelected = selectedNode === node.handle;
+    const nodeHandle = node.handle || node.id;
+    const isExpanded = expandedNodes.has(nodeHandle);
+    const isSelected = selectedNode === nodeHandle;
     const hasChildren = node.children && node.children.length > 0;
 
     return (
-      <div key={node.handle} className="tree-node-container">
+      <div key={nodeHandle} className="tree-node-container">
         <div
           className={`tree-node ${isSelected ? 'selected' : ''}`}
           style={{ paddingLeft: `${level * 16 + 8}px` }}
-          onClick={() => handleNodeClick(node.handle)}
-          data-handle={node.handle}
+          onClick={() => handleNodeClick(nodeHandle)}
+          data-handle={nodeHandle}
         >
           {hasChildren && (
             <span 
               className="expand-icon"
               onClick={(e) => {
                 e.stopPropagation();
-                toggleNodeExpanded(node.handle);
+                toggleNodeExpanded(nodeHandle);
               }}
             >
               {isExpanded ? '▼' : '▶'}
@@ -93,9 +94,9 @@ export const SceneOutliner: React.FC<SceneOutlinerProps> = ({ className = '' }) 
     );
   };
 
-  const tree = sceneData.tree;
+  const tree = sceneData.nodes;
   const filteredTree = searchTerm
-    ? tree.filter(node => node.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    ? tree.filter((node: SceneNode) => node.name.toLowerCase().includes(searchTerm.toLowerCase()))
     : tree;
 
   return (
@@ -144,7 +145,7 @@ export const SceneOutliner: React.FC<SceneOutlinerProps> = ({ className = '' }) 
         {loading ? (
           <div className="empty-message">Loading scene...</div>
         ) : filteredTree.length > 0 ? (
-          filteredTree.map(node => renderTreeNode(node, 0))
+          filteredTree.map((node: SceneNode) => renderTreeNode(node, 0))
         ) : (
           <div className="empty-message">
             {connected ? (searchTerm ? 'No matching nodes' : 'No scene data') : 'Connect to Octane to load scene'}

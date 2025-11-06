@@ -14,7 +14,7 @@ interface SceneStore {
 }
 
 export const useSceneStore = create<SceneStore>((set) => ({
-  sceneData: { tree: [], map: new Map() },
+  sceneData: { nodes: [], connections: [] },
   selectedNode: null,
   expandedNodes: new Set(['scene-root']),
   loading: false,

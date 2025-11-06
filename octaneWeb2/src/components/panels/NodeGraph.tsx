@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useConnectionStore } from '../../store/connectionStore';
 import './NodeGraph.css';
 
 interface NodeGraphProps {
@@ -11,7 +10,6 @@ export const NodeGraph: React.FC<NodeGraphProps> = ({ className = '' }) => {
   const [isPanning, setIsPanning] = useState(false);
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
   const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 });
-  const { connected } = useConnectionStore();
 
   // No mock data - will be loaded from Octane
   const nodes: any[] = [];
@@ -56,20 +54,22 @@ export const NodeGraph: React.FC<NodeGraphProps> = ({ className = '' }) => {
         ctx.stroke();
       }
 
-      // Draw connections
-      ctx.strokeStyle = '#5ac8fa';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(nodes[0].x + panOffset.x, nodes[0].y + nodes[0].height / 2 + panOffset.y);
-      ctx.bezierCurveTo(
-        nodes[0].x - 50 + panOffset.x,
-        nodes[0].y + nodes[0].height / 2 + panOffset.y,
-        nodes[1].x + nodes[1].width + 50 + panOffset.x,
-        nodes[1].y + nodes[1].height / 2 + panOffset.y,
-        nodes[1].x + nodes[1].width + panOffset.x,
-        nodes[1].y + nodes[1].height / 2 + panOffset.y
-      );
-      ctx.stroke();
+      // Draw connections (only if nodes exist)
+      if (nodes.length >= 2) {
+        ctx.strokeStyle = '#5ac8fa';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(nodes[0].x + panOffset.x, nodes[0].y + nodes[0].height / 2 + panOffset.y);
+        ctx.bezierCurveTo(
+          nodes[0].x - 50 + panOffset.x,
+          nodes[0].y + nodes[0].height / 2 + panOffset.y,
+          nodes[1].x + nodes[1].width + 50 + panOffset.x,
+          nodes[1].y + nodes[1].height / 2 + panOffset.y,
+          nodes[1].x + nodes[1].width + panOffset.x,
+          nodes[1].y + nodes[1].height / 2 + panOffset.y
+        );
+        ctx.stroke();
+      }
 
       // Draw nodes
       nodes.forEach(node => {

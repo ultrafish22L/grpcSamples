@@ -10,11 +10,6 @@
 
 import { ObjectType } from '../constants/octaneTypes';
 
-interface ObjectPtr {
-  handle: string;
-  type: number;
-}
-
 export interface SceneNode {
   id: string;
   name: string;
@@ -321,12 +316,20 @@ class OctaneClient {
         }
         itemHandle = response.data.result.handle;  // This is a string
         
+        if (!itemHandle) {
+          throw new Error('No root node graph handle returned');
+        }
+        
         // Check if it's a graph or node
         response = await this.makeServiceCall('ApiItem', 'isGraph', itemHandle);
         if (!response.success) {
           throw new Error('Failed ApiItem/isGraph');
         }
         isGraph = response.data.result;
+      }
+      
+      if (!itemHandle) {
+        throw new Error('No item handle available');
       }
       
       if (isGraph) {
@@ -383,13 +386,13 @@ class OctaneClient {
     return result && result.success ? result.data : null;
   }
 
-  async getNodeParameters(handle: number): Promise<NodeParameter[]> {
+  async getNodeParameters(_handle: number): Promise<NodeParameter[]> {
     // This needs to be implemented based on the specific node type
     // For now, return empty array
     return [];
   }
 
-  async setNodeParameter(handle: number, name: string, value: any): Promise<boolean> {
+  async setNodeParameter(_handle: number, _name: string, _value: any): Promise<boolean> {
     // This needs to be implemented based on the specific parameter type
     return false;
   }
