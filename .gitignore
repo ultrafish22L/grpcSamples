@@ -64,3 +64,4 @@ Thumbs.db
 # Log files
 *.log
 server.log
+test-react/

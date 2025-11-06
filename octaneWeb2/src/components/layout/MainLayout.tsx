@@ -1,6 +1,9 @@
 import { MenuBar } from './MenuBar';
 import { StatusBar } from './StatusBar';
 import { RenderViewport } from '../viewport/RenderViewport';
+import { SceneOutliner } from '../panels/SceneOutliner';
+import { NodeInspector } from '../panels/NodeInspector';
+import { NodeGraph } from '../panels/NodeGraph';
 import './MainLayout.css';
 
 export const MainLayout = () => {
@@ -9,32 +12,22 @@ export const MainLayout = () => {
       <MenuBar />
       
       <main className="app-layout">
-        <aside className="left-panel">
-          <div className="panel-header">
-            <h3>Scene Outliner</h3>
-          </div>
-          <div className="panel-content">
-            <div className="empty-message">Scene tree coming soon...</div>
-          </div>
-        </aside>
+        <SceneOutliner className="left-panel" />
         
         <section className="center-panel">
-          <div className="viewport-header">
-            <div className="viewport-title">Render Viewport</div>
+          <div className="viewport-section">
+            <div className="viewport-header">
+              <div className="viewport-title">Render Viewport</div>
+            </div>
+            <div className="viewport-container">
+              <RenderViewport />
+            </div>
           </div>
-          <div className="viewport-container">
-            <RenderViewport />
-          </div>
+          
+          <NodeGraph />
         </section>
         
-        <aside className="right-panel">
-          <div className="panel-header">
-            <h3>Node Inspector</h3>
-          </div>
-          <div className="panel-content">
-            <div className="empty-message">Empty</div>
-          </div>
-        </aside>
+        <NodeInspector className="right-panel" />
       </main>
       
       <StatusBar />

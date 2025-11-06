@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 interface ConnectionState {
   isConnected: boolean;
+  connected: boolean;  // Alias for isConnected
   isConnecting: boolean;
   serverUrl: string;
   error: string | null;
@@ -14,11 +15,12 @@ interface ConnectionState {
 
 export const useConnectionStore = create<ConnectionState>((set) => ({
   isConnected: false,
+  connected: false,
   isConnecting: false,
   serverUrl: 'http://localhost:51023',
   error: null,
   
-  setConnected: (connected) => set({ isConnected: connected }),
+  setConnected: (connected) => set({ isConnected: connected, connected }),
   setConnecting: (connecting) => set({ isConnecting: connecting }),
   setError: (error) => set({ error }),
   setServerUrl: (url) => set({ serverUrl: url }),

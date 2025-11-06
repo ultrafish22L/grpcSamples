@@ -5,10 +5,10 @@ import path from 'path'
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 46466,
+    port: 42219,
     host: '0.0.0.0',
     cors: true,
-    strictPort: true,
+    strictPort: false,
     proxy: {
       '/api': {
         target: 'http://localhost:51023',

@@ -1,16 +1,23 @@
-import { useConnectionStore } from '@/store/connectionStore';
-import { octaneClient } from '@/api/OctaneClient';
+import { useConnectionStore } from '../../store/connectionStore';
+import { octaneClient } from '../../api/octaneClient';
 import './MenuBar.css';
 
 export const MenuBar = () => {
   const { isConnected, isConnecting, setConnected, setConnecting, setError } = useConnectionStore();
   
   const handleConnect = async () => {
+    if (isConnected) {
+      // Disconnect
+      await octaneClient.disconnect();
+      setConnected(false);
+      return;
+    }
+    
     setConnecting(true);
     setError(null);
     
     try {
-      const connected = await octaneClient.ping();
+      const connected = await octaneClient.connect();
       setConnected(connected);
       if (!connected) {
         setError('Failed to connect to Octane LiveLink');
@@ -41,7 +48,7 @@ export const MenuBar = () => {
           onClick={handleConnect}
           disabled={isConnecting}
         >
-          {isConnecting ? 'Connecting...' : isConnected ? 'Connected' : 'Connect'}
+          {isConnecting ? 'Connecting...' : isConnected ? 'Disconnect' : 'Connect'}
         </button>
         <div className={`status-indicator ${isConnected ? 'connected' : 'disconnected'}`}>
           <span className="status-dot" />
