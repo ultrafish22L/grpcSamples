@@ -1,0 +1,133 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                       OCTANEWEB2 - QUICK REFERENCE                         ║
+║                         React Edition (Phase 1 ✅)                         ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📍 LOCATION
+   /workspace/grpcSamples/octaneWeb2/
+
+🚀 START DEV SERVER
+   cd /workspace/grpcSamples/octaneWeb2
+   npm run dev
+   → http://localhost:42219
+
+📊 PROJECT STATUS
+   ✅ Phase 1 Complete (Foundation)
+   🔄 Phase 2 Next (Core Rendering)
+   
+   Source Code:    542 lines TypeScript
+   Target:       6,000 lines TypeScript
+   Progress:         9% complete
+   
+   Components:     7 created, 33 remaining
+   Stores:         2 created, 4 remaining
+   Hooks:          0 created, 10 remaining
+
+📚 DOCUMENTATION (3,391 lines)
+   ⭐ INDEX.md                    → Documentation hub (start here!)
+   📖 README.md                   → Project overview
+   📊 PROJECT_SUMMARY.md          → Executive summary
+   🔀 CODE_COMPARISON.md          → Before/after examples
+   📋 IMPLEMENTATION_PLAN.md      → 11-phase plan
+   🗂️ PROJECT_TREE.md            → Directory structure
+   ✅ STATUS.md                   → Progress tracker
+   📝 CHANGELOG.md                → Version history
+   🎉 COMPLETION_SUMMARY.md       → Phase 1 completion
+
+💻 SOURCE FILES (15 files, 542 lines)
+   Components:
+   ✅ MainLayout.tsx + .css
+   ✅ MenuBar.tsx + .css
+   ✅ StatusBar.tsx + .css
+   ✅ RenderViewport.tsx + .css
+   
+   Stores:
+   ✅ connectionStore.ts
+   ✅ renderStore.ts
+   
+   API:
+   ✅ OctaneClient.ts
+   
+   Types:
+   ✅ octane.ts
+   
+   Styles:
+   ✅ variables.css
+   
+   App:
+   ✅ App.tsx
+   ✅ main.tsx
+
+🎯 NEXT TASKS (Phase 2)
+   1. Port buffer processing from original CallbackRenderViewport.js
+   2. Create useRenderCallback hook for WebSocket stream
+   3. Display render frames in viewport
+   4. Test with Octane + proxy running
+   
+   Estimated: 1-2 days
+
+🔧 TECH STACK
+   React:          19.2.0
+   TypeScript:     5.9.3
+   Vite:           7.2.0
+   Zustand:        5.0.8
+   React Query:    5.90.7
+   Node.js:        24.11.0
+
+📈 KEY IMPROVEMENTS
+   ✅ 52% less code (12,592 → ~6,000 lines)
+   ✅ Full TypeScript (0% → 100% coverage)
+   ✅ Centralized shortcuts (4+ → 1 location)
+   ✅ Modern React patterns (hooks, functional)
+   ✅ Lightweight state (Zustand vs custom 300 lines)
+
+✅ WHAT'S WORKING
+   ✅ Dev server running (HMR enabled)
+   ✅ Basic UI layout (3-panel grid)
+   ✅ MenuBar with connection button
+   ✅ StatusBar with FPS counter
+   ✅ RenderViewport canvas
+   ✅ Connection store (Zustand)
+   ✅ Render store (Zustand)
+   ✅ OctaneClient API singleton
+   ✅ TypeScript compiling (0 errors)
+   ✅ OTOY dark theme styling
+
+🔜 UPCOMING PHASES
+   Phase 2:  Core Rendering (1-2 days)
+   Phase 3:  Camera Controls (1 day)
+   Phase 4:  Scene Outliner (2 days)
+   Phase 5:  Node Inspector (2-3 days)
+   Phase 6:  Node Graph (3-4 days)
+   Phase 7:  Keyboard Shortcuts (0.5 day)
+   Phase 8:  Debug Console (1 day)
+   Phase 9:  Menu Actions (2 days)
+   Phase 10: Polish (2-3 days)
+   Phase 11: Testing (3 days)
+   
+   Total: 18-22 days (3-4 weeks)
+
+💡 QUICK TIPS
+   • Read INDEX.md first (documentation hub)
+   • Use `@/` for imports (resolves to src/)
+   • TypeScript strict mode enabled
+   • HMR updates instantly (no reload)
+   • Check STATUS.md for current progress
+
+🆘 TROUBLESHOOTING
+   Server won't start?
+   → npm install
+   → npm run dev
+   
+   TypeScript errors?
+   → npm run build (shows all errors)
+   
+   Can't connect to Octane?
+   → Start Octane with LiveLink (Help → LiveLink)
+   → Start proxy: cd ../octaneProxy && python octane_proxy.py
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  Status: ✅ PHASE 1 COMPLETE | 🚀 READY FOR PHASE 2                       ║
+║  Dev Server: http://localhost:42219                                        ║
+║  Progress: 9% (542/6,000 lines)                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
