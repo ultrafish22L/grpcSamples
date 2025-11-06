@@ -1,112 +1,199 @@
-import React, { useState, useEffect } from 'react';
-import { useSceneStore } from '../../store/sceneStore';
-import { useConnectionStore } from '../../store/connectionStore';
-import { octaneClient, SceneNode } from '../../api/octaneClient';
-import './SceneOutliner.css';
+import React, { useState, useEffect } from 'react'
+import { useSceneStore } from '../../store/sceneStore'
+import { useConnectionStore } from '../../store/connectionStore'
+import { SceneNode, octaneClient } from '../../api/octaneClient'
+import { ObjectType } from '../../constants/octaneTypes'
+import { onEvent } from '../../core/eventBus'
+import './SceneOutliner.css'
 
 interface SceneOutlinerProps {
-  className?: string;
+  className?: string
 }
 
 export const SceneOutliner: React.FC<SceneOutlinerProps> = ({ className = '' }) => {
-  const [activeTab, setActiveTab] = useState<'scene' | 'link' | 'local'>('scene');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [activeTab, setActiveTab] = useState<'scene' | 'link' | 'local'>('scene')
+  const [searchTerm, setSearchTerm] = useState('')
   
-  const { sceneData, selectedNode, expandedNodes, loading, setSceneData, selectNode, toggleNodeExpanded, setLoading } = useSceneStore();
-  const { connected } = useConnectionStore();
+  const {
+    nodes,
+    selectedNodeId,
+    expandedNodes,
+    loading,
+    loadScene,
+    selectNode,
+    toggleNodeExpanded,
+    clearScene
+  } = useSceneStore()
+  
+  const { isConnected } = useConnectionStore()
 
-  // Load scene tree when connected
+  // Load scene when connected
   useEffect(() => {
-    if (connected) {
-      loadSceneTree();
+    if (isConnected) {
+      loadScene()
     } else {
-      // Clear scene when disconnected
-      setSceneData({ nodes: [], connections: [] });
+      clearScene()
     }
-  }, [connected]);
+  }, [isConnected])
 
-  const loadSceneTree = async () => {
-    console.log('🔄 Loading scene tree...');
-    setLoading(true);
+  // Listen for connection events
+  useEffect(() => {
+    const cleanup = onEvent('connection:connected', () => {
+      console.log('📡 Connected - loading scene')
+      loadScene()
+    })
+    
+    return cleanup
+  }, [])
+
+  const handleNodeClick = (nodeId: string) => {
+    selectNode(nodeId)
+  }
+
+  const handleToggleVisibility = async (e: React.MouseEvent, node: SceneNode) => {
+    e.stopPropagation()
+    
     try {
-      const nodes = await octaneClient.syncScene();
-      setSceneData({ nodes, connections: [] });
-      console.log('✅ Scene tree loaded:', nodes);
+      const newVisible = !node.visible
+      await octaneClient.setNodeVisible(node.handle, node.objectType, newVisible)
+      node.visible = newVisible
+      // Force re-render by updating the store
+      useSceneStore.setState({ nodes: [...nodes] })
     } catch (error) {
-      console.error('❌ Failed to load scene tree:', error);
-      setSceneData({ nodes: [], connections: [] });
-    } finally {
-      setLoading(false);
+      console.error('Failed to toggle visibility:', error)
     }
-  };
+  }
 
-  const handleNodeClick = (handle: string) => {
-    selectNode(handle);
-  };
-
-  const getNodeIcon = (type: string) => {
-    const icons: Record<string, string> = {
-      'mesh': '🔷',
-      'camera': '📷',
-      'light': '💡',
-      'material': '🎨',
-      'rendertarget': '🎯',
-      'transform': '📐'
-    };
-    return icons[type] || '📦';
-  };
+  const getNodeIcon = (objectType: number): string => {
+    // Map ObjectType enum to icons
+    switch (objectType) {
+      case ObjectType.NT_PROJECT:
+        return '📁'
+      case ObjectType.NT_RENDERTARGET:
+        return '🎯'
+      case ObjectType.NT_CAMERA:
+        return '📷'
+      case ObjectType.NT_MESH:
+        return '🔷'
+      case ObjectType.NT_GEO_GROUP:
+        return '📦'
+      case ObjectType.NT_SCATTERER:
+        return '⚫'
+      case ObjectType.NT_LIGHT_SUN:
+      case ObjectType.NT_LIGHT_AREA:
+      case ObjectType.NT_LIGHT_PORTAL:
+        return '💡'
+      case ObjectType.NT_ENVIRONMENT:
+        return '🌍'
+      case ObjectType.NT_MAT_DIFFUSE:
+      case ObjectType.NT_MAT_GLOSSY:
+      case ObjectType.NT_MAT_SPECULAR:
+        return '🎨'
+      case ObjectType.NT_TEX_IMAGE:
+        return '🖼️'
+      case ObjectType.NT_TRANSFORM:
+        return '📐'
+      default:
+        return '📄'
+    }
+  }
 
   const renderTreeNode = (node: SceneNode, level: number = 0) => {
-    const nodeHandle = node.handle || node.id;
-    const isExpanded = expandedNodes.has(nodeHandle);
-    const isSelected = selectedNode === nodeHandle;
-    const hasChildren = node.children && node.children.length > 0;
+    const isExpanded = expandedNodes.has(node.id)
+    const isSelected = selectedNodeId === node.id
+    const hasChildren = node.hasChildren || (node.children && node.children.length > 0)
 
     return (
-      <div key={nodeHandle} className="tree-node-container">
+      <div key={node.id} className="tree-node-container">
         <div
           className={`tree-node ${isSelected ? 'selected' : ''}`}
           style={{ paddingLeft: `${level * 16 + 8}px` }}
-          onClick={() => handleNodeClick(nodeHandle)}
-          data-handle={nodeHandle}
+          onClick={() => handleNodeClick(node.id)}
         >
-          {hasChildren && (
+          {hasChildren ? (
             <span 
               className="expand-icon"
               onClick={(e) => {
-                e.stopPropagation();
-                toggleNodeExpanded(nodeHandle);
+                e.stopPropagation()
+                toggleNodeExpanded(node.id)
               }}
             >
               {isExpanded ? '▼' : '▶'}
             </span>
+          ) : (
+            <span className="expand-icon-spacer" />
           )}
-          {!hasChildren && <span className="expand-icon-spacer" />}
-          <span className="node-icon">{getNodeIcon(node.type)}</span>
+          
+          <span className="node-icon">{getNodeIcon(node.objectType)}</span>
           <span className="node-name">{node.name}</span>
+          
+          <button
+            className="visibility-btn"
+            onClick={(e) => handleToggleVisibility(e, node)}
+            title={node.visible ? 'Hide' : 'Show'}
+          >
+            {node.visible ? '👁' : '👁‍🗨'}
+          </button>
         </div>
-        {hasChildren && isExpanded && (
+        
+        {hasChildren && isExpanded && node.children && node.children.length > 0 && (
           <div className="tree-node-children">
-            {node.children!.map(child => renderTreeNode(child, level + 1))}
+            {node.children.map(child => renderTreeNode(child, level + 1))}
           </div>
         )}
       </div>
-    );
-  };
+    )
+  }
 
-  const tree = sceneData.nodes;
-  const filteredTree = searchTerm
-    ? tree.filter((node: SceneNode) => node.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    : tree;
+  const filterTree = (nodes: SceneNode[], term: string): SceneNode[] => {
+    if (!term) return nodes
+    
+    return nodes.filter(node => {
+      const matches = node.name.toLowerCase().includes(term.toLowerCase())
+      const childMatches = node.children && filterTree(node.children, term).length > 0
+      return matches || childMatches
+    })
+  }
+
+  const filteredTree = filterTree(nodes, searchTerm)
 
   return (
     <aside className={`scene-outliner-panel ${className}`}>
       <div className="panel-header">
         <h3>Scene Outliner</h3>
         <div className="outliner-controls">
-          <button className="control-btn" title="Collapse All">⊟</button>
-          <button className="control-btn" title="Expand All">⊞</button>
-          <button className="control-btn" title="Refresh" onClick={loadSceneTree} disabled={!connected}>↻</button>
+          <button 
+            className="control-btn" 
+            title="Collapse All"
+            onClick={() => useSceneStore.setState({ expandedNodes: new Set() })}
+          >
+            ⊟
+          </button>
+          <button 
+            className="control-btn" 
+            title="Expand All"
+            onClick={() => {
+              const allIds = new Set<string>()
+              const collectIds = (nodes: SceneNode[]) => {
+                nodes.forEach(n => {
+                  allIds.add(n.id)
+                  if (n.children) collectIds(n.children)
+                })
+              }
+              collectIds(nodes)
+              useSceneStore.setState({ expandedNodes: allIds })
+            }}
+          >
+            ⊞
+          </button>
+          <button 
+            className="control-btn" 
+            title="Refresh" 
+            onClick={loadScene} 
+            disabled={!isConnected || loading}
+          >
+            ↻
+          </button>
         </div>
       </div>
 
@@ -143,15 +230,20 @@ export const SceneOutliner: React.FC<SceneOutlinerProps> = ({ className = '' }) 
 
       <div className="scene-tree">
         {loading ? (
-          <div className="empty-message">Loading scene...</div>
+          <div className="empty-message">
+            <div className="spinner">⏳</div>
+            Loading scene from Octane...
+          </div>
         ) : filteredTree.length > 0 ? (
-          filteredTree.map((node: SceneNode) => renderTreeNode(node, 0))
+          filteredTree.map(node => renderTreeNode(node, 0))
         ) : (
           <div className="empty-message">
-            {connected ? (searchTerm ? 'No matching nodes' : 'No scene data') : 'Connect to Octane to load scene'}
+            {isConnected 
+              ? (searchTerm ? 'No matching nodes' : 'Empty scene') 
+              : '⚠️ Connect to Octane to load scene'}
           </div>
         )}
       </div>
     </aside>
-  );
-};
+  )
+}
