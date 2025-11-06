@@ -8,11 +8,18 @@
  * URL pattern: http://localhost:51023/LiveLink/MethodName
  */
 
+import { ObjectType } from '../constants/octaneTypes';
+
+interface ObjectPtr {
+  handle: string;
+  type: number;
+}
+
 export interface SceneNode {
   id: string;
   name: string;
   type: string;
-  handle?: number;
+  handle?: string;  // Changed to string to match Octane API
   children?: SceneNode[];
   visible?: boolean;
   locked?: boolean;
@@ -223,7 +230,7 @@ class OctaneClient {
   }
 
   // Scene API - based on OctaneWebClient.js syncSceneRecurse
-  private async makeServiceCall(service: string, method: string, handle?: number, params?: any): Promise<any> {
+  private async makeServiceCall(service: string, method: string, handle?: string | number, params?: any): Promise<any> {
     const url = `${this.serverUrl}/${service}/${method}`;
     const callId = `${service}/${method}_${Date.now()}`;
     
@@ -234,12 +241,34 @@ class OctaneClient {
         throw new Error(`Client not ready. State: ${this.connectionState}`);
       }
       
-      // Build request body based on what's provided
+      // Build request body - matches OctaneWebClient.js makeApiCall() logic
       let body: any = {};
-      if (handle !== undefined) {
-        body.handle = handle;
+      
+      // If handle is a string, construct objectPtr with type
+      if (typeof handle === 'string') {
+        // Lookup the ObjectType for this service (e.g., ApiItem -> 16)
+        const objectPtrType = ObjectType[service as keyof typeof ObjectType];
+        
+        if (objectPtrType !== undefined) {
+          body.objectPtr = {
+            handle: handle,
+            type: objectPtrType
+          };
+        } else {
+          // Fallback: just send handle if no type mapping found
+          body.handle = handle;
+        }
+      } else if (handle !== undefined) {
+        // Handle is a number or other params object
+        if (typeof handle === 'object') {
+          body = handle;
+        } else {
+          body.handle = handle;
+        }
       }
-      if (params) {
+      
+      // Merge additional params
+      if (params && typeof params === 'object') {
         body = { ...body, ...params };
       }
       
@@ -259,7 +288,7 @@ class OctaneClient {
       const result = await response.json();
       console.log(`✅ Service result: ${service}/${method}`, result);
       
-      return { success: true, data: result };
+      return result; // Return the full result (contains success, data, error)
     } catch (error) {
       console.error(`❌ Service call failed: ${service}/${method}`, error);
       return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
@@ -279,7 +308,7 @@ class OctaneClient {
     }
   }
 
-  private async syncSceneRecurse(itemHandle: number | null, sceneItems: SceneNode[], isGraph: boolean, level: number): Promise<void> {
+  private async syncSceneRecurse(itemHandle: string | null, sceneItems: SceneNode[], isGraph: boolean, level: number): Promise<void> {
     let response;
     level = level + 1;
     
@@ -290,7 +319,7 @@ class OctaneClient {
         if (!response.success) {
           throw new Error('Failed ApiProjectManager/rootNodeGraph');
         }
-        itemHandle = response.data.result.handle;
+        itemHandle = response.data.result.handle;  // This is a string
         
         // Check if it's a graph or node
         response = await this.makeServiceCall('ApiItem', 'isGraph', itemHandle);
