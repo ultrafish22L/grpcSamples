@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useConnectionStore } from '../../store/connectionStore';
 import './NodeGraph.css';
 
 interface NodeGraphProps {
@@ -10,30 +11,10 @@ export const NodeGraph: React.FC<NodeGraphProps> = ({ className = '' }) => {
   const [isPanning, setIsPanning] = useState(false);
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
   const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 });
+  const { connected } = useConnectionStore();
 
-  // Mock node data
-  const nodes = [
-    {
-      id: 1,
-      name: 'Render Target',
-      type: 'output',
-      x: 200,
-      y: 100,
-      width: 120,
-      height: 60,
-      color: '#4a9eff'
-    },
-    {
-      id: 2,
-      name: 'Camera',
-      type: 'input',
-      x: 50,
-      y: 200,
-      width: 100,
-      height: 50,
-      color: '#5ac8fa'
-    }
-  ];
+  // No mock data - will be loaded from Octane
+  const nodes: any[] = [];
 
   useEffect(() => {
     const canvas = canvasRef.current;

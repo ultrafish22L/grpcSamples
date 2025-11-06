@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSceneStore } from '../../store/sceneStore';
+import { useConnectionStore } from '../../store/connectionStore';
+import { octaneClient } from '../../api/octaneClient';
 import './NodeInspector.css';
 
 interface Parameter {
@@ -21,86 +24,54 @@ interface NodeInspectorProps {
 }
 
 export const NodeInspector: React.FC<NodeInspectorProps> = ({ className = '' }) => {
-  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(
-    new Set(['Physical camera parameters', 'Clipping'])
-  );
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
+  const [parameterGroups, setParameterGroups] = useState<ParameterGroup[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [nodeName, setNodeName] = useState<string>('');
+  
+  const { selectedNode } = useSceneStore();
+  const { connected } = useConnectionStore();
 
-  // Mock parameter data matching the screenshot
-  const mockGroups: ParameterGroup[] = [
-    {
-      name: 'Scene',
-      expanded: true,
-      parameters: []
-    },
-    {
-      name: 'Camera',
-      expanded: true,
-      parameters: []
-    },
-    {
-      name: 'Orthographic',
-      expanded: false,
-      parameters: []
-    },
-    {
-      name: 'Physical camera parameters',
-      expanded: true,
-      parameters: [
-        { name: 'Sensor width', type: 'float', value: 50.000004, min: 0 },
-        { name: 'Focal length', type: 'float', value: 50, min: 0 },
-        { name: 'Fstop', type: 'float', value: 2.8 },
-        { name: 'Viewing angle', type: 'float', value: 0 },
-        { name: 'Field of view', type: 'float', value: 35.03775 },
-        { name: 'Outer of view', type: 'float', value: 15.547005 },
-        { name: 'Distortion', type: 'float', value: 0 },
-        { name: 'Lens shift', type: 'vector', value: { x: 0, y: 0 } },
-        { name: 'Perspective correction', type: 'bool', value: true }
-      ]
-    },
-    {
-      name: 'Post aspect ratio',
-      expanded: false,
-      parameters: [
-        { name: 'Post aspect ratio', type: 'float', value: 1 }
-      ]
-    },
-    {
-      name: 'Clipping',
-      expanded: true,
-      parameters: [
-        { name: 'Near clip depth', type: 'float', value: 0 },
-        { name: 'Far clip depth', type: 'float', value: 100000000 },
-        { name: 'Depth of field', type: 'float', value: 0 },
-        { name: 'Auto-focus', type: 'bool', value: true },
-        { name: 'Focal depth', type: 'float', value: 1.118034 },
-        { name: 'Aperture', type: 'float', value: 0.0203572 },
-        { name: 'Aperture aspect ratio', type: 'float', value: 1 },
-        { name: 'Aperture edge', type: 'float', value: 1 }
-      ]
-    },
-    {
-      name: 'Position',
-      expanded: true,
-      parameters: [
-        { name: 'Position', type: 'vector', value: { x: -0.280283, y: 1.786282, z: 21.050143 } }
-      ]
-    },
-    {
-      name: 'Target',
-      expanded: false,
-      parameters: []
-    },
-    {
-      name: 'Up-vector',
-      expanded: false,
-      parameters: []
-    },
-    {
-      name: 'Stereo',
-      expanded: false,
-      parameters: []
+  // Load node parameters when selection changes
+  useEffect(() => {
+    if (connected && selectedNode) {
+      loadNodeParameters(selectedNode);
+    } else {
+      setParameterGroups([]);
+      setNodeName('');
     }
-  ];
+  }, [connected, selectedNode]);
+
+  const loadNodeParameters = async (nodeId: string) => {
+    setLoading(true);
+    try {
+      // Extract handle from node ID (format: "node_12345")
+      const handle = parseInt(nodeId.replace('node_', ''));
+      
+      // Get node info
+      const nodeInfo = await octaneClient.getNodeInfo(handle);
+      if (nodeInfo) {
+        setNodeName(nodeInfo.name || `Node ${handle}`);
+      }
+      
+      // Get node parameters
+      const params = await octaneClient.getNodeParameters(handle);
+      
+      // For now, show empty state - parameters will be implemented later
+      setParameterGroups([]);
+      
+      console.log('Node info:', nodeInfo);
+      console.log('Node parameters:', params);
+    } catch (error) {
+      console.error('Failed to load node parameters:', error);
+      setParameterGroups([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // No mock data - show real data only
+  const mockGroups: ParameterGroup[] = [];
 
   const toggleGroup = (groupName: string) => {
     setExpandedGroups(prev => {
@@ -171,15 +142,24 @@ export const NodeInspector: React.FC<NodeInspectorProps> = ({ className = '' }) 
     }
   };
 
+  const groupsToRender = parameterGroups.length > 0 ? parameterGroups : mockGroups;
+
   return (
     <aside className={`node-inspector-panel ${className}`}>
       <div className="panel-header">
         <h3>Node Inspector</h3>
+        {nodeName && <div className="node-name">{nodeName}</div>}
       </div>
 
       <div className="inspector-content">
-        {mockGroups.length > 0 ? (
-          mockGroups.map(group => (
+        {loading ? (
+          <div className="empty-message">Loading parameters...</div>
+        ) : !connected ? (
+          <div className="empty-message">Connect to Octane to inspect nodes</div>
+        ) : !selectedNode ? (
+          <div className="empty-message">Select a node to inspect</div>
+        ) : groupsToRender.length > 0 ? (
+          groupsToRender.map(group => (
             <div key={group.name} className="param-group">
               <div 
                 className="param-group-header"
@@ -205,9 +185,7 @@ export const NodeInspector: React.FC<NodeInspectorProps> = ({ className = '' }) 
             </div>
           ))
         ) : (
-          <div className="empty-message">
-            Select a node to inspect
-          </div>
+          <div className="empty-message">No parameters available</div>
         )}
       </div>
     </aside>

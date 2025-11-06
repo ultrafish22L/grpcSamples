@@ -19,16 +19,22 @@ export const SceneOutliner: React.FC<SceneOutlinerProps> = ({ className = '' }) 
   useEffect(() => {
     if (connected) {
       loadSceneTree();
+    } else {
+      // Clear scene when disconnected
+      setSceneData({ nodes: [], connections: [] });
     }
   }, [connected]);
 
   const loadSceneTree = async () => {
+    console.log('🔄 Loading scene tree...');
     setLoading(true);
     try {
-      const data = await octaneClient.buildSceneTree();
-      setSceneData(data);
+      const nodes = await octaneClient.syncScene();
+      setSceneData({ nodes, connections: [] });
+      console.log('✅ Scene tree loaded:', nodes);
     } catch (error) {
-      console.error('Failed to load scene tree:', error);
+      console.error('❌ Failed to load scene tree:', error);
+      setSceneData({ nodes: [], connections: [] });
     } finally {
       setLoading(false);
     }
@@ -99,7 +105,7 @@ export const SceneOutliner: React.FC<SceneOutlinerProps> = ({ className = '' }) 
         <div className="outliner-controls">
           <button className="control-btn" title="Collapse All">⊟</button>
           <button className="control-btn" title="Expand All">⊞</button>
-          <button className="control-btn" title="Refresh">↻</button>
+          <button className="control-btn" title="Refresh" onClick={loadSceneTree} disabled={!connected}>↻</button>
         </div>
       </div>
 
