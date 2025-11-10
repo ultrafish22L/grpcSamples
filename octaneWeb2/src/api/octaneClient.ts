@@ -159,7 +159,10 @@ class OctaneClient {
   // ============================================================================
 
   async makeServiceCall(service: string, method: string, params: any): Promise<any> {
-    const url = `${this.serverUrl}/rpc/${service}/${method}`
+    // URL format: /api/{service}/{method}
+    // After Vite proxy rewrite: /{service}/{method}
+    // Example: /api/octane.render.RenderServerInfo/GetServerInfo → /octane.render.RenderServerInfo/GetServerInfo
+    const url = `${this.serverUrl}/${service}/${method}`
     
     const startTime = performance.now()
     this.callCount++
