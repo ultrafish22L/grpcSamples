@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { useSceneStore } from '../../store/sceneStore'
 import { useConnectionStore } from '../../store/connectionStore'
 import { SceneNode, octaneClient } from '../../api/octaneClient'
-import { ObjectType } from '../../constants/octaneTypes'
+import { 
+  NodeType, 
+  NT_PROJECT, NT_CAMERA, NT_MESH, NT_SCATTERER,
+  NT_LIGHT_SUN, NT_LIGHT_AREA, NT_LIGHT_PORTAL,
+  NT_ENVIRONMENT, NT_TRANSFORM
+} from '../../constants/octaneTypes'
 import { onEvent } from '../../core/eventBus'
 import './SceneOutliner.css'
 
@@ -65,33 +70,33 @@ export const SceneOutliner: React.FC<SceneOutlinerProps> = ({ className = '' }) 
   }
 
   const getNodeIcon = (objectType: number): string => {
-    // Map ObjectType enum to icons
+    // Map NodeType enum to icons
     switch (objectType) {
-      case ObjectType.NT_PROJECT:
+      case NT_PROJECT:
         return '📁'
-      case ObjectType.NT_RENDERTARGET:
+      case NodeType.NT_RENDERTARGET:
         return '🎯'
-      case ObjectType.NT_CAMERA:
+      case NT_CAMERA:
         return '📷'
-      case ObjectType.NT_MESH:
+      case NT_MESH:
         return '🔷'
-      case ObjectType.NT_GEO_GROUP:
+      case NodeType.NT_GEO_GROUP:
         return '📦'
-      case ObjectType.NT_SCATTERER:
+      case NT_SCATTERER:
         return '⚫'
-      case ObjectType.NT_LIGHT_SUN:
-      case ObjectType.NT_LIGHT_AREA:
-      case ObjectType.NT_LIGHT_PORTAL:
+      case NT_LIGHT_SUN:
+      case NT_LIGHT_AREA:
+      case NT_LIGHT_PORTAL:
         return '💡'
-      case ObjectType.NT_ENVIRONMENT:
+      case NT_ENVIRONMENT:
         return '🌍'
-      case ObjectType.NT_MAT_DIFFUSE:
-      case ObjectType.NT_MAT_GLOSSY:
-      case ObjectType.NT_MAT_SPECULAR:
+      case NodeType.NT_MAT_DIFFUSE:
+      case NodeType.NT_MAT_GLOSSY:
+      case NodeType.NT_MAT_SPECULAR:
         return '🎨'
-      case ObjectType.NT_TEX_IMAGE:
+      case NodeType.NT_TEX_IMAGE:
         return '🖼️'
-      case ObjectType.NT_TRANSFORM:
+      case NT_TRANSFORM:
         return '📐'
       default:
         return '📄'

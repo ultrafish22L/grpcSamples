@@ -1,4 +1,4 @@
-import { ObjectType } from '../constants/octaneTypes'
+import { NodeType } from '../constants/octaneTypes'
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -246,9 +246,9 @@ class OctaneClient {
         'GetNodeType',
         { handle }
       )
-      return response.type || ObjectType.NT_UNKNOWN
+      return response.type || NodeType.NT_UNKNOWN
     } catch (error) {
-      return ObjectType.NT_UNKNOWN
+      return NodeType.NT_UNKNOWN
     }
   }
 
@@ -271,7 +271,7 @@ class OctaneClient {
           id: child.handle,
           handle: child.handle,
           name: child.name || 'Unnamed',
-          objectType: child.type || ObjectType.NT_UNKNOWN,
+          objectType: child.type || NodeType.NT_UNKNOWN,
           visible: true,
           hasChildren: false, // Will be determined lazily
           children: [],
@@ -450,7 +450,7 @@ class OctaneClient {
     await this.setCamera(undefined, { x, y, z })
   }
 
-  async setCameraFov(fov: number): Promise<void> {
+  async setCameraFov(_fov: number): Promise<void> {
     // Note: LiveLink/SetCamera doesn't support FOV directly
     // This would need a different API call if available
     console.warn('setCameraFov not supported by LiveLink API')
@@ -613,7 +613,7 @@ class OctaneClient {
    */
   async getDestinationNodes(handle: string): Promise<any> {
     return await this.makeServiceCall('ApiNode', 'destinationNodes', {
-      objectPtr: { handle, type: ObjectType.NT_UNKNOWN }
+      objectPtr: { handle, type: NodeType.NT_UNKNOWN }
     })
   }
 
@@ -627,7 +627,7 @@ class OctaneClient {
    */
   async getNodeArraySize(handle: string): Promise<any> {
     return await this.makeServiceCall('ApiNodeArray', 'size1', {
-      objectPtr: { handle, type: ObjectType.NT_UNKNOWN }
+      objectPtr: { handle, type: NodeType.NT_UNKNOWN }
     })
   }
 
@@ -637,7 +637,7 @@ class OctaneClient {
    */
   async getNodeArrayElement(handle: string, index: number): Promise<any> {
     return await this.makeServiceCall('ApiNodeArray', 'get1', {
-      objectPtr: { handle, type: ObjectType.NT_UNKNOWN },
+      objectPtr: { handle, type: NodeType.NT_UNKNOWN },
       index
     })
   }
@@ -652,7 +652,7 @@ class OctaneClient {
    */
   async setItemByAttrID(handle: string, attrId: number, value: any): Promise<any> {
     return await this.makeServiceCall('ApiItem', 'setByAttrID', {
-      objectPtr: { handle, type: ObjectType.NT_UNKNOWN },
+      objectPtr: { handle, type: NodeType.NT_UNKNOWN },
       attrId,
       value
     })

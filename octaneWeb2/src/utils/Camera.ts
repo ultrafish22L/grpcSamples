@@ -67,7 +67,7 @@ export class Camera {
   }
   
   // Debouncing for network calls
-  private updateTimeout: NodeJS.Timeout | null = null
+  private updateTimeout: ReturnType<typeof setTimeout> | null = null
   private lastUpdateTime: number = 0
   
   constructor(config?: CameraConfig) {

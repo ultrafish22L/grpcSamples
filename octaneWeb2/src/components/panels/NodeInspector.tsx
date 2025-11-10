@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSceneStore } from '../../store/sceneStore';
 import { useConnectionStore } from '../../store/connectionStore';
-import { octaneClient } from '../../api/octaneClient';
+import { octaneClient, SceneNode } from '../../api/octaneClient';
 import './NodeInspector.css';
 
 interface Parameter {
@@ -30,32 +30,31 @@ export const NodeInspector: React.FC<NodeInspectorProps> = ({ className = '' }) 
   const [nodeName, setNodeName] = useState<string>('');
   
   const { selectedNode } = useSceneStore();
-  const { connected } = useConnectionStore();
+  const { isConnected } = useConnectionStore();
 
   // Load node parameters when selection changes
   useEffect(() => {
-    if (connected && selectedNode) {
+    if (isConnected && selectedNode) {
       loadNodeParameters(selectedNode);
     } else {
       setParameterGroups([]);
       setNodeName('');
     }
-  }, [connected, selectedNode]);
+  }, [isConnected, selectedNode]);
 
-  const loadNodeParameters = async (nodeId: string) => {
+  const loadNodeParameters = async (node: SceneNode) => {
     setLoading(true);
     try {
-      // Extract handle from node ID (format: "node_12345")
-      const handle = parseInt(nodeId.replace('node_', ''));
+      const handle = node.handle;
       
       // Get node info
-      const nodeInfo = await octaneClient.getNodeInfo(handle);
+      const nodeInfo = await octaneClient.getNodeInfo(handle, node.objectType);
       if (nodeInfo) {
         setNodeName(nodeInfo.name || `Node ${handle}`);
       }
       
       // Get node parameters
-      const params = await octaneClient.getNodeParameters(handle);
+      const params = await octaneClient.getNodeParameters(handle, node.objectType);
       
       // For now, show empty state - parameters will be implemented later
       setParameterGroups([]);
@@ -154,7 +153,7 @@ export const NodeInspector: React.FC<NodeInspectorProps> = ({ className = '' }) 
       <div className="inspector-content">
         {loading ? (
           <div className="empty-message">Loading parameters...</div>
-        ) : !connected ? (
+        ) : !isConnected ? (
           <div className="empty-message">Connect to Octane to inspect nodes</div>
         ) : !selectedNode ? (
           <div className="empty-message">Select a node to inspect</div>

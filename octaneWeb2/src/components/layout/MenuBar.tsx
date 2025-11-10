@@ -1,32 +1,23 @@
 import { useConnectionStore } from '../../store/connectionStore';
-import { octaneClient } from '../../api/octaneClient';
 import './MenuBar.css';
 
 export const MenuBar = () => {
-  const { isConnected, isConnecting, setConnected, setConnecting, setError } = useConnectionStore();
+  const { isConnected, isConnecting, connect, disconnect, setError } = useConnectionStore();
   
   const handleConnect = async () => {
     if (isConnected) {
       // Disconnect
-      await octaneClient.disconnect();
-      setConnected(false);
+      disconnect();
       return;
     }
     
-    setConnecting(true);
-    setError(null);
-    
     try {
-      const connected = await octaneClient.connect();
-      setConnected(connected);
-      if (!connected) {
+      const success = await connect();
+      if (!success) {
         setError('Failed to connect to Octane LiveLink');
       }
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Connection failed');
-      setConnected(false);
-    } finally {
-      setConnecting(false);
     }
   };
   
