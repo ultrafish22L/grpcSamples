@@ -910,21 +910,10 @@ class OctaneClient {
   }
 
   // ============================================================================
-  // NODE CREATION/DELETION
+  // NODE CREATION/DELETION (Legacy - use ApiNode/create instead)
   // ============================================================================
 
-  async createNode(nodeType: number, name: string, parentHandle: string, parentType: number): Promise<string> {
-    const response = await this.makeServiceCall(
-      'octane.base.Base',
-      'CreateNode',
-      {
-        nodeType,
-        name,
-        parent: { handle: parentHandle, type: parentType }
-      }
-    )
-    return response.handle
-  }
+  // Note: Removed duplicate createNode - use the ApiNode/create version instead
 
   async deleteNode(handle: string, type: number): Promise<void> {
     await this.makeServiceCall(
