@@ -99,14 +99,16 @@ class OctaneClient {
 
   async connect(): Promise<boolean> {
     try {
+      // Use LiveLink/GetCamera as a connectivity test
+      // LiveLink is the actual gRPC service name
       const response = await this.makeServiceCall(
-        'octane.render.RenderServerInfo',
-        'GetServerInfo',
+        'LiveLink',
+        'GetCamera',
         {}
       )
       
       this.connected = true
-      console.log('✅ Connected to Octane:', response)
+      console.log('✅ Connected to Octane via LiveLink:', response)
       return true
     } catch (error) {
       console.error('❌ Failed to connect to Octane:', error)
