@@ -10,10 +10,12 @@ export default defineConfig({
     cors: true,
     strictPort: false,
     proxy: {
+      // Proxy /api requests to Python proxy server (avoids CORS issues)
+      // Browser: /api/rpc/... → Vite proxy → http://localhost:51023/rpc/... → Octane
       '/api': {
-        target: 'http://localhost:51023',
+        target: 'http://localhost:51023',  // Python octane_proxy.py
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        rewrite: (path) => path.replace(/^\/api/, '')  // Remove /api prefix
       }
     }
   },

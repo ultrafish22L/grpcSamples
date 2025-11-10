@@ -87,7 +87,9 @@ class OctaneClient {
   // Scene cache
   private sceneCache: Map<string, SceneNode> = new Map()
 
-  constructor(serverUrl: string = 'http://localhost:51023') {
+  constructor(serverUrl: string = '/api') {
+    // Use relative path '/api' to go through Vite proxy (avoids CORS)
+    // In development: /api → Vite proxy → Python proxy (51023) → Octane (51022)
     this.serverUrl = serverUrl
   }
 
