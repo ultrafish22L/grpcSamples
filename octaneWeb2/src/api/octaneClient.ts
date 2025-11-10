@@ -393,63 +393,320 @@ class OctaneClient {
   }
 
   // ============================================================================
-  // CAMERA OPERATIONS
+  // LIVELINK API - Camera Operations (Matching octaneWeb)
   // ============================================================================
 
-  async getCameraInfo(): Promise<CameraInfo> {
-    const response = await this.makeServiceCall(
-      'octane.camera.Camera',
-      'GetCameraInfo',
-      {}
-    )
+  /**
+   * Get current camera state from Octane
+   * Service: LiveLink/GetCamera
+   */
+  async getCamera(): Promise<any> {
+    return await this.makeServiceCall('LiveLink', 'GetCamera', {})
+  }
+
+  /**
+   * Set camera position and/or target in Octane
+   * Service: LiveLink/SetCamera
+   */
+  async setCamera(position?: {x: number, y: number, z: number}, target?: {x: number, y: number, z: number}): Promise<any> {
+    const request: any = {}
     
+    if (position) {
+      request.position = position
+    }
+    
+    if (target) {
+      request.target = target
+    }
+    
+    return await this.makeServiceCall('LiveLink', 'SetCamera', request)
+  }
+
+  // Legacy camera methods (compatibility wrappers)
+  async getCameraInfo(): Promise<CameraInfo> {
+    const camera = await this.getCamera()
     return {
-      position: response.position || [0, 0, 20],
-      target: response.target || [0, 0, 0],
-      fov: response.fov || 45
+      position: camera.position || [0, 0, 20],
+      target: camera.target || [0, 0, 0],
+      fov: camera.fov || 45
     }
   }
 
   async getCameraPosition(): Promise<[number, number, number]> {
-    const response = await this.makeServiceCall(
-      'octane.camera.Camera',
-      'GetCameraPosition',
-      {}
-    )
-    return response.position || [0, 0, 20]
+    const camera = await this.getCamera()
+    return camera.position || [0, 0, 20]
   }
 
   async getCameraTarget(): Promise<[number, number, number]> {
-    const response = await this.makeServiceCall(
-      'octane.camera.Camera',
-      'GetCameraTarget',
-      {}
-    )
-    return response.target || [0, 0, 0]
+    const camera = await this.getCamera()
+    return camera.target || [0, 0, 0]
   }
 
   async setCameraPosition(x: number, y: number, z: number): Promise<void> {
-    await this.makeServiceCall(
-      'octane.camera.Camera',
-      'SetCameraPosition',
-      { position: { x, y, z } }
-    )
+    await this.setCamera({ x, y, z }, undefined)
   }
 
   async setCameraTarget(x: number, y: number, z: number): Promise<void> {
-    await this.makeServiceCall(
-      'octane.camera.Camera',
-      'SetCameraTarget',
-      { target: { x, y, z } }
-    )
+    await this.setCamera(undefined, { x, y, z })
   }
 
   async setCameraFov(fov: number): Promise<void> {
-    await this.makeServiceCall(
-      'octane.camera.Camera',
-      'SetCameraFov',
-      { fov }
-    )
+    // Note: LiveLink/SetCamera doesn't support FOV directly
+    // This would need a different API call if available
+    console.warn('setCameraFov not supported by LiveLink API')
+  }
+
+  // ============================================================================
+  // API RENDER ENGINE - Render Control (Matching octaneWeb)
+  // ============================================================================
+
+  /**
+   * Stop current rendering
+   * Service: ApiRenderEngine/stopRendering
+   */
+  async stopRendering(): Promise<any> {
+    return await this.makeServiceCall('ApiRenderEngine', 'stopRendering', {})
+  }
+
+  /**
+   * Restart rendering
+   * Service: ApiRenderEngine/restartRendering
+   */
+  async restartRendering(): Promise<any> {
+    return await this.makeServiceCall('ApiRenderEngine', 'restartRendering', {})
+  }
+
+  /**
+   * Pause current rendering
+   * Service: ApiRenderEngine/pauseRendering
+   */
+  async pauseRendering(): Promise<any> {
+    return await this.makeServiceCall('ApiRenderEngine', 'pauseRendering', {})
+  }
+
+  /**
+   * Continue paused rendering
+   * Service: ApiRenderEngine/continueRendering
+   */
+  async continueRendering(): Promise<any> {
+    return await this.makeServiceCall('ApiRenderEngine', 'continueRendering', {})
+  }
+
+  /**
+   * Set render priority
+   * Service: ApiRenderEngine/setRenderPriority
+   */
+  async setRenderPriority(priority: number): Promise<any> {
+    return await this.makeServiceCall('ApiRenderEngine', 'setRenderPriority', {
+      priority
+    })
+  }
+
+  // ============================================================================
+  // API PROJECT MANAGER - Project Management (Matching octaneWeb)
+  // ============================================================================
+
+  /**
+   * Load an Octane project file
+   * Service: ApiProjectManager/loadProject
+   */
+  async loadProject(projectPath: string): Promise<any> {
+    return await this.makeServiceCall('ApiProjectManager', 'loadProject', {
+      projectPath
+    })
+  }
+
+  /**
+   * Save current project
+   * Service: ApiProjectManager/saveProject
+   */
+  async saveProject(): Promise<any> {
+    return await this.makeServiceCall('ApiProjectManager', 'saveProject', {})
+  }
+
+  /**
+   * Save project with new name/location
+   * Service: ApiProjectManager/saveProjectAs
+   */
+  async saveProjectAs(projectPath: string): Promise<any> {
+    return await this.makeServiceCall('ApiProjectManager', 'saveProjectAs', {
+      projectPath
+    })
+  }
+
+  /**
+   * Save project as reference package
+   * Service: ApiProjectManager/saveProjectAsReferencePackage
+   */
+  async saveProjectAsReferencePackage(packagePath: string): Promise<any> {
+    return await this.makeServiceCall('ApiProjectManager', 'saveProjectAsReferencePackage', {
+      packagePath
+    })
+  }
+
+  /**
+   * Unpack a reference package
+   * Service: ApiProjectManager/unpackPackage
+   */
+  async unpackPackage(packagePath: string, targetPath: string): Promise<any> {
+    return await this.makeServiceCall('ApiProjectManager', 'unpackPackage', {
+      packagePath,
+      targetPath
+    })
+  }
+
+  /**
+   * Get current project info
+   * Service: ApiProjectManager/getCurrentProject
+   */
+  async getCurrentProject(): Promise<any> {
+    return await this.makeServiceCall('ApiProjectManager', 'getCurrentProject', {})
+  }
+
+  /**
+   * Reset/clear current project
+   * Service: ApiProjectManager/resetProject
+   */
+  async resetProject(): Promise<any> {
+    return await this.makeServiceCall('ApiProjectManager', 'resetProject', {})
+  }
+
+  /**
+   * Get root node graph
+   * Service: ApiProjectManager/rootNodeGraph
+   */
+  async getRootNodeGraph(): Promise<any> {
+    return await this.makeServiceCall('ApiProjectManager', 'rootNodeGraph', {})
+  }
+
+  // ============================================================================
+  // API CHANGE MANAGER - Scene Updates (Matching octaneWeb)
+  // ============================================================================
+
+  /**
+   * Trigger scene update/refresh
+   * Service: ApiChangeManager/update
+   */
+  async updateScene(): Promise<any> {
+    return await this.makeServiceCall('ApiChangeManager', 'update', {})
+  }
+
+  // ============================================================================
+  // API NODE - Node Operations (Matching octaneWeb)
+  // ============================================================================
+
+  /**
+   * Create new node
+   * Service: ApiNode/create
+   */
+  async createNode(nodeType: string, parent?: string): Promise<any> {
+    const request: any = { nodeType }
+    if (parent) {
+      request.parent = parent
+    }
+    return await this.makeServiceCall('ApiNode', 'create', request)
+  }
+
+  /**
+   * Get destination nodes for a node
+   * Service: ApiNode/destinationNodes
+   */
+  async getDestinationNodes(handle: string): Promise<any> {
+    return await this.makeServiceCall('ApiNode', 'destinationNodes', {
+      objectPtr: { handle, type: ObjectType.NT_UNKNOWN }
+    })
+  }
+
+  // ============================================================================
+  // API NODE ARRAY - Array Operations (Matching octaneWeb)
+  // ============================================================================
+
+  /**
+   * Get size of node array
+   * Service: ApiNodeArray/size1
+   */
+  async getNodeArraySize(handle: string): Promise<any> {
+    return await this.makeServiceCall('ApiNodeArray', 'size1', {
+      objectPtr: { handle, type: ObjectType.NT_UNKNOWN }
+    })
+  }
+
+  /**
+   * Get element from node array
+   * Service: ApiNodeArray/get1
+   */
+  async getNodeArrayElement(handle: string, index: number): Promise<any> {
+    return await this.makeServiceCall('ApiNodeArray', 'get1', {
+      objectPtr: { handle, type: ObjectType.NT_UNKNOWN },
+      index
+    })
+  }
+
+  // ============================================================================
+  // API ITEM - Item Properties (Matching octaneWeb)
+  // ============================================================================
+
+  /**
+   * Set item property by attribute ID
+   * Service: ApiItem/setByAttrID
+   */
+  async setItemByAttrID(handle: string, attrId: number, value: any): Promise<any> {
+    return await this.makeServiceCall('ApiItem', 'setByAttrID', {
+      objectPtr: { handle, type: ObjectType.NT_UNKNOWN },
+      attrId,
+      value
+    })
+  }
+
+  // ============================================================================
+  // API NODE GRAPH EDITOR - Material Preview (Matching octaneWeb)
+  // ============================================================================
+
+  /**
+   * Enable material preview rendering
+   * Service: ApiNodeGraphEditor/enableMaterialRender
+   */
+  async enableMaterialRender(): Promise<any> {
+    return await this.makeServiceCall('ApiNodeGraphEditor', 'enableMaterialRender', {})
+  }
+
+  /**
+   * Disable material preview rendering
+   * Service: ApiNodeGraphEditor/disableMaterialRender
+   */
+  async disableMaterialRender(): Promise<any> {
+    return await this.makeServiceCall('ApiNodeGraphEditor', 'disableMaterialRender', {})
+  }
+
+  // ============================================================================
+  // API RENDER CLOUD MANAGER - Cloud Rendering (Matching octaneWeb)
+  // ============================================================================
+
+  /**
+   * Create new cloud render task
+   * Service: ApiRenderCloudManager/newRenderTask
+   */
+  async newRenderTask(projectPath: string, settings: any): Promise<any> {
+    return await this.makeServiceCall('ApiRenderCloudManager', 'newRenderTask', {
+      projectPath,
+      settings
+    })
+  }
+
+  /**
+   * Upload current project to cloud
+   * Service: ApiRenderCloudManager/uploadCurrentProject
+   */
+  async uploadCurrentProject(): Promise<any> {
+    return await this.makeServiceCall('ApiRenderCloudManager', 'uploadCurrentProject', {})
+  }
+
+  /**
+   * Get user's cloud subscription info
+   * Service: ApiRenderCloudManager/userSubscriptionInfo
+   */
+  async getUserSubscriptionInfo(): Promise<any> {
+    return await this.makeServiceCall('ApiRenderCloudManager', 'userSubscriptionInfo', {})
   }
 
   // ============================================================================
