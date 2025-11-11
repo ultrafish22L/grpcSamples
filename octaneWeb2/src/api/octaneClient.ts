@@ -366,15 +366,19 @@ class OctaneClient {
 
   /**
    * Get an item from an array by index
-   * Uses: ApiItemArray/get (WORKING)
+   * Uses: ApiItemArray/get
    * Returns: response.data.result (item object)
+   * 
+   * NOTE: Parameter MUST be "index" (not "ix") per protobuf definition:
+   * message getRequest { ObjectRef objectPtr = 1; uint32 index = 2; }
+   * Using wrong parameter name crashes Octane!
    */
   async getArrayItem(arrayHandle: string, index: number): Promise<any> {
     try {
       const response = await this.makeServiceCall(
         'ApiItemArray',
         'get',
-        { handle: arrayHandle, ix: index }
+        { handle: arrayHandle, index: index }  // CRITICAL: Must be "index", not "ix"
       )
       const result = this.extractResult(response)
       return result

@@ -59,7 +59,9 @@ async function testSceneSync() {
     
     // 2. Check if it's a graph
     console.log('2️⃣  Checking if root is a graph...');
-    const isGraphResponse = await makeApiCall('ApiItem', 'isGraph', { handle: rootHandle });
+    const isGraphResponse = await makeApiCall('ApiItem', 'isGraph', { 
+      objectPtr: { handle: rootHandle, type: 16 }  // ApiItem = 16
+    });
     console.log('Response:', JSON.stringify(isGraphResponse, null, 2));
     
     if (!isGraphResponse.success) {
@@ -77,7 +79,9 @@ async function testSceneSync() {
     
     // 3. Get owned items
     console.log('3️⃣  Getting owned items...');
-    const ownedResponse = await makeApiCall('ApiNodeGraph', 'getOwnedItems', { handle: rootHandle });
+    const ownedResponse = await makeApiCall('ApiNodeGraph', 'getOwnedItems', { 
+      objectPtr: { handle: rootHandle, type: 20 }  // ApiNodeGraph = 20
+    });
     console.log('Response:', JSON.stringify(ownedResponse, null, 2));
     
     if (!ownedResponse.success || !ownedResponse.data?.list?.handle) {
@@ -90,7 +94,9 @@ async function testSceneSync() {
     
     // 4. Get array size
     console.log('4️⃣  Getting array size...');
-    const sizeResponse = await makeApiCall('ApiItemArray', 'size', { handle: ownedItemsHandle });
+    const sizeResponse = await makeApiCall('ApiItemArray', 'size', { 
+      objectPtr: { handle: ownedItemsHandle, type: 31 }  // ApiItemArray = 31
+    });
     console.log('Response:', JSON.stringify(sizeResponse, null, 2));
     
     if (!sizeResponse.success) {
@@ -108,7 +114,10 @@ async function testSceneSync() {
     
     // 5. Get first item
     console.log('5️⃣  Getting first item...');
-    const itemResponse = await makeApiCall('ApiItemArray', 'get', { handle: ownedItemsHandle, ix: 0 });
+    const itemResponse = await makeApiCall('ApiItemArray', 'get', { 
+      objectPtr: { handle: ownedItemsHandle, type: 31 },  // ApiItemArray = 31
+      ix: 0 
+    });
     console.log('Response:', JSON.stringify(itemResponse, null, 2));
     
     if (!itemResponse.success || !itemResponse.data?.result?.handle) {
@@ -121,7 +130,9 @@ async function testSceneSync() {
     
     // 6. Get item name
     console.log('6️⃣  Getting item name...');
-    const nameResponse = await makeApiCall('ApiItem', 'name', { handle: firstItemHandle });
+    const nameResponse = await makeApiCall('ApiItem', 'name', { 
+      objectPtr: { handle: firstItemHandle, type: 16 }  // ApiItem = 16
+    });
     console.log('Response:', JSON.stringify(nameResponse, null, 2));
     
     if (!nameResponse.success) {
