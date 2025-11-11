@@ -469,26 +469,8 @@ class OctaneClient {
       const isGraphRoot = await this.isGraph(rootHandle)
       console.log('  Is graph:', isGraphRoot)
       
-      // Step 3: Build scene tree (only supports graphs for now, matching original behavior)
-      const sceneTree: SceneNode[] = []
-      
-      if (isGraphRoot) {
-        // Get owned items from the root graph
-        const ownedItemsHandle = await this.getOwnedItems(rootHandle)
-        const arraySize = await this.getArraySize(ownedItemsHandle)
-        console.log(`  Found ${arraySize} top-level items`)
-        
-        // Iterate through all items
-        for (let i = 0; i < arraySize; i++) {
-          const item = await this.getArrayItem(ownedItemsHandle, i)
-          
-          // Build scene node for this item
-          const sceneNode = await this.buildSceneNode(item.handle, 0)
-          if (sceneNode) {
-            sceneTree.push(sceneNode)
-          }
-        }
-      }
+      // Step 3: Recursively build scene tree starting from root
+      const sceneTree = await this.syncSceneRecurse(rootHandle, isGraphRoot, 0)
       
       console.log(`✅ Scene tree synced: ${sceneTree.length} nodes`)
       return sceneTree
@@ -500,39 +482,135 @@ class OctaneClient {
   }
 
   /**
-   * Build a single scene node with its metadata
-   * Matches the addSceneItem pattern from original octaneWeb
+   * Recursively sync scene tree (matches octaneWeb syncSceneRecurse pattern)
+   * @param itemHandle - Handle of item to process (or null for root)
+   * @param isGraph - Whether this item is a graph
+   * @param level - Current depth level in tree
+   * @returns Array of scene nodes at this level
    */
-  private async buildSceneNode(handle: string, depth: number): Promise<SceneNode | null> {
+  private async syncSceneRecurse(
+    itemHandle: string | null, 
+    isGraph: boolean,
+    level: number = 0
+  ): Promise<SceneNode[]> {
+    const sceneItems: SceneNode[] = []
+    level = level + 1
+
     try {
-      // Get basic item info
-      const name = await this.getItemName(handle)
-      const outType = await this.getItemOutType(handle)
-      const isItemGraph = await this.isGraph(handle)
-      
-      // Create the scene node
-      const node: SceneNode = {
-        id: handle,
-        handle,
-        name,
-        objectType: outType,
-        visible: true, // Default visible
-        hasChildren: isItemGraph, // Graphs have children
-        children: [],
-        depth
+      // Handle root case (first call)
+      if (itemHandle == null) {
+        // Get root node graph
+        const rootHandle = await this.getRootNodeGraph()
+        if (!rootHandle) {
+          return []
+        }
+        itemHandle = rootHandle
+        isGraph = await this.isGraph(rootHandle)
       }
-      
-      // Cache it
-      this.sceneCache.set(handle, node)
-      
-      return node
-      
+
+      // If it's a graph, process owned items
+      if (isGraph) {
+        // Get owned items
+        const ownedItemsHandle = await this.getOwnedItems(itemHandle)
+        const arraySize = await this.getArraySize(ownedItemsHandle)
+        console.log(`  Level ${level}: Found ${arraySize} items in graph ${itemHandle}`)
+
+        // Iterate through all owned items
+        for (let i = 0; i < arraySize; i++) {
+          const item = await this.getArrayItem(ownedItemsHandle, i)
+          
+          // Add scene item (this will handle recursion)
+          await this.addSceneItem(sceneItems, item, level)
+        }
+
+        // At level 1, populate children for all items
+        if (level === 1) {
+          for (const item of sceneItems) {
+            await this.addItemChildren(item)
+          }
+        }
+      }
+
+      return sceneItems
+
     } catch (error) {
-      console.error(`Failed to build scene node for ${handle}:`, error)
-      return null
+      console.error(`❌ Failed syncSceneRecurse at level ${level}:`, error)
+      return sceneItems
     }
   }
 
+  /**
+   * Add a scene item and its metadata (matches octaneWeb addSceneItem pattern)
+   * @param sceneItems - Array to add item to
+   * @param item - Item object with handle
+   * @param level - Current depth level
+   */
+  private async addSceneItem(
+    sceneItems: SceneNode[], 
+    item: any, 
+    level: number
+  ): Promise<void> {
+    try {
+      // Check if already in cache
+      const existing = this.sceneCache.get(item.handle)
+      if (existing && existing.depth === 1) {
+        // Already processed at top level, just reference it
+        sceneItems.push(existing)
+        return
+      }
+
+      // Get item metadata
+      const name = await this.getItemName(item.handle)
+      const outType = await this.getItemOutType(item.handle)
+      const isItemGraph = await this.isGraph(item.handle)
+
+      // Create scene node
+      const node: SceneNode = {
+        id: item.handle,
+        handle: item.handle,
+        name,
+        objectType: outType,
+        visible: true,
+        hasChildren: isItemGraph,
+        children: [],
+        depth: level
+      }
+
+      // Add to array and cache
+      sceneItems.push(node)
+      this.sceneCache.set(item.handle, node)
+
+      // For deeper levels (> 1), populate children immediately
+      if (level > 1) {
+        await this.addItemChildren(node)
+      }
+
+    } catch (error) {
+      console.error(`Failed to add scene item ${item.handle}:`, error)
+    }
+  }
+
+  /**
+   * Populate children for a scene node (matches octaneWeb addItemChildren pattern)
+   * @param node - Scene node to populate children for
+   */
+  private async addItemChildren(node: SceneNode): Promise<void> {
+    try {
+      // Only process if it's a graph and doesn't have children yet
+      if (!node.hasChildren || node.children.length > 0) {
+        return
+      }
+
+      // Recursively get children
+      const children = await this.syncSceneRecurse(node.handle, true, node.depth)
+      node.children = children
+
+      console.log(`  Added ${children.length} children to ${node.name}`)
+
+    } catch (error) {
+      console.error(`Failed to add children for ${node.handle}:`, error)
+    }
+  }
 
   // ============================================================================
   // LIVELINK API - Camera Operations (Matching octaneWeb)
