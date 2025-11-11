@@ -87,10 +87,19 @@ class OctaneClient {
   // Scene cache
   private sceneCache: Map<string, SceneNode> = new Map()
 
-  constructor(serverUrl: string = '/api') {
-    // Use relative path '/api' to go through Vite proxy (avoids CORS)
-    // In development: /api → Vite proxy → Python proxy (51023) → Octane (51022)
-    this.serverUrl = serverUrl
+  constructor(serverUrl?: string) {
+    // Auto-detect environment and use appropriate URL
+    // Development: /api → Vite proxy (42219) → Python proxy (51023) → Octane (51022)
+    // Production: Direct to Python proxy (51023) → Octane (51022)
+    if (serverUrl) {
+      this.serverUrl = serverUrl
+    } else {
+      // In development, Vite runs on port 42219 with /api proxy
+      // In production, we connect directly to Python proxy
+      const isDevelopment = import.meta.env.DEV
+      this.serverUrl = isDevelopment ? '/api' : 'http://localhost:51023'
+    }
+    console.log('🔌 OctaneClient serverUrl:', this.serverUrl)
   }
 
   // ============================================================================
@@ -135,30 +144,39 @@ class OctaneClient {
 
   async testConnection(): Promise<boolean> {
     try {
-      await this.getServerInfo()
+      await this.getCamera()
       return true
     } catch {
       return false
     }
   }
 
+  // Note: GetServerInfo API doesn't exist in the proxy
+  // Using LiveLink/GetCamera for connectivity testing instead
   async getServerInfo(): Promise<ServerInfo> {
-    const response = await this.makeServiceCall(
-      'octane.render.RenderServerInfo',
-      'GetServerInfo',
-      {}
-    )
-    
+    // Return placeholder info since GetServerInfo API doesn't exist
+    // The original octaneWeb doesn't use server info
     return {
-      version: response.version || 'Unknown',
-      buildDate: response.buildDate || 'Unknown',
-      platform: response.platform || 'Unknown'
+      version: 'Octane LiveLink',
+      buildDate: new Date().toISOString().split('T')[0],
+      platform: 'gRPC'
     }
   }
 
   // ============================================================================
   // CORE RPC METHOD
   // ============================================================================
+
+  /**
+   * Extract the actual result from a proxy response
+   * Response format: { success: true, data: { result: <actual_value> } }
+   */
+  private extractResult(response: any): any {
+    if (response && response.success && response.data) {
+      return response.data.result
+    }
+    return response
+  }
 
   async makeServiceCall(service: string, method: string, params: any): Promise<any> {
     // URL format: /api/{service}/{method}
@@ -200,197 +218,305 @@ class OctaneClient {
   }
 
   // ============================================================================
-  // SCENE OPERATIONS
+  // SCENE OPERATIONS (using working Octane APIs)
   // ============================================================================
 
-  async getRootNode(): Promise<string> {
+  /**
+   * Get the root node graph handle
+   * Uses: ApiProjectManager/rootNodeGraph (WORKING)
+   */
+  async getRootNodeGraph(): Promise<string> {
     try {
-      // Try to get the project root
       const response = await this.makeServiceCall(
-        'octane.project.Project',
-        'GetActiveProject',
+        'ApiProjectManager',
+        'rootNodeGraph',
         {}
       )
-      return response.handle || '/octane/1'
+      console.log('  getRootNodeGraph response:', response)
+      
+      const result = this.extractResult(response)
+      console.log('  Root handle:', result?.handle || result)
+      
+      // Result format: { handle: "1000000", type: "ApiRootNodeGraph" }
+      return result?.handle || result
     } catch (error) {
-      console.warn('Could not get active project, using default root')
-      return '/octane/1'
+      console.error('Failed to get root node graph:', error)
+      throw error
     }
   }
 
-  async getNodeInfo(handle: string, type: number): Promise<any> {
-    return await this.makeServiceCall(
-      'octane.base.Base',
-      'GetNodeInfo',
-      { objectPtr: { handle, type } }
-    )
+  /**
+   * Check if an item is a graph or a node
+   * Uses: ApiItem/isGraph (WORKING)
+   */
+  async isGraph(handle: string): Promise<boolean> {
+    try {
+      // Validate handle is a string
+      if (typeof handle !== 'string') {
+        console.error(`Invalid handle type for isGraph: expected string, got ${typeof handle}`, handle)
+        return false
+      }
+      
+      const response = await this.makeServiceCall(
+        'ApiItem',
+        'isGraph',
+        { handle }
+      )
+      
+      const result = this.extractResult(response)
+      return typeof result === 'boolean' ? result : false
+    } catch (error) {
+      console.error(`Failed to check if ${handle} is graph:`, error)
+      return false
+    }
   }
 
-  async getNodeName(handle: string, type: number): Promise<string> {
+  /**
+   * Get the name of an item
+   * Uses: ApiItem/name (WORKING)
+   */
+  async getItemName(handle: string): Promise<string> {
     try {
       const response = await this.makeServiceCall(
-        'octane.base.Base',
-        'GetNodeName',
-        { objectPtr: { handle, type } }
+        'ApiItem',
+        'name',
+        { handle }
       )
-      return response.name || 'Unnamed'
+      const result = this.extractResult(response)
+      return result || 'Unnamed'
     } catch (error) {
+      console.error(`Failed to get item name for ${handle}:`, error)
       return 'Unknown'
     }
   }
 
-  async getNodeType(handle: string): Promise<number> {
+  /**
+   * Get the outType of an item (determines icon/type)
+   * Uses: ApiItem/outType (WORKING)
+   */
+  async getItemOutType(handle: string): Promise<number> {
     try {
       const response = await this.makeServiceCall(
-        'octane.base.Base',
-        'GetNodeType',
+        'ApiItem',
+        'outType',
         { handle }
       )
-      return response.type || NodeType.NT_UNKNOWN
+      const result = this.extractResult(response)
+      return result
     } catch (error) {
+      console.error(`Failed to get item outType for ${handle}:`, error)
       return NodeType.NT_UNKNOWN
     }
   }
 
-  async getNodeChildren(handle: string, type: number): Promise<SceneNode[]> {
+  /**
+   * Get owned items from a node graph
+   * Uses: ApiNodeGraph/getOwnedItems (WORKING)
+   * Returns: response.data.list.handle (NOT result!)
+   */
+  async getOwnedItems(graphHandle: string): Promise<string> {
     try {
       const response = await this.makeServiceCall(
-        'octane.base.Base',
-        'GetChildNodes',
-        { objectPtr: { handle, type } }
+        'ApiNodeGraph',
+        'getOwnedItems',
+        { handle: graphHandle }
       )
-      
-      if (!response.children || response.children.length === 0) {
-        return []
+      // Special case: getOwnedItems returns .data.list not .data.result
+      if (response.success && response.data?.list?.handle) {
+        return response.data.list.handle
       }
-      
-      const children: SceneNode[] = []
-      
-      for (const child of response.children) {
-        const childNode: SceneNode = {
-          id: child.handle,
-          handle: child.handle,
-          name: child.name || 'Unnamed',
-          objectType: child.type || NodeType.NT_UNKNOWN,
-          visible: true,
-          hasChildren: false, // Will be determined lazily
-          children: [],
-          parent: handle,
-          depth: 0
-        }
-        children.push(childNode)
-      }
-      
-      return children
+      throw new Error('Invalid response from getOwnedItems')
     } catch (error) {
-      console.error(`Failed to get children for ${handle}:`, error)
-      return []
+      console.error(`Failed to get owned items for ${graphHandle}:`, error)
+      throw error
     }
-  }
-
-  async getNodeVisible(handle: string, type: number): Promise<boolean> {
-    try {
-      const response = await this.makeServiceCall(
-        'octane.base.Base',
-        'GetNodeVisible',
-        { objectPtr: { handle, type } }
-      )
-      return response.visible !== false
-    } catch (error) {
-      return true
-    }
-  }
-
-  async setNodeVisible(handle: string, type: number, visible: boolean): Promise<void> {
-    await this.makeServiceCall(
-      'octane.base.Base',
-      'SetNodeVisible',
-      { objectPtr: { handle, type }, visible }
-    )
   }
 
   /**
-   * Build complete scene tree recursively
+   * Get the size of an item array
+   * Uses: ApiItemArray/size (WORKING)
+   * Returns: response.data.result (number)
    */
-  async syncScene(rootHandle: string): Promise<SceneNode[]> {
+  async getArraySize(arrayHandle: string): Promise<number> {
+    try {
+      const response = await this.makeServiceCall(
+        'ApiItemArray',
+        'size',
+        { handle: arrayHandle }
+      )
+      const result = this.extractResult(response)
+      return result || 0
+    } catch (error) {
+      console.error(`Failed to get array size for ${arrayHandle}:`, error)
+      return 0
+    }
+  }
+
+  /**
+   * Get an item from an array by index
+   * Uses: ApiItemArray/get (WORKING)
+   * Returns: response.data.result (item object)
+   */
+  async getArrayItem(arrayHandle: string, index: number): Promise<any> {
+    try {
+      const response = await this.makeServiceCall(
+        'ApiItemArray',
+        'get',
+        { handle: arrayHandle, ix: index }
+      )
+      const result = this.extractResult(response)
+      return result
+    } catch (error) {
+      console.error(`Failed to get array item at index ${index}:`, error)
+      throw error
+    }
+  }
+
+  /**
+   * Get node info (for nodes, not graphs)
+   * Uses: ApiNode/info (WORKING)
+   * Returns: response.data.result
+   */
+  async getNodeInfo(handle: string): Promise<any> {
+    try {
+      const response = await this.makeServiceCall(
+        'ApiNode',
+        'info',
+        { handle }
+      )
+      return this.extractResult(response)
+    } catch (error) {
+      console.error(`Failed to get node info for ${handle}:`, error)
+      throw error
+    }
+  }
+
+  /**
+   * Get graph info (for graphs, not nodes)
+   * Uses: ApiNodeGraph/info1 (WORKING)
+   * Returns: response.data.result
+   */
+  async getGraphInfo(handle: string): Promise<any> {
+    try {
+      const response = await this.makeServiceCall(
+        'ApiNodeGraph',
+        'info1',
+        { handle }
+      )
+      return this.extractResult(response)
+    } catch (error) {
+      console.error(`Failed to get graph info for ${handle}:`, error)
+      throw error
+    }
+  }
+
+  /**
+   * Get the number of pins on a node
+   * Uses: ApiNode/pinCount (WORKING)
+   */
+  async getNodePinCount(handle: string): Promise<number> {
+    try {
+      const response = await this.makeServiceCall(
+        'ApiNode',
+        'pinCount',
+        { handle }
+      )
+      return response
+    } catch (error) {
+      console.error(`Failed to get pin count for ${handle}:`, error)
+      return 0
+    }
+  }
+
+  /**
+   * Build complete scene tree recursively (matches original octaneWeb pattern)
+   * This is the main scene synchronization method
+   */
+  async syncScene(): Promise<SceneNode[]> {
     console.log('🔄 Syncing scene tree from Octane...')
     
     // Clear cache
     this.sceneCache.clear()
     
-    // Get root node type
-    const rootType = await this.getNodeType(rootHandle)
-    const rootName = await this.getNodeName(rootHandle, rootType)
-    
-    // Build tree recursively
-    const rootNode = await this.buildSceneTree(
-      rootHandle,
-      rootName,
-      rootType,
-      0
-    )
-    
-    console.log(`✅ Scene tree synced: ${this.sceneCache.size} nodes`)
-    
-    return [rootNode]
+    try {
+      // Step 1: Get root node graph
+      const rootHandle = await this.getRootNodeGraph()
+      console.log('  Root handle:', rootHandle)
+      
+      // Guard against undefined handle
+      if (!rootHandle) {
+        console.warn('  ⚠️ Root handle is undefined or empty')
+        return []
+      }
+      
+      // Step 2: Check if it's a graph
+      const isGraphRoot = await this.isGraph(rootHandle)
+      console.log('  Is graph:', isGraphRoot)
+      
+      // Step 3: Build scene tree (only supports graphs for now, matching original behavior)
+      const sceneTree: SceneNode[] = []
+      
+      if (isGraphRoot) {
+        // Get owned items from the root graph
+        const ownedItemsHandle = await this.getOwnedItems(rootHandle)
+        const arraySize = await this.getArraySize(ownedItemsHandle)
+        console.log(`  Found ${arraySize} top-level items`)
+        
+        // Iterate through all items
+        for (let i = 0; i < arraySize; i++) {
+          const item = await this.getArrayItem(ownedItemsHandle, i)
+          
+          // Build scene node for this item
+          const sceneNode = await this.buildSceneNode(item.handle, 0)
+          if (sceneNode) {
+            sceneTree.push(sceneNode)
+          }
+        }
+      }
+      
+      console.log(`✅ Scene tree synced: ${sceneTree.length} nodes`)
+      return sceneTree
+      
+    } catch (error) {
+      console.error('❌ Failed to sync scene:', error)
+      return []
+    }
   }
 
   /**
-   * Recursively build scene tree with depth limiting
+   * Build a single scene node with its metadata
+   * Matches the addSceneItem pattern from original octaneWeb
    */
-  async buildSceneTree(
-    handle: string,
-    name: string,
-    type: number,
-    depth: number,
-    maxDepth: number = 10
-  ): Promise<SceneNode> {
-    // Create node
-    const node: SceneNode = {
-      id: handle,
-      handle,
-      name,
-      objectType: type,
-      visible: await this.getNodeVisible(handle, type),
-      hasChildren: false,
-      children: [],
-      depth
-    }
-    
-    // Cache it
-    this.sceneCache.set(handle, node)
-    
-    // Get children if depth allows
-    if (depth < maxDepth) {
-      const children = await this.getNodeChildren(handle, type)
+  private async buildSceneNode(handle: string, depth: number): Promise<SceneNode | null> {
+    try {
+      // Get basic item info
+      const name = await this.getItemName(handle)
+      const outType = await this.getItemOutType(handle)
+      const isItemGraph = await this.isGraph(handle)
       
-      if (children.length > 0) {
-        node.hasChildren = true
-        
-        // Recursively build children (but only expand first level by default)
-        if (depth === 0) {
-          for (const child of children) {
-            const childNode = await this.buildSceneTree(
-              child.handle,
-              child.name,
-              child.objectType,
-              depth + 1,
-              maxDepth
-            )
-            node.children.push(childNode)
-          }
-        } else {
-          // For deeper levels, just add placeholder children (lazy loading)
-          node.children = children.map(child => ({
-            ...child,
-            depth: depth + 1
-          }))
-        }
+      // Create the scene node
+      const node: SceneNode = {
+        id: handle,
+        handle,
+        name,
+        objectType: outType,
+        visible: true, // Default visible
+        hasChildren: isItemGraph, // Graphs have children
+        children: [],
+        depth
       }
+      
+      // Cache it
+      this.sceneCache.set(handle, node)
+      
+      return node
+      
+    } catch (error) {
+      console.error(`Failed to build scene node for ${handle}:`, error)
+      return null
     }
-    
-    return node
   }
+
 
   // ============================================================================
   // LIVELINK API - Camera Operations (Matching octaneWeb)
@@ -571,13 +697,7 @@ class OctaneClient {
     return await this.makeServiceCall('ApiProjectManager', 'resetProject', {})
   }
 
-  /**
-   * Get root node graph
-   * Service: ApiProjectManager/rootNodeGraph
-   */
-  async getRootNodeGraph(): Promise<any> {
-    return await this.makeServiceCall('ApiProjectManager', 'rootNodeGraph', {})
-  }
+  // getRootNodeGraph() already defined above in SCENE OPERATIONS section
 
   // ============================================================================
   // API CHANGE MANAGER - Scene Updates (Matching octaneWeb)
@@ -711,9 +831,16 @@ class OctaneClient {
 
   // ============================================================================
   // PARAMETER OPERATIONS
+  // TODO: These need proper API implementation when node inspector editing is needed
   // ============================================================================
 
-  async getNodeParameters(handle: string, type: number): Promise<Parameter[]> {
+  async getNodeParameters(_handle: string, _type: number): Promise<Parameter[]> {
+    // TODO: Replace with proper Octane API calls
+    // Original octaneWeb uses ApiItem/attrInfo pattern
+    console.warn('getNodeParameters() not yet implemented with correct API')
+    return []
+    
+    /* OLD CODE - DOES NOT WORK
     try {
       const response = await this.makeServiceCall(
         'octane.base.Base',
@@ -738,30 +865,27 @@ class OctaneClient {
       console.error(`Failed to get parameters for ${handle}:`, error)
       return []
     }
+    */
   }
 
-  async getNodeParameter(handle: string, type: number, paramName: string): Promise<any> {
-    const response = await this.makeServiceCall(
-      'octane.base.Base',
-      'GetNodeParameter',
-      { objectPtr: { handle, type }, parameterName: paramName }
-    )
-    return response.value
+  async getNodeParameter(_handle: string, _type: number, _paramName: string): Promise<any> {
+    console.warn('getNodeParameter() not yet implemented with correct API')
+    return null
   }
 
-  async setNodeParameter(handle: string, type: number, paramName: string, value: any): Promise<void> {
-    await this.makeServiceCall(
-      'octane.base.Base',
-      'SetNodeParameter',
-      { objectPtr: { handle, type }, parameterName: paramName, value }
-    )
+  async setNodeParameter(_handle: string, _type: number, _paramName: string, _value: any): Promise<void> {
+    console.warn('setNodeParameter() not yet implemented with correct API')
   }
 
   // ============================================================================
   // CALLBACK STREAMING (LIVE RENDERING)
+  // TODO: Implement using proxy's /octane/callback/register and /stream endpoints
   // ============================================================================
 
-  async registerCallback(callbackType: string, config: CallbackConfig = {}): Promise<string> {
+  async registerCallback(_callbackType: string, _config: CallbackConfig = {}): Promise<string> {
+    console.warn('registerCallback() not yet implemented - use direct /octane/callback/register endpoint')
+    return ''
+    /* TODO: Implement callback registration using HTTP endpoints
     const response = await this.makeServiceCall(
       'octane.callback.Callback',
       'RegisterCallback',
@@ -777,14 +901,11 @@ class OctaneClient {
     )
     
     return response.callbackId
+    */
   }
 
-  async unregisterCallback(callbackId: string): Promise<void> {
-    await this.makeServiceCall(
-      'octane.callback.Callback',
-      'UnregisterCallback',
-      { callbackId }
-    )
+  async unregisterCallback(_callbackId: string): Promise<void> {
+    console.warn('unregisterCallback() not yet implemented')
   }
 
   connectCallbackStream(
@@ -840,182 +961,103 @@ class OctaneClient {
 
   // ============================================================================
   // NODE GRAPH OPERATIONS
+  // TODO: Implement using ApiNode/pinCount, connectedNodeIx, pinInfoIx etc.
   // ============================================================================
 
-  async getNodeInputs(handle: string, type: number): Promise<any[]> {
-    try {
-      const response = await this.makeServiceCall(
-        'octane.nodegraph.NodeGraph',
-        'GetNodeInputs',
-        { objectPtr: { handle, type } }
-      )
-      return response.inputs || []
-    } catch (error) {
-      return []
-    }
+  async getNodeInputs(_handle: string, _type: number): Promise<any[]> {
+    console.warn('getNodeInputs() not yet implemented with correct API')
+    return []
   }
 
-  async getNodeOutputs(handle: string, type: number): Promise<any[]> {
-    try {
-      const response = await this.makeServiceCall(
-        'octane.nodegraph.NodeGraph',
-        'GetNodeOutputs',
-        { objectPtr: { handle, type } }
-      )
-      return response.outputs || []
-    } catch (error) {
-      return []
-    }
+  async getNodeOutputs(_handle: string, _type: number): Promise<any[]> {
+    console.warn('getNodeOutputs() not yet implemented with correct API')
+    return []
   }
 
-  async getNodeConnections(handle: string, type: number): Promise<any[]> {
-    try {
-      const response = await this.makeServiceCall(
-        'octane.nodegraph.NodeGraph',
-        'GetNodeConnections',
-        { objectPtr: { handle, type } }
-      )
-      return response.connections || []
-    } catch (error) {
-      return []
-    }
+  async getNodeConnections(_handle: string, _type: number): Promise<any[]> {
+    console.warn('getNodeConnections() not yet implemented with correct API')
+    return []
   }
 
   async connectNodes(
-    sourceHandle: string,
-    sourceType: number,
-    sourcePin: string,
-    targetHandle: string,
-    targetType: number,
-    targetPin: string
+    _sourceHandle: string,
+    _sourceType: number,
+    _sourcePin: string,
+    _targetHandle: string,
+    _targetType: number,
+    _targetPin: string
   ): Promise<void> {
-    await this.makeServiceCall(
-      'octane.nodegraph.NodeGraph',
-      'ConnectNodes',
-      {
-        source: { handle: sourceHandle, type: sourceType },
-        sourcePin,
-        target: { handle: targetHandle, type: targetType },
-        targetPin
-      }
-    )
+    console.warn('connectNodes() not yet implemented with correct API')
   }
 
-  async disconnectNodes(connectionId: string): Promise<void> {
-    await this.makeServiceCall(
-      'octane.nodegraph.NodeGraph',
-      'DisconnectNodes',
-      { connectionId }
-    )
+  async disconnectNodes(_connectionId: string): Promise<void> {
+    console.warn('disconnectNodes() not yet implemented with correct API')
   }
 
   // ============================================================================
-  // NODE CREATION/DELETION (Legacy - use ApiNode/create instead)
+  // NODE CREATION/DELETION
+  // TODO: Implement delete and duplicate when needed
   // ============================================================================
 
-  // Note: Removed duplicate createNode - use the ApiNode/create version instead
-
-  async deleteNode(handle: string, type: number): Promise<void> {
-    await this.makeServiceCall(
-      'octane.base.Base',
-      'DeleteNode',
-      { objectPtr: { handle, type } }
-    )
+  async deleteNode(_handle: string, _type: number): Promise<void> {
+    console.warn('deleteNode() not yet implemented with correct API')
   }
 
-  async duplicateNode(handle: string, type: number): Promise<string> {
-    const response = await this.makeServiceCall(
-      'octane.base.Base',
-      'DuplicateNode',
-      { objectPtr: { handle, type } }
-    )
-    return response.handle
+  async duplicateNode(_handle: string, _type: number): Promise<string> {
+    console.warn('duplicateNode() not yet implemented with correct API')
+    return ''
   }
 
   // ============================================================================
   // FILE OPERATIONS
+  // Already correct: loadProject, saveProject use ApiProjectManager (implemented above)
+  // TODO: Import/Export when needed
   // ============================================================================
 
   async loadOrbx(filePath: string): Promise<void> {
-    await this.makeServiceCall(
-      'octane.file.File',
-      'LoadOrbx',
-      { filePath }
-    )
+    console.warn('loadOrbx() - use loadProject() instead')
+    await this.loadProject(filePath)
   }
 
   async saveOrbx(filePath: string): Promise<void> {
-    await this.makeServiceCall(
-      'octane.file.File',
-      'SaveOrbx',
-      { filePath }
-    )
+    console.warn('saveOrbx() - use saveProjectAs() instead')
+    await this.saveProjectAs(filePath)
   }
 
-  async importObj(filePath: string): Promise<string> {
-    const response = await this.makeServiceCall(
-      'octane.file.File',
-      'ImportObj',
-      { filePath }
-    )
-    return response.handle
+  async importObj(_filePath: string): Promise<string> {
+    console.warn('importObj() not yet implemented with correct API')
+    return ''
   }
 
-  async exportImage(filePath: string, width: number, height: number): Promise<void> {
-    await this.makeServiceCall(
-      'octane.file.File',
-      'ExportImage',
-      { filePath, width, height }
-    )
+  async exportImage(_filePath: string, _width: number, _height: number): Promise<void> {
+    console.warn('exportImage() not yet implemented with correct API')
   }
 
   // ============================================================================
-  // RENDER CONTROL
+  // RENDER CONTROL - These should use ApiRenderEngine (already implemented above)
+  // Keeping these as convenience wrappers
   // ============================================================================
 
   async startRender(): Promise<void> {
-    await this.makeServiceCall(
-      'octane.render.Render',
-      'StartRender',
-      {}
-    )
+    console.warn('startRender() - Octane renders continuously, use restartRendering() instead')
+    await this.restartRendering()
   }
 
   async stopRender(): Promise<void> {
-    await this.makeServiceCall(
-      'octane.render.Render',
-      'StopRender',
-      {}
-    )
+    await this.stopRendering()
   }
 
   async pauseRender(): Promise<void> {
-    await this.makeServiceCall(
-      'octane.render.Render',
-      'PauseRender',
-      {}
-    )
+    await this.pauseRendering()
   }
 
   async resumeRender(): Promise<void> {
-    await this.makeServiceCall(
-      'octane.render.Render',
-      'ResumeRender',
-      {}
-    )
+    await this.continueRendering()
   }
 
   async getRenderProgress(): Promise<number> {
-    try {
-      const response = await this.makeServiceCall(
-        'octane.render.Render',
-        'GetRenderProgress',
-        {}
-      )
-      return response.progress || 0
-    } catch (error) {
-      return 0
-    }
+    console.warn('getRenderProgress() not yet implemented with correct API')
+    return 0
   }
 
   // ============================================================================

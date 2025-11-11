@@ -33,8 +33,8 @@ export const useSceneStore = create<SceneStore>((set, get) => ({
     try {
       console.log('🔄 Loading scene from Octane...')
       
-      const rootHandle = await octaneClient.getRootNode()
-      const sceneTree = await octaneClient.syncScene(rootHandle)
+      // syncScene() now handles getting the root internally
+      const sceneTree = await octaneClient.syncScene()
       
       set({
         nodes: sceneTree,

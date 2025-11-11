@@ -18,14 +18,6 @@ function AppContent() {
   const { isConnected, isConnecting, connect, disconnect, error } = useConnectionStore()
   const [showConnectDialog, setShowConnectDialog] = useState(!isConnected)
 
-  // Auto-connect on mount
-  useEffect(() => {
-    console.log('🚀 OctaneWeb2 starting...')
-    if (!isConnected) {
-      handleConnect()
-    }
-  }, [])
-
   const handleConnect = async () => {
     setShowConnectDialog(false)
     const success = await connect()
@@ -33,6 +25,15 @@ function AppContent() {
       setShowConnectDialog(true)
     }
   }
+
+  // Auto-connect on mount
+  useEffect(() => {
+    console.log('🚀 OctaneWeb2 starting...')
+    if (!isConnected) {
+      handleConnect()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   if (showConnectDialog && !isConnected) {
     return (

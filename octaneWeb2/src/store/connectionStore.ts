@@ -31,6 +31,7 @@ export const useConnectionStore = create<ConnectionState>((set, get) => ({
       const success = await octaneClient.connect()
       
       if (success) {
+        // Get placeholder server info (actual API doesn't exist, matching octaneWeb)
         const serverInfo = await octaneClient.getServerInfo()
         
         set({
@@ -43,7 +44,7 @@ export const useConnectionStore = create<ConnectionState>((set, get) => ({
         })
         
         emitEvent('connection:connected', { serverUrl })
-        console.log('✅ Connected to Octane:', serverInfo)
+        console.log('✅ Connected to Octane LiveLink')
         return true
       } else {
         set({

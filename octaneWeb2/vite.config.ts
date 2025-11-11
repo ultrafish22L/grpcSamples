@@ -10,10 +10,11 @@ process.env.NODE_OPTIONS = '--dns-result-order=ipv4first'
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 42219,
+    port: 41604,
     host: '0.0.0.0',
     cors: true,
     strictPort: false,
+    allowedHosts: ['localhost', '127.0.0.1'],
     proxy: {
       // Proxy /api requests to Python proxy server (avoids CORS issues)
       // Browser: /api/rpc/... → Vite proxy → Python proxy (51023) → Octane (51022)

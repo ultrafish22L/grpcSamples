@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSceneStore } from '../../store/sceneStore'
 import { useConnectionStore } from '../../store/connectionStore'
-import { SceneNode, octaneClient } from '../../api/octaneClient'
+import { SceneNode } from '../../api/octaneClient'
 import { 
   NodeType, 
   NT_PROJECT, NT_CAMERA, NT_MESH, NT_SCATTERER,
@@ -39,7 +39,7 @@ export const SceneOutliner: React.FC<SceneOutlinerProps> = ({ className = '' }) 
     } else {
       clearScene()
     }
-  }, [isConnected])
+  }, [isConnected, loadScene, clearScene])
 
   // Listen for connection events
   useEffect(() => {
@@ -49,7 +49,7 @@ export const SceneOutliner: React.FC<SceneOutlinerProps> = ({ className = '' }) 
     })
     
     return cleanup
-  }, [])
+  }, [loadScene])
 
   const handleNodeClick = (nodeId: string) => {
     selectNode(nodeId)
@@ -60,10 +60,16 @@ export const SceneOutliner: React.FC<SceneOutlinerProps> = ({ className = '' }) 
     
     try {
       const newVisible = !node.visible
-      await octaneClient.setNodeVisible(node.handle, node.objectType, newVisible)
-      node.visible = newVisible
+      // TODO: Implement setNodeVisible when needed
+      console.log(`Toggle visibility for ${node.name}: ${newVisible}`)
+      
+      // Update the node immutably
+      const updatedNodes = nodes.map(n => 
+        n.id === node.id ? { ...n, visible: newVisible } : n
+      )
+      
       // Force re-render by updating the store
-      useSceneStore.setState({ nodes: [...nodes] })
+      useSceneStore.setState({ nodes: updatedNodes })
     } catch (error) {
       console.error('Failed to toggle visibility:', error)
     }

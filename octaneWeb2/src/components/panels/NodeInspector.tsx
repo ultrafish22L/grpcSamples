@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSceneStore } from '../../store/sceneStore';
 import { useConnectionStore } from '../../store/connectionStore';
 import { octaneClient, SceneNode } from '../../api/octaneClient';
@@ -32,28 +32,18 @@ export const NodeInspector: React.FC<NodeInspectorProps> = ({ className = '' }) 
   const { selectedNode } = useSceneStore();
   const { isConnected } = useConnectionStore();
 
-  // Load node parameters when selection changes
-  useEffect(() => {
-    if (isConnected && selectedNode) {
-      loadNodeParameters(selectedNode);
-    } else {
-      setParameterGroups([]);
-      setNodeName('');
-    }
-  }, [isConnected, selectedNode]);
-
-  const loadNodeParameters = async (node: SceneNode) => {
+  const loadNodeParameters = useCallback(async (node: SceneNode) => {
     setLoading(true);
     try {
       const handle = node.handle;
       
       // Get node info
-      const nodeInfo = await octaneClient.getNodeInfo(handle, node.objectType);
+      const nodeInfo = await octaneClient.getNodeInfo(handle);
       if (nodeInfo) {
         setNodeName(nodeInfo.name || `Node ${handle}`);
       }
       
-      // Get node parameters
+      // Get node parameters (not yet implemented)
       const params = await octaneClient.getNodeParameters(handle, node.objectType);
       
       // For now, show empty state - parameters will be implemented later
@@ -67,7 +57,17 @@ export const NodeInspector: React.FC<NodeInspectorProps> = ({ className = '' }) 
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  // Load node parameters when selection changes
+  useEffect(() => {
+    if (isConnected && selectedNode) {
+      loadNodeParameters(selectedNode);
+    } else {
+      setParameterGroups([]);
+      setNodeName('');
+    }
+  }, [isConnected, selectedNode, loadNodeParameters]);
 
   // No mock data - show real data only
   const mockGroups: ParameterGroup[] = [];

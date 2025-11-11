@@ -47,6 +47,30 @@ from callback_streamer import get_callback_streamer, initialize_callback_system
 # Add generated directory to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'generated'))
 
+def get_debug_logs_dir(request=None):
+    """
+    Determine which app is calling and return appropriate debug_logs directory.
+    Checks User-Agent, Referer, or Origin headers to detect octaneWeb vs octaneWeb2.
+    Defaults to octaneWeb2 for new development.
+    """
+    app_name = 'octaneWeb2'  # Default to new app
+    
+    if request:
+        # Check headers to determine source
+        referer = request.headers.get('Referer', '')
+        origin = request.headers.get('Origin', '')
+        user_agent = request.headers.get('User-Agent', '')
+        
+        # If request contains 'octaneWeb' (not octaneWeb2) in path, use old directory
+        if ('octaneWeb/' in referer or '/octaneWeb/' in referer) and 'octaneWeb2' not in referer:
+            app_name = 'octaneWeb'
+        elif 'octaneWeb2' in referer or 'octaneWeb2' in origin:
+            app_name = 'octaneWeb2'
+    
+    logs_dir = os.path.join(os.path.dirname(__file__), '..', app_name, 'debug_logs')
+    os.makedirs(logs_dir, exist_ok=True)
+    return logs_dir
+
 def get_enum_value(enum_name):
     """Get the integer value for an enum name from octaneenums_pb2"""
     try:
@@ -382,9 +406,8 @@ async def handle_append_debug_log(request):
         log_entry = data.get('logEntry', '')
         timestamp = data.get('timestamp', datetime.now().isoformat())
         
-        # Create logs directory if it doesn't exist
-        logs_dir = os.path.join(os.path.dirname(__file__), '..', 'octaneWeb', 'debug_logs')
-        os.makedirs(logs_dir, exist_ok=True)
+        # Get appropriate logs directory based on caller
+        logs_dir = get_debug_logs_dir(request)
         
         # Create filename
         filename = f"octane-debug-{session_id}.log"
