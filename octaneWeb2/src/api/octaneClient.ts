@@ -1,4 +1,4 @@
-import { NodeType } from '../constants/octaneTypes'
+import { NodeType, ObjectType } from '../constants/octaneTypes'
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -187,13 +187,25 @@ class OctaneClient {
     const startTime = performance.now()
     this.callCount++
     
+    // Convert handle to objectPtr if service requires it
+    // Following octaneWeb pattern: service name maps to ObjectType enum
+    const requestParams = { ...params }
+    if (requestParams.handle && service in ObjectType) {
+      const objectType = (ObjectType as any)[service]
+      requestParams.objectPtr = {
+        handle: requestParams.handle,
+        type: objectType
+      }
+      delete requestParams.handle
+    }
+    
     try {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(params),
+        body: JSON.stringify(requestParams),
       })
 
       if (!response.ok) {
