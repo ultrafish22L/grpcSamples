@@ -12,6 +12,7 @@ class NodeGraphEditor extends OctaneComponent {
         this.nodes = new Map();
         this.outputs = new Map();
         this.connections = new Map();
+        this.connectionsIn = new Map();
         this.selectedNodes = new Set();
         this.viewport = { x: 0, y: 0, zoom: 1 };
         this.isDragging = false;
@@ -30,6 +31,46 @@ class NodeGraphEditor extends OctaneComponent {
             socket: null
         };
         this.hoveredSocket = null;
+    }
+    
+    createDepthLimitedReplacer(maxDepth) {
+      let depth = 0;
+      return function(key, value) {
+        if (typeof value === 'object' && value !== null) {
+          if (depth >= maxDepth) {
+            return undefined; // Omit properties beyond the max depth
+          }
+          depth++;
+          // Important: Decrement depth after processing nested objects/arrays
+          // to ensure correct depth tracking for subsequent siblings.
+          const result = value;
+          depth--; 
+          return result;
+        }
+        return value; // Return primitive values as is
+      };
+    }
+
+    dumpJson(message, obj, depth = 1) {
+        // recursion limited by depth arg
+        if (!obj || typeof obj !== 'object') return JSON.stringify(obj)
+
+        let curDepthResult = '"<?>"' // too deep
+        if (depth > 0) {
+            curDepthResult = Object.keys(obj)
+                .map( (key) => {
+                    let val = stringifyMaxDepth(obj[key], depth - 1)
+                    if (val === undefined) val = 'null'
+                    return `"${key}": ${val}`
+                })
+                .join(', ')
+            curDepthResult = `{${curDepthResult}}`
+        }
+        console.log(message, JSON.stringify(JSON.parse(curDepthResult), null, 2));
+    }
+
+    dumpJson(message, obj, depth) {
+        console.log(message, JSON.stringify(obj, depth ? this.createDepthLimitedReplacer(depth) : null, 2));
     }
     
     async onInitialize() {
@@ -292,9 +333,9 @@ class NodeGraphEditor extends OctaneComponent {
             this.ctx.moveTo(this.lastMouse.x, this.lastMouse.y);
             
             // Vertical bezier curve (top to bottom connections)
-            const controlOffset = 50 / this.viewport.zoom;
+            const controlOffset = (40 / this.viewport.zoom) * (this.dragSocket.type == "output" ? -1 : 1);
             this.ctx.bezierCurveTo(
-                this.lastMouse.x, this.lastMouse.y + controlOffset,
+                this.lastMouse.x, this.lastMouse.y + controlOffset / 2,
                 pos.x, pos.y - controlOffset,
                 pos.x, pos.y
             );
@@ -328,7 +369,7 @@ class NodeGraphEditor extends OctaneComponent {
         this.ctx.moveTo(outputPos.x, outputPos.y);
         
         // Vertical bezier curve (top to bottom connections)
-        const controlOffset = 50 / this.viewport.zoom;
+        const controlOffset = 40 / this.viewport.zoom;
         this.ctx.bezierCurveTo(
             outputPos.x, outputPos.y + controlOffset,
             inputPos.x, inputPos.y - controlOffset,
@@ -614,12 +655,26 @@ class NodeGraphEditor extends OctaneComponent {
             x: (e.clientX - rect.left - this.viewport.x) / this.viewport.zoom,
             y: (e.clientY - rect.top - this.viewport.y) / this.viewport.zoom
         };
+        this.lastMouse = mousePos;
+
         if (this.hoveredSocket) {
-            const connect = this.connections[this.hoveredSocket.socket.handle];
-            if (connect) {
-                this.connections.delete(this.hoveredSocket.socket.handle);
+            this.dumpJson("mouseDown hoveredSocket", this.hoveredSocket, 1);
+
+            let connectOut = null;
+            let connect = null;
+            if (this.hoveredSocket.type == "input") {
+                connect = this.connectionsIn[{input:this.hoveredSocket.socket.handle, pinIx:this.hoveredSocket.socket.pinInfo.ix}];
             }
-            this.isDragging = true;
+            else
+            {
+                connect = this.hoveredSocket.node.nodeData.handle;
+            }
+            connectOut = this.connections[connect];
+
+            if (connectOut) {
+                this.connections.delete(connect);
+                this.connectionsIn.delete({input:connectOut.input, pinIx:connectOut.pinIx});
+            }
             this.dragTarget = "socket";
             this.dragSocket = this.hoveredSocket;
             this.hoveredSocket = null;
@@ -648,7 +703,6 @@ class NodeGraphEditor extends OctaneComponent {
                 this.dragTarget = 'viewport';
             }
         }
-        this.lastMouse = mousePos;
         this.lastMousePos = { x: e.clientX, y: e.clientY };
     }
     
@@ -659,6 +713,7 @@ class NodeGraphEditor extends OctaneComponent {
             x: (e.clientX - rect.left - this.viewport.x) / this.viewport.zoom,
             y: (e.clientY - rect.top - this.viewport.y) / this.viewport.zoom
         };
+        this.lastMouse = mousePos;            
 
         // Handle dragging
         if (this.isDragging) {
@@ -674,7 +729,6 @@ class NodeGraphEditor extends OctaneComponent {
                 this.dragTarget.x += deltaX / this.viewport.zoom;
                 this.dragTarget.y += deltaY / this.viewport.zoom;
             }
-            this.lastMouse = mousePos;            
             this.lastMousePos = { x: e.clientX, y: e.clientY };
         }
         else {
@@ -755,6 +809,13 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     handleMouseUp(e) {
+
+        if (this.dragSocket) {
+            console.log("dragSocket mouseUp");
+            if (this.hoveredSocket) {
+                console.log("dragSocket hoveredSocket", this.hoveredSocket.node.pinInfo?.staticLabel);
+            }
+        }
         this.isDragging = false;
         this.dragTarget = null;
         this.dragSocket = null;        
@@ -1003,6 +1064,8 @@ class NodeGraphEditor extends OctaneComponent {
                     pinInfo: connect.pinInfo,
                     output: output,
                 });
+            this.connectionsIn.set({input:input, pinIx:connect.pinInfo.ix}, output.nodeData.handle);
+
             console.log('createConnections: ', output.nodeData.name, output.nodeData.handle, '->', input.nodeData.name, input.nodeData.handle, connect.pinInfo.ix);
         });
         this.connections.forEach((connect) => { 
