@@ -15,7 +15,9 @@ class NodeGraphEditor extends OctaneComponent {
         this.selectedNodes = new Set();
         this.viewport = { x: 0, y: 0, zoom: 1 };
         this.isDragging = false;
+        this.isDraggingConnection = false;
         this.dragTarget = null;
+        this.dragSocket = null;
         this.lastMousePos = { x: 0, y: 0 };
         this.contextMenu = null;
         
@@ -44,7 +46,7 @@ class NodeGraphEditor extends OctaneComponent {
             if (this.canvas.width > 0 && this.canvas.height > 0) {
                 this.startRenderLoop();
             } else {
-                console.log(' Canvas not ready, forcing resize and starting render loop');
+                console.log('Canvas not ready, forcing resize and starting render loop');
                 this.handleResize();
                 setTimeout(() => this.startRenderLoop(), 100);
             }
@@ -277,6 +279,28 @@ class NodeGraphEditor extends OctaneComponent {
         this.connections?.forEach(connection => {
             this.drawConnection(connection);
         });
+        if (this.dragSocket) {
+            const pos = { x: this.dragSocket.x, y: this.dragSocket.y };
+            
+            // Connection color based on data type
+            let connectionColor = window.OctaneIconMapper.formatColorValue(this.dragSocket.node.pinInfo?.pinColor) || '#666';
+
+            this.ctx.strokeStyle = false ? '#4a90e2' : connectionColor;
+            this.ctx.lineWidth = 2 / this.viewport.zoom;
+            
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.lastMouse.x, this.lastMouse.y);
+            
+            // Vertical bezier curve (top to bottom connections)
+            const controlOffset = 50 / this.viewport.zoom;
+            this.ctx.bezierCurveTo(
+                this.lastMouse.x, this.lastMouse.y + controlOffset,
+                pos.x, pos.y - controlOffset,
+                pos.x, pos.y
+            );
+            
+            this.ctx.stroke();            
+        }
     }
     
     drawConnection(connection) {
@@ -584,43 +608,58 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     handleMouseDown(e) {
+
         const rect = this.canvas.getBoundingClientRect();
         const mousePos = {
             x: (e.clientX - rect.left - this.viewport.x) / this.viewport.zoom,
             y: (e.clientY - rect.top - this.viewport.y) / this.viewport.zoom
         };
-        
-        // Check for node hit
-        const hitNode = this.getNodeAtPosition(mousePos.x, mousePos.y);
-        
-        if (hitNode) {
-            this.isDragging = true;
-            this.dragTarget = hitNode;
-            
-            if (!e.ctrlKey && !e.metaKey) {
-                this.selectedNodes.clear();
+        if (this.hoveredSocket) {
+            const connect = this.connections[this.hoveredSocket.socket.handle];
+            if (connect) {
+                this.connections.delete(this.hoveredSocket.socket.handle);
             }
-            this.selectedNodes.add(hitNode.id);
-            
-            // Emit unified selection event with handle only
-            this.eventSystem.emit('sceneNodeSelected', hitNode.nodeData.handle);
-            
-            console.log('NodeGraphEditor selected node:', hitNode.nodeData.name);
-
-        } else {
-            // Pan viewport
             this.isDragging = true;
-            this.dragTarget = 'viewport';
+            this.dragTarget = "socket";
+            this.dragSocket = this.hoveredSocket;
+            this.hoveredSocket = null;
         }
-        
+        else {
+            // Check for node hit
+            const hitNode = this.getNodeAtPosition(mousePos.x, mousePos.y);
+            
+            if (hitNode) {
+                this.isDragging = true;
+                this.dragTarget = hitNode;
+                
+                if (!e.ctrlKey && !e.metaKey) {
+                    this.selectedNodes.clear();
+                }
+                this.selectedNodes.add(hitNode.id);
+                
+                // Emit unified selection event with handle only
+                this.eventSystem.emit('sceneNodeSelected', hitNode.nodeData.handle);
+                
+                console.log('NodeGraphEditor selected node:', hitNode.nodeData.name);
+
+            } else {
+                // Pan viewport
+                this.isDragging = true;
+                this.dragTarget = 'viewport';
+            }
+        }
+        this.lastMouse = mousePos;
         this.lastMousePos = { x: e.clientX, y: e.clientY };
     }
     
     handleMouseMove(e) {
-        const rect = this.canvas.getBoundingClientRect();
-        const mouseX = (e.clientX - rect.left - this.viewport.x) / this.viewport.zoom;
-        const mouseY = (e.clientY - rect.top - this.viewport.y) / this.viewport.zoom;
         
+        const rect = this.canvas.getBoundingClientRect();
+        const mousePos = {
+            x: (e.clientX - rect.left - this.viewport.x) / this.viewport.zoom,
+            y: (e.clientY - rect.top - this.viewport.y) / this.viewport.zoom
+        };
+
         // Handle dragging
         if (this.isDragging) {
             const deltaX = e.clientX - this.lastMousePos.x;
@@ -629,16 +668,17 @@ class NodeGraphEditor extends OctaneComponent {
             if (this.dragTarget === 'viewport') {
                 this.viewport.x += deltaX;
                 this.viewport.y += deltaY;
-            } else if (this.dragTarget && typeof this.dragTarget === 'object') {
+            }
+            else if (this.dragTarget && typeof this.dragTarget === 'object') {
                 // Move node
                 this.dragTarget.x += deltaX / this.viewport.zoom;
                 this.dragTarget.y += deltaY / this.viewport.zoom;
             }
-            
+            this.lastMouse = mousePos;            
             this.lastMousePos = { x: e.clientX, y: e.clientY };
-        } else {
-            // Handle socket hover detection for tooltips
-            this.updateSocketHover(mouseX, mouseY, e.clientX, e.clientY);
+        }
+        else {
+            this.updateSocketHover(mousePos.x, mousePos.y, e.clientX, e.clientY);
         }
     }
     
@@ -717,6 +757,7 @@ class NodeGraphEditor extends OctaneComponent {
     handleMouseUp(e) {
         this.isDragging = false;
         this.dragTarget = null;
+        this.dragSocket = null;        
     }
     
     handleWheel(e) {
