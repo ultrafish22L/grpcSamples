@@ -39,7 +39,7 @@ from google.protobuf.json_format import MessageToDict, ParseDict
 from google.protobuf.message import Message
 from google.protobuf.empty_pb2 import Empty
 
-DO_LOGGING_LEVEL = 3
+DO_LOGGING_LEVEL = 2
 
 # Import callback streaming system
 from callback_streamer import get_callback_streamer, initialize_callback_system
@@ -555,7 +555,7 @@ def recurse_attr(grpc_request, key, value):
                     else:
                         # Handle primitive types
                         if isinstance(nested_attr, bool):
-                            if DO_LOGGING_LEVEL > 1:
+                            if DO_LOGGING_LEVEL > 2:
                                 print(f"settattr: {attr} {nested_key}")
                             setattr(attr, nested_key, bool(nested_value))
                         elif isinstance(nested_attr, int) or nested_key == "handle" or hasattr(nested_attr, '__class__') and 'enum' in str(type(nested_attr)).lower():
@@ -579,7 +579,7 @@ def recurse_attr(grpc_request, key, value):
                 setattr(grpc_request, key, value)
         else:
             # Handle primitive values
-            if DO_LOGGING_LEVEL > 1:
+            if DO_LOGGING_LEVEL > 2:
                 print(f"settattr: {grpc_request} {key} {value}")
             if isinstance(attr, bool):
                 setattr(grpc_request, key, bool(value))
@@ -647,7 +647,7 @@ async def handle_generic_grpc(request):
         if request_data:
             for key, value in request_data.items():
                 if not recurse_attr(grpc_request, key, value):
-                    if DO_LOGGING_LEVEL > 1:
+                    if DO_LOGGING_LEVEL > 2:
                         print(f"REQUEST KEY: {key}")
                         print(f"Name: {grpc_request.DESCRIPTOR.name}")
                         print(f"Full Name: {grpc_request.DESCRIPTOR.full_name}")
@@ -662,7 +662,7 @@ async def handle_generic_grpc(request):
 
         # Make the gRPC call
         if DO_LOGGING_LEVEL > 1 and request_data:
-            print(f"req:  {grpc_request}")        
+            print(f"REQU:  {grpc_request}")        
         response = await method(grpc_request)
 
         # Convert response to dict
@@ -672,10 +672,10 @@ async def handle_generic_grpc(request):
             proxy.success_count += 1
             success = True
             if DO_LOGGING_LEVEL > 1 and response != Empty():
-                print(f"resp: {response}")
+                print(f"RESP: {response}")
         else:
             print(f"❌ Error handle_generic_grpc(): no response dict")
-            print(f"resp: {response}")
+            print(f"RESP: {response}")
 
         return web.json_response({
             'success': success,

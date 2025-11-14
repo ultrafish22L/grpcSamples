@@ -68,11 +68,6 @@ class NodeInspector extends OctaneComponent {
             this.updateSelectedNode(handle);
         });
         
-        // Listen for scene node deletion (unified event for all components)
-        this.eventSystem.on('sceneNodeDeteted', (handle) => {
-            this.updateSelectedDeleted(handle);
-        });
-
         // Listen for node parameter updates
         window.octaneClient.on('nodeParameterUpdate', (data) => {
             this.updateParameter(data.nodeId, data.parameterName, data.value);
@@ -244,12 +239,9 @@ class NodeInspector extends OctaneComponent {
      * GENERIC: Render parameter inspector using GenericNodeRenderer
      */
     renderNodesRecurse(nodeData) {
-        if (!nodeData) {
-//            console.warn('Failed NodeInspector.renderNodesRecurse() : nodeData == null');
-            return;
+        if (nodeData) {
+            console.log(`NodeInspector.renderNodesRecurse() ${nodeData.name} ${nodeData.outType}`);
         }
-        console.log(`NodeInspector.renderNodesRecurse() ${nodeData.name} ${nodeData.outType}`);
-
         const html = this.genericRenderer.renderNode(nodeData);
 //        const html = this.renderNode(nodeData);
         
@@ -257,7 +249,6 @@ class NodeInspector extends OctaneComponent {
         const inspectorContainer = document.getElementById('node-inspector');
         if (inspectorContainer) {
             inspectorContainer.innerHTML = html;
-//            this.genericRenderer.setupEventHandlers(inspectorContainer);
         } else {
             console.error('❌ Failed NodeInspector.renderNodesRecurse()');
         }

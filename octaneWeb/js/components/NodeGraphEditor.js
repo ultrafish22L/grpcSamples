@@ -79,18 +79,36 @@ class NodeGraphEditor extends OctaneComponent {
     }
     
     setupEventListeners() {
-        // Listen for scene node selection (unified event for all components)
-        this.eventSystem.on('sceneNodeSelected', (handle) => {
-            this.updateSelectedNode(handle);
-        });
-        
         // Listen for scene data loaded from SceneOutliner
         this.eventSystem.on('sceneDataLoaded', (scene) => {
             console.log('NodeGraphEditor received sceneDataLoaded event:', scene.tree.length);
             this.createNodes(scene.tree);
             this.render();
         });
+
+        // Listen for scene node selection (unified event for all components)
+        this.eventSystem.on('sceneNodeSelected', (handle) => {
+
+            if (handle) {
+                this.updateSelectedNode(handle);
+            }
+            else {
+                this.selectedNodes.clear();
+            }
+        });
         
+        // Listen for scene node deletion
+        this.eventSystem.on('sceneNodeDeleted', (handle) => {
+            const node = this.nodes.get(handle);
+            if (node) {
+                window.octaneClient.removeItem(handle);
+
+                this.connections.delete(handle);
+                // Remove the node
+                this.nodes.delete(handle);
+            }
+        });
+
         // Mouse events
         this.addEventListener(this.canvas, 'mousedown', this.handleMouseDown.bind(this));
         this.addEventListener(this.canvas, 'mousemove', this.handleMouseMove.bind(this));
@@ -814,6 +832,10 @@ class NodeGraphEditor extends OctaneComponent {
 //                console.log("input", input.nodeData?.handle);
 //                console.log("output", output.nodeData?.handle);
 
+                if (!pinInfo) {
+                    console.log("handleMouseUp pinInfo == null");
+                    return;
+                }
                 const connect = this.connections.get(output.nodeData.handle);
                 if (connect) {
                     console.log("delete connect", connect.output.nodeData.handle, connect.input.nodeData.handle);
@@ -830,10 +852,10 @@ class NodeGraphEditor extends OctaneComponent {
                 this.connectionsIn.set({input:input, pinIx:pinInfo.ix}, output.nodeData.handle);
 
                 let response = window.octaneClient.makeApiCall('ApiNode/connectToIx',
-                    output.nodeData.handle, 
+                    input.nodeData.handle, 
                     {
                         pinIdx:pinInfo.ix,
-                        sourceNode: { handle:input.nodeData.handle, type:17},
+                        sourceNode: { handle:output.nodeData.handle, type:17},
                         evaluate:1,
                     }
                 );
@@ -935,25 +957,11 @@ class NodeGraphEditor extends OctaneComponent {
     
     async deleteSelected() {
         
-        for (const nodeId of this.selectedNodes) {
-            const node = this.nodes.get(nodeId);
-            if (node) {
-                window.octaneClient.removeItem(nodeId);
+        this.selectedNodes.forEach((handle) => {
 
-                this.connections.delete(nodeId);
-                // Remove the node
-                this.nodes.delete(nodeId);
-
-            }
-        }
-        this.selectedNodes.clear();
-
-        this.nodes.forEach((node) => {
-
-//            this.eventSystem.emit('sceneNodeSelected', node.nodeData.handle);
-            return;
+            this.eventSystem.emit('sceneNodeDeleted', handle);
         });
-//        this.eventSystem.emit('sceneNodeSelected', );
+        this.eventSystem.emit('sceneNodeSelected', null);
     }
     
     updateSelectedNode(handle) {
@@ -1263,7 +1271,10 @@ class NodeGraphEditor extends OctaneComponent {
                 'NT_TEX_SUBTRACT': { name: 'Subtract texture', color: '#20B2AA' },
                 'NT_TEX_GRADIENT': { name: 'Gradient texture', color: '#20B2AA' },
                 'NT_TEX_FALLOFF': { name: 'Falloff texture', color: '#20B2AA' }
-            }
+            },
+            'RenderTarget': {
+                'NT_RENDERTARGET': { name: 'Render Target', color: '#20B2AA' },
+            },
         };
     }
     

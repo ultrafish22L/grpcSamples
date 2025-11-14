@@ -189,12 +189,14 @@ function createOctaneWebClient() {
 
             let item;
             if (handle) {
-                this.syncSceneRecurse(handle, this.scene.tree);               
+                // will recurse to syncSceneRecurse()
+                item = this.addSceneItem(this.scene.tree, { handle:handle }, null, 1);
+                this.addItemChildren(this.scene.tree, item);               
                 this.isSyncing = false;
+                this.eventSystem.emit('sceneDataLoaded', this.scene);
                 item = this.lookupItem(handle);
             }
             else {
-//                this.scene = { tree: this.syncSceneRecurse(), map: new Map(), connections: new Map() }
                 this.syncSceneRecurse(null, this.scene.tree);
                 this.isSyncing = false;
                 this.eventSystem.emit('sceneDataLoaded', this.scene);
@@ -363,7 +365,7 @@ function createOctaneWebClient() {
 //                console.log(JSON.stringify(connectedNode, null, 2));
 
                 if (connectedNode == null) {
-                    continue;
+//                    continue;
                 }
 //                const topNode = this.lookupItem(connectedNode.handle, true);
 //                if (topNode) {
@@ -457,6 +459,7 @@ function createOctaneWebClient() {
                 this.scene.connections.set(existing.handle, connect);
                 console.log("Connect", connect.output.name, connect.output.handle, connect.pinInfo.staticLabel, "->", connect.input.name, connect.input.handle);
 
+                existing.pinInfo = pinInfo;
                 sceneItems.push(existing);
                 return;
             }
@@ -547,6 +550,7 @@ function createOctaneWebClient() {
                 this.addItemChildren(sceneItems, item)
             }
         }
+        return entry;
     }
 
     addItemChildren(sceneItems, item) { 

@@ -57,11 +57,11 @@ class SceneOutlinerSync {
         }
         // Listen for scene node selection (unified event for all components)
         this.eventSystem.on('sceneNodeSelected', (handle) => {
-            this.updateSelectedNode(handle);
+            this.updateNodeSelected(handle);
         });
         // Listen for scene node deletion (unified event for all components)
         this.eventSystem.on('sceneNodeDeteted', (handle) => {
-            this.updateSelectedDeleted(handle);
+            this.updateNodeDeleted(handle);
         });
         // Listen for scene data loaded from SceneOutliner
         this.eventSystem.on('sceneDataLoaded', (scene) => {
@@ -71,13 +71,15 @@ class SceneOutlinerSync {
     }
 
         // Unified selection function - called both on initialization and user clicks
-    updateSelectedDeleted(handle) {
+    updateNodeDeleted(handle) {
+
         this.render();
+        updateNodeSelected();
     }
 
 
     // Unified selection function - called both on initialization and user clicks
-    updateSelectedNode(handle) {
+    updateNodeSelected(handle) {
         
         // Update internal state
         this.selectedNodeHandle = handle;
@@ -87,11 +89,13 @@ class SceneOutlinerSync {
         if (treeContainer) {
             // Remove previous selection
             treeContainer.querySelectorAll('.tree-node').forEach(n => n.classList.remove('selected'));
-            
-            // Add selection to target node
-            const targetNode = treeContainer.querySelector(`[data-handle="${handle}"]`);
-            if (targetNode) {
-                targetNode.classList.add('selected');
+
+            if (handle) {
+                // Add selection to target node
+                const targetNode = treeContainer.querySelector(`[data-handle="${handle}"]`);
+                if (targetNode) {
+                    targetNode.classList.add('selected');
+                }
             }
         }
     }
