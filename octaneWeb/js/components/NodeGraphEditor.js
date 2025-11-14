@@ -780,6 +780,20 @@ class NodeGraphEditor extends OctaneComponent {
         return hoveredSocket.socket?.name || hoveredSocket.node?.nodeData?.name || "pin";
     }
     
+/*
+
+    // Request packet corresponding to '[in] parameters in ApiNode::connectToIx'
+    message connectToIxRequest
+    {
+        // ID of the object on which to call the method
+        ObjectRef objectPtr = 1;
+        uint32 pinIdx = 2;
+        ObjectRef sourceNode = 3;
+        bool evaluate = 4;
+        bool doCycleCheck = 5;
+    }
+*/
+
     handleMouseUp(e) {
 
         if (this.dragSocket) {
@@ -814,6 +828,19 @@ class NodeGraphEditor extends OctaneComponent {
                         output: output,
                     });
                 this.connectionsIn.set({input:input, pinIx:pinInfo.ix}, output.nodeData.handle);
+
+                let response = window.octaneClient.makeApiCall('ApiNode/connectToIx',
+                    output.nodeData.handle, 
+                    {
+                        pinIdx:pinInfo.ix,
+                        sourceNode: { handle:input.nodeData.handle, type:17},
+                        evaluate:1,
+                    }
+                );
+                console.log("ApiNode/connectToIx", JSON.stringify(response, null, 2));
+                if (!response.success) {
+                    console.log("createNodeFromType ApiNode/connectToIx failed");
+                }
             }
         }
         this.isDragging = false;
@@ -1330,24 +1357,30 @@ class NodeGraphEditor extends OctaneComponent {
         const worldX = (centerX - this.viewport.x) / this.viewport.zoom;
         const worldY = (centerY - this.viewport.y) / this.viewport.zoom;
         
-        console.log('World coordinates:', worldX, worldY);
-        console.log('Viewport:', JSON.stringify(this.viewport, null, 2));
-        console.log('Canvas size:', this.canvas.width, this.canvas.height);
-        console.log('Center calc:', centerX, centerY);
-        
         let response = window.octaneClient.makeApiCall('ApiProjectManager/rootNodeGraph');
-        const type = window.OctaneTypes.NodeType[nodeType];
-
+        if (!response.success) {
+            console.log("createNodeFromType ApiProjectManager/rootNodeGraph failed");
+            return;
+        }
         let owner = response.data.result;
         owner.type = window.OctaneTypes.NodeType[owner.type];
+        const type = window.OctaneTypes.NodeType[nodeType];
 
-        response = window.octaneClient.makeApiCallAsync('ApiNode/create', null, 
+        console.log("ApiNode/create", type, "owner", JSON.stringify(owner));
+
+        response = window.octaneClient.makeApiCall('ApiNode/create', 
             {
                 type:type,
-                ownerGraph:owner,
+                ownerGraph: owner,
                 configurePins:true,
             }
         );
+        console.log("ApiNode/create", JSON.stringify(response, null, 2));
+
+        if (!response.success) {
+            console.log("createNodeFromType ApiNode/create failed");
+            return;
+        }
         window.octaneClient.syncScene(response.data.result.handle);
     }
     

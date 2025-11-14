@@ -189,7 +189,7 @@ function createOctaneWebClient() {
 
             let item;
             if (handle) {
-                syncSceneRecurse(handle, this.scene.tree);               
+                this.syncSceneRecurse(handle, this.scene.tree);               
                 this.isSyncing = false;
                 item = this.lookupItem(handle);
             }
