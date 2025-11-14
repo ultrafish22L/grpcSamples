@@ -51,25 +51,7 @@ class NodeGraphEditor extends OctaneComponent {
       };
     }
 
-    dumpJson(message, obj, depth = 1) {
-        // recursion limited by depth arg
-        if (!obj || typeof obj !== 'object') return JSON.stringify(obj)
-
-        let curDepthResult = '"<?>"' // too deep
-        if (depth > 0) {
-            curDepthResult = Object.keys(obj)
-                .map( (key) => {
-                    let val = stringifyMaxDepth(obj[key], depth - 1)
-                    if (val === undefined) val = 'null'
-                    return `"${key}": ${val}`
-                })
-                .join(', ')
-            curDepthResult = `{${curDepthResult}}`
-        }
-        console.log(message, JSON.stringify(JSON.parse(curDepthResult), null, 2));
-    }
-
-    dumpJson(message, obj, depth) {
+    dumpJson(message, obj, depth = null) {
         console.log(message, JSON.stringify(obj, depth ? this.createDepthLimitedReplacer(depth) : null, 2));
     }
     
@@ -658,7 +640,13 @@ class NodeGraphEditor extends OctaneComponent {
         this.lastMouse = mousePos;
 
         if (this.hoveredSocket) {
-            this.dumpJson("mouseDown hoveredSocket", this.hoveredSocket, 1);
+            console.log("handleMouseDown hoveredSocket", 
+                this.hoveredSocket.socket?.name || this.hoveredSocket.node?.nodeData?.name || "name", 
+                this.hoveredSocket.socket?.handle || this.hoveredSocket.node?.nodeData?.handle || "handle",
+                this.hoveredSocket.socket?.pinInfo?.staticLabel || this.hoveredSocket.node?.nodeData?.pinInfo?.staticLabel || "pin",
+                this.hoveredSocket.socket?.pinInfo?.ix || this.hoveredSocket.node?.nodeData?.pinInfo?.ix || "pinIx",
+            );
+//            this.dumpJson("mouseDown hoveredSocket", this.hoveredSocket);
 
             let connectOut = null;
             let connect = null;
@@ -811,9 +799,72 @@ class NodeGraphEditor extends OctaneComponent {
     handleMouseUp(e) {
 
         if (this.dragSocket) {
-            console.log("dragSocket mouseUp");
+//            console.log(JSON.stringify(this.dragSocket, null, 2));
+            if (this.dragSocket.socket) {
+                console.log("handleMouseUp dragSocket socket", 
+                    this.dragSocket.socket?.name || this.dragSocket.node?.nodeData?.name || "name", 
+                    this.dragSocket.socket?.handle || this.dragSocket.node?.nodeData?.handle || "handle",
+                    this.dragSocket.socket?.pinInfo?.staticLabel || this.dragSocket.node?.nodeData?.pinInfo?.staticLabel || "pin",
+                    this.dragSocket.socket?.pinInfo?.ix || this.dragSocket.node?.nodeData?.pinInfo?.ix || "pinIx",
+                    this.dragSocket.type,
+                );
+            }
+            if (this.dragSocket.node) {
+                console.log("handleMouseUp dragSocket node", 
+                    this.dragSocket.socket?.name || this.dragSocket.node?.nodeData?.name || "name", 
+                    this.dragSocket.socket?.handle || this.dragSocket.node?.nodeData?.handle || "handle",
+                    this.dragSocket.socket?.pinInfo?.staticLabel || this.dragSocket.node?.nodeData?.pinInfo?.staticLabel || "pin",
+                    this.dragSocket.socket?.pinInfo?.ix || this.dragSocket.node?.nodeData?.pinInfo?.ix || "pinIx",
+                    this.dragSocket.type,
+                );
+
+            }
             if (this.hoveredSocket) {
-                console.log("dragSocket hoveredSocket", this.hoveredSocket.node.pinInfo?.staticLabel);
+                if (this.hoveredSocket.socket) {                
+                    console.log("handleMouseUp hoveredSocket socket", 
+                        this.hoveredSocket.socket?.name || this.hoveredSocket.node?.nodeData?.name || "name", 
+                        this.hoveredSocket.socket?.handle || this.hoveredSocket.node?.nodeData?.handle || "handle",
+                        this.hoveredSocket.socket?.pinInfo?.staticLabel || this.hoveredSocket.node?.nodeData?.pinInfo?.staticLabel || "pin",
+                        this.hoveredSocket.socket?.pinInfo?.ix || this.hoveredSocket.node?.nodeData?.pinInfo?.ix || "pinIx",
+                        this.hoveredSocket.type,
+                    );
+                }
+                if (this.hoveredSocket.node) {
+                    console.log("handleMouseUp hoveredSocket node", 
+                        this.hoveredSocket.socket?.name || this.hoveredSocket.node?.nodeData?.name || "name", 
+                        this.hoveredSocket.socket?.handle || this.hoveredSocket.node?.nodeData?.handle || "handle",
+                        this.hoveredSocket.socket?.pinInfo?.staticLabel || this.hoveredSocket.node?.nodeData?.pinInfo?.staticLabel || "pin",
+                        this.hoveredSocket.socket?.pinInfo?.ix || this.hoveredSocket.node?.nodeData?.pinInfo?.ix || "pinIx",
+                        this.hoveredSocket.type,
+                    );
+                }
+
+                let input;
+                let output;
+                let pinInfo;
+                if (this.dragSocket.type == "input") {
+                    input = this.dragSocket.node;
+                    output = this.hoveredSocket.node;
+                    pinInfo = this.dragSocket.socket?.pinInfo;
+                }
+                else {
+                    input =  this.hoveredSocket.node;
+                    output = this.dragSocket.node;
+                    pinInfo = this.hoveredSocket.socket?.pinInfo;
+                }
+                console.log("handleMouseUp input", JSON.stringify(input, null, 2));
+    //                this.dumpJson("handleMouseUp output", output);
+                console.log("input", input.nodeData?.handle);
+                console.log("output", output.nodeData?.handle);
+
+
+                this.connections.set(output.nodeData.handle, 
+                    {
+                        input: input,
+                        pinInfo: pinInfo,
+                        output: output,
+                    });
+                this.connectionsIn.set({input:input, pinIx:pinInfo.ix}, output.nodeData.handle);
             }
         }
         this.isDragging = false;

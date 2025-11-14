@@ -39,7 +39,7 @@ from google.protobuf.json_format import MessageToDict, ParseDict
 from google.protobuf.message import Message
 from google.protobuf.empty_pb2 import Empty
 
-DO_LOGGING_LEVEL = 0
+DO_LOGGING_LEVEL = 1
 
 # Import callback streaming system
 from callback_streamer import get_callback_streamer, initialize_callback_system
@@ -53,7 +53,7 @@ def get_debug_logs_dir(request=None):
     Checks User-Agent, Referer, or Origin headers to detect octaneWeb vs octaneWeb2.
     Defaults to octaneWeb2 for new development.
     """
-    app_name = 'octaneWeb2'  # Default to new app
+    app_name = 'octaneWeb'  # Default
     
     if request:
         # Check headers to determine source
@@ -444,7 +444,7 @@ async def handle_save_debug_logs(request):
         timestamp = data.get('timestamp', datetime.now().isoformat())
         
         # Create logs directory if it doesn't exist
-        logs_dir = os.path.join(os.path.dirname(__file__), '..', 'octaneWeb', 'debug_logs')
+        logs_dir = get_debug_logs_dir(request)
         os.makedirs(logs_dir, exist_ok=True)
         
         # Create filename
@@ -494,7 +494,7 @@ async def handle_get_debug_logs(request):
                 headers={'Access-Control-Allow-Origin': '*'}
             )
         
-        logs_dir = os.path.join(os.path.dirname(__file__), '..', 'octaneWeb', 'debug_logs')
+        logs_dir = get_debug_logs_dir(request)
         filename = f"octane-debug-{session_id}.log"
         filepath = os.path.join(logs_dir, filename)
         
@@ -905,9 +905,6 @@ async def main():
     await site.start()
     
     print(f"Proxy server running on http://0.0.0.0:{PROXY_PORT}")
-    print(f"Available endpoints:")
-    print(f"  GET /health - Health check")
-    print(f"  POST /ServiceName/methodName - json -> grpc -> Octane")
     print(f"Ready to proxy Octane services dynamically")
     
     # Keep server running
