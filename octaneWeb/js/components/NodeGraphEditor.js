@@ -640,29 +640,13 @@ class NodeGraphEditor extends OctaneComponent {
         this.lastMouse = mousePos;
 
         if (this.hoveredSocket) {
+            // drag a connection
             console.log("handleMouseDown hoveredSocket", 
                 this.hoveredSocket.socket?.name || this.hoveredSocket.node?.nodeData?.name || "name", 
                 this.hoveredSocket.socket?.handle || this.hoveredSocket.node?.nodeData?.handle || "handle",
                 this.hoveredSocket.socket?.pinInfo?.staticLabel || this.hoveredSocket.node?.nodeData?.pinInfo?.staticLabel || "pin",
                 this.hoveredSocket.socket?.pinInfo?.ix || this.hoveredSocket.node?.nodeData?.pinInfo?.ix || "pinIx",
             );
-//            this.dumpJson("mouseDown hoveredSocket", this.hoveredSocket);
-
-            let connectOut = null;
-            let connect = null;
-            if (this.hoveredSocket.type == "input") {
-                connect = this.connectionsIn[{input:this.hoveredSocket.socket.handle, pinIx:this.hoveredSocket.socket.pinInfo.ix}];
-            }
-            else
-            {
-                connect = this.hoveredSocket.node.nodeData.handle;
-            }
-            connectOut = this.connections[connect];
-
-            if (connectOut) {
-                this.connections.delete(connect);
-                this.connectionsIn.delete({input:connectOut.input, pinIx:connectOut.pinIx});
-            }
             this.dragTarget = "socket";
             this.dragSocket = this.hoveredSocket;
             this.hoveredSocket = null;
@@ -799,46 +783,7 @@ class NodeGraphEditor extends OctaneComponent {
     handleMouseUp(e) {
 
         if (this.dragSocket) {
-//            console.log(JSON.stringify(this.dragSocket, null, 2));
-            if (this.dragSocket.socket) {
-                console.log("handleMouseUp dragSocket socket", 
-                    this.dragSocket.socket?.name || this.dragSocket.node?.nodeData?.name || "name", 
-                    this.dragSocket.socket?.handle || this.dragSocket.node?.nodeData?.handle || "handle",
-                    this.dragSocket.socket?.pinInfo?.staticLabel || this.dragSocket.node?.nodeData?.pinInfo?.staticLabel || "pin",
-                    this.dragSocket.socket?.pinInfo?.ix || this.dragSocket.node?.nodeData?.pinInfo?.ix || "pinIx",
-                    this.dragSocket.type,
-                );
-            }
-            if (this.dragSocket.node) {
-                console.log("handleMouseUp dragSocket node", 
-                    this.dragSocket.socket?.name || this.dragSocket.node?.nodeData?.name || "name", 
-                    this.dragSocket.socket?.handle || this.dragSocket.node?.nodeData?.handle || "handle",
-                    this.dragSocket.socket?.pinInfo?.staticLabel || this.dragSocket.node?.nodeData?.pinInfo?.staticLabel || "pin",
-                    this.dragSocket.socket?.pinInfo?.ix || this.dragSocket.node?.nodeData?.pinInfo?.ix || "pinIx",
-                    this.dragSocket.type,
-                );
-
-            }
             if (this.hoveredSocket) {
-                if (this.hoveredSocket.socket) {                
-                    console.log("handleMouseUp hoveredSocket socket", 
-                        this.hoveredSocket.socket?.name || this.hoveredSocket.node?.nodeData?.name || "name", 
-                        this.hoveredSocket.socket?.handle || this.hoveredSocket.node?.nodeData?.handle || "handle",
-                        this.hoveredSocket.socket?.pinInfo?.staticLabel || this.hoveredSocket.node?.nodeData?.pinInfo?.staticLabel || "pin",
-                        this.hoveredSocket.socket?.pinInfo?.ix || this.hoveredSocket.node?.nodeData?.pinInfo?.ix || "pinIx",
-                        this.hoveredSocket.type,
-                    );
-                }
-                if (this.hoveredSocket.node) {
-                    console.log("handleMouseUp hoveredSocket node", 
-                        this.hoveredSocket.socket?.name || this.hoveredSocket.node?.nodeData?.name || "name", 
-                        this.hoveredSocket.socket?.handle || this.hoveredSocket.node?.nodeData?.handle || "handle",
-                        this.hoveredSocket.socket?.pinInfo?.staticLabel || this.hoveredSocket.node?.nodeData?.pinInfo?.staticLabel || "pin",
-                        this.hoveredSocket.socket?.pinInfo?.ix || this.hoveredSocket.node?.nodeData?.pinInfo?.ix || "pinIx",
-                        this.hoveredSocket.type,
-                    );
-                }
-
                 let input;
                 let output;
                 let pinInfo;
@@ -852,12 +797,16 @@ class NodeGraphEditor extends OctaneComponent {
                     output = this.dragSocket.node;
                     pinInfo = this.hoveredSocket.socket?.pinInfo;
                 }
-                console.log("handleMouseUp input", JSON.stringify(input, null, 2));
-    //                this.dumpJson("handleMouseUp output", output);
-                console.log("input", input.nodeData?.handle);
-                console.log("output", output.nodeData?.handle);
+//                console.log("input", input.nodeData?.handle);
+//                console.log("output", output.nodeData?.handle);
 
-
+                const connect = this.connections.get(output.nodeData.handle);
+                if (connect) {
+                    console.log("delete connect", connect.output.nodeData.handle, connect.input.nodeData.handle);
+                    this.connections.delete(output.nodeData.handle);
+                    this.connectionsIn.delete({input:connect.input, pinIx:connect.pinInfo.ix});
+                }
+                console.log("set connect", output.nodeData.handle, input.nodeData.handle);
                 this.connections.set(output.nodeData.handle, 
                     {
                         input: input,
