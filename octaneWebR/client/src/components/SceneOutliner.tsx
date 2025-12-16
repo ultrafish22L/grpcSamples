@@ -64,10 +64,11 @@ interface SceneOutlinerProps {
 type TabType = 'scene' | 'livedb' | 'localdb';
 
 export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
-  const { client, connected, scene } = useOctane();
+  const { client, connected } = useOctane();
   const [selectedNode, setSelectedNode] = useState<SceneNode | null>(null);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('scene');
+  const [meshes, setMeshes] = useState<any[]>([]);
 
   const handleNodeSelect = (node: SceneNode) => {
     setSelectedNode(node);
@@ -79,15 +80,27 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
 
     setLoading(true);
     try {
-      // Test with GetMeshes which exists in LiveLink proto
+      // Get meshes from Octane
       const response = await client.callApi('LiveLink', 'GetMeshes', {});
       console.log('✅ GetMeshes response:', response);
+      
+      if (response && response.meshes) {
+        setMeshes(response.meshes);
+        console.log(`📦 Loaded ${response.meshes.length} meshes from Octane`);
+      }
     } catch (error: any) {
       console.error('❌ Failed to load meshes:', error);
     } finally {
       setLoading(false);
     }
   };
+
+  // Auto-load on connect
+  useEffect(() => {
+    if (connected && meshes.length === 0) {
+      loadSceneTree();
+    }
+  }, [connected]);
 
   return (
     <div className="scene-outliner">
@@ -139,16 +152,36 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
         <div className="scene-tree">
           {!connected ? (
             <div className="scene-loading">Not connected</div>
-          ) : scene && scene.tree.length > 0 ? (
-            scene.tree.map(node => (
-              <SceneTreeItem
-                key={node.handle}
-                node={node}
-                depth={0}
-                onSelect={handleNodeSelect}
-                selectedHandle={selectedNode?.handle || null}
-              />
-            ))
+          ) : loading ? (
+            <div className="scene-loading">Loading scene...</div>
+          ) : meshes.length > 0 ? (
+            <div className="scene-mesh-list">
+              <div className="tree-node">
+                <span className="tree-icon">🌳</span>
+                <span className="tree-label">Scene</span>
+              </div>
+              {meshes.map((mesh, index) => (
+                <div key={mesh.id || index} className="scene-tree-item">
+                  <div
+                    className={`tree-node ${selectedNode?.handle === mesh.id ? 'selected' : ''}`}
+                    style={{ paddingLeft: '16px' }}
+                    onClick={() => {
+                      const node: SceneNode = {
+                        handle: mesh.id,
+                        name: mesh.name,
+                        type: 'mesh',
+                        children: []
+                      };
+                      handleNodeSelect(node);
+                    }}
+                  >
+                    <span className="tree-icon">📦</span>
+                    <span className="tree-label">{mesh.name}</span>
+                    <span className="tree-type">mesh</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           ) : (
             <div className="scene-loading">Click refresh to load scene</div>
           )}

@@ -55,7 +55,9 @@ export class OctaneGrpcClient extends EventEmitter {
     const coreProtoFiles = [
       'common.proto',
       'apiprojectmanager.proto',
-      'livelink.proto'
+      'livelink.proto',
+      'apirender.proto',
+      'callback.proto'
     ].map(f => path.join(PROTO_PATH, f)).filter(f => fs.existsSync(f));
     
     if (coreProtoFiles.length === 0) {
@@ -278,6 +280,63 @@ export class OctaneGrpcClient extends EventEmitter {
       return true;
     } catch (error) {
       return false;
+    }
+  }
+  
+  /**
+   * Register callback and start streaming OnNewImage events
+   */
+  async startCallbackStreaming(): Promise<void> {
+    try {
+      console.log('🎬 Starting callback streaming...');
+      
+      // Step 1: Register OnNewImage callback with Octane
+      console.log('📝 Registering OnNewImage callback...');
+      const registerResponse = await this.callMethod('ApiRender', 'setOnNewImageCallback', {}, { timeout: 10000 });
+      console.log('✅ Callback registered:', registerResponse);
+      
+      // Step 2: Start streaming from callback channel
+      console.log('📡 Starting callback channel stream...');
+      const streamService = this.getService('StreamCallbackService');
+      
+      if (!streamService || !streamService.callbackChannel) {
+        throw new Error('StreamCallbackService.callbackChannel not found');
+      }
+      
+      // Create empty request for callbackChannel (server-side streaming)
+      const stream = streamService.callbackChannel({});
+      
+      stream.on('data', (response: any) => {
+        try {
+          // Parse callback data and emit event
+          if (response.render_images && response.render_images.data) {
+            console.log(`📸 Received OnNewImage callback (${response.render_images.data.length} images)`);
+            this.emit('OnNewImage', response);
+          }
+        } catch (error: any) {
+          console.error('❌ Error processing callback data:', error.message);
+        }
+      });
+      
+      stream.on('end', () => {
+        console.log('⚠️  Callback stream ended');
+      });
+      
+      stream.on('error', (error: any) => {
+        console.error('❌ Callback stream error:', error.message);
+        // Try to reconnect after a delay
+        setTimeout(() => {
+          console.log('🔄 Attempting to reconnect callback stream...');
+          this.startCallbackStreaming().catch(e => {
+            console.error('❌ Reconnection failed:', e.message);
+          });
+        }, 5000);
+      });
+      
+      console.log('✅ Callback streaming started');
+    } catch (error: any) {
+      console.error('❌ Failed to start callback streaming:', error.message);
+      throw error;
     }
   }
 }

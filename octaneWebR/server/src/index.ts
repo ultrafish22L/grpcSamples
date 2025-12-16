@@ -82,7 +82,7 @@ app.post('/api/grpc/:service/:method', async (req, res) => {
 });
 
 // Start server
-const server = app.listen(PORT, '0.0.0.0', () => {
+const server = app.listen(PORT, '0.0.0.0', async () => {
   console.log(`
 ╔═══════════════════════════════════════════════════╗
 ║           OctaneWebR Server Started               ║
@@ -92,6 +92,15 @@ const server = app.listen(PORT, '0.0.0.0', () => {
 ║  Octane gRPC:     ${grpcClient['octaneHost']}:${grpcClient['octanePort']}        ║
 ╚═══════════════════════════════════════════════════╝
   `);
+  
+  // Start callback streaming from Octane
+  try {
+    await grpcClient.startCallbackStreaming();
+    console.log('✅ Octane callback streaming initialized');
+  } catch (error: any) {
+    console.error('⚠️  Failed to start callback streaming:', error.message);
+    console.error('   (Callbacks will not work until Octane is running and LiveLink is enabled)');
+  }
 });
 
 // Setup WebSocket callback streaming
