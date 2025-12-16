@@ -57,7 +57,11 @@ export class OctaneGrpcClient extends EventEmitter {
       'apiprojectmanager.proto',
       'livelink.proto',
       'apirender.proto',
-      'callback.proto'
+      'callback.proto',
+      'apiitemarray.proto',
+      'apinodearray.proto',
+      'octaneenums.proto',
+      'octaneids.proto'
     ].map(f => path.join(PROTO_PATH, f)).filter(f => fs.existsSync(f));
     
     if (coreProtoFiles.length === 0) {

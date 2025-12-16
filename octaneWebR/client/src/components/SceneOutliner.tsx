@@ -80,16 +80,55 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
 
     setLoading(true);
     try {
-      // Get meshes from Octane
-      const response = await client.callApi('LiveLink', 'GetMeshes', {});
-      console.log('✅ GetMeshes response:', response);
+      console.log('🔄 Loading full scene tree from Octane...');
       
-      if (response && response.meshes) {
-        setMeshes(response.meshes);
-        console.log(`📦 Loaded ${response.meshes.length} meshes from Octane`);
+      // Step 1: Get root node graph
+      const rootResponse = await client.callApi('ApiProjectManager', 'rootNodeGraph', {});
+      console.log('✅ Root node graph:', rootResponse);
+      
+      if (!rootResponse?.result?.handle) {
+        throw new Error('No root handle returned');
+      }
+      
+      const rootHandle = rootResponse.result.handle;
+      
+      // Step 2: Check if it's a graph
+      const isGraphResponse = await client.callApi('ApiItem', 'isGraph', rootHandle);
+      console.log('✅ Is graph:', isGraphResponse);
+      
+      const isGraph = isGraphResponse?.result;
+      
+      if (isGraph) {
+        // Step 3: Get owned items
+        const ownedItemsResponse = await client.callApi('ApiNodeGraph', 'getOwnedItems', rootHandle);
+        console.log('✅ Owned items:', ownedItemsResponse);
+        
+        if (!ownedItemsResponse?.list?.handle) {
+          throw new Error('No owned items handle');
+        }
+        
+        const ownedItemsHandle = ownedItemsResponse.list.handle;
+        
+        // Step 4: Get array size
+        const sizeResponse = await client.callApi('ApiItemArray', 'size', ownedItemsHandle);
+        console.log('✅ Array size:', sizeResponse);
+        
+        const size = sizeResponse?.result || 0;
+        
+        // Step 5: Iterate through items and get item info
+        const items = [];
+        for (let i = 0; i < size; i++) {
+          const itemResponse = await client.callApi('ApiItemArray', 'get', ownedItemsHandle, { index: i });
+          if (itemResponse?.result) {
+            items.push(itemResponse.result);
+          }
+        }
+        
+        console.log(`📦 Loaded ${items.length} scene items from Octane`);
+        setMeshes(items); // Reuse meshes state for now
       }
     } catch (error: any) {
-      console.error('❌ Failed to load meshes:', error);
+      console.error('❌ Failed to load scene tree:', error);
     } finally {
       setLoading(false);
     }
