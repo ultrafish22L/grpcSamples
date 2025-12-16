@@ -17,6 +17,7 @@ export interface SceneNode {
   handle: number;
   name: string;
   type: string;
+  typeEnum?: number;
   visible: boolean;
   children?: SceneNode[];
   [key: string]: any;
