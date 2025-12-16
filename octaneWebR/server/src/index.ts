@@ -4,7 +4,7 @@ import { OctaneGrpcClient, getGrpcClient } from './grpc/client';
 import { setupCallbackStreaming } from './api/websocket';
 
 const app = express();
-const PORT = parseInt(process.env.SERVER_PORT || '51024');
+const PORT = parseInt(process.env.SERVER_PORT || '45769');
 
 // Middleware
 app.use(cors({ 

@@ -46,7 +46,7 @@ export class OctaneClient extends EventEmitter {
     resolution: { width: 1920, height: 1080 }
   };
 
-  constructor(serverUrl: string = 'http://localhost:51024') {
+  constructor(serverUrl: string = 'http://localhost:45769') {
     super();
     this.serverUrl = serverUrl;
     console.log('🎬 OctaneClient initialized:', serverUrl);
@@ -135,16 +135,57 @@ export class OctaneClient extends EventEmitter {
     console.log('🔌 Disconnected from server');
   }
 
-  async callApi(service: string, method: string, params: any = {}): Promise<any> {
+  async callApi(service: string, method: string, handle?: any, params: any = {}): Promise<any> {
     const url = `${this.serverUrl}/api/grpc/${service}/${method}`;
     
-    console.log(`📤 ${service}.${method}`);
+    console.log(`📤 ${service}.${method}`, handle ? `(handle: ${handle})` : '');
+    
+    // Build request body
+    const body: any = {};
+    
+    // ApiItemService and related services expect objectPtr structure
+    const servicesNeedingObjectPtr = ['ApiItemService', 'ApiNodeService', 'ApiNodeGraphService', 'ApiItemArrayService', 'ApiNodeArrayService'];
+    if (servicesNeedingObjectPtr.includes(service) && handle !== undefined && handle !== null) {
+      // Extract type from handle if it's an object, otherwise default to ApiRootNodeGraph
+      let objectType = 18; // ApiRootNodeGraph default
+      let handleValue = handle;
+      
+      if (typeof handle === 'object' && handle.handle) {
+        handleValue = handle.handle;
+        if (handle.type) {
+          // Map type strings to ObjectType enum values (from common.proto)
+          const typeMap: Record<string, number> = {
+            'ApiRootNodeGraph': 18,
+            'ApiNodeGraph': 20,
+            'ApiNode': 17,
+            'ApiItem': 16,
+            'ApiItemArray': 31,
+            'ApiNodeArray': 34
+          };
+          objectType = typeMap[handle.type] || 16; // Default to ApiItem
+          console.log(`🔍 Mapped type '${handle.type}' to enum value ${objectType}`);
+        }
+      } else {
+        console.log(`🔍 Handle is primitive:`, handle, 'using default type', objectType);
+      }
+      
+      body.objectPtr = {
+        handle: handleValue,
+        type: objectType
+      };
+    } else if (handle !== undefined && handle !== null) {
+      body.handle = handle;
+    }
+    
+    if (params && Object.keys(params).length > 0) {
+      Object.assign(body, params);
+    }
     
     try {
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(params)
+        body: JSON.stringify(body)
       });
       
       if (!response.ok) {

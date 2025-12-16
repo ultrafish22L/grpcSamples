@@ -60,6 +60,8 @@ export class OctaneGrpcClient extends EventEmitter {
       'callback.proto',
       'apiitemarray.proto',
       'apinodearray.proto',
+      'apinodesystem.proto',
+      'apinodegraph.proto',
       'octaneenums.proto',
       'octaneids.proto'
     ].map(f => path.join(PROTO_PATH, f)).filter(f => fs.existsSync(f));
@@ -92,7 +94,23 @@ export class OctaneGrpcClient extends EventEmitter {
   
   private loadServiceProto(serviceName: string): any {
     const PROTO_PATH = path.resolve(__dirname, '../../proto');
-    const protoFileName = serviceName.toLowerCase() + '.proto';
+    
+    // Map service names to their proto files (based on octaneWeb/octaneProxy mapping)
+    const serviceToProtoMap: Record<string, string> = {
+      'ApiItemService': 'apinodesystem_3.proto',
+      'ApiItem': 'apinodesystem_3.proto',
+      'ApiNodeGraphService': 'apinodesystem_6.proto',
+      'ApiNodeGraph': 'apinodesystem_6.proto',
+      'ApiItemArrayService': 'apinodesystem_1.proto',
+      'ApiItemArray': 'apinodesystem_1.proto',
+      'ApiItemGetterService': 'apinodesystem.proto',
+      'ApiItemSetterService': 'apinodesystem.proto',
+      'ApiNodeService': 'apinodesystem_7.proto',
+      'ApiNode': 'apinodesystem_7.proto',
+      'ApiNodeArray': 'apinodesystem_5.proto',
+    };
+    
+    const protoFileName = serviceToProtoMap[serviceName] || (serviceName.toLowerCase() + '.proto');
     const protoFilePath = path.join(PROTO_PATH, protoFileName);
     
     if (!fs.existsSync(protoFilePath)) {
@@ -111,7 +129,7 @@ export class OctaneGrpcClient extends EventEmitter {
       });
       
       const descriptor = grpc.loadPackageDefinition(packageDefinition);
-      console.log(`✅ Loaded proto for ${serviceName}`);
+      console.log(`✅ Loaded proto for ${serviceName} from ${protoFileName}`);
       return descriptor;
     } catch (error: any) {
       console.log(`⚠️ Could not load proto for ${serviceName}:`, error.message);
@@ -250,6 +268,7 @@ export class OctaneGrpcClient extends EventEmitter {
       }
       
       const request = Object.keys(params).length === 0 ? {} : params;
+      console.log(`🔍 Request params:`, JSON.stringify(request, null, 2));
       const metadata = options.metadata || new grpc.Metadata();
       const deadline = Date.now() + (options.timeout || 30000);
       

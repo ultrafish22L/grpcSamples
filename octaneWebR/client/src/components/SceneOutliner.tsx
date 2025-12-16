@@ -126,7 +126,7 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
       console.log('🔄 Loading full scene tree from Octane...');
       
       // Step 1: Get root node graph
-      const rootResponse = await client.callApi('ApiProjectManager', 'rootNodeGraph', {});
+      const rootResponse = await client.callApi('ApiProjectManager', 'rootNodeGraph');
       console.log('✅ Root node graph:', rootResponse);
       
       if (!rootResponse?.result?.handle) {
@@ -136,24 +136,25 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
       const rootHandle = rootResponse.result.handle;
       
       // Step 2: Check if it's a graph
-      const isGraphResponse = await client.callApi('ApiItem', 'isGraph', rootHandle);
+      const isGraphResponse = await client.callApi('ApiItemService', 'isGraph', rootHandle);
       console.log('✅ Is graph:', isGraphResponse);
       
       const isGraph = isGraphResponse?.result;
       
       if (isGraph) {
         // Step 3: Get owned items
-        const ownedItemsResponse = await client.callApi('ApiNodeGraph', 'getOwnedItems', rootHandle);
+        const ownedItemsResponse = await client.callApi('ApiNodeGraphService', 'getOwnedItems', rootHandle);
         console.log('✅ Owned items:', ownedItemsResponse);
         
         if (!ownedItemsResponse?.list?.handle) {
           throw new Error('No owned items handle');
         }
         
-        const ownedItemsHandle = ownedItemsResponse.list.handle;
+        // Keep the full list object with handle and type for proper API calls
+        const ownedItemsHandle = ownedItemsResponse.list;
         
         // Step 4: Get array size
-        const sizeResponse = await client.callApi('ApiItemArray', 'size', ownedItemsHandle);
+        const sizeResponse = await client.callApi('ApiItemArrayService', 'size', ownedItemsHandle);
         console.log('✅ Array size:', sizeResponse);
         
         const size = sizeResponse?.result || 0;
@@ -161,14 +162,14 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
         // Step 5: Iterate through items and get item info
         const items = [];
         for (let i = 0; i < size; i++) {
-          const itemResponse = await client.callApi('ApiItemArray', 'get', ownedItemsHandle, { index: i });
+          const itemResponse = await client.callApi('ApiItemArrayService', 'get', ownedItemsHandle, { index: i });
           if (itemResponse?.result?.handle) {
             const handle = itemResponse.result.handle;
             
             // Get item name
             let name = 'Unknown';
             try {
-              const nameResponse = await client.callApi('ApiItem', 'name', handle);
+              const nameResponse = await client.callApi('ApiItemService', 'name', handle);
               name = nameResponse?.result || `Item ${i}`;
             } catch (err) {
               console.warn(`Failed to get name for handle ${handle}:`, err);
@@ -178,7 +179,7 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
             let type = 'unknown';
             let typeEnum = 0;
             try {
-              const typeResponse = await client.callApi('ApiItem', 'type', handle);
+              const typeResponse = await client.callApi('ApiItemService', 'outType', handle);
               typeEnum = typeResponse?.result || 0;
               type = `type_${typeEnum}`;
             } catch (err) {
