@@ -67,10 +67,11 @@ export function SceneOutliner() {
 
     setLoading(true);
     try {
-      await client.buildSceneTree();
-      console.log('✅ Scene tree loaded');
+      // Test with GetMeshes which exists in LiveLink proto
+      const response = await client.callApi('LiveLink', 'GetMeshes', {});
+      console.log('✅ GetMeshes response:', response);
     } catch (error: any) {
-      console.error('❌ Failed to load scene tree:', error);
+      console.error('❌ Failed to load meshes:', error);
     } finally {
       setLoading(false);
     }

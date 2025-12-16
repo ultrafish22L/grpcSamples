@@ -16,7 +16,7 @@ export class OctaneGrpcClient extends EventEmitter {
   private protoDescriptor: grpc.GrpcObject | null = null;
   
   constructor(
-    private octaneHost: string = process.env.OCTANE_HOST || 'localhost',
+    private octaneHost: string = process.env.OCTANE_HOST || OctaneGrpcClient.detectDefaultHost(),
     private octanePort: number = parseInt(process.env.OCTANE_PORT || '51022')
   ) {
     super();
@@ -28,7 +28,24 @@ export class OctaneGrpcClient extends EventEmitter {
       {}
     );
     
+    const isSandbox = this.octaneHost === 'host.docker.internal';
     console.log(`📡 gRPC channel initialized: ${address}`);
+    if (isSandbox) {
+      console.log(`🐳 Using Docker networking (sandbox environment detected)`);
+    }
+  }
+
+  private static detectDefaultHost(): string {
+    // Detect sandbox/Docker environment
+    const indicators = [
+      fs.existsSync('/.dockerenv'),
+      process.env.USER?.toLowerCase().includes('sandbox'),
+      process.env.KUBERNETES_SERVICE_HOST !== undefined,
+      fs.existsSync('/workspace') // OpenHands indicator
+    ];
+    
+    const isSandbox = indicators.some(indicator => indicator);
+    return isSandbox ? 'host.docker.internal' : 'localhost';
   }
   
   async initialize(): Promise<void> {
@@ -114,7 +131,11 @@ export class OctaneGrpcClient extends EventEmitter {
     // Try different namespace patterns for Octane proto files
     let ServiceConstructor: any = null;
     const patterns = [
+      `octaneapi.${serviceName}Service`,  // Try with Service suffix first (this is the client!)
       `octaneapi.${serviceName}`,
+      `livelinkapi.${serviceName}Service`, // For LiveLink services
+      `livelinkapi.${serviceName}`,
+      `${serviceName}Service`,            // For LiveLinkService, etc.
       `OctaneEngine.Livelink.${serviceName}`,
       `Octane.${serviceName}`,
       serviceName
@@ -147,10 +168,28 @@ export class OctaneGrpcClient extends EventEmitter {
       throw new Error(`Service ${serviceName} not found in proto definitions`);
     }
     
+    // Debugging: log what ServiceConstructor actually is
+    console.log(`🔍 ServiceConstructor type for ${serviceName}:`, typeof ServiceConstructor);
+    console.log(`🔍 ServiceConstructor keys:`, Object.keys(ServiceConstructor || {}).slice(0, 10));
+    
+    // ServiceConstructor should be a function/class that we can instantiate
+    if (typeof ServiceConstructor !== 'function') {
+      throw new Error(`ServiceConstructor for ${serviceName} is not a constructor (type: ${typeof ServiceConstructor})`);
+    }
+    
+    // Check if ServiceConstructor has a 'service' property (common in grpc-js)
+    if (ServiceConstructor.service) {
+      console.log(`🔍 Found .service property:`, Object.keys(ServiceConstructor.service).slice(0, 10));
+    }
+    
+    // Create the client instance
     const service = new ServiceConstructor(
       `${this.octaneHost}:${this.octanePort}`,
       grpc.credentials.createInsecure()
     );
+    
+    // gRPC methods might not be enumerable, check proto directly
+    console.log(`✅ Created ${serviceName} client instance`);
     
     this.services.set(serviceName, service);
     return service;
@@ -160,10 +199,15 @@ export class OctaneGrpcClient extends EventEmitter {
     const parts = path.split('.');
     let current = descriptor;
     
+    // Debug: log what we're searching for
+    console.log(`🔍 Searching for path: ${path} in descriptor with keys:`, Object.keys(descriptor).slice(0, 20));
+    
     for (const part of parts) {
       if (current && current[part]) {
         current = current[part];
+        console.log(`  ✅ Found part '${part}', type: ${typeof current}, keys:`, Object.keys(current || {}).slice(0, 10));
       } else {
+        console.log(`  ❌ Part '${part}' not found in current object with keys:`, Object.keys(current || {}).slice(0, 20));
         return null;
       }
     }
@@ -181,9 +225,21 @@ export class OctaneGrpcClient extends EventEmitter {
     
     try {
       const service = this.getService(serviceName);
+      
+      // Check if method exists (might not be enumerable)
       const method = service[methodName];
+      console.log(`🔍 Method ${methodName} type:`, typeof method);
+      console.log(`🔍 Service prototype:`, Object.getPrototypeOf(service).constructor.name);
       
       if (!method || typeof method !== 'function') {
+        // List all properties to debug
+        const allProps = [];
+        let obj = service;
+        while (obj && obj !== Object.prototype) {
+          allProps.push(...Object.getOwnPropertyNames(obj));
+          obj = Object.getPrototypeOf(obj);
+        }
+        console.log(`🔍 All properties on service:`, allProps.filter(p => !p.startsWith('_')).slice(0, 20));
         throw new Error(`Method ${methodName} not found in service ${serviceName}`);
       }
       
@@ -195,10 +251,10 @@ export class OctaneGrpcClient extends EventEmitter {
         method.call(service, request, metadata, { deadline }, 
           (error: grpc.ServiceError | null, response: any) => {
             if (error) {
-              console.error(`❌ ${serviceName}.${methodName}: ${error.message}`);
+              console.error(`❌ ${serviceName}.${methodName}: ${error.message}`, error.code);
               reject(error);
             } else {
-              console.log(`✅ ${serviceName}.${methodName} success`);
+              console.log(`✅ ${serviceName}.${methodName} success:`, JSON.stringify(response).slice(0, 200));
               resolve(response);
             }
           }
