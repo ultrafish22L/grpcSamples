@@ -1,10 +1,12 @@
 import { WebSocketServer, WebSocket } from 'ws';
 import { Server } from 'http';
 import { OctaneGrpcClient } from '../grpc/client';
+import { CallbackManager } from '../services/callbackManager';
 
 export function setupCallbackStreaming(
   server: Server,
-  grpcClient: OctaneGrpcClient
+  grpcClient: OctaneGrpcClient,
+  callbackManager: CallbackManager
 ): void {
   const wss = new WebSocketServer({ 
     server, 
@@ -16,7 +18,7 @@ export function setupCallbackStreaming(
   wss.on('connection', (ws: WebSocket) => {
     console.log('🔌 Callback client connected');
     
-    // Forward callback events from gRPC client to WebSocket
+    // Forward callback events from CallbackManager to WebSocket
     const forwardCallback = (data: any) => {
       if (ws.readyState === WebSocket.OPEN) {
         try {
@@ -31,8 +33,8 @@ export function setupCallbackStreaming(
       }
     };
     
-    // Listen for OnNewImage callbacks from Octane
-    grpcClient.on('OnNewImage', forwardCallback);
+    // Listen for OnNewImage callbacks from CallbackManager
+    callbackManager.on('OnNewImage', forwardCallback);
     
     // Handle messages from client
     ws.on('message', (message: Buffer) => {
@@ -52,7 +54,7 @@ export function setupCallbackStreaming(
     
     ws.on('close', () => {
       console.log('🔌 Callback client disconnected');
-      grpcClient.off('OnNewImage', forwardCallback);
+      callbackManager.off('OnNewImage', forwardCallback);
     });
     
     ws.on('error', (error) => {

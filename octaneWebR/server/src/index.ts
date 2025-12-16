@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { OctaneGrpcClient, getGrpcClient } from './grpc/client';
 import { setupCallbackStreaming } from './api/websocket';
+import { CallbackManager, getCallbackManager } from './services/callbackManager';
 
 const app = express();
 const PORT = parseInt(process.env.SERVER_PORT || '45769');
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
 });
 
 const grpcClient = getGrpcClient();
+const callbackManager = getCallbackManager(grpcClient);
 
 // Initialize gRPC client
 grpcClient.initialize().then(() => {
@@ -93,22 +95,23 @@ const server = app.listen(PORT, '0.0.0.0', async () => {
 ╚═══════════════════════════════════════════════════╝
   `);
   
-  // Start callback streaming from Octane
+  // Setup WebSocket callback streaming
+  setupCallbackStreaming(server, grpcClient, callbackManager);
+  
+  // Register for Octane callbacks
   try {
-    await grpcClient.startCallbackStreaming();
+    await callbackManager.registerCallbacks();
     console.log('✅ Octane callback streaming initialized');
   } catch (error: any) {
-    console.error('⚠️  Failed to start callback streaming:', error.message);
+    console.error('⚠️  Failed to register callbacks:', error.message);
     console.error('   (Callbacks will not work until Octane is running and LiveLink is enabled)');
   }
 });
 
-// Setup WebSocket callback streaming
-setupCallbackStreaming(server, grpcClient);
-
 // Graceful shutdown
-process.on('SIGTERM', () => {
+process.on('SIGTERM', async () => {
   console.log('⚠️  SIGTERM received, shutting down gracefully...');
+  await callbackManager.unregisterCallbacks();
   server.close(() => {
     grpcClient.close();
     console.log('✅ Server closed');
@@ -116,8 +119,9 @@ process.on('SIGTERM', () => {
   });
 });
 
-process.on('SIGINT', () => {
+process.on('SIGINT', async () => {
   console.log('\n⚠️  SIGINT received, shutting down gracefully...');
+  await callbackManager.unregisterCallbacks();
   server.close(() => {
     grpcClient.close();
     console.log('✅ Server closed');

@@ -108,6 +108,8 @@ export class OctaneGrpcClient extends EventEmitter {
       'ApiNodeService': 'apinodesystem_7.proto',
       'ApiNode': 'apinodesystem_7.proto',
       'ApiNodeArray': 'apinodesystem_5.proto',
+      'ApiRenderEngine': 'apirender.proto',
+      'ApiRenderEngineService': 'apirender.proto',
     };
     
     const protoFileName = serviceToProtoMap[serviceName] || (serviceName.toLowerCase() + '.proto');
@@ -137,7 +139,7 @@ export class OctaneGrpcClient extends EventEmitter {
     }
   }
   
-  private getService(serviceName: string): any {
+  public getService(serviceName: string): any {
     if (this.services.has(serviceName)) {
       return this.services.get(serviceName);
     }
