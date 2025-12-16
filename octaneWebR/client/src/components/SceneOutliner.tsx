@@ -57,10 +57,22 @@ function SceneTreeItem({ node, depth, onSelect, selectedHandle }: SceneTreeItemP
   );
 }
 
-export function SceneOutliner() {
+interface SceneOutlinerProps {
+  onNodeSelect?: (node: SceneNode | null) => void;
+}
+
+type TabType = 'scene' | 'livedb' | 'localdb';
+
+export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
   const { client, connected, scene } = useOctane();
   const [selectedNode, setSelectedNode] = useState<SceneNode | null>(null);
   const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState<TabType>('scene');
+
+  const handleNodeSelect = (node: SceneNode) => {
+    setSelectedNode(node);
+    onNodeSelect?.(node);
+  };
 
   const loadSceneTree = async () => {
     if (!connected) return;
@@ -79,30 +91,82 @@ export function SceneOutliner() {
 
   return (
     <div className="scene-outliner">
-      <div className="outliner-header">
-        <h3>Scene Outliner</h3>
-        <button onClick={loadSceneTree} disabled={!connected || loading}>
-          {loading ? '⟳' : '↻'} Refresh
+      {/* Scene Outliner Button Bar (above tabs) */}
+      <div className="scene-outliner-button-bar">
+        <button className="outliner-btn" title="Expand tree" data-action="expand-tree">⊞</button>
+        <button className="outliner-btn" title="Collapse tree" data-action="collapse-tree">⊟</button>
+        <button 
+          className="outliner-btn refresh-tree-btn" 
+          title="Refresh tree" 
+          data-action="refresh-tree"
+          onClick={loadSceneTree}
+          disabled={loading || !connected}
+        >
+          {loading ? '⟳' : '🔄'}
         </button>
       </div>
-      <div className="outliner-tree">
-        {!connected ? (
-          <p className="status-text">Not connected</p>
-        ) : scene && scene.tree.length > 0 ? (
-          scene.tree.map(node => (
-            <SceneTreeItem
-              key={node.handle}
-              node={node}
-              depth={0}
-              onSelect={setSelectedNode}
-              selectedHandle={selectedNode?.handle || null}
-            />
-          ))
-        ) : (
-          <p className="status-text">
-            <button onClick={loadSceneTree}>Load Scene Tree</button>
-          </p>
-        )}
+      
+      {/* Scene Outliner Tabs */}
+      <div className="scene-outliner-tabs">
+        <button 
+          className={`scene-tab ${activeTab === 'scene' ? 'active' : ''}`} 
+          data-tab="scene" 
+          title="Scene hierarchy view"
+          onClick={() => setActiveTab('scene')}
+        >
+          Scene
+        </button>
+        <button 
+          className={`scene-tab ${activeTab === 'livedb' ? 'active' : ''}`} 
+          data-tab="livedb" 
+          title="Live database materials"
+          onClick={() => setActiveTab('livedb')}
+        >
+          Live DB
+        </button>
+        <button 
+          className={`scene-tab ${activeTab === 'localdb' ? 'active' : ''}`} 
+          data-tab="localdb" 
+          title="Local database materials"
+          onClick={() => setActiveTab('localdb')}
+        >
+          Local DB
+        </button>
+      </div>
+      
+      {/* Tab Content: Scene */}
+      <div className={`scene-tab-content ${activeTab === 'scene' ? 'active' : ''}`} data-content="scene">
+        <div className="scene-tree">
+          {!connected ? (
+            <div className="scene-loading">Not connected</div>
+          ) : scene && scene.tree.length > 0 ? (
+            scene.tree.map(node => (
+              <SceneTreeItem
+                key={node.handle}
+                node={node}
+                depth={0}
+                onSelect={handleNodeSelect}
+                selectedHandle={selectedNode?.handle || null}
+              />
+            ))
+          ) : (
+            <div className="scene-loading">Click refresh to load scene</div>
+          )}
+        </div>
+      </div>
+      
+      {/* Tab Content: Live DB */}
+      <div className={`scene-tab-content ${activeTab === 'livedb' ? 'active' : ''}`} data-content="livedb">
+        <div className="db-content">
+          <div className="db-status">Live DB - Connect to access online materials</div>
+        </div>
+      </div>
+      
+      {/* Tab Content: Local DB */}
+      <div className={`scene-tab-content ${activeTab === 'localdb' ? 'active' : ''}`} data-content="localdb">
+        <div className="db-content">
+          <div className="db-status">Local DB - No local materials found</div>
+        </div>
       </div>
     </div>
   );

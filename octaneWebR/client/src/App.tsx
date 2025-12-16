@@ -1,6 +1,15 @@
 /**
  * OctaneWebR - React TypeScript Main Application
  * Port of octaneWeb with identical UI and functionality
+ * 
+ * Layout Structure (matching octaneWeb exactly):
+ * - Menu Bar (top)
+ * - App Layout (grid):
+ *   - Left Panel: Scene Outliner
+ *   - Center Panel: Render Viewport + Render Toolbar
+ *   - Right Panel: Node Inspector
+ *   - Bottom Panel: Node Graph Editor
+ * - Status Bar (bottom)
  */
 
 import React, { useEffect, useState } from 'react';
@@ -28,44 +37,112 @@ function AppContent() {
   }, [connect]);
 
   return (
-    <div className="octane-app">
-      <header className="app-header">
-        <div className="app-title">
-          <h1>OctaneWebR</h1>
-          <span className="app-subtitle">React TypeScript + Node.js gRPC</span>
-        </div>
+    <div className="app-container">
+      {/* Top Menu Bar */}
+      <header className="menu-bar">
+        <nav className="main-menu">
+          <div className="menu-item" data-menu="file">File</div>
+          <div className="menu-item" data-menu="edit">Edit</div>
+          <div className="menu-item" data-menu="script">Script</div>
+          <div className="menu-item" data-menu="module">Module</div>
+          <div className="menu-item" data-menu="cloud">Cloud</div>
+          <div className="menu-item" data-menu="window">Window</div>
+          <div className="menu-item" data-menu="help">Help</div>
+        </nav>
+        
+        {/* Connection Status & Controls */}
         <ConnectionStatus />
       </header>
 
-      <main className="app-main">
-        <div className="viewport-container">
-          {connected ? (
-            <CallbackRenderViewport />
-          ) : (
-            <div className="viewport-overlay">
-              <div className="status-message">
-                <h2>Connecting to Octane...</h2>
-                <p>Ensure Octane LiveLink is enabled (Help → LiveLink)</p>
-              </div>
-            </div>
-          )}
-        </div>
-
-        <aside className="side-panel">
-          <div className="panel-section">
-            <SceneOutliner />
+      {/* Main Application Layout */}
+      <main className="app-layout">
+        
+        {/* Left Panel: Scene Outliner */}
+        <aside className="left-panel panel">
+          <div className="panel-header">
+            <h3>Scene outliner</h3>
           </div>
+          <div className="panel-content">
+            <SceneOutliner onNodeSelect={setSelectedNode} />
+          </div>
+        </aside>
 
-          <div className="panel-section">
+        {/* Center Panel: Render Viewport */}
+        <section className="center-panel">
+          <div className="viewport-header">
+            <div className="viewport-title">Render viewport - Render target @ 100%</div>
+            <div className="viewport-controls">
+              <button className="viewport-btn" title="Fit to Window">⊞</button>
+              <button className="viewport-btn" title="Actual Size">1:1</button>
+              <button className="viewport-btn" title="Zoom In">🔍+</button>
+              <button className="viewport-btn" title="Zoom Out">🔍-</button>
+            </div>
+          </div>
+          
+          <div className="viewport-container">
+            {connected ? (
+              <CallbackRenderViewport />
+            ) : (
+              <div className="viewport-overlay">
+                <div className="viewport-info">
+                  <h2>Connecting to Octane...</h2>
+                  <p>Ensure Octane LiveLink is enabled (Help → LiveLink)</p>
+                </div>
+              </div>
+            )}
+          </div>
+          
+          {/* Render Toolbar will go here */}
+          <div className="render-toolbar-container">
+            {/* TODO: Port RenderToolbar component */}
+          </div>
+        </section>
+
+        {/* Right Panel: Node Inspector */}
+        <aside className="right-panel panel">
+          <div className="panel-header">
+            <h3>Node inspector</h3>
+          </div>
+          <div className="panel-content">
             <NodeInspector node={selectedNode} />
           </div>
         </aside>
+
+        {/* Bottom Panel: Node Graph Editor */}
+        <section className="bottom-panel panel">
+          <div className="node-graph-header">
+            <h3>Node graph editor</h3>
+            <div className="node-graph-controls">
+              <button className="node-btn" title="Add Node">+</button>
+              <button className="node-btn" title="Delete Node">🗑</button>
+              <button className="node-btn" title="Fit All">⊞</button>
+            </div>
+          </div>
+          <div className="node-graph-container">
+            <canvas id="node-graph" className="node-graph"></canvas>
+            <div className="node-palette" style={{display: 'none'}}>
+              <div className="palette-header">Node Creation</div>
+              <div className="palette-instructions">
+                <p>Right-click in the node graph to create nodes</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        
       </main>
 
-      <footer className="app-footer">
-        <span className="footer-info">
-          Server: http://localhost:51024 | Octane: localhost:51022
-        </span>
+      {/* Status Bar */}
+      <footer className="status-bar">
+        <div className="status-left">
+          <span className="status-item">Ready</span>
+        </div>
+        <div className="status-center">
+          <span className="status-item">OctaneWebR - React TypeScript + Node.js gRPC</span>
+        </div>
+        <div className="status-right">
+          <span className="status-item">OctaneLive: <span id="octane-status">{connected ? 'connected' : 'disconnected'}</span></span>
+          <span className="status-item">FPS: <span id="fps-counter">0</span></span>
+        </div>
       </footer>
     </div>
   );
