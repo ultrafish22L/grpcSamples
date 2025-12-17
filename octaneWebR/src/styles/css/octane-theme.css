@@ -1,0 +1,1379 @@
+/**
+ * OctaneWeb Professional Theme
+ * Pixel-perfect recreation of Octane Render Studio's interface
+ * Based on the native application's dark theme and layout
+ */
+
+:root {
+    /* Octane Studio Color Palette - Extracted from native application */
+    --octane-bg-primary: #2b2b2b;      /* Main background */
+    --octane-bg-secondary: #3c3c3c;    /* Panel backgrounds */
+    --octane-bg-parameter: #4c4c4c;    /* Panel backgrounds */
+    --octane-bg-darker: #1e1e1e;       /* Darker panels */
+    --octane-bg-header: #404040;       /* Header/menu backgrounds */
+    --octane-bg-selected: #4a4a4a;     /* Selected items */
+    --octane-bg-hover: #484848;        /* Hover states */
+    
+    /* Octane Text Colors */
+    --octane-text-primary: #ffffff;    /* Primary text */
+    --octane-text-secondary: #cccccc;  /* Secondary text */
+    --octane-text-muted: #999999;      /* Muted text */
+    --octane-text-disabled: #666666;   /* Disabled text */
+    
+    /* Octane Accent Colors */
+    --octane-accent: #ff8c00;          /* Primary accent - Octane orange */
+    --octane-accent-blue: #4a90e2;     /* Selection blue */
+    --octane-accent-orange: #ff8c00;   /* Warning/active orange */
+    --octane-accent-green: #5cb85c;    /* Success green */
+    --octane-accent-red: #d9534f;      /* Error red */
+    
+    /* Octane UI Elements */
+    --octane-border: #555555;          /* Standard borders */
+    
+    /* Panel Resize Variables */
+    --splitter-size: 4px;              /* Resize handle thickness */
+    --left-panel-width: 180px;         /* Scene outliner width */
+    --left-panel-min-width: 140px;         /* Scene outliner width */
+    --right-panel-width: 260px;        /* Node inspector width */
+    --right-panel-min-width: 200px;        /* Node inspector width */
+    --bottom-panel-height: 300px;      /* Node graph height */
+    --bottom-panel-min-height: 200px;      /* Node graph height */
+    --octane-border-light: #666666;    /* Light borders */
+    --octane-border-dark: #333333;     /* Dark borders */
+    --octane-shadow: rgba(0, 0, 0, 0.3); /* Drop shadows */
+    
+    /* Octane Specific Colors */
+    --octane-viewport-bg: #2a2a2a;     /* Viewport background */
+    --octane-node-bg: #3a3a3a;         /* Node backgrounds */
+    --octane-connection-line: #888888; /* Node connections */
+    --octane-parameter-bg: #151515;    /* Parameter backgrounds */
+    
+    /* Layout Dimensions */
+    --menu-height: 40px;
+    --panel-header-height: 28px;
+    --status-bar-height: 22px;
+    --splitter-size: 4px;
+    --border-radius: 2px;
+
+    --param-max-weight: 288px;
+    
+    /* Typography */
+    --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    --font-family-mono: 'Segoe UI Symbol', 'Segoe UI', monospace;
+    --font-family-monoC: 'Consolas', 'Monaco', 'Courier New', monospace;
+    --font-size-micro: 7px;
+    --font-size-tiny: 8px;
+    --font-size-xs: 9px;
+    --font-size-small: 11px;
+    --font-size-normal: 12px;
+    --font-size-large: 14px;
+    --font-size-xl: 16px;
+    --font-size-xxl: 18px;
+    --font-size-icon: 24px;
+    --font-size-title: 32px;
+    --font-size-huge: 48px;
+    --font-weight-light: 50;
+    --font-weight-normal: 400;
+    --font-weight-bold: 600;
+    --font-weight-bold7: 700;
+    --font-weight-header: 500;
+}
+
+/* Global Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body, #root {
+    height: 100%;
+    overflow: hidden;
+    font-family: var(--font-family);
+    font-size: var(--font-size-small);
+    background-color: var(--octane-bg-primary);
+    color: var(--octane-text-primary);
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Application Container */
+.app-container {
+    display: grid;
+    grid-template-rows: var(--menu-height) 1fr var(--status-bar-height);
+    height: 100vh;
+    background-color: var(--octane-bg-primary);
+}
+
+/* Main Content Layout */
+.main-content {
+    display: grid;
+    grid-template-columns: 300px 1fr 320px;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--octane-bg-primary);
+}
+
+/* Panels */
+.scene-outliner {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--octane-bg-secondary);
+    border-right: 1px solid var(--octane-border);
+    overflow: hidden;
+}
+
+.center-panels {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.render-viewport {
+    flex: 1;
+    background-color: var(--octane-viewport-bg);
+    border-bottom: var(--splitter-size) solid var(--octane-border);
+    overflow: hidden;
+}
+
+.node-graph-editor {
+    flex: 1;
+    background-color: var(--octane-bg-darker);
+    overflow: hidden;
+}
+
+.node-inspector {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--octane-bg-secondary);
+    border-left: 1px solid var(--octane-border);
+    overflow: hidden;
+}
+
+/* Global Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: var(--font-family);
+    font-size: var(--font-size-small);
+    background-color: var(--octane-bg-primary);
+    color: var(--octane-text-primary);
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Loading Screen */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--octane-bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.loading-content {
+    text-align: center;
+    color: var(--octane-text-primary);
+}
+
+.octane-logo-large {
+    margin-bottom: 20px;
+}
+
+.octane-gear-logo {
+    width: 80px;
+    height: 80px;
+    color: var(--octane-accent-orange);
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.loading-content h1 {
+    font-size: var(--font-size-icon);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 5px;
+}
+
+.loading-content p {
+    font-size: var(--font-size-large);
+    color: var(--octane-text-secondary);
+    margin-bottom: 30px;
+}
+
+.loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--octane-bg-secondary);
+    border-top: 3px solid var(--octane-accent-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+}
+
+.loading-status {
+    color: var(--octane-text-muted);
+    font-size: var(--font-size-small);
+}
+
+/* Application Container */
+.app-container {
+    display: grid;
+    grid-template-rows: var(--menu-height) 1fr var(--status-bar-height);
+    height: 100vh;
+    background-color: var(--octane-bg-primary);
+}
+
+/* Menu Bar */
+.menu-bar {
+    background-color: var(--octane-bg-header);
+    border-bottom: 1px solid var(--octane-border-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+    height: var(--menu-height);
+}
+
+.main-menu {
+    display: flex;
+    align-items: center;
+}
+
+.menu-item {
+    padding: 4px 12px;
+    cursor: pointer;
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+    border-radius: var(--border-radius);
+    transition: background-color 0.15s ease;
+}
+
+.menu-item:hover {
+    background-color: var(--octane-bg-hover);
+}
+
+.menu-item.active {
+    background-color: var(--octane-accent-blue);
+}
+
+/* Connection Status */
+.connection-status {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-small);
+    color: var(--octane-text-secondary);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--octane-accent-red);
+    transition: background-color 0.3s ease;
+}
+
+.status-dot.connected {
+    background-color: var(--octane-accent-green);
+}
+
+.status-dot.connecting {
+    background-color: var(--octane-accent-orange);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Main Layout */
+.app-layout {
+    display: grid;
+    grid-template-columns: .2fr .5fr .3fr; /* Resizable panels */
+    grid-template-rows: 1fr var(--bottom-panel-height); /* Resizable bottom panel */
+    grid-template-areas: 
+        "left-panel center-panel right-panel"
+        "left-panel bottom-panel right-panel";
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%; 
+    background-color: var(--octane-bg-primary);
+    overflow: hidden; /* Prevent layout overflow */
+    margin-left: 0; /* No margin needed since Scene Outliner is absolute */
+    gap: 0; /* Ensure no gaps between grid areas */
+}
+
+/* Panel Base Styles 
+    border-right: 1px solid var(--octane-border);
+
+*/
+.panel {
+    background-color: var(--octane-bg-secondary);
+    display: flex;
+    flex-direction: column;
+}
+.panel-horz {
+    background-color: var(--octane-bg-secondary);
+    border-right: 1px solid var(--octane-border);
+    display: flex;
+    flex-direction: row;
+}
+
+.panel-header {
+    background-color: var(--octane-bg-header);
+    border-bottom: 1px solid var(--octane-border);
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--panel-header-height);
+}
+
+.panel-header h3 {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
+    color: var(--octane-text-primary);
+}
+
+.panel-controls {
+    display: flex;
+    gap: 2px;
+}
+
+.panel-btn {
+    background: none;
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-secondary);
+    padding: 2px 6px;
+    font-size: var(--font-size-xs);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: all 0.15s ease;
+}
+
+.panel-btn:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+.panel-content {
+    flex: 1;
+    overflow: auto;
+    padding: 4px;
+}
+
+/* Left Panel - Scene Outliner */
+.left-panel {
+    position: absolute;
+    left: 0;
+    top: var(--menu-height); /* Start below menu bar */
+    bottom: var(--status-bar-height); /* End above status bar */
+    z-index: 10; /* Higher z-index to stay above other panels */
+    overflow: hidden; /* Critical: prevent any overflow */
+    contain: layout style paint; /* CSS containment for strict boundaries */
+    width: var(--left-panel-width);     
+    min-width: var(--left-panel-min-width);     
+}
+
+.scene-outliner {
+    color: var(--octane-text-primary);
+    font-size: var(--font-size-small);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: 100%; /* Ensure it never exceeds container height */
+    overflow: hidden; /* Prevent content from overflowing the container */
+    position: relative; /* Establish positioning context */
+}
+
+.scene-loading {
+    padding: 20px;
+    text-align: center;
+    color: var(--octane-text-muted);
+    font-style: italic;
+}
+
+/* Scene Outliner Tree Styles */
+.scene-outliner-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background-color: var(--octane-bg-secondary);
+    border-bottom: 1px solid var(--octane-border);
+}
+
+.scene-outliner-search {
+    flex: 1;
+    padding: 4px 8px;
+    background-color: var(--octane-bg-primary);
+    border: 1px solid var(--octane-border);
+    border-radius: 3px;
+    color: var(--octane-text-primary);
+    font-size: var(--font-size-small);
+}
+
+.scene-outliner-search:focus {
+    outline: none;
+    border-color: var(--octane-accent);
+}
+
+.scene-tree {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: var(--octane-bg-primary);
+    min-height: 0; /* Allow flex item to shrink below content size */
+    max-height: 100%; /* Prevent tree from exceeding container */
+    position: relative; /* Establish positioning context */
+    contain: layout style; /* CSS containment for performance and boundaries */
+    display: flex;
+    flex-direction: column; /* Stack tree nodes vertically */
+}
+
+.tree-node {
+    display: flex;
+    align-items: center;
+    min-height: 16px;
+    cursor: pointer;
+    user-select: none;
+    font-size: var(--font-size-small);
+    font-family: var(--font-family);
+    color: #cccccc;
+    padding: 1px 0;
+}
+
+.tree-node:hover {
+    background-color: #404040;
+}
+
+.tree-node.selected {
+    background-color: #d4a017 !important;
+    color: #000000 !important;
+}
+
+/* Scene node content layout */
+.node-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 4px;
+}
+
+.node-toggle {
+    width: 12px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-tiny);
+    color: #888888;
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.node-toggle.expanded::before {
+    content: '−';
+    font-weight: var(--font-weight-bold7);
+}
+
+.node-toggle.collapsed::before {
+    content: '+';
+    font-weight: var(--font-weight-bold7);
+}
+
+.node-toggle:hover {
+    background-color: #4a4a4a;
+    border-radius: 2px;
+}
+
+.node-icon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.node-name {
+    flex: 1;
+    font-size: var(--font-size-small);
+    color: inherit;
+}
+
+.node-handle {
+    font-size: var(--font-size-xs);
+    color: #888888;
+    margin-left: 4px;
+}
+
+.node-visibility {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xs);
+    color: #888888;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.node-spacer {
+    width: 14px;
+}
+
+/* Tree indentation levels */
+.tree-node.level-0 .node-content {
+    padding-left: 4px;
+}
+
+.tree-node.level-1 .node-content {
+    padding-left: 18px;
+}
+
+.tree-node.level-2 .node-content {
+    padding-left: 32px;
+}
+
+.tree-node.level-3 .node-content {
+    padding-left: 46px;
+}
+
+.tree-node.level-4 .node-content {
+    padding-left: 60px;
+}
+
+.tree-node.level-5 .node-content {
+    padding-left: 74px;
+}
+
+.tree-node.level-6 .node-content {
+    padding-left: 88px;
+}
+
+
+
+.tree-node-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 1px 3px;
+    gap: 3px;
+}
+
+.tree-toggle {
+    width: 10px;
+    height: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xs);
+    color: var(--octane-text-muted);
+    cursor: pointer;
+}
+
+.tree-toggle.has-children:hover {
+    color: var(--octane-text-primary);
+}
+
+.tree-node-icon {
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-small);
+}
+
+.tree-node-name {
+    flex: 1;
+    font-size: var(--font-size-small);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tree-node-visibility {
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-small);
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.tree-node-visibility:hover {
+    opacity: 1;
+}
+
+/* Center Panel - 3D Canvas/Viewport */
+.center-panel {
+    grid-area: center-panel;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--octane-bg-primary);
+    height: 100%; /* Ensure full height usage */
+    overflow: hidden; /* Prevent layout overflow */
+    margin: 0; /* Ensure no margins */
+    padding: 0; /* Ensure no padding */
+    max-width: 100%; /* Prevent extending beyond grid area */
+    position: relative; /* Ensure it stays within grid bounds */
+    z-index: 1; /* Lower z-index than right panel */
+}
+
+/* Render Canvas */
+.render-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-color: var(--octane-bg-primary);
+    cursor: default;
+}
+
+.render-canvas:active {
+    cursor: grabbing;
+}
+
+/* Viewport Error Display */
+.viewport-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--octane-text-primary);
+    text-align: center;
+    padding: 2rem;
+}
+
+.viewport-error .error-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.viewport-error .error-title {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 0.5rem;
+    color: var(--octane-accent);
+}
+
+.viewport-error .error-message {
+    font-size: 1rem;
+    opacity: 0.8;
+    max-width: 400px;
+    line-height: 1.5;
+}
+
+.viewport-header {
+    background-color: var(--octane-bg-header);
+    border-bottom: 1px solid var(--octane-border);
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--panel-header-height);
+}
+
+.viewport-title {
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+}
+
+.viewport-controls {
+    display: flex;
+    gap: 2px;
+}
+
+.viewport-btn {
+    background: none;
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-secondary);
+    padding: 2px 6px;
+    font-size: var(--font-size-xs);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: all 0.15s ease;
+}
+
+.viewport-btn:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+/* Viewport Container */
+.viewport-container {
+    flex: 1;
+    position: relative;
+    border-bottom: 1px solid var(--octane-border);
+    min-height: 200px;
+    overflow: hidden; /* CRITICAL: Prevent canvas overflow */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.render-viewport {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    /* Prevent canvas flashing - match container background */
+    background: var(--octane-bg-secondary);
+    transition: none !important;
+    animation: none !important;
+    object-fit: contain; /* Maintain aspect ratio while filling space */
+}
+
+.viewport-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 5; /* Stay behind canvas but above background */
+}
+
+.viewport-info {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 4px 8px;
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+}
+
+.render-stats {
+    display: flex;
+    gap: 12px;
+}
+
+/* Octane-style Render Toolbar */
+.render-toolbar-container {
+    background-color: var(--octane-bg-header);
+    border-bottom: 1px solid var(--octane-border);
+}
+
+/* Render Statistics Bar */
+.render-stats-bar {
+    background-color: var(--octane-bg-secondary);
+    border-bottom: 1px solid var(--octane-border);
+    padding: 3px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 20px;
+    font-size: var(--font-size-small);
+    color: var(--octane-text-secondary);
+    font-family: var(--font-family);
+}
+
+.render-stats-left,
+.render-stats-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.stats-separator {
+    color: var(--octane-text-muted);
+    margin: 0 2px;
+}
+
+#render-samples-display {
+    color: var(--octane-text-primary);
+    font-weight: var(--font-weight-header);
+}
+
+#render-time-display {
+    color: var(--octane-text-primary);
+    font-weight: var(--font-weight-header);
+}
+
+.render-status-rendering {
+    color: var(--octane-accent-blue) !important;
+}
+
+.render-status-finished {
+    color: var(--octane-text-secondary);
+}
+
+.render-status-paused {
+    color: var(--octane-accent-yellow) !important;
+}
+
+.render-status-stopped,
+.render-status-error {
+    color: var(--octane-accent-red) !important;
+}
+
+/* Render Toolbar Icons */
+.render-toolbar {
+    background-color: var(--octane-bg-header);
+    padding: 2px 4px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+}
+
+.render-toolbar-icons {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+
+.render-toolbar-icons::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+.toolbar-icon-btn {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--octane-text-secondary);
+    padding: 3px;
+    font-size: var(--font-size-large);
+    font-family: var(--font-family-mono);
+    font-weight: var(--font-weight-normal);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s ease;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.toolbar-icon-btn:hover {
+    background-color: var(--octane-bg-hover);
+    border-color: var(--octane-border);
+    color: var(--octane-text-primary);
+}
+
+.toolbar-icon-btn:active {
+    background-color: var(--octane-bg-active);
+    border-color: var(--octane-accent-blue);
+}
+
+.toolbar-icon-btn.important {
+    color: var(--octane-text-primary);
+    background-color: rgba(64, 128, 255, 0.1);
+}
+
+.toolbar-icon-btn.important:hover {
+    background-color: rgba(64, 128, 255, 0.2);
+    border-color: var(--octane-accent-blue);
+}
+
+.toolbar-separator {
+    width: 1px;
+    height: 18px;
+    background-color: var(--octane-border);
+    margin: 0 3px;
+    flex-shrink: 0;
+}
+
+/* Legacy render controls (keep for compatibility) */
+.render-controls {
+    background-color: var(--octane-bg-header);
+    border-bottom: 1px solid var(--octane-border);
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 32px;
+}
+
+.playback-controls {
+    display: flex;
+    gap: 2px;
+}
+
+.control-btn {
+    background: none;
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-secondary);
+    padding: 4px 8px;
+    font-size: var(--font-size-small);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: all 0.15s ease;
+}
+
+.control-btn:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+.render-info {
+    display: flex;
+    gap: 16px;
+    font-size: var(--font-size-small);
+    color: var(--octane-text-secondary);
+}
+
+/* Bottom Panel - Node Graph Editor */
+.bottom-panel {
+    grid-area: bottom-panel;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--octane-border);
+    background-color: var(--octane-bg-secondary);
+    height: 100%; /* Use full allocated grid space */
+    overflow: hidden; /* Prevent overflow beyond allocated space */
+    height: var(--bottom-panel-height);    
+    min-height: var(--bottom-panel-min-height);    
+}
+
+.node-graph-header {
+    background-color: var(--octane-bg-header);
+    border-bottom: 1px solid var(--octane-border);
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: row;    
+    align-items: center;
+    justify-content: space-between;
+    height: var(--panel-header-height);
+}
+
+.node-graph-header h3 {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
+    color: var(--octane-text-primary);
+}
+
+.node-graph-controls {
+    display: flex;
+    gap: 2px;
+}
+
+.node-btn {
+    background: none;
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-secondary);
+    padding: 2px 6px;
+    font-size: var(--font-size-xs);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: all 0.15s ease;
+}
+
+.node-btn:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+.node-graph-container {
+    flex: 1; /* Take remaining space in the node graph section */
+    position: relative;
+    background-color: var(--octane-bg-darker);
+    overflow: hidden; /* Prevent scrollbars and contain canvas */
+    contain: layout style paint; /* CSS containment for better performance */
+}
+
+.node-graph {
+    flex: 1;
+    display: block;
+    background-color: var(--octane-bg-darker);
+    position: absolute; /* Position absolutely within container */
+    top: 0;
+    left: 0;
+}
+
+.node-palette {
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    width: 60px;
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+    padding: 4px;
+}
+
+/* Right Panel - Node Inspector */
+.right-panel {
+    grid-area: right-panel;
+    background-color: var(--octane-bg-secondary); /* Professional dark background */
+    border-left: 1px solid var(--octane-border); /* Subtle left border */
+    border-right: none;
+    overflow-y: visible; /* Allow scrolling if content is tall */
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Ensure proper stacking context */
+    z-index: 10; /* Higher z-index than center panel */
+    min-width: var(--right-panel-min-width); 
+    width: var(--right-panel-width); 
+}
+
+.node-selector-container {
+    padding: 8px;
+    border-bottom: 1px solid var(--octane-border);
+    background-color: var(--octane-bg-secondary);
+}
+
+.node-selector {
+    background-color: var(--octane-bg-darker);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-primary);
+    padding: 4px 8px;
+    font-size: var(--font-size-small);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Octane-style sections and parameter groups */
+.octane-section {
+    margin-bottom: 4px;
+}
+
+.octane-section-header {
+    background-color: var(--octane-bg-header);
+    border: 1px solid var(--octane-border);
+    padding: 4px 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+}
+
+.octane-section-header:hover {
+    background-color: var(--octane-bg-hover);
+}
+
+.octane-section-icon {
+    font-size: var(--font-size-xs);
+    color: var(--octane-text-secondary);
+}
+
+.octane-section-content {
+    background-color: var(--octane-bg-secondary);
+    border-left: 1px solid var(--octane-border);
+    border-right: 1px solid var(--octane-border);
+    border-bottom: 1px solid var(--octane-border);
+}
+
+.octane-subsection {
+    padding: 8px;
+    border-bottom: 1px solid var(--octane-border);
+}
+
+.octane-subsection-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+}
+
+.octane-node-icon {
+    font-size: var(--font-size-normal);
+}
+
+
+.node-inspector {
+    color: var(--octane-text-primary);
+    font-size: var(--font-size-small);
+}
+
+.inspector-loading {
+    padding: 20px;
+    text-align: center;
+    color: var(--octane-text-muted);
+    font-style: italic;
+}
+
+/* Status Bar */
+.status-bar {
+    background-color: var(--octane-bg-header);
+    border-top: 1px solid var(--octane-border);
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--status-bar-height);
+    font-size: var(--font-size-small);
+    color: var(--octane-text-secondary);
+}
+
+.status-left, .status-center, .status-right {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.status-center {
+    flex: 1;
+    justify-content: center;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--octane-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--octane-border);
+    border-radius: 6px;
+    border: 2px solid var(--octane-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--octane-border-light);
+}
+
+::-webkit-scrollbar-corner {
+    background-color: var(--octane-bg-secondary);
+}
+
+/* Context Menus and Modals */
+.context-menus, .modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .app-layout {
+        grid-template-columns: 220px 1fr 250px;
+        grid-template-rows: 1fr 250px; /* Smaller node graph on smaller screens */
+    }
+}
+
+@media (max-width: 900px) {
+    .app-layout {
+        grid-template-columns: 150px 1fr 200px;
+        grid-template-rows: 1fr 200px; /* Even smaller node graph */
+    }
+    
+    .render-info {
+        display: none;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    :root {
+        --octane-border: #ffffff;
+        --octane-text-secondary: #ffffff;
+        --octane-text-muted: #cccccc;
+    }
+}
+
+/* Node Graph Context Menu */
+.node-context-menu {
+    position: fixed;
+    background: #3c3c3c !important;
+    border: 1px solid #555555 !important;
+    border-radius: 2px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    ffont-family: var(--font-family);
+    font-size: var(--font-size-normal);
+    color: #ffffff !important;
+    min-width: 180px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 10000;
+}
+
+.context-menu-category {
+    position: relative;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--octane-border-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.context-menu-category:hover {
+    background: var(--octane-bg-hover);
+}
+
+.context-menu-category::after {
+    content: '▶';
+    font-size: var(--font-size-xs);
+    color: var(--octane-text-muted);
+}
+
+.context-submenu {
+    display: none;
+    position: fixed;
+    background: #3c3c3c !important;
+    border: 1px solid #555555 !important;
+    border-radius: 2px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    min-width: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 10001;
+}
+
+
+
+.context-menu-item {
+    padding: 6px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--octane-border-dark);
+}
+
+.context-menu-item:last-child {
+    border-bottom: none;
+}
+
+.context-menu-item:hover {
+    background: var(--octane-accent-blue);
+    color: white;
+}
+
+/* Scrollbar styling for context menu */
+.node-context-menu::-webkit-scrollbar,
+.context-submenu::-webkit-scrollbar {
+    width: 8px;
+}
+
+.node-context-menu::-webkit-scrollbar-track,
+.context-submenu::-webkit-scrollbar-track {
+    background: var(--octane-bg-darker);
+}
+
+.node-context-menu::-webkit-scrollbar-thumb,
+.context-submenu::-webkit-scrollbar-thumb {
+    background: var(--octane-border);
+    border-radius: 4px;
+}
+
+.node-context-menu::-webkit-scrollbar-thumb:hover,
+.context-submenu::-webkit-scrollbar-thumb:hover {
+    background: var(--octane-border-light);
+}
+
+/* Node Palette Instructions */
+.palette-instructions {
+    padding: 12px;
+    color: var(--octane-text-secondary);
+    font-size: var(--font-size-small);
+    line-height: 1.4;
+}
+
+.palette-instructions p {
+    margin: 0 0 8px 0;
+}
+
+.palette-instructions p:last-child {
+    margin-bottom: 0;
+}
+
+/* Professional Input Controls - Matching Octane Reference */
+input[type="number"], 
+input[type="text"], 
+select {
+    background-color: var(--octane-parameter-bg);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-primary);
+    padding: 4px 8px;
+    font-size: var(--font-size-small);
+    font-family: var(--font-family);
+    border-radius: var(--border-radius);
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+input[type="number"]:focus, 
+input[type="text"]:focus, 
+select:focus {
+    border-color: var(--octane-accent);
+    box-shadow: 0 0 0 1px var(--octane-accent);
+}
+
+input[type="number"]:hover, 
+input[type="text"]:hover, 
+select:hover {
+    border-color: var(--octane-border-light);
+}
+
+/* Numeric input styling to match Octane's parameter controls */
+input[type="number"] {
+    text-align: right;
+    width: 60px;
+}
+
+/* Select dropdown styling */
+select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23cccccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 12px;
+    padding-right: 28px;
+}

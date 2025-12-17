@@ -10,7 +10,7 @@ process.env.NODE_OPTIONS = '--dns-result-order=ipv4first'
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 41604,
+    port: 44479,
     host: '0.0.0.0',
     cors: true,
     strictPort: false,

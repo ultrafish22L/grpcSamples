@@ -5,9 +5,9 @@
 <h1>Testing ObjectPtr Conversion</h1>
 <div id="output"></div>
 <script type="module">
-import { OctaneClient } from './src/api/octaneClient.ts';
+import { octaneClient } from './src/api/octaneClient.ts';
 
-const client = new OctaneClient('http://localhost:51023');
+const client = octaneClient;
 const output = document.getElementById('output');
 
 async function test() {
