@@ -1,472 +1,354 @@
-# Improved Mission Prompt for OctaneWebR Port
+# OctaneWebR - React/TypeScript Port Mission Prompt (IMPROVED)
 
-## Original User Request
-The user requested help improving a prompt for porting octaneWeb (vanilla JavaScript) to octaneWebR (React + TypeScript with direct Node.js gRPC).
+## 🎯 Mission Overview
+Port the **octaneWeb** project from vanilla JavaScript to a modern React+TypeScript application with **Node.js direct gRPC communication** (replacing the Python proxy). The result must be a pixel-perfect reproduction with identical functionality and user experience.
 
-## Analysis of Original Prompt
+## 📋 Critical Requirements
 
-### Strengths
-1. Clear goal: port octaneWeb to React TypeScript with direct gRPC
-2. Identified key requirements: UI must match exactly, all functionality must be preserved
-3. Mentioned important files to examine (NodeInspector.js, GenericNodeRenderer.js, SceneOutlinerSync.js)
-4. Specified architecture: React TypeScript UI + Node.js gRPC backend
+### 1. Architecture Changes
+- **UI Layer**: Vanilla JavaScript → React 18 + TypeScript
+- **Communication Layer**: Python HTTP proxy → Node.js native gRPC client (@grpc/grpc-js)
+- **Protocol Handling**: Keep exact same gRPC API calls and message structures
+- **No Functionality Loss**: Every feature must work identically
 
-### Weaknesses
-1. **Vague about specifics**: "examine carefully" without concrete deliverables
-2. **No clear phases**: Presented as one big task rather than structured phases
-3. **Missing technical details**: No mention of build tools, state management, or specific React patterns
-4. **Unclear about CSS strategy**: Mentioned CSS but not how to organize it in React
-5. **No success criteria**: What does "done" look like?
-6. **Over-emphasis on autonomy**: "minimum of interaction" can lead to wrong assumptions
+### 2. UI/UX Fidelity (EXACT MATCH)
+The React app must be **visually identical** to octaneWeb:
 
-## Improved Mission Prompt
+#### Layout Structure
+- 4-panel layout: Scene Outliner (left) | Render Viewport (top-right) | Node Graph Editor (middle-right) | Node Inspector (right)
+- Top menu bar: File, Edit, Script, Module, Cloud, Window, Help
+- Top-right status bar: Connection type selector, connect/disconnect toggle, status LED
+- Bottom status bar: Status text, app name, Octane connection info
+
+#### Critical UI Components
+1. **Scene Outliner** (`octaneWeb/js/components/SceneOutliner.js`)
+   - Hierarchical tree view with expand/collapse arrows
+   - Node icons based on type
+   - Visibility toggles (eye icons)
+   - Three tabs: Scene, Link, Local
+   - Search input field
+   - Refresh button
+
+2. **Render Viewport** (`octaneWeb/js/components/CallbackRenderViewport.js`)
+   - Real-time HDR/LDR image display using callbacks
+   - Mouse drag for camera position synchronization
+   - Canvas-based rendering with proper buffer handling
+
+3. **Node Graph Editor** (`octaneWeb/js/components/NodeGraphEditor.js`)
+   - Visual node creation and editing
+   - Right-click context menus
+   - Hierarchical node types
+   - Zoom/pan controls
+
+4. **Node Inspector** (`octaneWeb/js/components/NodeInspector.js`)
+   - Dynamic form generation based on node parameters
+   - Real-time parameter editing
+   - Type-specific input controls
+
+#### CSS Preservation
+**CRITICAL**: The CSS in octaneWeb has significant unused code. You must:
+1. Examine how each component **actually builds its DOM** programmatically:
+   - `NodeInspector.js` - See `renderParameter()` and `createControl()` methods
+   - `GenericNodeRenderer.js` - See how node elements are constructed
+   - `SceneOutlinerSync.js` - See `buildTreeElement()` method
+2. Extract **only the CSS classes that are actually applied** by these methods
+3. Ignore unused CSS rules that don't correspond to programmatically created elements
+4. Preserve the exact visual styling (colors, spacing, borders, fonts)
+
+### 3. gRPC Communication Architecture
+
+#### Understanding ObjectRef Protocol
+**CRITICAL**: Octane's gRPC API uses `ObjectRef` structures, not plain strings:
+
+```protobuf
+message ObjectRef {
+    uint64 handle = 1;       // 64-bit pointer reference
+    ObjectType type = 2;     // Enum identifying object type
+}
+```
+
+**Example API Flow**:
+```typescript
+// ❌ WRONG - Python proxy hid this complexity
+const handle = await getRootNodeGraph();  // Returns string "1000000"
+await getOwnedItems(handle);              // Sends string - FAILS
+
+// ✅ CORRECT - Node.js direct gRPC
+const rootGraph = await getRootNodeGraph();  // Returns {handle: "1000000", type: "ApiRootNodeGraph"}
+await getOwnedItems(rootGraph);              // Sends ObjectRef - WORKS
+```
+
+#### Node.js gRPC Implementation Strategy
+The Python proxy (`octaneProxy/octane_proxy.py`) handles special cases dynamically. You must replicate this logic:
+
+1. **Dynamic Field Population** (see `recurse_attr()` in octane_proxy.py line 648):
+   - The proxy examines protobuf descriptors to find correct field names
+   - Example: `objectPtr` parameter maps to different fields depending on request type
+   - Special cases: `nodePinInfoRef` (GetNodePinInfoRequest), `item_ref` (getValueByIDRequest)
+
+2. **Request Class Resolution** (see `grpc_registry.py`):
+   - Each gRPC method requires a specific request message class
+   - Example: `ApiNodeGraph.getOwnedItems` → `getOwnedItemsRequest`
+   - You must dynamically instantiate the correct request type
+
+3. **Response Handling**:
+   - Use `MessageToDict()` equivalent to convert protobuf to JSON
+   - Preserve field names (not camelCase conversion)
+   - Handle nested ObjectRef structures
+
+#### Proto File Loading Strategy
+Load these specific proto files (in order):
+```
+1. common.proto           # ObjectRef, basic types
+2. livelink.proto         # LiveLink service
+3. apiprojectmanager.proto # Project/scene management
+4. apinodesystem_3.proto  # ApiItem service
+5. apinodesystem_6.proto  # ApiNodeGraph service  
+6. apinodesystem_7.proto  # ApiNode service
+7. apiitemarray.proto     # ApiItemArray service
+```
+
+**Why split files?** `apinodesystem.proto` is split into parts 1-7 to avoid naming conflicts. Load only parts 3, 6, 7 for required services.
+
+### 4. Core Functionality to Preserve
+
+#### Scene Loading Algorithm (`OctaneWebClient.js::syncScene()`)
+This is the **heart of octaneWeb**. Preserve this exact logic:
+
+```javascript
+async syncScene() {
+    // 1. Get root node graph handle
+    const rootGraphPtr = await this.getRootNodeGraph();
+    
+    // 2. Recursively build tree
+    return await this.syncSceneRecurse(rootGraphPtr);
+}
+
+async syncSceneRecurse(graphPtr) {
+    const nodes = [];
+    
+    // 3. Get owned items array
+    const itemArrayPtr = await this.getOwnedItems(graphPtr);
+    const arrayLength = await this.getArrayLength(itemArrayPtr);
+    
+    // 4. Iterate through items
+    for (let i = 0; i < arrayLength; i++) {
+        const itemPtr = await this.getArrayItem(itemArrayPtr, i);
+        const itemName = await this.getName(itemPtr);
+        const itemType = await this.getType(itemPtr);
+        const isGraph = await this.isGraph(itemPtr);
+        
+        const node = {
+            id: itemPtr,
+            name: itemName,
+            type: itemType,
+            children: []
+        };
+        
+        // 5. Recursively handle graphs
+        if (isGraph) {
+            node.children = await this.syncSceneRecurse(itemPtr);
+        }
+        
+        nodes.push(node);
+    }
+    
+    return nodes;
+}
+```
+
+**Key Details**:
+- Use **synchronous** style with async/await (NOT Promise.all) to avoid overwhelming Octane
+- Preserve exact API call sequence: `getOwnedItems` → `size` → `get` (per item) → `name`/`type`/`isGraph`
+- Handle ObjectRef structures throughout (don't extract just the handle)
+
+#### Camera Synchronization
+The Python proxy has special handling for camera sync:
+- `setCameraPosition()` and `setCameraTarget()` methods
+- Mouse drag events in viewport must send live updates to Octane
+- Preserve exact coordinate transformation logic
+
+#### Callback Rendering System
+**CRITICAL**: `CallbackRenderViewport.js` has specific buffer handling:
+- Register for `OnNewImage` callbacks
+- Handle HDR/LDR buffer conversion correctly
+- Prevent garbage frames with proper buffer isolation (see `convertHDRRGBA`)
+- Maintain consistent frame display
+
+### 5. Development Plan (Step-by-Step)
+
+#### Phase 1: Project Setup
+1. Create React app with Vite + TypeScript
+2. Set up Node.js Express backend with gRPC
+3. Load proto files and create gRPC service clients
+4. Test basic connection to Octane (health check)
+
+#### Phase 2: Core gRPC Client
+1. Implement `makeApiCall()` equivalent with proper ObjectRef handling
+2. Create helper methods for each service:
+   - `ApiProjectManager`: rootNodeGraph()
+   - `ApiNodeGraph`: getOwnedItems(), isValid()
+   - `ApiItemArray`: size(), get()
+   - `ApiItem`: name(), type()
+   - `ApiNode`: destinationNodes()
+3. Test scene loading with real Octane connection
+
+#### Phase 3: UI Components (Scene Outliner First)
+1. Analyze `SceneOutlinerSync.js` to find actual CSS classes used
+2. Create React component with identical HTML structure
+3. Port CSS styles (only used classes)
+4. Implement tree expansion/collapse logic
+5. Test with real scene data
+
+#### Phase 4: Render Viewport
+1. Port `CallbackRenderViewport.js` logic
+2. Implement canvas rendering with proper HDR handling
+3. Add mouse drag → camera sync integration
+4. Test real-time rendering
+
+#### Phase 5: Node Graph Editor & Inspector
+1. Port `NodeGraphEditor.js` with context menus
+2. Port `NodeInspector.js` with dynamic form generation
+3. Preserve all parameter editing functionality
+4. Test node creation and editing
+
+#### Phase 6: Polish & Verification
+1. Pixel-perfect CSS comparison with octaneWeb
+2. Feature parity checklist (every button, every menu item)
+3. Performance optimization (match or exceed octaneWeb)
+4. Cross-browser testing
+
+### 6. Testing Strategy
+
+#### Unit Tests (Proto Loading)
+```typescript
+test('loads all required proto files', () => {
+    expect(grpcClients).toHaveProperty('LiveLink');
+    expect(grpcClients).toHaveProperty('ApiProjectManager');
+    expect(grpcClients).toHaveProperty('ApiNodeGraph');
+    expect(grpcClients).toHaveProperty('ApiItem');
+    expect(grpcClients).toHaveProperty('ApiItemArray');
+    expect(grpcClients).toHaveProperty('ApiNode');
+});
+```
+
+#### Integration Tests (Real Octane)
+```typescript
+test('loads scene tree', async () => {
+    const rootGraph = await octaneClient.getRootNodeGraph();
+    expect(rootGraph).toHaveProperty('handle');
+    expect(rootGraph).toHaveProperty('type');
+    
+    const items = await octaneClient.getOwnedItems(rootGraph);
+    expect(items).toHaveProperty('handle');
+});
+```
+
+#### Visual Regression Tests
+- Screenshot comparison: octaneWeb vs octaneWebR
+- CSS class usage audit (ensure no missing styles)
+- Layout measurements (panel sizes, spacing)
+
+### 7. Common Pitfalls to Avoid
+
+#### ❌ DON'T: Extract handles as strings
+```typescript
+// ❌ WRONG
+const rootGraph = await getRootNodeGraph();
+const handle = rootGraph.handle;  // Extracting string
+await getOwnedItems(handle);      // Loses type information
+```
+
+#### ✅ DO: Keep ObjectRef intact
+```typescript
+// ✅ CORRECT
+const rootGraph = await getRootNodeGraph();
+await getOwnedItems(rootGraph);  // Pass full ObjectRef
+```
+
+#### ❌ DON'T: Use all CSS classes blindly
+```typescript
+// ❌ WRONG - importing unused CSS
+import 'octaneWeb/css/octane-theme.css';  // 2000+ lines, 60% unused
+```
+
+#### ✅ DO: Extract only used CSS
+```typescript
+// ✅ CORRECT - analyze component DOM construction
+// NodeInspector.js uses: .node-inspector, .param-row, .param-label, .param-value
+// Only port those classes
+```
+
+#### ❌ DON'T: Change API call order
+```typescript
+// ❌ WRONG - parallel calls can overwhelm Octane
+const [name, type, isGraph] = await Promise.all([
+    getName(item),
+    getType(item),
+    isGraph(item)
+]);
+```
+
+#### ✅ DO: Preserve sequential calls
+```typescript
+// ✅ CORRECT - sequential as in octaneWeb
+const name = await getName(item);
+const type = await getType(item);
+const isGraphBool = await isGraph(item);
+```
+
+### 8. Success Criteria
+
+Your octaneWebR is complete when:
+
+1. **Visual**: Side-by-side screenshots of octaneWeb and octaneWebR are indistinguishable
+2. **Functional**: All features work identically (scene loading, node editing, camera sync, rendering)
+3. **Technical**: Direct Node.js gRPC (no Python proxy), all proto files loaded correctly
+4. **Performance**: Matches or exceeds octaneWeb responsiveness
+5. **Code Quality**: Clean TypeScript with proper types, modular React components
+
+### 9. Reference Materials
+
+Study these files in depth:
+
+**Core Logic**:
+- `octaneWeb/js/core/OctaneWebClient.js` - All gRPC calls, syncScene algorithm
+- `octaneProxy/octane_proxy.py` - How Python proxy handles requests (replicate this)
+- `octaneProxy/grpc_registry.py` - Service/method/request type mappings
+
+**UI Construction**:
+- `octaneWeb/js/components/SceneOutlinerSync.js::buildTreeElement()` - Actual CSS classes used
+- `octaneWeb/js/components/NodeInspector.js::renderParameter()` - Form generation logic
+- `octaneWeb/js/components/GenericNodeRenderer.js` - Node rendering patterns
+
+**Proto Definitions**:
+- `sdk/src/api/grpc/protodef/common.proto` - ObjectRef definition
+- `sdk/src/api/grpc/protodef/apinodesystem_6.proto` - getOwnedItemsRequest structure
+- `sdk/src/api/grpc/protodef/livelink.proto` - Camera sync methods
+
+### 10. Communication Protocol
+
+**When you need guidance**, provide:
+1. Specific file/function you're working on
+2. Error message (if any) with full stack trace
+3. What you expected vs what you got
+4. Relevant code snippet (10-20 lines of context)
+
+**When you complete a phase**, report:
+1. What works (with evidence - screenshots, test results)
+2. What doesn't work (with specific details)
+3. Any deviations from octaneWeb (and justification)
 
 ---
 
-# Mission: Port octaneWeb to octaneWebR (React + TypeScript + Direct gRPC)
+## 🎓 Final Notes
 
-## Executive Summary
-Port the working octaneWeb project from vanilla JavaScript to a modern React TypeScript application (octaneWebR) with **direct Node.js gRPC communication** to Octane (no Python proxy). The UI must **pixel-perfectly match** octaneWeb, and all functionality must be preserved.
+This is a **port, not a rewrite**. Your goal is to:
+1. **Preserve** all logic, especially the syncScene algorithm
+2. **Translate** vanilla JS → React, Python → Node.js
+3. **Match** the UI pixel-for-pixel using only the CSS actually used
+4. **Validate** against real Octane (not mocks/stubs)
 
-## Success Criteria
-✅ **Architecture**: Browser → Node.js Backend (Express) → Octane gRPC (direct via @grpc/grpc-js)  
-✅ **UI Match**: All panels, controls, layouts match octaneWeb screenshot exactly  
-✅ **Functionality**: Scene sync, node inspection, viewport rendering, node graph editing all working  
-✅ **No Python**: Eliminate Python proxy dependency entirely  
-✅ **Production Ready**: Clean code, proper error handling, documented APIs
+The octaneWeb codebase is your **specification**. When in doubt, match octaneWeb's behavior exactly. The Python proxy hides complexity that you must replicate in Node.js - study `octane_proxy.py` carefully to understand how it dynamically handles different request types.
 
-## Phase 1: Repository Analysis (30 minutes)
-
-### 1.1 Examine octaneWeb Structure
-- [ ] Map out `/workspace/grpcSamples/octaneWeb/` directory structure
-- [ ] Identify all JavaScript modules and their dependencies
-- [ ] Document the current architecture: `octaneWeb → Python Proxy → Octane gRPC`
-- [ ] List all API calls made to the proxy (check `OctaneWebClient.js`)
-
-### 1.2 Analyze CSS and Styling
-- [ ] Review `/workspace/grpcSamples/octaneWeb/css/` files:
-  - `octane-theme.css` - color scheme, fonts, variables
-  - `layout.css` - grid layouts, panel sizing, responsive design
-  - `components.css` - component-specific styles
-- [ ] Identify which CSS classes are actually used (many are unused)
-- [ ] Note the DOM structure in `index.html` for the 4-panel layout
-
-### 1.3 Study Key Components
-Focus on these files for programmatic DOM creation patterns:
-- `NodeInspector.js` - property panel with parameter controls
-- `GenericNodeRenderer.js` - node graph rendering
-- `SceneOutlinerSync.js` - tree view with expand/collapse
-
-### 1.4 Understand gRPC Communication
-- [ ] Review `/workspace/grpcSamples/sdk/src/api/grpc/protodef/*.proto` files
-- [ ] Document what `OctaneProxy` does (special case handling for gRPC requests)
-- [ ] List all gRPC services used: `LiveLink`, `GraphServer`, etc.
-- [ ] Understand the `makeApiCall()` function in `OctaneWebClient.js`
-
-**Deliverable**: Create `ANALYSIS.md` with findings before proceeding.
-
-## Phase 2: Project Setup (45 minutes)
-
-### 2.1 Create octaneWebR Project Structure
-```bash
-mkdir -p /workspace/grpcSamples/octaneWebR
-cd /workspace/grpcSamples/octaneWebR
-
-# Initialize with Vite + React + TypeScript
-npm create vite@latest . -- --template react-ts
-
-# Install dependencies
-npm install zustand axios @types/node
-
-# Backend dependencies
-npm install express cors @grpc/grpc-js @grpc/proto-loader
-npm install --save-dev @types/express @types/cors tsx ts-node nodemon concurrently
-```
-
-### 2.2 Set Up Directory Structure
-```
-octaneWebR/
-├── src/
-│   ├── components/
-│   │   ├── layout/          # MenuBar, StatusBar, MainLayout
-│   │   └── panels/          # SceneOutliner, RenderViewport, NodeInspector, NodeGraphEditor
-│   ├── api/                 # octaneClient.ts (REST wrapper for backend)
-│   ├── store/               # sceneStore.ts (Zustand state management)
-│   ├── types/               # TypeScript interfaces
-│   ├── styles/css/          # Copied CSS from octaneWeb
-│   ├── App.tsx
-│   └── main.tsx
-├── server/
-│   └── octaneGrpcServer.ts  # Node.js gRPC backend
-├── package.json
-├── vite.config.ts
-├── tsconfig.json
-└── README.md
-```
-
-### 2.3 Configure Build Tools
-- [ ] Update `vite.config.ts` to proxy `/api` to backend (port 45042)
-- [ ] Configure `tsconfig.json` for Node.js compatibility
-- [ ] Add `package.json` scripts:
-  ```json
-  {
-    "scripts": {
-      "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-      "dev:backend": "tsx server/octaneGrpcServer.ts",
-      "dev:frontend": "vite",
-      "build": "tsc && vite build"
-    }
-  }
-  ```
-
-**Deliverable**: Runnable project skeleton with `npm run dev`.
-
-## Phase 3: Backend Implementation (2 hours)
-
-### 3.1 Create gRPC Backend (`server/octaneGrpcServer.ts`)
-```typescript
-import * as grpc from '@grpc/grpc-js';
-import * as protoLoader from '@grpc/proto-loader';
-import express from 'express';
-import cors from 'cors';
-import { fileURLToPath } from 'url';
-import path from 'path';
-
-const OCTANE_ADDRESS = '127.0.0.1:51022'; // Direct to Octane
-const PROTO_DIR = path.join(__dirname, '../../sdk/src/api/grpc/protodef');
-
-// Load ALL proto files dynamically
-// Create separate gRPC clients for LiveLink, GraphServer, etc.
-// Expose REST API: POST /api/rpc/:service/:method
-// Health check: GET /api/health
-```
-
-### 3.2 Key Backend Features
-- [ ] Dynamic proto loading from SDK directory
-- [ ] Multi-service gRPC client architecture
-- [ ] Generic REST endpoint routing: `/:service/:method` → gRPC service
-- [ ] Proper error handling and logging
-- [ ] CORS enabled for frontend requests
-
-### 3.3 Test Backend Independently
-```bash
-# Start backend
-npm run dev:backend
-
-# Test health check
-curl http://localhost:45042/api/health
-
-# Test gRPC call
-curl -X POST http://localhost:45042/api/rpc/LiveLink/GetCamera \
-  -H "Content-Type: application/json" \
-  -d '{}'
-```
-
-**Deliverable**: Working backend that connects to Octane at `127.0.0.1:51022`.
-
-## Phase 4: Frontend Core (2 hours)
-
-### 4.1 State Management (`src/store/sceneStore.ts`)
-```typescript
-import { create } from 'zustand';
-
-interface SceneNode {
-  id: string;
-  name: string;
-  type: string;
-  children?: SceneNode[];
-  visible: boolean;
-  expanded: boolean;
-}
-
-interface SceneStore {
-  connected: boolean;
-  sceneTree: SceneNode[];
-  selectedNode: SceneNode | null;
-  
-  setConnected: (connected: boolean) => void;
-  loadScene: () => Promise<void>;
-  selectNode: (node: SceneNode) => void;
-  toggleNodeVisibility: (nodeId: string) => void;
-  toggleNodeExpanded: (nodeId: string) => void;
-}
-
-export const useSceneStore = create<SceneStore>((set, get) => ({
-  // Implementation here
-}));
-```
-
-### 4.2 API Client (`src/api/octaneClient.ts`)
-```typescript
-import axios from 'axios';
-
-const API_BASE = '/api'; // Proxied by Vite to backend
-
-class OctaneClient {
-  async checkHealth(): Promise<boolean> {
-    try {
-      const response = await axios.get(`${API_BASE}/health`);
-      return response.data.status === 'connected';
-    } catch (error) {
-      return false;
-    }
-  }
-
-  async makeApiCall(service: string, method: string, params: any): Promise<any> {
-    const response = await axios.post(`${API_BASE}/rpc/${service}/${method}`, params);
-    return response.data;
-  }
-
-  async syncScene(): Promise<any> {
-    // Port the logic from octaneWeb/js/core/OctaneWebClient.js syncScene()
-    // 1. Get camera
-    // 2. Build scene tree
-    // 3. Get meshes
-    // etc.
-  }
-}
-
-export const octaneClient = new OctaneClient();
-```
-
-### 4.3 Copy and Organize CSS
-```bash
-# Copy CSS from octaneWeb
-cp -r /workspace/grpcSamples/octaneWeb/css/* /workspace/grpcSamples/octaneWebR/src/styles/css/
-
-# Import in App.tsx
-import './styles/css/octane-theme.css';
-import './styles/css/layout.css';
-import './styles/css/components.css';
-```
-
-**Important CSS Notes**:
-- `octane-theme.css` defines CSS variables (colors, fonts, sizes)
-- `layout.css` defines grid layouts and panel structure
-- `components.css` has component-specific styles
-- Add base styles for `html`, `body`, `#root`, `.app-container`, `.main-content`
-
-**Deliverable**: State management and API client ready, CSS imported.
-
-## Phase 5: UI Components (4 hours)
-
-### 5.1 Main Layout (`src/components/layout/MainLayout.tsx`)
-```typescript
-import { useSceneStore } from '../../store/sceneStore';
-import MenuBar from './MenuBar';
-import SceneOutliner from '../panels/SceneOutliner';
-import RenderViewport from '../panels/RenderViewport';
-import NodeInspector from '../panels/NodeInspector';
-import NodeGraphEditor from '../panels/NodeGraphEditor';
-import StatusBar from './StatusBar';
-
-export const MainLayout: React.FC = () => {
-  const { connected, setConnected, loadScene } = useSceneStore();
-
-  // Auto-connect on mount
-  useEffect(() => {
-    handleConnect();
-  }, []);
-
-  return (
-    <div className="app-container">
-      <MenuBar connected={connected} onConnect={handleConnect} onDisconnect={handleDisconnect} />
-      
-      <main className="main-content">
-        <aside className="scene-outliner">
-          <SceneOutliner connected={connected} />
-        </aside>
-
-        <section className="center-panels">
-          <div className="render-viewport">
-            <RenderViewport connected={connected} />
-          </div>
-          
-          <div className="node-graph-editor">
-            <NodeGraphEditor connected={connected} />
-          </div>
-        </section>
-
-        <aside className="node-inspector">
-          <NodeInspector connected={connected} />
-        </aside>
-      </main>
-
-      <StatusBar connected={connected} />
-    </div>
-  );
-};
-```
-
-### 5.2 Menu Bar (`src/components/layout/MenuBar.tsx`)
-- File, Edit, Script, Module, Cloud, Window, Help menu items
-- Connection status LED (yellow=ready, green=connected, red=error)
-- Server address input (disabled, shows "Node.js Direct gRPC")
-- Connect/disconnect toggle switch
-
-### 5.3 Scene Outliner (`src/components/panels/SceneOutliner.tsx`)
-Study `SceneOutlinerSync.js` for the tree view logic:
-- Recursive tree component with expand/collapse
-- Scene/Link/Local tabs
-- Search box (filter scene tree)
-- Refresh button
-- Visibility toggle per node (eye icon)
-- Node selection (highlights in blue)
-- Node icons based on type (camera, mesh, light, etc.)
-
-### 5.4 Render Viewport (`src/components/panels/RenderViewport.tsx`)
-- Canvas element for WebGL rendering
-- Panel header with title
-- Placeholder message when disconnected
-- Future: Callback streaming for real-time renders
-
-### 5.5 Node Inspector (`src/components/panels/NodeInspector.tsx`)
-Study `NodeInspector.js` and `GenericNodeRenderer.js`:
-- Display properties of selected node
-- Parameter groups (collapsible sections)
-- Input controls: text, number, color, dropdown, slider
-- Property grid layout (label on left, control on right)
-- Placeholder when no node selected
-
-### 5.6 Node Graph Editor (`src/components/panels/NodeGraphEditor.tsx`)
-Study `GenericNodeRenderer.js`:
-- Canvas for node graph visualization
-- Zoom/pan controls (+, -, fit)
-- Placeholder message when disconnected
-- Future: Node creation, connection editing
-
-### 5.7 Status Bar (`src/components/layout/StatusBar.tsx`)
-- Left: Status message ("Ready", "Connecting...", "Connected")
-- Center: "OctaneWebR - Direct gRPC (No Proxy)"
-- Right: "Octane: Connected/Disconnected"
-
-**Deliverable**: All UI components implemented and styled to match octaneWeb.
-
-## Phase 6: Integration and Testing (2 hours)
-
-### 6.1 Verify UI Match
-Compare side-by-side with octaneWeb:
-- [ ] Layout proportions match (300px left, flex center, 320px right)
-- [ ] Colors match (dark theme, orange accents)
-- [ ] Fonts and sizing match
-- [ ] Spacing and padding match
-- [ ] All panels, buttons, controls visible
-
-### 6.2 Test Connection Flow
-- [ ] Start Octane and enable LiveLink (Help → LiveLink)
-- [ ] Start octaneWebR: `npm run dev`
-- [ ] Verify auto-connect on page load
-- [ ] Check backend health: `curl http://localhost:45042/api/health`
-- [ ] Verify scene loads in Scene Outliner
-- [ ] Test node selection → Node Inspector updates
-
-### 6.3 Test Each Component
-- [ ] Scene Outliner: expand/collapse, search, visibility toggle
-- [ ] Render Viewport: displays message when disconnected
-- [ ] Node Inspector: shows properties of selected node
-- [ ] Node Graph Editor: placeholder visible
-- [ ] Status Bar: shows correct connection status
-
-### 6.4 Error Handling
-- [ ] Octane not running: graceful error message
-- [ ] Network timeout: retry logic
-- [ ] Invalid gRPC response: error logging
-- [ ] Frontend displays user-friendly errors
-
-**Deliverable**: Working application with all components functional.
-
-## Phase 7: Documentation (1 hour)
-
-### 7.1 Create README.md
-```markdown
-# OctaneWebR - React + TypeScript Port
-
-## Architecture
-Browser → Node.js Backend (port 45042) → Octane gRPC (127.0.0.1:51022)
-
-**No Python proxy required!**
-
-## Quick Start
-1. Start Octane and enable LiveLink (Help → LiveLink)
-2. Run: `npm run dev`
-3. Open: http://localhost:44479
-
-## Project Structure
-- `src/` - React TypeScript frontend
-- `server/` - Node.js gRPC backend
-- `src/styles/css/` - Copied from octaneWeb
-
-## API Endpoints
-- `GET /api/health` - Check Octane connection
-- `POST /api/rpc/:service/:method` - Generic gRPC call
-
-## State Management
-Uses Zustand for global state (scene tree, selection, connection status).
-
-## Development
-- `npm run dev` - Start both backend and frontend
-- `npm run dev:backend` - Backend only
-- `npm run dev:frontend` - Frontend only
-- `npm run build` - Production build
-```
-
-### 7.2 Create MIGRATION_NOTES.md
-Document differences from octaneWeb:
-- Architecture changes (Python proxy → Node.js)
-- State management (global vars → Zustand)
-- DOM manipulation (programmatic → React components)
-- CSS organization (inline → imported)
-- API calls (direct fetch → axios + REST wrapper)
-
-**Deliverable**: Complete documentation for future developers.
-
-## Key Differences from Original Prompt
-
-### What We Changed
-1. **Structured Phases**: Clear progression from analysis → setup → backend → frontend → testing
-2. **Concrete Deliverables**: Each phase has specific "done" criteria
-3. **Technical Specificity**: Exact package names, file structures, code snippets
-4. **CSS Strategy**: Explicit instructions to copy CSS and add base styles
-5. **Architecture Clarity**: Exact ports, endpoints, and data flow
-6. **Testing Protocol**: Step-by-step verification process
-7. **Interaction Expectations**: Regular check-ins after each phase
-
-### What We Kept
-1. Goal: Faithful port of octaneWeb functionality
-2. UI must match exactly
-3. Direct gRPC (no Python proxy)
-4. Study key files (NodeInspector.js, GenericNodeRenderer.js, SceneOutlinerSync.js)
-
-## Common Pitfalls to Avoid
-
-### 1. CSS Issues
-❌ **Wrong**: Assume React will magically style components  
-✅ **Right**: Copy all CSS from octaneWeb, import in App.tsx, add base styles for html/body/#root
-
-### 2. State Management
-❌ **Wrong**: Use local useState in every component  
-✅ **Right**: Centralize in Zustand store for scene tree, selection, connection status
-
-### 3. API Architecture
-❌ **Wrong**: Try to use gRPC-web directly in browser  
-✅ **Right**: Node.js backend with @grpc/grpc-js, REST wrapper for frontend
-
-### 4. Proto Loading
-❌ **Wrong**: Manually write TypeScript definitions for 95 proto files  
-✅ **Right**: Use @grpc/proto-loader for dynamic loading
-
-### 5. Layout Structure
-❌ **Wrong**: Use random div nesting  
-✅ **Right**: Match octaneWeb structure: `.app-container` → `.main-content` → panels
-
-## Conclusion
-
-This improved prompt provides:
-- ✅ **Clear phases** with time estimates
-- ✅ **Concrete deliverables** for each phase
-- ✅ **Technical specificity** (packages, ports, file structures)
-- ✅ **Success criteria** (what "done" looks like)
-- ✅ **Common pitfalls** to avoid
-- ✅ **Testing protocol** to verify UI match
-
-By following this prompt, an engineer can successfully port octaneWeb to octaneWebR in approximately **12 hours** with minimal back-and-forth communication.
+Good luck! You have a complete working reference implementation. Use it well. 🚀
