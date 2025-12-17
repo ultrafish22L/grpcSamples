@@ -5,6 +5,7 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import * as fs from 'fs';
 
 // ========================================
 //  DIRECT gRPC CONNECTION TO OCTANE
@@ -15,20 +16,36 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const PROTO_DIR = path.join(__dirname, '../../sdk/src/api/grpc/protodef');
-const OCTANE_ADDRESS = '127.0.0.1:51022';
+
+// Detect sandbox environment (Docker/containerized)
+const isDockerOrSandbox = process.env.DOCKER || process.env.SANDBOX || 
+  fs.existsSync('/.dockerenv') || fs.existsSync('/run/.containerenv');
+const OCTANE_HOST = isDockerOrSandbox ? 'host.docker.internal' : '127.0.0.1';
+const OCTANE_ADDRESS = `${OCTANE_HOST}:51022`;
+
+console.log(`🐳 Environment: ${isDockerOrSandbox ? 'Docker/Sandbox' : 'Native'}`);
+console.log(`🎯 Octane target: ${OCTANE_ADDRESS}`);
 
 console.log('Loading protobuf definitions from:', PROTO_DIR);
 
-// Load ALL protobuf definitions (like octaneWeb does)
+// Load specific proto files (avoids naming conflicts)
 import fs from 'fs';
 
-const protoFiles = fs.readdirSync(PROTO_DIR).filter(f => f.endsWith('.proto'));
-console.log(`Found ${protoFiles.length} proto files`);
+const requiredProtos = [
+  'livelink.proto',
+  'apiprojectmanager.proto',
+  'apinodesystem_3.proto',  // Contains ApiItemService
+  'apinodesystem_6.proto',  // Contains ApiNodeGraphService
+  'apinodesystem_7.proto',  // Contains ApiNodeService
+  'apiitemarray.proto'
+];
+
+console.log(`Loading ${requiredProtos.length} required proto files`);
 
 const allProtos: any = {};
 
-// Load each proto file
-for (const protoFile of protoFiles) {
+// Load each required proto file
+for (const protoFile of requiredProtos) {
   try {
     const packageDef = protoLoader.loadSync(
       path.join(PROTO_DIR, protoFile),
@@ -43,13 +60,25 @@ for (const protoFile of protoFiles) {
     );
     
     const loaded = grpc.loadPackageDefinition(packageDef);
-    Object.assign(allProtos, loaded);
+    // Merge packages without overwriting
+    for (const pkgName of Object.keys(loaded)) {
+      if (!allProtos[pkgName]) {
+        allProtos[pkgName] = {};
+      }
+      Object.assign(allProtos[pkgName], loaded[pkgName]);
+    }
+    console.log(`✅ Loaded ${protoFile}`);
   } catch (error: any) {
     console.warn(`⚠️ Could not load ${protoFile}:`, error.message);
   }
 }
 
 console.log('✅ Loaded proto packages:', Object.keys(allProtos));
+
+// Debug: show what's in octaneapi
+if (allProtos.octaneapi) {
+  console.log('📦 octaneapi services:', Object.keys(allProtos.octaneapi).filter(k => k.endsWith('Service')).slice(0, 10));
+}
 
 // Create gRPC clients
 const grpcClients: any = {};
@@ -63,16 +92,33 @@ if (allProtos.livelinkapi && allProtos.livelinkapi.LiveLinkService) {
   console.log('✅ LiveLink client created');
 }
 
-// Create GraphServer client (for scene operations)
-if (allProtos.OctaneEngine && allProtos.OctaneEngine.graphserver) {
-  grpcClients.GraphServer = new allProtos.OctaneEngine.graphserver.GraphServer(
-    OCTANE_ADDRESS,
-    grpc.credentials.createInsecure()
-  );
-  console.log('✅ GraphServer client created');
+// Create all octaneapi services dynamically
+if (allProtos.octaneapi) {
+  const serviceNames = [
+    'ApiProjectManagerService',
+    'ApiNodeGraphService', 
+    'ApiItemService',
+    'ApiItemArrayService',
+    'ApiNodeService'
+  ];
+  
+  for (const serviceName of serviceNames) {
+    if (allProtos.octaneapi[serviceName]) {
+      // Remove 'Service' suffix for client name (ApiProjectManagerService → ApiProjectManager)
+      const clientName = serviceName.replace('Service', '');
+      grpcClients[clientName] = new allProtos.octaneapi[serviceName](
+        OCTANE_ADDRESS,
+        grpc.credentials.createInsecure()
+      );
+      console.log(`✅ ${clientName} client created`);
+    } else {
+      console.log(`⚠️ ${serviceName} not found in octaneapi`);
+    }
+  }
 }
 
 console.log('✅ gRPC clients ready for Octane at', OCTANE_ADDRESS);
+console.log('✅ Available clients:', Object.keys(grpcClients));
 
 // Express server for browser REST API
 const app = express();

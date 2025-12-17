@@ -1,7 +1,6 @@
 /**
  * OctaneWebR gRPC Client
  * Connects to Node.js backend which makes DIRECT gRPC calls to Octane
- * NO Python proxy involved!
  */
 
 class OctaneClient {
@@ -13,12 +12,15 @@ class OctaneClient {
   }
 
   /**
-   * Make a direct gRPC call through Node.js backend
-   * Backend connects DIRECTLY to Octane (no proxy)
+   * Make gRPC call through Node.js backend
+   * Backend path: /api/rpc/{service}/{method}
    */
-  async call(service: string, method: string, params: any = {}): Promise<any> {
+  private async call(service: string, method: string, params: any = {}): Promise<any> {
     try {
-      const response = await fetch(`${this.baseUrl}/rpc/${service}/${method}`, {
+      const url = `${this.baseUrl}/rpc/${service}/${method}`;
+      console.log(`[Octane gRPC] ${service}.${method}`, params);
+      
+      const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(params)
@@ -29,9 +31,12 @@ class OctaneClient {
         throw new Error(error.error || `HTTP ${response.status}`);
       }
       
-      return await response.json();
+      const result = await response.json();
+      console.log(`[Octane gRPC] ${service}.${method} response:`, result);
+      
+      return result;
     } catch (error: any) {
-      console.error(`[Octane gRPC] ${service}/${method}:`, error.message);
+      console.error(`[Octane gRPC Error] ${service}.${method}:`, error.message);
       throw error;
     }
   }
@@ -52,46 +57,52 @@ class OctaneClient {
     return this.connected;
   }
 
-  // Camera operations
+  // Camera operations (LiveLink service)
   async getCamera() {
-    return this.call('Camera', 'GetCamera', {});
+    return this.call('LiveLink', 'GetCamera', {});
   }
 
-  async setCameraPosition(x: number, y: number, z: number) {
-    return this.call('Camera', 'SetCameraPosition', { x, y, z });
+  async setCamera(position: any, target: any) {
+    return this.call('LiveLink', 'SetCamera', {
+      cameraPosition: position,
+      cameraTarget: target
+    });
   }
 
-  async setCameraTarget(x: number, y: number, z: number) {
-    return this.call('Camera', 'SetCameraTarget', { x, y, z });
-  }
-
-  // Scene operations
+  // Scene operations (ApiProjectManager service)
   async getRootNodeGraph() {
-    return this.call('GraphServer', 'rootNodeGraph', {});
+    const result = await this.call('ApiProjectManager', 'rootNodeGraph', {});
+    return result.result;  // Returns full ObjectRef { handle, type }
   }
 
-  async getOwnedItems(objectPtr: any) {
-    return this.call('Graph', 'getOwnedItems', { objectPtr });
+  async getOwnedItems(objectRef: any) {
+    const result = await this.call('ApiNodeGraph', 'getOwnedItems', { objectPtr: objectRef });
+    return result.list;  // Returns ObjectRef
   }
 
-  async getArrayLength(objectPtr: any) {
-    return this.call('ApiItemArray', 'length', { objectPtr });
+  async getArrayLength(objectRef: any) {
+    const result = await this.call('ApiItemArray', 'size', { objectPtr: objectRef });
+    return result.result;
   }
 
-  async getArrayItem(objectPtr: any, index: number) {
-    return this.call('ApiItemArray', 'get', { objectPtr, index });
+  async getArrayItem(objectRef: any, index: number) {
+    const result = await this.call('ApiItemArray', 'get', { objectPtr: objectRef, index });
+    return result.result;  // Returns ObjectRef
   }
 
-  async isGraph(objectPtr: any) {
-    return this.call('GraphServer', 'isGraph', { objectPtr });
+  async isGraph(objectRef: any) {
+    const result = await this.call('ApiNodeGraph', 'isValid', { objectPtr: objectRef });
+    return result.result;
   }
 
-  async getName(objectPtr: any) {
-    return this.call('GraphServer', 'getName', { objectPtr });
+  async getName(objectRef: any) {
+    const result = await this.call('ApiItem', 'name', { objectPtr: objectRef });
+    return result.result;
   }
 
   async getType(objectPtr: any) {
-    return this.call('GraphServer', 'getType', { objectPtr });
+    const result = await this.call('ApiItem', 'type', { objectPtr });
+    return result;
   }
 
   /**
