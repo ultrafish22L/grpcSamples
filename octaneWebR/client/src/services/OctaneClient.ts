@@ -46,7 +46,7 @@ export class OctaneClient extends EventEmitter {
     resolution: { width: 1920, height: 1080 }
   };
 
-  constructor(serverUrl: string = 'http://localhost:45769') {
+  constructor(serverUrl: string = 'http://localhost:51022') {
     super();
     this.serverUrl = serverUrl;
     console.log('🎬 OctaneClient initialized:', serverUrl);
