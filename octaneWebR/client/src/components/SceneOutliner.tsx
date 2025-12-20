@@ -7,22 +7,34 @@ import React, { useEffect, useState } from 'react';
 import { useOctane } from '../hooks/useOctane';
 import { SceneNode } from '../services/OctaneClient';
 
-// Node Pin Type mapping (from OctaneIconMapper.js)
+// Node icon mapping based on Octane API type strings (e.g., 'PT_GEOMETRY')
+// Reference: octaneWeb/js/utils/OctaneIconMapper.js
 // API returns string types like 'PT_GEOMETRY', not numeric enums
 const NODE_ICON_MAP: Record<string, string> = {
+  // Parameter types
   'PT_BOOL': '☑️',
   'PT_FLOAT': '🔢',
   'PT_INT': '🔢',
   'PT_ENUM': '📋',
   'PT_RGB': '🎨',
+  'PT_STRING': '📝',
+  'PT_TRANSFORM': '🔄',
+  
+  // Scene node types
   'PT_RENDER_TARGET': '🎯',
-  'PT_RENDERTARGET': '🎯',
+  'PT_RENDERTARGET': '🎯',  // Fallback without underscore
   'PT_MESH': '🫖',
   'PT_GEOMETRY': '🫖',
   'PT_CAMERA': '📷',
   'PT_LIGHT': '💡',
   'PT_MATERIAL': '🎨',
+  'PT_EMISSION': '💡',
+  'PT_TEXTURE': '🖼️',
+  'PT_DISPLACEMENT': '〰️',
   'PT_ENVIRONMENT': '🌍',
+  'PT_MEDIUM': '💨',
+  
+  // Settings and configuration types
   'PT_FILM_SETTINGS': '🎬',
   'PT_ANIMATION_SETTINGS': '⏱️',
   'PT_KERNEL': '🔧',

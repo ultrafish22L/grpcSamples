@@ -520,21 +520,32 @@ export class OctaneClient extends EventEmitter {
 
   private getNodeIcon(outType: string | number): string {
     // API returns string types like 'PT_GEOMETRY', not numeric enums
-    // (from OctaneIconMapper.js)
+    // Reference: octaneWeb/js/utils/OctaneIconMapper.js
     const iconMap: Record<string, string> = {
+      // Parameter types
       'PT_BOOL': '☑️',
       'PT_FLOAT': '🔢',
       'PT_INT': '🔢',
       'PT_ENUM': '📋',
       'PT_RGB': '🎨',
+      'PT_STRING': '📝',
+      'PT_TRANSFORM': '🔄',
+      
+      // Scene node types
       'PT_RENDER_TARGET': '🎯',
-      'PT_RENDERTARGET': '🎯',
+      'PT_RENDERTARGET': '🎯',  // Fallback without underscore
       'PT_MESH': '🫖',
       'PT_GEOMETRY': '🫖',
       'PT_CAMERA': '📷',
       'PT_LIGHT': '💡',
       'PT_MATERIAL': '🎨',
+      'PT_EMISSION': '💡',
+      'PT_TEXTURE': '🖼️',
+      'PT_DISPLACEMENT': '〰️',
       'PT_ENVIRONMENT': '🌍',
+      'PT_MEDIUM': '💨',
+      
+      // Settings and configuration types
       'PT_FILM_SETTINGS': '🎬',
       'PT_ANIMATION_SETTINGS': '⏱️',
       'PT_KERNEL': '🔧',
