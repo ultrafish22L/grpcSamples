@@ -195,9 +195,17 @@ function NodeParameter({
         className={isEndNode ? 'node-box-parameter' : 'node-box'}
         data-node-handle={node.handle}
       >
-        <div className="node-icon-box" style={{ backgroundColor: color }}>
-          <span className="node-icon">{icon}</span>
-        </div>
+        {isEndNode ? (
+          // Parameters use blue icon styling (matching reference screenshot)
+          <div className="parameter-icon">
+            <span>{icon}</span>
+          </div>
+        ) : (
+          // Non-parameter nodes use colored icon box
+          <div className="node-icon-box" style={{ backgroundColor: color }}>
+            <span className="node-icon">{icon}</span>
+          </div>
+        )}
         <div className="node-content">
           <div className="node-label" onClick={hasChildren ? handleToggle : undefined}>
             {hasChildren && (
