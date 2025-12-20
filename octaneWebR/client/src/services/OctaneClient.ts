@@ -4,6 +4,7 @@
  */
 
 import { EventEmitter } from '../utils/EventEmitter';
+import { getObjectTypeForService, createObjectPtr } from '../constants/OctaneTypes';
 
 export interface RenderState {
   isRendering: boolean;
@@ -18,8 +19,12 @@ export interface SceneNode {
   name: string;
   type: string;
   typeEnum?: number;
-  visible: boolean;
+  visible?: boolean;
+  level?: number;
   children?: SceneNode[];
+  graphInfo?: any;
+  nodeInfo?: any;
+  pinInfo?: any;
   [key: string]: any;
 }
 
@@ -46,10 +51,11 @@ export class OctaneClient extends EventEmitter {
     resolution: { width: 1920, height: 1080 }
   };
 
-  constructor(serverUrl: string = 'http://localhost:51022') {
+  constructor(serverUrl?: string) {
     super();
-    this.serverUrl = serverUrl;
-    console.log('🎬 OctaneClient initialized:', serverUrl);
+    // Default to same-origin (Vite dev server with gRPC plugin)
+    this.serverUrl = serverUrl || window.location.origin;
+    console.log('🎬 OctaneClient initialized:', this.serverUrl);
   }
 
   async connect(): Promise<boolean> {
@@ -140,45 +146,28 @@ export class OctaneClient extends EventEmitter {
     
     console.log(`📤 ${service}.${method}`, handle ? `(handle: ${handle})` : '');
     
-    // Build request body
-    const body: any = {};
+    // Build request body - following octaneWeb's makeApiCall logic
+    let body: any = {};
     
-    // ApiItemService and related services expect objectPtr structure
-    const servicesNeedingObjectPtr = ['ApiItemService', 'ApiNodeService', 'ApiNodeGraphService', 'ApiItemArrayService', 'ApiNodeArrayService'];
-    if (servicesNeedingObjectPtr.includes(service) && handle !== undefined && handle !== null) {
-      // Extract type from handle if it's an object, otherwise default to ApiRootNodeGraph
-      let objectType = 18; // ApiRootNodeGraph default
-      let handleValue = handle;
+    // If handle is a string (typical case), check if service needs objectPtr wrapping
+    if (typeof handle === 'string') {
+      const objectType = getObjectTypeForService(service);
       
-      if (typeof handle === 'object' && handle.handle) {
-        handleValue = handle.handle;
-        if (handle.type) {
-          // Map type strings to ObjectType enum values (from common.proto)
-          const typeMap: Record<string, number> = {
-            'ApiRootNodeGraph': 18,
-            'ApiNodeGraph': 20,
-            'ApiNode': 17,
-            'ApiItem': 16,
-            'ApiItemArray': 31,
-            'ApiNodeArray': 34
-          };
-          objectType = typeMap[handle.type] || 16; // Default to ApiItem
-          console.log(`🔍 Mapped type '${handle.type}' to enum value ${objectType}`);
-        }
+      if (objectType !== undefined) {
+        // Service requires objectPtr structure
+        body.objectPtr = createObjectPtr(handle, objectType);
       } else {
-        console.log(`🔍 Handle is primitive:`, handle, 'using default type', objectType);
+        // No objectPtr needed, pass handle directly
+        body.handle = handle;
       }
-      
-      body.objectPtr = {
-        handle: handleValue,
-        type: objectType
-      };
     } else if (handle !== undefined && handle !== null) {
-      body.handle = handle;
+      // Handle is an object, merge it into body
+      body = { ...handle };
     }
     
+    // Merge additional params
     if (params && Object.keys(params).length > 0) {
-      Object.assign(body, params);
+      body = { ...body, ...params };
     }
     
     try {
@@ -215,15 +204,262 @@ export class OctaneClient extends EventEmitter {
     await this.callApi('ApiProjectManager', 'setCameraTarget', { x, y, z });
   }
 
-  // Scene API
+  // Scene API - Port of octaneWeb syncScene() implementation
   async buildSceneTree(): Promise<SceneNode[]> {
-    const response = await this.callApi('ApiSceneOutliner', 'buildSceneTree', {});
-    if (response && response.tree) {
-      this.scene.tree = response.tree;
-      this.updateSceneMap(this.scene.tree);
+    console.log('🌳 Building scene tree...');
+    
+    // Clear previous scene data
+    this.scene = {
+      tree: [],
+      map: new Map(),
+      connections: new Map()
+    };
+    
+    try {
+      // Get root node graph
+      const rootResponse = await this.callApi('ApiProjectManager', 'rootNodeGraph', {});
+      if (!rootResponse || !rootResponse.result || !rootResponse.result.handle) {
+        throw new Error('Failed to get root node graph');
+      }
+      
+      const rootHandle = rootResponse.result.handle;
+      console.log('📍 Root handle:', rootHandle);
+      
+      // Check if it's a graph
+      const isGraphResponse = await this.callApi('ApiItem', 'isGraph', rootHandle);
+      const isGraph = isGraphResponse?.result || false;
+      
+      // Recursively build scene tree starting from root
+      // Note: syncSceneRecurse handles building children for level 1 items
+      this.scene.tree = await this.syncSceneRecurse(rootHandle, null, isGraph, 0);
+      
+      console.log('✅ Scene tree built:', this.scene.tree.length, 'top-level items');
       this.emit('sceneTreeUpdated', this.scene);
+      
+      return this.scene.tree;
+    } catch (error: any) {
+      console.error('❌ Failed to build scene tree:', error.message);
+      throw error;
     }
-    return this.scene.tree;
+  }
+
+  private async syncSceneRecurse(
+    itemHandle: number | null,
+    sceneItems: SceneNode[] | null,
+    isGraph: boolean,
+    level: number
+  ): Promise<SceneNode[]> {
+    if (sceneItems === null) {
+      sceneItems = [];
+    }
+    
+    level = level + 1;
+    
+    // Limit recursion depth to prevent overwhelming Octane
+    if (level > 5) {
+      console.warn(`⚠️ Recursion depth limit reached at level ${level}`);
+      return sceneItems;
+    }
+    
+    try {
+      // First call - get the root
+      if (itemHandle === null) {
+        const response = await this.callApi('ApiProjectManager', 'rootNodeGraph', {});
+        if (!response || !response.result || !response.result.handle) {
+          throw new Error('Failed ApiProjectManager/rootNodeGraph');
+        }
+        itemHandle = response.result.handle;
+        
+        // Check if it's a graph or node
+        const isGraphResponse = await this.callApi('ApiItem', 'isGraph', itemHandle);
+        isGraph = isGraphResponse?.result || false;
+      }
+      
+      if (isGraph) {
+        // Get owned items
+        const ownedResponse = await this.callApi('ApiNodeGraph', 'getOwnedItems', itemHandle);
+        // getOwnedItems returns {list: {handle, type}} not {result: {handle, type}}
+        if (!ownedResponse || !ownedResponse.list || !ownedResponse.list.handle) {
+          throw new Error('Failed ApiNodeGraph/getOwnedItems');
+        }
+        const ownedItemsHandle = ownedResponse.list.handle;
+        
+        // Get the size of the item array
+        const sizeResponse = await this.callApi('ApiItemArray', 'size', ownedItemsHandle);
+        const size = sizeResponse?.result || 0;
+        
+        console.log(`📦 Level ${level}: Found ${size} owned items`);
+        
+        // Iterate through each owned item
+        for (let i = 0; i < size; i++) {
+          const itemResponse = await this.callApi('ApiItemArray', 'get', ownedItemsHandle, { index: i });
+          if (itemResponse && itemResponse.result && itemResponse.result.handle) {
+            await this.addSceneItem(sceneItems, itemResponse.result, null, level);
+          }
+        }
+        
+        // At level 1, build children for all items SEQUENTIALLY
+        if (level === 1) {
+          console.log(`🔄 Building children for ${sceneItems.length} level 1 items`);
+          for (const item of sceneItems) {
+            await this.addItemChildren(item);
+            // Small delay to avoid overwhelming Octane
+            await new Promise(resolve => setTimeout(resolve, 50));
+          }
+        }
+      }
+      // TODO: Handle nodes (not just graphs) - follow pins for node connections
+      
+    } catch (error: any) {
+      console.error('❌ syncSceneRecurse failed:', error.message);
+    }
+    
+    return sceneItems;
+  }
+
+  private async addSceneItem(
+    sceneItems: SceneNode[],
+    item: any,
+    pinInfo: any,
+    level: number
+  ): Promise<SceneNode | undefined> {
+    if (!item || !item.handle) {
+      return undefined;
+    }
+    
+    // Check if already exists at level 1
+    const existing = this.scene.map.get(item.handle);
+    if (existing && existing.level === 1) {
+      sceneItems.push(existing);
+      return existing;
+    }
+    
+    try {
+      // Get item name
+      const nameResponse = await this.callApi('ApiItem', 'name', item.handle);
+      const itemName = nameResponse?.result || 'Unnamed';
+      
+      // Get outType (node type enum)
+      const outTypeResponse = await this.callApi('ApiItem', 'outType', item.handle);
+      const outType = outTypeResponse?.result || 0;
+      
+      // Check if it's a graph or node
+      const isGraphResponse = await this.callApi('ApiItem', 'isGraph', item.handle);
+      const isGraph = isGraphResponse?.result || false;
+      
+      let graphInfo = null;
+      let nodeInfo = null;
+      
+      if (isGraph) {
+        // Get graph info
+        const infoResponse = await this.callApi('ApiNodeGraph', 'info1', item.handle);
+        graphInfo = infoResponse?.result || null;
+      } else {
+        // Get node info
+        const infoResponse = await this.callApi('ApiNode', 'info', item.handle);
+        nodeInfo = infoResponse?.result || null;
+      }
+      
+      const entry: SceneNode = {
+        level,
+        name: itemName,
+        handle: item.handle,
+        type: this.mapOutTypeToString(outType),
+        typeEnum: outType,
+        visible: true,
+        graphInfo,
+        nodeInfo,
+        pinInfo,
+        children: []
+      };
+      
+      // Save to scene items and map
+      sceneItems.push(entry);
+      this.scene.map.set(item.handle, entry);
+      
+      console.log(`  📄 Added item: ${itemName} (type: ${outType}, level: ${level})`);
+      
+      return entry;
+      
+    } catch (error: any) {
+      console.error('❌ addSceneItem failed:', error.message);
+      return undefined;
+    }
+  }
+
+  private async addItemChildren(item: SceneNode): Promise<void> {
+    if (!item || !item.handle) {
+      return;
+    }
+    
+    const isGraph = item.graphInfo !== null && item.graphInfo !== undefined;
+    
+    try {
+      // Recursively get children
+      const children = await this.syncSceneRecurse(item.handle, null, isGraph, item.level || 1);
+      item.children = children;
+      
+      // For end nodes (no children), fetch attribute info
+      if (children.length === 0) {
+        try {
+          const attrInfoResponse = await this.callApi(
+            'ApiItem',
+            'attrInfo',
+            item.handle,
+            { id: 12 } // A_VALUE attribute ID
+          );
+          
+          if (attrInfoResponse?.result) {
+            item.attrInfo = attrInfoResponse.result;
+            console.log(`  📊 End node: ${item.name} (${item.attrInfo.type})`);
+          }
+        } catch (attrError: any) {
+          // Not all end nodes have attribute info, that's OK
+          console.log(`  ℹ️ No attrInfo for ${item.name}`);
+        }
+      } else {
+        console.log(`  👶 Added ${children.length} children to ${item.name}`);
+      }
+      
+    } catch (error: any) {
+      console.error('❌ addItemChildren failed:', error.message);
+    }
+  }
+
+  private mapOutTypeToString(outType: number): string {
+    // Map NodePinType enum values to readable strings
+    // From OctaneTypes.js NodePinType enum
+    const typeMap: Record<number, string> = {
+      1: 'Bool',
+      2: 'Float',
+      3: 'Int',
+      4: 'Transform',
+      5: 'Texture',
+      6: 'Emission',
+      7: 'Material',
+      8: 'Camera',
+      9: 'Environment',
+      10: 'Imager',
+      11: 'Kernel',
+      12: 'Geometry',
+      13: 'Medium',
+      15: 'Film Settings',
+      16: 'Enum',
+      18: 'Postprocessing',
+      19: 'Render Target',
+      22: 'Displacement',
+      23: 'String',
+      24: 'Render Passes',
+      25: 'Render Layer',
+      27: 'Animation Settings',
+      37: 'Output AOV Group'
+    };
+    
+    if (outType >= 50000 && outType <= 50136) {
+      return 'Material';
+    }
+    
+    return typeMap[outType] || `Type${outType}`;
   }
 
   private updateSceneMap(nodes: SceneNode[]): void {

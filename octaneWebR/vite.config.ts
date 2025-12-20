@@ -1,8 +1,12 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { octaneGrpcPlugin } from './vite-plugin-octane-grpc'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    octaneGrpcPlugin()
+  ],
   root: 'client',
   server: {
     port: 43929,

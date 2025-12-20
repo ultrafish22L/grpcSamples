@@ -3428,3 +3428,76 @@ body.drag-over .drop-indicator {
     border: 1px solid var(--octane-border);
     border-radius: 3px;
 }
+
+/* Node Graph Editor Styles */
+.node-graph-svg-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #1a1a1a;
+}
+
+.node-graph-empty {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--octane-text-secondary);
+    gap: 12px;
+}
+
+.node-graph-empty p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.reload-btn {
+    background: var(--octane-bg-hover);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-primary);
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.reload-btn:hover {
+    background: var(--octane-accent-primary);
+    color: white;
+}
+
+.node-graph-zoom-overlay {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 8px 12px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.zoom-info {
+    color: #aaa;
+    font-size: 11px;
+    font-family: monospace;
+}
+
+.node-graph-zoom-overlay button {
+    background: var(--octane-bg-hover);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-primary);
+    padding: 4px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.node-graph-zoom-overlay button:hover {
+    background: var(--octane-accent-primary);
+    color: white;
+}

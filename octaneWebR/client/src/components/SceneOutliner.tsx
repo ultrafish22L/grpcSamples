@@ -7,26 +7,38 @@ import React, { useEffect, useState } from 'react';
 import { useOctane } from '../hooks/useOctane';
 import { SceneNode } from '../services/OctaneClient';
 
-// Node type enum mapping (from octaneids.proto)
-const NODE_TYPE_MAP: Record<number, { icon: string; label: string }> = {
-  1: { icon: '📦', label: 'Mesh' }, // NT_GEO_MESH
-  14: { icon: '☀️', label: 'Daylight' }, // NT_ENV_DAYLIGHT
-  15: { icon: '📷', label: 'Camera' }, // NT_IMAGER_CAMERA
-  56: { icon: '🎥', label: 'Render Target' }, // NT_RENDERTARGET
-  85: { icon: '🔌', label: 'Graph Input' }, // NT_PROGRAMMABLE_GRAPH_INPUT
-  123: { icon: '💡', label: 'Point Light' }, // NT_TOON_POINT_LIGHT
-  124: { icon: '💡', label: 'Directional Light' }, // NT_TOON_DIRECTIONAL_LIGHT
-  148: { icon: '💡', label: 'Quad Light' }, // NT_LIGHT_QUAD
-  149: { icon: '💡', label: 'Sphere Light' }, // NT_LIGHT_SPHERE
-  152: { icon: '💡', label: 'Spot Light' }, // NT_LIGHT_VOLUME_SPOT
-  402: { icon: '💡', label: 'Analytic Light' }, // NT_LIGHT_ANALYTIC
-  403: { icon: '💡', label: 'Directional Light' }, // NT_LIGHT_DIRECTIONAL
+// Node Pin Type mapping (from OctaneTypes.js NodePinType enum)
+// These values come from ApiItem/outType API call
+const NODE_PIN_TYPE_MAP: Record<number, { icon: string; label: string }> = {
+  1: { icon: '☑️', label: 'Bool' }, // PT_BOOL
+  2: { icon: '🔢', label: 'Float' }, // PT_FLOAT
+  3: { icon: '🔢', label: 'Int' }, // PT_INT
+  4: { icon: '🔄', label: 'Transform' }, // PT_TRANSFORM
+  5: { icon: '🎨', label: 'Texture' }, // PT_TEXTURE
+  6: { icon: '💡', label: 'Emission' }, // PT_EMISSION
+  7: { icon: '🎨', label: 'Material' }, // PT_MATERIAL
+  8: { icon: '📷', label: 'Camera' }, // PT_CAMERA
+  9: { icon: '🌍', label: 'Environment' }, // PT_ENVIRONMENT
+  10: { icon: '📷', label: 'Imager' }, // PT_IMAGER
+  11: { icon: '🔧', label: 'Kernel' }, // PT_KERNEL
+  12: { icon: '🫖', label: 'Geometry' }, // PT_GEOMETRY
+  13: { icon: '☁️', label: 'Medium' }, // PT_MEDIUM
+  15: { icon: '🎬', label: 'Film Settings' }, // PT_FILM_SETTINGS
+  16: { icon: '📋', label: 'Enum' }, // PT_ENUM
+  18: { icon: '⚙️', label: 'Postprocessing' }, // PT_POSTPROCESSING
+  19: { icon: '🎯', label: 'Render Target' }, // PT_RENDERTARGET
+  22: { icon: '🗺️', label: 'Displacement' }, // PT_DISPLACEMENT
+  23: { icon: '📝', label: 'String' }, // PT_STRING
+  24: { icon: '📊', label: 'Render Passes' }, // PT_RENDER_PASSES
+  25: { icon: '🎭', label: 'Render Layer' }, // PT_RENDER_LAYER
+  27: { icon: '⏱️', label: 'Animation Settings' }, // PT_ANIMATION_SETTINGS
+  37: { icon: '📤', label: 'Output AOV Group' }, // PT_OUTPUT_AOV_GROUP
 };
 
 const getNodeIcon = (typeEnum: number): string => {
   // Check exact match
-  if (NODE_TYPE_MAP[typeEnum]) {
-    return NODE_TYPE_MAP[typeEnum].icon;
+  if (NODE_PIN_TYPE_MAP[typeEnum]) {
+    return NODE_PIN_TYPE_MAP[typeEnum].icon;
   }
   
   // Check for material range (50000-50136)
@@ -39,15 +51,15 @@ const getNodeIcon = (typeEnum: number): string => {
 };
 
 const getNodeLabel = (typeEnum: number): string => {
-  if (NODE_TYPE_MAP[typeEnum]) {
-    return NODE_TYPE_MAP[typeEnum].label;
+  if (NODE_PIN_TYPE_MAP[typeEnum]) {
+    return NODE_PIN_TYPE_MAP[typeEnum].label;
   }
   
   if (typeEnum >= 50000 && typeEnum <= 50136) {
     return 'Material';
   }
   
-  return `Node Type ${typeEnum}`;
+  return `Type ${typeEnum}`;
 };
 
 interface SceneTreeItemProps {
@@ -111,7 +123,7 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
   const [selectedNode, setSelectedNode] = useState<SceneNode | null>(null);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('scene');
-  const [meshes, setMeshes] = useState<any[]>([]);
+  const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
 
   const handleNodeSelect = (node: SceneNode) => {
     setSelectedNode(node);
@@ -123,81 +135,13 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
 
     setLoading(true);
     try {
-      console.log('🔄 Loading full scene tree from Octane...');
+      console.log('🔄 Loading scene tree from Octane...');
       
-      // Step 1: Get root node graph
-      const rootResponse = await client.callApi('ApiProjectManager', 'rootNodeGraph');
-      console.log('✅ Root node graph:', rootResponse);
+      // Use the new buildSceneTree method that properly recurses
+      const tree = await client.buildSceneTree();
+      setSceneTree(tree);
       
-      if (!rootResponse?.result?.handle) {
-        throw new Error('No root handle returned');
-      }
-      
-      const rootHandle = rootResponse.result.handle;
-      
-      // Step 2: Check if it's a graph
-      const isGraphResponse = await client.callApi('ApiItemService', 'isGraph', rootHandle);
-      console.log('✅ Is graph:', isGraphResponse);
-      
-      const isGraph = isGraphResponse?.result;
-      
-      if (isGraph) {
-        // Step 3: Get owned items
-        const ownedItemsResponse = await client.callApi('ApiNodeGraphService', 'getOwnedItems', rootHandle);
-        console.log('✅ Owned items:', ownedItemsResponse);
-        
-        if (!ownedItemsResponse?.list?.handle) {
-          throw new Error('No owned items handle');
-        }
-        
-        // Keep the full list object with handle and type for proper API calls
-        const ownedItemsHandle = ownedItemsResponse.list;
-        
-        // Step 4: Get array size
-        const sizeResponse = await client.callApi('ApiItemArrayService', 'size', ownedItemsHandle);
-        console.log('✅ Array size:', sizeResponse);
-        
-        const size = sizeResponse?.result || 0;
-        
-        // Step 5: Iterate through items and get item info
-        const items = [];
-        for (let i = 0; i < size; i++) {
-          const itemResponse = await client.callApi('ApiItemArrayService', 'get', ownedItemsHandle, { index: i });
-          if (itemResponse?.result?.handle) {
-            const handle = itemResponse.result.handle;
-            
-            // Get item name
-            let name = 'Unknown';
-            try {
-              const nameResponse = await client.callApi('ApiItemService', 'name', handle);
-              name = nameResponse?.result || `Item ${i}`;
-            } catch (err) {
-              console.warn(`Failed to get name for handle ${handle}:`, err);
-            }
-            
-            // Get item type
-            let type = 'unknown';
-            let typeEnum = 0;
-            try {
-              const typeResponse = await client.callApi('ApiItemService', 'outType', handle);
-              typeEnum = typeResponse?.result || 0;
-              type = `type_${typeEnum}`;
-            } catch (err) {
-              console.warn(`Failed to get type for handle ${handle}:`, err);
-            }
-            
-            items.push({
-              handle,
-              name,
-              type,
-              typeEnum
-            });
-          }
-        }
-        
-        console.log(`📦 Loaded ${items.length} scene items from Octane:`, items);
-        setMeshes(items); // Reuse meshes state for now
-      }
+      console.log(`✅ Loaded ${tree.length} top-level items`);
     } catch (error: any) {
       console.error('❌ Failed to load scene tree:', error);
     } finally {
@@ -205,9 +149,10 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
     }
   };
 
-  // Auto-load on connect
+  // Auto-load on connect (only once when connected becomes true)
   useEffect(() => {
-    if (connected && meshes.length === 0) {
+    if (connected) {
+      console.log('🎬 Auto-loading scene tree on connect');
       loadSceneTree();
     }
   }, [connected]);
@@ -264,32 +209,22 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
             <div className="scene-loading">Not connected</div>
           ) : loading ? (
             <div className="scene-loading">Loading scene...</div>
-          ) : meshes.length > 0 ? (
+          ) : sceneTree.length > 0 ? (
             <div className="scene-mesh-list">
-              <div className="tree-node">
+              {/* Scene root node */}
+              <div className="tree-node scene-root">
                 <span className="tree-icon">🌳</span>
                 <span className="tree-label">Scene</span>
               </div>
-              {meshes.map((mesh, index) => (
-                <div key={mesh.id || index} className="scene-tree-item">
-                  <div
-                    className={`tree-node ${selectedNode?.handle === mesh.id ? 'selected' : ''}`}
-                    style={{ paddingLeft: '16px' }}
-                    onClick={() => {
-                      const node: SceneNode = {
-                        handle: mesh.id,
-                        name: mesh.name,
-                        type: 'mesh',
-                        children: []
-                      };
-                      handleNodeSelect(node);
-                    }}
-                  >
-                    <span className="tree-icon">📦</span>
-                    <span className="tree-label">{mesh.name}</span>
-                    <span className="tree-type">mesh</span>
-                  </div>
-                </div>
+              {/* Hierarchical scene items */}
+              {sceneTree.map(node => (
+                <SceneTreeItem
+                  key={node.handle}
+                  node={node}
+                  depth={1}
+                  onSelect={handleNodeSelect}
+                  selectedHandle={selectedNode?.handle || null}
+                />
               ))}
             </div>
           ) : (

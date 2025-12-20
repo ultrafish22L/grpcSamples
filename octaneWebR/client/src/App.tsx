@@ -18,6 +18,7 @@ import { ConnectionStatus } from './components/ConnectionStatus';
 import { CallbackRenderViewport } from './components/CallbackRenderViewport';
 import { SceneOutliner } from './components/SceneOutliner';
 import { NodeInspector } from './components/NodeInspector';
+import { NodeGraphEditor } from './components/NodeGraphEditor';
 import { SceneNode } from './services/OctaneClient';
 
 function AppContent() {
@@ -119,13 +120,7 @@ function AppContent() {
             </div>
           </div>
           <div className="node-graph-container">
-            <canvas id="node-graph" className="node-graph"></canvas>
-            <div className="node-palette" style={{display: 'none'}}>
-              <div className="palette-header">Node Creation</div>
-              <div className="palette-instructions">
-                <p>Right-click in the node graph to create nodes</p>
-              </div>
-            </div>
+            <NodeGraphEditor selectedNode={selectedNode} />
           </div>
         </section>
         
