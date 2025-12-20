@@ -95,6 +95,7 @@ class OctaneGrpcClient {
       'ApiNodeService': 'apinodesystem_7.proto',
       'ApiNode': 'apinodesystem_7.proto',
       'ApiNodeArray': 'apinodesystem_5.proto',
+      'ApiNodePinInfoEx': 'apinodepininfohelper.proto',
       'ApiRenderEngine': 'apirender.proto',
       'ApiSceneOutliner': 'apisceneoutliner.proto',
     };
@@ -456,7 +457,21 @@ export function octaneGrpcPlugin(): Plugin {
           
           req.on('end', async () => {
             try {
-              const params = body ? JSON.parse(body) : {};
+              let params = body ? JSON.parse(body) : {};
+              
+              // Parameter remapping (to match Python proxy behavior)
+              // Some proto messages use different field names than what the client sends
+              if (params.objectPtr) {
+                if (service === 'ApiNodePinInfoEx' && method === 'getApiNodePinInfo') {
+                  // GetNodePinInfoRequest uses nodePinInfoRef instead of objectPtr
+                  params = { nodePinInfoRef: params.objectPtr };
+                } else if (method === 'getValueByID' || method === 'getValue') {
+                  // Some methods use item_ref instead of objectPtr
+                  params = { item_ref: params.objectPtr, ...params };
+                  delete params.objectPtr;
+                }
+              }
+              
               console.log(`📤 ${service}.${method}`, JSON.stringify(params).substring(0, 100));
               const response = await grpcClient?.callMethod(service, method, params);
               console.log(`✅ ${service}.${method} → ${JSON.stringify(response).substring(0, 100)}`);

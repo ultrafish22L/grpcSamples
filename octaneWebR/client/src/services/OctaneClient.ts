@@ -325,10 +325,13 @@ export class OctaneClient extends EventEmitter {
         if (level === 1) {
           console.log(`🔄 Building children for ${sceneItems.length} level 1 items`);
           for (const item of sceneItems) {
+            console.log(`📍 Before addItemChildren for ${item.name} (handle: ${item.handle})`);
             await this.addItemChildren(item);
+            console.log(`📍 After addItemChildren for ${item.name}, children count: ${item.children?.length || 0}`);
             // Small delay to avoid overwhelming Octane
             await new Promise(resolve => setTimeout(resolve, 50));
           }
+          console.log(`✅ Finished building children for all level 1 items`);
         }
       } else {
         // It's a node - get its input pins and connected nodes

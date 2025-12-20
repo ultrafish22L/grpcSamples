@@ -290,28 +290,13 @@ export function NodeInspector({ node }: NodeInspectorProps) {
   if (!node) {
     return (
       <div className="node-inspector">
-        <h3>Node Inspector</h3>
-        <p className="status-text">Select a node to view properties</p>
+        <div className="empty-message">Empty</div>
       </div>
     );
   }
 
-  // Debug: Log the node data structure
-  console.log('🔍 NodeInspector rendering node:', {
-    name: node.name,
-    handle: node.handle,
-    type: node.type,
-    hasChildren: node.children?.length || 0,
-    hasNodeInfo: !!node.nodeInfo,
-    hasGraphInfo: !!node.graphInfo,
-    hasPinInfo: !!node.pinInfo,
-    hasAttrInfo: !!node.attrInfo,
-    children: node.children?.map(c => ({ name: c.name, type: c.type }))
-  });
-
   return (
     <div className="node-inspector">
-      <h3>Node Inspector</h3>
       <div className="inspector-content">
         <NodeParameter 
           node={node} 

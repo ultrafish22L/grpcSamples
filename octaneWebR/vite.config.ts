@@ -13,13 +13,8 @@ export default defineConfig({
     host: '0.0.0.0',
     strictPort: false,
     cors: true,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:45769',
-        changeOrigin: true,
-        ws: true, // Enable WebSocket proxying
-      }
-    }
+    // Note: octaneGrpcPlugin handles all /api routes directly
+    // No proxy needed since plugin implements /api/grpc/*, /api/health, /api/callbacks
   },
   build: {
     outDir: '../dist/client'
