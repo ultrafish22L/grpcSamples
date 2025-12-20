@@ -12,7 +12,14 @@ export default defineConfig({
     port: 43929,
     host: '0.0.0.0',
     strictPort: false,
-    cors: true
+    cors: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:45769',
+        changeOrigin: true,
+        ws: true, // Enable WebSocket proxying
+      }
+    }
   },
   build: {
     outDir: '../dist/client'

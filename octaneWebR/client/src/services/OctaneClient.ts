@@ -19,12 +19,15 @@ export interface SceneNode {
   name: string;
   type: string;
   typeEnum?: number;
+  outType?: number;  // Alias for typeEnum (octaneWeb uses outType)
   visible?: boolean;
   level?: number;
   children?: SceneNode[];
   graphInfo?: any;
   nodeInfo?: any;
   pinInfo?: any;
+  attrInfo?: any;
+  icon?: string;
   [key: string]: any;
 }
 
@@ -60,28 +63,40 @@ export class OctaneClient extends EventEmitter {
 
   async connect(): Promise<boolean> {
     try {
-      console.log('📡 Connecting to server...');
+      console.log('📡 OctaneClient.connect() - Connecting to server:', this.serverUrl);
       
       // Check server health
-      const healthResponse = await fetch(`${this.serverUrl}/api/health`, {
+      const healthUrl = `${this.serverUrl}/api/health`;
+      console.log('📡 Fetching health check:', healthUrl);
+      
+      const healthResponse = await fetch(healthUrl, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       });
       
+      console.log('📡 Health response status:', healthResponse.status);
+      
       if (!healthResponse.ok) {
+        const healthData = await healthResponse.json().catch(() => ({}));
+        console.error('❌ Server unhealthy:', healthData);
         throw new Error(`Server unhealthy: ${healthResponse.status}`);
       }
+      
+      const healthData = await healthResponse.json();
+      console.log('📡 Health data:', healthData);
       
       // Setup WebSocket for callbacks
       this.connectWebSocket();
       
       this.connected = true;
+      console.log('✅ Setting connected = true, emitting connected event');
       this.emit('connected');
       console.log('✅ Connected to OctaneWebR server');
       
       return true;
     } catch (error: any) {
       console.error('❌ Connection failed:', error.message);
+      console.error('❌ Error stack:', error.stack);
       this.emit('connectionError', error);
       return false;
     }
@@ -234,6 +249,7 @@ export class OctaneClient extends EventEmitter {
       this.scene.tree = await this.syncSceneRecurse(rootHandle, null, isGraph, 0);
       
       console.log('✅ Scene tree built:', this.scene.tree.length, 'top-level items');
+      console.log('✅ Scene map has', this.scene.map.size, 'items');
       this.emit('sceneTreeUpdated', this.scene);
       
       return this.scene.tree;
@@ -241,6 +257,13 @@ export class OctaneClient extends EventEmitter {
       console.error('❌ Failed to build scene tree:', error.message);
       throw error;
     }
+  }
+
+  /**
+   * Lookup node data by handle from the scene tree
+   */
+  lookupItem(handle: number): SceneNode | null {
+    return this.scene.map.get(handle) || null;
   }
 
   private async syncSceneRecurse(
@@ -307,8 +330,60 @@ export class OctaneClient extends EventEmitter {
             await new Promise(resolve => setTimeout(resolve, 50));
           }
         }
+      } else {
+        // It's a node - get its input pins and connected nodes
+        console.log(`📌 Level ${level}: Processing node pins for handle ${itemHandle}`);
+        
+        try {
+          const pinCountResponse = await this.callApi('ApiNode', 'pinCount', itemHandle);
+          const pinCount = pinCountResponse?.result || 0;
+          
+          console.log(`  Found ${pinCount} pins`);
+          
+          for (let i = 0; i < pinCount; i++) {
+            try {
+              // Get connected node for this pin
+              const connectedResponse = await this.callApi(
+                'ApiNode',
+                'connectedNodeIx',
+                itemHandle,
+                { pinIx: i, enterWrapperNode: true }
+              );
+              
+              const connectedNode = connectedResponse?.result || null;
+              
+              // Get pin info
+              const pinInfoHandleResponse = await this.callApi(
+                'ApiNode',
+                'pinInfoIx',
+                itemHandle,
+                { index: i }
+              );
+              
+              if (pinInfoHandleResponse && pinInfoHandleResponse.result && pinInfoHandleResponse.result.handle) {
+                const pinInfoResponse = await this.callApi(
+                  'ApiNodePinInfoEx',
+                  'getApiNodePinInfo',
+                  pinInfoHandleResponse.result.handle
+                );
+                
+                const pinInfo = pinInfoResponse?.nodePinInfo || null;
+                if (pinInfo) {
+                  pinInfo.ix = i;
+                  
+                  // Add connected node with pin info (connectedNode can be null for unconnected pins)
+                  await this.addSceneItem(sceneItems, connectedNode, pinInfo, level);
+                }
+              }
+            } catch (pinError: any) {
+              console.warn(`  ⚠️ Failed to load pin ${i}:`, pinError.message);
+              // Continue with next pin
+            }
+          }
+        } catch (pinCountError: any) {
+          console.error(`  ❌ Failed to get pin count:`, pinCountError.message);
+        }
       }
-      // TODO: Handle nodes (not just graphs) - follow pins for node connections
       
     } catch (error: any) {
       console.error('❌ syncSceneRecurse failed:', error.message);
@@ -323,7 +398,13 @@ export class OctaneClient extends EventEmitter {
     pinInfo: any,
     level: number
   ): Promise<SceneNode | undefined> {
+    // Handle unconnected pins - if item is null but we have pinInfo, we might still want to track it
     if (!item || !item.handle) {
+      // For unconnected pins, we could potentially create a placeholder node
+      // but for now, just return undefined like octaneWeb does
+      if (pinInfo) {
+        console.log(`  ⚪ Unconnected pin: ${pinInfo.staticLabel || 'unnamed'}`);
+      }
       return undefined;
     }
     
@@ -360,12 +441,18 @@ export class OctaneClient extends EventEmitter {
         nodeInfo = infoResponse?.result || null;
       }
       
+      // Use pin label if available, otherwise use item name
+      const displayName = pinInfo?.staticLabel || itemName;
+      const icon = this.getNodeIcon(outType);
+      
       const entry: SceneNode = {
         level,
-        name: itemName,
+        name: displayName,
         handle: item.handle,
         type: this.mapOutTypeToString(outType),
         typeEnum: outType,
+        outType: outType,  // octaneWeb uses outType
+        icon,
         visible: true,
         graphInfo,
         nodeInfo,
@@ -424,6 +511,46 @@ export class OctaneClient extends EventEmitter {
     } catch (error: any) {
       console.error('❌ addItemChildren failed:', error.message);
     }
+  }
+
+  private getNodeIcon(outType: number): string {
+    // Map NodePinType enum values to icons (matching SceneOutliner icons)
+    const iconMap: Record<number, string> = {
+      1: '☑️',   // PT_BOOL
+      2: '🔢',   // PT_FLOAT
+      3: '🔢',   // PT_INT
+      4: '🔄',   // PT_TRANSFORM
+      5: '🎨',   // PT_TEXTURE
+      6: '💡',   // PT_EMISSION
+      7: '🎨',   // PT_MATERIAL
+      8: '📷',   // PT_CAMERA
+      9: '🌍',   // PT_ENVIRONMENT
+      10: '📷',  // PT_IMAGER
+      11: '🔧',  // PT_KERNEL
+      12: '🫖',  // PT_GEOMETRY
+      13: '☁️',  // PT_MEDIUM
+      15: '🎬',  // PT_FILM_SETTINGS
+      16: '📋',  // PT_ENUM
+      18: '⚙️',  // PT_POSTPROCESSING
+      19: '🎯',  // PT_RENDERTARGET
+      22: '🗺️',  // PT_DISPLACEMENT
+      23: '📝',  // PT_STRING
+      24: '📊',  // PT_RENDER_PASSES
+      25: '🎭',  // PT_RENDER_LAYER
+      27: '⏱️',  // PT_ANIMATION_SETTINGS
+      37: '📤',  // PT_OUTPUT_AOV_GROUP
+    };
+    
+    if (iconMap[outType]) {
+      return iconMap[outType];
+    }
+    
+    // Check for material range (50000-50136)
+    if (outType >= 50000 && outType <= 50136) {
+      return '🎨';
+    }
+    
+    return '⚪';  // Default icon
   }
 
   private mapOutTypeToString(outType: number): string {

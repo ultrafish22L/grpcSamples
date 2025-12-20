@@ -30,6 +30,9 @@ class OctaneGrpcClient {
   private packageDefinition: protoLoader.PackageDefinition | null = null;
   private protoDescriptor: grpc.GrpcObject | null = null;
   private callbacks: Set<(data: any) => void> = new Set();
+  private callbackId: number = 0;
+  private isCallbackRegistered: boolean = false;
+  private pollingInterval: NodeJS.Timeout | null = null;
   
   constructor(
     private octaneHost: string = process.env.OCTANE_HOST || OctaneGrpcClient.detectDefaultHost(),
@@ -65,49 +68,24 @@ class OctaneGrpcClient {
   async initialize(): Promise<void> {
     const PROTO_PATH = path.resolve(__dirname, './server/proto');
     
-    const coreProtoFiles = [
-      'common.proto',
-      'apiprojectmanager.proto',
-      'livelink.proto',
-      'apirender.proto',
-      'callback.proto',
-      'apiitemarray.proto',
-      'apinodearray.proto',
-      'apinodesystem.proto',
-      'apinodegraph.proto',
-      'octaneenums.proto',
-      'octaneids.proto',
-      'apisceneoutliner.proto'
-    ].map(f => path.join(PROTO_PATH, f)).filter(f => fs.existsSync(f));
-    
-    if (coreProtoFiles.length === 0) {
-      console.log('⚠️  No proto files found at:', PROTO_PATH);
+    // Check if proto directory exists
+    if (!fs.existsSync(PROTO_PATH)) {
+      console.log('⚠️  Proto directory not found:', PROTO_PATH);
       return;
     }
     
-    console.log(`📦 Loading ${coreProtoFiles.length} proto files...`);
+    console.log(`📦 Proto files ready for lazy loading from:`, PROTO_PATH);
+    console.log('✅ Proto definitions will be loaded on-demand per service');
     
-    try {
-      this.packageDefinition = protoLoader.loadSync(coreProtoFiles, {
-        keepCase: true,
-        longs: String,
-        enums: String,
-        defaults: true,
-        oneofs: true,
-        includeDirs: [PROTO_PATH]
-      });
-      
-      this.protoDescriptor = grpc.loadPackageDefinition(this.packageDefinition);
-      console.log('✅ Proto definitions loaded');
-    } catch (error: any) {
-      console.log('⚠️  Could not load proto files:', error.message);
-    }
+    // Note: We use lazy loading to avoid duplicate name conflicts
+    // Each service loads its own proto file when first accessed
   }
   
   private loadServiceProto(serviceName: string): any {
     const PROTO_PATH = path.resolve(__dirname, './server/proto');
     
     const serviceToProtoMap: Record<string, string> = {
+      'ApiProjectManager': 'apiprojectmanager.proto',
       'ApiItemService': 'apinodesystem_3.proto',
       'ApiItem': 'apinodesystem_3.proto',
       'ApiNodeGraphService': 'apinodesystem_6.proto',
@@ -129,7 +107,18 @@ class OctaneGrpcClient {
     }
     
     try {
-      const packageDefinition = protoLoader.loadSync([protoFilePath], {
+      // Load with dependencies for complex services
+      const protoFiles = [protoFilePath];
+      
+      // ApiRenderEngine needs common.proto and callback.proto
+      if (serviceName === 'ApiRenderEngine') {
+        const commonProto = path.join(PROTO_PATH, 'common.proto');
+        const callbackProto = path.join(PROTO_PATH, 'callback.proto');
+        if (fs.existsSync(commonProto)) protoFiles.unshift(commonProto);
+        if (fs.existsSync(callbackProto)) protoFiles.push(callbackProto);
+      }
+      
+      const packageDefinition = protoLoader.loadSync(protoFiles, {
         keepCase: true,
         longs: String,
         enums: String,
@@ -261,6 +250,84 @@ class OctaneGrpcClient {
     }
   }
 
+  async registerOctaneCallbacks(): Promise<void> {
+    if (this.isCallbackRegistered) {
+      console.log('⚠️  Callbacks already registered');
+      return;
+    }
+
+    try {
+      this.callbackId = Math.floor(Math.random() * 1000000);
+      console.log(`📡 Registering OnNewImage callback with ID: ${this.callbackId}`);
+
+      await this.callMethod('ApiRenderEngine', 'setOnNewImageCallback', {
+        callback: {
+          callbackSource: 'grpc',
+          callbackId: this.callbackId
+        },
+        userData: 0
+      });
+
+      console.log(`✅ Callback registered with Octane`);
+      this.isCallbackRegistered = true;
+      this.startCallbackPolling();
+    } catch (error: any) {
+      console.error('❌ Failed to register callback:', error.message);
+      console.error('   (Callbacks will not work until Octane is running and LiveLink is enabled)');
+    }
+  }
+
+  private startCallbackPolling(): void {
+    if (this.pollingInterval) {
+      return;
+    }
+
+    console.log('✅ Starting callback polling (30fps)');
+    this.pollingInterval = setInterval(() => this.pollOctaneCallbacks(), 33);
+  }
+
+  private async pollOctaneCallbacks(): Promise<void> {
+    if (!this.isCallbackRegistered) {
+      return;
+    }
+
+    try {
+      const response = await this.callMethod('ApiRenderEngine', 'getNewImageFromCallback', {
+        callbackId: this.callbackId
+      }, { timeout: 100 });
+
+      if (response && response.render_images) {
+        this.notifyCallbacks(response);
+      }
+    } catch (error: any) {
+      // Silently ignore polling errors (Octane might not have new frames)
+    }
+  }
+
+  async unregisterOctaneCallbacks(): Promise<void> {
+    if (!this.isCallbackRegistered) {
+      return;
+    }
+
+    try {
+      if (this.pollingInterval) {
+        clearInterval(this.pollingInterval);
+        this.pollingInterval = null;
+      }
+
+      await this.callMethod('ApiRenderEngine', 'setOnNewImageCallback', {
+        callback: null,
+        userData: 0
+      });
+
+      console.log('✅ Callbacks unregistered');
+      this.isCallbackRegistered = false;
+      this.callbackId = 0;
+    } catch (error: any) {
+      console.error('❌ Failed to unregister callback:', error.message);
+    }
+  }
+
   registerCallback(callback: (data: any) => void): void {
     this.callbacks.add(callback);
   }
@@ -296,6 +363,13 @@ export function octaneGrpcPlugin(): Plugin {
       // Initialize gRPC client
       grpcClient = new OctaneGrpcClient();
       await grpcClient.initialize();
+      
+      // Register Octane callbacks
+      try {
+        await grpcClient.registerOctaneCallbacks();
+      } catch (error: any) {
+        console.error('⚠️  Initial callback registration failed:', error.message);
+      }
       
       // Setup WebSocket server for callbacks
       wss = new WebSocketServer({ noServer: true });
@@ -415,8 +489,13 @@ export function octaneGrpcPlugin(): Plugin {
       console.log('   • Health: /api/health');
     },
     
-    closeBundle() {
+    async closeBundle() {
       if (grpcClient) {
+        try {
+          await grpcClient.unregisterOctaneCallbacks();
+        } catch (error) {
+          console.error('❌ Error unregistering callbacks:', error);
+        }
         grpcClient.close();
       }
       if (wss) {

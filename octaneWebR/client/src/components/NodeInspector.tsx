@@ -64,9 +64,9 @@ function NodeParameter({
   const hasChildren = node.children && node.children.length > 0;
   const isEndNode = !hasChildren && node.attrInfo;
   const nodeId = `node-${node.handle}`;
-  const icon = getNodeIcon(node);
+  const icon = node.icon || getNodeIcon(node);
   const color = node.nodeInfo?.nodeColor ? formatColor(node.nodeInfo.nodeColor) : '#666';
-  const name = node.pinInfo?.staticLabel || node.name;
+  const name = node.name;  // Name already includes pinInfo.staticLabel from OctaneClient
 
   // Fetch parameter value for end nodes
   useEffect(() => {
@@ -295,6 +295,19 @@ export function NodeInspector({ node }: NodeInspectorProps) {
       </div>
     );
   }
+
+  // Debug: Log the node data structure
+  console.log('🔍 NodeInspector rendering node:', {
+    name: node.name,
+    handle: node.handle,
+    type: node.type,
+    hasChildren: node.children?.length || 0,
+    hasNodeInfo: !!node.nodeInfo,
+    hasGraphInfo: !!node.graphInfo,
+    hasPinInfo: !!node.pinInfo,
+    hasAttrInfo: !!node.attrInfo,
+    children: node.children?.map(c => ({ name: c.name, type: c.type }))
+  });
 
   return (
     <div className="node-inspector">

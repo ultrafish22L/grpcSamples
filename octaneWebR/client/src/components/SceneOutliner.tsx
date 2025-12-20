@@ -35,7 +35,14 @@ const NODE_PIN_TYPE_MAP: Record<number, { icon: string; label: string }> = {
   37: { icon: '📤', label: 'Output AOV Group' }, // PT_OUTPUT_AOV_GROUP
 };
 
-const getNodeIcon = (typeEnum: number): string => {
+const getNodeIcon = (node: SceneNode): string => {
+  // Special case: Scene root
+  if (node.type === 'SceneRoot' || node.name === 'Scene') {
+    return '📁'; // Folder icon for scene root
+  }
+  
+  const typeEnum = node.typeEnum || 0;
+  
   // Check exact match
   if (NODE_PIN_TYPE_MAP[typeEnum]) {
     return NODE_PIN_TYPE_MAP[typeEnum].icon;
@@ -70,7 +77,8 @@ interface SceneTreeItemProps {
 }
 
 function SceneTreeItem({ node, depth, onSelect, selectedHandle }: SceneTreeItemProps) {
-  const [expanded, setExpanded] = useState(false);
+  // Scene root starts expanded by default
+  const [expanded, setExpanded] = useState(node.type === 'SceneRoot');
   const hasChildren = node.children && node.children.length > 0;
 
   return (
@@ -78,7 +86,12 @@ function SceneTreeItem({ node, depth, onSelect, selectedHandle }: SceneTreeItemP
       <div
         className={`tree-node ${selectedHandle === node.handle ? 'selected' : ''}`}
         style={{ paddingLeft: `${depth * 16}px` }}
-        onClick={() => onSelect(node)}
+        onClick={() => {
+          // Don't select the synthetic Scene root
+          if (node.type !== 'SceneRoot') {
+            onSelect(node);
+          }
+        }}
       >
         {hasChildren && (
           <span
@@ -91,9 +104,11 @@ function SceneTreeItem({ node, depth, onSelect, selectedHandle }: SceneTreeItemP
             {expanded ? '▼' : '▶'}
           </span>
         )}
-        <span className="tree-icon">{getNodeIcon(node.typeEnum || 0)}</span>
+        <span className="tree-icon">{getNodeIcon(node)}</span>
         <span className="tree-label">{node.name}</span>
-        <span className="tree-type">{getNodeLabel(node.typeEnum || 0)}</span>
+        {node.type !== 'SceneRoot' && (
+          <span className="tree-type">{getNodeLabel(node.typeEnum || 0)}</span>
+        )}
       </div>
       {expanded && hasChildren && (
         <div className="tree-children">
@@ -131,12 +146,19 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
   };
 
   const loadSceneTree = async () => {
-    if (!connected) return;
+    if (!connected) {
+      console.log('⚠️ Cannot load scene: not connected');
+      return;
+    }
+    if (!client) {
+      console.log('⚠️ Cannot load scene: no client');
+      return;
+    }
 
+    console.log('🔄 Loading scene tree from Octane...');
     setLoading(true);
+    
     try {
-      console.log('🔄 Loading scene tree from Octane...');
-      
       // Use the new buildSceneTree method that properly recurses
       const tree = await client.buildSceneTree();
       setSceneTree(tree);
@@ -144,6 +166,7 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
       console.log(`✅ Loaded ${tree.length} top-level items`);
     } catch (error: any) {
       console.error('❌ Failed to load scene tree:', error);
+      console.error('Error stack:', error.stack);
     } finally {
       setLoading(false);
     }
@@ -151,11 +174,15 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
 
   // Auto-load on connect (only once when connected becomes true)
   useEffect(() => {
-    if (connected) {
+    console.log('🔍 SceneOutliner useEffect triggered:', { connected, hasClient: !!client });
+    if (connected && client) {
       console.log('🎬 Auto-loading scene tree on connect');
       loadSceneTree();
+    } else {
+      console.log('⏳ Waiting for connection...');
     }
-  }, [connected]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [connected, client]);
 
   return (
     <div className="scene-outliner">
@@ -211,21 +238,19 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
             <div className="scene-loading">Loading scene...</div>
           ) : sceneTree.length > 0 ? (
             <div className="scene-mesh-list">
-              {/* Scene root node */}
-              <div className="tree-node scene-root">
-                <span className="tree-icon">🌳</span>
-                <span className="tree-label">Scene</span>
-              </div>
-              {/* Hierarchical scene items */}
-              {sceneTree.map(node => (
-                <SceneTreeItem
-                  key={node.handle}
-                  node={node}
-                  depth={1}
-                  onSelect={handleNodeSelect}
-                  selectedHandle={selectedNode?.handle || null}
-                />
-              ))}
+              {/* Create a synthetic Scene root node with children */}
+              <SceneTreeItem
+                node={{
+                  handle: 0,
+                  name: 'Scene',
+                  type: 'SceneRoot',
+                  typeEnum: 0,
+                  children: sceneTree
+                }}
+                depth={0}
+                onSelect={handleNodeSelect}
+                selectedHandle={selectedNode?.handle || null}
+              />
             </div>
           ) : (
             <div className="scene-loading">Click refresh to load scene</div>
