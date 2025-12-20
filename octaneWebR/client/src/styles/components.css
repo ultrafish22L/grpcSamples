@@ -306,6 +306,23 @@
     font-size: var(--font-size-small);
     color: var(--octane-text-secondary);
     font-family: var(--font-family-mono);
+    margin-left: auto;
+}
+
+/* Color parameter display (matching reference screenshot) */
+.color-parameter {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+}
+
+.color-bar {
+    width: 120px;
+    height: 16px;
+    border: 1px solid var(--octane-border);
+    border-radius: 2px;
+    flex-shrink: 0;
 }
 
 /* Official Octane-style Input Controls - Compact Studio Design */
@@ -3254,12 +3271,6 @@ body.drag-over .drop-indicator {
 
 .parameter .node-label {
     justify-content: space-between;
-}
-
-.parameter-value {
-    font-size: var(--font-size-small);
-    color: var(--octane-text-secondary);
-    margin-left: auto;
 }
 
 .parameter-unit {

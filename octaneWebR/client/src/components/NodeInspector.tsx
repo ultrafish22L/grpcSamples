@@ -105,8 +105,8 @@ function NodeParameter({
     onToggle(nodeId);
   };
 
-  // Render parameter control based on type
-  const renderControl = () => {
+  // Render parameter value as text (matching reference screenshot)
+  const renderValue = () => {
     if (!paramValue) return null;
 
     const { value, type } = paramValue;
@@ -114,53 +114,74 @@ function NodeParameter({
     switch (type) {
       case 'AT_BOOL':
         return (
-          <input
-            type="checkbox"
-            className="parameter-control"
-            checked={value?.result || false}
-            readOnly
-          />
+          <span className="parameter-value">
+            {value?.result ? '☑' : '☐'}
+          </span>
         );
       
       case 'AT_FLOAT':
+        return (
+          <span className="parameter-value">
+            {typeof value?.result === 'number' ? value.result.toFixed(6) : '0.000000'}
+          </span>
+        );
+      
       case 'AT_INT':
         return (
-          <input
-            type="number"
-            className="parameter-control"
-            value={value?.result || 0}
-            readOnly
-          />
+          <span className="parameter-value">
+            {value?.result || 0}
+          </span>
         );
       
       case 'AT_FLOAT3':
         if (value?.result) {
           const { x, y, z } = value.result;
+          
+          // Check if this is a color parameter (RGB values between 0 and 1)
+          const isColor = node.attrInfo?.type === 'AT_FLOAT3' && 
+                          x >= 0 && x <= 1 && y >= 0 && y <= 1 && z >= 0 && z <= 1;
+          
+          if (isColor) {
+            // Display as colored bar
+            const r = Math.round(x * 255);
+            const g = Math.round(y * 255);
+            const b = Math.round(z * 255);
+            const colorStyle = `rgb(${r}, ${g}, ${b})`;
+            return (
+              <div className="color-parameter">
+                <div className="color-bar" style={{ backgroundColor: colorStyle }}></div>
+                <span className="parameter-value">
+                  {x.toFixed(4)}, {y.toFixed(4)}, {z.toFixed(4)}
+                </span>
+              </div>
+            );
+          }
+          
+          // Display as numeric vector
           return (
-            <div className="vector-input">
-              <input type="number" value={x || 0} readOnly />
-              <input type="number" value={y || 0} readOnly />
-              <input type="number" value={z || 0} readOnly />
-            </div>
+            <span className="parameter-value">
+              {(x || 0).toFixed(6)}, {(y || 0).toFixed(6)}, {(z || 0).toFixed(6)}
+            </span>
           );
         }
-        return null;
+        return <span className="parameter-value">0, 0, 0</span>;
       
       case 'AT_STRING':
       case 'AT_FILENAME':
         return (
-          <input
-            type="text"
-            className="parameter-control"
-            value={value?.result || ''}
-            readOnly
-          />
+          <span className="parameter-value">
+            {value?.result || ''}
+          </span>
         );
       
       default:
+        // For unknown types, try to display the result value
+        const displayValue = value?.result !== undefined 
+          ? (typeof value.result === 'object' ? JSON.stringify(value.result) : String(value.result))
+          : '';
         return (
           <span className="parameter-value">
-            {JSON.stringify(value?.result)}
+            {displayValue}
           </span>
         );
     }
@@ -183,7 +204,7 @@ function NodeParameter({
               <span className="collapse-icon">{expanded ? '▼' : '▶'}</span>
             )}
             <span className="node-title">{name}</span>
-            {isEndNode && renderControl()}
+            {isEndNode && renderValue()}
           </div>
         </div>
       </div>
