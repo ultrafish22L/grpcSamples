@@ -7,32 +7,30 @@ import React, { useEffect, useState } from 'react';
 import { useOctane } from '../hooks/useOctane';
 import { SceneNode } from '../services/OctaneClient';
 
-// Node Pin Type mapping (from OctaneTypes.js NodePinType enum)
-// These values come from ApiItem/outType API call
-const NODE_PIN_TYPE_MAP: Record<number, { icon: string; label: string }> = {
-  1: { icon: '☑️', label: 'Bool' }, // PT_BOOL
-  2: { icon: '🔢', label: 'Float' }, // PT_FLOAT
-  3: { icon: '🔢', label: 'Int' }, // PT_INT
-  4: { icon: '🔄', label: 'Transform' }, // PT_TRANSFORM
-  5: { icon: '🎨', label: 'Texture' }, // PT_TEXTURE
-  6: { icon: '💡', label: 'Emission' }, // PT_EMISSION
-  7: { icon: '🎨', label: 'Material' }, // PT_MATERIAL
-  8: { icon: '📷', label: 'Camera' }, // PT_CAMERA
-  9: { icon: '🌍', label: 'Environment' }, // PT_ENVIRONMENT
-  10: { icon: '📷', label: 'Imager' }, // PT_IMAGER
-  11: { icon: '🔧', label: 'Kernel' }, // PT_KERNEL
-  12: { icon: '🫖', label: 'Geometry' }, // PT_GEOMETRY
-  13: { icon: '☁️', label: 'Medium' }, // PT_MEDIUM
-  15: { icon: '🎬', label: 'Film Settings' }, // PT_FILM_SETTINGS
-  16: { icon: '📋', label: 'Enum' }, // PT_ENUM
-  18: { icon: '⚙️', label: 'Postprocessing' }, // PT_POSTPROCESSING
-  19: { icon: '🎯', label: 'Render Target' }, // PT_RENDERTARGET
-  22: { icon: '🗺️', label: 'Displacement' }, // PT_DISPLACEMENT
-  23: { icon: '📝', label: 'String' }, // PT_STRING
-  24: { icon: '📊', label: 'Render Passes' }, // PT_RENDER_PASSES
-  25: { icon: '🎭', label: 'Render Layer' }, // PT_RENDER_LAYER
-  27: { icon: '⏱️', label: 'Animation Settings' }, // PT_ANIMATION_SETTINGS
-  37: { icon: '📤', label: 'Output AOV Group' }, // PT_OUTPUT_AOV_GROUP
+// Node Pin Type mapping (from OctaneIconMapper.js)
+// API returns string types like 'PT_GEOMETRY', not numeric enums
+const NODE_ICON_MAP: Record<string, string> = {
+  'PT_BOOL': '☑️',
+  'PT_FLOAT': '🔢',
+  'PT_INT': '🔢',
+  'PT_ENUM': '📋',
+  'PT_RGB': '🎨',
+  'PT_RENDER_TARGET': '🎯',
+  'PT_RENDERTARGET': '🎯',
+  'PT_MESH': '🫖',
+  'PT_GEOMETRY': '🫖',
+  'PT_CAMERA': '📷',
+  'PT_LIGHT': '💡',
+  'PT_MATERIAL': '🎨',
+  'PT_ENVIRONMENT': '🌍',
+  'PT_FILM_SETTINGS': '🎬',
+  'PT_ANIMATION_SETTINGS': '⏱️',
+  'PT_KERNEL': '🔧',
+  'PT_RENDER_LAYER': '🎭',
+  'PT_RENDER_PASSES': '📊',
+  'PT_OUTPUT_AOV_GROUP': '📤',
+  'PT_IMAGER': '📷',
+  'PT_POSTPROCESSING': '⚙️',
 };
 
 const getNodeIcon = (node: SceneNode): string => {
@@ -41,32 +39,16 @@ const getNodeIcon = (node: SceneNode): string => {
     return '📁'; // Folder icon for scene root
   }
   
-  const typeEnum = node.typeEnum || 0;
+  // API returns string types like 'PT_GEOMETRY', not numeric enums
+  const outType = node.type || '';
   
-  // Check exact match
-  if (NODE_PIN_TYPE_MAP[typeEnum]) {
-    return NODE_PIN_TYPE_MAP[typeEnum].icon;
+  // Check if we have an icon mapping
+  if (NODE_ICON_MAP[outType]) {
+    return NODE_ICON_MAP[outType];
   }
   
-  // Check for material range (50000-50136)
-  if (typeEnum >= 50000 && typeEnum <= 50136) {
-    return '🎨'; // Material
-  }
-  
-  // Default icon
+  // Default icon for unknown types
   return '⚪';
-};
-
-const getNodeLabel = (typeEnum: number): string => {
-  if (NODE_PIN_TYPE_MAP[typeEnum]) {
-    return NODE_PIN_TYPE_MAP[typeEnum].label;
-  }
-  
-  if (typeEnum >= 50000 && typeEnum <= 50136) {
-    return 'Material';
-  }
-  
-  return `Type ${typeEnum}`;
 };
 
 interface SceneTreeItemProps {
@@ -80,12 +62,13 @@ function SceneTreeItem({ node, depth, onSelect, selectedHandle }: SceneTreeItemP
   // Scene root starts expanded by default
   const [expanded, setExpanded] = useState(node.type === 'SceneRoot');
   const hasChildren = node.children && node.children.length > 0;
+  const isSelected = selectedHandle === node.handle;
 
   return (
-    <div className="scene-tree-item">
+    <>
       <div
-        className={`tree-node ${selectedHandle === node.handle ? 'selected' : ''}`}
-        style={{ paddingLeft: `${depth * 16}px` }}
+        className={`tree-node level-${depth} ${isSelected ? 'selected' : ''}`}
+        data-handle={node.handle}
         onClick={() => {
           // Don't select the synthetic Scene root
           if (node.type !== 'SceneRoot') {
@@ -93,37 +76,39 @@ function SceneTreeItem({ node, depth, onSelect, selectedHandle }: SceneTreeItemP
           }
         }}
       >
-        {hasChildren && (
-          <span
-            className="tree-expand"
-            onClick={(e) => {
-              e.stopPropagation();
-              setExpanded(!expanded);
-            }}
-          >
-            {expanded ? '▼' : '▶'}
+        <div className="node-content">
+          {hasChildren ? (
+            <span
+              className={`node-toggle ${expanded ? 'expanded' : 'collapsed'}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                setExpanded(!expanded);
+              }}
+            >
+              {expanded ? '−' : '+'}
+            </span>
+          ) : (
+            <span className="node-spacer"></span>
+          )}
+          <span className="node-icon">{getNodeIcon(node)}</span>
+          <span className="node-name">
+            {node.name}
+            {node.type !== 'SceneRoot' && node.type && (
+              <span className="node-type-label"> Type {node.type}</span>
+            )}
           </span>
-        )}
-        <span className="tree-icon">{getNodeIcon(node)}</span>
-        <span className="tree-label">{node.name}</span>
-        {node.type !== 'SceneRoot' && (
-          <span className="tree-type">{getNodeLabel(node.typeEnum || 0)}</span>
-        )}
-      </div>
-      {expanded && hasChildren && (
-        <div className="tree-children">
-          {node.children!.map(child => (
-            <SceneTreeItem
-              key={child.handle}
-              node={child}
-              depth={depth + 1}
-              onSelect={onSelect}
-              selectedHandle={selectedHandle}
-            />
-          ))}
         </div>
-      )}
-    </div>
+      </div>
+      {expanded && hasChildren && node.children!.map(child => (
+        <SceneTreeItem
+          key={child.handle}
+          node={child}
+          depth={depth + 1}
+          onSelect={onSelect}
+          selectedHandle={selectedHandle}
+        />
+      ))}
+    </>
   );
 }
 
@@ -164,6 +149,11 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
       setSceneTree(tree);
       
       console.log(`✅ Loaded ${tree.length} top-level items`);
+      
+      // Debug: Log the typeEnum values for each item
+      tree.forEach((item, idx) => {
+        console.log(`📊 Scene item ${idx}: ${item.name} typeEnum=${item.typeEnum} type=${item.type}`);
+      });
     } catch (error: any) {
       console.error('❌ Failed to load scene tree:', error);
       console.error('Error stack:', error.stack);

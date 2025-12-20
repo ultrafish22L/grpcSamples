@@ -1991,9 +1991,9 @@ body.drag-over .drop-indicator {
 }
 
 .node-type-label {
-    color: #ccc;
-    font-size: var(--font-size-small);
-    flex: 1;
+    color: #888;
+    font-size: var(--font-size-xs);
+    margin-left: 4px;
 }
 
 /* ===== SLIDER SWITCH ===== */

@@ -17,9 +17,9 @@ export interface RenderState {
 export interface SceneNode {
   handle: number;
   name: string;
-  type: string;
-  typeEnum?: number;
-  outType?: number;  // Alias for typeEnum (octaneWeb uses outType)
+  type: string;  // String type like 'PT_GEOMETRY' from API
+  typeEnum?: number;  // Legacy numeric enum (deprecated)
+  outType?: string | number;  // Raw API value (octaneWeb uses outType)
   visible?: boolean;
   level?: number;
   children?: SceneNode[];
@@ -423,9 +423,11 @@ export class OctaneClient extends EventEmitter {
       const nameResponse = await this.callApi('ApiItem', 'name', item.handle);
       const itemName = nameResponse?.result || 'Unnamed';
       
-      // Get outType (node type enum)
+      // Get outType (node type string like 'PT_GEOMETRY', not numeric enum)
       const outTypeResponse = await this.callApi('ApiItem', 'outType', item.handle);
-      const outType = outTypeResponse?.result || 0;
+      const outType = outTypeResponse?.result || '';
+      
+      console.log(`  🔍 API returned outType: "${outType}" (type: ${typeof outType}) for ${itemName}`);
       
       // Check if it's a graph or node
       const isGraphResponse = await this.callApi('ApiItem', 'isGraph', item.handle);
@@ -452,8 +454,8 @@ export class OctaneClient extends EventEmitter {
         level,
         name: displayName,
         handle: item.handle,
-        type: this.mapOutTypeToString(outType),
-        typeEnum: outType,
+        type: outType,  // Use raw API value (e.g., 'PT_GEOMETRY')
+        typeEnum: typeof outType === 'number' ? outType : 0,
         outType: outType,  // octaneWeb uses outType
         icon,
         visible: true,
@@ -467,7 +469,7 @@ export class OctaneClient extends EventEmitter {
       sceneItems.push(entry);
       this.scene.map.set(item.handle, entry);
       
-      console.log(`  📄 Added item: ${itemName} (type: ${outType}, level: ${level})`);
+      console.log(`  📄 Added item: ${itemName} (type: "${outType}", icon: ${icon}, level: ${level})`);
       
       return entry;
       
@@ -516,41 +518,35 @@ export class OctaneClient extends EventEmitter {
     }
   }
 
-  private getNodeIcon(outType: number): string {
-    // Map NodePinType enum values to icons (matching SceneOutliner icons)
-    const iconMap: Record<number, string> = {
-      1: '☑️',   // PT_BOOL
-      2: '🔢',   // PT_FLOAT
-      3: '🔢',   // PT_INT
-      4: '🔄',   // PT_TRANSFORM
-      5: '🎨',   // PT_TEXTURE
-      6: '💡',   // PT_EMISSION
-      7: '🎨',   // PT_MATERIAL
-      8: '📷',   // PT_CAMERA
-      9: '🌍',   // PT_ENVIRONMENT
-      10: '📷',  // PT_IMAGER
-      11: '🔧',  // PT_KERNEL
-      12: '🫖',  // PT_GEOMETRY
-      13: '☁️',  // PT_MEDIUM
-      15: '🎬',  // PT_FILM_SETTINGS
-      16: '📋',  // PT_ENUM
-      18: '⚙️',  // PT_POSTPROCESSING
-      19: '🎯',  // PT_RENDERTARGET
-      22: '🗺️',  // PT_DISPLACEMENT
-      23: '📝',  // PT_STRING
-      24: '📊',  // PT_RENDER_PASSES
-      25: '🎭',  // PT_RENDER_LAYER
-      27: '⏱️',  // PT_ANIMATION_SETTINGS
-      37: '📤',  // PT_OUTPUT_AOV_GROUP
+  private getNodeIcon(outType: string | number): string {
+    // API returns string types like 'PT_GEOMETRY', not numeric enums
+    // (from OctaneIconMapper.js)
+    const iconMap: Record<string, string> = {
+      'PT_BOOL': '☑️',
+      'PT_FLOAT': '🔢',
+      'PT_INT': '🔢',
+      'PT_ENUM': '📋',
+      'PT_RGB': '🎨',
+      'PT_RENDER_TARGET': '🎯',
+      'PT_RENDERTARGET': '🎯',
+      'PT_MESH': '🫖',
+      'PT_GEOMETRY': '🫖',
+      'PT_CAMERA': '📷',
+      'PT_LIGHT': '💡',
+      'PT_MATERIAL': '🎨',
+      'PT_ENVIRONMENT': '🌍',
+      'PT_FILM_SETTINGS': '🎬',
+      'PT_ANIMATION_SETTINGS': '⏱️',
+      'PT_KERNEL': '🔧',
+      'PT_RENDER_LAYER': '🎭',
+      'PT_RENDER_PASSES': '📊',
+      'PT_OUTPUT_AOV_GROUP': '📤',
+      'PT_IMAGER': '📷',
+      'PT_POSTPROCESSING': '⚙️',
     };
     
-    if (iconMap[outType]) {
+    if (typeof outType === 'string' && iconMap[outType]) {
       return iconMap[outType];
-    }
-    
-    // Check for material range (50000-50136)
-    if (outType >= 50000 && outType <= 50136) {
-      return '🎨';
     }
     
     return '⚪';  // Default icon
