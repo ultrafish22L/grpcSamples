@@ -67,8 +67,8 @@ function AppContent() {
         }}
       >
         
-        {/* Left Panel: Scene Outliner - spans all 3 rows (full height) */}
-        <aside className="left-panel panel" style={{ gridRow: '1 / -1' }}>
+        {/* Left Panel: Scene Outliner - row 1 only */}
+        <aside className="left-panel panel">
           <div className="panel-header">
             <h3>Scene outliner</h3>
           </div>
@@ -77,11 +77,10 @@ function AppContent() {
           </div>
         </aside>
 
-        {/* Left Splitter - spans all 3 rows (full height) */}
+        {/* Left Splitter - row 1 only */}
         <div 
           className="panel-splitter vertical left-splitter"
           onMouseDown={() => handleSplitterMouseDown('left')}
-          style={{ gridRow: '1 / -1' }}
         />
 
         {/* Center Panel: Render Viewport */}
@@ -115,15 +114,14 @@ function AppContent() {
           </div>
         </section>
 
-        {/* Right Splitter - spans all 3 rows (full height) */}
+        {/* Right Splitter - row 1 only */}
         <div 
           className="panel-splitter vertical right-splitter"
           onMouseDown={() => handleSplitterMouseDown('right')}
-          style={{ gridRow: '1 / -1' }}
         />
 
-        {/* Right Panel: Node Inspector - spans all 3 rows (full height) */}
-        <aside className="right-panel panel" style={{ gridRow: '1 / -1' }}>
+        {/* Right Panel: Node Inspector - row 1 only */}
+        <aside className="right-panel panel">
           <div className="panel-header">
             <h3>Node inspector</h3>
           </div>
@@ -132,14 +130,15 @@ function AppContent() {
           </div>
         </aside>
 
-        {/* Horizontal Splitter - only spans center column (under render viewport) */}
+        {/* Horizontal Splitter - spans all 5 columns (full width) */}
         <div 
           className="panel-splitter horizontal bottom-splitter"
           onMouseDown={() => handleSplitterMouseDown('bottom')}
+          style={{ gridColumn: '1 / -1' }}
         />
 
-        {/* Bottom Panel: Node Graph Editor - only spans center column */}
-        <section className="bottom-panel panel">
+        {/* Bottom Panel: Node Graph Editor - spans all 5 columns (full width) */}
+        <section className="bottom-panel panel" style={{ gridColumn: '1 / -1' }}>
           <div className="node-graph-header">
             <h3>Node graph editor</h3>
             <div className="node-graph-controls">
