@@ -62,7 +62,8 @@ function AppContent() {
         ref={containerRef}
         className={`app-layout ${isDragging ? 'resizing' : ''}`}
         style={{
-          gridTemplateColumns: `${panelSizes.left}px 1fr ${panelSizes.right}px`,
+          gridTemplateColumns: `${panelSizes.left}px 4px 1fr 4px ${panelSizes.right}px`,
+          gridTemplateRows: `1fr 4px ${panelSizes.bottom}px`,
         }}
       >
         
@@ -74,13 +75,13 @@ function AppContent() {
           <div className="panel-content">
             <SceneOutliner onNodeSelect={setSelectedNode} />
           </div>
-          
-          {/* Left Splitter - between Scene Outliner and Center */}
-          <div 
-            className="panel-splitter vertical left-splitter"
-            onMouseDown={() => handleSplitterMouseDown('left')}
-          />
         </aside>
+
+        {/* Left Splitter - between Scene Outliner and Center */}
+        <div 
+          className="panel-splitter vertical left-splitter"
+          onMouseDown={() => handleSplitterMouseDown('left')}
+        />
 
         {/* Center Panel: Render Viewport */}
         <section className="center-panel">
@@ -113,14 +114,14 @@ function AppContent() {
           </div>
         </section>
 
+        {/* Right Splitter - between Center and Node Inspector */}
+        <div 
+          className="panel-splitter vertical right-splitter"
+          onMouseDown={() => handleSplitterMouseDown('right')}
+        />
+
         {/* Right Panel: Node Inspector */}
         <aside className="right-panel panel">
-          {/* Right Splitter - between Center and Node Inspector */}
-          <div 
-            className="panel-splitter vertical right-splitter"
-            onMouseDown={() => handleSplitterMouseDown('right')}
-          />
-          
           <div className="panel-header">
             <h3>Node inspector</h3>
           </div>
@@ -128,6 +129,13 @@ function AppContent() {
             <NodeInspector node={selectedNode} />
           </div>
         </aside>
+
+        {/* Horizontal Splitter - between top panels and Node Graph Editor */}
+        <div 
+          className="panel-splitter horizontal bottom-splitter"
+          onMouseDown={() => handleSplitterMouseDown('bottom')}
+          style={{ gridColumn: '1 / -1' }}
+        />
 
         {/* Bottom Panel: Node Graph Editor */}
         <section className="bottom-panel panel">
