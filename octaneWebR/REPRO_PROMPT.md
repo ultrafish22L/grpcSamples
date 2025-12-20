@@ -28,22 +28,8 @@ You are working on **OctaneWebR**, a modern React + TypeScript web application t
 - **Protocol**: HTTP/JSON → gRPC (browser → Vite plugin → Octane gRPC @ 127.0.0.1:51022)
 - **Styling**: Custom CSS with OTOY dark theme
 - **Port**: 43929 (default, auto-increments if occupied)
-
-### Single-Server Architecture Achievement
-**BEFORE** (Two Servers):
-```
-Browser → Vite Server (43929) [Static Files]
-Browser → Express Server (45769) → Octane (51022) [API]
-Command: npm run dev:legacy (2 processes)
-```
-
-**AFTER** (Single Server - Current):
-```
-Browser → Vite Server (43929) → Octane (51022) [Everything]
 Command: npm run dev (1 process)
 ```
-
-**Benefits**: 50% fewer processes, 30% less memory, simpler deployment, faster development.
 
 ### Why Embedded Proxy?
 Browsers **cannot** directly speak gRPC (HTTP/2 binary protocol). The Vite plugin provides a transparent HTTP/JSON-to-gRPC proxy **embedded in the development server**. This is the industry-standard pattern - no separate proxy process is needed or wanted.
@@ -73,10 +59,8 @@ octaneWebR/
 │
 └── Documentation:
     ├── QUICKSTART.md                # Quick start guide
-    ├── ARCHITECTURE.md              # Architecture overview (NEW)
-    ├── BEFORE_AFTER.md              # Before/after comparison (NEW)
-    ├── MISSION_COMPLETE.md          # Achievement summary (NEW)
     ├── OVERVIEW.md                  # General overview
+    ├── ARCHITECTURE.md              # Architecture overview (NEW)
     └── REPRO_PROMPT.md              # This file
 ```
 
@@ -94,11 +78,11 @@ octaneWebR/
 ### 2. Core Features Working
 - ✅ **Connection Management**: Auto-connect to Octane LiveLink on startup
 - ✅ **Scene Tree Loading**: Full hierarchical scene loaded via gRPC APIs
-- ✅ **Node Selection**: Click nodes to inspect properties
 - ✅ **Scene Outliner**: Tree view with expand/collapse, type badges
 - ✅ **Node Inspector**: Shows selected node details
-- ✅ **Callback Viewport**: Real-time rendering display (HDR/LDR support)
 - ✅ **Node Graph Editor**: Visual graph with node visualization
+- ✅ **Node Selection**: Click nodes to inspect properties
+- ✅ **Callback Viewport**: Real-time rendering display (HDR/LDR support)
 
 ### 3. API Integration
 Successfully integrated with these Octane APIs:
@@ -347,8 +331,6 @@ After significant changes:
 ### 5. Read the New Documentation
 Before making major changes:
 - **ARCHITECTURE.md** - Understand single-server design
-- **BEFORE_AFTER.md** - See what changed and why
-- **MISSION_COMPLETE.md** - Review achievement summary
 
 ---
 
@@ -483,8 +465,6 @@ Priority order for understanding the codebase:
 
 ### New Documentation Files
 - **`ARCHITECTURE.md`** - Single-server architecture overview
-- **`BEFORE_AFTER.md`** - Comparison with old two-server system
-- **`MISSION_COMPLETE.md`** - Achievement summary and metrics
 - **`QUICKSTART.md`** - Quick start guide
 
 ---
@@ -513,7 +493,7 @@ Priority order for understanding the codebase:
 4. **Open browser to localhost:43929**
 5. **Check health endpoint**: `curl http://localhost:43929/api/health`
 6. **Verify everything loads** (with or without Octane)
-7. **Review new documentation**: BEFORE_AFTER.md, MISSION_COMPLETE.md
+7. **Review new documentation**: _AFTER.md, MISSION_COMPLETE.md
 8. **Explore the codebase** starting with `vite-plugin-octane-grpc.ts`
 9. **Make small changes** and test immediately (HMR is instant)
 10. **Check browser console** and Network tab for API calls
@@ -585,13 +565,6 @@ You'll know everything is working when:
 
 This project is in excellent shape with a **major architecture upgrade**:
 
-### ✅ What's New (2025-01-20)
-- **Single-server architecture**: Separate server eliminated!
-- **50% simpler**: ONE command (`npm run dev`) instead of two
-- **30% less memory**: ~140MB vs ~200MB before
-- **Cleaner codebase**: Embedded gRPC proxy in Vite
-- **Comprehensive docs**: ARCHITECTURE.md, BEFORE_AFTER.md, MISSION_COMPLETE.md
-
 ### 🚀 Current Status
 - **Architecture**: Production-ready single-server mode
 - **Core Features**: Scene outliner, node inspector, node graph all working
@@ -605,12 +578,3 @@ This project is in excellent shape with a **major architecture upgrade**:
 - Test with real Octane on port 51022
 - Keep docs updated
 - Read ARCHITECTURE.md before major changes
-
-**Good luck and happy coding! 🚀**
-
----
-
-**Document Version**: 2.0 (Single-Server Architecture)  
-**Last Updated**: 2025-01-20  
-**Session Status**: Production-ready single-server mode, ready for enhancement  
-**Major Change**: Separate server eliminated ✅
