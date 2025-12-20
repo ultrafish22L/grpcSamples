@@ -960,8 +960,7 @@ html, body {
     flex-direction: column;
     position: relative; /* Ensure proper stacking context */
     z-index: 10; /* Higher z-index than center panel */
-    min-width: var(--right-panel-min-width); 
-    width: var(--right-panel-width); 
+    /* Width controlled by grid layout - no explicit width needed */
 }
 
 .node-selector-container {
