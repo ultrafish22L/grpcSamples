@@ -40,7 +40,7 @@ export function NodeGraphEditor({ selectedNode }: NodeGraphEditorProps) {
   useEffect(() => {
     if (!connected) return;
     
-    const handleSceneUpdate = (scene: any) => {
+    const handleSceneUpdate = (_scene: any) => {
       console.log('📊 NodeGraphEditor: Scene updated, rendering graph');
       loadSceneGraph();
     };
@@ -87,7 +87,7 @@ export function NodeGraphEditor({ selectedNode }: NodeGraphEditorProps) {
 
         // Create connections for children
         if (item.children && item.children.length > 0) {
-          item.children.forEach((child, childIndex) => {
+          item.children.forEach((child) => {
             // Add child node below parent
             const childNode: GraphNode = {
               id: child.handle,

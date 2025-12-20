@@ -302,18 +302,9 @@ function groupChildren(children: SceneNode[]): Array<{ groupName: string | null;
 }
 
 export function NodeInspector({ node }: NodeInspectorProps) {
-  const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set());
-
-  const handleToggle = (nodeId: string) => {
-    setExpandedNodes(prev => {
-      const next = new Set(prev);
-      if (next.has(nodeId)) {
-        next.delete(nodeId);
-      } else {
-        next.add(nodeId);
-      }
-      return next;
-    });
+  // NOTE: Node expansion state is managed internally by NodeParameter component
+  const handleToggle = (_nodeId: string) => {
+    // Placeholder for future centralized expansion state management
   };
 
   if (!node) {

@@ -563,6 +563,7 @@ export class OctaneClient extends EventEmitter {
     return '⚪';  // Default icon
   }
 
+  // @ts-ignore - Reserved for future use
   private mapOutTypeToString(outType: number): string {
     // Map NodePinType enum values to readable strings
     // From OctaneTypes.js NodePinType enum
@@ -599,6 +600,7 @@ export class OctaneClient extends EventEmitter {
     return typeMap[outType] || `Type${outType}`;
   }
 
+  // @ts-ignore - Used recursively for scene tree traversal
   private updateSceneMap(nodes: SceneNode[]): void {
     for (const node of nodes) {
       this.scene.map.set(node.handle, node);

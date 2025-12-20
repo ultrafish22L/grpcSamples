@@ -3,10 +3,10 @@
  * Port of octaneWeb's CallbackRenderViewport with identical buffer processing
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useOctane } from '../hooks/useOctane';
 
-interface ImageData {
+interface OctaneImageData {
   type: number;
   size: { x: number; y: number };
   pitch: number;
@@ -22,7 +22,7 @@ interface ImageData {
 interface CallbackData {
   type: string;
   render_images?: {
-    data: ImageData[];
+    data: OctaneImageData[];
   };
   timestamp?: number;
   callback_id?: string;
@@ -55,7 +55,7 @@ export function CallbackRenderViewport() {
    * Display image from callback data
    * CRITICAL: Direct port of octaneWeb buffer processing logic
    */
-  const displayCallbackImage = (imageData: ImageData) => {
+  const displayCallbackImage = (imageData: OctaneImageData) => {
     try {
       const canvas = canvasRef.current;
       if (!canvas) return;
@@ -116,8 +116,8 @@ export function CallbackRenderViewport() {
    */
   const convertBufferToCanvas = (
     buffer: Uint8Array,
-    imageData: ImageData,
-    canvasImageData: ImageData
+    imageData: OctaneImageData,
+    canvasImageData: globalThis.ImageData
   ) => {
     const width = imageData.size.x;
     const height = imageData.size.y;

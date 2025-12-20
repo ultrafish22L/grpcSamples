@@ -12,7 +12,7 @@
  * - Status Bar (bottom)
  */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { OctaneProvider, useOctane } from './hooks/useOctane';
 import { ConnectionStatus } from './components/ConnectionStatus';
 import { CallbackRenderViewport } from './components/CallbackRenderViewport';
