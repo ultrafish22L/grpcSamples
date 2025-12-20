@@ -265,6 +265,7 @@ html, body {
     background-color: var(--octane-bg-secondary);
     display: flex;
     flex-direction: column;
+    position: relative; /* For absolute-positioned splitters */
 }
 .panel-horz {
     background-color: var(--octane-bg-secondary);

@@ -14,6 +14,7 @@
 
 import { useEffect, useState } from 'react';
 import { OctaneProvider, useOctane } from './hooks/useOctane';
+import { useResizablePanels } from './hooks/useResizablePanels';
 import { ConnectionStatus } from './components/ConnectionStatus';
 import { CallbackRenderViewport } from './components/CallbackRenderViewport';
 import { SceneOutliner } from './components/SceneOutliner';
@@ -24,6 +25,7 @@ import { SceneNode } from './services/OctaneClient';
 function AppContent() {
   const { connect, connected } = useOctane();
   const [selectedNode, setSelectedNode] = useState<SceneNode | null>(null);
+  const { panelSizes, handleSplitterMouseDown, containerRef, isDragging } = useResizablePanels();
 
   useEffect(() => {
     // Auto-connect on mount
@@ -56,7 +58,13 @@ function AppContent() {
       </header>
 
       {/* Main Application Layout */}
-      <main className="app-layout">
+      <main 
+        ref={containerRef}
+        className={`app-layout ${isDragging ? 'resizing' : ''}`}
+        style={{
+          gridTemplateColumns: `${panelSizes.left}px 1fr ${panelSizes.right}px`,
+        }}
+      >
         
         {/* Left Panel: Scene Outliner */}
         <aside className="left-panel panel">
@@ -66,6 +74,12 @@ function AppContent() {
           <div className="panel-content">
             <SceneOutliner onNodeSelect={setSelectedNode} />
           </div>
+          
+          {/* Left Splitter - between Scene Outliner and Center */}
+          <div 
+            className="panel-splitter vertical left-splitter"
+            onMouseDown={() => handleSplitterMouseDown('left')}
+          />
         </aside>
 
         {/* Center Panel: Render Viewport */}
@@ -101,6 +115,12 @@ function AppContent() {
 
         {/* Right Panel: Node Inspector */}
         <aside className="right-panel panel">
+          {/* Right Splitter - between Center and Node Inspector */}
+          <div 
+            className="panel-splitter vertical right-splitter"
+            onMouseDown={() => handleSplitterMouseDown('right')}
+          />
+          
           <div className="panel-header">
             <h3>Node inspector</h3>
           </div>

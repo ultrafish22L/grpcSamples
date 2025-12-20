@@ -10,29 +10,35 @@
 
 .panel-splitter {
     position: absolute;
-    background-color: var(--octane-border);
+    background-color: var(--octane-border, #3a3a3a);
     cursor: col-resize;
-    z-index: 10;
-    transition: background-color 0.15s ease;
+    z-index: 100;
+    transition: background-color 0.2s ease, width 0.1s ease;
     pointer-events: auto;
 }
 
 .panel-splitter:hover {
-    background-color: var(--octane-accent-blue);
+    background-color: var(--octane-accent-blue, #4a90e2);
+    width: 6px !important; /* Thicker on hover for better visibility */
 }
 
 .panel-splitter.vertical {
-    width: var(--splitter-size, 4px);
+    width: 3px;
     height: 100%;
     cursor: col-resize;
     pointer-events: auto;
+    top: 0;
 }
 
-.left-panel .panel-splitter.vertical {
+/* Left splitter - at right edge of left panel */
+.left-panel .panel-splitter.vertical,
+.left-panel .left-splitter {
     right: 0;
 }
 
-.right-panel .panel-splitter.vertical {
+/* Right splitter - at left edge of right panel */
+.right-panel .panel-splitter.vertical,
+.right-panel .right-splitter {
     left: 0;
 }
 
