@@ -71,45 +71,62 @@ export function NodeGraphEditor({ selectedNode }: NodeGraphEditorProps) {
       const nodeSpacing = 220;
       const yCenter = 200;
       
-      const graphNodes: GraphNode[] = [];
+      // Use Map to prevent duplicate nodes
+      const nodeMap = new Map<number, GraphNode>();
       const graphConnections: GraphConnection[] = [];
 
-      sceneTree.forEach((item, index) => {
-        const node: GraphNode = {
-          id: item.handle,
-          data: item,
-          x: 100 + index * nodeSpacing,
-          y: yCenter,
-          width: 180,
-          height: 80
-        };
-        graphNodes.push(node);
-
-        // Create connections for children
-        if (item.children && item.children.length > 0) {
-          item.children.forEach((child) => {
-            // Add child node below parent
-            const childNode: GraphNode = {
-              id: child.handle,
-              data: child,
-              x: node.x,
-              y: node.y + 150,
+      // First pass: collect all unique nodes
+      const collectNodes = (items: SceneNode[], level: number = 0) => {
+        items.forEach((item, index) => {
+          if (!nodeMap.has(item.handle)) {
+            const node: GraphNode = {
+              id: item.handle,
+              data: item,
+              x: 100 + nodeMap.size * nodeSpacing,
+              y: yCenter + level * 150,
               width: 180,
               height: 80
             };
-            graphNodes.push(childNode);
+            nodeMap.set(item.handle, node);
+          }
+          
+          // Recursively collect children
+          if (item.children && item.children.length > 0) {
+            collectNodes(item.children, level + 1);
+          }
+        });
+      };
 
-            // Create connection from parent to child
-            graphConnections.push({
-              from: node.id,
-              to: childNode.id,
-              fromSocket: { x: node.x + node.width / 2, y: node.y + node.height },
-              toSocket: { x: childNode.x + childNode.width / 2, y: childNode.y }
+      collectNodes(sceneTree);
+
+      // Second pass: create connections from parents to children
+      sceneTree.forEach((item) => {
+        const processConnections = (parent: SceneNode) => {
+          if (parent.children && parent.children.length > 0) {
+            const parentNode = nodeMap.get(parent.handle);
+            
+            parent.children.forEach((child) => {
+              const childNode = nodeMap.get(child.handle);
+              
+              if (parentNode && childNode) {
+                graphConnections.push({
+                  from: parentNode.id,
+                  to: childNode.id,
+                  fromSocket: { x: parentNode.x + parentNode.width / 2, y: parentNode.y + parentNode.height },
+                  toSocket: { x: childNode.x + childNode.width / 2, y: childNode.y }
+                });
+              }
+              
+              // Recursively process child connections
+              processConnections(child);
             });
-          });
-        }
+          }
+        };
+        
+        processConnections(item);
       });
 
+      const graphNodes = Array.from(nodeMap.values());
       setNodes(graphNodes);
       setConnections(graphConnections);
       

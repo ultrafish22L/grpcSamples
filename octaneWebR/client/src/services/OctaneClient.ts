@@ -232,6 +232,7 @@ export class OctaneClient extends EventEmitter {
     
     try {
       // Get root node graph
+      console.log('🔍 Step 1: Getting root node graph...');
       const rootResponse = await this.callApi('ApiProjectManager', 'rootNodeGraph', {});
       if (!rootResponse || !rootResponse.result || !rootResponse.result.handle) {
         throw new Error('Failed to get root node graph');
@@ -241,20 +242,26 @@ export class OctaneClient extends EventEmitter {
       console.log('📍 Root handle:', rootHandle);
       
       // Check if it's a graph
+      console.log('🔍 Step 2: Checking if root is graph...');
       const isGraphResponse = await this.callApi('ApiItem', 'isGraph', rootHandle);
       const isGraph = isGraphResponse?.result || false;
+      console.log('📍 Is graph:', isGraph);
       
       // Recursively build scene tree starting from root
       // Note: syncSceneRecurse handles building children for level 1 items
+      console.log('🔍 Step 3: Building tree recursively...');
       this.scene.tree = await this.syncSceneRecurse(rootHandle, null, isGraph, 0);
       
       console.log('✅ Scene tree built:', this.scene.tree.length, 'top-level items');
       console.log('✅ Scene map has', this.scene.map.size, 'items');
+      console.log('🔍 Step 4: Emitting sceneTreeUpdated event...');
       this.emit('sceneTreeUpdated', this.scene);
+      console.log('✅ SceneTreeUpdated event emitted');
       
       return this.scene.tree;
     } catch (error: any) {
       console.error('❌ Failed to build scene tree:', error.message);
+      console.error('❌ Error stack:', error.stack);
       throw error;
     }
   }
