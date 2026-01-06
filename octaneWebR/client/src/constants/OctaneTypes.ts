@@ -129,3 +129,46 @@ export function getObjectTypeName(type: number): string {
   const entry = Object.entries(ObjectType).find(([_name, value]) => value === type);
   return entry ? entry[0] : `Unknown(${type})`;
 }
+
+/**
+ * Attribute IDs for node attributes
+ * These match the AttributeId enum from Octane
+ */
+export const AttributeId = {
+  A_VALUE: 185,
+  // Add more as needed
+} as const;
+
+/**
+ * Attribute types for node values
+ * These match the AttrType enum from Octane
+ * Expanded from octaneWeb's AttributeType mapping
+ */
+export const AttrType = {
+  AT_UNKNOWN: 0,
+  AT_BOOL: 1,
+  AT_BYTE: 2,
+  AT_INT: 3,
+  AT_INT2: 4,
+  AT_INT3: 5,
+  AT_INT4: 6,
+  AT_LONG: 7,
+  AT_LONG2: 8,
+  AT_FLOAT: 9,
+  AT_FLOAT2: 90,
+  AT_FLOAT3: 11,
+  AT_FLOAT4: 12,
+  AT_MATRIX: 13,
+  AT_STRING: 14,
+} as const;
+
+/**
+ * Convert numeric attribute type to string name
+ * Required for ApiItem.getByAttrID expected_type parameter
+ * @param typeNum - Numeric attribute type from attrInfo.type
+ * @returns String name like "AT_FLOAT" or "AT_UNKNOWN"
+ */
+export function getAttributeTypeName(typeNum: number): string {
+  const entry = Object.entries(AttrType).find(([key, val]) => val === typeNum);
+  return entry ? entry[0] : "AT_UNKNOWN";
+}

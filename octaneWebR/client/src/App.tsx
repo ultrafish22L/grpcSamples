@@ -31,12 +31,16 @@ function AppContent() {
   useEffect(() => {
     // Auto-connect on mount
     console.log('🚀 OctaneWebR starting...');
+    console.log('🚀 App.tsx: About to call connect()');
     connect().then(success => {
+      console.log('🚀 App.tsx: connect() returned:', success);
       if (success) {
         console.log('✅ Auto-connected to server');
       } else {
         console.log('⚠️ Could not connect to server');
       }
+    }).catch(error => {
+      console.error('❌ App.tsx: connect() threw error:', error);
     });
   }, [connect]);
 

@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { SceneNode } from '../services/OctaneClient';
 import { useOctane } from '../hooks/useOctane';
+import { AttributeId, getAttributeTypeName } from '../constants/OctaneTypes';
 
 interface NodeInspectorProps {
   node: SceneNode | null;
@@ -68,45 +69,57 @@ function NodeParameter({
   const color = node.nodeInfo?.nodeColor ? formatColor(node.nodeInfo.nodeColor) : '#666';
   const name = node.name;  // Name already includes pinInfo.staticLabel from OctaneClient
 
-  // Fetch parameter value for end nodes
-  // NOTE: Temporarily disabled - getByAttrID requires proper handle/type structure
-  // Will be re-implemented to match octaneWeb's GenericNodeRenderer approach
+  // Fetch parameter value for end nodes (matching octaneWeb's GenericNodeRenderer.getValue())
   useEffect(() => {
-    // TODO: Implement proper parameter value fetching
-    // if (isEndNode && node.attrInfo) {
-    //   fetchParameterValue();
-    // }
-  }, [isEndNode, node.handle]);
-
-  const fetchParameterValue = async () => {
-    // TODO: Fix ApiItem.getByAttrID call
-    // The issue is that we need to determine if this node is actually an ApiItem
-    // and pass the correct object handle structure
-    /*
-    if (!node.attrInfo) return;
-    
-    try {
-      const response = await client.callApi(
-        'ApiItem',
-        'getByAttrID',
-        { handle: node.handle, type: node.typeEnum || 16 },  // Fix: pass proper object handle
-        {
-          attribute_id: 12, // A_VALUE
-          expected_type: node.attrInfo.type
-        }
-      );
-      
-      if (response) {
-        setParamValue({
-          value: response,
-          type: node.attrInfo.type
-        });
+    const fetchValue = async () => {
+      // Log every node to understand the tree structure
+      if (level < 3) {  // Only log first 3 levels to avoid spam
+        console.log(`📋 NodeParameter: "${node.name}" - hasChildren:${hasChildren}, has attrInfo:${!!node.attrInfo}, isEndNode:${isEndNode}, handle:${node.handle}`);
       }
-    } catch (error) {
-      console.error('Failed to fetch parameter value:', error);
-    }
-    */
-  };
+      
+      if (!node.attrInfo || !node.handle || !isEndNode) {
+        return;  // Skip without verbose logging
+      }
+      
+      console.log(`🔍 Fetching value for end node: "${node.name}"`);
+      console.log(`  - handle: ${node.handle}`);
+      console.log(`  - attrInfo.type: ${node.attrInfo.type}`);
+      console.log(`  - AttributeId.A_VALUE: ${AttributeId.A_VALUE}`);
+      
+      try {
+        // Convert numeric type to string name (e.g., 9 -> "AT_FLOAT")
+        const expectedType = getAttributeTypeName(node.attrInfo.type);
+        
+        console.log(`🔍 Calling getByAttrID for ${node.name}:`);
+        console.log(`  - attribute_id: ${AttributeId.A_VALUE}`);
+        console.log(`  - expected_type: ${expectedType} (from numeric ${node.attrInfo.type})`);
+        
+        // Pass just the handle string - callApi will wrap it in objectPtr automatically
+        const response = await client.callApi(
+          'ApiItem',
+          'getByAttrID',
+          String(node.handle),  // Pass handle as string
+          {
+            attribute_id: AttributeId.A_VALUE, // 185 - Use constant instead of hardcoded value
+            expected_type: expectedType  // STRING name like "AT_FLOAT", not numeric type
+          }
+        );
+        
+        if (response) {
+          console.log(`✅ Got value for ${node.name}:`, response);
+          setParamValue({
+            value: response,
+            type: expectedType  // Use string name, not numeric type
+          });
+        }
+      } catch (error) {
+        // Silently ignore - not all end nodes have values
+        console.log(`❌ No value for ${node.name}:`, error);
+      }
+    };
+    
+    fetchValue();
+  }, [isEndNode, node.handle, node.attrInfo, client]);
 
   const handleToggle = () => {
     setExpanded(!expanded);

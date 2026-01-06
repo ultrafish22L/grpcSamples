@@ -445,6 +445,40 @@ export function octaneGrpcPlugin(): Plugin {
           return;
         }
         
+        // Client logging endpoint
+        if (url === '/api/log' && req.method === 'POST') {
+          let body = '';
+          req.on('data', chunk => body += chunk);
+          req.on('end', () => {
+            try {
+              const logData = JSON.parse(body);
+              const timestamp = new Date().toISOString();
+              const logLine = `[${timestamp}] [${logData.level}] ${logData.message}\n`;
+              
+              // Append to log file
+              fs.appendFileSync('/tmp/octaneWebR_client.log', logLine);
+              
+              // Also log to console with appropriate color
+              if (logData.level === 'error') {
+                console.error('🔴 CLIENT:', logData.message);
+              } else if (logData.level === 'warn') {
+                console.warn('🟡 CLIENT:', logData.message);
+              } else {
+                console.log('🟢 CLIENT:', logData.message);
+              }
+              
+              res.setHeader('Content-Type', 'application/json');
+              res.statusCode = 200;
+              res.end(JSON.stringify({ success: true }));
+            } catch (error: any) {
+              console.error('❌ Failed to write client log:', error.message);
+              res.statusCode = 500;
+              res.end(JSON.stringify({ success: false, error: error.message }));
+            }
+          });
+          return;
+        }
+        
         // gRPC proxy endpoint
         const grpcMatch = url?.match(/^\/api\/grpc\/([^\/]+)\/([^\/\?]+)/);
         if (grpcMatch && req.method === 'POST') {

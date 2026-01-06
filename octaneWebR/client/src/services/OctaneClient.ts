@@ -4,7 +4,7 @@
  */
 
 import { EventEmitter } from '../utils/EventEmitter';
-import { getObjectTypeForService, createObjectPtr } from '../constants/OctaneTypes';
+import { getObjectTypeForService, createObjectPtr, AttributeId } from '../constants/OctaneTypes';
 
 export interface RenderState {
   isRendering: boolean;
@@ -171,6 +171,7 @@ export class OctaneClient extends EventEmitter {
       if (objectType !== undefined) {
         // Service requires objectPtr structure
         body.objectPtr = createObjectPtr(handle, objectType);
+        console.log(`  📦 Created objectPtr:`, body.objectPtr);
       } else {
         // No objectPtr needed, pass handle directly
         body.handle = handle;
@@ -183,7 +184,10 @@ export class OctaneClient extends EventEmitter {
     // Merge additional params
     if (params && Object.keys(params).length > 0) {
       body = { ...body, ...params };
+      console.log(`  📋 Added params:`, params);
     }
+    
+    console.log(`  📨 Request body:`, JSON.stringify(body));
     
     try {
       const response = await fetch(url, {
@@ -573,7 +577,7 @@ export class OctaneClient extends EventEmitter {
             'ApiItem',
             'attrInfo',
             item.handle,
-            { id: 12 } // A_VALUE attribute ID
+            { id: AttributeId.A_VALUE } // 185 - A_VALUE attribute ID
           );
           
           if (attrInfoResponse?.result) {

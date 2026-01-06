@@ -193,12 +193,23 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
 
   // Auto-load on connect (only once when connected becomes true)
   useEffect(() => {
-    console.log('🔍 SceneOutliner useEffect triggered:', { connected, hasClient: !!client });
+    console.log('🔍 SceneOutliner useEffect triggered:', { 
+      connected, 
+      hasClient: !!client,
+      clientType: client ? typeof client : 'undefined',
+      loadingState: loading
+    });
     if (connected && client) {
       console.log('🎬 Auto-loading scene tree on connect');
+      console.log('   - client object:', client);
+      console.log('   - client.buildSceneTree:', typeof client.buildSceneTree);
       loadSceneTree();
     } else {
-      console.log('⏳ Waiting for connection...');
+      console.log('⏳ Waiting for connection...', {
+        connected: connected,
+        hasClient: !!client,
+        reason: !connected ? 'not connected' : 'no client'
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connected, client]);

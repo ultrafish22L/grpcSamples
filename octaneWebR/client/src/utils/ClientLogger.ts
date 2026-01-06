@@ -1,0 +1,122 @@
+/**
+ * Client-side logger that sends logs to the server for file persistence
+ * This helps debug issues by capturing all client-side activity
+ */
+
+type LogLevel = 'log' | 'warn' | 'error';
+
+class ClientLogger {
+  private static instance: ClientLogger;
+  private logQueue: Array<{ level: LogLevel; message: string }> = [];
+  private isSending: boolean = false;
+  private enabled: boolean = true;
+
+  private constructor() {
+    // Intercept console methods
+    this.interceptConsole();
+    
+    // Send logs periodically
+    setInterval(() => this.flush(), 1000);
+    
+    // Send logs before page unload
+    if (typeof window !== 'undefined') {
+      window.addEventListener('beforeunload', () => this.flush());
+    }
+  }
+
+  static getInstance(): ClientLogger {
+    if (!ClientLogger.instance) {
+      ClientLogger.instance = new ClientLogger();
+    }
+    return ClientLogger.instance;
+  }
+
+  private interceptConsole() {
+    const originalLog = console.log;
+    const originalWarn = console.warn;
+    const originalError = console.error;
+
+    console.log = (...args: any[]) => {
+      originalLog.apply(console, args);
+      this.log('log', this.formatArgs(args));
+    };
+
+    console.warn = (...args: any[]) => {
+      originalWarn.apply(console, args);
+      this.log('warn', this.formatArgs(args));
+    };
+
+    console.error = (...args: any[]) => {
+      originalError.apply(console, args);
+      this.log('error', this.formatArgs(args));
+    };
+  }
+
+  private formatArgs(args: any[]): string {
+    return args.map(arg => {
+      if (typeof arg === 'object') {
+        try {
+          return JSON.stringify(arg, null, 2);
+        } catch (e) {
+          return String(arg);
+        }
+      }
+      return String(arg);
+    }).join(' ');
+  }
+
+  private log(level: LogLevel, message: string) {
+    if (!this.enabled) return;
+    
+    this.logQueue.push({ level, message });
+    
+    // If queue is getting large, flush immediately
+    if (this.logQueue.length > 50) {
+      this.flush();
+    }
+  }
+
+  private async flush() {
+    if (!this.enabled || this.isSending || this.logQueue.length === 0) return;
+    
+    this.isSending = true;
+    const logsToSend = [...this.logQueue];
+    this.logQueue = [];
+
+    try {
+      for (const log of logsToSend) {
+        await fetch('/api/log', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(log)
+        });
+      }
+    } catch (error) {
+      // Don't log errors about logging to avoid infinite loops
+      // Just restore the logs to try again later
+      this.logQueue.unshift(...logsToSend);
+    } finally {
+      this.isSending = false;
+    }
+  }
+
+  public enable() {
+    this.enabled = true;
+  }
+
+  public disable() {
+    this.enabled = false;
+  }
+
+  public manualLog(level: LogLevel, message: string) {
+    this.log(level, message);
+  }
+}
+
+// Initialize the logger
+export const clientLogger = ClientLogger.getInstance();
+
+// Export a manual logging function for explicit use
+export function logToServer(level: LogLevel, message: string) {
+  clientLogger.manualLog(level, message);
+}
