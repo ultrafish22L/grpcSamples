@@ -233,10 +233,10 @@ function NodeParameter({
           {groupChildren(node.children!).map(({ groupName, children }, idx) => {
             if (groupName) {
               return (
-                <ParameterGroup key={`group-${idx}`} groupName={groupName}>
-                  {children.map(child => (
+                <ParameterGroup key={`group-${groupName}-${idx}`} groupName={groupName}>
+                  {children.map((child, childIdx) => (
                     <NodeParameter
-                      key={child.handle}
+                      key={`${child.handle}-${childIdx}`}
                       node={child}
                       level={level + 1}
                       onToggle={onToggle}
@@ -245,14 +245,19 @@ function NodeParameter({
                 </ParameterGroup>
               );
             } else {
-              return children.map(child => (
-                <NodeParameter
-                  key={child.handle}
-                  node={child}
-                  level={level + 1}
-                  onToggle={onToggle}
-                />
-              ));
+              // Fix: Wrap ungrouped children in a Fragment to avoid array-within-array
+              return (
+                <React.Fragment key={`nogroup-${idx}`}>
+                  {children.map((child, childIdx) => (
+                    <NodeParameter
+                      key={`${child.handle}-${childIdx}`}
+                      node={child}
+                      level={level + 1}
+                      onToggle={onToggle}
+                    />
+                  ))}
+                </React.Fragment>
+              );
             }
           })}
         </div>
