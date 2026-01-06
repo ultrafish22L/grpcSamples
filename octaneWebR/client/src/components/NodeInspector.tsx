@@ -69,20 +69,27 @@ function NodeParameter({
   const name = node.name;  // Name already includes pinInfo.staticLabel from OctaneClient
 
   // Fetch parameter value for end nodes
+  // NOTE: Temporarily disabled - getByAttrID requires proper handle/type structure
+  // Will be re-implemented to match octaneWeb's GenericNodeRenderer approach
   useEffect(() => {
-    if (isEndNode && node.attrInfo) {
-      fetchParameterValue();
-    }
+    // TODO: Implement proper parameter value fetching
+    // if (isEndNode && node.attrInfo) {
+    //   fetchParameterValue();
+    // }
   }, [isEndNode, node.handle]);
 
   const fetchParameterValue = async () => {
+    // TODO: Fix ApiItem.getByAttrID call
+    // The issue is that we need to determine if this node is actually an ApiItem
+    // and pass the correct object handle structure
+    /*
     if (!node.attrInfo) return;
     
     try {
       const response = await client.callApi(
         'ApiItem',
         'getByAttrID',
-        node.handle,
+        { handle: node.handle, type: node.typeEnum || 16 },  // Fix: pass proper object handle
         {
           attribute_id: 12, // A_VALUE
           expected_type: node.attrInfo.type
@@ -98,6 +105,7 @@ function NodeParameter({
     } catch (error) {
       console.error('Failed to fetch parameter value:', error);
     }
+    */
   };
 
   const handleToggle = () => {

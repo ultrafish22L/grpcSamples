@@ -163,6 +163,26 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
       tree.forEach((item, idx) => {
         console.log(`📊 Scene item ${idx}: ${item.name} typeEnum=${item.typeEnum} type=${item.type}`);
       });
+
+      // Auto-select render target node after scene is loaded
+      const findRenderTarget = (nodes: SceneNode[]): SceneNode | null => {
+        for (const node of nodes) {
+          if (node.type === 'PT_RENDERTARGET' || node.type === 'PT_RENDER_TARGET') {
+            return node;
+          }
+          if (node.children) {
+            const found = findRenderTarget(node.children);
+            if (found) return found;
+          }
+        }
+        return null;
+      };
+
+      const renderTarget = findRenderTarget(tree);
+      if (renderTarget) {
+        console.log('🎯 Auto-selecting render target:', renderTarget.name);
+        handleNodeSelect(renderTarget);
+      }
     } catch (error: any) {
       console.error('❌ Failed to load scene tree:', error);
       console.error('Error stack:', error.stack);
