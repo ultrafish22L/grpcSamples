@@ -4,11 +4,12 @@
  * 
  * Layout Structure (matching octaneWeb exactly):
  * - Menu Bar (top)
- * - App Layout (grid):
- *   - Left Panel: Scene Outliner
- *   - Center Panel: Render Viewport + Render Toolbar
- *   - Right Panel: Node Inspector
- *   - Bottom Panel: Node Graph Editor
+ * - App Layout (5-column x 3-row grid):
+ *   - Column 1 (full height): Scene Outliner
+ *   - Column 2 (full height): Left vertical splitter
+ *   - Column 3 (2 rows): Render Viewport (top) + horizontal splitter + Node Graph Editor (bottom)
+ *   - Column 4 (full height): Right vertical splitter
+ *   - Column 5 (full height): Node Inspector
  * - Status Bar (bottom)
  */
 
@@ -63,7 +64,7 @@ function AppContent() {
         className={`app-layout ${isDragging ? 'resizing' : ''}`}
         style={{
           gridTemplateColumns: `${panelSizes.left}px 4px 1fr 4px ${panelSizes.right}px`,
-          gridTemplateRows: `1fr 4px ${panelSizes.bottom}px`,
+          gridTemplateRows: `${panelSizes.top}px 4px 1fr`,
         }}
       >
         
@@ -84,7 +85,7 @@ function AppContent() {
           style={{ gridRow: '1 / -1' }}
         />
 
-        {/* Center Panel: Render Viewport */}
+        {/* Center Panel: Render Viewport - ROW 1 (top section of center column) */}
         <section className="center-panel">
           <div className="viewport-header">
             <div className="viewport-title">Render viewport - Render target @ 100%</div>
@@ -115,9 +116,9 @@ function AppContent() {
           </div>
         </section>
 
-        {/* Right Splitter - spans ALL rows (full height) */}
+        {/* Center-Right Splitter - spans ALL rows (full height) */}
         <div 
-          className="panel-splitter vertical right-splitter"
+          className="panel-splitter vertical center-right-splitter"
           onMouseDown={() => handleSplitterMouseDown('right')}
           style={{ gridRow: '1 / -1' }}
         />
@@ -132,14 +133,15 @@ function AppContent() {
           </div>
         </aside>
 
-        {/* Horizontal Splitter - only in CENTER column (under render viewport) */}
+        {/* Horizontal Splitter - ROW 2, COLUMN 3 ONLY (under Viewport only) */}
         <div 
-          className="panel-splitter horizontal bottom-splitter"
-          onMouseDown={() => handleSplitterMouseDown('bottom')}
+          className="panel-splitter horizontal top-bottom-splitter"
+          onMouseDown={() => handleSplitterMouseDown('top')}
+          style={{ gridColumn: '3 / 4' }}
         />
 
-        {/* Bottom Panel: Node Graph Editor - only in CENTER column (same width as viewport) */}
-        <section className="bottom-panel panel">
+        {/* Bottom Panel: Node Graph Editor - ROW 3, COLUMN 3 ONLY (under Viewport only) */}
+        <section className="bottom-panel panel" style={{ gridColumn: '3 / 4' }}>
           <div className="node-graph-header">
             <h3>Node graph editor</h3>
             <div className="node-graph-controls">

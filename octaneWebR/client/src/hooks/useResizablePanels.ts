@@ -9,7 +9,8 @@ interface PanelSizes {
   left: number;
   center: number;
   right: number;
-  bottom: number;
+  top: number;      // Top row height (viewport + inspector)
+  bottom: number;   // Calculated from window height - top
 }
 
 export function useResizablePanels() {
@@ -17,19 +18,20 @@ export function useResizablePanels() {
     left: 200,    // Scene Outliner width
     center: 0,    // Will be calculated
     right: 320,   // Node Inspector width
-    bottom: 350,  // Node Graph Editor height
+    top: 550,     // Top row height (viewport + inspector) - increased to make Node Graph smaller
+    bottom: 0,    // Will be calculated from window height - top
   });
 
   const [isDragging, setIsDragging] = useState(false);
-  const [dragType, setDragType] = useState<'left' | 'right' | 'bottom' | null>(null);
+  const [dragType, setDragType] = useState<'left' | 'right' | 'top' | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Handle mouse down on splitter
-  const handleSplitterMouseDown = useCallback((type: 'left' | 'right' | 'bottom') => {
+  const handleSplitterMouseDown = useCallback((type: 'left' | 'right' | 'top') => {
     console.log(`🖱️ Splitter drag started: ${type}`);
     setIsDragging(true);
     setDragType(type);
-    document.body.style.cursor = type === 'bottom' ? 'row-resize' : 'col-resize';
+    document.body.style.cursor = type === 'top' ? 'row-resize' : 'col-resize';
     document.body.style.userSelect = 'none';
   }, []);
 
@@ -71,17 +73,16 @@ export function useResizablePanels() {
             ...prev,
             right: newRight,
           };
-        } else if (dragType === 'bottom') {
-          // Dragging bottom boundary (between top panels and Node Graph Editor)
-          const minBottom = 150;
-          const maxBottom = containerRect.height - 200; // Leave room for top panels
-          const distanceFromBottom = containerRect.height - mouseY;
-          const newBottom = Math.max(minBottom, Math.min(maxBottom, distanceFromBottom));
-          console.log(`📏 Bottom panel resize: ${newBottom}px (mouse: ${mouseY}px)`);
+        } else if (dragType === 'top') {
+          // Dragging top/bottom boundary (between top row and Node Graph Editor)
+          const minTop = 200;
+          const maxTop = containerRect.height - 150; // Leave room for node graph
+          const newTop = Math.max(minTop, Math.min(maxTop, mouseY));
+          console.log(`📏 Top row resize: ${newTop}px (mouse: ${mouseY}px)`);
           
           return {
             ...prev,
-            bottom: newBottom,
+            top: newTop,
           };
         }
         

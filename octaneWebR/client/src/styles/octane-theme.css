@@ -166,7 +166,11 @@ html, body {
     display: grid;
     grid-template-rows: var(--menu-height) 1fr var(--status-bar-height);
     height: 100vh;
+    width: 100vw;
     background-color: var(--octane-bg-primary);
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
 }
 
 /* Menu Bar */
@@ -243,7 +247,7 @@ html, body {
 .app-layout {
     display: grid;
     grid-template-columns: 200px 4px 1fr 4px 320px; /* Will be overridden by inline styles */
-    grid-template-rows: 1fr 4px 350px; /* Will be overridden by inline styles */
+    grid-template-rows: 400px 4px 1fr; /* Will be overridden by inline styles: top-height, splitter, bottom */
     width: 100%;
     max-width: 100%;
     height: 100%;
@@ -251,6 +255,8 @@ html, body {
     background-color: var(--octane-bg-primary);
     overflow: hidden; /* Prevent layout overflow */
     gap: 0; /* No gaps between grid areas */
+    margin: 0;
+    padding: 0;
 }
 
 /* Panel Base Styles 
@@ -879,9 +885,8 @@ html, body {
     border-top: 1px solid var(--octane-border);
     background-color: var(--octane-bg-secondary);
     height: 100%; /* Use full allocated grid space */
+    width: 100%; /* Use full width of grid area */
     overflow: hidden; /* Prevent overflow beyond allocated space */
-    height: var(--bottom-panel-height);    
-    min-height: var(--bottom-panel-min-height);    
 }
 
 .node-graph-header {
@@ -960,6 +965,8 @@ html, body {
     flex-direction: column;
     position: relative; /* Ensure proper stacking context */
     z-index: 10; /* Higher z-index than center panel */
+    height: 100%; /* Fill grid area height */
+    width: 100%; /* Fill grid area width */
     /* Width controlled by grid layout - no explicit width needed */
 }
 
@@ -1054,6 +1061,8 @@ html, body {
     height: var(--status-bar-height);
     font-size: var(--font-size-small);
     color: var(--octane-text-secondary);
+    margin: 0;
+    width: 100%;
 }
 
 .status-left, .status-center, .status-right {
