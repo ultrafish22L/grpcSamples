@@ -1,0 +1,516 @@
+/**
+ * OctaneWeb Layout System
+ * Responsive grid layout with resizable panels matching Octane Studio
+ */
+
+/* Resizable Panel System */
+.resizable-panel {
+    position: relative;
+}
+
+.panel-splitter {
+    background-color: var(--octane-border, #3a3a3a);
+    cursor: col-resize;
+    z-index: 100;
+    transition: background-color 0.2s ease;
+    pointer-events: auto;
+    user-select: none;
+}
+
+.panel-splitter:hover {
+    background-color: var(--octane-accent-blue, #4a90e2);
+}
+
+.panel-splitter.vertical {
+    width: 4px;
+    height: 100%;
+    cursor: col-resize;
+}
+
+.panel-splitter.horizontal {
+    width: 100%;
+    height: 4px;
+    cursor: row-resize;
+}
+
+.panel-splitter.vertical:hover {
+    pointer-events: auto;
+}
+
+.panel-splitter.horizontal {
+    height: var(--splitter-size, 4px);
+    width: 100%;
+    cursor: row-resize;
+    pointer-events: auto;
+}
+
+/* Bottom splitter positioned in grid layout */
+#bottom-splitter {
+    position: relative;
+    background-color: var(--octane-border);
+    margin: 0;
+}
+
+#bottom-splitter:hover,
+#bottom-splitter.dragging {
+    background-color: var(--octane-accent-blue);
+}
+
+.panel-splitter.dragging {
+    background-color: var(--octane-accent-blue);
+}
+
+/* Panel Resize States */
+.panel.resizing {
+    pointer-events: none;
+    user-select: none;
+}
+
+body.resizing {
+    user-select: none;
+}
+
+body.resizing * {
+    pointer-events: none;
+}
+
+body.resizing .panel-splitter {
+    pointer-events: auto;
+}
+
+.app-layout.resizing {
+    cursor: col-resize;
+}
+
+.app-layout.resizing * {
+    pointer-events: none;
+}
+
+/* Collapsible Panels */
+.panel.collapsed {
+    min-width: 24px;
+    max-width: 24px;
+}
+
+.panel.collapsed .panel-content {
+    display: none;
+}
+
+.panel.collapsed .panel-header {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    padding: 8px 4px;
+}
+
+/* Panel Animation */
+.panel {
+    transition: min-width 0.3s ease, max-width 0.3s ease;
+}
+
+/* Viewport Layout */
+.viewport-layout {
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+    height: 100%;
+}
+
+.viewport-content {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    min-height: 0;
+}
+
+/* Node Graph Layout */
+.node-graph-layout {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100%;
+}
+
+.node-graph-workspace {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--octane-bg-darker);
+}
+
+/* Inspector Layout */
+.inspector-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.inspector-tabs {
+    display: flex;
+    background-color: var(--octane-bg-header);
+    border-bottom: 1px solid var(--octane-border);
+}
+
+.inspector-tab {
+    padding: 6px 12px;
+    background: none;
+    border: none;
+    color: var(--octane-text-secondary);
+    cursor: pointer;
+    font-size: var(--font-size-small);
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s ease;
+}
+
+.inspector-tab:hover {
+    color: var(--octane-text-primary);
+    background-color: var(--octane-bg-hover);
+}
+
+.inspector-tab.active {
+    color: var(--octane-text-primary);
+    border-bottom-color: var(--octane-accent-blue);
+}
+
+.inspector-content {
+    flex: 1;
+    overflow: auto;
+    padding: 8px;
+}
+
+/* Parameter Groups */
+.parameter-group {
+    margin-bottom: 12px;
+    border: 1px solid var(--octane-border-dark);
+    border-radius: var(--border-radius);
+    background-color: var(--octane-parameter-bg);
+}
+
+.parameter-group-header {
+    background-color: var(--octane-bg-header);
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--octane-border-dark);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-bold);
+}
+
+.parameter-group-header:hover {
+    background-color: var(--octane-bg-hover);
+}
+
+.parameter-group-toggle {
+    font-size: var(--font-size-xs);
+    transition: transform 0.15s ease;
+}
+
+.parameter-group.collapsed .parameter-group-toggle {
+    transform: rotate(-90deg);
+}
+
+.parameter-group-content {
+    padding: 8px;
+    display: block;
+}
+
+.parameter-group.collapsed .parameter-group-content {
+    display: none;
+}
+
+/* Parameter Controls */
+.parameter-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 6px;
+    align-items: center;
+}
+
+.parameter-label {
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+    text-align: right;
+    padding-right: 4px;
+}
+
+.parameter-control {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 4px;
+}
+
+.parameter-input {
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-primary);
+    padding: 2px 6px;
+    font-size: var(--font-size-small);
+    border-radius: var(--border-radius);
+    width: 100%;
+}
+
+.parameter-input:focus {
+    outline: none;
+    border-color: var(--octane-accent-blue);
+    box-shadow: 0 0 0 1px var(--octane-accent-blue);
+}
+
+.parameter-select {
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-primary);
+    padding: 2px 6px;
+    font-size: var(--font-size-small);
+    border-radius: var(--border-radius);
+    width: 100%;
+    cursor: pointer;
+}
+
+.parameter-select:focus {
+    outline: none;
+    border-color: var(--octane-accent-blue);
+    box-shadow: 0 0 0 1px var(--octane-accent-blue);
+}
+
+.parameter-slider {
+    flex: 1;
+    height: 4px;
+    background-color: var(--octane-bg-secondary);
+    border-radius: 2px;
+    position: relative;
+    cursor: pointer;
+}
+
+.parameter-slider-track {
+    height: 100%;
+    background-color: var(--octane-accent-blue);
+    border-radius: 2px;
+    transition: width 0.1s ease;
+}
+
+.parameter-slider-thumb {
+    position: absolute;
+    top: -4px;
+    width: 12px;
+    height: 12px;
+    background-color: var(--octane-text-primary);
+    border: 1px solid var(--octane-border);
+    border-radius: 50%;
+    cursor: grab;
+    transition: transform 0.1s ease;
+}
+
+.parameter-slider-thumb:hover {
+    transform: scale(1.1);
+}
+
+.parameter-slider-thumb:active {
+    cursor: grabbing;
+    transform: scale(1.2);
+}
+
+/* Scene Tree Layout */
+.scene-tree {
+    font-size: var(--font-size-small);
+}
+
+.scene-node {
+    display: flex;
+    align-items: center;
+    padding: 2px 4px;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: background-color 0.15s ease;
+}
+
+.scene-node:hover {
+    background-color: var(--octane-bg-hover);
+}
+
+.scene-node.selected {
+    background-color: var(--octane-accent-blue);
+}
+
+.scene-node-indent {
+    width: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scene-node-toggle {
+    font-size: var(--font-size-xs);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.scene-node.collapsed .scene-node-toggle {
+    transform: rotate(-90deg);
+}
+
+.scene-node-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-normal);
+}
+
+.scene-node-label {
+    flex: 1;
+    color: var(--octane-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.scene-node-visibility {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xs);
+    color: var(--octane-text-secondary);
+    border-radius: var(--border-radius);
+    transition: all 0.15s ease;
+}
+
+.scene-node-visibility:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+/* Node Graph Layout */
+.node-graph-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+.node-graph-node {
+    position: absolute;
+    background-color: var(--octane-node-bg);
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+    min-width: 120px;
+    cursor: move;
+    box-shadow: 0 2px 4px var(--octane-shadow);
+}
+
+.node-graph-node.selected {
+    border-color: var(--octane-accent-blue);
+    box-shadow: 0 0 0 1px var(--octane-accent-blue);
+}
+
+.node-graph-node-label {
+    background-color: var(--octane-bg-header);
+    padding: 4px 8px;
+    border-bottom: 1px solid var(--octane-border);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-bold);
+    color: var(--octane-text-primary);
+}
+
+.node-graph-node-content {
+    padding: 6px;
+}
+
+.node-graph-connection {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.node-graph-connection path {
+    stroke: var(--octane-connection-line);
+    stroke-width: 2;
+    fill: none;
+}
+
+.node-graph-connection.selected path {
+    stroke: var(--octane-accent-blue);
+    stroke-width: 3;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1400px) {
+    .app-layout {
+        grid-template-columns: 180px 1fr 280px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .app-layout {
+        grid-template-columns: 160px 1fr 250px;
+    }
+    
+    .parameter-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+    
+    .parameter-label {
+        text-align: left;
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 900px) {
+    .app-layout {
+        grid-template-columns: 140px 1fr 220px;
+    }
+    
+    .node-graph-section {
+        height: 150px;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr;
+    }
+    
+    .left-panel, .right-panel {
+        height: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--octane-border);
+    }
+    
+    .panel-splitter.vertical {
+        display: none;
+    }
+    
+    .node-graph-section {
+        height: 120px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .app-container {
+        display: block;
+    }
+    
+    .menu-bar, .status-bar {
+        display: none;
+    }
+    
+    .app-layout {
+        display: block;
+        height: auto;
+    }
+    
+    .panel {
+        border: 1px solid #000;
+        margin-bottom: 20px;
+        break-inside: avoid;
+    }
+}

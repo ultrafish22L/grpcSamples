@@ -1,0 +1,22 @@
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { octaneGrpcPlugin } from './vite-plugin-octane-grpc'
+
+export default defineConfig({
+  plugins: [
+    react(),
+    octaneGrpcPlugin()
+  ],
+  root: 'client',
+  server: {
+    port: 43929,
+    host: '0.0.0.0',
+    strictPort: false,
+    cors: true,
+    // Note: octaneGrpcPlugin handles all /api routes directly
+    // No proxy needed since plugin implements /api/grpc/*, /api/health, /api/callbacks
+  },
+  build: {
+    outDir: '../dist/client'
+  }
+})
