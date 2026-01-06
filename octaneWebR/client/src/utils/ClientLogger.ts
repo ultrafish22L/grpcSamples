@@ -77,27 +77,9 @@ class ClientLogger {
   }
 
   private async flush() {
-    if (!this.enabled || this.isSending || this.logQueue.length === 0) return;
-    
-    this.isSending = true;
-    const logsToSend = [...this.logQueue];
+    // Disabled server-side logging - console logs are sufficient for debugging
+    // Just clear the queue without sending to avoid errors
     this.logQueue = [];
-
-    try {
-      for (const log of logsToSend) {
-        await fetch('/api/log', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(log)
-        });
-      }
-    } catch (error) {
-      // Don't log errors about logging to avoid infinite loops
-      // Just restore the logs to try again later
-      this.logQueue.unshift(...logsToSend);
-    } finally {
-      this.isSending = false;
-    }
   }
 
   public enable() {
