@@ -15,7 +15,7 @@ export interface RenderState {
 }
 
 export interface SceneNode {
-  handle: number;
+  handle?: number;  // Optional: will be undefined for unconnected pins
   name: string;
   type: string;  // String type like 'PT_GEOMETRY' from API
   typeEnum?: number;  // Legacy numeric enum (deprecated)
@@ -266,6 +266,58 @@ export class OctaneClient extends EventEmitter {
     return this.scene.map.get(handle) || null;
   }
 
+  /**
+   * Get destination nodes for a given node (for connection graph)
+   * DISABLED: This function was causing Octane crashes by making too many API calls during recursion
+   * 
+   * The issue: Calling this during buildSceneTree() recursion multiplies API calls by 3-4x,
+   * overwhelming Octane with requests.
+   * 
+   * TODO: Implement connection mapping AFTER tree is fully built, not during recursive construction.
+   * This should be a separate pass over the completed tree to build the connection map.
+   */
+  /*
+  private async getDestination(nodeData: SceneNode): Promise<SceneNode | null> {
+    if (!nodeData || !nodeData.handle) {
+      return null;
+    }
+    
+    try {
+      // Get destination nodes array
+      const response = await this.callApi('ApiNode', 'destinationNodes', nodeData.handle);
+      if (!response || !response.nodes || !response.nodes.handle) {
+        return null;
+      }
+      
+      const handle = response.nodes.handle;
+      
+      // Get the size of the node array
+      const sizeResponse = await this.callApi('ApiNodeArray', 'size1', handle);
+      if (!sizeResponse || !sizeResponse.result) {
+        return null;
+      }
+      
+      const size = sizeResponse.result;
+      
+      // Iterate through destination nodes
+      for (let i = 0; i < size; i++) {
+        const nodeResponse = await this.callApi('ApiNodeArray', 'get1', handle, { index: i });
+        if (nodeResponse && nodeResponse.result && nodeResponse.result.handle) {
+          const destNode = this.scene.map.get(nodeResponse.result.handle);
+          if (destNode) {
+            console.log('🔗 getDestination:', nodeData.name, nodeData.handle, '->', destNode.name, destNode.handle);
+            return destNode;
+          }
+        }
+      }
+    } catch (error: any) {
+      console.warn('⚠️ getDestination failed:', error.message);
+    }
+    
+    return null;
+  }
+  */
+
   private async syncSceneRecurse(
     itemHandle: number | null,
     sceneItems: SceneNode[] | null,
@@ -401,82 +453,98 @@ export class OctaneClient extends EventEmitter {
     pinInfo: any,
     level: number
   ): Promise<SceneNode | undefined> {
-    // Handle unconnected pins - if item is null but we have pinInfo, we might still want to track it
-    if (!item || !item.handle) {
-      // For unconnected pins, we could potentially create a placeholder node
-      // but for now, just return undefined like octaneWeb does
-      if (pinInfo) {
-        console.log(`  ⚪ Unconnected pin: ${pinInfo.staticLabel || 'unnamed'}`);
-      }
-      return undefined;
-    }
+    // Setup defaults for item properties
+    let itemName = item?.name || pinInfo?.staticLabel || 'Unnamed';
+    let outType = pinInfo?.outType || '';
+    let graphInfo = null;
+    let nodeInfo = null;
+    let isGraph = false;
     
-    // Check if already exists at level 1
-    const existing = this.scene.map.get(item.handle);
-    if (existing && existing.level === 1) {
-      sceneItems.push(existing);
-      return existing;
-    }
-    
-    try {
-      // Get item name
-      const nameResponse = await this.callApi('ApiItem', 'name', item.handle);
-      const itemName = nameResponse?.result || 'Unnamed';
-      
-      // Get outType (node type string like 'PT_GEOMETRY', not numeric enum)
-      const outTypeResponse = await this.callApi('ApiItem', 'outType', item.handle);
-      const outType = outTypeResponse?.result || '';
-      
-      console.log(`  🔍 API returned outType: "${outType}" (type: ${typeof outType}) for ${itemName}`);
-      
-      // Check if it's a graph or node
-      const isGraphResponse = await this.callApi('ApiItem', 'isGraph', item.handle);
-      const isGraph = isGraphResponse?.result || false;
-      
-      let graphInfo = null;
-      let nodeInfo = null;
-      
-      if (isGraph) {
-        // Get graph info
-        const infoResponse = await this.callApi('ApiNodeGraph', 'info1', item.handle);
-        graphInfo = infoResponse?.result || null;
-      } else {
-        // Get node info
-        const infoResponse = await this.callApi('ApiNode', 'info', item.handle);
-        nodeInfo = infoResponse?.result || null;
+    // If item has a valid handle, fetch full data from Octane
+    if (item && item.handle) {
+      // Check if already exists at level 1 - reuse existing node
+      const existing = this.scene.map.get(item.handle);
+      if (existing && existing.handle && existing.level === 1) {
+        // TODO: Setup connection info for NodeGraphEditor
+        // For now, just reuse the existing node to avoid overwhelming Octane with API calls
+        // Connection mapping should be done AFTER full tree is built, not during recursion
+        
+        // Update existing node's pinInfo
+        existing.pinInfo = pinInfo;
+        sceneItems.push(existing);
+        return existing;
       }
       
-      // Use pin label if available, otherwise use item name
-      const displayName = pinInfo?.staticLabel || itemName;
-      const icon = this.getNodeIcon(outType);
-      
-      const entry: SceneNode = {
-        level,
-        name: displayName,
-        handle: item.handle,
-        type: outType,  // Use raw API value (e.g., 'PT_GEOMETRY')
-        typeEnum: typeof outType === 'number' ? outType : 0,
-        outType: outType,  // octaneWeb uses outType
-        icon,
-        visible: true,
-        graphInfo,
-        nodeInfo,
-        pinInfo,
-        children: []
-      };
-      
-      // Save to scene items and map
-      sceneItems.push(entry);
+      // Fetch item data from Octane
+      try {
+        // Get item name
+        const nameResponse = await this.callApi('ApiItem', 'name', item.handle);
+        itemName = nameResponse?.result || 'Unnamed';
+        
+        // Get outType (node type string like 'PT_GEOMETRY', not numeric enum)
+        const outTypeResponse = await this.callApi('ApiItem', 'outType', item.handle);
+        outType = outTypeResponse?.result || '';
+        
+        console.log(`  🔍 API returned outType: "${outType}" (type: ${typeof outType}) for ${itemName}`);
+        
+        // Check if it's a graph or node
+        const isGraphResponse = await this.callApi('ApiItem', 'isGraph', item.handle);
+        isGraph = isGraphResponse?.result || false;
+        
+        if (isGraph) {
+          // Get graph info
+          const infoResponse = await this.callApi('ApiNodeGraph', 'info1', item.handle);
+          graphInfo = infoResponse?.result || null;
+        } else {
+          // Get node info
+          const infoResponse = await this.callApi('ApiNode', 'info', item.handle);
+          nodeInfo = infoResponse?.result || null;
+        }
+        
+      } catch (error: any) {
+        console.error('❌ addSceneItem failed to fetch item data:', error.message);
+      }
+    } else {
+      // No valid handle - this is an unconnected pin
+      // Still create a node entry with pinInfo data (mirrors octaneWeb behavior)
+      console.log(`  ⚪ Unconnected pin: ${itemName}`);
+    }
+    
+    // Use pin label if available, otherwise use item name
+    const displayName = pinInfo?.staticLabel || itemName;
+    const icon = this.getNodeIcon(outType);
+    
+    // Create entry - even for null items (unconnected pins)
+    const entry: SceneNode = {
+      level,
+      name: displayName,
+      handle: item?.handle,  // Will be undefined for unconnected pins
+      type: outType,  // Use raw API value (e.g., 'PT_GEOMETRY')
+      typeEnum: typeof outType === 'number' ? outType : 0,
+      outType: outType,  // octaneWeb uses outType
+      icon,
+      visible: true,
+      graphInfo,
+      nodeInfo,
+      pinInfo,
+      children: []
+    };
+    
+    // Always add to scene items array
+    sceneItems.push(entry);
+    
+    // Only add to scene.map if we have a valid handle
+    if (item && item.handle) {
       this.scene.map.set(item.handle, entry);
-      
       console.log(`  📄 Added item: ${itemName} (type: "${outType}", icon: ${icon}, level: ${level})`);
       
-      return entry;
-      
-    } catch (error: any) {
-      console.error('❌ addSceneItem failed:', error.message);
-      return undefined;
+      // Recursively add children if level > 1 (mirrors octaneWeb lines 548-551)
+      if (level > 1) {
+        await this.addItemChildren(entry);
+      }
     }
+    
+    return entry;
   }
 
   private async addItemChildren(item: SceneNode): Promise<void> {
