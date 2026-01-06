@@ -396,7 +396,7 @@ export class OctaneClient extends EventEmitter {
           }
           console.log(`✅ Finished building children for all level 1 items`);
         }
-      } else {
+      } else if (itemHandle != 0) {
         // It's a node - get its input pins and connected nodes
         console.log(`📌 Level ${level}: Processing node pins for handle ${itemHandle}`);
         
@@ -472,7 +472,7 @@ export class OctaneClient extends EventEmitter {
     let isGraph = false;
     
     // If item has a valid handle, fetch full data from Octane
-    if (item && item.handle) {
+    if (item != null && item.handle != 0) {
       // Check if already exists at level 1 - reuse existing node
       const existing = this.scene.map.get(item.handle);
       if (existing && existing.handle && existing.level === 1) {
@@ -545,7 +545,7 @@ export class OctaneClient extends EventEmitter {
     sceneItems.push(entry);
     
     // Only add to scene.map if we have a valid handle
-    if (item && item.handle) {
+    if (item != null && item.handle != 0) {
       this.scene.map.set(item.handle, entry);
       console.log(`  📄 Added item: ${itemName} (type: "${outType}", icon: ${icon}, level: ${level})`);
       

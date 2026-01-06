@@ -2240,7 +2240,7 @@ service ApiRenderEngineService
     /// Modifies a cryptomatte matte selection string (e
     rpc modifyCryptomatteMatteSelection(ApiRenderEngine.modifyCryptomatteMatteSelectionRequest) returns (ApiRenderEngine.modifyCryptomatteMatteSelectionResponse);
     /// Returns a human readable string for a render priority
-    rpc toString(ApiRenderEngine.toStringRequest) returns (ApiRenderEngine.toStringResponse);
+    //rpc toString(ApiRenderEngine.toStringRequest) returns (ApiRenderEngine.toStringResponse);
     /// Returns PCI bus and device ids of the device
     ///
     /// 

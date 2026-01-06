@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { SceneNode } from '../services/OctaneClient';
 import { useOctane } from '../hooks/useOctane';
-import { AttributeId, getAttributeTypeName } from '../constants/OctaneTypes';
+import { AttributeId, AttrType } from '../constants/OctaneTypes';
 
 interface NodeInspectorProps {
   node: SceneNode | null;
@@ -14,7 +14,7 @@ interface NodeInspectorProps {
 
 interface ParameterValue {
   value: any;
-  type: string;
+  type: number;
 }
 
 // Parameter group display component
@@ -86,22 +86,25 @@ function NodeParameter({
       console.log(`  - attrInfo.type: ${node.attrInfo.type}`);
       console.log(`  - AttributeId.A_VALUE: ${AttributeId.A_VALUE}`);
       
+//      📨 Request body: {"objectPtr":{"handle":"1000349","type":16},"attribute_id":185,"expected_type":"AT_BOOL"}
+
       try {
-        // Convert numeric type to string name (e.g., 9 -> "AT_FLOAT")
-        const expectedType = getAttributeTypeName(node.attrInfo.type);
+    // attrInfo.type is already a STRING like "AT_FLOAT3" from the API
+        // Use it directly, no conversion needed
+        const expectedType = AttrType[node.attrInfo.type as keyof typeof AttrType];
         
         console.log(`🔍 Calling getByAttrID for ${node.name}:`);
         console.log(`  - attribute_id: ${AttributeId.A_VALUE}`);
-        console.log(`  - expected_type: ${expectedType} (from numeric ${node.attrInfo.type})`);
-        
+        console.log(`  - expected_type: ${expectedType}`);
+
         // Pass just the handle string - callApi will wrap it in objectPtr automatically
         const response = await client.callApi(
           'ApiItem',
           'getByAttrID',
-          String(node.handle),  // Pass handle as string
+          node.handle,  // Pass handle as string
           {
             attribute_id: AttributeId.A_VALUE, // 185 - Use constant instead of hardcoded value
-            expected_type: expectedType  // STRING name like "AT_FLOAT", not numeric type
+            expected_type: expectedType  // number
           }
         );
         

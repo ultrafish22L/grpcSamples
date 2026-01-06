@@ -162,13 +162,4 @@ export const AttrType = {
   AT_STRING: 14,
 } as const;
 
-/**
- * Convert numeric attribute type to string name
- * Required for ApiItem.getByAttrID expected_type parameter
- * @param typeNum - Numeric attribute type from attrInfo.type
- * @returns String name like "AT_FLOAT" or "AT_UNKNOWN"
- */
-export function getAttributeTypeName(typeNum: number): string {
-  const entry = Object.entries(AttrType).find(([key, val]) => val === typeNum);
-  return entry ? entry[0] : "AT_UNKNOWN";
-}
+
