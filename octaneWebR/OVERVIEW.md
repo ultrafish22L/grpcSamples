@@ -80,7 +80,7 @@ octaneWebR/
 │
 ├── package.json                     # Dependencies & scripts
 ├── tsconfig.json                    # TypeScript configuration
-├── vite.config.ts                   # Vite build configuration
+├── vite.config.mts                   # Vite build configuration
 └── *.md                             # Documentation
 ```
 
@@ -122,14 +122,20 @@ ApiNodeGraph.getOwnedItems() → {list: {handle: "1000001", type: "ApiItemArray"
 
 ### Scene Outliner
 - Hierarchical tree view of Octane scene
-- Expand/collapse nodes
+- Expand/collapse nodes all the way to end nodes
 - Node selection for inspection
-- Type badges (Geometry, RenderTarget, etc.)
+- Type icons (Geometry, RenderTarget, etc.) for non-empty pins 
 
 ### Node Inspector
-- Property grid for selected nodes
+- Hierarchical tree view for selected node
 - Attribute viewing and editing
-- Type information display
+- number slider/arrows, color picker, checkbox, etc.
+
+### Node Graph Editor
+- Visual representation of node connections
+- Right-click context menus
+- Node creation and deletion
+- Zoom and pan navigation
 
 ### Callback Render Viewport
 - Real-time render streaming via callbacks
@@ -137,11 +143,6 @@ ApiNodeGraph.getOwnedItems() → {list: {handle: "1000001", type: "ApiItemArray"
 - Canvas-based display with zoom controls
 - Frame counter and performance stats
 
-### Node Graph Editor
-- Visual representation of node connections
-- Right-click context menus
-- Node creation and deletion
-- Zoom and pan navigation
 
 ## 🚀 Development Workflow
 
@@ -198,11 +199,7 @@ Regenerates TypeScript types from .proto files
 - **Symptom**: "Connection failed" status
 - **Fix**: Ensure Octane is running with LiveLink enabled (Help → LiveLink)
 - **Fix**: Verify Octane is listening on 127.0.0.1:51022
-
-#### Scene Tree Empty
-- **Symptom**: Scene outliner shows no items
-- **Fix**: Load a scene in Octane (.orbx file or add geometry)
-- **Fix**: Click refresh button (🔄) in Scene Outliner
+- **Fix**: stop and alert human to check if octane crashed
 
 #### TypeScript Errors
 - **Symptom**: Build fails with type errors
@@ -248,9 +245,7 @@ const name = response.result; // or response.list, etc.
 
 ## 📚 Related Documentation
 
-- **QUICKSTART.md** - Step-by-step setup instructions
-- **REPRO_PROMPT.md** - OpenHands session restoration prompt
-- **parent/REPO_CONTEXT** - Overall grpcSamples repository documentation
+- **QUICKSTART.md** - Step-by-step setup and run instructions
 
 ## 🤝 Contributing
 
