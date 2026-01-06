@@ -879,7 +879,7 @@ html, body {
 
 /* Bottom Panel - Node Graph Editor */
 .bottom-panel {
-    grid-column: 1 / -1; /* Span all columns */
+    /* Grid column controlled by inline style in App.tsx */
     display: flex;
     flex-direction: column;
     border-top: 1px solid var(--octane-border);
