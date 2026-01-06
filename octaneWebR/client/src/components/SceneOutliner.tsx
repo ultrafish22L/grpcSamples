@@ -71,8 +71,10 @@ interface SceneTreeItemProps {
 }
 
 function SceneTreeItem({ node, depth, onSelect, selectedHandle }: SceneTreeItemProps) {
-  // Scene root starts expanded by default
-  const [expanded, setExpanded] = useState(node.type === 'SceneRoot');
+    // Scene root and Render target start expanded by default
+  const [expanded, setExpanded] = useState(
+    node.type === 'SceneRoot' || node.type === 'PT_RENDERTARGET'
+  );
   const hasChildren = node.children && node.children.length > 0;
   const isSelected = selectedHandle === node.handle;
 
@@ -103,12 +105,7 @@ function SceneTreeItem({ node, depth, onSelect, selectedHandle }: SceneTreeItemP
             <span className="node-spacer"></span>
           )}
           <span className="node-icon">{getNodeIcon(node)}</span>
-          <span className="node-name">
-            {node.name}
-            {node.type !== 'SceneRoot' && node.type && (
-              <span className="node-type-label"> Type {node.type}</span>
-            )}
-          </span>
+          <span className="node-name">{node.name}</span>
         </div>
       </div>
       {expanded && hasChildren && node.children!.map(child => (
