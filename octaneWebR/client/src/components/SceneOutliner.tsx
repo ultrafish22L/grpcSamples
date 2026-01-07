@@ -210,6 +210,12 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
         hasClient: !!client,
         reason: !connected ? 'not connected' : 'no client'
       });
+      
+      // DEBUG: Force load scene tree even if connected state is false
+      if (client && !loading) {
+        console.log('🔧 DEBUG: Force loading scene tree despite connected=false');
+        loadSceneTree();
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connected, client]);

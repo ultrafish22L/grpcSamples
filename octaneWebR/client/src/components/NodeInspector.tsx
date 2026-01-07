@@ -1,6 +1,14 @@
 /**
  * Node Inspector Component (React TypeScript)
- * Hierarchical node parameter display matching octaneWeb implementation
+ * Professional parameter editing interface matching Octane Render Studio exactly
+ * 
+ * This component replicates the exact layout and styling from the reference screenshot:
+ * - Compact parameter rows with proper spacing
+ * - Blue parameter icons on the left
+ * - Parameter names in the center
+ * - Input controls on the right (numbers with spinners, checkboxes, color bars)
+ * - Proper grouping with collapsible sections
+ * - Professional dark theme matching Octane Studio
  */
 
 import React, { useState, useEffect } from 'react';
@@ -149,8 +157,18 @@ function NodeParameter({
     }
   };
 
-  // Render interactive parameter controls (matching octaneWeb implementation)
-  const renderValue = () => {
+  // Get the proper parameter icon (blue gear for most parameters)
+  const getParameterIcon = (attrType: string, nodeType?: string) => {
+    // In the reference screenshot, most parameters show a blue gear icon
+    // Only special cases like colors might show different icons
+    if (attrType === 'AT_FLOAT3' && (node.name.toLowerCase().includes('color') || nodeType === 'NT_TEX_RGB')) {
+      return '🎨'; // Color icon for color parameters
+    }
+    return '⚙'; // Blue gear icon for most parameters
+  };
+
+  // Render the parameter control based on type (matching reference screenshot exactly)
+  const renderParameterControl = () => {
     if (!paramValue) return null;
 
     const { value, type } = paramValue;
@@ -159,13 +177,12 @@ function NodeParameter({
       case AttrType.AT_BOOL:
         const boolValue = typeof value === 'boolean' ? value : false;
         return (
-          <div className="parameter-control-container">
+          <div className="parameter-checkbox-container">
             <input 
               type="checkbox" 
               className="octane-checkbox parameter-control" 
               checked={boolValue}
               onChange={(e) => handleValueChange(e.target.checked)}
-              style={{ background: '#2b2b2b' }}
             />
           </div>
         );
@@ -177,7 +194,7 @@ function NodeParameter({
             <input 
               type="number" 
               className="octane-number-input parameter-control" 
-              value={floatValue}
+              value={floatValue.toFixed(3)}
               step="0.001"
               onChange={(e) => handleValueChange(parseFloat(e.target.value))}
             />
@@ -188,10 +205,10 @@ function NodeParameter({
       case AttrType.AT_LONG:
         const intValue = typeof value === 'number' ? value : 0;
         return (
-          <div className="parameter-control-container">
+          <div className="parameter-control-wrapper">
             <input 
               type="number" 
-              className="octane-number-input parameter-control" 
+              className="parameter-number-input" 
               value={intValue}
               step="1"
               onChange={(e) => handleValueChange(parseInt(e.target.value))}
@@ -227,14 +244,17 @@ function NodeParameter({
         if (value && typeof value === 'object' && 'x' in value) {
           const { x = 0, y = 0, z = 0 } = value;
           
-          // Check if this is a color parameter (typically NT_TEX_RGB node type)
-          const isColor = node.nodeInfo?.type === 'NT_TEX_RGB';
+          // Check if this is a color parameter (matching reference screenshot)
+          const isColor = node.nodeInfo?.type === 'NT_TEX_RGB' || 
+                          node.name.toLowerCase().includes('color') ||
+                          node.name.toLowerCase().includes('sky') ||
+                          node.name.toLowerCase().includes('sunset');
           
           if (isColor) {
-            // Display as color picker with hex value
-            const r = Math.round(x * 255);
-            const g = Math.round(y * 255);
-            const b = Math.round(z * 255);
+            // Display as color input (matching reference screenshot exactly)
+            const r = Math.round(Math.max(0, Math.min(1, x)) * 255);
+            const g = Math.round(Math.max(0, Math.min(1, y)) * 255);
+            const b = Math.round(Math.max(0, Math.min(1, z)) * 255);
             const hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
             
             return (
@@ -243,14 +263,14 @@ function NodeParameter({
                   type="color" 
                   className="octane-color-input parameter-control" 
                   value={hexColor}
+                  title={`RGB: ${x.toFixed(3)}, ${y.toFixed(3)}, ${z.toFixed(3)}`}
                   onChange={(e) => {
                     const hex = e.target.value;
-                    const r = parseInt(hex.slice(1, 3), 16) / 255;
-                    const g = parseInt(hex.slice(3, 5), 16) / 255;
-                    const b = parseInt(hex.slice(5, 7), 16) / 255;
+                    const r = parseInt(hex.substring(1, 3), 16) / 255;
+                    const g = parseInt(hex.substring(3, 5), 16) / 255;
+                    const b = parseInt(hex.substring(5, 7), 16) / 255;
                     handleValueChange({ x: r, y: g, z: b });
                   }}
-                  style={{ background: hexColor, color: hexColor }}
                 />
               </div>
             );
@@ -258,26 +278,26 @@ function NodeParameter({
           
           // Display as numeric vector (3 separate number inputs)
           return (
-            <div className="parameter-control-container">
+            <div className="parameter-control-wrapper parameter-vector3">
               <input 
                 type="number" 
-                className="octane-number-input parameter-control" 
-                value={x}
-                step="0.001"
+                className="parameter-number-input parameter-vector-component" 
+                value={x.toFixed(6)}
+                step="0.000001"
                 onChange={(e) => handleValueChange({ x: parseFloat(e.target.value), y, z })}
               />
               <input 
                 type="number" 
-                className="octane-number-input parameter-control" 
-                value={y}
-                step="0.001"
+                className="parameter-number-input parameter-vector-component" 
+                value={y.toFixed(6)}
+                step="0.000001"
                 onChange={(e) => handleValueChange({ x, y: parseFloat(e.target.value), z })}
               />
               <input 
                 type="number" 
-                className="octane-number-input parameter-control" 
-                value={z}
-                step="0.001"
+                className="parameter-number-input parameter-vector-component" 
+                value={z.toFixed(6)}
+                step="0.000001"
                 onChange={(e) => handleValueChange({ x, y, z: parseFloat(e.target.value) })}
               />
             </div>
@@ -337,32 +357,59 @@ function NodeParameter({
     }
   };
 
-  const indentClass = level === 0 ? 'node-indent-0' : 'node-indent';
-  
+  // Render as parameter row (matching reference screenshot exactly)
+  if (isEndNode) {
+    // Get the appropriate icon for this parameter type
+    const getParameterIcon = (): string => {
+      if (!paramValue) return '📷';
+      
+      switch (paramValue.type) {
+        case AttrType.AT_BOOL:
+          return '☑️';
+        case AttrType.AT_FLOAT3:
+          // Check if this is a color parameter
+          if (node.nodeInfo?.type === 'NT_TEX_RGB' || 
+              node.name.toLowerCase().includes('color') ||
+              node.name.toLowerCase().includes('sky') ||
+              node.name.toLowerCase().includes('sunset')) {
+            return '🎨';
+          }
+          return '📷';
+        case AttrType.AT_ENUM:
+          return '📋';
+        default:
+          return '📷';
+      }
+    };
+    
+    return (
+      <div className="octane-parameter-row" data-node-handle={node.handle}>
+        <div className="octane-parameter-label">
+          <div className="octane-parameter-icon">
+            {getParameterIcon()}
+          </div>
+          <span className="octane-parameter-name">{name}</span>
+        </div>
+        <div className="octane-parameter-control">
+          {renderParameterControl()}
+        </div>
+      </div>
+    );
+  }
+
+  // Render as node group (matching reference screenshot)
   return (
-    <div className={indentClass}>
-      <div 
-        className={isEndNode ? 'node-box-parameter' : 'node-box'}
-        data-node-handle={node.handle}
-      >
-        {isEndNode ? (
-          // Parameters use blue icon styling (matching reference screenshot)
-          <div className="parameter-icon">
-            <span>{icon}</span>
-          </div>
-        ) : (
-          // Non-parameter nodes use colored icon box
-          <div className="node-icon-box" style={{ backgroundColor: color }}>
-            <span className="node-icon">{icon}</span>
-          </div>
-        )}
+    <div className={level === 0 ? 'node-indent-0' : 'node-indent'}>
+      <div className="node-box" data-node-handle={node.handle}>
+        <div className="node-icon-box" style={{ backgroundColor: color }}>
+          <span className="node-icon">{icon}</span>
+        </div>
         <div className="node-content">
           <div className="node-label" onClick={hasChildren ? handleToggle : undefined}>
             {hasChildren && (
               <span className="collapse-icon">{expanded ? '▼' : '▶'}</span>
             )}
             <span className="node-title">{name}</span>
-            {isEndNode && renderValue()}
           </div>
         </div>
       </div>
@@ -465,14 +512,37 @@ export function NodeInspector({ node }: NodeInspectorProps) {
   if (!node) {
     return (
       <div className="node-inspector">
-        <div className="empty-message">Empty</div>
+        <div className="node-inspector-header">
+          <div className="inspector-title">
+            <span className="inspector-icon">🎯</span>
+            <span>Node inspector</span>
+          </div>
+        </div>
+        <div className="inspector-content">
+          <div className="empty-message">Empty</div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="node-inspector">
-      <div className="inspector-content">
+    <div className="octane-node-inspector">
+      {/* Header with dropdown (matching reference screenshot) */}
+      <div className="octane-inspector-header">
+        <div className="octane-inspector-title">
+          <span className="octane-inspector-icon">🎯</span>
+          <span>Node inspector</span>
+        </div>
+        <div className="octane-inspector-dropdown">
+          <select className="octane-inspector-target-select">
+            <option value={node.name}>{node.name}</option>
+          </select>
+          <span className="octane-inspector-dropdown-arrow">▼</span>
+        </div>
+      </div>
+      
+      {/* Content */}
+      <div className="octane-inspector-content">
         <NodeParameter 
           node={node} 
           level={0} 
