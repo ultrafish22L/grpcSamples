@@ -59,6 +59,10 @@ function ParameterGroup({
   );
 }
 
+// Track hasGroup at each level (matching GenericNodeRenderer grouping logic)
+// This will be used in future updates to match octaneWeb's group nesting behavior
+const hasGroupAtLevel: boolean[] = [];
+
 // Node parameter item component
 function NodeParameter({ 
   node, 
@@ -79,11 +83,11 @@ function NodeParameter({
   const typeStr = String(node.type || node.outType || 'unknown');
   const icon = node.icon || OctaneIconMapper.getNodeIcon(typeStr, node.name);
   const color = node.nodeInfo?.nodeColor ? OctaneIconMapper.formatNodeColor(node.nodeInfo.nodeColor) : '#666';
-  const name = node.name;  // Name already includes pinInfo.staticLabel from OctaneClient
+  const name = node.pinInfo?.staticLabel || node.name;
 
   // Fetch parameter value for end nodes (matching octaneWeb's GenericNodeRenderer.getValue())
   useEffect(() => {
-    const fetchValue = () => {
+    const fetchValue = async () => {
       // Log every node to understand the tree structure
       if (level < 3) {  // Only log first 3 levels to avoid spam
         console.log(`📋 NodeParameter: "${node.name}" - hasChildren:${hasChildren}, has attrInfo:${!!node.attrInfo}, isEndNode:${isEndNode}, handle:${node.handle}`);
@@ -97,11 +101,9 @@ function NodeParameter({
       console.log(`  - handle: ${node.handle}`);
       console.log(`  - attrInfo.type: ${node.attrInfo.type}`);
       console.log(`  - AttributeId.A_VALUE: ${AttributeId.A_VALUE}`);
-      
-//      📨 Request body: {"objectPtr":{"handle":"1000349","type":16},"attribute_id":185,"expected_type":"AT_BOOL"}
 
       try {
-    // attrInfo.type is already a STRING like "AT_FLOAT3" from the API
+        // attrInfo.type is already a STRING like "AT_FLOAT3" from the API
         // Use it directly, no conversion needed
         const expectedType = AttrType[node.attrInfo.type as keyof typeof AttrType];
         
@@ -110,7 +112,7 @@ function NodeParameter({
         console.log(`  - expected_type: ${expectedType}`);
 
         // Pass just the handle string - callApi will wrap it in objectPtr automatically
-        const response = client.callApi(
+        const response = await client.callApi(
           'ApiItem',
           'getByAttrID',
           node.handle,  // Pass handle as string
@@ -130,8 +132,7 @@ function NodeParameter({
           
           setParamValue({
             value: actualValue,
-            type: expectedType,
-            raw: response  // Keep raw response for debugging
+            type: expectedType
           });
         }
       } catch (error) {
@@ -167,54 +168,54 @@ function NodeParameter({
 
     const { value, type } = paramValue;
 
+    // Wrap all controls in node-parameter-controls div (matching GenericNodeRenderer structure)
+    let control = null;
+
     switch (type) {
       case AttrType.AT_BOOL:
         const boolValue = typeof value === 'boolean' ? value : false;
-        return (
-          <div className="parameter-checkbox-container">
-            <input 
-              type="checkbox" 
-              className="octane-checkbox parameter-control" 
-              checked={boolValue}
-              onChange={(e) => handleValueChange(e.target.checked)}
-            />
-          </div>
+        control = (
+          <input 
+            type="checkbox" 
+            className="octane-checkbox parameter-control" 
+            checked={boolValue}
+            onChange={(e) => handleValueChange(e.target.checked)}
+          />
         );
+        break;
       
       case AttrType.AT_FLOAT:
         const floatValue = typeof value === 'number' ? value : 0;
-        return (
-          <div className="parameter-control-container">
-            <input 
-              type="number" 
-              className="octane-number-input parameter-control" 
-              value={floatValue.toFixed(3)}
-              step="0.001"
-              onChange={(e) => handleValueChange(parseFloat(e.target.value))}
-            />
-          </div>
+        control = (
+          <input 
+            type="number" 
+            className="octane-number-input parameter-control" 
+            value={floatValue.toFixed(3)}
+            step="0.001"
+            onChange={(e) => handleValueChange(parseFloat(e.target.value))}
+          />
         );
+        break;
       
       case AttrType.AT_INT:
       case AttrType.AT_LONG:
         const intValue = typeof value === 'number' ? value : 0;
-        return (
-          <div className="parameter-control-wrapper">
-            <input 
-              type="number" 
-              className="parameter-number-input" 
-              value={intValue}
-              step="1"
-              onChange={(e) => handleValueChange(parseInt(e.target.value))}
-            />
-          </div>
+        control = (
+          <input 
+            type="number" 
+            className="parameter-number-input" 
+            value={intValue}
+            step="1"
+            onChange={(e) => handleValueChange(parseInt(e.target.value))}
+          />
         );
+        break;
       
       case AttrType.AT_FLOAT2:
         if (value && typeof value === 'object' && 'x' in value) {
           const { x = 0, y = 0 } = value;
-          return (
-            <div className="parameter-control-container">
+          control = (
+            <>
               <input 
                 type="number" 
                 className="octane-number-input parameter-control" 
@@ -229,10 +230,10 @@ function NodeParameter({
                 step="0.001"
                 onChange={(e) => handleValueChange({ x, y: parseFloat(e.target.value) })}
               />
-            </div>
+            </>
           );
         }
-        return null;
+        break;
       
       case AttrType.AT_FLOAT3:
         if (value && typeof value === 'object' && 'x' in value) {
@@ -251,60 +252,58 @@ function NodeParameter({
             const b = Math.round(Math.max(0, Math.min(1, z)) * 255);
             const hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
             
-            return (
-              <div className="parameter-control-container">
+            control = (
+              <input 
+                type="color" 
+                className="octane-color-input parameter-control" 
+                value={hexColor}
+                title={`RGB: ${x.toFixed(3)}, ${y.toFixed(3)}, ${z.toFixed(3)}`}
+                onChange={(e) => {
+                  const hex = e.target.value;
+                  const r = parseInt(hex.substring(1, 3), 16) / 255;
+                  const g = parseInt(hex.substring(3, 5), 16) / 255;
+                  const b = parseInt(hex.substring(5, 7), 16) / 255;
+                  handleValueChange({ x: r, y: g, z: b });
+                }}
+              />
+            );
+          } else {
+            // Display as numeric vector (3 separate number inputs)
+            control = (
+              <>
                 <input 
-                  type="color" 
-                  className="octane-color-input parameter-control" 
-                  value={hexColor}
-                  title={`RGB: ${x.toFixed(3)}, ${y.toFixed(3)}, ${z.toFixed(3)}`}
-                  onChange={(e) => {
-                    const hex = e.target.value;
-                    const r = parseInt(hex.substring(1, 3), 16) / 255;
-                    const g = parseInt(hex.substring(3, 5), 16) / 255;
-                    const b = parseInt(hex.substring(5, 7), 16) / 255;
-                    handleValueChange({ x: r, y: g, z: b });
-                  }}
+                  type="number" 
+                  className="parameter-number-input parameter-vector-component" 
+                  value={x.toFixed(6)}
+                  step="0.000001"
+                  onChange={(e) => handleValueChange({ x: parseFloat(e.target.value), y, z })}
                 />
-              </div>
+                <input 
+                  type="number" 
+                  className="parameter-number-input parameter-vector-component" 
+                  value={y.toFixed(6)}
+                  step="0.000001"
+                  onChange={(e) => handleValueChange({ x, y: parseFloat(e.target.value), z })}
+                />
+                <input 
+                  type="number" 
+                  className="parameter-number-input parameter-vector-component" 
+                  value={z.toFixed(6)}
+                  step="0.000001"
+                  onChange={(e) => handleValueChange({ x, y, z: parseFloat(e.target.value) })}
+                />
+              </>
             );
           }
-          
-          // Display as numeric vector (3 separate number inputs)
-          return (
-            <div className="parameter-control-wrapper parameter-vector3">
-              <input 
-                type="number" 
-                className="parameter-number-input parameter-vector-component" 
-                value={x.toFixed(6)}
-                step="0.000001"
-                onChange={(e) => handleValueChange({ x: parseFloat(e.target.value), y, z })}
-              />
-              <input 
-                type="number" 
-                className="parameter-number-input parameter-vector-component" 
-                value={y.toFixed(6)}
-                step="0.000001"
-                onChange={(e) => handleValueChange({ x, y: parseFloat(e.target.value), z })}
-              />
-              <input 
-                type="number" 
-                className="parameter-number-input parameter-vector-component" 
-                value={z.toFixed(6)}
-                step="0.000001"
-                onChange={(e) => handleValueChange({ x, y, z: parseFloat(e.target.value) })}
-              />
-            </div>
-          );
         }
-        return null;
+        break;
       
       case AttrType.AT_LONG2:
       case AttrType.AT_INT2:
         if (value && typeof value === 'object' && 'x' in value) {
           const { x = 0, y = 0 } = value;
-          return (
-            <div className="parameter-control-container">
+          control = (
+            <>
               <input 
                 type="number" 
                 className="octane-number-input parameter-control" 
@@ -319,80 +318,108 @@ function NodeParameter({
                 step="1"
                 onChange={(e) => handleValueChange({ x, y: parseInt(e.target.value) })}
               />
-            </div>
+            </>
           );
         }
-        return null;
+        break;
       
       case AttrType.AT_STRING:
       case AttrType.AT_FILENAME:
         const stringValue = typeof value === 'string' ? value : '';
-        return (
-          <div className="parameter-control-container">
-            <input 
-              type="text" 
-              className="octane-text-input parameter-control" 
-              value={stringValue}
-              onChange={(e) => handleValueChange(e.target.value)}
-            />
-          </div>
+        control = (
+          <input 
+            type="text" 
+            className="octane-text-input parameter-control" 
+            value={stringValue}
+            onChange={(e) => handleValueChange(e.target.value)}
+          />
         );
+        break;
       
       default:
         // For unknown types, display as read-only text
         const displayValue = value !== undefined 
           ? (typeof value === 'object' ? JSON.stringify(value) : String(value))
           : '';
-        return (
+        control = (
           <span className="parameter-value">
             {displayValue}
           </span>
         );
+        break;
     }
+
+    // Wrap control in node-parameter-controls div (matching GenericNodeRenderer structure)
+    return control ? (
+      <div className="node-parameter-controls">
+        {control}
+      </div>
+    ) : null;
   };
 
-  // Render as parameter row (matching reference screenshot exactly)
-  if (isEndNode) {
-    // Get the appropriate icon for this parameter type using OctaneIconMapper
-    const paramIcon = paramValue 
-      ? OctaneIconMapper.getParameterIcon(node.name, String(paramValue.type))
-      : '⚙';
-    
+  // Determine the indent class (matching GenericNodeRenderer logic)
+  // Future: use node.pinInfo?.groupName for advanced group nesting like octaneWeb
+  const indentClass = level === 0 ? 'node-indent-0' : 
+                     hasGroupAtLevel[level] ? 'node-indent-done' : 
+                     'node-indent';
+
+  // Determine collapse/expand icon
+  const collapseIcon = hasChildren && level > 0 ? (expanded ? '▼' : '▶') : '';
+
+  // Render as parameter node (end node with attrInfo)
+  if (node.attrInfo) {
     return (
-      <div className="octane-parameter-row" data-node-handle={node.handle}>
-        <div className="octane-parameter-label">
-          <div className="octane-parameter-icon">
-            {paramIcon}
+      <div className={indentClass} style={{ display: 'block' }}>
+        <div className="node-box-parameter" data-node-handle={node.handle} data-node-id={nodeId}>
+          <div className="node-icon-box" style={{ backgroundColor: color }}>
+            <span className="node-icon">{icon}</span>
           </div>
-          <span className="octane-parameter-name">{name}</span>
+          <div className="node-content">
+            <div className="node-label" onClick={hasChildren ? handleToggle : undefined}>
+              {collapseIcon && <span className="collapse-icon">{collapseIcon}</span>}
+              <span className="node-title">{name}</span>
+              {renderParameterControl()}
+            </div>
+          </div>
         </div>
-        <div className="octane-parameter-control">
-          {renderParameterControl()}
-        </div>
+        {hasChildren && (
+          <div 
+            className="node-toggle-content"
+            data-toggle-content={nodeId}
+            style={{ display: expanded ? 'block' : 'none' }}
+          >
+            {node.children!.map((child, childIdx) => (
+              <NodeParameter
+                key={`${child.handle}-${childIdx}`}
+                node={child}
+                level={level + 1}
+                onToggle={onToggle}
+              />
+            ))}
+          </div>
+        )}
       </div>
     );
   }
 
-  // Render as node group (matching reference screenshot)
+  // Render as node group (non-parameter nodes)
   return (
-    <div className={level === 0 ? 'node-indent-0' : 'node-indent'}>
-      <div className="node-box" data-node-handle={node.handle}>
+    <div className={indentClass} style={{ display: 'block' }}>
+      <div className="node-box" data-node-handle={node.handle} data-node-id={nodeId}>
         <div className="node-icon-box" style={{ backgroundColor: color }}>
           <span className="node-icon">{icon}</span>
         </div>
         <div className="node-content">
           <div className="node-label" onClick={hasChildren ? handleToggle : undefined}>
-            {hasChildren && (
-              <span className="collapse-icon">{expanded ? '▼' : '▶'}</span>
-            )}
+            {collapseIcon && <span className="collapse-icon">{collapseIcon}</span>}
             <span className="node-title">{name}</span>
           </div>
         </div>
       </div>
-      
       {hasChildren && (
         <div 
           className="node-toggle-content"
+          data-toggle-content={nodeId}
           style={{ display: expanded ? 'block' : 'none' }}
         >
           {groupChildren(node.children!).map(({ groupName, children }, idx) => {
@@ -410,7 +437,6 @@ function NodeParameter({
                 </ParameterGroup>
               );
             } else {
-              // Fix: Wrap ungrouped children in a Fragment to avoid array-within-array
               return (
                 <React.Fragment key={`nogroup-${idx}`}>
                   {children.map((child, childIdx) => (

@@ -8,7 +8,6 @@ type LogLevel = 'log' | 'warn' | 'error';
 class ClientLogger {
   private static instance: ClientLogger;
   private logQueue: Array<{ level: LogLevel; message: string }> = [];
-  private isSending: boolean = false;
   private enabled: boolean = true;
 
   private constructor() {

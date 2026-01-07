@@ -78,7 +78,12 @@ export function NodeGraphEditor({ selectedNode }: NodeGraphEditorProps) {
 
       // First pass: collect all unique nodes
       const collectNodes = (items: SceneNode[], level: number = 0) => {
-        items.forEach((item, index) => {
+        items.forEach((item) => {
+          // Skip items without a handle
+          if (typeof item.handle !== 'number') {
+            return;
+          }
+          
           if (!nodeMap.has(item.handle)) {
             const node: GraphNode = {
               id: item.handle,
@@ -103,10 +108,13 @@ export function NodeGraphEditor({ selectedNode }: NodeGraphEditorProps) {
       // Second pass: create connections from parents to children
       sceneTree.forEach((item) => {
         const processConnections = (parent: SceneNode) => {
-          if (parent.children && parent.children.length > 0) {
+          if (parent.children && parent.children.length > 0 && typeof parent.handle === 'number') {
             const parentNode = nodeMap.get(parent.handle);
             
             parent.children.forEach((child) => {
+              if (typeof child.handle !== 'number') {
+                return;
+              }
               const childNode = nodeMap.get(child.handle);
               
               if (parentNode && childNode) {
