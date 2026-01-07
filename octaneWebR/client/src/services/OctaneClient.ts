@@ -580,7 +580,7 @@ export class OctaneClient extends EventEmitter {
             { id: AttributeId.A_VALUE } // 185 - A_VALUE attribute ID
           );
           
-          if (attrInfoResponse?.result) {
+          if (attrInfoResponse?.result && attrInfoResponse.result.type != "AT_UNKNOWN") {
             item.attrInfo = attrInfoResponse.result;
             console.log(`  📊 End node: ${item.name} (${item.attrInfo.type})`);
           }
@@ -682,9 +682,12 @@ export class OctaneClient extends EventEmitter {
   // @ts-ignore - Used recursively for scene tree traversal
   private updateSceneMap(nodes: SceneNode[]): void {
     for (const node of nodes) {
-      this.scene.map.set(node.handle, node);
-      if (node.children && node.children.length > 0) {
-        this.updateSceneMap(node.children);
+
+      if (node.handle != null)   {
+        this.scene.map.set(node.handle, node);
+        if (node.children && node.children.length > 0) {
+          this.updateSceneMap(node.children);
+        }
       }
     }
   }

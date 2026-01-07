@@ -71,7 +71,7 @@ function NodeParameter({
 
   // Fetch parameter value for end nodes (matching octaneWeb's GenericNodeRenderer.getValue())
   useEffect(() => {
-    const fetchValue = async () => {
+    const fetchValue = () => {
       // Log every node to understand the tree structure
       if (level < 3) {  // Only log first 3 levels to avoid spam
         console.log(`📋 NodeParameter: "${node.name}" - hasChildren:${hasChildren}, has attrInfo:${!!node.attrInfo}, isEndNode:${isEndNode}, handle:${node.handle}`);
@@ -98,7 +98,7 @@ function NodeParameter({
         console.log(`  - expected_type: ${expectedType}`);
 
         // Pass just the handle string - callApi will wrap it in objectPtr automatically
-        const response = await client.callApi(
+        const response = client.callApi(
           'ApiItem',
           'getByAttrID',
           node.handle,  // Pass handle as string
@@ -136,28 +136,28 @@ function NodeParameter({
     const { value, type } = paramValue;
 
     switch (type) {
-      case 'AT_BOOL':
+      case AttrType.AT_BOOL:
         return (
           <span className="parameter-value">
             {value?.result ? '☑' : '☐'}
           </span>
         );
       
-      case 'AT_FLOAT':
+      case AttrType.AT_FLOAT:
         return (
           <span className="parameter-value">
             {typeof value?.result === 'number' ? value.result.toFixed(6) : '0.000000'}
           </span>
         );
       
-      case 'AT_INT':
+      case AttrType.AT_INT:
         return (
           <span className="parameter-value">
             {value?.result || 0}
           </span>
         );
       
-      case 'AT_FLOAT3':
+      case AttrType.AT_FLOAT3:
         if (value?.result) {
           const { x, y, z } = value.result;
           
@@ -190,8 +190,8 @@ function NodeParameter({
         }
         return <span className="parameter-value">0, 0, 0</span>;
       
-      case 'AT_STRING':
-      case 'AT_FILENAME':
+      case AttrType.AT_STRING:
+      case AttrType.AT_FILENAME:
         return (
           <span className="parameter-value">
             {value?.result || ''}
