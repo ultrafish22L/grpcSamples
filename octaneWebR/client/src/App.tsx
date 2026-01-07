@@ -89,8 +89,8 @@ function AppContent() {
           style={{ gridRow: '1 / -1' }}
         />
 
-        {/* Center Panel: Render Viewport - ROW 1 (top section of center column) */}
-        <section className="center-panel">
+        {/* Center Panel: Render Viewport - ROW 1, COLUMN 3 (top section of center column) */}
+        <section className="center-panel" style={{ gridColumn: '3 / 4', gridRow: '1 / 2' }}>
           <div className="viewport-header">
             <div className="viewport-title">Render viewport - Render target @ 100%</div>
             <div className="viewport-controls">
