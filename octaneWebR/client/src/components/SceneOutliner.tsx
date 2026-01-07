@@ -6,44 +6,7 @@
 import { useEffect, useState } from 'react';
 import { useOctane } from '../hooks/useOctane';
 import { SceneNode } from '../services/OctaneClient';
-
-// Node icon mapping based on Octane API type strings (e.g., 'PT_GEOMETRY')
-// Reference: octaneWeb/js/utils/OctaneIconMapper.js
-// API returns string types like 'PT_GEOMETRY', not numeric enums
-const NODE_ICON_MAP: Record<string, string> = {
-  // Parameter types
-  'PT_BOOL': '☑️',
-  'PT_FLOAT': '🔢',
-  'PT_INT': '🔢',
-  'PT_ENUM': '📋',
-  'PT_RGB': '🎨',
-  'PT_STRING': '📝',
-  'PT_TRANSFORM': '🔄',
-  
-  // Scene node types
-  'PT_RENDER_TARGET': '🎯',
-  'PT_RENDERTARGET': '🎯',  // Fallback without underscore
-  'PT_MESH': '🫖',
-  'PT_GEOMETRY': '🫖',
-  'PT_CAMERA': '📷',
-  'PT_LIGHT': '💡',
-  'PT_MATERIAL': '🎨',
-  'PT_EMISSION': '💡',
-  'PT_TEXTURE': '🖼️',
-  'PT_DISPLACEMENT': '〰️',
-  'PT_ENVIRONMENT': '🌍',
-  'PT_MEDIUM': '💨',
-  
-  // Settings and configuration types
-  'PT_FILM_SETTINGS': '🎬',
-  'PT_ANIMATION_SETTINGS': '⏱️',
-  'PT_KERNEL': '🔧',
-  'PT_RENDER_LAYER': '🎭',
-  'PT_RENDER_PASSES': '📊',
-  'PT_OUTPUT_AOV_GROUP': '📤',
-  'PT_IMAGER': '📷',
-  'PT_POSTPROCESSING': '⚙️',
-};
+import { OctaneIconMapper } from '../utils/OctaneIconMapper';
 
 const getNodeIcon = (node: SceneNode): string => {
   // Special case: Scene root
@@ -51,16 +14,9 @@ const getNodeIcon = (node: SceneNode): string => {
     return '📁'; // Folder icon for scene root
   }
   
-  // API returns string types like 'PT_GEOMETRY', not numeric enums
-  const outType = node.type || '';
-  
-  // Check if we have an icon mapping
-  if (NODE_ICON_MAP[outType]) {
-    return NODE_ICON_MAP[outType];
-  }
-  
-  // Default icon for unknown types
-  return '⚪';
+  // Use OctaneIconMapper for consistent icon mapping
+  const outType = String(node.type || node.outType || 'unknown');
+  return OctaneIconMapper.getNodeIcon(outType, node.name);
 };
 
 interface SceneTreeItemProps {

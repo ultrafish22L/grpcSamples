@@ -1,63 +1,85 @@
 /**
- * Octane Icon Mapper for React TypeScript
- * Provides consistent icon mapping matching the reference screenshot
+ * Unified Icon and Color Mapping System
+ * Consolidates all icon/color mappings from across the application
+ * 
+ * This is a direct port of octaneWeb's OctaneIconMapper.js to React TypeScript
+ * Maintains exact same functionality and icon mappings for consistency
  */
 
 export class OctaneIconMapper {
   
   /**
-   * Get icon for parameter types (matching reference screenshot exactly)
+   * Format color value for HTML color input
+   * @param value - Color value (object, array, string, or number)
+   * @returns Hex color string
    */
-  static getParameterIcon(type: string, nodeType?: string): string {
-    // Parameter type icons (matching reference screenshot)
-    switch (type) {
-      case 'PT_BOOL':
-      case 'AT_BOOL':
-        return '☑'; // Checkbox icon (not emoji)
-      
-      case 'PT_FLOAT':
-      case 'AT_FLOAT':
-      case 'PT_INT':
-      case 'AT_INT':
-        return '🔢'; // Number icon
-      
-      case 'PT_ENUM':
-      case 'AT_ENUM':
-        return '📋'; // Dropdown list icon
-      
-      case 'PT_RGB':
-      case 'AT_RGB':
-      case 'PT_FLOAT3':
-      case 'AT_FLOAT3':
-        // Check if this is a color parameter
-        if (nodeType === 'NT_TEX_RGB' || type.includes('COLOR')) {
-          return '🎨'; // Color palette icon
-        }
-        return '🔢'; // Vector number icon
-      
-      case 'PT_FLOAT2':
-      case 'AT_FLOAT2':
-      case 'PT_LONG2':
-      case 'AT_LONG2':
-        return '🔢'; // Vector number icon
-      
-      case 'PT_STRING':
-      case 'AT_STRING':
-        return '📝'; // Text icon
-      
-      default:
-        return '⚙'; // Generic parameter icon
+  static formatColorValue(value: any): string {
+    if (typeof value === 'string' && value.startsWith('#')) {
+      return value;
     }
+    if (Array.isArray(value) && value.length >= 3) {
+      // RGB array [r, g, b] where values are 0-1
+      const r = Math.round((value[0] || 0) * 255);
+      const g = Math.round((value[1] || 0) * 255);
+      const b = Math.round((value[2] || 0) * 255);
+      return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    }
+    if (typeof value === 'object' && value !== null) {
+      const r = Math.round((value.x || 0) * 255);
+      const g = Math.round((value.y || 0) * 255);
+      const b = Math.round((value.z || 0) * 255);
+      return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    }
+    if (typeof value === 'number') {
+      return `#${value.toString(16).padStart(2, '0')}`;
+    }
+    return '#ffffff'; // Default white
   }
 
   /**
-   * Get icon for node types (matching reference screenshot)
+   * Decode HTML color input
+   * @param value - Hex color string
+   * @returns Color object {x, y, z}
    */
-  static getNodeIcon(outType: string): string {
+  static getColorValue(value: any): any {
+    if (typeof value === 'string' && value.startsWith('#')) {
+      const out = {
+        x: parseInt(value.substring(1, 3), 16) / 255,
+        y: parseInt(value.substring(3, 5), 16) / 255,
+        z: parseInt(value.substring(5, 7), 16) / 255
+      };
+      return out;
+    }
+    return value;
+  }
+
+  /**
+   * Get icon for node types (consolidated from SceneOutlinerSync.js)
+   * This replaces getOctaneIconFor() function
+   */
+  static getNodeIcon(outType: string, name?: string): string {
+    // Handle parameter types with specific icons
+    if (outType === 'PT_BOOL' || name === 'Bool value') {
+      return '☑️'; // Checkbox for boolean parameters
+    }
+    if (outType === 'PT_FLOAT' || name === 'Float value') {
+      return '🔢'; // Numbers for float parameters
+    }
+    if (outType === 'PT_INT' || name === 'Int value') {
+      return '🔢'; // Numbers for integer parameters
+    }
+    if (outType === 'PT_ENUM' || name === 'Enum value') {
+      return '📋'; // List for enum parameters
+    }
+    if (outType === 'PT_RGB' || name === 'RGB color') {
+      return '🎨'; // Color palette for RGB parameters
+    }
+    
+    // Fallback based on type
     const iconMap: Record<string, string> = {
       'PT_RENDER_TARGET': '🎯',
       'PT_MESH': '🫖',
-      'PT_GEOMETRY': '🫖', 
+      'PT_GEOMETRY': '🫖',
       'PT_CAMERA': '📷',
       'PT_LIGHT': '💡',
       'PT_MATERIAL': '🎨',
@@ -69,57 +91,130 @@ export class OctaneIconMapper {
       'PT_RENDER_PASSES': '📊',
       'PT_OUTPUT_AOV_GROUP': '📤',
       'PT_IMAGER': '📷',
-      'PT_POST_PROCESSING': '⚙️',
+      'PT_POSTPROCESSING': '⚙️',
+      'unknown': '⬜'
     };
-
-    return iconMap[outType] || '⚙';
+    
+    return iconMap[outType] || iconMap['unknown'];
   }
-
+  
   /**
-   * Format color value for HTML color input (matching reference)
+   * Get icon for parameters (consolidated from NodeInspector.js - both versions)
+   * This replaces both getParameterIcon() functions
    */
-  static formatColorValue(value: any): string {
-    if (typeof value === 'string' && value.startsWith('#')) {
-      return value;
+  static getParameterIcon(paramName: string, paramType?: string): string {
+    // First check the detailed parameter name mapping (from NodeInspector.js line 2868)
+    const nameIcons: Record<string, string> = {
+      'Orthographic': '📐',
+      'Sensor width': '📏',
+      'Focal length': '🔍',
+      'F-stop': '📷',
+      'Field of view': '👁️',
+      'Scale of view': '🔍',
+      'Distortion': '🌀',
+      'Lens shift': '↔️',
+      'Near clip depth': '✂️',
+      'Far clip depth': '✂️',
+      'Auto-focus': '🎯',
+      'Focal depth': '📏',
+      'Aperture': '⭕'
+    };
+    
+    if (nameIcons[paramName]) {
+      return nameIcons[paramName];
     }
     
-    if (Array.isArray(value) && value.length >= 3) {
-      const r = Math.round((value[0] || 0) * 255);
-      const g = Math.round((value[1] || 0) * 255);
-      const b = Math.round((value[2] || 0) * 255);
-      return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    // Then check the technical parameter mapping (from NodeInspector.js line 1072)
+    const technicalIcons: Record<string, string> = {
+      'sensor_width': '▣',
+      'focal_length': '◐', 
+      'f_stop': '◯',
+      'field_of_view': '◐',
+      'scale_of_view': '▤',
+      'distortion': '◈',
+      'lens_shift': '⟷',
+      'perspective_correction': '◐',
+      'pixel_aspect_ratio': '▦',
+      'near_clip_depth': '▤',
+      'far_clip_depth': '▤',
+      'auto_focus': '◎',
+      'focal_depth': '▤',
+      'aperture': '◯',
+      'aperture_aspect_ratio': '▦',
+      'aperture_edge': '▢',
+      'bokeh_side_count': '#',
+      'bokeh_rotation': '↻',
+      'bokeh_roundedness': '◯'
+    };
+    
+    if (technicalIcons[paramName]) {
+      return technicalIcons[paramName];
     }
     
-    if (typeof value === 'object' && value !== null) {
-      const r = Math.round((value.x || 0) * 255);
-      const g = Math.round((value.y || 0) * 255);
-      const b = Math.round((value.z || 0) * 255);
-      return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    // Finally check type-based icons
+    const typeIcons: Record<string, string> = {
+      'checkbox': '☑️',
+      'numeric-slider': '🎚️',
+      'numeric-input': '🔢',
+      'dropdown': '📋',
+      'color-picker': '🎨',
+      'text-input': '📝',
+      'FLOAT': '🔢',
+      'INT': '🔢',
+      'BOOL': '☑️',
+      'COLOR': '🎨',
+      'STRING': '📝',
+      'ENUM': '📋'
+    };
+    
+    if (paramType && typeIcons[paramType]) {
+      return typeIcons[paramType];
     }
     
-    return '#ffffff'; // Default white
+    // Default fallback
+    return paramType === 'bool' ? '☐' : 
+           (paramType === 'float' || paramType === 'int') ? '▤' : '◦';
   }
-
+  
   /**
-   * Parse HTML color input back to Octane format
+   * Get icon for pin groups
+   * This will be used for parameter group headers
    */
-  static parseColorValue(hexColor: string): { x: number; y: number; z: number } {
-    if (typeof hexColor === 'string' && hexColor.startsWith('#')) {
-      const r = parseInt(hexColor.substring(1, 3), 16) / 255;
-      const g = parseInt(hexColor.substring(3, 5), 16) / 255;
-      const b = parseInt(hexColor.substring(5, 7), 16) / 255;
-      return { x: r, y: g, z: b };
-    }
-    return { x: 1, y: 1, z: 1 }; // Default white
+  static getPinGroupIcon(groupName: string): string {
+    const groupIcons: Record<string, string> = {
+      'Physical camera parameters': '📐',
+      'Viewing angle': '👁️',
+      'Clipping': '✂️',
+      'Depth of field': '🎯',
+      'Position': '🔄',
+      'Stereo': '👀',
+      'Diffuse': '🎨',
+      'Specular': '✨',
+      'Light': '💡',
+      'Render settings': '⚙️',
+      'Transform': '🔄',
+      'Material': '🎨',
+      'Lighting': '💡'
+    };
+    
+    return groupIcons[groupName] || '📁';
   }
 
   /**
    * Format node color from Octane color value
    */
-  static formatNodeColor(nodeColor?: number): string {
+  static formatNodeColor(nodeColor?: number | { x: number; y: number; z: number }): string {
     if (!nodeColor) return '#666666';
     
-    // Convert Octane node color to hex
+    // Handle object format {x, y, z}
+    if (typeof nodeColor === 'object') {
+      const r = Math.round((nodeColor.x || 0) * 255);
+      const g = Math.round((nodeColor.y || 0) * 255);
+      const b = Math.round((nodeColor.z || 0) * 255);
+      return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    }
+    
+    // Handle number format (RGB packed)
     const r = (nodeColor >> 16) & 0xFF;
     const g = (nodeColor >> 8) & 0xFF;
     const b = nodeColor & 0xFF;
@@ -130,9 +225,20 @@ export class OctaneIconMapper {
 
 // Helper functions for backward compatibility
 export function getNodeIcon(node: any): string {
-  return OctaneIconMapper.getNodeIcon(node.type || node.outType || 'PT_UNKNOWN');
+  return OctaneIconMapper.getNodeIcon(node.type || node.outType || 'unknown', node.name);
 }
 
-export function formatColor(nodeColor?: number): string {
+export function formatColor(nodeColor?: number | { x: number; y: number; z: number }): string {
   return OctaneIconMapper.formatNodeColor(nodeColor);
 }
+
+// Alias for parseColorValue (matching octaneWeb's getColorValue)
+export function parseColorValue(hexColor: string): { x: number; y: number; z: number } {
+  const result = OctaneIconMapper.getColorValue(hexColor);
+  if (typeof result === 'object' && result.x !== undefined) {
+    return result;
+  }
+  return { x: 1, y: 1, z: 1 }; // Default white
+}
+
+console.log('OctaneIconMapper loaded - consolidated icon/color mapping system');

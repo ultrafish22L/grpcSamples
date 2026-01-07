@@ -6,6 +6,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SceneNode } from '../services/OctaneClient';
 import { useOctane } from '../hooks/useOctane';
+import { OctaneIconMapper } from '../utils/OctaneIconMapper';
 
 interface NodeGraphEditorProps {
   selectedNode?: SceneNode | null;
@@ -167,21 +168,10 @@ export function NodeGraphEditor({ selectedNode }: NodeGraphEditorProps) {
     });
   };
 
-  // Get node icon
+  // Get node icon using OctaneIconMapper
   const getNodeIcon = (node: SceneNode): string => {
-    const iconMap: Record<string, string> = {
-      'Bool': '☑️',
-      'Float': '🔢',
-      'Int': '🔢',
-      'Transform': '🔄',
-      'Texture': '🎨',
-      'Material': '🎨',
-      'Camera': '📷',
-      'Environment': '🌍',
-      'Geometry': '🫖',
-      'Render Target': '🎯',
-    };
-    return iconMap[node.type] || '⚪';
+    const typeStr = String(node.type || node.outType || 'unknown');
+    return OctaneIconMapper.getNodeIcon(typeStr, node.name);
   };
 
   // Get node color

@@ -5,6 +5,7 @@
 
 import { EventEmitter } from '../utils/EventEmitter';
 import { getObjectTypeForService, createObjectPtr, AttributeId } from '../constants/OctaneTypes';
+import { OctaneIconMapper } from '../utils/OctaneIconMapper';
 
 export interface RenderState {
   isRendering: boolean;
@@ -523,7 +524,7 @@ export class OctaneClient extends EventEmitter {
     
     // Use pin label if available, otherwise use item name
     const displayName = pinInfo?.staticLabel || itemName;
-    const icon = this.getNodeIcon(outType);
+    const icon = this.getNodeIcon(outType, displayName);
     
     // Create entry - even for null items (unconnected pins)
     const entry: SceneNode = {
@@ -597,49 +598,10 @@ export class OctaneClient extends EventEmitter {
     }
   }
 
-  private getNodeIcon(outType: string | number): string {
-    // API returns string types like 'PT_GEOMETRY', not numeric enums
-    // Reference: octaneWeb/js/utils/OctaneIconMapper.js
-    const iconMap: Record<string, string> = {
-      // Parameter types
-      'PT_BOOL': '☑️',
-      'PT_FLOAT': '🔢',
-      'PT_INT': '🔢',
-      'PT_ENUM': '📋',
-      'PT_RGB': '🎨',
-      'PT_STRING': '📝',
-      'PT_TRANSFORM': '🔄',
-      
-      // Scene node types
-      'PT_RENDER_TARGET': '🎯',
-      'PT_RENDERTARGET': '🎯',  // Fallback without underscore
-      'PT_MESH': '🫖',
-      'PT_GEOMETRY': '🫖',
-      'PT_CAMERA': '📷',
-      'PT_LIGHT': '💡',
-      'PT_MATERIAL': '🎨',
-      'PT_EMISSION': '💡',
-      'PT_TEXTURE': '🖼️',
-      'PT_DISPLACEMENT': '〰️',
-      'PT_ENVIRONMENT': '🌍',
-      'PT_MEDIUM': '💨',
-      
-      // Settings and configuration types
-      'PT_FILM_SETTINGS': '🎬',
-      'PT_ANIMATION_SETTINGS': '⏱️',
-      'PT_KERNEL': '🔧',
-      'PT_RENDER_LAYER': '🎭',
-      'PT_RENDER_PASSES': '📊',
-      'PT_OUTPUT_AOV_GROUP': '📤',
-      'PT_IMAGER': '📷',
-      'PT_POSTPROCESSING': '⚙️',
-    };
-    
-    if (typeof outType === 'string' && iconMap[outType]) {
-      return iconMap[outType];
-    }
-    
-    return '⚪';  // Default icon
+  private getNodeIcon(outType: string | number, name?: string): string {
+    // Use OctaneIconMapper for consistent icon mapping across the application
+    const typeStr = typeof outType === 'string' ? outType : String(outType);
+    return OctaneIconMapper.getNodeIcon(typeStr, name);
   }
 
   // @ts-ignore - Reserved for future use

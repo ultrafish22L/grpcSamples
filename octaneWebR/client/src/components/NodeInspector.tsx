@@ -15,6 +15,7 @@ import React, { useState, useEffect } from 'react';
 import { SceneNode } from '../services/OctaneClient';
 import { useOctane } from '../hooks/useOctane';
 import { AttributeId, AttrType } from '../constants/OctaneTypes';
+import { OctaneIconMapper } from '../utils/OctaneIconMapper';
 
 interface NodeInspectorProps {
   node: SceneNode | null;
@@ -36,6 +37,7 @@ function ParameterGroup({
   defaultExpanded?: boolean;
 }) {
   const [expanded, setExpanded] = useState(defaultExpanded);
+  const groupIcon = OctaneIconMapper.getPinGroupIcon(groupName);
 
   return (
     <div className="inspector-group-indent">
@@ -44,6 +46,7 @@ function ParameterGroup({
         onClick={() => setExpanded(!expanded)}
       >
         <span className="inspector-group-icon">{expanded ? '▼' : '▶'}</span>
+        <span className="inspector-group-name-icon">{groupIcon}</span>
         <span className="inspector-group-label">{groupName}</span>
       </div>
       <div 
@@ -73,8 +76,9 @@ function NodeParameter({
   const hasChildren = node.children && node.children.length > 0;
   const isEndNode = !hasChildren && node.attrInfo;
   const nodeId = `node-${node.handle}`;
-  const icon = node.icon || getNodeIcon(node);
-  const color = node.nodeInfo?.nodeColor ? formatColor(node.nodeInfo.nodeColor) : '#666';
+  const typeStr = String(node.type || node.outType || 'unknown');
+  const icon = node.icon || OctaneIconMapper.getNodeIcon(typeStr, node.name);
+  const color = node.nodeInfo?.nodeColor ? OctaneIconMapper.formatNodeColor(node.nodeInfo.nodeColor) : '#666';
   const name = node.name;  // Name already includes pinInfo.staticLabel from OctaneClient
 
   // Fetch parameter value for end nodes (matching octaneWeb's GenericNodeRenderer.getValue())
@@ -155,16 +159,6 @@ function NodeParameter({
     } catch (error) {
       console.error(`❌ Failed to update ${node.name}:`, error);
     }
-  };
-
-  // Get the proper parameter icon (blue gear for most parameters)
-  const getParameterIcon = (attrType: string, nodeType?: string) => {
-    // In the reference screenshot, most parameters show a blue gear icon
-    // Only special cases like colors might show different icons
-    if (attrType === 'AT_FLOAT3' && (node.name.toLowerCase().includes('color') || nodeType === 'NT_TEX_RGB')) {
-      return '🎨'; // Color icon for color parameters
-    }
-    return '⚙'; // Blue gear icon for most parameters
   };
 
   // Render the parameter control based on type (matching reference screenshot exactly)
@@ -359,34 +353,16 @@ function NodeParameter({
 
   // Render as parameter row (matching reference screenshot exactly)
   if (isEndNode) {
-    // Get the appropriate icon for this parameter type
-    const getParameterIcon = (): string => {
-      if (!paramValue) return '📷';
-      
-      switch (paramValue.type) {
-        case AttrType.AT_BOOL:
-          return '☑️';
-        case AttrType.AT_FLOAT3:
-          // Check if this is a color parameter
-          if (node.nodeInfo?.type === 'NT_TEX_RGB' || 
-              node.name.toLowerCase().includes('color') ||
-              node.name.toLowerCase().includes('sky') ||
-              node.name.toLowerCase().includes('sunset')) {
-            return '🎨';
-          }
-          return '📷';
-        case AttrType.AT_ENUM:
-          return '📋';
-        default:
-          return '📷';
-      }
-    };
+    // Get the appropriate icon for this parameter type using OctaneIconMapper
+    const paramIcon = paramValue 
+      ? OctaneIconMapper.getParameterIcon(node.name, String(paramValue.type))
+      : '⚙';
     
     return (
       <div className="octane-parameter-row" data-node-handle={node.handle}>
         <div className="octane-parameter-label">
           <div className="octane-parameter-icon">
-            {getParameterIcon()}
+            {paramIcon}
           </div>
           <span className="octane-parameter-name">{name}</span>
         </div>
@@ -453,35 +429,6 @@ function NodeParameter({
       )}
     </div>
   );
-}
-
-// Helper: Get node icon
-function getNodeIcon(node: SceneNode): string {
-  const iconMap: Record<string, string> = {
-    'Bool': '☑️',
-    'Float': '🔢',
-    'Int': '🔢',
-    'Transform': '🔄',
-    'Texture': '🎨',
-    'Material': '🎨',
-    'Camera': '📷',
-    'Environment': '🌍',
-    'Geometry': '🫖',
-    'Render Target': '🎯',
-  };
-  
-  return iconMap[node.type] || '⚪';
-}
-
-// Helper: Format color from node info
-function formatColor(color: any): string {
-  if (typeof color === 'object' && color.x !== undefined) {
-    const r = Math.round((color.x || 0) * 255);
-    const g = Math.round((color.y || 0) * 255);
-    const b = Math.round((color.z || 0) * 255);
-    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-  }
-  return '#666';
 }
 
 // Helper: Group children by pinInfo.groupName
