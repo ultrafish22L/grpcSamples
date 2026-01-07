@@ -141,26 +141,28 @@ export const AttributeId = {
 
 /**
  * Attribute types for node values
- * These match the AttrType enum from Octane
- * Expanded from octaneWeb's AttributeType mapping
+ * These match the AttributeTypeId enum from common.proto
+ * AUTO-GENERATED from octaneWeb's AttributeType mapping
+ * 
+ * IMPORTANT: These are the actual protobuf enum values from AttributeTypeId
+ * Note: AT_FLOAT2 = 90 (not 10!) - this is correct per the proto definition
  */
 export const AttrType = {
   AT_UNKNOWN: 0,
   AT_BOOL: 1,
-  AT_INT: 2,
-  AT_INT2: 3,
-  AT_INT3: 4,
-  AT_INT4: 5,
-  AT_FLOAT: 6,
-  AT_FLOAT2: 7,
-  AT_FLOAT3: 8,
-  AT_FLOAT4: 9,
-  AT_STRING: 10,
-  AT_FILENAME: 11,
-  AT_BYTE: 12,
+  AT_BYTE: 2,
+  AT_INT: 3,
+  AT_INT2: 4,
+  AT_INT3: 5,
+  AT_INT4: 6,
+  AT_LONG: 7,
+  AT_LONG2: 8,
+  AT_FLOAT: 9,
+  AT_FLOAT2: 90,  // Note: 90 not 10 - verified in common.proto
+  AT_FLOAT3: 11,
+  AT_FLOAT4: 12,
   AT_MATRIX: 13,
-  AT_LONG: 14,
-  AT_LONG2: 15,
+  AT_STRING: 14,
 } as const;
 
 

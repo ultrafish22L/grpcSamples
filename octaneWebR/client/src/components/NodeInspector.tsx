@@ -324,7 +324,7 @@ function NodeParameter({
         break;
       
       case AttrType.AT_STRING:
-      case AttrType.AT_FILENAME:
+        // AT_STRING handles both string and filename types
         const stringValue = typeof value === 'string' ? value : '';
         control = (
           <input 
