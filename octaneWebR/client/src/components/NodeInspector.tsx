@@ -110,9 +110,16 @@ function NodeParameter({
         
         if (response) {
           console.log(`✅ Got value for ${node.name}:`, response);
+          // Extract the actual value from the response
+          // API returns format like: {float_value: 2, value: "float_value"}
+          // We need to get the value from the field indicated by response.value
+          const valueField = response.value || Object.keys(response)[0];
+          const actualValue = response[valueField];
+          
           setParamValue({
-            value: response,
-            type: expectedType  // Use string name, not numeric type
+            value: actualValue,
+            type: expectedType,
+            raw: response  // Keep raw response for debugging
           });
         }
       } catch (error) {
@@ -129,7 +136,20 @@ function NodeParameter({
     onToggle(nodeId);
   };
 
-  // Render parameter value as text (matching reference screenshot)
+  // Handle parameter value change
+  const handleValueChange = async (newValue: any) => {
+    if (!node.handle || !node.attrInfo) return;
+    
+    try {
+      // Update value through API (to be implemented)
+      console.log(`📝 Value change for ${node.name}:`, newValue);
+      // TODO: Call setByAttrID to update the value in Octane
+    } catch (error) {
+      console.error(`❌ Failed to update ${node.name}:`, error);
+    }
+  };
+
+  // Render interactive parameter controls (matching octaneWeb implementation)
   const renderValue = () => {
     if (!paramValue) return null;
 
@@ -137,71 +157,177 @@ function NodeParameter({
 
     switch (type) {
       case AttrType.AT_BOOL:
+        const boolValue = typeof value === 'boolean' ? value : false;
         return (
-          <span className="parameter-value">
-            {value?.result ? '☑' : '☐'}
-          </span>
+          <div className="parameter-control-container">
+            <input 
+              type="checkbox" 
+              className="octane-checkbox parameter-control" 
+              checked={boolValue}
+              onChange={(e) => handleValueChange(e.target.checked)}
+              style={{ background: '#2b2b2b' }}
+            />
+          </div>
         );
       
       case AttrType.AT_FLOAT:
+        const floatValue = typeof value === 'number' ? value : 0;
         return (
-          <span className="parameter-value">
-            {typeof value?.result === 'number' ? value.result.toFixed(6) : '0.000000'}
-          </span>
+          <div className="parameter-control-container">
+            <input 
+              type="number" 
+              className="octane-number-input parameter-control" 
+              value={floatValue}
+              step="0.001"
+              onChange={(e) => handleValueChange(parseFloat(e.target.value))}
+            />
+          </div>
         );
       
       case AttrType.AT_INT:
+      case AttrType.AT_LONG:
+        const intValue = typeof value === 'number' ? value : 0;
         return (
-          <span className="parameter-value">
-            {value?.result || 0}
-          </span>
+          <div className="parameter-control-container">
+            <input 
+              type="number" 
+              className="octane-number-input parameter-control" 
+              value={intValue}
+              step="1"
+              onChange={(e) => handleValueChange(parseInt(e.target.value))}
+            />
+          </div>
         );
       
+      case AttrType.AT_FLOAT2:
+        if (value && typeof value === 'object' && 'x' in value) {
+          const { x = 0, y = 0 } = value;
+          return (
+            <div className="parameter-control-container">
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={x}
+                step="0.001"
+                onChange={(e) => handleValueChange({ x: parseFloat(e.target.value), y })}
+              />
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={y}
+                step="0.001"
+                onChange={(e) => handleValueChange({ x, y: parseFloat(e.target.value) })}
+              />
+            </div>
+          );
+        }
+        return null;
+      
       case AttrType.AT_FLOAT3:
-        if (value?.result) {
-          const { x, y, z } = value.result;
+        if (value && typeof value === 'object' && 'x' in value) {
+          const { x = 0, y = 0, z = 0 } = value;
           
-          // Check if this is a color parameter (RGB values between 0 and 1)
-          const isColor = node.attrInfo?.type === 'AT_FLOAT3' && 
-                          x >= 0 && x <= 1 && y >= 0 && y <= 1 && z >= 0 && z <= 1;
+          // Check if this is a color parameter (typically NT_TEX_RGB node type)
+          const isColor = node.nodeInfo?.type === 'NT_TEX_RGB';
           
           if (isColor) {
-            // Display as colored bar
+            // Display as color picker with hex value
             const r = Math.round(x * 255);
             const g = Math.round(y * 255);
             const b = Math.round(z * 255);
-            const colorStyle = `rgb(${r}, ${g}, ${b})`;
+            const hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+            
             return (
-              <div className="color-parameter">
-                <div className="color-bar" style={{ backgroundColor: colorStyle }}></div>
-                <span className="parameter-value">
-                  {x.toFixed(4)}, {y.toFixed(4)}, {z.toFixed(4)}
-                </span>
+              <div className="parameter-control-container">
+                <input 
+                  type="color" 
+                  className="octane-color-input parameter-control" 
+                  value={hexColor}
+                  onChange={(e) => {
+                    const hex = e.target.value;
+                    const r = parseInt(hex.slice(1, 3), 16) / 255;
+                    const g = parseInt(hex.slice(3, 5), 16) / 255;
+                    const b = parseInt(hex.slice(5, 7), 16) / 255;
+                    handleValueChange({ x: r, y: g, z: b });
+                  }}
+                  style={{ background: hexColor, color: hexColor }}
+                />
               </div>
             );
           }
           
-          // Display as numeric vector
+          // Display as numeric vector (3 separate number inputs)
           return (
-            <span className="parameter-value">
-              {(x || 0).toFixed(6)}, {(y || 0).toFixed(6)}, {(z || 0).toFixed(6)}
-            </span>
+            <div className="parameter-control-container">
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={x}
+                step="0.001"
+                onChange={(e) => handleValueChange({ x: parseFloat(e.target.value), y, z })}
+              />
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={y}
+                step="0.001"
+                onChange={(e) => handleValueChange({ x, y: parseFloat(e.target.value), z })}
+              />
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={z}
+                step="0.001"
+                onChange={(e) => handleValueChange({ x, y, z: parseFloat(e.target.value) })}
+              />
+            </div>
           );
         }
-        return <span className="parameter-value">0, 0, 0</span>;
+        return null;
+      
+      case AttrType.AT_LONG2:
+      case AttrType.AT_INT2:
+        if (value && typeof value === 'object' && 'x' in value) {
+          const { x = 0, y = 0 } = value;
+          return (
+            <div className="parameter-control-container">
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={x}
+                step="1"
+                onChange={(e) => handleValueChange({ x: parseInt(e.target.value), y })}
+              />
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={y}
+                step="1"
+                onChange={(e) => handleValueChange({ x, y: parseInt(e.target.value) })}
+              />
+            </div>
+          );
+        }
+        return null;
       
       case AttrType.AT_STRING:
       case AttrType.AT_FILENAME:
+        const stringValue = typeof value === 'string' ? value : '';
         return (
-          <span className="parameter-value">
-            {value?.result || ''}
-          </span>
+          <div className="parameter-control-container">
+            <input 
+              type="text" 
+              className="octane-text-input parameter-control" 
+              value={stringValue}
+              onChange={(e) => handleValueChange(e.target.value)}
+            />
+          </div>
         );
       
       default:
-        // For unknown types, try to display the result value
-        const displayValue = value?.result !== undefined 
-          ? (typeof value.result === 'object' ? JSON.stringify(value.result) : String(value.result))
+        // For unknown types, display as read-only text
+        const displayValue = value !== undefined 
+          ? (typeof value === 'object' ? JSON.stringify(value) : String(value))
           : '';
         return (
           <span className="parameter-value">
