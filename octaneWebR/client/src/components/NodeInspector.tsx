@@ -162,171 +162,408 @@ function NodeParameter({
     }
   };
 
-  // Render the parameter control based on type (matching reference screenshot exactly)
+  // Render the parameter control based on type (matching octaneWeb GenericNodeRenderer exactly)
   const renderParameterControl = () => {
     if (!paramValue) return null;
 
     const { value, type } = paramValue;
 
-    // Wrap all controls in node-parameter-controls div (matching GenericNodeRenderer structure)
-    let control = null;
+    // Controls are wrapped in parameter-control-container or parameter-checkbox-container
+    let controlHtml = null;
 
     switch (type) {
-      case AttrType.AT_BOOL:
+      case AttrType.AT_BOOL: {
         const boolValue = typeof value === 'boolean' ? value : false;
-        control = (
-          <input 
-            type="checkbox" 
-            className="octane-checkbox parameter-control" 
-            checked={boolValue}
-            onChange={(e) => handleValueChange(e.target.checked)}
-          />
+        controlHtml = (
+          <div className="parameter-checkbox-container">
+            <input 
+              type="checkbox" 
+              className="octane-checkbox parameter-control" 
+              checked={boolValue}
+              onChange={(e) => handleValueChange(e.target.checked)}
+              style={{ background: '#2b2b2b' }}
+            />
+          </div>
         );
         break;
+      }
       
-      case AttrType.AT_FLOAT:
+      case AttrType.AT_FLOAT: {
         const floatValue = typeof value === 'number' ? value : 0;
-        control = (
-          <input 
-            type="number" 
-            className="octane-number-input parameter-control" 
-            value={floatValue.toFixed(3)}
-            step="0.001"
-            onChange={(e) => handleValueChange(parseFloat(e.target.value))}
-          />
+        controlHtml = (
+          <div className="parameter-control-container">
+            <input 
+              type="number" 
+              className="octane-number-input parameter-control" 
+              value={floatValue || 0}
+              step="0.001"
+              onChange={(e) => handleValueChange(parseFloat(e.target.value))}
+            />
+          </div>
         );
         break;
+      }
       
-      case AttrType.AT_INT:
-      case AttrType.AT_LONG:
-        const intValue = typeof value === 'number' ? value : 0;
-        control = (
-          <input 
-            type="number" 
-            className="parameter-number-input" 
-            value={intValue}
-            step="1"
-            onChange={(e) => handleValueChange(parseInt(e.target.value))}
-          />
-        );
-        break;
-      
-      case AttrType.AT_FLOAT2:
+      case AttrType.AT_FLOAT2: {
         if (value && typeof value === 'object' && 'x' in value) {
           const { x = 0, y = 0 } = value;
-          control = (
-            <>
+          controlHtml = (
+            <div className="parameter-control-container">
               <input 
                 type="number" 
                 className="octane-number-input parameter-control" 
-                value={x}
+                value={x || 0}
                 step="0.001"
                 onChange={(e) => handleValueChange({ x: parseFloat(e.target.value), y })}
               />
               <input 
                 type="number" 
                 className="octane-number-input parameter-control" 
-                value={y}
+                value={y || 0}
                 step="0.001"
                 onChange={(e) => handleValueChange({ x, y: parseFloat(e.target.value) })}
               />
-            </>
+            </div>
           );
         }
         break;
+      }
       
-      case AttrType.AT_FLOAT3:
+      case AttrType.AT_FLOAT3: {
         if (value && typeof value === 'object' && 'x' in value) {
           const { x = 0, y = 0, z = 0 } = value;
           
-          // Check if this is a color parameter (matching reference screenshot)
-          const isColor = node.nodeInfo?.type === 'NT_TEX_RGB' || 
-                          node.name.toLowerCase().includes('color') ||
-                          node.name.toLowerCase().includes('sky') ||
-                          node.name.toLowerCase().includes('sunset');
-          
-          if (isColor) {
-            // Display as color input (matching reference screenshot exactly)
-            const r = Math.round(Math.max(0, Math.min(1, x)) * 255);
-            const g = Math.round(Math.max(0, Math.min(1, y)) * 255);
-            const b = Math.round(Math.max(0, Math.min(1, z)) * 255);
-            const hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-            
-            control = (
-              <input 
-                type="color" 
-                className="octane-color-input parameter-control" 
-                value={hexColor}
-                title={`RGB: ${x.toFixed(3)}, ${y.toFixed(3)}, ${z.toFixed(3)}`}
-                onChange={(e) => {
-                  const hex = e.target.value;
-                  const r = parseInt(hex.substring(1, 3), 16) / 255;
-                  const g = parseInt(hex.substring(3, 5), 16) / 255;
-                  const b = parseInt(hex.substring(5, 7), 16) / 255;
-                  handleValueChange({ x: r, y: g, z: b });
-                }}
-              />
+          // Check if this is a color (NT_TEX_RGB)
+          if (node.nodeInfo?.type === 'NT_TEX_RGB') {
+            const hexColor = OctaneIconMapper.formatColorValue(value);
+            controlHtml = (
+              <div className="parameter-control-container">
+                <input 
+                  type="color" 
+                  className="octane-color-input parameter-control" 
+                  value={hexColor}
+                  style={{ background: hexColor, color: hexColor }}
+                  onChange={(e) => {
+                    const hex = e.target.value;
+                    const r = parseInt(hex.substring(1, 3), 16) / 255;
+                    const g = parseInt(hex.substring(3, 5), 16) / 255;
+                    const b = parseInt(hex.substring(5, 7), 16) / 255;
+                    handleValueChange({ x: r, y: g, z: b });
+                  }}
+                />
+              </div>
             );
           } else {
-            // Display as numeric vector (3 separate number inputs)
-            control = (
-              <>
+            controlHtml = (
+              <div className="parameter-control-container">
                 <input 
                   type="number" 
-                  className="parameter-number-input parameter-vector-component" 
-                  value={x.toFixed(6)}
-                  step="0.000001"
+                  className="octane-number-input parameter-control" 
+                  value={x || 0}
+                  step="0.001"
                   onChange={(e) => handleValueChange({ x: parseFloat(e.target.value), y, z })}
                 />
                 <input 
                   type="number" 
-                  className="parameter-number-input parameter-vector-component" 
-                  value={y.toFixed(6)}
-                  step="0.000001"
+                  className="octane-number-input parameter-control" 
+                  value={y || 0}
+                  step="0.001"
                   onChange={(e) => handleValueChange({ x, y: parseFloat(e.target.value), z })}
                 />
                 <input 
                   type="number" 
-                  className="parameter-number-input parameter-vector-component" 
-                  value={z.toFixed(6)}
-                  step="0.000001"
+                  className="octane-number-input parameter-control" 
+                  value={z || 0}
+                  step="0.001"
                   onChange={(e) => handleValueChange({ x, y, z: parseFloat(e.target.value) })}
                 />
-              </>
+              </div>
             );
           }
         }
         break;
+      }
       
-      case AttrType.AT_LONG2:
-      case AttrType.AT_INT2:
+      case AttrType.AT_FLOAT4: {
         if (value && typeof value === 'object' && 'x' in value) {
-          const { x = 0, y = 0 } = value;
-          control = (
-            <>
+          const { x = 0, y = 0, z = 0, w = 0 } = value;
+          const dimCount = node.pinInfo?.floatInfo?.dimCount || 4;
+          
+          // Render based on dimension count (matching octaneWeb exactly)
+          switch (dimCount) {
+            case 1:
+              controlHtml = (
+                <div className="parameter-control-container">
+                  <input 
+                    type="number" 
+                    className="octane-number-input parameter-control" 
+                    value={x || 0}
+                    step="0.001"
+                    onChange={(e) => handleValueChange({ x: parseFloat(e.target.value), y, z, w })}
+                  />
+                </div>
+              );
+              break;
+            case 2:
+              controlHtml = (
+                <div className="parameter-control-container">
+                  <input 
+                    type="number" 
+                    className="octane-number-input parameter-control" 
+                    value={x || 0}
+                    step="0.001"
+                    onChange={(e) => handleValueChange({ x: parseFloat(e.target.value), y, z, w })}
+                  />
+                  <input 
+                    type="number" 
+                    className="octane-number-input parameter-control" 
+                    value={y || 0}
+                    step="0.001"
+                    onChange={(e) => handleValueChange({ x, y: parseFloat(e.target.value), z, w })}
+                  />
+                </div>
+              );
+              break;
+            case 3:
+              controlHtml = (
+                <div className="parameter-control-container">
+                  <input 
+                    type="number" 
+                    className="octane-number-input parameter-control" 
+                    value={x || 0}
+                    step="0.001"
+                    onChange={(e) => handleValueChange({ x: parseFloat(e.target.value), y, z, w })}
+                  />
+                  <input 
+                    type="number" 
+                    className="octane-number-input parameter-control" 
+                    value={y || 0}
+                    step="0.001"
+                    onChange={(e) => handleValueChange({ x, y: parseFloat(e.target.value), z, w })}
+                  />
+                  <input 
+                    type="number" 
+                    className="octane-number-input parameter-control" 
+                    value={z || 0}
+                    step="0.001"
+                    onChange={(e) => handleValueChange({ x, y, z: parseFloat(e.target.value), w })}
+                  />
+                </div>
+              );
+              break;
+            default: // 4 components
+              controlHtml = (
+                <div className="parameter-control-container">
+                  <input 
+                    type="number" 
+                    className="octane-number-input parameter-control" 
+                    value={x || 0}
+                    step="0.001"
+                    onChange={(e) => handleValueChange({ x: parseFloat(e.target.value), y, z, w })}
+                  />
+                  <input 
+                    type="number" 
+                    className="octane-number-input parameter-control" 
+                    value={y || 0}
+                    step="0.001"
+                    onChange={(e) => handleValueChange({ x, y: parseFloat(e.target.value), z, w })}
+                  />
+                  <input 
+                    type="number" 
+                    className="octane-number-input parameter-control" 
+                    value={z || 0}
+                    step="0.001"
+                    onChange={(e) => handleValueChange({ x, y, z: parseFloat(e.target.value), w })}
+                  />
+                  <input 
+                    type="number" 
+                    className="octane-number-input parameter-control" 
+                    value={w || 0}
+                    step="0.001"
+                    onChange={(e) => handleValueChange({ x, y, z, w: parseFloat(e.target.value) })}
+                  />
+                </div>
+              );
+              break;
+          }
+        }
+        break;
+      }
+      
+      case AttrType.AT_INT: {
+        const intValue = typeof value === 'number' ? value : 0;
+        
+        // Check if this is an enum (NT_ENUM) - render dropdown
+        if (node.nodeInfo?.type === 'NT_ENUM') {
+          // TODO: Fetch enum options and render dropdown
+          // For now, render as number input
+          controlHtml = (
+            <div className="parameter-control-container">
               <input 
                 type="number" 
                 className="octane-number-input parameter-control" 
-                value={x}
+                value={intValue || 0}
+                step="1"
+                onChange={(e) => handleValueChange(parseInt(e.target.value))}
+              />
+            </div>
+          );
+        } else {
+          controlHtml = (
+            <div className="parameter-control-container">
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={intValue || 0}
+                step="1"
+                onChange={(e) => handleValueChange(parseInt(e.target.value))}
+              />
+            </div>
+          );
+        }
+        break;
+      }
+      
+      case AttrType.AT_INT2: {
+        if (value && typeof value === 'object' && 'x' in value) {
+          const { x = 0, y = 0 } = value;
+          controlHtml = (
+            <div className="parameter-control-container">
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={x || 0}
                 step="1"
                 onChange={(e) => handleValueChange({ x: parseInt(e.target.value), y })}
               />
               <input 
                 type="number" 
                 className="octane-number-input parameter-control" 
-                value={y}
+                value={y || 0}
                 step="1"
                 onChange={(e) => handleValueChange({ x, y: parseInt(e.target.value) })}
               />
-            </>
+            </div>
           );
         }
         break;
+      }
       
-      case AttrType.AT_STRING:
-        // AT_STRING handles both string and filename types
+      case AttrType.AT_INT3: {
+        if (value && typeof value === 'object' && 'x' in value) {
+          const { x = 0, y = 0, z = 0 } = value;
+          controlHtml = (
+            <div className="parameter-control-container">
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={x || 0}
+                step="1"
+                onChange={(e) => handleValueChange({ x: parseInt(e.target.value), y, z })}
+              />
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={y || 0}
+                step="1"
+                onChange={(e) => handleValueChange({ x, y: parseInt(e.target.value), z })}
+              />
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={z || 0}
+                step="1"
+                onChange={(e) => handleValueChange({ x, y, z: parseInt(e.target.value) })}
+              />
+            </div>
+          );
+        }
+        break;
+      }
+      
+      case AttrType.AT_INT4: {
+        if (value && typeof value === 'object' && 'x' in value) {
+          const { x = 0, y = 0, z = 0, w = 0 } = value;
+          controlHtml = (
+            <div className="parameter-control-container">
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={x || 0}
+                step="1"
+                onChange={(e) => handleValueChange({ x: parseInt(e.target.value), y, z, w })}
+              />
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={y || 0}
+                step="1"
+                onChange={(e) => handleValueChange({ x, y: parseInt(e.target.value), z, w })}
+              />
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={z || 0}
+                step="1"
+                onChange={(e) => handleValueChange({ x, y, z: parseInt(e.target.value), w })}
+              />
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={w || 0}
+                step="1"
+                onChange={(e) => handleValueChange({ x, y, z, w: parseInt(e.target.value) })}
+              />
+            </div>
+          );
+        }
+        break;
+      }
+      
+      case AttrType.AT_LONG: {
+        const longValue = typeof value === 'number' ? value : 0;
+        controlHtml = (
+          <div className="parameter-control-container">
+            <input 
+              type="number" 
+              className="octane-number-input parameter-control" 
+              value={longValue || 0}
+              step="1"
+              onChange={(e) => handleValueChange(parseInt(e.target.value))}
+            />
+          </div>
+        );
+        break;
+      }
+      
+      case AttrType.AT_LONG2: {
+        if (value && typeof value === 'object' && 'x' in value) {
+          const { x = 0, y = 0 } = value;
+          controlHtml = (
+            <div className="parameter-control-container">
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={x || 0}
+                step="1"
+                onChange={(e) => handleValueChange({ x: parseInt(e.target.value), y })}
+              />
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={y || 0}
+                step="1"
+                onChange={(e) => handleValueChange({ x, y: parseInt(e.target.value) })}
+              />
+            </div>
+          );
+        }
+        break;
+      }
+      
+      case AttrType.AT_STRING: {
         const stringValue = typeof value === 'string' ? value : '';
-        control = (
+        controlHtml = (
           <input 
             type="text" 
             className="octane-text-input parameter-control" 
@@ -335,26 +572,24 @@ function NodeParameter({
           />
         );
         break;
+      }
       
-      default:
-        // For unknown types, display as read-only text
-        const displayValue = value !== undefined 
-          ? (typeof value === 'object' ? JSON.stringify(value) : String(value))
-          : '';
-        control = (
-          <span className="parameter-value">
-            {displayValue}
-          </span>
+      default: {
+        // For unknown types, render as text input
+        const stringValue = typeof value === 'string' ? value : '';
+        controlHtml = (
+          <input 
+            type="text" 
+            className="octane-text-input parameter-control" 
+            value={stringValue}
+            onChange={(e) => handleValueChange(e.target.value)}
+          />
         );
         break;
+      }
     }
 
-    // Wrap control in node-parameter-controls div (matching GenericNodeRenderer structure)
-    return control ? (
-      <div className="node-parameter-controls">
-        {control}
-      </div>
-    ) : null;
+    return controlHtml;
   };
 
   // Determine the indent class (matching GenericNodeRenderer logic)
