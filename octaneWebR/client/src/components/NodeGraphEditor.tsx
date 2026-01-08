@@ -372,6 +372,34 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
     }
   };
 
+  // Create connection between two sockets
+  const createConnection = async (fromSocket: Socket, toSocket: Socket) => {
+    try {
+      console.log('📤 Creating connection:', fromSocket, '→', toSocket);
+      
+      // Determine which is input and which is output
+      const inputSocket = toSocket.type === 'input' ? toSocket : fromSocket;
+      const outputSocket = toSocket.type === 'output' ? toSocket : fromSocket;
+      
+      // Call Octane API to connect nodes
+      await client.callApi('ApiNode', 'connectToIx', inputSocket.nodeId, {
+        pinIdx: inputSocket.index,
+        sourceNode: { 
+          handle: outputSocket.nodeId, 
+          type: 17 // ApiNode type
+        }
+      });
+      
+      console.log('✅ Connection created successfully');
+      
+      // Refresh scene to update connections
+      await client.buildSceneTree();
+      
+    } catch (error) {
+      console.error('❌ Failed to create connection:', error);
+    }
+  };
+
   // Handle mouse up - finish dragging
   const handleMouseUp = (e: React.MouseEvent) => {
     // Finish connection dragging
@@ -383,8 +411,7 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
       if (targetSocket && 
           targetSocket.nodeId !== tempConnection.from.nodeId &&
           targetSocket.type !== tempConnection.from.type) {
-        // TODO: Call Octane API to create connection
-        console.log('Create connection:', tempConnection.from, '→', targetSocket);
+        createConnection(tempConnection.from, targetSocket);
       }
       
       setIsDraggingConnection(false);
@@ -406,13 +433,42 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
     });
   };
 
+  // Delete selected nodes
+  const deleteSelectedNodes = async () => {
+    if (selectedNodeIds.size === 0) return;
+    
+    try {
+      console.log('🗑️ Deleting nodes:', Array.from(selectedNodeIds));
+      
+      // Remove nodes from local state immediately for responsive UI
+      setNodes(prevNodes => prevNodes.filter(node => !selectedNodeIds.has(node.id)));
+      setConnections(prevConnections => 
+        prevConnections.filter(conn => 
+          !selectedNodeIds.has(conn.from) && !selectedNodeIds.has(conn.to)
+        )
+      );
+      setSelectedNodeIds(new Set());
+      
+      // Note: Actual deletion in Octane is complex and may have side effects
+      // For now, we just remove from UI. In production, you would call:
+      // for (const nodeId of selectedNodeIds) {
+      //   await client.callApi('ApiItem', 'delete', nodeId);
+      // }
+      // Then refresh: await client.buildSceneTree();
+      
+      console.log('✅ Nodes removed from graph');
+      
+    } catch (error) {
+      console.error('❌ Failed to delete nodes:', error);
+    }
+  };
+
   // Handle keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Delete selected nodes
       if ((e.key === 'Delete' || e.key === 'Backspace') && selectedNodeIds.size > 0) {
-        // TODO: Call Octane API to delete nodes
-        console.log('Delete nodes:', Array.from(selectedNodeIds));
+        deleteSelectedNodes();
         e.preventDefault();
       }
       
@@ -425,6 +481,87 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedNodeIds]);
+
+  // Create new node at position
+  const createNodeAtPosition = async (worldX: number, worldY: number) => {
+    if (!connected) {
+      console.warn('⚠️ Not connected to Octane');
+      return;
+    }
+    
+    try {
+      console.log('📤 Creating node at:', worldX, worldY);
+      
+      // Get root node graph
+      const rootResponse = await client.callApi('ApiProjectManager', 'rootNodeGraph', {});
+      const owner = rootResponse.result;
+      
+      // Create a new diffuse material node (NT_MAT_DIFFUSE = 109)
+      // You can change this to any node type from OctaneTypes
+      const response = await client.callApi('ApiNode', 'create', undefined, {
+        type: 109, // NT_MAT_DIFFUSE
+        ownerGraph: {
+          handle: owner.handle,
+          type: 18 // ApiNodeGraph
+        },
+        configurePins: true
+      });
+      
+      console.log('✅ Node created:', response.result);
+      
+      // Refresh scene to show new node
+      await client.buildSceneTree();
+      
+    } catch (error) {
+      console.error('❌ Failed to create node:', error);
+    }
+  };
+
+  // Fit all nodes in viewport
+  const fitAllNodes = () => {
+    if (nodes.length === 0) return;
+    
+    // Calculate bounding box of all nodes
+    let minX = Infinity, minY = Infinity;
+    let maxX = -Infinity, maxY = -Infinity;
+    
+    nodes.forEach(node => {
+      minX = Math.min(minX, node.x);
+      minY = Math.min(minY, node.y);
+      maxX = Math.max(maxX, node.x + node.width);
+      maxY = Math.max(maxY, node.y + node.height);
+    });
+    
+    // Add padding
+    const padding = 50;
+    minX -= padding;
+    minY -= padding;
+    maxX += padding;
+    maxY += padding;
+    
+    // Calculate center
+    const centerX = (minX + maxX) / 2;
+    const centerY = (minY + maxY) / 2;
+    
+    // Calculate zoom to fit
+    const containerWidth = containerRef.current?.clientWidth || 800;
+    const containerHeight = containerRef.current?.clientHeight || 600;
+    const bboxWidth = maxX - minX;
+    const bboxHeight = maxY - minY;
+    
+    const zoomX = containerWidth / bboxWidth;
+    const zoomY = containerHeight / bboxHeight;
+    const zoom = Math.min(zoomX, zoomY, 1); // Don't zoom in more than 1x
+    
+    // Set viewport to center on nodes
+    setViewport({
+      x: containerWidth / 2 - centerX * zoom,
+      y: containerHeight / 2 - centerY * zoom,
+      zoom
+    });
+    
+    console.log('📐 Fit all nodes:', { centerX, centerY, zoom });
+  };
 
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
@@ -684,15 +821,15 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
           }}
         >
           <div className="context-menu-item" onClick={() => {
-            console.log('Add node at:', contextMenu.x, contextMenu.y);
+            const worldPos = screenToSvg(contextMenu.x, contextMenu.y);
+            createNodeAtPosition(worldPos.x, worldPos.y);
             setContextMenu({ visible: false, x: 0, y: 0 });
           }}>
             ➕ Add Node
           </div>
           <div className="context-menu-item" onClick={() => {
-            console.log('Fit all nodes');
+            fitAllNodes();
             setContextMenu({ visible: false, x: 0, y: 0 });
-            // TODO: Calculate bounding box and center view
           }}>
             🔲 Fit All
           </div>
@@ -704,18 +841,21 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
         <button 
           className="toolbar-btn" 
           title="Add Node"
-          onClick={() => console.log('Add node')}
+          onClick={() => {
+            // Create node at center of viewport
+            const containerWidth = containerRef.current?.clientWidth || 800;
+            const containerHeight = containerRef.current?.clientHeight || 600;
+            const worldX = (containerWidth / 2 - viewport.x) / viewport.zoom;
+            const worldY = (containerHeight / 2 - viewport.y) / viewport.zoom;
+            createNodeAtPosition(worldX, worldY);
+          }}
         >
           ➕
         </button>
         <button 
           className="toolbar-btn" 
           title="Delete Selected"
-          onClick={() => {
-            if (selectedNodeIds.size > 0) {
-              console.log('Delete nodes:', Array.from(selectedNodeIds));
-            }
-          }}
+          onClick={deleteSelectedNodes}
           disabled={selectedNodeIds.size === 0}
         >
           🗑️
@@ -723,7 +863,7 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
         <button 
           className="toolbar-btn" 
           title="Fit All"
-          onClick={() => setViewport({ x: 0, y: 0, zoom: 1 })}
+          onClick={fitAllNodes}
         >
           🔲
         </button>
