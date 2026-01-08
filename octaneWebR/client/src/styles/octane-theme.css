@@ -885,6 +885,7 @@ html, body {
     border-top: 1px solid var(--octane-border);
     background-color: var(--octane-bg-secondary);
     height: 100%; /* Use full allocated grid space */
+    min-height: 200px; /* Minimum height for ReactFlow */
     width: 100%; /* Use full width of grid area */
     overflow: hidden; /* Prevent overflow beyond allocated space */
 }
@@ -933,6 +934,9 @@ html, body {
     background-color: var(--octane-bg-darker);
     overflow: hidden; /* Prevent scrollbars and contain canvas */
     contain: layout style paint; /* CSS containment for better performance */
+    width: 100%; /* Explicit width for ReactFlow */
+    height: 100%; /* Explicit height for ReactFlow */
+    min-height: 150px; /* Minimum height for ReactFlow */
 }
 
 .node-graph {

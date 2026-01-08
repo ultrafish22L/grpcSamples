@@ -4,13 +4,13 @@
 **Reviewer**: AI Code Review Assistant  
 **Codebase Size**: ~4,400 lines TypeScript/React  
 **Focus Areas**: Conventions, Library Usage, Performance  
-**Latest Update**: 2025-01-20 - Node Graph Editor issues RESOLVED
+**Latest Update**: 2025-01-20 - Node Graph Editor debug phase, visual issues identified
 
 ---
 
 ## 📊 Executive Summary
 
-### Overall Assessment: ⭐⭐⭐⭐ (4.0/5) - IMPROVED
+### Overall Assessment: ⭐⭐⭐ (3.0/5) - IN PROGRESS
 
 **Strengths:**
 - ✅ Clean TypeScript architecture with proper type definitions
@@ -22,44 +22,72 @@
 **Resolved Issues:**
 - ✅ **Node Graph Editor**: Now using ReactFlow (reduced from 956 to 357 lines, -63% code)
 - ✅ **Handle Type Bug**: Fixed critical bug preventing node display
+- ✅ **ReactFlow Container**: Fixed parent container width/height warning
+
+**Critical Issues:**
+- 🔴 **Pins Not Displaying**: Input/output dots missing on nodes (visual bug)
+- 🔴 **Connections Missing**: No connection lines rendering between nodes
+- 🔴 **Scene Data**: nodeInfo.inputs array appears empty (likely root cause)
 
 **Remaining Issues:**
-- 🟡 **Performance**: Multiple re-render issues and unoptimized state updates (partially addressed)
+- 🟡 **Performance**: Multiple re-render issues and unoptimized state updates
 - 🟡 **Component Size**: Several components exceed 500+ lines (difficult to maintain)
-- 🟡 **Debug Logging**: Excessive console.log statements in production code
+- 🟡 **Debug Logging**: Extensive console.log statements (intentional for debugging)
 
 ---
 
 ## 🎯 Priority Issues
 
-### 1. Node Graph Editor ✅ RESOLVED (2025-01-20)
+### 1. Node Graph Editor 🔧 IN PROGRESS (2025-01-20)
 
-**✅ ISSUE RESOLVED** - Migrated to ReactFlow library with significant improvements
+**Status**: ReactFlow migration complete, but critical visual issues remain
 
-**Previous Implementation:**
-- 956 lines of custom SVG rendering code
-- Manual mouse event handling for drag-and-drop
-- Custom viewport/zoom implementation
-- Hand-coded connection line rendering
-- Socket detection using hit-testing
-
-**New Implementation (commits 62cfc23b, 8ea71a7f, 69c70498):**
-- ✅ **357 lines with ReactFlow** - 63% code reduction
+**Migration Completed (commits 62cfc23b, 8ea71a7f, 69c70498):**
+- ✅ **357 lines with ReactFlow** - 63% code reduction from 956-line custom implementation
 - ✅ **Professional library** - Built-in drag-and-drop, zoom, pan, minimap
-- ✅ **Custom node types** - Octane-specific node rendering
+- ✅ **Custom node types** - Octane-specific node rendering (OctaneNode.tsx)
 - ✅ **Handle type bug fixed** - Proper string/number handle support
 - ✅ **Octane behavior matched** - Top-level only nodes with bezier spline connections
 
-**Files Modified:**
-- `client/src/components/NodeGraph/NodeGraphEditorNew.tsx` (complete rewrite)
-- Added ReactFlow dependency with proper TypeScript types
-- Custom node components for Octane scene elements
+**Recent Fixes (uncommitted):**
+- ✅ **ReactFlow container warning** - Added explicit width/height to .node-graph-container
+- ✅ **Comprehensive debug logging** - Added 🔄 📌 🔗 🎨 markers to track conversion (commit efae2d47)
 
-**Result:**
-- Shows 2 top-level nodes (teapot.obj, Render target) with proper pin connections
-- Smooth bezier curves matching Octane Studio visual style
-- Proper handle positioning and connection logic
-- All drag, zoom, and pan functionality working out-of-the-box
+**🔴 CRITICAL ISSUES REMAINING:**
+
+**Issue 1.1: Pins Not Displaying**
+- **Symptom**: Input/output dots missing on top/bottom of nodes
+- **Expected**: Colored dots with pin type indicators (like Octane Studio)
+- **Debug Log**: Shows "Found 0 pins" for all tested handles
+- **Likely Cause**: `nodeInfo.inputs` array empty during scene tree building
+
+**Issue 1.2: Connection Lines Missing**
+- **Symptom**: No cyan lines connecting nodes despite connections existing in scene
+- **Expected**: Bezier curves connecting output → input pins
+- **Debug Log**: Edge array created but not rendered (blocked by missing pin data)
+- **Dependency**: Requires pins to be present for edge source/target handles
+
+**Issue 1.3: Scene Data Not Populating nodeInfo.inputs**
+- **Location**: `client/src/services/OctaneClient.ts` - buildSceneTree method
+- **Problem**: Pin data not fetched during node traversal
+- **Missing API Call**: Need to call `ApiNode.pinInfoIx` for each pin index
+- **Impact**: Both pins and connections fail without this data
+
+**Files Modified:**
+- `client/src/components/NodeGraph/NodeGraphEditorNew.tsx` - Added debug logging
+- `client/src/components/NodeGraph/OctaneNode.tsx` - Pin rendering (waiting on data)
+- `client/src/styles/octane-theme.css` - Container size fixes
+
+**Next Steps:**
+1. Test with Octane running to examine browser console logs
+2. Verify if `ApiNode.pinCount()` returns > 0 for geometry/material nodes
+3. If pinCount > 0, implement pin data fetching in OctaneClient.ts
+4. If pinCount = 0, investigate why Octane isn't exposing pin data
+5. Once pin data available, verify pin rendering and connection lines
+
+**Documentation:**
+- `NODE_GRAPH_DEBUG_SESSION.md` - Complete debugging guide
+- `PIN_DEBUG_STATUS.md` - Pin rendering troubleshooting
 
 #### ReactFlow Implementation Details
 - **Pros**: 

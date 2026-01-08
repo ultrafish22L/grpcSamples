@@ -1,15 +1,22 @@
 # REPRO_PROMPT: Continue octaneWebR Development
 
-## 🚀 Latest Status: Node Graph Fully Working (2025-01-20)
+## 🚀 Latest Status: Node Graph Debug Phase (2025-01-20)
 
-**✅ NODE GRAPH EDITOR COMPLETE** - All phases finished, working exactly like Octane Studio
+**🔧 NODE GRAPH EDITOR - CRITICAL VISUAL ISSUES** - Pins and connections not displaying
 
 ### Recent Achievements
 1. **✅ ReactFlow Migration Complete** - Replaced 956-line custom SVG with 357-line ReactFlow implementation (-63% code)
 2. **✅ Handle Type Bug Fixed** - Fixed critical bug where all nodes were rejected due to type mismatch
 3. **✅ Octane Behavior Matched** - Shows only top-level nodes with bezier spline connections (commit 69c70498)
+4. **✅ ReactFlow Container Size Fixed** - Added explicit width/height to fix React Flow parent container error
+5. **✅ Comprehensive Debug Logging** - Added 🔄 📌 🔗 🎨 debug markers for pin/edge tracking (commit efae2d47)
 
-See `NODE_GRAPH_FIX_SUMMARY.md` for complete details.
+### Critical Issues Identified
+**🔴 PINS NOT DISPLAYING**: Input/output dots missing on nodes
+**🔴 CONNECTIONS NOT RENDERING**: No cyan lines between nodes
+**🔍 ROOT CAUSE**: Likely `nodeInfo.inputs` array not populated during scene tree building
+
+See `NODE_GRAPH_DEBUG_SESSION.md` for complete debugging guide and next steps.
 
 ## 🎯 Project Context
 
@@ -94,19 +101,34 @@ Browser (React App) → Vite Dev Server (gRPC-Web Plugin) → Octane LiveLink (1
 
 ### Version Control
 - **Branch**: main
-- **Latest Commit**: 69c70498 (Fix Node Graph Editor to match Octane behavior)
-- **Working Tree**: Clean (all changes committed and pushed)
+- **Latest Commit**: efae2d47 (Add comprehensive debug logging for Node Graph pins and connections)
+- **Working Tree**: Modified (container size fixes pending commit)
 - **Recent Commits**:
+  - efae2d47 - Add comprehensive debug logging for Node Graph pins and connections
+  - 4163ad9c - Fix Node Graph Editor to match Octane reference (zoom, minimap, cleanup)
   - 69c70498 - Fix Node Graph Editor to match Octane behavior (top-level only, bezier connections)
   - 8ea71a7f - Fix CRITICAL bug: Node Graph handle type mismatch (string vs number)
-  - c7b17ee4 - Update REPRO_PROMPT.md with Phase 1 completion status
   - 62cfc23b - Phase 1: Replace custom NodeGraphEditor with ReactFlow (-63% code)
 
 ### Build Status
 - ✅ TypeScript compilation successful (`npm run build`)
-- ✅ Bundle size: 350.32 kB (gzipped: 111.12 kB)
+- ✅ Bundle size: 345.77 kB (gzipped: 109.79 kB)
 - ✅ No TypeScript errors
-- ✅ No React warnings
+- ⚠️ ReactFlow container warning fixed (CSS updates applied)
+
+### Known Issues
+**Node Graph Visual Problems** (High Priority):
+1. **Pins not displaying** - Input/output dots missing on top/bottom of nodes
+2. **Connection lines missing** - No cyan connection lines between nodes
+3. **Debug logging shows "0 inputs"** - All nodes report 0 inputs during conversion
+4. **Root cause hypothesis**: `nodeInfo.inputs` array not populated in `OctaneClient.ts` scene tree building
+
+**Files Modified (Uncommitted)**:
+- `client/src/styles/octane-theme.css` - Added width/height to .node-graph-container, min-height to .bottom-panel
+
+**Debug Documentation**:
+- `NODE_GRAPH_DEBUG_SESSION.md` - Complete debugging guide with console log patterns to check
+- `PIN_DEBUG_STATUS.md` - Pin rendering status and troubleshooting
 
 ### Development Server
 - **Port**: 43929 (may vary, check terminal output)
