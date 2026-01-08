@@ -3390,6 +3390,7 @@ body.drag-over .drop-indicator {
 }
 
 .octane-number-input {
+    flex: 1;
     min-width: 36px;
     height: 18px;
     background: var(--octane-bg-primary);
@@ -3427,7 +3428,7 @@ body.drag-over .drop-indicator {
 }
 
 .octane-color-input {
-    width: 100%;
+    width: 180px;
     min-width: 60px;
     height: 18px;
     border: 1px solid #444;
@@ -3602,8 +3603,9 @@ body.drag-over .drop-indicator {
 /* Parameter Control Styles for Interactive Node Inspector */
 .parameter-control-container {
     display: inline-flex;
-    flex: 1;
+    width: 180px;
     align-items: center;
+    gap: 4px;
 }
 
 /* Checkbox Controls - Match octaneWeb exactly */
