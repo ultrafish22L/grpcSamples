@@ -685,15 +685,34 @@ function NodeParameter({
                 </ParameterGroup>
               );
             } else {
-              // octaneWeb logic: ONLY wrap non-grouped items that come AFTER a group has ended
-              // This maintains alignment while avoiding gaps before the first group
-              if (hasGroups && prevGroupName) {
-                return (
-                  <div key={`nogroup-${idx}`} className="inspector-group-indent">
-                    <div className="inspector-group-header">
-                      <span className="inspector-group-label"> </span>
+              // octaneWeb logic: ALL non-grouped items need .inspector-group-indent wrapper when hasGroups is true
+              // - Items BEFORE first group: wrap WITHOUT empty header (no gap, but still indented)
+              // - Items AFTER a group: wrap WITH empty header (maintains alignment after group)
+              if (hasGroups) {
+                if (prevGroupName) {
+                  // After a group ended - include empty header for proper spacing
+                  return (
+                    <div key={`nogroup-${idx}`} className="inspector-group-indent">
+                      <div className="inspector-group-header">
+                        <span className="inspector-group-label"> </span>
+                      </div>
+                      <div>
+                        {children.map((child, childIdx) => (
+                          <NodeParameter
+                            key={`${child.handle}-${childIdx}`}
+                            node={child}
+                            level={level + 1}
+                            onToggle={onToggle}
+                            hasGroupMap={hasGroupMap}
+                          />
+                        ))}
+                      </div>
                     </div>
-                    <div>
+                  );
+                } else {
+                  // Before first group - just wrapper for indentation, NO header (no gap)
+                  return (
+                    <div key={`nogroup-${idx}`} className="inspector-group-indent">
                       {children.map((child, childIdx) => (
                         <NodeParameter
                           key={`${child.handle}-${childIdx}`}
@@ -704,9 +723,10 @@ function NodeParameter({
                         />
                       ))}
                     </div>
-                  </div>
-                );
+                  );
+                }
               } else {
+                // No groups at this level - no wrapper needed
                 return (
                   <React.Fragment key={`nogroup-${idx}`}>
                     {children.map((child, childIdx) => (
