@@ -155,7 +155,7 @@ function AppContent() {
             </div>
           </div>
           <div className="node-graph-container">
-            <NodeGraphEditor selectedNode={selectedNode} />
+            <NodeGraphEditor />
           </div>
         </section>
         
