@@ -4,11 +4,10 @@
  * Maintains all functionality from octaneWeb's NodeGraphEditor.js
  */
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import ReactFlow, {
   Node,
   Edge,
-  Controls,
   Background,
   BackgroundVariant,
   MiniMap,
@@ -17,9 +16,7 @@ import ReactFlow, {
   addEdge,
   Connection,
   NodeTypes,
-  Panel,
   ReactFlowProvider,
-  useReactFlow,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 
@@ -42,11 +39,9 @@ const nodeTypes: NodeTypes = {
  */
 function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
   const { client, connected } = useOctane();
-  const reactFlowInstance = useReactFlow();
   
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   /**
@@ -193,14 +188,9 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
     setNodes(graphNodes);
     setEdges(graphEdges);
 
-    // Fit view after nodes are loaded
-    setTimeout(() => {
-      if (graphNodes.length > 0) {
-        console.log('📊 [NodeGraphEditor] Fitting view to', graphNodes.length, 'nodes');
-        reactFlowInstance.fitView({ padding: 0.2, duration: 400 });
-      }
-    }, 100);
-  }, [sceneTree, convertSceneToGraph, setNodes, setEdges, reactFlowInstance]);
+    // Note: Don't auto-fit view - use default zoom level matching Octane
+    // The defaultViewport prop on ReactFlow sets the initial zoom
+  }, [sceneTree, convertSceneToGraph, setNodes, setEdges]);
 
   /**
    * Handle new connections
@@ -262,53 +252,7 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
     [client]
   );
 
-  /**
-   * Context menu handler
-   */
-  const onPaneContextMenu = useCallback((event: React.MouseEvent) => {
-    event.preventDefault();
-    setContextMenu({ x: event.clientX, y: event.clientY });
-  }, []);
 
-  /**
-   * Hide context menu on click outside
-   */
-  const onPaneClick = useCallback(() => {
-    setContextMenu(null);
-  }, []);
-
-  /**
-   * Fit all nodes in view
-   */
-  const handleFitView = useCallback(() => {
-    reactFlowInstance.fitView({ padding: 0.2, duration: 400 });
-  }, [reactFlowInstance]);
-
-  /**
-   * Add new node at center of viewport
-   */
-  const handleAddNode = useCallback(() => {
-    const position = reactFlowInstance.project({ 
-      x: window.innerWidth / 2, 
-      y: window.innerHeight / 2 
-    });
-
-    Logger.info('Creating new node at position:', position);
-
-    // TODO: Implement node creation via Octane API
-    // For now, show placeholder
-    Logger.warn('Node creation not yet implemented');
-  }, [reactFlowInstance]);
-
-  /**
-   * Delete selected nodes
-   */
-  const handleDeleteSelected = useCallback(() => {
-    const selectedNodes = nodes.filter((node) => node.selected);
-    if (selectedNodes.length > 0) {
-      onNodesDelete(selectedNodes);
-    }
-  }, [nodes, onNodesDelete]);
 
   // Not connected state
   if (!connected) {
@@ -340,14 +284,12 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodesDelete={onNodesDelete}
-        onPaneContextMenu={onPaneContextMenu}
-        onPaneClick={onPaneClick}
         nodeTypes={nodeTypes}
-        fitView
+        defaultViewport={{ x: 100, y: 100, zoom: 0.4 }}
         minZoom={0.1}
         maxZoom={4}
         defaultEdgeOptions={{
-          type: 'smoothstep',
+          type: 'default',
           animated: false,
           style: { stroke: '#4a90e2', strokeWidth: 2 },
         }}
@@ -362,18 +304,9 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
           color="#333"
         />
 
-        {/* Zoom and fit controls */}
-        <Controls 
-          showInteractive={false}
-          style={{
-            background: '#2a2a2a',
-            border: '1px solid #444',
-            borderRadius: 4,
-          }}
-        />
-
-        {/* Minimap for navigation */}
+        {/* Minimap for navigation - top-left with yellow Octane styling */}
         <MiniMap
+          position="top-left"
           nodeColor={(node) => {
             const data = node.data as OctaneNodeData;
             return data.sceneNode.nodeInfo?.nodeColor
@@ -381,128 +314,13 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
               : '#666';
           }}
           style={{
-            background: '#2a2a2a',
-            border: '1px solid #444',
+            background: 'rgba(60, 60, 30, 0.8)',
+            border: '2px solid rgba(200, 180, 80, 0.8)',
+            borderRadius: 4,
           }}
           maskColor="rgba(0, 0, 0, 0.6)"
         />
-
-        {/* Custom toolbar panel */}
-        <Panel position="top-left" style={{ margin: 10 }}>
-          <div className="node-graph-toolbar" style={{ display: 'flex', gap: 8 }}>
-            <button
-              className="toolbar-btn"
-              onClick={handleAddNode}
-              title="Add Node"
-              style={{
-                background: '#2a2a2a',
-                border: '1px solid #444',
-                color: '#fff',
-                padding: '6px 12px',
-                borderRadius: 4,
-                cursor: 'pointer',
-              }}
-            >
-              ➕ Add Node
-            </button>
-            <button
-              className="toolbar-btn"
-              onClick={handleDeleteSelected}
-              title="Delete Selected"
-              style={{
-                background: '#2a2a2a',
-                border: '1px solid #444',
-                color: '#fff',
-                padding: '6px 12px',
-                borderRadius: 4,
-                cursor: 'pointer',
-              }}
-            >
-              🗑️ Delete
-            </button>
-            <button
-              className="toolbar-btn"
-              onClick={handleFitView}
-              title="Fit All"
-              style={{
-                background: '#2a2a2a',
-                border: '1px solid #444',
-                color: '#fff',
-                padding: '6px 12px',
-                borderRadius: 4,
-                cursor: 'pointer',
-              }}
-            >
-              🔲 Fit All
-            </button>
-          </div>
-        </Panel>
-
-        {/* Zoom level indicator */}
-        <Panel position="bottom-right" style={{ margin: 10 }}>
-          <div
-            style={{
-              background: '#2a2a2a',
-              border: '1px solid #444',
-              padding: '4px 8px',
-              borderRadius: 4,
-              fontSize: 12,
-              color: '#aaa',
-            }}
-          >
-            {Math.round(reactFlowInstance.getZoom() * 100)}%
-          </div>
-        </Panel>
       </ReactFlow>
-
-      {/* Context menu */}
-      {contextMenu && (
-        <div
-          className="node-graph-context-menu"
-          style={{
-            position: 'fixed',
-            left: contextMenu.x,
-            top: contextMenu.y,
-            background: '#2a2a2a',
-            border: '1px solid #444',
-            borderRadius: 4,
-            padding: 4,
-            zIndex: 1000,
-          }}
-          onMouseLeave={() => setContextMenu(null)}
-        >
-          <div
-            className="context-menu-item"
-            onClick={() => {
-              handleAddNode();
-              setContextMenu(null);
-            }}
-            style={{
-              padding: '6px 12px',
-              cursor: 'pointer',
-              color: '#fff',
-              fontSize: 12,
-            }}
-          >
-            ➕ Add Node
-          </div>
-          <div
-            className="context-menu-item"
-            onClick={() => {
-              handleFitView();
-              setContextMenu(null);
-            }}
-            style={{
-              padding: '6px 12px',
-              cursor: 'pointer',
-              color: '#fff',
-              fontSize: 12,
-            }}
-          >
-            🔲 Fit All
-          </div>
-        </div>
-      )}
     </div>
   );
 }
