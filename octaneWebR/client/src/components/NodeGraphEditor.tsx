@@ -74,28 +74,7 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
-  // Listen to scene tree updates from OctaneClient (don't load independently)
-  useEffect(() => {
-    if (!connected) return;
-    
-    const handleSceneUpdate = (_scene: any) => {
-      console.log('📊 NodeGraphEditor: Scene updated, rendering graph');
-      loadSceneGraph();
-    };
-    
-    client.on('sceneTreeUpdated', handleSceneUpdate);
-    
-    // Load existing scene if available
-    if (client.getScene().tree.length > 0) {
-      loadSceneGraph();
-    }
-    
-    return () => {
-      client.off('sceneTreeUpdated', handleSceneUpdate);
-    };
-  }, [connected]);
-
-  const loadSceneGraph = async () => {
+  const loadSceneGraph = useCallback(async () => {
     try {
       // Use existing scene data from client (don't call buildSceneTree again)
       const sceneTree = client.getScene().tree;
@@ -180,7 +159,29 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
     } catch (error) {
       console.error('Failed to load scene graph:', error);
     }
-  };
+  }, [client]);
+
+  // Listen to scene tree updates from OctaneClient (don't load independently)
+  useEffect(() => {
+    if (!connected || !client) return;
+    
+    const handleSceneUpdate = (_scene: any) => {
+      console.log('📊 NodeGraphEditor: Scene updated, rendering graph');
+      loadSceneGraph();
+    };
+    
+    client.on('sceneTreeUpdated', handleSceneUpdate);
+    
+    // Load existing scene if available
+    if (client.getScene().tree.length > 0) {
+      console.log('📊 NodeGraphEditor: Loading existing scene on mount');
+      loadSceneGraph();
+    }
+    
+    return () => {
+      client.off('sceneTreeUpdated', handleSceneUpdate);
+    };
+  }, [connected, client, loadSceneGraph]);
 
   // Convert screen coordinates to SVG coordinates accounting for viewport transform
   const screenToSvg = useCallback((screenX: number, screenY: number) => {
