@@ -3162,7 +3162,8 @@ body.drag-over .drop-indicator {
 }
 
 /* Level-based indentation system with consistent 24px increments - ONLY for Node Inspector */
-.node-inspector .node-indent-0 {
+.node-inspector .node-indent-0,
+.octane-node-inspector .node-indent-0 {
     background-color: var(--octane-bg-darker);
     border: 1px solid var(--octane-parameter-bg);
     border-radius: 6px; 
@@ -3170,7 +3171,8 @@ body.drag-over .drop-indicator {
     padding: 0 0 0 0;
 }
 
-.node-inspector .node-indent {
+.node-inspector .node-indent,
+.octane-node-inspector .node-indent {
     background-color: var(--octane-bg-secondary);
     border: 1px solid var(--octane-parameter-bg);
     border-radius: 6px; 
@@ -3178,7 +3180,8 @@ body.drag-over .drop-indicator {
     padding: 0 0 0 0;
 }
 
-.node-inspector .node-indent-done {
+.node-inspector .node-indent-done,
+.octane-node-inspector .node-indent-done {
     background-color: var(--octane-bg-secondary);
     border: 1px solid var(--octane-parameter-bg);
     border-radius: 6px; 
@@ -3186,14 +3189,16 @@ body.drag-over .drop-indicator {
     padding: 0 0 0 0; 
 }
 
-.node-inspector .node-toggle-content {
+.node-inspector .node-toggle-content,
+.octane-node-inspector .node-toggle-content {
     background-color: var(--octane-bg-secondary);
     padding: 0;
     margin: 0;
 }
 
 /* Icon box with better visibility and positioning - ONLY for Node Inspector */
-.node-inspector .node-icon-box {
+.node-inspector .node-icon-box,
+.octane-node-inspector .node-icon-box {
     position: absolute;
     left: -8px; 
     width: 20px;
@@ -3208,7 +3213,8 @@ body.drag-over .drop-indicator {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
 }
 
-.node-inspector .panel-content {
+.node-inspector .panel-content,
+.octane-node-inspector .panel-content {
     padding: 0 0 0 4px;
 }
 
@@ -3219,7 +3225,8 @@ body.drag-over .drop-indicator {
 }
 
 /* Node content area with improved spacing - ONLY for Node Inspector */
-.node-inspector .node-content {
+.node-inspector .node-content,
+.octane-node-inspector .node-content {
     flex: 1;
     padding: 0 0 0 18px; /* Increased padding for better spacing */
     min-height: 10px;
@@ -3230,14 +3237,16 @@ body.drag-over .drop-indicator {
 }
 
 /* Node parameters container - ONLY for Node Inspector */
-.node-inspector .node-parameters {
+.node-inspector .node-parameters,
+.octane-node-inspector .node-parameters {
     width: 100%;
     margin-top: 4px;
     padding-left: 0;
 }
 
 /* Node header with improved spacing and alignment - ONLY for Node Inspector */
-.node-inspector .node-label {
+.node-inspector .node-label,
+.octane-node-inspector .node-label {
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -3247,12 +3256,14 @@ body.drag-over .drop-indicator {
     gap: 0;
 }
 
-.node-inspector .node-label:hover {
+.node-inspector .node-label:hover,
+.octane-node-inspector .node-label:hover {
     background: var(--octane-bg-hover);
 }
 
 /* Collapse/expand icon styling - ONLY for Node Inspector */
-.node-inspector .node-collapse-icon {
+.node-inspector .node-collapse-icon,
+.octane-node-inspector .node-collapse-icon {
     font-size: var(--font-size-small);
     color: var(--octane-text-secondary);
     transition: transform 0.2s ease;
@@ -3260,12 +3271,14 @@ body.drag-over .drop-indicator {
     text-align: center;
 }
 
-.node-inspector .node-collapse-icon:hover {
+.node-inspector .node-collapse-icon:hover,
+.octane-node-inspector .node-collapse-icon:hover {
     color: var(--octane-text-primary);
 }
 
 /* Node title styling - ONLY for Node Inspector */
-.node-inspector .node-title {
+.node-inspector .node-title,
+.octane-node-inspector .node-title {
     padding: 0px 0px 0px 0px;
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-light);
@@ -3276,14 +3289,16 @@ body.drag-over .drop-indicator {
 }
 
 /* Node parameter controls with better spacing - ONLY for Node Inspector */
-.node-inspector .node-parameter-controls {
+.node-inspector .node-parameter-controls,
+.octane-node-inspector .node-parameter-controls {
     margin-left: 12px; /* Space between title and dropdown */
     display: grid;
     align-items: center;
     gap: 0px;
 }
 
-.node-inspector .node-parameter-controls .parameter-dropdown {
+.node-inspector .node-parameter-controls .parameter-dropdown,
+.octane-node-inspector .node-parameter-controls .parameter-dropdown {
     background: var(--octane-bg-primary);
     border: 1px solid #444;
     border-radius: 6px;
@@ -3295,10 +3310,12 @@ body.drag-over .drop-indicator {
     transition: border-color 0.2s ease;
 }
 
-.node-inspector .node-parameter-controls .parameter-dropdown:hover {
+.node-inspector .node-parameter-controls .parameter-dropdown:hover,
+.octane-node-inspector .node-parameter-controls .parameter-dropdown:hover {
 }
 
-.node-inspector .node-parameter-controls .parameter-dropdown:focus {
+.node-inspector .node-parameter-controls .parameter-dropdown:focus,
+.octane-node-inspector .node-parameter-controls .parameter-dropdown:focus {
     outline: none;
     border-color: var(--octane-accent);
     box-shadow: 0 0 0 2px rgba(255, 165, 0, 0.2);
@@ -3363,7 +3380,7 @@ body.drag-over .drop-indicator {
     max-width: 200px;
 }
 
-/* Individual control styles */
+/* Individual control styles - Match octaneWeb exactly */
 .octane-checkbox {
     width: 14px;
     height: 14px;
@@ -3383,22 +3400,7 @@ body.drag-over .drop-indicator {
     font-size: var(--font-size-small);
     padding: 0 8px;
     font-family: var(--font-family-mono);
-    display: grid;
-    align-items: center;
-}
-
-.octane-color-input {
-    min-width: 36px;
-    height: 18px;
-    background: var(--octane-bg-primary);
-    border: 1px solid #444;
-    border-radius: 4px;
-    color: #e0e0e0;
-    font-size: var(--font-size-small);
-    padding: 0 8px;
-    font-family: var(--font-family-mono);
-    display: grid;
-    align-items: center;
+    text-align: right;
 }
 
 .octane-number-input:focus {
@@ -3416,7 +3418,6 @@ body.drag-over .drop-indicator {
     color: #e0e0e0;
     font-size: var(--font-size-small);
     padding: 1px 4px;
-    display: grid;
     text-align: right;
 }
 
@@ -3427,15 +3428,14 @@ body.drag-over .drop-indicator {
 }
 
 .octane-color-input {
-    width: 24px;
+    width: 100%;
+    min-width: 60px;
     height: 18px;
     border: 1px solid #444;
     border-radius: 2px;
     cursor: pointer;
     padding: 0;
     background: none;
-    display: grid;
-    text-align: right;
 }
 
 .octane-color-input::-webkit-color-swatch-wrapper {
@@ -3607,16 +3607,15 @@ body.drag-over .drop-indicator {
     align-items: center;
 }
 
-/* Checkbox Controls */
+/* Checkbox Controls - Match octaneWeb exactly */
 .parameter-checkbox-container {
     display: flex;
-    align-items: left;
+    align-items: center;
     cursor: pointer;
 }
 
 .parameter-checkbox {
     display: none;
-    align-items: left;    
 }
 
 .parameter-checkbox-custom {
@@ -3627,7 +3626,6 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-primary);
     position: relative;
     transition: all 0.2s ease;
-    align-items: left;    
 }
 
 .parameter-checkbox:checked + .parameter-checkbox-custom {
@@ -3642,7 +3640,8 @@ body.drag-over .drop-indicator {
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 10px;
-    font-weight: var(--font-weight-bold7);
+    font-weight: var(--font-weight-bold);
+    color: var(--octane-accent);
 }
 
 /* Numeric Input Controls */
