@@ -664,9 +664,11 @@ function NodeParameter({
           data-toggle-content={nodeId}
           style={{ display: expanded ? 'block' : 'none' }}
         >
-          {groupChildren(node.children!).map(({ groupName, children }, idx) => {
+          {groupChildren(node.children!).map(({ groupName, children }, idx, arr) => {
             // Check if ANY child at this level has a group (matching octaneWeb's hasGroup[level] logic)
             const hasGroups = hasGroupMap.get(level + 1) || false;
+            // Check if previous item had a groupName (octaneWeb's lgroup logic)
+            const prevGroupName = idx > 0 ? arr[idx - 1].groupName : null;
             
             if (groupName) {
               return (
@@ -683,9 +685,9 @@ function NodeParameter({
                 </ParameterGroup>
               );
             } else {
-              // octaneWeb logic: when hasGroups is true, ALL non-grouped items
-              // are wrapped in inspector-group-indent to maintain alignment with grouped items
-              if (hasGroups) {
+              // octaneWeb logic: ONLY wrap non-grouped items that come AFTER a group has ended
+              // This maintains alignment while avoiding gaps before the first group
+              if (hasGroups && prevGroupName) {
                 return (
                   <div key={`nogroup-${idx}`} className="inspector-group-indent">
                     <div className="inspector-group-header">
