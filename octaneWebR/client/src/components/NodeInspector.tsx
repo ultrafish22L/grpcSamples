@@ -64,12 +64,12 @@ function NodeParameter({
   node, 
   level, 
   onToggle,
-  hasGroupAtLevel = false
+  hasGroupMap
 }: { 
   node: SceneNode; 
   level: number; 
   onToggle: (nodeId: string) => void;
-  hasGroupAtLevel?: boolean;
+  hasGroupMap: Map<number, boolean>;
 }) {
   const { client } = useOctane();
   const [paramValue, setParamValue] = useState<ParameterValue | null>(null);
@@ -599,6 +599,7 @@ function NodeParameter({
   // Determine the indent class (matching GenericNodeRenderer logic exactly)
   // octaneWeb logic: if ANY group exists at this level, ALL items at this level use node-indent-done
   // This is the hasGroup[level] logic from octaneWeb
+  const hasGroupAtLevel = hasGroupMap.get(level) || false;
   const indentClass = level === 0 ? 'node-indent-0' : 
                      hasGroupAtLevel ? 'node-indent-done' : 
                      'node-indent';
@@ -634,7 +635,7 @@ function NodeParameter({
                 node={child}
                 level={level + 1}
                 onToggle={onToggle}
-                hasGroupAtLevel={childrenHaveGroups(node.children!)}
+                hasGroupMap={hasGroupMap}
               />
             ))}
           </div>
@@ -665,7 +666,7 @@ function NodeParameter({
         >
           {groupChildren(node.children!).map(({ groupName, children }, idx) => {
             // Check if ANY child at this level has a group (matching octaneWeb's hasGroup[level] logic)
-            const hasGroups = childrenHaveGroups(node.children!);
+            const hasGroups = hasGroupMap.get(level + 1) || false;
             
             if (groupName) {
               return (
@@ -676,25 +677,48 @@ function NodeParameter({
                       node={child}
                       level={level + 1}
                       onToggle={onToggle}
-                      hasGroupAtLevel={hasGroups}
+                      hasGroupMap={hasGroupMap}
                     />
                   ))}
                 </ParameterGroup>
               );
             } else {
-              return (
-                <React.Fragment key={`nogroup-${idx}`}>
-                  {children.map((child, childIdx) => (
-                    <NodeParameter
-                      key={`${child.handle}-${childIdx}`}
-                      node={child}
-                      level={level + 1}
-                      onToggle={onToggle}
-                      hasGroupAtLevel={hasGroups}
-                    />
-                  ))}
-                </React.Fragment>
-              );
+              // octaneWeb logic: when hasGroups is true, ALL non-grouped items
+              // are wrapped in inspector-group-indent to maintain alignment with grouped items
+              if (hasGroups) {
+                return (
+                  <div key={`nogroup-${idx}`} className="inspector-group-indent">
+                    <div className="inspector-group-header">
+                      <span className="inspector-group-label"> </span>
+                    </div>
+                    <div>
+                      {children.map((child, childIdx) => (
+                        <NodeParameter
+                          key={`${child.handle}-${childIdx}`}
+                          node={child}
+                          level={level + 1}
+                          onToggle={onToggle}
+                          hasGroupMap={hasGroupMap}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                );
+              } else {
+                return (
+                  <React.Fragment key={`nogroup-${idx}`}>
+                    {children.map((child, childIdx) => (
+                      <NodeParameter
+                        key={`${child.handle}-${childIdx}`}
+                        node={child}
+                        level={level + 1}
+                        onToggle={onToggle}
+                        hasGroupMap={hasGroupMap}
+                      />
+                    ))}
+                  </React.Fragment>
+                );
+              }
             }
           })}
         </div>
@@ -703,9 +727,21 @@ function NodeParameter({
   );
 }
 
-// Helper: Check if any child has a groupName (matches octaneWeb's hasGroup[level] logic)
-function childrenHaveGroups(children: SceneNode[]): boolean {
-  return children.some(child => child.pinInfo?.groupName != null);
+// Helper: Build a map of which levels have groups (matches octaneWeb's hasGroup[] array)
+// This is used to determine indentation for all nodes at each level globally
+function buildHasGroupMap(node: SceneNode, level: number, map: Map<number, boolean>): void {
+  if (node.children && node.children.length > 0) {
+    // Check if any child at the next level has a group
+    const hasGroups = node.children.some(child => child.pinInfo?.groupName != null);
+    if (hasGroups) {
+      map.set(level + 1, true);
+    }
+    
+    // Recursively process children
+    for (const child of node.children) {
+      buildHasGroupMap(child, level + 1, map);
+    }
+  }
 }
 
 // Helper: Group children by pinInfo.groupName
@@ -749,6 +785,11 @@ export function NodeInspector({ node }: NodeInspectorProps) {
     );
   }
 
+  // Build hasGroup map for all levels (matches octaneWeb's hasGroup[] array logic)
+  // This ensures that all siblings at the same level have consistent indentation
+  const hasGroupMap = new Map<number, boolean>();
+  buildHasGroupMap(node, 0, hasGroupMap);
+
   return (
     <div className="octane-node-inspector">
       {/* Header with dropdown (matching reference screenshot) */}
@@ -771,6 +812,7 @@ export function NodeInspector({ node }: NodeInspectorProps) {
           node={node} 
           level={0} 
           onToggle={handleToggle}
+          hasGroupMap={hasGroupMap}
         />
       </div>
     </div>
