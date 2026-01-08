@@ -64,12 +64,12 @@ function NodeParameter({
   node, 
   level, 
   onToggle,
-  insideGroup = false
+  hasGroupAtLevel = false
 }: { 
   node: SceneNode; 
   level: number; 
   onToggle: (nodeId: string) => void;
-  insideGroup?: boolean;
+  hasGroupAtLevel?: boolean;
 }) {
   const { client } = useOctane();
   const [paramValue, setParamValue] = useState<ParameterValue | null>(null);
@@ -596,11 +596,11 @@ function NodeParameter({
     ) : null;
   };
 
-  // Determine the indent class (matching GenericNodeRenderer logic)
-  // When insideGroup is true, use node-indent-done (1px margin) instead of node-indent (20px margin)
-  // This ensures items inside groups align with items outside groups (group has 20px + item has 1px = 21px total)
+  // Determine the indent class (matching GenericNodeRenderer logic exactly)
+  // octaneWeb logic: if ANY group exists at this level, ALL items at this level use node-indent-done
+  // This is the hasGroup[level] logic from octaneWeb
   const indentClass = level === 0 ? 'node-indent-0' : 
-                     insideGroup ? 'node-indent-done' : 
+                     hasGroupAtLevel ? 'node-indent-done' : 
                      'node-indent';
 
   // Determine collapse/expand icon
@@ -634,7 +634,7 @@ function NodeParameter({
                 node={child}
                 level={level + 1}
                 onToggle={onToggle}
-                insideGroup={insideGroup}
+                hasGroupAtLevel={childrenHaveGroups(node.children!)}
               />
             ))}
           </div>
@@ -664,6 +664,9 @@ function NodeParameter({
           style={{ display: expanded ? 'block' : 'none' }}
         >
           {groupChildren(node.children!).map(({ groupName, children }, idx) => {
+            // Check if ANY child at this level has a group (matching octaneWeb's hasGroup[level] logic)
+            const hasGroups = childrenHaveGroups(node.children!);
+            
             if (groupName) {
               return (
                 <ParameterGroup key={`group-${groupName}-${idx}`} groupName={groupName}>
@@ -673,7 +676,7 @@ function NodeParameter({
                       node={child}
                       level={level + 1}
                       onToggle={onToggle}
-                      insideGroup={true}
+                      hasGroupAtLevel={hasGroups}
                     />
                   ))}
                 </ParameterGroup>
@@ -687,7 +690,7 @@ function NodeParameter({
                       node={child}
                       level={level + 1}
                       onToggle={onToggle}
-                      insideGroup={insideGroup}
+                      hasGroupAtLevel={hasGroups}
                     />
                   ))}
                 </React.Fragment>
@@ -698,6 +701,11 @@ function NodeParameter({
       )}
     </div>
   );
+}
+
+// Helper: Check if any child has a groupName (matches octaneWeb's hasGroup[level] logic)
+function childrenHaveGroups(children: SceneNode[]): boolean {
+  return children.some(child => child.pinInfo?.groupName != null);
 }
 
 // Helper: Group children by pinInfo.groupName

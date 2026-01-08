@@ -1078,12 +1078,11 @@ input:checked + .slider:before {
     cursor: grabbing;
 }
 
-/* Parameter Checkboxes (matching reference screenshot) */
+/* Parameter Checkboxes (matching octaneWeb exactly) */
 .parameter-checkbox-container {
     display: flex;
     align-items: center;
-    width: 140px;
-    justify-content: flex-end;
+    cursor: pointer;
 }
 
 .parameter-checkbox {
