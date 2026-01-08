@@ -51,56 +51,48 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
 
   /**
    * Convert scene tree to ReactFlow nodes and edges
+   * Following octaneWeb's NodeGraphEditor.js pattern:
+   * - Only show TOP-LEVEL nodes from scene.tree (no recursive children)
+   * - Only show direct connections between top-level nodes
+   * - Use bezier curves for connection splines
    */
   const convertSceneToGraph = useCallback((tree: SceneNode[]) => {
     console.log('🔄 [convertSceneToGraph] Starting conversion...');
-    console.log('🔄 [convertSceneToGraph] Input tree:', tree);
+    console.log('🔄 [convertSceneToGraph] Top-level nodes:', tree.length);
     Logger.group('🔄 Converting scene tree to ReactFlow graph', true);
     
-    const nodeMap = new Map<string, SceneNode>();
     const graphNodes: Node<OctaneNodeData>[] = [];
     const graphEdges: Edge[] = [];
+    const nodeMap = new Map<string, SceneNode>();
 
-    // First pass: collect all nodes with handles
-    const collectNodes = (items: SceneNode[], level: number = 0) => {
-      console.log(`🔄 [collectNodes] Level ${level}, processing ${items.length} items`);
-      items.forEach((item, index) => {
-        console.log(`🔄 [collectNodes]   Item ${index}:`, {
-          name: item.name,
-          handle: item.handle,
-          hasChildren: !!item.children?.length,
-          childCount: item.children?.length || 0
-        });
-        
-        // Handle can be string or number - convert to string for consistency
-        if (item.handle !== undefined && item.handle !== null) {
-          const handleStr = String(item.handle);
-          console.log(`🔄 [collectNodes]     ✅ Adding node with handle ${handleStr} (type: ${typeof item.handle})`);
-          nodeMap.set(handleStr, item);
-        } else {
-          console.log(`🔄 [collectNodes]     ⚠️ No handle (handle is ${item.handle})`);
-        }
-        
-        if (item.children && item.children.length > 0) {
-          collectNodes(item.children, level + 1);
-        }
+    // Only process TOP-LEVEL nodes (matching octaneWeb behavior)
+    // octaneWeb: scene.tree.forEach((item, index) => { ... })
+    const nodeSpacing = 250;
+    const yCenter = 300;
+    
+    tree.forEach((item, index) => {
+      console.log(`🔄 [convertSceneToGraph] Processing top-level node ${index}:`, {
+        name: item.name,
+        handle: item.handle,
+        type: item.type,
+        typeEnum: item.typeEnum,
+        hasChildren: !!item.children?.length,
+        childCount: item.children?.length || 0
       });
-    };
+      
+      // Skip nodes without handles
+      if (!item.handle) {
+        console.log(`🔄 [convertSceneToGraph]   ⚠️ Skipping node without handle: ${item.name}`);
+        return;
+      }
 
-    collectNodes(tree);
-    console.log(`🔄 [convertSceneToGraph] Collected ${nodeMap.size} nodes from scene tree`);
-    Logger.debug(`Collected ${nodeMap.size} nodes from scene tree`);
+      const handleStr = String(item.handle);
+      nodeMap.set(handleStr, item);
 
-    // Second pass: create ReactFlow nodes
-    const nodeSpacing = 220;
-    const levelOffset = 150;
-    let nodeIndex = 0;
-
-    nodeMap.forEach((sceneNode, handle) => {
-      // Extract input pins from nodeInfo
-      const inputs = sceneNode.nodeInfo?.inputs || [];
-      const inputHandles = inputs.map((input: any, index: number) => ({
-        id: `input-${index}`,
+      // Extract input pins from nodeInfo (for pin connections)
+      const inputs = item.nodeInfo?.inputs || [];
+      const inputHandles = inputs.map((input: any, inputIndex: number) => ({
+        id: `input-${inputIndex}`,
         label: input.staticLabel || input.name,
         pinInfo: input.pinInfo,
       }));
@@ -108,58 +100,66 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
       // Create output handle
       const output = {
         id: 'output-0',
-        label: sceneNode.name,
-        pinInfo: sceneNode.pinInfo,
+        label: item.name,
+        pinInfo: item.pinInfo,
       };
 
+      // Position nodes horizontally with spacing (matching octaneWeb layout)
       const node: Node<OctaneNodeData> = {
-        id: String(handle),
+        id: handleStr,
         type: 'octane',
         position: { 
-          x: 100 + (nodeIndex % 5) * nodeSpacing, 
-          y: 200 + Math.floor(nodeIndex / 5) * levelOffset 
+          x: 100 + (index * nodeSpacing),
+          y: yCenter + (index * 20), // Slight vertical offset per node
         },
         data: {
-          sceneNode,
+          sceneNode: item,
           inputs: inputHandles,
           output,
         },
       };
 
       graphNodes.push(node);
-      nodeIndex++;
+      console.log(`🔄 [convertSceneToGraph]   ✅ Created node: ${item.name} (${handleStr})`);
     });
 
-    // Third pass: create connections/edges
-    const processConnections = (node: SceneNode) => {
-      if (node.children && node.children.length > 0 && node.handle !== undefined && node.handle !== null) {
-        node.children.forEach((child) => {
-          if (child.handle === undefined || child.handle === null) return;
+    // Create connections between TOP-LEVEL nodes only
+    // Look for connections in the nodeInfo data (connected pins)
+    tree.forEach((node) => {
+      if (!node.handle || !node.nodeInfo?.inputs) return;
 
-          const edge: Edge = {
-            id: `e${node.handle}-${child.handle}`,
-            source: String(node.handle),
-            target: String(child.handle),
-            sourceHandle: 'output-0',
-            targetHandle: 'input-0',
-            type: 'smoothstep',
-            animated: false,
-            style: { stroke: '#4a90e2', strokeWidth: 2 },
-          };
+      const sourceHandle = String(node.handle);
+      
+      // Check each input pin for connections
+      node.nodeInfo.inputs.forEach((input: any, inputIndex: number) => {
+        if (input.connectedNode && input.connectedNode.handle) {
+          const targetHandle = String(input.connectedNode.handle);
+          
+          // Only create edge if BOTH nodes are in our top-level nodeMap
+          if (nodeMap.has(sourceHandle) && nodeMap.has(targetHandle)) {
+            const edge: Edge = {
+              id: `e${targetHandle}-${sourceHandle}-${inputIndex}`,
+              source: targetHandle,
+              target: sourceHandle,
+              sourceHandle: 'output-0',
+              targetHandle: `input-${inputIndex}`,
+              type: 'default', // Use 'default' for bezier curves (matching Octane)
+              animated: false,
+              style: { 
+                stroke: input.pinInfo?.pinColor || '#4a90e2', 
+                strokeWidth: 2 
+              },
+            };
 
-          graphEdges.push(edge);
-        });
-      }
+            graphEdges.push(edge);
+            console.log(`🔄 [convertSceneToGraph]   🔗 Connection: ${input.connectedNode.name} → ${node.name} (pin ${inputIndex})`);
+          }
+        }
+      });
+    });
 
-      // Recursively process children
-      if (node.children) {
-        node.children.forEach(processConnections);
-      }
-    };
-
-    tree.forEach(processConnections);
-
-    Logger.debug(`Created ${graphNodes.length} nodes and ${graphEdges.length} edges`);
+    console.log(`🔄 [convertSceneToGraph] Completed: ${graphNodes.length} nodes, ${graphEdges.length} edges`);
+    Logger.debug(`Created ${graphNodes.length} top-level nodes and ${graphEdges.length} edges`);
     Logger.groupEnd();
 
     return { nodes: graphNodes, edges: graphEdges };
