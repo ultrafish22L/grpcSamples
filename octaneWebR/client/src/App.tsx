@@ -20,12 +20,14 @@ import { ConnectionStatus } from './components/ConnectionStatus';
 import { CallbackRenderViewport } from './components/CallbackRenderViewport';
 import { SceneOutliner } from './components/SceneOutliner';
 import { NodeInspector } from './components/NodeInspector';
+import { NodeInspectorControls } from './components/NodeInspectorControls';
 import { NodeGraphEditor } from './components/NodeGraphEditor';
 import { SceneNode } from './services/OctaneClient';
 
 function AppContent() {
   const { connect, connected } = useOctane();
   const [selectedNode, setSelectedNode] = useState<SceneNode | null>(null);
+  const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
   const { panelSizes, handleSplitterMouseDown, containerRef, isDragging } = useResizablePanels();
 
   useEffect(() => {
@@ -78,7 +80,10 @@ function AppContent() {
             <h3>Scene outliner</h3>
           </div>
           <div className="panel-content">
-            <SceneOutliner onNodeSelect={setSelectedNode} />
+            <SceneOutliner 
+              onNodeSelect={setSelectedNode}
+              onSceneTreeChange={setSceneTree}
+            />
           </div>
         </aside>
 
@@ -133,7 +138,15 @@ function AppContent() {
             <h3>Node inspector</h3>
           </div>
           <div className="panel-content">
-            <NodeInspector node={selectedNode} />
+            <div className="node-inspector-layout">
+              <NodeInspectorControls 
+                sceneTree={sceneTree}
+                onNodeSelect={setSelectedNode}
+              />
+              <div className="node-inspector-main">
+                <NodeInspector node={selectedNode} />
+              </div>
+            </div>
           </div>
         </aside>
 

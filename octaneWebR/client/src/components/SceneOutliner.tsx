@@ -79,11 +79,12 @@ function SceneTreeItem({ node, depth, onSelect, selectedHandle }: SceneTreeItemP
 
 interface SceneOutlinerProps {
   onNodeSelect?: (node: SceneNode | null) => void;
+  onSceneTreeChange?: (sceneTree: SceneNode[]) => void;
 }
 
 type TabType = 'scene' | 'livedb' | 'localdb';
 
-export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
+export function SceneOutliner({ onNodeSelect, onSceneTreeChange }: SceneOutlinerProps) {
   const { client, connected } = useOctane();
   const [selectedNode, setSelectedNode] = useState<SceneNode | null>(null);
   const [loading, setLoading] = useState(false);
@@ -112,6 +113,7 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
       // Use the new buildSceneTree method that properly recurses
       const tree = await client.buildSceneTree();
       setSceneTree(tree);
+      onSceneTreeChange?.(tree);
       
       console.log(`✅ Loaded ${tree.length} top-level items`);
       
