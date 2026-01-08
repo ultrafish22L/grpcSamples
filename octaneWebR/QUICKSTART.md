@@ -1,12 +1,19 @@
 # octaneWebR Quick Start Guide
 
-## 🚀 Single-Server Mode (NEW!)
+## 🎯 Current Status
 
-The separate server has been eliminated. Everything runs in ONE Vite dev server.
+**OctaneWebR** is a React + TypeScript port of octaneWeb. Most features are working, with Node Graph Editor pins/connections currently being debugged.
+
+**Working**: Scene Outliner, Node Inspector, Parameter Controls, Connection Status  
+**In Progress**: Node Graph Editor (visual issues with pins/connections), Callback Render Viewport
 
 ---
 
-## Step 1: Start the Server
+## 🚀 Quick Start
+
+Everything runs in ONE Vite dev server with embedded gRPC proxy - no separate server needed.
+
+### Step 1: Start the Server
 
 ```bash
 cd /workspace/project/grpcSamples/octaneWebR
@@ -29,14 +36,20 @@ VITE v5.4.21  ready in 148 ms
 ➜  Network: http://172.17.0.3:43929/
 ```
 
+### Step 2: Open the Application
+
+**Browser**: Open **http://localhost:43929** (or the port shown in terminal output)
+
+The application will load with:
+- **Scene Outliner** (left panel) - Shows "Loading scene..." until Octane connects
+- **Node Inspector** (right panel) - Shows properties of selected node
+- **Node Graph Editor** (bottom panel) - Visual node graph (currently debugging pins/connections)
+- **Connection Status** (top right) - Shows "Connected" or "Disconnected"
+
 ---
 
-## Step 2: Open the Application
+### Step 3: Check System Health (Optional)
 
-### Browser
-Open: **http://localhost:43929**
-
-### Check Health Status
 ```bash
 curl http://localhost:43929/api/health | python -m json.tool
 ```
@@ -63,7 +76,7 @@ curl http://localhost:43929/api/health | python -m json.tool
 
 ---
 
-## Step 3: Connect to Octane (Optional)
+## 🎨 Connecting to Octane
 
 ### If Octane is Installed Locally
 
@@ -86,58 +99,49 @@ The application will still start and serve the UI, but API calls will fail grace
 ps aux | grep vite | grep -v grep
 ```
 
-Should show ONE Vite process (not two servers).
+Should show ONE Vite process with embedded gRPC proxy.
 
 ### Test 2: Health Endpoint
 ```bash
 curl http://localhost:43929/api/health
 ```
 
-Should return JSON with server status.
+Should return JSON with server status (`"status": "ok"` or `"unhealthy"`).
 
-### Test 3: gRPC Proxy
-```bash
-curl -X POST http://localhost:43929/api/grpc/ApiProjectManager/rootNodeGraph \
-  -H "Content-Type: application/json" \
-  -d '{}'
-```
+### Test 3: Browser Console
+1. Open browser DevTools (F12)
+2. Check Console tab for:
+   - 📤 API request markers
+   - ✅ API success responses
+   - 🔄 Scene tree conversion logs (Node Graph)
+   - 📌 Pin detection logs (Node Graph)
+   - 🔗 Edge creation logs (Node Graph)
 
-**Without Octane**: Returns connection error (expected)
-```json
-{
-  "error": "14 UNAVAILABLE: No connection established...",
-  "service": "ApiProjectManager",
-  "method": "rootNodeGraph",
-  "code": 14
-}
-```
+### Test 4: Scene Outliner
+- Should show hierarchical tree with nodes like:
+  - 📁 Scene
+  - 🫖 teapot.obj (or your loaded model)
+  - 🎯 Render target
+  - 📷 Camera
+  - 🌍 Environment
 
-**With Octane**: Returns node graph data
-```json
-{
-  "id": { "nodeHandle": 12345 },
-  "name": "Root Node Graph",
-  ...
-}
-```
+### Test 5: Node Inspector
+- Click any node in Scene Outliner
+- Right panel should show:
+  - Node name and type
+  - Expandable parameter groups
+  - Input controls (checkboxes, number inputs, color pickers)
 
 ---
 
-## 🎛️ npm Scripts
+## 🎛️ Available Commands
 
-### Production Scripts (Use These)
 ```bash
-npm run dev      # ✅ Start single Vite server with gRPC proxy
-npm run build    # ✅ Build production bundle
-npm run preview  # ✅ Preview production build
-```
-
-### Legacy Scripts (Don't Use)
-```bash
-npm run dev:legacy     # ❌ Old two-server mode
-npm run server:dev     # ❌ Separate Express server only
-npm run client:dev     # ❌ Separate Vite server only
-npm run build:legacy   # ❌ Old build process
+npm run dev              # Start development server (single-server mode)
+npm run build            # Build production bundle
+npm run preview          # Preview production build
+npm run proto:generate   # Regenerate TypeScript types from .proto files
+tsc --noEmit             # TypeScript type checking only (no build)
 ```
 
 ---
@@ -146,14 +150,32 @@ npm run build:legacy   # ❌ Old build process
 
 After following this guide, you should have:
 
-- [ ] Server running on http://localhost:43929
-- [ ] Health endpoint returning JSON status
-- [ ] gRPC proxy endpoint responding
-- [ ] Single process (not two servers)
-- [ ] Clean log output from one terminal
+- [ ] Server running on http://localhost:43929 (or port shown in terminal)
+- [ ] Browser opens and shows octaneWebR interface
+- [ ] Connection status shows "Connected" (if Octane running) or "Disconnected"
+- [ ] Scene Outliner shows hierarchical tree (if Octane connected with scene loaded)
+- [ ] Node Inspector shows properties when clicking nodes
+- [ ] No TypeScript errors in terminal
+- [ ] Single Vite process running (not two servers)
 
 **If all checked**: ✅ **Setup Complete!**
 
 ---
 
-**See ARCHITECTURE.md and BEFORE_AFTER.md for detailed documentation.**
+## 🐛 Known Issues
+
+### Node Graph Editor Visual Issues
+**Symptom**: Nodes appear in bottom panel but no input/output dots or connection lines  
+**Status**: Currently being debugged (see CODE_REVIEW.md)  
+**Workaround**: Use Scene Outliner and Node Inspector for now
+
+### Callback Render Viewport
+**Status**: Not yet implemented (placeholder shown in center panel)
+
+---
+
+## 📚 Additional Documentation
+
+- **OVERVIEW.md** - Complete project overview and architecture
+- **CODE_REVIEW.md** - Comprehensive code review with issue tracking
+- **REPRO_PROMPT.md** - Context for continuing development in new sessions

@@ -4,16 +4,18 @@ Modern browser-based interface for OTOY Octane Render with direct gRPC connectiv
 
 ## 🎯 Project Overview
 
-**OctaneWebR** is a production-ready web application that provides real-time interaction with OTOY's Octane Render through the LiveLink gRPC API. Built with React 18, TypeScript, and Vite, it delivers a professional rendering workflow with scene management, node inspection, and real-time viewport rendering.
+**OctaneWebR** is a React + TypeScript port of octaneWeb that provides real-time interaction with OTOY's Octane Render through the LiveLink gRPC API. Built with React 18, TypeScript, and Vite, it delivers a professional rendering workflow with scene management, node inspection, and real-time viewport rendering.
+
+**Current Status**: 🔧 **In Development** - Node Graph Editor visual issues being debugged (pins and connections not displaying)
 
 ### Key Features
 
 - ✅ **Direct gRPC Integration**: Embedded Vite plugin proxy - no separate server process needed
 - ✅ **Real-time Scene Management**: Interactive scene outliner with hierarchical tree view
-- ✅ **Node Inspector**: View and edit node properties and attributes
-- ✅ **Live Rendering**: Real-time callback-based viewport with HDR/LDR support
-- ✅ **Node Graph Editor**: Visual node graph with interactive editing
-- ✅ **Material Database Access**: Browse online (Live DB) and local material libraries
+- ✅ **Node Inspector**: View and edit node properties and attributes (parameter controls implemented)
+- ⏳ **Live Rendering**: Real-time callback-based viewport (in progress)
+- 🔧 **Node Graph Editor**: ReactFlow-based visual node graph (pins/connections debugging in progress)
+- ⏳ **Material Database Access**: Browse online (Live DB) and local material libraries (planned)
 - ✅ **Professional UI**: OTOY-branded dark theme with responsive design
 - ✅ **Type Safety**: Full TypeScript support with auto-generated protobuf types
 
@@ -120,25 +122,28 @@ ApiNodeGraph.getOwnedItems() → {list: {handle: "1000001", type: "ApiItemArray"
 
 ## 🎨 UI Components
 
-### Scene Outliner
+### Scene Outliner ✅
 - Hierarchical tree view of Octane scene
 - Expand/collapse nodes all the way to end nodes
 - Node selection for inspection
-- Type icons (Geometry, RenderTarget, etc.) for non-empty pins 
+- Type icons (Geometry, RenderTarget, etc.) with proper styling
 
-### Node Inspector
+### Node Inspector ✅
 - Hierarchical tree view for selected node
-- Attribute viewing and editing
-- number slider/arrows, color picker, checkbox, etc.
+- All 12 parameter types implemented (AT_BOOL, AT_FLOAT, AT_FLOAT2/3/4, AT_INT, AT_STRING, etc.)
+- Proper CSS styling matching octaneWeb GenericNodeRenderer
+- Color picker for AT_FLOAT3 (NT_TEX_RGB)
+- TypeScript type safety maintained
 
-### Node Graph Editor
-- Visual representation of node connections
-- Right-click context menus
-- Node creation and deletion
-- Zoom and pan navigation
+### Node Graph Editor 🔧
+- ReactFlow-based implementation (357 lines, -63% from custom code)
+- Professional drag-and-drop, zoom, pan, minimap features
+- Custom OctaneNode components
+- **Current Issue**: Pins and connection lines not displaying (debugging in progress)
+- Debug logging implemented to track data flow
 
-### Callback Render Viewport
-- Real-time render streaming via callbacks
+### Callback Render Viewport ⏳
+- Real-time render streaming via callbacks (planned)
 - HDR/LDR automatic format detection
 - Canvas-based display with zoom controls
 - Frame counter and performance stats
@@ -190,16 +195,23 @@ Regenerates TypeScript types from .proto files
 
 ### Browser DevTools
 - Check Console for API call logs with 📤 (request) and ✅ (success) markers
+- Node Graph debug logs: 🔄 (scene conversion), 📌 (pins), 🔗 (edges), 🎨 (rendering)
 - Network tab shows HTTP-to-gRPC proxy traffic
 - React DevTools for component inspection
 
 ### Common Issues
 
 #### Connection Failed
-- **Symptom**: "Connection failed" status
+- **Symptom**: "Connection failed" status in top-right indicator
 - **Fix**: Ensure Octane is running with LiveLink enabled (Help → LiveLink)
 - **Fix**: Verify Octane is listening on 127.0.0.1:51022
-- **Fix**: stop and alert human to check if octane crashed
+- **Fix**: Check health endpoint: `curl http://localhost:43929/api/health`
+
+#### Node Graph Pins/Connections Not Showing
+- **Symptom**: Nodes render but no input/output dots or connection lines
+- **Likely Cause**: `nodeInfo.inputs` array not populated during scene tree building
+- **Debug**: Check browser console for "Found 0 pins" messages
+- **Status**: Currently being debugged (see CODE_REVIEW.md)
 
 #### TypeScript Errors
 - **Symptom**: Build fails with type errors
@@ -237,8 +249,20 @@ const name = response.result; // or response.list, etc.
 - **No Authentication**: Inherits Octane LiveLink's security model
 - **CORS**: Configured for local development (update for production)
 
-## 🚧 Known Limitations
+## 🚧 Known Issues & Limitations
 
+### Current Issues
+1. **Node Graph Visual Bugs** (Critical Priority):
+   - Pins (input/output dots) not displaying on nodes
+   - Connection lines missing between nodes
+   - Root cause: `nodeInfo.inputs` array likely not populated during scene building
+   - Status: Debug logging implemented, investigating API layer
+
+2. **Callback Render Viewport**: Not yet implemented (planned)
+
+3. **Material Database**: Not yet implemented (planned)
+
+### General Limitations
 1. **Browser-Only**: No native desktop app packaging (yet)
 2. **Single Client**: One browser connection per Octane instance
 3. **Callback Streaming**: Requires active connection (no offline mode)
@@ -246,15 +270,18 @@ const name = response.result; // or response.list, etc.
 ## 📚 Related Documentation
 
 - **QUICKSTART.md** - Step-by-step setup and run instructions
+- **CODE_REVIEW.md** - Comprehensive code review with issue tracking
+- **REPRO_PROMPT.md** - Context for continuing development in new sessions
 
 ## 🤝 Contributing
 
 When making changes:
 
-1. **Run TypeScript checks**: `npm run check`
-2. **Update documentation**: Keep these .md files current
+1. **Run TypeScript checks**: `tsc --noEmit` or `npm run build`
+2. **Update documentation**: Keep OVERVIEW.md, QUICKSTART.md, CODE_REVIEW.md, REPRO_PROMPT.md current
 3. **Test with real Octane**: Never use mock data
 4. **Follow patterns**: Check existing components for style
+5. **Debug logging**: Use 📤 ✅ 🔄 📌 🔗 🎨 emoji markers for console logs
 
 ## 📄 License
 
@@ -262,6 +289,6 @@ Part of the grpcSamples repository - refer to parent repository for licensing.
 
 ---
 
-**Status**: ✅ Production Ready  
-**Version**: 1.0.0  
-**Last Updated**: 2025-01-19
+**Status**: 🔧 **In Development** - Node Graph Editor debugging in progress  
+**Version**: 0.9.0 (approaching 1.0)  
+**Last Updated**: 2025-01-20
