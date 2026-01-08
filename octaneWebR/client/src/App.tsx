@@ -30,6 +30,21 @@ function AppContent() {
   const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
   const { panelSizes, handleSplitterMouseDown, containerRef, isDragging } = useResizablePanels();
 
+  // Debug logging for sceneTree changes
+  useEffect(() => {
+    console.log('🌳 App.tsx: sceneTree state updated!');
+    console.log('🌳 sceneTree.length =', sceneTree.length);
+    console.log('🌳 sceneTree contents:', sceneTree);
+  }, [sceneTree]);
+
+  const handleSceneTreeChange = (tree: SceneNode[]) => {
+    console.log('📥 App.tsx: handleSceneTreeChange called with tree:', tree);
+    console.log('📥 tree.length =', tree.length);
+    console.log('📥 Calling setSceneTree...');
+    setSceneTree(tree);
+    console.log('📥 setSceneTree called successfully');
+  };
+
   useEffect(() => {
     // Auto-connect on mount
     console.log('🚀 OctaneWebR starting...');
@@ -82,7 +97,7 @@ function AppContent() {
           <div className="panel-content">
             <SceneOutliner 
               onNodeSelect={setSelectedNode}
-              onSceneTreeChange={setSceneTree}
+              onSceneTreeChange={handleSceneTreeChange}
             />
           </div>
         </aside>

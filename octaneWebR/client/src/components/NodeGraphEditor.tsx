@@ -58,6 +58,13 @@ export function NodeGraphEditor({ sceneTree }: NodeGraphEditorProps) {
   const [viewport, setViewport] = useState({ x: 0, y: 0, zoom: 1 });
   const [selectedNodeIds, setSelectedNodeIds] = useState<Set<number>>(new Set());
   
+  // Debug logging for nodes state changes
+  useEffect(() => {
+    console.log('💥 NodeGraphEditor: nodes state changed!');
+    console.log('💥 nodes.length =', nodes.length);
+    console.log('💥 nodes =', nodes);
+  }, [nodes]);
+  
   // Dragging state
   const [isDraggingCanvas, setIsDraggingCanvas] = useState(false);
   const [isDraggingNode, setIsDraggingNode] = useState(false);
@@ -75,18 +82,26 @@ export function NodeGraphEditor({ sceneTree }: NodeGraphEditorProps) {
   const svgRef = useRef<SVGSVGElement>(null);
 
   const loadSceneGraph = useCallback(async () => {
-    console.log('🔍 NodeGraphEditor: loadSceneGraph called with sceneTree:', sceneTree);
-    console.log('🔍 NodeGraphEditor: sceneTree.length =', sceneTree?.length);
+    console.log('='.repeat(80));
+    console.log('🔍 NodeGraphEditor.loadSceneGraph() CALLED');
+    console.log('🔍 sceneTree prop:', sceneTree);
+    console.log('🔍 sceneTree type:', typeof sceneTree);
+    console.log('🔍 sceneTree is array?', Array.isArray(sceneTree));
+    console.log('🔍 sceneTree?.length =', sceneTree?.length);
+    console.log('🔍 sceneTree contents:', JSON.stringify(sceneTree, null, 2));
+    console.log('='.repeat(80));
     
     try {
       if (!sceneTree || sceneTree.length === 0) {
         console.log('❌ NodeGraphEditor: No scene nodes to display in graph (tree empty or undefined)');
+        console.log('❌ Reason: sceneTree =', sceneTree, ', length =', sceneTree?.length);
         setNodes([]);
         setConnections([]);
         return;
       }
 
       console.log('✅ NodeGraphEditor: Processing', sceneTree.length, 'root nodes');
+      console.log('✅ First root node:', sceneTree[0]);
 
       // Layout nodes horizontally
       const nodeSpacing = 220;
@@ -101,35 +116,35 @@ export function NodeGraphEditor({ sceneTree }: NodeGraphEditorProps) {
         console.log(`🔍 collectNodes: Processing ${items.length} items at level ${level}`);
         items.forEach((item, index) => {
           console.log(`🔍 collectNodes: Item ${index}:`, item);
-          console.log(`🔍 collectNodes: Item handle = ${item.handle}, type = ${typeof item.handle}`);
+          console.log(`🔍 collectNodes: Item handle = ${item.handle}, type = ${typeof item.handle}, name = ${item.name}`);
           
-          // Skip items without a handle
-          if (typeof item.handle !== 'number') {
-            console.log(`⚠️ collectNodes: Skipping item ${index} - handle is not a number`);
-            return;
-          }
-          
-          if (!nodeMap.has(item.handle)) {
-            const node: GraphNode = {
-              id: item.handle,
-              data: item,
-              x: 100 + nodeMap.size * nodeSpacing,
-              y: yCenter + level * 150,
-              width: 180,
-              height: 80
-            };
-            nodeMap.set(item.handle, node);
-            console.log(`✅ collectNodes: Added node ${item.handle} (${item.name}) to nodeMap`);
+          // Add node to map if it has a valid handle
+          if (typeof item.handle === 'number') {
+            if (!nodeMap.has(item.handle)) {
+              const node: GraphNode = {
+                id: item.handle,
+                data: item,
+                x: 100 + nodeMap.size * nodeSpacing,
+                y: yCenter + level * 150,
+                width: 180,
+                height: 80
+              };
+              nodeMap.set(item.handle, node);
+              console.log(`✅ collectNodes: Added node ${item.handle} (${item.name}) to nodeMap`);
+            } else {
+              console.log(`⚠️ collectNodes: Node ${item.handle} already in map, skipping`);
+            }
           } else {
-            console.log(`⚠️ collectNodes: Node ${item.handle} already in map, skipping`);
+            console.log(`⚠️ collectNodes: Item ${index} (${item.name}) has no valid handle - will process children only`);
           }
           
-          // Recursively collect children
+          // Always recursively collect children (even if this item has no handle)
+          // This handles synthetic root nodes like "Scene" that don't have handles
           if (item.children && item.children.length > 0) {
-            console.log(`🔍 collectNodes: Item ${item.handle} has ${item.children.length} children, recursing`);
+            console.log(`🔍 collectNodes: Item "${item.name}" has ${item.children.length} children, recursing`);
             collectNodes(item.children, level + 1);
           } else {
-            console.log(`🔍 collectNodes: Item ${item.handle} has no children`);
+            console.log(`🔍 collectNodes: Item "${item.name}" has no children`);
           }
         });
       };
@@ -169,14 +184,24 @@ export function NodeGraphEditor({ sceneTree }: NodeGraphEditorProps) {
       });
 
       const graphNodes = Array.from(nodeMap.values());
-      console.log('🔍 Final graphNodes array:', graphNodes);
-      console.log('🔍 Final graphConnections array:', graphConnections);
+      console.log('='.repeat(80));
+      console.log('🎉 FINAL RESULTS:');
+      console.log(`🎉 graphNodes.length = ${graphNodes.length}`);
+      console.log(`🎉 graphConnections.length = ${graphConnections.length}`);
+      console.log('🎉 graphNodes:', graphNodes);
+      console.log('🎉 graphConnections:', graphConnections);
+      console.log('='.repeat(80));
       
-      console.log(`✅ Setting ${graphNodes.length} nodes and ${graphConnections.length} connections to state`);
-      setNodes(graphNodes);
-      setConnections(graphConnections);
-      
-      console.log(`✅ Loaded ${graphNodes.length} nodes with ${graphConnections.length} connections`);
+      if (graphNodes.length > 0) {
+        console.log(`✅ SUCCESS! Setting ${graphNodes.length} nodes and ${graphConnections.length} connections to state`);
+        setNodes(graphNodes);
+        setConnections(graphConnections);
+        console.log(`✅ Loaded ${graphNodes.length} nodes with ${graphConnections.length} connections`);
+      } else {
+        console.log('❌ PROBLEM: No nodes were collected! Check debug logs above.');
+        setNodes([]);
+        setConnections([]);
+      }
     } catch (error) {
       console.error('Failed to load scene graph:', error);
     }
@@ -184,18 +209,28 @@ export function NodeGraphEditor({ sceneTree }: NodeGraphEditorProps) {
 
   // Load scene graph when sceneTree prop changes
   useEffect(() => {
-    console.log('🔄 NodeGraphEditor: useEffect triggered - sceneTree changed');
-    console.log('🔄 NodeGraphEditor: connected =', connected);
-    console.log('🔄 NodeGraphEditor: sceneTree length =', sceneTree?.length);
+    console.log('🔄'.repeat(40));
+    console.log('🔄 NodeGraphEditor.useEffect() TRIGGERED');
+    console.log('🔄 connected =', connected);
+    console.log('🔄 sceneTree =', sceneTree);
+    console.log('🔄 sceneTree?.length =', sceneTree?.length);
+    console.log('🔄 sceneTree is array?', Array.isArray(sceneTree));
+    console.log('🔄 Condition check: connected && sceneTree && sceneTree.length > 0 =', 
+      connected && sceneTree && sceneTree.length > 0);
     
     if (connected && sceneTree && sceneTree.length > 0) {
-      console.log('✅ NodeGraphEditor: Calling loadSceneGraph');
+      console.log('✅ NodeGraphEditor: WILL CALL loadSceneGraph()');
       loadSceneGraph();
     } else {
-      console.log('⚠️ NodeGraphEditor: Clearing nodes (not connected or no sceneTree)');
+      console.log('⚠️ NodeGraphEditor: SKIPPING loadSceneGraph - reasons:');
+      console.log('   - connected:', connected);
+      console.log('   - sceneTree exists:', !!sceneTree);
+      console.log('   - sceneTree.length:', sceneTree?.length);
+      console.log('⚠️ Clearing nodes');
       setNodes([]);
       setConnections([]);
     }
+    console.log('🔄'.repeat(40));
   }, [connected, sceneTree, loadSceneGraph]);
 
   // Convert screen coordinates to SVG coordinates accounting for viewport transform
@@ -679,7 +714,23 @@ export function NodeGraphEditor({ sceneTree }: NodeGraphEditorProps) {
     return (
       <div className="node-graph-empty">
         <p>No scene nodes available</p>
-        <button onClick={loadSceneGraph} className="reload-btn">
+        <div style={{ marginTop: '20px', padding: '10px', background: '#2a2a2a', borderRadius: '4px', fontSize: '12px', fontFamily: 'monospace', textAlign: 'left' }}>
+          <div><strong>DEBUG INFO:</strong></div>
+          <div>• connected: {String(connected)}</div>
+          <div>• sceneTree: {sceneTree ? 'exists' : 'null/undefined'}</div>
+          <div>• sceneTree.length: {sceneTree?.length ?? 'N/A'}</div>
+          <div>• sceneTree is array: {String(Array.isArray(sceneTree))}</div>
+          <div>• nodes.length: {nodes.length}</div>
+          <div style={{ marginTop: '8px' }}>
+            <strong>SceneTree Preview:</strong><br/>
+            {sceneTree ? (
+              <pre style={{ fontSize: '10px', maxHeight: '200px', overflow: 'auto' }}>
+                {JSON.stringify(sceneTree.slice(0, 2), null, 2).substring(0, 500)}...
+              </pre>
+            ) : 'No data'}
+          </div>
+        </div>
+        <button onClick={loadSceneGraph} className="reload-btn" style={{ marginTop: '20px' }}>
           🔄 Reload Scene Graph
         </button>
       </div>
