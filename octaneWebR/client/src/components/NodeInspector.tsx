@@ -191,13 +191,31 @@ function NodeParameter({
         const floatValue = typeof value === 'number' ? value : 0;
         controlHtml = (
           <div className="parameter-control-container">
-            <input 
-              type="number" 
-              className="octane-number-input parameter-control" 
-              value={floatValue || 0}
-              step="0.001"
-              onChange={(e) => handleValueChange(parseFloat(e.target.value))}
-            />
+            <div className="parameter-number-with-spinner">
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={floatValue || 0}
+                step="0.001"
+                onChange={(e) => handleValueChange(parseFloat(e.target.value))}
+              />
+              <div className="parameter-spinner-container">
+                <button 
+                  className="parameter-spinner-btn"
+                  onClick={() => handleValueChange((floatValue || 0) + 0.1)}
+                  title="Increase value"
+                >
+                  ▲
+                </button>
+                <button 
+                  className="parameter-spinner-btn"
+                  onClick={() => handleValueChange((floatValue || 0) - 0.1)}
+                  title="Decrease value"
+                >
+                  ▼
+                </button>
+              </div>
+            </div>
           </div>
         );
         break;
@@ -395,28 +413,64 @@ function NodeParameter({
         // Check if this is an enum (NT_ENUM) - render dropdown
         if (node.nodeInfo?.type === 'NT_ENUM') {
           // TODO: Fetch enum options and render dropdown
-          // For now, render as number input
+          // For now, render as number input with spinners
           controlHtml = (
             <div className="parameter-control-container">
-              <input 
-                type="number" 
-                className="octane-number-input parameter-control" 
-                value={intValue || 0}
-                step="1"
-                onChange={(e) => handleValueChange(parseInt(e.target.value))}
-              />
+              <div className="parameter-number-with-spinner">
+                <input 
+                  type="number" 
+                  className="octane-number-input parameter-control" 
+                  value={intValue || 0}
+                  step="1"
+                  onChange={(e) => handleValueChange(parseInt(e.target.value))}
+                />
+                <div className="parameter-spinner-container">
+                  <button 
+                    className="parameter-spinner-btn"
+                    onClick={() => handleValueChange((intValue || 0) + 1)}
+                    title="Increase value"
+                  >
+                    ▲
+                  </button>
+                  <button 
+                    className="parameter-spinner-btn"
+                    onClick={() => handleValueChange((intValue || 0) - 1)}
+                    title="Decrease value"
+                  >
+                    ▼
+                  </button>
+                </div>
+              </div>
             </div>
           );
         } else {
           controlHtml = (
             <div className="parameter-control-container">
-              <input 
-                type="number" 
-                className="octane-number-input parameter-control" 
-                value={intValue || 0}
-                step="1"
-                onChange={(e) => handleValueChange(parseInt(e.target.value))}
-              />
+              <div className="parameter-number-with-spinner">
+                <input 
+                  type="number" 
+                  className="octane-number-input parameter-control" 
+                  value={intValue || 0}
+                  step="1"
+                  onChange={(e) => handleValueChange(parseInt(e.target.value))}
+                />
+                <div className="parameter-spinner-container">
+                  <button 
+                    className="parameter-spinner-btn"
+                    onClick={() => handleValueChange((intValue || 0) + 1)}
+                    title="Increase value"
+                  >
+                    ▲
+                  </button>
+                  <button 
+                    className="parameter-spinner-btn"
+                    onClick={() => handleValueChange((intValue || 0) - 1)}
+                    title="Decrease value"
+                  >
+                    ▼
+                  </button>
+                </div>
+              </div>
             </div>
           );
         }
@@ -523,13 +577,31 @@ function NodeParameter({
         const longValue = typeof value === 'number' ? value : 0;
         controlHtml = (
           <div className="parameter-control-container">
-            <input 
-              type="number" 
-              className="octane-number-input parameter-control" 
-              value={longValue || 0}
-              step="1"
-              onChange={(e) => handleValueChange(parseInt(e.target.value))}
-            />
+            <div className="parameter-number-with-spinner">
+              <input 
+                type="number" 
+                className="octane-number-input parameter-control" 
+                value={longValue || 0}
+                step="1"
+                onChange={(e) => handleValueChange(parseInt(e.target.value))}
+              />
+              <div className="parameter-spinner-container">
+                <button 
+                  className="parameter-spinner-btn"
+                  onClick={() => handleValueChange((longValue || 0) + 1)}
+                  title="Increase value"
+                >
+                  ▲
+                </button>
+                <button 
+                  className="parameter-spinner-btn"
+                  onClick={() => handleValueChange((longValue || 0) - 1)}
+                  title="Decrease value"
+                >
+                  ▼
+                </button>
+              </div>
+            </div>
           </div>
         );
         break;
