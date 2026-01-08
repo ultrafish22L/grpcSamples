@@ -59,19 +59,17 @@ function ParameterGroup({
   );
 }
 
-// Track hasGroup at each level (matching GenericNodeRenderer grouping logic)
-// This will be used in future updates to match octaneWeb's group nesting behavior
-const hasGroupAtLevel: boolean[] = [];
-
 // Node parameter item component
 function NodeParameter({ 
   node, 
   level, 
-  onToggle 
+  onToggle,
+  insideGroup = false
 }: { 
   node: SceneNode; 
   level: number; 
   onToggle: (nodeId: string) => void;
+  insideGroup?: boolean;
 }) {
   const { client } = useOctane();
   const [paramValue, setParamValue] = useState<ParameterValue | null>(null);
@@ -182,7 +180,7 @@ function NodeParameter({
               className="octane-checkbox parameter-control" 
               checked={boolValue}
               onChange={(e) => handleValueChange(e.target.checked)}
-              style={{ background: '#2b2b2b' }}
+              id={`checkbox-${node.handle}`}
             />
           </div>
         );
@@ -599,9 +597,10 @@ function NodeParameter({
   };
 
   // Determine the indent class (matching GenericNodeRenderer logic)
-  // Future: use node.pinInfo?.groupName for advanced group nesting like octaneWeb
+  // When insideGroup is true, use node-indent-done (1px margin) instead of node-indent (20px margin)
+  // This ensures items inside groups align with items outside groups (group has 20px + item has 1px = 21px total)
   const indentClass = level === 0 ? 'node-indent-0' : 
-                     hasGroupAtLevel[level] ? 'node-indent-done' : 
+                     insideGroup ? 'node-indent-done' : 
                      'node-indent';
 
   // Determine collapse/expand icon
@@ -635,6 +634,7 @@ function NodeParameter({
                 node={child}
                 level={level + 1}
                 onToggle={onToggle}
+                insideGroup={insideGroup}
               />
             ))}
           </div>
@@ -673,6 +673,7 @@ function NodeParameter({
                       node={child}
                       level={level + 1}
                       onToggle={onToggle}
+                      insideGroup={true}
                     />
                   ))}
                 </ParameterGroup>
@@ -686,6 +687,7 @@ function NodeParameter({
                       node={child}
                       level={level + 1}
                       onToggle={onToggle}
+                      insideGroup={insideGroup}
                     />
                   ))}
                 </React.Fragment>
