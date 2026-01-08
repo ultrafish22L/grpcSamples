@@ -21,8 +21,9 @@ import { CallbackRenderViewport } from './components/CallbackRenderViewport';
 import { SceneOutliner } from './components/SceneOutliner';
 import { NodeInspector } from './components/NodeInspector';
 import { NodeInspectorControls } from './components/NodeInspectorControls';
-import { NodeGraphEditor } from './components/NodeGraphEditor';
+import { NodeGraphEditor } from './components/NodeGraph';
 import { SceneNode } from './services/OctaneClient';
+import { Logger } from './utils/Logger';
 
 function AppContent() {
   const { connect, connected } = useOctane();
@@ -30,19 +31,10 @@ function AppContent() {
   const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
   const { panelSizes, handleSplitterMouseDown, containerRef, isDragging } = useResizablePanels();
 
-  // Debug logging for sceneTree changes
-  useEffect(() => {
-    console.log('🌳 App.tsx: sceneTree state updated!');
-    console.log('🌳 sceneTree.length =', sceneTree.length);
-    console.log('🌳 sceneTree contents:', sceneTree);
-  }, [sceneTree]);
-
+  // Scene tree change handler
   const handleSceneTreeChange = (tree: SceneNode[]) => {
-    console.log('📥 App.tsx: handleSceneTreeChange called with tree:', tree);
-    console.log('📥 tree.length =', tree.length);
-    console.log('📥 Calling setSceneTree...');
+    Logger.debug('Scene tree updated:', tree.length, 'nodes');
     setSceneTree(tree);
-    console.log('📥 setSceneTree called successfully');
   };
 
   useEffect(() => {
