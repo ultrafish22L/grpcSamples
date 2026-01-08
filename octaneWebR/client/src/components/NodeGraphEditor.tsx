@@ -75,14 +75,25 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
   const svgRef = useRef<SVGSVGElement>(null);
 
   const loadSceneGraph = useCallback(async () => {
+    console.log('🔍 NodeGraphEditor: loadSceneGraph called');
+    console.log('🔍 NodeGraphEditor: connected =', connected);
+    console.log('🔍 NodeGraphEditor: client =', client);
+    
     try {
       // Use existing scene data from client (don't call buildSceneTree again)
-      const sceneTree = client.getScene().tree;
+      const scene = client.getScene();
+      console.log('🔍 NodeGraphEditor: Full scene object =', scene);
       
-      if (sceneTree.length === 0) {
-        console.log('No scene nodes to display in graph');
+      const sceneTree = scene.tree;
+      console.log('🔍 NodeGraphEditor: sceneTree =', sceneTree);
+      console.log('🔍 NodeGraphEditor: sceneTree.length =', sceneTree?.length);
+      
+      if (!sceneTree || sceneTree.length === 0) {
+        console.log('❌ NodeGraphEditor: No scene nodes to display in graph (tree empty or undefined)');
         return;
       }
+
+      console.log('✅ NodeGraphEditor: Processing', sceneTree.length, 'root nodes');
 
       // Layout nodes horizontally
       const nodeSpacing = 220;
@@ -94,9 +105,14 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
 
       // First pass: collect all unique nodes
       const collectNodes = (items: SceneNode[], level: number = 0) => {
-        items.forEach((item) => {
+        console.log(`🔍 collectNodes: Processing ${items.length} items at level ${level}`);
+        items.forEach((item, index) => {
+          console.log(`🔍 collectNodes: Item ${index}:`, item);
+          console.log(`🔍 collectNodes: Item handle = ${item.handle}, type = ${typeof item.handle}`);
+          
           // Skip items without a handle
           if (typeof item.handle !== 'number') {
+            console.log(`⚠️ collectNodes: Skipping item ${index} - handle is not a number`);
             return;
           }
           
@@ -110,16 +126,24 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
               height: 80
             };
             nodeMap.set(item.handle, node);
+            console.log(`✅ collectNodes: Added node ${item.handle} (${item.name}) to nodeMap`);
+          } else {
+            console.log(`⚠️ collectNodes: Node ${item.handle} already in map, skipping`);
           }
           
           // Recursively collect children
           if (item.children && item.children.length > 0) {
+            console.log(`🔍 collectNodes: Item ${item.handle} has ${item.children.length} children, recursing`);
             collectNodes(item.children, level + 1);
+          } else {
+            console.log(`🔍 collectNodes: Item ${item.handle} has no children`);
           }
         });
       };
 
+      console.log('🔍 Starting collectNodes with sceneTree:', sceneTree);
       collectNodes(sceneTree);
+      console.log(`🔍 After collectNodes: nodeMap has ${nodeMap.size} nodes`);
 
       // Second pass: create connections from parents to children
       sceneTree.forEach((item) => {
@@ -152,6 +176,10 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
       });
 
       const graphNodes = Array.from(nodeMap.values());
+      console.log('🔍 Final graphNodes array:', graphNodes);
+      console.log('🔍 Final graphConnections array:', graphConnections);
+      
+      console.log(`✅ Setting ${graphNodes.length} nodes and ${graphConnections.length} connections to state`);
       setNodes(graphNodes);
       setConnections(graphConnections);
       
@@ -163,22 +191,38 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
 
   // Listen to scene tree updates from OctaneClient (don't load independently)
   useEffect(() => {
-    if (!connected || !client) return;
+    console.log('🔄 NodeGraphEditor: useEffect triggered');
+    console.log('🔄 NodeGraphEditor: connected =', connected);
+    console.log('🔄 NodeGraphEditor: client =', client);
+    
+    if (!connected || !client) {
+      console.log('⚠️ NodeGraphEditor: Skipping - not connected or no client');
+      return;
+    }
+    
+    console.log('✅ NodeGraphEditor: Setting up event listener');
     
     const handleSceneUpdate = (_scene: any) => {
-      console.log('📊 NodeGraphEditor: Scene updated, rendering graph');
+      console.log('📊 NodeGraphEditor: Scene updated event received, rendering graph');
       loadSceneGraph();
     };
     
     client.on('sceneTreeUpdated', handleSceneUpdate);
     
     // Load existing scene if available
-    if (client.getScene().tree.length > 0) {
-      console.log('📊 NodeGraphEditor: Loading existing scene on mount');
+    const currentScene = client.getScene();
+    console.log('🔄 NodeGraphEditor: Current scene on mount =', currentScene);
+    console.log('🔄 NodeGraphEditor: Current scene tree length =', currentScene?.tree?.length);
+    
+    if (currentScene?.tree && currentScene.tree.length > 0) {
+      console.log('📊 NodeGraphEditor: Loading existing scene on mount (tree has', currentScene.tree.length, 'nodes)');
       loadSceneGraph();
+    } else {
+      console.log('⚠️ NodeGraphEditor: No existing scene to load on mount');
     }
     
     return () => {
+      console.log('🧹 NodeGraphEditor: Cleaning up event listener');
       client.off('sceneTreeUpdated', handleSceneUpdate);
     };
   }, [connected, client, loadSceneGraph]);
@@ -646,7 +690,12 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
               ${toSocket.x} ${toSocket.y}`;
   };
 
+  console.log('🎨 NodeGraphEditor: Rendering - connected =', connected);
+  console.log('🎨 NodeGraphEditor: Rendering - nodes.length =', nodes.length);
+  console.log('🎨 NodeGraphEditor: Rendering - nodes =', nodes);
+
   if (!connected) {
+    console.log('🎨 NodeGraphEditor: Showing "not connected" message');
     return (
       <div className="node-graph-empty">
         <p>Connect to Octane to view node graph</p>
@@ -655,6 +704,7 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
   }
 
   if (nodes.length === 0) {
+    console.log('🎨 NodeGraphEditor: Showing "no scene nodes" message');
     return (
       <div className="node-graph-empty">
         <p>No scene nodes available</p>
@@ -664,6 +714,8 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
       </div>
     );
   }
+
+  console.log('🎨 NodeGraphEditor: Rendering graph with', nodes.length, 'nodes');
 
   const getCursor = () => {
     if (isDraggingCanvas) return 'grabbing';
