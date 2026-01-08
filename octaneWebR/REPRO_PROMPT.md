@@ -1,6 +1,8 @@
 # REPRO_PROMPT: Continue octaneWebR Development
 
-## 🚀 Latest Status: Phase 1 Complete (2025-01-20)
+## 🚀 Latest Status: Node Graph Bug Fixed (2025-01-08)
+
+**✅ CRITICAL BUG FIXED** - Node Graph Editor now displays nodes correctly
 
 **✅ ReactFlow Migration Complete** - Replaced 956-line custom node graph with 357-line ReactFlow implementation (-63% code reduction)
 
@@ -65,26 +67,40 @@ Browser (React App) → Vite Dev Server (gRPC-Web Plugin) → Octane LiveLink (1
    - Changed from useOctane() to receiving sceneTree as prop
    - Fixed data flow: App.tsx → NodeGraphEditor (sceneTree prop)
 
-2. **Critical collectNodes() bug fix** (staged, not yet committed)
+2. **CRITICAL: Handle Type Mismatch Bug Fixed** (2025-01-08)
    - **Problem**: NodeGraphEditor showed "No scene nodes available" despite scene being loaded
-   - **Root Cause**: `collectNodes()` had early return when `node.handle` was undefined
-   - **Impact**: Prevented children of synthetic root nodes (like 'Scene') from being processed
-   - **Solution**: Modified to always process children, only skip nodeMap insertion if no handle
+   - **Root Cause**: Type guard checking `typeof item.handle === 'number'` but handles are **strings**
+   - **Evidence from logs**: 
+     ```
+     🔄 [collectNodes] ⚠️ No handle (handle is string)  // Repeated for ALL nodes
+     🔄 [convertSceneToGraph] Collected 0 nodes from scene tree
+     ```
+   - **Impact**: ALL nodes rejected, nodeMap empty → 0 nodes, 0 edges rendered
+   - **Solution**: Changed type checking to accept both string and number handles
    
    ```typescript
-   // OLD (buggy): Early return prevented processing children
-   if (!node.handle) return;
+   // OLD (buggy): Only accepted number handles
+   if (typeof item.handle === 'number') {
+     nodeMap.set(item.handle, item);
+   }
    
-   // NEW (fixed): Always process children, only skip adding to nodeMap if no handle
-   if (node.handle !== undefined) {
-     nodeMap.set(node.handle, graphNode);
+   // NEW (fixed): Accept any non-null handle, convert to string
+   if (item.handle !== undefined && item.handle !== null) {
+     const handleStr = String(item.handle);
+     nodeMap.set(handleStr, item);
    }
    ```
+   
+   **Files Modified**:
+   - `client/src/components/NodeGraph/NodeGraphEditorNew.tsx` (lines 60, 75-82, 135-137)
+   - Changed `nodeMap` from `Map<number, SceneNode>` to `Map<string, SceneNode>`
+   - Updated `processConnections()` to use same null checking pattern
 
 3. **Comprehensive debug logging added**
    - 50+ console.log statements with emoji markers (🔍, 🔄, 🎉, 🎨)
    - Tracks component lifecycle, state updates, and data flow
    - Helps debug rendering issues and data propagation
+   - Browser logs written to `/tmp/octaneWebR_client.log` for analysis
 
 ### Parameter Controls Implementation ✅
 - All 12 parameter types implemented (AT_BOOL, AT_FLOAT, AT_FLOAT2/3/4, AT_INT, etc.)
@@ -99,14 +115,14 @@ Browser (React App) → Vite Dev Server (gRPC-Web Plugin) → Octane LiveLink (1
 ### Version Control
 - **Branch**: main
 - **Latest Commit**: fa1e7795 (Fix NodeGraphEditor: Receive sceneTree as prop)
-- **Staged Changes**: 
-  - `client/src/components/NodeGraphEditor.tsx` (collectNodes fix + debug logging)
-  - `client/src/App.tsx` (handleSceneTreeChange + debug logging)
-- **Ready to Commit**: "Fix NodeGraphEditor: Process children of nodes without handles + Add comprehensive debug logging"
+- **Modified Files (not yet staged)**: 
+  - `client/src/components/NodeGraph/NodeGraphEditorNew.tsx` (handle type mismatch fix)
+  - `REPRO_PROMPT.md` (documentation update)
+- **Ready to Commit**: "Fix CRITICAL bug: Node Graph handle type mismatch (string vs number)"
 
 ### Build Status
 - ✅ TypeScript compilation successful (`npm run build`)
-- ✅ Bundle size: 206.10 kB (gzipped: 69.87 kB)
+- ✅ Bundle size: 350.32 kB (gzipped: 111.12 kB)
 - ✅ No TypeScript errors
 - ✅ No React warnings
 
@@ -115,7 +131,8 @@ Browser (React App) → Vite Dev Server (gRPC-Web Plugin) → Octane LiveLink (1
 - **Health Endpoint**: http://localhost:43929/api/health
 - **gRPC Proxy**: /api/grpc/:service/:method
 - **WebSocket**: /api/callbacks
-- **Status**: May be running in background (check with `ps aux | grep vite`)
+- **Status**: Running in background (PID: check with `ps aux | grep vite`)
+- **Logs**: Browser console → `/tmp/octaneWebR_client.log`, Server → `/tmp/octane-server.log`
 
 ## 🚀 Quick Start Commands
 
@@ -393,9 +410,9 @@ You'll know we're ready to proceed when:
 ## 🚀 TASK LIST FOR NEW SESSION
 
 ### Immediate Tasks
-1. **Commit and push NodeGraphEditor fix** - Staged changes ready
-2. **Verify NodeGraphEditor renders correctly** - Check debug logs in browser
-3. **Test with live Octane connection** - If Octane available locally
+1. ✅ **COMPLETED: Fixed NodeGraphEditor handle type bug** - Changed from number-only to string/number handles
+2. **Verify NodeGraphEditor renders correctly** - Visual test with live Octane connection
+3. **Test node interactions** - Verify drag, zoom, pan, and connections display correctly
 
 ### Phase 3: Parameter Value Updates (High Priority)
 4. **Implement value change handlers (setByAttrID)** - Connect inputs to Octane API

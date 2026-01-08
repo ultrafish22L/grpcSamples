@@ -33,9 +33,19 @@ function AppContent() {
 
   // Scene tree change handler
   const handleSceneTreeChange = (tree: SceneNode[]) => {
+    console.log('🌲 [App.tsx] handleSceneTreeChange called with tree:', tree);
+    console.log('🌲 [App.tsx] Tree length:', tree?.length || 0);
+    console.log('🌲 [App.tsx] First node:', tree?.[0]);
     Logger.debug('Scene tree updated:', tree.length, 'nodes');
     setSceneTree(tree);
+    console.log('🌲 [App.tsx] setSceneTree() called - state should update now');
   };
+
+  // Monitor sceneTree state changes
+  useEffect(() => {
+    console.log('🌲 [App.tsx] sceneTree state changed! New value:', sceneTree);
+    console.log('🌲 [App.tsx] sceneTree length:', sceneTree?.length || 0);
+  }, [sceneTree]);
 
   useEffect(() => {
     // Auto-connect on mount

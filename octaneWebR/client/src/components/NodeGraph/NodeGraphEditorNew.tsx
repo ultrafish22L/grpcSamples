@@ -53,18 +53,34 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
    * Convert scene tree to ReactFlow nodes and edges
    */
   const convertSceneToGraph = useCallback((tree: SceneNode[]) => {
+    console.log('🔄 [convertSceneToGraph] Starting conversion...');
+    console.log('🔄 [convertSceneToGraph] Input tree:', tree);
     Logger.group('🔄 Converting scene tree to ReactFlow graph', true);
     
-    const nodeMap = new Map<number, SceneNode>();
+    const nodeMap = new Map<string, SceneNode>();
     const graphNodes: Node<OctaneNodeData>[] = [];
     const graphEdges: Edge[] = [];
 
     // First pass: collect all nodes with handles
     const collectNodes = (items: SceneNode[], level: number = 0) => {
-      items.forEach((item) => {
-        if (typeof item.handle === 'number') {
-          nodeMap.set(item.handle, item);
+      console.log(`🔄 [collectNodes] Level ${level}, processing ${items.length} items`);
+      items.forEach((item, index) => {
+        console.log(`🔄 [collectNodes]   Item ${index}:`, {
+          name: item.name,
+          handle: item.handle,
+          hasChildren: !!item.children?.length,
+          childCount: item.children?.length || 0
+        });
+        
+        // Handle can be string or number - convert to string for consistency
+        if (item.handle !== undefined && item.handle !== null) {
+          const handleStr = String(item.handle);
+          console.log(`🔄 [collectNodes]     ✅ Adding node with handle ${handleStr} (type: ${typeof item.handle})`);
+          nodeMap.set(handleStr, item);
+        } else {
+          console.log(`🔄 [collectNodes]     ⚠️ No handle (handle is ${item.handle})`);
         }
+        
         if (item.children && item.children.length > 0) {
           collectNodes(item.children, level + 1);
         }
@@ -72,6 +88,7 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
     };
 
     collectNodes(tree);
+    console.log(`🔄 [convertSceneToGraph] Collected ${nodeMap.size} nodes from scene tree`);
     Logger.debug(`Collected ${nodeMap.size} nodes from scene tree`);
 
     // Second pass: create ReactFlow nodes
@@ -115,9 +132,9 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
 
     // Third pass: create connections/edges
     const processConnections = (node: SceneNode) => {
-      if (node.children && node.children.length > 0 && typeof node.handle === 'number') {
+      if (node.children && node.children.length > 0 && node.handle !== undefined && node.handle !== null) {
         node.children.forEach((child) => {
-          if (typeof child.handle !== 'number') return;
+          if (child.handle === undefined || child.handle === null) return;
 
           const edge: Edge = {
             id: `e${node.handle}-${child.handle}`,
@@ -152,15 +169,26 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
    * Load scene graph when sceneTree changes
    */
   useEffect(() => {
+    console.log('📊 [NodeGraphEditor] useEffect triggered');
+    console.log('📊 [NodeGraphEditor] sceneTree:', sceneTree);
+    console.log('📊 [NodeGraphEditor] sceneTree length:', sceneTree?.length || 0);
+    
     if (!sceneTree || sceneTree.length === 0) {
+      console.log('📊 [NodeGraphEditor] No scene tree data - setting empty nodes/edges');
       Logger.debug('No scene tree data available');
       setNodes([]);
       setEdges([]);
       return;
     }
 
+    console.log('📊 [NodeGraphEditor] Converting scene tree to graph...');
     Logger.info(`Loading scene graph with ${sceneTree.length} root nodes`);
     const { nodes: graphNodes, edges: graphEdges } = convertSceneToGraph(sceneTree);
+    
+    console.log('📊 [NodeGraphEditor] Conversion complete:');
+    console.log('📊 [NodeGraphEditor]   - nodes:', graphNodes.length);
+    console.log('📊 [NodeGraphEditor]   - edges:', graphEdges.length);
+    console.log('📊 [NodeGraphEditor] First node:', graphNodes[0]);
     
     setNodes(graphNodes);
     setEdges(graphEdges);
@@ -168,6 +196,7 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
     // Fit view after nodes are loaded
     setTimeout(() => {
       if (graphNodes.length > 0) {
+        console.log('📊 [NodeGraphEditor] Fitting view to', graphNodes.length, 'nodes');
         reactFlowInstance.fitView({ padding: 0.2, duration: 400 });
       }
     }, 100);

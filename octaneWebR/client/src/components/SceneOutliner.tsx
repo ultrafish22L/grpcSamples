@@ -112,14 +112,21 @@ export function SceneOutliner({ onNodeSelect, onSceneTreeChange }: SceneOutliner
     try {
       // Use the new buildSceneTree method that properly recurses
       const tree = await client.buildSceneTree();
+      
+      console.log('🌳 [SceneOutliner] buildSceneTree returned:', tree);
+      console.log('🌳 [SceneOutliner] Tree structure:', JSON.stringify(tree, null, 2));
+      
       setSceneTree(tree);
+      
+      console.log('🌳 [SceneOutliner] Calling onSceneTreeChange with tree:', tree);
       onSceneTreeChange?.(tree);
+      console.log('🌳 [SceneOutliner] onSceneTreeChange called');
       
       console.log(`✅ Loaded ${tree.length} top-level items`);
       
       // Debug: Log the typeEnum values for each item
       tree.forEach((item, idx) => {
-        console.log(`📊 Scene item ${idx}: ${item.name} typeEnum=${item.typeEnum} type=${item.type}`);
+        console.log(`📊 Scene item ${idx}: ${item.name} typeEnum=${item.typeEnum} type=${item.type} handle=${item.handle}`);
       });
 
       // Auto-select render target node after scene is loaded
