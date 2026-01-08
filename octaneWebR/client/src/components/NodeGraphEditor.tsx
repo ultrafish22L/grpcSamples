@@ -10,7 +10,7 @@ import { useOctane } from '../hooks/useOctane';
 import { OctaneIconMapper } from '../utils/OctaneIconMapper';
 
 interface NodeGraphEditorProps {
-  // No props needed - component manages its own state
+  sceneTree: SceneNode[];
 }
 
 interface GraphNode {
@@ -51,7 +51,7 @@ interface ContextMenu {
   y: number;
 }
 
-export function NodeGraphEditor(_props: NodeGraphEditorProps) {
+export function NodeGraphEditor({ sceneTree }: NodeGraphEditorProps) {
   const { client, connected } = useOctane();
   const [nodes, setNodes] = useState<GraphNode[]>([]);
   const [connections, setConnections] = useState<GraphConnection[]>([]);
@@ -75,21 +75,14 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
   const svgRef = useRef<SVGSVGElement>(null);
 
   const loadSceneGraph = useCallback(async () => {
-    console.log('🔍 NodeGraphEditor: loadSceneGraph called');
-    console.log('🔍 NodeGraphEditor: connected =', connected);
-    console.log('🔍 NodeGraphEditor: client =', client);
+    console.log('🔍 NodeGraphEditor: loadSceneGraph called with sceneTree:', sceneTree);
+    console.log('🔍 NodeGraphEditor: sceneTree.length =', sceneTree?.length);
     
     try {
-      // Use existing scene data from client (don't call buildSceneTree again)
-      const scene = client.getScene();
-      console.log('🔍 NodeGraphEditor: Full scene object =', scene);
-      
-      const sceneTree = scene.tree;
-      console.log('🔍 NodeGraphEditor: sceneTree =', sceneTree);
-      console.log('🔍 NodeGraphEditor: sceneTree.length =', sceneTree?.length);
-      
       if (!sceneTree || sceneTree.length === 0) {
         console.log('❌ NodeGraphEditor: No scene nodes to display in graph (tree empty or undefined)');
+        setNodes([]);
+        setConnections([]);
         return;
       }
 
@@ -187,45 +180,23 @@ export function NodeGraphEditor(_props: NodeGraphEditorProps) {
     } catch (error) {
       console.error('Failed to load scene graph:', error);
     }
-  }, [client]);
+  }, [sceneTree]);
 
-  // Listen to scene tree updates from OctaneClient (don't load independently)
+  // Load scene graph when sceneTree prop changes
   useEffect(() => {
-    console.log('🔄 NodeGraphEditor: useEffect triggered');
+    console.log('🔄 NodeGraphEditor: useEffect triggered - sceneTree changed');
     console.log('🔄 NodeGraphEditor: connected =', connected);
-    console.log('🔄 NodeGraphEditor: client =', client);
+    console.log('🔄 NodeGraphEditor: sceneTree length =', sceneTree?.length);
     
-    if (!connected || !client) {
-      console.log('⚠️ NodeGraphEditor: Skipping - not connected or no client');
-      return;
-    }
-    
-    console.log('✅ NodeGraphEditor: Setting up event listener');
-    
-    const handleSceneUpdate = (_scene: any) => {
-      console.log('📊 NodeGraphEditor: Scene updated event received, rendering graph');
-      loadSceneGraph();
-    };
-    
-    client.on('sceneTreeUpdated', handleSceneUpdate);
-    
-    // Load existing scene if available
-    const currentScene = client.getScene();
-    console.log('🔄 NodeGraphEditor: Current scene on mount =', currentScene);
-    console.log('🔄 NodeGraphEditor: Current scene tree length =', currentScene?.tree?.length);
-    
-    if (currentScene?.tree && currentScene.tree.length > 0) {
-      console.log('📊 NodeGraphEditor: Loading existing scene on mount (tree has', currentScene.tree.length, 'nodes)');
+    if (connected && sceneTree && sceneTree.length > 0) {
+      console.log('✅ NodeGraphEditor: Calling loadSceneGraph');
       loadSceneGraph();
     } else {
-      console.log('⚠️ NodeGraphEditor: No existing scene to load on mount');
+      console.log('⚠️ NodeGraphEditor: Clearing nodes (not connected or no sceneTree)');
+      setNodes([]);
+      setConnections([]);
     }
-    
-    return () => {
-      console.log('🧹 NodeGraphEditor: Cleaning up event listener');
-      client.off('sceneTreeUpdated', handleSceneUpdate);
-    };
-  }, [connected, client, loadSceneGraph]);
+  }, [connected, sceneTree, loadSceneGraph]);
 
   // Convert screen coordinates to SVG coordinates accounting for viewport transform
   const screenToSvg = useCallback((screenX: number, screenY: number) => {

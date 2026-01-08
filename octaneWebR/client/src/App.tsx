@@ -168,7 +168,7 @@ function AppContent() {
             </div>
           </div>
           <div className="node-graph-container">
-            <NodeGraphEditor />
+            <NodeGraphEditor sceneTree={sceneTree} />
           </div>
         </section>
         
