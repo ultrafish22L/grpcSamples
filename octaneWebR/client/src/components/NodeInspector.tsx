@@ -168,7 +168,8 @@ function NodeParameter({
 
     const { value, type } = paramValue;
 
-    // Controls are wrapped in parameter-control-container or parameter-checkbox-container
+    // Controls must be wrapped in parameter-control-container or parameter-checkbox-container
+    // which are then wrapped in node-parameter-controls div (matching octaneWeb structure)
     let controlHtml = null;
 
     switch (type) {
@@ -589,7 +590,12 @@ function NodeParameter({
       }
     }
 
-    return controlHtml;
+    // Wrap in node-parameter-controls div (matching octaneWeb GenericNodeRenderer structure)
+    return controlHtml ? (
+      <div className="node-parameter-controls">
+        {controlHtml}
+      </div>
+    ) : null;
   };
 
   // Determine the indent class (matching GenericNodeRenderer logic)
