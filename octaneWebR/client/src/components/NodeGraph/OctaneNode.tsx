@@ -28,6 +28,12 @@ export interface OctaneNodeData {
 export const OctaneNode = memo(({ data, selected }: NodeProps<OctaneNodeData>) => {
   const { sceneNode, inputs = [], output } = data;
   
+  console.log(`🎨 [OctaneNode] Rendering node "${sceneNode.name}":`, {
+    inputs: inputs.length,
+    hasOutput: !!output,
+    inputDetails: inputs.map(i => ({ id: i.id, label: i.label })),
+  });
+  
   // Get node color from nodeInfo
   const nodeColor = sceneNode.nodeInfo?.nodeColor 
     ? OctaneIconMapper.formatColorValue(sceneNode.nodeInfo.nodeColor)
@@ -36,7 +42,7 @@ export const OctaneNode = memo(({ data, selected }: NodeProps<OctaneNodeData>) =
   // Calculate dynamic width based on inputs
   const inputCount = inputs.length;
   const minWidth = 180;
-  const minPinSpacing = 20;
+  const minPinSpacing = 30; // Increased spacing for better visibility
   const calculatedWidth = inputCount > 0 
     ? Math.max(minWidth, inputCount * minPinSpacing + 40) 
     : minWidth;
@@ -68,6 +74,12 @@ export const OctaneNode = memo(({ data, selected }: NodeProps<OctaneNodeData>) =
         const inputSpacing = calculatedWidth / (inputs.length + 1);
         const socketX = inputSpacing * (index + 1) - calculatedWidth / 2;
 
+        console.log(`🎨 [OctaneNode]   Input ${index} handle:`, {
+          id: input.id,
+          color: socketColor,
+          posX: socketX,
+        });
+
         return (
           <Handle
             key={input.id}
@@ -76,12 +88,13 @@ export const OctaneNode = memo(({ data, selected }: NodeProps<OctaneNodeData>) =
             id={input.id}
             style={{
               left: `calc(50% + ${socketX}px)`,
-              top: 0,
-              width: 8,
-              height: 8,
+              top: -4, // Move slightly above the node
+              width: 12,
+              height: 12,
               backgroundColor: socketColor,
-              border: '1px solid #f4f7f6',
+              border: '2px solid #f4f7f6',
               borderRadius: '50%',
+              zIndex: 10,
             }}
             title={input.label || `Input ${index}`}
           />
@@ -106,23 +119,31 @@ export const OctaneNode = memo(({ data, selected }: NodeProps<OctaneNodeData>) =
 
       {/* Output handle on bottom */}
       {output && (
-        <Handle
-          type="source"
-          position={Position.Bottom}
-          id={output.id}
-          style={{
-            left: '50%',
-            bottom: 0,
-            width: 8,
-            height: 8,
-            backgroundColor: output.pinInfo?.pinColor
-              ? OctaneIconMapper.formatColorValue(output.pinInfo.pinColor)
-              : 'rgba(243, 220, 222, 1)',
-            border: '1px solid #f4f7f6',
-            borderRadius: '50%',
-          }}
-          title={output.label || 'Output'}
-        />
+        <>
+          {console.log(`🎨 [OctaneNode]   Output handle:`, {
+            id: output.id,
+            label: output.label,
+            pinInfo: output.pinInfo,
+          })}
+          <Handle
+            type="source"
+            position={Position.Bottom}
+            id={output.id}
+            style={{
+              left: '50%',
+              bottom: -4, // Move slightly below the node
+              width: 12,
+              height: 12,
+              backgroundColor: output.pinInfo?.pinColor
+                ? OctaneIconMapper.formatColorValue(output.pinInfo.pinColor)
+                : 'rgba(243, 220, 222, 1)',
+              border: '2px solid #f4f7f6',
+              borderRadius: '50%',
+              zIndex: 10,
+            }}
+            title={output.label || 'Output'}
+          />
+        </>
       )}
     </div>
   );

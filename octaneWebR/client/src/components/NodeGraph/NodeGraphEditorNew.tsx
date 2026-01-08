@@ -24,6 +24,7 @@ import { SceneNode } from '../../services/OctaneClient';
 import { useOctane } from '../../hooks/useOctane';
 import { OctaneNode, OctaneNodeData } from './OctaneNode';
 import { Logger } from '../../utils/Logger';
+import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
 
 interface NodeGraphEditorProps {
   sceneTree: SceneNode[];
@@ -86,11 +87,20 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
 
       // Extract input pins from nodeInfo (for pin connections)
       const inputs = item.nodeInfo?.inputs || [];
-      const inputHandles = inputs.map((input: any, inputIndex: number) => ({
-        id: `input-${inputIndex}`,
-        label: input.staticLabel || input.name,
-        pinInfo: input.pinInfo,
-      }));
+      console.log(`🔄 [convertSceneToGraph]   📌 Node "${item.name}" has ${inputs.length} inputs`);
+      
+      const inputHandles = inputs.map((input: any, inputIndex: number) => {
+        console.log(`🔄 [convertSceneToGraph]     Input ${inputIndex}:`, {
+          name: input.staticLabel || input.name,
+          pinInfo: input.pinInfo,
+          connectedNode: input.connectedNode?.name,
+        });
+        return {
+          id: `input-${inputIndex}`,
+          label: input.staticLabel || input.name,
+          pinInfo: input.pinInfo,
+        };
+      });
 
       // Create output handle
       const output = {
@@ -98,6 +108,7 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
         label: item.name,
         pinInfo: item.pinInfo,
       };
+      console.log(`🔄 [convertSceneToGraph]   📌 Node "${item.name}" output:`, { output });
 
       // Position nodes horizontally with spacing (matching octaneWeb layout)
       const node: Node<OctaneNodeData> = {
@@ -115,39 +126,53 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
       };
 
       graphNodes.push(node);
-      console.log(`🔄 [convertSceneToGraph]   ✅ Created node: ${item.name} (${handleStr})`);
+      console.log(`🔄 [convertSceneToGraph]   ✅ Created node: ${item.name} (${handleStr}) with ${inputHandles.length} inputs and 1 output`);
     });
 
     // Create connections between TOP-LEVEL nodes only
     // Look for connections in the nodeInfo data (connected pins)
+    console.log(`🔄 [convertSceneToGraph] Creating edges...`);
     tree.forEach((node) => {
-      if (!node.handle || !node.nodeInfo?.inputs) return;
+      if (!node.handle || !node.nodeInfo?.inputs) {
+        console.log(`🔄 [convertSceneToGraph]   ⚠️ Node "${node.name}" has no inputs, skipping edge creation`);
+        return;
+      }
 
-      const sourceHandle = String(node.handle);
+      const targetHandle = String(node.handle);
       
       // Check each input pin for connections
       node.nodeInfo.inputs.forEach((input: any, inputIndex: number) => {
         if (input.connectedNode && input.connectedNode.handle) {
-          const targetHandle = String(input.connectedNode.handle);
+          const sourceHandle = String(input.connectedNode.handle);
+          
+          console.log(`🔄 [convertSceneToGraph]   🔗 Found connection: "${input.connectedNode.name}" → "${node.name}" (pin ${inputIndex})`);
+          console.log(`🔄 [convertSceneToGraph]      Source handle: ${sourceHandle}, Target handle: ${targetHandle}`);
+          console.log(`🔄 [convertSceneToGraph]      Source in map: ${nodeMap.has(sourceHandle)}, Target in map: ${nodeMap.has(targetHandle)}`);
           
           // Only create edge if BOTH nodes are in our top-level nodeMap
           if (nodeMap.has(sourceHandle) && nodeMap.has(targetHandle)) {
+            const edgeColor = input.pinInfo?.pinColor 
+              ? OctaneIconMapper.formatColorValue(input.pinInfo.pinColor)
+              : '#4a90e2';
+            
             const edge: Edge = {
-              id: `e${targetHandle}-${sourceHandle}-${inputIndex}`,
-              source: targetHandle,
-              target: sourceHandle,
+              id: `e${sourceHandle}-${targetHandle}-${inputIndex}`,
+              source: sourceHandle,
+              target: targetHandle,
               sourceHandle: 'output-0',
               targetHandle: `input-${inputIndex}`,
               type: 'default', // Use 'default' for bezier curves (matching Octane)
               animated: false,
               style: { 
-                stroke: input.pinInfo?.pinColor || '#4a90e2', 
-                strokeWidth: 2 
+                stroke: edgeColor, 
+                strokeWidth: 3 
               },
             };
 
             graphEdges.push(edge);
-            console.log(`🔄 [convertSceneToGraph]   🔗 Connection: ${input.connectedNode.name} → ${node.name} (pin ${inputIndex})`);
+            console.log(`🔄 [convertSceneToGraph]      ✅ Created edge with color: ${edgeColor}`);
+          } else {
+            console.log(`🔄 [convertSceneToGraph]      ⚠️ Skipping edge - one or both nodes not in top-level map`);
           }
         }
       });
