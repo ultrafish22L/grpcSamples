@@ -165,4 +165,96 @@ export const AttrType = {
   AT_STRING: 14,
 } as const;
 
+/**
+ * Node types for Octane scene graph nodes
+ * These match the enum values from octaneids.h
+ * Used for node creation via ApiNode.create()
+ */
+export const NodeType: Record<string, number> = {
+  // Cameras
+  NT_CAM_BAKING: 94,
+  NT_CAM_OSL_BAKING: 128,
+  NT_CAM_OSL: 126,
+  NT_CAM_PANORAMIC: 62,
+  NT_CAM_SIMULATED_LENS: 301,
+  NT_CAM_THINLENS: 13,
+  NT_CAM_UNIVERSAL: 157,
+  
+  // Displacement
+  NT_DISPLACEMENT: 80,
+  
+  // Emission
+  NT_EMIS_BLACKBODY: 53,
+  NT_EMIS_TEXTURE: 54,
+  
+  // Environments
+  NT_ENV_DAYLIGHT: 14,
+  NT_ENV_PLANETARY: 129,
+  NT_ENV_TEXTURE: 37,
+  
+  // Geometry
+  NT_GEO_MESH: 1,
+  NT_GEO_GROUP: 3,
+  NT_GEO_PLACEMENT: 4,
+  NT_GEO_SCATTER: 5,
+  NT_GEO_PLANE: 110,
+  NT_GEO_VOLUME: 91,
+  NT_GEO_OBJECT: 153,
+  
+  // Input
+  NT_BOOL: 11,
+  NT_FLOAT: 6,
+  NT_INT: 9,
+  NT_ENUM: 57,
+  
+  // Kernels
+  NT_KERN_PMC: 23,
+  NT_KERN_DIRECTLIGHTING: 24,
+  NT_KERN_PATHTRACING: 25,
+  NT_KERN_INFO: 26,
+  
+  // Lights
+  NT_LIGHT_QUAD: 148,
+  NT_LIGHT_SPHERE: 149,
+  NT_LIGHT_VOLUME_SPOT: 152,
+  NT_LIGHT_DIRECTIONAL: 282,
+  NT_LIGHT_ANALYTIC: 294,
+  
+  // Materials
+  NT_MAT_DIFFUSE: 17,
+  NT_MAT_GLOSSY: 16,
+  NT_MAT_SPECULAR: 18,
+  NT_MAT_MIX: 19,
+  NT_MAT_PORTAL: 20,
+  NT_MAT_UNIVERSAL: 130,
+  NT_MAT_METAL: 120,
+  NT_MAT_TOON: 121,
+  
+  // Medium
+  NT_MED_ABSORPTION: 58,
+  NT_MED_SCATTERING: 59,
+  NT_MED_VOLUME: 98,
+  NT_MED_RANDOMWALK: 146,
+  
+  // Textures
+  NT_TEX_IMAGE: 34,
+  NT_TEX_FLOATIMAGE: 36,
+  NT_TEX_ALPHAIMAGE: 35,
+  NT_TEX_RGB: 33,
+  NT_TEX_FLOAT: 31,
+  NT_TEX_NOISE: 87,
+  NT_TEX_CHECKS: 45,
+  NT_TEX_MARBLE: 47,
+  NT_TEX_TURBULENCE: 22,
+  NT_TEX_MIX: 38,
+  NT_TEX_MULTIPLY: 39,
+  NT_TEX_ADD: 106,
+  NT_TEX_SUBTRACT: 108,
+  NT_TEX_GRADIENT: 49,
+  NT_TEX_FALLOFF: 50,
+  
+  // Render Target
+  NT_RENDERTARGET: 56,
+} as const;
+
 

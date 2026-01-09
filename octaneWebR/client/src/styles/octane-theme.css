@@ -1307,3 +1307,141 @@ select {
     background-size: 12px;
     padding-right: 28px;
 }
+
+/* ==================== Node Graph Toolbar ==================== */
+
+.node-graph-toolbar {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: flex;
+    gap: 4px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 4px;
+    border-radius: 4px;
+    z-index: 100;
+}
+
+.node-graph-tool {
+    width: 28px;
+    height: 28px;
+    background: none;
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-secondary);
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+
+.node-graph-tool:hover:not(:disabled) {
+    background-color: var(--octane-bg-hover);
+    border-color: var(--octane-border-light);
+    color: var(--octane-text-primary);
+}
+
+.node-graph-tool:active:not(:disabled) {
+    background-color: var(--octane-bg-selected);
+}
+
+.node-graph-tool:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ==================== Node Type Context Menu ==================== */
+
+.node-context-menu {
+    background-color: rgba(40, 40, 40, 0.98);
+    border: 1px solid var(--octane-border);
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    min-width: 180px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.context-menu-category {
+    padding: 8px 32px 8px 12px;
+    color: var(--octane-text-secondary);
+    cursor: pointer;
+    border-bottom: 1px solid rgba(85, 85, 85, 0.3);
+    position: relative;
+    transition: all 0.15s ease;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.context-menu-category:last-child {
+    border-bottom: none;
+}
+
+.context-menu-category:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+.category-arrow {
+    font-size: 10px;
+    opacity: 0.6;
+    margin-left: auto;
+}
+
+.context-submenu {
+    background-color: rgba(45, 45, 45, 0.98);
+    border: 1px solid var(--octane-border);
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    min-width: 200px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 10001;
+    backdrop-filter: blur(10px);
+}
+
+.context-menu-item {
+    padding: 8px 12px;
+    color: var(--octane-text-secondary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.context-menu-item:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+.node-type-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Scrollbar styling for submenu */
+.context-submenu::-webkit-scrollbar {
+    width: 8px;
+}
+
+.context-submenu::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.context-submenu::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.context-submenu::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}

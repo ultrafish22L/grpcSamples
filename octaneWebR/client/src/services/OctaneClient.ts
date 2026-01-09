@@ -671,6 +671,84 @@ export class OctaneClient extends EventEmitter {
     this.emit('renderStateChanged', this.renderState);
   }
 
+  // Node Creation API
+  /**
+   * Create a new node of the specified type in the scene
+   * Based on octaneWeb's NodeGraphEditor.createNodeFromType() (line 1356)
+   * 
+   * @param nodeType - Node type string (e.g., 'NT_MAT_DIFFUSE')
+   * @param nodeTypeId - Numeric node type ID from NodeType enum
+   * @returns Handle of the created node, or null if creation failed
+   */
+  async createNode(nodeType: string, nodeTypeId: number): Promise<string | null> {
+    console.log('🔧 Creating node:', nodeType, 'ID:', nodeTypeId);
+    
+    try {
+      // Step 1: Get root node graph (owner)
+      const rootResponse = await this.callApi('ApiProjectManager', 'rootNodeGraph', {});
+      if (!rootResponse?.result) {
+        console.error('❌ Failed to get root node graph');
+        return null;
+      }
+      
+      const owner = rootResponse.result;
+      console.log('📦 Root node graph:', owner);
+      
+      // Step 2: Create the node
+      // ApiNode.create expects: { type: number, ownerGraph: {handle, type}, configurePins: boolean }
+      const createResponse = await this.callApi('ApiNode', 'create', null, {
+        type: nodeTypeId,
+        ownerGraph: owner,
+        configurePins: true,
+      });
+      
+      if (!createResponse?.result) {
+        console.error('❌ Failed to create node');
+        return null;
+      }
+      
+      const createdNodeHandle = createResponse.result.handle;
+      console.log('✅ Node created with handle:', createdNodeHandle);
+      
+      // Step 3: Refresh scene tree
+      console.log('🔄 Refreshing scene tree...');
+      this.scene.tree = await this.buildSceneTree();
+      this.emit('sceneUpdated', this.scene);
+      
+      return createdNodeHandle;
+    } catch (error: any) {
+      console.error('❌ Error creating node:', error.message);
+      return null;
+    }
+  }
+
+  /**
+   * Delete a node from the scene
+   * 
+   * @param nodeHandle - Handle of the node to delete
+   * @returns True if deletion was successful
+   */
+  async deleteNode(nodeHandle: string): Promise<boolean> {
+    console.log('🗑️ Deleting node:', nodeHandle);
+    
+    try {
+      // Call ApiItem.destroy to delete the node
+      await this.callApi('ApiItem', 'destroy', nodeHandle);
+      
+      console.log('✅ Node deleted');
+      
+      // Refresh scene tree
+      console.log('🔄 Refreshing scene tree...');
+      this.scene.tree = await this.buildSceneTree();
+      this.emit('sceneUpdated', this.scene);
+      
+      return true;
+    } catch (error: any) {
+      console.error('❌ Error deleting node:', error.message);
+      return false;
+    }
+  }
+
   // State getters
   getScene(): Scene {
     return this.scene;
