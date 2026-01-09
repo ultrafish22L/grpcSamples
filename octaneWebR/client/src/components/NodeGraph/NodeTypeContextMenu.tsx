@@ -29,9 +29,13 @@ export function NodeTypeContextMenu({
   const categories = getNodeCategories();
 
   // Close menu on click outside (matching octaneWeb line 167: uses 'click' not 'mousedown')
+  // Must check BOTH menuRef and submenuRef since submenu renders as sibling, not child
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+      const isInsideMenu = menuRef.current?.contains(e.target as Node);
+      const isInsideSubmenu = submenuRef.current?.contains(e.target as Node);
+      
+      if (!isInsideMenu && !isInsideSubmenu) {
         onClose();
       }
     };
