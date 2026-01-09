@@ -5,6 +5,7 @@
  */
 
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { getNodeCategories, getNodeTypesForCategory } from '../../constants/NodeTypes';
 
 interface NodeTypeContextMenuProps {
@@ -74,12 +75,11 @@ export function NodeTypeContextMenu({
   const handleCategoryMouseEnter = useCallback((category: string, e: React.MouseEvent<HTMLDivElement>) => {
     setHoveredCategory(category);
     
+    // Position submenu to the right of the category item (matching octaneWeb lines 294-313)
     const categoryRect = e.currentTarget.getBoundingClientRect();
     let submenuLeft = categoryRect.right + 2;
     let submenuTop = categoryRect.top;
 
-    // Adjust if submenu goes off screen
-    // We'll adjust this after render if needed
     setSubmenuPosition({ top: submenuTop, left: submenuLeft });
   }, []);
 
@@ -87,13 +87,49 @@ export function NodeTypeContextMenu({
     setHoveredCategory(null);
   }, []);
 
+  // Adjust submenu position if it goes off-screen (matching octaneWeb lines 300-306)
+  useEffect(() => {
+    if (!hoveredCategory) return;
+
+    // Give submenu a frame to render so we can measure it
+    const timeoutId = setTimeout(() => {
+      const submenuElement = document.querySelector('.context-submenu') as HTMLElement;
+      if (!submenuElement) return;
+
+      const submenuRect = submenuElement.getBoundingClientRect();
+      let adjustedLeft = submenuPosition.left;
+      let adjustedTop = submenuPosition.top;
+
+      // If submenu goes off right edge, show on left side instead
+      if (submenuRect.right > window.innerWidth) {
+        const categoryElement = document.querySelector('.context-menu-category:hover') as HTMLElement;
+        if (categoryElement) {
+          const categoryRect = categoryElement.getBoundingClientRect();
+          adjustedLeft = categoryRect.left - submenuRect.width - 2;
+        }
+      }
+
+      // If submenu goes off bottom edge, adjust top position
+      if (submenuRect.bottom > window.innerHeight) {
+        adjustedTop = window.innerHeight - submenuRect.height;
+      }
+
+      if (adjustedLeft !== submenuPosition.left || adjustedTop !== submenuPosition.top) {
+        setSubmenuPosition({ top: adjustedTop, left: adjustedLeft });
+      }
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
+  }, [hoveredCategory, submenuPosition]);
+
   const handleNodeTypeClick = useCallback((nodeType: string) => {
     console.log('🎨 [ContextMenu] Selected node type:', nodeType);
     onSelectNodeType(nodeType);
     onClose();
   }, [onSelectNodeType, onClose]);
 
-  return (
+  // Render menu to document.body using portal (matching octaneWeb line 319: document.body.appendChild)
+  return createPortal(
     <>
       {/* Main menu */}
       <div
@@ -125,6 +161,7 @@ export function NodeTypeContextMenu({
                 <div
                   className="context-submenu"
                   style={{
+                    display: 'block', // Override CSS display: none (matching octaneWeb line 308)
                     position: 'fixed',
                     left: submenuPosition.left,
                     top: submenuPosition.top,
@@ -150,6 +187,7 @@ export function NodeTypeContextMenu({
           );
         })}
       </div>
-    </>
+    </>,
+    document.body // Render to document.body (matching octaneWeb approach)
   );
 }
