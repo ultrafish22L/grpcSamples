@@ -16,6 +16,7 @@
 import { useEffect, useState } from 'react';
 import { OctaneProvider, useOctane } from './hooks/useOctane';
 import { useResizablePanels } from './hooks/useResizablePanels';
+import { MenuBar } from './components/MenuBar';
 import { ConnectionStatus } from './components/ConnectionStatus';
 import { CallbackRenderViewport } from './components/CallbackRenderViewport';
 import { RenderToolbar } from './components/RenderToolbar';
@@ -29,6 +30,7 @@ function AppContent() {
   const { connect, connected } = useOctane();
   const [selectedNode, setSelectedNode] = useState<SceneNode | null>(null);
   const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
+  const [sceneRefreshTrigger, setSceneRefreshTrigger] = useState(0);
   const { panelSizes, handleSplitterMouseDown, containerRef, isDragging } = useResizablePanels();
 
   // Scene tree change handler
@@ -39,6 +41,12 @@ function AppContent() {
     console.debug('Scene tree updated:', tree.length, 'nodes');
     setSceneTree(tree);
     console.log('🌲 [App.tsx] setSceneTree() called - state should update now');
+  };
+
+  // Scene refresh handler for MenuBar
+  const handleSceneRefresh = () => {
+    console.log('🔄 [App.tsx] Scene refresh requested from menu');
+    setSceneRefreshTrigger(prev => prev + 1);
   };
 
   // Monitor sceneTree state changes
@@ -67,15 +75,7 @@ function AppContent() {
     <div className="app-container">
       {/* Top Menu Bar */}
       <header className="menu-bar">
-        <nav className="main-menu">
-          <div className="menu-item" data-menu="file">File</div>
-          <div className="menu-item" data-menu="edit">Edit</div>
-          <div className="menu-item" data-menu="script">Script</div>
-          <div className="menu-item" data-menu="module">Module</div>
-          <div className="menu-item" data-menu="cloud">Cloud</div>
-          <div className="menu-item" data-menu="window">Window</div>
-          <div className="menu-item" data-menu="help">Help</div>
-        </nav>
+        <MenuBar onSceneRefresh={handleSceneRefresh} />
         
         {/* Connection Status & Controls */}
         <ConnectionStatus />
@@ -98,6 +98,7 @@ function AppContent() {
           </div>
           <div className="panel-content">
             <SceneOutliner 
+              key={sceneRefreshTrigger}
               onNodeSelect={setSelectedNode}
               onSceneTreeChange={handleSceneTreeChange}
             />
