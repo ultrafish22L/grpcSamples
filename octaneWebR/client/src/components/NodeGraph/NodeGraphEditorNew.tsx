@@ -13,6 +13,7 @@ import ReactFlow, {
   MiniMap,
   useNodesState,
   useEdgesState,
+  useReactFlow,
   addEdge,
   Connection,
   NodeTypes,
@@ -39,6 +40,7 @@ const nodeTypes: NodeTypes = {
  */
 function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
   const { client, connected } = useOctane();
+  const { fitView } = useReactFlow();
   
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -212,10 +214,27 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
     
     setNodes(graphNodes);
     setEdges(graphEdges);
-
-    // Note: Don't auto-fit view - use default zoom level matching Octane
-    // The defaultViewport prop on ReactFlow sets the initial zoom
   }, [sceneTree, convertSceneToGraph, setNodes, setEdges]);
+
+  /**
+   * Fit view when nodes are loaded or updated
+   * Centers nodes nicely with padding and reasonable zoom
+   */
+  useEffect(() => {
+    if (nodes.length > 0) {
+      // Use setTimeout to ensure ReactFlow has finished rendering
+      setTimeout(() => {
+        fitView({ 
+          padding: 0.2,        // 20% padding around nodes
+          includeHiddenNodes: false,
+          minZoom: 0.5,        // Don't zoom out too far
+          maxZoom: 1.5,        // Don't zoom in too much
+          duration: 300,       // Smooth animation (300ms)
+        });
+        console.log('📊 [NodeGraphEditor] Fitted view to nodes');
+      }, 100);
+    }
+  }, [nodes, fitView]);
 
   /**
    * Handle new connections
@@ -306,9 +325,9 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
         onConnect={onConnect}
         onNodesDelete={onNodesDelete}
         nodeTypes={nodeTypes}
-        defaultViewport={{ x: 100, y: 100, zoom: 0.2}}
         minZoom={0.1}
         maxZoom={4}
+        fitView
         defaultEdgeOptions={{
           type: 'default',
           animated: false,
