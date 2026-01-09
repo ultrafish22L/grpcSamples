@@ -48,6 +48,9 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const containerRef = useRef<HTMLDivElement>(null);
   
+  // Track whether initial fitView has been called (should only happen once after initial scene sync)
+  const hasInitialFitView = useRef(false);
+  
   // Context menu state
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
@@ -223,11 +226,12 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
   }, [sceneTree, convertSceneToGraph, setNodes, setEdges]);
 
   /**
-   * Fit view when nodes are loaded or updated
-   * Centers nodes nicely with padding and reasonable zoom
+   * Fit view ONCE when initial scene is loaded
+   * After that, preserve user's zoom/pan position
+   * (Don't auto-fit when user creates new nodes - that's annoying!)
    */
   useEffect(() => {
-    if (nodes.length > 0) {
+    if (nodes.length > 0 && !hasInitialFitView.current) {
       // Use setTimeout to ensure ReactFlow has finished rendering
       setTimeout(() => {
         fitView({ 
@@ -237,7 +241,8 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
           maxZoom: 1.5,        // Don't zoom in too much
           duration: 300,       // Smooth animation (300ms)
         });
-        console.log('📊 [NodeGraphEditor] Fitted view to nodes');
+        hasInitialFitView.current = true;
+        console.log('📊 [NodeGraphEditor] Initial fitView complete (won\'t auto-fit again)');
       }, 100);
     }
   }, [nodes, fitView]);
@@ -382,7 +387,6 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
         nodeTypes={nodeTypes}
         minZoom={0.1}
         maxZoom={4}
-        fitView
         defaultEdgeOptions={{
           type: 'default',
           animated: false,
