@@ -2,10 +2,10 @@
 
 ## 🎯 Current Status
 
-**OctaneWebR** is a React + TypeScript port of octaneWeb. Most features are working, with Node Graph Editor pins/connections currently being debugged.
+**OctaneWebR** is a React + TypeScript port of octaneWeb with core features implemented and working.
 
-**Working**: Scene Outliner, Node Inspector, Parameter Controls, Connection Status  
-**In Progress**: Node Graph Editor (visual issues with pins/connections), Callback Render Viewport
+**Working**: Menu System, Scene Outliner, Node Inspector, Node Graph Editor, Parameter Controls, Connection Status  
+**In Progress**: Callback Render Viewport, Material Database
 
 ---
 
@@ -41,9 +41,11 @@ VITE v5.4.21  ready in 148 ms
 **Browser**: Open **http://localhost:43929** (or the port shown in terminal output)
 
 The application will load with:
+- **Menu Bar** (top) - File/Edit/Script/Module/Cloud/Window/Help menus
 - **Scene Outliner** (left panel) - Shows "Loading scene..." until Octane connects
 - **Node Inspector** (right panel) - Shows properties of selected node
-- **Node Graph Editor** (bottom panel) - Visual node graph (currently debugging pins/connections)
+- **Callback Render Viewport** (center panel) - Real-time rendering (in progress)
+- **Node Graph Editor** (bottom panel) - Visual node graph with context menus
 - **Connection Status** (top right) - Shows "Connected" or "Disconnected"
 
 ---
@@ -117,7 +119,12 @@ Should return JSON with server status (`"status": "ok"` or `"unhealthy"`).
    - 📌 Pin detection logs (Node Graph)
    - 🔗 Edge creation logs (Node Graph)
 
-### Test 4: Scene Outliner
+### Test 4: Menu Bar
+- File menu should show: New, Open, Save, Save As, Recent Projects, Close, Exit
+- Edit/Script/Module/Cloud/Window/Help menus should be present
+- Click File → Recent Projects to see recent files (if any)
+
+### Test 5: Scene Outliner
 - Should show hierarchical tree with nodes like:
   - 📁 Scene
   - 🫖 teapot.obj (or your loaded model)
@@ -125,12 +132,17 @@ Should return JSON with server status (`"status": "ok"` or `"unhealthy"`).
   - 📷 Camera
   - 🌍 Environment
 
-### Test 5: Node Inspector
+### Test 6: Node Inspector
 - Click any node in Scene Outliner
 - Right panel should show:
   - Node name and type
   - Expandable parameter groups
   - Input controls (checkboxes, number inputs, color pickers)
+
+### Test 7: Node Graph Editor
+- Bottom panel should show top-level nodes
+- Right-click in graph for context menu (Materials, Geometry, Textures, etc.)
+- Should see nodes with connections (cyan lines)
 
 ---
 
@@ -152,9 +164,11 @@ After following this guide, you should have:
 
 - [ ] Server running on http://localhost:43929 (or port shown in terminal)
 - [ ] Browser opens and shows octaneWebR interface
+- [ ] Menu bar with File/Edit/Script/Module/Cloud/Window/Help menus
 - [ ] Connection status shows "Connected" (if Octane running) or "Disconnected"
 - [ ] Scene Outliner shows hierarchical tree (if Octane connected with scene loaded)
 - [ ] Node Inspector shows properties when clicking nodes
+- [ ] Node Graph Editor shows nodes with connections
 - [ ] No TypeScript errors in terminal
 - [ ] Single Vite process running (not two servers)
 
@@ -164,18 +178,15 @@ After following this guide, you should have:
 
 ## 🐛 Known Issues
 
-### Node Graph Editor Visual Issues
-**Symptom**: Nodes appear in bottom panel but no input/output dots or connection lines  
-**Status**: Currently being debugged (see CODE_REVIEW.md)  
-**Workaround**: Use Scene Outliner and Node Inspector for now
-
 ### Callback Render Viewport
 **Status**: Not yet implemented (placeholder shown in center panel)
+
+### File Operations
+**Status**: Menu items are present but call placeholder functions (need full Octane API integration)
 
 ---
 
 ## 📚 Additional Documentation
 
 - **OVERVIEW.md** - Complete project overview and architecture
-- **CODE_REVIEW.md** - Comprehensive code review with issue tracking
-- **REPRO_PROMPT.md** - Context for continuing development in new sessions
+- **REPRO_PROMPT.md** - Quick onboarding guide for new development sessions

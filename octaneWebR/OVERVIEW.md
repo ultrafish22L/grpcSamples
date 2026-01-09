@@ -6,15 +6,16 @@ Modern browser-based interface for OTOY Octane Render with direct gRPC connectiv
 
 **OctaneWebR** is a React + TypeScript port of octaneWeb that provides real-time interaction with OTOY's Octane Render through the LiveLink gRPC API. Built with React 18, TypeScript, and Vite, it delivers a professional rendering workflow with scene management, node inspection, and real-time viewport rendering.
 
-**Current Status**: 🔧 **In Development** - Node Graph Editor visual issues being debugged (pins and connections not displaying)
+**Current Status**: ✅ **Active Development** - Core features implemented and working
 
 ### Key Features
 
 - ✅ **Direct gRPC Integration**: Embedded Vite plugin proxy - no separate server process needed
+- ✅ **Menu System**: Complete File/Edit/Script/Module/Cloud/Window/Help menus with file dialogs
 - ✅ **Real-time Scene Management**: Interactive scene outliner with hierarchical tree view
 - ✅ **Node Inspector**: View and edit node properties and attributes (parameter controls implemented)
+- ✅ **Node Graph Editor**: ReactFlow-based visual node graph with context menus
 - ⏳ **Live Rendering**: Real-time callback-based viewport (in progress)
-- 🔧 **Node Graph Editor**: ReactFlow-based visual node graph (pins/connections debugging in progress)
 - ⏳ **Material Database Access**: Browse online (Live DB) and local material libraries (planned)
 - ✅ **Professional UI**: OTOY-branded dark theme with responsive design
 - ✅ **Type Safety**: Full TypeScript support with auto-generated protobuf types
@@ -122,11 +123,21 @@ ApiNodeGraph.getOwnedItems() → {list: {handle: "1000001", type: "ApiItemArray"
 
 ## 🎨 UI Components
 
+### Menu Bar ✅
+- Complete File/Edit/Script/Module/Cloud/Window/Help menus
+- File operations: New, Open, Save, Save As, Recent Projects
+- Native browser file dialogs (useFileDialog hook)
+- Recent files persistence (localStorage, max 10 files)
+- Dynamic submenus with smart positioning
+- Keyboard shortcut display
+- Integrated with Octane API for file operations
+
 ### Scene Outliner ✅
 - Hierarchical tree view of Octane scene
 - Expand/collapse nodes all the way to end nodes
 - Node selection for inspection
 - Type icons (Geometry, RenderTarget, etc.) with proper styling
+- Three tabs: Scene, Live DB, Local DB
 
 ### Node Inspector ✅
 - Hierarchical tree view for selected node
@@ -135,12 +146,13 @@ ApiNodeGraph.getOwnedItems() → {list: {handle: "1000001", type: "ApiItemArray"
 - Color picker for AT_FLOAT3 (NT_TEX_RGB)
 - TypeScript type safety maintained
 
-### Node Graph Editor 🔧
+### Node Graph Editor ✅
 - ReactFlow-based implementation (357 lines, -63% from custom code)
 - Professional drag-and-drop, zoom, pan, minimap features
 - Custom OctaneNode components
-- **Current Issue**: Pins and connection lines not displaying (debugging in progress)
-- Debug logging implemented to track data flow
+- Context menu for node creation (Materials, Geometry, Textures, etc.)
+- Bezier spline connections between nodes
+- FitView on initial scene load only (preserves user zoom/pan)
 
 ### Callback Render Viewport ⏳
 - Real-time render streaming via callbacks (planned)
@@ -251,16 +263,10 @@ const name = response.result; // or response.list, etc.
 
 ## 🚧 Known Issues & Limitations
 
-### Current Issues
-1. **Node Graph Visual Bugs** (Critical Priority):
-   - Pins (input/output dots) not displaying on nodes
-   - Connection lines missing between nodes
-   - Root cause: `nodeInfo.inputs` array likely not populated during scene building
-   - Status: Debug logging implemented, investigating API layer
-
-2. **Callback Render Viewport**: Not yet implemented (planned)
-
-3. **Material Database**: Not yet implemented (planned)
+### In Progress
+1. **Callback Render Viewport**: Not yet implemented (planned)
+2. **Material Database**: Not yet implemented (planned)
+3. **File Operations**: Menu items call placeholder functions (need full Octane API integration)
 
 ### General Limitations
 1. **Browser-Only**: No native desktop app packaging (yet)
@@ -270,17 +276,16 @@ const name = response.result; // or response.list, etc.
 ## 📚 Related Documentation
 
 - **QUICKSTART.md** - Step-by-step setup and run instructions
-- **CODE_REVIEW.md** - Comprehensive code review with issue tracking
-- **REPRO_PROMPT.md** - Context for continuing development in new sessions
+- **REPRO_PROMPT.md** - Quick onboarding guide for new development sessions
 
 ## 🤝 Contributing
 
 When making changes:
 
 1. **Run TypeScript checks**: `tsc --noEmit` or `npm run build`
-2. **Update documentation**: Keep OVERVIEW.md, QUICKSTART.md, CODE_REVIEW.md, REPRO_PROMPT.md current
+2. **Update documentation**: Keep OVERVIEW.md, QUICKSTART.md, REPRO_PROMPT.md current
 3. **Test with real Octane**: Never use mock data
-4. **Follow patterns**: Check existing components for style
+4. **Follow patterns**: Check existing components and octaneWeb reference code
 5. **Debug logging**: Use 📤 ✅ 🔄 📌 🔗 🎨 emoji markers for console logs
 
 ## 📄 License
@@ -289,6 +294,6 @@ Part of the grpcSamples repository - refer to parent repository for licensing.
 
 ---
 
-**Status**: 🔧 **In Development** - Node Graph Editor debugging in progress  
+**Status**: ✅ **Active Development** - Core features working, render viewport in progress  
 **Version**: 0.9.0 (approaching 1.0)  
 **Last Updated**: 2025-01-20

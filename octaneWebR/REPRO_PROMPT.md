@@ -1,429 +1,94 @@
 # REPRO_PROMPT: Continue octaneWebR Development
 
-## 🚀 Latest Status: Node Graph Debug Phase (2025-01-20)
+Use this as your initial prompt when starting a new session to quickly get back up to speed.
 
-**🔧 NODE GRAPH EDITOR - CRITICAL VISUAL ISSUES** - Pins and connections not displaying
+---
 
-### Recent Achievements
-1. **✅ ReactFlow Migration Complete** - Replaced 956-line custom SVG with 357-line ReactFlow implementation (-63% code)
-2. **✅ Handle Type Bug Fixed** - Fixed critical bug where all nodes were rejected due to type mismatch
-3. **✅ Octane Behavior Matched** - Shows only top-level nodes with bezier spline connections (commit 69c70498)
-4. **✅ ReactFlow Container Size Fixed** - Added explicit width/height to fix React Flow parent container error
-5. **✅ Comprehensive Debug Logging** - Added 🔄 📌 🔗 🎨 debug markers for pin/edge tracking (commit efae2d47)
+## 🎯 Quick Context
 
-### Critical Issues Identified
-**🔴 PINS NOT DISPLAYING**: Input/output dots missing on nodes
-**🔴 CONNECTIONS NOT RENDERING**: No cyan lines between nodes
-**🔍 ROOT CAUSE**: Likely `nodeInfo.inputs` array not populated during scene tree building
+**Project**: octaneWebR - React + TypeScript port of octaneWeb  
+**Location**: `/workspace/project/grpcSamples/octaneWebR`  
+**Tech Stack**: React 18, TypeScript 5.6, Vite 6, ReactFlow, gRPC-Web  
+**Purpose**: Browser-based UI for OTOY Octane Render via LiveLink gRPC API
 
-See `NODE_GRAPH_DEBUG_SESSION.md` for complete debugging guide and next steps.
+## ✅ What's Working
 
-## 🎯 Project Context
+- **Menu System**: File/Edit/Script/Module/Cloud/Window/Help menus with file dialogs
+- **Scene Outliner**: Hierarchical tree view with expand/collapse
+- **Node Inspector**: Property editor with all 12 parameter types
+- **Node Graph Editor**: ReactFlow-based with context menus and connections
+- **Connection Status**: Real-time connection indicator
+- **Build System**: Embedded gRPC proxy in Vite (no separate server)
 
-You are a JavaScript and React API expert working on **octaneWebR**, a React + TypeScript port of octaneWeb. This is a production-ready web application that provides real-time interaction with OTOY Octane Render through the LiveLink gRPC API.
+## 🔄 Recent Commits
 
-**Key Characteristics:**
-- Built with React 18, TypeScript 5.6, and Vite 6
-- Direct gRPC integration via embedded Vite plugin (no separate proxy server)
-- Professional OTOY-branded dark theme UI
-- Real-time scene management, node inspection, and rendering
-- Type-safe API with auto-generated protobuf types
+- `1e788b56` - Add complete menu system with file dialogs and recent files
+- `2abb01c5` - Fix fitView to only trigger once on initial scene load
+- `a4789b69` - Fix context menu click-outside handler for submenus
 
-## 📁 Project Location
-
-```bash
-cd /workspace/project/grpcSamples/octaneWebR
-```
-
-## 🏗️ Architecture Overview
+## 🏗️ Architecture
 
 ```
-Browser (React App) → Vite Dev Server (gRPC-Web Plugin) → Octane LiveLink (127.0.0.1:51022)
+Browser → Vite Dev Server (gRPC Proxy) → Octane LiveLink (127.0.0.1:51022)
 ```
-
-**Technology Stack:**
-- **Frontend**: React 18, TypeScript, Custom CSS (OTOY-branded)
-- **Build Tool**: Vite 6 with custom gRPC proxy plugin
-- **Backend Integration**: @grpc/grpc-js, google-protobuf, Protocol Buffers
-- **Development**: Hot Module Replacement, TypeScript checking, source maps
 
 **Key Components:**
-- `SceneOutliner.tsx` - Hierarchical scene tree view
-- `NodeInspector.tsx` - Property editor with parameter controls
-- `NodeGraphEditor.tsx` - Visual node graph with connections
-- `CallbackRenderViewport.tsx` - Real-time rendering viewport
-- `OctaneClient.ts` - Core gRPC client logic
-- `useOctane.tsx` - React hooks for Octane integration
+- `App.tsx` - Main layout, menu bar, panels
+- `SceneOutliner.tsx` - Scene tree (left panel)
+- `NodeInspector.tsx` - Property editor (right panel)
+- `NodeGraphEditorNew.tsx` - ReactFlow graph (bottom panel)
+- `CallbackRenderViewport.tsx` - Render viewport (center panel, in progress)
+- `OctaneClient.ts` - gRPC client logic
+- `MenuBar.tsx` / `MenuDropdown.tsx` - Menu system
 
-## ✅ Completed Work
+## ⏳ In Progress
 
-### Node Graph Editor - Complete ✅
-**Phase 1: ReactFlow Migration** (commit 62cfc23b)
-- Replaced 956-line custom SVG implementation with ReactFlow library
-- Reduced code by 63% (from 956 to 357 lines)
-- Built-in drag-and-drop, zoom, pan, and minimap
-- Professional node rendering with proper handles
-- Custom node types for Octane scene elements
-
-**Phase 2: Handle Type Bug Fix** (commit 8ea71a7f)
-- Fixed critical bug where nodes weren't displaying
-- Root cause: Type guard checking `typeof handle === 'number'` but handles are strings
-- Changed nodeMap from `Map<number, SceneNode>` to `Map<string, SceneNode>`
-- All 50+ nodes now display correctly
-
-**Phase 3: Match Octane Behavior** (commit 69c70498)
-- Changed from recursive traversal to **top-level only nodes** (like Octane Studio)
-- Fixed connection logic to use `nodeInfo.inputs` pin connections (not children)
-- Changed edge type from 'smoothstep' to **'default' for bezier curves**
-- Added pin color support for connection styling
-- Result: Shows 2 top-level nodes (teapot.obj, Render target) with proper pin connections
-
-### Scene Management ✅
-- Complete gRPC API integration for scene data
-- Scene tree synchronization with hierarchical structure
-- Node metadata fetching (names, types, connections)
-- Real-time scene updates
-
-### Other Bug Fixes ✅
-1. **NodeGraphEditor prop fix** (commit fa1e7795)
-   - Changed from useOctane() to receiving sceneTree as prop
-   - Fixed data flow: App.tsx → NodeGraphEditor (sceneTree prop)
-
-### Parameter Controls Implementation ✅
-- All 12 parameter types implemented (AT_BOOL, AT_FLOAT, AT_FLOAT2/3/4, AT_INT, etc.)
-- CSS styling matching octaneWeb GenericNodeRenderer.js
-- Proper DOM structure with node-box, node-content, node-parameter-controls
-- Color picker for AT_FLOAT3 (NT_TEX_RGB)
-- TypeScript type safety maintained
-- Status: Phase 1 complete (see PARAMETER_CONTROLS_STATUS.md)
-
-## 🔧 Current State
-
-### Version Control
-- **Branch**: main
-- **Latest Commit**: efae2d47 (Add comprehensive debug logging for Node Graph pins and connections)
-- **Working Tree**: Modified (container size fixes pending commit)
-- **Recent Commits**:
-  - efae2d47 - Add comprehensive debug logging for Node Graph pins and connections
-  - 4163ad9c - Fix Node Graph Editor to match Octane reference (zoom, minimap, cleanup)
-  - 69c70498 - Fix Node Graph Editor to match Octane behavior (top-level only, bezier connections)
-  - 8ea71a7f - Fix CRITICAL bug: Node Graph handle type mismatch (string vs number)
-  - 62cfc23b - Phase 1: Replace custom NodeGraphEditor with ReactFlow (-63% code)
-
-### Build Status
-- ✅ TypeScript compilation successful (`npm run build`)
-- ✅ Bundle size: 345.77 kB (gzipped: 109.79 kB)
-- ✅ No TypeScript errors
-- ⚠️ ReactFlow container warning fixed (CSS updates applied)
-
-### Known Issues
-**Node Graph Visual Problems** (High Priority):
-1. **Pins not displaying** - Input/output dots missing on top/bottom of nodes
-2. **Connection lines missing** - No cyan connection lines between nodes
-3. **Debug logging shows "0 inputs"** - All nodes report 0 inputs during conversion
-4. **Root cause hypothesis**: `nodeInfo.inputs` array not populated in `OctaneClient.ts` scene tree building
-
-**Files Modified (Uncommitted)**:
-- `client/src/styles/octane-theme.css` - Added width/height to .node-graph-container, min-height to .bottom-panel
-
-**Debug Documentation**:
-- `NODE_GRAPH_DEBUG_SESSION.md` - Complete debugging guide with console log patterns to check
-- `PIN_DEBUG_STATUS.md` - Pin rendering status and troubleshooting
-
-### Development Server
-- **Port**: 43929 (may vary, check terminal output)
-- **Health Endpoint**: http://localhost:43929/api/health
-- **gRPC Proxy**: /api/grpc/:service/:method
-- **WebSocket**: /api/callbacks
-- **Status**: Running in background (PID: check with `ps aux | grep vite`)
-- **Logs**: Browser console → `/tmp/octaneWebR_client.log`, Server → `/tmp/octane-server.log`
+- **Callback Render Viewport**: Real-time rendering (placeholder implemented)
+- **Material Database**: Live DB and Local DB tabs (planned)
+- **File Operations**: Menu actions need full Octane API integration
 
 ## 🚀 Quick Start Commands
 
-### Install Dependencies
 ```bash
 cd /workspace/project/grpcSamples/octaneWebR
+
+# Install dependencies (if needed)
 npm install
-```
 
-### Start Development Server
-```bash
+# Start dev server (single command - includes gRPC proxy)
 npm run dev
-```
 
-**Expected Output:**
-```
-📡 Vite gRPC Plugin: Connected to Octane at 127.0.0.1:51022
-📦 Proto files ready for lazy loading
-✅ Octane gRPC Plugin configured
-
-VITE v5.4.21  ready in 148 ms
-➜  Local:   http://localhost:43929/
-```
-
-### Build for Production
-```bash
+# Build for production
 npm run build
-```
 
-### TypeScript Type Check
-```bash
+# TypeScript type check only
 tsc --noEmit
 ```
 
-## 📋 Pending Tasks
+**Dev Server**: Opens at http://localhost:43929 (or next available port)  
+**Health Check**: `curl http://localhost:43929/api/health`
 
-### Node Graph Editor ✅ COMPLETE
-- ✅ ReactFlow migration complete
-- ✅ Handle type bug fixed
-- ✅ Top-level only node rendering implemented
-- ✅ Bezier spline connections working
-- ✅ All changes committed and pushed
+## 💡 Development Principles
 
-### Next Focus Areas
+1. **Always check octaneWeb reference code** before assuming problems
+2. **Use React best practices**: Hooks, functional components, TypeScript
+3. **Never start work without user approval** - Always wait for task assignment
+4. **Test TypeScript**: Run `npm run build` to check for errors
+5. **Check logs**: Look at terminal output and browser console for issues
 
-### Phase 3: Parameter Value Updates (High Priority)
+## 📚 Reference
 
-From PARAMETER_CONTROLS_STATUS.md Phase 2:
+**octaneWeb Reference Code**: `/workspace/project/grpcSamples/octaneWeb/`
+- Check reference implementation before assuming problems
+- Key files: `js/app.js`, `js/components/`, `js/utils/GenericNodeRenderer.js`
+- Styling: `css/components.css` (lines 3050-3200 for parameters)
 
-4. **Implement Value Change Handlers**
-   - Connect parameter inputs to `ApiItem.setByAttrID` API calls
-   - Implement `handleValueChange()` function in NodeInspector.tsx
-   - Add proper value type conversion for each AttrType
-   - Test with checkboxes, number inputs, and color pickers
-   - Verify changes propagate to Octane in real-time
+**Documentation**:
+- **OVERVIEW.md** - Full project details and architecture
+- **QUICKSTART.md** - Step-by-step setup instructions
 
-5. **Add Enum Dropdown Support**
-   - Detect `NT_ENUM` node types in `renderParameterControl()`
-   - Fetch enum options from Octane API (ApiNode or pinInfo)
-   - Render `<select>` dropdown instead of number input
-   - Example: Camera type dropdown (thin-lens, orthographic, panoramic, baking)
-   - Apply `.parameter-dropdown` and `.octane-dropdown` CSS classes
+## 🎯 Ready for Task Assignment
 
-6. **Add Number Input Spinners/Arrows**
-   - Add up/down arrow buttons next to number inputs
-   - Implement small increment/decrement on click
-   - Add Shift+click for larger steps
-   - Connect to value change handlers
-   - Match octaneWeb GenericNodeRenderer.js styling
+**I'm ready to continue development. Please assign the next task.**
 
-### Phase 4: UI Polish (Medium Priority)
-
-7. **Refine Parameter Control Styling**
-   - Verify input width consistency (36px min for numbers)
-   - Check input height (18px for most controls)
-   - Apply monospace font for numbers
-   - Add proper focus states (blue accent border)
-   - Fine-tune padding and spacing
-   - Compare pixel-perfect against octaneWeb components.css:3067-3200
-
-8. **Add Vector Input Labels**
-   - Add small "x", "y", "z", "w" labels for multi-input fields
-   - Use subtle gray color
-   - Position above or beside vector inputs
-   - Match reference screenshot layout
-
-9. **Enhance Color Picker**
-   - Add color swatch preview bar
-   - Support HDR color values (> 1.0)
-   - Expose RGB text inputs alongside picker
-   - Add alpha channel support if needed
-
-### Phase 5: Enhanced Features (Low Priority)
-
-10. **Add Parameter Tooltips**
-    - Hover tooltips showing full parameter name
-    - Display value range/limits if available
-    - Show parameter description from pinInfo
-
-11. **Implement Read-only Parameter Support**
-    - Detect read-only parameters (check pinInfo flags)
-    - Render as gray text or disabled inputs
-    - Prevent editing of read-only values
-
-12. **Add Validation and Error Handling**
-    - Validate input ranges and types
-    - Display error messages for invalid inputs
-    - Prevent submission of out-of-range values
-    - Add user-friendly error feedback
-
-## 🔍 Key Files Reference
-
-### Core Application Files
-```
-client/src/
-├── App.tsx                           # Main app layout and state management
-├── main.tsx                          # Entry point
-├── components/
-│   ├── SceneOutliner.tsx             # Scene tree (left panel)
-│   ├── NodeInspector.tsx             # Property editor (right panel)
-│   ├── NodeGraphEditor.tsx           # Visual node graph (bottom panel)
-│   ├── CallbackRenderViewport.tsx    # Real-time rendering viewport
-│   └── ConnectionStatus.tsx          # Connection indicator
-├── hooks/
-│   └── useOctane.tsx                 # React hooks for Octane client
-├── services/
-│   └── OctaneClient.ts               # Core gRPC client logic
-├── types/
-│   └── scene.ts                      # TypeScript type definitions
-└── styles/
-    └── components.css                # OTOY-branded dark theme styling
-```
-
-### Build and Configuration
-```
-├── vite.config.mts                   # Vite config with gRPC plugin
-├── vite-plugin-octane-grpc.ts        # Custom gRPC proxy plugin
-├── tsconfig.json                     # TypeScript config
-├── package.json                      # Dependencies and scripts
-└── server/
-    ├── proto/                        # Octane .proto API definitions
-    └── generated/                    # Auto-generated TypeScript types
-```
-
-### Documentation Files
-```
-├── OVERVIEW.md                       # Project architecture and features
-├── QUICKSTART.md                     # Setup and run instructions
-├── PARAMETER_CONTROLS_STATUS.md      # Parameter implementation status
-├── STYLING_UPDATE_SUMMARY.md         # Node inspector styling details
-├── VISUAL_DEBUGGING.md               # Visual debugging guide
-└── REPRO_PROMPT.md                   # This file
-```
-
-## 🐛 Known Issues and Patterns
-
-### Common Debugging Patterns
-
-**Scene Not Loading:**
-- Check terminal logs for API call progress (📤/✅ markers)
-- Wait 30-60 seconds for scene sync completion
-- Manual refresh: Click 🔄 button in scene outliner
-- Verify connection status shows "Connected"
-
-**Connection Issues:**
-- Ensure Octane is running with LiveLink enabled
-- Check Octane is listening on 127.0.0.1:51022
-- In sandbox environments: Uses `host.docker.internal:51022` automatically
-- Check health endpoint: `curl http://localhost:43929/api/health`
-
-**TypeScript Errors:**
-- Run `npm run proto:generate` to regenerate protobuf types
-- Check `server/generated/` for updated type definitions
-- Verify all imports are correct
-
-### Octane API Response Patterns
-
-Different API methods return different response structures:
-
-```typescript
-// Most methods return: {result: {handle, type}}
-ApiProjectManager.rootNodeGraph() → {result: {handle: "1000000", type: "ApiRootNodeGraph"}}
-ApiItem.name() → {result: "teapot.obj"}
-
-// getOwnedItems returns: {list: {handle, type}}
-ApiNodeGraph.getOwnedItems() → {list: {handle: "1000001", type: "ApiItemArray"}}
-
-// getByAttrID returns: {float_value: X, value: "float_value"}
-ApiItem.getByAttrID() → {float_value: 36.000, value: "float_value"}
-```
-
-## 💡 Development Guidelines
-
-### Working Style
-1. **Never start work without user approval** - Always stop and ask for task assignment
-2. **No visual debugging sessions** - User verifies UI changes themselves
-3. **Do builds to check TypeScript errors** - Run `npm run build` frequently
-4. **Check logs for errors** - Run `npm run dev` and review terminal output
-5. **One task at a time** - Complete and verify before moving to next task
-
-### Code Quality Standards
-- Maintain TypeScript type safety (no `any` types unless necessary)
-- Follow existing patterns from octaneWeb reference implementation
-- Match octaneWeb GenericNodeRenderer.js structure for parameters
-- Use OTOY-branded CSS classes from components.css
-- Add comprehensive comments for complex logic
-- Preserve debug logging during development (can be removed later)
-
-### Testing Workflow
-1. **TypeScript Check**: `tsc --noEmit` or `npm run build`
-2. **Start Dev Server**: `npm run dev`
-3. **Check Terminal Logs**: Look for errors or warnings
-4. **Browser Console**: Check for JavaScript errors
-5. **Functional Testing**: Verify feature works as expected
-6. **Connection Test**: Test with live Octane if available
-
-### Git Workflow
-- **Branch**: Work on main branch
-- **Commit Messages**: Descriptive, explain what and why
-- **Staged Changes**: Review with `git diff --cached` before committing
-- **Push Frequency**: After each completed task or logical unit
-
-## 🎯 Task Assignment Protocol
-
-**At the start of each interaction:**
-1. I will confirm understanding of current state
-2. I will acknowledge pending tasks
-3. **I will wait for you to assign a specific task**
-4. I will not start work until you approve
-
-**Task format you'll provide:**
-- Clear task description
-- Expected outcome
-- Any specific requirements or constraints
-- Approval to begin work
-
-## 📚 Reference Documentation
-
-### Related octaneWeb Files (Original Implementation)
-Located in `/workspace/project/grpcSamples/octaneWeb/`:
-- `js/utils/GenericNodeRenderer.js` - Parameter rendering reference
-- `js/components/NodeInspector.js` - Inspector container reference
-- `css/components.css` - Styling reference (lines 3050-3200 for parameters)
-- `js/app.js` - Main application structure
-
-### API Documentation
-- Octane LiveLink gRPC APIs (see server/proto/*.proto files)
-- ApiProjectManager, ApiItem, ApiNode, ApiNodeGraph services
-- Protocol Buffer definitions in server/generated/
-
-## ✅ Success Criteria
-
-You'll know we're ready to proceed when:
-- [ ] Development server starts without errors
-- [ ] TypeScript compilation successful
-- [ ] No staged changes (committed NodeGraphEditor fix)
-- [ ] Browser console shows debug logs (🔍, 🔄, 🎉, 🎨)
-- [ ] NodeGraphEditor renders nodes (not "No scene nodes available")
-- [ ] All documentation files read and understood
-
----
-
-## 🚀 TASK LIST FOR NEW SESSION
-
-### Node Graph Editor ✅ COMPLETE
-1. ✅ **ReactFlow migration complete** - Replaced 956-line custom implementation
-2. ✅ **Handle type bug fixed** - String/number handle support working
-3. ✅ **Octane behavior matched** - Top-level only nodes with bezier connections
-4. ✅ **Visual verification complete** - Application renders correctly
-
-### Phase 3: Parameter Value Updates (High Priority)
-4. **Implement value change handlers (setByAttrID)** - Connect inputs to Octane API
-5. **Add enum dropdown support** - Render dropdowns for NT_ENUM types
-6. **Add number input spinners/arrows** - Up/down buttons for number fields
-
-### Phase 4: UI Polish (Medium Priority)
-7. **Refine parameter control styling** - Match octaneWeb pixel-perfect
-8. **Add vector input labels** - "x", "y", "z", "w" labels for multi-input fields
-9. **Enhance color picker** - Swatch preview, HDR support, RGB text inputs
-
-### Phase 5: Enhanced Features (Low Priority)
-10. **Add parameter tooltips** - Hover info for parameters
-11. **Implement read-only parameter support** - Disable editing for read-only values
-12. **Add validation and error handling** - Input validation and user feedback
-
----
-
-**Status**: ✅ Ready for Task Assignment  
-**Last Updated**: 2025-01-20  
-**Next Step**: Wait for user to assign specific task from list above
+Always wait for task assignment before starting work. Never proceed without user approval.
