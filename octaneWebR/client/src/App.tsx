@@ -18,6 +18,7 @@ import { OctaneProvider, useOctane } from './hooks/useOctane';
 import { useResizablePanels } from './hooks/useResizablePanels';
 import { ConnectionStatus } from './components/ConnectionStatus';
 import { CallbackRenderViewport } from './components/CallbackRenderViewport';
+import { RenderToolbar } from './components/RenderToolbar';
 import { SceneOutliner } from './components/SceneOutliner';
 import { NodeInspector } from './components/NodeInspector';
 import { NodeInspectorControls } from './components/NodeInspectorControls';
@@ -135,10 +136,8 @@ function AppContent() {
             )}
           </div>
           
-          {/* Render Toolbar will go here */}
-          <div className="render-toolbar-container">
-            {/* TODO: Port RenderToolbar component */}
-          </div>
+          {/* Render Toolbar - Official Octane viewport controls */}
+          <RenderToolbar />
         </section>
 
         {/* Center-Right Splitter - spans ALL rows (full height) */}

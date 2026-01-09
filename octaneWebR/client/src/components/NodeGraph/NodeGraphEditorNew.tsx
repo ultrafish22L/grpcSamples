@@ -25,7 +25,6 @@ import { SceneNode } from '../../services/OctaneClient';
 import { useOctane } from '../../hooks/useOctane';
 import { OctaneNode, OctaneNodeData } from './OctaneNode';
 import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
-import { NodeGraphToolbar } from './NodeGraphToolbar';
 import { NodeTypeContextMenu } from './NodeTypeContextMenu';
 import { NodeType } from '../../constants/OctaneTypes';
 
@@ -52,9 +51,6 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
   // Context menu state
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
-  
-  // Selected nodes state (for delete button)
-  const [selectedNodeHandles, setSelectedNodeHandles] = useState<string[]>([]);
 
   /**
    * Convert scene tree to ReactFlow nodes and edges
@@ -307,58 +303,6 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
   );
 
   /**
-   * Handle node selection changes
-   */
-  const onSelectionChange = useCallback((params: { nodes: Node[] }) => {
-    const handles = params.nodes.map(node => node.id);
-    setSelectedNodeHandles(handles);
-    console.log('🎯 Selected nodes:', handles);
-  }, []);
-
-  /**
-   * Toolbar event handlers
-   */
-  const handleAddNode = useCallback(() => {
-    console.log('🔧 [Toolbar] Add Node - showing context menu');
-    // Show context menu at center of container
-    if (containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      setContextMenuPosition({
-        x: rect.left + rect.width / 2,
-        y: rect.top + rect.height / 2,
-      });
-      setContextMenuVisible(true);
-    }
-  }, []);
-
-  const handleDeleteNode = useCallback(async () => {
-    console.log('🔧 [Toolbar] Delete Node - handles:', selectedNodeHandles);
-    if (selectedNodeHandles.length === 0) {
-      console.log('⚠️ No nodes selected for deletion');
-      return;
-    }
-
-    try {
-      for (const handle of selectedNodeHandles) {
-        await client.deleteNode(handle);
-      }
-      setSelectedNodeHandles([]);
-    } catch (error) {
-      console.error('❌ Error deleting nodes:', error);
-    }
-  }, [selectedNodeHandles, client]);
-
-  const handleFitView = useCallback(() => {
-    console.log('🔧 [Toolbar] Fit All');
-    fitView({ 
-      padding: 0.2,
-      minZoom: 0.5,
-      maxZoom: 1.5,
-      duration: 300,
-    });
-  }, [fitView]);
-
-  /**
    * Context menu event handlers
    */
   const handleContextMenu = useCallback((event: React.MouseEvent) => {
@@ -418,14 +362,6 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
       style={{ width: '100%', height: '100%', position: 'relative' }}
       onContextMenu={handleContextMenu}
     >
-      {/* Toolbar */}
-      <NodeGraphToolbar
-        onAddNode={handleAddNode}
-        onDeleteNode={handleDeleteNode}
-        onFitView={handleFitView}
-        hasSelection={selectedNodeHandles.length > 0}
-      />
-
       {/* Context Menu */}
       {contextMenuVisible && (
         <NodeTypeContextMenu
@@ -443,7 +379,6 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodesDelete={onNodesDelete}
-        onSelectionChange={onSelectionChange}
         nodeTypes={nodeTypes}
         minZoom={0.1}
         maxZoom={4}
