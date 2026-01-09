@@ -84,6 +84,8 @@ export function NodeTypeContextMenu({
   }, [x, y]);
 
   const handleCategoryMouseEnter = useCallback((category: string, e: React.MouseEvent<HTMLDivElement>) => {
+    console.log('🔍 Category hover:', category);
+    
     // Clear any pending hide timeout
     if (hideTimeoutRef.current) {
       clearTimeout(hideTimeoutRef.current);
@@ -91,12 +93,14 @@ export function NodeTypeContextMenu({
     }
 
     setHoveredCategory(category);
+    console.log('✅ hoveredCategory set to:', category);
     
     // Position submenu to the right of the category item (matching octaneWeb lines 294-313)
     const categoryRect = e.currentTarget.getBoundingClientRect();
     let submenuLeft = categoryRect.right + 2;
     let submenuTop = categoryRect.top;
 
+    console.log('📍 Submenu position:', { left: submenuLeft, top: submenuTop });
     setSubmenuPosition({ top: submenuTop, left: submenuLeft });
   }, []);
 
@@ -188,41 +192,50 @@ export function NodeTypeContextMenu({
             >
               {category}
               <span className="category-arrow">▶</span>
-              
-              {/* Submenu for this category */}
-              {hoveredCategory === category && (
-                <div
-                  ref={submenuRef}
-                  className="context-submenu"
-                  onMouseEnter={handleSubmenuMouseEnter}
-                  onMouseLeave={handleSubmenuMouseLeave}
-                  style={{
-                    display: 'block', // Override CSS display: none (matching octaneWeb line 308)
-                    position: 'fixed',
-                    left: submenuPosition.left,
-                    top: submenuPosition.top,
-                  }}
-                >
-                  {Object.entries(nodeTypes).map(([nodeType, info]) => (
-                    <div
-                      key={nodeType}
-                      className="context-menu-item"
-                      onClick={() => handleNodeTypeClick(nodeType)}
-                      title={nodeType}
-                    >
-                      <span
-                        className="node-type-color"
-                        style={{ backgroundColor: info.color }}
-                      />
-                      {info.name}
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
           );
         })}
       </div>
+
+      {/* Render active submenu separately (not nested inside category div) */}
+      {hoveredCategory && (() => {
+        const nodeTypes = getNodeTypesForCategory(hoveredCategory);
+        if (!nodeTypes) return null;
+        
+        console.log('🎨 Rendering submenu for:', hoveredCategory, 'with', Object.keys(nodeTypes).length, 'items');
+        console.log('🎨 Submenu position:', submenuPosition);
+        
+        return (
+          <div
+            ref={submenuRef}
+            className="context-submenu"
+            onMouseEnter={handleSubmenuMouseEnter}
+            onMouseLeave={handleSubmenuMouseLeave}
+            style={{
+              display: 'block', // Override CSS display: none (matching octaneWeb line 308)
+              position: 'fixed',
+              left: submenuPosition.left,
+              top: submenuPosition.top,
+              zIndex: 10001, // Ensure it's above main menu
+            }}
+          >
+            {Object.entries(nodeTypes).map(([nodeType, info]) => (
+              <div
+                key={nodeType}
+                className="context-menu-item"
+                onClick={() => handleNodeTypeClick(nodeType)}
+                title={nodeType}
+              >
+                <span
+                  className="node-type-color"
+                  style={{ backgroundColor: info.color }}
+                />
+                {info.name}
+              </div>
+            ))}
+          </div>
+        );
+      })()}
     </>,
     document.body // Render to document.body (matching octaneWeb approach)
   );
