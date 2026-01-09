@@ -22,11 +22,13 @@ export function NodeTypeContextMenu({
   onClose,
 }: NodeTypeContextMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
+  const submenuRef = useRef<HTMLDivElement>(null);
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [submenuPosition, setSubmenuPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
+  const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const categories = getNodeCategories();
 
-  // Close menu on click outside
+  // Close menu on click outside (matching octaneWeb line 167: uses 'click' not 'mousedown')
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -34,8 +36,8 @@ export function NodeTypeContextMenu({
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
   }, [onClose]);
 
   // Close menu on Escape key
@@ -49,6 +51,15 @@ export function NodeTypeContextMenu({
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
   }, [onClose]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Adjust menu position to stay on screen
   useEffect(() => {
@@ -73,6 +84,12 @@ export function NodeTypeContextMenu({
   }, [x, y]);
 
   const handleCategoryMouseEnter = useCallback((category: string, e: React.MouseEvent<HTMLDivElement>) => {
+    // Clear any pending hide timeout
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+
     setHoveredCategory(category);
     
     // Position submenu to the right of the category item (matching octaneWeb lines 294-313)
@@ -84,6 +101,22 @@ export function NodeTypeContextMenu({
   }, []);
 
   const handleCategoryMouseLeave = useCallback(() => {
+    // Add delay before hiding to allow moving mouse to submenu
+    hideTimeoutRef.current = setTimeout(() => {
+      setHoveredCategory(null);
+    }, 150); // 150ms delay is standard for hover menus
+  }, []);
+
+  const handleSubmenuMouseEnter = useCallback(() => {
+    // Keep submenu visible when hovering over it
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+  }, []);
+
+  const handleSubmenuMouseLeave = useCallback(() => {
+    // Hide submenu when mouse leaves it
     setHoveredCategory(null);
   }, []);
 
@@ -159,7 +192,10 @@ export function NodeTypeContextMenu({
               {/* Submenu for this category */}
               {hoveredCategory === category && (
                 <div
+                  ref={submenuRef}
                   className="context-submenu"
+                  onMouseEnter={handleSubmenuMouseEnter}
+                  onMouseLeave={handleSubmenuMouseLeave}
                   style={{
                     display: 'block', // Override CSS display: none (matching octaneWeb line 308)
                     position: 'fixed',
