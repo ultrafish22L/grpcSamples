@@ -292,10 +292,6 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
   if (nodes.length === 0) {
     return (
       <div className="node-graph-empty">
-        <p>No scene nodes available</p>
-        <p style={{ fontSize: '12px', color: '#888', marginTop: '10px' }}>
-          Load a scene in Octane to see the node graph
-        </p>
       </div>
     );
   }
@@ -310,7 +306,7 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
         onConnect={onConnect}
         onNodesDelete={onNodesDelete}
         nodeTypes={nodeTypes}
-        defaultViewport={{ x: 100, y: 100, zoom: 0.4 }}
+        defaultViewport={{ x: 100, y: 100, zoom: 0.2}}
         minZoom={0.1}
         maxZoom={4}
         defaultEdgeOptions={{

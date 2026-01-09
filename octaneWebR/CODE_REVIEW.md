@@ -25,6 +25,7 @@
 - ✅ **ReactFlow Container**: Fixed parent container width/height warning
 
 **Critical Issues:**
+- 🔴 **Debug Logging**: Extensive console.log statements (intentional for debugging)
 - 🔴 **Pins Not Displaying**: Input/output dots missing on nodes (visual bug)
 - 🔴 **Connections Missing**: No connection lines rendering between nodes
 - 🔴 **Scene Data**: nodeInfo.inputs array appears empty (likely root cause)
@@ -32,7 +33,6 @@
 **Remaining Issues:**
 - 🟡 **Performance**: Multiple re-render issues and unoptimized state updates
 - 🟡 **Component Size**: Several components exceed 500+ lines (difficult to maintain)
-- 🟡 **Debug Logging**: Extensive console.log statements (intentional for debugging)
 
 ---
 

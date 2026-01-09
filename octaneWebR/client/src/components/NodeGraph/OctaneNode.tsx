@@ -150,3 +150,16 @@ export const OctaneNode = memo(({ data, selected }: NodeProps<OctaneNodeData>) =
 });
 
 OctaneNode.displayName = 'OctaneNode';
+
+/*
+Type '{ children: (void | Element)[]; }' is not assignable to type '{ children?: ReactNode; }'.
+  Types of property 'children' are incompatible.
+    Type '(void | Element)[]' is not assignable to type 'ReactNode'.
+      Type '(void | Element)[]' is not assignable to type 'Iterable<ReactNode>'.
+        The types returned by '[Symbol.iterator]().next(...)' are incompatible between these types.
+          Type 'IteratorResult<void | Element, undefined>' is not assignable to type 'IteratorResult<ReactNode, any>'.
+            Type 'IteratorYieldResult<void | Element>' is not assignable to type 'IteratorResult<ReactNode, any>'.
+              Type 'IteratorYieldResult<void | Element>' is not assignable to type 'IteratorYieldResult<ReactNode>'.
+                Type 'void | Element' is not assignable to type 'ReactNode'.
+                  Type 'void' is not assignable to type 'ReactNode'.ts(2322)
+*/
