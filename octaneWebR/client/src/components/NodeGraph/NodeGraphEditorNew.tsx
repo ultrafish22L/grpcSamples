@@ -84,8 +84,8 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
       const handleStr = String(item.handle);
       nodeMap.set(handleStr, item);
 
-      // Extract input pins from nodeInfo (for pin connections)
-      const inputs = item.nodeInfo?.inputs || [];
+      // Extract input pins from item.children (matching octaneWeb line 1020)
+      const inputs = item.children || [];
       console.log(`🔄 [convertSceneToGraph]   📌 Node "${item.name}" has ${inputs.length} inputs`);
       
       const inputHandles = inputs.map((input: any, inputIndex: number) => {
@@ -129,29 +129,30 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
     });
 
     // Create connections between TOP-LEVEL nodes only
-    // Look for connections in the nodeInfo data (connected pins)
+    // Look for connections in node.children (matching octaneWeb pattern)
     console.log(`🔄 [convertSceneToGraph] Creating edges...`);
     tree.forEach((node) => {
-      if (!node.handle || !node.nodeInfo?.inputs) {
-        console.log(`🔄 [convertSceneToGraph]   ⚠️ Node "${node.name}" has no inputs, skipping edge creation`);
+      if (!node.handle || !node.children || node.children.length === 0) {
+        console.log(`🔄 [convertSceneToGraph]   ⚠️ Node "${node.name}" has no children, skipping edge creation`);
         return;
       }
 
       const targetHandle = String(node.handle);
       
-      // Check each input pin for connections
-      node.nodeInfo.inputs.forEach((input: any, inputIndex: number) => {
-        if (input.connectedNode && input.connectedNode.handle) {
-          const sourceHandle = String(input.connectedNode.handle);
+      // Check each child (input pin) for connections
+      // Each child IS a connected node (source)
+      node.children.forEach((childNode: any, inputIndex: number) => {
+        if (childNode.handle) {
+          const sourceHandle = String(childNode.handle);
           
-          console.log(`🔄 [convertSceneToGraph]   🔗 Found connection: "${input.connectedNode.name}" → "${node.name}" (pin ${inputIndex})`);
+          console.log(`🔄 [convertSceneToGraph]   🔗 Found connection: "${childNode.name}" → "${node.name}" (pin ${inputIndex})`);
           console.log(`🔄 [convertSceneToGraph]      Source handle: ${sourceHandle}, Target handle: ${targetHandle}`);
           console.log(`🔄 [convertSceneToGraph]      Source in map: ${nodeMap.has(sourceHandle)}, Target in map: ${nodeMap.has(targetHandle)}`);
           
           // Only create edge if BOTH nodes are in our top-level nodeMap
           if (nodeMap.has(sourceHandle) && nodeMap.has(targetHandle)) {
-            const edgeColor = input.pinInfo?.pinColor 
-              ? OctaneIconMapper.formatColorValue(input.pinInfo.pinColor)
+            const edgeColor = childNode.pinInfo?.pinColor 
+              ? OctaneIconMapper.formatColorValue(childNode.pinInfo.pinColor)
               : '#4a90e2';
             
             const edge: Edge = {
