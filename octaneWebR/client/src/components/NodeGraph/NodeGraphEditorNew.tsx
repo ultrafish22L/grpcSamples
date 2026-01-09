@@ -23,7 +23,6 @@ import 'reactflow/dist/style.css';
 import { SceneNode } from '../../services/OctaneClient';
 import { useOctane } from '../../hooks/useOctane';
 import { OctaneNode, OctaneNodeData } from './OctaneNode';
-import { Logger } from '../../utils/Logger';
 import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
 
 interface NodeGraphEditorProps {
@@ -55,7 +54,7 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
   const convertSceneToGraph = useCallback((tree: SceneNode[]) => {
     console.log('🔄 [convertSceneToGraph] Starting conversion...');
     console.log('🔄 [convertSceneToGraph] Top-level nodes:', tree.length);
-    Logger.group('🔄 Converting scene tree to ReactFlow graph', true);
+    console.groupCollapsed('🔄 Converting scene tree to ReactFlow graph');
     
     const graphNodes: Node<OctaneNodeData>[] = [];
     const graphEdges: Edge[] = [];
@@ -179,8 +178,8 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
     });
 
     console.log(`🔄 [convertSceneToGraph] Completed: ${graphNodes.length} nodes, ${graphEdges.length} edges`);
-    Logger.debug(`Created ${graphNodes.length} top-level nodes and ${graphEdges.length} edges`);
-    Logger.groupEnd();
+    console.debug(`Created ${graphNodes.length} top-level nodes and ${graphEdges.length} edges`);
+    console.groupEnd();
 
     return { nodes: graphNodes, edges: graphEdges };
   }, []);
@@ -195,14 +194,14 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
     
     if (!sceneTree || sceneTree.length === 0) {
       console.log('📊 [NodeGraphEditor] No scene tree data - setting empty nodes/edges');
-      Logger.debug('No scene tree data available');
+      console.debug('No scene tree data available');
       setNodes([]);
       setEdges([]);
       return;
     }
 
     console.log('📊 [NodeGraphEditor] Converting scene tree to graph...');
-    Logger.info(`Loading scene graph with ${sceneTree.length} root nodes`);
+    console.log(`Loading scene graph with ${sceneTree.length} root nodes`);
     const { nodes: graphNodes, edges: graphEdges } = convertSceneToGraph(sceneTree);
     
     console.log('📊 [NodeGraphEditor] Conversion complete:');
@@ -222,7 +221,7 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
    */
   const onConnect = useCallback(
     async (connection: Connection) => {
-      Logger.info('Creating connection:', connection);
+      console.log('Creating connection:', connection);
 
       try {
         if (!connection.source || !connection.target) return;
@@ -239,7 +238,7 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
           },
         });
 
-        Logger.info('Connection created successfully');
+        console.log('Connection created successfully');
 
         // Add edge to ReactFlow
         setEdges((eds) => addEdge(connection, eds));
@@ -247,7 +246,7 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
         // Refresh scene tree
         await client.buildSceneTree();
       } catch (error) {
-        Logger.error('Failed to create connection:', error);
+        console.error('Failed to create connection:', error);
       }
     },
     [client, setEdges]
@@ -258,7 +257,7 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
    */
   const onNodesDelete = useCallback(
     async (deletedNodes: Node[]) => {
-      Logger.info('Deleting nodes:', deletedNodes.map((n) => n.id));
+      console.log('Deleting nodes:', deletedNodes.map((n) => n.id));
 
       try {
         for (const node of deletedNodes) {
@@ -266,12 +265,12 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
           await client.callApi('ApiItem', 'deleteItem', handle, {});
         }
 
-        Logger.info('Nodes deleted successfully');
+        console.log('Nodes deleted successfully');
         
         // Refresh scene tree
         await client.buildSceneTree();
       } catch (error) {
-        Logger.error('Failed to delete nodes:', error);
+        console.error('Failed to delete nodes:', error);
       }
     },
     [client]

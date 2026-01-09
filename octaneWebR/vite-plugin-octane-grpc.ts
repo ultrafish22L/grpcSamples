@@ -453,16 +453,21 @@ export function octaneGrpcPlugin(): Plugin {
             try {
               const logData = JSON.parse(body);
               const timestamp = new Date().toISOString();
-              const logLine = `[${timestamp}] [${logData.level}] ${logData.message}\n`;
+              const logLine = `[${timestamp}] [${logData.level.toUpperCase()}] ${logData.message}\n`;
               
               // Append to log file
               fs.appendFileSync('/tmp/octaneWebR_client.log', logLine);
               
-              // Also log to console with appropriate color
-              if (logData.level === 'error') {
+              // Also log to console with appropriate emoji based on level
+              const logLevel = logData.level.toLowerCase();
+              if (logLevel === 'error') {
                 console.error('🔴 CLIENT:', logData.message);
-              } else if (logData.level === 'warn') {
+              } else if (logLevel === 'warn') {
                 console.warn('🟡 CLIENT:', logData.message);
+              } else if (logLevel === 'debug') {
+                console.log('🔍 CLIENT:', logData.message);
+              } else if (logLevel === 'info') {
+                console.info('ℹ️  CLIENT:', logData.message);
               } else {
                 console.log('🟢 CLIENT:', logData.message);
               }

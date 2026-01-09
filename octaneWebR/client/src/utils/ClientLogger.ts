@@ -3,12 +3,13 @@
  * This helps debug issues by capturing all client-side activity
  */
 
-type LogLevel = 'log' | 'warn' | 'error';
+type LogLevel = 'log' | 'debug' | 'info' | 'warn' | 'error';
 
 class ClientLogger {
   private static instance: ClientLogger;
   private logQueue: Array<{ level: LogLevel; message: string }> = [];
   private enabled: boolean = true;
+  private groupStack: string[] = [];
 
   private constructor() {
     // Intercept console methods
@@ -32,12 +33,30 @@ class ClientLogger {
 
   private interceptConsole() {
     const originalLog = console.log;
+    const originalDebug = console.debug;
+    const originalInfo = console.info;
     const originalWarn = console.warn;
     const originalError = console.error;
+    const originalGroup = console.group;
+    const originalGroupCollapsed = console.groupCollapsed;
+    const originalGroupEnd = console.groupEnd;
+    const originalTable = console.table;
+    const originalTime = console.time;
+    const originalTimeEnd = console.timeEnd;
 
     console.log = (...args: any[]) => {
       originalLog.apply(console, args);
       this.log('log', this.formatArgs(args));
+    };
+
+    console.debug = (...args: any[]) => {
+      originalDebug.apply(console, args);
+      this.log('debug', this.formatArgs(args));
+    };
+
+    console.info = (...args: any[]) => {
+      originalInfo.apply(console, args);
+      this.log('info', this.formatArgs(args));
     };
 
     console.warn = (...args: any[]) => {
@@ -48,6 +67,49 @@ class ClientLogger {
     console.error = (...args: any[]) => {
       originalError.apply(console, args);
       this.log('error', this.formatArgs(args));
+    };
+
+    console.group = (...args: any[]) => {
+      originalGroup.apply(console, args);
+      const label = this.formatArgs(args);
+      this.groupStack.push(label);
+      this.log('log', `▼ GROUP: ${label}`);
+    };
+
+    console.groupCollapsed = (...args: any[]) => {
+      originalGroupCollapsed.apply(console, args);
+      const label = this.formatArgs(args);
+      this.groupStack.push(label);
+      this.log('log', `▶ GROUP (collapsed): ${label}`);
+    };
+
+    console.groupEnd = () => {
+      originalGroupEnd.apply(console);
+      const label = this.groupStack.pop();
+      if (label) {
+        this.log('log', `▲ END GROUP: ${label}`);
+      }
+    };
+
+    console.table = (data: any) => {
+      originalTable.apply(console, [data]);
+      try {
+        const tableStr = typeof data === 'object' ? JSON.stringify(data, null, 2) : String(data);
+        this.log('log', `TABLE:\n${tableStr}`);
+      } catch (e) {
+        this.log('log', `TABLE: [unable to serialize]`);
+      }
+    };
+
+    console.time = (label?: string) => {
+      originalTime.apply(console, [label]);
+      this.log('log', `⏱️ TIMER START: ${label || 'default'}`);
+    };
+
+    console.timeEnd = (label?: string) => {
+      originalTimeEnd.apply(console, [label]);
+      // Note: The actual timing will show in browser console, we just log the end event
+      this.log('log', `⏱️ TIMER END: ${label || 'default'}`);
     };
   }
 

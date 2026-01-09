@@ -23,7 +23,6 @@ import { NodeInspector } from './components/NodeInspector';
 import { NodeInspectorControls } from './components/NodeInspectorControls';
 import { NodeGraphEditor } from './components/NodeGraph';
 import { SceneNode } from './services/OctaneClient';
-import { Logger } from './utils/Logger';
 
 function AppContent() {
   const { connect, connected } = useOctane();
@@ -36,7 +35,7 @@ function AppContent() {
     console.log('🌲 [App.tsx] handleSceneTreeChange called with tree:', tree);
     console.log('🌲 [App.tsx] Tree length:', tree?.length || 0);
     console.log('🌲 [App.tsx] First node:', tree?.[0]);
-    Logger.debug('Scene tree updated:', tree.length, 'nodes');
+    console.debug('Scene tree updated:', tree.length, 'nodes');
     setSceneTree(tree);
     console.log('🌲 [App.tsx] setSceneTree() called - state should update now');
   };
