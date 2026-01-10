@@ -2,10 +2,10 @@
 
 ## 🎯 Current Status
 
-**OctaneWebR** is a React + TypeScript port of octaneWeb with core features implemented and working.
+**OctaneWebR** is a React + TypeScript port of octaneWeb. Core features are production-ready.
 
-**Working**: Menu System, Scene Outliner, Node Inspector, Node Graph Editor, Parameter Controls, Callback Render Viewport, Connection Status  
-**In Progress**: Material Database
+**Working**: Scene Outliner, Node Inspector with real-time editing, Node Graph Editor, Live Render Viewport with camera controls  
+**In Progress**: Material Database content, Render Toolbar actions (start/stop/pause), additional menu items
 
 ---
 
@@ -178,11 +178,14 @@ After following this guide, you should have:
 
 ## 🐛 Known Issues
 
-### File Operations
-**Status**: Menu items are present but call placeholder functions (need full Octane API integration)
-
 ### Material Database
-**Status**: Not yet implemented (planned)
+**Status**: Live DB and Local DB tabs exist but content not implemented (planned)
+
+### Render Toolbar Actions
+**Status**: UI complete, most actions need API integration (start/stop/pause, clay mode, picking modes, etc.)
+
+### Menu System
+**Status**: Only 13/40+ menu items fully implemented (cloud.*, module.*, script.* menus missing)
 
 ---
 

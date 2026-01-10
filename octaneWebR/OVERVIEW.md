@@ -6,17 +6,20 @@ Modern browser-based interface for OTOY Octane Render with direct gRPC connectiv
 
 **OctaneWebR** is a React + TypeScript port of octaneWeb that provides real-time interaction with OTOY's Octane Render through the LiveLink gRPC API. Built with React 18, TypeScript, and Vite, it delivers a professional rendering workflow with scene management, node inspection, and real-time viewport rendering.
 
-**Current Status**: ✅ **Active Development** - Core features implemented and working
+**Current Status**: ✅ **Production-Ready Core** - Main features complete, advanced features in progress
 
 ### Key Features
 
 - ✅ **Direct gRPC Integration**: Embedded Vite plugin proxy - no separate server process needed
-- ✅ **Menu System**: Complete File/Edit/Script/Module/Cloud/Window/Help menus with file dialogs
+- ✅ **Menu System**: File/Edit/View/Window/Help menus with file dialogs (partial implementation)
 - ✅ **Real-time Scene Management**: Interactive scene outliner with hierarchical tree view
-- ✅ **Node Inspector**: View and edit node properties and attributes (parameter controls implemented)
-- ✅ **Node Graph Editor**: ReactFlow-based visual node graph with context menus
-- ✅ **Live Rendering**: Real-time callback-based viewport with mouse camera controls
-- ⏳ **Material Database Access**: Browse online (Live DB) and local material libraries (planned)
+- ✅ **Node Inspector**: View and edit node properties with real-time updates to Octane
+- ✅ **Parameter Editing**: All types supported (bool, int, float, vectors, colors, enums, strings)
+- ✅ **Node Graph Editor**: ReactFlow-based visual node graph with drag-and-drop
+- ✅ **Live Rendering**: Real-time callback-based viewport with camera controls (orbit, pan, zoom)
+- ✅ **Camera Controls**: Mouse-based orbit/pan/zoom with real-time sync to Octane
+- ⏳ **Material Database**: Live DB and Local DB tabs (UI exists, content not implemented)
+- ⏳ **Render Toolbar**: UI complete, most actions need API integration
 - ✅ **Professional UI**: OTOY-branded dark theme with responsive design
 - ✅ **Type Safety**: Full TypeScript support with auto-generated protobuf types
 
@@ -141,9 +144,11 @@ ApiNodeGraph.getOwnedItems() → {list: {handle: "1000001", type: "ApiItemArray"
 
 ### Node Inspector ✅
 - Hierarchical tree view for selected node
-- All 12 parameter types implemented (AT_BOOL, AT_FLOAT, AT_FLOAT2/3/4, AT_INT, AT_STRING, etc.)
-- Proper CSS styling matching octaneWeb GenericNodeRenderer
+- All parameter types: bool, int, float, vectors (2/3/4), colors, enums, strings
+- Real-time parameter editing with ApiItem.setByAttrID
 - Color picker for AT_FLOAT3 (NT_TEX_RGB)
+- Enum dropdown support with proper value/label mapping
+- Vector inputs with individual component controls
 - TypeScript type safety maintained
 
 ### Node Graph Editor ✅
@@ -265,9 +270,15 @@ const name = response.result; // or response.list, etc.
 
 ## 🚧 Known Issues & Limitations
 
-### In Progress
-1. **Material Database**: Not yet implemented (planned)
-2. **File Operations**: Menu items call placeholder functions (need full Octane API integration)
+### Not Yet Ported from octaneWeb
+1. **Material Database**: Live DB and Local DB tabs are placeholders (content not implemented)
+2. **Render Toolbar Actions**: ~25 actions need API integration (start/stop/pause rendering, clay mode, picking modes, etc.)
+3. **Menu System**: Only 13/40+ menu items fully implemented
+   - Missing: cloud.*, module.*, script.*, most file operations
+4. **Scene File Loading**: File dialog works but loading not wired to Octane API
+5. **Toast Notifications**: User feedback system not built
+6. **Keyboard Shortcuts**: Shortcut system not implemented
+7. **Camera Presets**: Front/Back/Top/Bottom/Left/Right views not implemented
 
 ### General Limitations
 1. **Browser-Only**: No native desktop app packaging (yet)
@@ -295,6 +306,6 @@ Part of the grpcSamples repository - refer to parent repository for licensing.
 
 ---
 
-**Status**: ✅ **Active Development** - Core features working, render viewport in progress  
-**Version**: 0.9.0 (approaching 1.0)  
-**Last Updated**: 2025-01-20
+**Status**: ✅ **Production-Ready Core** - Scene management, parameter editing, rendering complete  
+**Version**: 0.9.5 (approaching 1.0)  
+**Last Updated**: 2025-01-21
