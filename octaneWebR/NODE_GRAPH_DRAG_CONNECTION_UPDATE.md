@@ -2,7 +2,7 @@
 
 **Date:** 2025-01-20  
 **Component:** NodeGraphEditorNew.tsx  
-**Status:** ✅ Complete - Build Successful (Correct Octane behavior)
+**Status:** ✅ Complete - Build Successful (Correct Octane behavior + API integration)
 
 ---
 
@@ -62,6 +62,88 @@ When you drag a connection line from a pin, the line color dynamically matches t
 - Drag from input → replaces old connection on success
 - All original edges visible during drag (Octane standard behavior)
 - Cancel drag (drop in empty space) → no changes made
+
+---
+
+## 🔌 API Integration Improvements
+
+### Correct connectToIx Parameters
+
+**API Call:** `ApiNode.connectToIx`  
+**Proto Definition:** `apinodesystem.proto`
+
+**Request Structure:**
+```typescript
+{
+  objectPtr: { handle, type },  // Target node (has input pin)
+  pinIdx: number,               // Input pin index
+  sourceNode: { handle, type }, // Source node (has output pin)
+  evaluate: boolean,            // Trigger evaluation after connection
+  doCycleCheck: boolean         // Check for circular dependencies (optional)
+}
+```
+
+**Implementation:**
+```typescript
+await client.callApi('ApiNode', 'connectToIx', targetHandle, {
+  pinIdx,
+  sourceNode: {
+    handle: sourceHandle,
+    type: 17, // ApiNode type
+  },
+  evaluate: true, // Trigger evaluation after connection
+});
+```
+
+**Key Changes:**
+- ✅ Added `evaluate: true` parameter (matches octaneWeb behavior)
+- ✅ Comprehensive logging for debugging API calls
+- ✅ Proper error handling prevents partial state updates
+- ✅ Edge only added to ReactFlow state after successful API call
+
+### Connection Validation
+
+**Added:** `isValidConnection` callback to ReactFlow
+
+**Validation Rules:**
+- ✅ Source and target must exist
+- ✅ No self-connections allowed
+- ✅ Comprehensive logging for debugging
+
+**Implementation:**
+```typescript
+const isValidConnection = useCallback((connection: Connection) => {
+  if (!connection.source || !connection.target) return false;
+  if (connection.source === connection.target) return false;
+  return true;
+}, []);
+```
+
+### Edge Persistence
+
+**Problem:** Edges not persisting after drag completion
+
+**Solution:**
+1. Call Octane API first (`connectToIx`)
+2. Wait for successful response
+3. Create proper Edge object with all required fields
+4. Add to ReactFlow state with `addEdge()`
+5. Refresh scene tree to sync with Octane
+
+**Edge Object Structure:**
+```typescript
+const newEdge: Edge = {
+  id: `e${sourceHandle}-${targetHandle}-${pinIdx}`,
+  source: connection.source!,
+  target: connection.target!,
+  sourceHandle: connection.sourceHandle || 'output-0',
+  targetHandle: connection.targetHandle || `input-${pinIdx}`,
+  type: 'default',
+  reconnectable: true,
+  animated: false,
+  style: { stroke: connectionLineColor, strokeWidth: 3 },
+};
+```
 
 ---
 

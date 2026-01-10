@@ -305,9 +305,17 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   const onConnect = useCallback(
     async (connection: Connection) => {
       try {
-        if (!connection.source || !connection.target) return;
+        if (!connection.source || !connection.target) {
+          console.warn('⚠️ Invalid connection - missing source or target');
+          return;
+        }
 
-        console.log('🔗 Creating connection:', connection);
+        console.log('🔗 Starting connection creation:', {
+          source: connection.source,
+          target: connection.target,
+          sourceHandle: connection.sourceHandle,
+          targetHandle: connection.targetHandle,
+        });
 
         // Check if target input pin already has a connection (needs replacement)
         const existingTargetEdge = edges.find(
@@ -336,13 +344,25 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           ? parseInt(connection.targetHandle.split('-')[1]) 
           : 0;
 
-        await client.callApi('ApiNode', 'connectToIx', targetHandle, {
+        console.log('📤 Calling ApiNode.connectToIx:', {
+          targetHandle,
+          pinIdx,
+          sourceHandle,
+        });
+
+        const response = await client.callApi('ApiNode', 'connectToIx', targetHandle, {
           pinIdx,
           sourceNode: {
             handle: sourceHandle,
             type: 17, // ApiNode type
           },
+          evaluate: true, // Trigger evaluation after connection
         });
+
+        console.log('✅ ApiNode.connectToIx response:', response);
+
+        // Create edge ID matching the format used in scene tree building
+        const edgeId = `e${sourceHandle}-${targetHandle}-${pinIdx}`;
 
         // Remove old edges and add new edge
         setEdges((eds) => {
@@ -351,30 +371,77 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
             ? eds.filter(e => !edgesToRemove.includes(e.id))
             : eds;
           
+          // Check if edge already exists (shouldn't happen, but safety check)
+          const edgeExists = filtered.find(e => e.id === edgeId);
+          if (edgeExists) {
+            console.log('⚠️ Edge already exists, not adding duplicate:', edgeId);
+            return eds;
+          }
+          
           // Add new edge with matching color
-          const newEdge = {
-            ...connection,
-            id: `e${connection.source}-${connection.target}-${pinIdx}`,
+          // Safe to assert as non-null because we checked at start of function
+          const newEdge: Edge = {
+            id: edgeId,
+            source: connection.source!,
+            target: connection.target!,
+            sourceHandle: connection.sourceHandle || 'output-0',
+            targetHandle: connection.targetHandle || `input-${pinIdx}`,
+            type: 'default',
             reconnectable: true,
+            animated: false,
             style: { 
               stroke: connectionLineColor, 
               strokeWidth: 3 
             },
           };
           
+          console.log('✅ Adding new edge to ReactFlow:', newEdge);
           return addEdge(newEdge, filtered);
         });
 
         // Clear the connecting edge ref
         connectingEdgeRef.current = null;
 
-        // Refresh scene tree
+        console.log('🔄 Refreshing scene tree...');
+        // Refresh scene tree to sync with Octane
         await client.buildSceneTree();
+        console.log('✅ Connection complete!');
+        
       } catch (error) {
         console.error('❌ Failed to create connection:', error);
+        
+        // If API call failed, don't add edge to state
+        connectingEdgeRef.current = null;
       }
     },
     [client, setEdges, connectionLineColor, edges]
+  );
+
+  /**
+   * Validate connections before allowing them
+   * - Source must be an output handle (source)
+   * - Target must be an input handle (target)
+   */
+  const isValidConnection = useCallback(
+    (connection: Connection) => {
+      console.log('🔍 Validating connection:', connection);
+      
+      // Basic validation
+      if (!connection.source || !connection.target) {
+        console.log('❌ Invalid: Missing source or target');
+        return false;
+      }
+      
+      // Prevent self-connections
+      if (connection.source === connection.target) {
+        console.log('❌ Invalid: Self-connection');
+        return false;
+      }
+      
+      console.log('✅ Connection is valid');
+      return true;
+    },
+    []
   );
 
   /**
@@ -495,6 +562,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onConnect={onConnect}
         onConnectStart={onConnectStart}
         onConnectEnd={onConnectEnd}
+        isValidConnection={isValidConnection}
         onNodesDelete={onNodesDelete}
         onNodeClick={onNodeClick}
         nodeTypes={nodeTypes}
