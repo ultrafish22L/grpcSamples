@@ -168,9 +168,13 @@ export function CallbackRenderViewport() {
       const width = imageData.size.x;
       const height = imageData.size.y;
 
-      // Set canvas size
+      // Set canvas internal resolution
       canvas.width = width;
       canvas.height = height;
+
+      // Set CSS display size to match (actual pixel size)
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
 
       const ctx = canvas.getContext('2d');
       if (!ctx) {
