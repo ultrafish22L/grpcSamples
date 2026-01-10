@@ -454,22 +454,14 @@ export function CallbackRenderViewport() {
         // Clamp phi to prevent flipping
         cameraRef.current.phi = Math.max(-Math.PI / 2 + 0.1, Math.min(Math.PI / 2 - 0.1, cameraRef.current.phi));
       } else if (isPanningRef.current) {
-        // RIGHT CLICK: Pan camera target
-        // Calculate right and up vectors for camera-relative panning
-        const right = [
-          Math.cos(cameraRef.current.theta + Math.PI / 2),
-          0,
-          Math.sin(cameraRef.current.theta + Math.PI / 2)
-        ];
-        const up = [0, 1, 0];
-
+        // RIGHT CLICK: Pan camera target in X/Y screen space (no Z depth)
         // Pan speed scales with distance from target
         const panSpeed = cameraRef.current.radius * 0.001;
 
-        // Update target position
-        cameraRef.current.center[0] -= right[0] * deltaX * panSpeed;
-        cameraRef.current.center[1] += up[1] * deltaY * panSpeed;
-        cameraRef.current.center[2] -= right[2] * deltaX * panSpeed;
+        // Update target position - X and Y only (no Z)
+        cameraRef.current.center[0] -= deltaX * panSpeed;  // Horizontal (X)
+        cameraRef.current.center[1] += deltaY * panSpeed;  // Vertical (Y)
+        // Z (depth) remains unchanged
       }
 
       // Update Octane camera and trigger render
