@@ -170,7 +170,7 @@ function AppContent() {
             </div>
           </div>
           <div className="node-graph-container">
-            <NodeGraphEditor sceneTree={sceneTree} />
+            <NodeGraphEditor sceneTree={sceneTree} onNodeSelect={setSelectedNode} />
           </div>
         </section>
         

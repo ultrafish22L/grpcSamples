@@ -30,6 +30,7 @@ import { NodeType } from '../../constants/OctaneTypes';
 
 interface NodeGraphEditorProps {
   sceneTree: SceneNode[];
+  onNodeSelect?: (node: SceneNode | null) => void;
 }
 
 // Define custom node types
@@ -40,7 +41,7 @@ const nodeTypes: NodeTypes = {
 /**
  * Inner component with ReactFlow context access
  */
-function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
+function NodeGraphEditorInner({ sceneTree, onNodeSelect }: NodeGraphEditorProps) {
   const { client, connected } = useOctane();
   const { fitView } = useReactFlow();
   
@@ -249,6 +250,18 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
   );
 
   /**
+   * Handle node selection - synchronize with Scene Outliner and Node Inspector
+   */
+  const onNodeClick = useCallback(
+    (_event: React.MouseEvent, node: Node<OctaneNodeData>) => {
+      const sceneNode = node.data.sceneNode;
+      onNodeSelect?.(sceneNode);
+      console.log('🎯 Node Graph: Selected node:', sceneNode.name);
+    },
+    [onNodeSelect]
+  );
+
+  /**
    * Context menu event handlers
    */
   const handleContextMenu = useCallback((event: React.MouseEvent) => {
@@ -322,6 +335,7 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodesDelete={onNodesDelete}
+        onNodeClick={onNodeClick}
         nodeTypes={nodeTypes}
         minZoom={0.1}
         maxZoom={4}
@@ -365,10 +379,10 @@ function NodeGraphEditorInner({ sceneTree }: NodeGraphEditorProps) {
 /**
  * Main component wrapped with ReactFlow provider
  */
-export function NodeGraphEditor({ sceneTree }: NodeGraphEditorProps) {
+export function NodeGraphEditor({ sceneTree, onNodeSelect }: NodeGraphEditorProps) {
   return (
     <ReactFlowProvider>
-      <NodeGraphEditorInner sceneTree={sceneTree} />
+      <NodeGraphEditorInner sceneTree={sceneTree} onNodeSelect={onNodeSelect} />
     </ReactFlowProvider>
   );
 }
