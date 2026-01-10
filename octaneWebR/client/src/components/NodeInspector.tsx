@@ -80,6 +80,7 @@ function NodeParameter({
   const nodeId = `node-${node.handle}`;
   const typeStr = String(node.type || node.outType || 'unknown');
   const icon = node.icon || OctaneIconMapper.getNodeIcon(typeStr, node.name);
+  const color = node.nodeInfo?.nodeColor ? OctaneIconMapper.formatNodeColor(node.nodeInfo.nodeColor) : '#666';
   const name = node.pinInfo?.staticLabel || node.name;
 
   // Fetch parameter value for end nodes (matching octaneWeb's GenericNodeRenderer.getValue())
@@ -727,7 +728,7 @@ function NodeParameter({
     return (
       <div className={indentClass} style={{ display: 'block' }}>
         <div className="node-box-parameter" data-node-handle={node.handle} data-node-id={nodeId}>
-          <div className="node-icon-box">
+          <div className="node-icon-box" style={{ backgroundColor: color }}>
             <span className="node-icon">{icon}</span>
           </div>
           <div className="node-content">
@@ -763,7 +764,7 @@ function NodeParameter({
   return (
     <div className={indentClass} style={{ display: 'block' }}>
       <div className="node-box" data-node-handle={node.handle} data-node-id={nodeId}>
-        <div className="node-icon-box">
+        <div className="node-icon-box" style={{ backgroundColor: color }}>
           <span className="node-icon">{icon}</span>
         </div>
         <div className="node-content">

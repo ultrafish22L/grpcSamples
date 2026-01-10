@@ -899,9 +899,35 @@ input:checked + .slider:before {
     justify-content: center;
     margin-right: 6px;
     flex-shrink: 0;
-    color: #888; /* Gray color matching Octane */
-    font-size: 11px;
+    position: relative;
+}
+
+/* CSS-based parameter icon (small blue circle with gear symbol) */
+.octane-parameter-icon::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #4a9eff;
+    border-radius: 50%;
+    display: block;
+    position: relative;
+}
+
+.octane-parameter-icon::after {
+    content: '⚙';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 8px;
+    color: white;
     line-height: 1;
+}
+
+/* Color parameter icon (palette icon instead of gear) */
+.octane-parameter-icon.color-param::after {
+    content: '🎨';
+    font-size: 7px;
 }
 
 .octane-parameter-label {
@@ -3135,12 +3161,6 @@ body.drag-over .drop-indicator {
     text-align: center;
 }
 
-.inspector-group-name-icon {
-    color: #888; /* Gray color matching Octane */
-    font-size: 11px;
-    margin-right: 4px;
-}
-
 .inspector-group-label {
     display: flex;
     align-items: center;
@@ -3222,29 +3242,21 @@ body.drag-over .drop-indicator {
     margin: 0;
 }
 
-/* Icon box - gray geometric symbols matching Octane Studio */
+/* Icon box with better visibility and positioning - ONLY for Node Inspector */
 .node-inspector .node-icon-box,
 .octane-node-inspector .node-icon-box {
     position: absolute;
-    left: 0; 
-    width: 16px;
-    height: 16px;
+    left: -8px; 
+    width: 20px;
+    height: 20px;
+    border-radius: 6px 0 0 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
-    color: #888; /* Gray color matching Octane */
-    background: transparent; /* No colored background */
-    border: none;
-    box-shadow: none;
-}
-
-/* Icon symbol styling - gray and subdued */
-.node-inspector .node-icon,
-.octane-node-inspector .node-icon {
-    color: #888; /* Gray color matching Octane */
-    font-size: 11px;
-    line-height: 1;
+    font-size: var(--font-size-small);
+    border: 1px solid rgba(255, 255, 255, 0.2); /* More visible border */
+    background: rgba(0, 0, 0, 0.3); /* Subtle background for better contrast */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
 }
 
 .node-inspector .panel-content,
