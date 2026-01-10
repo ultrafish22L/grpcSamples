@@ -912,6 +912,7 @@ export function NodeInspector({ node }: NodeInspectorProps) {
       <div className="node-inspector">
         <div className="node-inspector-header">
           <div className="inspector-title">
+            <span className="inspector-icon">🎯</span>
             <span>Node inspector</span>
           </div>
         </div>
@@ -927,32 +928,19 @@ export function NodeInspector({ node }: NodeInspectorProps) {
   const hasGroupMap = new Map<number, boolean>();
   buildHasGroupMap(node, 0, hasGroupMap);
 
-  // Get node icon and clean type name for display
-  const nodeIcon = node.icon || OctaneIconMapper.getNodeIcon(node.type);
-  const nodeTypeName = node.nodeInfo?.outTypeName || node.type || 'Unknown';
-
   return (
     <div className="octane-node-inspector">
-      {/* Header row: "Node inspector" | Target dropdown */}
+      {/* Header with dropdown (matching reference screenshot) */}
       <div className="octane-inspector-header">
         <div className="octane-inspector-title">
+          <span className="octane-inspector-icon">🎯</span>
           <span>Node inspector</span>
         </div>
         <div className="octane-inspector-dropdown">
           <select className="octane-inspector-target-select">
             <option value={node.name}>{node.name}</option>
           </select>
-        </div>
-      </div>
-      
-      {/* Breadcrumb row: Icon | Node name | Type dropdown */}
-      <div className="octane-inspector-breadcrumb">
-        <span className="octane-breadcrumb-icon">{nodeIcon}</span>
-        <span className="octane-breadcrumb-name">{node.name}</span>
-        <div className="octane-breadcrumb-type">
-          <select className="octane-breadcrumb-type-select">
-            <option value={nodeTypeName}>{nodeTypeName}</option>
-          </select>
+          <span className="octane-inspector-dropdown-arrow">▼</span>
         </div>
       </div>
       
