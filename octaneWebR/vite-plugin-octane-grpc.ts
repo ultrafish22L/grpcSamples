@@ -328,12 +328,11 @@ class OctaneGrpcClient {
               render_images: callbackRequest.newImage.render_images
             };
             
-            console.log('📸 Received OnNewImage callback');
             this.notifyCallbacks(imageData);
           } else if (callbackRequest.renderFailure) {
             console.log('❌ Render failure callback received');
           } else if (callbackRequest.newStatistics) {
-            console.log('📊 New statistics callback received');
+            // Statistics callbacks are frequent - logging disabled to prevent flooding
           } else if (callbackRequest.projectManagerChanged) {
             console.log('🔄 Project manager changed callback received');
           }

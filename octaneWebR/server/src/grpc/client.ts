@@ -335,7 +335,6 @@ export class OctaneGrpcClient extends EventEmitter {
         try {
           // Parse callback data and emit event
           if (response.render_images && response.render_images.data) {
-            console.log(`📸 Received OnNewImage callback (${response.render_images.data.length} images)`);
             this.emit('OnNewImage', response);
           }
         } catch (error: any) {
