@@ -15,7 +15,7 @@ Modern browser-based interface for OTOY Octane Render with direct gRPC connectiv
 - ✅ **Real-time Scene Management**: Interactive scene outliner with hierarchical tree view
 - ✅ **Node Inspector**: View and edit node properties and attributes (parameter controls implemented)
 - ✅ **Node Graph Editor**: ReactFlow-based visual node graph with context menus
-- ⏳ **Live Rendering**: Real-time callback-based viewport (in progress)
+- ✅ **Live Rendering**: Real-time callback-based viewport with mouse camera controls
 - ⏳ **Material Database Access**: Browse online (Live DB) and local material libraries (planned)
 - ✅ **Professional UI**: OTOY-branded dark theme with responsive design
 - ✅ **Type Safety**: Full TypeScript support with auto-generated protobuf types
@@ -154,11 +154,13 @@ ApiNodeGraph.getOwnedItems() → {list: {handle: "1000001", type: "ApiItemArray"
 - Bezier spline connections between nodes
 - FitView on initial scene load only (preserves user zoom/pan)
 
-### Callback Render Viewport ⏳
-- Real-time render streaming via callbacks (planned)
-- HDR/LDR automatic format detection
-- Canvas-based display with zoom controls
-- Frame counter and performance stats
+### Callback Render Viewport ✅
+- Real-time render streaming via WebSocket OnNewImage callbacks
+- Mouse drag camera controls (left-click rotate, scroll zoom)
+- Automatic camera initialization from Octane on connect
+- HDR/LDR automatic format detection with proper buffer isolation
+- Canvas-based display with responsive layout
+- Frame counter and render status indicators
 
 
 ## 🚀 Development Workflow
@@ -264,9 +266,8 @@ const name = response.result; // or response.list, etc.
 ## 🚧 Known Issues & Limitations
 
 ### In Progress
-1. **Callback Render Viewport**: Not yet implemented (planned)
-2. **Material Database**: Not yet implemented (planned)
-3. **File Operations**: Menu items call placeholder functions (need full Octane API integration)
+1. **Material Database**: Not yet implemented (planned)
+2. **File Operations**: Menu items call placeholder functions (need full Octane API integration)
 
 ### General Limitations
 1. **Browser-Only**: No native desktop app packaging (yet)
