@@ -244,7 +244,48 @@ export class OctaneClient extends EventEmitter {
   }
 
   // Scene API - Port of octaneWeb syncScene() implementation
-  async buildSceneTree(): Promise<SceneNode[]> {
+  async buildSceneTree(newNodeHandle?: number): Promise<SceneNode[]> {
+    // Optimized update: if a specific node handle is provided, only add that new node
+    if (newNodeHandle !== undefined) {
+      console.log('➕ Adding new node to scene tree:', newNodeHandle);
+      
+      try {
+        // Create a temporary array to pass to addSceneItem
+        const newNodes: SceneNode[] = [];
+        
+        // Add the new node at level 1 (top-level)
+        const newNode = await this.addSceneItem(
+          newNodes, 
+          { handle: newNodeHandle, type: 17 }, // ApiItem type
+          null, 
+          1
+        );
+        
+        if (newNode) {
+          // Build children for the new node
+          console.log(`🔄 Building children for new node: ${newNode.name}`);
+          await this.addItemChildren(newNode);
+          
+          // Add to the existing scene tree
+          this.scene.tree.push(newNode);
+          
+          console.log('✅ New node added to scene tree:', newNode.name);
+          console.log('✅ Scene tree now has', this.scene.tree.length, 'top-level items');
+          console.log('🔍 Emitting sceneTreeUpdated event...');
+          this.emit('sceneTreeUpdated', this.scene);
+          console.log('✅ SceneTreeUpdated event emitted');
+        } else {
+          console.error('❌ Failed to create new scene node');
+        }
+        
+        return this.scene.tree;
+      } catch (error: any) {
+        console.error('❌ Failed to add new node to scene tree:', error.message);
+        throw error;
+      }
+    }
+    
+    // Full rebuild: no specific handle provided
     console.log('🌳 Building scene tree...');
     
     // Clear previous scene data
