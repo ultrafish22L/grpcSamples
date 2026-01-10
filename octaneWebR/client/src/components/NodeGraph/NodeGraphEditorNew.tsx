@@ -259,51 +259,48 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
       console.log('🎨 Setting connection line color:', handleColor);
       setConnectionLineColor(handleColor);
 
-      // Check if we're dragging from an existing connection and REMOVE IT immediately
-      const existingEdge = edges.find(
-        e => (e.source === nodeId && e.sourceHandle === handleId) ||
-             (e.target === nodeId && e.targetHandle === handleId)
-      );
-
-      if (existingEdge) {
-        console.log('📌 Disconnecting existing edge for reconnection:', existingEdge.id);
-        connectingEdgeRef.current = existingEdge;
+      // OCTANE BEHAVIOR: Keep original connections visible during drag
+      // Only remove them when a new connection succeeds
+      // For input pins (target), track existing edge for replacement
+      // For output pins (source), don't track - just add new connection
+      if (handleType === 'target') {
+        const existingEdge = edges.find(
+          e => e.target === nodeId && e.targetHandle === handleId
+        );
         
-        // Remove the existing edge immediately when drag starts
-        setEdges((eds) => eds.filter(e => e.id !== existingEdge.id));
+        if (existingEdge) {
+          console.log('📌 Input pin has existing connection:', existingEdge.id, '(will replace on success)');
+          connectingEdgeRef.current = existingEdge;
+        } else {
+          connectingEdgeRef.current = null;
+        }
       } else {
+        // Output pin - allow multiple connections, don't track for removal
+        console.log('📤 Output pin - allowing multiple connections');
         connectingEdgeRef.current = null;
       }
     },
-    [nodes, edges, setEdges]
+    [nodes, edges]
   );
 
   /**
-   * Handle connection end - cleanup and restore if cancelled
+   * Handle connection end - cleanup only
+   * Original edges stay visible during drag, so nothing to restore
    */
   const onConnectEnd: OnConnectEnd = useCallback(() => {
     console.log('🔌 Connection drag ended');
     
-    // If we were reconnecting but didn't complete, restore the original edge
-    if (connectingEdgeRef.current) {
-      console.log('🔄 Connection cancelled, restoring original edge');
-      setEdges((eds) => {
-        // Check if edge was already added by onConnect
-        const edgeExists = eds.find(e => e.id === connectingEdgeRef.current?.id);
-        if (!edgeExists) {
-          // Restore the original edge
-          return [...eds, connectingEdgeRef.current!];
-        }
-        return eds;
-      });
-    }
-    
+    // Reset state
     setConnectionLineColor('#4a90e2'); // Reset to default
     connectingEdgeRef.current = null;
-  }, [setEdges]);
+  }, []);
 
   /**
    * Handle new connections
+   * OCTANE BEHAVIOR:
+   * - Output pins can connect to multiple inputs (one-to-many)
+   * - Input pins can only connect to one output (many-to-one)
+   * - Replace old input connection only when new connection succeeds
    */
   const onConnect = useCallback(
     async (connection: Connection) => {
@@ -312,10 +309,22 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
 
         console.log('🔗 Creating connection:', connection);
 
-        // Log if we were reconnecting (old edge already removed in onConnectStart)
+        // Check if target input pin already has a connection (needs replacement)
+        const existingTargetEdge = edges.find(
+          e => e.target === connection.target && e.targetHandle === connection.targetHandle
+        );
+
+        // If we were dragging FROM an input pin (connectingEdgeRef), remove that old connection
+        const edgesToRemove: string[] = [];
+        
         if (connectingEdgeRef.current) {
-          console.log('✅ Reconnection complete, old edge:', connectingEdgeRef.current.id);
-          // TODO: Call Octane API to disconnect the old connection if needed
+          console.log('🔄 Removing old source connection:', connectingEdgeRef.current.id);
+          edgesToRemove.push(connectingEdgeRef.current.id);
+        }
+        
+        if (existingTargetEdge && existingTargetEdge.id !== connectingEdgeRef.current?.id) {
+          console.log('🔄 Removing old target connection:', existingTargetEdge.id);
+          edgesToRemove.push(existingTargetEdge.id);
         }
 
         // Call Octane API to connect nodes
@@ -335,29 +344,37 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           },
         });
 
-        // Add edge to ReactFlow with matching color
-        const newEdge = {
-          ...connection,
-          id: `e${connection.source}-${connection.target}-${pinIdx}`,
-          style: { 
-            stroke: connectionLineColor, 
-            strokeWidth: 3 
-          },
-        };
+        // Remove old edges and add new edge
+        setEdges((eds) => {
+          // Filter out old edges
+          const filtered = edgesToRemove.length > 0 
+            ? eds.filter(e => !edgesToRemove.includes(e.id))
+            : eds;
+          
+          // Add new edge with matching color
+          const newEdge = {
+            ...connection,
+            id: `e${connection.source}-${connection.target}-${pinIdx}`,
+            reconnectable: true,
+            style: { 
+              stroke: connectionLineColor, 
+              strokeWidth: 3 
+            },
+          };
+          
+          return addEdge(newEdge, filtered);
+        });
 
-        setEdges((eds) => addEdge(newEdge, eds));
-
-        // Clear the connecting edge ref to signal success (prevents restoration in onConnectEnd)
+        // Clear the connecting edge ref
         connectingEdgeRef.current = null;
 
         // Refresh scene tree
         await client.buildSceneTree();
       } catch (error) {
         console.error('❌ Failed to create connection:', error);
-        // On error, the edge will be restored in onConnectEnd
       }
     },
-    [client, setEdges, connectionLineColor]
+    [client, setEdges, connectionLineColor, edges]
   );
 
   /**

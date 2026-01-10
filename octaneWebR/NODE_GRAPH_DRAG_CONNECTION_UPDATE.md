@@ -2,17 +2,22 @@
 
 **Date:** 2025-01-20  
 **Component:** NodeGraphEditorNew.tsx  
-**Status:** ✅ Complete - Build Successful (Fixed edge disconnect issue)
+**Status:** ✅ Complete - Build Successful (Correct Octane behavior)
 
 ---
 
-## 🔧 Bug Fix Applied
+## 🎯 Octane Connection Behavior
 
-**Issue:** Existing connections were not disconnecting when dragging from a connected pin - user saw 2 lines.
+**Output Pins (Source):**
+- Can connect to **multiple** input pins (one-to-many)
+- When dragging from output, original connections **stay visible**
+- New connection is **added**, not replaced
 
-**Root Cause:** Edge removal was being tracked but not executed immediately.
-
-**Fix:** Modified `onConnectStart` to call `setEdges()` and remove the existing edge immediately when drag begins. Added restoration logic in `onConnectEnd` to restore edge if connection is cancelled.
+**Input Pins (Target):**
+- Can only connect to **one** output pin (many-to-one)
+- When dragging from input, original connection **stays visible during drag**
+- Original connection is **replaced only on successful connection**
+- If cancelled (dropped in empty space), original connection stays
 
 ---
 
@@ -35,19 +40,28 @@ When you drag a connection line from a pin, the line color dynamically matches t
 
 ---
 
-### 2. **Disconnect and Reconnect Existing Edges**
-When you drag from a pin that already has a connection, it disconnects the old edge and allows live reconnection to a new target.
+### 2. **Smart Connection Replacement (Octane Behavior)**
+
+**Output Pins:** Support multiple connections (one-to-many)
+- Original edges stay visible during drag
+- New connection is added alongside existing ones
+
+**Input Pins:** Support single connection only (many-to-one)
+- Original edge stays visible during drag
+- Old connection replaced only when new connection succeeds
+- If drag cancelled, original connection preserved
 
 **Implementation:**
-- `connectingEdgeRef` tracks if dragging from existing connection
-- `onConnectStart` detects existing edges connected to the handle
-- `onConnect` removes old edge before creating new one
-- `onEdgesChange` tracks edge removals during reconnection
+- `connectingEdgeRef` tracks if dragging FROM an input pin (for source replacement)
+- `onConnectStart` detects handleType to distinguish output vs input behavior
+- `onConnect` checks both source and target for existing input connections
+- Old edges removed only on successful connection (not during drag)
 
 **User Experience:**
-- Click and drag from connected pin → old line disconnects
-- Drag to new target → creates new connection
-- No orphaned connections left behind
+- Drag from output → adds new connection (multi-connect)
+- Drag from input → replaces old connection on success
+- All original edges visible during drag (Octane standard behavior)
+- Cancel drag (drop in empty space) → no changes made
 
 ---
 
