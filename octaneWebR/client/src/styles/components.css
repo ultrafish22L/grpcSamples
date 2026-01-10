@@ -731,6 +731,13 @@ input:checked + .slider:before {
     color: #666;
 }
 
+.octane-inspector-dropdown-inline {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    margin-left: 8px;
+}
+
 .octane-inspector-content {
     flex: 1;
     overflow-y: auto;

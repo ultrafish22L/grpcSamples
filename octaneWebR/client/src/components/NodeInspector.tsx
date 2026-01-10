@@ -64,12 +64,16 @@ function NodeParameter({
   node, 
   level, 
   onToggle,
-  hasGroupMap
+  hasGroupMap,
+  showDropdown = false,
+  dropdownValue = ''
 }: { 
   node: SceneNode; 
   level: number; 
   onToggle: (nodeId: string) => void;
   hasGroupMap: Map<number, boolean>;
+  showDropdown?: boolean;
+  dropdownValue?: string;
 }) {
   const { client } = useOctane();
   const [paramValue, setParamValue] = useState<ParameterValue | null>(null);
@@ -771,6 +775,14 @@ function NodeParameter({
           <div className="node-label" onClick={hasChildren ? handleToggle : undefined}>
             {collapseIcon && <span className="collapse-icon">{collapseIcon}</span>}
             <span className="node-title">{name}</span>
+            {showDropdown && (
+              <div className="octane-inspector-dropdown-inline">
+                <select className="octane-inspector-target-select">
+                  <option value={dropdownValue}>{dropdownValue}</option>
+                </select>
+                <span className="octane-inspector-dropdown-arrow">▼</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -930,20 +942,6 @@ export function NodeInspector({ node }: NodeInspectorProps) {
 
   return (
     <div className="octane-node-inspector">
-      {/* Header with dropdown (matching reference screenshot) */}
-      <div className="octane-inspector-header">
-        <div className="octane-inspector-title">
-          <span className="octane-inspector-icon">🎯</span>
-          <span>Node inspector</span>
-        </div>
-        <div className="octane-inspector-dropdown">
-          <select className="octane-inspector-target-select">
-            <option value={node.name}>{node.name}</option>
-          </select>
-          <span className="octane-inspector-dropdown-arrow">▼</span>
-        </div>
-      </div>
-      
       {/* Content */}
       <div className="octane-inspector-content">
         <NodeParameter 
@@ -951,6 +949,8 @@ export function NodeInspector({ node }: NodeInspectorProps) {
           level={0} 
           onToggle={handleToggle}
           hasGroupMap={hasGroupMap}
+          showDropdown={true}
+          dropdownValue={node.name}
         />
       </div>
     </div>
