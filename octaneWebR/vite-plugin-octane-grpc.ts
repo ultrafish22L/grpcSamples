@@ -361,6 +361,17 @@ export function octaneGrpcPlugin(): Plugin {
     name: 'vite-plugin-octane-grpc',
     
     async configureServer(server: ViteDevServer) {
+      // Delete old log file at startup (before logging is initialized)
+      const logFilePath = '/tmp/octaneWebR_client.log';
+      try {
+        if (fs.existsSync(logFilePath)) {
+          fs.unlinkSync(logFilePath);
+          console.log('🗑️  Deleted old client log file');
+        }
+      } catch (error: any) {
+        console.warn('⚠️  Could not delete old log file:', error.message);
+      }
+      
       // Initialize gRPC client
       grpcClient = new OctaneGrpcClient();
       await grpcClient.initialize();
