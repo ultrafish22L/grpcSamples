@@ -59,7 +59,8 @@ export function CallbackRenderViewport() {
   });
   
   // Mouse drag state
-  const isDraggingRef = useRef(false);
+  const isDraggingRef = useRef(false);  // Left button = orbit
+  const isPanningRef = useRef(false);   // Right button = pan
   const lastMousePosRef = useRef({ x: 0, y: 0 });
 
   /**
@@ -423,37 +424,66 @@ export function CallbackRenderViewport() {
     if (!canvas || !connected) return;
 
     const handleMouseDown = (e: MouseEvent) => {
-      if (e.button === 0) { // Left mouse button
+      if (e.button === 0) { // Left button = ORBIT
         isDraggingRef.current = true;
         lastMousePosRef.current = { x: e.clientX, y: e.clientY };
         canvas.style.cursor = 'grabbing';
+      } else if (e.button === 2) { // Right button = PAN
+        isPanningRef.current = true;
+        lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+        canvas.style.cursor = 'move';
+        e.preventDefault(); // Prevent context menu
       }
     };
 
     const handleMouseMove = async (e: MouseEvent) => {
-      if (!isDraggingRef.current) return;
+      if (!isDraggingRef.current && !isPanningRef.current) return;
 
       const deltaX = e.clientX - lastMousePosRef.current.x;
       const deltaY = e.clientY - lastMousePosRef.current.y;
       lastMousePosRef.current = { x: e.clientX, y: e.clientY };
 
-      // Update camera angles
-      const sensitivity = 0.01;
-      cameraRef.current.theta += deltaX * sensitivity;
-      cameraRef.current.phi -= deltaY * sensitivity;
+      if (isDraggingRef.current) {
+        // LEFT CLICK: Orbit camera around target
+        const sensitivity = 0.01;
+        cameraRef.current.theta += deltaX * sensitivity;
+        cameraRef.current.phi -= deltaY * sensitivity;
 
-      // Clamp phi to prevent flipping
-      cameraRef.current.phi = Math.max(-Math.PI / 2 + 0.1, Math.min(Math.PI / 2 - 0.1, cameraRef.current.phi));
+        // Clamp phi to prevent flipping
+        cameraRef.current.phi = Math.max(-Math.PI / 2 + 0.1, Math.min(Math.PI / 2 - 0.1, cameraRef.current.phi));
+      } else if (isPanningRef.current) {
+        // RIGHT CLICK: Pan camera target
+        // Calculate right and up vectors for camera-relative panning
+        const right = [
+          Math.cos(cameraRef.current.theta + Math.PI / 2),
+          0,
+          Math.sin(cameraRef.current.theta + Math.PI / 2)
+        ];
+        const up = [0, 1, 0];
+
+        // Pan speed scales with distance from target
+        const panSpeed = cameraRef.current.radius * 0.001;
+
+        // Update target position
+        cameraRef.current.center[0] -= right[0] * deltaX * panSpeed;
+        cameraRef.current.center[1] += up[1] * deltaY * panSpeed;
+        cameraRef.current.center[2] -= right[2] * deltaX * panSpeed;
+      }
 
       // Update Octane camera and trigger render
       await updateOctaneCamera();
     };
 
     const handleMouseUp = () => {
-      if (isDraggingRef.current) {
+      if (isDraggingRef.current || isPanningRef.current) {
         isDraggingRef.current = false;
+        isPanningRef.current = false;
         canvas.style.cursor = 'grab';
       }
+    };
+
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault(); // Prevent right-click context menu
     };
 
     const handleWheel = async (e: WheelEvent) => {
@@ -470,6 +500,7 @@ export function CallbackRenderViewport() {
     canvas.addEventListener('mouseup', handleMouseUp);
     canvas.addEventListener('mouseleave', handleMouseUp);
     canvas.addEventListener('wheel', handleWheel, { passive: false });
+    canvas.addEventListener('contextmenu', handleContextMenu);
     canvas.style.cursor = 'grab';
 
     return () => {
@@ -478,6 +509,7 @@ export function CallbackRenderViewport() {
       canvas.removeEventListener('mouseup', handleMouseUp);
       canvas.removeEventListener('mouseleave', handleMouseUp);
       canvas.removeEventListener('wheel', handleWheel);
+      canvas.removeEventListener('contextmenu', handleContextMenu);
     };
   }, [connected, updateOctaneCamera]);
 
