@@ -12,6 +12,7 @@ export class EventEmitter {
       this.events.set(event, []);
     }
     this.events.get(event)!.push(handler);
+    console.log(`🎧 [EventEmitter] Registered listener for '${event}' (total: ${this.events.get(event)!.length})`);
   }
 
   off(event: string, handler: EventHandler): void {
@@ -27,7 +28,10 @@ export class EventEmitter {
   emit(event: string, ...args: any[]): void {
     const handlers = this.events.get(event);
     if (handlers) {
+      console.log(`📢 [EventEmitter] Emitting '${event}' to ${handlers.length} listener(s)`);
       handlers.forEach(handler => handler(...args));
+    } else {
+      console.warn(`⚠️  [EventEmitter] No listeners for event '${event}'`);
     }
   }
 

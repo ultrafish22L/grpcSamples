@@ -113,7 +113,7 @@ export function SceneOutliner({ onNodeSelect, onSceneTreeChange }: SceneOutliner
       // Use the new buildSceneTree method that properly recurses
       const tree = await client.buildSceneTree();
       
-      console.log('🌳 [SceneOutliner] buildSceneTree returned:', tree);
+      // console.log('🌳 [SceneOutliner] buildSceneTree returned:', tree);
       console.log('🌳 [SceneOutliner] Tree structure:', JSON.stringify(tree, null, 2));
       
       setSceneTree(tree);
