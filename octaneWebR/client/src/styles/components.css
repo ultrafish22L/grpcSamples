@@ -3259,7 +3259,7 @@ body.drag-over .drop-indicator {
     user-select: none;
     width: 100%;
     min-height: 20px;
-    gap: 8px;
+    gap: 0;
 }
 
 .node-inspector .node-label:hover,
@@ -3289,22 +3289,18 @@ body.drag-over .drop-indicator {
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-light);
     color: var(--octane-text-primary);
-    flex: 0 1 auto;
-    min-width: 80px;
-    max-width: 40%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    flex-shrink: 2;
+    display:grid;
+    width: 120px;
 }
 
 /* Node parameter controls with better spacing - ONLY for Node Inspector */
 .node-inspector .node-parameter-controls,
 .octane-node-inspector .node-parameter-controls {
-    display: flex;
+    margin-left: 12px; /* Space between title and dropdown */
+    display: grid;
     align-items: center;
-    flex: 1 1 auto;
-    min-width: 0;
-    gap: 4px;
+    gap: 0px;
 }
 
 .node-inspector .node-parameter-controls .parameter-dropdown,
@@ -3630,7 +3626,6 @@ body.drag-over .drop-indicator {
     width: 12px;
     text-align: center;
     transition: transform 0.2s ease;
-    flex-shrink: 0;
 }
 
 .collapse-icon:hover {
