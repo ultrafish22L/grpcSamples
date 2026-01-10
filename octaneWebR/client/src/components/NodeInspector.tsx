@@ -17,6 +17,13 @@ import { useOctane } from '../hooks/useOctane';
 import { AttributeId, AttrType } from '../constants/OctaneTypes';
 import { OctaneIconMapper } from '../utils/OctaneIconMapper';
 
+/**
+ * Format float value to maximum 6 decimal places
+ */
+function formatFloat(value: number): number {
+  return parseFloat(value.toFixed(6));
+}
+
 interface NodeInspectorProps {
   node: SceneNode | null;
 }
@@ -251,7 +258,11 @@ function NodeParameter({
       }
       
       case AttrType.AT_FLOAT: {
-        const floatValue = typeof value === 'number' ? value : 0;
+        const floatValue = typeof value === 'number' ? formatFloat(value) : 0;
+        const floatInfo = node.pinInfo?.floatInfo;
+        const useSliders = floatInfo?.useSliders ?? true;
+        const step = floatInfo?.dimInfos?.[0]?.sliderStep ?? 0.001;
+        
         controlHtml = (
           <div className="parameter-control-container">
             <div className="parameter-number-with-spinner">
@@ -259,25 +270,27 @@ function NodeParameter({
                 type="number" 
                 className="octane-number-input parameter-control" 
                 value={floatValue || 0}
-                step="0.001"
-                onChange={(e) => handleValueChange(parseFloat(e.target.value))}
+                step={step}
+                onChange={(e) => handleValueChange(formatFloat(parseFloat(e.target.value)))}
               />
-              <div className="parameter-spinner-container">
-                <button 
-                  className="parameter-spinner-btn"
-                  onClick={() => handleValueChange((floatValue || 0) + 0.1)}
-                  title="Increase value"
-                >
-                  ▲
-                </button>
-                <button 
-                  className="parameter-spinner-btn"
-                  onClick={() => handleValueChange((floatValue || 0) - 0.1)}
-                  title="Decrease value"
-                >
-                  ▼
-                </button>
-              </div>
+              {useSliders && (
+                <div className="parameter-spinner-container">
+                  <button 
+                    className="parameter-spinner-btn"
+                    onClick={() => handleValueChange(formatFloat((floatValue || 0) + step))}
+                    title="Increase value"
+                  >
+                    ▲
+                  </button>
+                  <button 
+                    className="parameter-spinner-btn"
+                    onClick={() => handleValueChange(formatFloat((floatValue || 0) - step))}
+                    title="Decrease value"
+                  >
+                    ▼
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         );
@@ -287,22 +300,28 @@ function NodeParameter({
       case AttrType.AT_FLOAT2: {
         if (value && typeof value === 'object' && 'x' in value) {
           const { x = 0, y = 0 } = value;
+          const floatInfo = node.pinInfo?.floatInfo;
+          const dimCount = floatInfo?.dimCount ?? 2;
+          const step = floatInfo?.dimInfos?.[0]?.sliderStep ?? 0.001;
+          
           controlHtml = (
             <div className="parameter-control-container">
               <input 
                 type="number" 
                 className="octane-number-input parameter-control" 
-                value={x || 0}
-                step="0.001"
-                onChange={(e) => handleValueChange({ x: parseFloat(e.target.value), y })}
+                value={formatFloat(x)}
+                step={step}
+                onChange={(e) => handleValueChange({ x: formatFloat(parseFloat(e.target.value)), y })}
               />
-              <input 
-                type="number" 
-                className="octane-number-input parameter-control" 
-                value={y || 0}
-                step="0.001"
-                onChange={(e) => handleValueChange({ x, y: parseFloat(e.target.value) })}
-              />
+              {dimCount >= 2 && (
+                <input 
+                  type="number" 
+                  className="octane-number-input parameter-control" 
+                  value={formatFloat(y)}
+                  step={step}
+                  onChange={(e) => handleValueChange({ x, y: formatFloat(parseFloat(e.target.value)) })}
+                />
+              )}
             </div>
           );
         }
@@ -312,9 +331,13 @@ function NodeParameter({
       case AttrType.AT_FLOAT3: {
         if (value && typeof value === 'object' && 'x' in value) {
           const { x = 0, y = 0, z = 0 } = value;
+          const floatInfo = node.pinInfo?.floatInfo;
+          const dimCount = floatInfo?.dimCount ?? 3;
+          const step = floatInfo?.dimInfos?.[0]?.sliderStep ?? 0.001;
+          const isColor = floatInfo?.isColor || node.nodeInfo?.type === 'NT_TEX_RGB';
           
           // Check if this is a color (NT_TEX_RGB)
-          if (node.nodeInfo?.type === 'NT_TEX_RGB') {
+          if (isColor) {
             const hexColor = OctaneIconMapper.formatColorValue(value);
             controlHtml = (
               <div className="parameter-control-container">
@@ -328,7 +351,7 @@ function NodeParameter({
                     const r = parseInt(hex.substring(1, 3), 16) / 255;
                     const g = parseInt(hex.substring(3, 5), 16) / 255;
                     const b = parseInt(hex.substring(5, 7), 16) / 255;
-                    handleValueChange({ x: r, y: g, z: b });
+                    handleValueChange({ x: formatFloat(r), y: formatFloat(g), z: formatFloat(b) });
                   }}
                 />
               </div>
@@ -339,24 +362,28 @@ function NodeParameter({
                 <input 
                   type="number" 
                   className="octane-number-input parameter-control" 
-                  value={x || 0}
-                  step="0.001"
-                  onChange={(e) => handleValueChange({ x: parseFloat(e.target.value), y, z })}
+                  value={formatFloat(x)}
+                  step={step}
+                  onChange={(e) => handleValueChange({ x: formatFloat(parseFloat(e.target.value)), y, z })}
                 />
-                <input 
-                  type="number" 
-                  className="octane-number-input parameter-control" 
-                  value={y || 0}
-                  step="0.001"
-                  onChange={(e) => handleValueChange({ x, y: parseFloat(e.target.value), z })}
-                />
-                <input 
-                  type="number" 
-                  className="octane-number-input parameter-control" 
-                  value={z || 0}
-                  step="0.001"
-                  onChange={(e) => handleValueChange({ x, y, z: parseFloat(e.target.value) })}
-                />
+                {dimCount >= 2 && (
+                  <input 
+                    type="number" 
+                    className="octane-number-input parameter-control" 
+                    value={formatFloat(y)}
+                    step={step}
+                    onChange={(e) => handleValueChange({ x, y: formatFloat(parseFloat(e.target.value)), z })}
+                  />
+                )}
+                {dimCount >= 3 && (
+                  <input 
+                    type="number" 
+                    className="octane-number-input parameter-control" 
+                    value={formatFloat(z)}
+                    step={step}
+                    onChange={(e) => handleValueChange({ x, y, z: formatFloat(parseFloat(e.target.value)) })}
+                  />
+                )}
               </div>
             );
           }
@@ -367,7 +394,9 @@ function NodeParameter({
       case AttrType.AT_FLOAT4: {
         if (value && typeof value === 'object' && 'x' in value) {
           const { x = 0, y = 0, z = 0, w = 0 } = value;
-          const dimCount = node.pinInfo?.floatInfo?.dimCount || 4;
+          const floatInfo = node.pinInfo?.floatInfo;
+          const dimCount = floatInfo?.dimCount ?? 4;
+          const step = floatInfo?.dimInfos?.[0]?.sliderStep ?? 0.001;
           
           // Render based on dimension count (matching octaneWeb exactly)
           switch (dimCount) {
@@ -377,9 +406,9 @@ function NodeParameter({
                   <input 
                     type="number" 
                     className="octane-number-input parameter-control" 
-                    value={x || 0}
-                    step="0.001"
-                    onChange={(e) => handleValueChange({ x: parseFloat(e.target.value), y, z, w })}
+                    value={formatFloat(x)}
+                    step={step}
+                    onChange={(e) => handleValueChange({ x: formatFloat(parseFloat(e.target.value)), y, z, w })}
                   />
                 </div>
               );
@@ -390,16 +419,16 @@ function NodeParameter({
                   <input 
                     type="number" 
                     className="octane-number-input parameter-control" 
-                    value={x || 0}
-                    step="0.001"
-                    onChange={(e) => handleValueChange({ x: parseFloat(e.target.value), y, z, w })}
+                    value={formatFloat(x)}
+                    step={step}
+                    onChange={(e) => handleValueChange({ x: formatFloat(parseFloat(e.target.value)), y, z, w })}
                   />
                   <input 
                     type="number" 
                     className="octane-number-input parameter-control" 
-                    value={y || 0}
-                    step="0.001"
-                    onChange={(e) => handleValueChange({ x, y: parseFloat(e.target.value), z, w })}
+                    value={formatFloat(y)}
+                    step={step}
+                    onChange={(e) => handleValueChange({ x, y: formatFloat(parseFloat(e.target.value)), z, w })}
                   />
                 </div>
               );
@@ -410,23 +439,23 @@ function NodeParameter({
                   <input 
                     type="number" 
                     className="octane-number-input parameter-control" 
-                    value={x || 0}
-                    step="0.001"
-                    onChange={(e) => handleValueChange({ x: parseFloat(e.target.value), y, z, w })}
+                    value={formatFloat(x)}
+                    step={step}
+                    onChange={(e) => handleValueChange({ x: formatFloat(parseFloat(e.target.value)), y, z, w })}
                   />
                   <input 
                     type="number" 
                     className="octane-number-input parameter-control" 
-                    value={y || 0}
-                    step="0.001"
-                    onChange={(e) => handleValueChange({ x, y: parseFloat(e.target.value), z, w })}
+                    value={formatFloat(y)}
+                    step={step}
+                    onChange={(e) => handleValueChange({ x, y: formatFloat(parseFloat(e.target.value)), z, w })}
                   />
                   <input 
                     type="number" 
                     className="octane-number-input parameter-control" 
-                    value={z || 0}
-                    step="0.001"
-                    onChange={(e) => handleValueChange({ x, y, z: parseFloat(e.target.value), w })}
+                    value={formatFloat(z)}
+                    step={step}
+                    onChange={(e) => handleValueChange({ x, y, z: formatFloat(parseFloat(e.target.value)), w })}
                   />
                 </div>
               );
@@ -437,30 +466,30 @@ function NodeParameter({
                   <input 
                     type="number" 
                     className="octane-number-input parameter-control" 
-                    value={x || 0}
-                    step="0.001"
-                    onChange={(e) => handleValueChange({ x: parseFloat(e.target.value), y, z, w })}
+                    value={formatFloat(x)}
+                    step={step}
+                    onChange={(e) => handleValueChange({ x: formatFloat(parseFloat(e.target.value)), y, z, w })}
                   />
                   <input 
                     type="number" 
                     className="octane-number-input parameter-control" 
-                    value={y || 0}
-                    step="0.001"
-                    onChange={(e) => handleValueChange({ x, y: parseFloat(e.target.value), z, w })}
+                    value={formatFloat(y)}
+                    step={step}
+                    onChange={(e) => handleValueChange({ x, y: formatFloat(parseFloat(e.target.value)), z, w })}
                   />
                   <input 
                     type="number" 
                     className="octane-number-input parameter-control" 
-                    value={z || 0}
-                    step="0.001"
-                    onChange={(e) => handleValueChange({ x, y, z: parseFloat(e.target.value), w })}
+                    value={formatFloat(z)}
+                    step={step}
+                    onChange={(e) => handleValueChange({ x, y, z: formatFloat(parseFloat(e.target.value)), w })}
                   />
                   <input 
                     type="number" 
                     className="octane-number-input parameter-control" 
-                    value={w || 0}
-                    step="0.001"
-                    onChange={(e) => handleValueChange({ x, y, z, w: parseFloat(e.target.value) })}
+                    value={formatFloat(w)}
+                    step={step}
+                    onChange={(e) => handleValueChange({ x, y, z, w: formatFloat(parseFloat(e.target.value)) })}
                   />
                 </div>
               );
@@ -492,6 +521,10 @@ function NodeParameter({
             </div>
           );
         } else {
+          const intInfo = node.pinInfo?.intInfo;
+          const useSliders = intInfo?.useSliders ?? true;
+          const step = intInfo?.dimInfos?.[0]?.sliderStep ?? 1;
+          
           controlHtml = (
             <div className="parameter-control-container">
               <div className="parameter-number-with-spinner">
@@ -499,25 +532,27 @@ function NodeParameter({
                   type="number" 
                   className="octane-number-input parameter-control" 
                   value={intValue || 0}
-                  step="1"
+                  step={step}
                   onChange={(e) => handleValueChange(parseInt(e.target.value))}
                 />
-                <div className="parameter-spinner-container">
-                  <button 
-                    className="parameter-spinner-btn"
-                    onClick={() => handleValueChange((intValue || 0) + 1)}
-                    title="Increase value"
-                  >
-                    ▲
-                  </button>
-                  <button 
-                    className="parameter-spinner-btn"
-                    onClick={() => handleValueChange((intValue || 0) - 1)}
-                    title="Decrease value"
-                  >
-                    ▼
-                  </button>
-                </div>
+                {useSliders && (
+                  <div className="parameter-spinner-container">
+                    <button 
+                      className="parameter-spinner-btn"
+                      onClick={() => handleValueChange((intValue || 0) + step)}
+                      title="Increase value"
+                    >
+                      ▲
+                    </button>
+                    <button 
+                      className="parameter-spinner-btn"
+                      onClick={() => handleValueChange((intValue || 0) - step)}
+                      title="Decrease value"
+                    >
+                      ▼
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           );
@@ -528,22 +563,28 @@ function NodeParameter({
       case AttrType.AT_INT2: {
         if (value && typeof value === 'object' && 'x' in value) {
           const { x = 0, y = 0 } = value;
+          const intInfo = node.pinInfo?.intInfo;
+          const dimCount = intInfo?.dimCount ?? 2;
+          const step = intInfo?.dimInfos?.[0]?.sliderStep ?? 1;
+          
           controlHtml = (
             <div className="parameter-control-container">
               <input 
                 type="number" 
                 className="octane-number-input parameter-control" 
                 value={x || 0}
-                step="1"
+                step={step}
                 onChange={(e) => handleValueChange({ x: parseInt(e.target.value), y })}
               />
-              <input 
-                type="number" 
-                className="octane-number-input parameter-control" 
-                value={y || 0}
-                step="1"
-                onChange={(e) => handleValueChange({ x, y: parseInt(e.target.value) })}
-              />
+              {dimCount >= 2 && (
+                <input 
+                  type="number" 
+                  className="octane-number-input parameter-control" 
+                  value={y || 0}
+                  step={step}
+                  onChange={(e) => handleValueChange({ x, y: parseInt(e.target.value) })}
+                />
+              )}
             </div>
           );
         }
@@ -553,29 +594,37 @@ function NodeParameter({
       case AttrType.AT_INT3: {
         if (value && typeof value === 'object' && 'x' in value) {
           const { x = 0, y = 0, z = 0 } = value;
+          const intInfo = node.pinInfo?.intInfo;
+          const dimCount = intInfo?.dimCount ?? 3;
+          const step = intInfo?.dimInfos?.[0]?.sliderStep ?? 1;
+          
           controlHtml = (
             <div className="parameter-control-container">
               <input 
                 type="number" 
                 className="octane-number-input parameter-control" 
                 value={x || 0}
-                step="1"
+                step={step}
                 onChange={(e) => handleValueChange({ x: parseInt(e.target.value), y, z })}
               />
-              <input 
-                type="number" 
-                className="octane-number-input parameter-control" 
-                value={y || 0}
-                step="1"
-                onChange={(e) => handleValueChange({ x, y: parseInt(e.target.value), z })}
-              />
-              <input 
-                type="number" 
-                className="octane-number-input parameter-control" 
-                value={z || 0}
-                step="1"
-                onChange={(e) => handleValueChange({ x, y, z: parseInt(e.target.value) })}
-              />
+              {dimCount >= 2 && (
+                <input 
+                  type="number" 
+                  className="octane-number-input parameter-control" 
+                  value={y || 0}
+                  step={step}
+                  onChange={(e) => handleValueChange({ x, y: parseInt(e.target.value), z })}
+                />
+              )}
+              {dimCount >= 3 && (
+                <input 
+                  type="number" 
+                  className="octane-number-input parameter-control" 
+                  value={z || 0}
+                  step={step}
+                  onChange={(e) => handleValueChange({ x, y, z: parseInt(e.target.value) })}
+                />
+              )}
             </div>
           );
         }
@@ -585,36 +634,63 @@ function NodeParameter({
       case AttrType.AT_INT4: {
         if (value && typeof value === 'object' && 'x' in value) {
           const { x = 0, y = 0, z = 0, w = 0 } = value;
-          controlHtml = (
-            <div className="parameter-control-container">
+          const intInfo = node.pinInfo?.intInfo;
+          const dimCount = intInfo?.dimCount ?? 4;
+          const step = intInfo?.dimInfos?.[0]?.sliderStep ?? 1;
+          
+          const inputs = [];
+          if (dimCount >= 1) {
+            inputs.push(
               <input 
+                key="x"
                 type="number" 
                 className="octane-number-input parameter-control" 
                 value={x || 0}
-                step="1"
+                step={step}
                 onChange={(e) => handleValueChange({ x: parseInt(e.target.value), y, z, w })}
               />
+            );
+          }
+          if (dimCount >= 2) {
+            inputs.push(
               <input 
+                key="y"
                 type="number" 
                 className="octane-number-input parameter-control" 
                 value={y || 0}
-                step="1"
+                step={step}
                 onChange={(e) => handleValueChange({ x, y: parseInt(e.target.value), z, w })}
               />
+            );
+          }
+          if (dimCount >= 3) {
+            inputs.push(
               <input 
+                key="z"
                 type="number" 
                 className="octane-number-input parameter-control" 
                 value={z || 0}
-                step="1"
+                step={step}
                 onChange={(e) => handleValueChange({ x, y, z: parseInt(e.target.value), w })}
               />
+            );
+          }
+          if (dimCount >= 4) {
+            inputs.push(
               <input 
+                key="w"
                 type="number" 
                 className="octane-number-input parameter-control" 
                 value={w || 0}
-                step="1"
+                step={step}
                 onChange={(e) => handleValueChange({ x, y, z, w: parseInt(e.target.value) })}
               />
+            );
+          }
+          
+          controlHtml = (
+            <div className="parameter-control-container">
+              {inputs}
             </div>
           );
         }
