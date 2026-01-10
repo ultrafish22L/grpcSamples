@@ -12,7 +12,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { useOctane } from '../hooks/useOctane';
 
 interface OctaneImageData {
-  type: number;
+  type: number | string;  // Can be numeric (0, 1) or string enum ("IMAGE_TYPE_LDR_RGBA", etc.)
   size: { x: number; y: number };
   pitch: number;
   tonemappedSamplesPerPixel: number;
@@ -236,16 +236,17 @@ export function CallbackRenderViewport() {
     const height = imageData.size.y;
     const imageType = imageData.type;
 
-    switch (imageType) {
-      case 0: // IMAGE_TYPE_LDR_RGBA
-        convertLDRRGBA(buffer, width, height, imageData.pitch, canvasImageData);
-        break;
-      case 1: // IMAGE_TYPE_HDR_RGBA
-        convertHDRRGBA(buffer, width, height, imageData.pitch, canvasImageData);
-        break;
-      default:
-        console.warn(`Unsupported image type: ${imageType}, trying LDR RGBA`);
-        convertLDRRGBA(buffer, width, height, imageData.pitch, canvasImageData);
+    // Handle both numeric (0, 1) and string enum ("IMAGE_TYPE_LDR_RGBA", "IMAGE_TYPE_HDR_RGBA")
+    const isLDR = imageType === 0 || imageType === 'IMAGE_TYPE_LDR_RGBA';
+    const isHDR = imageType === 1 || imageType === 'IMAGE_TYPE_HDR_RGBA';
+
+    if (isLDR) {
+      convertLDRRGBA(buffer, width, height, imageData.pitch, canvasImageData);
+    } else if (isHDR) {
+      convertHDRRGBA(buffer, width, height, imageData.pitch, canvasImageData);
+    } else {
+      console.warn(`Unsupported image type: ${imageType}, defaulting to LDR RGBA`);
+      convertLDRRGBA(buffer, width, height, imageData.pitch, canvasImageData);
     }
   };
 
