@@ -3298,7 +3298,8 @@ body.drag-over .drop-indicator {
 .node-inspector .node-parameter-controls,
 .octane-node-inspector .node-parameter-controls {
     margin-left: 12px; /* Space between title and dropdown */
-    display: grid;
+    flex: 1; /* Fill remaining space to the right */
+    display: flex;
     align-items: center;
     gap: 0px;
 }
@@ -3711,7 +3712,7 @@ body.drag-over .drop-indicator {
 /* Parameter Control Styles for Interactive Node Inspector */
 .parameter-control-container {
     display: inline-flex;
-    width: 180px;
+    width: 100%; /* Stretch to fill parent node-parameter-controls */
     align-items: center;
     gap: 4px;
 }
