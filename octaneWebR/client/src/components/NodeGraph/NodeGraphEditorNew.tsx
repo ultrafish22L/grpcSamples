@@ -151,6 +151,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
               targetHandle: `input-${inputIndex}`,
               type: 'default', // Use 'default' for bezier curves (matching Octane)
               animated: false,
+              reconnectable: true, // CRITICAL: Enable edge reconnection by dragging
               style: { 
                 stroke: edgeColor, 
                 strokeWidth: 3 
@@ -258,30 +259,48 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
       console.log('🎨 Setting connection line color:', handleColor);
       setConnectionLineColor(handleColor);
 
-      // Check if we're dragging from an existing connection
+      // Check if we're dragging from an existing connection and REMOVE IT immediately
       const existingEdge = edges.find(
         e => (e.source === nodeId && e.sourceHandle === handleId) ||
              (e.target === nodeId && e.targetHandle === handleId)
       );
 
       if (existingEdge) {
-        console.log('📌 Reconnecting existing edge:', existingEdge.id);
+        console.log('📌 Disconnecting existing edge for reconnection:', existingEdge.id);
         connectingEdgeRef.current = existingEdge;
+        
+        // Remove the existing edge immediately when drag starts
+        setEdges((eds) => eds.filter(e => e.id !== existingEdge.id));
       } else {
         connectingEdgeRef.current = null;
       }
     },
-    [nodes, edges]
+    [nodes, edges, setEdges]
   );
 
   /**
-   * Handle connection end - cleanup
+   * Handle connection end - cleanup and restore if cancelled
    */
   const onConnectEnd: OnConnectEnd = useCallback(() => {
     console.log('🔌 Connection drag ended');
+    
+    // If we were reconnecting but didn't complete, restore the original edge
+    if (connectingEdgeRef.current) {
+      console.log('🔄 Connection cancelled, restoring original edge');
+      setEdges((eds) => {
+        // Check if edge was already added by onConnect
+        const edgeExists = eds.find(e => e.id === connectingEdgeRef.current?.id);
+        if (!edgeExists) {
+          // Restore the original edge
+          return [...eds, connectingEdgeRef.current!];
+        }
+        return eds;
+      });
+    }
+    
     setConnectionLineColor('#4a90e2'); // Reset to default
     connectingEdgeRef.current = null;
-  }, []);
+  }, [setEdges]);
 
   /**
    * Handle new connections
@@ -293,15 +312,10 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
 
         console.log('🔗 Creating connection:', connection);
 
-        // If we were reconnecting an existing edge, remove it first
+        // Log if we were reconnecting (old edge already removed in onConnectStart)
         if (connectingEdgeRef.current) {
-          console.log('🔄 Disconnecting old edge:', connectingEdgeRef.current.id);
-          
-          // Remove old edge from state
-          setEdges((eds) => eds.filter(e => e.id !== connectingEdgeRef.current?.id));
-
-          // TODO: Call Octane API to disconnect the old connection
-          // This would require knowing the target pin index
+          console.log('✅ Reconnection complete, old edge:', connectingEdgeRef.current.id);
+          // TODO: Call Octane API to disconnect the old connection if needed
         }
 
         // Call Octane API to connect nodes
@@ -333,38 +347,28 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
 
         setEdges((eds) => addEdge(newEdge, eds));
 
+        // Clear the connecting edge ref to signal success (prevents restoration in onConnectEnd)
+        connectingEdgeRef.current = null;
+
         // Refresh scene tree
         await client.buildSceneTree();
       } catch (error) {
         console.error('❌ Failed to create connection:', error);
+        // On error, the edge will be restored in onConnectEnd
       }
     },
     [client, setEdges, connectionLineColor]
   );
 
   /**
-   * Handle edge changes (including removals for reconnection)
+   * Handle edge changes (delegate to base handler, reconnection handled in onConnectStart)
    */
   const onEdgesChange = useCallback(
     (changes: EdgeChange[]) => {
-      console.log('🔄 Edge changes:', changes);
-      
-      // Check if this is an edge removal (start of reconnection)
-      changes.forEach(change => {
-        if (change.type === 'remove') {
-          const edge = edges.find(e => e.id === change.id);
-          if (edge) {
-            console.log('🗑️ Edge being removed for reconnection:', edge.id);
-            // Store reference for reconnection
-            connectingEdgeRef.current = edge;
-          }
-        }
-      });
-
       // Apply changes using the base handler from useEdgesState
       onEdgesChangeBase(changes);
     },
-    [edges, onEdgesChangeBase]
+    [onEdgesChangeBase]
   );
 
   /**
@@ -482,6 +486,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         defaultEdgeOptions={{
           type: 'default',
           animated: false,
+          reconnectable: true,
           style: { stroke: '#4a90e2', strokeWidth: 2 },
         }}
         connectionLineStyle={{

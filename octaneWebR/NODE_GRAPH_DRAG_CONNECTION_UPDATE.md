@@ -2,7 +2,17 @@
 
 **Date:** 2025-01-20  
 **Component:** NodeGraphEditorNew.tsx  
-**Status:** ✅ Complete - Build Successful
+**Status:** ✅ Complete - Build Successful (Fixed edge disconnect issue)
+
+---
+
+## 🔧 Bug Fix Applied
+
+**Issue:** Existing connections were not disconnecting when dragging from a connected pin - user saw 2 lines.
+
+**Root Cause:** Edge removal was being tracked but not executed immediately.
+
+**Fix:** Modified `onConnectStart` to call `setEdges()` and remove the existing edge immediately when drag begins. Added restoration logic in `onConnectEnd` to restore edge if connection is cancelled.
 
 ---
 
