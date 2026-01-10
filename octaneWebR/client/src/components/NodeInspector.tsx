@@ -468,36 +468,21 @@ function NodeParameter({
         const intValue = typeof value === 'number' ? value : 0;
         
         // Check if this is an enum (NT_ENUM) - render dropdown
-        if (node.nodeInfo?.type === 'NT_ENUM') {
-          // TODO: Fetch enum options and render dropdown
-          // For now, render as number input with spinners
+        if (node.nodeInfo?.type === 'NT_ENUM' && node.pinInfo?.enumInfo?.values) {
+          const enumOptions = node.pinInfo.enumInfo.values;
           controlHtml = (
             <div className="parameter-control-container">
-              <div className="parameter-number-with-spinner">
-                <input 
-                  type="number" 
-                  className="octane-number-input parameter-control" 
-                  value={intValue || 0}
-                  step="1"
-                  onChange={(e) => handleValueChange(parseInt(e.target.value))}
-                />
-                <div className="parameter-spinner-container">
-                  <button 
-                    className="parameter-spinner-btn"
-                    onClick={() => handleValueChange((intValue || 0) + 1)}
-                    title="Increase value"
-                  >
-                    ▲
-                  </button>
-                  <button 
-                    className="parameter-spinner-btn"
-                    onClick={() => handleValueChange((intValue || 0) - 1)}
-                    title="Decrease value"
-                  >
-                    ▼
-                  </button>
-                </div>
-              </div>
+              <select 
+                className="octane-dropdown parameter-control" 
+                value={intValue || 0}
+                onChange={(e) => handleValueChange(parseInt(e.target.value))}
+              >
+                {enumOptions.map((option: any, idx: number) => (
+                  <option key={idx} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
             </div>
           );
         } else {
