@@ -81,11 +81,12 @@ interface SceneOutlinerProps {
   selectedNode?: SceneNode | null;
   onNodeSelect?: (node: SceneNode | null) => void;
   onSceneTreeChange?: (sceneTree: SceneNode[]) => void;
+  onSyncStateChange?: (syncing: boolean) => void;
 }
 
 type TabType = 'scene' | 'livedb' | 'localdb';
 
-export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange }: SceneOutlinerProps) {
+export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange, onSyncStateChange }: SceneOutlinerProps) {
   const { client, connected } = useOctane();
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('scene');
@@ -102,6 +103,7 @@ export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange }:
 
     console.log('🔄 Loading scene tree from Octane...');
     setLoading(true);
+    onSyncStateChange?.(true);
     
     try {
       const tree = await client.buildSceneTree();
@@ -133,6 +135,7 @@ export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange }:
       console.error('❌ Failed to load scene tree:', error);
     } finally {
       setLoading(false);
+      onSyncStateChange?.(false);
     }
   };
 

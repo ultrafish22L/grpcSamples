@@ -25,12 +25,14 @@ import { NodeInspector } from './components/NodeInspector';
 import { NodeInspectorControls } from './components/NodeInspectorControls';
 import { NodeGraphEditor } from './components/NodeGraph';
 import { SceneNode } from './services/OctaneClient';
+import { NodeType } from './constants/OctaneTypes';
 
 function AppContent() {
-  const { connect, connected } = useOctane();
+  const { client, connect, connected } = useOctane();
   const [selectedNode, setSelectedNode] = useState<SceneNode | null>(null);
   const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
   const [sceneRefreshTrigger, setSceneRefreshTrigger] = useState(0);
+  const [isSyncing, setIsSyncing] = useState(false);
   const { panelSizes, handleSplitterMouseDown, containerRef, isDragging } = useResizablePanels();
 
   // Scene tree change handler
@@ -38,9 +40,43 @@ function AppContent() {
     setSceneTree(tree);
   };
 
+  // Scene sync state handler
+  const handleSyncStateChange = (syncing: boolean) => {
+    setIsSyncing(syncing);
+    console.log(syncing ? '🔄 Scene sync started...' : '✅ Scene sync complete');
+  };
+
   // Scene refresh handler for MenuBar
   const handleSceneRefresh = () => {
     setSceneRefreshTrigger(prev => prev + 1);
+  };
+
+  // Add Node button handler - creates geometric plane primitive
+  const handleAddNode = async () => {
+    if (!connected || !client) {
+      console.log('⚠️ Cannot create node: not connected to Octane');
+      return;
+    }
+
+    if (isSyncing) {
+      console.log('⚠️ Cannot create node: scene is currently syncing');
+      return;
+    }
+
+    console.log('➕ Creating geometric plane primitive...');
+    
+    try {
+      const createdHandle = await client.createNode('NT_GEO_PLANE', NodeType.NT_GEO_PLANE);
+      if (createdHandle) {
+        console.log('✅ Geometric plane created with handle:', createdHandle);
+        // Trigger scene refresh to show new node
+        handleSceneRefresh();
+      } else {
+        console.error('❌ Failed to create geometric plane');
+      }
+    } catch (error) {
+      console.error('❌ Error creating node:', error);
+    }
   };
 
   useEffect(() => {
@@ -88,6 +124,7 @@ function AppContent() {
               selectedNode={selectedNode}
               onNodeSelect={setSelectedNode}
               onSceneTreeChange={handleSceneTreeChange}
+              onSyncStateChange={handleSyncStateChange}
             />
           </div>
         </aside>
@@ -165,7 +202,12 @@ function AppContent() {
           <div className="node-graph-header">
             <h3>Node graph editor</h3>
             <div className="node-graph-controls">
-              <button className="node-btn" title="Add Node">+</button>
+              <button 
+                className="node-btn" 
+                title={isSyncing ? "Cannot add node while syncing" : "Add Node"} 
+                onClick={handleAddNode}
+                disabled={!connected || isSyncing}
+              >+</button>
               <button className="node-btn" title="Delete Node">🗑</button>
               <button className="node-btn" title="Fit All">⊞</button>
             </div>
