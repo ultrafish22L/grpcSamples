@@ -15,10 +15,10 @@ interface PanelSizes {
 
 export function useResizablePanels() {
   const [panelSizes, setPanelSizes] = useState<PanelSizes>({
-    left: 260,    // Scene Outliner width - increased by 30% for better visibility
+    left: 260,    // Scene Outliner width 
     center: 0,    // Will be calculated
-    right: 400,   // Node Inspector width - reduced to fit content without excess space
-    top: 770,     // Top row height (viewport + inspector) - increased by 40% for larger viewport
+    right: 440,   // Node Inspector width
+    top: 770,     // Top row height (viewport + inspector)
     bottom: 0,    // Will be calculated from window height - top
   });
 
