@@ -681,6 +681,59 @@ html, body {
     object-fit: contain; /* Maintain aspect ratio while filling space */
 }
 
+/* Callback Render Viewport - Octane-style centered with scrollbars */
+.callback-render-viewport {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--octane-bg-secondary);
+}
+
+.viewport-canvas-container {
+    flex: 1;
+    overflow: auto; /* Add scrollbars when canvas exceeds viewport */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: var(--octane-bg-secondary);
+}
+
+.viewport-canvas-container .render-canvas {
+    /* Display at actual pixel size (1:1) - NO scaling */
+    width: auto !important;
+    height: auto !important;
+    max-width: none !important;
+    max-height: none !important;
+}
+
+.viewport-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #aaa;
+    font-size: 14px;
+    text-align: center;
+    z-index: 1;
+}
+
+.viewport-status {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 6px 12px;
+    background: var(--octane-bg-primary);
+    border-top: 1px solid var(--octane-border);
+    font-size: 12px;
+    color: var(--octane-text-secondary);
+}
+
+.viewport-status .frame-count {
+    margin-left: auto;
+}
+
 .viewport-overlay {
     position: absolute;
     top: 0;

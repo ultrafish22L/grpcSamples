@@ -515,15 +515,7 @@ export function CallbackRenderViewport() {
     <div className="callback-render-viewport" ref={viewportRef}>
       <div className="viewport-canvas-container">
         {!connected && (
-          <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            color: '#aaa',
-            fontSize: '14px',
-            textAlign: 'center'
-          }}>
+          <div className="viewport-placeholder">
             <div style={{ fontSize: '48px', marginBottom: '16px' }}>📡</div>
             <div>Disconnected from Octane</div>
             <div style={{ fontSize: '12px', marginTop: '8px', opacity: 0.7 }}>
@@ -532,15 +524,7 @@ export function CallbackRenderViewport() {
           </div>
         )}
         {connected && !isRendering && (
-          <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            color: '#aaa',
-            fontSize: '14px',
-            textAlign: 'center'
-          }}>
+          <div className="viewport-placeholder">
             <div style={{ fontSize: '48px', marginBottom: '16px' }}>🎬</div>
             <div>{status}</div>
           </div>
@@ -549,12 +533,9 @@ export function CallbackRenderViewport() {
           ref={canvasRef}
           className="render-canvas"
           style={{
-            maxWidth: '100%',
-            maxHeight: '100%',
             border: '1px solid #444',
             imageRendering: 'pixelated',
-            display: 'block',
-            margin: 'auto'
+            display: frameCount > 0 ? 'block' : 'none'
           }}
         />
       </div>
