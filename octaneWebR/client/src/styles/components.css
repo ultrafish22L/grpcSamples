@@ -3386,15 +3386,17 @@ body.drag-over .drop-indicator {
     max-width: 200px;
 }
 
-/* Individual control styles - Match octaneWeb exactly */
+/* Individual control styles - Match Octane Studio with 3D recessed effect */
 .octane-checkbox {
     width: 14px;
     height: 14px;
     display: block;
     margin: 0;
     cursor: pointer;
-    background: #000;
+    background: var(--octane-bg-primary);
     border: 1px solid #444;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .octane-number-input {
@@ -3409,12 +3411,14 @@ body.drag-over .drop-indicator {
     padding: 0 8px;
     font-family: var(--font-family-mono);
     text-align: right;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .octane-number-input:focus {
     outline: none;
     border-color: var(--octane-accent);
     background: #333;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--octane-accent);
 }
 
 /* Number input with spinners */
@@ -3481,12 +3485,14 @@ body.drag-over .drop-indicator {
     font-size: var(--font-size-small);
     padding: 1px 4px;
     text-align: right;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .octane-text-input:focus {
     outline: none;
     border-color: var(--octane-accent);
     background: #333;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--octane-accent);
 }
 
 .octane-color-input {
@@ -3497,7 +3503,8 @@ body.drag-over .drop-indicator {
     border-radius: 2px;
     cursor: pointer;
     padding: 0;
-    background: none;
+    background: var(--octane-bg-primary);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .octane-color-input::-webkit-color-swatch-wrapper {
@@ -3521,12 +3528,14 @@ body.drag-over .drop-indicator {
     cursor: pointer;
     display: grid;
     text-align: right;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .octane-dropdown:focus {
     outline: none;
     border-color: var(--octane-accent);
     background: #333;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--octane-accent);
 }
 
 /* Vector control styles */
