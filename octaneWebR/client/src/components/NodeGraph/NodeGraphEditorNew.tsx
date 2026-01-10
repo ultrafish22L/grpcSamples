@@ -18,6 +18,9 @@ import ReactFlow, {
   Connection,
   NodeTypes,
   ReactFlowProvider,
+  OnConnectStart,
+  OnConnectEnd,
+  EdgeChange,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 
@@ -47,7 +50,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   const { fitView } = useReactFlow();
   
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [edges, setEdges, onEdgesChangeBase] = useEdgesState([]);
   const containerRef = useRef<HTMLDivElement>(null);
   
   // Track whether initial fitView has been called (should only happen once after initial scene sync)
@@ -56,6 +59,10 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   // Context menu state
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+
+  // Track connection line color during drag (matches source pin color)
+  const [connectionLineColor, setConnectionLineColor] = useState('#4a90e2');
+  const connectingEdgeRef = useRef<Edge | null>(null); // Track if reconnecting existing edge
 
   /**
    * Convert scene tree to ReactFlow nodes and edges
@@ -224,6 +231,59 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   }, [nodes, fitView]);
 
   /**
+   * Handle connection start - capture source handle color for drag line
+   */
+  const onConnectStart: OnConnectStart = useCallback(
+    (_event, { nodeId, handleId, handleType }) => {
+      console.log('🔌 Connection drag started:', { nodeId, handleId, handleType });
+      
+      // Find the source node and handle to get its color
+      const sourceNode = nodes.find(n => n.id === nodeId);
+      if (!sourceNode) return;
+
+      const nodeData = sourceNode.data as OctaneNodeData;
+      
+      // Get handle color based on type (source = output, target = input)
+      let handleColor = '#4a90e2'; // Default color
+      
+      if (handleType === 'source' && nodeData.output?.pinInfo?.pinColor) {
+        handleColor = OctaneIconMapper.formatColorValue(nodeData.output.pinInfo.pinColor);
+      } else if (handleType === 'target' && nodeData.inputs) {
+        const input = nodeData.inputs.find(i => i.id === handleId);
+        if (input?.pinInfo?.pinColor) {
+          handleColor = OctaneIconMapper.formatColorValue(input.pinInfo.pinColor);
+        }
+      }
+
+      console.log('🎨 Setting connection line color:', handleColor);
+      setConnectionLineColor(handleColor);
+
+      // Check if we're dragging from an existing connection
+      const existingEdge = edges.find(
+        e => (e.source === nodeId && e.sourceHandle === handleId) ||
+             (e.target === nodeId && e.targetHandle === handleId)
+      );
+
+      if (existingEdge) {
+        console.log('📌 Reconnecting existing edge:', existingEdge.id);
+        connectingEdgeRef.current = existingEdge;
+      } else {
+        connectingEdgeRef.current = null;
+      }
+    },
+    [nodes, edges]
+  );
+
+  /**
+   * Handle connection end - cleanup
+   */
+  const onConnectEnd: OnConnectEnd = useCallback(() => {
+    console.log('🔌 Connection drag ended');
+    setConnectionLineColor('#4a90e2'); // Reset to default
+    connectingEdgeRef.current = null;
+  }, []);
+
+  /**
    * Handle new connections
    */
   const onConnect = useCallback(
@@ -231,28 +291,80 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
       try {
         if (!connection.source || !connection.target) return;
 
+        console.log('🔗 Creating connection:', connection);
+
+        // If we were reconnecting an existing edge, remove it first
+        if (connectingEdgeRef.current) {
+          console.log('🔄 Disconnecting old edge:', connectingEdgeRef.current.id);
+          
+          // Remove old edge from state
+          setEdges((eds) => eds.filter(e => e.id !== connectingEdgeRef.current?.id));
+
+          // TODO: Call Octane API to disconnect the old connection
+          // This would require knowing the target pin index
+        }
+
         // Call Octane API to connect nodes
         const sourceHandle = parseInt(connection.source);
         const targetHandle = parseInt(connection.target);
 
+        // Extract pin index from targetHandle (format: "input-N")
+        const pinIdx = connection.targetHandle 
+          ? parseInt(connection.targetHandle.split('-')[1]) 
+          : 0;
+
         await client.callApi('ApiNode', 'connectToIx', targetHandle, {
-          pinIdx: 0, // Assume first input pin for now
+          pinIdx,
           sourceNode: {
             handle: sourceHandle,
             type: 17, // ApiNode type
           },
         });
 
-        // Add edge to ReactFlow
-        setEdges((eds) => addEdge(connection, eds));
+        // Add edge to ReactFlow with matching color
+        const newEdge = {
+          ...connection,
+          id: `e${connection.source}-${connection.target}-${pinIdx}`,
+          style: { 
+            stroke: connectionLineColor, 
+            strokeWidth: 3 
+          },
+        };
+
+        setEdges((eds) => addEdge(newEdge, eds));
 
         // Refresh scene tree
         await client.buildSceneTree();
       } catch (error) {
-        console.error('Failed to create connection:', error);
+        console.error('❌ Failed to create connection:', error);
       }
     },
-    [client, setEdges]
+    [client, setEdges, connectionLineColor]
+  );
+
+  /**
+   * Handle edge changes (including removals for reconnection)
+   */
+  const onEdgesChange = useCallback(
+    (changes: EdgeChange[]) => {
+      console.log('🔄 Edge changes:', changes);
+      
+      // Check if this is an edge removal (start of reconnection)
+      changes.forEach(change => {
+        if (change.type === 'remove') {
+          const edge = edges.find(e => e.id === change.id);
+          if (edge) {
+            console.log('🗑️ Edge being removed for reconnection:', edge.id);
+            // Store reference for reconnection
+            connectingEdgeRef.current = edge;
+          }
+        }
+      });
+
+      // Apply changes using the base handler from useEdgesState
+      onEdgesChangeBase(changes);
+    },
+    [edges, onEdgesChangeBase]
   );
 
   /**
@@ -360,6 +472,8 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        onConnectStart={onConnectStart}
+        onConnectEnd={onConnectEnd}
         onNodesDelete={onNodesDelete}
         onNodeClick={onNodeClick}
         nodeTypes={nodeTypes}
@@ -369,6 +483,10 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           type: 'default',
           animated: false,
           style: { stroke: '#4a90e2', strokeWidth: 2 },
+        }}
+        connectionLineStyle={{
+          stroke: connectionLineColor,
+          strokeWidth: 3,
         }}
         className="node-graph-reactflow"
         style={{ background: '#1a1a1a' }}
