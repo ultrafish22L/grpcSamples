@@ -76,39 +76,34 @@ export function CallbackRenderViewport() {
 
   /**
    * Initialize camera from Octane's current camera settings
+   * Uses LiveLink.GetCamera to fetch current camera position and target
    */
   const initializeCameraFromOctane = useCallback(async () => {
     try {
-      // Get current camera from Octane
-      const camera = await client.callApi('ApiProjectManager', 'camera', {});
+      // Get current camera from Octane using LiveLink.GetCamera
+      const response = await client.getCamera();
       
-      if (!camera || !camera.result) {
-        console.warn('⚠️  No camera found in scene, using defaults');
+      if (!response || !response.position || !response.target) {
+        console.warn('⚠️  No camera data from Octane, using defaults');
         return;
       }
 
-      const cameraHandle = camera.result;
+      const position = response.position;
+      const target = response.target;
       
-      // Get camera position
-      const posResponse = await client.callApi('ApiNode', 'getCameraPosition', {
-        objectPtr: cameraHandle
-      });
+      console.log('📷 Camera from Octane:', { position, target });
       
-      if (posResponse && posResponse.result) {
-        const pos = posResponse.result;
-        console.log('📷 Camera position:', pos);
-        
-        // Calculate spherical coordinates from position
-        if (pos.x !== undefined && pos.y !== undefined && pos.z !== undefined) {
-          const x = pos.x;
-          const y = pos.y;
-          const z = pos.z;
-          
-          cameraRef.current.radius = Math.sqrt(x * x + y * y + z * z);
-          cameraRef.current.theta = Math.atan2(x, z);
-          cameraRef.current.phi = Math.asin(y / cameraRef.current.radius);
-        }
-      }
+      // Update target (center point)
+      cameraRef.current.center = [target.x, target.y, target.z];
+      
+      // Calculate spherical coordinates from cartesian position
+      const dx = position.x - target.x;
+      const dy = position.y - target.y;
+      const dz = position.z - target.z;
+      
+      cameraRef.current.radius = Math.sqrt(dx * dx + dy * dy + dz * dz);
+      cameraRef.current.theta = Math.atan2(dz, dx);
+      cameraRef.current.phi = Math.asin(dy / cameraRef.current.radius);
       
       console.log('✅ Camera initialized:', cameraRef.current);
     } catch (error: any) {
@@ -119,6 +114,7 @@ export function CallbackRenderViewport() {
 
   /**
    * Update Octane camera from current state
+   * Uses LiveLink.SetCamera to update both position and target efficiently
    */
   const updateOctaneCamera = useCallback(async () => {
     if (!connected) return;
@@ -131,33 +127,15 @@ export function CallbackRenderViewport() {
       const y = radius * Math.sin(phi);
       const z = radius * Math.cos(phi) * Math.cos(theta);
       
-      const position = {
-        x: x + center[0],
-        y: y + center[1],
-        z: z + center[2]
-      };
+      const posX = x + center[0];
+      const posY = y + center[1];
+      const posZ = z + center[2];
       
-      // Get current camera
-      const camera = await client.callApi('ApiProjectManager', 'camera', {});
-      if (!camera || !camera.result) return;
-      
-      const cameraHandle = camera.result;
-      
-      // Set camera position
-      await client.callApi('ApiNode', 'setCameraPosition', {
-        objectPtr: cameraHandle,
-        value: position
-      });
-      
-      // Set camera target
-      await client.callApi('ApiNode', 'setCameraTarget', {
-        objectPtr: cameraHandle,
-        value: {
-          x: center[0],
-          y: center[1],
-          z: center[2]
-        }
-      });
+      // Set both camera position and target in one efficient call
+      await client.setCameraPositionAndTarget(
+        posX, posY, posZ,
+        center[0], center[1], center[2]
+      );
       
       // Trigger render update
       await triggerOctaneUpdate();

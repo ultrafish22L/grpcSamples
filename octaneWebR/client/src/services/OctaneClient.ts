@@ -211,17 +211,35 @@ export class OctaneClient extends EventEmitter {
     }
   }
 
-  // Camera API
+  // Camera API - Uses LiveLink service (not ApiProjectManager)
   async getCamera(): Promise<any> {
-    return this.callApi('ApiProjectManager', 'getCamera', {});
+    // LiveLink.GetCamera returns CameraState with position, target, up vectors
+    return this.callApi('LiveLink', 'GetCamera', {});
   }
 
   async setCameraPosition(x: number, y: number, z: number): Promise<void> {
-    await this.callApi('ApiProjectManager', 'setCameraPosition', { x, y, z });
+    // LiveLink.SetCamera takes CameraState with optional position, target, up
+    await this.callApi('LiveLink', 'SetCamera', {
+      position: { x, y, z }
+    });
   }
 
   async setCameraTarget(x: number, y: number, z: number): Promise<void> {
-    await this.callApi('ApiProjectManager', 'setCameraTarget', { x, y, z });
+    // LiveLink.SetCamera takes CameraState with optional position, target, up
+    await this.callApi('LiveLink', 'SetCamera', {
+      target: { x, y, z }
+    });
+  }
+
+  async setCameraPositionAndTarget(
+    posX: number, posY: number, posZ: number,
+    targetX: number, targetY: number, targetZ: number
+  ): Promise<void> {
+    // More efficient: set both position and target in one call
+    await this.callApi('LiveLink', 'SetCamera', {
+      position: { x: posX, y: posY, z: posZ },
+      target: { x: targetX, y: targetY, z: targetZ }
+    });
   }
 
   // Scene API - Port of octaneWeb syncScene() implementation
