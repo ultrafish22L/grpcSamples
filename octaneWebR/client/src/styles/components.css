@@ -735,7 +735,7 @@ input:checked + .slider:before {
     display: inline-flex;
     align-items: center;
     position: relative;
-    margin-left: 4px;
+    margin-left: auto;
 }
 
 .octane-inspector-content {
