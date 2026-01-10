@@ -2702,7 +2702,6 @@ body.drag-over .drop-indicator {
     display: flex;
     align-items: center;
     flex: 1;
-    max-width: var(--param-max-weight);
 }
 
 /* Numeric Slider Controls */
