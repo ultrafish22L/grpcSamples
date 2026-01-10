@@ -731,6 +731,53 @@ input:checked + .slider:before {
     color: #666;
 }
 
+/* Breadcrumb row - shows selected node icon, name, and type */
+.octane-inspector-breadcrumb {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    background-color: #2b2b2b;
+    border-bottom: 1px solid #444;
+    font-size: 11px;
+    color: var(--octane-text-primary);
+    flex-shrink: 0;
+    gap: 6px;
+}
+
+.octane-breadcrumb-icon {
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.octane-breadcrumb-name {
+    color: var(--octane-text-primary);
+    flex-shrink: 0;
+    margin-right: 4px;
+}
+
+.octane-breadcrumb-type {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.octane-breadcrumb-type-select {
+    background-color: #333;
+    border: 1px solid #444;
+    color: var(--octane-text-primary);
+    padding: 2px 6px;
+    font-size: 11px;
+    border-radius: 2px;
+    cursor: pointer;
+    appearance: none;
+    min-width: 120px;
+}
+
+.octane-breadcrumb-type-select:hover {
+    background-color: #3a3a3a;
+    border-color: #555;
+}
+
 .octane-inspector-content {
     flex: 1;
     overflow-y: auto;
