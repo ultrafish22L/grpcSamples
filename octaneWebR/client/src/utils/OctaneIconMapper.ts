@@ -54,77 +54,56 @@ export class OctaneIconMapper {
   }
 
   /**
-   * Get icon for node types (consolidated from SceneOutlinerSync.js)
+   * Get icon for node types (matching Octane Studio's gray geometric symbols)
    * This replaces getOctaneIconFor() function
    */
   static getNodeIcon(outType: string, name?: string): string {
-    // Handle parameter types with specific icons
+    // Handle parameter types with specific icons (geometric symbols only)
     if (outType === 'PT_BOOL' || name === 'Bool value') {
-      return '☑️'; // Checkbox for boolean parameters
+      return '☐'; // Checkbox for boolean parameters
     }
     if (outType === 'PT_FLOAT' || name === 'Float value') {
-      return '🔢'; // Numbers for float parameters
+      return '▤'; // Slider for float parameters
     }
     if (outType === 'PT_INT' || name === 'Int value') {
-      return '🔢'; // Numbers for integer parameters
+      return '▤'; // Slider for integer parameters
     }
     if (outType === 'PT_ENUM' || name === 'Enum value') {
-      return '📋'; // List for enum parameters
+      return '▾'; // Dropdown for enum parameters
     }
     if (outType === 'PT_RGB' || name === 'RGB color') {
-      return '🎨'; // Color palette for RGB parameters
+      return '◼'; // Square for RGB parameters
     }
     
-    // Fallback based on type
+    // Fallback based on type (simple geometric symbols)
     const iconMap: Record<string, string> = {
-      'PT_RENDER_TARGET': '🎯',
-      'PT_MESH': '🫖',
-      'PT_GEOMETRY': '🫖',
-      'PT_CAMERA': '📷',
-      'PT_LIGHT': '💡',
-      'PT_MATERIAL': '🎨',
-      'PT_ENVIRONMENT': '🌍',
-      'PT_FILM_SETTINGS': '🎬',
-      'PT_ANIMATION_SETTINGS': '⏱️',
-      'PT_KERNEL': '🔧',
-      'PT_RENDER_LAYER': '🎭',
-      'PT_RENDER_PASSES': '📊',
-      'PT_OUTPUT_AOV_GROUP': '📤',
-      'PT_IMAGER': '📷',
-      'PT_POSTPROCESSING': '⚙️',
-      'unknown': '⬜'
+      'PT_RENDER_TARGET': '◉',
+      'PT_MESH': '▦',
+      'PT_GEOMETRY': '▦',
+      'PT_CAMERA': '◉',
+      'PT_LIGHT': '◎',
+      'PT_MATERIAL': '◼',
+      'PT_ENVIRONMENT': '◯',
+      'PT_FILM_SETTINGS': '▣',
+      'PT_ANIMATION_SETTINGS': '◷',
+      'PT_KERNEL': '◈',
+      'PT_RENDER_LAYER': '▤',
+      'PT_RENDER_PASSES': '▦',
+      'PT_OUTPUT_AOV_GROUP': '▨',
+      'PT_IMAGER': '◐',
+      'PT_POSTPROCESSING': '◈',
+      'unknown': '◦'
     };
     
     return iconMap[outType] || iconMap['unknown'];
   }
   
   /**
-   * Get icon for parameters (consolidated from NodeInspector.js - both versions)
-   * This replaces both getParameterIcon() functions
+   * Get icon for parameters (matching Octane Studio's gray geometric symbols)
+   * This replaces both getParameterIcon() functions with Octane-style icons
    */
   static getParameterIcon(paramName: string, paramType?: string): string {
-    // First check the detailed parameter name mapping (from NodeInspector.js line 2868)
-    const nameIcons: Record<string, string> = {
-      'Orthographic': '📐',
-      'Sensor width': '📏',
-      'Focal length': '🔍',
-      'F-stop': '📷',
-      'Field of view': '👁️',
-      'Scale of view': '🔍',
-      'Distortion': '🌀',
-      'Lens shift': '↔️',
-      'Near clip depth': '✂️',
-      'Far clip depth': '✂️',
-      'Auto-focus': '🎯',
-      'Focal depth': '📏',
-      'Aperture': '⭕'
-    };
-    
-    if (nameIcons[paramName]) {
-      return nameIcons[paramName];
-    }
-    
-    // Then check the technical parameter mapping (from NodeInspector.js line 1072)
+    // Use technical parameter mapping with simple geometric symbols (matching Octane)
     const technicalIcons: Record<string, string> = {
       'sensor_width': '▣',
       'focal_length': '◐', 
@@ -144,60 +123,74 @@ export class OctaneIconMapper {
       'aperture_edge': '▢',
       'bokeh_side_count': '#',
       'bokeh_rotation': '↻',
-      'bokeh_roundedness': '◯'
+      'bokeh_roundedness': '◯',
+      // Additional mappings for display names
+      'Orthographic': '▣',
+      'Sensor width': '▣',
+      'Focal length': '◐',
+      'F-stop': '◯',
+      'Field of view': '◐',
+      'Scale of view': '▤',
+      'Distortion': '◈',
+      'Lens shift': '⟷',
+      'Near clip depth': '▤',
+      'Far clip depth': '▤',
+      'Auto-focus': '◎',
+      'Focal depth': '▤',
+      'Aperture': '◯'
     };
     
     if (technicalIcons[paramName]) {
       return technicalIcons[paramName];
     }
     
-    // Finally check type-based icons
+    // Type-based icons using simple geometric symbols (no emojis)
     const typeIcons: Record<string, string> = {
-      'checkbox': '☑️',
-      'numeric-slider': '🎚️',
-      'numeric-input': '🔢',
-      'dropdown': '📋',
-      'color-picker': '🎨',
-      'text-input': '📝',
-      'FLOAT': '🔢',
-      'INT': '🔢',
-      'BOOL': '☑️',
-      'COLOR': '🎨',
-      'STRING': '📝',
-      'ENUM': '📋'
+      'checkbox': '☐',
+      'numeric-slider': '▤',
+      'numeric-input': '▤',
+      'dropdown': '▾',
+      'color-picker': '◼',
+      'text-input': '▭',
+      'FLOAT': '▤',
+      'INT': '▤',
+      'BOOL': '☐',
+      'COLOR': '◼',
+      'STRING': '▭',
+      'ENUM': '▾'
     };
     
     if (paramType && typeIcons[paramType]) {
       return typeIcons[paramType];
     }
     
-    // Default fallback
+    // Default fallback - simple geometric shapes
     return paramType === 'bool' ? '☐' : 
            (paramType === 'float' || paramType === 'int') ? '▤' : '◦';
   }
   
   /**
-   * Get icon for pin groups
+   * Get icon for pin groups (matching Octane Studio's gray geometric symbols)
    * This will be used for parameter group headers
    */
   static getPinGroupIcon(groupName: string): string {
     const groupIcons: Record<string, string> = {
-      'Physical camera parameters': '📐',
-      'Viewing angle': '👁️',
-      'Clipping': '✂️',
-      'Depth of field': '🎯',
-      'Position': '🔄',
-      'Stereo': '👀',
-      'Diffuse': '🎨',
-      'Specular': '✨',
-      'Light': '💡',
-      'Render settings': '⚙️',
-      'Transform': '🔄',
-      'Material': '🎨',
-      'Lighting': '💡'
+      'Physical camera parameters': '◈',
+      'Viewing angle': '◐',
+      'Clipping': '▤',
+      'Depth of field': '◎',
+      'Position': '◇',
+      'Stereo': '◐',
+      'Diffuse': '◼',
+      'Specular': '◇',
+      'Light': '◎',
+      'Render settings': '◈',
+      'Transform': '◇',
+      'Material': '◼',
+      'Lighting': '◎'
     };
     
-    return groupIcons[groupName] || '📁';
+    return groupIcons[groupName] || '▸';
   }
 
   /**
