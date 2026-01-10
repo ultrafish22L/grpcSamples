@@ -601,8 +601,8 @@ export function octaneGrpcPlugin(): Plugin {
                 if (service === 'ApiNodePinInfoEx' && method === 'getApiNodePinInfo') {
                   // GetNodePinInfoRequest uses nodePinInfoRef instead of objectPtr
                   params = { nodePinInfoRef: params.objectPtr };
-                } else if (method === 'getByAttrID' || method === 'getValue') {
-                  // Some methods use item_ref instead of objectPtr
+                } else if (method === 'getByAttrID' || method === 'setByAttrID' || method === 'getValue') {
+                  // ApiItem methods use item_ref instead of objectPtr
                   params = { item_ref: params.objectPtr, ...params };
                   delete params.objectPtr;
                 }

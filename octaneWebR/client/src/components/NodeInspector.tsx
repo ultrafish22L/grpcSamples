@@ -190,6 +190,7 @@ function NodeParameter({
       console.log(`📝 Setting ${node.name} = ${JSON.stringify(formattedValue)}`);
       
       // Call setByAttrID to update the value in Octane
+      // Note: evaluate: false is required (matches octaneWeb behavior)
       await client.callApi(
         'ApiItem',
         'setByAttrID',
@@ -197,7 +198,8 @@ function NodeParameter({
         {
           attribute_id: AttributeId.A_VALUE,
           expected_type: expectedType,
-          [valueField]: formattedValue
+          [valueField]: formattedValue,
+          evaluate: false  // Required parameter from octaneWeb
         }
       );
       
