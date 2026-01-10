@@ -153,11 +153,67 @@ function NodeParameter({
     if (!node.handle || !node.attrInfo) return;
     
     try {
-      // Update value through API (to be implemented)
-      console.log(`📝 Value change for ${node.name}:`, newValue);
-      // TODO: Call setByAttrID to update the value in Octane
-    } catch (error) {
-      console.error(`❌ Failed to update ${node.name}:`, error);
+      const expectedType = AttrType[node.attrInfo.type as keyof typeof AttrType];
+      
+      // Determine the correct value field name based on type
+      let valueField: string;
+      let formattedValue: any;
+      
+      switch (expectedType) {
+        case AttrType.AT_BOOL:
+          valueField = 'bool_value';
+          formattedValue = Boolean(newValue);
+          break;
+        case AttrType.AT_INT:
+        case AttrType.AT_INT2:
+        case AttrType.AT_INT3:
+        case AttrType.AT_INT4:
+          valueField = 'int_value';
+          formattedValue = newValue;
+          break;
+        case AttrType.AT_FLOAT:
+        case AttrType.AT_FLOAT2:
+        case AttrType.AT_FLOAT3:
+        case AttrType.AT_FLOAT4:
+          valueField = 'float_value';
+          formattedValue = newValue;
+          break;
+        case AttrType.AT_STRING:
+          valueField = 'string_value';
+          formattedValue = String(newValue);
+          break;
+        default:
+          console.warn(`⚠️  Unsupported type for setValue: ${node.attrInfo.type}`);
+          return;
+      }
+      
+      console.log(`📝 Setting ${node.name} = ${JSON.stringify(formattedValue)}`);
+      
+      // Call setByAttrID to update the value in Octane
+      await client.callApi(
+        'ApiItem',
+        'setByAttrID',
+        node.handle,
+        {
+          attribute_id: AttributeId.A_VALUE,
+          expected_type: expectedType,
+          [valueField]: formattedValue
+        }
+      );
+      
+      // Update local state to reflect the change
+      setParamValue({
+        value: formattedValue,
+        type: expectedType
+      });
+      
+      console.log(`✅ Successfully updated ${node.name}`);
+      
+      // Trigger render update to see changes
+      await client.callApi('ApiChangeManager', 'update', {});
+      
+    } catch (error: any) {
+      console.error(`❌ Failed to update ${node.name}:`, error.message || error);
     }
   };
 
