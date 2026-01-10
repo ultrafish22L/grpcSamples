@@ -3393,7 +3393,8 @@ body.drag-over .drop-indicator {
     display: block;
     margin: 0;
     cursor: pointer;
-    background: var(--octane-bg-primary);
+    background: #000;
+    border: 1px solid #444;
 }
 
 .octane-number-input {
