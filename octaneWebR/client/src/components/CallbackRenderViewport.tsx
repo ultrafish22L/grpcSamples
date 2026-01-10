@@ -449,7 +449,7 @@ export function CallbackRenderViewport() {
       if (isDraggingRef.current) {
         // LEFT CLICK: Orbit camera around target
         const sensitivity = 0.01;
-        cameraRef.current.theta += deltaX * sensitivity;
+        cameraRef.current.theta -= deltaX * sensitivity;  // Inverted: drag right = rotate left
         cameraRef.current.phi -= deltaY * sensitivity;
 
         // Clamp phi to prevent flipping
