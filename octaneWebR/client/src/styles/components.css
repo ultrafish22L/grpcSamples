@@ -3150,7 +3150,7 @@ body.drag-over .drop-indicator {
     display: flex;
     align-items: center;
     transition: all 0.2s ease;
-    padding: 0 4px 0 24px;
+    padding: 0 4px 0 0;
 }
 
 .node-box:hover {
@@ -3182,8 +3182,8 @@ body.drag-over .drop-indicator {
     background-color: var(--octane-bg-secondary);
     border: 1px solid var(--octane-parameter-bg);
     border-radius: 6px; 
-    margin: 2px 2px 2px 4px;   
-    padding: 0 0 0 20px;
+    margin: 2px 2px 2px 20px;   
+    padding: 0 0 0 0;
 }
 
 .node-inspector .node-indent-done,
@@ -3191,7 +3191,7 @@ body.drag-over .drop-indicator {
     background-color: var(--octane-bg-secondary);
     border: 1px solid var(--octane-parameter-bg);
     border-radius: 6px; 
-    margin: 2px 2px 2px 4px;   
+    margin: 2px 2px 2px 1px;   
     padding: 0 0 0 0; 
 }
 
@@ -3289,8 +3289,12 @@ body.drag-over .drop-indicator {
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-light);
     color: var(--octane-text-primary);
-    flex: 0 0 auto;
+    flex: 0 1 auto;
+    min-width: 80px;
+    max-width: 40%;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Node parameter controls with better spacing - ONLY for Node Inspector */
