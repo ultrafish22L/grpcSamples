@@ -250,13 +250,10 @@ export class OctaneClient extends EventEmitter {
       console.log('➕ Adding new node to scene tree:', newNodeHandle);
       
       try {
-        // Create a temporary array to pass to addSceneItem
-        const newNodes: SceneNode[] = [];
-        
-        // Add the new node at level 1 (top-level)
-        const newNode = await this.addSceneItem(
-          newNodes, 
-          { handle: newNodeHandle, type: 17 }, // ApiItem type
+          // Add the new node at level 1 (top-level)
+          const newNode = await this.addSceneItem(
+          this.scene.tree, 
+          { handle: newNodeHandle }, 
           null, 
           1
         );
@@ -265,10 +262,7 @@ export class OctaneClient extends EventEmitter {
           // Build children for the new node
           console.log(`🔄 Building children for new node: ${newNode.name}`);
           await this.addItemChildren(newNode);
-          
-          // Add to the existing scene tree
-          this.scene.tree.push(newNode);
-          
+                    
           console.log('✅ New node added to scene tree:', newNode.name);
           console.log('✅ Scene tree now has', this.scene.tree.length, 'top-level items');
           console.log('🔍 Emitting sceneTreeUpdated event...');
@@ -536,14 +530,13 @@ export class OctaneClient extends EventEmitter {
     if (item != null && item.handle != 0) {
       // Check if already exists at level 1 - reuse existing node
       const existing = this.scene.map.get(item.handle);
-      if (existing && existing.handle && existing.level === 1) {
-        // TODO: Setup connection info for NodeGraphEditor
-        // For now, just reuse the existing node to avoid overwhelming Octane with API calls
-        // Connection mapping should be done AFTER full tree is built, not during recursion
+      if (existing && existing.handle) {
         
         // Update existing node's pinInfo
         existing.pinInfo = pinInfo;
-        sceneItems.push(existing);
+        if (level > 1) {
+          sceneItems.push(existing);
+        }
         return existing;
       }
       
@@ -767,12 +760,12 @@ export class OctaneClient extends EventEmitter {
         return null;
       }
       
-      const createdNodeHandle = createResponse.result.handle;
+      const createdNodeHandle = Number(createResponse.result.handle);
       console.log('✅ Node created with handle:', createdNodeHandle);
       
       // Step 3: Refresh scene tree
       console.log('🔄 Refreshing scene tree...');
-      this.scene.tree = await this.buildSceneTree();
+      this.scene.tree = await this.buildSceneTree(createdNodeHandle);
       this.emit('sceneUpdated', this.scene);
       
       return createdNodeHandle;

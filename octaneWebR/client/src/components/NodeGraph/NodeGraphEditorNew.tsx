@@ -223,7 +223,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           padding: 0.2,        // 20% padding around nodes
           includeHiddenNodes: false,
           minZoom: 0.5,        // Don't zoom out too far
-          maxZoom: 1.5,        // Don't zoom in too much
+          maxZoom: 1.0,        // Don't zoom in too much
           duration: 300,       // Smooth animation (300ms)
         });
         hasInitialFitView.current = true;
