@@ -247,7 +247,7 @@ html, body {
 .app-layout {
     display: grid;
     grid-template-columns: 200px 4px 1fr 4px 320px; /* Will be overridden by inline styles */
-    grid-template-rows: 400px 4px 1fr; /* Will be overridden by inline styles: top-height, splitter, bottom */
+    grid-template-rows: 770px 4px 1fr; /* Will be overridden by inline styles: top-height, splitter, bottom */
     width: 100%;
     max-width: 100%;
     height: 100%;
