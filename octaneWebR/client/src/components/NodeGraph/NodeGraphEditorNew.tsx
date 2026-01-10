@@ -30,6 +30,7 @@ import { NodeType } from '../../constants/OctaneTypes';
 
 interface NodeGraphEditorProps {
   sceneTree: SceneNode[];
+  selectedNode?: SceneNode | null;
   onNodeSelect?: (node: SceneNode | null) => void;
 }
 
@@ -41,7 +42,7 @@ const nodeTypes: NodeTypes = {
 /**
  * Inner component with ReactFlow context access
  */
-function NodeGraphEditorInner({ sceneTree, onNodeSelect }: NodeGraphEditorProps) {
+function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGraphEditorProps) {
   const { client, connected } = useOctane();
   const { fitView } = useReactFlow();
   
@@ -175,6 +176,31 @@ function NodeGraphEditorInner({ sceneTree, onNodeSelect }: NodeGraphEditorProps)
     setNodes(graphNodes);
     setEdges(graphEdges);
   }, [sceneTree, convertSceneToGraph, setNodes, setEdges]);
+
+  /**
+   * Synchronize node selection when selectedNode changes externally (e.g., from SceneOutliner)
+   */
+  useEffect(() => {
+    if (!selectedNode || nodes.length === 0) {
+      // Clear selection
+      setNodes((nds) =>
+        nds.map((node) => ({
+          ...node,
+          selected: false,
+        }))
+      );
+      return;
+    }
+
+    const selectedHandle = String(selectedNode.handle);
+    
+    setNodes((nds) =>
+      nds.map((node) => ({
+        ...node,
+        selected: node.id === selectedHandle,
+      }))
+    );
+  }, [selectedNode, setNodes, nodes.length]);
 
   /**
    * Fit view ONCE when initial scene is loaded
@@ -379,10 +405,10 @@ function NodeGraphEditorInner({ sceneTree, onNodeSelect }: NodeGraphEditorProps)
 /**
  * Main component wrapped with ReactFlow provider
  */
-export function NodeGraphEditor({ sceneTree, onNodeSelect }: NodeGraphEditorProps) {
+export function NodeGraphEditor({ sceneTree, selectedNode, onNodeSelect }: NodeGraphEditorProps) {
   return (
     <ReactFlowProvider>
-      <NodeGraphEditorInner sceneTree={sceneTree} onNodeSelect={onNodeSelect} />
+      <NodeGraphEditorInner sceneTree={sceneTree} selectedNode={selectedNode} onNodeSelect={onNodeSelect} />
     </ReactFlowProvider>
   );
 }

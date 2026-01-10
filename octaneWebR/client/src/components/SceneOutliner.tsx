@@ -78,21 +78,20 @@ function SceneTreeItem({ node, depth, onSelect, selectedHandle }: SceneTreeItemP
 }
 
 interface SceneOutlinerProps {
+  selectedNode?: SceneNode | null;
   onNodeSelect?: (node: SceneNode | null) => void;
   onSceneTreeChange?: (sceneTree: SceneNode[]) => void;
 }
 
 type TabType = 'scene' | 'livedb' | 'localdb';
 
-export function SceneOutliner({ onNodeSelect, onSceneTreeChange }: SceneOutlinerProps) {
+export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange }: SceneOutlinerProps) {
   const { client, connected } = useOctane();
-  const [selectedNode, setSelectedNode] = useState<SceneNode | null>(null);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('scene');
   const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
 
   const handleNodeSelect = (node: SceneNode) => {
-    setSelectedNode(node);
     onNodeSelect?.(node);
   };
 

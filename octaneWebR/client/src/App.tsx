@@ -85,6 +85,7 @@ function AppContent() {
           <div className="panel-content">
             <SceneOutliner 
               key={sceneRefreshTrigger}
+              selectedNode={selectedNode}
               onNodeSelect={setSelectedNode}
               onSceneTreeChange={handleSceneTreeChange}
             />
@@ -170,7 +171,11 @@ function AppContent() {
             </div>
           </div>
           <div className="node-graph-container">
-            <NodeGraphEditor sceneTree={sceneTree} onNodeSelect={setSelectedNode} />
+            <NodeGraphEditor 
+              sceneTree={sceneTree} 
+              selectedNode={selectedNode}
+              onNodeSelect={setSelectedNode} 
+            />
           </div>
         </section>
         
