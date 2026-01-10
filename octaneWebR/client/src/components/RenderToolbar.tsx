@@ -40,14 +40,14 @@ export function RenderToolbar({ className = '' }: RenderToolbarProps) {
   const { connected } = useOctane();
   
   const [renderStats, setRenderStats] = useState<RenderStats>({
-    samples: 0.0,
+    samples: 1.0,
     time: '00:00:00',
     status: 'finished',
     resolution: '1920x1080',
     meshCount: 1,
     gpu: 'NVIDIA GeForce RTX 4090 (RT)',
-    version: '1.48.21.224.4',
-    memory: 'GB'
+    version: '1:48.21.2',
+    memory: '24.0 GB'
   });
 
   const [state, setState] = useState<ToolbarState>({
@@ -369,24 +369,24 @@ export function RenderToolbar({ className = '' }: RenderToolbarProps) {
 
   return (
     <div className={`render-toolbar-container ${className}`}>
-      {/* Render Statistics Bar */}
+      {/* Render Statistics Bar - Matching Octane format exactly */}
       <div className="render-stats-bar">
         <div className="render-stats-left">
-          <span id="render-samples-display">{renderStats.samples.toFixed(1)} spp</span>
-          <span className="stats-separator">,</span>
+          <span id="render-samples-display">{Math.floor(renderStats.samples)}/1 @/pv</span>
+          <span className="stats-separator">, </span>
           <span id="render-time-display">{renderStats.time}</span>
+          <span> </span>
           <span id="render-status-display" className={`render-status-${renderStats.status}`}>
             ({renderStats.status})
           </span>
         </div>
         <div className="render-stats-right">
-          <span id="render-resolution-display">{renderStats.resolution}</span>
+          <span id="render-resolution-display">{renderStats.resolution} pti </span>
           <span id="render-mesh-count">{renderStats.meshCount} mesh</span>
-          <span className="stats-separator">,</span>
+          <span className="stats-separator">, </span>
           <span id="render-gpu-info">{renderStats.gpu}</span>
-          <span className="stats-separator">,</span>
-          <span id="render-version">{renderStats.version}</span>
-          <span id="render-memory">{renderStats.memory}</span>
+          <span className="stats-separator">, </span>
+          <span id="render-memory-combined">{renderStats.version}/{renderStats.memory}</span>
         </div>
       </div>
 

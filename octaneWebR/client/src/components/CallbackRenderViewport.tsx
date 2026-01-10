@@ -536,13 +536,6 @@ export function CallbackRenderViewport() {
           }}
         />
       </div>
-      <div className="viewport-status">
-        <span>{status}</span>
-        <span className="frame-count">Frames: {frameCount}</span>
-        {connected && isRendering && (
-          <span className="render-indicator" style={{ color: '#4CAF50' }}>● Rendering</span>
-        )}
-      </div>
     </div>
   );
 }
