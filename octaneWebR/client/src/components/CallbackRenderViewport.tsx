@@ -149,14 +149,12 @@ export function CallbackRenderViewport() {
    * CRITICAL: Direct port of octaneWeb buffer processing logic
    */
   const displayCallbackImage = useCallback((imageData: OctaneImageData) => {
-    console.log('🎨 [displayCallbackImage] Starting image display');
     try {
       const canvas = canvasRef.current;
       if (!canvas) {
         console.error('❌ [displayCallbackImage] Canvas ref is null');
         return;
       }
-      console.log('✅ [displayCallbackImage] Canvas ref exists');
 
       setFrameCount(prev => prev + 1);
 
@@ -164,17 +162,11 @@ export function CallbackRenderViewport() {
         console.error('❌ [displayCallbackImage] No image buffer in callback data');
         return;
       }
-      console.log('✅ [displayCallbackImage] Image buffer exists');
 
       // Decode base64 buffer
       const bufferData: any = imageData.buffer.data; // Can be string or Buffer object
       const width = imageData.size.x;
       const height = imageData.size.y;
-      
-      console.log('📊 [displayCallbackImage] Image dimensions:', { width, height, type: imageData.type });
-      console.log('📊 [displayCallbackImage] Buffer data type:', typeof bufferData);
-      console.log('📊 [displayCallbackImage] Buffer data length:', bufferData?.length);
-      console.log('📊 [displayCallbackImage] Buffer data preview:', bufferData?.substring ? bufferData.substring(0, 50) : 'NOT A STRING');
 
       // Set canvas size
       canvas.width = width;
@@ -185,7 +177,6 @@ export function CallbackRenderViewport() {
         console.error('❌ [displayCallbackImage] Failed to get 2d context');
         return;
       }
-      console.log('✅ [displayCallbackImage] Got 2d context');
 
       const canvasImageData = ctx.createImageData(width, height);
 
@@ -194,19 +185,15 @@ export function CallbackRenderViewport() {
       
       // Check if it's a Node.js Buffer serialized as JSON {type: "Buffer", data: [bytes]}
       if (typeof bufferData === 'object' && bufferData.type === 'Buffer' && Array.isArray(bufferData.data)) {
-        console.log('✅ [displayCallbackImage] Buffer is Node.js Buffer object, using data array directly');
         bytes = new Uint8Array(bufferData.data);
-        console.log('✅ [displayCallbackImage] Converted Buffer to Uint8Array:', bytes.length, 'bytes');
       } else if (typeof bufferData === 'string') {
         // It's a base64 string
         try {
-          console.log('📝 [displayCallbackImage] Buffer is base64 string, decoding...');
           const binaryString = atob(bufferData);
           bytes = new Uint8Array(binaryString.length);
           for (let i = 0; i < binaryString.length; i++) {
             bytes[i] = binaryString.charCodeAt(i);
           }
-          console.log('✅ [displayCallbackImage] Base64 decoded:', bytes.length, 'bytes');
         } catch (error: any) {
           console.error('❌ [displayCallbackImage] Base64 decode error:', error?.message || error?.toString() || JSON.stringify(error));
           return;
@@ -217,12 +204,9 @@ export function CallbackRenderViewport() {
       }
 
       // Convert buffer to RGBA format for canvas
-      console.log('🔄 [displayCallbackImage] Converting buffer to canvas format...');
       convertBufferToCanvas(bytes, imageData, canvasImageData);
-      console.log('✅ [displayCallbackImage] Buffer converted');
 
       ctx.putImageData(canvasImageData, 0, 0);
-      console.log('✅ [displayCallbackImage] Image drawn to canvas!');
 
       // Update status
       setStatus(
@@ -411,37 +395,21 @@ export function CallbackRenderViewport() {
    * Setup callback listener for OnNewImage events
    */
   useEffect(() => {
-    console.log('🎬 [CallbackViewport useEffect] Running, connected:', connected);
-    
     if (!connected) {
-      console.log('⚠️  [CallbackViewport useEffect] Not connected, skipping listener registration');
       return;
     }
 
     const handleNewImage = (data: CallbackData) => {
-      console.log('🖼️  [CallbackViewport] OnNewImage event received');
-      console.log('🖼️  [CallbackViewport] Data:', {
-        hasRenderImages: !!data.render_images,
-        hasData: !!data.render_images?.data,
-        imageCount: data.render_images?.data?.length,
-        firstImageType: data.render_images?.data?.[0]?.type,
-        firstImageSize: data.render_images?.data?.[0]?.size
-      });
-      
       if (data.render_images && data.render_images.data && data.render_images.data.length > 0) {
-        console.log('🖼️  [CallbackViewport] Calling displayCallbackImage()');
         displayCallbackImage(data.render_images.data[0]);
       } else {
         console.warn('⚠️  [CallbackViewport] No valid image data in callback');
       }
     };
 
-    console.log('✅ [CallbackViewport useEffect] Registering OnNewImage listener on client');
     client.on('OnNewImage', handleNewImage);
-    console.log('✅ [CallbackViewport useEffect] Listener registered');
 
     return () => {
-      console.log('🔄 [CallbackViewport useEffect] Cleanup: Unregistering listener');
       client.off('OnNewImage', handleNewImage);
     };
   }, [connected, client, displayCallbackImage]);

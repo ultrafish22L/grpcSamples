@@ -97,12 +97,7 @@ export function SceneOutliner({ onNodeSelect, onSceneTreeChange }: SceneOutliner
   };
 
   const loadSceneTree = async () => {
-    if (!connected) {
-      console.log('⚠️ Cannot load scene: not connected');
-      return;
-    }
-    if (!client) {
-      console.log('⚠️ Cannot load scene: no client');
+    if (!connected || !client) {
       return;
     }
 
@@ -110,24 +105,12 @@ export function SceneOutliner({ onNodeSelect, onSceneTreeChange }: SceneOutliner
     setLoading(true);
     
     try {
-      // Use the new buildSceneTree method that properly recurses
       const tree = await client.buildSceneTree();
       
-      // console.log('🌳 [SceneOutliner] buildSceneTree returned:', tree);
-      console.log('🌳 [SceneOutliner] Tree structure:', JSON.stringify(tree, null, 2));
-      
       setSceneTree(tree);
-      
-      console.log('🌳 [SceneOutliner] Calling onSceneTreeChange with tree:', tree);
       onSceneTreeChange?.(tree);
-      console.log('🌳 [SceneOutliner] onSceneTreeChange called');
       
       console.log(`✅ Loaded ${tree.length} top-level items`);
-      
-      // Debug: Log the typeEnum values for each item
-      tree.forEach((item, idx) => {
-        console.log(`📊 Scene item ${idx}: ${item.name} typeEnum=${item.typeEnum} type=${item.type} handle=${item.handle}`);
-      });
 
       // Auto-select render target node after scene is loaded
       const findRenderTarget = (nodes: SceneNode[]): SceneNode | null => {
@@ -145,12 +128,10 @@ export function SceneOutliner({ onNodeSelect, onSceneTreeChange }: SceneOutliner
 
       const renderTarget = findRenderTarget(tree);
       if (renderTarget) {
-        console.log('🎯 Auto-selecting render target:', renderTarget.name);
         handleNodeSelect(renderTarget);
       }
     } catch (error: any) {
       console.error('❌ Failed to load scene tree:', error);
-      console.error('Error stack:', error.stack);
     } finally {
       setLoading(false);
     }
@@ -158,29 +139,11 @@ export function SceneOutliner({ onNodeSelect, onSceneTreeChange }: SceneOutliner
 
   // Auto-load on connect (only once when connected becomes true)
   useEffect(() => {
-    console.log('🔍 SceneOutliner useEffect triggered:', { 
-      connected, 
-      hasClient: !!client,
-      clientType: client ? typeof client : 'undefined',
-      loadingState: loading
-    });
     if (connected && client) {
-      console.log('🎬 Auto-loading scene tree on connect');
-      console.log('   - client object:', client);
-      console.log('   - client.buildSceneTree:', typeof client.buildSceneTree);
       loadSceneTree();
-    } else {
-      console.log('⏳ Waiting for connection...', {
-        connected: connected,
-        hasClient: !!client,
-        reason: !connected ? 'not connected' : 'no client'
-      });
-      
-      // DEBUG: Force load scene tree even if connected state is false
-      if (client && !loading) {
-        console.log('🔧 DEBUG: Force loading scene tree despite connected=false');
-        loadSceneTree();
-      }
+    } else if (client && !loading) {
+      // Fallback: Force load scene tree even if connected state is false
+      loadSceneTree();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connected, client]);
