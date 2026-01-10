@@ -3030,34 +3030,6 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-primary);
 }
 
-/* Responsive Parameter Controls */
-@media (max-width: 768px) {
-    .parameter-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
-    }
-    
-    .parameter-label {
-        margin-right: 0;
-        min-width: auto;
-    }
-    
-    .parameter-control {
-        width: 100%;
-        max-width: none;
-    }
-    
-    .parameter-numeric-slider-container {
-        flex-direction: column;
-        gap: 6px;
-    }
-    
-    .parameter-slider-wrapper {
-        width: 100%;
-    }
-}
-
 /* Parameter Animation Effects */
 .parameter-row {
     transition: background-color 0.2s ease;
@@ -3696,17 +3668,6 @@ body.drag-over .drop-indicator {
     color: var(--octane-text-secondary);
     font-size: var(--font-size-small);
     font-style: italic;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-
-    .node-icon-box {
-        left: -25px;
-        width: 18px;
-        height: 18px;
-        font-size: var(--font-size-small);
-    }
 }
 
 /* Parameter Control Styles for Interactive Node Inspector */
