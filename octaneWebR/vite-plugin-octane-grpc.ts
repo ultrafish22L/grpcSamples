@@ -608,9 +608,10 @@ export function octaneGrpcPlugin(): Plugin {
                 }
               }
               
-              console.log(`📤 ${service}.${method}`, JSON.stringify(params).substring(0, 100));
+              // Verbose API logging (commented out to reduce log flooding)
+              // console.log(`📤 ${service}.${method}`, JSON.stringify(params).substring(0, 100));
               const response = await grpcClient?.callMethod(service, method, params);
-              console.log(`✅ ${service}.${method} → ${JSON.stringify(response).substring(0, 100)}`);
+              // console.log(`✅ ${service}.${method} → ${JSON.stringify(response).substring(0, 100)}`);
               
               res.setHeader('Content-Type', 'application/json');
               res.statusCode = 200;

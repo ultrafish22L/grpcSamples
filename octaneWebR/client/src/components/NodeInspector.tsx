@@ -86,28 +86,29 @@ function NodeParameter({
   // Fetch parameter value for end nodes (matching octaneWeb's GenericNodeRenderer.getValue())
   useEffect(() => {
     const fetchValue = async () => {
+      // Verbose parameter logging (commented out to reduce log flooding)
       // Log every node to understand the tree structure
-      if (level < 3) {  // Only log first 3 levels to avoid spam
-        console.log(`📋 NodeParameter: "${node.name}" - hasChildren:${hasChildren}, has attrInfo:${!!node.attrInfo}, isEndNode:${isEndNode}, handle:${node.handle}`);
-      }
+      // if (level < 3) {  // Only log first 3 levels to avoid spam
+      //   console.log(`📋 NodeParameter: "${node.name}" - hasChildren:${hasChildren}, has attrInfo:${!!node.attrInfo}, isEndNode:${isEndNode}, handle:${node.handle}`);
+      // }
       
       if (!node.attrInfo || !node.handle || !isEndNode) {
         return;  // Skip without verbose logging
       }
       
-      console.log(`🔍 Fetching value for end node: "${node.name}"`);
-      console.log(`  - handle: ${node.handle}`);
-      console.log(`  - attrInfo.type: ${node.attrInfo.type}`);
-      console.log(`  - AttributeId.A_VALUE: ${AttributeId.A_VALUE}`);
+      // console.log(`🔍 Fetching value for end node: "${node.name}"`);
+      // console.log(`  - handle: ${node.handle}`);
+      // console.log(`  - attrInfo.type: ${node.attrInfo.type}`);
+      // console.log(`  - AttributeId.A_VALUE: ${AttributeId.A_VALUE}`);
 
       try {
         // attrInfo.type is already a STRING like "AT_FLOAT3" from the API
         // Use it directly, no conversion needed
         const expectedType = AttrType[node.attrInfo.type as keyof typeof AttrType];
         
-        console.log(`🔍 Calling getByAttrID for ${node.name}:`);
-        console.log(`  - attribute_id: ${AttributeId.A_VALUE}`);
-        console.log(`  - expected_type: ${expectedType}`);
+        // console.log(`🔍 Calling getByAttrID for ${node.name}:`);
+        // console.log(`  - attribute_id: ${AttributeId.A_VALUE}`);
+        // console.log(`  - expected_type: ${expectedType}`);
 
         // Pass just the handle string - callApi will wrap it in objectPtr automatically
         const response = await client.callApi(
@@ -121,7 +122,7 @@ function NodeParameter({
         );
         
         if (response) {
-          console.log(`✅ Got value for ${node.name}:`, response);
+          // console.log(`✅ Got value for ${node.name}:`, response);
           // Extract the actual value from the response
           // API returns format like: {float_value: 2, value: "float_value"}
           // We need to get the value from the field indicated by response.value
@@ -135,7 +136,7 @@ function NodeParameter({
         }
       } catch (error) {
         // Silently ignore - not all end nodes have values
-        console.log(`❌ No value for ${node.name}:`, error);
+        // console.log(`❌ No value for ${node.name}:`, error);
       }
     };
     

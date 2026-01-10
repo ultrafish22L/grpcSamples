@@ -160,7 +160,8 @@ export class OctaneClient extends EventEmitter {
   async callApi(service: string, method: string, handle?: any, params: any = {}): Promise<any> {
     const url = `${this.serverUrl}/api/grpc/${service}/${method}`;
     
-    console.log(`📤 ${service}.${method}`, handle ? `(handle: ${handle})` : '');
+    // Verbose API logging (commented out to reduce log flooding)
+    // console.log(`📤 ${service}.${method}`, handle ? `(handle: ${handle})` : '');
     
     // Build request body - following octaneWeb's makeApiCall logic
     let body: any = {};
@@ -172,7 +173,7 @@ export class OctaneClient extends EventEmitter {
       if (objectType !== undefined) {
         // Service requires objectPtr structure
         body.objectPtr = createObjectPtr(handle, objectType);
-        console.log(`  📦 Created objectPtr:`, body.objectPtr);
+        // console.log(`  📦 Created objectPtr:`, body.objectPtr);
       } else {
         // No objectPtr needed, pass handle directly
         body.handle = handle;
@@ -185,10 +186,10 @@ export class OctaneClient extends EventEmitter {
     // Merge additional params
     if (params && Object.keys(params).length > 0) {
       body = { ...body, ...params };
-      console.log(`  📋 Added params:`, params);
+      // console.log(`  📋 Added params:`, params);
     }
     
-    console.log(`  📨 Request body:`, JSON.stringify(body));
+    // console.log(`  📨 Request body:`, JSON.stringify(body));
     
     try {
       const response = await fetch(url, {
@@ -203,7 +204,7 @@ export class OctaneClient extends EventEmitter {
       }
       
       const data = await response.json();
-      console.log(`✅ ${service}.${method} success`);
+      // console.log(`✅ ${service}.${method} success`);
       return data;
     } catch (error: any) {
       console.error(`❌ ${service}.${method} error:`, error.message);
