@@ -167,6 +167,7 @@ function NodeParameter({
       const expectedType = AttrType[node.attrInfo.type as keyof typeof AttrType];
       
       // Determine the correct value field name based on type
+      // CRITICAL: Must match exact field names used by octaneWeb and Octane API
       let valueField: string;
       let formattedValue: any;
       
@@ -176,17 +177,43 @@ function NodeParameter({
           formattedValue = Boolean(newValue);
           break;
         case AttrType.AT_INT:
-        case AttrType.AT_INT2:
-        case AttrType.AT_INT3:
-        case AttrType.AT_INT4:
           valueField = 'int_value';
           formattedValue = newValue;
           break;
+        case AttrType.AT_INT2:
+          valueField = 'int2_value';
+          formattedValue = newValue;
+          break;
+        case AttrType.AT_INT3:
+          valueField = 'int3_value';
+          formattedValue = newValue;
+          break;
+        case AttrType.AT_INT4:
+          valueField = 'int4_value';
+          formattedValue = newValue;
+          break;
+        case AttrType.AT_LONG:
+          valueField = 'long_value';
+          formattedValue = newValue;
+          break;
+        case AttrType.AT_LONG2:
+          valueField = 'long2_value';
+          formattedValue = newValue;
+          break;
         case AttrType.AT_FLOAT:
-        case AttrType.AT_FLOAT2:
-        case AttrType.AT_FLOAT3:
-        case AttrType.AT_FLOAT4:
           valueField = 'float_value';
+          formattedValue = newValue;
+          break;
+        case AttrType.AT_FLOAT2:
+          valueField = 'float2_value';
+          formattedValue = newValue;
+          break;
+        case AttrType.AT_FLOAT3:
+          valueField = 'float3_value';
+          formattedValue = newValue;
+          break;
+        case AttrType.AT_FLOAT4:
+          valueField = 'float4_value';
           formattedValue = newValue;
           break;
         case AttrType.AT_STRING:
