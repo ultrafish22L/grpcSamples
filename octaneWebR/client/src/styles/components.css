@@ -3355,9 +3355,9 @@ body.drag-over .drop-indicator {
     display: flex;
     align-items: center;
     gap: 6px;
-    flex: 0 1 auto;
-    min-width: 80px;
-    max-width: 40%;
+    flex: 0 0 auto;
+    min-width: 120px;
+    max-width: 180px;
 }
 
 .octane-parameter-icon {
@@ -3382,8 +3382,8 @@ body.drag-over .drop-indicator {
     align-items: center;
     justify-content: flex-start;
     gap: 4px;
-    flex: 1 1 auto;
-    min-width: 0;
+    flex-shrink: 0;
+    max-width: 200px;
 }
 
 /* Individual control styles - Match Octane Studio with 3D recessed effect */
@@ -3524,7 +3524,7 @@ body.drag-over .drop-indicator {
 }
 
 .octane-color-input {
-    flex: 1;
+    width: 180px;
     min-width: 60px;
     height: 18px;
     border: 1px solid #444;
@@ -3548,7 +3548,6 @@ body.drag-over .drop-indicator {
 }
 
 .octane-dropdown {
-    flex: 1;
     height: 18px;
     background: var(--octane-bg-primary);
     border: 1px solid #444;
@@ -3711,11 +3710,10 @@ body.drag-over .drop-indicator {
 
 /* Parameter Control Styles for Interactive Node Inspector */
 .parameter-control-container {
-    display: flex;
-    width: 100%;
+    display: inline-flex;
+    width: 180px;
     align-items: center;
     gap: 4px;
-    flex: 1;
 }
 
 /* Checkbox Controls - Match octaneWeb exactly */
