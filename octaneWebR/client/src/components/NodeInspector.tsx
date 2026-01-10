@@ -19,8 +19,10 @@ import { OctaneIconMapper } from '../utils/OctaneIconMapper';
 
 /**
  * Format float value to maximum 6 decimal places
+ * Handles null/undefined by returning 0
  */
-function formatFloat(value: number): number {
+function formatFloat(value: number | null | undefined): number {
+  if (value == null || isNaN(value)) return 0;
   return parseFloat(value.toFixed(6));
 }
 
