@@ -62,6 +62,12 @@ export function CallbackRenderViewport() {
   const isDraggingRef = useRef(false);  // Left button = orbit
   const isPanningRef = useRef(false);   // Right button = pan
   const lastMousePosRef = useRef({ x: 0, y: 0 });
+  
+  // Camera update rate limiting (10 Hz = 100ms between updates)
+  const CAMERA_UPDATE_INTERVAL = 100; // ms
+  const lastCameraUpdateRef = useRef(0);
+  const pendingCameraUpdateRef = useRef<NodeJS.Timeout | null>(null);
+  const hasPendingUpdateRef = useRef(false);
 
   /**
    * Trigger Octane display update via ApiChangeManager
@@ -143,6 +149,51 @@ export function CallbackRenderViewport() {
       console.error('❌ Failed to update camera:', error.message);
     }
   }, [connected, client, triggerOctaneUpdate]);
+
+  /**
+   * Throttled camera update - limits updates to 10 Hz for smooth performance
+   * Immediately updates local state, but rate-limits Octane API calls
+   */
+  const updateOctaneCameraThrottled = useCallback(() => {
+    const now = Date.now();
+    const timeSinceLastUpdate = now - lastCameraUpdateRef.current;
+
+    // Clear any pending timeout
+    if (pendingCameraUpdateRef.current) {
+      clearTimeout(pendingCameraUpdateRef.current);
+      pendingCameraUpdateRef.current = null;
+    }
+
+    if (timeSinceLastUpdate >= CAMERA_UPDATE_INTERVAL) {
+      // Enough time has passed, update immediately
+      lastCameraUpdateRef.current = now;
+      hasPendingUpdateRef.current = false;
+      updateOctaneCamera();
+    } else {
+      // Too soon, schedule update for later
+      const delay = CAMERA_UPDATE_INTERVAL - timeSinceLastUpdate;
+      hasPendingUpdateRef.current = true;
+      pendingCameraUpdateRef.current = setTimeout(() => {
+        lastCameraUpdateRef.current = Date.now();
+        hasPendingUpdateRef.current = false;
+        updateOctaneCamera();
+      }, delay);
+    }
+  }, [updateOctaneCamera]);
+
+  /**
+   * Force immediate camera update - used on mouse up to ensure final position is sent
+   */
+  const updateOctaneCameraImmediate = useCallback(() => {
+    // Clear any pending throttled update
+    if (pendingCameraUpdateRef.current) {
+      clearTimeout(pendingCameraUpdateRef.current);
+      pendingCameraUpdateRef.current = null;
+    }
+    hasPendingUpdateRef.current = false;
+    lastCameraUpdateRef.current = Date.now();
+    updateOctaneCamera();
+  }, [updateOctaneCamera]);
 
   /**
    * Display image from callback data
@@ -439,7 +490,7 @@ export function CallbackRenderViewport() {
       }
     };
 
-    const handleMouseMove = async (e: MouseEvent) => {
+    const handleMouseMove = (e: MouseEvent) => {
       if (!isDraggingRef.current && !isPanningRef.current) return;
 
       const deltaX = e.clientX - lastMousePosRef.current.x;
@@ -465,8 +516,8 @@ export function CallbackRenderViewport() {
         // Z (depth) remains unchanged
       }
 
-      // Update Octane camera and trigger render
-      await updateOctaneCamera();
+      // Update Octane camera with throttling (10 Hz rate limit)
+      updateOctaneCameraThrottled();
     };
 
     const handleMouseUp = () => {
@@ -474,6 +525,9 @@ export function CallbackRenderViewport() {
         isDraggingRef.current = false;
         isPanningRef.current = false;
         canvas.style.cursor = 'grab';
+        
+        // Send final camera position immediately to ensure accuracy
+        updateOctaneCameraImmediate();
       }
     };
 
@@ -505,8 +559,14 @@ export function CallbackRenderViewport() {
       canvas.removeEventListener('mouseleave', handleMouseUp);
       canvas.removeEventListener('wheel', handleWheel);
       canvas.removeEventListener('contextmenu', handleContextMenu);
+      
+      // Cleanup any pending camera updates
+      if (pendingCameraUpdateRef.current) {
+        clearTimeout(pendingCameraUpdateRef.current);
+        pendingCameraUpdateRef.current = null;
+      }
     };
-  }, [connected, updateOctaneCamera]);
+  }, [connected, updateOctaneCamera, updateOctaneCameraThrottled, updateOctaneCameraImmediate]);
 
   return (
     <div className="callback-render-viewport" ref={viewportRef}>
