@@ -149,28 +149,40 @@ export function CallbackRenderViewport() {
    * CRITICAL: Direct port of octaneWeb buffer processing logic
    */
   const displayCallbackImage = useCallback((imageData: OctaneImageData) => {
+    console.log('🎨 [displayCallbackImage] Starting image display');
     try {
       const canvas = canvasRef.current;
-      if (!canvas) return;
+      if (!canvas) {
+        console.error('❌ [displayCallbackImage] Canvas ref is null');
+        return;
+      }
+      console.log('✅ [displayCallbackImage] Canvas ref exists');
 
       setFrameCount(prev => prev + 1);
 
       if (!imageData.buffer || !imageData.buffer.data) {
-        console.error('No image buffer in callback data');
+        console.error('❌ [displayCallbackImage] No image buffer in callback data');
         return;
       }
+      console.log('✅ [displayCallbackImage] Image buffer exists');
 
       // Decode base64 buffer
       const bufferData = imageData.buffer.data;
       const width = imageData.size.x;
       const height = imageData.size.y;
+      
+      console.log('📊 [displayCallbackImage] Image dimensions:', { width, height, type: imageData.type });
 
       // Set canvas size
       canvas.width = width;
       canvas.height = height;
 
       const ctx = canvas.getContext('2d');
-      if (!ctx) return;
+      if (!ctx) {
+        console.error('❌ [displayCallbackImage] Failed to get 2d context');
+        return;
+      }
+      console.log('✅ [displayCallbackImage] Got 2d context');
 
       const canvasImageData = ctx.createImageData(width, height);
 
@@ -182,15 +194,19 @@ export function CallbackRenderViewport() {
         for (let i = 0; i < binaryString.length; i++) {
           bytes[i] = binaryString.charCodeAt(i);
         }
+        console.log('✅ [displayCallbackImage] Base64 decoded:', bytes.length, 'bytes');
       } catch (error: any) {
-        console.error('❌ Base64 decode error:', error);
+        console.error('❌ [displayCallbackImage] Base64 decode error:', error);
         return;
       }
 
       // Convert buffer to RGBA format for canvas
+      console.log('🔄 [displayCallbackImage] Converting buffer to canvas format...');
       convertBufferToCanvas(bytes, imageData, canvasImageData);
+      console.log('✅ [displayCallbackImage] Buffer converted');
 
       ctx.putImageData(canvasImageData, 0, 0);
+      console.log('✅ [displayCallbackImage] Image drawn to canvas!');
 
       // Update status
       setStatus(
@@ -199,7 +215,7 @@ export function CallbackRenderViewport() {
         `${imageData.tonemappedSamplesPerPixel.toFixed(1)} spp`
       );
     } catch (error: any) {
-      console.error('❌ Error displaying callback image:', error);
+      console.error('❌ [displayCallbackImage] Error displaying callback image:', error);
     }
   }, []);
 
@@ -382,8 +398,20 @@ export function CallbackRenderViewport() {
     if (!connected) return;
 
     const handleNewImage = (data: CallbackData) => {
+      console.log('🖼️  [CallbackViewport] OnNewImage event received');
+      console.log('🖼️  [CallbackViewport] Data:', {
+        hasRenderImages: !!data.render_images,
+        hasData: !!data.render_images?.data,
+        imageCount: data.render_images?.data?.length,
+        firstImageType: data.render_images?.data?.[0]?.type,
+        firstImageSize: data.render_images?.data?.[0]?.size
+      });
+      
       if (data.render_images && data.render_images.data && data.render_images.data.length > 0) {
+        console.log('🖼️  [CallbackViewport] Calling displayCallbackImage()');
         displayCallbackImage(data.render_images.data[0]);
+      } else {
+        console.warn('⚠️  [CallbackViewport] No valid image data in callback');
       }
     };
 

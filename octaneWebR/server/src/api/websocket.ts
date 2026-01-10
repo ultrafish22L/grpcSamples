@@ -22,6 +22,7 @@ export function setupCallbackStreaming(
     const forwardCallback = (data: any) => {
       if (ws.readyState === WebSocket.OPEN) {
         try {
+          console.log('📡 [WebSocket] Forwarding OnNewImage to client');
           ws.send(JSON.stringify({
             type: 'newImage',
             data,

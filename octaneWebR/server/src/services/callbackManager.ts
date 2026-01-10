@@ -103,7 +103,15 @@ export class CallbackManager extends EventEmitter {
     try {
       // Extract render images from callback
       if (data.render_images && data.render_images.data) {
-        console.log(`📸 Received ${data.render_images.data.length} render image(s)`);
+        const imageCount = data.render_images.data.length;
+        const firstImage = data.render_images.data[0];
+        console.log(`📸 [CallbackManager] Received ${imageCount} render image(s)`);
+        console.log(`📸 [CallbackManager] Image details:`, {
+          type: firstImage?.type,
+          size: firstImage?.size,
+          bufferSize: firstImage?.buffer?.size,
+          hasData: !!firstImage?.buffer?.data
+        });
         
         // Emit OnNewImage event to WebSocket clients
         this.emit('OnNewImage', {

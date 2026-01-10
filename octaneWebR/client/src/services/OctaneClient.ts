@@ -119,6 +119,12 @@ export class OctaneClient extends EventEmitter {
         try {
           const message = JSON.parse(event.data);
           if (message.type === 'newImage') {
+            console.log('📥 [OctaneClient] Received OnNewImage via WebSocket');
+            console.log('📥 [OctaneClient] Data structure:', {
+              hasRenderImages: !!message.data?.render_images,
+              hasData: !!message.data?.render_images?.data,
+              imageCount: message.data?.render_images?.data?.length
+            });
             this.emit('OnNewImage', message.data);
           }
         } catch (error: any) {
