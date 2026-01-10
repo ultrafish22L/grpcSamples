@@ -33,6 +33,8 @@ class OctaneGrpcClient {
   private callbackId: number = 0;
   private isCallbackRegistered: boolean = false;
   private pollingInterval: NodeJS.Timeout | null = null;
+  private callbackStream: any = null;
+  private streamActive: boolean = false;
   
   constructor(
     private octaneHost: string = process.env.OCTANE_HOST || OctaneGrpcClient.detectDefaultHost(),
@@ -98,6 +100,7 @@ class OctaneGrpcClient {
       'ApiNodePinInfoEx': 'apinodepininfohelper.proto',
       'ApiRenderEngine': 'apirender.proto',
       'ApiSceneOutliner': 'apisceneoutliner.proto',
+      'StreamCallbackService': 'callback.proto',
     };
     
     const protoFileName = serviceToProtoMap[serviceName] || (serviceName.toLowerCase() + '.proto');
@@ -117,6 +120,14 @@ class OctaneGrpcClient {
         const callbackProto = path.join(PROTO_PATH, 'callback.proto');
         if (fs.existsSync(commonProto)) protoFiles.unshift(commonProto);
         if (fs.existsSync(callbackProto)) protoFiles.push(callbackProto);
+      }
+      
+      // StreamCallbackService needs common.proto and apirender.proto
+      if (serviceName === 'StreamCallbackService') {
+        const commonProto = path.join(PROTO_PATH, 'common.proto');
+        const apirenderProto = path.join(PROTO_PATH, 'apirender.proto');
+        if (fs.existsSync(commonProto)) protoFiles.unshift(commonProto);
+        if (fs.existsSync(apirenderProto)) protoFiles.push(apirenderProto);
       }
       
       const packageDefinition = protoLoader.loadSync(protoFiles, {
@@ -271,46 +282,109 @@ class OctaneGrpcClient {
 
       console.log(`✅ Callback registered with Octane`);
       this.isCallbackRegistered = true;
-//      this.startCallbackPolling();
+      
+      // Start streaming callbacks
+      this.startCallbackStreaming();
     } catch (error: any) {
       console.error('❌ Failed to register callback:', error.message);
       console.error('   (Callbacks will not work until Octane is running and LiveLink is enabled)');
     }
   }
-/*
-  private startCallbackPolling(): void {
-    if (this.pollingInterval) {
-      return;
-    }
 
-    console.log('✅ Starting callback polling (30fps)');
-    this.pollingInterval = setInterval(() => this.pollOctaneCallbacks(), 33);
-  }
-
-  private async pollOctaneCallbacks(): Promise<void> {
-    if (!this.isCallbackRegistered) {
+  /**
+   * Start streaming callbacks from Octane via StreamCallbackService
+   * This is more efficient than polling - Octane pushes updates in real-time
+   */
+  private startCallbackStreaming(): void {
+    if (this.callbackStream || this.streamActive) {
+      console.log('⚠️  Callback stream already active');
       return;
     }
 
     try {
-      const response = await this.callMethod('ApiRenderEngine', 'getNewImageFromCallback', {
-        callbackId: this.callbackId
-      }, { timeout: 100 });
+      console.log('📡 Starting callback streaming...');
+      this.streamActive = true;
 
-      if (response && response.render_images) {
-        this.notifyCallbacks(response);
-      }
+      // Get StreamCallbackService instance (getService returns cached instance, not constructor)
+      const streamService = this.getService('StreamCallbackService');
+      
+      console.log('📡 StreamCallbackService instance obtained');
+
+      // Start streaming - callbackChannel returns a stream of StreamCallbackRequest
+      // Pass empty google.protobuf.Empty message  
+      this.callbackStream = streamService.callbackChannel({});
+      
+      console.log('📡 Callback stream opened');
+
+      this.callbackStream.on('data', (callbackRequest: any) => {
+        try {
+          // StreamCallbackRequest has oneof payload: newImage, renderFailure, newStatistics, projectManagerChanged
+          if (callbackRequest.newImage) {
+            // OnNewImageRequest contains render_images array
+            const imageData = {
+              callback_source: callbackRequest.newImage.callback_source,
+              callback_id: callbackRequest.newImage.callback_id,
+              user_data: callbackRequest.newImage.user_data,
+              render_images: callbackRequest.newImage.render_images
+            };
+            
+            console.log('📸 Received OnNewImage callback');
+            this.notifyCallbacks(imageData);
+          } else if (callbackRequest.renderFailure) {
+            console.log('❌ Render failure callback received');
+          } else if (callbackRequest.newStatistics) {
+            console.log('📊 New statistics callback received');
+          } else if (callbackRequest.projectManagerChanged) {
+            console.log('🔄 Project manager changed callback received');
+          }
+        } catch (error: any) {
+          console.error('❌ Error processing callback data:', error.message);
+        }
+      });
+
+      this.callbackStream.on('error', (error: any) => {
+        console.error('❌ Callback stream error:', error.message);
+        this.streamActive = false;
+        this.callbackStream = null;
+        
+        // Attempt to reconnect after 5 seconds
+        if (this.isCallbackRegistered) {
+          console.log('🔄 Reconnecting callback stream in 5 seconds...');
+          setTimeout(() => {
+            if (this.isCallbackRegistered) {
+              this.startCallbackStreaming();
+            }
+          }, 5000);
+        }
+      });
+
+      this.callbackStream.on('end', () => {
+        console.log('🔌 Callback stream ended');
+        this.streamActive = false;
+        this.callbackStream = null;
+      });
+
+      console.log('✅ Callback streaming active');
     } catch (error: any) {
-      // Silently ignore polling errors (Octane might not have new frames)
+      console.error('❌ Failed to start callback streaming:', error.message);
+      this.streamActive = false;
+      this.callbackStream = null;
     }
   }
-*/
   async unregisterOctaneCallbacks(): Promise<void> {
     if (!this.isCallbackRegistered) {
       return;
     }
 
     try {
+      // Stop streaming
+      if (this.callbackStream) {
+        this.streamActive = false;
+        this.callbackStream.cancel();
+        this.callbackStream = null;
+        console.log('🔌 Callback stream closed');
+      }
+
       if (this.pollingInterval) {
         clearInterval(this.pollingInterval);
         this.pollingInterval = null;
