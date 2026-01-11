@@ -5,6 +5,18 @@
 
 **Total Estimated Scope**: ~350+ node types, 5 major UI panels, full rendering pipeline
 
+**Last Updated**: 2025-01-22
+
+---
+
+## 🆕 RECENT FIXES (2025-01-22)
+
+✅ **Output Pin Colors Fixed** (commit a1f2be66):
+- Output pins now correctly use `nodeInfo.nodeColor` (node body color)
+- Input pins correctly use `pinInfo.pinColor` (from Octane API)
+- Fixed falsy value bug: use `!== undefined` check to handle black color (0)
+- Matches Octane Standalone behavior exactly
+
 ---
 
 ## 📊 FEATURE INVENTORY

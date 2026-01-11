@@ -154,7 +154,9 @@ ApiNodeGraph.getOwnedItems() → {list: {handle: "1000001", type: "ApiItemArray"
 ### Node Graph Editor ✅
 - ReactFlow-based implementation (357 lines, -63% from custom code)
 - Professional drag-and-drop, zoom, pan, minimap features
-- Custom OctaneNode components
+- Custom OctaneNode components with proper pin coloring
+- Input pins use pinInfo.pinColor (from Octane API)
+- Output pins use nodeInfo.nodeColor (node body color)
 - Context menu for node creation (Materials, Geometry, Textures, etc.)
 - Bezier spline connections between nodes
 - FitView on initial scene load only (preserves user zoom/pan)
@@ -226,11 +228,10 @@ Regenerates TypeScript types from .proto files
 - **Fix**: Verify Octane is listening on 127.0.0.1:51022
 - **Fix**: Check health endpoint: `curl http://localhost:43929/api/health`
 
-#### Node Graph Pins/Connections Not Showing
-- **Symptom**: Nodes render but no input/output dots or connection lines
-- **Likely Cause**: `nodeInfo.inputs` array not populated during scene tree building
-- **Debug**: Check browser console for "Found 0 pins" messages
-- **Status**: Currently being debugged (see CODE_REVIEW.md)
+#### Pin Color Issues
+- **Status**: ✅ Fixed - Output pins now correctly use nodeInfo.nodeColor
+- **Input Pins**: Use pinInfo.pinColor from Octane API
+- **Output Pins**: Use nodeInfo.nodeColor (node body color) matching Octane behavior
 
 #### TypeScript Errors
 - **Symptom**: Build fails with type errors
@@ -288,17 +289,19 @@ const name = response.result; // or response.list, etc.
 ## 📚 Related Documentation
 
 - **QUICKSTART.md** - Step-by-step setup and run instructions
-- **REPRO_PROMPT.md** - Quick onboarding guide for new development sessions
+- **IMPLEMENTATION_PLAN.md** - Comprehensive feature roadmap (350+ node types, 850+ tasks)
+- **CODE_REVIEW.md** - Detailed code quality analysis and recommendations
 
 ## 🤝 Contributing
 
 When making changes:
 
 1. **Run TypeScript checks**: `tsc --noEmit` or `npm run build`
-2. **Update documentation**: Keep OVERVIEW.md, QUICKSTART.md, REPRO_PROMPT.md current
+2. **Update documentation**: Keep OVERVIEW.md, QUICKSTART.md, IMPLEMENTATION_PLAN.md, CODE_REVIEW.md current
 3. **Test with real Octane**: Never use mock data
 4. **Follow patterns**: Check existing components and octaneWeb reference code
 5. **Debug logging**: Use 📤 ✅ 🔄 📌 🔗 🎨 emoji markers for console logs
+6. **Commit messages**: Include descriptive commit messages with affected files
 
 ## 📄 License
 
@@ -307,5 +310,6 @@ Part of the grpcSamples repository - refer to parent repository for licensing.
 ---
 
 **Status**: ✅ **Production-Ready Core** - Scene management, parameter editing, rendering complete  
-**Version**: 0.9.5 (approaching 1.0)  
-**Last Updated**: 2025-01-21
+**Version**: 0.9.6  
+**Last Updated**: 2025-01-22  
+**Recent Changes**: Fixed output pin colors to use nodeInfo.nodeColor (commit a1f2be66)

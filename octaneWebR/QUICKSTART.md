@@ -192,4 +192,10 @@ After following this guide, you should have:
 ## 📚 Additional Documentation
 
 - **OVERVIEW.md** - Complete project overview and architecture
-- **REPRO_PROMPT.md** - Quick onboarding guide for new development sessions
+- **IMPLEMENTATION_PLAN.md** - Comprehensive feature roadmap (350+ node types, 850+ tasks)
+- **CODE_REVIEW.md** - Detailed code quality analysis and recommendations
+
+---
+
+**Last Updated**: 2025-01-22  
+**Recent Fix**: Output pin colors now correctly use nodeInfo.nodeColor (commit a1f2be66)
