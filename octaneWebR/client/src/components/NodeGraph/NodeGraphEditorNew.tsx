@@ -21,7 +21,7 @@ import ReactFlow, {
   OnConnectStart,
   OnConnectEnd,
   EdgeChange,
-  // EdgeMouseHandler, // Removed - no longer using custom edge click handler
+  EdgeMouseHandler,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 
@@ -48,7 +48,7 @@ const nodeTypes: NodeTypes = {
  */
 function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGraphEditorProps) {
   const { client, connected } = useOctane();
-  const { fitView } = useReactFlow(); // Removed getNode, screenToFlowPosition (only used in commented onEdgeClick)
+  const { fitView, getNode, screenToFlowPosition } = useReactFlow();
   
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChangeBase] = useEdgesState([]);
@@ -154,6 +154,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
               targetHandle: `input-${inputIndex}`,
               type: 'default', // Use 'default' for bezier curves (matching Octane)
               animated: false,
+              // selectable: true, // Not a valid ReactFlow property
               reconnectable: true, // CRITICAL: Enable edge reconnection by dragging
               interactionWidth: 20, // Wider hit area for easier clicking
               style: { 
@@ -309,11 +310,9 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   }, []);
 
   /**
-   * DISABLED: Custom edge click handler for reconnection
-   * NOTE: Commented out to allow default ReactFlow edge selection behavior
-   * ReactFlow's built-in edge reconnection (via dragging edges) is sufficient
+   * Handle edge click - Octane behavior: disconnect at closest pin, start drag from other end
    */
-  /* const onEdgeClick: EdgeMouseHandler = useCallback((event: React.MouseEvent, edge: Edge) => {
+  const onEdgeClick: EdgeMouseHandler = useCallback((event: React.MouseEvent, edge: Edge) => {
     event.stopPropagation();
     
     console.log('🔗 Edge clicked:', edge.id);
@@ -337,8 +336,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
     const targetX = targetNode.position.x + 100;
     const targetY = targetNode.position.y + 50;
     
-    // Convert flow positions to screen positions for comparison
-    // We need to account for zoom and pan, but for distance comparison we can use flow coords
+    // Convert screen position to flow position for comparison
     const flowClick = screenToFlowPosition({ x: clickX, y: clickY });
     
     // Calculate distances from click to source and target
@@ -427,7 +425,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
       }
     }, 0);
     
-  }, [getNode, screenToFlowPosition, setEdges]); */
+  }, [getNode, screenToFlowPosition, setEdges]);
 
   /**
    * Handle new connections
@@ -551,6 +549,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
             sourceHandle: connection.sourceHandle || 'output-0',
             targetHandle: connection.targetHandle || `input-${pinIdx}`,
             type: 'default',
+            // selectable: true, // Not a valid ReactFlow property
             reconnectable: true,
             animated: false,
             interactionWidth: 20,
@@ -614,6 +613,8 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
    */
   const onEdgesChange = useCallback(
     (changes: EdgeChange[]) => {
+      // DEBUG: Log edge changes
+      console.log('📝 EDGE CHANGES:', changes);
       // Apply changes using the base handler from useEdgesState
       onEdgesChangeBase(changes);
     },
@@ -727,10 +728,11 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onConnect={onConnect}
         onConnectStart={onConnectStart}
         onConnectEnd={onConnectEnd}
-        // onEdgeClick={onEdgeClick} // Commented out to allow default edge selection (reconnection via edge drag still works)
+        onEdgeClick={onEdgeClick}
         isValidConnection={isValidConnection}
         onNodesDelete={onNodesDelete}
         onNodeClick={onNodeClick}
+        elementsSelectable={true}
         nodeTypes={nodeTypes}
         minZoom={0.1}
         maxZoom={4}

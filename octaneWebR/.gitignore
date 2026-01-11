@@ -2,6 +2,12 @@
 node_modules/
 package-lock.json
 
+# Python virtual environment (for gRPC proxy)
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
 # Build output
 dist/
 .vite/
