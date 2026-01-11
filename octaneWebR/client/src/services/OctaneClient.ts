@@ -782,23 +782,96 @@ export class OctaneClient extends EventEmitter {
   }
 
   /**
-   * Delete a node from the scene
-   * 
-   * @param nodeHandle - Handle of the node to delete
-   * @returns True if deletion was successful
+   * Check if a node is expanded (exists in scene.tree at root level)
    */
-  async deleteNode(nodeHandle: string): Promise<boolean> {
-    console.log('🗑️ Deleting node:', nodeHandle);
+  private isNodeExpanded(handle: number): boolean {
+    return this.scene.tree.some(node => node.handle === handle);
+  }
+
+  /**
+   * Find all collapsed children recursively
+   * Collapsed nodes (NOT in scene.tree) will be deleted by Octane when parent is deleted
+   */
+  private findCollapsedChildren(node: SceneNode | undefined): number[] {
+    if (!node?.children) return [];
+    
+    const collapsed: number[] = [];
+    
+    for (const child of node.children) {
+      if (!child.handle) continue; // Skip unconnected pins
+      
+      // Check if child is expanded (exists in scene.tree)
+      if (!this.isNodeExpanded(child.handle)) {
+        collapsed.push(child.handle);
+        // Recursively find collapsed grandchildren
+        const grandNode = this.scene.map.get(child.handle);
+        collapsed.push(...this.findCollapsedChildren(grandNode));
+      }
+    }
+    
+    return collapsed;
+  }
+
+  /**
+   * Handle pin connection cleanup with optimized orphan removal
+   * When connecting to an input pin, check if old source was collapsed (not in scene.tree)
+   * and remove it from scene.map since Octane will delete it
+   */
+  async handlePinConnectionCleanup(
+    oldSourceHandle: number | null
+  ): Promise<void> {
+    if (!oldSourceHandle) return;
+    
+    console.log('🔍 Checking if old source node is collapsed:', oldSourceHandle);
+    
+    // Check if old source is expanded (in scene.tree)
+    if (!this.isNodeExpanded(oldSourceHandle)) {
+      // Old source was collapsed → will be deleted by Octane
+      console.log('🗑️ Removing orphaned collapsed node from map:', oldSourceHandle);
+      
+      // Find all collapsed children that will also be deleted
+      const oldSourceNode = this.scene.map.get(oldSourceHandle);
+      const collapsedChildren = this.findCollapsedChildren(oldSourceNode);
+      
+      // Remove from scene.map
+      this.scene.map.delete(oldSourceHandle);
+      collapsedChildren.forEach(h => this.scene.map.delete(h));
+      
+      console.log(`✅ Removed ${1 + collapsedChildren.length} collapsed nodes from map`);
+    } else {
+      console.log('✅ Old source is expanded, keeping in scene tree');
+    }
+    
+    // Emit update without full rebuild
+    this.emit('sceneUpdated', this.scene);
+  }
+
+  /**
+   * Delete a node from the scene with optimized cascade (no full rebuild)
+   * Expanded children stay in tree, collapsed children are removed
+   */
+  async deleteNodeOptimized(nodeHandle: number): Promise<boolean> {
+    console.log('🗑️ Deleting node (optimized):', nodeHandle);
     
     try {
-      // Call ApiItem.destroy to delete the node
-      await this.callApi('ApiItem', 'destroy', nodeHandle);
+      const node = this.scene.map.get(nodeHandle);
       
-      console.log('✅ Node deleted');
+      // Find all collapsed children that will be deleted by Octane
+      const collapsedChildren = this.findCollapsedChildren(node);
+      console.log(`🔍 Found ${collapsedChildren.length} collapsed children to remove`);
       
-      // Refresh scene tree
-      console.log('🔄 Refreshing scene tree...');
-      this.scene.tree = await this.buildSceneTree();
+      // Delete from Octane
+      await this.callApi('ApiItem', 'deleteItem', nodeHandle, {});
+      console.log('✅ Node deleted from Octane');
+      
+      // Remove from scene.map
+      this.scene.map.delete(nodeHandle);
+      collapsedChildren.forEach(h => this.scene.map.delete(h));
+      
+      // Remove from scene.tree (expanded nodes only appear here)
+      this.scene.tree = this.scene.tree.filter(n => n.handle !== nodeHandle);
+      
+      console.log('✅ Scene map and tree updated (optimized)');
       this.emit('sceneUpdated', this.scene);
       
       return true;
@@ -806,6 +879,17 @@ export class OctaneClient extends EventEmitter {
       console.error('❌ Error deleting node:', error.message);
       return false;
     }
+  }
+
+  /**
+   * Delete a node from the scene
+   * 
+   * @param nodeHandle - Handle of the node to delete
+   * @returns True if deletion was successful
+   */
+  async deleteNode(nodeHandle: string): Promise<boolean> {
+    const handleNum = Number(nodeHandle);
+    return this.deleteNodeOptimized(handleNum);
   }
 
   // State getters

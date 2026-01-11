@@ -344,6 +344,11 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           ? parseInt(connection.targetHandle.split('-')[1]) 
           : 0;
 
+        // Get old source handle for cleanup (if replacing connection)
+        const oldSourceHandle = existingTargetEdge 
+          ? parseInt(existingTargetEdge.source)
+          : null;
+
         console.log('📤 Calling ApiNode.connectToIx:', {
           targetHandle,
           pinIdx,
@@ -421,9 +426,9 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         // Clear the connecting edge ref
         connectingEdgeRef.current = null;
 
-        console.log('🔄 Refreshing scene tree...');
-        // Refresh scene tree to sync with Octane
-        await client.buildSceneTree();
+        // Optimized cleanup: remove orphaned collapsed nodes without full rebuild
+        console.log('🔄 Cleaning up orphaned nodes (optimized)...');
+        await client.handlePinConnectionCleanup(oldSourceHandle);
         console.log('✅ Connection complete!');
         
       } catch (error) {
@@ -475,18 +480,17 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   );
 
   /**
-   * Handle node deletion
+   * Handle node deletion with optimized cascade
    */
   const onNodesDelete = useCallback(
     async (deletedNodes: Node[]) => {
       try {
+        console.log(`🗑️ Deleting ${deletedNodes.length} nodes (optimized)...`);
         for (const node of deletedNodes) {
           const handle = parseInt(node.id);
-          await client.callApi('ApiItem', 'deleteItem', handle, {});
+          await client.deleteNodeOptimized(handle);
         }
-        
-        // Refresh scene tree
-        await client.buildSceneTree();
+        console.log('✅ All nodes deleted (optimized)');
       } catch (error) {
         console.error('Failed to delete nodes:', error);
       }
@@ -526,11 +530,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
       const createdHandle = await client.createNode(nodeType, nodeTypeId);
       if (createdHandle) {
         console.log('✅ Node created successfully:', createdHandle);
-        
-        // Optimized update: pass new node handle to buildSceneTree for incremental update
-        console.log('🔄 Adding new node to scene tree (optimized)...');
-        await client.buildSceneTree(createdHandle);
-        console.log('✅ Scene tree updated with new node');
+        // Note: createNode() already performs optimized scene tree update
       } else {
         console.error('❌ Failed to create node');
       }
