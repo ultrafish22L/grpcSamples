@@ -600,6 +600,7 @@ export class OctaneClient extends EventEmitter {
     
     // Only add to scene.map if we have a valid handle
     if (item != null && item.handle != 0) {
+      // TODO: fix mapping!!!
       this.scene.map.set(item.handle, entry);
       console.log(`  📄 Added item: ${itemName} (type: "${outType}", icon: ${icon}, level: ${level})`);
       
@@ -733,7 +734,7 @@ export class OctaneClient extends EventEmitter {
    * @param nodeTypeId - Numeric node type ID from NodeType enum
    * @returns Handle of the created node, or null if creation failed
    */
-  async createNode(nodeType: string, nodeTypeId: number): Promise<string | null> {
+  async createNode(nodeType: string, nodeTypeId: number): Promise<number | null> {
     console.log('🔧 Creating node:', nodeType, 'ID:', nodeTypeId);
     
     try {

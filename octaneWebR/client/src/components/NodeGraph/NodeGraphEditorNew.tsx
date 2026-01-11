@@ -350,6 +350,25 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           sourceHandle,
         });
 
+        const inputItem  = connectingEdgeRef.current ? client.lookupItem(sourceHandle) : client.lookupItem(targetHandle);
+        const outputItem = connectingEdgeRef.current ? client.lookupItem(targetHandle) : client.lookupItem(sourceHandle);
+
+        if (!inputItem || !outputItem || !inputItem.children) {
+          console.error('❌ Input or Output item not found');
+          return;
+        }
+        const child = inputItem.children[pinIdx];
+
+        if (!child || !child.pinInfo) {
+          console.error('❌ Input item has no pin', pinIdx);
+          return;
+        }
+        if (child.pinInfo.type != outputItem.outType) {
+          console.error('❌ Input pin does not match output type', child.pinInfo.type, outputItem.outType);
+          return;
+        }
+
+/*
         const response = await client.callApi('ApiNode', 'connectToIx', targetHandle, {
           pinIdx,
           sourceNode: {
@@ -360,7 +379,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         });
 
         console.log('✅ ApiNode.connectToIx response:', response);
-
+*/
         // Create edge ID matching the format used in scene tree building
         const edgeId = `e${sourceHandle}-${targetHandle}-${pinIdx}`;
 

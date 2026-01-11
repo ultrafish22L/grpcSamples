@@ -1,4 +1,4 @@
-# OctaneWebR - React + TypeScript Octane LiveLink Client
+# OctaneWebR - a UI clone Octane running over the grpc api
 
 Modern browser-based interface for OTOY Octane Render with direct gRPC connectivity, no separate proxy server required.
 
