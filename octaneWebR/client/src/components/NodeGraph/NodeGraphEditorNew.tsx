@@ -17,11 +17,16 @@ import ReactFlow, {
   addEdge,
   Connection,
   NodeTypes,
+  EdgeTypes,
   ReactFlowProvider,
   OnConnectStart,
   OnConnectEnd,
   EdgeChange,
   EdgeMouseHandler,
+  BaseEdge,
+  getStraightPath,
+  getBezierPath,
+  EdgeProps,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 
@@ -38,9 +43,50 @@ interface NodeGraphEditorProps {
   onNodeSelect?: (node: SceneNode | null) => void;
 }
 
+// Custom clickable edge component
+function ClickableEdge({
+  id,
+  sourceX,
+  sourceY,
+  targetX,
+  targetY,
+  sourcePosition,
+  targetPosition,
+  style = {},
+  markerEnd,
+}: EdgeProps) {
+  const [edgePath] = getBezierPath({
+    sourceX,
+    sourceY,
+    sourcePosition,
+    targetX,
+    targetY,
+    targetPosition,
+  });
+
+  return (
+    <>
+      <BaseEdge 
+        id={id} 
+        path={edgePath}
+        markerEnd={markerEnd}
+        style={{
+          ...style,
+          pointerEvents: 'stroke', // Allow interaction with the stroke
+        }}
+      />
+    </>
+  );
+}
+
 // Define custom node types
 const nodeTypes: NodeTypes = {
   octane: OctaneNode,
+};
+
+// Define custom edge types  
+const edgeTypes: EdgeTypes = {
+  clickable: ClickableEdge,
 };
 
 /**
@@ -152,7 +198,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
               target: targetHandle,
               sourceHandle: 'output-0',
               targetHandle: `input-${inputIndex}`,
-              type: 'default', // Use 'default' for bezier curves (matching Octane)
+              type: 'clickable', // Custom edge type with proper click handling
               animated: false,
               selectable: true, // Enable edge selection for click events
               focusable: true, // Enable edge focus for interaction
@@ -550,7 +596,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
             target: connection.target!,
             sourceHandle: connection.sourceHandle || 'output-0',
             targetHandle: connection.targetHandle || `input-${pinIdx}`,
-            type: 'default',
+            type: 'clickable', // Custom edge type with proper click handling
             selectable: true, // Enable edge selection for click events
             focusable: true, // Enable edge focus for interaction
             reconnectable: false, // Disabled - using custom onEdgeClick handler for Octane-style reconnection
@@ -744,14 +790,19 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onNodesDelete={onNodesDelete}
         onNodeClick={onNodeClick}
         elementsSelectable={true}
+        nodesConnectable={true}
+        nodesDraggable={true}
         edgesFocusable={true}
+        edgesUpdatable={false}
         panOnDrag={[1, 2]} // Only pan with middle/right mouse button, not left button
         selectionOnDrag={false}
+        selectNodesOnDrag={false}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         minZoom={0.1}
         maxZoom={4}
         defaultEdgeOptions={{
-          type: 'default',
+          type: 'clickable',
           animated: false,
           selectable: true,
           focusable: true,
