@@ -141,7 +141,8 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           
           // Only create edge if BOTH nodes are in our top-level nodeMap
           if (nodeMap.has(sourceHandle) && nodeMap.has(targetHandle)) {
-            const edgeColor = childNode.pinInfo?.pinColor 
+            // FIX: Check pinColor !== undefined to handle black (0) correctly
+            const edgeColor = (childNode.pinInfo?.pinColor !== undefined && childNode.pinInfo?.pinColor !== null)
               ? OctaneIconMapper.formatColorValue(childNode.pinInfo.pinColor)
               : '#4a90e2';
             
@@ -161,6 +162,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
             };
 
             graphEdges.push(edge);
+            console.log(`🔗 Edge created: ${sourceHandle} → ${targetHandle} (color: ${edgeColor})`);
           }
         }
       });
@@ -249,12 +251,19 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
       // Get handle color based on type (source = output, target = input)
       let handleColor = '#4a90e2'; // Default color
       
-      if (handleType === 'source' && nodeData.output?.pinInfo?.pinColor) {
-        handleColor = OctaneIconMapper.formatColorValue(nodeData.output.pinInfo.pinColor);
+      // FIX: Check pinColor !== undefined to handle black (0) correctly
+      if (handleType === 'source' && nodeData.output?.pinInfo) {
+        const pinColor = nodeData.output.pinInfo.pinColor;
+        if (pinColor !== undefined && pinColor !== null) {
+          handleColor = OctaneIconMapper.formatColorValue(pinColor);
+        }
       } else if (handleType === 'target' && nodeData.inputs) {
         const input = nodeData.inputs.find(i => i.id === handleId);
-        if (input?.pinInfo?.pinColor) {
-          handleColor = OctaneIconMapper.formatColorValue(input.pinInfo.pinColor);
+        if (input?.pinInfo) {
+          const pinColor = input.pinInfo.pinColor;
+          if (pinColor !== undefined && pinColor !== null) {
+            handleColor = OctaneIconMapper.formatColorValue(pinColor);
+          }
         }
       }
 
@@ -366,12 +375,19 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
       const nodeData = dragFromNode.data as OctaneNodeData;
       let handleColor = '#4a90e2';
       
-      if (dragFromHandleType === 'source' && nodeData.output?.pinInfo?.pinColor) {
-        handleColor = OctaneIconMapper.formatColorValue(nodeData.output.pinInfo.pinColor);
+      // FIX: Check pinColor !== undefined to handle black (0) correctly
+      if (dragFromHandleType === 'source' && nodeData.output?.pinInfo) {
+        const pinColor = nodeData.output.pinInfo.pinColor;
+        if (pinColor !== undefined && pinColor !== null) {
+          handleColor = OctaneIconMapper.formatColorValue(pinColor);
+        }
       } else if (dragFromHandleType === 'target' && nodeData.inputs) {
         const input = nodeData.inputs.find(i => i.id === dragFromHandleId);
-        if (input?.pinInfo?.pinColor) {
-          handleColor = OctaneIconMapper.formatColorValue(input.pinInfo.pinColor);
+        if (input?.pinInfo) {
+          const pinColor = input.pinInfo.pinColor;
+          if (pinColor !== undefined && pinColor !== null) {
+            handleColor = OctaneIconMapper.formatColorValue(pinColor);
+          }
         }
       }
       
@@ -489,6 +505,12 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           return;
         }
 
+        // FIX: Read edge color from actual pin info, not stale connectionLineColor state
+        const pinColor = child.pinInfo.pinColor;
+        const edgeColor = (pinColor !== undefined && pinColor !== null)
+          ? OctaneIconMapper.formatColorValue(pinColor)
+          : '#4a90e2';
+
 /*
         const response = await client.callApi('ApiNode', 'connectToIx', targetHandle, {
           pinIdx,
@@ -518,7 +540,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
             return eds;
           }
           
-          // Add new edge with matching color
+          // Add new edge with correct color from pin info
           // Safe to assert as non-null because we checked at start of function
           const newEdge: Edge = {
             id: edgeId,
@@ -530,12 +552,12 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
             reconnectable: true,
             animated: false,
             style: { 
-              stroke: connectionLineColor, 
+              stroke: edgeColor, 
               strokeWidth: 3 
             },
           };
           
-          console.log('✅ Adding new edge to ReactFlow:', newEdge);
+          console.log('✅ Adding new edge to ReactFlow:', newEdge, 'with color:', edgeColor);
           return addEdge(newEdge, filtered);
         });
 
@@ -554,7 +576,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         connectingEdgeRef.current = null;
       }
     },
-    [client, setEdges, connectionLineColor, edges]
+    [client, setEdges, edges]
   );
 
   /**
