@@ -202,7 +202,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
               animated: false,
               selectable: true, // Enable edge selection for click events
               focusable: true, // Enable edge focus for interaction
-              reconnectable: false, // Disabled - using custom onEdgeClick handler for Octane-style reconnection
+              reconnectable: true, // Enable ReactFlow's built-in edge reconnection
               interactionWidth: 20, // Wider hit area for easier clicking
               style: { 
                 stroke: edgeColor, 
@@ -355,6 +355,53 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
     connectingEdgeRef.current = null;
     reconnectingFromRef.current = null;
   }, []);
+
+  /**
+   * Handle edge reconnect - ReactFlow's built-in edge reconnection
+   * Triggered when user drags an edge endpoint to a new handle
+   */
+  const onReconnect = useCallback(async (oldEdge: Edge, newConnection: Connection) => {
+    console.log('🔄 RECONNECT triggered:', oldEdge.id, '→', newConnection);
+    
+    if (!client) {
+      console.warn('⚠️ Cannot reconnect edge: No Octane client');
+      return;
+    }
+
+    // Let ReactFlow handle the UI update using reconnectEdge helper
+    setEdges((eds) => {
+      const filtered = eds.filter(e => e.id !== oldEdge.id);
+      return addEdge(newConnection, filtered);
+    });
+
+    // Sync with Octane in background
+    try {
+      const oldTargetNode = getNode(oldEdge.target);
+      const newTargetNode = getNode(newConnection.target!);
+      const sourceNode = getNode(newConnection.source!);
+      
+      if (oldTargetNode?.data?.sceneNode) {
+        const oldPinIdx = oldEdge.targetHandle ? 
+          parseInt(oldEdge.targetHandle.replace('input-', '')) : 0;
+        console.log(`🔌 Disconnecting old: ${oldEdge.target} pin ${oldPinIdx}`);
+        await client.disconnectPin(oldTargetNode.data.sceneNode, oldPinIdx);
+      }
+
+      if (newTargetNode?.data?.sceneNode && sourceNode?.data?.sceneNode) {
+        const newPinIdx = newConnection.targetHandle ? 
+          parseInt(newConnection.targetHandle.replace('input-', '')) : 0;
+        console.log(`🔌 Connecting new: ${newConnection.source} → ${newConnection.target} pin ${newPinIdx}`);
+        await client.connectPin(
+          newTargetNode.data.sceneNode,
+          newPinIdx,
+          sourceNode.data.sceneNode
+        );
+        console.log('✅ Octane edge reconnected');
+      }
+    } catch (error) {
+      console.error('❌ Failed to sync edge reconnection with Octane:', error);
+    }
+  }, [client, getNode, setEdges]);
 
   /**
    * Handle edge click - Octane behavior: disconnect at closest pin, start drag from other end
@@ -599,7 +646,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
             type: 'clickable', // Custom edge type with proper click handling
             selectable: true, // Enable edge selection for click events
             focusable: true, // Enable edge focus for interaction
-            reconnectable: false, // Disabled - using custom onEdgeClick handler for Octane-style reconnection
+            reconnectable: true, // Enable ReactFlow's built-in edge reconnection
             animated: false,
             interactionWidth: 20,
             style: { 
@@ -777,6 +824,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onConnect={onConnect}
         onConnectStart={onConnectStart}
         onConnectEnd={onConnectEnd}
+        onReconnect={onReconnect}
         onEdgeClick={onEdgeClick}
         onEdgeMouseDown={(event, edge) => {
           console.log('⬇️ Edge MOUSE DOWN:', edge.id);
@@ -793,7 +841,6 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         nodesConnectable={true}
         nodesDraggable={true}
         edgesFocusable={true}
-        edgesUpdatable={false}
         panOnDrag={[1, 2]} // Only pan with middle/right mouse button, not left button
         selectionOnDrag={false}
         selectNodesOnDrag={false}
@@ -806,7 +853,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           animated: false,
           selectable: true,
           focusable: true,
-          reconnectable: false, // Disabled - using custom onEdgeClick handler for Octane-style reconnection
+          reconnectable: true, // Enable ReactFlow's built-in edge reconnection
           style: { stroke: '#4a90e2', strokeWidth: 2 },
         }}
         connectionLineStyle={{
