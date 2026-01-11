@@ -732,6 +732,11 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onConnectStart={onConnectStart}
         onConnectEnd={onConnectEnd}
         onEdgeClick={onEdgeClick}
+        onEdgeMouseDown={(event, edge) => {
+          console.log('⬇️ Edge MOUSE DOWN:', edge.id);
+          // Try calling onEdgeClick directly
+          onEdgeClick(event, edge);
+        }}
         onEdgeMouseEnter={(event, edge) => console.log('🖱️ Edge MOUSE ENTER:', edge.id)}
         onEdgeMouseMove={(event, edge) => console.log('🖱️ Edge MOUSE MOVE:', edge.id)}
         onEdgeMouseLeave={(event, edge) => console.log('🖱️ Edge MOUSE LEAVE:', edge.id)}
