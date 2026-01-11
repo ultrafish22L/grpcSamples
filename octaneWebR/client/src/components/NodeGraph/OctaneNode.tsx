@@ -67,7 +67,7 @@ export const OctaneNode = memo(({ data, selected }: NodeProps<OctaneNodeData>) =
     >
       {/* Input handles on top */}
       {inputs.map((input, index) => {
-        const socketColor = input.pinInfo?.pinColor
+        const socketColor = input.pinInfo?.pinColor !== undefined
           ? OctaneIconMapper.formatColorValue(input.pinInfo.pinColor)
           : 'rgba(243, 220, 222, 1)';
         
@@ -123,7 +123,7 @@ export const OctaneNode = memo(({ data, selected }: NodeProps<OctaneNodeData>) =
           {console.log(`🎨 [OctaneNode]   Output handle:`, {
             id: output.id,
             label: output.label,
-            pinInfo: output.pinInfo,
+            nodeColor: sceneNode.nodeInfo?.nodeColor,
           })}
           <Handle
             type="source"
@@ -134,8 +134,8 @@ export const OctaneNode = memo(({ data, selected }: NodeProps<OctaneNodeData>) =
               bottom: -4, // Move slightly below the node
               width: 12,
               height: 12,
-              backgroundColor: output.pinInfo?.pinColor
-                ? OctaneIconMapper.formatColorValue(output.pinInfo.pinColor)
+              backgroundColor: sceneNode.nodeInfo?.nodeColor !== undefined
+                ? OctaneIconMapper.formatColorValue(sceneNode.nodeInfo.nodeColor)
                 : 'rgba(243, 220, 222, 1)',
               border: '2px solid #f4f7f6',
               borderRadius: '50%',
