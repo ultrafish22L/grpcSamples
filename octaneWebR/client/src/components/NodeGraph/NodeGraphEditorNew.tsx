@@ -155,7 +155,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
               type: 'default', // Use 'default' for bezier curves (matching Octane)
               animated: false,
               // selectable: true, // Not a valid ReactFlow property
-              reconnectable: true, // CRITICAL: Enable edge reconnection by dragging
+              reconnectable: false, // Disabled - using custom onEdgeClick handler for Octane-style reconnection
               interactionWidth: 20, // Wider hit area for easier clicking
               style: { 
                 stroke: edgeColor, 
@@ -550,7 +550,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
             targetHandle: connection.targetHandle || `input-${pinIdx}`,
             type: 'default',
             // selectable: true, // Not a valid ReactFlow property
-            reconnectable: true,
+            reconnectable: false, // Disabled - using custom onEdgeClick handler for Octane-style reconnection
             animated: false,
             interactionWidth: 20,
             style: { 
