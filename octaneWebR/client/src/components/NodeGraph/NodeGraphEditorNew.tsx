@@ -528,9 +528,8 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         console.log('✅ Node created successfully:', createdHandle);
         
         // Optimized update: pass new node handle to buildSceneTree for incremental update
-        const handleNum = parseInt(createdHandle, 10);
         console.log('🔄 Adding new node to scene tree (optimized)...');
-        await client.buildSceneTree(handleNum);
+        await client.buildSceneTree(createdHandle);
         console.log('✅ Scene tree updated with new node');
       } else {
         console.error('❌ Failed to create node');

@@ -369,7 +369,8 @@ export class OctaneClient extends EventEmitter {
       for (let i = 0; i < size; i++) {
         const nodeResponse = await this.callApi('ApiNodeArray', 'get1', handle, { index: i });
         if (nodeResponse && nodeResponse.result && nodeResponse.result.handle) {
-          const destNode = this.scene.map.get(nodeResponse.result.handle);
+          const handleNum = Number(nodeResponse.result.handle);
+          const destNode = this.scene.map.get(handleNum);
           if (destNode) {
             console.log('🔗 getDestination:', nodeData.name, nodeData.handle, '->', destNode.name, destNode.handle);
             return destNode;
@@ -529,7 +530,8 @@ export class OctaneClient extends EventEmitter {
     // If item has a valid handle, fetch full data from Octane
     if (item != null && item.handle != 0) {
       // Check if already exists at level 1 - reuse existing node
-      const existing = this.scene.map.get(item.handle);
+      const handleNum = Number(item.handle);
+      const existing = this.scene.map.get(handleNum);
       if (existing && existing.handle) {
         
         // Update existing node's pinInfo
@@ -600,8 +602,9 @@ export class OctaneClient extends EventEmitter {
     
     // Only add to scene.map if we have a valid handle
     if (item != null && item.handle != 0) {
-      // TODO: fix mapping!!!
-      this.scene.map.set(item.handle, entry);
+      // Normalize handle to number for consistent Map key type (handles come as strings from protobuf)
+      const handleNum = Number(item.handle);
+      this.scene.map.set(handleNum, entry);
       console.log(`  📄 Added item: ${itemName} (type: "${outType}", icon: ${icon}, level: ${level})`);
       
       // Recursively add children if level > 1 (mirrors octaneWeb lines 548-551)
@@ -700,7 +703,9 @@ export class OctaneClient extends EventEmitter {
     for (const node of nodes) {
 
       if (node.handle != null)   {
-        this.scene.map.set(node.handle, node);
+        // Normalize handle to number for consistent Map key type
+        const handleNum = Number(node.handle);
+        this.scene.map.set(handleNum, node);
         if (node.children && node.children.length > 0) {
           this.updateSceneMap(node.children);
         }
