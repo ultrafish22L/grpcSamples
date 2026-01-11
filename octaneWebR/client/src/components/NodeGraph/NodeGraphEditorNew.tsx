@@ -155,6 +155,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
               type: 'default', // Use 'default' for bezier curves (matching Octane)
               animated: false,
               reconnectable: true, // CRITICAL: Enable edge reconnection by dragging
+              interactionWidth: 20, // Wider hit area for easier clicking
               style: { 
                 stroke: edgeColor, 
                 strokeWidth: 3 
@@ -551,6 +552,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
             type: 'default',
             reconnectable: true,
             animated: false,
+            interactionWidth: 20,
             style: { 
               stroke: edgeColor, 
               strokeWidth: 3 
