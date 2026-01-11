@@ -21,7 +21,7 @@ import ReactFlow, {
   OnConnectStart,
   OnConnectEnd,
   EdgeChange,
-  EdgeMouseHandler,
+  // EdgeMouseHandler, // Removed - no longer using custom edge click handler
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 
@@ -48,7 +48,7 @@ const nodeTypes: NodeTypes = {
  */
 function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGraphEditorProps) {
   const { client, connected } = useOctane();
-  const { fitView, getNode, screenToFlowPosition } = useReactFlow();
+  const { fitView } = useReactFlow(); // Removed getNode, screenToFlowPosition (only used in commented onEdgeClick)
   
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChangeBase] = useEdgesState([]);
@@ -309,10 +309,11 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   }, []);
 
   /**
-   * Handle edge click - disconnect from closest pin and start reconnection drag
-   * Clicking on an edge spline disconnects from the closest pin and starts dragging from the other
+   * DISABLED: Custom edge click handler for reconnection
+   * NOTE: Commented out to allow default ReactFlow edge selection behavior
+   * ReactFlow's built-in edge reconnection (via dragging edges) is sufficient
    */
-  const onEdgeClick: EdgeMouseHandler = useCallback((event: React.MouseEvent, edge: Edge) => {
+  /* const onEdgeClick: EdgeMouseHandler = useCallback((event: React.MouseEvent, edge: Edge) => {
     event.stopPropagation();
     
     console.log('🔗 Edge clicked:', edge.id);
@@ -426,7 +427,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
       }
     }, 0);
     
-  }, [getNode, screenToFlowPosition, setEdges]);
+  }, [getNode, screenToFlowPosition, setEdges]); */
 
   /**
    * Handle new connections
@@ -726,7 +727,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onConnect={onConnect}
         onConnectStart={onConnectStart}
         onConnectEnd={onConnectEnd}
-        onEdgeClick={onEdgeClick}
+        // onEdgeClick={onEdgeClick} // Commented out to allow default edge selection (reconnection via edge drag still works)
         isValidConnection={isValidConnection}
         onNodesDelete={onNodesDelete}
         onNodeClick={onNodeClick}
