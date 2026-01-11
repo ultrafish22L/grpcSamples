@@ -739,7 +739,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         defaultEdgeOptions={{
           type: 'default',
           animated: false,
-          reconnectable: true,
+          reconnectable: false, // Disabled - using custom onEdgeClick handler for Octane-style reconnection
           style: { stroke: '#4a90e2', strokeWidth: 2 },
         }}
         connectionLineStyle={{
