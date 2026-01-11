@@ -733,6 +733,9 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onNodesDelete={onNodesDelete}
         onNodeClick={onNodeClick}
         elementsSelectable={true}
+        edgesFocusable={true}
+        panOnDrag={[1, 2]} // Only pan with middle/right mouse button, not left button
+        selectionOnDrag={false}
         nodeTypes={nodeTypes}
         minZoom={0.1}
         maxZoom={4}
