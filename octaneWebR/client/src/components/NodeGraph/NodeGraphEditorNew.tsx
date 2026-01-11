@@ -314,6 +314,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
    * Handle edge click - Octane behavior: disconnect at closest pin, start drag from other end
    */
   const onEdgeClick: EdgeMouseHandler = useCallback((event: React.MouseEvent, edge: Edge) => {
+    console.log('🔗🔗🔗 EDGE CLICK FIRED!!! 🔗🔗🔗', edge.id);
     event.stopPropagation();
     
     console.log('🔗 Edge clicked:', edge.id);
@@ -731,6 +732,9 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onConnectStart={onConnectStart}
         onConnectEnd={onConnectEnd}
         onEdgeClick={onEdgeClick}
+        onEdgeMouseEnter={(event, edge) => console.log('🖱️ Edge MOUSE ENTER:', edge.id)}
+        onEdgeMouseMove={(event, edge) => console.log('🖱️ Edge MOUSE MOVE:', edge.id)}
+        onEdgeMouseLeave={(event, edge) => console.log('🖱️ Edge MOUSE LEAVE:', edge.id)}
         isValidConnection={isValidConnection}
         onNodesDelete={onNodesDelete}
         onNodeClick={onNodeClick}
