@@ -159,6 +159,8 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
               sourceHandle: 'output-0',
               targetHandle: `input-${inputIndex}`,
               animated: false,
+              selectable: true,
+              focusable: true,
               style: { 
                 stroke: edgeColor, 
                 strokeWidth: 3 
@@ -494,6 +496,8 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
             targetHandle: connection.targetHandle || `input-${pinIdx}`,
             type: 'default',
             animated: false,
+            selectable: true,
+            focusable: true,
             style: { 
               stroke: edgeColor, 
               strokeWidth: 3 
@@ -864,6 +868,8 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         defaultEdgeOptions={{
           type: 'default', // Use default edges - custom component blocks reconnection
           animated: false,
+          selectable: true,
+          focusable: true,
           style: { stroke: '#4a90e2', strokeWidth: 2 },
         }}
         connectionLineStyle={{
