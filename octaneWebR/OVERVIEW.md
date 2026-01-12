@@ -1,12 +1,12 @@
-# OctaneWebR - a UI clone Octane running over the grpc api
+# OctaneWebR - React/TypeScript Octane UI Clone
 
-Modern browser-based interface for OTOY Octane Render with direct gRPC connectivity, no separate proxy server required.
+Modern browser-based interface for OTOY Octane Render with direct gRPC connectivity.
 
-## 🎯 Project Overview
+## 🎯 Project Status
 
-**OctaneWebR** is a React + TypeScript port of octaneWeb that provides real-time interaction with OTOY's Octane Render through the LiveLink gRPC API. Built with React 18, TypeScript, and Vite, it delivers a professional rendering workflow with scene management, node inspection, and real-time viewport rendering.
+**OctaneWebR** is a React 18 + TypeScript + Vite port of octaneWeb, providing real-time interaction with Octane Render through the LiveLink gRPC API.
 
-**Current Status**: ✅ **Production-Ready Core** - Main features complete, advanced features in progress
+**Status**: ✅ **Production-Ready Core** - All essential features working, advanced features in progress
 
 ### Key Features
 
@@ -212,31 +212,49 @@ npm run proto:generate
 ```
 Regenerates TypeScript types from .proto files
 
-## 🐛 Debugging
+## 🐛 Development & Debugging
 
-### Browser DevTools
-- Check Console for API call logs with 📤 (request) and ✅ (success) markers
-- Node Graph debug logs: 🔄 (scene conversion), 📌 (pins), 🔗 (edges), 🎨 (rendering)
-- Network tab shows HTTP-to-gRPC proxy traffic
-- React DevTools for component inspection
+### Debugging Best Practices
+
+**MINIMIZE visual debug sessions** - Prefer builds and log checking:
+
+1. **TypeScript Errors**: Run `npm run build` or `tsc --noEmit` to catch type errors
+2. **Runtime Errors**: Check browser console logs (F12) - don't attach debuggers unless necessary
+3. **API Issues**: Console logs show 📤 (request) and ✅ (success) markers with full request/response data
+4. **Performance**: Use console.time/timeEnd, not profilers for initial checks
+
+**When to use visual debugging**:
+- Complex state mutations you can't understand from logs
+- Async race conditions that logs don't reveal
+- Browser-specific rendering bugs
+
+### Browser Console Logs
+
+All components log extensively with emoji markers:
+- 📤 API request sent
+- ✅ API success response
+- ❌ API error response
+- 🔄 Scene tree conversion (Node Graph)
+- 📌 Pin detection (Node Graph)
+- 🔗 Edge creation (Node Graph)
+- 🎨 Rendering events
+
+**Check console FIRST before debugging visually.**
 
 ### Common Issues
 
-#### Connection Failed
-- **Symptom**: "Connection failed" status in top-right indicator
-- **Fix**: Ensure Octane is running with LiveLink enabled (Help → LiveLink)
-- **Fix**: Verify Octane is listening on 127.0.0.1:51022
-- **Fix**: Check health endpoint: `curl http://localhost:43929/api/health`
+**Connection Failed**
+- Status LED shows red "Disconnected"
+- Fix: Ensure Octane running with LiveLink enabled (Help → LiveLink in Octane)
+- Fix: Verify port 51022 open: `curl http://localhost:43929/api/health`
 
-#### Pin Color Issues
-- **Status**: ✅ Fixed - Output pins now correctly use nodeInfo.nodeColor
-- **Input Pins**: Use pinInfo.pinColor from Octane API
-- **Output Pins**: Use nodeInfo.nodeColor (node body color) matching Octane behavior
+**TypeScript Build Errors**
+- Run `npm run proto:generate` to regenerate types from .proto files
+- Check `server/generated/` for updated type definitions
 
-#### TypeScript Errors
-- **Symptom**: Build fails with type errors
-- **Fix**: Run `npm run proto:generate` to regenerate types
-- **Fix**: Check `server/generated/` for updated type definitions
+**ReactFlow Edge Clicks Not Working**
+- Status: ✅ Fixed (commit 471bacc9) - CSS `pointer-events: stroke` now enabled
+- Edges clickable for deletion/reconnection
 
 ## 📝 Code Patterns
 
@@ -292,24 +310,33 @@ const name = response.result; // or response.list, etc.
 - **IMPLEMENTATION_PLAN.md** - Comprehensive feature roadmap (350+ node types, 850+ tasks)
 - **CODE_REVIEW.md** - Detailed code quality analysis and recommendations
 
-## 🤝 Contributing
+## 🤝 Development Workflow
 
-When making changes:
+**Core Principles**:
+1. **Check console logs FIRST** - Don't start debugging visually until you've read all console output
+2. **Run builds to check TypeScript errors** - `npm run build` or `tsc --noEmit`
+3. **Test with real Octane only** - Never use mock data
+4. **Minimize visual debug sessions** - Use only when logs don't reveal the issue
 
-1. **Run TypeScript checks**: `tsc --noEmit` or `npm run build`
-2. **Update documentation**: Keep OVERVIEW.md, QUICKSTART.md, IMPLEMENTATION_PLAN.md, CODE_REVIEW.md current
-3. **Test with real Octane**: Never use mock data
-4. **Follow patterns**: Check existing components and octaneWeb reference code
-5. **Debug logging**: Use 📤 ✅ 🔄 📌 🔗 🎨 emoji markers for console logs
-6. **Commit messages**: Include descriptive commit messages with affected files
+**Before Committing**:
+1. Run `npm run build` - Ensure no TypeScript errors
+2. Check browser console - No uncaught errors
+3. Test with Octane connected - Verify functionality works
+4. Update docs if adding features or fixing bugs
 
-## 📄 License
+**Commit Message Format**:
+```
+Fix: Brief description of what was fixed
 
-Part of the grpcSamples repository - refer to parent repository for licensing.
+- Detail 1
+- Detail 2
+- Root cause explanation (if applicable)
+```
 
 ---
 
-**Status**: ✅ **Production-Ready Core** - Scene management, parameter editing, rendering complete  
-**Version**: 0.9.6  
-**Last Updated**: 2025-01-22  
-**Recent Changes**: Fixed output pin colors to use nodeInfo.nodeColor (commit a1f2be66)
+**Version**: 0.9.7  
+**Last Updated**: 2025-01-23  
+**Recent Changes**:
+- Fixed ReactFlow edge clicks with CSS pointer-events (commit 471bacc9)
+- Fixed output pin colors to use nodeInfo.nodeColor (commit a1f2be66)

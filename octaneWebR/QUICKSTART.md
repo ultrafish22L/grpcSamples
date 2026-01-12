@@ -1,17 +1,8 @@
 # octaneWebR Quick Start Guide
 
-## 🎯 Current Status
-
-**OctaneWebR** is a React + TypeScript port of octaneWeb. Core features are production-ready.
-
-**Working**: Scene Outliner, Node Inspector with real-time editing, Node Graph Editor, Live Render Viewport with camera controls  
-**In Progress**: Material Database content, Render Toolbar actions (start/stop/pause), additional menu items
-
----
-
 ## 🚀 Quick Start
 
-Everything runs in ONE Vite dev server with embedded gRPC proxy - no separate server needed.
+**One command starts everything** - Vite dev server with embedded gRPC proxy.
 
 ### Step 1: Start the Server
 
@@ -94,55 +85,56 @@ The application will still start and serve the UI, but API calls will fail grace
 
 ---
 
-## 🧪 Testing the Setup
+## 🐛 Debugging & Development
 
-### Test 1: Server Running
+### Debugging Best Practices
+
+**MINIMIZE visual debug sessions** - check these FIRST:
+
+1. **TypeScript Errors**:
+   ```bash
+   npm run build       # Full build with type checking
+   tsc --noEmit        # Type check only (faster)
+   ```
+
+2. **Runtime Errors** - Browser Console (F12):
+   - 📤 API requests
+   - ✅ API successes
+   - ❌ API errors
+   - 🔄 Scene conversions
+   - 📌 Pin detections
+   - 🔗 Edge creations
+
+3. **Connection Issues**:
+   ```bash
+   curl http://localhost:43929/api/health | python -m json.tool
+   ```
+   Should show `"status": "ok"` if Octane connected.
+
+**Only use visual debugger when**:
+- Logs don't reveal the issue
+- Complex state mutations
+- Async race conditions
+
+### Quick Checks
+
 ```bash
+# Check server running
 ps aux | grep vite | grep -v grep
-```
 
-Should show ONE Vite process with embedded gRPC proxy.
+# Check TypeScript
+tsc --noEmit
 
-### Test 2: Health Endpoint
-```bash
+# Check health
 curl http://localhost:43929/api/health
 ```
 
-Should return JSON with server status (`"status": "ok"` or `"unhealthy"`).
+### Testing After Changes
 
-### Test 3: Browser Console
-1. Open browser DevTools (F12)
-2. Check Console tab for:
-   - 📤 API request markers
-   - ✅ API success responses
-   - 🔄 Scene tree conversion logs (Node Graph)
-   - 📌 Pin detection logs (Node Graph)
-   - 🔗 Edge creation logs (Node Graph)
-
-### Test 4: Menu Bar
-- File menu should show: New, Open, Save, Save As, Recent Projects, Close, Exit
-- Edit/Script/Module/Cloud/Window/Help menus should be present
-- Click File → Recent Projects to see recent files (if any)
-
-### Test 5: Scene Outliner
-- Should show hierarchical tree with nodes like:
-  - 📁 Scene
-  - 🫖 teapot.obj (or your loaded model)
-  - 🎯 Render target
-  - 📷 Camera
-  - 🌍 Environment
-
-### Test 6: Node Inspector
-- Click any node in Scene Outliner
-- Right panel should show:
-  - Node name and type
-  - Expandable parameter groups
-  - Input controls (checkboxes, number inputs, color pickers)
-
-### Test 7: Node Graph Editor
-- Bottom panel should show top-level nodes
-- Right-click in graph for context menu (Materials, Geometry, Textures, etc.)
-- Should see nodes with connections (cyan lines)
+1. Open browser console (F12) - Check for errors
+2. Test UI interaction - Scene Outliner, Node Inspector, Node Graph
+3. Run build - `npm run build` to catch type errors
+4. Test with Octane connected - Verify real API calls work
 
 ---
 
@@ -160,42 +152,38 @@ tsc --noEmit             # TypeScript type checking only (no build)
 
 ## ✅ Success Checklist
 
-After following this guide, you should have:
+Quick verification:
 
-- [ ] Server running on http://localhost:43929 (or port shown in terminal)
-- [ ] Browser opens and shows octaneWebR interface
-- [ ] Menu bar with File/Edit/Script/Module/Cloud/Window/Help menus
-- [ ] Connection status shows "Connected" (if Octane running) or "Disconnected"
-- [ ] Scene Outliner shows hierarchical tree (if Octane connected with scene loaded)
-- [ ] Node Inspector shows properties when clicking nodes
-- [ ] Node Graph Editor shows nodes with connections
-- [ ] No TypeScript errors in terminal
-- [ ] Single Vite process running (not two servers)
+```bash
+# 1. Server running
+ps aux | grep vite | grep -v grep  # Should show one process
 
-**If all checked**: ✅ **Setup Complete!**
+# 2. Health check
+curl http://localhost:43929/api/health  # Should return JSON
 
----
+# 3. TypeScript clean
+tsc --noEmit  # Should show no errors
+```
 
-## 🐛 Known Issues
+**Browser**:
+- Open http://localhost:43929
+- Check console (F12) - No errors
+- Connection status shows "Connected" (green) if Octane running
+- Scene Outliner shows tree if Octane has scene loaded
 
-### Material Database
-**Status**: Live DB and Local DB tabs exist but content not implemented (planned)
-
-### Render Toolbar Actions
-**Status**: UI complete, most actions need API integration (start/stop/pause, clay mode, picking modes, etc.)
-
-### Menu System
-**Status**: Only 13/40+ menu items fully implemented (cloud.*, module.*, script.* menus missing)
+**If all pass**: ✅ **Setup Complete!**
 
 ---
 
-## 📚 Additional Documentation
+## 📚 More Documentation
 
-- **OVERVIEW.md** - Complete project overview and architecture
-- **IMPLEMENTATION_PLAN.md** - Comprehensive feature roadmap (350+ node types, 850+ tasks)
-- **CODE_REVIEW.md** - Detailed code quality analysis and recommendations
+- **OVERVIEW.md** - Architecture, debugging practices, development workflow
+- **IMPLEMENTATION_PLAN.md** - Feature roadmap
+- **CODE_REVIEW.md** - Code quality guidelines
 
 ---
 
-**Last Updated**: 2025-01-22  
-**Recent Fix**: Output pin colors now correctly use nodeInfo.nodeColor (commit a1f2be66)
+**Last Updated**: 2025-01-23  
+**Recent Fixes**:
+- ReactFlow edge clicks enabled with CSS pointer-events (commit 471bacc9)
+- Output pin colors use nodeInfo.nodeColor (commit a1f2be66)
