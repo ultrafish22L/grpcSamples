@@ -33,7 +33,6 @@ export default function CustomClickableEdge({
     
     event.stopPropagation();
     event.preventDefault(); // Prevent ReactFlow's drag behavior
-    console.log('🔗🔗🔗 CUSTOM EDGE MOUSEDOWN FIRED!!! 🔗🔗🔗', id);
     
     // Call the onClick handler passed in data
     if (data?.onClick) {
@@ -52,20 +51,7 @@ export default function CustomClickableEdge({
         fill="none"
         stroke="transparent"
         strokeWidth={20}
-        onMouseDownCapture={(e) => {
-          console.log('🔴 MOUSEDOWN CAPTURE PHASE:', id);
-          handleMouseDown(e);
-        }}
-        onMouseDown={() => {
-          console.log('🔵 MOUSEDOWN BUBBLE PHASE:', id);
-        }}
-        onClickCapture={() => {
-          console.log('🟡 CLICK CAPTURE PHASE:', id);
-        }}
-        onClick={() => {
-          console.log('🟢 CLICK BUBBLE PHASE:', id);
-        }}
-        onMouseEnter={() => console.log('🖱️ Custom Edge MOUSE ENTER:', id)}
+        onMouseDownCapture={handleMouseDown}
         style={{ cursor: 'pointer', pointerEvents: 'all' }}
         className="custom-edge-clickable-overlay"
       />

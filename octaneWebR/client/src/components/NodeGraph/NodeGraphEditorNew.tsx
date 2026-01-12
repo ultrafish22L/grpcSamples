@@ -467,9 +467,10 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
     // Try to programmatically trigger connection drag by finding and clicking the handle
     // Find the handle element and trigger mousedown to start ReactFlow's connection drag
     setTimeout(() => {
+      // NOTE: Our nodes use Position.Bottom for outputs and Position.Top for inputs
       const handleSelector = dragFromHandleType === 'source'
-        ? `[data-nodeid="${dragFromNodeId}"][data-handleid="${dragFromHandleId}"][data-handlepos="right"]`
-        : `[data-nodeid="${dragFromNodeId}"][data-handleid="${dragFromHandleId}"][data-handlepos="left"]`;
+        ? `[data-nodeid="${dragFromNodeId}"][data-handleid="${dragFromHandleId}"][data-handlepos="bottom"]`
+        : `[data-nodeid="${dragFromNodeId}"][data-handleid="${dragFromHandleId}"][data-handlepos="top"]`;
       
       const handleElement = document.querySelector(handleSelector) as HTMLElement;
       
