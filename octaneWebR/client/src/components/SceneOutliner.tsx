@@ -64,15 +64,23 @@ function SceneTreeItem({ node, depth, onSelect, selectedHandle }: SceneTreeItemP
           <span className="node-name">{node.name}</span>
         </div>
       </div>
-      {expanded && hasChildren && node.children!.map(child => (
-        <SceneTreeItem
-          key={child.handle}
-          node={child}
-          depth={depth + 1}
-          onSelect={onSelect}
-          selectedHandle={selectedHandle}
-        />
-      ))}
+      {expanded && hasChildren && node.children!.map((child, index) => {
+        // Generate unique key: use handle + pin index for NO_ITEM nodes (handle=0)
+        // Pin index comes from pinInfo.ix, fallback to array index
+        const uniqueKey = child.handle !== 0 
+          ? child.handle 
+          : `${node.handle}_pin${child.pinInfo?.ix ?? index}`;
+        
+        return (
+          <SceneTreeItem
+            key={uniqueKey}
+            node={child}
+            depth={depth + 1}
+            onSelect={onSelect}
+            selectedHandle={selectedHandle}
+          />
+        );
+      })}
     </>
   );
 }
@@ -207,7 +215,7 @@ export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange, o
               {/* Create a synthetic Scene root node with children */}
               <SceneTreeItem
                 node={{
-                  handle: 0,
+                  handle: -1, // Use -1 for synthetic root to avoid collision with NO_ITEM (0)
                   name: 'Scene',
                   type: 'SceneRoot',
                   typeEnum: 0,
