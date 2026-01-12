@@ -604,6 +604,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   // Handle right-click on a node (node actions menu)
   const handleNodeContextMenu = useCallback((event: React.MouseEvent, node: Node) => {
     event.preventDefault();
+    event.stopPropagation(); // Prevent container's onContextMenu from firing
     setContextMenuPosition({ x: event.clientX, y: event.clientY });
     setContextMenuType('node');
     setContextMenuNodeId(node.id);
@@ -729,7 +730,6 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
     <div 
       ref={containerRef} 
       style={{ width: '100%', height: '100%', position: 'relative' }}
-      onContextMenu={handleContextMenu}
     >
       {/* Context Menus */}
       {contextMenuVisible && contextMenuType === 'add' && (
@@ -765,6 +765,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onConnectEnd={onConnectEnd}
         onReconnect={onReconnect}
         onNodeContextMenu={handleNodeContextMenu}
+        onPaneContextMenu={handleContextMenu}
         isValidConnection={isValidConnection}
         onNodesDelete={onNodesDelete}
         onNodeClick={onNodeClick}
