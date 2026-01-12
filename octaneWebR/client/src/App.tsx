@@ -69,8 +69,7 @@ function AppContent() {
       const createdHandle = await client.createNode('NT_GEO_PLANE', NodeType.NT_GEO_PLANE);
       if (createdHandle) {
         console.log('✅ Geometric plane created with handle:', createdHandle);
-        // Trigger scene refresh to show new node
-        handleSceneRefresh();
+        // Note: UI will auto-refresh via sceneUpdated event listener
       } else {
         console.error('❌ Failed to create geometric plane');
       }
@@ -92,6 +91,42 @@ function AppContent() {
       console.error('❌ App.tsx: connect() threw error:', error);
     });
   }, [connect]);
+
+  // Listen for scene updates (node deletions, additions, etc.)
+  useEffect(() => {
+    if (!client) return;
+
+    const handleSceneUpdated = (scene: any) => {
+      console.log('🔄 Scene updated - refreshing UI components');
+      
+      // Update scene tree from client's internal state
+      const updatedTree = scene.tree || [];
+      setSceneTree(updatedTree);
+      
+      // Trigger SceneOutliner refresh (force re-mount to sync its internal state)
+      setSceneRefreshTrigger(prev => prev + 1);
+      
+      // If selected node was deleted, clear selection (Node Inspector behavior)
+      if (selectedNode) {
+        const nodeStillExists = scene.map?.has(selectedNode.handle);
+        if (!nodeStillExists) {
+          console.log('⚠️ Selected node was deleted - clearing selection');
+          setSelectedNode(null);
+        }
+      }
+    };
+
+    // Listen for scene updates (emitted by deleteNodeOptimized, etc.)
+    client.on('sceneUpdated', handleSceneUpdated);
+    
+    console.log('✅ Listening for sceneUpdated events');
+
+    // Cleanup listener on unmount
+    return () => {
+      client.off('sceneUpdated', handleSceneUpdated);
+      console.log('🔇 Stopped listening for sceneUpdated events');
+    };
+  }, [client, selectedNode]);
 
   return (
     <div className="app-container">
