@@ -160,6 +160,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
               animated: false,
               selectable: true,
               focusable: true,
+              interactionWidth: 20, // ReactFlow v12: wider click area for easier selection
               style: { 
                 stroke: edgeColor, 
                 strokeWidth: 3 
@@ -497,6 +498,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
             animated: false,
             selectable: true,
             focusable: true,
+            interactionWidth: 20, // ReactFlow v12: wider click area for easier selection
             style: { 
               stroke: edgeColor, 
               strokeWidth: 3 
@@ -861,7 +863,8 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           animated: false,
           selectable: true,
           focusable: true,
-          style: { stroke: '#4a90e2', strokeWidth: 2 },
+          interactionWidth: 20, // ReactFlow v12: wider click area for easier selection
+          style: { stroke: '#4a90e2', strokeWidth: 3 },
         }}
         connectionLineStyle={{
           stroke: connectionLineColor,
