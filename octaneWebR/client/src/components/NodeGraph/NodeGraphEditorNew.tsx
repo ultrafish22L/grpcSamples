@@ -52,7 +52,7 @@ const nodeTypes = {
  */
 function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGraphEditorProps) {
   const { client, connected } = useOctane();
-  const { fitView, getNode } = useReactFlow();
+  const { fitView } = useReactFlow();
   
   const [nodes, setNodes, onNodesChange] = useNodesState<Node<OctaneNodeData>>([]);
   const [edges, setEdges, onEdgesChangeBase] = useEdgesState<Edge>([]);
@@ -336,36 +336,31 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
       return;
     }
 
-    // TODO: Async Octane sync (requires connectPin/disconnectPin methods)
-    // (async () => {
-    //   try {
-    //     const oldTargetNode = getNode(oldEdge.target);
-    //     const newTargetNode = getNode(newConnection.target!);
-    //     const sourceNode = getNode(newConnection.source!);
-    //     
-    //     if (oldTargetNode?.data?.sceneNode) {
-    //       const oldPinIdx = oldEdge.targetHandle ? 
-    //         parseInt(oldEdge.targetHandle.replace('input-', '')) : 0;
-    //       console.log(`🔌 Disconnecting old: ${oldEdge.target} pin ${oldPinIdx}`);
-    //       await client.disconnectPin(oldTargetNode.data.sceneNode, oldPinIdx);
-    //     }
-    //
-    //     if (newTargetNode?.data?.sceneNode && sourceNode?.data?.sceneNode) {
-    //       const newPinIdx = newConnection.targetHandle ? 
-    //         parseInt(newConnection.targetHandle.replace('input-', '')) : 0;
-    //       console.log(`🔌 Connecting new: ${newConnection.source} → ${newConnection.target} pin ${newPinIdx}`);
-    //       await client.connectPin(
-    //         newTargetNode.data.sceneNode,
-    //         newPinIdx,
-    //         sourceNode.data.sceneNode
-    //       );
-    //       console.log('✅ Octane edge reconnected');
-    //     }
-    //   } catch (error) {
-    //     console.error('❌ Failed to sync edge reconnection with Octane:', error);
-    //   }
-    // })();
-  }, [client, getNode, setEdges]);
+    // Sync reconnection with Octane (disconnect old, connect new)
+    (async () => {
+      try {
+        // Disconnect old connection
+        const oldTargetHandle = parseInt(oldEdge.target);
+        const oldPinIdx = oldEdge.targetHandle ? 
+          parseInt(oldEdge.targetHandle.split('-')[1]) : 0;
+        
+        console.log(`🔌 Disconnecting old: node=${oldTargetHandle}, pin=${oldPinIdx}`);
+        await client.disconnectPin(oldTargetHandle, oldPinIdx);
+        
+        // Connect new connection
+        const newTargetHandle = parseInt(newConnection.target!);
+        const newSourceHandle = parseInt(newConnection.source!);
+        const newPinIdx = newConnection.targetHandle ? 
+          parseInt(newConnection.targetHandle.split('-')[1]) : 0;
+        
+        console.log(`🔌 Connecting new: source=${newSourceHandle} → target=${newTargetHandle}, pin=${newPinIdx}`);
+        await client.connectPinByIndex(newTargetHandle, newPinIdx, newSourceHandle, true);
+        console.log('✅ Octane edge reconnected');
+      } catch (error) {
+        console.error('❌ Failed to sync edge reconnection with Octane:', error);
+      }
+    })();
+  }, [client, setEdges]);
 
   /**
    * Handle edge reconnect end - detect failed reconnections
@@ -509,18 +504,10 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           ? OctaneIconMapper.formatColorValue(pinColor)
           : '#4a90e2';
 
-/*
-        const response = await client.callApi('ApiNode', 'connectToIx', targetHandle, {
-          pinIdx,
-          sourceNode: {
-            handle: sourceHandle,
-            type: 17, // ApiNode type
-          },
-          evaluate: true, // Trigger evaluation after connection
-        });
+        // Connect pin in Octane
+        await client.connectPinByIndex(targetHandle, pinIdx, sourceHandle, true);
+        console.log('✅ Pin connected in Octane');
 
-        console.log('✅ ApiNode.connectToIx response:', response);
-*/
         // Create edge ID matching the format used in scene tree building
         const edgeId = `e${sourceHandle}-${targetHandle}-${pinIdx}`;
 
