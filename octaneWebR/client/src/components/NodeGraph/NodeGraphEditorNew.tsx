@@ -155,6 +155,8 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
               targetHandle: `input-${inputIndex}`,
               type: 'default',
               animated: false,
+              focusable: true,
+              deletable: true,
               style: { 
                 stroke: edgeColor, 
                 strokeWidth: 3 
@@ -795,6 +797,8 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         defaultEdgeOptions={{
           type: 'default',
           animated: false,
+          focusable: true,
+          deletable: true,
           style: { stroke: '#4a90e2', strokeWidth: 2 },
           interactionWidth: 20, // Make edges easier to click
         }}
