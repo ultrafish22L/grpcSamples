@@ -598,13 +598,15 @@ export class OctaneClient extends EventEmitter {
       children: []
     };
     
-    // Always add to scene items array
-    sceneItems.push(entry);
-    
-    // Only add to scene.map if we have a valid handle
+    // Only add to scene items and map if we have a valid handle (skip NO_ITEM with handle=0)
     if (item != null && item.handle != 0) {
       // Normalize handle to number for consistent Map key type (handles come as strings from protobuf)
       const handleNum = Number(item.handle);
+      
+      // Add to scene items array (becomes children arrays in tree)
+      sceneItems.push(entry);
+      
+      // Add to scene.map for quick lookup
       this.scene.map.set(handleNum, entry);
       console.log(`  📄 Added item: ${itemName} (type: "${outType}", icon: ${icon}, level: ${level})`);
       
@@ -612,6 +614,8 @@ export class OctaneClient extends EventEmitter {
       if (level > 1) {
         await this.addItemChildren(entry);
       }
+    } else {
+      console.log(`  ⚠️ Skipping NO_ITEM (handle=0): ${itemName}`);
     }
     
     return entry;

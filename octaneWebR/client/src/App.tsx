@@ -107,13 +107,13 @@ function AppContent() {
       setSceneRefreshTrigger(prev => prev + 1);
       
       // If selected node was deleted, clear selection (Node Inspector behavior)
-      if (selectedNode) {
-        const nodeStillExists = scene.map?.has(selectedNode.handle);
-        if (!nodeStillExists) {
+      setSelectedNode(current => {
+        if (current && !scene.map?.has(current.handle)) {
           console.log('⚠️ Selected node was deleted - clearing selection');
-          setSelectedNode(null);
+          return null;
         }
-      }
+        return current;
+      });
     };
 
     // Listen for scene updates (emitted by deleteNodeOptimized, etc.)
@@ -126,7 +126,7 @@ function AppContent() {
       client.off('sceneUpdated', handleSceneUpdated);
       console.log('🔇 Stopped listening for sceneUpdated events');
     };
-  }, [client, selectedNode]);
+  }, [client]); // Only re-register when client changes, not on every selection
 
   return (
     <div className="app-container">
