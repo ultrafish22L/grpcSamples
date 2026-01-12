@@ -55,7 +55,6 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   
   const [nodes, setNodes, onNodesChange] = useNodesState<Node<OctaneNodeData>>([]);
   const [edges, setEdges, onEdgesChangeBase] = useEdgesState<Edge>([]);
-  const containerRef = useRef<HTMLDivElement>(null);
   
   // Track whether initial fitView has been called (should only happen once after initial scene sync)
   const hasInitialFitView = useRef(false);
@@ -533,21 +532,18 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
    */
   const isValidConnection = useCallback(
     (connection: Edge | Connection) => {
-      console.log('🔍 Validating connection:', connection);
-      
       // Basic validation
       if (!connection.source || !connection.target) {
-        console.log('❌ Invalid: Missing source or target');
+        console.warn('⚠️ Invalid connection: Missing source or target');
         return false;
       }
       
       // Prevent self-connections
       if (connection.source === connection.target) {
-        console.log('❌ Invalid: Self-connection');
+        console.warn('⚠️ Invalid connection: Self-connection not allowed');
         return false;
       }
       
-      console.log('✅ Connection is valid');
       return true;
     },
     []
@@ -640,13 +636,11 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   /**
    * Context menu event handlers
    */
-  // Handle right-click on empty space (add node menu)
-  // This is attached to the container div and will fire for all right-clicks
-  // But OctaneNode will call stopPropagation(), so this only fires for empty pane
-  const handleContextMenu = useCallback((event: React.MouseEvent) => {
-    console.log('🖱️ [NodeGraphEditor] handleContextMenu (PANE) fired!', {
+  // Handle right-click on empty pane (add node menu)
+  // Using ReactFlow v12's official onPaneContextMenu prop
+  const handlePaneContextMenu = useCallback((event: React.MouseEvent | MouseEvent) => {
+    console.log('🖱️ [NodeGraphEditor] Pane context menu triggered', {
       position: { x: event.clientX, y: event.clientY },
-      target: event.target
     });
     event.preventDefault();
     setContextMenuPosition({ x: event.clientX, y: event.clientY });
@@ -801,11 +795,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   }
 
   return (
-    <div 
-      ref={containerRef} 
-      onContextMenu={handleContextMenu}
-      style={{ width: '100%', height: '100%', position: 'relative' }}
-    >
+    <>
       {/* Context Menus */}
       {contextMenuVisible && contextMenuType === 'add' && (
         <NodeTypeContextMenu
@@ -854,6 +844,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onNodeClick={onNodeClick}
         onEdgeClick={onEdgeClick}
         onEdgeContextMenu={onEdgeContextMenu}
+        onPaneContextMenu={handlePaneContextMenu}
         elementsSelectable={true}
         nodesConnectable={true}
         nodesDraggable={true}
@@ -904,7 +895,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           maskColor="rgba(0, 0, 0, 0.6)"
         />
       </ReactFlow>
-    </div>
+    </>
   );
 }
 

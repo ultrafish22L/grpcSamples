@@ -36,12 +36,6 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
   const { data, selected, id } = props;
   const { sceneNode, inputs = [], output, onContextMenu } = data;
   
-  console.log(`🎨 [OctaneNode] Rendering node "${sceneNode.name}":`, {
-    inputs: inputs.length,
-    hasOutput: !!output,
-    inputDetails: inputs.map((i: any) => ({ id: i.id, label: i.label })),
-  });
-  
   // Get node color from nodeInfo
   const nodeColor = sceneNode.nodeInfo?.nodeColor 
     ? OctaneIconMapper.formatColorValue(sceneNode.nodeInfo.nodeColor)
@@ -92,12 +86,6 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
         const inputSpacing = calculatedWidth / (inputs.length + 1);
         const socketX = inputSpacing * (index + 1) - calculatedWidth / 2;
 
-        console.log(`🎨 [OctaneNode]   Input ${index} handle:`, {
-          id: input.id,
-          color: socketColor,
-          posX: socketX,
-        });
-
         return (
           <Handle
             key={input.id}
@@ -137,47 +125,27 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
 
       {/* Output handle on bottom */}
       {output && (
-        <>
-          {console.log(`🎨 [OctaneNode]   Output handle:`, {
-            id: output.id,
-            label: output.label,
-            nodeColor: sceneNode.nodeInfo?.nodeColor,
-          })}
-          <Handle
-            type="source"
-            position={Position.Bottom}
-            id={output.id}
-            style={{
-              left: '50%',
-              bottom: -4, // Move slightly below the node
-              width: 12,
-              height: 12,
-              backgroundColor: sceneNode.nodeInfo?.nodeColor !== undefined
-                ? OctaneIconMapper.formatColorValue(sceneNode.nodeInfo.nodeColor)
-                : 'rgba(243, 220, 222, 1)',
-              border: '2px solid #f4f7f6',
-              borderRadius: '50%',
-              zIndex: 10,
-            }}
-            title={output.label || 'Output'}
-          />
-        </>
+        <Handle
+          type="source"
+          position={Position.Bottom}
+          id={output.id}
+          style={{
+            left: '50%',
+            bottom: -4, // Move slightly below the node
+            width: 12,
+            height: 12,
+            backgroundColor: sceneNode.nodeInfo?.nodeColor !== undefined
+              ? OctaneIconMapper.formatColorValue(sceneNode.nodeInfo.nodeColor)
+              : 'rgba(243, 220, 222, 1)',
+            border: '2px solid #f4f7f6',
+            borderRadius: '50%',
+            zIndex: 10,
+          }}
+          title={output.label || 'Output'}
+        />
       )}
     </div>
   );
 });
 
 OctaneNode.displayName = 'OctaneNode';
-
-/*
-Type '{ children: (void | Element)[]; }' is not assignable to type '{ children?: ReactNode; }'.
-  Types of property 'children' are incompatible.
-    Type '(void | Element)[]' is not assignable to type 'ReactNode'.
-      Type '(void | Element)[]' is not assignable to type 'Iterable<ReactNode>'.
-        The types returned by '[Symbol.iterator]().next(...)' are incompatible between these types.
-          Type 'IteratorResult<void | Element, undefined>' is not assignable to type 'IteratorResult<ReactNode, any>'.
-            Type 'IteratorYieldResult<void | Element>' is not assignable to type 'IteratorResult<ReactNode, any>'.
-              Type 'IteratorYieldResult<void | Element>' is not assignable to type 'IteratorYieldResult<ReactNode>'.
-                Type 'void | Element' is not assignable to type 'ReactNode'.
-                  Type 'void' is not assignable to type 'ReactNode'.ts(2322)
-*/
