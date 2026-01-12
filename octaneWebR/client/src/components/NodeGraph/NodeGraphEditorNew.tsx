@@ -151,14 +151,12 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
               target: targetHandle,
               sourceHandle: 'output-0',
               targetHandle: `input-${inputIndex}`,
-              type: 'custom', // Use custom edge component for click handling
               animated: false,
               style: { 
                 stroke: edgeColor, 
                 strokeWidth: 3 
               },
               data: {
-                // onClick will be injected later via useEffect
                 source: sourceHandle,
                 target: targetHandle,
                 sourceHandle: 'output-0',
@@ -665,9 +663,6 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onConnectStart={onConnectStart}
         onConnectEnd={onConnectEnd}
         onReconnect={onReconnect}
-        onEdgeMouseEnter={(_event, edge) => console.log('🖱️ Edge MOUSE ENTER:', edge.id)}
-        onEdgeMouseMove={(_event, edge) => console.log('🖱️ Edge MOUSE MOVE:', edge.id)}
-        onEdgeMouseLeave={(_event, edge) => console.log('🖱️ Edge MOUSE LEAVE:', edge.id)}
         isValidConnection={isValidConnection}
         onNodesDelete={onNodesDelete}
         onNodeClick={onNodeClick}
@@ -679,7 +674,6 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         // Note: Edge reconnection is enabled automatically when onReconnect handler is present
         selectionOnDrag={false}
         selectNodesOnDrag={false}
-        onPaneClick={() => console.log('🎯 PANE CLICK (testing if clicks work at all)')}
         nodeTypes={nodeTypes}
         minZoom={0.1}
         maxZoom={4}
