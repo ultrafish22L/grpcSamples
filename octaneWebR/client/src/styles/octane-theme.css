@@ -1472,6 +1472,18 @@ select {
     color: var(--octane-text-primary);
 }
 
+.context-menu-item.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.context-menu-separator {
+    height: 1px;
+    background-color: rgba(85, 85, 85, 0.3);
+    margin: 4px 0;
+}
+
 .node-type-color {
     width: 12px;
     height: 12px;

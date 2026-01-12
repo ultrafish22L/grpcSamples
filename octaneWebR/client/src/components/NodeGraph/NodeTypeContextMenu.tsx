@@ -23,6 +23,7 @@ export function NodeTypeContextMenu({
 }: NodeTypeContextMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
   const submenuRef = useRef<HTMLDivElement>(null);
+  const categoryElementRef = useRef<HTMLDivElement | null>(null);
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [submenuPosition, setSubmenuPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -88,23 +89,21 @@ export function NodeTypeContextMenu({
   }, [x, y]);
 
   const handleCategoryMouseEnter = useCallback((category: string, e: React.MouseEvent<HTMLDivElement>) => {
-    console.log('🔍 Category hover:', category);
-    
     // Clear any pending hide timeout
     if (hideTimeoutRef.current) {
       clearTimeout(hideTimeoutRef.current);
       hideTimeoutRef.current = null;
     }
 
+    // Store reference to category element for submenu positioning
+    categoryElementRef.current = e.currentTarget;
     setHoveredCategory(category);
-    console.log('✅ hoveredCategory set to:', category);
     
     // Position submenu to the right of the category item (matching octaneWeb lines 294-313)
     const categoryRect = e.currentTarget.getBoundingClientRect();
     let submenuLeft = categoryRect.right + 2;
     let submenuTop = categoryRect.top;
 
-    console.log('📍 Submenu position:', { left: submenuLeft, top: submenuTop });
     setSubmenuPosition({ top: submenuTop, left: submenuLeft });
   }, []);
 
@@ -130,24 +129,20 @@ export function NodeTypeContextMenu({
 
   // Adjust submenu position if it goes off-screen (matching octaneWeb lines 300-306)
   useEffect(() => {
-    if (!hoveredCategory) return;
+    if (!hoveredCategory || !submenuRef.current || !categoryElementRef.current) return;
 
     // Give submenu a frame to render so we can measure it
     const timeoutId = setTimeout(() => {
-      const submenuElement = document.querySelector('.context-submenu') as HTMLElement;
-      if (!submenuElement) return;
+      if (!submenuRef.current || !categoryElementRef.current) return;
 
-      const submenuRect = submenuElement.getBoundingClientRect();
+      const submenuRect = submenuRef.current.getBoundingClientRect();
       let adjustedLeft = submenuPosition.left;
       let adjustedTop = submenuPosition.top;
 
       // If submenu goes off right edge, show on left side instead
       if (submenuRect.right > window.innerWidth) {
-        const categoryElement = document.querySelector('.context-menu-category:hover') as HTMLElement;
-        if (categoryElement) {
-          const categoryRect = categoryElement.getBoundingClientRect();
-          adjustedLeft = categoryRect.left - submenuRect.width - 2;
-        }
+        const categoryRect = categoryElementRef.current.getBoundingClientRect();
+        adjustedLeft = categoryRect.left - submenuRect.width - 2;
       }
 
       // If submenu goes off bottom edge, adjust top position
@@ -164,7 +159,6 @@ export function NodeTypeContextMenu({
   }, [hoveredCategory, submenuPosition]);
 
   const handleNodeTypeClick = useCallback((nodeType: string) => {
-    console.log('🎨 [ContextMenu] Selected node type:', nodeType);
     onSelectNodeType(nodeType);
     onClose();
   }, [onSelectNodeType, onClose]);
@@ -205,9 +199,6 @@ export function NodeTypeContextMenu({
       {hoveredCategory && (() => {
         const nodeTypes = getNodeTypesForCategory(hoveredCategory);
         if (!nodeTypes) return null;
-        
-        console.log('🎨 Rendering submenu for:', hoveredCategory, 'with', Object.keys(nodeTypes).length, 'items');
-        console.log('🎨 Submenu position:', submenuPosition);
         
         return (
           <div

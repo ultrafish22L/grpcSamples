@@ -2,9 +2,17 @@
  * Node Context Menu Component
  * Context menu displayed when right-clicking on nodes in the graph editor
  * Provides options: Delete Selected, Save as Macro, Render Node, Group Items, Show in Outliner
+ * 
+ * ReactFlow v12 Best Practices:
+ * - Uses createPortal for proper rendering outside parent DOM
+ * - Uses CSS classes from octane-theme.css (no inline styles)
+ * - Screen boundary detection to keep menu visible
+ * - Standardized click event handling
+ * - Proper disabled state prevents clicks
  */
 
 import { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 interface NodeContextMenuProps {
   x: number;
@@ -39,9 +47,9 @@ export function NodeContextMenu({
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('click', handleClickOutside);
     };
   }, [onClose]);
 
@@ -59,76 +67,62 @@ export function NodeContextMenu({
     };
   }, [onClose]);
 
-  const handleMenuItemClick = (action: () => void) => {
+  // Adjust menu position to stay on screen
+  useEffect(() => {
+    if (!menuRef.current) return;
+
+    const rect = menuRef.current.getBoundingClientRect();
+    let adjustedX = x;
+    let adjustedY = y;
+
+    // Keep menu on screen
+    if (rect.right > window.innerWidth) {
+      adjustedX = x - rect.width;
+    }
+    if (rect.bottom > window.innerHeight) {
+      adjustedY = y - rect.height;
+    }
+
+    if (adjustedX !== x || adjustedY !== y) {
+      menuRef.current.style.left = `${adjustedX}px`;
+      menuRef.current.style.top = `${adjustedY}px`;
+    }
+  }, [x, y]);
+
+  const handleMenuItemClick = (action: () => void, disabled = false) => {
+    if (disabled) return;
     action();
     onClose();
   };
 
-  return (
+  // Render to document.body using portal
+  return createPortal(
     <div
       ref={menuRef}
+      className="node-context-menu"
       style={{
         position: 'fixed',
-        left: `${x}px`,
-        top: `${y}px`,
-        backgroundColor: '#2a2a2a',
-        border: '1px solid #444',
-        borderRadius: '4px',
-        padding: '4px 0',
-        minWidth: '200px',
+        left: x,
+        top: y,
         zIndex: 10000,
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
-        fontFamily: 'Arial, sans-serif',
-        fontSize: '13px',
-        color: '#e0e0e0',
       }}
     >
       {/* Delete Selected Nodes */}
       <div
+        className="context-menu-item"
         onClick={() => handleMenuItemClick(onDeleteSelected)}
-        style={{
-          padding: '8px 16px',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = '#3a3a3a';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = 'transparent';
-        }}
       >
         <span>🗑️</span>
         <span>Delete Selected {selectedNodeCount > 1 ? `(${selectedNodeCount})` : ''}</span>
       </div>
 
       {/* Separator */}
-      <div
-        style={{
-          height: '1px',
-          backgroundColor: '#444',
-          margin: '4px 0',
-        }}
-      />
+      <div className="context-menu-separator" />
 
       {/* Save as Macro */}
       <div
+        className="context-menu-item"
         onClick={() => handleMenuItemClick(onSaveAsMacro)}
-        style={{
-          padding: '8px 16px',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = '#3a3a3a';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = 'transparent';
-        }}
       >
         <span>💾</span>
         <span>Save as Macro</span>
@@ -136,87 +130,37 @@ export function NodeContextMenu({
 
       {/* Render Node */}
       <div
+        className="context-menu-item"
         onClick={() => handleMenuItemClick(onRenderNode)}
-        style={{
-          padding: '8px 16px',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = '#3a3a3a';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = 'transparent';
-        }}
       >
         <span>🎬</span>
         <span>Render Node</span>
       </div>
 
       {/* Separator */}
-      <div
-        style={{
-          height: '1px',
-          backgroundColor: '#444',
-          margin: '4px 0',
-        }}
-      />
+      <div className="context-menu-separator" />
 
-      {/* Group Items */}
+      {/* Group Items - disabled if less than 2 nodes selected */}
       <div
-        onClick={() => handleMenuItemClick(onGroupItems)}
-        style={{
-          padding: '8px 16px',
-          cursor: selectedNodeCount > 1 ? 'pointer' : 'not-allowed',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          opacity: selectedNodeCount > 1 ? 1 : 0.5,
-        }}
-        onMouseEnter={(e) => {
-          if (selectedNodeCount > 1) {
-            e.currentTarget.style.backgroundColor = '#3a3a3a';
-          }
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = 'transparent';
-        }}
+        className={`context-menu-item ${selectedNodeCount < 2 ? 'disabled' : ''}`}
+        onClick={() => handleMenuItemClick(onGroupItems, selectedNodeCount < 2)}
       >
         <span>📦</span>
         <span>Group Items</span>
       </div>
 
       {/* Separator */}
-      <div
-        style={{
-          height: '1px',
-          backgroundColor: '#444',
-          margin: '4px 0',
-        }}
-      />
+      <div className="context-menu-separator" />
 
       {/* Show in Outliner */}
       <div
+        className="context-menu-item"
         onClick={() => handleMenuItemClick(onShowInOutliner)}
-        style={{
-          padding: '8px 16px',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = '#3a3a3a';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = 'transparent';
-        }}
       >
         <span>🔍</span>
         <span>Show in Outliner</span>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

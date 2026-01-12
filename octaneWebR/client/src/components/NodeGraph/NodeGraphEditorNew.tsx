@@ -32,6 +32,7 @@ import { OctaneNode, OctaneNodeData } from './OctaneNode';
 import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
 import { NodeTypeContextMenu } from './NodeTypeContextMenu';
 import { NodeContextMenu } from './NodeContextMenu';
+import { EdgeContextMenu } from './EdgeContextMenu';
 import { NodeType } from '../../constants/OctaneTypes';
 
 interface NodeGraphEditorProps {
@@ -62,8 +63,9 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   // Context menu state
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
-  const [contextMenuType, setContextMenuType] = useState<'node' | 'add'>('add'); // 'node' = right-click on node, 'add' = right-click on empty space
+  const [contextMenuType, setContextMenuType] = useState<'node' | 'add' | 'edge'>('add'); // 'node' = right-click on node, 'add' = right-click on empty space, 'edge' = right-click on edge
   const [contextMenuNodeId, setContextMenuNodeId] = useState<string | null>(null); // Track which node was right-clicked
+  const [contextMenuEdgeId, setContextMenuEdgeId] = useState<string | null>(null); // Track which edge was right-clicked
 
   // Track connection line color during drag (matches source pin color)
   const [connectionLineColor, setConnectionLineColor] = useState('#4a90e2');
@@ -592,6 +594,46 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   );
 
   /**
+   * Handle edge click - select edge for visual feedback
+   */
+  const onEdgeClick = useCallback(
+    (_event: React.MouseEvent, edge: Edge) => {
+      console.log('🔗 Edge clicked:', edge.id);
+      // Edge selection is handled automatically by ReactFlow
+    },
+    []
+  );
+
+  /**
+   * Handle edge context menu (right-click)
+   */
+  const onEdgeContextMenu = useCallback(
+    (event: React.MouseEvent, edge: Edge) => {
+      event.preventDefault();
+      console.log('🖱️ Edge context menu:', edge.id);
+      setContextMenuPosition({ x: event.clientX, y: event.clientY });
+      setContextMenuType('edge');
+      setContextMenuEdgeId(edge.id);
+      setContextMenuVisible(true);
+    },
+    []
+  );
+
+  /**
+   * Handle edge deletion (keyboard Delete key or context menu)
+   * NOTE: Currently connections are visual-only in ReactFlow and not synced to Octane backend
+   * When backend sync is implemented, this should call ApiNode.disconnectIx or similar
+   */
+  const onEdgesDelete = useCallback(
+    async (deletedEdges: Edge[]) => {
+      console.log(`✂️ Deleted ${deletedEdges.length} edge(s) from graph (visual only)`);
+      // TODO: When backend connection sync is implemented, add API calls here
+      // For each edge: await client.callApi('ApiNode', 'disconnectIx', targetHandle, { pinIdx });
+    },
+    []
+  );
+
+  /**
    * Context menu event handlers
    */
   // Handle right-click on empty space (add node menu)
@@ -646,7 +688,23 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   const handleCloseContextMenu = useCallback(() => {
     setContextMenuVisible(false);
     setContextMenuNodeId(null);
+    setContextMenuEdgeId(null);
   }, []);
+
+  /**
+   * Handle edge deletion from context menu
+   */
+  const handleDeleteEdge = useCallback(async () => {
+    if (!contextMenuEdgeId) return;
+
+    const edge = edges.find((e) => e.id === contextMenuEdgeId);
+    if (!edge) {
+      console.error('❌ Edge not found:', contextMenuEdgeId);
+      return;
+    }
+
+    await onEdgesDelete([edge]);
+  }, [contextMenuEdgeId, edges, onEdgesDelete]);
 
   /**
    * Node context menu action handlers
@@ -768,6 +826,15 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         />
       )}
 
+      {contextMenuVisible && contextMenuType === 'edge' && (
+        <EdgeContextMenu
+          x={contextMenuPosition.x}
+          y={contextMenuPosition.y}
+          onDeleteEdge={handleDeleteEdge}
+          onClose={handleCloseContextMenu}
+        />
+      )}
+
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -779,7 +846,10 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onReconnect={onReconnect}
         isValidConnection={isValidConnection}
         onNodesDelete={onNodesDelete}
+        onEdgesDelete={onEdgesDelete}
         onNodeClick={onNodeClick}
+        onEdgeClick={onEdgeClick}
+        onEdgeContextMenu={onEdgeContextMenu}
         elementsSelectable={true}
         nodesConnectable={true}
         nodesDraggable={true}
