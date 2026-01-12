@@ -52,7 +52,19 @@ export default function CustomClickableEdge({
         fill="none"
         stroke="transparent"
         strokeWidth={20}
-        onMouseDown={handleMouseDown}
+        onMouseDownCapture={(e) => {
+          console.log('🔴 MOUSEDOWN CAPTURE PHASE:', id);
+          handleMouseDown(e);
+        }}
+        onMouseDown={() => {
+          console.log('🔵 MOUSEDOWN BUBBLE PHASE:', id);
+        }}
+        onClickCapture={() => {
+          console.log('🟡 CLICK CAPTURE PHASE:', id);
+        }}
+        onClick={() => {
+          console.log('🟢 CLICK BUBBLE PHASE:', id);
+        }}
         onMouseEnter={() => console.log('🖱️ Custom Edge MOUSE ENTER:', id)}
         style={{ cursor: 'pointer', pointerEvents: 'all' }}
         className="custom-edge-clickable-overlay"
