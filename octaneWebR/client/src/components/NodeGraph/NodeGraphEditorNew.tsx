@@ -788,6 +788,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         panOnDrag={[1, 2]} // Only pan with middle/right mouse button, not left button
         selectionOnDrag={false}
         selectNodesOnDrag={false}
+        onPaneClick={() => console.log('🎯 PANE CLICK (testing if clicks work at all)')}
         nodeTypes={nodeTypes}
         minZoom={0.1}
         maxZoom={4}
