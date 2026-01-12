@@ -15,7 +15,12 @@ Modern browser-based interface for OTOY Octane Render with direct gRPC connectiv
 - ✅ **Real-time Scene Management**: Interactive scene outliner with hierarchical tree view
 - ✅ **Node Inspector**: View and edit node properties with real-time updates to Octane
 - ✅ **Parameter Editing**: All types supported (bool, int, float, vectors, colors, enums, strings)
-- ✅ **Node Graph Editor**: ReactFlow-based visual node graph with drag-and-drop
+- ✅ **Node Graph Editor**: ReactFlow v12-based visual node graph with full Octane sync:
+  - ✅ Pin connections/disconnections propagate to Octane
+  - ✅ Edge reconnections with drag-and-drop
+  - ✅ Node creation via right-click context menu
+  - ✅ Node/edge deletion synced to Octane
+  - ✅ Proper edge colors from pin type info
 - ✅ **Live Rendering**: Real-time callback-based viewport with camera controls (orbit, pan, zoom)
 - ✅ **Camera Controls**: Mouse-based orbit/pan/zoom with real-time sync to Octane
 - ⏳ **Material Database**: Live DB and Local DB tabs (UI exists, content not implemented)

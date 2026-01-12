@@ -25,15 +25,17 @@ See `OCTANE_API_REFERENCE.md` for complete API documentation.
 ## Current State Assessment
 
 ### ✅ Already Implemented (Core)
-- Basic Node Graph Editor with ReactFlow
-- Scene Outliner (tree view with basic hierarchy)
-- Node Inspector (basic parameter editing)
-- Render Viewport with callback streaming
-- Connection management (connect/disconnect nodes)
-- Node creation via right-click context menu
-- Basic node selection and deletion
-- Camera controls (position, target)
-- Start/Stop/Pause render controls
+- **Node Graph Editor** with ReactFlow v12
+  - ✅ Pin connections/disconnections synced to Octane (NEW: 2025-01-20)
+  - ✅ Edge reconnections with drag-and-drop
+  - ✅ Node creation via right-click context menu
+  - ✅ Node/edge deletion propagated to Octane
+  - ✅ Proper edge colors from pin types
+- **Scene Outliner** with hierarchical tree view
+- **Node Inspector** with real-time parameter editing (all types supported)
+- **Render Viewport** with callback streaming
+- **Camera Controls** (orbit, pan, zoom synced to Octane)
+- **Menu System** (File/Edit/View/Window/Help with file dialogs)
 
 ### 🟡 Partially Implemented
 - Material/texture preview (basic, needs enhancement)

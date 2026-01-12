@@ -205,17 +205,22 @@ tsc --noEmit  # Should show no errors
 
 ## 📚 More Documentation
 
-- **OVERVIEW.md** - Architecture, debugging practices, development workflow
-- **IMPLEMENTATION_PLAN.md** - Feature roadmap
-- **CODE_REVIEW.md** - Code quality guidelines
+- **[README.md](./README.md)** - Quick overview and getting started
+- **[OVERVIEW.md](./OVERVIEW.md)** - Architecture and technology stack
+- **[OCTANE_API_REFERENCE.md](./OCTANE_API_REFERENCE.md)** - gRPC API reference
+- **[OCTANE_STANDALONE_IMPLEMENTATION_PLAN.md](./OCTANE_STANDALONE_IMPLEMENTATION_PLAN.md)** - Complete feature roadmap
 
 ---
 
-**Last Updated**: 2025-01-23  
-**Recent Fixes**:
-- ReactFlow v12 best practices: Context menus refactored, edge interactions added, dead code removed (commit 3ed0ccbd)
-- ReactFlow edge clicks enabled with CSS pointer-events (commit 471bacc9)
-- Output pin colors use nodeInfo.nodeColor (commit a1f2be66)
+**Last Updated**: 2025-01-20  
+**Recent Achievements**:
+- ✅ Pin connections/disconnections now propagate to Octane (commit ede90f09)
+  - `onConnect` calls `client.connectPinByIndex()` for new connections
+  - `onReconnect` implements full disconnect-then-connect sync
+  - Removed unused `getNode` from useReactFlow destructuring
+- ✅ Fixed React duplicate key warnings in SceneOutliner (commit 9696ee82)
+- ✅ Fixed node deletion API integration (commit 091f49e1)
+- ✅ Fixed edge reconnection - destroy on empty space drop (commit 091f49e1)
 
 ---
 
