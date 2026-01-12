@@ -24,6 +24,7 @@ import {
   OnConnectEnd,
   EdgeChange,
 } from '@xyflow/react';
+import { OnReconnectEnd } from '@xyflow/system';
 import '@xyflow/react/dist/style.css';
 
 import { SceneNode } from '../../services/OctaneClient';
@@ -68,7 +69,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
 
   // Track connection line color during drag (matches source pin color)
   const [connectionLineColor, setConnectionLineColor] = useState('#4a90e2');
-  const connectingEdgeRef = useRef<Edge | null>(null); // Track if reconnecting existing edge
+  const connectingEdgeRef = useRef<Edge | null>(null); // Track if creating new connection vs reconnecting
 
   /**
    * Convert scene tree to ReactFlow nodes and edges
@@ -365,6 +366,57 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
     //   }
     // })();
   }, [client, getNode, setEdges]);
+
+  /**
+   * Handle edge reconnect end - detect failed reconnections
+   * When user drags an edge and drops on empty space, disconnect it in Octane
+   * OCTANE BEHAVIOR: Failed reconnection = disconnect the edge entirely
+   * 
+   * ReactFlow v12 Pattern: Use connectionState.isValid to detect success/failure
+   */
+  const onReconnectEnd: OnReconnectEnd = useCallback(
+    (_event, edge, _handleType, connectionState) => {
+      console.log('🔄 RECONNECT END:', edge.id, 'isValid:', connectionState.isValid);
+      
+      // If reconnection succeeded (connectionState.isValid === true), onReconnect already handled it
+      if (connectionState.isValid) {
+        console.log('✅ Reconnection succeeded - onReconnect already handled sync');
+        return;
+      }
+
+      // Failed reconnection - user dropped on empty space or invalid target
+      // Disconnect the edge in Octane and remove from UI
+      console.log('❌ Reconnection failed - disconnecting edge:', edge.id);
+
+      if (!client) {
+        console.warn('⚠️ Cannot disconnect edge: No Octane client');
+        return;
+      }
+
+      // Disconnect in Octane and remove from UI
+      (async () => {
+        try {
+          // Parse edge info: target node and pin index
+          const targetHandle = parseInt(edge.target);
+          const pinIdx = edge.targetHandle 
+            ? parseInt(edge.targetHandle.split('-')[1]) 
+            : 0;
+
+          console.log(`🔌 Disconnecting in Octane: node=${targetHandle}, pin=${pinIdx}`);
+          await client.disconnectPin(targetHandle, pinIdx);
+          console.log('✅ Pin disconnected in Octane');
+
+          // Remove edge from UI
+          setEdges((eds) => eds.filter(e => e.id !== edge.id));
+          console.log('✅ Edge removed from UI');
+          
+        } catch (error) {
+          console.error('❌ Failed to disconnect edge:', error);
+        }
+      })();
+    }, 
+    [client, setEdges]
+  );
 
   /**
    * Handle edge click - Octane behavior: disconnect at closest pin, start drag from other end
@@ -856,6 +908,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onConnectStart={onConnectStart}
         onConnectEnd={onConnectEnd}
         onReconnect={onReconnect}
+        onReconnectEnd={onReconnectEnd}
         isValidConnection={isValidConnection}
         onNodesDelete={onNodesDelete}
         onEdgesDelete={onEdgesDelete}

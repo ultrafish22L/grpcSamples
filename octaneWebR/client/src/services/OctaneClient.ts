@@ -893,6 +893,61 @@ export class OctaneClient extends EventEmitter {
     return this.deleteNodeOptimized(handleNum);
   }
 
+  /**
+   * Connect one node's output to another node's input pin
+   * @param targetNodeHandle - Node receiving the connection
+   * @param pinIdx - Input pin index on target node
+   * @param sourceNodeHandle - Node providing the connection
+   * @param evaluate - Whether to evaluate after connection (default: true)
+   */
+  async connectPinByIndex(
+    targetNodeHandle: number,
+    pinIdx: number,
+    sourceNodeHandle: number,
+    evaluate: boolean = true
+  ): Promise<void> {
+    console.log(`🔌 Connecting pin: target=${targetNodeHandle}, pin=${pinIdx}, source=${sourceNodeHandle}`);
+    
+    await this.callApi('ApiNode', 'connectToIx', targetNodeHandle, {
+      pinIdx,
+      sourceNode: {
+        handle: sourceNodeHandle,
+        type: 17, // ApiNode type
+      },
+      evaluate,
+      doCycleCheck: true,
+    });
+    
+    console.log('✅ Pin connected in Octane');
+  }
+
+  /**
+   * Disconnect a node's input pin
+   * @param nodeHandle - Node with the pin to disconnect
+   * @param pinIdx - Input pin index to disconnect
+   * @param evaluate - Whether to evaluate after disconnection (default: true)
+   */
+  async disconnectPin(
+    nodeHandle: number,
+    pinIdx: number,
+    evaluate: boolean = true
+  ): Promise<void> {
+    console.log(`🔌 Disconnecting pin: node=${nodeHandle}, pin=${pinIdx}`);
+    
+    // Disconnect by calling connectToIx with empty sourceNode
+    await this.callApi('ApiNode', 'connectToIx', nodeHandle, {
+      pinIdx,
+      sourceNode: {
+        handle: 0, // 0 = disconnect
+        type: 17,
+      },
+      evaluate,
+      doCycleCheck: true,
+    });
+    
+    console.log('✅ Pin disconnected in Octane');
+  }
+
   // State getters
   getScene(): Scene {
     return this.scene;
