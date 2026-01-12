@@ -159,6 +159,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
                 stroke: edgeColor, 
                 strokeWidth: 3 
               },
+              interactionWidth: 20, // Make edge easier to click (wider invisible hit area)
             };
 
             graphEdges.push(edge);
@@ -794,6 +795,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           type: 'default',
           animated: false,
           style: { stroke: '#4a90e2', strokeWidth: 2 },
+          interactionWidth: 20, // Make edges easier to click
         }}
         connectionLineStyle={{
           stroke: connectionLineColor,
