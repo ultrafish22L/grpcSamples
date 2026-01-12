@@ -18,7 +18,6 @@ import ReactFlow, {
   reconnectEdge,
   Connection,
   NodeTypes,
-  EdgeTypes,
   ReactFlowProvider,
   OnConnectStart,
   OnConnectEnd,
@@ -28,7 +27,6 @@ import 'reactflow/dist/style.css';
 
 import { SceneNode } from '../../services/OctaneClient';
 import { useOctane } from '../../hooks/useOctane';
-import CustomClickableEdge from './CustomClickableEdge';
 import { OctaneNode, OctaneNodeData } from './OctaneNode';
 import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
 import { NodeTypeContextMenu } from './NodeTypeContextMenu';
@@ -45,17 +43,12 @@ const nodeTypes: NodeTypes = {
   octane: OctaneNode,
 };
 
-// Define custom edge types with direct click handling
-const edgeTypes: EdgeTypes = {
-  custom: CustomClickableEdge,
-};
-
 /**
  * Inner component with ReactFlow context access
  */
 function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGraphEditorProps) {
   const { client, connected } = useOctane();
-  const { fitView, getNode, screenToFlowPosition } = useReactFlow();
+  const { fitView, getNode } = useReactFlow();
   
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChangeBase] = useEdgesState([]);
@@ -71,7 +64,6 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   // Track connection line color during drag (matches source pin color)
   const [connectionLineColor, setConnectionLineColor] = useState('#4a90e2');
   const connectingEdgeRef = useRef<Edge | null>(null); // Track if reconnecting existing edge
-  const reconnectingFromRef = useRef<{ nodeId: string; handleId: string | null | undefined; handleType: 'source' | 'target' } | null>(null);
 
   /**
    * Convert scene tree to ReactFlow nodes and edges
@@ -317,7 +309,6 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
     // Reset state
     setConnectionLineColor('#4a90e2'); // Reset to default
     connectingEdgeRef.current = null;
-    reconnectingFromRef.current = null;
   }, []);
 
   /**
@@ -372,147 +363,8 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
    * Handle edge click - Octane behavior: disconnect at closest pin, start drag from other end
    * This function is passed to custom edges via data.onClick
    */
-  const handleEdgeClickLogic = useCallback((event: React.MouseEvent, edgeData: { id: string; source: string; target: string; sourceHandle: string | null; targetHandle: string | null }) => {
-    console.log('🔗🔗🔗 EDGE CLICK FIRED!!! 🔗🔗🔗', edgeData.id);
-    event.stopPropagation();
-    
-    // Reconstruct edge object for compatibility
-    const edge = {
-      id: edgeData.id,
-      source: edgeData.source,
-      target: edgeData.target,
-      sourceHandle: edgeData.sourceHandle,
-      targetHandle: edgeData.targetHandle,
-    };
-    
-    console.log('🔗 Edge clicked:', edge.id);
-    
-    // Get click position in screen coordinates
-    const clickX = event.clientX;
-    const clickY = event.clientY;
-    
-    // Get source and target node positions
-    const sourceNode = getNode(edge.source);
-    const targetNode = getNode(edge.target);
-    
-    if (!sourceNode || !targetNode) {
-      console.error('❌ Could not find source or target node');
-      return;
-    }
-    
-    // Calculate node center positions (approximate - nodes are ~200px wide, ~100px tall)
-    const sourceX = sourceNode.position.x + 100; // Approximate center X
-    const sourceY = sourceNode.position.y + 50;  // Approximate center Y
-    const targetX = targetNode.position.x + 100;
-    const targetY = targetNode.position.y + 50;
-    
-    // Convert screen position to flow position for comparison
-    const flowClick = screenToFlowPosition({ x: clickX, y: clickY });
-    
-    // Calculate distances from click to source and target
-    const distToSource = Math.sqrt(
-      Math.pow(flowClick.x - sourceX, 2) + Math.pow(flowClick.y - sourceY, 2)
-    );
-    const distToTarget = Math.sqrt(
-      Math.pow(flowClick.x - targetX, 2) + Math.pow(flowClick.y - targetY, 2)
-    );
-    
-    console.log('📏 Distance to source:', distToSource, 'target:', distToTarget);
-    
-    // Determine which end to disconnect (closest to click)
-    const disconnectFromSource = distToSource < distToTarget;
-    
-    // The OTHER end is where we'll drag from (the one staying connected)
-    const dragFromNodeId = disconnectFromSource ? edge.target : edge.source;
-    const dragFromHandleId = disconnectFromSource ? edge.targetHandle : edge.sourceHandle;
-    const dragFromHandleType = disconnectFromSource ? 'target' : 'source';
-    
-    console.log(`🔌 Disconnecting from ${disconnectFromSource ? 'source' : 'target'}, will drag from ${dragFromHandleType}`);
-    
-    // Remove the edge immediately
-    setEdges(eds => eds.filter(e => e.id !== edge.id));
-    
-    // Store reconnection info
-    reconnectingFromRef.current = {
-      nodeId: dragFromNodeId,
-      handleId: dragFromHandleId,
-      handleType: dragFromHandleType as 'source' | 'target'
-    };
-    
-    // Trigger connection start behavior (set color, etc.)
-    const dragFromNode = getNode(dragFromNodeId);
-    if (dragFromNode) {
-      const nodeData = dragFromNode.data as OctaneNodeData;
-      let handleColor = '#4a90e2';
-      
-      // FIX: Check pinColor !== undefined to handle black (0) correctly
-      if (dragFromHandleType === 'source' && nodeData.output?.pinInfo) {
-        const pinColor = nodeData.output.pinInfo.pinColor;
-        if (pinColor !== undefined && pinColor !== null) {
-          handleColor = OctaneIconMapper.formatColorValue(pinColor);
-        }
-      } else if (dragFromHandleType === 'target' && nodeData.inputs) {
-        const input = nodeData.inputs.find(i => i.id === dragFromHandleId);
-        if (input?.pinInfo) {
-          const pinColor = input.pinInfo.pinColor;
-          if (pinColor !== undefined && pinColor !== null) {
-            handleColor = OctaneIconMapper.formatColorValue(pinColor);
-          }
-        }
-      }
-      
-      setConnectionLineColor(handleColor);
-    }
-    
-    // Try to programmatically trigger connection drag by finding and clicking the handle
-    // Find the handle element and trigger mousedown to start ReactFlow's connection drag
-    setTimeout(() => {
-      // NOTE: Our nodes use Position.Bottom for outputs and Position.Top for inputs
-      const handleSelector = dragFromHandleType === 'source'
-        ? `[data-nodeid="${dragFromNodeId}"][data-handleid="${dragFromHandleId}"][data-handlepos="bottom"]`
-        : `[data-nodeid="${dragFromNodeId}"][data-handleid="${dragFromHandleId}"][data-handlepos="top"]`;
-      
-      const handleElement = document.querySelector(handleSelector) as HTMLElement;
-      
-      if (handleElement) {
-        console.log('🎯 Found handle element, triggering synthetic drag start');
-        
-        // Create synthetic mouse event at current mouse position
-        const mouseDownEvent = new MouseEvent('mousedown', {
-          bubbles: true,
-          cancelable: true,
-          clientX: clickX,
-          clientY: clickY,
-          button: 0
-        });
-        
-        // Dispatch to the handle to trigger ReactFlow's connection drag
-        handleElement.dispatchEvent(mouseDownEvent);
-        
-        console.log('✅ Synthetic drag started from handle');
-      } else {
-        console.warn('⚠️ Could not find handle element:', handleSelector);
-        console.log('💡 User can manually drag from the', dragFromHandleType, 'pin to reconnect');
-      }
-    }, 0);
-    
-  }, [getNode, screenToFlowPosition, setEdges]);
-
-  /**
-   * Inject onClick handler into all edges
-   * This is done via useEffect to avoid circular dependency issues
-   */
-  useEffect(() => {
-    setEdges((currentEdges) =>
-      currentEdges.map((edge) => ({
-        ...edge,
-        data: {
-          ...edge.data,
-          onClick: handleEdgeClickLogic,
-        },
-      }))
-    );
-  }, [handleEdgeClickLogic, setEdges]);
+  // Edge click/reconnection is now handled by ReactFlow's built-in edgesReconnectable feature
+  // No custom logic needed - just drag edge ends to reconnect
 
   /**
    * Handle new connections
@@ -824,15 +676,15 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         nodesDraggable={true}
         edgesFocusable={true}
         panOnDrag={[1, 2]} // Only pan with middle/right mouse button, not left button
+        // Note: Edge reconnection is enabled automatically when onReconnect handler is present
         selectionOnDrag={false}
         selectNodesOnDrag={false}
         onPaneClick={() => console.log('🎯 PANE CLICK (testing if clicks work at all)')}
         nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
         minZoom={0.1}
         maxZoom={4}
         defaultEdgeOptions={{
-          type: 'custom', // Use custom edge component with direct click handling
+          type: 'default', // Use default edges - custom component blocks reconnection
           animated: false,
           style: { stroke: '#4a90e2', strokeWidth: 2 },
         }}
