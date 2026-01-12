@@ -340,3 +340,30 @@ Fix: Brief description of what was fixed
 **Recent Changes**:
 - Fixed ReactFlow edge clicks with CSS pointer-events (commit 471bacc9)
 - Fixed output pin colors to use nodeInfo.nodeColor (commit a1f2be66)
+
+
+## API Development Guidelines
+
+### Critical: Always Check Proto Files
+
+**Never assume API method names!** Common patterns don't always apply in Octane's gRPC API.
+
+**Example - Node Deletion**:
+```typescript
+// WRONG (assumed name)
+await this.callApi('ApiItem', 'deleteItem', nodeHandle, {});
+
+// CORRECT (verified in proto)
+await this.callApi('ApiItem', 'destroy', nodeHandle, {});
+```
+
+**Proto files**: `/grpcSamples/octaneProxy/generated/*_pb2_grpc.py`
+
+**Workflow**:
+1. Identify required operation (e.g., "delete node")
+2. Find proto file (`grep -r "class Api" generated/*.py`)
+3. Check service methods (read proto class definition)
+4. Verify method name (e.g., `destroy` not `deleteItem`)
+5. Implement with correct name
+
+See `OCTANE_API_REFERENCE.md` for complete API documentation.

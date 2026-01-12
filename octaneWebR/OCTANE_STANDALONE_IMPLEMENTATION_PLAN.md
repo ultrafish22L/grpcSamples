@@ -1,3 +1,19 @@
+# CRITICAL: Always Check Proto Files for API Names
+
+**Before implementing any API call, verify method names in proto files!**
+
+Common mistake: Assuming API method names based on conventions.
+
+Example:
+- ❌ WRONG: `ApiItem.deleteItem()` (assumed name - does not exist)
+- ✅ CORRECT: `ApiItem.destroy()` (verified in apinodesystem_3_pb2_grpc.py)
+
+**Proto files**: `/grpcSamples/octaneProxy/generated/*_pb2_grpc.py`
+
+See `OCTANE_API_REFERENCE.md` for complete API documentation.
+
+---
+
 # OctaneWebR - Complete Octane Standalone Implementation Plan
 
 **Goal:** Match Octane Standalone UI exactly and implement all functional features described in the [Octane Standalone Documentation](https://docs.otoy.com/standaloneSE/CoverPage.html)

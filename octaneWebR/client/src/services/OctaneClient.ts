@@ -861,7 +861,7 @@ export class OctaneClient extends EventEmitter {
       console.log(`🔍 Found ${collapsedChildren.length} collapsed children to remove`);
       
       // Delete from Octane
-      await this.callApi('ApiItem', 'deleteItem', nodeHandle, {});
+      await this.callApi('ApiItem', 'destroy', nodeHandle, {});
       console.log('✅ Node deleted from Octane');
       
       // Remove from scene.map

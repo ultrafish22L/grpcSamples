@@ -216,3 +216,34 @@ tsc --noEmit  # Should show no errors
 - ReactFlow v12 best practices: Context menus refactored, edge interactions added, dead code removed (commit 3ed0ccbd)
 - ReactFlow edge clicks enabled with CSS pointer-events (commit 471bacc9)
 - Output pin colors use nodeInfo.nodeColor (commit a1f2be66)
+
+---
+
+## API Development Best Practices
+
+### Always Verify API Method Names
+
+**Before implementing any API call, check the proto files!** Never assume method names.
+
+**Example**:
+```typescript
+// WRONG (assumed name - will fail at runtime)
+await client.callApi('ApiItem', 'deleteItem', nodeHandle, {});
+
+// CORRECT (verified in apinodesystem_3_pb2_grpc.py)
+await client.callApi('ApiItem', 'destroy', nodeHandle, {});
+```
+
+**How to Verify**:
+```bash
+# Find proto file for ApiItem
+cd /grpcSamples/octaneProxy/generated
+grep -A 100 "class ApiItemServiceStub" apinodesystem_3_pb2_grpc.py
+
+# Look for method definitions like:
+# self.destroy = channel.unary_unary(...)
+```
+
+**Proto files location**: `/grpcSamples/octaneProxy/generated/*_pb2_grpc.py`
+
+See `OCTANE_API_REFERENCE.md` for complete API documentation and workflow.
