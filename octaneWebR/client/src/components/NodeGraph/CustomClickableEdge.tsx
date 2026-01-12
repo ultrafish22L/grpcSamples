@@ -1,5 +1,13 @@
-import { BaseEdge, EdgeProps, getBezierPath } from 'reactflow';
-import React from 'react';
+import { BaseEdge, EdgeProps, getBezierPath } from '@xyflow/react';
+import React, { CSSProperties } from 'react';
+
+type CustomEdgeData = {
+  onClick?: (event: React.MouseEvent, edge: any) => void;
+  source?: string;
+  target?: string;
+  sourceHandle?: string | null;
+  targetHandle?: string | null;
+} & Record<string, unknown>;
 
 /**
  * Custom edge component that handles clicks directly.
@@ -16,8 +24,9 @@ export default function CustomClickableEdge({
   targetPosition,
   style = {},
   markerEnd,
-  data,
+  data = {},
 }: EdgeProps) {
+  const typedData = data as CustomEdgeData;
   const [edgePath] = getBezierPath({
     sourceX,
     sourceY,
@@ -35,15 +44,15 @@ export default function CustomClickableEdge({
     event.preventDefault(); // Prevent ReactFlow's drag behavior
     
     // Call the onClick handler passed in data
-    if (data?.onClick) {
-      data.onClick(event, { id, source: data.source, target: data.target, sourceHandle: data.sourceHandle, targetHandle: data.targetHandle });
+    if (typedData?.onClick) {
+      typedData.onClick(event, { id, source: typedData.source, target: typedData.target, sourceHandle: typedData.sourceHandle, targetHandle: typedData.targetHandle });
     }
   };
 
   return (
     <>
       {/* Visible edge path */}
-      <BaseEdge path={edgePath} markerEnd={markerEnd} style={style} />
+      <BaseEdge path={edgePath} markerEnd={markerEnd} style={style as CSSProperties} />
       
       {/* Invisible wide clickable path */}
       <path

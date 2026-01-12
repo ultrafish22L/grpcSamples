@@ -5,7 +5,8 @@
  */
 
 import { useEffect, useCallback, useRef, useState } from 'react';
-import ReactFlow, {
+import {
+  ReactFlow,
   Node,
   Edge,
   Background,
@@ -22,8 +23,8 @@ import ReactFlow, {
   OnConnectStart,
   OnConnectEnd,
   EdgeChange,
-} from 'reactflow';
-import 'reactflow/dist/style.css';
+} from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
 
 import { SceneNode } from '../../services/OctaneClient';
 import { useOctane } from '../../hooks/useOctane';
@@ -40,9 +41,9 @@ interface NodeGraphEditorProps {
 }
 
 // Define custom node types
-const nodeTypes: NodeTypes = {
+const nodeTypes = {
   octane: OctaneNode,
-};
+} as const satisfies NodeTypes;
 
 /**
  * Inner component with ReactFlow context access
@@ -51,8 +52,8 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   const { client, connected } = useOctane();
   const { fitView, getNode } = useReactFlow();
   
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChangeBase] = useEdgesState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node<OctaneNodeData>>([]);
+  const [edges, setEdges, onEdgesChangeBase] = useEdgesState<Edge>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   
   // Track whether initial fitView has been called (should only happen once after initial scene sync)
@@ -525,7 +526,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
    * - Target must be an input handle (target)
    */
   const isValidConnection = useCallback(
-    (connection: Connection) => {
+    (connection: Edge | Connection) => {
       console.log('🔍 Validating connection:', connection);
       
       // Basic validation

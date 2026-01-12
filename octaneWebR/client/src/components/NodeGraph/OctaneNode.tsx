@@ -4,11 +4,11 @@
  */
 
 import { memo } from 'react';
-import { Handle, Position, NodeProps } from 'reactflow';
+import { Handle, Position } from '@xyflow/react';
 import { SceneNode } from '../../services/OctaneClient';
 import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
 
-export interface OctaneNodeData {
+export interface OctaneNodeData extends Record<string, unknown> {
   sceneNode: SceneNode;
   inputs?: Array<{
     id: string;
@@ -23,16 +23,23 @@ export interface OctaneNodeData {
   onContextMenu?: (event: React.MouseEvent, nodeId: string) => void;
 }
 
+type OctaneNodeProps = {
+  data: OctaneNodeData;
+  selected?: boolean;
+  id: string;
+};
+
 /**
  * Custom node component matching Octane Studio styling
  */
-export const OctaneNode = memo(({ data, selected, id }: NodeProps<OctaneNodeData>) => {
+export const OctaneNode = memo((props: OctaneNodeProps) => {
+  const { data, selected, id } = props;
   const { sceneNode, inputs = [], output, onContextMenu } = data;
   
   console.log(`🎨 [OctaneNode] Rendering node "${sceneNode.name}":`, {
     inputs: inputs.length,
     hasOutput: !!output,
-    inputDetails: inputs.map(i => ({ id: i.id, label: i.label })),
+    inputDetails: inputs.map((i: any) => ({ id: i.id, label: i.label })),
   });
   
   // Get node color from nodeInfo
@@ -77,7 +84,7 @@ export const OctaneNode = memo(({ data, selected, id }: NodeProps<OctaneNodeData
       }}
     >
       {/* Input handles on top */}
-      {inputs.map((input, index) => {
+      {inputs.map((input: any, index: number) => {
         const socketColor = input.pinInfo?.pinColor !== undefined
           ? OctaneIconMapper.formatColorValue(input.pinInfo.pinColor)
           : 'rgba(243, 220, 222, 1)';
