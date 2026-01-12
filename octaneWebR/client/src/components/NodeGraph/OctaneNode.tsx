@@ -98,7 +98,7 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
               width: 12,
               height: 12,
               backgroundColor: socketColor,
-              border: '2px solid #f4f7f6',
+              border: `2px solid ${socketColor}`,
               borderRadius: '50%',
               zIndex: 10,
             }}
@@ -124,26 +124,30 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
       </div>
 
       {/* Output handle on bottom */}
-      {output && (
-        <Handle
-          type="source"
-          position={Position.Bottom}
-          id={output.id}
-          style={{
-            left: '50%',
-            bottom: -4, // Move slightly below the node
-            width: 12,
-            height: 12,
-            backgroundColor: sceneNode.nodeInfo?.nodeColor !== undefined
-              ? OctaneIconMapper.formatColorValue(sceneNode.nodeInfo.nodeColor)
-              : 'rgba(243, 220, 222, 1)',
-            border: '2px solid #f4f7f6',
-            borderRadius: '50%',
-            zIndex: 10,
-          }}
-          title={output.label || 'Output'}
-        />
-      )}
+      {output && (() => {
+        const outputColor = sceneNode.nodeInfo?.nodeColor !== undefined
+          ? OctaneIconMapper.formatColorValue(sceneNode.nodeInfo.nodeColor)
+          : 'rgba(243, 220, 222, 1)';
+        
+        return (
+          <Handle
+            type="source"
+            position={Position.Bottom}
+            id={output.id}
+            style={{
+              left: '50%',
+              bottom: -4, // Move slightly below the node
+              width: 12,
+              height: 12,
+              backgroundColor: outputColor,
+              border: `2px solid ${outputColor}`,
+              borderRadius: '50%',
+              zIndex: 10,
+            }}
+            title={output.label || 'Output'}
+          />
+        );
+      })()}
     </div>
   );
 });

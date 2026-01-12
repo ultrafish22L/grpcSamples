@@ -88,11 +88,12 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
     const yCenter = 300;
     
     tree.forEach((item, index) => {
-      if (!item.handle) {
+      // Include nodes with handle=0 (NO_ITEM/empty pins) if they have pinInfo
+      if (!item.handle && !item.pinInfo) {
         return;
       }
 
-      const handleStr = String(item.handle);
+      const handleStr = String(item.handle || 0);
       nodeMap.set(handleStr, item);
 
       // Extract input pins from item.children
@@ -134,16 +135,18 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
 
     // Create connections between TOP-LEVEL nodes only
     tree.forEach((node) => {
-      if (!node.handle || !node.children || node.children.length === 0) {
+      // Skip if node has no handle/pinInfo or no children
+      if ((!node.handle && !node.pinInfo) || !node.children || node.children.length === 0) {
         return;
       }
 
-      const targetHandle = String(node.handle);
+      const targetHandle = String(node.handle || 0);
       
       // Check each child (input pin) for connections
       node.children.forEach((childNode: any, inputIndex: number) => {
-        if (childNode.handle) {
-          const sourceHandle = String(childNode.handle);
+        // Include connections even if handle=0, as long as pinInfo exists (empty pins with data)
+        if (childNode.handle !== undefined || childNode.pinInfo) {
+          const sourceHandle = String(childNode.handle || 0);
           
           // Only create edge if BOTH nodes are in our top-level nodeMap
           if (nodeMap.has(sourceHandle) && nodeMap.has(targetHandle)) {
