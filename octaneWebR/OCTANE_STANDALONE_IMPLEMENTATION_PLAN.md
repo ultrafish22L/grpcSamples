@@ -91,16 +91,18 @@
   - **Commit**: "Implement multi-connect for selected nodes"
 
 #### 1.3 Context Menus & Actions ⭐⭐⭐⭐
-- [ ] **TASK 1.3.1**: Enhanced node context menu
+- [x] **TASK 1.3.1**: Enhanced node context menu ✅ **COMPLETED** (Commit: a1735270)
   - **UI**: Delete all selected, Save as macro, Render node, Group items, Show in Outliner
   - **gRPC API**: `apilocaldb.proto` for macro save, render target switch
   - **Dependencies**: None
+  - **Status**: Delete Selected and Show in Outliner fully functional; other actions have placeholders pending API availability
   - **Commit**: "Add comprehensive node context menu options"
 
-- [ ] **TASK 1.3.2**: "Show In Outliner" functionality
+- [x] **TASK 1.3.2**: "Show In Outliner" functionality ✅ **COMPLETED** (Included in a1735270)
   - **UI**: Sync selection between Graph Editor and Outliner
   - **gRPC API**: None (cross-component sync)
   - **Dependencies**: Scene Outliner implementation
+  - **Status**: Fully functional as part of node context menu
   - **Commit**: "Implement Show in Outliner cross-panel synchronization"
 
 - [ ] **TASK 1.3.3**: Save selected nodes to LocalDB
