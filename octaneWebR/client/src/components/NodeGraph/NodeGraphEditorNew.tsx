@@ -330,6 +330,15 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   const onReconnect = useCallback((oldEdge: Edge, newConnection: Connection) => {
     console.log('🔄 RECONNECT triggered:', oldEdge.id, '→', newConnection);
     
+    // Detect no-op reconnection: user dropped edge back on the same pin
+    if (oldEdge.target === newConnection.target && 
+        oldEdge.targetHandle === newConnection.targetHandle &&
+        oldEdge.source === newConnection.source &&
+        oldEdge.sourceHandle === newConnection.sourceHandle) {
+      console.log('⏭️ No-op reconnection detected - ignoring (same source and target)');
+      return;
+    }
+    
     // Update UI using ReactFlow's official reconnectEdge utility
     setEdges((eds) => reconnectEdge(oldEdge, newConnection, eds));
 
