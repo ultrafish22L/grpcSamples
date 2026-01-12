@@ -20,13 +20,14 @@ export interface OctaneNodeData {
     label?: string;
     pinInfo?: any;
   };
+  onContextMenu?: (event: React.MouseEvent, nodeId: string) => void;
 }
 
 /**
  * Custom node component matching Octane Studio styling
  */
-export const OctaneNode = memo(({ data, selected }: NodeProps<OctaneNodeData>) => {
-  const { sceneNode, inputs = [], output } = data;
+export const OctaneNode = memo(({ data, selected, id }: NodeProps<OctaneNodeData>) => {
+  const { sceneNode, inputs = [], output, onContextMenu } = data;
   
   console.log(`🎨 [OctaneNode] Rendering node "${sceneNode.name}":`, {
     inputs: inputs.length,
@@ -47,9 +48,19 @@ export const OctaneNode = memo(({ data, selected }: NodeProps<OctaneNodeData>) =
     ? Math.max(minWidth, inputCount * minPinSpacing + 40) 
     : minWidth;
 
+  const handleContextMenu = (event: React.MouseEvent) => {
+    if (onContextMenu) {
+      event.preventDefault();
+      event.stopPropagation();
+      console.log('🖱️ [OctaneNode] Context menu triggered for node:', id);
+      onContextMenu(event, id);
+    }
+  };
+
   return (
     <div
       className="octane-node"
+      onContextMenu={handleContextMenu}
       style={{
         width: calculatedWidth,
         minWidth: minWidth,

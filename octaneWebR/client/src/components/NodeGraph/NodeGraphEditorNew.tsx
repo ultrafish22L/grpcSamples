@@ -122,6 +122,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           sceneNode: item,
           inputs: inputHandles,
           output,
+          onContextMenu: handleNodeContextMenu,
         },
       };
 
@@ -593,7 +594,13 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
    * Context menu event handlers
    */
   // Handle right-click on empty space (add node menu)
+  // This is attached to the container div and will fire for all right-clicks
+  // But OctaneNode will call stopPropagation(), so this only fires for empty pane
   const handleContextMenu = useCallback((event: React.MouseEvent) => {
+    console.log('🖱️ [NodeGraphEditor] handleContextMenu (PANE) fired!', {
+      position: { x: event.clientX, y: event.clientY },
+      target: event.target
+    });
     event.preventDefault();
     setContextMenuPosition({ x: event.clientX, y: event.clientY });
     setContextMenuType('add');
@@ -602,12 +609,16 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   }, []);
 
   // Handle right-click on a node (node actions menu)
-  const handleNodeContextMenu = useCallback((event: React.MouseEvent, node: Node) => {
+  const handleNodeContextMenu = useCallback((event: React.MouseEvent, nodeId: string) => {
+    console.log('🖱️ [NodeGraphEditor] handleNodeContextMenu fired!', {
+      nodeId,
+      position: { x: event.clientX, y: event.clientY }
+    });
     event.preventDefault();
-    event.stopPropagation(); // Prevent container's onContextMenu from firing
+    event.stopPropagation();
     setContextMenuPosition({ x: event.clientX, y: event.clientY });
     setContextMenuType('node');
-    setContextMenuNodeId(node.id);
+    setContextMenuNodeId(nodeId);
     setContextMenuVisible(true);
   }, []);
 
@@ -729,6 +740,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   return (
     <div 
       ref={containerRef} 
+      onContextMenu={handleContextMenu}
       style={{ width: '100%', height: '100%', position: 'relative' }}
     >
       {/* Context Menus */}
@@ -764,8 +776,6 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onConnectStart={onConnectStart}
         onConnectEnd={onConnectEnd}
         onReconnect={onReconnect}
-        onNodeContextMenu={handleNodeContextMenu}
-        onPaneContextMenu={handleContextMenu}
         isValidConnection={isValidConnection}
         onNodesDelete={onNodesDelete}
         onNodeClick={onNodeClick}
