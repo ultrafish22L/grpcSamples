@@ -18,16 +18,17 @@ import ReactFlow, {
   reconnectEdge,
   Connection,
   NodeTypes,
+  EdgeTypes,
   ReactFlowProvider,
   OnConnectStart,
   OnConnectEnd,
   EdgeChange,
-  EdgeMouseHandler,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 
 import { SceneNode } from '../../services/OctaneClient';
 import { useOctane } from '../../hooks/useOctane';
+import CustomClickableEdge from './CustomClickableEdge';
 import { OctaneNode, OctaneNodeData } from './OctaneNode';
 import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
 import { NodeTypeContextMenu } from './NodeTypeContextMenu';
@@ -42,6 +43,11 @@ interface NodeGraphEditorProps {
 // Define custom node types
 const nodeTypes: NodeTypes = {
   octane: OctaneNode,
+};
+
+// Define custom edge types with direct click handling
+const edgeTypes: EdgeTypes = {
+  custom: CustomClickableEdge,
 };
 
 /**
@@ -153,15 +159,19 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
               target: targetHandle,
               sourceHandle: 'output-0',
               targetHandle: `input-${inputIndex}`,
-              type: 'default',
+              type: 'custom', // Use custom edge component for click handling
               animated: false,
-              focusable: true,
-              deletable: true,
               style: { 
                 stroke: edgeColor, 
                 strokeWidth: 3 
               },
-              interactionWidth: 20, // Make edge easier to click (wider invisible hit area)
+              data: {
+                // onClick will be injected later via useEffect
+                source: sourceHandle,
+                target: targetHandle,
+                sourceHandle: 'output-0',
+                targetHandle: `input-${inputIndex}`,
+              },
             };
 
             graphEdges.push(edge);
@@ -360,10 +370,20 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
 
   /**
    * Handle edge click - Octane behavior: disconnect at closest pin, start drag from other end
+   * This function is passed to custom edges via data.onClick
    */
-  const onEdgeClick: EdgeMouseHandler = useCallback((event: React.MouseEvent, edge: Edge) => {
-    console.log('🔗🔗🔗 EDGE CLICK FIRED!!! 🔗🔗🔗', edge.id);
+  const handleEdgeClickLogic = useCallback((event: React.MouseEvent, edgeData: { id: string; source: string; target: string; sourceHandle: string | null; targetHandle: string | null }) => {
+    console.log('🔗🔗🔗 EDGE CLICK FIRED!!! 🔗🔗🔗', edgeData.id);
     event.stopPropagation();
+    
+    // Reconstruct edge object for compatibility
+    const edge = {
+      id: edgeData.id,
+      source: edgeData.source,
+      target: edgeData.target,
+      sourceHandle: edgeData.sourceHandle,
+      targetHandle: edgeData.targetHandle,
+    };
     
     console.log('🔗 Edge clicked:', edge.id);
     
@@ -476,6 +496,22 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
     }, 0);
     
   }, [getNode, screenToFlowPosition, setEdges]);
+
+  /**
+   * Inject onClick handler into all edges
+   * This is done via useEffect to avoid circular dependency issues
+   */
+  useEffect(() => {
+    setEdges((currentEdges) =>
+      currentEdges.map((edge) => ({
+        ...edge,
+        data: {
+          ...edge.data,
+          onClick: handleEdgeClickLogic,
+        },
+      }))
+    );
+  }, [handleEdgeClickLogic, setEdges]);
 
   /**
    * Handle new connections
@@ -776,7 +812,6 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onConnectStart={onConnectStart}
         onConnectEnd={onConnectEnd}
         onReconnect={onReconnect}
-        onEdgeClick={onEdgeClick}
         onEdgeMouseEnter={(_event, edge) => console.log('🖱️ Edge MOUSE ENTER:', edge.id)}
         onEdgeMouseMove={(_event, edge) => console.log('🖱️ Edge MOUSE MOVE:', edge.id)}
         onEdgeMouseLeave={(_event, edge) => console.log('🖱️ Edge MOUSE LEAVE:', edge.id)}
@@ -792,15 +827,13 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         selectNodesOnDrag={false}
         onPaneClick={() => console.log('🎯 PANE CLICK (testing if clicks work at all)')}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         minZoom={0.1}
         maxZoom={4}
         defaultEdgeOptions={{
-          type: 'default',
+          type: 'custom', // Use custom edge component with direct click handling
           animated: false,
-          focusable: true,
-          deletable: true,
           style: { stroke: '#4a90e2', strokeWidth: 2 },
-          interactionWidth: 20, // Make edges easier to click
         }}
         connectionLineStyle={{
           stroke: connectionLineColor,
