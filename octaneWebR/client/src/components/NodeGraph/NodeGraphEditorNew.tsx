@@ -851,8 +851,9 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         nodesConnectable={true}
         nodesDraggable={true}
         edgesFocusable={true}
+        edgesReconnectable={true} // Enable edge reconnection by dragging
+        reconnectRadius={50} // Allow clicking within 50px of edge to start reconnect (larger area)
         panOnDrag={[1, 2]} // Only pan with middle/right mouse button, not left button
-        // Note: Edge reconnection is enabled automatically when onReconnect handler is present
         selectionOnDrag={false}
         selectNodesOnDrag={false}
         nodeTypes={nodeTypes}
