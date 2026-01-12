@@ -514,3 +514,34 @@ body.resizing .panel-splitter {
         break-inside: avoid;
     }
 }
+/* ReactFlow Edge Interaction Fix */
+/* Ensure ReactFlow edges are clickable and interactive */
+.react-flow__edge {
+    pointer-events: stroke !important;
+    cursor: pointer;
+}
+
+.react-flow__edge path {
+    pointer-events: stroke !important;
+    cursor: pointer;
+}
+
+.react-flow__edge-path {
+    pointer-events: stroke !important;
+    cursor: pointer;
+}
+
+/* Increase hit area for easier edge selection */
+.react-flow__edge path {
+    stroke-width: 2;
+}
+
+.react-flow__edge:hover path,
+.react-flow__edge.selected path {
+    stroke-width: 3;
+}
+
+/* Override any parent pointer-events blocking */
+.react-flow__edges {
+    pointer-events: auto !important;
+}
