@@ -166,13 +166,14 @@ export class OctaneClient extends EventEmitter {
     // Build request body - following octaneWeb's makeApiCall logic
     let body: any = {};
     
-    // If handle is a string (typical case), check if service needs objectPtr wrapping
-    if (typeof handle === 'string') {
+    // If handle is a string or number (typical case), check if service needs objectPtr wrapping
+    if (typeof handle === 'string' || typeof handle === 'number') {
       const objectType = getObjectTypeForService(service);
       
       if (objectType !== undefined) {
         // Service requires objectPtr structure
-        body.objectPtr = createObjectPtr(handle, objectType);
+        // Convert handle to string for objectPtr (proto expects string handles)
+        body.objectPtr = createObjectPtr(String(handle), objectType);
         // console.log(`  📦 Created objectPtr:`, body.objectPtr);
       } else {
         // No objectPtr needed, pass handle directly
