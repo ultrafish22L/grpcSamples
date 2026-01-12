@@ -27,9 +27,13 @@ export default function CustomClickableEdge({
     targetPosition,
   });
 
-  const handleClick = (event: React.MouseEvent) => {
+  const handleMouseDown = (event: React.MouseEvent) => {
+    // Only handle left clicks (button 0)
+    if (event.button !== 0) return;
+    
     event.stopPropagation();
-    console.log('🔗🔗🔗 CUSTOM EDGE CLICK FIRED!!! 🔗🔗🔗', id);
+    event.preventDefault(); // Prevent ReactFlow's drag behavior
+    console.log('🔗🔗🔗 CUSTOM EDGE MOUSEDOWN FIRED!!! 🔗🔗🔗', id);
     
     // Call the onClick handler passed in data
     if (data?.onClick) {
@@ -48,7 +52,7 @@ export default function CustomClickableEdge({
         fill="none"
         stroke="transparent"
         strokeWidth={20}
-        onClick={handleClick}
+        onMouseDown={handleMouseDown}
         onMouseEnter={() => console.log('🖱️ Custom Edge MOUSE ENTER:', id)}
         style={{ cursor: 'pointer', pointerEvents: 'all' }}
         className="custom-edge-clickable-overlay"
