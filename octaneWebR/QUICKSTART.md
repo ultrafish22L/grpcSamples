@@ -4,6 +4,34 @@
 
 **One command starts everything** - Vite dev server with embedded gRPC proxy.
 
+### Prerequisites & First-Time Setup
+
+**Install Dependencies** (first time only):
+
+```bash
+cd /workspace/project/grpcSamples/octaneWebR
+npm install
+```
+
+**Key Dependencies**:
+- **ReactFlow v12** (`@xyflow/react ^12.10.0`) - Node graph editor library
+- **React 18** - UI framework
+- **TypeScript** - Type safety
+- **Vite** - Build tool and dev server
+- **@grpc/grpc-js** - gRPC client for Node.js
+
+**If you need to install/update ReactFlow v12 specifically**:
+
+```bash
+npm install @xyflow/react@^12.10.0
+```
+
+> **Note**: ReactFlow v12 uses the new package name `@xyflow/react` (not the old `reactflow` package). The Node Graph Editor follows ReactFlow v12 best practices with proper edge interactions, context menus, and semantic HTML.
+
+**Dependencies are auto-installed** when you run `npm run dev` for the first time, so you can skip this step if you're in a hurry.
+
+---
+
 ### Step 1: Start the Server
 
 ```bash
@@ -185,5 +213,6 @@ tsc --noEmit  # Should show no errors
 
 **Last Updated**: 2025-01-23  
 **Recent Fixes**:
+- ReactFlow v12 best practices: Context menus refactored, edge interactions added, dead code removed (commit 3ed0ccbd)
 - ReactFlow edge clicks enabled with CSS pointer-events (commit 471bacc9)
 - Output pin colors use nodeInfo.nodeColor (commit a1f2be66)
