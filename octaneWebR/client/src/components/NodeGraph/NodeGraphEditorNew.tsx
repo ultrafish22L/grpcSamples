@@ -30,6 +30,7 @@ import { useOctane } from '../../hooks/useOctane';
 import { OctaneNode, OctaneNodeData } from './OctaneNode';
 import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
 import { NodeTypeContextMenu } from './NodeTypeContextMenu';
+import { NodeContextMenu } from './NodeContextMenu';
 import { NodeType } from '../../constants/OctaneTypes';
 
 interface NodeGraphEditorProps {
@@ -60,6 +61,8 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   // Context menu state
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+  const [contextMenuType, setContextMenuType] = useState<'node' | 'add'>('add'); // 'node' = right-click on node, 'add' = right-click on empty space
+  const [contextMenuNodeId, setContextMenuNodeId] = useState<string | null>(null); // Track which node was right-clicked
 
   // Track connection line color during drag (matches source pin color)
   const [connectionLineColor, setConnectionLineColor] = useState('#4a90e2');
@@ -589,9 +592,21 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   /**
    * Context menu event handlers
    */
+  // Handle right-click on empty space (add node menu)
   const handleContextMenu = useCallback((event: React.MouseEvent) => {
     event.preventDefault();
     setContextMenuPosition({ x: event.clientX, y: event.clientY });
+    setContextMenuType('add');
+    setContextMenuNodeId(null);
+    setContextMenuVisible(true);
+  }, []);
+
+  // Handle right-click on a node (node actions menu)
+  const handleNodeContextMenu = useCallback((event: React.MouseEvent, node: Node) => {
+    event.preventDefault();
+    setContextMenuPosition({ x: event.clientX, y: event.clientY });
+    setContextMenuType('node');
+    setContextMenuNodeId(node.id);
     setContextMenuVisible(true);
   }, []);
 
@@ -617,7 +632,79 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
 
   const handleCloseContextMenu = useCallback(() => {
     setContextMenuVisible(false);
+    setContextMenuNodeId(null);
   }, []);
+
+  /**
+   * Node context menu action handlers
+   */
+  const handleDeleteSelected = useCallback(async () => {
+    const selectedNodes = nodes.filter((n) => n.selected);
+    
+    if (selectedNodes.length === 0) {
+      console.warn('⚠️ No nodes selected for deletion');
+      return;
+    }
+
+    console.log(`🗑️ Deleting ${selectedNodes.length} selected node(s)...`);
+    
+    for (const node of selectedNodes) {
+      try {
+        const success = await client.deleteNode(node.id);
+        if (success) {
+          console.log(`✅ Deleted node: ${node.id}`);
+        } else {
+          console.error(`❌ Failed to delete node: ${node.id}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error deleting node ${node.id}:`, error);
+      }
+    }
+  }, [nodes, client]);
+
+  const handleSaveAsMacro = useCallback(() => {
+    const selectedNodes = nodes.filter((n) => n.selected);
+    console.log('💾 Save as Macro - Selected nodes:', selectedNodes.length);
+    // TODO: Implement save to LocalDB
+    // Requires: apilocaldb.proto API integration
+    alert('Save as Macro feature requires LocalDB API integration\n(apilocaldb.proto)\n\nComing soon!');
+  }, [nodes]);
+
+  const handleRenderNode = useCallback(() => {
+    console.log('🎬 Render Node - Node ID:', contextMenuNodeId);
+    // TODO: Implement render target switching
+    // Requires: API to set render target to specific node
+    alert('Render Node feature requires render target switching API\n\nComing soon!');
+  }, [contextMenuNodeId]);
+
+  const handleGroupItems = useCallback(() => {
+    const selectedNodes = nodes.filter((n) => n.selected);
+    
+    if (selectedNodes.length < 2) {
+      console.warn('⚠️ Need at least 2 nodes selected to create a group');
+      return;
+    }
+    
+    console.log('📦 Group Items - Selected nodes:', selectedNodes.length);
+    // TODO: Implement node grouping
+    // Requires: API to create node groups and maintain connections
+    alert(`Group ${selectedNodes.length} nodes feature requires grouping API\n\nComing soon!`);
+  }, [nodes]);
+
+  const handleShowInOutliner = useCallback(() => {
+    console.log('🔍 Show in Outliner - Node ID:', contextMenuNodeId);
+    
+    // Find the node and its corresponding scene node
+    const reactFlowNode = nodes.find((n) => n.id === contextMenuNodeId);
+    if (reactFlowNode) {
+      // Trigger selection in Scene Outliner
+      const sceneNode = sceneTree.find((item) => String(item.handle) === reactFlowNode.id);
+      if (sceneNode && onNodeSelect) {
+        onNodeSelect(sceneNode);
+        console.log('✅ Node selected in outliner:', sceneNode.name);
+      }
+    }
+  }, [contextMenuNodeId, nodes, sceneTree, onNodeSelect]);
 
 
 
@@ -644,12 +731,26 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
       style={{ width: '100%', height: '100%', position: 'relative' }}
       onContextMenu={handleContextMenu}
     >
-      {/* Context Menu */}
-      {contextMenuVisible && (
+      {/* Context Menus */}
+      {contextMenuVisible && contextMenuType === 'add' && (
         <NodeTypeContextMenu
           x={contextMenuPosition.x}
           y={contextMenuPosition.y}
           onSelectNodeType={handleSelectNodeType}
+          onClose={handleCloseContextMenu}
+        />
+      )}
+      
+      {contextMenuVisible && contextMenuType === 'node' && (
+        <NodeContextMenu
+          x={contextMenuPosition.x}
+          y={contextMenuPosition.y}
+          selectedNodeCount={nodes.filter((n) => n.selected).length}
+          onDeleteSelected={handleDeleteSelected}
+          onSaveAsMacro={handleSaveAsMacro}
+          onRenderNode={handleRenderNode}
+          onGroupItems={handleGroupItems}
+          onShowInOutliner={handleShowInOutliner}
           onClose={handleCloseContextMenu}
         />
       )}
@@ -663,6 +764,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onConnectStart={onConnectStart}
         onConnectEnd={onConnectEnd}
         onReconnect={onReconnect}
+        onNodeContextMenu={handleNodeContextMenu}
         isValidConnection={isValidConnection}
         onNodesDelete={onNodesDelete}
         onNodeClick={onNodeClick}
