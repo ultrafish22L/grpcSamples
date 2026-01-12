@@ -659,11 +659,27 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
     });
     event.preventDefault();
     event.stopPropagation();
+    
+    // Select the right-clicked node in ReactFlow
+    setNodes((nds) =>
+      nds.map((n) => ({
+        ...n,
+        selected: n.id === nodeId,
+      }))
+    );
+    
+    // Select the node app-wide (Scene Outliner, Node Inspector, etc.)
+    const sceneNode = sceneTree.find((item) => String(item.handle) === nodeId);
+    if (sceneNode && onNodeSelect) {
+      onNodeSelect(sceneNode);
+      console.log('✅ Node selected app-wide:', sceneNode.name);
+    }
+    
     setContextMenuPosition({ x: event.clientX, y: event.clientY });
     setContextMenuType('node');
     setContextMenuNodeId(nodeId);
     setContextMenuVisible(true);
-  }, []);
+  }, [sceneTree, onNodeSelect, setNodes]);
 
   const handleSelectNodeType = useCallback(async (nodeType: string) => {
     const nodeTypeId = NodeType[nodeType];
