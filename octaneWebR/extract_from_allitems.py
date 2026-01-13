@@ -15,14 +15,14 @@ INPUT_IMAGE = "octaneSE_nodegraphcontext_allitems.png"
 OUTPUT_DIR = Path("client/public/icons/nodes")
 
 def get_node_types_sorted():
-    """Get all NT_* node types sorted by ID"""
+    """Get all NT_* node types sorted ALPHABETICALLY (matches 'All items' menu order)"""
     node_types = []
     for attr in dir(octaneids_pb2):
         if attr.startswith('NT_'):
             value = getattr(octaneids_pb2, attr)
             if isinstance(value, int) and value > 0:
                 node_types.append((attr, value))
-    node_types.sort(key=lambda x: x[1])
+    node_types.sort(key=lambda x: x[0])  # Sort alphabetically, not by ID!
     return node_types
 
 def detect_grid_params(img):
