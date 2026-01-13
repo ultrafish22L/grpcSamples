@@ -1,5 +1,7 @@
 # The OctaneWebR Developer's Power
 ## Word, Sound, and Code
+## work should be like making reggae music
+## basially rythmic, and an abolute joy
 
 ---
 
