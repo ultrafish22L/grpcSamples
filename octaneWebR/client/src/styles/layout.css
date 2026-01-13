@@ -568,25 +568,24 @@ body.resizing .react-flow__edge-interaction {
         inset 0 2px 3px rgba(0, 0, 0, 0.6),    /* Top inner shadow - deeper */
         inset 0 -1px 2px rgba(255, 255, 255, 0.15); /* Bottom inner highlight */
     
-    /* Moderate desaturation - middle ground between too bright and too dark */
-    filter: saturate(0.5) brightness(0.7);
+    /* No color filter - keep vibrant pin colors matching Octane reference */
     
     /* Ensure smooth rendering */
     transition: all 0.15s ease;
 }
 
-/* Hover state - slightly brighter but still muted */
+/* Hover state - slightly brighter */
 .react-flow__handle:hover {
-    filter: saturate(0.6) brightness(0.8);
+    filter: brightness(1.1);
     box-shadow: 
         inset 0 2px 3px rgba(0, 0, 0, 0.5),
         inset 0 -1px 2px rgba(255, 255, 255, 0.2),
-        0 0 4px rgba(255, 255, 255, 0.2); /* Subtle outer glow */
+        0 0 4px rgba(255, 255, 255, 0.3); /* Subtle outer glow */
 }
 
-/* Connected handles - maintain muted appearance */
+/* Connected handles - no filter needed */
 .react-flow__handle.connected {
-    filter: saturate(0.6) brightness(0.75);
+    /* Keep vibrant colors */
 }
 
 /* Octane Node Body Styling - Match Reference 3D Button Effect */
@@ -603,8 +602,8 @@ body.resizing .react-flow__edge-interaction {
         inset 0 -2px 1px rgba(0, 0, 0, 0.4),         /* Bottom inner shadow - deeper */
         0 2px 3px rgba(0, 0, 0, 0.6);                /* Outer shadow for lift */
     
-    /* Moderate desaturation - middle ground */
-    filter: saturate(0.5) brightness(0.7);
+    /* Lighter desaturation matching Octane reference */
+    filter: saturate(0.7) brightness(0.85);
     
     /* Smooth transitions */
     transition: all 0.15s ease;
@@ -619,8 +618,8 @@ body.resizing .react-flow__edge-interaction {
         0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
-/* ReactFlow Edge (Connection Line) Styling - Muted Colors */
+/* ReactFlow Edge (Connection Line) Styling - Lighter Muted Colors */
 .react-flow__edge path {
-    /* Moderate desaturation to match pins */
-    filter: saturate(0.5) brightness(0.7);
+    /* Lighter desaturation matching Octane reference */
+    filter: saturate(0.7) brightness(0.85);
 }
