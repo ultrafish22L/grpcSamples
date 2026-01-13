@@ -6,7 +6,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { getNodeCategories, getNodeTypesForCategory } from '../../constants/NodeTypes';
+import { getCategoriesInOrder, getNodeTypesForCategory } from '../../constants/NodeTypes';
 
 interface NodeTypeContextMenuProps {
   x: number;
@@ -27,7 +27,7 @@ export function NodeTypeContextMenu({
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [submenuPosition, setSubmenuPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const categories = getNodeCategories();
+  const categories = getCategoriesInOrder();
 
   // Close menu on click outside (matching octaneWeb line 167: uses 'click' not 'mousedown')
   // Must check BOTH menuRef and submenuRef since submenu renders as sibling, not child
@@ -177,9 +177,14 @@ export function NodeTypeContextMenu({
           zIndex: 10000,
         }}
       >
-        {categories.map((category) => {
+        {categories.map((category, index) => {
+          // Handle separator
+          if (category === '___SEPARATOR___') {
+            return <div key={`sep-${index}`} className="context-menu-separator" />;
+          }
+
           const nodeTypes = getNodeTypesForCategory(category);
-          if (!nodeTypes) return null;
+          if (!nodeTypes || Object.keys(nodeTypes).length === 0) return null;
 
           return (
             <div
@@ -193,6 +198,23 @@ export function NodeTypeContextMenu({
             </div>
           );
         })}
+        
+        {/* Separator before special items */}
+        <div className="context-menu-separator" />
+        
+        {/* Special menu items */}
+        <div className="context-menu-item" onClick={() => console.log('All Items')}>
+          All items
+        </div>
+        <div className="context-menu-item" onClick={() => console.log('Find type')}>
+          Find type...
+        </div>
+        <div className="context-menu-item" onClick={() => console.log('Import')}>
+          Import...
+        </div>
+        <div className="context-menu-item disabled">
+          Paste
+        </div>
       </div>
 
       {/* Render active submenu separately (not nested inside category div) */}
