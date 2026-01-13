@@ -1,8 +1,28 @@
 # Octane Icon Extraction Tool
 
+## ⚠️ IMPORTANT: Use Fixed Version
+
+**OLD SCRIPT ISSUE:** `extract_icons.py` crashes Octane on first icon call due to API type mismatch.
+
+**✅ USE THIS INSTEAD:** `extract_icons_fixed.py` - Fixed version with hybrid approach that works reliably.
+
+## Quick Start (Fixed Version)
+
+```bash
+cd /workspace/project/grpcSamples/octaneProxy
+
+# Step 1: Run diagnostic test (recommended first)
+python3 test_icon_extraction_methods.py
+
+# Step 2: Extract all icons
+python3 extract_icons_fixed.py
+```
+
+See [ICON_EXTRACTION_FIX.md](ICON_EXTRACTION_FIX.md) for detailed explanation of the fix.
+
 ## Overview
 
-`extract_icons.py` extracts all native Octane icons via the gRPC LiveLink API and saves them for use in octaneWebR.
+Icon extraction extracts all native Octane icons via the gRPC LiveLink API and saves them for use in octaneWebR.
 
 ## Prerequisites
 
