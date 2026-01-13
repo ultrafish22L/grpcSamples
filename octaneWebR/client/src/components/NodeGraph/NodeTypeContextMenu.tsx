@@ -6,7 +6,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { getCategoriesInOrder, getNodeTypesForCategory } from '../../constants/NodeTypes';
+import { getCategoriesInOrder, getNodeTypesForCategory, OCTANE_NODE_TYPES } from '../../constants/NodeTypes';
 
 interface NodeTypeContextMenuProps {
   x: number;
@@ -202,7 +202,11 @@ export function NodeTypeContextMenu({
         <div className="context-menu-separator" />
         
         {/* Special menu items */}
-        <div className="context-menu-item" onClick={() => console.log('All Items')}>
+        <div 
+          className="context-menu-category"
+          onMouseEnter={(e) => handleCategoryMouseEnter('__ALL_ITEMS__', e)}
+          onMouseLeave={handleCategoryMouseLeave}
+        >
           All items
         </div>
         <div className="context-menu-item" onClick={() => console.log('Find type')}>
@@ -218,8 +222,19 @@ export function NodeTypeContextMenu({
 
       {/* Render active submenu separately (not nested inside category div) */}
       {hoveredCategory && (() => {
-        const nodeTypes = getNodeTypesForCategory(hoveredCategory);
-        if (!nodeTypes) return null;
+        // Handle "All items" - show all nodes from all categories
+        let nodeTypes: Record<string, { name: string; color: string }> | undefined;
+        if (hoveredCategory === '__ALL_ITEMS__') {
+          nodeTypes = {};
+          // Collect all nodes from all categories
+          Object.values(OCTANE_NODE_TYPES).forEach(categoryNodes => {
+            Object.assign(nodeTypes!, categoryNodes);
+          });
+        } else {
+          nodeTypes = getNodeTypesForCategory(hoveredCategory);
+        }
+        
+        if (!nodeTypes || Object.keys(nodeTypes).length === 0) return null;
         
         return (
           <div
