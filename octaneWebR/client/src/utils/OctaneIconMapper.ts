@@ -31,7 +31,13 @@ export class OctaneIconMapper {
       return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
     }
     if (typeof value === 'number') {
-      return `#${value.toString(16).padStart(2, '0')}`;
+      // FIX: Properly decode uint32 pinColor value
+      // Octane uses ARGB format: 0xAARRGGBB (Alpha, Red, Green, Blue)
+      // Extract RGB bytes, ignoring alpha channel
+      const r = (value >> 16) & 0xFF;
+      const g = (value >> 8) & 0xFF;
+      const b = value & 0xFF;
+      return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
     }
     return '#ffffff'; // Default white
   }
