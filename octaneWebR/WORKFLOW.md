@@ -252,5 +252,15 @@ NEXT STEPS:
 
 ---
 
+## 🚨 Active Issues
+
+### Server Stability Blocker (2025-01-20)
+**Status**: 🔴 BLOCKED  
+**Issue**: Vite dev server hangs on startup after gRPC callback registration  
+**Impact**: Cannot make any API calls until resolved  
+**Details**: See `CURRENT_BLOCKER.md`
+
+---
+
 **Last Updated**: 2025-01-20  
-**Current Focus**: Node Graph Editor context menu pixel-perfect matching
+**Current Focus**: Resolving server stability issues before continuing icon extraction
