@@ -66,7 +66,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   const [contextMenuNodeId, setContextMenuNodeId] = useState<string | null>(null); // Track which node was right-clicked
 
   // Track connection line color during drag (matches source pin color)
-  const [connectionLineColor, setConnectionLineColor] = useState('#4a90e2');
+  const [connectionLineColor, setConnectionLineColor] = useState('#ffc107');
   const connectingEdgeRef = useRef<Edge | null>(null); // Track if creating new connection vs reconnecting
 
   /**
@@ -151,7 +151,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
             // FIX: Check pinColor !== undefined to handle black (0) correctly
             const edgeColor = (childNode.pinInfo?.pinColor !== undefined && childNode.pinInfo?.pinColor !== null)
               ? OctaneIconMapper.formatColorValue(childNode.pinInfo.pinColor)
-              : '#4a90e2';
+              : '#ffc107';
             
             const edge: Edge = {
               id: `e${sourceHandle}-${targetHandle}-${inputIndex}`,
@@ -263,7 +263,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
       const nodeData = sourceNode.data as OctaneNodeData;
       
       // Get handle color based on type (source = output, target = input)
-      let handleColor = '#4a90e2'; // Default color
+      let handleColor = '#ffc107'; // Default color
       
       // FIX: Check pinColor !== undefined to handle black (0) correctly
       if (handleType === 'source' && nodeData.output?.pinInfo) {
@@ -316,7 +316,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
     console.log('🔌 Connection drag ended');
     
     // Reset state
-    setConnectionLineColor('#4a90e2'); // Reset to default
+    setConnectionLineColor('#ffc107'); // Reset to default
     connectingEdgeRef.current = null;
   }, []);
 
@@ -536,7 +536,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         const pinColor = child.pinInfo.pinColor;
         const edgeColor = (pinColor !== undefined && pinColor !== null)
           ? OctaneIconMapper.formatColorValue(pinColor)
-          : '#4a90e2';
+          : '#ffc107';
 
         // Connect pin in Octane
         await client.connectPinByIndex(targetHandle, pinIdx, sourceHandle, true);
@@ -937,7 +937,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           selectable: true,
           focusable: true,
           interactionWidth: 20, // ReactFlow v12: wider click area for easier selection
-          style: { stroke: '#4a90e2', strokeWidth: 3 },
+          style: { stroke: '#ffc107', strokeWidth: 3 },
         }}
         connectionLineStyle={{
           stroke: connectionLineColor,

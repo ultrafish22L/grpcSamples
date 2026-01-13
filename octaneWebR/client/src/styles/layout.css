@@ -18,7 +18,7 @@
 }
 
 .panel-splitter:hover {
-    background-color: var(--octane-accent-blue, #4a90e2);
+    background-color: var(--octane-accent-yellow, #ffc107);
 }
 
 .panel-splitter.vertical {
@@ -53,11 +53,11 @@
 
 #bottom-splitter:hover,
 #bottom-splitter.dragging {
-    background-color: var(--octane-accent-blue);
+    background-color: var(--octane-accent-yellow);
 }
 
 .panel-splitter.dragging {
-    background-color: var(--octane-accent-blue);
+    background-color: var(--octane-accent-yellow);
 }
 
 /* Panel Resize States */
@@ -164,7 +164,7 @@ body.resizing .panel-splitter {
 
 .inspector-tab.active {
     color: var(--octane-text-primary);
-    border-bottom-color: var(--octane-accent-blue);
+    border-bottom-color: var(--octane-accent-yellow);
 }
 
 .inspector-content {
@@ -250,8 +250,8 @@ body.resizing .panel-splitter {
 
 .parameter-input:focus {
     outline: none;
-    border-color: var(--octane-accent-blue);
-    box-shadow: 0 0 0 1px var(--octane-accent-blue);
+    border-color: var(--octane-accent-yellow);
+    box-shadow: 0 0 0 1px var(--octane-accent-yellow);
 }
 
 .parameter-select {
@@ -267,8 +267,8 @@ body.resizing .panel-splitter {
 
 .parameter-select:focus {
     outline: none;
-    border-color: var(--octane-accent-blue);
-    box-shadow: 0 0 0 1px var(--octane-accent-blue);
+    border-color: var(--octane-accent-yellow);
+    box-shadow: 0 0 0 1px var(--octane-accent-yellow);
 }
 
 .parameter-slider {
@@ -282,7 +282,7 @@ body.resizing .panel-splitter {
 
 .parameter-slider-track {
     height: 100%;
-    background-color: var(--octane-accent-blue);
+    background-color: var(--octane-accent-yellow);
     border-radius: 2px;
     transition: width 0.1s ease;
 }
@@ -327,7 +327,7 @@ body.resizing .panel-splitter {
 }
 
 .scene-node.selected {
-    background-color: var(--octane-accent-blue);
+    background-color: var(--octane-accent-yellow);
 }
 
 .scene-node-indent {
@@ -405,8 +405,8 @@ body.resizing .panel-splitter {
 }
 
 .node-graph-node.selected {
-    border-color: var(--octane-accent-blue);
-    box-shadow: 0 0 0 1px var(--octane-accent-blue);
+    border-color: var(--octane-accent-yellow);
+    box-shadow: 0 0 0 1px var(--octane-accent-yellow);
 }
 
 .node-graph-node-label {
@@ -435,7 +435,7 @@ body.resizing .panel-splitter {
 }
 
 .node-graph-connection.selected path {
-    stroke: var(--octane-accent-blue);
+    stroke: var(--octane-accent-yellow);
     stroke-width: 3;
 }
 
@@ -612,7 +612,7 @@ body.resizing .react-flow__edge-interaction {
     box-shadow: 
         inset 0 1px 0 rgba(255, 255, 255, 0.15),
         inset 0 -1px 0 rgba(0, 0, 0, 0.25),
-        0 0 0 2px #4a90e2,
+        0 0 0 2px #ffc107,
         0 2px 4px rgba(0, 0, 0, 0.6);
 }
 

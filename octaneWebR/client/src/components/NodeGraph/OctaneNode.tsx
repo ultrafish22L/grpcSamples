@@ -67,7 +67,7 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
         minWidth: minWidth,
         height: 32,
         backgroundColor: nodeColor,
-        border: selected ? '2px solid #4a90e2' : '1px solid #555',
+        border: selected ? '2px solid #ffc107' : '1px solid #555',
         borderRadius: 4,
         display: 'flex',
         alignItems: 'center',

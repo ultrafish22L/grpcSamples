@@ -22,7 +22,7 @@
     
     /* Octane Accent Colors */
     --octane-accent: #ff8c00;          /* Primary accent - Octane orange */
-    --octane-accent-blue: #4a90e2;     /* Selection blue */
+    --octane-accent-yellow: #ffc107;   /* Selection yellow/gold - matches Octane */
     --octane-accent-orange: #ff8c00;   /* Warning/active orange */
     --octane-accent-green: #5cb85c;    /* Success green */
     --octane-accent-red: #d9534f;      /* Error red */

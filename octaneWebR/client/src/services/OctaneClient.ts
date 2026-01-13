@@ -54,6 +54,11 @@ export class OctaneClient extends EventEmitter {
     renderTime: 0,
     resolution: { width: 1920, height: 1080 }
   };
+  
+  // Icon cache: nodeType -> data URI
+  private iconCache: Map<string, string> = new Map();
+  private iconFetchQueue: Set<string> = new Set();
+  private iconFetchInProgress: boolean = false;
 
   constructor(serverUrl?: string) {
     super();
@@ -242,6 +247,96 @@ export class OctaneClient extends EventEmitter {
       position: { x: posX, y: posY, z: posZ },
       target: { x: targetX, y: targetY, z: targetZ }
     });
+  }
+
+  // Icon API - Query node icons from Octane
+  async getNodeIconImage(nodeType: string): Promise<string | null> {
+    // Check cache first
+    if (this.iconCache.has(nodeType)) {
+      return this.iconCache.get(nodeType)!;
+    }
+
+    try {
+      // Query icon image from Octane via ApiInfo.nodeIconImage
+      const response = await this.callApi('ApiInfo', 'nodeIconImage', null, { nodeType });
+      
+      if (!response || !response.result) {
+        console.warn(`⚠️ No icon found for node type: ${nodeType}`);
+        return null;
+      }
+
+      // Get the image handle from ObjectRef
+      const imageHandle = response.result.handle || response.result;
+      
+      // Get image data - Octane returns image as ApiImage with data
+      const imageDataResponse = await this.callApi('ApiImage', 'getData', imageHandle);
+      
+      if (!imageDataResponse || !imageDataResponse.data) {
+        console.warn(`⚠️ No image data for icon: ${nodeType}`);
+        return null;
+      }
+
+      // Convert image data to data URI
+      // Assuming the data is base64 encoded or raw bytes
+      const base64Data = imageDataResponse.data;
+      const dataUri = `data:image/png;base64,${base64Data}`;
+      
+      // Cache the icon
+      this.iconCache.set(nodeType, dataUri);
+      console.log(`✅ Cached icon for: ${nodeType}`);
+      
+      return dataUri;
+    } catch (error: any) {
+      console.error(`❌ Failed to fetch icon for ${nodeType}:`, error.message);
+      return null;
+    }
+  }
+
+  // Queue icon for background fetching
+  queueIconFetch(nodeType: string): void {
+    if (!this.iconCache.has(nodeType) && !this.iconFetchQueue.has(nodeType)) {
+      this.iconFetchQueue.add(nodeType);
+      // Start background processing if not already running
+      this.processIconQueue();
+    }
+  }
+
+  // Background icon fetching - processes queue without blocking
+  private async processIconQueue(): Promise<void> {
+    if (this.iconFetchInProgress || this.iconFetchQueue.size === 0) {
+      return;
+    }
+
+    this.iconFetchInProgress = true;
+
+    try {
+      // Process icons one at a time to avoid overwhelming the server
+      for (const nodeType of this.iconFetchQueue) {
+        this.iconFetchQueue.delete(nodeType);
+        
+        const icon = await this.getNodeIconImage(nodeType);
+        
+        if (icon) {
+          // Emit event so UI can update
+          this.emit('icon-loaded', { nodeType, icon });
+        }
+        
+        // Small delay to prevent flooding
+        await new Promise(resolve => setTimeout(resolve, 50));
+      }
+    } finally {
+      this.iconFetchInProgress = false;
+      
+      // Check if more items were added during processing
+      if (this.iconFetchQueue.size > 0) {
+        this.processIconQueue();
+      }
+    }
+  }
+
+  // Get cached icon or return null (non-blocking)
+  getCachedIcon(nodeType: string): string | null {
+    return this.iconCache.get(nodeType) || null;
   }
 
   // Scene API - Port of octaneWeb syncScene() implementation
@@ -686,6 +781,12 @@ export class OctaneClient extends EventEmitter {
   private getNodeIcon(outType: string | number, name?: string): string {
     // Use OctaneIconMapper for consistent icon mapping across the application
     const typeStr = typeof outType === 'string' ? outType : String(outType);
+    
+    // Queue icon fetch in background if not already cached
+    this.queueIconFetch(typeStr);
+    
+    // For now, return emoji icon while real icon loads
+    // UI will update when 'icon-loaded' event fires
     return OctaneIconMapper.getNodeIcon(typeStr, name);
   }
 
