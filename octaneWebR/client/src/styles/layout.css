@@ -609,9 +609,11 @@ body.resizing .react-flow__edge-interaction {
 
 /* Node label text - full bright white, not affected by parent filter */
 .octane-node-label {
-    /* Compensate for parent's brightness(0.7) with brightness(1.43) */
-    /* 1 / 0.7 ≈ 1.43 to get back to full white */
-    filter: brightness(1.43);
+    /* Aggressive brightness to override parent's filter stacking */
+    filter: brightness(2.0) saturate(1.5);
+    /* Ensure text renders on top with proper isolation */
+    position: relative;
+    z-index: 10;
 }
 
 /* Selected node - slightly more prominent */
