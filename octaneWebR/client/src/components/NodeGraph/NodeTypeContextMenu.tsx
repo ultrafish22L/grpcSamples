@@ -194,7 +194,6 @@ export function NodeTypeContextMenu({
               onMouseLeave={handleCategoryMouseLeave}
             >
               {category}
-              <span className="category-arrow">▶</span>
             </div>
           );
         })}

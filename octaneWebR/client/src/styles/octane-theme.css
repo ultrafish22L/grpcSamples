@@ -1217,11 +1217,11 @@ html, body {
     border: 1px solid #555555 !important;
     border-radius: 2px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
-    ffont-family: var(--font-family);
+    font-family: var(--font-family);
     font-size: var(--font-size-normal);
     color: #ffffff !important;
     min-width: 180px;
-    max-height: 400px;
+    max-height: 80vh;
     overflow-y: auto;
     z-index: 10000;
 }
@@ -1450,7 +1450,7 @@ select {
     border-radius: 4px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     min-width: 200px;
-    max-height: 400px;
+    max-height: 80vh;
     overflow-y: auto;
     z-index: 10001;
     backdrop-filter: blur(10px);
