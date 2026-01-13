@@ -1228,7 +1228,7 @@ html, body {
 
 .context-menu-category {
     position: relative;
-    padding: 6px 12px;
+    padding: 3px 12px;
     cursor: pointer;
     border-bottom: 1px solid var(--octane-border-dark);
     display: flex;
@@ -1259,10 +1259,34 @@ html, body {
     z-index: 10001;
 }
 
+/* Multi-column submenu for "All items" */
+.context-submenu-multicolumn {
+    display: none;
+    position: fixed;
+    background: #3c3c3c !important;
+    border: 1px solid #555555 !important;
+    border-radius: 2px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    max-height: 80vh;
+    max-width: 90vw;
+    overflow-y: auto;
+    z-index: 10001;
+    column-count: 5;
+    column-gap: 0;
+    column-rule: 1px solid var(--octane-border-dark);
+    padding: 4px 0;
+}
+
+.context-submenu-multicolumn .context-menu-item {
+    break-inside: avoid;
+    column-break-inside: avoid;
+    page-break-inside: avoid;
+}
+
 
 
 .context-menu-item {
-    padding: 6px 12px;
+    padding: 3px 12px;
     cursor: pointer;
     white-space: nowrap;
     border-bottom: 1px solid var(--octane-border-dark);
@@ -1457,7 +1481,7 @@ select {
 }
 
 .context-menu-item {
-    padding: 8px 12px;
+    padding: 3px 12px;
     color: var(--octane-text-secondary);
     cursor: pointer;
     transition: all 0.15s ease;

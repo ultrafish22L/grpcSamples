@@ -236,10 +236,12 @@ export function NodeTypeContextMenu({
         
         if (!nodeTypes || Object.keys(nodeTypes).length === 0) return null;
         
+        const isAllItems = hoveredCategory === '__ALL_ITEMS__';
+        
         return (
           <div
             ref={submenuRef}
-            className="context-submenu"
+            className={isAllItems ? "context-submenu-multicolumn" : "context-submenu"}
             onMouseEnter={handleSubmenuMouseEnter}
             onMouseLeave={handleSubmenuMouseLeave}
             style={{
