@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Octane Icon Test Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #333;
+        }
+        
+        h1 {
+            color: #00ccff;
+            margin-bottom: 10px;
+        }
+        
+        .status {
+            padding: 10px 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+            display: inline-block;
+        }
+        
+        .status.info {
+            background: #004466;
+            color: #66d9ff;
+        }
+        
+        .status.success {
+            background: #004400;
+            color: #66ff66;
+        }
+        
+        .status.error {
+            background: #660000;
+            color: #ff6666;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #00ccff;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        
+        .icon-item {
+            background: #2a2a2a;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .icon-item:hover {
+            background: #333;
+            border-color: #00ccff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 204, 255, 0.2);
+        }
+        
+        .icon-item img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        }
+        
+        .icon-item.error img {
+            opacity: 0.3;
+        }
+        
+        .icon-item .name {
+            font-size: 11px;
+            color: #888;
+            word-break: break-all;
+        }
+        
+        .icon-item.error .name {
+            color: #ff6666;
+        }
+        
+        .stats {
+            background: #2a2a2a;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stats h3 {
+            color: #00ccff;
+            margin-bottom: 15px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .stat-item {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #333;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #00ccff;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+        }
+        
+        .common-icons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .common-icon-card {
+            background: #2a2a2a;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 20px;
+            min-width: 200px;
+        }
+        
+        .common-icon-card img {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 10px;
+        }
+        
+        .common-icon-card .label {
+            font-weight: bold;
+            color: #00ccff;
+            margin-bottom: 5px;
+        }
+        
+        .common-icon-card .type {
+            font-size: 11px;
+            color: #888;
+        }
+        
+        button {
+            background: #00ccff;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        
+        button:hover {
+            background: #00ffff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 204, 255, 0.3);
+        }
+        
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 Octane Icon Gallery</h1>
+            <p>Testing native Octane icons extracted via gRPC LiveLink API</p>
+            <div class="status info" id="status">Loading icons...</div>
+        </header>
+
+        <div class="stats">
+            <h3>📊 Icon Statistics</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="node-count">0</div>
+                    <div class="stat-label">Node Icons</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="graph-count">0</div>
+                    <div class="stat-label">Graph Icons</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="loaded-count">0</div>
+                    <div class="stat-label">Loaded Successfully</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="error-count">0</div>
+                    <div class="stat-label">Missing/Errors</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⭐ Common Node Types</h2>
+            <p style="margin-bottom: 15px; color: #888;">Most frequently used node types in Octane</p>
+            <div class="common-icons" id="common-icons"></div>
+        </div>
+
+        <div class="section">
+            <h2>🔷 Node Type Icons (NT_*)</h2>
+            <div class="controls">
+                <button onclick="filterNodes('')">Show All</button>
+                <button onclick="filterNodes('MAT')">Materials</button>
+                <button onclick="filterNodes('TEX')">Textures</button>
+                <button onclick="filterNodes('GEO')">Geometry</button>
+                <button onclick="filterNodes('CAM')">Cameras</button>
+                <button onclick="filterNodes('ENV')">Environment</button>
+            </div>
+            <div class="icon-grid" id="node-icons"></div>
+        </div>
+
+        <div class="section">
+            <h2>🔶 Graph Type Icons (GT_*)</h2>
+            <div class="controls">
+                <button onclick="filterGraphs('')">Show All</button>
+                <button onclick="filterGraphs('SWITCH')">Switches</button>
+                <button onclick="filterGraphs('BUILTIN')">Built-in</button>
+            </div>
+            <div class="icon-grid" id="graph-icons"></div>
+        </div>
+    </div>
+
+    <script>
+        // Sample node and graph types (in real app, these would come from OctaneTypes constants)
+        const commonNodeTypes = [
+            { type: 'NT_MAT_DIFFUSE', label: 'Diffuse Material' },
+            { type: 'NT_MAT_GLOSSY', label: 'Glossy Material' },
+            { type: 'NT_MAT_UNIVERSAL', label: 'Universal Material' },
+            { type: 'NT_TEX_IMAGE', label: 'Image Texture' },
+            { type: 'NT_TEX_RGB', label: 'RGB Spectrum' },
+            { type: 'NT_GEO_MESH', label: 'Mesh' },
+            { type: 'NT_CAM_THINLENS', label: 'Thin Lens Camera' },
+            { type: 'NT_ENV_DAYLIGHT', label: 'Daylight' },
+        ];
+
+        const sampleNodeTypes = [
+            'NT_MAT_DIFFUSE', 'NT_MAT_GLOSSY', 'NT_MAT_SPECULAR', 'NT_MAT_UNIVERSAL',
+            'NT_MAT_MIX', 'NT_MAT_METAL', 'NT_MAT_TOON', 'NT_MAT_COMPOSITE',
+            'NT_TEX_IMAGE', 'NT_TEX_RGB', 'NT_TEX_FLOAT', 'NT_TEX_NOISE',
+            'NT_TEX_TURBULENCE', 'NT_TEX_CHECKS', 'NT_TEX_MARBLE', 'NT_TEX_GRADIENT',
+            'NT_GEO_MESH', 'NT_GEO_GROUP', 'NT_GEO_SCATTER', 'NT_GEO_VOLUME',
+            'NT_CAM_THINLENS', 'NT_CAM_PANORAMIC', 'NT_CAM_BAKING',
+            'NT_ENV_DAYLIGHT', 'NT_ENV_TEXTURE', 'NT_ENV_PLANETARY',
+        ];
+
+        const sampleGraphTypes = [
+            'GT_STANDARD', 'GT_REFERENCE', 'GT_RENDER_JOB',
+            'GT_SWITCH_BOOL', 'GT_SWITCH_FLOAT', 'GT_SWITCH_INT',
+            'GT_SWITCH_TEXTURE', 'GT_SWITCH_MATERIAL', 'GT_SWITCH_GEOMETRY',
+        ];
+
+        let stats = {
+            nodeCount: 0,
+            graphCount: 0,
+            loadedCount: 0,
+            errorCount: 0
+        };
+
+        function createIconElement(type, isGraph = false) {
+            const div = document.createElement('div');
+            div.className = 'icon-item';
+            div.dataset.type = type;
+            
+            const img = document.createElement('img');
+            img.src = `/icons/${isGraph ? 'graphs' : 'nodes'}/${type}.png`;
+            img.alt = type;
+            img.title = type;
+            
+            img.onload = () => {
+                stats.loadedCount++;
+                updateStats();
+            };
+            
+            img.onerror = () => {
+                div.classList.add('error');
+                stats.errorCount++;
+                updateStats();
+                // Use a placeholder
+                img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="32" height="32"%3E%3Crect fill="%23333" width="32" height="32"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23666" font-size="20"%3E?%3C/text%3E%3C/svg%3E';
+            };
+            
+            const name = document.createElement('div');
+            name.className = 'name';
+            name.textContent = type;
+            
+            div.appendChild(img);
+            div.appendChild(name);
+            return div;
+        }
+
+        function createCommonIconCard(item) {
+            const div = document.createElement('div');
+            div.className = 'common-icon-card';
+            
+            const img = document.createElement('img');
+            img.src = `/icons/nodes/${item.type}.png`;
+            img.alt = item.label;
+            img.onerror = () => {
+                img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="48" height="48"%3E%3Crect fill="%23333" width="48" height="48"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23666" font-size="24"%3E?%3C/text%3E%3C/svg%3E';
+            };
+            
+            const label = document.createElement('div');
+            label.className = 'label';
+            label.textContent = item.label;
+            
+            const type = document.createElement('div');
+            type.className = 'type';
+            type.textContent = item.type;
+            
+            div.appendChild(img);
+            div.appendChild(label);
+            div.appendChild(type);
+            return div;
+        }
+
+        function updateStats() {
+            document.getElementById('node-count').textContent = stats.nodeCount;
+            document.getElementById('graph-count').textContent = stats.graphCount;
+            document.getElementById('loaded-count').textContent = stats.loadedCount;
+            document.getElementById('error-count').textContent = stats.errorCount;
+            
+            const status = document.getElementById('status');
+            if (stats.loadedCount + stats.errorCount >= stats.nodeCount + stats.graphCount) {
+                status.className = 'status success';
+                status.textContent = `✅ Loaded ${stats.loadedCount} icons (${stats.errorCount} missing)`;
+            }
+        }
+
+        function filterNodes(filter) {
+            const items = document.querySelectorAll('#node-icons .icon-item');
+            items.forEach(item => {
+                const type = item.dataset.type;
+                item.style.display = (filter === '' || type.includes('_' + filter + '_')) ? 'block' : 'none';
+            });
+        }
+
+        function filterGraphs(filter) {
+            const items = document.querySelectorAll('#graph-icons .icon-item');
+            items.forEach(item => {
+                const type = item.dataset.type;
+                item.style.display = (filter === '' || type.includes(filter)) ? 'block' : 'none';
+            });
+        }
+
+        // Initialize
+        const commonContainer = document.getElementById('common-icons');
+        commonNodeTypes.forEach(item => {
+            commonContainer.appendChild(createCommonIconCard(item));
+        });
+
+        const nodeContainer = document.getElementById('node-icons');
+        sampleNodeTypes.forEach(type => {
+            nodeContainer.appendChild(createIconElement(type, false));
+            stats.nodeCount++;
+        });
+
+        const graphContainer = document.getElementById('graph-icons');
+        sampleGraphTypes.forEach(type => {
+            graphContainer.appendChild(createIconElement(type, true));
+            stats.graphCount++;
+        });
+
+        updateStats();
+
+        // Instructions if no icons found
+        setTimeout(() => {
+            if (stats.errorCount === stats.nodeCount + stats.graphCount) {
+                const status = document.getElementById('status');
+                status.className = 'status error';
+                status.innerHTML = '❌ No icons found. Run <code>octaneProxy/extract_icons.sh</code> to extract icons from Octane.';
+            }
+        }, 3000);
+    </script>
+</body>
+</html>

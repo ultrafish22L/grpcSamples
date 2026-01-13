@@ -1,0 +1,28 @@
+======================================================================
+ 🎨 Octane FULL Icon Extraction
+======================================================================
+
+🔌 Connecting to Octane at host.docker.internal:51022...
+✅ Connected successfully
+
+📊 Found 755 node types
+📂 Found 17 existing icons (will skip)
+
+🚀 Starting extraction of 755 node types...
+⏱️  Delay between icons: 0.1s
+💾 Output directory: /workspace/project/grpcSamples/octaneWebR/client/public/icons/nodes
+
+
+⚠️  CONNECTION LOST at icon 6/755
+    Error: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Socket 
+
+📊 Partial Results:
+    ✅ Success: 0
+    ⚠️  Skipped: 0
+    ❌ Errors: 1
+    📂 Already existed: 5
+
+💡 To resume: Just run this script again!
+    It will skip the 5 icons already extracted.
