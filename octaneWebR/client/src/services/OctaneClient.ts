@@ -782,11 +782,10 @@ export class OctaneClient extends EventEmitter {
     // Use OctaneIconMapper for consistent icon mapping across the application
     const typeStr = typeof outType === 'string' ? outType : String(outType);
     
-    // Queue icon fetch in background if not already cached
-    this.queueIconFetch(typeStr);
+    // TODO: Icon fetching disabled - crashes Octane when called during scene sync
+    // Will be implemented as a separate background task later
+    // this.queueIconFetch(typeStr);
     
-    // For now, return emoji icon while real icon loads
-    // UI will update when 'icon-loaded' event fires
     return OctaneIconMapper.getNodeIcon(typeStr, name);
   }
 
