@@ -339,6 +339,11 @@ export class OctaneClient extends EventEmitter {
     return this.iconCache.get(nodeType) || null;
   }
 
+  // Get node by handle from scene map (for pin connection lookups)
+  getNodeByHandle(handle: number): SceneNode | undefined {
+    return this.scene.map.get(handle);
+  }
+
   // Scene API - Port of octaneWeb syncScene() implementation
   async buildSceneTree(newNodeHandle?: number): Promise<SceneNode[]> {
     // Optimized update: if a specific node handle is provided, only add that new node

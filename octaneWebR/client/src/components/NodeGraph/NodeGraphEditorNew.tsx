@@ -98,13 +98,16 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
       const inputs = item.children || [];
       
       const inputHandles = inputs.map((input: any, inputIndex: number) => {
+        // Look up connected node using handle from client's scene map
+        const connectedNode = input.handle && client?.getNodeByHandle(Number(input.handle));
+        
         return {
           id: `input-${inputIndex}`,
           label: input.staticLabel || input.name,
           pinInfo: input.pinInfo,
           handle: input.handle,  // Connected node handle
-          nodeInfo: input.nodeInfo,  // Connected node info (contains takesPinDefaultValue)
-          name: input.name,  // Node name for fallback detection
+          nodeInfo: connectedNode?.nodeInfo,  // FIXED: Get from connected node via public getter
+          name: connectedNode?.name,  // FIXED: Get from connected node via public getter
         };
       });
 
@@ -188,7 +191,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
     console.log(`🔄 Node Graph: ${graphNodes.length} nodes, ${graphEdges.length} edges`);
 
     return { nodes: graphNodes, edges: graphEdges };
-  }, []);
+  }, [client]); // Add client dependency for scene map access
 
   /**
    * Load scene graph when sceneTree changes
