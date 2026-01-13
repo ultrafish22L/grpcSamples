@@ -98,16 +98,16 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
       const inputs = item.children || [];
       
       const inputHandles = inputs.map((input: any, inputIndex: number) => {
-        // Look up connected node using handle from client's scene map
-        const connectedNode = input.handle && client?.getNodeByHandle(Number(input.handle));
+        // Check if connected node is at top level (level 1) in scene tree
+        // Top-level nodes are visible in NGE, nested nodes are collapsed
+        const isConnectedNodeAtTopLevel = input.handle && tree.some((topNode: SceneNode) => topNode.handle === input.handle);
         
         return {
           id: `input-${inputIndex}`,
           label: input.staticLabel || input.name,
           pinInfo: input.pinInfo,
           handle: input.handle,  // Connected node handle
-          nodeInfo: connectedNode?.nodeInfo,  // FIXED: Get from connected node via public getter
-          name: connectedNode?.name,  // FIXED: Get from connected node via public getter
+          isAtTopLevel: isConnectedNodeAtTopLevel,  // For collapsed detection
         };
       });
 

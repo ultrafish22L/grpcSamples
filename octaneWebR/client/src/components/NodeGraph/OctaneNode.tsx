@@ -89,24 +89,13 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
         const inputSpacing = calculatedWidth / (inputs.length + 1);
         const socketX = inputSpacing * (index + 1) - calculatedWidth / 2;
 
-        // Pin appearance: filled if connected to collapsed node, unfilled if connected to expanded node
-        // Collapsed nodes have nodeInfo.takesPinDefaultValue = true (Float value, RGB color, etc.)
+        // Pin appearance logic:
+        // - Collapsed node at pin: pin connects to a node NOT at level 1 (not visible in NGE) → SOLID ⬤
+        // - Expanded node at pin: pin connects to a node AT level 1 (visible in NGE) → OUTLINE ○
+        // - No connection at pin: pin has no connected node → OUTLINE ○
         const isConnectedToCollapsed = input.handle !== undefined && 
-                                      input.handle !== 0 && (
-                                        input.nodeInfo?.takesPinDefaultValue === true ||
-                                        input.name?.includes('value') ||
-                                        input.name?.includes('color')
-                                      );
-        
-        // Debug logging for first 3 pins of each node
-        if (index < 3) {
-          console.log(`[OctaneNode] ${sceneNode.name} pin ${index}:`, {
-            handle: input.handle,
-            name: input.name,
-            takesPinDefaultValue: input.nodeInfo?.takesPinDefaultValue,
-            isConnectedToCollapsed
-          });
-        }
+                                      input.handle !== 0 && 
+                                      !input.isAtTopLevel;
         
         return (
           <Handle
