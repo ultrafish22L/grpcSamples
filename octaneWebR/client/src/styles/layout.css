@@ -568,24 +568,25 @@ body.resizing .react-flow__edge-interaction {
         inset 0 2px 3px rgba(0, 0, 0, 0.6),    /* Top inner shadow - deeper */
         inset 0 -1px 2px rgba(255, 255, 255, 0.15); /* Bottom inner highlight */
     
-    /* No color filter - keep vibrant pin colors matching Octane reference */
+    /* Moderate desaturation - original darker look */
+    filter: saturate(0.5) brightness(0.7);
     
     /* Ensure smooth rendering */
     transition: all 0.15s ease;
 }
 
-/* Hover state - slightly brighter */
+/* Hover state - slightly brighter but still muted */
 .react-flow__handle:hover {
-    filter: brightness(1.1);
+    filter: saturate(0.6) brightness(0.8);
     box-shadow: 
         inset 0 2px 3px rgba(0, 0, 0, 0.5),
         inset 0 -1px 2px rgba(255, 255, 255, 0.2),
-        0 0 4px rgba(255, 255, 255, 0.3); /* Subtle outer glow */
+        0 0 4px rgba(255, 255, 255, 0.2); /* Subtle outer glow */
 }
 
-/* Connected handles - no filter needed */
+/* Connected handles - maintain muted appearance */
 .react-flow__handle.connected {
-    /* Keep vibrant colors */
+    filter: saturate(0.6) brightness(0.75);
 }
 
 /* Octane Node Body Styling - Match Reference 3D Button Effect */
@@ -602,8 +603,8 @@ body.resizing .react-flow__edge-interaction {
         inset 0 -2px 1px rgba(0, 0, 0, 0.4),         /* Bottom inner shadow - deeper */
         0 2px 3px rgba(0, 0, 0, 0.6);                /* Outer shadow for lift */
     
-    /* Lighter desaturation matching Octane reference */
-    filter: saturate(0.7) brightness(0.85);
+    /* Moderate desaturation - original darker look */
+    filter: saturate(0.5) brightness(0.7);
     
     /* Smooth transitions */
     transition: all 0.15s ease;
@@ -618,8 +619,8 @@ body.resizing .react-flow__edge-interaction {
         0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
-/* ReactFlow Edge (Connection Line) Styling - Lighter Muted Colors */
+/* ReactFlow Edge (Connection Line) Styling - Muted Colors */
 .react-flow__edge path {
-    /* Lighter desaturation matching Octane reference */
-    filter: saturate(0.7) brightness(0.85);
+    /* Moderate desaturation - original darker look */
+    filter: saturate(0.5) brightness(0.7);
 }
