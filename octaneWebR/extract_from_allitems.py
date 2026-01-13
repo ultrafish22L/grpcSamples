@@ -88,6 +88,11 @@ def detect_grid_params(img):
     
     print(f"  Found {len(menu_items)} rows")
     
+    # Skip first row - it's offset, actual icons start at row 2
+    if menu_items:
+        menu_items = menu_items[1:]
+        print(f"  Skipping first row, using {len(menu_items)} icon rows")
+    
     return columns, menu_items
 
 def extract_all_icons(img, columns, rows):
