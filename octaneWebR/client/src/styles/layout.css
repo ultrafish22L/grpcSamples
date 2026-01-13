@@ -588,20 +588,21 @@ body.resizing .react-flow__edge-interaction {
 
 /* Octane Node Body Styling - Match Reference 3D Button Effect */
 .octane-node {
-    /* More pronounced gradient for depth */
+    /* Darker gradient - pre-darkened to avoid filter that affects text */
+    /* Original was brightness(0.7), so multiply alpha values by 0.7 */
     background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.12) 0%,
-        rgba(0, 0, 0, 0.15) 100%
+        rgba(255, 255, 255, 0.084) 0%,  /* 0.12 * 0.7 = 0.084 */
+        rgba(0, 0, 0, 0.105) 100%        /* 0.15 * 0.7 = 0.105 */
     );
     
     /* Stronger 3D button effect - more visible inset shadows */
     box-shadow: 
-        inset 0 2px 1px rgba(255, 255, 255, 0.15),   /* Top inner highlight - stronger */
-        inset 0 -2px 1px rgba(0, 0, 0, 0.4),         /* Bottom inner shadow - deeper */
-        0 2px 3px rgba(0, 0, 0, 0.6);                /* Outer shadow for lift */
+        inset 0 2px 1px rgba(255, 255, 255, 0.105),   /* 0.15 * 0.7 = 0.105 */
+        inset 0 -2px 1px rgba(0, 0, 0, 0.4),         
+        0 2px 3px rgba(0, 0, 0, 0.6);                
     
-    /* Moderate desaturation - original darker look */
-    filter: saturate(0.5) brightness(0.7);
+    /* Only desaturation - NO brightness filter to keep text bright */
+    filter: saturate(0.5);
     
     /* Smooth transitions */
     transition: all 0.15s ease;

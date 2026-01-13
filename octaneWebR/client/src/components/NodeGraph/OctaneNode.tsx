@@ -130,8 +130,6 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           userSelect: 'none',
-          textShadow: '0 0 1px rgba(255,255,255,0.8), 0 0 2px rgba(255,255,255,0.6)',
-          fontWeight: 500,
         }}
       >
         {sceneNode.name || sceneNode.type}
