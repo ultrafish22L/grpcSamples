@@ -563,13 +563,13 @@ body.resizing .react-flow__edge-interaction {
 
 /* ReactFlow Handle (Pin) Styling - Match Octane 3D Button Effect */
 .react-flow__handle {
-    /* Subtle 3D recessed effect with inset shadows */
+    /* Strong 3D recessed effect with inset shadows */
     box-shadow: 
-        inset 0 1px 2px rgba(0, 0, 0, 0.4),    /* Top inner shadow */
-        inset 0 -1px 1px rgba(255, 255, 255, 0.1); /* Bottom inner highlight */
+        inset 0 2px 3px rgba(0, 0, 0, 0.6),    /* Top inner shadow - deeper */
+        inset 0 -1px 2px rgba(255, 255, 255, 0.15); /* Bottom inner highlight */
     
-    /* Desaturate and dim colors to match Octane's muted appearance */
-    filter: saturate(0.6) brightness(0.75);
+    /* Aggressive desaturation and dimming to match Octane's muted appearance */
+    filter: saturate(0.35) brightness(0.55);
     
     /* Ensure smooth rendering */
     transition: all 0.15s ease;
@@ -577,10 +577,10 @@ body.resizing .react-flow__edge-interaction {
 
 /* Hover state - slightly brighter but still muted */
 .react-flow__handle:hover {
-    filter: saturate(0.7) brightness(0.85);
+    filter: saturate(0.45) brightness(0.65);
     box-shadow: 
-        inset 0 1px 2px rgba(0, 0, 0, 0.3),
-        inset 0 -1px 1px rgba(255, 255, 255, 0.15),
+        inset 0 2px 3px rgba(0, 0, 0, 0.5),
+        inset 0 -1px 2px rgba(255, 255, 255, 0.2),
         0 0 4px rgba(255, 255, 255, 0.2); /* Subtle outer glow */
 }
 
@@ -591,17 +591,20 @@ body.resizing .react-flow__edge-interaction {
 
 /* Octane Node Body Styling - Match Reference 3D Button Effect */
 .octane-node {
-    /* Subtle gradient for depth */
+    /* More pronounced gradient for depth */
     background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.08) 0%,
-        rgba(0, 0, 0, 0.08) 100%
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(0, 0, 0, 0.15) 100%
     );
     
-    /* Subtle 3D button effect */
+    /* Stronger 3D button effect - more visible inset shadows */
     box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),   /* Top inner highlight */
-        inset 0 -1px 0 rgba(0, 0, 0, 0.3),        /* Bottom inner shadow */
-        0 1px 2px rgba(0, 0, 0, 0.5);             /* Outer shadow for lift */
+        inset 0 2px 1px rgba(255, 255, 255, 0.15),   /* Top inner highlight - stronger */
+        inset 0 -2px 1px rgba(0, 0, 0, 0.4),         /* Bottom inner shadow - deeper */
+        0 2px 3px rgba(0, 0, 0, 0.6);                /* Outer shadow for lift */
+    
+    /* Desaturate node body colors to match Octane's muted appearance */
+    filter: saturate(0.35) brightness(0.55);
     
     /* Smooth transitions */
     transition: all 0.15s ease;
@@ -618,6 +621,6 @@ body.resizing .react-flow__edge-interaction {
 
 /* ReactFlow Edge (Connection Line) Styling - Muted Colors */
 .react-flow__edge path {
-    /* Desaturate connection lines to match pins */
-    filter: saturate(0.6) brightness(0.75);
+    /* Aggressive desaturation to match pins */
+    filter: saturate(0.35) brightness(0.55);
 }

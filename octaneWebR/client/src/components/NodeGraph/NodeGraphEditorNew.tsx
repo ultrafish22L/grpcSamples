@@ -102,6 +102,9 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           id: `input-${inputIndex}`,
           label: input.staticLabel || input.name,
           pinInfo: input.pinInfo,
+          handle: input.handle,  // Connected node handle
+          nodeInfo: input.nodeInfo,  // Connected node info (contains takesPinDefaultValue)
+          name: input.name,  // Node name for fallback detection
         };
       });
 

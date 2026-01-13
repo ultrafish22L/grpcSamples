@@ -14,6 +14,9 @@ export interface OctaneNodeData extends Record<string, unknown> {
     id: string;
     label?: string;
     pinInfo?: any;
+    handle?: number;
+    nodeInfo?: any;
+    name?: string;
   }>;
   output?: {
     id: string;
@@ -87,9 +90,13 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
         const socketX = inputSpacing * (index + 1) - calculatedWidth / 2;
 
         // Pin appearance: filled if connected to collapsed node, unfilled if connected to expanded node
-        // Collapsed nodes are default value nodes (Float value, RGB color, etc.)
-        const isConnectedToCollapsed = input.handle !== undefined && input.handle !== 0 &&
-                                      (input.name?.includes('value') || input.name?.includes('color'));
+        // Collapsed nodes have nodeInfo.takesPinDefaultValue = true (Float value, RGB color, etc.)
+        const isConnectedToCollapsed = input.handle !== undefined && 
+                                      input.handle !== 0 && (
+                                        input.nodeInfo?.takesPinDefaultValue === true ||
+                                        input.name?.includes('value') ||
+                                        input.name?.includes('color')
+                                      );
         
         return (
           <Handle
