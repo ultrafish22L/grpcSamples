@@ -1228,9 +1228,8 @@ html, body {
 
 .context-menu-category {
     position: relative;
-    padding: 3px 12px;
+    padding: 1px 12px;
     cursor: pointer;
-    border-bottom: 1px solid var(--octane-border-dark);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1238,12 +1237,6 @@ html, body {
 
 .context-menu-category:hover {
     background: var(--octane-bg-hover);
-}
-
-.context-menu-category::after {
-    content: '▶';
-    font-size: var(--font-size-xs);
-    color: var(--octane-text-muted);
 }
 
 .context-submenu {
@@ -1286,14 +1279,9 @@ html, body {
 
 
 .context-menu-item {
-    padding: 3px 12px;
+    padding: 1px 12px;
     cursor: pointer;
     white-space: nowrap;
-    border-bottom: 1px solid var(--octane-border-dark);
-}
-
-.context-menu-item:last-child {
-    border-bottom: none;
 }
 
 .context-menu-item:hover {
@@ -1481,7 +1469,7 @@ select {
 }
 
 .context-menu-item {
-    padding: 3px 12px;
+    padding: 1px 12px;
     color: var(--octane-text-secondary);
     cursor: pointer;
     transition: all 0.15s ease;
