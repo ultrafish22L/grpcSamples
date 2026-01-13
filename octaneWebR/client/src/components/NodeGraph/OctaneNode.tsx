@@ -98,6 +98,16 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
                                         input.name?.includes('color')
                                       );
         
+        // Debug logging for first 3 pins of each node
+        if (index < 3) {
+          console.log(`[OctaneNode] ${sceneNode.name} pin ${index}:`, {
+            handle: input.handle,
+            name: input.name,
+            takesPinDefaultValue: input.nodeInfo?.takesPinDefaultValue,
+            isConnectedToCollapsed
+          });
+        }
+        
         return (
           <Handle
             key={input.id}
