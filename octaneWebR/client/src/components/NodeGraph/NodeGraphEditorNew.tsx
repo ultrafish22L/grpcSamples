@@ -467,6 +467,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
 
         // If we were dragging FROM an input pin (connectingEdgeRef), remove that old connection
         const edgesToRemove: string[] = [];
+        const nodesToRemove: string[] = [];
         
         if (connectingEdgeRef.current) {
           console.log('🔄 Removing old source connection:', connectingEdgeRef.current.id);
@@ -476,6 +477,26 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         if (existingTargetEdge && existingTargetEdge.id !== connectingEdgeRef.current?.id) {
           console.log('🔄 Removing old target connection:', existingTargetEdge.id);
           edgesToRemove.push(existingTargetEdge.id);
+          
+          // COLLAPSED NODE CLEANUP: Check if old connection points to a collapsed (default value) node
+          // Octane automatically deletes these when replaced with a new connection
+          const oldSourceHandle = parseInt(existingTargetEdge.source);
+          const oldSourceNode = client.lookupItem(oldSourceHandle);
+          
+          if (oldSourceNode) {
+            // A collapsed node is typically:
+            // 1. A default value node (Float value, RGB color, Bool value, etc.)
+            // 2. Has nodeInfo.takesPinDefaultValue = true OR
+            // 3. Matches the pin's defaultNodeType
+            const isCollapsedNode = oldSourceNode.nodeInfo?.takesPinDefaultValue === true ||
+                                   oldSourceNode.name?.includes('value') ||
+                                   oldSourceNode.name?.includes('color');
+            
+            if (isCollapsedNode) {
+              console.log('🗑️ Detected collapsed node to remove:', oldSourceNode.name, oldSourceHandle);
+              nodesToRemove.push(existingTargetEdge.source);
+            }
+          }
         }
 
         // Call Octane API to connect nodes
@@ -561,11 +582,31 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           return addEdge(newEdge, filtered);
         });
 
+        // Remove collapsed nodes from scene and ReactFlow
+        if (nodesToRemove.length > 0) {
+          console.log('🗑️ Removing', nodesToRemove.length, 'collapsed node(s)');
+          
+          // Remove from ReactFlow nodes
+          setNodes((nds) => nds.filter(n => !nodesToRemove.includes(n.id)));
+          
+          // Remove from scene.map
+          nodesToRemove.forEach(nodeId => {
+            const handleNum = parseInt(nodeId);
+            const removedNode = client.lookupItem(handleNum);
+            if (removedNode) {
+              console.log('  🗑️ Removed from scene.map:', removedNode.name, handleNum);
+              client.removeFromScene(handleNum);
+            }
+          });
+          
+          console.log('✅ Collapsed node cleanup complete');
+        }
+
         // Clear the connecting edge ref
         connectingEdgeRef.current = null;
 
         // NO scene sync - connection only updates local UI state
-        // Octane handles collapsed node cleanup internally, no full rebuild needed
+        // Collapsed nodes removed locally, no full rebuild needed
         console.log('✅ Connection complete!');
         
       } catch (error) {

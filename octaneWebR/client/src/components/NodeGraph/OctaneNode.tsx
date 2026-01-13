@@ -86,6 +86,11 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
         const inputSpacing = calculatedWidth / (inputs.length + 1);
         const socketX = inputSpacing * (index + 1) - calculatedWidth / 2;
 
+        // Pin appearance: filled if connected to collapsed node, unfilled if connected to expanded node
+        // Collapsed nodes are default value nodes (Float value, RGB color, etc.)
+        const isConnectedToCollapsed = input.handle !== undefined && input.handle !== 0 &&
+                                      (input.name?.includes('value') || input.name?.includes('color'));
+        
         return (
           <Handle
             key={input.id}
@@ -97,7 +102,8 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
               top: -4, // Move slightly above the node
               width: 12,
               height: 12,
-              backgroundColor: socketColor,
+              // Filled if connected to collapsed, unfilled (transparent) if connected to expanded
+              backgroundColor: isConnectedToCollapsed ? socketColor : 'transparent',
               border: `2px solid ${socketColor}`,
               borderRadius: '50%',
               zIndex: 10,

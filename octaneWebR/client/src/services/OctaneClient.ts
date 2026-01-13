@@ -334,6 +334,33 @@ export class OctaneClient extends EventEmitter {
   }
 
   /**
+   * Remove node from scene (map and tree) - used for collapsed node cleanup
+   */
+  removeFromScene(handle: number): void {
+    // Remove from map
+    this.scene.map.delete(handle);
+    
+    // Remove from tree - recursively search and remove
+    const removeFromArray = (arr: SceneNode[]): boolean => {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].handle === handle) {
+          arr.splice(i, 1);
+          return true;
+        }
+        // Check children recursively
+        if (arr[i].children && arr[i].children!.length > 0) {
+          if (removeFromArray(arr[i].children!)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    };
+    
+    removeFromArray(this.scene.tree);
+  }
+
+  /**
    * Get destination nodes for a given node (for connection graph)
    * DISABLED: This function was causing Octane crashes by making too many API calls during recursion
    * 
