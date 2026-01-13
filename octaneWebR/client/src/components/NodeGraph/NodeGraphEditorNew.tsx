@@ -33,7 +33,6 @@ import { OctaneNode, OctaneNodeData } from './OctaneNode';
 import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
 import { NodeTypeContextMenu } from './NodeTypeContextMenu';
 import { NodeContextMenu } from './NodeContextMenu';
-import { EdgeContextMenu } from './EdgeContextMenu';
 import { NodeType } from '../../constants/OctaneTypes';
 
 interface NodeGraphEditorProps {
@@ -63,9 +62,8 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   // Context menu state
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
-  const [contextMenuType, setContextMenuType] = useState<'node' | 'add' | 'edge'>('add'); // 'node' = right-click on node, 'add' = right-click on empty space, 'edge' = right-click on edge
+  const [contextMenuType, setContextMenuType] = useState<'node' | 'add'>('add'); // 'node' = right-click on node, 'add' = right-click on empty space
   const [contextMenuNodeId, setContextMenuNodeId] = useState<string | null>(null); // Track which node was right-clicked
-  const [contextMenuEdgeId, setContextMenuEdgeId] = useState<string | null>(null); // Track which edge was right-clicked
 
   // Track connection line color during drag (matches source pin color)
   const [connectionLineColor, setConnectionLineColor] = useState('#4a90e2');
@@ -459,6 +457,14 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           e => e.target === connection.target && e.targetHandle === connection.targetHandle
         );
 
+        // Detect no-op: reconnecting to same source (duplicate connection)
+        if (existingTargetEdge && existingTargetEdge.source === connection.source && 
+            existingTargetEdge.sourceHandle === connection.sourceHandle) {
+          console.log('⏭️ No-op connection detected - already connected to same source, ignoring');
+          connectingEdgeRef.current = null;
+          return;
+        }
+
         // If we were dragging FROM an input pin (connectingEdgeRef), remove that old connection
         const edgesToRemove: string[] = [];
         
@@ -480,11 +486,6 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         const pinIdx = connection.targetHandle 
           ? parseInt(connection.targetHandle.split('-')[1]) 
           : 0;
-
-        // Get old source handle for cleanup (if replacing connection)
-        const oldSourceHandle = existingTargetEdge 
-          ? parseInt(existingTargetEdge.source)
-          : null;
 
         console.log('📤 Calling ApiNode.connectToIx:', {
           targetHandle,
@@ -563,9 +564,8 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         // Clear the connecting edge ref
         connectingEdgeRef.current = null;
 
-        // Optimized cleanup: remove orphaned collapsed nodes without full rebuild
-        console.log('🔄 Cleaning up orphaned nodes (optimized)...');
-        await client.handlePinConnectionCleanup(oldSourceHandle);
+        // NO scene sync - connection only updates local UI state
+        // Octane handles collapsed node cleanup internally, no full rebuild needed
         console.log('✅ Connection complete!');
         
       } catch (error) {
@@ -657,20 +657,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
     []
   );
 
-  /**
-   * Handle edge context menu (right-click)
-   */
-  const onEdgeContextMenu = useCallback(
-    (event: React.MouseEvent, edge: Edge) => {
-      event.preventDefault();
-      console.log('🖱️ Edge context menu:', edge.id);
-      setContextMenuPosition({ x: event.clientX, y: event.clientY });
-      setContextMenuType('edge');
-      setContextMenuEdgeId(edge.id);
-      setContextMenuVisible(true);
-    },
-    []
-  );
+
 
   /**
    * Handle edge deletion (keyboard Delete key or context menu)
@@ -755,23 +742,9 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   const handleCloseContextMenu = useCallback(() => {
     setContextMenuVisible(false);
     setContextMenuNodeId(null);
-    setContextMenuEdgeId(null);
   }, []);
 
-  /**
-   * Handle edge deletion from context menu
-   */
-  const handleDeleteEdge = useCallback(async () => {
-    if (!contextMenuEdgeId) return;
 
-    const edge = edges.find((e) => e.id === contextMenuEdgeId);
-    if (!edge) {
-      console.error('❌ Edge not found:', contextMenuEdgeId);
-      return;
-    }
-
-    await onEdgesDelete([edge]);
-  }, [contextMenuEdgeId, edges, onEdgesDelete]);
 
   /**
    * Node context menu action handlers
@@ -889,15 +862,6 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         />
       )}
 
-      {contextMenuVisible && contextMenuType === 'edge' && (
-        <EdgeContextMenu
-          x={contextMenuPosition.x}
-          y={contextMenuPosition.y}
-          onDeleteEdge={handleDeleteEdge}
-          onClose={handleCloseContextMenu}
-        />
-      )}
-
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -913,7 +877,6 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onEdgesDelete={onEdgesDelete}
         onNodeClick={onNodeClick}
         onEdgeClick={onEdgeClick}
-        onEdgeContextMenu={onEdgeContextMenu}
         onPaneContextMenu={handlePaneContextMenu}
         elementsSelectable={true}
         nodesConnectable={true}
