@@ -561,12 +561,10 @@ body.resizing .react-flow__edge-interaction {
     cursor: pointer !important;
 }
 
-/* ReactFlow Handle (Pin) Styling - Match Octane 3D Button Effect */
+/* ReactFlow Handle (Pin) Styling - Solid appearance like Octane */
 .react-flow__handle {
-    /* Strong 3D recessed effect with inset shadows */
-    box-shadow: 
-        inset 0 2px 3px rgba(0, 0, 0, 0.6),    /* Top inner shadow - deeper */
-        inset 0 -1px 2px rgba(255, 255, 255, 0.15); /* Bottom inner highlight */
+    /* Minimal shadow for depth - no inset shadows to keep solid appearance */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     
     /* Moderate desaturation - original darker look */
     filter: saturate(0.5) brightness(0.7);
@@ -579,8 +577,7 @@ body.resizing .react-flow__edge-interaction {
 .react-flow__handle:hover {
     filter: saturate(0.6) brightness(0.8);
     box-shadow: 
-        inset 0 2px 3px rgba(0, 0, 0, 0.5),
-        inset 0 -1px 2px rgba(255, 255, 255, 0.2),
+        0 1px 2px rgba(0, 0, 0, 0.4),
         0 0 4px rgba(255, 255, 255, 0.2); /* Subtle outer glow */
 }
 
@@ -608,6 +605,13 @@ body.resizing .react-flow__edge-interaction {
     
     /* Smooth transitions */
     transition: all 0.15s ease;
+}
+
+/* Node label text - full bright white, not affected by parent filter */
+.octane-node-label {
+    /* Compensate for parent's brightness(0.7) with brightness(1.43) */
+    /* 1 / 0.7 ≈ 1.43 to get back to full white */
+    filter: brightness(1.43);
 }
 
 /* Selected node - slightly more prominent */

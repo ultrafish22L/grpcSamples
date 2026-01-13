@@ -121,6 +121,7 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
 
       {/* Node title */}
       <div
+        className="octane-node-label"
         style={{
           color: '#fff',
           fontSize: 11,
