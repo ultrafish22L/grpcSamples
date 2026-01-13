@@ -571,6 +571,10 @@ body.resizing .react-flow__edge-interaction {
     
     /* Ensure smooth rendering */
     transition: all 0.15s ease;
+    
+    /* Render above node background pseudo-element */
+    position: relative;
+    z-index: 10;
 }
 
 /* Hover state - slightly brighter but still muted */
@@ -588,11 +592,8 @@ body.resizing .react-flow__edge-interaction {
 
 /* Octane Node Body Styling - Match Reference 3D Button Effect */
 .octane-node {
-    /* More pronounced gradient for depth */
-    background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.12) 0%,
-        rgba(0, 0, 0, 0.15) 100%
-    );
+    /* Position relative for pseudo-element */
+    position: relative;
     
     /* Stronger 3D button effect - more visible inset shadows */
     box-shadow: 
@@ -600,18 +601,38 @@ body.resizing .react-flow__edge-interaction {
         inset 0 -2px 1px rgba(0, 0, 0, 0.4),         /* Bottom inner shadow - deeper */
         0 2px 3px rgba(0, 0, 0, 0.6);                /* Outer shadow for lift */
     
-    /* Moderate desaturation - original darker look */
-    filter: saturate(0.5) brightness(0.7);
+    /* NO filter here - we'll apply it to ::before pseudo-element only */
     
     /* Smooth transitions */
     transition: all 0.15s ease;
 }
 
-/* Node label text - full bright white, not affected by parent filter */
+/* Node background - dimmed/desaturated (text unaffected) */
+.octane-node::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    /* More pronounced gradient for depth */
+    background: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(0, 0, 0, 0.15) 100%
+    );
+    
+    /* Apply dimming filter ONLY to background, not text */
+    filter: saturate(0.5) brightness(0.7);
+    
+    /* Behind text content */
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Node label text - full bright white (no longer needs compensation) */
 .octane-node-label {
-    /* Aggressive brightness to override parent's filter stacking */
-    filter: brightness(2.0) saturate(1.5);
-    /* Ensure text renders on top with proper isolation */
+    /* Ensure text renders above background */
     position: relative;
     z-index: 10;
 }
