@@ -1,25 +1,36 @@
-# Troubleshooting Like a Pro
-## You Diagnose. AI Executes.
+# Troubleshooting: Diagnosis and Power
+## When Things Break, You Break Through
 
 ---
 
-## 🎯 The Pro Troubleshooting Approach
+## 🎯 Declaration: You Are the Debugger
 
-**You're the diagnostician. AI is your lab tech.**
+**Bugs don't define you. Solutions do.**
 
-**You bring:**
-- Pattern recognition from experience
-- Strategic thinking about root causes
-- Judgment on which leads to pursue
-- Decision-making under uncertainty
+### Your Power in Debugging
 
-**AI brings:**
-- Fast execution of diagnostic commands
-- Systematic testing of hypotheses
-- Comprehensive logging and reporting
-- Tireless iteration through possibilities
+**Pattern Recognition** - You've seen this before, you sense the real issue  
+**Strategic Thinking** - You know which paths lead to answers  
+**Intuition** - Experience tells you where to look first  
+**Judgment** - You decide which leads matter, which don't  
+**Decision Under Fire** - You make calls with incomplete information
 
-**Together:** Faster debugging, less grinding, better solutions.
+**This is irreplaceable human intelligence.**
+
+### AI's Role in Debugging
+
+**Speed** - Executes 10 diagnostic tests in seconds  
+**Consistency** - Never skips a step, never forgets a check  
+**Endurance** - Tests hundreds of scenarios without fatigue  
+**Documentation** - Logs every finding systematically
+
+**This is mechanical excellence.**
+
+### The Debugging Equation
+
+**You:** Diagnose + Strategize + Decide + Validate  
+**AI:** Execute + Test + Report + Document  
+**=** Problems solved at velocity
 
 ---
 
@@ -137,164 +148,68 @@ error TS2345: Argument of type 'string' is not assignable to 'NodeType'
 
 ---
 
-### Battle #4: "Build Succeeds, Runtime Fails"
+### Battle #4: "Build Passes, Runtime Fails"
 
-**Symptoms:**
-```
-✅ npm run build - No errors
-❌ Browser console: Uncaught TypeError: Cannot read property 'x' of undefined
-```
+**You recognize:** "TypeScript checks types, not data. Need runtime validation."  
+**You direct:** "AI: Add defensive coding and validation at API boundaries."
 
-**The Problem:**
-TypeScript can only check what it knows. Runtime errors happen when real data doesn't match expectations.
-
-**The Solution:**
 ```typescript
-// ❌ Assumes data exists
-const name = nodeData.displayName.toUpperCase();
-
-// ✅ Defensive coding
+// AI implements to your specs:
 const name = nodeData?.displayName?.toUpperCase() ?? 'UNKNOWN';
 
-// 🏆 Even better - validate at boundaries
 function validateNodeData(data: unknown): NodeData {
-  if (!data || typeof data !== 'object') {
+  if (!data || typeof data !== 'object' || !('displayName' in data)) {
     throw new Error('Invalid node data');
-  }
-  if (!('displayName' in data) || typeof data.displayName !== 'string') {
-    throw new Error('Missing displayName');
   }
   return data as NodeData;
 }
 ```
 
-**Remember:** Trust types, but verify data.
+**Your judgment: Trust types, but validate data.**
 
 ---
 
-### Battle #5: "Dev Server Won't Start"
+### Battle #5: "Server Won't Start"
 
-**Symptoms:**
-```
-❌ Port 43929 already in use
-❌ Module not found: '@grpc/grpc-js'
-❌ Vite hangs on startup
-```
-
-**The Checklist:**
+**You diagnose:** Port conflict, missing deps, or stale cache.  
+**You direct:** "AI: Run standard server diagnostics."
 
 ```bash
-# Problem: Port in use
-# Solution: Kill the process
-lsof -i :43929  # Find the PID
-kill -9 <PID>   # Terminate it
-
-# Problem: Missing dependencies
-# Solution: Fresh install
-rm -rf node_modules package-lock.json
-npm install
-
-# Problem: Stale cache
-# Solution: Clear it
-rm -rf .vite node_modules/.vite
-npm run dev
-
-# Problem: Vite hangs
-# Solution: Check for infinite loops in plugin code
-# Look at vite-plugin-octane-grpc.ts for blocking operations
+# AI executes:
+lsof -i :43929                              # Check port
+rm -rf node_modules package-lock.json .vite # Clear all caches
+npm install                                  # Fresh install
+npm run dev                                  # Restart
 ```
 
-**Nuclear Option (when nothing else works):**
-```bash
-# Start fresh
-rm -rf node_modules package-lock.json .vite
-npm install
-npm run dev
-```
+**You validate:** Server starts clean.
 
 ---
 
-### Battle #6: "Callback Streaming Not Working"
+### Battle #6: "Callbacks Not Firing"
 
-**Symptoms:**
-```
-✅ Callback registered
-❌ No frames received
-❌ onNewImage never fires
-```
+**You recognize:** Octane must be actively rendering for callbacks to fire.  
+**You direct:** "AI: Verify registration, check streaming, add logging."  
+**You test:** Start a render in Octane SE.  
+**You validate:** Callbacks now firing correctly.
 
-**Debug Steps:**
-
-```typescript
-// Step 1: Verify registration
-const result = await callbackService.registerCallback({
-  callbackType: CallbackType.CT_ON_NEW_IMAGE
-});
-console.log('Registration result:', result);
-
-// Step 2: Verify streaming setup
-const stream = callbackService.callbackChannel({});
-stream.on('data', (data) => {
-  console.log('Received callback:', data.type);
-});
-stream.on('error', (err) => {
-  console.error('Stream error:', err);
-});
-stream.on('end', () => {
-  console.log('Stream ended');
-});
-
-// Step 3: Verify Octane is rendering
-// In Octane SE: Start a render
-// Callbacks only fire when Octane is actively rendering
-```
-
-**Common Mistake:** Expecting callbacks when Octane isn't rendering. Callbacks are **event-driven**.
+**Your insight:** Callbacks are event-driven, not polling.
 
 ---
 
-### Battle #7: "Icons Not Displaying"
+### Battle #7: "Icons Not Loading"
 
-**Symptoms:**
-```
-❌ 404 errors for icon files
-❌ Broken image icons in node graph
-❌ Icons exist but don't load
-```
-
-**The Checklist:**
+**You diagnose:** Path issue or missing files.  
+**You direct:** "AI: Verify icon count, check paths, test metadata."
 
 ```bash
-# Step 1: Verify icons exist
-ls client/public/icons/nodes/*.png | wc -l  # Should be 636
-
-# Step 2: Verify paths are correct
-# Icon path format: /icons/nodes/NT_MAT_DIFFUSE.png
-# NOT: /public/icons/nodes/NT_MAT_DIFFUSE.png
-
-# Step 3: Verify metadata exists
-cat client/public/icons/nodes/metadata.json | jq 'length'  # Should be 636
-
-# Step 4: Verify display names exist
-cat client/public/icons/nodes/node-display-names.json | jq 'length'  # Should be 755
+# AI executes:
+ls client/public/icons/nodes/*.png | wc -l  # 636 icons
+# Paths: /icons/nodes/NT_*.png (NOT /public/icons/...)
 ```
 
-**In React:**
-```typescript
-// ❌ Wrong path
-<img src="/public/icons/nodes/NT_MAT_DIFFUSE.png" />
-
-// ✅ Correct path
-<img src="/icons/nodes/NT_MAT_DIFFUSE.png" />
-
-// 🏆 Even better - handle missing icons
-<img 
-  src={`/icons/nodes/${nodeType}.png`}
-  onError={(e) => {
-    e.currentTarget.src = '/icons/nodes/fallback.png';
-  }}
-/>
-```
+**You fix:** Correct paths in React components. Add fallback handling.  
+**You validate:** All icons loading correctly.
 
 ---
 
@@ -479,58 +394,67 @@ copy(obj) // Copy object to clipboard
 
 ---
 
-## 💎 The Reality of Pro Debugging
+## 💎 Your Debugging Power
 
-### What Makes You Effective
+### What Makes You Irreplaceable
 
-**Your human strengths in debugging:**
-- **Pattern recognition** - You've seen similar bugs before
-- **Intuition** - You sense where the problem likely is
-- **Strategic thinking** - You know which approaches to try first
-- **Creative problem solving** - You find novel solutions to novel problems
-- **Judgment under uncertainty** - You make calls with incomplete information
+**Pattern Recognition** - You've debugged before, you sense the pattern  
+**Intuition** - Experience tells you where the real problem lives  
+**Strategic Thinking** - You know which path leads to answers fastest  
+**Creative Solutions** - You solve problems no one has documented  
+**Judgment Under Fire** - You decide with incomplete information
 
-**What AI amplifies:**
-- **Execution speed** - Run 10 diagnostic tests in seconds
-- **Consistency** - Never forgets to check edge cases
-- **Documentation** - Captures every step automatically
-- **Tireless iteration** - Test hundreds of scenarios without fatigue
-- **Comprehensive logging** - Track everything systematically
+**This is human intelligence AI cannot replicate.**
 
-**Together:** You solve bugs 3x faster because you focus on thinking, not typing.
+### What AI Multiplies
 
-### Your Debugging Mindset
+**Speed** - 10 diagnostic tests in seconds  
+**Consistency** - Every edge case checked, every time  
+**Endurance** - Hundreds of scenarios tested without fatigue  
+**Documentation** - Every finding logged automatically
 
-```
-I diagnose strategically. AI executes systematically.
-I make the decisions. AI runs the tests.
-I identify patterns. AI gathers the data.
-I choose the approach. AI implements it.
-I validate the fix. AI documents the solution.
-I'm the debugger. AI is my force multiplier.
-```
+**This is mechanical power at your command.**
+
+### The Debugging Truth
+
+**You:** Diagnose + Strategize + Decide + Validate  
+**AI:** Execute + Test + Report + Document  
+**=** Bugs solved 3x faster without grinding
 
 ---
 
-## 🎤 The Pro's Approach
+## 🔥 Final Declaration
 
-When the build fails,  
-When Octane crashes,  
-When nothing makes sense,  
-When you've tried everything...
+**When the build fails.**  
+**When Octane crashes.**  
+**When nothing makes sense.**  
+**When you've tried everything.**
 
-**Don't grind through it manually. Direct AI assistance:**
+**You don't panic. You direct.**
 
-- **You:** "Octane crashed. Run full diagnostics."
-- **AI:** Tests connectivity, checks logs, reports findings
-- **You:** "Ah, callback registration is blocking. Try lazy init."
-- **AI:** Implements change, tests, confirms fix
-- **You:** "Good. Document and move on."
+"AI: Run full diagnostics."  
+"AI: Test these three scenarios."  
+"AI: Implement this fix."  
+"AI: Validate and document."
 
-**That's debugging like a pro:**  
-Strategic thinking (you) + Fast execution (AI) = Problems solved at velocity.
+**Strategic thinking + Fast execution = Victory.**
 
-**You're the toughest debugger because you use every tool effectively.**
+You're the toughest debugger.  
+Not because you know everything.  
+Because you direct every resource with precision.  
+Because you make decisions while others hesitate.  
+Because you know what only humans can do—and you own it completely.
+
+**Word is sound and power.**  
+Your commands create solutions.  
+Your directives become fixes.  
+Your vision becomes working code.
+
+---
+
+*"I diagnose. AI executes. Problems solved."*
+
+**Now go debug with power. You've got systems to fix.**
 
 ---
 
