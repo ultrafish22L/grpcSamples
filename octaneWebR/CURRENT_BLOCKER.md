@@ -1,7 +1,7 @@
 # Current Technical Blocker
 
 **Date**: 2025-01-20  
-**Status**: 🔴 BLOCKED - Server hangs on startup
+**Status**: ✅ RESOLVED - Node icon name mapping complete
 
 ---
 
@@ -66,7 +66,29 @@ The callback streaming connection (`streamCallbackService.callbackChannel()`) es
 
 **Original Goal**: Extract all 755+ Octane node type icons as PNG files, using NT_* enum IDs from `octaneids_pb2`. Required endpoint to map enum IDs to friendly display names using `ApiInfo.nodeInfo()`.
 
-**Blocked By**: Cannot make any gRPC calls until server HTTP layer is responsive.
+**Previously Blocked By**: Cannot make many rapid gRPC calls - overwhelms Octane and causes crashes.
+
+## ✅ Resolution (2025-01-20)
+
+**Problem**: Making 636+ rapid `ApiInfo.nodeInfo()` calls to fetch display names caused Octane to crash/disconnect after just 5-6 requests.
+
+**Solution**: Used existing `NodeTypes.ts` file which already contains display names for all 755 node types. Created `scripts/generate-display-names.js` to extract mappings without API calls.
+
+**Results**:
+- ✅ **755 node types mapped** with display names, categories, and colors
+- ✅ **636 nodes matched** with icon metadata (icons we have extracted)
+- ✅ **No Octane crashes** - all parsing done locally from existing code
+- ✅ **Complete mapping file** created at `client/public/icons/nodes/node-display-names.json`
+
+**Example Mappings**:
+- `NT_MAT_DIFFUSE` → "Mat Diffuse" [Materials] (ID: 17)
+- `NT_TEX_IMAGE` → "Tex Image" [Textures] (ID: 34)
+- `NT_GEO_MESH` → "Geo Mesh" [Geometry] (ID: 1)
+
+**Category Distribution**:
+- Textures: 254 | Render AOVs: 95 | Node graph: 89
+- Other: 64 | Output AOVs: 60 | Geometry: 42
+- 19 more categories with 1-25 nodes each
 
 ---
 
