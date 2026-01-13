@@ -96,7 +96,7 @@ def extract_all_icons(img, columns, rows):
     
     icons = []
     icon_size = 16
-    icon_x_offset = 7  # Icon is offset from column start
+    icon_x_offset = -1  # Icon is slightly LEFT of column start (was 7, corrected to -1)
     
     for col_idx, col_x in enumerate(columns):
         col_icons = 0
