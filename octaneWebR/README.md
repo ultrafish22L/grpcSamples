@@ -1,6 +1,12 @@
 # octaneWebR
 
-**Modern React/TypeScript UI clone of Octane Standalone with real-time gRPC connectivity**
+**Pixel-perfect React/TypeScript UI clone of Octane Render Studio SE with real-time gRPC connectivity**
+
+## 🎯 Project Goal
+
+Clone **Octane Render Studio Standalone Edition's UI/UX exactly**, using the [Octane SE Manual](https://docs.otoy.com/standaloneSE/CoverPage.html) as the reference specification. Every visual element and interaction should match Octane SE, powered by real-time gRPC API communication with Octane LiveLink.
+
+**See [WORKFLOW.md](./WORKFLOW.md) for detailed development process.**
 
 ---
 
@@ -50,10 +56,11 @@ Open **http://localhost:43929** (or port shown in terminal)
 
 ## 📚 Documentation
 
+- **[WORKFLOW.md](./WORKFLOW.md)** - Development workflow and best practices ⭐
 - **[QUICKSTART.md](./QUICKSTART.md)** - Setup instructions and usage guide
 - **[OVERVIEW.md](./OVERVIEW.md)** - Architecture overview and technology stack
 - **[OCTANE_API_REFERENCE.md](./OCTANE_API_REFERENCE.md)** - gRPC API reference and patterns
-- **[OCTANE_STANDALONE_IMPLEMENTATION_PLAN.md](./OCTANE_STANDALONE_IMPLEMENTATION_PLAN.md)** - Feature roadmap
+- **[OCTANE_STANDALONE_IMPLEMENTATION_PLAN.md](./OCTANE_STANDALONE_IMPLEMENTATION_PLAN.md)** - Feature roadmap organized by Octane SE manual sections
 
 ---
 
