@@ -7,6 +7,7 @@ import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { useFileDialog } from '../hooks/useFileDialog';
 import { useRecentFiles } from '../hooks/useRecentFiles';
 import { useOctane } from '../hooks/useOctane';
+import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import { MenuDropdown } from './MenuDropdown';
 import { getMenuDefinitions } from '../config/menuDefinitions';
 import { MenuAction } from '../types/menu';
@@ -259,6 +260,38 @@ export function MenuBar({ onSceneRefresh }: MenuBarProps) {
     closeMenu,
     onSceneRefresh
   ]);
+
+  // Global keyboard shortcuts for file operations
+  const keyboardShortcuts = useMemo(() => [
+    {
+      key: 'n',
+      ctrl: true,
+      description: 'New scene',
+      handler: () => handleMenuAction('file.new')
+    },
+    {
+      key: 'o',
+      ctrl: true,
+      description: 'Open scene',
+      handler: () => handleMenuAction('file.open')
+    },
+    {
+      key: 's',
+      ctrl: true,
+      description: 'Save scene',
+      handler: () => handleMenuAction('file.save')
+    },
+    {
+      key: 's',
+      ctrl: true,
+      shift: true,
+      description: 'Save scene as',
+      handler: () => handleMenuAction('file.saveAs')
+    }
+  ], [handleMenuAction]);
+
+  // Register keyboard shortcuts
+  useKeyboardShortcuts(keyboardShortcuts);
 
   const menuItems = ['file', 'edit', 'script', 'module', 'cloud', 'window', 'help'];
 

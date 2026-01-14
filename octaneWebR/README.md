@@ -84,6 +84,13 @@ All essential features working with real-time Octane synchronization:
 - ✅ **Window Menu** - Layout management
 - ✅ **Help Menu** - Documentation links
 
+#### **Keyboard Shortcuts** (Global Hotkeys)
+- ✅ **Ctrl+N** - New scene (clears current project)
+- ✅ **Ctrl+O** - Open scene (file dialog)
+- ✅ **Ctrl+S** - Save scene (quick save)
+- ✅ **Ctrl+Shift+S** - Save As (file dialog)
+- ✅ **Platform-Aware** - Cmd key on macOS, Ctrl on Windows/Linux
+
 #### **Infrastructure**
 - ✅ **Embedded gRPC Proxy** - Vite plugin provides gRPC-Web proxy (no separate server)
 - ✅ **Type Safety** - Full TypeScript support with auto-generated protobuf types
@@ -94,6 +101,16 @@ All essential features working with real-time Octane synchronization:
 ---
 
 ## 🎯 **Recent Achievements** (Last 7 Days)
+
+### **2026-01-14**: Global Keyboard Shortcuts
+- ✅ **File Operation Shortcuts**
+  - Ctrl+N for New scene
+  - Ctrl+O for Open scene
+  - Ctrl+S for Save scene
+  - Ctrl+Shift+S for Save As
+  - Platform-aware (Cmd on Mac, Ctrl on Windows/Linux)
+  - Smart input field detection (skips shortcuts when typing)
+  - Implemented via reusable `useKeyboardShortcuts` hook
 
 ### **2025-01-21**: Advanced Node Graph Features
 - ✅ **Enhanced Pin Tooltips (TASK 1.5.1)**

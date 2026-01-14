@@ -376,10 +376,10 @@
 ### 9.3 Global Shortcuts
 | Feature | Status | Manual Reference | Notes |
 |---------|--------|------------------|-------|
-| Ctrl+N - New scene | ❌ | File | Not implemented |
-| Ctrl+O - Open scene | ❌ | File | Not implemented |
-| Ctrl+S - Save scene | ❌ | File | Not implemented |
-| Ctrl+Shift+S - Save As | ❌ | File | Not implemented |
+| Ctrl+N - New scene | ✅ | File | Fully working |
+| Ctrl+O - Open scene | ✅ | File | Fully working |
+| Ctrl+S - Save scene | ✅ | File | Fully working |
+| Ctrl+Shift+S - Save As | ✅ | File | Fully working |
 | Ctrl+Z - Undo | ❌ | Edit | Not implemented |
 | Ctrl+Y - Redo | ❌ | Edit | Not implemented |
 
@@ -434,16 +434,16 @@
 | Menu System | 8 | 19 | 6 | 33 |
 | File Operations | 2 | 3 | 9 | 14 |
 | Application Settings | 0 | 0 | 9 | 9 |
-| Keyboard Shortcuts | 7 | 2 | 9 | 18 |
+| Keyboard Shortcuts | 11 | 2 | 5 | 18 |
 | Scripting | 0 | 0 | 5 | 5 |
 | Advanced Features | 0 | 0 | 11 | 11 |
-| **TOTAL** | **71** | **48** | **96** | **215** |
+| **TOTAL** | **75** | **48** | **92** | **215** |
 
 ### Completion Percentage
-- **Fully Implemented**: 71 / 215 = **33.0%**
+- **Fully Implemented**: 75 / 215 = **34.9%**
 - **Partially Implemented**: 48 / 215 = **22.3%**
-- **Not Implemented**: 96 / 215 = **44.7%**
-- **Total Coverage** (Full + Partial): 119 / 215 = **55.3%**
+- **Not Implemented**: 92 / 215 = **42.8%**
+- **Total Coverage** (Full + Partial): 123 / 215 = **57.2%**
 
 ---
 
