@@ -78,6 +78,10 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   const [cutterPath, setCutterPath] = useState<{ x: number; y: number }[]>([]);
   const cutterStartRef = useRef<{ x: number; y: number } | null>(null);
 
+  // Multi-connect state (Ctrl+connect to connect multiple selected nodes)
+  const isMultiConnectingRef = useRef(false);
+  const multiConnectSourcesRef = useRef<string[]>([]); // Selected node IDs to connect
+
   // Track connection line color during drag (matches source pin color)
   const [connectionLineColor, setConnectionLineColor] = useState('#ffc107');
   const connectingEdgeRef = useRef<Edge | null>(null); // Track if creating new connection vs reconnecting
@@ -542,8 +546,25 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
    * Handle connection start - capture source handle color for drag line
    */
   const onConnectStart: OnConnectStart = useCallback(
-    (_event, { nodeId, handleId, handleType }) => {
+    (event, { nodeId, handleId, handleType }) => {
       console.log('🔌 Connection drag started:', { nodeId, handleId, handleType });
+      
+      // Check if Ctrl/Cmd is held for multi-connect feature
+      const isCtrlHeld = (event as MouseEvent)?.ctrlKey || (event as MouseEvent)?.metaKey;
+      
+      // Multi-connect: if Ctrl held and dragging from OUTPUT pin of a SELECTED node
+      if (isCtrlHeld && handleType === 'source') {
+        const selectedNodes = nodes.filter(n => n.selected);
+        if (selectedNodes.length > 1 && selectedNodes.some(n => n.id === nodeId)) {
+          // Activate multi-connect mode
+          isMultiConnectingRef.current = true;
+          multiConnectSourcesRef.current = selectedNodes.map(n => n.id);
+          console.log(`🔗 Multi-connect activated: ${selectedNodes.length} selected nodes will connect`);
+        }
+      } else {
+        isMultiConnectingRef.current = false;
+        multiConnectSourcesRef.current = [];
+      }
       
       // Find the source node and handle to get its color
       const sourceNode = nodes.find(n => n.id === nodeId);
@@ -607,6 +628,10 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
     // Reset state
     setConnectionLineColor('#ffc107'); // Reset to default
     connectingEdgeRef.current = null;
+    
+    // Reset multi-connect state
+    isMultiConnectingRef.current = false;
+    multiConnectSourcesRef.current = [];
   }, []);
 
   /**
@@ -740,6 +765,45 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           sourceHandle: connection.sourceHandle,
           targetHandle: connection.targetHandle,
         });
+
+        // Multi-connect: if active, connect ALL selected nodes to this target pin
+        if (isMultiConnectingRef.current && multiConnectSourcesRef.current.length > 0) {
+          console.log(`🔗 Multi-connect: connecting ${multiConnectSourcesRef.current.length} nodes to target`);
+          
+          const targetHandle = parseInt(connection.target);
+          const pinIdx = connection.targetHandle 
+            ? parseInt(connection.targetHandle.split('-')[1]) 
+            : 0;
+
+          // Connect each selected node to the target pin
+          for (const sourceNodeId of multiConnectSourcesRef.current) {
+            const sourceHandle = parseInt(sourceNodeId);
+            
+            try {
+              console.log(`🔗 Multi-connecting ${sourceNodeId} → ${connection.target}[${pinIdx}]`);
+              
+              // For input pins, we can only connect one at a time
+              // So we'll create separate target pins or skip if target already connected
+              // For now, just connect the first one successfully
+              await client.connectPinByIndex(targetHandle, pinIdx, sourceHandle, true);
+              console.log(`✅ Multi-connect succeeded for ${sourceNodeId}`);
+              
+              // Only connect first one to avoid overwriting same input pin
+              // In real Octane, this might create multiple target nodes or handle differently
+              break;
+              
+            } catch (error) {
+              console.error(`❌ Failed to multi-connect ${sourceNodeId}:`, error);
+            }
+          }
+          
+          // Reset multi-connect state
+          isMultiConnectingRef.current = false;
+          multiConnectSourcesRef.current = [];
+          
+          // Let parent refresh scene to show connections
+          return;
+        }
 
         // Check if target input pin already has a connection (needs replacement)
         const existingTargetEdge = edges.find(
