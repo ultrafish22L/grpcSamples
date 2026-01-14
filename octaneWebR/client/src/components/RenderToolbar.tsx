@@ -417,8 +417,10 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
         break;
       case 'decal-wireframe':
         setState(prev => ({ ...prev, decalWireframe: !prev.decalWireframe }));
-        console.log(`Decal wireframe: ${!state.decalWireframe ? 'ON' : 'OFF'}`);
-        // TODO: API call to toggle decal wireframe
+        console.log(`🟡 Decal wireframe: ${!state.decalWireframe ? 'ON' : 'OFF'} (UI only - no gRPC API available)`);
+        // NOTE: No gRPC API method exists for this feature in apirender_pb2_grpc.py
+        // Feature exists in Octane SE manual but not exposed through LiveLink API
+        // UI state tracked for future implementation when API becomes available
         break;
       case 'render-priority':
         setState(prev => ({ ...prev, showRenderPriorityMenu: !prev.showRenderPriorityMenu }));
