@@ -1054,6 +1054,58 @@ export class OctaneClient extends EventEmitter {
     }
   }
 
+  /**
+   * Get current render region settings from Octane
+   * @returns Render region object with {active, regionMin, regionMax, featherWidth}
+   */
+  async getRenderRegion(): Promise<{ active: boolean; regionMin: {x: number, y: number}; regionMax: {x: number, y: number}; featherWidth: number }> {
+    try {
+      const response = await this.callApi('ApiRenderEngine', 'getRenderRegion', {});
+      return {
+        active: response?.active ?? false,
+        regionMin: response?.regionMin ?? { x: 0, y: 0 },
+        regionMax: response?.regionMax ?? { x: 1920, y: 1080 },
+        featherWidth: response?.featherWidth ?? 0
+      };
+    } catch (error: any) {
+      console.error('❌ Failed to get render region:', error.message);
+      return {
+        active: false,
+        regionMin: { x: 0, y: 0 },
+        regionMax: { x: 1920, y: 1080 },
+        featherWidth: 0
+      };
+    }
+  }
+
+  /**
+   * Set render region in Octane
+   * Allows rendering only a specific rectangular region of the viewport
+   * @param active - Enable/disable render region
+   * @param regionMin - Top-left corner {x, y} in viewport coordinates
+   * @param regionMax - Bottom-right corner {x, y} in viewport coordinates
+   * @param featherWidth - Soft edge width in pixels (default: 0)
+   */
+  async setRenderRegion(
+    active: boolean,
+    regionMin: { x: number; y: number },
+    regionMax: { x: number; y: number },
+    featherWidth: number = 0
+  ): Promise<void> {
+    try {
+      await this.callApi('ApiRenderEngine', 'setRenderRegion', null, {
+        active,
+        regionMin,
+        regionMax,
+        featherWidth
+      });
+      console.log(`✅ Render region ${active ? 'enabled' : 'disabled'}:`, { regionMin, regionMax, featherWidth });
+    } catch (error: any) {
+      console.error('❌ Failed to set render region:', error.message);
+      throw error;
+    }
+  }
+
   // Node Creation API
   /**
    * Create a new node of the specified type in the scene

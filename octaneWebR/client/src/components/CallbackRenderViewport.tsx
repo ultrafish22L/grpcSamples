@@ -44,6 +44,7 @@ interface CameraState {
 interface CallbackRenderViewportProps {
   showWorldCoord?: boolean;
   viewportLocked?: boolean;
+  pickingMode?: 'none' | 'focus' | 'whiteBalance' | 'material' | 'object' | 'cameraTarget' | 'renderRegion' | 'filmRegion';
 }
 
 export interface CallbackRenderViewportHandle {
@@ -52,13 +53,18 @@ export interface CallbackRenderViewportHandle {
 }
 
 export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, CallbackRenderViewportProps>(
-  function CallbackRenderViewport({ showWorldCoord = true, viewportLocked = false }, ref) {
+  function CallbackRenderViewport({ showWorldCoord = true, viewportLocked = false, pickingMode = 'none' }, ref) {
   const { client, connected } = useOctane();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const [frameCount, setFrameCount] = useState(0);
   const [status, setStatus] = useState('Initializing...');
   const [isRendering, setIsRendering] = useState(false);
+  
+  // Region selection state (for render region picking)
+  const [isSelectingRegion, setIsSelectingRegion] = useState(false);
+  const [regionStart, setRegionStart] = useState<{ x: number; y: number } | null>(null);
+  const [regionEnd, setRegionEnd] = useState<{ x: number; y: number } | null>(null);
   
   // Camera state for mouse controls
   const cameraRef = useRef<CameraState>({
@@ -581,11 +587,25 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
     const handleMouseDown = (e: MouseEvent) => {
       if (viewportLocked) return; // Viewport locked - ignore mouse input
       
-      if (e.button === 0) { // Left button = ORBIT
-        isDraggingRef.current = true;
-        lastMousePosRef.current = { x: e.clientX, y: e.clientY };
-        canvas.style.cursor = 'grabbing';
-      } else if (e.button === 2) { // Right button = PAN
+      // Get canvas-relative coordinates
+      const rect = canvas.getBoundingClientRect();
+      const canvasX = e.clientX - rect.left;
+      const canvasY = e.clientY - rect.top;
+      
+      if (e.button === 0) { // Left button
+        // REGION SELECTION MODE: Start region picking
+        if (pickingMode === 'renderRegion') {
+          setIsSelectingRegion(true);
+          setRegionStart({ x: canvasX, y: canvasY });
+          setRegionEnd({ x: canvasX, y: canvasY });
+          canvas.style.cursor = 'crosshair';
+        } else {
+          // CAMERA MODE: Orbit
+          isDraggingRef.current = true;
+          lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+          canvas.style.cursor = 'grabbing';
+        }
+      } else if (e.button === 2) { // Right button = PAN (always available)
         isPanningRef.current = true;
         lastMousePosRef.current = { x: e.clientX, y: e.clientY };
         canvas.style.cursor = 'move';
@@ -594,6 +614,18 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
     };
 
     const handleMouseMove = (e: MouseEvent) => {
+      // Get canvas-relative coordinates
+      const rect = canvas.getBoundingClientRect();
+      const canvasX = e.clientX - rect.left;
+      const canvasY = e.clientY - rect.top;
+      
+      // REGION SELECTION MODE: Update region end point
+      if (isSelectingRegion) {
+        setRegionEnd({ x: canvasX, y: canvasY });
+        return;
+      }
+      
+      // CAMERA MODE: Handle orbit/pan
       if (!isDraggingRef.current && !isPanningRef.current) return;
 
       const deltaX = e.clientX - lastMousePosRef.current.x;
@@ -623,11 +655,62 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
       updateOctaneCameraThrottled();
     };
 
-    const handleMouseUp = () => {
+    const handleMouseUp = async () => {
+      // REGION SELECTION MODE: Complete region and apply to Octane
+      if (isSelectingRegion && regionStart && regionEnd) {
+        setIsSelectingRegion(false);
+        canvas.style.cursor = pickingMode === 'renderRegion' ? 'crosshair' : 'grab';
+        
+        // Calculate normalized coordinates (0.0 to 1.0)
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        
+        const minX = Math.min(regionStart.x, regionEnd.x) / canvasWidth;
+        const minY = Math.min(regionStart.y, regionEnd.y) / canvasHeight;
+        const maxX = Math.max(regionStart.x, regionEnd.x) / canvasWidth;
+        const maxY = Math.max(regionStart.y, regionEnd.y) / canvasHeight;
+        
+        // Clamp to valid range [0, 1]
+        const clampedMinX = Math.max(0, Math.min(1, minX));
+        const clampedMinY = Math.max(0, Math.min(1, minY));
+        const clampedMaxX = Math.max(0, Math.min(1, maxX));
+        const clampedMaxY = Math.max(0, Math.min(1, maxY));
+        
+        console.log('🎯 Render region selected:', {
+          minX: clampedMinX.toFixed(3),
+          minY: clampedMinY.toFixed(3),
+          maxX: clampedMaxX.toFixed(3),
+          maxY: clampedMaxY.toFixed(3)
+        });
+        
+        try {
+          // Apply render region to Octane
+          await client.setRenderRegion(
+            true, // active
+            { x: clampedMinX, y: clampedMinY },
+            { x: clampedMaxX, y: clampedMaxY },
+            0 // featherWidth (no feathering by default)
+          );
+          
+          // Trigger render update to show the region
+          await triggerOctaneUpdate();
+          
+          console.log('✅ Render region applied to Octane');
+        } catch (error: any) {
+          console.error('❌ Failed to set render region:', error.message);
+        }
+        
+        // Clear region selection (visual overlay will be removed)
+        setRegionStart(null);
+        setRegionEnd(null);
+        return;
+      }
+      
+      // CAMERA MODE: Complete orbit/pan
       if (isDraggingRef.current || isPanningRef.current) {
         isDraggingRef.current = false;
         isPanningRef.current = false;
-        canvas.style.cursor = 'grab';
+        canvas.style.cursor = pickingMode === 'renderRegion' ? 'crosshair' : 'grab';
         
         // Send final camera position immediately to ensure accuracy
         updateOctaneCameraImmediate();
@@ -656,8 +739,14 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
     canvas.addEventListener('wheel', handleWheel, { passive: false });
     canvas.addEventListener('contextmenu', handleContextMenu);
     
-    // Set cursor based on viewport lock state
-    canvas.style.cursor = viewportLocked ? 'not-allowed' : 'grab';
+    // Set cursor based on viewport lock state and picking mode
+    if (viewportLocked) {
+      canvas.style.cursor = 'not-allowed';
+    } else if (pickingMode === 'renderRegion') {
+      canvas.style.cursor = 'crosshair';
+    } else {
+      canvas.style.cursor = 'grab';
+    }
 
     return () => {
       canvas.removeEventListener('mousedown', handleMouseDown);
@@ -673,7 +762,7 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
         pendingCameraUpdateRef.current = null;
       }
     };
-  }, [connected, updateOctaneCamera, updateOctaneCameraThrottled, updateOctaneCameraImmediate, viewportLocked]);
+  }, [connected, updateOctaneCamera, updateOctaneCameraThrottled, updateOctaneCameraImmediate, viewportLocked, pickingMode, isSelectingRegion, regionStart, regionEnd, client, triggerOctaneUpdate]);
 
   return (
     <div className="callback-render-viewport" ref={viewportRef}>
@@ -734,6 +823,25 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
               <circle cx="30" cy="30" r="3" fill="#ffffff" stroke="#888" strokeWidth="1" />
             </svg>
           </div>
+        )}
+        
+        {/* Render Region Selection Overlay - Octane SE Manual: Render Region */}
+        {isSelectingRegion && regionStart && regionEnd && (
+          <div
+            className="region-selection-overlay"
+            style={{
+              position: 'absolute',
+              left: `${Math.min(regionStart.x, regionEnd.x)}px`,
+              top: `${Math.min(regionStart.y, regionEnd.y)}px`,
+              width: `${Math.abs(regionEnd.x - regionStart.x)}px`,
+              height: `${Math.abs(regionEnd.y - regionStart.y)}px`,
+              border: '2px solid #00ff00',
+              backgroundColor: 'rgba(0, 255, 0, 0.1)',
+              pointerEvents: 'none',
+              zIndex: 20,
+              boxSizing: 'border-box'
+            }}
+          />
         )}
       </div>
     </div>

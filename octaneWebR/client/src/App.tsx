@@ -35,6 +35,7 @@ function AppContent() {
   const [isSyncing, setIsSyncing] = useState(false);
   const [showWorldCoord, setShowWorldCoord] = useState(true); // Display world coordinate axis
   const [viewportLocked, setViewportLocked] = useState(false); // Lock viewport controls
+  const [pickingMode, setPickingMode] = useState<'none' | 'focus' | 'whiteBalance' | 'material' | 'object' | 'cameraTarget' | 'renderRegion' | 'filmRegion'>('none');
   const { panelSizes, handleSplitterMouseDown, containerRef, isDragging } = useResizablePanels();
   const viewportRef = useRef<CallbackRenderViewportHandle>(null);
 
@@ -113,6 +114,12 @@ function AppContent() {
   const handleViewportLockChange = (locked: boolean) => {
     setViewportLocked(locked);
     console.log(`🔒 App.tsx: Viewport lock ${locked ? 'enabled' : 'disabled'}`);
+  };
+
+  // Picking mode change handler
+  const handlePickingModeChange = (mode: 'none' | 'focus' | 'whiteBalance' | 'material' | 'object' | 'cameraTarget' | 'renderRegion' | 'filmRegion') => {
+    setPickingMode(mode);
+    console.log(`🎯 App.tsx: Picking mode changed to: ${mode}`);
   };
 
   useEffect(() => {
@@ -226,6 +233,7 @@ function AppContent() {
                 ref={viewportRef} 
                 showWorldCoord={showWorldCoord} 
                 viewportLocked={viewportLocked}
+                pickingMode={pickingMode}
               />
             ) : (
               <div className="viewport-overlay">
@@ -243,6 +251,7 @@ function AppContent() {
             onCopyToClipboard={handleCopyToClipboard}
             onSaveRender={handleSaveRender}
             onViewportLockChange={handleViewportLockChange}
+            onPickingModeChange={handlePickingModeChange}
           />
         </section>
 

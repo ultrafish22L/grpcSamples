@@ -39,9 +39,10 @@ interface RenderToolbarProps {
   onCopyToClipboard?: () => void;
   onSaveRender?: () => void;
   onViewportLockChange?: (locked: boolean) => void;
+  onPickingModeChange?: (mode: 'none' | 'focus' | 'whiteBalance' | 'material' | 'object' | 'cameraTarget' | 'renderRegion' | 'filmRegion') => void;
 }
 
-export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClipboard, onSaveRender, onViewportLockChange }: RenderToolbarProps) {
+export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClipboard, onSaveRender, onViewportLockChange, onPickingModeChange }: RenderToolbarProps) {
   const { connected, client } = useOctane();
   
   const [renderStats, setRenderStats] = useState<RenderStats>({
@@ -388,12 +389,17 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
   };
 
   const togglePickingMode = (mode: ToolbarState['currentPickingMode']) => {
+    const newMode = state.currentPickingMode === mode ? 'none' : mode;
     setState(prev => ({
       ...prev,
-      currentPickingMode: prev.currentPickingMode === mode ? 'none' : mode
+      currentPickingMode: newMode
     }));
-    console.log(`Picking mode: ${state.currentPickingMode === mode ? 'none' : mode}`);
-    // TODO: API calls for picking modes
+    console.log(`🎯 Picking mode: ${newMode}`);
+    
+    // Notify parent component of picking mode change
+    if (onPickingModeChange) {
+      onPickingModeChange(newMode);
+    }
   };
 
   const toggleGizmo = (gizmo: 'translate' | 'rotate' | 'scale') => {
