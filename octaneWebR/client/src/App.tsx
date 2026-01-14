@@ -33,6 +33,7 @@ function AppContent() {
   const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
   const [sceneRefreshTrigger, setSceneRefreshTrigger] = useState(0);
   const [isSyncing, setIsSyncing] = useState(false);
+  const [showWorldCoord, setShowWorldCoord] = useState(true); // Display world coordinate axis
   const { panelSizes, handleSplitterMouseDown, containerRef, isDragging } = useResizablePanels();
 
   // Scene tree change handler
@@ -185,7 +186,7 @@ function AppContent() {
           
           <div className="viewport-container">
             {connected ? (
-              <CallbackRenderViewport />
+              <CallbackRenderViewport showWorldCoord={showWorldCoord} />
             ) : (
               <div className="viewport-overlay">
                 <div className="viewport-info">
@@ -197,7 +198,7 @@ function AppContent() {
           </div>
           
           {/* Render Toolbar - Official Octane viewport controls */}
-          <RenderToolbar />
+          <RenderToolbar onToggleWorldCoord={() => setShowWorldCoord(!showWorldCoord)} />
         </section>
 
         {/* Center-Right Splitter - spans ALL rows (full height) */}

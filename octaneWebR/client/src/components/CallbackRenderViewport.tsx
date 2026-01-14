@@ -41,7 +41,11 @@ interface CameraState {
   fov: number;
 }
 
-export function CallbackRenderViewport() {
+interface CallbackRenderViewportProps {
+  showWorldCoord?: boolean;
+}
+
+export function CallbackRenderViewport({ showWorldCoord = true }: CallbackRenderViewportProps) {
   const { client, connected } = useOctane();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -595,6 +599,39 @@ export function CallbackRenderViewport() {
             display: frameCount > 0 ? 'block' : 'none'
           }}
         />
+        
+        {/* World Coordinate Axis Overlay - Octane SE Manual: Display World Coordinate */}
+        {showWorldCoord && frameCount > 0 && (
+          <div className="world-coord-axis" style={{
+            position: 'absolute',
+            top: '16px',
+            left: '16px',
+            width: '60px',
+            height: '60px',
+            pointerEvents: 'none',
+            zIndex: 10
+          }}>
+            <svg width="60" height="60" viewBox="0 0 60 60">
+              {/* X Axis - Red */}
+              <line x1="30" y1="30" x2="54" y2="30" 
+                    stroke="#ff3333" strokeWidth="2" strokeLinecap="round" />
+              <text x="56" y="34" fill="#ff3333" fontSize="12" fontWeight="bold">X</text>
+              
+              {/* Y Axis - Green */}
+              <line x1="30" y1="30" x2="30" y2="6" 
+                    stroke="#33ff33" strokeWidth="2" strokeLinecap="round" />
+              <text x="26" y="4" fill="#33ff33" fontSize="12" fontWeight="bold">Y</text>
+              
+              {/* Z Axis - Blue */}
+              <line x1="30" y1="30" x2="14" y2="44" 
+                    stroke="#3333ff" strokeWidth="2" strokeLinecap="round" />
+              <text x="8" y="52" fill="#3333ff" fontSize="12" fontWeight="bold">Z</text>
+              
+              {/* Origin Circle */}
+              <circle cx="30" cy="30" r="3" fill="#ffffff" stroke="#888" strokeWidth="1" />
+            </svg>
+          </div>
+        )}
       </div>
     </div>
   );

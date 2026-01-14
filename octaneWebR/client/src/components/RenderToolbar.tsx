@@ -34,9 +34,10 @@ interface ToolbarState {
 
 interface RenderToolbarProps {
   className?: string;
+  onToggleWorldCoord?: () => void;
 }
 
-export function RenderToolbar({ className = '' }: RenderToolbarProps) {
+export function RenderToolbar({ className = '', onToggleWorldCoord }: RenderToolbarProps) {
   const { connected, client } = useOctane();
   
   const [renderStats, setRenderStats] = useState<RenderStats>({
@@ -244,7 +245,7 @@ export function RenderToolbar({ className = '' }: RenderToolbarProps) {
       case 'world-coordinate':
         setState(prev => ({ ...prev, worldCoordinateDisplay: !prev.worldCoordinateDisplay }));
         console.log(`World coordinate display: ${!state.worldCoordinateDisplay ? 'ON' : 'OFF'}`);
-        // TODO: API call to toggle world coordinate display
+        onToggleWorldCoord?.();
         break;
 
       default:
