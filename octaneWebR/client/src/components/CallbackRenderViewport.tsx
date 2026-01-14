@@ -47,6 +47,7 @@ interface CallbackRenderViewportProps {
 
 export interface CallbackRenderViewportHandle {
   copyToClipboard: () => Promise<void>;
+  saveRenderToDisk: () => Promise<void>;
 }
 
 export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, CallbackRenderViewportProps>(
@@ -164,10 +165,58 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
     }
   }, []);
 
+  /**
+   * Save current render to disk
+   * Triggers browser download of canvas as PNG file
+   */
+  const saveRenderToDisk = useCallback(async () => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      console.warn('⚠️  Cannot save render: canvas not available');
+      return;
+    }
+
+    try {
+      console.log('💾 Saving render to disk...');
+      
+      // Convert canvas to blob
+      const blob = await new Promise<Blob | null>((resolve) => {
+        canvas.toBlob(resolve, 'image/png');
+      });
+
+      if (!blob) {
+        throw new Error('Failed to convert canvas to blob');
+      }
+
+      // Create download link
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      
+      // Generate filename with timestamp
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+      link.download = `octane-render-${timestamp}.png`;
+      link.href = url;
+      
+      // Trigger download
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Clean up
+      URL.revokeObjectURL(url);
+
+      console.log('✅ Render saved to disk');
+    } catch (error: any) {
+      console.error('❌ Failed to save render:', error.message);
+      throw error;
+    }
+  }, []);
+
   // Expose methods to parent via ref
   useImperativeHandle(ref, () => ({
-    copyToClipboard
-  }), [copyToClipboard]);
+    copyToClipboard,
+    saveRenderToDisk
+  }), [copyToClipboard, saveRenderToDisk]);
 
   /**
    * Update Octane camera from current state

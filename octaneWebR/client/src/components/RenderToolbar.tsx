@@ -36,9 +36,10 @@ interface RenderToolbarProps {
   className?: string;
   onToggleWorldCoord?: () => void;
   onCopyToClipboard?: () => void;
+  onSaveRender?: () => void;
 }
 
-export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClipboard }: RenderToolbarProps) {
+export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClipboard, onSaveRender }: RenderToolbarProps) {
   const { connected, client } = useOctane();
   
   const [renderStats, setRenderStats] = useState<RenderStats>({
@@ -209,8 +210,12 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
         }
         break;
       case 'save-render':
-        console.log('Save render');
-        // TODO: Show save dialog
+        console.log('💾 Save render to disk');
+        if (onSaveRender) {
+          onSaveRender();
+        } else {
+          console.warn('⚠️ onSaveRender handler not provided');
+        }
         break;
       case 'export-passes':
         console.log('Export render passes');
