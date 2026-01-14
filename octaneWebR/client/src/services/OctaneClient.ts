@@ -914,6 +914,23 @@ export class OctaneClient extends EventEmitter {
     this.emit('renderStateChanged', this.renderState);
   }
 
+  /**
+   * Get current clay mode from Octane
+   * @returns Clay mode: 0 = NONE (off), 1 = GREY, 2 = COLOR
+   */
+  async getClayMode(): Promise<number> {
+    const response = await this.callApi('ApiRenderEngine', 'clayMode', {});
+    return response?.result ?? 0;
+  }
+
+  /**
+   * Set clay mode in Octane
+   * @param mode - Clay mode: 0 = NONE (off), 1 = GREY, 2 = COLOR
+   */
+  async setClayMode(mode: number): Promise<void> {
+    await this.callApi('ApiRenderEngine', 'setClayMode', null, { mode });
+  }
+
   // Node Creation API
   /**
    * Create a new node of the specified type in the scene

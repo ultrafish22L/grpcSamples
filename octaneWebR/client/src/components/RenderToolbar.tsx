@@ -68,6 +68,23 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
     viewportResolutionLock: false
   });
 
+  // Initialize clay mode from Octane on connect
+  useEffect(() => {
+    if (!connected) return;
+
+    const initializeClayMode = async () => {
+      try {
+        const clayModeValue = await client.getClayMode();
+        setState(prev => ({ ...prev, clayMode: clayModeValue !== 0 }));
+        console.log('🎨 Clay mode initialized:', clayModeValue === 0 ? 'OFF' : 'ON');
+      } catch (err) {
+        console.error('❌ Failed to get clay mode:', err);
+      }
+    };
+
+    initializeClayMode();
+  }, [connected, client]);
+
   // Update render stats periodically (placeholder - will be updated from callback data)
   useEffect(() => {
     if (!connected) return;
@@ -173,9 +190,17 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
 
       // Rendering Settings
       case 'clay-mode':
-        setState(prev => ({ ...prev, clayMode: !prev.clayMode }));
-        console.log(`Clay mode: ${!state.clayMode ? 'ON' : 'OFF'}`);
-        // TODO: API call to toggle clay mode
+        const newClayMode = !state.clayMode;
+        setState(prev => ({ ...prev, clayMode: newClayMode }));
+        console.log(`🎨 Clay mode: ${newClayMode ? 'ON' : 'OFF'}`);
+        // CLAY_MODE_NONE = 0, CLAY_MODE_GREY = 1
+        client.setClayMode(newClayMode ? 1 : 0).then(() => {
+          console.log('✅ Clay mode updated in Octane');
+        }).catch(err => {
+          console.error('❌ Failed to set clay mode:', err);
+          // Revert UI state on error
+          setState(prev => ({ ...prev, clayMode: !newClayMode }));
+        });
         break;
       case 'subsample-2x2':
         setState(prev => ({
