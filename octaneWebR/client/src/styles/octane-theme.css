@@ -890,6 +890,55 @@ html, body {
     flex-shrink: 0;
 }
 
+/* Camera Presets Menu */
+.camera-presets-menu {
+    position: absolute;
+    top: 60px; /* Position below toolbar */
+    left: 10px;
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    min-width: 180px;
+    overflow: hidden;
+}
+
+.camera-presets-menu-header {
+    background-color: var(--octane-bg-header);
+    color: var(--octane-text-primary);
+    padding: 8px 12px;
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    border-bottom: 1px solid var(--octane-border);
+}
+
+.camera-presets-menu-items {
+    padding: 4px 0;
+}
+
+.camera-preset-item {
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--octane-text-secondary);
+    padding: 8px 12px;
+    text-align: left;
+    font-size: var(--font-size-small);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: block;
+}
+
+.camera-preset-item:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+.camera-preset-item:active {
+    background-color: var(--octane-bg-active);
+}
+
 /* Legacy render controls (keep for compatibility) */
 .render-controls {
     background-color: var(--octane-bg-header);

@@ -31,6 +31,7 @@ interface ToolbarState {
   objectControlMode: 'world' | 'local';
   activeGizmo: 'none' | 'translate' | 'rotate' | 'scale';
   viewportResolutionLock: boolean;
+  showCameraPresetsMenu: boolean;
 }
 
 interface RenderToolbarProps {
@@ -68,7 +69,8 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
     worldCoordinateDisplay: true,
     objectControlMode: 'world',
     activeGizmo: 'none',
-    viewportResolutionLock: false
+    viewportResolutionLock: false,
+    showCameraPresetsMenu: false
   });
 
   // Initialize rendering settings from Octane on connect
@@ -173,6 +175,70 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
     };
   }, [connected, client]);
 
+  // Close camera presets menu when clicking outside
+  useEffect(() => {
+    if (!state.showCameraPresetsMenu) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      // Check if click is outside camera presets menu
+      if (!target.closest('.camera-presets-menu') && !target.closest('#camera-presets')) {
+        setState(prev => ({ ...prev, showCameraPresetsMenu: false }));
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [state.showCameraPresetsMenu]);
+
+  // ========================================
+  // CAMERA PRESET HANDLERS
+  // ========================================
+
+  const applyCameraPreset = async (presetName: string) => {
+    console.log(`📷 Applying camera preset: ${presetName}`);
+    
+    const distance = 10; // Distance from origin for camera position
+    const target = { x: 0, y: 0, z: 0 }; // Look at origin
+    
+    let position = { x: 0, y: 0, z: 0 };
+    
+    switch (presetName) {
+      case 'Front':
+        position = { x: 0, y: 0, z: distance };
+        break;
+      case 'Back':
+        position = { x: 0, y: 0, z: -distance };
+        break;
+      case 'Left':
+        position = { x: -distance, y: 0, z: 0 };
+        break;
+      case 'Right':
+        position = { x: distance, y: 0, z: 0 };
+        break;
+      case 'Top':
+        position = { x: 0, y: distance, z: 0 };
+        break;
+      case 'Bottom':
+        position = { x: 0, y: -distance, z: 0 };
+        break;
+      default:
+        console.warn(`Unknown camera preset: ${presetName}`);
+        return;
+    }
+    
+    try {
+      await client.setCameraPositionAndTarget(
+        position.x, position.y, position.z,
+        target.x, target.y, target.z
+      );
+      console.log(`✅ Camera preset "${presetName}" applied successfully`);
+      setState(prev => ({ ...prev, showCameraPresetsMenu: false })); // Close menu after selection
+    } catch (err) {
+      console.error(`❌ Failed to apply camera preset "${presetName}":`, err);
+    }
+  };
+
   // ========================================
   // TOOLBAR ACTIONS
   // ========================================
@@ -195,8 +261,8 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
         });
         break;
       case 'camera-presets':
-        console.log('Show camera presets menu');
-        // TODO: Show camera presets dropdown
+        setState(prev => ({ ...prev, showCameraPresetsMenu: !prev.showCameraPresetsMenu }));
+        console.log('📸 Camera presets menu:', !state.showCameraPresetsMenu ? 'OPEN' : 'CLOSED');
         break;
 
       // Render Controls
@@ -577,6 +643,33 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
             );
           })}
         </div>
+
+        {/* Camera Presets Menu - Dropdown positioned below camera-presets button */}
+        {state.showCameraPresetsMenu && (
+          <div className="camera-presets-menu">
+            <div className="camera-presets-menu-header">Camera View Presets</div>
+            <div className="camera-presets-menu-items">
+              <button onClick={() => applyCameraPreset('Front')} className="camera-preset-item">
+                Front View
+              </button>
+              <button onClick={() => applyCameraPreset('Back')} className="camera-preset-item">
+                Back View
+              </button>
+              <button onClick={() => applyCameraPreset('Left')} className="camera-preset-item">
+                Left View
+              </button>
+              <button onClick={() => applyCameraPreset('Right')} className="camera-preset-item">
+                Right View
+              </button>
+              <button onClick={() => applyCameraPreset('Top')} className="camera-preset-item">
+                Top View
+              </button>
+              <button onClick={() => applyCameraPreset('Bottom')} className="camera-preset-item">
+                Bottom View
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
