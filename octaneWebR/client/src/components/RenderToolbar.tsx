@@ -37,9 +37,10 @@ interface RenderToolbarProps {
   onToggleWorldCoord?: () => void;
   onCopyToClipboard?: () => void;
   onSaveRender?: () => void;
+  onViewportLockChange?: (locked: boolean) => void;
 }
 
-export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClipboard, onSaveRender }: RenderToolbarProps) {
+export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClipboard, onSaveRender, onViewportLockChange }: RenderToolbarProps) {
   const { connected, client } = useOctane();
   
   const [renderStats, setRenderStats] = useState<RenderStats>({
@@ -233,9 +234,12 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
         // TODO: API call to toggle viewport resolution lock
         break;
       case 'lock-viewport':
-        setState(prev => ({ ...prev, viewportLocked: !prev.viewportLocked }));
-        console.log(`Viewport lock: ${!state.viewportLocked ? 'ON' : 'OFF'}`);
-        // TODO: API call to toggle viewport lock
+        const newLockState = !state.viewportLocked;
+        setState(prev => ({ ...prev, viewportLocked: newLockState }));
+        console.log(`🔒 Viewport lock: ${newLockState ? 'ON' : 'OFF'}`);
+        if (onViewportLockChange) {
+          onViewportLockChange(newLockState);
+        }
         break;
 
       // Object Manipulation

@@ -34,6 +34,7 @@ function AppContent() {
   const [sceneRefreshTrigger, setSceneRefreshTrigger] = useState(0);
   const [isSyncing, setIsSyncing] = useState(false);
   const [showWorldCoord, setShowWorldCoord] = useState(true); // Display world coordinate axis
+  const [viewportLocked, setViewportLocked] = useState(false); // Lock viewport controls
   const { panelSizes, handleSplitterMouseDown, containerRef, isDragging } = useResizablePanels();
   const viewportRef = useRef<CallbackRenderViewportHandle>(null);
 
@@ -92,6 +93,26 @@ function AppContent() {
     } catch (error) {
       console.error('❌ Failed to copy to clipboard:', error);
     }
+  };
+
+  // Save render to disk handler
+  const handleSaveRender = async () => {
+    if (!viewportRef.current) {
+      console.warn('⚠️ Viewport not available for save render');
+      return;
+    }
+
+    try {
+      await viewportRef.current.saveRenderToDisk();
+    } catch (error) {
+      console.error('❌ Failed to save render:', error);
+    }
+  };
+
+  // Viewport lock change handler
+  const handleViewportLockChange = (locked: boolean) => {
+    setViewportLocked(locked);
+    console.log(`🔒 App.tsx: Viewport lock ${locked ? 'enabled' : 'disabled'}`);
   };
 
   useEffect(() => {
@@ -201,7 +222,11 @@ function AppContent() {
           
           <div className="viewport-container">
             {connected ? (
-              <CallbackRenderViewport ref={viewportRef} showWorldCoord={showWorldCoord} />
+              <CallbackRenderViewport 
+                ref={viewportRef} 
+                showWorldCoord={showWorldCoord} 
+                viewportLocked={viewportLocked}
+              />
             ) : (
               <div className="viewport-overlay">
                 <div className="viewport-info">
@@ -216,6 +241,8 @@ function AppContent() {
           <RenderToolbar 
             onToggleWorldCoord={() => setShowWorldCoord(!showWorldCoord)} 
             onCopyToClipboard={handleCopyToClipboard}
+            onSaveRender={handleSaveRender}
+            onViewportLockChange={handleViewportLockChange}
           />
         </section>
 

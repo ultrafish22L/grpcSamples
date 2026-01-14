@@ -43,6 +43,7 @@ interface CameraState {
 
 interface CallbackRenderViewportProps {
   showWorldCoord?: boolean;
+  viewportLocked?: boolean;
 }
 
 export interface CallbackRenderViewportHandle {
@@ -51,7 +52,7 @@ export interface CallbackRenderViewportHandle {
 }
 
 export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, CallbackRenderViewportProps>(
-  function CallbackRenderViewport({ showWorldCoord = true }, ref) {
+  function CallbackRenderViewport({ showWorldCoord = true, viewportLocked = false }, ref) {
   const { client, connected } = useOctane();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -578,6 +579,8 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
     if (!canvas || !connected) return;
 
     const handleMouseDown = (e: MouseEvent) => {
+      if (viewportLocked) return; // Viewport locked - ignore mouse input
+      
       if (e.button === 0) { // Left button = ORBIT
         isDraggingRef.current = true;
         lastMousePosRef.current = { x: e.clientX, y: e.clientY };
@@ -637,6 +640,8 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
 
     const handleWheel = async (e: WheelEvent) => {
       e.preventDefault();
+      if (viewportLocked) return; // Viewport locked - ignore wheel input
+      
       const zoomSpeed = 0.1;
       cameraRef.current.radius += e.deltaY * zoomSpeed;
       cameraRef.current.radius = Math.max(1.0, Math.min(100.0, cameraRef.current.radius));
@@ -650,7 +655,9 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
     canvas.addEventListener('mouseleave', handleMouseUp);
     canvas.addEventListener('wheel', handleWheel, { passive: false });
     canvas.addEventListener('contextmenu', handleContextMenu);
-    canvas.style.cursor = 'grab';
+    
+    // Set cursor based on viewport lock state
+    canvas.style.cursor = viewportLocked ? 'not-allowed' : 'grab';
 
     return () => {
       canvas.removeEventListener('mousedown', handleMouseDown);
@@ -666,7 +673,7 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
         pendingCameraUpdateRef.current = null;
       }
     };
-  }, [connected, updateOctaneCamera, updateOctaneCameraThrottled, updateOctaneCameraImmediate]);
+  }, [connected, updateOctaneCamera, updateOctaneCameraThrottled, updateOctaneCameraImmediate, viewportLocked]);
 
   return (
     <div className="callback-render-viewport" ref={viewportRef}>
