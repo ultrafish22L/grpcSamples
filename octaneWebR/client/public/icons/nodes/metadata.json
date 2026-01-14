@@ -4,6 +4,7 @@
     "filename": "NT_ANIMATION_SETTINGS.png",
     "node_name": "NT_ANIMATION_SETTINGS",
     "node_id": 99,
+    "display_name": "Animation Settings",
     "column": 0,
     "row": 0,
     "position": [
@@ -16,6 +17,7 @@
     "filename": "NT_ANNOTATION.png",
     "node_name": "NT_ANNOTATION",
     "node_id": 68,
+    "display_name": "Annotation",
     "column": 0,
     "row": 1,
     "position": [
@@ -28,6 +30,7 @@
     "filename": "NT_AOV_ALPHA.png",
     "node_name": "NT_AOV_ALPHA",
     "node_id": 486,
+    "display_name": "Aov Alpha",
     "column": 0,
     "row": 2,
     "position": [
@@ -40,6 +43,7 @@
     "filename": "NT_AOV_AMBIENT_OCCLUSION.png",
     "node_name": "NT_AOV_AMBIENT_OCCLUSION",
     "node_id": 183,
+    "display_name": "Aov Ambient Occlusion",
     "column": 0,
     "row": 3,
     "position": [
@@ -52,6 +56,7 @@
     "filename": "NT_AOV_BAKING_GROUP_ID.png",
     "node_name": "NT_AOV_BAKING_GROUP_ID",
     "node_id": 184,
+    "display_name": "Aov Baking Group Id",
     "column": 0,
     "row": 4,
     "position": [
@@ -64,6 +69,7 @@
     "filename": "NT_AOV_BIAS_CURR_COLOR.png",
     "node_name": "NT_AOV_BIAS_CURR_COLOR",
     "node_id": 498,
+    "display_name": "Aov Bias Curr Color",
     "column": 0,
     "row": 5,
     "position": [
@@ -76,6 +82,7 @@
     "filename": "NT_AOV_CAMERA_MASK.png",
     "node_name": "NT_AOV_CAMERA_MASK",
     "node_id": 471,
+    "display_name": "Aov Camera Mask",
     "column": 0,
     "row": 6,
     "position": [
@@ -88,6 +95,7 @@
     "filename": "NT_AOV_CRYPTOMATTE.png",
     "node_name": "NT_AOV_CRYPTOMATTE",
     "node_id": 185,
+    "display_name": "Aov Cryptomatte",
     "column": 0,
     "row": 7,
     "position": [
@@ -100,6 +108,7 @@
     "filename": "NT_AOV_CUSTOM.png",
     "node_name": "NT_AOV_CUSTOM",
     "node_id": 186,
+    "display_name": "Aov Custom",
     "column": 0,
     "row": 8,
     "position": [
@@ -112,6 +121,7 @@
     "filename": "NT_AOV_DENOISE_ALBEDO.png",
     "node_name": "NT_AOV_DENOISE_ALBEDO",
     "node_id": 440,
+    "display_name": "Aov Denoise Albedo",
     "column": 0,
     "row": 9,
     "position": [
@@ -124,6 +134,7 @@
     "filename": "NT_AOV_DENOISE_HIT_DISTANCE.png",
     "node_name": "NT_AOV_DENOISE_HIT_DISTANCE",
     "node_id": 180,
+    "display_name": "Aov Denoise Hit Distance",
     "column": 0,
     "row": 10,
     "position": [
@@ -136,6 +147,7 @@
     "filename": "NT_AOV_DENOISE_NORMAL.png",
     "node_name": "NT_AOV_DENOISE_NORMAL",
     "node_id": 182,
+    "display_name": "Aov Denoise Normal",
     "column": 0,
     "row": 11,
     "position": [
@@ -148,6 +160,7 @@
     "filename": "NT_AOV_DENOISE_ROUGHNESS.png",
     "node_name": "NT_AOV_DENOISE_ROUGHNESS",
     "node_id": 181,
+    "display_name": "Aov Denoise Roughness",
     "column": 0,
     "row": 12,
     "position": [
@@ -160,6 +173,7 @@
     "filename": "NT_AOV_DIFFUSE.png",
     "node_name": "NT_AOV_DIFFUSE",
     "node_id": 188,
+    "display_name": "Aov Diffuse",
     "column": 0,
     "row": 13,
     "position": [
@@ -172,6 +186,7 @@
     "filename": "NT_AOV_DIFFUSE_DIRECT.png",
     "node_name": "NT_AOV_DIFFUSE_DIRECT",
     "node_id": 189,
+    "display_name": "Aov Diffuse Direct",
     "column": 0,
     "row": 14,
     "position": [
@@ -184,6 +199,7 @@
     "filename": "NT_AOV_DIFFUSE_DIRECT_DENOISER_OUTPUT.png",
     "node_name": "NT_AOV_DIFFUSE_DIRECT_DENOISER_OUTPUT",
     "node_id": 190,
+    "display_name": "Aov Diffuse Direct Denoiser Output",
     "column": 0,
     "row": 15,
     "position": [
@@ -196,6 +212,7 @@
     "filename": "NT_AOV_DIFFUSE_FILTER.png",
     "node_name": "NT_AOV_DIFFUSE_FILTER",
     "node_id": 191,
+    "display_name": "Aov Diffuse Filter",
     "column": 0,
     "row": 16,
     "position": [
@@ -208,6 +225,7 @@
     "filename": "NT_AOV_DIFFUSE_FILTER_INFO.png",
     "node_name": "NT_AOV_DIFFUSE_FILTER_INFO",
     "node_id": 192,
+    "display_name": "Aov Diffuse Filter Info",
     "column": 0,
     "row": 17,
     "position": [
@@ -220,6 +238,7 @@
     "filename": "NT_AOV_DIFFUSE_FILTER_RGB.png",
     "node_name": "NT_AOV_DIFFUSE_FILTER_RGB",
     "node_id": 499,
+    "display_name": "Aov Diffuse Filter Rgb",
     "column": 0,
     "row": 18,
     "position": [
@@ -232,6 +251,7 @@
     "filename": "NT_AOV_DIFFUSE_INDIRECT.png",
     "node_name": "NT_AOV_DIFFUSE_INDIRECT",
     "node_id": 193,
+    "display_name": "Aov Diffuse Indirect",
     "column": 0,
     "row": 19,
     "position": [
@@ -244,6 +264,7 @@
     "filename": "NT_AOV_DIFFUSE_INDIRECT_DENOISER_OUTPUT.png",
     "node_name": "NT_AOV_DIFFUSE_INDIRECT_DENOISER_OUTPUT",
     "node_id": 194,
+    "display_name": "Aov Diffuse Indirect Denoiser Output",
     "column": 0,
     "row": 20,
     "position": [
@@ -256,6 +277,7 @@
     "filename": "NT_AOV_EMISSION_DENOISER_OUTPUT.png",
     "node_name": "NT_AOV_EMISSION_DENOISER_OUTPUT",
     "node_id": 195,
+    "display_name": "Aov Emission Denoiser Output",
     "column": 0,
     "row": 21,
     "position": [
@@ -268,6 +290,7 @@
     "filename": "NT_AOV_EMIT.png",
     "node_name": "NT_AOV_EMIT",
     "node_id": 196,
+    "display_name": "Aov Emit",
     "column": 0,
     "row": 22,
     "position": [
@@ -280,6 +303,7 @@
     "filename": "NT_AOV_ENVIRONMENT.png",
     "node_name": "NT_AOV_ENVIRONMENT",
     "node_id": 197,
+    "display_name": "Aov Environment",
     "column": 0,
     "row": 23,
     "position": [
@@ -292,6 +316,7 @@
     "filename": "NT_AOV_GAUSSIAN_SPLAT.png",
     "node_name": "NT_AOV_GAUSSIAN_SPLAT",
     "node_id": 495,
+    "display_name": "Aov Gaussian Splat",
     "column": 0,
     "row": 24,
     "position": [
@@ -304,6 +329,7 @@
     "filename": "NT_AOV_GAUSSIAN_SPLAT_INFO.png",
     "node_name": "NT_AOV_GAUSSIAN_SPLAT_INFO",
     "node_id": 496,
+    "display_name": "Aov Gaussian Splat Info",
     "column": 0,
     "row": 25,
     "position": [
@@ -316,6 +342,7 @@
     "filename": "NT_AOV_GEOMETRIC_NORMAL.png",
     "node_name": "NT_AOV_GEOMETRIC_NORMAL",
     "node_id": 198,
+    "display_name": "Aov Geometric Normal",
     "column": 0,
     "row": 26,
     "position": [
@@ -328,6 +355,7 @@
     "filename": "NT_AOV_GLOBAL_TEX.png",
     "node_name": "NT_AOV_GLOBAL_TEX",
     "node_id": 199,
+    "display_name": "Aov Global Tex",
     "column": 0,
     "row": 27,
     "position": [
@@ -340,6 +368,7 @@
     "filename": "NT_AOV_IOR.png",
     "node_name": "NT_AOV_IOR",
     "node_id": 200,
+    "display_name": "Aov Ior",
     "column": 0,
     "row": 28,
     "position": [
@@ -352,6 +381,7 @@
     "filename": "NT_AOV_IRRADIANCE.png",
     "node_name": "NT_AOV_IRRADIANCE",
     "node_id": 201,
+    "display_name": "Aov Irradiance",
     "column": 0,
     "row": 29,
     "position": [
@@ -364,6 +394,7 @@
     "filename": "NT_AOV_LAYER_BLACK_SHADOWS.png",
     "node_name": "NT_AOV_LAYER_BLACK_SHADOWS",
     "node_id": 202,
+    "display_name": "Aov Layer Black Shadows",
     "column": 0,
     "row": 30,
     "position": [
@@ -376,6 +407,7 @@
     "filename": "NT_AOV_LAYER_REFLECTIONS.png",
     "node_name": "NT_AOV_LAYER_REFLECTIONS",
     "node_id": 203,
+    "display_name": "Aov Layer Reflections",
     "column": 0,
     "row": 31,
     "position": [
@@ -388,6 +420,7 @@
     "filename": "NT_AOV_LAYER_SHADOWS.png",
     "node_name": "NT_AOV_LAYER_SHADOWS",
     "node_id": 204,
+    "display_name": "Aov Layer Shadows",
     "column": 0,
     "row": 32,
     "position": [
@@ -400,6 +433,7 @@
     "filename": "NT_AOV_LIGHT.png",
     "node_name": "NT_AOV_LIGHT",
     "node_id": 205,
+    "display_name": "Aov Light",
     "column": 0,
     "row": 33,
     "position": [
@@ -412,6 +446,7 @@
     "filename": "NT_AOV_LIGHT_DIRECT.png",
     "node_name": "NT_AOV_LIGHT_DIRECT",
     "node_id": 206,
+    "display_name": "Aov Light Direct",
     "column": 0,
     "row": 34,
     "position": [
@@ -424,6 +459,7 @@
     "filename": "NT_AOV_LIGHT_DIRECTION.png",
     "node_name": "NT_AOV_LIGHT_DIRECTION",
     "node_id": 207,
+    "display_name": "Aov Light Direction",
     "column": 0,
     "row": 35,
     "position": [
@@ -436,6 +472,7 @@
     "filename": "NT_AOV_LIGHT_INDIRECT.png",
     "node_name": "NT_AOV_LIGHT_INDIRECT",
     "node_id": 208,
+    "display_name": "Aov Light Indirect",
     "column": 0,
     "row": 36,
     "position": [
@@ -448,6 +485,7 @@
     "filename": "NT_AOV_LIGHT_PASS_ID.png",
     "node_name": "NT_AOV_LIGHT_PASS_ID",
     "node_id": 209,
+    "display_name": "Aov Light Pass Id",
     "column": 0,
     "row": 37,
     "position": [
@@ -460,6 +498,7 @@
     "filename": "NT_AOV_MATERIAL_ID.png",
     "node_name": "NT_AOV_MATERIAL_ID",
     "node_id": 210,
+    "display_name": "Aov Material Id",
     "column": 0,
     "row": 38,
     "position": [
@@ -472,6 +511,7 @@
     "filename": "NT_AOV_MOTION_VECTOR.png",
     "node_name": "NT_AOV_MOTION_VECTOR",
     "node_id": 211,
+    "display_name": "Aov Motion Vector",
     "column": 0,
     "row": 39,
     "position": [
@@ -484,6 +524,7 @@
     "filename": "NT_AOV_NOISE_BEAUTY.png",
     "node_name": "NT_AOV_NOISE_BEAUTY",
     "node_id": 212,
+    "display_name": "Aov Noise Beauty",
     "column": 0,
     "row": 40,
     "position": [
@@ -496,6 +537,7 @@
     "filename": "NT_AOV_NOISE_DIFFUSE_DIRECT.png",
     "node_name": "NT_AOV_NOISE_DIFFUSE_DIRECT",
     "node_id": 213,
+    "display_name": "Aov Noise Diffuse Direct",
     "column": 0,
     "row": 41,
     "position": [
@@ -508,6 +550,7 @@
     "filename": "NT_AOV_NOISE_DIFFUSE_INDIRECT.png",
     "node_name": "NT_AOV_NOISE_DIFFUSE_INDIRECT",
     "node_id": 214,
+    "display_name": "Aov Noise Diffuse Indirect",
     "column": 0,
     "row": 42,
     "position": [
@@ -520,6 +563,7 @@
     "filename": "NT_AOV_NOISE_REFLECTION_DIRECT.png",
     "node_name": "NT_AOV_NOISE_REFLECTION_DIRECT",
     "node_id": 215,
+    "display_name": "Aov Noise Reflection Direct",
     "column": 0,
     "row": 43,
     "position": [
@@ -532,6 +576,7 @@
     "filename": "NT_AOV_NOISE_REFLECTION_INDIRECT.png",
     "node_name": "NT_AOV_NOISE_REFLECTION_INDIRECT",
     "node_id": 216,
+    "display_name": "Aov Noise Reflection Indirect",
     "column": 0,
     "row": 44,
     "position": [
@@ -544,6 +589,7 @@
     "filename": "NT_AOV_OBJECT_ID.png",
     "node_name": "NT_AOV_OBJECT_ID",
     "node_id": 217,
+    "display_name": "Aov Object Id",
     "column": 0,
     "row": 45,
     "position": [
@@ -556,6 +602,7 @@
     "filename": "NT_AOV_OBJECT_LAYER_COLOR.png",
     "node_name": "NT_AOV_OBJECT_LAYER_COLOR",
     "node_id": 218,
+    "display_name": "Aov Object Layer Color",
     "column": 0,
     "row": 46,
     "position": [
@@ -568,6 +615,7 @@
     "filename": "NT_AOV_OPACITY.png",
     "node_name": "NT_AOV_OPACITY",
     "node_id": 219,
+    "display_name": "Aov Opacity",
     "column": 0,
     "row": 47,
     "position": [
@@ -580,6 +628,7 @@
     "filename": "NT_AOV_POSITION.png",
     "node_name": "NT_AOV_POSITION",
     "node_id": 220,
+    "display_name": "Aov Position",
     "column": 0,
     "row": 48,
     "position": [
@@ -589,9 +638,10 @@
   },
   {
     "index": 49,
-    "filename": "NT_AOV_POSTFX_MEDIA.png",
-    "node_name": "NT_AOV_POSTFX_MEDIA",
-    "node_id": 379,
+    "filename": "NT_AOV_POST_PROCESSING.png",
+    "node_name": "NT_AOV_POST_PROCESSING",
+    "node_id": 221,
+    "display_name": "Aov Post Processing",
     "column": 0,
     "row": 49,
     "position": [
@@ -601,9 +651,10 @@
   },
   {
     "index": 50,
-    "filename": "NT_AOV_POST_PROCESSING.png",
-    "node_name": "NT_AOV_POST_PROCESSING",
-    "node_id": 221,
+    "filename": "NT_AOV_POSTFX_MEDIA.png",
+    "node_name": "NT_AOV_POSTFX_MEDIA",
+    "node_id": 379,
+    "display_name": "Aov Postfx Media",
     "column": 0,
     "row": 50,
     "position": [
@@ -616,6 +667,7 @@
     "filename": "NT_AOV_PRIMARY_HIT_DATA.png",
     "node_name": "NT_AOV_PRIMARY_HIT_DATA",
     "node_id": 412,
+    "display_name": "Aov Primary Hit Data",
     "column": 0,
     "row": 51,
     "position": [
@@ -628,6 +680,7 @@
     "filename": "NT_AOV_PRIMARY_HIT_DISTANCE.png",
     "node_name": "NT_AOV_PRIMARY_HIT_DISTANCE",
     "node_id": 500,
+    "display_name": "Aov Primary Hit Distance",
     "column": 0,
     "row": 52,
     "position": [
@@ -640,6 +693,7 @@
     "filename": "NT_AOV_PRIMARY_HIT_NORMAL.png",
     "node_name": "NT_AOV_PRIMARY_HIT_NORMAL",
     "node_id": 501,
+    "display_name": "Aov Primary Hit Normal",
     "column": 0,
     "row": 53,
     "position": [
@@ -652,6 +706,7 @@
     "filename": "NT_AOV_PRIMARY_HIT_ROUGHNESS.png",
     "node_name": "NT_AOV_PRIMARY_HIT_ROUGHNESS",
     "node_id": 502,
+    "display_name": "Aov Primary Hit Roughness",
     "column": 0,
     "row": 54,
     "position": [
@@ -664,6 +719,7 @@
     "filename": "NT_AOV_PRIMARY_ZDEPTH.png",
     "node_name": "NT_AOV_PRIMARY_ZDEPTH",
     "node_id": 378,
+    "display_name": "Aov Primary Zdepth",
     "column": 0,
     "row": 55,
     "position": [
@@ -676,6 +732,7 @@
     "filename": "NT_AOV_PRIMITIVE_TYPE.png",
     "node_name": "NT_AOV_PRIMITIVE_TYPE",
     "node_id": 273,
+    "display_name": "Aov Primitive Type",
     "column": 0,
     "row": 56,
     "position": [
@@ -688,6 +745,7 @@
     "filename": "NT_AOV_REFLECTION.png",
     "node_name": "NT_AOV_REFLECTION",
     "node_id": 222,
+    "display_name": "Aov Reflection",
     "column": 0,
     "row": 57,
     "position": [
@@ -700,6 +758,7 @@
     "filename": "NT_AOV_REFLECTION_DIRECT.png",
     "node_name": "NT_AOV_REFLECTION_DIRECT",
     "node_id": 223,
+    "display_name": "Aov Reflection Direct",
     "column": 0,
     "row": 58,
     "position": [
@@ -712,6 +771,7 @@
     "filename": "NT_AOV_REFLECTION_DIRECT_DENOISER_OUTPUT.png",
     "node_name": "NT_AOV_REFLECTION_DIRECT_DENOISER_OUTPUT",
     "node_id": 224,
+    "display_name": "Aov Reflection Direct Denoiser Output",
     "column": 0,
     "row": 59,
     "position": [
@@ -724,6 +784,7 @@
     "filename": "NT_AOV_REFLECTION_FILTER.png",
     "node_name": "NT_AOV_REFLECTION_FILTER",
     "node_id": 225,
+    "display_name": "Aov Reflection Filter",
     "column": 0,
     "row": 60,
     "position": [
@@ -736,6 +797,7 @@
     "filename": "NT_AOV_REFLECTION_FILTER_INFO.png",
     "node_name": "NT_AOV_REFLECTION_FILTER_INFO",
     "node_id": 226,
+    "display_name": "Aov Reflection Filter Info",
     "column": 0,
     "row": 61,
     "position": [
@@ -748,6 +810,7 @@
     "filename": "NT_AOV_REFLECTION_FILTER_RGB.png",
     "node_name": "NT_AOV_REFLECTION_FILTER_RGB",
     "node_id": 503,
+    "display_name": "Aov Reflection Filter Rgb",
     "column": 0,
     "row": 62,
     "position": [
@@ -760,6 +823,7 @@
     "filename": "NT_AOV_REFLECTION_INDIRECT.png",
     "node_name": "NT_AOV_REFLECTION_INDIRECT",
     "node_id": 227,
+    "display_name": "Aov Reflection Indirect",
     "column": 0,
     "row": 63,
     "position": [
@@ -772,6 +836,7 @@
     "filename": "NT_AOV_REFLECTION_INDIRECT_DENOISER_OUTPUT.png",
     "node_name": "NT_AOV_REFLECTION_INDIRECT_DENOISER_OUTPUT",
     "node_id": 228,
+    "display_name": "Aov Reflection Indirect Denoiser Output",
     "column": 0,
     "row": 64,
     "position": [
@@ -784,6 +849,7 @@
     "filename": "NT_AOV_REFRACTION.png",
     "node_name": "NT_AOV_REFRACTION",
     "node_id": 229,
+    "display_name": "Aov Refraction",
     "column": 0,
     "row": 65,
     "position": [
@@ -796,6 +862,7 @@
     "filename": "NT_AOV_REFRACTION_FILTER.png",
     "node_name": "NT_AOV_REFRACTION_FILTER",
     "node_id": 230,
+    "display_name": "Aov Refraction Filter",
     "column": 0,
     "row": 66,
     "position": [
@@ -808,6 +875,7 @@
     "filename": "NT_AOV_REFRACTION_FILTER_INFO.png",
     "node_name": "NT_AOV_REFRACTION_FILTER_INFO",
     "node_id": 231,
+    "display_name": "Aov Refraction Filter Info",
     "column": 0,
     "row": 67,
     "position": [
@@ -820,6 +888,7 @@
     "filename": "NT_AOV_REMAINDER_DENOISER_OUTPUT.png",
     "node_name": "NT_AOV_REMAINDER_DENOISER_OUTPUT",
     "node_id": 232,
+    "display_name": "Aov Remainder Denoiser Output",
     "column": 0,
     "row": 68,
     "position": [
@@ -832,6 +901,7 @@
     "filename": "NT_AOV_RENDER_LAYER_ID.png",
     "node_name": "NT_AOV_RENDER_LAYER_ID",
     "node_id": 233,
+    "display_name": "Aov Render Layer Id",
     "column": 0,
     "row": 69,
     "position": [
@@ -844,6 +914,7 @@
     "filename": "NT_AOV_RENDER_LAYER_MASK.png",
     "node_name": "NT_AOV_RENDER_LAYER_MASK",
     "node_id": 234,
+    "display_name": "Aov Render Layer Mask",
     "column": 0,
     "row": 70,
     "position": [
@@ -856,6 +927,7 @@
     "filename": "NT_AOV_ROUGHNESS.png",
     "node_name": "NT_AOV_ROUGHNESS",
     "node_id": 235,
+    "display_name": "Aov Roughness",
     "column": 0,
     "row": 71,
     "position": [
@@ -868,6 +940,7 @@
     "filename": "NT_AOV_SAMPLE_OFFSET.png",
     "node_name": "NT_AOV_SAMPLE_OFFSET",
     "node_id": 370,
+    "display_name": "Aov Sample Offset",
     "column": 0,
     "row": 72,
     "position": [
@@ -880,6 +953,7 @@
     "filename": "NT_AOV_SCREENSPACE_MOTION.png",
     "node_name": "NT_AOV_SCREENSPACE_MOTION",
     "node_id": 368,
+    "display_name": "Aov Screenspace Motion",
     "column": 1,
     "row": 0,
     "position": [
@@ -892,6 +966,7 @@
     "filename": "NT_AOV_SECONDARY_RAY_LENGTHS.png",
     "node_name": "NT_AOV_SECONDARY_RAY_LENGTHS",
     "node_id": 369,
+    "display_name": "Aov Secondary Ray Lengths",
     "column": 1,
     "row": 1,
     "position": [
@@ -904,6 +979,7 @@
     "filename": "NT_AOV_SHADING_NORMAL.png",
     "node_name": "NT_AOV_SHADING_NORMAL",
     "node_id": 236,
+    "display_name": "Aov Shading Normal",
     "column": 1,
     "row": 2,
     "position": [
@@ -916,6 +992,7 @@
     "filename": "NT_AOV_SHADOW.png",
     "node_name": "NT_AOV_SHADOW",
     "node_id": 237,
+    "display_name": "Aov Shadow",
     "column": 1,
     "row": 3,
     "position": [
@@ -928,6 +1005,7 @@
     "filename": "NT_AOV_SMOOTH_NORMAL.png",
     "node_name": "NT_AOV_SMOOTH_NORMAL",
     "node_id": 253,
+    "display_name": "Aov Smooth Normal",
     "column": 1,
     "row": 4,
     "position": [
@@ -940,6 +1018,7 @@
     "filename": "NT_AOV_SSS.png",
     "node_name": "NT_AOV_SSS",
     "node_id": 238,
+    "display_name": "Aov Sss",
     "column": 1,
     "row": 5,
     "position": [
@@ -952,6 +1031,7 @@
     "filename": "NT_AOV_TANGENT_NORMAL.png",
     "node_name": "NT_AOV_TANGENT_NORMAL",
     "node_id": 239,
+    "display_name": "Aov Tangent Normal",
     "column": 1,
     "row": 6,
     "position": [
@@ -964,6 +1044,7 @@
     "filename": "NT_AOV_TANGENT_U.png",
     "node_name": "NT_AOV_TANGENT_U",
     "node_id": 240,
+    "display_name": "Aov Tangent U",
     "column": 1,
     "row": 7,
     "position": [
@@ -976,6 +1057,7 @@
     "filename": "NT_AOV_TIME.png",
     "node_name": "NT_AOV_TIME",
     "node_id": 408,
+    "display_name": "Aov Time",
     "column": 1,
     "row": 8,
     "position": [
@@ -988,6 +1070,7 @@
     "filename": "NT_AOV_TRACE_CLOCK.png",
     "node_name": "NT_AOV_TRACE_CLOCK",
     "node_id": 241,
+    "display_name": "Aov Trace Clock",
     "column": 1,
     "row": 9,
     "position": [
@@ -1000,6 +1083,7 @@
     "filename": "NT_AOV_TRANSMISSION.png",
     "node_name": "NT_AOV_TRANSMISSION",
     "node_id": 244,
+    "display_name": "Aov Transmission",
     "column": 1,
     "row": 10,
     "position": [
@@ -1012,6 +1096,7 @@
     "filename": "NT_AOV_TRANSMISSION_FILTER.png",
     "node_name": "NT_AOV_TRANSMISSION_FILTER",
     "node_id": 242,
+    "display_name": "Aov Transmission Filter",
     "column": 1,
     "row": 11,
     "position": [
@@ -1024,6 +1109,7 @@
     "filename": "NT_AOV_TRANSMISSION_FILTER_INFO.png",
     "node_name": "NT_AOV_TRANSMISSION_FILTER_INFO",
     "node_id": 243,
+    "display_name": "Aov Transmission Filter Info",
     "column": 1,
     "row": 12,
     "position": [
@@ -1036,6 +1122,7 @@
     "filename": "NT_AOV_TRANSPARENCY_MASK.png",
     "node_name": "NT_AOV_TRANSPARENCY_MASK",
     "node_id": 504,
+    "display_name": "Aov Transparency Mask",
     "column": 1,
     "row": 13,
     "position": [
@@ -1048,6 +1135,7 @@
     "filename": "NT_AOV_UV_COORD.png",
     "node_name": "NT_AOV_UV_COORD",
     "node_id": 245,
+    "display_name": "Aov Uv Coord",
     "column": 1,
     "row": 14,
     "position": [
@@ -1060,6 +1148,7 @@
     "filename": "NT_AOV_VOLUME.png",
     "node_name": "NT_AOV_VOLUME",
     "node_id": 246,
+    "display_name": "Aov Volume",
     "column": 1,
     "row": 15,
     "position": [
@@ -1072,6 +1161,7 @@
     "filename": "NT_AOV_VOLUME_DENOISER_OUTPUT.png",
     "node_name": "NT_AOV_VOLUME_DENOISER_OUTPUT",
     "node_id": 247,
+    "display_name": "Aov Volume Denoiser Output",
     "column": 1,
     "row": 16,
     "position": [
@@ -1084,6 +1174,7 @@
     "filename": "NT_AOV_VOLUME_EMISSION.png",
     "node_name": "NT_AOV_VOLUME_EMISSION",
     "node_id": 248,
+    "display_name": "Aov Volume Emission",
     "column": 1,
     "row": 17,
     "position": [
@@ -1096,6 +1187,7 @@
     "filename": "NT_AOV_VOLUME_EMISSION_DENOISER_OUTPUT.png",
     "node_name": "NT_AOV_VOLUME_EMISSION_DENOISER_OUTPUT",
     "node_id": 249,
+    "display_name": "Aov Volume Emission Denoiser Output",
     "column": 1,
     "row": 18,
     "position": [
@@ -1108,6 +1200,7 @@
     "filename": "NT_AOV_VOLUME_MASK.png",
     "node_name": "NT_AOV_VOLUME_MASK",
     "node_id": 250,
+    "display_name": "Aov Volume Mask",
     "column": 1,
     "row": 19,
     "position": [
@@ -1120,6 +1213,7 @@
     "filename": "NT_AOV_VOLUME_Z_DEPTH_BACK.png",
     "node_name": "NT_AOV_VOLUME_Z_DEPTH_BACK",
     "node_id": 252,
+    "display_name": "Aov Volume Z Depth Back",
     "column": 1,
     "row": 20,
     "position": [
@@ -1132,6 +1226,7 @@
     "filename": "NT_AOV_VOLUME_Z_DEPTH_FRONT.png",
     "node_name": "NT_AOV_VOLUME_Z_DEPTH_FRONT",
     "node_id": 251,
+    "display_name": "Aov Volume Z Depth Front",
     "column": 1,
     "row": 21,
     "position": [
@@ -1144,6 +1239,7 @@
     "filename": "NT_AOV_WIREFRAME.png",
     "node_name": "NT_AOV_WIREFRAME",
     "node_id": 254,
+    "display_name": "Aov Wireframe",
     "column": 1,
     "row": 22,
     "position": [
@@ -1156,6 +1252,7 @@
     "filename": "NT_AOV_Z_DEPTH.png",
     "node_name": "NT_AOV_Z_DEPTH",
     "node_id": 255,
+    "display_name": "Aov Z Depth",
     "column": 1,
     "row": 23,
     "position": [
@@ -1168,6 +1265,7 @@
     "filename": "NT_BIT_MASK.png",
     "node_name": "NT_BIT_MASK",
     "node_id": 132,
+    "display_name": "Bit Mask",
     "column": 1,
     "row": 24,
     "position": [
@@ -1180,6 +1278,7 @@
     "filename": "NT_BLENDING_SETTINGS.png",
     "node_name": "NT_BLENDING_SETTINGS",
     "node_id": 382,
+    "display_name": "Blending Settings",
     "column": 1,
     "row": 25,
     "position": [
@@ -1192,6 +1291,7 @@
     "filename": "NT_BOOL.png",
     "node_name": "NT_BOOL",
     "node_id": 11,
+    "display_name": "Bool",
     "column": 1,
     "row": 26,
     "position": [
@@ -1204,6 +1304,7 @@
     "filename": "NT_BOOL_LOGIC_OPERATOR.png",
     "node_name": "NT_BOOL_LOGIC_OPERATOR",
     "node_id": 288,
+    "display_name": "Bool Logic Operator",
     "column": 1,
     "row": 27,
     "position": [
@@ -1216,6 +1317,7 @@
     "filename": "NT_CAM_BAKING.png",
     "node_name": "NT_CAM_BAKING",
     "node_id": 94,
+    "display_name": "Cam Baking",
     "column": 1,
     "row": 28,
     "position": [
@@ -1228,6 +1330,7 @@
     "filename": "NT_CAM_OSL.png",
     "node_name": "NT_CAM_OSL",
     "node_id": 126,
+    "display_name": "Cam Osl",
     "column": 1,
     "row": 29,
     "position": [
@@ -1240,6 +1343,7 @@
     "filename": "NT_CAM_OSL_BAKING.png",
     "node_name": "NT_CAM_OSL_BAKING",
     "node_id": 128,
+    "display_name": "Cam Osl Baking",
     "column": 1,
     "row": 30,
     "position": [
@@ -1252,6 +1356,7 @@
     "filename": "NT_CAM_PANORAMIC.png",
     "node_name": "NT_CAM_PANORAMIC",
     "node_id": 62,
+    "display_name": "Cam Panoramic",
     "column": 1,
     "row": 31,
     "position": [
@@ -1264,6 +1369,7 @@
     "filename": "NT_CAM_SIMULATED_LENS.png",
     "node_name": "NT_CAM_SIMULATED_LENS",
     "node_id": 472,
+    "display_name": "Cam Simulated Lens",
     "column": 1,
     "row": 32,
     "position": [
@@ -1276,6 +1382,7 @@
     "filename": "NT_CAM_THINLENS.png",
     "node_name": "NT_CAM_THINLENS",
     "node_id": 13,
+    "display_name": "Cam Thinlens",
     "column": 1,
     "row": 33,
     "position": [
@@ -1288,6 +1395,7 @@
     "filename": "NT_CAM_UNIVERSAL.png",
     "node_name": "NT_CAM_UNIVERSAL",
     "node_id": 157,
+    "display_name": "Cam Universal",
     "column": 1,
     "row": 34,
     "position": [
@@ -1300,6 +1408,7 @@
     "filename": "NT_COMPOSITE_AOV_LAYER.png",
     "node_name": "NT_COMPOSITE_AOV_LAYER",
     "node_id": 319,
+    "display_name": "Composite Aov Layer",
     "column": 1,
     "row": 35,
     "position": [
@@ -1312,6 +1421,7 @@
     "filename": "NT_DIRECTORY.png",
     "node_name": "NT_DIRECTORY",
     "node_id": 101,
+    "display_name": "Directory",
     "column": 1,
     "row": 36,
     "position": [
@@ -1324,6 +1434,7 @@
     "filename": "NT_DISPLACEMENT.png",
     "node_name": "NT_DISPLACEMENT",
     "node_id": 80,
+    "display_name": "Displacement",
     "column": 1,
     "row": 37,
     "position": [
@@ -1336,6 +1447,7 @@
     "filename": "NT_EMIS_BLACKBODY.png",
     "node_name": "NT_EMIS_BLACKBODY",
     "node_id": 53,
+    "display_name": "Emis Blackbody",
     "column": 1,
     "row": 38,
     "position": [
@@ -1348,6 +1460,7 @@
     "filename": "NT_EMIS_TEXTURE.png",
     "node_name": "NT_EMIS_TEXTURE",
     "node_id": 54,
+    "display_name": "Emis Texture",
     "column": 1,
     "row": 39,
     "position": [
@@ -1360,6 +1473,7 @@
     "filename": "NT_ENUM.png",
     "node_name": "NT_ENUM",
     "node_id": 57,
+    "display_name": "Enum",
     "column": 1,
     "row": 40,
     "position": [
@@ -1372,6 +1486,7 @@
     "filename": "NT_ENV_DAYLIGHT.png",
     "node_name": "NT_ENV_DAYLIGHT",
     "node_id": 14,
+    "display_name": "Env Daylight",
     "column": 1,
     "row": 41,
     "position": [
@@ -1384,6 +1499,7 @@
     "filename": "NT_ENV_PLANETARY.png",
     "node_name": "NT_ENV_PLANETARY",
     "node_id": 129,
+    "display_name": "Env Planetary",
     "column": 1,
     "row": 42,
     "position": [
@@ -1396,6 +1512,7 @@
     "filename": "NT_ENV_TEXTURE.png",
     "node_name": "NT_ENV_TEXTURE",
     "node_id": 37,
+    "display_name": "Env Texture",
     "column": 1,
     "row": 43,
     "position": [
@@ -1408,6 +1525,7 @@
     "filename": "NT_FILE.png",
     "node_name": "NT_FILE",
     "node_id": 88,
+    "display_name": "File",
     "column": 1,
     "row": 44,
     "position": [
@@ -1420,6 +1538,7 @@
     "filename": "NT_FILM_SETTINGS.png",
     "node_name": "NT_FILM_SETTINGS",
     "node_id": 100,
+    "display_name": "Film Settings",
     "column": 1,
     "row": 45,
     "position": [
@@ -1432,6 +1551,7 @@
     "filename": "NT_FLOAT.png",
     "node_name": "NT_FLOAT",
     "node_id": 6,
+    "display_name": "Float",
     "column": 1,
     "row": 46,
     "position": [
@@ -1444,6 +1564,7 @@
     "filename": "NT_FLOAT_COMPONENT_MERGER.png",
     "node_name": "NT_FLOAT_COMPONENT_MERGER",
     "node_id": 284,
+    "display_name": "Float Component Merger",
     "column": 1,
     "row": 47,
     "position": [
@@ -1456,6 +1577,7 @@
     "filename": "NT_FLOAT_COMPONENT_PICKER.png",
     "node_name": "NT_FLOAT_COMPONENT_PICKER",
     "node_id": 285,
+    "display_name": "Float Component Picker",
     "column": 1,
     "row": 48,
     "position": [
@@ -1468,6 +1590,7 @@
     "filename": "NT_FLOAT_IF.png",
     "node_name": "NT_FLOAT_IF",
     "node_id": 279,
+    "display_name": "Float If",
     "column": 1,
     "row": 49,
     "position": [
@@ -1480,6 +1603,7 @@
     "filename": "NT_FLOAT_MATH_BINARY.png",
     "node_name": "NT_FLOAT_MATH_BINARY",
     "node_id": 291,
+    "display_name": "Float Math Binary",
     "column": 1,
     "row": 50,
     "position": [
@@ -1492,6 +1616,7 @@
     "filename": "NT_FLOAT_MATH_UNARY.png",
     "node_name": "NT_FLOAT_MATH_UNARY",
     "node_id": 292,
+    "display_name": "Float Math Unary",
     "column": 1,
     "row": 51,
     "position": [
@@ -1504,6 +1629,7 @@
     "filename": "NT_FLOAT_RANGE.png",
     "node_name": "NT_FLOAT_RANGE",
     "node_id": 293,
+    "display_name": "Float Range",
     "column": 1,
     "row": 52,
     "position": [
@@ -1516,6 +1642,7 @@
     "filename": "NT_FLOAT_RELATIONAL_OPERATOR.png",
     "node_name": "NT_FLOAT_RELATIONAL_OPERATOR",
     "node_id": 289,
+    "display_name": "Float Relational Operator",
     "column": 1,
     "row": 53,
     "position": [
@@ -1528,6 +1655,7 @@
     "filename": "NT_FLOAT_TIME.png",
     "node_name": "NT_FLOAT_TIME",
     "node_id": 467,
+    "display_name": "Float Time",
     "column": 1,
     "row": 54,
     "position": [
@@ -1540,6 +1668,7 @@
     "filename": "NT_FLOAT_TO_INT.png",
     "node_name": "NT_FLOAT_TO_INT",
     "node_id": 281,
+    "display_name": "Float To Int",
     "column": 1,
     "row": 55,
     "position": [
@@ -1552,6 +1681,7 @@
     "filename": "NT_GEO_DECAL.png",
     "node_name": "NT_GEO_DECAL",
     "node_id": 477,
+    "display_name": "Geo Decal",
     "column": 1,
     "row": 56,
     "position": [
@@ -1564,6 +1694,7 @@
     "filename": "NT_GEO_EXPORTER.png",
     "node_name": "NT_GEO_EXPORTER",
     "node_id": 156,
+    "display_name": "Geo Exporter",
     "column": 1,
     "row": 57,
     "position": [
@@ -1576,6 +1707,7 @@
     "filename": "NT_GEO_GAUSSIAN_SPLAT.png",
     "node_name": "NT_GEO_GAUSSIAN_SPLAT",
     "node_id": 481,
+    "display_name": "Geo Gaussian Splat",
     "column": 1,
     "row": 58,
     "position": [
@@ -1588,6 +1720,7 @@
     "filename": "NT_GEO_GROUP.png",
     "node_name": "NT_GEO_GROUP",
     "node_id": 3,
+    "display_name": "Geo Group",
     "column": 1,
     "row": 59,
     "position": [
@@ -1600,6 +1733,7 @@
     "filename": "NT_GEO_JOINT.png",
     "node_name": "NT_GEO_JOINT",
     "node_id": 102,
+    "display_name": "Geo Joint",
     "column": 1,
     "row": 60,
     "position": [
@@ -1612,6 +1746,7 @@
     "filename": "NT_GEO_MESH.png",
     "node_name": "NT_GEO_MESH",
     "node_id": 1,
+    "display_name": "Geo Mesh",
     "column": 1,
     "row": 61,
     "position": [
@@ -1624,6 +1759,7 @@
     "filename": "NT_GEO_MESH_VOLUME.png",
     "node_name": "NT_GEO_MESH_VOLUME",
     "node_id": 274,
+    "display_name": "Geo Mesh Volume",
     "column": 1,
     "row": 62,
     "position": [
@@ -1636,6 +1772,7 @@
     "filename": "NT_GEO_MESH_VOLUME_SDF.png",
     "node_name": "NT_GEO_MESH_VOLUME_SDF",
     "node_id": 257,
+    "display_name": "Geo Mesh Volume Sdf",
     "column": 1,
     "row": 63,
     "position": [
@@ -1648,6 +1785,7 @@
     "filename": "NT_GEO_OBJECT.png",
     "node_name": "NT_GEO_OBJECT",
     "node_id": 153,
+    "display_name": "Geo Object",
     "column": 1,
     "row": 64,
     "position": [
@@ -1660,6 +1798,7 @@
     "filename": "NT_GEO_OSL.png",
     "node_name": "NT_GEO_OSL",
     "node_id": 133,
+    "display_name": "Geo Osl",
     "column": 1,
     "row": 65,
     "position": [
@@ -1672,6 +1811,7 @@
     "filename": "NT_GEO_PLACEMENT.png",
     "node_name": "NT_GEO_PLACEMENT",
     "node_id": 4,
+    "display_name": "Geo Placement",
     "column": 1,
     "row": 66,
     "position": [
@@ -1684,6 +1824,7 @@
     "filename": "NT_GEO_PLANE.png",
     "node_name": "NT_GEO_PLANE",
     "node_id": 110,
+    "display_name": "Geo Plane",
     "column": 1,
     "row": 67,
     "position": [
@@ -1696,6 +1837,7 @@
     "filename": "NT_GEO_SCATTER.png",
     "node_name": "NT_GEO_SCATTER",
     "node_id": 5,
+    "display_name": "Geo Scatter",
     "column": 1,
     "row": 68,
     "position": [
@@ -1708,6 +1850,7 @@
     "filename": "NT_GEO_SDF_ARRAY_CIRCULAR.png",
     "node_name": "NT_GEO_SDF_ARRAY_CIRCULAR",
     "node_id": 493,
+    "display_name": "Geo Sdf Array Circular",
     "column": 1,
     "row": 69,
     "position": [
@@ -1720,6 +1863,7 @@
     "filename": "NT_GEO_SDF_ARRAY_LINEAR.png",
     "node_name": "NT_GEO_SDF_ARRAY_LINEAR",
     "node_id": 492,
+    "display_name": "Geo Sdf Array Linear",
     "column": 1,
     "row": 70,
     "position": [
@@ -1732,6 +1876,7 @@
     "filename": "NT_GEO_SDF_AVOID.png",
     "node_name": "NT_GEO_SDF_AVOID",
     "node_id": 489,
+    "display_name": "Geo Sdf Avoid",
     "column": 1,
     "row": 71,
     "position": [
@@ -1744,6 +1889,7 @@
     "filename": "NT_GEO_SDF_BOX.png",
     "node_name": "NT_GEO_SDF_BOX",
     "node_id": 296,
+    "display_name": "Geo Sdf Box",
     "column": 1,
     "row": 72,
     "position": [
@@ -1756,6 +1902,7 @@
     "filename": "NT_GEO_SDF_CAPSULE.png",
     "node_name": "NT_GEO_SDF_CAPSULE",
     "node_id": 297,
+    "display_name": "Geo Sdf Capsule",
     "column": 2,
     "row": 0,
     "position": [
@@ -1768,6 +1915,7 @@
     "filename": "NT_GEO_SDF_CLIP.png",
     "node_name": "NT_GEO_SDF_CLIP",
     "node_id": 311,
+    "display_name": "Geo Sdf Clip",
     "column": 2,
     "row": 1,
     "position": [
@@ -1780,6 +1928,7 @@
     "filename": "NT_GEO_SDF_CONE.png",
     "node_name": "NT_GEO_SDF_CONE",
     "node_id": 494,
+    "display_name": "Geo Sdf Cone",
     "column": 2,
     "row": 2,
     "position": [
@@ -1792,6 +1941,7 @@
     "filename": "NT_GEO_SDF_CYLINDER.png",
     "node_name": "NT_GEO_SDF_CYLINDER",
     "node_id": 298,
+    "display_name": "Geo Sdf Cylinder",
     "column": 2,
     "row": 3,
     "position": [
@@ -1804,6 +1954,7 @@
     "filename": "NT_GEO_SDF_DISPLACEMENT.png",
     "node_name": "NT_GEO_SDF_DISPLACEMENT",
     "node_id": 480,
+    "display_name": "Geo Sdf Displacement",
     "column": 2,
     "row": 4,
     "position": [
@@ -1816,6 +1967,7 @@
     "filename": "NT_GEO_SDF_DOMAIN.png",
     "node_name": "NT_GEO_SDF_DOMAIN",
     "node_id": 278,
+    "display_name": "Geo Sdf Domain",
     "column": 2,
     "row": 5,
     "position": [
@@ -1828,6 +1980,7 @@
     "filename": "NT_GEO_SDF_INK.png",
     "node_name": "NT_GEO_SDF_INK",
     "node_id": 308,
+    "display_name": "Geo Sdf Ink",
     "column": 2,
     "row": 6,
     "position": [
@@ -1840,6 +1993,7 @@
     "filename": "NT_GEO_SDF_INSET.png",
     "node_name": "NT_GEO_SDF_INSET",
     "node_id": 309,
+    "display_name": "Geo Sdf Inset",
     "column": 2,
     "row": 7,
     "position": [
@@ -1852,6 +2006,7 @@
     "filename": "NT_GEO_SDF_INTERSECT.png",
     "node_name": "NT_GEO_SDF_INTERSECT",
     "node_id": 310,
+    "display_name": "Geo Sdf Intersect",
     "column": 2,
     "row": 8,
     "position": [
@@ -1864,6 +2019,7 @@
     "filename": "NT_GEO_SDF_MIRROR.png",
     "node_name": "NT_GEO_SDF_MIRROR",
     "node_id": 491,
+    "display_name": "Geo Sdf Mirror",
     "column": 2,
     "row": 9,
     "position": [
@@ -1876,6 +2032,7 @@
     "filename": "NT_GEO_SDF_OFFSET.png",
     "node_name": "NT_GEO_SDF_OFFSET",
     "node_id": 312,
+    "display_name": "Geo Sdf Offset",
     "column": 2,
     "row": 10,
     "position": [
@@ -1888,6 +2045,7 @@
     "filename": "NT_GEO_SDF_PRISM.png",
     "node_name": "NT_GEO_SDF_PRISM",
     "node_id": 299,
+    "display_name": "Geo Sdf Prism",
     "column": 2,
     "row": 11,
     "position": [
@@ -1900,6 +2058,7 @@
     "filename": "NT_GEO_SDF_PULL.png",
     "node_name": "NT_GEO_SDF_PULL",
     "node_id": 487,
+    "display_name": "Geo Sdf Pull",
     "column": 2,
     "row": 12,
     "position": [
@@ -1912,6 +2071,7 @@
     "filename": "NT_GEO_SDF_PUSH.png",
     "node_name": "NT_GEO_SDF_PUSH",
     "node_id": 488,
+    "display_name": "Geo Sdf Push",
     "column": 2,
     "row": 13,
     "position": [
@@ -1924,6 +2084,7 @@
     "filename": "NT_GEO_SDF_REPEL.png",
     "node_name": "NT_GEO_SDF_REPEL",
     "node_id": 490,
+    "display_name": "Geo Sdf Repel",
     "column": 2,
     "row": 14,
     "position": [
@@ -1936,6 +2097,7 @@
     "filename": "NT_GEO_SDF_SPHERE.png",
     "node_name": "NT_GEO_SDF_SPHERE",
     "node_id": 300,
+    "display_name": "Geo Sdf Sphere",
     "column": 2,
     "row": 15,
     "position": [
@@ -1948,6 +2110,7 @@
     "filename": "NT_GEO_SDF_SUBTRACT.png",
     "node_name": "NT_GEO_SDF_SUBTRACT",
     "node_id": 155,
+    "display_name": "Geo Sdf Subtract",
     "column": 2,
     "row": 16,
     "position": [
@@ -1960,6 +2123,7 @@
     "filename": "NT_GEO_SDF_TORUS.png",
     "node_name": "NT_GEO_SDF_TORUS",
     "node_id": 301,
+    "display_name": "Geo Sdf Torus",
     "column": 2,
     "row": 17,
     "position": [
@@ -1972,6 +2136,7 @@
     "filename": "NT_GEO_SDF_TUBE.png",
     "node_name": "NT_GEO_SDF_TUBE",
     "node_id": 302,
+    "display_name": "Geo Sdf Tube",
     "column": 2,
     "row": 18,
     "position": [
@@ -1984,6 +2149,7 @@
     "filename": "NT_GEO_SDF_UNION.png",
     "node_name": "NT_GEO_SDF_UNION",
     "node_id": 154,
+    "display_name": "Geo Sdf Union",
     "column": 2,
     "row": 19,
     "position": [
@@ -1996,6 +2162,7 @@
     "filename": "NT_GEO_UNIT_VOLUME.png",
     "node_name": "NT_GEO_UNIT_VOLUME",
     "node_id": 295,
+    "display_name": "Geo Unit Volume",
     "column": 2,
     "row": 20,
     "position": [
@@ -2008,6 +2175,7 @@
     "filename": "NT_GEO_VOLUME.png",
     "node_name": "NT_GEO_VOLUME",
     "node_id": 91,
+    "display_name": "Geo Volume",
     "column": 2,
     "row": 21,
     "position": [
@@ -2020,6 +2188,7 @@
     "filename": "NT_GEO_VOLUME_SDF.png",
     "node_name": "NT_GEO_VOLUME_SDF",
     "node_id": 134,
+    "display_name": "Geo Volume Sdf",
     "column": 2,
     "row": 22,
     "position": [
@@ -2029,9 +2198,10 @@
   },
   {
     "index": 169,
-    "filename": "NT_IMAGER_CAMERA.png",
-    "node_name": "NT_IMAGER_CAMERA",
-    "node_id": 15,
+    "filename": "NT_IMAGE_RESOLUTION.png",
+    "node_name": "NT_IMAGE_RESOLUTION",
+    "node_id": 12,
+    "display_name": "Image Resolution",
     "column": 2,
     "row": 23,
     "position": [
@@ -2041,9 +2211,10 @@
   },
   {
     "index": 170,
-    "filename": "NT_IMAGE_RESOLUTION.png",
-    "node_name": "NT_IMAGE_RESOLUTION",
-    "node_id": 12,
+    "filename": "NT_IMAGER_CAMERA.png",
+    "node_name": "NT_IMAGER_CAMERA",
+    "node_id": 15,
+    "display_name": "Imager Camera",
     "column": 2,
     "row": 24,
     "position": [
@@ -2056,6 +2227,7 @@
     "filename": "NT_IMPORT_ALEMBIC_PREFS.png",
     "node_name": "NT_IMPORT_ALEMBIC_PREFS",
     "node_id": 82,
+    "display_name": "Import Alembic Prefs",
     "column": 2,
     "row": 25,
     "position": [
@@ -2068,6 +2240,7 @@
     "filename": "NT_IMPORT_FBX_PREFS.png",
     "node_name": "NT_IMPORT_FBX_PREFS",
     "node_id": 119,
+    "display_name": "Import Fbx Prefs",
     "column": 2,
     "row": 26,
     "position": [
@@ -2080,6 +2253,7 @@
     "filename": "NT_IMPORT_IMAGE_PREFS.png",
     "node_name": "NT_IMPORT_IMAGE_PREFS",
     "node_id": 112,
+    "display_name": "Import Image Prefs",
     "column": 2,
     "row": 27,
     "position": [
@@ -2092,6 +2266,7 @@
     "filename": "NT_IMPORT_MATERIALX_PREFS.png",
     "node_name": "NT_IMPORT_MATERIALX_PREFS",
     "node_id": 479,
+    "display_name": "Import Materialx Prefs",
     "column": 2,
     "row": 28,
     "position": [
@@ -2104,6 +2279,7 @@
     "filename": "NT_IMPORT_OBJ_PREFS.png",
     "node_name": "NT_IMPORT_OBJ_PREFS",
     "node_id": 83,
+    "display_name": "Import Obj Prefs",
     "column": 2,
     "row": 29,
     "position": [
@@ -2116,6 +2292,7 @@
     "filename": "NT_IMPORT_USD_PREFS.png",
     "node_name": "NT_IMPORT_USD_PREFS",
     "node_id": 259,
+    "display_name": "Import Usd Prefs",
     "column": 2,
     "row": 30,
     "position": [
@@ -2128,6 +2305,7 @@
     "filename": "NT_IMPORT_VDB_PREFS.png",
     "node_name": "NT_IMPORT_VDB_PREFS",
     "node_id": 93,
+    "display_name": "Import Vdb Prefs",
     "column": 2,
     "row": 31,
     "position": [
@@ -2137,9 +2315,10 @@
   },
   {
     "index": 178,
-    "filename": "NT_INT.png",
-    "node_name": "NT_INT",
-    "node_id": 9,
+    "filename": "NT_IN_ANIMATION_SETTINGS.png",
+    "node_name": "NT_IN_ANIMATION_SETTINGS",
+    "node_id": 20027,
+    "display_name": "In Animation Settings",
     "column": 2,
     "row": 32,
     "position": [
@@ -2149,9 +2328,10 @@
   },
   {
     "index": 179,
-    "filename": "NT_INT_COMPONENT_MERGER.png",
-    "node_name": "NT_INT_COMPONENT_MERGER",
-    "node_id": 286,
+    "filename": "NT_IN_BIT_MASK.png",
+    "node_name": "NT_IN_BIT_MASK",
+    "node_id": 20031,
+    "display_name": "In Bit Mask",
     "column": 2,
     "row": 33,
     "position": [
@@ -2161,9 +2341,10 @@
   },
   {
     "index": 180,
-    "filename": "NT_INT_COMPONENT_PICKER.png",
-    "node_name": "NT_INT_COMPONENT_PICKER",
-    "node_id": 287,
+    "filename": "NT_IN_BLENDING_SETTINGS.png",
+    "node_name": "NT_IN_BLENDING_SETTINGS",
+    "node_id": 20044,
+    "display_name": "In Blending Settings",
     "column": 2,
     "row": 34,
     "position": [
@@ -2173,9 +2354,10 @@
   },
   {
     "index": 181,
-    "filename": "NT_INT_FRAME_INDEX.png",
-    "node_name": "NT_INT_FRAME_INDEX",
-    "node_id": 438,
+    "filename": "NT_IN_BOOL.png",
+    "node_name": "NT_IN_BOOL",
+    "node_id": 20001,
+    "display_name": "In Bool",
     "column": 2,
     "row": 35,
     "position": [
@@ -2185,9 +2367,10 @@
   },
   {
     "index": 182,
-    "filename": "NT_INT_IF.png",
-    "node_name": "NT_INT_IF",
-    "node_id": 280,
+    "filename": "NT_IN_CAMERA.png",
+    "node_name": "NT_IN_CAMERA",
+    "node_id": 20008,
+    "display_name": "In Camera",
     "column": 2,
     "row": 36,
     "position": [
@@ -2197,9 +2380,10 @@
   },
   {
     "index": 183,
-    "filename": "NT_INT_RELATIONAL_OPERATOR.png",
-    "node_name": "NT_INT_RELATIONAL_OPERATOR",
-    "node_id": 290,
+    "filename": "NT_IN_DISPLACEMENT.png",
+    "node_name": "NT_IN_DISPLACEMENT",
+    "node_id": 20022,
+    "display_name": "In Displacement",
     "column": 2,
     "row": 37,
     "position": [
@@ -2209,9 +2393,10 @@
   },
   {
     "index": 184,
-    "filename": "NT_INT_TO_FLOAT.png",
-    "node_name": "NT_INT_TO_FLOAT",
-    "node_id": 282,
+    "filename": "NT_IN_EMISSION.png",
+    "node_name": "NT_IN_EMISSION",
+    "node_id": 20006,
+    "display_name": "In Emission",
     "column": 2,
     "row": 38,
     "position": [
@@ -2221,9 +2406,10 @@
   },
   {
     "index": 185,
-    "filename": "NT_IN_ANIMATION_SETTINGS.png",
-    "node_name": "NT_IN_ANIMATION_SETTINGS",
-    "node_id": 20027,
+    "filename": "NT_IN_ENUM.png",
+    "node_name": "NT_IN_ENUM",
+    "node_id": 20016,
+    "display_name": "In Enum",
     "column": 2,
     "row": 39,
     "position": [
@@ -2233,9 +2419,10 @@
   },
   {
     "index": 186,
-    "filename": "NT_IN_BIT_MASK.png",
-    "node_name": "NT_IN_BIT_MASK",
-    "node_id": 20031,
+    "filename": "NT_IN_ENVIRONMENT.png",
+    "node_name": "NT_IN_ENVIRONMENT",
+    "node_id": 20009,
+    "display_name": "In Environment",
     "column": 2,
     "row": 40,
     "position": [
@@ -2245,9 +2432,10 @@
   },
   {
     "index": 187,
-    "filename": "NT_IN_BLENDING_SETTINGS.png",
-    "node_name": "NT_IN_BLENDING_SETTINGS",
-    "node_id": 20044,
+    "filename": "NT_IN_FILM_SETTINGS.png",
+    "node_name": "NT_IN_FILM_SETTINGS",
+    "node_id": 20015,
+    "display_name": "In Film Settings",
     "column": 2,
     "row": 41,
     "position": [
@@ -2257,9 +2445,10 @@
   },
   {
     "index": 188,
-    "filename": "NT_IN_BOOL.png",
-    "node_name": "NT_IN_BOOL",
-    "node_id": 20001,
+    "filename": "NT_IN_FLOAT.png",
+    "node_name": "NT_IN_FLOAT",
+    "node_id": 20002,
+    "display_name": "In Float",
     "column": 2,
     "row": 42,
     "position": [
@@ -2269,9 +2458,10 @@
   },
   {
     "index": 189,
-    "filename": "NT_IN_CAMERA.png",
-    "node_name": "NT_IN_CAMERA",
-    "node_id": 20008,
+    "filename": "NT_IN_GEOMETRY.png",
+    "node_name": "NT_IN_GEOMETRY",
+    "node_id": 20012,
+    "display_name": "In Geometry",
     "column": 2,
     "row": 43,
     "position": [
@@ -2281,9 +2471,10 @@
   },
   {
     "index": 190,
-    "filename": "NT_IN_DISPLACEMENT.png",
-    "node_name": "NT_IN_DISPLACEMENT",
-    "node_id": 20022,
+    "filename": "NT_IN_IMAGER.png",
+    "node_name": "NT_IN_IMAGER",
+    "node_id": 20010,
+    "display_name": "In Imager",
     "column": 2,
     "row": 44,
     "position": [
@@ -2293,9 +2484,10 @@
   },
   {
     "index": 191,
-    "filename": "NT_IN_EMISSION.png",
-    "node_name": "NT_IN_EMISSION",
-    "node_id": 20006,
+    "filename": "NT_IN_INT.png",
+    "node_name": "NT_IN_INT",
+    "node_id": 20003,
+    "display_name": "In Int",
     "column": 2,
     "row": 45,
     "position": [
@@ -2305,9 +2497,10 @@
   },
   {
     "index": 192,
-    "filename": "NT_IN_ENUM.png",
-    "node_name": "NT_IN_ENUM",
-    "node_id": 20016,
+    "filename": "NT_IN_KERNEL.png",
+    "node_name": "NT_IN_KERNEL",
+    "node_id": 20011,
+    "display_name": "In Kernel",
     "column": 2,
     "row": 46,
     "position": [
@@ -2317,9 +2510,10 @@
   },
   {
     "index": 193,
-    "filename": "NT_IN_ENVIRONMENT.png",
-    "node_name": "NT_IN_ENVIRONMENT",
-    "node_id": 20009,
+    "filename": "NT_IN_LUT.png",
+    "node_name": "NT_IN_LUT",
+    "node_id": 20028,
+    "display_name": "In Lut",
     "column": 2,
     "row": 47,
     "position": [
@@ -2329,9 +2523,10 @@
   },
   {
     "index": 194,
-    "filename": "NT_IN_FILM_SETTINGS.png",
-    "node_name": "NT_IN_FILM_SETTINGS",
-    "node_id": 20015,
+    "filename": "NT_IN_MATERIAL.png",
+    "node_name": "NT_IN_MATERIAL",
+    "node_id": 20007,
+    "display_name": "In Material",
     "column": 2,
     "row": 48,
     "position": [
@@ -2341,9 +2536,10 @@
   },
   {
     "index": 195,
-    "filename": "NT_IN_FLOAT.png",
-    "node_name": "NT_IN_FLOAT",
-    "node_id": 20002,
+    "filename": "NT_IN_MATERIAL_LAYER.png",
+    "node_name": "NT_IN_MATERIAL_LAYER",
+    "node_id": 20033,
+    "display_name": "In Material Layer",
     "column": 2,
     "row": 49,
     "position": [
@@ -2353,9 +2549,10 @@
   },
   {
     "index": 196,
-    "filename": "NT_IN_GEOMETRY.png",
-    "node_name": "NT_IN_GEOMETRY",
-    "node_id": 20012,
+    "filename": "NT_IN_MEDIUM.png",
+    "node_name": "NT_IN_MEDIUM",
+    "node_id": 20013,
+    "display_name": "In Medium",
     "column": 2,
     "row": 50,
     "position": [
@@ -2365,9 +2562,10 @@
   },
   {
     "index": 197,
-    "filename": "NT_IN_IMAGER.png",
-    "node_name": "NT_IN_IMAGER",
-    "node_id": 20010,
+    "filename": "NT_IN_OBJECTLAYER.png",
+    "node_name": "NT_IN_OBJECTLAYER",
+    "node_id": 20017,
+    "display_name": "In Objectlayer",
     "column": 2,
     "row": 51,
     "position": [
@@ -2377,9 +2575,10 @@
   },
   {
     "index": 198,
-    "filename": "NT_IN_INT.png",
-    "node_name": "NT_IN_INT",
-    "node_id": 20003,
+    "filename": "NT_IN_OCIO_COLOR_SPACE.png",
+    "node_name": "NT_IN_OCIO_COLOR_SPACE",
+    "node_id": 20036,
+    "display_name": "In Ocio Color Space",
     "column": 2,
     "row": 52,
     "position": [
@@ -2389,9 +2588,10 @@
   },
   {
     "index": 199,
-    "filename": "NT_IN_KERNEL.png",
-    "node_name": "NT_IN_KERNEL",
-    "node_id": 20011,
+    "filename": "NT_IN_OCIO_LOOK.png",
+    "node_name": "NT_IN_OCIO_LOOK",
+    "node_id": 20035,
+    "display_name": "In Ocio Look",
     "column": 2,
     "row": 53,
     "position": [
@@ -2401,9 +2601,10 @@
   },
   {
     "index": 200,
-    "filename": "NT_IN_LUT.png",
-    "node_name": "NT_IN_LUT",
-    "node_id": 20028,
+    "filename": "NT_IN_OCIO_VIEW.png",
+    "node_name": "NT_IN_OCIO_VIEW",
+    "node_id": 20034,
+    "display_name": "In Ocio View",
     "column": 2,
     "row": 54,
     "position": [
@@ -2413,9 +2614,10 @@
   },
   {
     "index": 201,
-    "filename": "NT_IN_MATERIAL.png",
-    "node_name": "NT_IN_MATERIAL",
-    "node_id": 20007,
+    "filename": "NT_IN_OFFSET.png",
+    "node_name": "NT_IN_OFFSET",
+    "node_id": 20000,
+    "display_name": "In Offset",
     "column": 2,
     "row": 55,
     "position": [
@@ -2425,9 +2627,10 @@
   },
   {
     "index": 202,
-    "filename": "NT_IN_MATERIAL_LAYER.png",
-    "node_name": "NT_IN_MATERIAL_LAYER",
-    "node_id": 20033,
+    "filename": "NT_IN_OUTPUT_AOV.png",
+    "node_name": "NT_IN_OUTPUT_AOV",
+    "node_id": 20038,
+    "display_name": "In Output Aov",
     "column": 2,
     "row": 56,
     "position": [
@@ -2437,9 +2640,10 @@
   },
   {
     "index": 203,
-    "filename": "NT_IN_MEDIUM.png",
-    "node_name": "NT_IN_MEDIUM",
-    "node_id": 20013,
+    "filename": "NT_IN_OUTPUT_AOV_GROUP.png",
+    "node_name": "NT_IN_OUTPUT_AOV_GROUP",
+    "node_id": 20037,
+    "display_name": "In Output Aov Group",
     "column": 2,
     "row": 57,
     "position": [
@@ -2449,9 +2653,10 @@
   },
   {
     "index": 204,
-    "filename": "NT_IN_OBJECTLAYER.png",
-    "node_name": "NT_IN_OBJECTLAYER",
-    "node_id": 20017,
+    "filename": "NT_IN_OUTPUT_AOV_LAYER.png",
+    "node_name": "NT_IN_OUTPUT_AOV_LAYER",
+    "node_id": 20040,
+    "display_name": "In Output Aov Layer",
     "column": 2,
     "row": 58,
     "position": [
@@ -2461,9 +2666,10 @@
   },
   {
     "index": 205,
-    "filename": "NT_IN_OCIO_COLOR_SPACE.png",
-    "node_name": "NT_IN_OCIO_COLOR_SPACE",
-    "node_id": 20036,
+    "filename": "NT_IN_PHASEFUNCTION.png",
+    "node_name": "NT_IN_PHASEFUNCTION",
+    "node_id": 20014,
+    "display_name": "In Phasefunction",
     "column": 2,
     "row": 59,
     "position": [
@@ -2473,9 +2679,10 @@
   },
   {
     "index": 206,
-    "filename": "NT_IN_OCIO_LOOK.png",
-    "node_name": "NT_IN_OCIO_LOOK",
-    "node_id": 20035,
+    "filename": "NT_IN_POST_VOLUME.png",
+    "node_name": "NT_IN_POST_VOLUME",
+    "node_id": 20045,
+    "display_name": "In Post Volume",
     "column": 2,
     "row": 60,
     "position": [
@@ -2485,9 +2692,10 @@
   },
   {
     "index": 207,
-    "filename": "NT_IN_OCIO_VIEW.png",
-    "node_name": "NT_IN_OCIO_VIEW",
-    "node_id": 20034,
+    "filename": "NT_IN_POSTPROCESSING.png",
+    "node_name": "NT_IN_POSTPROCESSING",
+    "node_id": 20018,
+    "display_name": "In Postprocessing",
     "column": 2,
     "row": 61,
     "position": [
@@ -2497,9 +2705,10 @@
   },
   {
     "index": 208,
-    "filename": "NT_IN_OFFSET.png",
-    "node_name": "NT_IN_OFFSET",
-    "node_id": 20000,
+    "filename": "NT_IN_PROJECTION.png",
+    "node_name": "NT_IN_PROJECTION",
+    "node_id": 20021,
+    "display_name": "In Projection",
     "column": 2,
     "row": 62,
     "position": [
@@ -2509,9 +2718,10 @@
   },
   {
     "index": 209,
-    "filename": "NT_IN_OUTPUT_AOV.png",
-    "node_name": "NT_IN_OUTPUT_AOV",
-    "node_id": 20038,
+    "filename": "NT_IN_RENDER_JOB.png",
+    "node_name": "NT_IN_RENDER_JOB",
+    "node_id": 20029,
+    "display_name": "In Render Job",
     "column": 2,
     "row": 63,
     "position": [
@@ -2521,9 +2731,10 @@
   },
   {
     "index": 210,
-    "filename": "NT_IN_OUTPUT_AOV_GROUP.png",
-    "node_name": "NT_IN_OUTPUT_AOV_GROUP",
-    "node_id": 20037,
+    "filename": "NT_IN_RENDER_LAYER.png",
+    "node_name": "NT_IN_RENDER_LAYER",
+    "node_id": 20025,
+    "display_name": "In Render Layer",
     "column": 2,
     "row": 64,
     "position": [
@@ -2533,9 +2744,10 @@
   },
   {
     "index": 211,
-    "filename": "NT_IN_OUTPUT_AOV_LAYER.png",
-    "node_name": "NT_IN_OUTPUT_AOV_LAYER",
-    "node_id": 20040,
+    "filename": "NT_IN_RENDER_PASSES.png",
+    "node_name": "NT_IN_RENDER_PASSES",
+    "node_id": 20024,
+    "display_name": "In Render Passes",
     "column": 2,
     "row": 65,
     "position": [
@@ -2545,9 +2757,10 @@
   },
   {
     "index": 212,
-    "filename": "NT_IN_PHASEFUNCTION.png",
-    "node_name": "NT_IN_PHASEFUNCTION",
-    "node_id": 20014,
+    "filename": "NT_IN_RENDERTARGET.png",
+    "node_name": "NT_IN_RENDERTARGET",
+    "node_id": 20019,
+    "display_name": "In Rendertarget",
     "column": 2,
     "row": 66,
     "position": [
@@ -2557,9 +2770,10 @@
   },
   {
     "index": 213,
-    "filename": "NT_IN_POSTPROCESSING.png",
-    "node_name": "NT_IN_POSTPROCESSING",
-    "node_id": 20018,
+    "filename": "NT_IN_ROUND_EDGES.png",
+    "node_name": "NT_IN_ROUND_EDGES",
+    "node_id": 20032,
+    "display_name": "In Round Edges",
     "column": 2,
     "row": 67,
     "position": [
@@ -2569,9 +2783,10 @@
   },
   {
     "index": 214,
-    "filename": "NT_IN_POST_VOLUME.png",
-    "node_name": "NT_IN_POST_VOLUME",
-    "node_id": 20045,
+    "filename": "NT_IN_STRING.png",
+    "node_name": "NT_IN_STRING",
+    "node_id": 20023,
+    "display_name": "In String",
     "column": 2,
     "row": 68,
     "position": [
@@ -2581,9 +2796,10 @@
   },
   {
     "index": 215,
-    "filename": "NT_IN_PROJECTION.png",
-    "node_name": "NT_IN_PROJECTION",
-    "node_id": 20021,
+    "filename": "NT_IN_TEX_COMPOSITE_LAYER.png",
+    "node_name": "NT_IN_TEX_COMPOSITE_LAYER",
+    "node_id": 20039,
+    "display_name": "In Tex Composite Layer",
     "column": 2,
     "row": 69,
     "position": [
@@ -2593,9 +2809,10 @@
   },
   {
     "index": 216,
-    "filename": "NT_IN_RENDERTARGET.png",
-    "node_name": "NT_IN_RENDERTARGET",
-    "node_id": 20019,
+    "filename": "NT_IN_TEXTURE.png",
+    "node_name": "NT_IN_TEXTURE",
+    "node_id": 20005,
+    "display_name": "In Texture",
     "column": 2,
     "row": 70,
     "position": [
@@ -2605,9 +2822,10 @@
   },
   {
     "index": 217,
-    "filename": "NT_IN_RENDER_JOB.png",
-    "node_name": "NT_IN_RENDER_JOB",
-    "node_id": 20029,
+    "filename": "NT_IN_TOON_RAMP.png",
+    "node_name": "NT_IN_TOON_RAMP",
+    "node_id": 20030,
+    "display_name": "In Toon Ramp",
     "column": 2,
     "row": 71,
     "position": [
@@ -2617,9 +2835,10 @@
   },
   {
     "index": 218,
-    "filename": "NT_IN_RENDER_LAYER.png",
-    "node_name": "NT_IN_RENDER_LAYER",
-    "node_id": 20025,
+    "filename": "NT_IN_TRACE_SET_VISIBILITY_RULE.png",
+    "node_name": "NT_IN_TRACE_SET_VISIBILITY_RULE",
+    "node_id": 20047,
+    "display_name": "In Trace Set Visibility Rule",
     "column": 2,
     "row": 72,
     "position": [
@@ -2629,9 +2848,10 @@
   },
   {
     "index": 219,
-    "filename": "NT_IN_RENDER_PASSES.png",
-    "node_name": "NT_IN_RENDER_PASSES",
-    "node_id": 20024,
+    "filename": "NT_IN_TRACE_SET_VISIBILITY_RULE_GROUP.png",
+    "node_name": "NT_IN_TRACE_SET_VISIBILITY_RULE_GROUP",
+    "node_id": 20046,
+    "display_name": "In Trace Set Visibility Rule Group",
     "column": 3,
     "row": 0,
     "position": [
@@ -2641,9 +2861,10 @@
   },
   {
     "index": 220,
-    "filename": "NT_IN_ROUND_EDGES.png",
-    "node_name": "NT_IN_ROUND_EDGES",
-    "node_id": 20032,
+    "filename": "NT_IN_TRANSFORM.png",
+    "node_name": "NT_IN_TRANSFORM",
+    "node_id": 20004,
+    "display_name": "In Transform",
     "column": 3,
     "row": 1,
     "position": [
@@ -2653,9 +2874,10 @@
   },
   {
     "index": 221,
-    "filename": "NT_IN_STRING.png",
-    "node_name": "NT_IN_STRING",
-    "node_id": 20023,
+    "filename": "NT_IN_VOLUME_RAMP.png",
+    "node_name": "NT_IN_VOLUME_RAMP",
+    "node_id": 20026,
+    "display_name": "In Volume Ramp",
     "column": 3,
     "row": 2,
     "position": [
@@ -2665,9 +2887,10 @@
   },
   {
     "index": 222,
-    "filename": "NT_IN_TEXTURE.png",
-    "node_name": "NT_IN_TEXTURE",
-    "node_id": 20005,
+    "filename": "NT_INT.png",
+    "node_name": "NT_INT",
+    "node_id": 9,
+    "display_name": "Int",
     "column": 3,
     "row": 3,
     "position": [
@@ -2677,9 +2900,10 @@
   },
   {
     "index": 223,
-    "filename": "NT_IN_TEX_COMPOSITE_LAYER.png",
-    "node_name": "NT_IN_TEX_COMPOSITE_LAYER",
-    "node_id": 20039,
+    "filename": "NT_INT_COMPONENT_MERGER.png",
+    "node_name": "NT_INT_COMPONENT_MERGER",
+    "node_id": 286,
+    "display_name": "Int Component Merger",
     "column": 3,
     "row": 4,
     "position": [
@@ -2689,9 +2913,10 @@
   },
   {
     "index": 224,
-    "filename": "NT_IN_TOON_RAMP.png",
-    "node_name": "NT_IN_TOON_RAMP",
-    "node_id": 20030,
+    "filename": "NT_INT_COMPONENT_PICKER.png",
+    "node_name": "NT_INT_COMPONENT_PICKER",
+    "node_id": 287,
+    "display_name": "Int Component Picker",
     "column": 3,
     "row": 5,
     "position": [
@@ -2701,9 +2926,10 @@
   },
   {
     "index": 225,
-    "filename": "NT_IN_TRACE_SET_VISIBILITY_RULE.png",
-    "node_name": "NT_IN_TRACE_SET_VISIBILITY_RULE",
-    "node_id": 20047,
+    "filename": "NT_INT_FRAME_INDEX.png",
+    "node_name": "NT_INT_FRAME_INDEX",
+    "node_id": 438,
+    "display_name": "Int Frame Index",
     "column": 3,
     "row": 6,
     "position": [
@@ -2713,9 +2939,10 @@
   },
   {
     "index": 226,
-    "filename": "NT_IN_TRACE_SET_VISIBILITY_RULE_GROUP.png",
-    "node_name": "NT_IN_TRACE_SET_VISIBILITY_RULE_GROUP",
-    "node_id": 20046,
+    "filename": "NT_INT_IF.png",
+    "node_name": "NT_INT_IF",
+    "node_id": 280,
+    "display_name": "Int If",
     "column": 3,
     "row": 7,
     "position": [
@@ -2725,9 +2952,10 @@
   },
   {
     "index": 227,
-    "filename": "NT_IN_TRANSFORM.png",
-    "node_name": "NT_IN_TRANSFORM",
-    "node_id": 20004,
+    "filename": "NT_INT_RELATIONAL_OPERATOR.png",
+    "node_name": "NT_INT_RELATIONAL_OPERATOR",
+    "node_id": 290,
+    "display_name": "Int Relational Operator",
     "column": 3,
     "row": 8,
     "position": [
@@ -2737,9 +2965,10 @@
   },
   {
     "index": 228,
-    "filename": "NT_IN_VOLUME_RAMP.png",
-    "node_name": "NT_IN_VOLUME_RAMP",
-    "node_id": 20026,
+    "filename": "NT_INT_TO_FLOAT.png",
+    "node_name": "NT_INT_TO_FLOAT",
+    "node_id": 282,
+    "display_name": "Int To Float",
     "column": 3,
     "row": 9,
     "position": [
@@ -2752,6 +2981,7 @@
     "filename": "NT_KERN_DIRECTLIGHTING.png",
     "node_name": "NT_KERN_DIRECTLIGHTING",
     "node_id": 24,
+    "display_name": "Kern Directlighting",
     "column": 3,
     "row": 10,
     "position": [
@@ -2764,6 +2994,7 @@
     "filename": "NT_KERN_INFO.png",
     "node_name": "NT_KERN_INFO",
     "node_id": 26,
+    "display_name": "Kern Info",
     "column": 3,
     "row": 11,
     "position": [
@@ -2776,6 +3007,7 @@
     "filename": "NT_KERN_MATPREVIEW.png",
     "node_name": "NT_KERN_MATPREVIEW",
     "node_id": 69,
+    "display_name": "Kern Matpreview",
     "column": 3,
     "row": 12,
     "position": [
@@ -2788,6 +3020,7 @@
     "filename": "NT_KERN_PATHTRACING.png",
     "node_name": "NT_KERN_PATHTRACING",
     "node_id": 25,
+    "display_name": "Kern Pathtracing",
     "column": 3,
     "row": 13,
     "position": [
@@ -2800,6 +3033,7 @@
     "filename": "NT_KERN_PHOTONTRACING.png",
     "node_name": "NT_KERN_PHOTONTRACING",
     "node_id": 272,
+    "display_name": "Kern Photontracing",
     "column": 3,
     "row": 14,
     "position": [
@@ -2812,6 +3046,7 @@
     "filename": "NT_KERN_PMC.png",
     "node_name": "NT_KERN_PMC",
     "node_id": 23,
+    "display_name": "Kern Pmc",
     "column": 3,
     "row": 15,
     "position": [
@@ -2824,6 +3059,7 @@
     "filename": "NT_LIGHT_ANALYTIC.png",
     "node_name": "NT_LIGHT_ANALYTIC",
     "node_id": 402,
+    "display_name": "Light Analytic",
     "column": 3,
     "row": 16,
     "position": [
@@ -2836,6 +3072,7 @@
     "filename": "NT_LIGHT_ANALYTIC_INTERNAL.png",
     "node_name": "NT_LIGHT_ANALYTIC_INTERNAL",
     "node_id": 401,
+    "display_name": "Light Analytic Internal",
     "column": 3,
     "row": 17,
     "position": [
@@ -2848,6 +3085,7 @@
     "filename": "NT_LIGHT_DIRECTIONAL.png",
     "node_name": "NT_LIGHT_DIRECTIONAL",
     "node_id": 403,
+    "display_name": "Light Directional",
     "column": 3,
     "row": 18,
     "position": [
@@ -2860,6 +3098,7 @@
     "filename": "NT_LIGHT_QUAD.png",
     "node_name": "NT_LIGHT_QUAD",
     "node_id": 148,
+    "display_name": "Light Quad",
     "column": 3,
     "row": 19,
     "position": [
@@ -2872,6 +3111,7 @@
     "filename": "NT_LIGHT_SPHERE.png",
     "node_name": "NT_LIGHT_SPHERE",
     "node_id": 149,
+    "display_name": "Light Sphere",
     "column": 3,
     "row": 20,
     "position": [
@@ -2884,6 +3124,7 @@
     "filename": "NT_LIGHT_VOLUME_SPOT.png",
     "node_name": "NT_LIGHT_VOLUME_SPOT",
     "node_id": 152,
+    "display_name": "Light Volume Spot",
     "column": 3,
     "row": 21,
     "position": [
@@ -2896,6 +3137,7 @@
     "filename": "NT_LOCAL_APP_PREFS.png",
     "node_name": "NT_LOCAL_APP_PREFS",
     "node_id": 55,
+    "display_name": "Local App Prefs",
     "column": 3,
     "row": 22,
     "position": [
@@ -2908,6 +3150,7 @@
     "filename": "NT_LUT_CUSTOM.png",
     "node_name": "NT_LUT_CUSTOM",
     "node_id": 103,
+    "display_name": "Lut Custom",
     "column": 3,
     "row": 23,
     "position": [
@@ -2917,9 +3160,10 @@
   },
   {
     "index": 243,
-    "filename": "NT_MATERIALX_RANGE_END.png",
-    "node_name": "NT_MATERIALX_RANGE_END",
-    "node_id": 50136,
+    "filename": "NT_MAT_CLIPPING.png",
+    "node_name": "NT_MAT_CLIPPING",
+    "node_id": 178,
+    "display_name": "Mat Clipping",
     "column": 3,
     "row": 24,
     "position": [
@@ -2929,9 +3173,10 @@
   },
   {
     "index": 244,
-    "filename": "NT_MATERIALX_RANGE_START.png",
-    "node_name": "NT_MATERIALX_RANGE_START",
-    "node_id": 50000,
+    "filename": "NT_MAT_COMPOSITE.png",
+    "node_name": "NT_MAT_COMPOSITE",
+    "node_id": 138,
+    "display_name": "Mat Composite",
     "column": 3,
     "row": 25,
     "position": [
@@ -2941,9 +3186,10 @@
   },
   {
     "index": 245,
-    "filename": "NT_MAT_CLIPPING.png",
-    "node_name": "NT_MAT_CLIPPING",
-    "node_id": 178,
+    "filename": "NT_MAT_DIFFUSE.png",
+    "node_name": "NT_MAT_DIFFUSE",
+    "node_id": 17,
+    "display_name": "Mat Diffuse",
     "column": 3,
     "row": 26,
     "position": [
@@ -2953,9 +3199,10 @@
   },
   {
     "index": 246,
-    "filename": "NT_MAT_COMPOSITE.png",
-    "node_name": "NT_MAT_COMPOSITE",
-    "node_id": 138,
+    "filename": "NT_MAT_DIFFUSE_LAYER.png",
+    "node_name": "NT_MAT_DIFFUSE_LAYER",
+    "node_id": 140,
+    "display_name": "Mat Diffuse Layer",
     "column": 3,
     "row": 27,
     "position": [
@@ -2965,9 +3212,10 @@
   },
   {
     "index": 247,
-    "filename": "NT_MAT_DIFFUSE.png",
-    "node_name": "NT_MAT_DIFFUSE",
-    "node_id": 17,
+    "filename": "NT_MAT_GLOSSY.png",
+    "node_name": "NT_MAT_GLOSSY",
+    "node_id": 16,
+    "display_name": "Mat Glossy",
     "column": 3,
     "row": 28,
     "position": [
@@ -2977,9 +3225,10 @@
   },
   {
     "index": 248,
-    "filename": "NT_MAT_DIFFUSE_LAYER.png",
-    "node_name": "NT_MAT_DIFFUSE_LAYER",
-    "node_id": 140,
+    "filename": "NT_MAT_HAIR.png",
+    "node_name": "NT_MAT_HAIR",
+    "node_id": 147,
+    "display_name": "Mat Hair",
     "column": 3,
     "row": 29,
     "position": [
@@ -2989,9 +3238,10 @@
   },
   {
     "index": 249,
-    "filename": "NT_MAT_GLOSSY.png",
-    "node_name": "NT_MAT_GLOSSY",
-    "node_id": 16,
+    "filename": "NT_MAT_LAYER.png",
+    "node_name": "NT_MAT_LAYER",
+    "node_id": 143,
+    "display_name": "Mat Layer",
     "column": 3,
     "row": 30,
     "position": [
@@ -3001,9 +3251,10 @@
   },
   {
     "index": 250,
-    "filename": "NT_MAT_HAIR.png",
-    "node_name": "NT_MAT_HAIR",
-    "node_id": 147,
+    "filename": "NT_MAT_LAYER_GROUP.png",
+    "node_name": "NT_MAT_LAYER_GROUP",
+    "node_id": 144,
+    "display_name": "Mat Layer Group",
     "column": 3,
     "row": 31,
     "position": [
@@ -3013,9 +3264,10 @@
   },
   {
     "index": 251,
-    "filename": "NT_MAT_LAYER.png",
-    "node_name": "NT_MAT_LAYER",
-    "node_id": 143,
+    "filename": "NT_MAT_MAP.png",
+    "node_name": "NT_MAT_MAP",
+    "node_id": 2,
+    "display_name": "Mat Map",
     "column": 3,
     "row": 32,
     "position": [
@@ -3025,9 +3277,10 @@
   },
   {
     "index": 252,
-    "filename": "NT_MAT_LAYER_GROUP.png",
-    "node_name": "NT_MAT_LAYER_GROUP",
-    "node_id": 144,
+    "filename": "NT_MAT_METAL.png",
+    "node_name": "NT_MAT_METAL",
+    "node_id": 120,
+    "display_name": "Mat Metal",
     "column": 3,
     "row": 33,
     "position": [
@@ -3037,9 +3290,10 @@
   },
   {
     "index": 253,
-    "filename": "NT_MAT_MAP.png",
-    "node_name": "NT_MAT_MAP",
-    "node_id": 2,
+    "filename": "NT_MAT_METALLIC_LAYER.png",
+    "node_name": "NT_MAT_METALLIC_LAYER",
+    "node_id": 141,
+    "display_name": "Mat Metallic Layer",
     "column": 3,
     "row": 34,
     "position": [
@@ -3049,9 +3303,10 @@
   },
   {
     "index": 254,
-    "filename": "NT_MAT_METAL.png",
-    "node_name": "NT_MAT_METAL",
-    "node_id": 120,
+    "filename": "NT_MAT_MIX.png",
+    "node_name": "NT_MAT_MIX",
+    "node_id": 19,
+    "display_name": "Mat Mix",
     "column": 3,
     "row": 35,
     "position": [
@@ -3061,9 +3316,10 @@
   },
   {
     "index": 255,
-    "filename": "NT_MAT_METALLIC_LAYER.png",
-    "node_name": "NT_MAT_METALLIC_LAYER",
-    "node_id": 141,
+    "filename": "NT_MAT_NULL.png",
+    "node_name": "NT_MAT_NULL",
+    "node_id": 159,
+    "display_name": "Mat Null",
     "column": 3,
     "row": 36,
     "position": [
@@ -3073,9 +3329,10 @@
   },
   {
     "index": 256,
-    "filename": "NT_MAT_MIX.png",
-    "node_name": "NT_MAT_MIX",
-    "node_id": 19,
+    "filename": "NT_MAT_OPEN_PBR_SURFACE.png",
+    "node_name": "NT_MAT_OPEN_PBR_SURFACE",
+    "node_id": 505,
+    "display_name": "Mat Open Pbr Surface",
     "column": 3,
     "row": 37,
     "position": [
@@ -3085,9 +3342,10 @@
   },
   {
     "index": 257,
-    "filename": "NT_MAT_NULL.png",
-    "node_name": "NT_MAT_NULL",
-    "node_id": 159,
+    "filename": "NT_MAT_OSL.png",
+    "node_name": "NT_MAT_OSL",
+    "node_id": 116,
+    "display_name": "Mat Osl",
     "column": 3,
     "row": 38,
     "position": [
@@ -3097,9 +3355,10 @@
   },
   {
     "index": 258,
-    "filename": "NT_MAT_OPEN_PBR_SURFACE.png",
-    "node_name": "NT_MAT_OPEN_PBR_SURFACE",
-    "node_id": 505,
+    "filename": "NT_MAT_PORTAL.png",
+    "node_name": "NT_MAT_PORTAL",
+    "node_id": 20,
+    "display_name": "Mat Portal",
     "column": 3,
     "row": 39,
     "position": [
@@ -3109,9 +3368,10 @@
   },
   {
     "index": 259,
-    "filename": "NT_MAT_OSL.png",
-    "node_name": "NT_MAT_OSL",
-    "node_id": 116,
+    "filename": "NT_MAT_SHADOW_CATCHER.png",
+    "node_name": "NT_MAT_SHADOW_CATCHER",
+    "node_id": 145,
+    "display_name": "Mat Shadow Catcher",
     "column": 3,
     "row": 40,
     "position": [
@@ -3121,9 +3381,10 @@
   },
   {
     "index": 260,
-    "filename": "NT_MAT_PORTAL.png",
-    "node_name": "NT_MAT_PORTAL",
-    "node_id": 20,
+    "filename": "NT_MAT_SHEEN_LAYER.png",
+    "node_name": "NT_MAT_SHEEN_LAYER",
+    "node_id": 142,
+    "display_name": "Mat Sheen Layer",
     "column": 3,
     "row": 41,
     "position": [
@@ -3133,9 +3394,10 @@
   },
   {
     "index": 261,
-    "filename": "NT_MAT_SHADOW_CATCHER.png",
-    "node_name": "NT_MAT_SHADOW_CATCHER",
-    "node_id": 145,
+    "filename": "NT_MAT_SPECULAR.png",
+    "node_name": "NT_MAT_SPECULAR",
+    "node_id": 18,
+    "display_name": "Mat Specular",
     "column": 3,
     "row": 42,
     "position": [
@@ -3145,9 +3407,10 @@
   },
   {
     "index": 262,
-    "filename": "NT_MAT_SHEEN_LAYER.png",
-    "node_name": "NT_MAT_SHEEN_LAYER",
-    "node_id": 142,
+    "filename": "NT_MAT_SPECULAR_LAYER.png",
+    "node_name": "NT_MAT_SPECULAR_LAYER",
+    "node_id": 139,
+    "display_name": "Mat Specular Layer",
     "column": 3,
     "row": 43,
     "position": [
@@ -3157,9 +3420,10 @@
   },
   {
     "index": 263,
-    "filename": "NT_MAT_SPECULAR.png",
-    "node_name": "NT_MAT_SPECULAR",
-    "node_id": 18,
+    "filename": "NT_MAT_STANDARD_SURFACE.png",
+    "node_name": "NT_MAT_STANDARD_SURFACE",
+    "node_id": 277,
+    "display_name": "Mat Standard Surface",
     "column": 3,
     "row": 44,
     "position": [
@@ -3169,9 +3433,10 @@
   },
   {
     "index": 264,
-    "filename": "NT_MAT_SPECULAR_LAYER.png",
-    "node_name": "NT_MAT_SPECULAR_LAYER",
-    "node_id": 139,
+    "filename": "NT_MAT_TOON.png",
+    "node_name": "NT_MAT_TOON",
+    "node_id": 121,
+    "display_name": "Mat Toon",
     "column": 3,
     "row": 45,
     "position": [
@@ -3181,9 +3446,10 @@
   },
   {
     "index": 265,
-    "filename": "NT_MAT_STANDARD_SURFACE.png",
-    "node_name": "NT_MAT_STANDARD_SURFACE",
-    "node_id": 277,
+    "filename": "NT_MAT_UNIVERSAL.png",
+    "node_name": "NT_MAT_UNIVERSAL",
+    "node_id": 130,
+    "display_name": "Mat Universal",
     "column": 3,
     "row": 46,
     "position": [
@@ -3193,9 +3459,10 @@
   },
   {
     "index": 266,
-    "filename": "NT_MAT_TOON.png",
-    "node_name": "NT_MAT_TOON",
-    "node_id": 121,
+    "filename": "NT_MATERIALX_RANGE_END.png",
+    "node_name": "NT_MATERIALX_RANGE_END",
+    "node_id": 50136,
+    "display_name": "Materialx Range End",
     "column": 3,
     "row": 47,
     "position": [
@@ -3205,9 +3472,10 @@
   },
   {
     "index": 267,
-    "filename": "NT_MAT_UNIVERSAL.png",
-    "node_name": "NT_MAT_UNIVERSAL",
-    "node_id": 130,
+    "filename": "NT_MATERIALX_RANGE_START.png",
+    "node_name": "NT_MATERIALX_RANGE_START",
+    "node_id": 50000,
+    "display_name": "Materialx Range Start",
     "column": 3,
     "row": 48,
     "position": [
@@ -3220,6 +3488,7 @@
     "filename": "NT_MED_ABSORPTION.png",
     "node_name": "NT_MED_ABSORPTION",
     "node_id": 58,
+    "display_name": "Med Absorption",
     "column": 3,
     "row": 49,
     "position": [
@@ -3232,6 +3501,7 @@
     "filename": "NT_MED_RANDOMWALK.png",
     "node_name": "NT_MED_RANDOMWALK",
     "node_id": 146,
+    "display_name": "Med Randomwalk",
     "column": 3,
     "row": 50,
     "position": [
@@ -3244,6 +3514,7 @@
     "filename": "NT_MED_SCATTERING.png",
     "node_name": "NT_MED_SCATTERING",
     "node_id": 59,
+    "display_name": "Med Scattering",
     "column": 3,
     "row": 51,
     "position": [
@@ -3256,6 +3527,7 @@
     "filename": "NT_MED_STANDARD_VOLUME.png",
     "node_name": "NT_MED_STANDARD_VOLUME",
     "node_id": 276,
+    "display_name": "Med Standard Volume",
     "column": 3,
     "row": 52,
     "position": [
@@ -3268,6 +3540,7 @@
     "filename": "NT_MED_VOLUME.png",
     "node_name": "NT_MED_VOLUME",
     "node_id": 98,
+    "display_name": "Med Volume",
     "column": 3,
     "row": 53,
     "position": [
@@ -3280,6 +3553,7 @@
     "filename": "NT_METADATA.png",
     "node_name": "NT_METADATA",
     "node_id": 439,
+    "display_name": "Metadata",
     "column": 3,
     "row": 54,
     "position": [
@@ -3292,6 +3566,7 @@
     "filename": "NT_OBJECTLAYER.png",
     "node_name": "NT_OBJECTLAYER",
     "node_id": 65,
+    "display_name": "Objectlayer",
     "column": 3,
     "row": 55,
     "position": [
@@ -3304,6 +3579,7 @@
     "filename": "NT_OBJECTLAYER_MAP.png",
     "node_name": "NT_OBJECTLAYER_MAP",
     "node_id": 64,
+    "display_name": "Objectlayer Map",
     "column": 3,
     "row": 56,
     "position": [
@@ -3316,6 +3592,7 @@
     "filename": "NT_OCIO_COLOR_SPACE.png",
     "node_name": "NT_OCIO_COLOR_SPACE",
     "node_id": 163,
+    "display_name": "Ocio Color Space",
     "column": 3,
     "row": 57,
     "position": [
@@ -3328,6 +3605,7 @@
     "filename": "NT_OCIO_LOOK.png",
     "node_name": "NT_OCIO_LOOK",
     "node_id": 161,
+    "display_name": "Ocio Look",
     "column": 3,
     "row": 58,
     "position": [
@@ -3340,6 +3618,7 @@
     "filename": "NT_OCIO_VIEW.png",
     "node_name": "NT_OCIO_VIEW",
     "node_id": 160,
+    "display_name": "Ocio View",
     "column": 3,
     "row": 59,
     "position": [
@@ -3349,9 +3628,10 @@
   },
   {
     "index": 279,
-    "filename": "NT_OUTPUT_AOV.png",
-    "node_name": "NT_OUTPUT_AOV",
-    "node_id": 393,
+    "filename": "NT_OUT_ANIMATION_SETTINGS.png",
+    "node_name": "NT_OUT_ANIMATION_SETTINGS",
+    "node_id": 30027,
+    "display_name": "Out Animation Settings",
     "column": 3,
     "row": 60,
     "position": [
@@ -3361,9 +3641,10 @@
   },
   {
     "index": 280,
-    "filename": "NT_OUTPUT_AOV_CLAMP.png",
-    "node_name": "NT_OUTPUT_AOV_CLAMP",
-    "node_id": 374,
+    "filename": "NT_OUT_BIT_MASK.png",
+    "node_name": "NT_OUT_BIT_MASK",
+    "node_id": 30031,
+    "display_name": "Out Bit Mask",
     "column": 3,
     "row": 61,
     "position": [
@@ -3373,9 +3654,10 @@
   },
   {
     "index": 281,
-    "filename": "NT_OUTPUT_AOV_COLOR.png",
-    "node_name": "NT_OUTPUT_AOV_COLOR",
-    "node_id": 177,
+    "filename": "NT_OUT_BLENDING_SETTINGS.png",
+    "node_name": "NT_OUT_BLENDING_SETTINGS",
+    "node_id": 30044,
+    "display_name": "Out Blending Settings",
     "column": 3,
     "row": 62,
     "position": [
@@ -3385,9 +3667,10 @@
   },
   {
     "index": 282,
-    "filename": "NT_OUTPUT_AOV_COLOR_CORRECTION.png",
-    "node_name": "NT_OUTPUT_AOV_COLOR_CORRECTION",
-    "node_id": 373,
+    "filename": "NT_OUT_BOOL.png",
+    "node_name": "NT_OUT_BOOL",
+    "node_id": 30001,
+    "display_name": "Out Bool",
     "column": 3,
     "row": 63,
     "position": [
@@ -3397,9 +3680,10 @@
   },
   {
     "index": 283,
-    "filename": "NT_OUTPUT_AOV_COMPOSITE.png",
-    "node_name": "NT_OUTPUT_AOV_COMPOSITE",
-    "node_id": 166,
+    "filename": "NT_OUT_CAMERA.png",
+    "node_name": "NT_OUT_CAMERA",
+    "node_id": 30008,
+    "display_name": "Out Camera",
     "column": 3,
     "row": 64,
     "position": [
@@ -3409,9 +3693,10 @@
   },
   {
     "index": 284,
-    "filename": "NT_OUTPUT_AOV_CRYPTOMATTE_MASK.png",
-    "node_name": "NT_OUTPUT_AOV_CRYPTOMATTE_MASK",
-    "node_id": 355,
+    "filename": "NT_OUT_DISPLACEMENT.png",
+    "node_name": "NT_OUT_DISPLACEMENT",
+    "node_id": 30022,
+    "display_name": "Out Displacement",
     "column": 3,
     "row": 65,
     "position": [
@@ -3421,9 +3706,10 @@
   },
   {
     "index": 285,
-    "filename": "NT_OUTPUT_AOV_GROUP.png",
-    "node_name": "NT_OUTPUT_AOV_GROUP",
-    "node_id": 167,
+    "filename": "NT_OUT_EMISSION.png",
+    "node_name": "NT_OUT_EMISSION",
+    "node_id": 30006,
+    "display_name": "Out Emission",
     "column": 3,
     "row": 66,
     "position": [
@@ -3433,9 +3719,10 @@
   },
   {
     "index": 286,
-    "filename": "NT_OUTPUT_AOV_IMAGE.png",
-    "node_name": "NT_OUTPUT_AOV_IMAGE",
-    "node_id": 168,
+    "filename": "NT_OUT_ENUM.png",
+    "node_name": "NT_OUT_ENUM",
+    "node_id": 30016,
+    "display_name": "Out Enum",
     "column": 3,
     "row": 67,
     "position": [
@@ -3445,9 +3732,10 @@
   },
   {
     "index": 287,
-    "filename": "NT_OUTPUT_AOV_LAYER_ADD_BLOOM.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_ADD_BLOOM",
-    "node_id": 454,
+    "filename": "NT_OUT_ENVIRONMENT.png",
+    "node_name": "NT_OUT_ENVIRONMENT",
+    "node_id": 30009,
+    "display_name": "Out Environment",
     "column": 3,
     "row": 68,
     "position": [
@@ -3457,9 +3745,10 @@
   },
   {
     "index": 288,
-    "filename": "NT_OUTPUT_AOV_LAYER_ADD_CHROMATIC_ABERRATION.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_ADD_CHROMATIC_ABERRATION",
-    "node_id": 457,
+    "filename": "NT_OUT_FILM_SETTINGS.png",
+    "node_name": "NT_OUT_FILM_SETTINGS",
+    "node_id": 30015,
+    "display_name": "Out Film Settings",
     "column": 3,
     "row": 69,
     "position": [
@@ -3469,9 +3758,10 @@
   },
   {
     "index": 289,
-    "filename": "NT_OUTPUT_AOV_LAYER_ADD_GLARE.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_ADD_GLARE",
-    "node_id": 455,
+    "filename": "NT_OUT_FLOAT.png",
+    "node_name": "NT_OUT_FLOAT",
+    "node_id": 30002,
+    "display_name": "Out Float",
     "column": 3,
     "row": 70,
     "position": [
@@ -3481,9 +3771,10 @@
   },
   {
     "index": 290,
-    "filename": "NT_OUTPUT_AOV_LAYER_ADD_LENS_FLARE.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_ADD_LENS_FLARE",
-    "node_id": 456,
+    "filename": "NT_OUT_GEOMETRY.png",
+    "node_name": "NT_OUT_GEOMETRY",
+    "node_id": 30012,
+    "display_name": "Out Geometry",
     "column": 3,
     "row": 71,
     "position": [
@@ -3493,9 +3784,10 @@
   },
   {
     "index": 291,
-    "filename": "NT_OUTPUT_AOV_LAYER_ADD_VIGNETTE.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_ADD_VIGNETTE",
-    "node_id": 397,
+    "filename": "NT_OUT_IMAGER.png",
+    "node_name": "NT_OUT_IMAGER",
+    "node_id": 30010,
+    "display_name": "Out Imager",
     "column": 3,
     "row": 72,
     "position": [
@@ -3505,9 +3797,10 @@
   },
   {
     "index": 292,
-    "filename": "NT_OUTPUT_AOV_LAYER_ADJUST_BRIGHTNESS.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_ADJUST_BRIGHTNESS",
-    "node_id": 399,
+    "filename": "NT_OUT_INT.png",
+    "node_name": "NT_OUT_INT",
+    "node_id": 30003,
+    "display_name": "Out Int",
     "column": 4,
     "row": 0,
     "position": [
@@ -3517,9 +3810,10 @@
   },
   {
     "index": 293,
-    "filename": "NT_OUTPUT_AOV_LAYER_ADJUST_CONTRAST.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_ADJUST_CONTRAST",
-    "node_id": 384,
+    "filename": "NT_OUT_KERNEL.png",
+    "node_name": "NT_OUT_KERNEL",
+    "node_id": 30011,
+    "display_name": "Out Kernel",
     "column": 4,
     "row": 1,
     "position": [
@@ -3529,9 +3823,10 @@
   },
   {
     "index": 294,
-    "filename": "NT_OUTPUT_AOV_LAYER_ADJUST_HUE.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_ADJUST_HUE",
-    "node_id": 410,
+    "filename": "NT_OUT_LUT.png",
+    "node_name": "NT_OUT_LUT",
+    "node_id": 30028,
+    "display_name": "Out Lut",
     "column": 4,
     "row": 2,
     "position": [
@@ -3541,9 +3836,10 @@
   },
   {
     "index": 295,
-    "filename": "NT_OUTPUT_AOV_LAYER_ADJUST_OPACITY.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_ADJUST_OPACITY",
-    "node_id": 395,
+    "filename": "NT_OUT_MATERIAL.png",
+    "node_name": "NT_OUT_MATERIAL",
+    "node_id": 30007,
+    "display_name": "Out Material",
     "column": 4,
     "row": 3,
     "position": [
@@ -3553,9 +3849,10 @@
   },
   {
     "index": 296,
-    "filename": "NT_OUTPUT_AOV_LAYER_ADJUST_SATURATION.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_ADJUST_SATURATION",
-    "node_id": 396,
+    "filename": "NT_OUT_MATERIAL_LAYER.png",
+    "node_name": "NT_OUT_MATERIAL_LAYER",
+    "node_id": 30033,
+    "display_name": "Out Material Layer",
     "column": 4,
     "row": 4,
     "position": [
@@ -3565,9 +3862,10 @@
   },
   {
     "index": 297,
-    "filename": "NT_OUTPUT_AOV_LAYER_ADJUST_WHITE_BALANCE.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_ADJUST_WHITE_BALANCE",
-    "node_id": 398,
+    "filename": "NT_OUT_MEDIUM.png",
+    "node_name": "NT_OUT_MEDIUM",
+    "node_id": 30013,
+    "display_name": "Out Medium",
     "column": 4,
     "row": 5,
     "position": [
@@ -3577,9 +3875,10 @@
   },
   {
     "index": 298,
-    "filename": "NT_OUTPUT_AOV_LAYER_APPLY_CAMERA_RESPONSE_CURVE.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_APPLY_CAMERA_RESPONSE_CURVE",
-    "node_id": 452,
+    "filename": "NT_OUT_OBJECTLAYER.png",
+    "node_name": "NT_OUT_OBJECTLAYER",
+    "node_id": 30017,
+    "display_name": "Out Objectlayer",
     "column": 4,
     "row": 6,
     "position": [
@@ -3589,9 +3888,10 @@
   },
   {
     "index": 299,
-    "filename": "NT_OUTPUT_AOV_LAYER_APPLY_CUSTOM_CURVE.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_APPLY_CUSTOM_CURVE",
-    "node_id": 448,
+    "filename": "NT_OUT_OCIO_COLOR_SPACE.png",
+    "node_name": "NT_OUT_OCIO_COLOR_SPACE",
+    "node_id": 30036,
+    "display_name": "Out Ocio Color Space",
     "column": 4,
     "row": 7,
     "position": [
@@ -3601,9 +3901,10 @@
   },
   {
     "index": 300,
-    "filename": "NT_OUTPUT_AOV_LAYER_APPLY_GAMMA_CURVE.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_APPLY_GAMMA_CURVE",
-    "node_id": 409,
+    "filename": "NT_OUT_OCIO_LOOK.png",
+    "node_name": "NT_OUT_OCIO_LOOK",
+    "node_id": 30035,
+    "display_name": "Out Ocio Look",
     "column": 4,
     "row": 8,
     "position": [
@@ -3613,9 +3914,10 @@
   },
   {
     "index": 301,
-    "filename": "NT_OUTPUT_AOV_LAYER_APPLY_IMAGER_AND_POST_PROCESSING.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_APPLY_IMAGER_AND_POST_PROCESSING",
-    "node_id": 469,
+    "filename": "NT_OUT_OCIO_VIEW.png",
+    "node_name": "NT_OUT_OCIO_VIEW",
+    "node_id": 30034,
+    "display_name": "Out Ocio View",
     "column": 4,
     "row": 9,
     "position": [
@@ -3625,9 +3927,10 @@
   },
   {
     "index": 302,
-    "filename": "NT_OUTPUT_AOV_LAYER_APPLY_LUT.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_APPLY_LUT",
-    "node_id": 451,
+    "filename": "NT_OUT_OFFSET.png",
+    "node_name": "NT_OUT_OFFSET",
+    "node_id": 30000,
+    "display_name": "Out Offset",
     "column": 4,
     "row": 10,
     "position": [
@@ -3637,9 +3940,10 @@
   },
   {
     "index": 303,
-    "filename": "NT_OUTPUT_AOV_LAYER_APPLY_OCIO_LOOK.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_APPLY_OCIO_LOOK",
-    "node_id": 453,
+    "filename": "NT_OUT_OUTPUT_AOV.png",
+    "node_name": "NT_OUT_OUTPUT_AOV",
+    "node_id": 30038,
+    "display_name": "Out Output Aov",
     "column": 4,
     "row": 11,
     "position": [
@@ -3649,9 +3953,10 @@
   },
   {
     "index": 304,
-    "filename": "NT_OUTPUT_AOV_LAYER_BLEND_CRYPTOMATTE_MASK.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_BLEND_CRYPTOMATTE_MASK",
-    "node_id": 507,
+    "filename": "NT_OUT_OUTPUT_AOV_GROUP.png",
+    "node_name": "NT_OUT_OUTPUT_AOV_GROUP",
+    "node_id": 30037,
+    "display_name": "Out Output Aov Group",
     "column": 4,
     "row": 12,
     "position": [
@@ -3661,9 +3966,10 @@
   },
   {
     "index": 305,
-    "filename": "NT_OUTPUT_AOV_LAYER_BLEND_IMAGE.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_BLEND_IMAGE",
-    "node_id": 389,
+    "filename": "NT_OUT_OUTPUT_AOV_LAYER.png",
+    "node_name": "NT_OUT_OUTPUT_AOV_LAYER",
+    "node_id": 30040,
+    "display_name": "Out Output Aov Layer",
     "column": 4,
     "row": 13,
     "position": [
@@ -3673,9 +3979,10 @@
   },
   {
     "index": 306,
-    "filename": "NT_OUTPUT_AOV_LAYER_BLEND_LAYERS.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_BLEND_LAYERS",
-    "node_id": 385,
+    "filename": "NT_OUT_PHASEFUNCTION.png",
+    "node_name": "NT_OUT_PHASEFUNCTION",
+    "node_id": 30014,
+    "display_name": "Out Phasefunction",
     "column": 4,
     "row": 14,
     "position": [
@@ -3685,9 +3992,10 @@
   },
   {
     "index": 307,
-    "filename": "NT_OUTPUT_AOV_LAYER_BLEND_LIGHT_MIXER.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_BLEND_LIGHT_MIXER",
-    "node_id": 445,
+    "filename": "NT_OUT_POST_VOLUME.png",
+    "node_name": "NT_OUT_POST_VOLUME",
+    "node_id": 30045,
+    "display_name": "Out Post Volume",
     "column": 4,
     "row": 15,
     "position": [
@@ -3697,9 +4005,10 @@
   },
   {
     "index": 308,
-    "filename": "NT_OUTPUT_AOV_LAYER_BLEND_RENDER_AOV.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_BLEND_RENDER_AOV",
-    "node_id": 391,
+    "filename": "NT_OUT_POSTPROCESSING.png",
+    "node_name": "NT_OUT_POSTPROCESSING",
+    "node_id": 30018,
+    "display_name": "Out Postprocessing",
     "column": 4,
     "row": 16,
     "position": [
@@ -3709,9 +4018,10 @@
   },
   {
     "index": 309,
-    "filename": "NT_OUTPUT_AOV_LAYER_BLEND_SHARED_SURFACE.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_BLEND_SHARED_SURFACE",
-    "node_id": 449,
+    "filename": "NT_OUT_PROJECTION.png",
+    "node_name": "NT_OUT_PROJECTION",
+    "node_id": 30021,
+    "display_name": "Out Projection",
     "column": 4,
     "row": 17,
     "position": [
@@ -3721,9 +4031,10 @@
   },
   {
     "index": 310,
-    "filename": "NT_OUTPUT_AOV_LAYER_BLEND_SOLID_COLOR.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_BLEND_SOLID_COLOR",
-    "node_id": 392,
+    "filename": "NT_OUT_RENDER_JOB.png",
+    "node_name": "NT_OUT_RENDER_JOB",
+    "node_id": 30029,
+    "display_name": "Out Render Job",
     "column": 4,
     "row": 18,
     "position": [
@@ -3733,9 +4044,10 @@
   },
   {
     "index": 311,
-    "filename": "NT_OUTPUT_AOV_LAYER_BLEND_TEXTURE.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_BLEND_TEXTURE",
-    "node_id": 447,
+    "filename": "NT_OUT_RENDER_LAYER.png",
+    "node_name": "NT_OUT_RENDER_LAYER",
+    "node_id": 30025,
+    "display_name": "Out Render Layer",
     "column": 4,
     "row": 19,
     "position": [
@@ -3745,9 +4057,10 @@
   },
   {
     "index": 312,
-    "filename": "NT_OUTPUT_AOV_LAYER_BLUR.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_BLUR",
-    "node_id": 458,
+    "filename": "NT_OUT_RENDER_PASSES.png",
+    "node_name": "NT_OUT_RENDER_PASSES",
+    "node_id": 30024,
+    "display_name": "Out Render Passes",
     "column": 4,
     "row": 20,
     "position": [
@@ -3757,9 +4070,10 @@
   },
   {
     "index": 313,
-    "filename": "NT_OUTPUT_AOV_LAYER_BOOST_HIGHLIGHTS.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_BOOST_HIGHLIGHTS",
-    "node_id": 466,
+    "filename": "NT_OUT_RENDERTARGET.png",
+    "node_name": "NT_OUT_RENDERTARGET",
+    "node_id": 30019,
+    "display_name": "Out Rendertarget",
     "column": 4,
     "row": 21,
     "position": [
@@ -3769,9 +4083,10 @@
   },
   {
     "index": 314,
-    "filename": "NT_OUTPUT_AOV_LAYER_CLAMP.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_CLAMP",
-    "node_id": 383,
+    "filename": "NT_OUT_ROUND_EDGES.png",
+    "node_name": "NT_OUT_ROUND_EDGES",
+    "node_id": 30032,
+    "display_name": "Out Round Edges",
     "column": 4,
     "row": 22,
     "position": [
@@ -3781,9 +4096,10 @@
   },
   {
     "index": 315,
-    "filename": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_ACES.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_ACES",
-    "node_id": 406,
+    "filename": "NT_OUT_STRING.png",
+    "node_name": "NT_OUT_STRING",
+    "node_id": 30023,
+    "display_name": "Out String",
     "column": 4,
     "row": 23,
     "position": [
@@ -3793,9 +4109,10 @@
   },
   {
     "index": 316,
-    "filename": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_AGX.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_AGX",
-    "node_id": 434,
+    "filename": "NT_OUT_TEX_COMPOSITE_LAYER.png",
+    "node_name": "NT_OUT_TEX_COMPOSITE_LAYER",
+    "node_id": 30039,
+    "display_name": "Out Tex Composite Layer",
     "column": 4,
     "row": 24,
     "position": [
@@ -3805,9 +4122,10 @@
   },
   {
     "index": 317,
-    "filename": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_BASIC.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_BASIC",
-    "node_id": 400,
+    "filename": "NT_OUT_TEXTURE.png",
+    "node_name": "NT_OUT_TEXTURE",
+    "node_id": 30005,
+    "display_name": "Out Texture",
     "column": 4,
     "row": 25,
     "position": [
@@ -3817,9 +4135,10 @@
   },
   {
     "index": 318,
-    "filename": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_OCIO.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_OCIO",
-    "node_id": 405,
+    "filename": "NT_OUT_TOON_RAMP.png",
+    "node_name": "NT_OUT_TOON_RAMP",
+    "node_id": 30030,
+    "display_name": "Out Toon Ramp",
     "column": 4,
     "row": 26,
     "position": [
@@ -3829,9 +4148,10 @@
   },
   {
     "index": 319,
-    "filename": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_SMOOTH.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_SMOOTH",
-    "node_id": 459,
+    "filename": "NT_OUT_TRACE_SET_VISIBILITY_RULE.png",
+    "node_name": "NT_OUT_TRACE_SET_VISIBILITY_RULE",
+    "node_id": 30047,
+    "display_name": "Out Trace Set Visibility Rule",
     "column": 4,
     "row": 27,
     "position": [
@@ -3841,9 +4161,10 @@
   },
   {
     "index": 320,
-    "filename": "NT_OUTPUT_AOV_LAYER_DISCARD_CHECKPOINT.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_DISCARD_CHECKPOINT",
-    "node_id": 463,
+    "filename": "NT_OUT_TRACE_SET_VISIBILITY_RULE_GROUP.png",
+    "node_name": "NT_OUT_TRACE_SET_VISIBILITY_RULE_GROUP",
+    "node_id": 30046,
+    "display_name": "Out Trace Set Visibility Rule Group",
     "column": 4,
     "row": 28,
     "position": [
@@ -3853,9 +4174,10 @@
   },
   {
     "index": 321,
-    "filename": "NT_OUTPUT_AOV_LAYER_DITHER.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_DITHER",
-    "node_id": 468,
+    "filename": "NT_OUT_TRANSFORM.png",
+    "node_name": "NT_OUT_TRANSFORM",
+    "node_id": 30004,
+    "display_name": "Out Transform",
     "column": 4,
     "row": 29,
     "position": [
@@ -3865,9 +4187,10 @@
   },
   {
     "index": 322,
-    "filename": "NT_OUTPUT_AOV_LAYER_GROUP.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_GROUP",
-    "node_id": 388,
+    "filename": "NT_OUT_VOLUME_RAMP.png",
+    "node_name": "NT_OUT_VOLUME_RAMP",
+    "node_id": 30026,
+    "display_name": "Out Volume Ramp",
     "column": 4,
     "row": 30,
     "position": [
@@ -3877,9 +4200,10 @@
   },
   {
     "index": 323,
-    "filename": "NT_OUTPUT_AOV_LAYER_INVERT.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_INVERT",
-    "node_id": 411,
+    "filename": "NT_OUTPUT_AOV.png",
+    "node_name": "NT_OUTPUT_AOV",
+    "node_id": 393,
+    "display_name": "Output Aov",
     "column": 4,
     "row": 31,
     "position": [
@@ -3889,9 +4213,10 @@
   },
   {
     "index": 324,
-    "filename": "NT_OUTPUT_AOV_LAYER_LOAD_CHECKPOINT.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_LOAD_CHECKPOINT",
-    "node_id": 462,
+    "filename": "NT_OUTPUT_AOV_CLAMP.png",
+    "node_name": "NT_OUTPUT_AOV_CLAMP",
+    "node_id": 374,
+    "display_name": "Output Aov Clamp",
     "column": 4,
     "row": 32,
     "position": [
@@ -3901,9 +4226,10 @@
   },
   {
     "index": 325,
-    "filename": "NT_OUTPUT_AOV_LAYER_MAP_RANGE.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_MAP_RANGE",
-    "node_id": 390,
+    "filename": "NT_OUTPUT_AOV_COLOR.png",
+    "node_name": "NT_OUTPUT_AOV_COLOR",
+    "node_id": 177,
+    "display_name": "Output Aov Color",
     "column": 4,
     "row": 33,
     "position": [
@@ -3913,9 +4239,10 @@
   },
   {
     "index": 326,
-    "filename": "NT_OUTPUT_AOV_LAYER_MASK_WITH_CRYPTOMATTE.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_MASK_WITH_CRYPTOMATTE",
-    "node_id": 387,
+    "filename": "NT_OUTPUT_AOV_COLOR_CORRECTION.png",
+    "node_name": "NT_OUTPUT_AOV_COLOR_CORRECTION",
+    "node_id": 373,
+    "display_name": "Output Aov Color Correction",
     "column": 4,
     "row": 34,
     "position": [
@@ -3925,9 +4252,10 @@
   },
   {
     "index": 327,
-    "filename": "NT_OUTPUT_AOV_LAYER_MASK_WITH_LAYERS.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_MASK_WITH_LAYERS",
-    "node_id": 386,
+    "filename": "NT_OUTPUT_AOV_COMPOSITE.png",
+    "node_name": "NT_OUTPUT_AOV_COMPOSITE",
+    "node_id": 166,
+    "display_name": "Output Aov Composite",
     "column": 4,
     "row": 35,
     "position": [
@@ -3937,9 +4265,10 @@
   },
   {
     "index": 328,
-    "filename": "NT_OUTPUT_AOV_LAYER_OPEN_IMAGE_DENOISE.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_OPEN_IMAGE_DENOISE",
-    "node_id": 442,
+    "filename": "NT_OUTPUT_AOV_CRYPTOMATTE_MASK.png",
+    "node_name": "NT_OUTPUT_AOV_CRYPTOMATTE_MASK",
+    "node_id": 355,
+    "display_name": "Output Aov Cryptomatte Mask",
     "column": 4,
     "row": 36,
     "position": [
@@ -3949,9 +4278,10 @@
   },
   {
     "index": 329,
-    "filename": "NT_OUTPUT_AOV_LAYER_REMOVE_HOT_PIXELS.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_REMOVE_HOT_PIXELS",
-    "node_id": 394,
+    "filename": "NT_OUTPUT_AOV_GROUP.png",
+    "node_name": "NT_OUTPUT_AOV_GROUP",
+    "node_id": 167,
+    "display_name": "Output Aov Group",
     "column": 4,
     "row": 37,
     "position": [
@@ -3961,9 +4291,10 @@
   },
   {
     "index": 330,
-    "filename": "NT_OUTPUT_AOV_LAYER_SAVE_CHECKPOINT.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_SAVE_CHECKPOINT",
-    "node_id": 461,
+    "filename": "NT_OUTPUT_AOV_IMAGE.png",
+    "node_name": "NT_OUTPUT_AOV_IMAGE",
+    "node_id": 168,
+    "display_name": "Output Aov Image",
     "column": 4,
     "row": 38,
     "position": [
@@ -3973,9 +4304,10 @@
   },
   {
     "index": 331,
-    "filename": "NT_OUTPUT_AOV_LAYER_SHARPEN.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_SHARPEN",
-    "node_id": 464,
+    "filename": "NT_OUTPUT_AOV_LAYER_ADD_BLOOM.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_ADD_BLOOM",
+    "node_id": 454,
+    "display_name": "Output Aov Layer Add Bloom",
     "column": 4,
     "row": 39,
     "position": [
@@ -3985,9 +4317,10 @@
   },
   {
     "index": 332,
-    "filename": "NT_OUTPUT_AOV_LAYER_UNBLEND.png",
-    "node_name": "NT_OUTPUT_AOV_LAYER_UNBLEND",
-    "node_id": 506,
+    "filename": "NT_OUTPUT_AOV_LAYER_ADD_CHROMATIC_ABERRATION.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_ADD_CHROMATIC_ABERRATION",
+    "node_id": 457,
+    "display_name": "Output Aov Layer Add Chromatic Aberration",
     "column": 4,
     "row": 40,
     "position": [
@@ -3997,9 +4330,10 @@
   },
   {
     "index": 333,
-    "filename": "NT_OUTPUT_AOV_LIGHT_MIXING.png",
-    "node_name": "NT_OUTPUT_AOV_LIGHT_MIXING",
-    "node_id": 376,
+    "filename": "NT_OUTPUT_AOV_LAYER_ADD_GLARE.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_ADD_GLARE",
+    "node_id": 455,
+    "display_name": "Output Aov Layer Add Glare",
     "column": 4,
     "row": 41,
     "position": [
@@ -4009,9 +4343,10 @@
   },
   {
     "index": 334,
-    "filename": "NT_OUTPUT_AOV_MAP_RANGE.png",
-    "node_name": "NT_OUTPUT_AOV_MAP_RANGE",
-    "node_id": 375,
+    "filename": "NT_OUTPUT_AOV_LAYER_ADD_LENS_FLARE.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_ADD_LENS_FLARE",
+    "node_id": 456,
+    "display_name": "Output Aov Layer Add Lens Flare",
     "column": 4,
     "row": 42,
     "position": [
@@ -4021,9 +4356,10 @@
   },
   {
     "index": 335,
-    "filename": "NT_OUTPUT_AOV_RENDER.png",
-    "node_name": "NT_OUTPUT_AOV_RENDER",
-    "node_id": 169,
+    "filename": "NT_OUTPUT_AOV_LAYER_ADD_VIGNETTE.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_ADD_VIGNETTE",
+    "node_id": 397,
+    "display_name": "Output Aov Layer Add Vignette",
     "column": 4,
     "row": 43,
     "position": [
@@ -4033,9 +4369,10 @@
   },
   {
     "index": 336,
-    "filename": "NT_OUTPUT_AOV_SHARED_SURFACE.png",
-    "node_name": "NT_OUTPUT_AOV_SHARED_SURFACE",
-    "node_id": 450,
+    "filename": "NT_OUTPUT_AOV_LAYER_ADJUST_BRIGHTNESS.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_ADJUST_BRIGHTNESS",
+    "node_id": 399,
+    "display_name": "Output Aov Layer Adjust Brightness",
     "column": 4,
     "row": 44,
     "position": [
@@ -4045,9 +4382,10 @@
   },
   {
     "index": 337,
-    "filename": "NT_OUT_ANIMATION_SETTINGS.png",
-    "node_name": "NT_OUT_ANIMATION_SETTINGS",
-    "node_id": 30027,
+    "filename": "NT_OUTPUT_AOV_LAYER_ADJUST_CONTRAST.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_ADJUST_CONTRAST",
+    "node_id": 384,
+    "display_name": "Output Aov Layer Adjust Contrast",
     "column": 4,
     "row": 45,
     "position": [
@@ -4057,9 +4395,10 @@
   },
   {
     "index": 338,
-    "filename": "NT_OUT_BIT_MASK.png",
-    "node_name": "NT_OUT_BIT_MASK",
-    "node_id": 30031,
+    "filename": "NT_OUTPUT_AOV_LAYER_ADJUST_HUE.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_ADJUST_HUE",
+    "node_id": 410,
+    "display_name": "Output Aov Layer Adjust Hue",
     "column": 4,
     "row": 46,
     "position": [
@@ -4069,9 +4408,10 @@
   },
   {
     "index": 339,
-    "filename": "NT_OUT_BLENDING_SETTINGS.png",
-    "node_name": "NT_OUT_BLENDING_SETTINGS",
-    "node_id": 30044,
+    "filename": "NT_OUTPUT_AOV_LAYER_ADJUST_OPACITY.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_ADJUST_OPACITY",
+    "node_id": 395,
+    "display_name": "Output Aov Layer Adjust Opacity",
     "column": 4,
     "row": 47,
     "position": [
@@ -4081,9 +4421,10 @@
   },
   {
     "index": 340,
-    "filename": "NT_OUT_BOOL.png",
-    "node_name": "NT_OUT_BOOL",
-    "node_id": 30001,
+    "filename": "NT_OUTPUT_AOV_LAYER_ADJUST_SATURATION.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_ADJUST_SATURATION",
+    "node_id": 396,
+    "display_name": "Output Aov Layer Adjust Saturation",
     "column": 4,
     "row": 48,
     "position": [
@@ -4093,9 +4434,10 @@
   },
   {
     "index": 341,
-    "filename": "NT_OUT_CAMERA.png",
-    "node_name": "NT_OUT_CAMERA",
-    "node_id": 30008,
+    "filename": "NT_OUTPUT_AOV_LAYER_ADJUST_WHITE_BALANCE.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_ADJUST_WHITE_BALANCE",
+    "node_id": 398,
+    "display_name": "Output Aov Layer Adjust White Balance",
     "column": 4,
     "row": 49,
     "position": [
@@ -4105,9 +4447,10 @@
   },
   {
     "index": 342,
-    "filename": "NT_OUT_DISPLACEMENT.png",
-    "node_name": "NT_OUT_DISPLACEMENT",
-    "node_id": 30022,
+    "filename": "NT_OUTPUT_AOV_LAYER_APPLY_CAMERA_RESPONSE_CURVE.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_APPLY_CAMERA_RESPONSE_CURVE",
+    "node_id": 452,
+    "display_name": "Output Aov Layer Apply Camera Response Curve",
     "column": 4,
     "row": 50,
     "position": [
@@ -4117,9 +4460,10 @@
   },
   {
     "index": 343,
-    "filename": "NT_OUT_EMISSION.png",
-    "node_name": "NT_OUT_EMISSION",
-    "node_id": 30006,
+    "filename": "NT_OUTPUT_AOV_LAYER_APPLY_CUSTOM_CURVE.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_APPLY_CUSTOM_CURVE",
+    "node_id": 448,
+    "display_name": "Output Aov Layer Apply Custom Curve",
     "column": 4,
     "row": 51,
     "position": [
@@ -4129,9 +4473,10 @@
   },
   {
     "index": 344,
-    "filename": "NT_OUT_ENUM.png",
-    "node_name": "NT_OUT_ENUM",
-    "node_id": 30016,
+    "filename": "NT_OUTPUT_AOV_LAYER_APPLY_GAMMA_CURVE.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_APPLY_GAMMA_CURVE",
+    "node_id": 409,
+    "display_name": "Output Aov Layer Apply Gamma Curve",
     "column": 4,
     "row": 52,
     "position": [
@@ -4141,9 +4486,10 @@
   },
   {
     "index": 345,
-    "filename": "NT_OUT_ENVIRONMENT.png",
-    "node_name": "NT_OUT_ENVIRONMENT",
-    "node_id": 30009,
+    "filename": "NT_OUTPUT_AOV_LAYER_APPLY_IMAGER_AND_POST_PROCESSING.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_APPLY_IMAGER_AND_POST_PROCESSING",
+    "node_id": 469,
+    "display_name": "Output Aov Layer Apply Imager And Post Processing",
     "column": 4,
     "row": 53,
     "position": [
@@ -4153,9 +4499,10 @@
   },
   {
     "index": 346,
-    "filename": "NT_OUT_FILM_SETTINGS.png",
-    "node_name": "NT_OUT_FILM_SETTINGS",
-    "node_id": 30015,
+    "filename": "NT_OUTPUT_AOV_LAYER_APPLY_LUT.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_APPLY_LUT",
+    "node_id": 451,
+    "display_name": "Output Aov Layer Apply Lut",
     "column": 4,
     "row": 54,
     "position": [
@@ -4165,9 +4512,10 @@
   },
   {
     "index": 347,
-    "filename": "NT_OUT_FLOAT.png",
-    "node_name": "NT_OUT_FLOAT",
-    "node_id": 30002,
+    "filename": "NT_OUTPUT_AOV_LAYER_APPLY_OCIO_LOOK.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_APPLY_OCIO_LOOK",
+    "node_id": 453,
+    "display_name": "Output Aov Layer Apply Ocio Look",
     "column": 4,
     "row": 55,
     "position": [
@@ -4177,9 +4525,10 @@
   },
   {
     "index": 348,
-    "filename": "NT_OUT_GEOMETRY.png",
-    "node_name": "NT_OUT_GEOMETRY",
-    "node_id": 30012,
+    "filename": "NT_OUTPUT_AOV_LAYER_BLEND_CRYPTOMATTE_MASK.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_BLEND_CRYPTOMATTE_MASK",
+    "node_id": 507,
+    "display_name": "Output Aov Layer Blend Cryptomatte Mask",
     "column": 4,
     "row": 56,
     "position": [
@@ -4189,9 +4538,10 @@
   },
   {
     "index": 349,
-    "filename": "NT_OUT_IMAGER.png",
-    "node_name": "NT_OUT_IMAGER",
-    "node_id": 30010,
+    "filename": "NT_OUTPUT_AOV_LAYER_BLEND_IMAGE.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_BLEND_IMAGE",
+    "node_id": 389,
+    "display_name": "Output Aov Layer Blend Image",
     "column": 4,
     "row": 57,
     "position": [
@@ -4201,9 +4551,10 @@
   },
   {
     "index": 350,
-    "filename": "NT_OUT_INT.png",
-    "node_name": "NT_OUT_INT",
-    "node_id": 30003,
+    "filename": "NT_OUTPUT_AOV_LAYER_BLEND_LAYERS.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_BLEND_LAYERS",
+    "node_id": 385,
+    "display_name": "Output Aov Layer Blend Layers",
     "column": 4,
     "row": 58,
     "position": [
@@ -4213,9 +4564,10 @@
   },
   {
     "index": 351,
-    "filename": "NT_OUT_KERNEL.png",
-    "node_name": "NT_OUT_KERNEL",
-    "node_id": 30011,
+    "filename": "NT_OUTPUT_AOV_LAYER_BLEND_LIGHT_MIXER.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_BLEND_LIGHT_MIXER",
+    "node_id": 445,
+    "display_name": "Output Aov Layer Blend Light Mixer",
     "column": 4,
     "row": 59,
     "position": [
@@ -4225,9 +4577,10 @@
   },
   {
     "index": 352,
-    "filename": "NT_OUT_LUT.png",
-    "node_name": "NT_OUT_LUT",
-    "node_id": 30028,
+    "filename": "NT_OUTPUT_AOV_LAYER_BLEND_RENDER_AOV.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_BLEND_RENDER_AOV",
+    "node_id": 391,
+    "display_name": "Output Aov Layer Blend Render Aov",
     "column": 4,
     "row": 60,
     "position": [
@@ -4237,9 +4590,10 @@
   },
   {
     "index": 353,
-    "filename": "NT_OUT_MATERIAL.png",
-    "node_name": "NT_OUT_MATERIAL",
-    "node_id": 30007,
+    "filename": "NT_OUTPUT_AOV_LAYER_BLEND_SHARED_SURFACE.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_BLEND_SHARED_SURFACE",
+    "node_id": 449,
+    "display_name": "Output Aov Layer Blend Shared Surface",
     "column": 4,
     "row": 61,
     "position": [
@@ -4249,9 +4603,10 @@
   },
   {
     "index": 354,
-    "filename": "NT_OUT_MATERIAL_LAYER.png",
-    "node_name": "NT_OUT_MATERIAL_LAYER",
-    "node_id": 30033,
+    "filename": "NT_OUTPUT_AOV_LAYER_BLEND_SOLID_COLOR.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_BLEND_SOLID_COLOR",
+    "node_id": 392,
+    "display_name": "Output Aov Layer Blend Solid Color",
     "column": 4,
     "row": 62,
     "position": [
@@ -4261,9 +4616,10 @@
   },
   {
     "index": 355,
-    "filename": "NT_OUT_MEDIUM.png",
-    "node_name": "NT_OUT_MEDIUM",
-    "node_id": 30013,
+    "filename": "NT_OUTPUT_AOV_LAYER_BLEND_TEXTURE.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_BLEND_TEXTURE",
+    "node_id": 447,
+    "display_name": "Output Aov Layer Blend Texture",
     "column": 4,
     "row": 63,
     "position": [
@@ -4273,9 +4629,10 @@
   },
   {
     "index": 356,
-    "filename": "NT_OUT_OBJECTLAYER.png",
-    "node_name": "NT_OUT_OBJECTLAYER",
-    "node_id": 30017,
+    "filename": "NT_OUTPUT_AOV_LAYER_BLUR.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_BLUR",
+    "node_id": 458,
+    "display_name": "Output Aov Layer Blur",
     "column": 4,
     "row": 64,
     "position": [
@@ -4285,9 +4642,10 @@
   },
   {
     "index": 357,
-    "filename": "NT_OUT_OCIO_COLOR_SPACE.png",
-    "node_name": "NT_OUT_OCIO_COLOR_SPACE",
-    "node_id": 30036,
+    "filename": "NT_OUTPUT_AOV_LAYER_BOOST_HIGHLIGHTS.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_BOOST_HIGHLIGHTS",
+    "node_id": 466,
+    "display_name": "Output Aov Layer Boost Highlights",
     "column": 4,
     "row": 65,
     "position": [
@@ -4297,9 +4655,10 @@
   },
   {
     "index": 358,
-    "filename": "NT_OUT_OCIO_LOOK.png",
-    "node_name": "NT_OUT_OCIO_LOOK",
-    "node_id": 30035,
+    "filename": "NT_OUTPUT_AOV_LAYER_CLAMP.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_CLAMP",
+    "node_id": 383,
+    "display_name": "Output Aov Layer Clamp",
     "column": 4,
     "row": 66,
     "position": [
@@ -4309,9 +4668,10 @@
   },
   {
     "index": 359,
-    "filename": "NT_OUT_OCIO_VIEW.png",
-    "node_name": "NT_OUT_OCIO_VIEW",
-    "node_id": 30034,
+    "filename": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_ACES.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_ACES",
+    "node_id": 406,
+    "display_name": "Output Aov Layer Convert For Sdr Display Aces",
     "column": 4,
     "row": 67,
     "position": [
@@ -4321,9 +4681,10 @@
   },
   {
     "index": 360,
-    "filename": "NT_OUT_OFFSET.png",
-    "node_name": "NT_OUT_OFFSET",
-    "node_id": 30000,
+    "filename": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_AGX.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_AGX",
+    "node_id": 434,
+    "display_name": "Output Aov Layer Convert For Sdr Display Agx",
     "column": 4,
     "row": 68,
     "position": [
@@ -4333,9 +4694,10 @@
   },
   {
     "index": 361,
-    "filename": "NT_OUT_OUTPUT_AOV.png",
-    "node_name": "NT_OUT_OUTPUT_AOV",
-    "node_id": 30038,
+    "filename": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_BASIC.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_BASIC",
+    "node_id": 400,
+    "display_name": "Output Aov Layer Convert For Sdr Display Basic",
     "column": 4,
     "row": 69,
     "position": [
@@ -4345,9 +4707,10 @@
   },
   {
     "index": 362,
-    "filename": "NT_OUT_OUTPUT_AOV_GROUP.png",
-    "node_name": "NT_OUT_OUTPUT_AOV_GROUP",
-    "node_id": 30037,
+    "filename": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_OCIO.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_OCIO",
+    "node_id": 405,
+    "display_name": "Output Aov Layer Convert For Sdr Display Ocio",
     "column": 4,
     "row": 70,
     "position": [
@@ -4357,9 +4720,10 @@
   },
   {
     "index": 363,
-    "filename": "NT_OUT_OUTPUT_AOV_LAYER.png",
-    "node_name": "NT_OUT_OUTPUT_AOV_LAYER",
-    "node_id": 30040,
+    "filename": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_SMOOTH.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_SMOOTH",
+    "node_id": 459,
+    "display_name": "Output Aov Layer Convert For Sdr Display Smooth",
     "column": 4,
     "row": 71,
     "position": [
@@ -4369,9 +4733,10 @@
   },
   {
     "index": 364,
-    "filename": "NT_OUT_PHASEFUNCTION.png",
-    "node_name": "NT_OUT_PHASEFUNCTION",
-    "node_id": 30014,
+    "filename": "NT_OUTPUT_AOV_LAYER_DISCARD_CHECKPOINT.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_DISCARD_CHECKPOINT",
+    "node_id": 463,
+    "display_name": "Output Aov Layer Discard Checkpoint",
     "column": 4,
     "row": 72,
     "position": [
@@ -4381,9 +4746,10 @@
   },
   {
     "index": 365,
-    "filename": "NT_OUT_POSTPROCESSING.png",
-    "node_name": "NT_OUT_POSTPROCESSING",
-    "node_id": 30018,
+    "filename": "NT_OUTPUT_AOV_LAYER_DITHER.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_DITHER",
+    "node_id": 468,
+    "display_name": "Output Aov Layer Dither",
     "column": 5,
     "row": 0,
     "position": [
@@ -4393,9 +4759,10 @@
   },
   {
     "index": 366,
-    "filename": "NT_OUT_POST_VOLUME.png",
-    "node_name": "NT_OUT_POST_VOLUME",
-    "node_id": 30045,
+    "filename": "NT_OUTPUT_AOV_LAYER_GROUP.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_GROUP",
+    "node_id": 388,
+    "display_name": "Output Aov Layer Group",
     "column": 5,
     "row": 1,
     "position": [
@@ -4405,9 +4772,10 @@
   },
   {
     "index": 367,
-    "filename": "NT_OUT_PROJECTION.png",
-    "node_name": "NT_OUT_PROJECTION",
-    "node_id": 30021,
+    "filename": "NT_OUTPUT_AOV_LAYER_INVERT.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_INVERT",
+    "node_id": 411,
+    "display_name": "Output Aov Layer Invert",
     "column": 5,
     "row": 2,
     "position": [
@@ -4417,9 +4785,10 @@
   },
   {
     "index": 368,
-    "filename": "NT_OUT_RENDERTARGET.png",
-    "node_name": "NT_OUT_RENDERTARGET",
-    "node_id": 30019,
+    "filename": "NT_OUTPUT_AOV_LAYER_LOAD_CHECKPOINT.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_LOAD_CHECKPOINT",
+    "node_id": 462,
+    "display_name": "Output Aov Layer Load Checkpoint",
     "column": 5,
     "row": 4,
     "position": [
@@ -4429,9 +4798,10 @@
   },
   {
     "index": 369,
-    "filename": "NT_OUT_RENDER_JOB.png",
-    "node_name": "NT_OUT_RENDER_JOB",
-    "node_id": 30029,
+    "filename": "NT_OUTPUT_AOV_LAYER_MAP_RANGE.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_MAP_RANGE",
+    "node_id": 390,
+    "display_name": "Output Aov Layer Map Range",
     "column": 5,
     "row": 5,
     "position": [
@@ -4441,9 +4811,10 @@
   },
   {
     "index": 370,
-    "filename": "NT_OUT_RENDER_LAYER.png",
-    "node_name": "NT_OUT_RENDER_LAYER",
-    "node_id": 30025,
+    "filename": "NT_OUTPUT_AOV_LAYER_MASK_WITH_CRYPTOMATTE.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_MASK_WITH_CRYPTOMATTE",
+    "node_id": 387,
+    "display_name": "Output Aov Layer Mask With Cryptomatte",
     "column": 5,
     "row": 7,
     "position": [
@@ -4453,9 +4824,10 @@
   },
   {
     "index": 371,
-    "filename": "NT_OUT_RENDER_PASSES.png",
-    "node_name": "NT_OUT_RENDER_PASSES",
-    "node_id": 30024,
+    "filename": "NT_OUTPUT_AOV_LAYER_MASK_WITH_LAYERS.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_MASK_WITH_LAYERS",
+    "node_id": 386,
+    "display_name": "Output Aov Layer Mask With Layers",
     "column": 5,
     "row": 9,
     "position": [
@@ -4465,9 +4837,10 @@
   },
   {
     "index": 372,
-    "filename": "NT_OUT_ROUND_EDGES.png",
-    "node_name": "NT_OUT_ROUND_EDGES",
-    "node_id": 30032,
+    "filename": "NT_OUTPUT_AOV_LAYER_OPEN_IMAGE_DENOISE.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_OPEN_IMAGE_DENOISE",
+    "node_id": 442,
+    "display_name": "Output Aov Layer Open Image Denoise",
     "column": 5,
     "row": 10,
     "position": [
@@ -4477,9 +4850,10 @@
   },
   {
     "index": 373,
-    "filename": "NT_OUT_STRING.png",
-    "node_name": "NT_OUT_STRING",
-    "node_id": 30023,
+    "filename": "NT_OUTPUT_AOV_LAYER_REMOVE_HOT_PIXELS.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_REMOVE_HOT_PIXELS",
+    "node_id": 394,
+    "display_name": "Output Aov Layer Remove Hot Pixels",
     "column": 5,
     "row": 11,
     "position": [
@@ -4489,9 +4863,10 @@
   },
   {
     "index": 374,
-    "filename": "NT_OUT_TEXTURE.png",
-    "node_name": "NT_OUT_TEXTURE",
-    "node_id": 30005,
+    "filename": "NT_OUTPUT_AOV_LAYER_SAVE_CHECKPOINT.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_SAVE_CHECKPOINT",
+    "node_id": 461,
+    "display_name": "Output Aov Layer Save Checkpoint",
     "column": 5,
     "row": 12,
     "position": [
@@ -4501,9 +4876,10 @@
   },
   {
     "index": 375,
-    "filename": "NT_OUT_TEX_COMPOSITE_LAYER.png",
-    "node_name": "NT_OUT_TEX_COMPOSITE_LAYER",
-    "node_id": 30039,
+    "filename": "NT_OUTPUT_AOV_LAYER_SHARPEN.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_SHARPEN",
+    "node_id": 464,
+    "display_name": "Output Aov Layer Sharpen",
     "column": 5,
     "row": 13,
     "position": [
@@ -4513,9 +4889,10 @@
   },
   {
     "index": 376,
-    "filename": "NT_OUT_TOON_RAMP.png",
-    "node_name": "NT_OUT_TOON_RAMP",
-    "node_id": 30030,
+    "filename": "NT_OUTPUT_AOV_LAYER_UNBLEND.png",
+    "node_name": "NT_OUTPUT_AOV_LAYER_UNBLEND",
+    "node_id": 506,
+    "display_name": "Output Aov Layer Unblend",
     "column": 5,
     "row": 14,
     "position": [
@@ -4525,9 +4902,10 @@
   },
   {
     "index": 377,
-    "filename": "NT_OUT_TRACE_SET_VISIBILITY_RULE.png",
-    "node_name": "NT_OUT_TRACE_SET_VISIBILITY_RULE",
-    "node_id": 30047,
+    "filename": "NT_OUTPUT_AOV_LIGHT_MIXING.png",
+    "node_name": "NT_OUTPUT_AOV_LIGHT_MIXING",
+    "node_id": 376,
+    "display_name": "Output Aov Light Mixing",
     "column": 5,
     "row": 17,
     "position": [
@@ -4537,9 +4915,10 @@
   },
   {
     "index": 378,
-    "filename": "NT_OUT_TRACE_SET_VISIBILITY_RULE_GROUP.png",
-    "node_name": "NT_OUT_TRACE_SET_VISIBILITY_RULE_GROUP",
-    "node_id": 30046,
+    "filename": "NT_OUTPUT_AOV_MAP_RANGE.png",
+    "node_name": "NT_OUTPUT_AOV_MAP_RANGE",
+    "node_id": 375,
+    "display_name": "Output Aov Map Range",
     "column": 5,
     "row": 18,
     "position": [
@@ -4549,9 +4928,10 @@
   },
   {
     "index": 379,
-    "filename": "NT_OUT_TRANSFORM.png",
-    "node_name": "NT_OUT_TRANSFORM",
-    "node_id": 30004,
+    "filename": "NT_OUTPUT_AOV_RENDER.png",
+    "node_name": "NT_OUTPUT_AOV_RENDER",
+    "node_id": 169,
+    "display_name": "Output Aov Render",
     "column": 5,
     "row": 22,
     "position": [
@@ -4561,9 +4941,10 @@
   },
   {
     "index": 380,
-    "filename": "NT_OUT_VOLUME_RAMP.png",
-    "node_name": "NT_OUT_VOLUME_RAMP",
-    "node_id": 30026,
+    "filename": "NT_OUTPUT_AOV_SHARED_SURFACE.png",
+    "node_name": "NT_OUTPUT_AOV_SHARED_SURFACE",
+    "node_id": 450,
+    "display_name": "Output Aov Shared Surface",
     "column": 5,
     "row": 23,
     "position": [
@@ -4576,6 +4957,7 @@
     "filename": "NT_PHASE_SCHLICK.png",
     "node_name": "NT_PHASE_SCHLICK",
     "node_id": 60,
+    "display_name": "Phase Schlick",
     "column": 5,
     "row": 24,
     "position": [
@@ -4585,9 +4967,10 @@
   },
   {
     "index": 382,
-    "filename": "NT_POSTPROCESSING.png",
-    "node_name": "NT_POSTPROCESSING",
-    "node_id": 61,
+    "filename": "NT_POST_VOLUME.png",
+    "node_name": "NT_POST_VOLUME",
+    "node_id": 404,
+    "display_name": "Post Volume",
     "column": 5,
     "row": 25,
     "position": [
@@ -4597,9 +4980,10 @@
   },
   {
     "index": 383,
-    "filename": "NT_POST_VOLUME.png",
-    "node_name": "NT_POST_VOLUME",
-    "node_id": 404,
+    "filename": "NT_POSTPROCESSING.png",
+    "node_name": "NT_POSTPROCESSING",
+    "node_id": 61,
+    "display_name": "Postprocessing",
     "column": 5,
     "row": 26,
     "position": [
@@ -4612,6 +4996,7 @@
     "filename": "NT_PROGRAMMABLE_GRAPH_INPUT.png",
     "node_name": "NT_PROGRAMMABLE_GRAPH_INPUT",
     "node_id": 85,
+    "display_name": "Programmable Graph Input",
     "column": 5,
     "row": 27,
     "position": [
@@ -4621,9 +5006,10 @@
   },
   {
     "index": 385,
-    "filename": "NT_PROJECT_SETTINGS.png",
-    "node_name": "NT_PROJECT_SETTINGS",
-    "node_id": 70,
+    "filename": "NT_PROJ_BOX.png",
+    "node_name": "NT_PROJ_BOX",
+    "node_id": 79,
+    "display_name": "Proj Box",
     "column": 5,
     "row": 28,
     "position": [
@@ -4633,9 +5019,10 @@
   },
   {
     "index": 386,
-    "filename": "NT_PROJ_BOX.png",
-    "node_name": "NT_PROJ_BOX",
-    "node_id": 79,
+    "filename": "NT_PROJ_COLOR_TO_UVW.png",
+    "node_name": "NT_PROJ_COLOR_TO_UVW",
+    "node_id": 258,
+    "display_name": "Proj Color To Uvw",
     "column": 5,
     "row": 29,
     "position": [
@@ -4645,9 +5032,10 @@
   },
   {
     "index": 387,
-    "filename": "NT_PROJ_COLOR_TO_UVW.png",
-    "node_name": "NT_PROJ_COLOR_TO_UVW",
-    "node_id": 258,
+    "filename": "NT_PROJ_CYLINDRICAL.png",
+    "node_name": "NT_PROJ_CYLINDRICAL",
+    "node_id": 74,
+    "display_name": "Proj Cylindrical",
     "column": 5,
     "row": 30,
     "position": [
@@ -4657,9 +5045,10 @@
   },
   {
     "index": 388,
-    "filename": "NT_PROJ_CYLINDRICAL.png",
-    "node_name": "NT_PROJ_CYLINDRICAL",
-    "node_id": 74,
+    "filename": "NT_PROJ_DISTORTED_MESH_UV.png",
+    "node_name": "NT_PROJ_DISTORTED_MESH_UV",
+    "node_id": 322,
+    "display_name": "Proj Distorted Mesh Uv",
     "column": 5,
     "row": 31,
     "position": [
@@ -4669,9 +5058,10 @@
   },
   {
     "index": 389,
-    "filename": "NT_PROJ_DISTORTED_MESH_UV.png",
-    "node_name": "NT_PROJ_DISTORTED_MESH_UV",
-    "node_id": 322,
+    "filename": "NT_PROJ_DISTORTED_UVW.png",
+    "node_name": "NT_PROJ_DISTORTED_UVW",
+    "node_id": 485,
+    "display_name": "Proj Distorted Uvw",
     "column": 5,
     "row": 32,
     "position": [
@@ -4681,9 +5071,10 @@
   },
   {
     "index": 390,
-    "filename": "NT_PROJ_DISTORTED_UVW.png",
-    "node_name": "NT_PROJ_DISTORTED_UVW",
-    "node_id": 485,
+    "filename": "NT_PROJ_INSTANCE_POSITION.png",
+    "node_name": "NT_PROJ_INSTANCE_POSITION",
+    "node_id": 303,
+    "display_name": "Proj Instance Position",
     "column": 5,
     "row": 37,
     "position": [
@@ -4693,9 +5084,10 @@
   },
   {
     "index": 391,
-    "filename": "NT_PROJ_INSTANCE_POSITION.png",
-    "node_name": "NT_PROJ_INSTANCE_POSITION",
-    "node_id": 303,
+    "filename": "NT_PROJ_LINEAR.png",
+    "node_name": "NT_PROJ_LINEAR",
+    "node_id": 75,
+    "display_name": "Proj Linear",
     "column": 5,
     "row": 40,
     "position": [
@@ -4705,9 +5097,10 @@
   },
   {
     "index": 392,
-    "filename": "NT_PROJ_LINEAR.png",
-    "node_name": "NT_PROJ_LINEAR",
-    "node_id": 75,
+    "filename": "NT_PROJ_MATCAP.png",
+    "node_name": "NT_PROJ_MATCAP",
+    "node_id": 338,
+    "display_name": "Proj Matcap",
     "column": 5,
     "row": 41,
     "position": [
@@ -4717,9 +5110,10 @@
   },
   {
     "index": 393,
-    "filename": "NT_PROJ_MATCAP.png",
-    "node_name": "NT_PROJ_MATCAP",
-    "node_id": 338,
+    "filename": "NT_PROJ_OSL.png",
+    "node_name": "NT_PROJ_OSL",
+    "node_id": 125,
+    "display_name": "Proj Osl",
     "column": 5,
     "row": 42,
     "position": [
@@ -4729,9 +5123,10 @@
   },
   {
     "index": 394,
-    "filename": "NT_PROJ_OSL.png",
-    "node_name": "NT_PROJ_OSL",
-    "node_id": 125,
+    "filename": "NT_PROJ_OSL_UV.png",
+    "node_name": "NT_PROJ_OSL_UV",
+    "node_id": 127,
+    "display_name": "Proj Osl Uv",
     "column": 5,
     "row": 43,
     "position": [
@@ -4741,9 +5136,10 @@
   },
   {
     "index": 395,
-    "filename": "NT_PROJ_OSL_UV.png",
-    "node_name": "NT_PROJ_OSL_UV",
-    "node_id": 127,
+    "filename": "NT_PROJ_PERSPECTIVE.png",
+    "node_name": "NT_PROJ_PERSPECTIVE",
+    "node_id": 76,
+    "display_name": "Proj Perspective",
     "column": 5,
     "row": 49,
     "position": [
@@ -4753,9 +5149,10 @@
   },
   {
     "index": 396,
-    "filename": "NT_PROJ_PERSPECTIVE.png",
-    "node_name": "NT_PROJ_PERSPECTIVE",
-    "node_id": 76,
+    "filename": "NT_PROJ_SAMPLE_POSITION.png",
+    "node_name": "NT_PROJ_SAMPLE_POSITION",
+    "node_id": 317,
+    "display_name": "Proj Sample Position",
     "column": 5,
     "row": 52,
     "position": [
@@ -4765,9 +5162,10 @@
   },
   {
     "index": 397,
-    "filename": "NT_PROJ_SAMPLE_POSITION.png",
-    "node_name": "NT_PROJ_SAMPLE_POSITION",
-    "node_id": 317,
+    "filename": "NT_PROJ_SPHERICAL.png",
+    "node_name": "NT_PROJ_SPHERICAL",
+    "node_id": 77,
+    "display_name": "Proj Spherical",
     "column": 5,
     "row": 56,
     "position": [
@@ -4777,9 +5175,10 @@
   },
   {
     "index": 398,
-    "filename": "NT_PROJ_SPHERICAL.png",
-    "node_name": "NT_PROJ_SPHERICAL",
-    "node_id": 77,
+    "filename": "NT_PROJ_TRIPLANAR.png",
+    "node_name": "NT_PROJ_TRIPLANAR",
+    "node_id": 111,
+    "display_name": "Proj Triplanar",
     "column": 5,
     "row": 57,
     "position": [
@@ -4789,9 +5188,10 @@
   },
   {
     "index": 399,
-    "filename": "NT_PROJ_TRIPLANAR.png",
-    "node_name": "NT_PROJ_TRIPLANAR",
-    "node_id": 111,
+    "filename": "NT_PROJ_UVW.png",
+    "node_name": "NT_PROJ_UVW",
+    "node_id": 78,
+    "display_name": "Proj Uvw",
     "column": 5,
     "row": 58,
     "position": [
@@ -4801,9 +5201,10 @@
   },
   {
     "index": 400,
-    "filename": "NT_PROJ_UVW.png",
-    "node_name": "NT_PROJ_UVW",
-    "node_id": 78,
+    "filename": "NT_PROJECT_SETTINGS.png",
+    "node_name": "NT_PROJECT_SETTINGS",
+    "node_id": 70,
+    "display_name": "Project Settings",
     "column": 5,
     "row": 59,
     "position": [
@@ -4813,9 +5214,10 @@
   },
   {
     "index": 401,
-    "filename": "NT_RENDERTARGET.png",
-    "node_name": "NT_RENDERTARGET",
-    "node_id": 56,
+    "filename": "NT_RENDER_AOV_GROUP.png",
+    "node_name": "NT_RENDER_AOV_GROUP",
+    "node_id": 179,
+    "display_name": "Render Aov Group",
     "column": 5,
     "row": 60,
     "position": [
@@ -4825,9 +5227,10 @@
   },
   {
     "index": 402,
-    "filename": "NT_RENDER_AOV_GROUP.png",
-    "node_name": "NT_RENDER_AOV_GROUP",
-    "node_id": 179,
+    "filename": "NT_RENDER_JOB_GROUP.png",
+    "node_name": "NT_RENDER_JOB_GROUP",
+    "node_id": 105,
+    "display_name": "Render Job Group",
     "column": 5,
     "row": 61,
     "position": [
@@ -4837,9 +5240,10 @@
   },
   {
     "index": 403,
-    "filename": "NT_RENDER_JOB_GROUP.png",
-    "node_name": "NT_RENDER_JOB_GROUP",
-    "node_id": 105,
+    "filename": "NT_RENDER_LAYER.png",
+    "node_name": "NT_RENDER_LAYER",
+    "node_id": 90,
+    "display_name": "Render Layer",
     "column": 5,
     "row": 62,
     "position": [
@@ -4849,9 +5253,10 @@
   },
   {
     "index": 404,
-    "filename": "NT_RENDER_LAYER.png",
-    "node_name": "NT_RENDER_LAYER",
-    "node_id": 90,
+    "filename": "NT_RENDER_PASSES.png",
+    "node_name": "NT_RENDER_PASSES",
+    "node_id": 86,
+    "display_name": "Render Passes",
     "column": 5,
     "row": 63,
     "position": [
@@ -4861,9 +5266,10 @@
   },
   {
     "index": 405,
-    "filename": "NT_RENDER_PASSES.png",
-    "node_name": "NT_RENDER_PASSES",
-    "node_id": 86,
+    "filename": "NT_RENDERTARGET.png",
+    "node_name": "NT_RENDERTARGET",
+    "node_id": 56,
+    "display_name": "Rendertarget",
     "column": 5,
     "row": 64,
     "position": [
@@ -4876,6 +5282,7 @@
     "filename": "NT_RNDR_VERSION.png",
     "node_name": "NT_RNDR_VERSION",
     "node_id": 356,
+    "display_name": "Rndr Version",
     "column": 5,
     "row": 65,
     "position": [
@@ -4888,6 +5295,7 @@
     "filename": "NT_ROUND_EDGES.png",
     "node_name": "NT_ROUND_EDGES",
     "node_id": 137,
+    "display_name": "Round Edges",
     "column": 5,
     "row": 69,
     "position": [
@@ -4900,6 +5308,7 @@
     "filename": "NT_SCATTER_SURFACE.png",
     "node_name": "NT_SCATTER_SURFACE",
     "node_id": 164,
+    "display_name": "Scatter Surface",
     "column": 5,
     "row": 72,
     "position": [
@@ -4912,6 +5321,7 @@
     "filename": "NT_SCATTER_VOLUME.png",
     "node_name": "NT_SCATTER_VOLUME",
     "node_id": 165,
+    "display_name": "Scatter Volume",
     "column": 6,
     "row": 0,
     "position": [
@@ -4924,6 +5334,7 @@
     "filename": "NT_SPLIT_PANE.png",
     "node_name": "NT_SPLIT_PANE",
     "node_id": 72,
+    "display_name": "Split Pane",
     "column": 6,
     "row": 1,
     "position": [
@@ -4936,6 +5347,7 @@
     "filename": "NT_STRING.png",
     "node_name": "NT_STRING",
     "node_id": 84,
+    "display_name": "String",
     "column": 6,
     "row": 2,
     "position": [
@@ -4948,6 +5360,7 @@
     "filename": "NT_SUN_DIRECTION.png",
     "node_name": "NT_SUN_DIRECTION",
     "node_id": 30,
+    "display_name": "Sun Direction",
     "column": 6,
     "row": 3,
     "position": [
@@ -4960,6 +5373,7 @@
     "filename": "NT_SWITCH_ANIMATION_SETTINGS.png",
     "node_name": "NT_SWITCH_ANIMATION_SETTINGS",
     "node_id": 40027,
+    "display_name": "Switch Animation Settings",
     "column": 6,
     "row": 4,
     "position": [
@@ -4972,6 +5386,7 @@
     "filename": "NT_SWITCH_BIT_MASK.png",
     "node_name": "NT_SWITCH_BIT_MASK",
     "node_id": 40031,
+    "display_name": "Switch Bit Mask",
     "column": 6,
     "row": 5,
     "position": [
@@ -4984,6 +5399,7 @@
     "filename": "NT_SWITCH_BLENDING_SETTINGS.png",
     "node_name": "NT_SWITCH_BLENDING_SETTINGS",
     "node_id": 40044,
+    "display_name": "Switch Blending Settings",
     "column": 6,
     "row": 6,
     "position": [
@@ -4996,6 +5412,7 @@
     "filename": "NT_SWITCH_BOOL.png",
     "node_name": "NT_SWITCH_BOOL",
     "node_id": 40001,
+    "display_name": "Switch Bool",
     "column": 6,
     "row": 7,
     "position": [
@@ -5008,6 +5425,7 @@
     "filename": "NT_SWITCH_CAMERA.png",
     "node_name": "NT_SWITCH_CAMERA",
     "node_id": 40008,
+    "display_name": "Switch Camera",
     "column": 6,
     "row": 8,
     "position": [
@@ -5020,6 +5438,7 @@
     "filename": "NT_SWITCH_DISPLACEMENT.png",
     "node_name": "NT_SWITCH_DISPLACEMENT",
     "node_id": 40022,
+    "display_name": "Switch Displacement",
     "column": 6,
     "row": 9,
     "position": [
@@ -5032,6 +5451,7 @@
     "filename": "NT_SWITCH_EMISSION.png",
     "node_name": "NT_SWITCH_EMISSION",
     "node_id": 40006,
+    "display_name": "Switch Emission",
     "column": 6,
     "row": 10,
     "position": [
@@ -5044,6 +5464,7 @@
     "filename": "NT_SWITCH_ENUM.png",
     "node_name": "NT_SWITCH_ENUM",
     "node_id": 40016,
+    "display_name": "Switch Enum",
     "column": 6,
     "row": 11,
     "position": [
@@ -5056,6 +5477,7 @@
     "filename": "NT_SWITCH_ENVIRONMENT.png",
     "node_name": "NT_SWITCH_ENVIRONMENT",
     "node_id": 40009,
+    "display_name": "Switch Environment",
     "column": 6,
     "row": 12,
     "position": [
@@ -5068,6 +5490,7 @@
     "filename": "NT_SWITCH_FILM_SETTINGS.png",
     "node_name": "NT_SWITCH_FILM_SETTINGS",
     "node_id": 40015,
+    "display_name": "Switch Film Settings",
     "column": 6,
     "row": 13,
     "position": [
@@ -5080,6 +5503,7 @@
     "filename": "NT_SWITCH_FLOAT.png",
     "node_name": "NT_SWITCH_FLOAT",
     "node_id": 40002,
+    "display_name": "Switch Float",
     "column": 6,
     "row": 14,
     "position": [
@@ -5092,6 +5516,7 @@
     "filename": "NT_SWITCH_GEOMETRY.png",
     "node_name": "NT_SWITCH_GEOMETRY",
     "node_id": 40012,
+    "display_name": "Switch Geometry",
     "column": 6,
     "row": 15,
     "position": [
@@ -5104,6 +5529,7 @@
     "filename": "NT_SWITCH_IMAGER.png",
     "node_name": "NT_SWITCH_IMAGER",
     "node_id": 40010,
+    "display_name": "Switch Imager",
     "column": 6,
     "row": 16,
     "position": [
@@ -5116,6 +5542,7 @@
     "filename": "NT_SWITCH_INT.png",
     "node_name": "NT_SWITCH_INT",
     "node_id": 40003,
+    "display_name": "Switch Int",
     "column": 6,
     "row": 17,
     "position": [
@@ -5128,6 +5555,7 @@
     "filename": "NT_SWITCH_INTERNAL.png",
     "node_name": "NT_SWITCH_INTERNAL",
     "node_id": 381,
+    "display_name": "Switch Internal",
     "column": 6,
     "row": 18,
     "position": [
@@ -5140,6 +5568,7 @@
     "filename": "NT_SWITCH_KERNEL.png",
     "node_name": "NT_SWITCH_KERNEL",
     "node_id": 40011,
+    "display_name": "Switch Kernel",
     "column": 6,
     "row": 19,
     "position": [
@@ -5152,6 +5581,7 @@
     "filename": "NT_SWITCH_LUT.png",
     "node_name": "NT_SWITCH_LUT",
     "node_id": 40028,
+    "display_name": "Switch Lut",
     "column": 6,
     "row": 20,
     "position": [
@@ -5164,6 +5594,7 @@
     "filename": "NT_SWITCH_MATERIAL.png",
     "node_name": "NT_SWITCH_MATERIAL",
     "node_id": 40007,
+    "display_name": "Switch Material",
     "column": 6,
     "row": 21,
     "position": [
@@ -5176,6 +5607,7 @@
     "filename": "NT_SWITCH_MATERIAL_LAYER.png",
     "node_name": "NT_SWITCH_MATERIAL_LAYER",
     "node_id": 40033,
+    "display_name": "Switch Material Layer",
     "column": 6,
     "row": 22,
     "position": [
@@ -5188,6 +5620,7 @@
     "filename": "NT_SWITCH_MEDIUM.png",
     "node_name": "NT_SWITCH_MEDIUM",
     "node_id": 40013,
+    "display_name": "Switch Medium",
     "column": 6,
     "row": 23,
     "position": [
@@ -5200,6 +5633,7 @@
     "filename": "NT_SWITCH_OBJECTLAYER.png",
     "node_name": "NT_SWITCH_OBJECTLAYER",
     "node_id": 40017,
+    "display_name": "Switch Objectlayer",
     "column": 6,
     "row": 24,
     "position": [
@@ -5212,6 +5646,7 @@
     "filename": "NT_SWITCH_OCIO_COLOR_SPACE.png",
     "node_name": "NT_SWITCH_OCIO_COLOR_SPACE",
     "node_id": 40036,
+    "display_name": "Switch Ocio Color Space",
     "column": 6,
     "row": 25,
     "position": [
@@ -5224,6 +5659,7 @@
     "filename": "NT_SWITCH_OCIO_LOOK.png",
     "node_name": "NT_SWITCH_OCIO_LOOK",
     "node_id": 40035,
+    "display_name": "Switch Ocio Look",
     "column": 6,
     "row": 26,
     "position": [
@@ -5236,6 +5672,7 @@
     "filename": "NT_SWITCH_OCIO_VIEW.png",
     "node_name": "NT_SWITCH_OCIO_VIEW",
     "node_id": 40034,
+    "display_name": "Switch Ocio View",
     "column": 6,
     "row": 27,
     "position": [
@@ -5248,6 +5685,7 @@
     "filename": "NT_SWITCH_OFFSET.png",
     "node_name": "NT_SWITCH_OFFSET",
     "node_id": 40000,
+    "display_name": "Switch Offset",
     "column": 6,
     "row": 28,
     "position": [
@@ -5260,6 +5698,7 @@
     "filename": "NT_SWITCH_OUTPUT_AOV.png",
     "node_name": "NT_SWITCH_OUTPUT_AOV",
     "node_id": 40038,
+    "display_name": "Switch Output Aov",
     "column": 6,
     "row": 29,
     "position": [
@@ -5272,6 +5711,7 @@
     "filename": "NT_SWITCH_OUTPUT_AOV_GROUP.png",
     "node_name": "NT_SWITCH_OUTPUT_AOV_GROUP",
     "node_id": 40037,
+    "display_name": "Switch Output Aov Group",
     "column": 6,
     "row": 30,
     "position": [
@@ -5284,6 +5724,7 @@
     "filename": "NT_SWITCH_OUTPUT_AOV_LAYER.png",
     "node_name": "NT_SWITCH_OUTPUT_AOV_LAYER",
     "node_id": 40040,
+    "display_name": "Switch Output Aov Layer",
     "column": 6,
     "row": 31,
     "position": [
@@ -5296,6 +5737,7 @@
     "filename": "NT_SWITCH_PHASEFUNCTION.png",
     "node_name": "NT_SWITCH_PHASEFUNCTION",
     "node_id": 40014,
+    "display_name": "Switch Phasefunction",
     "column": 6,
     "row": 32,
     "position": [
@@ -5305,9 +5747,10 @@
   },
   {
     "index": 442,
-    "filename": "NT_SWITCH_POSTPROCESSING.png",
-    "node_name": "NT_SWITCH_POSTPROCESSING",
-    "node_id": 40018,
+    "filename": "NT_SWITCH_POST_VOLUME.png",
+    "node_name": "NT_SWITCH_POST_VOLUME",
+    "node_id": 40045,
+    "display_name": "Switch Post Volume",
     "column": 6,
     "row": 33,
     "position": [
@@ -5317,9 +5760,10 @@
   },
   {
     "index": 443,
-    "filename": "NT_SWITCH_POST_VOLUME.png",
-    "node_name": "NT_SWITCH_POST_VOLUME",
-    "node_id": 40045,
+    "filename": "NT_SWITCH_POSTPROCESSING.png",
+    "node_name": "NT_SWITCH_POSTPROCESSING",
+    "node_id": 40018,
+    "display_name": "Switch Postprocessing",
     "column": 6,
     "row": 34,
     "position": [
@@ -5332,6 +5776,7 @@
     "filename": "NT_SWITCH_PROJECTION.png",
     "node_name": "NT_SWITCH_PROJECTION",
     "node_id": 40021,
+    "display_name": "Switch Projection",
     "column": 6,
     "row": 35,
     "position": [
@@ -5341,9 +5786,10 @@
   },
   {
     "index": 445,
-    "filename": "NT_SWITCH_RENDERTARGET.png",
-    "node_name": "NT_SWITCH_RENDERTARGET",
-    "node_id": 40019,
+    "filename": "NT_SWITCH_RENDER_JOB.png",
+    "node_name": "NT_SWITCH_RENDER_JOB",
+    "node_id": 40029,
+    "display_name": "Switch Render Job",
     "column": 6,
     "row": 36,
     "position": [
@@ -5353,9 +5799,10 @@
   },
   {
     "index": 446,
-    "filename": "NT_SWITCH_RENDER_JOB.png",
-    "node_name": "NT_SWITCH_RENDER_JOB",
-    "node_id": 40029,
+    "filename": "NT_SWITCH_RENDER_LAYER.png",
+    "node_name": "NT_SWITCH_RENDER_LAYER",
+    "node_id": 40025,
+    "display_name": "Switch Render Layer",
     "column": 6,
     "row": 37,
     "position": [
@@ -5365,9 +5812,10 @@
   },
   {
     "index": 447,
-    "filename": "NT_SWITCH_RENDER_LAYER.png",
-    "node_name": "NT_SWITCH_RENDER_LAYER",
-    "node_id": 40025,
+    "filename": "NT_SWITCH_RENDER_PASSES.png",
+    "node_name": "NT_SWITCH_RENDER_PASSES",
+    "node_id": 40024,
+    "display_name": "Switch Render Passes",
     "column": 6,
     "row": 38,
     "position": [
@@ -5377,9 +5825,10 @@
   },
   {
     "index": 448,
-    "filename": "NT_SWITCH_RENDER_PASSES.png",
-    "node_name": "NT_SWITCH_RENDER_PASSES",
-    "node_id": 40024,
+    "filename": "NT_SWITCH_RENDERTARGET.png",
+    "node_name": "NT_SWITCH_RENDERTARGET",
+    "node_id": 40019,
+    "display_name": "Switch Rendertarget",
     "column": 6,
     "row": 39,
     "position": [
@@ -5392,6 +5841,7 @@
     "filename": "NT_SWITCH_ROUND_EDGES.png",
     "node_name": "NT_SWITCH_ROUND_EDGES",
     "node_id": 40032,
+    "display_name": "Switch Round Edges",
     "column": 6,
     "row": 40,
     "position": [
@@ -5404,6 +5854,7 @@
     "filename": "NT_SWITCH_STRING.png",
     "node_name": "NT_SWITCH_STRING",
     "node_id": 40023,
+    "display_name": "Switch String",
     "column": 6,
     "row": 41,
     "position": [
@@ -5413,9 +5864,10 @@
   },
   {
     "index": 451,
-    "filename": "NT_SWITCH_TEXTURE.png",
-    "node_name": "NT_SWITCH_TEXTURE",
-    "node_id": 40005,
+    "filename": "NT_SWITCH_TEX_COMPOSITE_LAYER.png",
+    "node_name": "NT_SWITCH_TEX_COMPOSITE_LAYER",
+    "node_id": 40039,
+    "display_name": "Switch Tex Composite Layer",
     "column": 6,
     "row": 42,
     "position": [
@@ -5425,9 +5877,10 @@
   },
   {
     "index": 452,
-    "filename": "NT_SWITCH_TEX_COMPOSITE_LAYER.png",
-    "node_name": "NT_SWITCH_TEX_COMPOSITE_LAYER",
-    "node_id": 40039,
+    "filename": "NT_SWITCH_TEXTURE.png",
+    "node_name": "NT_SWITCH_TEXTURE",
+    "node_id": 40005,
+    "display_name": "Switch Texture",
     "column": 6,
     "row": 43,
     "position": [
@@ -5440,6 +5893,7 @@
     "filename": "NT_SWITCH_TOON_RAMP.png",
     "node_name": "NT_SWITCH_TOON_RAMP",
     "node_id": 40030,
+    "display_name": "Switch Toon Ramp",
     "column": 6,
     "row": 44,
     "position": [
@@ -5452,6 +5906,7 @@
     "filename": "NT_SWITCH_TRACE_SET_VISIBILITY_RULE.png",
     "node_name": "NT_SWITCH_TRACE_SET_VISIBILITY_RULE",
     "node_id": 40047,
+    "display_name": "Switch Trace Set Visibility Rule",
     "column": 6,
     "row": 45,
     "position": [
@@ -5464,6 +5919,7 @@
     "filename": "NT_SWITCH_TRACE_SET_VISIBILITY_RULE_GROUP.png",
     "node_name": "NT_SWITCH_TRACE_SET_VISIBILITY_RULE_GROUP",
     "node_id": 40046,
+    "display_name": "Switch Trace Set Visibility Rule Group",
     "column": 6,
     "row": 46,
     "position": [
@@ -5476,6 +5932,7 @@
     "filename": "NT_SWITCH_TRANSFORM.png",
     "node_name": "NT_SWITCH_TRANSFORM",
     "node_id": 40004,
+    "display_name": "Switch Transform",
     "column": 6,
     "row": 47,
     "position": [
@@ -5488,6 +5945,7 @@
     "filename": "NT_SWITCH_VOLUME_RAMP.png",
     "node_name": "NT_SWITCH_VOLUME_RAMP",
     "node_id": 40026,
+    "display_name": "Switch Volume Ramp",
     "column": 6,
     "row": 48,
     "position": [
@@ -5500,6 +5958,7 @@
     "filename": "NT_TEX_ADD.png",
     "node_name": "NT_TEX_ADD",
     "node_id": 106,
+    "display_name": "Tex Add",
     "column": 6,
     "row": 49,
     "position": [
@@ -5512,6 +5971,7 @@
     "filename": "NT_TEX_ALPHAIMAGE.png",
     "node_name": "NT_TEX_ALPHAIMAGE",
     "node_id": 35,
+    "display_name": "Tex Alphaimage",
     "column": 6,
     "row": 50,
     "position": [
@@ -5524,6 +5984,7 @@
     "filename": "NT_TEX_BAKED_IMAGE.png",
     "node_name": "NT_TEX_BAKED_IMAGE",
     "node_id": 115,
+    "display_name": "Tex Baked Image",
     "column": 6,
     "row": 51,
     "position": [
@@ -5536,6 +5997,7 @@
     "filename": "NT_TEX_C4D_NOISE.png",
     "node_name": "NT_TEX_C4D_NOISE",
     "node_id": 162,
+    "display_name": "Tex C4d Noise",
     "column": 6,
     "row": 52,
     "position": [
@@ -5548,6 +6010,7 @@
     "filename": "NT_TEX_CAPTURE.png",
     "node_name": "NT_TEX_CAPTURE",
     "node_id": 323,
+    "display_name": "Tex Capture",
     "column": 6,
     "row": 53,
     "position": [
@@ -5560,6 +6023,7 @@
     "filename": "NT_TEX_CELLNOISE.png",
     "node_name": "NT_TEX_CELLNOISE",
     "node_id": 275,
+    "display_name": "Tex Cellnoise",
     "column": 6,
     "row": 54,
     "position": [
@@ -5572,6 +6036,7 @@
     "filename": "NT_TEX_CHAINMAIL.png",
     "node_name": "NT_TEX_CHAINMAIL",
     "node_id": 263,
+    "display_name": "Tex Chainmail",
     "column": 6,
     "row": 55,
     "position": [
@@ -5584,6 +6049,7 @@
     "filename": "NT_TEX_CHANNEL_INVERT.png",
     "node_name": "NT_TEX_CHANNEL_INVERT",
     "node_id": 174,
+    "display_name": "Tex Channel Invert",
     "column": 6,
     "row": 56,
     "position": [
@@ -5596,6 +6062,7 @@
     "filename": "NT_TEX_CHANNEL_MAP.png",
     "node_name": "NT_TEX_CHANNEL_MAP",
     "node_id": 175,
+    "display_name": "Tex Channel Map",
     "column": 6,
     "row": 57,
     "position": [
@@ -5608,6 +6075,7 @@
     "filename": "NT_TEX_CHANNEL_MERGE.png",
     "node_name": "NT_TEX_CHANNEL_MERGE",
     "node_id": 172,
+    "display_name": "Tex Channel Merge",
     "column": 6,
     "row": 58,
     "position": [
@@ -5620,6 +6088,7 @@
     "filename": "NT_TEX_CHANNEL_PICK.png",
     "node_name": "NT_TEX_CHANNEL_PICK",
     "node_id": 171,
+    "display_name": "Tex Channel Pick",
     "column": 6,
     "row": 59,
     "position": [
@@ -5632,6 +6101,7 @@
     "filename": "NT_TEX_CHAOS.png",
     "node_name": "NT_TEX_CHAOS",
     "node_id": 170,
+    "display_name": "Tex Chaos",
     "column": 6,
     "row": 60,
     "position": [
@@ -5644,6 +6114,7 @@
     "filename": "NT_TEX_CHECKS.png",
     "node_name": "NT_TEX_CHECKS",
     "node_id": 45,
+    "display_name": "Tex Checks",
     "column": 6,
     "row": 61,
     "position": [
@@ -5656,6 +6127,7 @@
     "filename": "NT_TEX_CIRCLE_SPIRAL.png",
     "node_name": "NT_TEX_CIRCLE_SPIRAL",
     "node_id": 325,
+    "display_name": "Tex Circle Spiral",
     "column": 6,
     "row": 62,
     "position": [
@@ -5668,6 +6140,7 @@
     "filename": "NT_TEX_CLAMP.png",
     "node_name": "NT_TEX_CLAMP",
     "node_id": 41,
+    "display_name": "Tex Clamp",
     "column": 6,
     "row": 63,
     "position": [
@@ -5677,9 +6150,10 @@
   },
   {
     "index": 473,
-    "filename": "NT_TEX_COLORCORRECTION.png",
-    "node_name": "NT_TEX_COLORCORRECTION",
-    "node_id": 51,
+    "filename": "NT_TEX_COLOR_KEY.png",
+    "node_name": "NT_TEX_COLOR_KEY",
+    "node_id": 354,
+    "display_name": "Tex Color Key",
     "column": 6,
     "row": 64,
     "position": [
@@ -5689,9 +6163,10 @@
   },
   {
     "index": 474,
-    "filename": "NT_TEX_COLOR_KEY.png",
-    "node_name": "NT_TEX_COLOR_KEY",
-    "node_id": 354,
+    "filename": "NT_TEX_COLOR_SPACE_CONVERSION.png",
+    "node_name": "NT_TEX_COLOR_SPACE_CONVERSION",
+    "node_id": 364,
+    "display_name": "Tex Color Space Conversion",
     "column": 6,
     "row": 65,
     "position": [
@@ -5701,9 +6176,10 @@
   },
   {
     "index": 475,
-    "filename": "NT_TEX_COLOR_SPACE_CONVERSION.png",
-    "node_name": "NT_TEX_COLOR_SPACE_CONVERSION",
-    "node_id": 364,
+    "filename": "NT_TEX_COLOR_SQUARES.png",
+    "node_name": "NT_TEX_COLOR_SQUARES",
+    "node_id": 265,
+    "display_name": "Tex Color Squares",
     "column": 6,
     "row": 66,
     "position": [
@@ -5713,9 +6189,10 @@
   },
   {
     "index": 476,
-    "filename": "NT_TEX_COLOR_SQUARES.png",
-    "node_name": "NT_TEX_COLOR_SQUARES",
-    "node_id": 265,
+    "filename": "NT_TEX_COLORCORRECTION.png",
+    "node_name": "NT_TEX_COLORCORRECTION",
+    "node_id": 51,
+    "display_name": "Tex Colorcorrection",
     "column": 6,
     "row": 67,
     "position": [
@@ -5728,6 +6205,7 @@
     "filename": "NT_TEX_COLOUR_VERTEXATTRIBUTE.png",
     "node_name": "NT_TEX_COLOUR_VERTEXATTRIBUTE",
     "node_id": 135,
+    "display_name": "Tex Colour Vertexattribute",
     "column": 6,
     "row": 68,
     "position": [
@@ -5740,6 +6218,7 @@
     "filename": "NT_TEX_COMPARE.png",
     "node_name": "NT_TEX_COMPARE",
     "node_id": 107,
+    "display_name": "Tex Compare",
     "column": 6,
     "row": 69,
     "position": [
@@ -5752,6 +6231,7 @@
     "filename": "NT_TEX_COMPOSITE.png",
     "node_name": "NT_TEX_COMPOSITE",
     "node_id": 176,
+    "display_name": "Tex Composite",
     "column": 6,
     "row": 70,
     "position": [
@@ -5764,6 +6244,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER",
     "node_id": 318,
+    "display_name": "Tex Composite Layer",
     "column": 6,
     "row": 71,
     "position": [
@@ -5776,6 +6257,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_ADJUST_BRIGHTNESS.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_ADJUST_BRIGHTNESS",
     "node_id": 415,
+    "display_name": "Tex Composite Layer Adjust Brightness",
     "column": 6,
     "row": 72,
     "position": [
@@ -5788,6 +6270,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_ADJUST_COLOR_BALANCE.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_ADJUST_COLOR_BALANCE",
     "node_id": 431,
+    "display_name": "Tex Composite Layer Adjust Color Balance",
     "column": 7,
     "row": 1,
     "position": [
@@ -5800,6 +6283,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_ADJUST_CONTRAST.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_ADJUST_CONTRAST",
     "node_id": 414,
+    "display_name": "Tex Composite Layer Adjust Contrast",
     "column": 7,
     "row": 2,
     "position": [
@@ -5812,6 +6296,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_ADJUST_EXPOSURE.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_ADJUST_EXPOSURE",
     "node_id": 428,
+    "display_name": "Tex Composite Layer Adjust Exposure",
     "column": 7,
     "row": 3,
     "position": [
@@ -5824,6 +6309,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_ADJUST_HUE.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_ADJUST_HUE",
     "node_id": 413,
+    "display_name": "Tex Composite Layer Adjust Hue",
     "column": 7,
     "row": 4,
     "position": [
@@ -5836,6 +6322,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_ADJUST_LIGHTNESS.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_ADJUST_LIGHTNESS",
     "node_id": 423,
+    "display_name": "Tex Composite Layer Adjust Lightness",
     "column": 7,
     "row": 6,
     "position": [
@@ -5848,6 +6335,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_ADJUST_SATURATION.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_ADJUST_SATURATION",
     "node_id": 417,
+    "display_name": "Tex Composite Layer Adjust Saturation",
     "column": 7,
     "row": 8,
     "position": [
@@ -5860,6 +6348,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_ADJUST_SATURATION_HSL.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_ADJUST_SATURATION_HSL",
     "node_id": 424,
+    "display_name": "Tex Composite Layer Adjust Saturation Hsl",
     "column": 7,
     "row": 9,
     "position": [
@@ -5872,6 +6361,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_ADJUST_WHITE_BALANCE.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_ADJUST_WHITE_BALANCE",
     "node_id": 429,
+    "display_name": "Tex Composite Layer Adjust White Balance",
     "column": 7,
     "row": 11,
     "position": [
@@ -5884,6 +6374,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_APPLY_CUSTOM_CURVE.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_APPLY_CUSTOM_CURVE",
     "node_id": 441,
+    "display_name": "Tex Composite Layer Apply Custom Curve",
     "column": 7,
     "row": 12,
     "position": [
@@ -5896,6 +6387,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_APPLY_GAMMA_CURVE.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_APPLY_GAMMA_CURVE",
     "node_id": 416,
+    "display_name": "Tex Composite Layer Apply Gamma Curve",
     "column": 7,
     "row": 13,
     "position": [
@@ -5908,6 +6400,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_APPLY_GRADIENT_MAP.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_APPLY_GRADIENT_MAP",
     "node_id": 433,
+    "display_name": "Tex Composite Layer Apply Gradient Map",
     "column": 7,
     "row": 14,
     "position": [
@@ -5920,6 +6413,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_APPLY_LUT.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_APPLY_LUT",
     "node_id": 435,
+    "display_name": "Tex Composite Layer Apply Lut",
     "column": 7,
     "row": 15,
     "position": [
@@ -5932,6 +6426,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_CHANNEL_MIXER.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_CHANNEL_MIXER",
     "node_id": 425,
+    "display_name": "Tex Composite Layer Channel Mixer",
     "column": 7,
     "row": 16,
     "position": [
@@ -5944,6 +6439,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_CLAMP.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_CLAMP",
     "node_id": 418,
+    "display_name": "Tex Composite Layer Clamp",
     "column": 7,
     "row": 18,
     "position": [
@@ -5956,6 +6452,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_COMPARISON.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_COMPARISON",
     "node_id": 430,
+    "display_name": "Tex Composite Layer Comparison",
     "column": 7,
     "row": 19,
     "position": [
@@ -5968,6 +6465,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_GRAYSCALE.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_GRAYSCALE",
     "node_id": 426,
+    "display_name": "Tex Composite Layer Grayscale",
     "column": 7,
     "row": 20,
     "position": [
@@ -5980,6 +6478,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_GROUP.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_GROUP",
     "node_id": 422,
+    "display_name": "Tex Composite Layer Group",
     "column": 7,
     "row": 23,
     "position": [
@@ -5992,6 +6491,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_MAP_RANGE.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_MAP_RANGE",
     "node_id": 421,
+    "display_name": "Tex Composite Layer Map Range",
     "column": 7,
     "row": 29,
     "position": [
@@ -6004,6 +6504,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_MASK_WITH_LAYERS.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_MASK_WITH_LAYERS",
     "node_id": 432,
+    "display_name": "Tex Composite Layer Mask With Layers",
     "column": 7,
     "row": 32,
     "position": [
@@ -6016,6 +6517,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_MATH_BINARY.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_MATH_BINARY",
     "node_id": 420,
+    "display_name": "Tex Composite Layer Math Binary",
     "column": 7,
     "row": 33,
     "position": [
@@ -6028,6 +6530,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_MATH_UNARY.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_MATH_UNARY",
     "node_id": 419,
+    "display_name": "Tex Composite Layer Math Unary",
     "column": 7,
     "row": 34,
     "position": [
@@ -6040,6 +6543,7 @@
     "filename": "NT_TEX_COMPOSITE_LAYER_THRESHOLD.png",
     "node_name": "NT_TEX_COMPOSITE_LAYER_THRESHOLD",
     "node_id": 427,
+    "display_name": "Tex Composite Layer Threshold",
     "column": 7,
     "row": 35,
     "position": [
@@ -6052,6 +6556,7 @@
     "filename": "NT_TEX_COSINEMIX.png",
     "node_name": "NT_TEX_COSINEMIX",
     "node_id": 40,
+    "display_name": "Tex Cosinemix",
     "column": 7,
     "row": 37,
     "position": [
@@ -6064,6 +6569,7 @@
     "filename": "NT_TEX_CURVATURE.png",
     "node_name": "NT_TEX_CURVATURE",
     "node_id": 271,
+    "display_name": "Tex Curvature",
     "column": 7,
     "row": 38,
     "position": [
@@ -6076,6 +6582,7 @@
     "filename": "NT_TEX_DECAL.png",
     "node_name": "NT_TEX_DECAL",
     "node_id": 478,
+    "display_name": "Tex Decal",
     "column": 7,
     "row": 40,
     "position": [
@@ -6088,6 +6595,7 @@
     "filename": "NT_TEX_DIGITS.png",
     "node_name": "NT_TEX_DIGITS",
     "node_id": 367,
+    "display_name": "Tex Digits",
     "column": 7,
     "row": 43,
     "position": [
@@ -6100,6 +6608,7 @@
     "filename": "NT_TEX_DIRT.png",
     "node_name": "NT_TEX_DIRT",
     "node_id": 63,
+    "display_name": "Tex Dirt",
     "column": 7,
     "row": 44,
     "position": [
@@ -6112,6 +6621,7 @@
     "filename": "NT_TEX_DPDU.png",
     "node_name": "NT_TEX_DPDU",
     "node_id": 335,
+    "display_name": "Tex Dpdu",
     "column": 7,
     "row": 45,
     "position": [
@@ -6124,6 +6634,7 @@
     "filename": "NT_TEX_DPDV.png",
     "node_name": "NT_TEX_DPDV",
     "node_id": 336,
+    "display_name": "Tex Dpdv",
     "column": 7,
     "row": 47,
     "position": [
@@ -6136,6 +6647,7 @@
     "filename": "NT_TEX_FALLOFF.png",
     "node_name": "NT_TEX_FALLOFF",
     "node_id": 50,
+    "display_name": "Tex Falloff",
     "column": 7,
     "row": 50,
     "position": [
@@ -6148,6 +6660,7 @@
     "filename": "NT_TEX_FAN_SPIRAL.png",
     "node_name": "NT_TEX_FAN_SPIRAL",
     "node_id": 341,
+    "display_name": "Tex Fan Spiral",
     "column": 7,
     "row": 55,
     "position": [
@@ -6160,6 +6673,7 @@
     "filename": "NT_TEX_FBM_FLOW_NOISE.png",
     "node_name": "NT_TEX_FBM_FLOW_NOISE",
     "node_id": 344,
+    "display_name": "Tex Fbm Flow Noise",
     "column": 7,
     "row": 61,
     "position": [
@@ -6172,6 +6686,7 @@
     "filename": "NT_TEX_FBM_NOISE.png",
     "node_name": "NT_TEX_FBM_NOISE",
     "node_id": 345,
+    "display_name": "Tex Fbm Noise",
     "column": 7,
     "row": 62,
     "position": [
@@ -6184,6 +6699,7 @@
     "filename": "NT_TEX_FIELD_ANGULAR.png",
     "node_name": "NT_TEX_FIELD_ANGULAR",
     "node_id": 304,
+    "display_name": "Tex Field Angular",
     "column": 7,
     "row": 63,
     "position": [
@@ -6196,6 +6712,7 @@
     "filename": "NT_TEX_FIELD_PLANAR.png",
     "node_name": "NT_TEX_FIELD_PLANAR",
     "node_id": 305,
+    "display_name": "Tex Field Planar",
     "column": 7,
     "row": 67,
     "position": [
@@ -6208,6 +6725,7 @@
     "filename": "NT_TEX_FIELD_SHAPE.png",
     "node_name": "NT_TEX_FIELD_SHAPE",
     "node_id": 306,
+    "display_name": "Tex Field Shape",
     "column": 7,
     "row": 68,
     "position": [
@@ -6220,6 +6738,7 @@
     "filename": "NT_TEX_FIELD_SPHERICAL.png",
     "node_name": "NT_TEX_FIELD_SPHERICAL",
     "node_id": 307,
+    "display_name": "Tex Field Spherical",
     "column": 7,
     "row": 72,
     "position": [
@@ -6232,6 +6751,7 @@
     "filename": "NT_TEX_FLAKES.png",
     "node_name": "NT_TEX_FLAKES",
     "node_id": 267,
+    "display_name": "Tex Flakes",
     "column": 8,
     "row": 0,
     "position": [
@@ -6244,6 +6764,7 @@
     "filename": "NT_TEX_FLOAT.png",
     "node_name": "NT_TEX_FLOAT",
     "node_id": 31,
+    "display_name": "Tex Float",
     "column": 8,
     "row": 1,
     "position": [
@@ -6253,9 +6774,10 @@
   },
   {
     "index": 521,
-    "filename": "NT_TEX_FLOAT3_TO_COLOR.png",
-    "node_name": "NT_TEX_FLOAT3_TO_COLOR",
-    "node_id": 321,
+    "filename": "NT_TEX_FLOAT_TO_GREYSCALE.png",
+    "node_name": "NT_TEX_FLOAT_TO_GREYSCALE",
+    "node_id": 324,
+    "display_name": "Tex Float To Greyscale",
     "column": 8,
     "row": 2,
     "position": [
@@ -6265,9 +6787,10 @@
   },
   {
     "index": 522,
-    "filename": "NT_TEX_FLOATIMAGE.png",
-    "node_name": "NT_TEX_FLOATIMAGE",
-    "node_id": 36,
+    "filename": "NT_TEX_FLOAT_VERTEXATTRIBUTE.png",
+    "node_name": "NT_TEX_FLOAT_VERTEXATTRIBUTE",
+    "node_id": 136,
+    "display_name": "Tex Float Vertexattribute",
     "column": 8,
     "row": 3,
     "position": [
@@ -6277,9 +6800,10 @@
   },
   {
     "index": 523,
-    "filename": "NT_TEX_FLOATS_TO_COLOR.png",
-    "node_name": "NT_TEX_FLOATS_TO_COLOR",
-    "node_id": 320,
+    "filename": "NT_TEX_FLOAT3_TO_COLOR.png",
+    "node_name": "NT_TEX_FLOAT3_TO_COLOR",
+    "node_id": 321,
+    "display_name": "Tex Float3 To Color",
     "column": 8,
     "row": 4,
     "position": [
@@ -6289,9 +6813,10 @@
   },
   {
     "index": 524,
-    "filename": "NT_TEX_FLOAT_TO_GREYSCALE.png",
-    "node_name": "NT_TEX_FLOAT_TO_GREYSCALE",
-    "node_id": 324,
+    "filename": "NT_TEX_FLOATIMAGE.png",
+    "node_name": "NT_TEX_FLOATIMAGE",
+    "node_id": 36,
+    "display_name": "Tex Floatimage",
     "column": 8,
     "row": 5,
     "position": [
@@ -6301,9 +6826,10 @@
   },
   {
     "index": 525,
-    "filename": "NT_TEX_FLOAT_VERTEXATTRIBUTE.png",
-    "node_name": "NT_TEX_FLOAT_VERTEXATTRIBUTE",
-    "node_id": 136,
+    "filename": "NT_TEX_FLOATS_TO_COLOR.png",
+    "node_name": "NT_TEX_FLOATS_TO_COLOR",
+    "node_id": 320,
+    "display_name": "Tex Floats To Color",
     "column": 8,
     "row": 6,
     "position": [
@@ -6316,6 +6842,7 @@
     "filename": "NT_TEX_FRACTAL.png",
     "node_name": "NT_TEX_FRACTAL",
     "node_id": 268,
+    "display_name": "Tex Fractal",
     "column": 8,
     "row": 7,
     "position": [
@@ -6328,6 +6855,7 @@
     "filename": "NT_TEX_FRACTAL_FLOW_NOISE.png",
     "node_name": "NT_TEX_FRACTAL_FLOW_NOISE",
     "node_id": 346,
+    "display_name": "Tex Fractal Flow Noise",
     "column": 8,
     "row": 8,
     "position": [
@@ -6340,6 +6868,7 @@
     "filename": "NT_TEX_FRACTAL_NOISE.png",
     "node_name": "NT_TEX_FRACTAL_NOISE",
     "node_id": 347,
+    "display_name": "Tex Fractal Noise",
     "column": 8,
     "row": 9,
     "position": [
@@ -6352,6 +6881,7 @@
     "filename": "NT_TEX_GAUSSIANSPECTRUM.png",
     "node_name": "NT_TEX_GAUSSIANSPECTRUM",
     "node_id": 32,
+    "display_name": "Tex Gaussianspectrum",
     "column": 8,
     "row": 10,
     "position": [
@@ -6364,6 +6894,7 @@
     "filename": "NT_TEX_GLOWING_CIRCLE.png",
     "node_name": "NT_TEX_GLOWING_CIRCLE",
     "node_id": 270,
+    "display_name": "Tex Glowing Circle",
     "column": 8,
     "row": 11,
     "position": [
@@ -6376,6 +6907,7 @@
     "filename": "NT_TEX_GRADIENT.png",
     "node_name": "NT_TEX_GRADIENT",
     "node_id": 49,
+    "display_name": "Tex Gradient",
     "column": 8,
     "row": 12,
     "position": [
@@ -6388,6 +6920,7 @@
     "filename": "NT_TEX_GRADIENT_GENERATOR.png",
     "node_name": "NT_TEX_GRADIENT_GENERATOR",
     "node_id": 332,
+    "display_name": "Tex Gradient Generator",
     "column": 8,
     "row": 13,
     "position": [
@@ -6400,6 +6933,7 @@
     "filename": "NT_TEX_HAGELSLAG.png",
     "node_name": "NT_TEX_HAGELSLAG",
     "node_id": 269,
+    "display_name": "Tex Hagelslag",
     "column": 8,
     "row": 14,
     "position": [
@@ -6412,6 +6946,7 @@
     "filename": "NT_TEX_HALFTONE.png",
     "node_name": "NT_TEX_HALFTONE",
     "node_id": 497,
+    "display_name": "Tex Halftone",
     "column": 8,
     "row": 15,
     "position": [
@@ -6424,6 +6959,7 @@
     "filename": "NT_TEX_IMAGE.png",
     "node_name": "NT_TEX_IMAGE",
     "node_id": 34,
+    "display_name": "Tex Image",
     "column": 8,
     "row": 16,
     "position": [
@@ -6436,6 +6972,7 @@
     "filename": "NT_TEX_IMAGE_ADJUSTMENT.png",
     "node_name": "NT_TEX_IMAGE_ADJUSTMENT",
     "node_id": 360,
+    "display_name": "Tex Image Adjustment",
     "column": 8,
     "row": 17,
     "position": [
@@ -6445,9 +6982,10 @@
   },
   {
     "index": 537,
-    "filename": "NT_TEX_IMAGE_TILES.png",
-    "node_name": "NT_TEX_IMAGE_TILES",
-    "node_id": 131,
+    "filename": "NT_TEX_IMAGE_TILE_SET.png",
+    "node_name": "NT_TEX_IMAGE_TILE_SET",
+    "node_id": 484,
+    "display_name": "Tex Image Tile Set",
     "column": 8,
     "row": 18,
     "position": [
@@ -6457,9 +6995,10 @@
   },
   {
     "index": 538,
-    "filename": "NT_TEX_IMAGE_TILE_SET.png",
-    "node_name": "NT_TEX_IMAGE_TILE_SET",
-    "node_id": 484,
+    "filename": "NT_TEX_IMAGE_TILES.png",
+    "node_name": "NT_TEX_IMAGE_TILES",
+    "node_id": 131,
+    "display_name": "Tex Image Tiles",
     "column": 8,
     "row": 19,
     "position": [
@@ -6472,6 +7011,7 @@
     "filename": "NT_TEX_INSTANCE_COLOR.png",
     "node_name": "NT_TEX_INSTANCE_COLOR",
     "node_id": 113,
+    "display_name": "Tex Instance Color",
     "column": 8,
     "row": 20,
     "position": [
@@ -6484,6 +7024,7 @@
     "filename": "NT_TEX_INSTANCE_HIGHLIGHT.png",
     "node_name": "NT_TEX_INSTANCE_HIGHLIGHT",
     "node_id": 365,
+    "display_name": "Tex Instance Highlight",
     "column": 8,
     "row": 21,
     "position": [
@@ -6496,6 +7037,7 @@
     "filename": "NT_TEX_INSTANCE_RANGE.png",
     "node_name": "NT_TEX_INSTANCE_RANGE",
     "node_id": 114,
+    "display_name": "Tex Instance Range",
     "column": 8,
     "row": 22,
     "position": [
@@ -6508,6 +7050,7 @@
     "filename": "NT_TEX_INVERT.png",
     "node_name": "NT_TEX_INVERT",
     "node_id": 46,
+    "display_name": "Tex Invert",
     "column": 8,
     "row": 23,
     "position": [
@@ -6520,6 +7063,7 @@
     "filename": "NT_TEX_IRIDESCENT.png",
     "node_name": "NT_TEX_IRIDESCENT",
     "node_id": 187,
+    "display_name": "Tex Iridescent",
     "column": 8,
     "row": 24,
     "position": [
@@ -6532,6 +7076,7 @@
     "filename": "NT_TEX_JITTERED_COLOR_CORRECTION.png",
     "node_name": "NT_TEX_JITTERED_COLOR_CORRECTION",
     "node_id": 362,
+    "display_name": "Tex Jittered Color Correction",
     "column": 8,
     "row": 25,
     "position": [
@@ -6544,6 +7089,7 @@
     "filename": "NT_TEX_LIGHT_FIELD_ARRAY.png",
     "node_name": "NT_TEX_LIGHT_FIELD_ARRAY",
     "node_id": 437,
+    "display_name": "Tex Light Field Array",
     "column": 8,
     "row": 26,
     "position": [
@@ -6556,6 +7102,7 @@
     "filename": "NT_TEX_LIGHT_FIELD_CUBE.png",
     "node_name": "NT_TEX_LIGHT_FIELD_CUBE",
     "node_id": 436,
+    "display_name": "Tex Light Field Cube",
     "column": 8,
     "row": 27,
     "position": [
@@ -6568,6 +7115,7 @@
     "filename": "NT_TEX_LIGHT_FIELD_PLANE.png",
     "node_name": "NT_TEX_LIGHT_FIELD_PLANE",
     "node_id": 407,
+    "display_name": "Tex Light Field Plane",
     "column": 8,
     "row": 28,
     "position": [
@@ -6580,6 +7128,7 @@
     "filename": "NT_TEX_MANDELBULB.png",
     "node_name": "NT_TEX_MANDELBULB",
     "node_id": 349,
+    "display_name": "Tex Mandelbulb",
     "column": 8,
     "row": 29,
     "position": [
@@ -6592,6 +7141,7 @@
     "filename": "NT_TEX_MARBLE.png",
     "node_name": "NT_TEX_MARBLE",
     "node_id": 47,
+    "display_name": "Tex Marble",
     "column": 8,
     "row": 30,
     "position": [
@@ -6604,6 +7154,7 @@
     "filename": "NT_TEX_MATH_BINARY.png",
     "node_name": "NT_TEX_MATH_BINARY",
     "node_id": 339,
+    "display_name": "Tex Math Binary",
     "column": 8,
     "row": 31,
     "position": [
@@ -6616,6 +7167,7 @@
     "filename": "NT_TEX_MATH_UNARY.png",
     "node_name": "NT_TEX_MATH_UNARY",
     "node_id": 340,
+    "display_name": "Tex Math Unary",
     "column": 8,
     "row": 32,
     "position": [
@@ -6628,6 +7180,7 @@
     "filename": "NT_TEX_MATRIX.png",
     "node_name": "NT_TEX_MATRIX",
     "node_id": 353,
+    "display_name": "Tex Matrix",
     "column": 8,
     "row": 33,
     "position": [
@@ -6640,6 +7193,7 @@
     "filename": "NT_TEX_MATRIX_VALUE.png",
     "node_name": "NT_TEX_MATRIX_VALUE",
     "node_id": 475,
+    "display_name": "Tex Matrix Value",
     "column": 8,
     "row": 34,
     "position": [
@@ -6652,6 +7206,7 @@
     "filename": "NT_TEX_MIX.png",
     "node_name": "NT_TEX_MIX",
     "node_id": 38,
+    "display_name": "Tex Mix",
     "column": 8,
     "row": 35,
     "position": [
@@ -6664,6 +7219,7 @@
     "filename": "NT_TEX_MOIRE_MOSAIC.png",
     "node_name": "NT_TEX_MOIRE_MOSAIC",
     "node_id": 264,
+    "display_name": "Tex Moire Mosaic",
     "column": 8,
     "row": 36,
     "position": [
@@ -6676,6 +7232,7 @@
     "filename": "NT_TEX_MULTIPLY.png",
     "node_name": "NT_TEX_MULTIPLY",
     "node_id": 39,
+    "display_name": "Tex Multiply",
     "column": 8,
     "row": 37,
     "position": [
@@ -6688,6 +7245,7 @@
     "filename": "NT_TEX_MX_ABSVAL.png",
     "node_name": "NT_TEX_MX_ABSVAL",
     "node_id": 50033,
+    "display_name": "Tex Mx Absval",
     "column": 8,
     "row": 38,
     "position": [
@@ -6700,6 +7258,7 @@
     "filename": "NT_TEX_MX_ACOS.png",
     "node_name": "NT_TEX_MX_ACOS",
     "node_id": 50043,
+    "display_name": "Tex Mx Acos",
     "column": 8,
     "row": 39,
     "position": [
@@ -6712,6 +7271,7 @@
     "filename": "NT_TEX_MX_ADD.png",
     "node_name": "NT_TEX_MX_ADD",
     "node_id": 50024,
+    "display_name": "Tex Mx Add",
     "column": 8,
     "row": 40,
     "position": [
@@ -6724,6 +7284,7 @@
     "filename": "NT_TEX_MX_AND.png",
     "node_name": "NT_TEX_MX_AND",
     "node_id": 50113,
+    "display_name": "Tex Mx And",
     "column": 8,
     "row": 41,
     "position": [
@@ -6736,6 +7297,7 @@
     "filename": "NT_TEX_MX_ASIN.png",
     "node_name": "NT_TEX_MX_ASIN",
     "node_id": 50042,
+    "display_name": "Tex Mx Asin",
     "column": 8,
     "row": 42,
     "position": [
@@ -6748,6 +7310,7 @@
     "filename": "NT_TEX_MX_ATAN2.png",
     "node_name": "NT_TEX_MX_ATAN2",
     "node_id": 50044,
+    "display_name": "Tex Mx Atan2",
     "column": 8,
     "row": 43,
     "position": [
@@ -6760,6 +7323,7 @@
     "filename": "NT_TEX_MX_BITANGENT.png",
     "node_name": "NT_TEX_MX_BITANGENT",
     "node_id": 50019,
+    "display_name": "Tex Mx Bitangent",
     "column": 8,
     "row": 44,
     "position": [
@@ -6772,6 +7336,7 @@
     "filename": "NT_TEX_MX_BUMP.png",
     "node_name": "NT_TEX_MX_BUMP",
     "node_id": 50124,
+    "display_name": "Tex Mx Bump",
     "column": 8,
     "row": 45,
     "position": [
@@ -6784,6 +7349,7 @@
     "filename": "NT_TEX_MX_BURN.png",
     "node_name": "NT_TEX_MX_BURN",
     "node_id": 50084,
+    "display_name": "Tex Mx Burn",
     "column": 8,
     "row": 46,
     "position": [
@@ -6796,6 +7362,7 @@
     "filename": "NT_TEX_MX_CEIL.png",
     "node_name": "NT_TEX_MX_CEIL",
     "node_id": 50036,
+    "display_name": "Tex Mx Ceil",
     "column": 8,
     "row": 47,
     "position": [
@@ -6808,6 +7375,7 @@
     "filename": "NT_TEX_MX_CELLNOISE2D.png",
     "node_name": "NT_TEX_MX_CELLNOISE2D",
     "node_id": 50012,
+    "display_name": "Tex Mx Cellnoise2d",
     "column": 8,
     "row": 48,
     "position": [
@@ -6820,6 +7388,7 @@
     "filename": "NT_TEX_MX_CELLNOISE3D.png",
     "node_name": "NT_TEX_MX_CELLNOISE3D",
     "node_id": 50013,
+    "display_name": "Tex Mx Cellnoise3d",
     "column": 8,
     "row": 49,
     "position": [
@@ -6832,6 +7401,7 @@
     "filename": "NT_TEX_MX_CLAMP.png",
     "node_name": "NT_TEX_MX_CLAMP",
     "node_id": 50048,
+    "display_name": "Tex Mx Clamp",
     "column": 8,
     "row": 50,
     "position": [
@@ -6844,6 +7414,7 @@
     "filename": "NT_TEX_MX_COLORCORRECT.png",
     "node_name": "NT_TEX_MX_COLORCORRECT",
     "node_id": 50118,
+    "display_name": "Tex Mx Colorcorrect",
     "column": 8,
     "row": 51,
     "position": [
@@ -6856,6 +7427,7 @@
     "filename": "NT_TEX_MX_COMBINE2.png",
     "node_name": "NT_TEX_MX_COMBINE2",
     "node_id": 50102,
+    "display_name": "Tex Mx Combine2",
     "column": 8,
     "row": 52,
     "position": [
@@ -6868,6 +7440,7 @@
     "filename": "NT_TEX_MX_COMBINE2_COLOR3FLOAT.png",
     "node_name": "NT_TEX_MX_COMBINE2_COLOR3FLOAT",
     "node_id": 50070,
+    "display_name": "Tex Mx Combine2 Color3float",
     "column": 8,
     "row": 53,
     "position": [
@@ -6880,6 +7453,7 @@
     "filename": "NT_TEX_MX_COMBINE2_VECTOR2FLOAT.png",
     "node_name": "NT_TEX_MX_COMBINE2_VECTOR2FLOAT",
     "node_id": 50029,
+    "display_name": "Tex Mx Combine2 Vector2float",
     "column": 8,
     "row": 54,
     "position": [
@@ -6892,6 +7466,7 @@
     "filename": "NT_TEX_MX_COMBINE2_VECTOR2VECTOR2.png",
     "node_name": "NT_TEX_MX_COMBINE2_VECTOR2VECTOR2",
     "node_id": 50071,
+    "display_name": "Tex Mx Combine2 Vector2vector2",
     "column": 8,
     "row": 55,
     "position": [
@@ -6904,6 +7479,7 @@
     "filename": "NT_TEX_MX_COMBINE2_VECTOR3FLOAT.png",
     "node_name": "NT_TEX_MX_COMBINE2_VECTOR3FLOAT",
     "node_id": 50031,
+    "display_name": "Tex Mx Combine2 Vector3float",
     "column": 8,
     "row": 56,
     "position": [
@@ -6916,6 +7492,7 @@
     "filename": "NT_TEX_MX_COMBINE3.png",
     "node_name": "NT_TEX_MX_COMBINE3",
     "node_id": 50103,
+    "display_name": "Tex Mx Combine3",
     "column": 8,
     "row": 57,
     "position": [
@@ -6928,6 +7505,7 @@
     "filename": "NT_TEX_MX_COMBINE4.png",
     "node_name": "NT_TEX_MX_COMBINE4",
     "node_id": 50104,
+    "display_name": "Tex Mx Combine4",
     "column": 8,
     "row": 58,
     "position": [
@@ -6940,6 +7518,7 @@
     "filename": "NT_TEX_MX_CONSTANT.png",
     "node_name": "NT_TEX_MX_CONSTANT",
     "node_id": 50003,
+    "display_name": "Tex Mx Constant",
     "column": 8,
     "row": 59,
     "position": [
@@ -6952,6 +7531,7 @@
     "filename": "NT_TEX_MX_CONTRAST.png",
     "node_name": "NT_TEX_MX_CONTRAST",
     "node_id": 50075,
+    "display_name": "Tex Mx Contrast",
     "column": 8,
     "row": 60,
     "position": [
@@ -6964,6 +7544,7 @@
     "filename": "NT_TEX_MX_CONVERT.png",
     "node_name": "NT_TEX_MX_CONVERT",
     "node_id": 50109,
+    "display_name": "Tex Mx Convert",
     "column": 8,
     "row": 61,
     "position": [
@@ -6976,6 +7557,7 @@
     "filename": "NT_TEX_MX_COS.png",
     "node_name": "NT_TEX_MX_COS",
     "node_id": 50040,
+    "display_name": "Tex Mx Cos",
     "column": 8,
     "row": 62,
     "position": [
@@ -6988,6 +7570,7 @@
     "filename": "NT_TEX_MX_CREATEMATRIX.png",
     "node_name": "NT_TEX_MX_CREATEMATRIX",
     "node_id": 50120,
+    "display_name": "Tex Mx Creatematrix",
     "column": 8,
     "row": 63,
     "position": [
@@ -7000,6 +7583,7 @@
     "filename": "NT_TEX_MX_CREATEMATRIX3X3.png",
     "node_name": "NT_TEX_MX_CREATEMATRIX3X3",
     "node_id": 50121,
+    "display_name": "Tex Mx Creatematrix3x3",
     "column": 8,
     "row": 64,
     "position": [
@@ -7012,6 +7596,7 @@
     "filename": "NT_TEX_MX_CROSSPRODUCT.png",
     "node_name": "NT_TEX_MX_CROSSPRODUCT",
     "node_id": 50054,
+    "display_name": "Tex Mx Crossproduct",
     "column": 8,
     "row": 65,
     "position": [
@@ -7024,6 +7609,7 @@
     "filename": "NT_TEX_MX_DETERMINANT.png",
     "node_name": "NT_TEX_MX_DETERMINANT",
     "node_id": 50061,
+    "display_name": "Tex Mx Determinant",
     "column": 8,
     "row": 66,
     "position": [
@@ -7036,6 +7622,7 @@
     "filename": "NT_TEX_MX_DIFFERENCE.png",
     "node_name": "NT_TEX_MX_DIFFERENCE",
     "node_id": 50083,
+    "display_name": "Tex Mx Difference",
     "column": 8,
     "row": 67,
     "position": [
@@ -7048,6 +7635,7 @@
     "filename": "NT_TEX_MX_DISJOINTOVER.png",
     "node_name": "NT_TEX_MX_DISJOINTOVER",
     "node_id": 50088,
+    "display_name": "Tex Mx Disjointover",
     "column": 8,
     "row": 68,
     "position": [
@@ -7060,6 +7648,7 @@
     "filename": "NT_TEX_MX_DISTANCE.png",
     "node_name": "NT_TEX_MX_DISTANCE",
     "node_id": 50135,
+    "display_name": "Tex Mx Distance",
     "column": 8,
     "row": 69,
     "position": [
@@ -7072,6 +7661,7 @@
     "filename": "NT_TEX_MX_DIVIDE.png",
     "node_name": "NT_TEX_MX_DIVIDE",
     "node_id": 50028,
+    "display_name": "Tex Mx Divide",
     "column": 8,
     "row": 70,
     "position": [
@@ -7084,6 +7674,7 @@
     "filename": "NT_TEX_MX_DODGE.png",
     "node_name": "NT_TEX_MX_DODGE",
     "node_id": 50085,
+    "display_name": "Tex Mx Dodge",
     "column": 8,
     "row": 71,
     "position": [
@@ -7096,6 +7687,7 @@
     "filename": "NT_TEX_MX_DOTPRODUCT.png",
     "node_name": "NT_TEX_MX_DOTPRODUCT",
     "node_id": 50053,
+    "display_name": "Tex Mx Dotproduct",
     "column": 8,
     "row": 72,
     "position": [
@@ -7108,6 +7700,7 @@
     "filename": "NT_TEX_MX_EXP.png",
     "node_name": "NT_TEX_MX_EXP",
     "node_id": 50047,
+    "display_name": "Tex Mx Exp",
     "column": 9,
     "row": 3,
     "position": [
@@ -7120,6 +7713,7 @@
     "filename": "NT_TEX_MX_EXTRACT2.png",
     "node_name": "NT_TEX_MX_EXTRACT2",
     "node_id": 50101,
+    "display_name": "Tex Mx Extract2",
     "column": 9,
     "row": 4,
     "position": [
@@ -7132,6 +7726,7 @@
     "filename": "NT_TEX_MX_EXTRACT3.png",
     "node_name": "NT_TEX_MX_EXTRACT3",
     "node_id": 50111,
+    "display_name": "Tex Mx Extract3",
     "column": 9,
     "row": 5,
     "position": [
@@ -7144,6 +7739,7 @@
     "filename": "NT_TEX_MX_EXTRACT4.png",
     "node_name": "NT_TEX_MX_EXTRACT4",
     "node_id": 50105,
+    "display_name": "Tex Mx Extract4",
     "column": 9,
     "row": 7,
     "position": [
@@ -7156,6 +7752,7 @@
     "filename": "NT_TEX_MX_FACINGRATIO.png",
     "node_name": "NT_TEX_MX_FACINGRATIO",
     "node_id": 50127,
+    "display_name": "Tex Mx Facingratio",
     "column": 9,
     "row": 8,
     "position": [
@@ -7168,6 +7765,7 @@
     "filename": "NT_TEX_MX_FLOOR.png",
     "node_name": "NT_TEX_MX_FLOOR",
     "node_id": 50035,
+    "display_name": "Tex Mx Floor",
     "column": 9,
     "row": 9,
     "position": [
@@ -7180,6 +7778,7 @@
     "filename": "NT_TEX_MX_FRACT.png",
     "node_name": "NT_TEX_MX_FRACT",
     "node_id": 50125,
+    "display_name": "Tex Mx Fract",
     "column": 9,
     "row": 11,
     "position": [
@@ -7192,6 +7791,7 @@
     "filename": "NT_TEX_MX_FRACTAL3D.png",
     "node_name": "NT_TEX_MX_FRACTAL3D",
     "node_id": 50011,
+    "display_name": "Tex Mx Fractal3d",
     "column": 9,
     "row": 12,
     "position": [
@@ -7204,6 +7804,7 @@
     "filename": "NT_TEX_MX_FRAME.png",
     "node_name": "NT_TEX_MX_FRAME",
     "node_id": 50021,
+    "display_name": "Tex Mx Frame",
     "column": 9,
     "row": 13,
     "position": [
@@ -7216,6 +7817,7 @@
     "filename": "NT_TEX_MX_GEOMCOLOR.png",
     "node_name": "NT_TEX_MX_GEOMCOLOR",
     "node_id": 50129,
+    "display_name": "Tex Mx Geomcolor",
     "column": 9,
     "row": 14,
     "position": [
@@ -7228,6 +7830,7 @@
     "filename": "NT_TEX_MX_GEOMPROPVALUE.png",
     "node_name": "NT_TEX_MX_GEOMPROPVALUE",
     "node_id": 50130,
+    "display_name": "Tex Mx Geompropvalue",
     "column": 9,
     "row": 21,
     "position": [
@@ -7240,6 +7843,7 @@
     "filename": "NT_TEX_MX_HEIGHTTONORMAL.png",
     "node_name": "NT_TEX_MX_HEIGHTTONORMAL",
     "node_id": 50128,
+    "display_name": "Tex Mx Heighttonormal",
     "column": 9,
     "row": 22,
     "position": [
@@ -7252,6 +7856,7 @@
     "filename": "NT_TEX_MX_HSVADJUST.png",
     "node_name": "NT_TEX_MX_HSVADJUST",
     "node_id": 50077,
+    "display_name": "Tex Mx Hsvadjust",
     "column": 9,
     "row": 26,
     "position": [
@@ -7264,6 +7869,7 @@
     "filename": "NT_TEX_MX_HSVTORGB.png",
     "node_name": "NT_TEX_MX_HSVTORGB",
     "node_id": 50074,
+    "display_name": "Tex Mx Hsvtorgb",
     "column": 9,
     "row": 27,
     "position": [
@@ -7276,6 +7882,7 @@
     "filename": "NT_TEX_MX_IFEQUAL.png",
     "node_name": "NT_TEX_MX_IFEQUAL",
     "node_id": 50099,
+    "display_name": "Tex Mx Ifequal",
     "column": 9,
     "row": 28,
     "position": [
@@ -7288,6 +7895,7 @@
     "filename": "NT_TEX_MX_IFEQUAL_B.png",
     "node_name": "NT_TEX_MX_IFEQUAL_B",
     "node_id": 50134,
+    "display_name": "Tex Mx Ifequal B",
     "column": 9,
     "row": 29,
     "position": [
@@ -7300,6 +7908,7 @@
     "filename": "NT_TEX_MX_IFEQUAL_BOOL.png",
     "node_name": "NT_TEX_MX_IFEQUAL_BOOL",
     "node_id": 50132,
+    "display_name": "Tex Mx Ifequal Bool",
     "column": 9,
     "row": 31,
     "position": [
@@ -7312,6 +7921,7 @@
     "filename": "NT_TEX_MX_IFGREATER.png",
     "node_name": "NT_TEX_MX_IFGREATER",
     "node_id": 50097,
+    "display_name": "Tex Mx Ifgreater",
     "column": 9,
     "row": 32,
     "position": [
@@ -7321,9 +7931,10 @@
   },
   {
     "index": 610,
-    "filename": "NT_TEX_MX_IFGREATEREQ.png",
-    "node_name": "NT_TEX_MX_IFGREATEREQ",
-    "node_id": 50098,
+    "filename": "NT_TEX_MX_IFGREATER_BOOL.png",
+    "node_name": "NT_TEX_MX_IFGREATER_BOOL",
+    "node_id": 50131,
+    "display_name": "Tex Mx Ifgreater Bool",
     "column": 9,
     "row": 33,
     "position": [
@@ -7333,9 +7944,10 @@
   },
   {
     "index": 611,
-    "filename": "NT_TEX_MX_IFGREATEREQ_BOOL.png",
-    "node_name": "NT_TEX_MX_IFGREATEREQ_BOOL",
-    "node_id": 50133,
+    "filename": "NT_TEX_MX_IFGREATEREQ.png",
+    "node_name": "NT_TEX_MX_IFGREATEREQ",
+    "node_id": 50098,
+    "display_name": "Tex Mx Ifgreatereq",
     "column": 9,
     "row": 34,
     "position": [
@@ -7345,9 +7957,10 @@
   },
   {
     "index": 612,
-    "filename": "NT_TEX_MX_IFGREATER_BOOL.png",
-    "node_name": "NT_TEX_MX_IFGREATER_BOOL",
-    "node_id": 50131,
+    "filename": "NT_TEX_MX_IFGREATEREQ_BOOL.png",
+    "node_name": "NT_TEX_MX_IFGREATEREQ_BOOL",
+    "node_id": 50133,
+    "display_name": "Tex Mx Ifgreatereq Bool",
     "column": 9,
     "row": 35,
     "position": [
@@ -7360,6 +7973,7 @@
     "filename": "NT_TEX_MX_IMAGE.png",
     "node_name": "NT_TEX_MX_IMAGE",
     "node_id": 50001,
+    "display_name": "Tex Mx Image",
     "column": 9,
     "row": 36,
     "position": [
@@ -7372,6 +7986,7 @@
     "filename": "NT_TEX_MX_IN.png",
     "node_name": "NT_TEX_MX_IN",
     "node_id": 50089,
+    "display_name": "Tex Mx In",
     "column": 9,
     "row": 37,
     "position": [
@@ -7384,6 +7999,7 @@
     "filename": "NT_TEX_MX_INSIDE.png",
     "node_name": "NT_TEX_MX_INSIDE",
     "node_id": 50094,
+    "display_name": "Tex Mx Inside",
     "column": 9,
     "row": 38,
     "position": [
@@ -7396,6 +8012,7 @@
     "filename": "NT_TEX_MX_INVERT.png",
     "node_name": "NT_TEX_MX_INVERT",
     "node_id": 50063,
+    "display_name": "Tex Mx Invert",
     "column": 9,
     "row": 41,
     "position": [
@@ -7408,6 +8025,7 @@
     "filename": "NT_TEX_MX_INVERTMATRIX.png",
     "node_name": "NT_TEX_MX_INVERTMATRIX",
     "node_id": 50062,
+    "display_name": "Tex Mx Invertmatrix",
     "column": 9,
     "row": 42,
     "position": [
@@ -7420,6 +8038,7 @@
     "filename": "NT_TEX_MX_LN.png",
     "node_name": "NT_TEX_MX_LN",
     "node_id": 50046,
+    "display_name": "Tex Mx Ln",
     "column": 9,
     "row": 43,
     "position": [
@@ -7432,6 +8051,7 @@
     "filename": "NT_TEX_MX_LUMINANCE.png",
     "node_name": "NT_TEX_MX_LUMINANCE",
     "node_id": 50072,
+    "display_name": "Tex Mx Luminance",
     "column": 9,
     "row": 44,
     "position": [
@@ -7444,6 +8064,7 @@
     "filename": "NT_TEX_MX_MAGNITUDE.png",
     "node_name": "NT_TEX_MX_MAGNITUDE",
     "node_id": 50052,
+    "display_name": "Tex Mx Magnitude",
     "column": 9,
     "row": 45,
     "position": [
@@ -7456,6 +8077,7 @@
     "filename": "NT_TEX_MX_MASK.png",
     "node_name": "NT_TEX_MX_MASK",
     "node_id": 50090,
+    "display_name": "Tex Mx Mask",
     "column": 9,
     "row": 46,
     "position": [
@@ -7468,6 +8090,7 @@
     "filename": "NT_TEX_MX_MATTE.png",
     "node_name": "NT_TEX_MX_MATTE",
     "node_id": 50091,
+    "display_name": "Tex Mx Matte",
     "column": 9,
     "row": 47,
     "position": [
@@ -7480,6 +8103,7 @@
     "filename": "NT_TEX_MX_MAX.png",
     "node_name": "NT_TEX_MX_MAX",
     "node_id": 50050,
+    "display_name": "Tex Mx Max",
     "column": 9,
     "row": 48,
     "position": [
@@ -7492,6 +8116,7 @@
     "filename": "NT_TEX_MX_MIN.png",
     "node_name": "NT_TEX_MX_MIN",
     "node_id": 50049,
+    "display_name": "Tex Mx Min",
     "column": 9,
     "row": 49,
     "position": [
@@ -7504,6 +8129,7 @@
     "filename": "NT_TEX_MX_MINUS.png",
     "node_name": "NT_TEX_MX_MINUS",
     "node_id": 50082,
+    "display_name": "Tex Mx Minus",
     "column": 9,
     "row": 50,
     "position": [
@@ -7516,6 +8142,7 @@
     "filename": "NT_TEX_MX_MIX.png",
     "node_name": "NT_TEX_MX_MIX",
     "node_id": 50096,
+    "display_name": "Tex Mx Mix",
     "column": 9,
     "row": 51,
     "position": [
@@ -7528,6 +8155,7 @@
     "filename": "NT_TEX_MX_MODULO.png",
     "node_name": "NT_TEX_MX_MODULO",
     "node_id": 50032,
+    "display_name": "Tex Mx Modulo",
     "column": 9,
     "row": 53,
     "position": [
@@ -7540,6 +8168,7 @@
     "filename": "NT_TEX_MX_MULTIPLY.png",
     "node_name": "NT_TEX_MX_MULTIPLY",
     "node_id": 50030,
+    "display_name": "Tex Mx Multiply",
     "column": 9,
     "row": 60,
     "position": [
@@ -7552,6 +8181,7 @@
     "filename": "NT_TEX_MX_NOISE2D.png",
     "node_name": "NT_TEX_MX_NOISE2D",
     "node_id": 50009,
+    "display_name": "Tex Mx Noise2d",
     "column": 9,
     "row": 62,
     "position": [
@@ -7564,6 +8194,7 @@
     "filename": "NT_TEX_MX_NOISE3D.png",
     "node_name": "NT_TEX_MX_NOISE3D",
     "node_id": 50010,
+    "display_name": "Tex Mx Noise3d",
     "column": 9,
     "row": 63,
     "position": [
@@ -7576,6 +8207,7 @@
     "filename": "NT_TEX_MX_NORMAL.png",
     "node_name": "NT_TEX_MX_NORMAL",
     "node_id": 50017,
+    "display_name": "Tex Mx Normal",
     "column": 9,
     "row": 65,
     "position": [
@@ -7588,6 +8220,7 @@
     "filename": "NT_TEX_MX_NORMALIZE.png",
     "node_name": "NT_TEX_MX_NORMALIZE",
     "node_id": 50051,
+    "display_name": "Tex Mx Normalize",
     "column": 9,
     "row": 66,
     "position": [
@@ -7600,6 +8233,7 @@
     "filename": "NT_TEX_MX_NORMALMAP.png",
     "node_name": "NT_TEX_MX_NORMALMAP",
     "node_id": 50059,
+    "display_name": "Tex Mx Normalmap",
     "column": 9,
     "row": 67,
     "position": [
@@ -7612,6 +8246,7 @@
     "filename": "NT_TEX_MX_NOT.png",
     "node_name": "NT_TEX_MX_NOT",
     "node_id": 50112,
+    "display_name": "Tex Mx Not",
     "column": 9,
     "row": 68,
     "position": [
@@ -7624,6 +8259,7 @@
     "filename": "NT_TEX_MX_OR.png",
     "node_name": "NT_TEX_MX_OR",
     "node_id": 50114,
+    "display_name": "Tex Mx Or",
     "column": 9,
     "row": 72,
     "position": [

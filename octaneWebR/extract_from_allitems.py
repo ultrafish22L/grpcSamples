@@ -15,15 +15,36 @@ INPUT_IMAGE = "octaneSE_nodegraphcontext_allitems.png"
 OUTPUT_DIR = Path("client/public/icons/nodes")
 
 def get_node_types_sorted():
-    """Get all NT_* node types sorted ALPHABETICALLY (matches 'All items' menu order)"""
+    """Get all NT_* node types sorted by DISPLAY NAME (matches 'All items' menu order)"""
+    
+    # Load display names from NodeTypes.ts extraction
+    display_names_file = "client/public/icons/nodes/node-display-names-FROM-TS.json"
+    
+    print(f"📋 Loading display names from {display_names_file}...")
+    try:
+        with open(display_names_file, 'r') as f:
+            display_names = json.load(f)
+        print(f"✅ Loaded {len(display_names)} display names")
+    except FileNotFoundError:
+        print(f"❌ {display_names_file} not found!")
+        print(f"   Run: python3 extract_from_nodetypes_ts.py")
+        sys.exit(1)
+    
+    # Create list of (NT_name, id, display_name) tuples
     node_types = []
-    for attr in dir(octaneids_pb2):
-        if attr.startswith('NT_'):
-            value = getattr(octaneids_pb2, attr)
-            if isinstance(value, int) and value > 0:
-                node_types.append((attr, value))
-    node_types.sort(key=lambda x: x[0])  # Sort alphabetically, not by ID!
-    return node_types
+    for nt_name, info in display_names.items():
+        node_types.append((nt_name, info['id'], info['displayName']))
+    
+    # Sort by display name (case-insensitive)
+    node_types.sort(key=lambda x: x[2].lower())
+    
+    print(f"✅ Sorted {len(node_types)} nodes by display name")
+    print(f"\n📋 First 10 nodes:")
+    for i, (nt, id, display) in enumerate(node_types[:10]):
+        print(f"   [{i:3}] {display:40} ← {nt}")
+    
+    # Return just (name, id) tuples for compatibility
+    return [(nt, id) for nt, id, _ in node_types]
 
 def detect_grid_params(img):
     """Detect column positions and row centers"""
@@ -141,6 +162,16 @@ def save_icons_with_names(icons, node_types, output_dir):
     print(f"\n💾 Saving to {output_dir}/")
     print(f"📊 {len(icons)} icons → {len(node_types)} NT_* types\n")
     
+    # Load display names
+    display_names_file = "client/public/icons/nodes/node-display-names-FROM-TS.json"
+    try:
+        with open(display_names_file, 'r') as f:
+            display_names_map = json.load(f)
+        print(f"✅ Loaded display names from {display_names_file}\n")
+    except:
+        display_names_map = {}
+        print(f"⚠️  Could not load display names\n")
+    
     saved = []
     metadata = []
     
@@ -154,10 +185,14 @@ def save_icons_with_names(icons, node_types, output_dir):
         if i < len(node_types):
             node_name, node_id = node_types[i]
             filename = f"{node_name}.png"
+            
+            # Get display name
+            display_name = display_names_map.get(node_name, {}).get('displayName', node_name)
         else:
             filename = f"EXTRA_{i:04d}_c{col}_r{row}.png"
             node_name = None
             node_id = None
+            display_name = None
         
         filepath = output_dir / filename
         
@@ -170,6 +205,7 @@ def save_icons_with_names(icons, node_types, output_dir):
                 'filename': filename,
                 'node_name': node_name,
                 'node_id': node_id,
+                'display_name': display_name,
                 'column': col,
                 'row': row,
                 'position': pos
@@ -177,11 +213,13 @@ def save_icons_with_names(icons, node_types, output_dir):
             
             # Show progress
             if i < 20:
-                print(f"  [{i:3}] {node_name or 'UNKNOWN':45} → {filename}")
+                display_label = display_name or node_name or 'UNKNOWN'
+                print(f"  [{i:3}] {display_label:45} → {filename}")
             elif i == 20:
                 print(f"  ... ({len(icons) - 30} more) ...")
             elif i >= len(icons) - 10:
-                print(f"  [{i:3}] {node_name or 'UNKNOWN':45} → {filename}")
+                display_label = display_name or node_name or 'UNKNOWN'
+                print(f"  [{i:3}] {display_label:45} → {filename}")
                 
         except Exception as e:
             print(f"❌ Error saving {filename}: {e}")

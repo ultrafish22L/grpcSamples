@@ -1,0 +1,3777 @@
+{
+  "NT_CAM_BAKING": {
+    "id": 94,
+    "displayName": "Cam Baking",
+    "enumName": "NT_CAM_BAKING"
+  },
+  "NT_CAM_OSL": {
+    "id": 126,
+    "displayName": "Cam Osl",
+    "enumName": "NT_CAM_OSL"
+  },
+  "NT_CAM_OSL_BAKING": {
+    "id": 128,
+    "displayName": "Cam Osl Baking",
+    "enumName": "NT_CAM_OSL_BAKING"
+  },
+  "NT_CAM_PANORAMIC": {
+    "id": 62,
+    "displayName": "Cam Panoramic",
+    "enumName": "NT_CAM_PANORAMIC"
+  },
+  "NT_CAM_SIMULATED_LENS": {
+    "id": 472,
+    "displayName": "Cam Simulated Lens",
+    "enumName": "NT_CAM_SIMULATED_LENS"
+  },
+  "NT_CAM_THINLENS": {
+    "id": 13,
+    "displayName": "Cam Thinlens",
+    "enumName": "NT_CAM_THINLENS"
+  },
+  "NT_CAM_UNIVERSAL": {
+    "id": 157,
+    "displayName": "Cam Universal",
+    "enumName": "NT_CAM_UNIVERSAL"
+  },
+  "NT_DISPLACEMENT": {
+    "id": 80,
+    "displayName": "Displacement",
+    "enumName": "NT_DISPLACEMENT"
+  },
+  "NT_VERTEX_DISPLACEMENT": {
+    "id": 97,
+    "displayName": "Vertex Displacement",
+    "enumName": "NT_VERTEX_DISPLACEMENT"
+  },
+  "NT_VERTEX_DISPLACEMENT_MIXER": {
+    "id": 151,
+    "displayName": "Vertex Displacement Mixer",
+    "enumName": "NT_VERTEX_DISPLACEMENT_MIXER"
+  },
+  "NT_EMIS_BLACKBODY": {
+    "id": 53,
+    "displayName": "Emis Blackbody",
+    "enumName": "NT_EMIS_BLACKBODY"
+  },
+  "NT_EMIS_TEXTURE": {
+    "id": 54,
+    "displayName": "Emis Texture",
+    "enumName": "NT_EMIS_TEXTURE"
+  },
+  "NT_ENV_DAYLIGHT": {
+    "id": 14,
+    "displayName": "Env Daylight",
+    "enumName": "NT_ENV_DAYLIGHT"
+  },
+  "NT_ENV_PLANETARY": {
+    "id": 129,
+    "displayName": "Env Planetary",
+    "enumName": "NT_ENV_PLANETARY"
+  },
+  "NT_ENV_TEXTURE": {
+    "id": 37,
+    "displayName": "Env Texture",
+    "enumName": "NT_ENV_TEXTURE"
+  },
+  "NT_GEO_DECAL": {
+    "id": 477,
+    "displayName": "Geo Decal",
+    "enumName": "NT_GEO_DECAL"
+  },
+  "NT_GEO_EXPORTER": {
+    "id": 156,
+    "displayName": "Geo Exporter",
+    "enumName": "NT_GEO_EXPORTER"
+  },
+  "NT_GEO_GAUSSIAN_SPLAT": {
+    "id": 481,
+    "displayName": "Geo Gaussian Splat",
+    "enumName": "NT_GEO_GAUSSIAN_SPLAT"
+  },
+  "NT_GEO_GROUP": {
+    "id": 3,
+    "displayName": "Geo Group",
+    "enumName": "NT_GEO_GROUP"
+  },
+  "NT_GEO_JOINT": {
+    "id": 102,
+    "displayName": "Geo Joint",
+    "enumName": "NT_GEO_JOINT"
+  },
+  "NT_GEO_MESH": {
+    "id": 1,
+    "displayName": "Geo Mesh",
+    "enumName": "NT_GEO_MESH"
+  },
+  "NT_GEO_MESH_VOLUME": {
+    "id": 274,
+    "displayName": "Geo Mesh Volume",
+    "enumName": "NT_GEO_MESH_VOLUME"
+  },
+  "NT_GEO_MESH_VOLUME_SDF": {
+    "id": 257,
+    "displayName": "Geo Mesh Volume Sdf",
+    "enumName": "NT_GEO_MESH_VOLUME_SDF"
+  },
+  "NT_GEO_OBJECT": {
+    "id": 153,
+    "displayName": "Geo Object",
+    "enumName": "NT_GEO_OBJECT"
+  },
+  "NT_GEO_OSL": {
+    "id": 133,
+    "displayName": "Geo Osl",
+    "enumName": "NT_GEO_OSL"
+  },
+  "NT_GEO_PLACEMENT": {
+    "id": 4,
+    "displayName": "Geo Placement",
+    "enumName": "NT_GEO_PLACEMENT"
+  },
+  "NT_GEO_PLANE": {
+    "id": 110,
+    "displayName": "Geo Plane",
+    "enumName": "NT_GEO_PLANE"
+  },
+  "NT_GEO_SCATTER": {
+    "id": 5,
+    "displayName": "Geo Scatter",
+    "enumName": "NT_GEO_SCATTER"
+  },
+  "NT_GEO_SDF_ARRAY_CIRCULAR": {
+    "id": 493,
+    "displayName": "Geo Sdf Array Circular",
+    "enumName": "NT_GEO_SDF_ARRAY_CIRCULAR"
+  },
+  "NT_GEO_SDF_ARRAY_LINEAR": {
+    "id": 492,
+    "displayName": "Geo Sdf Array Linear",
+    "enumName": "NT_GEO_SDF_ARRAY_LINEAR"
+  },
+  "NT_GEO_SDF_AVOID": {
+    "id": 489,
+    "displayName": "Geo Sdf Avoid",
+    "enumName": "NT_GEO_SDF_AVOID"
+  },
+  "NT_GEO_SDF_BOX": {
+    "id": 296,
+    "displayName": "Geo Sdf Box",
+    "enumName": "NT_GEO_SDF_BOX"
+  },
+  "NT_GEO_SDF_CAPSULE": {
+    "id": 297,
+    "displayName": "Geo Sdf Capsule",
+    "enumName": "NT_GEO_SDF_CAPSULE"
+  },
+  "NT_GEO_SDF_CLIP": {
+    "id": 311,
+    "displayName": "Geo Sdf Clip",
+    "enumName": "NT_GEO_SDF_CLIP"
+  },
+  "NT_GEO_SDF_CONE": {
+    "id": 494,
+    "displayName": "Geo Sdf Cone",
+    "enumName": "NT_GEO_SDF_CONE"
+  },
+  "NT_GEO_SDF_CYLINDER": {
+    "id": 298,
+    "displayName": "Geo Sdf Cylinder",
+    "enumName": "NT_GEO_SDF_CYLINDER"
+  },
+  "NT_GEO_SDF_DISPLACEMENT": {
+    "id": 480,
+    "displayName": "Geo Sdf Displacement",
+    "enumName": "NT_GEO_SDF_DISPLACEMENT"
+  },
+  "NT_GEO_SDF_DOMAIN": {
+    "id": 278,
+    "displayName": "Geo Sdf Domain",
+    "enumName": "NT_GEO_SDF_DOMAIN"
+  },
+  "NT_GEO_SDF_INK": {
+    "id": 308,
+    "displayName": "Geo Sdf Ink",
+    "enumName": "NT_GEO_SDF_INK"
+  },
+  "NT_GEO_SDF_INSET": {
+    "id": 309,
+    "displayName": "Geo Sdf Inset",
+    "enumName": "NT_GEO_SDF_INSET"
+  },
+  "NT_GEO_SDF_INTERSECT": {
+    "id": 310,
+    "displayName": "Geo Sdf Intersect",
+    "enumName": "NT_GEO_SDF_INTERSECT"
+  },
+  "NT_GEO_SDF_MIRROR": {
+    "id": 491,
+    "displayName": "Geo Sdf Mirror",
+    "enumName": "NT_GEO_SDF_MIRROR"
+  },
+  "NT_GEO_SDF_OFFSET": {
+    "id": 312,
+    "displayName": "Geo Sdf Offset",
+    "enumName": "NT_GEO_SDF_OFFSET"
+  },
+  "NT_GEO_SDF_PRISM": {
+    "id": 299,
+    "displayName": "Geo Sdf Prism",
+    "enumName": "NT_GEO_SDF_PRISM"
+  },
+  "NT_GEO_SDF_PULL": {
+    "id": 487,
+    "displayName": "Geo Sdf Pull",
+    "enumName": "NT_GEO_SDF_PULL"
+  },
+  "NT_GEO_SDF_PUSH": {
+    "id": 488,
+    "displayName": "Geo Sdf Push",
+    "enumName": "NT_GEO_SDF_PUSH"
+  },
+  "NT_GEO_SDF_REPEL": {
+    "id": 490,
+    "displayName": "Geo Sdf Repel",
+    "enumName": "NT_GEO_SDF_REPEL"
+  },
+  "NT_GEO_SDF_SPHERE": {
+    "id": 300,
+    "displayName": "Geo Sdf Sphere",
+    "enumName": "NT_GEO_SDF_SPHERE"
+  },
+  "NT_GEO_SDF_SUBTRACT": {
+    "id": 155,
+    "displayName": "Geo Sdf Subtract",
+    "enumName": "NT_GEO_SDF_SUBTRACT"
+  },
+  "NT_GEO_SDF_TORUS": {
+    "id": 301,
+    "displayName": "Geo Sdf Torus",
+    "enumName": "NT_GEO_SDF_TORUS"
+  },
+  "NT_GEO_SDF_TUBE": {
+    "id": 302,
+    "displayName": "Geo Sdf Tube",
+    "enumName": "NT_GEO_SDF_TUBE"
+  },
+  "NT_GEO_SDF_UNION": {
+    "id": 154,
+    "displayName": "Geo Sdf Union",
+    "enumName": "NT_GEO_SDF_UNION"
+  },
+  "NT_GEO_UNIT_VOLUME": {
+    "id": 295,
+    "displayName": "Geo Unit Volume",
+    "enumName": "NT_GEO_UNIT_VOLUME"
+  },
+  "NT_GEO_VOLUME": {
+    "id": 91,
+    "displayName": "Geo Volume",
+    "enumName": "NT_GEO_VOLUME"
+  },
+  "NT_GEO_VOLUME_SDF": {
+    "id": 134,
+    "displayName": "Geo Volume Sdf",
+    "enumName": "NT_GEO_VOLUME_SDF"
+  },
+  "NT_SCATTER_SURFACE": {
+    "id": 164,
+    "displayName": "Scatter Surface",
+    "enumName": "NT_SCATTER_SURFACE"
+  },
+  "NT_SCATTER_VOLUME": {
+    "id": 165,
+    "displayName": "Scatter Volume",
+    "enumName": "NT_SCATTER_VOLUME"
+  },
+  "NT_BOOL": {
+    "id": 11,
+    "displayName": "Bool",
+    "enumName": "NT_BOOL"
+  },
+  "NT_BOOL_LOGIC_OPERATOR": {
+    "id": 288,
+    "displayName": "Bool Logic Operator",
+    "enumName": "NT_BOOL_LOGIC_OPERATOR"
+  },
+  "NT_DIRECTORY": {
+    "id": 101,
+    "displayName": "Directory",
+    "enumName": "NT_DIRECTORY"
+  },
+  "NT_ENUM": {
+    "id": 57,
+    "displayName": "Enum",
+    "enumName": "NT_ENUM"
+  },
+  "NT_FILE": {
+    "id": 88,
+    "displayName": "File",
+    "enumName": "NT_FILE"
+  },
+  "NT_FLOAT": {
+    "id": 6,
+    "displayName": "Float",
+    "enumName": "NT_FLOAT"
+  },
+  "NT_FLOAT_COMPONENT_MERGER": {
+    "id": 284,
+    "displayName": "Float Component Merger",
+    "enumName": "NT_FLOAT_COMPONENT_MERGER"
+  },
+  "NT_FLOAT_COMPONENT_PICKER": {
+    "id": 285,
+    "displayName": "Float Component Picker",
+    "enumName": "NT_FLOAT_COMPONENT_PICKER"
+  },
+  "NT_FLOAT_IF": {
+    "id": 279,
+    "displayName": "Float If",
+    "enumName": "NT_FLOAT_IF"
+  },
+  "NT_FLOAT_MATH_BINARY": {
+    "id": 291,
+    "displayName": "Float Math Binary",
+    "enumName": "NT_FLOAT_MATH_BINARY"
+  },
+  "NT_FLOAT_MATH_UNARY": {
+    "id": 292,
+    "displayName": "Float Math Unary",
+    "enumName": "NT_FLOAT_MATH_UNARY"
+  },
+  "NT_FLOAT_RANGE": {
+    "id": 293,
+    "displayName": "Float Range",
+    "enumName": "NT_FLOAT_RANGE"
+  },
+  "NT_FLOAT_RELATIONAL_OPERATOR": {
+    "id": 289,
+    "displayName": "Float Relational Operator",
+    "enumName": "NT_FLOAT_RELATIONAL_OPERATOR"
+  },
+  "NT_FLOAT_TIME": {
+    "id": 467,
+    "displayName": "Float Time",
+    "enumName": "NT_FLOAT_TIME"
+  },
+  "NT_FLOAT_TO_INT": {
+    "id": 281,
+    "displayName": "Float To Int",
+    "enumName": "NT_FLOAT_TO_INT"
+  },
+  "NT_INT": {
+    "id": 9,
+    "displayName": "Int",
+    "enumName": "NT_INT"
+  },
+  "NT_INT_COMPONENT_MERGER": {
+    "id": 286,
+    "displayName": "Int Component Merger",
+    "enumName": "NT_INT_COMPONENT_MERGER"
+  },
+  "NT_INT_COMPONENT_PICKER": {
+    "id": 287,
+    "displayName": "Int Component Picker",
+    "enumName": "NT_INT_COMPONENT_PICKER"
+  },
+  "NT_INT_FRAME_INDEX": {
+    "id": 438,
+    "displayName": "Int Frame Index",
+    "enumName": "NT_INT_FRAME_INDEX"
+  },
+  "NT_INT_IF": {
+    "id": 280,
+    "displayName": "Int If",
+    "enumName": "NT_INT_IF"
+  },
+  "NT_INT_RELATIONAL_OPERATOR": {
+    "id": 290,
+    "displayName": "Int Relational Operator",
+    "enumName": "NT_INT_RELATIONAL_OPERATOR"
+  },
+  "NT_INT_TO_FLOAT": {
+    "id": 282,
+    "displayName": "Int To Float",
+    "enumName": "NT_INT_TO_FLOAT"
+  },
+  "NT_STRING": {
+    "id": 84,
+    "displayName": "String",
+    "enumName": "NT_STRING"
+  },
+  "NT_KERN_DIRECTLIGHTING": {
+    "id": 24,
+    "displayName": "Kern Directlighting",
+    "enumName": "NT_KERN_DIRECTLIGHTING"
+  },
+  "NT_KERN_INFO": {
+    "id": 26,
+    "displayName": "Kern Info",
+    "enumName": "NT_KERN_INFO"
+  },
+  "NT_KERN_MATPREVIEW": {
+    "id": 69,
+    "displayName": "Kern Matpreview",
+    "enumName": "NT_KERN_MATPREVIEW"
+  },
+  "NT_KERN_PATHTRACING": {
+    "id": 25,
+    "displayName": "Kern Pathtracing",
+    "enumName": "NT_KERN_PATHTRACING"
+  },
+  "NT_KERN_PHOTONTRACING": {
+    "id": 272,
+    "displayName": "Kern Photontracing",
+    "enumName": "NT_KERN_PHOTONTRACING"
+  },
+  "NT_KERN_PMC": {
+    "id": 23,
+    "displayName": "Kern Pmc",
+    "enumName": "NT_KERN_PMC"
+  },
+  "NT_LIGHT_ANALYTIC": {
+    "id": 402,
+    "displayName": "Light Analytic",
+    "enumName": "NT_LIGHT_ANALYTIC"
+  },
+  "NT_LIGHT_ANALYTIC_INTERNAL": {
+    "id": 401,
+    "displayName": "Light Analytic Internal",
+    "enumName": "NT_LIGHT_ANALYTIC_INTERNAL"
+  },
+  "NT_LIGHT_DIRECTIONAL": {
+    "id": 403,
+    "displayName": "Light Directional",
+    "enumName": "NT_LIGHT_DIRECTIONAL"
+  },
+  "NT_LIGHT_QUAD": {
+    "id": 148,
+    "displayName": "Light Quad",
+    "enumName": "NT_LIGHT_QUAD"
+  },
+  "NT_LIGHT_SPHERE": {
+    "id": 149,
+    "displayName": "Light Sphere",
+    "enumName": "NT_LIGHT_SPHERE"
+  },
+  "NT_LIGHT_VOLUME_SPOT": {
+    "id": 152,
+    "displayName": "Light Volume Spot",
+    "enumName": "NT_LIGHT_VOLUME_SPOT"
+  },
+  "NT_TOON_DIRECTIONAL_LIGHT": {
+    "id": 124,
+    "displayName": "Toon Directional Light",
+    "enumName": "NT_TOON_DIRECTIONAL_LIGHT"
+  },
+  "NT_TOON_POINT_LIGHT": {
+    "id": 123,
+    "displayName": "Toon Point Light",
+    "enumName": "NT_TOON_POINT_LIGHT"
+  },
+  "NT_MAT_COMPOSITE": {
+    "id": 138,
+    "displayName": "Mat Composite",
+    "enumName": "NT_MAT_COMPOSITE"
+  },
+  "NT_MAT_DIFFUSE_LAYER": {
+    "id": 140,
+    "displayName": "Mat Diffuse Layer",
+    "enumName": "NT_MAT_DIFFUSE_LAYER"
+  },
+  "NT_MAT_LAYER": {
+    "id": 143,
+    "displayName": "Mat Layer",
+    "enumName": "NT_MAT_LAYER"
+  },
+  "NT_MAT_LAYER_GROUP": {
+    "id": 144,
+    "displayName": "Mat Layer Group",
+    "enumName": "NT_MAT_LAYER_GROUP"
+  },
+  "NT_MAT_METALLIC_LAYER": {
+    "id": 141,
+    "displayName": "Mat Metallic Layer",
+    "enumName": "NT_MAT_METALLIC_LAYER"
+  },
+  "NT_MAT_SHEEN_LAYER": {
+    "id": 142,
+    "displayName": "Mat Sheen Layer",
+    "enumName": "NT_MAT_SHEEN_LAYER"
+  },
+  "NT_MAT_SPECULAR_LAYER": {
+    "id": 139,
+    "displayName": "Mat Specular Layer",
+    "enumName": "NT_MAT_SPECULAR_LAYER"
+  },
+  "NT_MAT_CLIPPING": {
+    "id": 178,
+    "displayName": "Mat Clipping",
+    "enumName": "NT_MAT_CLIPPING"
+  },
+  "NT_MAT_DIFFUSE": {
+    "id": 17,
+    "displayName": "Mat Diffuse",
+    "enumName": "NT_MAT_DIFFUSE"
+  },
+  "NT_MAT_GLOSSY": {
+    "id": 16,
+    "displayName": "Mat Glossy",
+    "enumName": "NT_MAT_GLOSSY"
+  },
+  "NT_MAT_HAIR": {
+    "id": 147,
+    "displayName": "Mat Hair",
+    "enumName": "NT_MAT_HAIR"
+  },
+  "NT_MAT_MAP": {
+    "id": 2,
+    "displayName": "Mat Map",
+    "enumName": "NT_MAT_MAP"
+  },
+  "NT_MAT_METAL": {
+    "id": 120,
+    "displayName": "Mat Metal",
+    "enumName": "NT_MAT_METAL"
+  },
+  "NT_MAT_MIX": {
+    "id": 19,
+    "displayName": "Mat Mix",
+    "enumName": "NT_MAT_MIX"
+  },
+  "NT_MAT_NULL": {
+    "id": 159,
+    "displayName": "Mat Null",
+    "enumName": "NT_MAT_NULL"
+  },
+  "NT_MAT_OPEN_PBR_SURFACE": {
+    "id": 505,
+    "displayName": "Mat Open Pbr Surface",
+    "enumName": "NT_MAT_OPEN_PBR_SURFACE"
+  },
+  "NT_MAT_OSL": {
+    "id": 116,
+    "displayName": "Mat Osl",
+    "enumName": "NT_MAT_OSL"
+  },
+  "NT_MAT_PORTAL": {
+    "id": 20,
+    "displayName": "Mat Portal",
+    "enumName": "NT_MAT_PORTAL"
+  },
+  "NT_MAT_SHADOW_CATCHER": {
+    "id": 145,
+    "displayName": "Mat Shadow Catcher",
+    "enumName": "NT_MAT_SHADOW_CATCHER"
+  },
+  "NT_MAT_SPECULAR": {
+    "id": 18,
+    "displayName": "Mat Specular",
+    "enumName": "NT_MAT_SPECULAR"
+  },
+  "NT_MAT_STANDARD_SURFACE": {
+    "id": 277,
+    "displayName": "Mat Standard Surface",
+    "enumName": "NT_MAT_STANDARD_SURFACE"
+  },
+  "NT_MAT_TOON": {
+    "id": 121,
+    "displayName": "Mat Toon",
+    "enumName": "NT_MAT_TOON"
+  },
+  "NT_MAT_UNIVERSAL": {
+    "id": 130,
+    "displayName": "Mat Universal",
+    "enumName": "NT_MAT_UNIVERSAL"
+  },
+  "NT_MED_ABSORPTION": {
+    "id": 58,
+    "displayName": "Med Absorption",
+    "enumName": "NT_MED_ABSORPTION"
+  },
+  "NT_MED_RANDOMWALK": {
+    "id": 146,
+    "displayName": "Med Randomwalk",
+    "enumName": "NT_MED_RANDOMWALK"
+  },
+  "NT_MED_SCATTERING": {
+    "id": 59,
+    "displayName": "Med Scattering",
+    "enumName": "NT_MED_SCATTERING"
+  },
+  "NT_MED_STANDARD_VOLUME": {
+    "id": 276,
+    "displayName": "Med Standard Volume",
+    "enumName": "NT_MED_STANDARD_VOLUME"
+  },
+  "NT_MED_VOLUME": {
+    "id": 98,
+    "displayName": "Med Volume",
+    "enumName": "NT_MED_VOLUME"
+  },
+  "NT_PHASE_SCHLICK": {
+    "id": 60,
+    "displayName": "Phase Schlick",
+    "enumName": "NT_PHASE_SCHLICK"
+  },
+  "NT_ANNOTATION": {
+    "id": 68,
+    "displayName": "Annotation",
+    "enumName": "NT_ANNOTATION"
+  },
+  "NT_IMPORT_ALEMBIC_PREFS": {
+    "id": 82,
+    "displayName": "Import Alembic Prefs",
+    "enumName": "NT_IMPORT_ALEMBIC_PREFS"
+  },
+  "NT_IMPORT_FBX_PREFS": {
+    "id": 119,
+    "displayName": "Import Fbx Prefs",
+    "enumName": "NT_IMPORT_FBX_PREFS"
+  },
+  "NT_IMPORT_IMAGE_PREFS": {
+    "id": 112,
+    "displayName": "Import Image Prefs",
+    "enumName": "NT_IMPORT_IMAGE_PREFS"
+  },
+  "NT_IMPORT_MATERIALX_PREFS": {
+    "id": 479,
+    "displayName": "Import Materialx Prefs",
+    "enumName": "NT_IMPORT_MATERIALX_PREFS"
+  },
+  "NT_IMPORT_OBJ_PREFS": {
+    "id": 83,
+    "displayName": "Import Obj Prefs",
+    "enumName": "NT_IMPORT_OBJ_PREFS"
+  },
+  "NT_IMPORT_USD_PREFS": {
+    "id": 259,
+    "displayName": "Import Usd Prefs",
+    "enumName": "NT_IMPORT_USD_PREFS"
+  },
+  "NT_IMPORT_VDB_PREFS": {
+    "id": 93,
+    "displayName": "Import Vdb Prefs",
+    "enumName": "NT_IMPORT_VDB_PREFS"
+  },
+  "NT_LOCAL_APP_PREFS": {
+    "id": 55,
+    "displayName": "Local App Prefs",
+    "enumName": "NT_LOCAL_APP_PREFS"
+  },
+  "NT_MATERIALX_RANGE_END": {
+    "id": 50136,
+    "displayName": "Materialx Range End",
+    "enumName": "NT_MATERIALX_RANGE_END"
+  },
+  "NT_MATERIALX_RANGE_START": {
+    "id": 50000,
+    "displayName": "Materialx Range Start",
+    "enumName": "NT_MATERIALX_RANGE_START"
+  },
+  "NT_METADATA": {
+    "id": 439,
+    "displayName": "Metadata",
+    "enumName": "NT_METADATA"
+  },
+  "NT_OUT_ANIMATION_SETTINGS": {
+    "id": 30027,
+    "displayName": "Out Animation Settings",
+    "enumName": "NT_OUT_ANIMATION_SETTINGS"
+  },
+  "NT_OUT_BIT_MASK": {
+    "id": 30031,
+    "displayName": "Out Bit Mask",
+    "enumName": "NT_OUT_BIT_MASK"
+  },
+  "NT_OUT_BLENDING_SETTINGS": {
+    "id": 30044,
+    "displayName": "Out Blending Settings",
+    "enumName": "NT_OUT_BLENDING_SETTINGS"
+  },
+  "NT_OUT_BOOL": {
+    "id": 30001,
+    "displayName": "Out Bool",
+    "enumName": "NT_OUT_BOOL"
+  },
+  "NT_OUT_CAMERA": {
+    "id": 30008,
+    "displayName": "Out Camera",
+    "enumName": "NT_OUT_CAMERA"
+  },
+  "NT_OUT_DISPLACEMENT": {
+    "id": 30022,
+    "displayName": "Out Displacement",
+    "enumName": "NT_OUT_DISPLACEMENT"
+  },
+  "NT_OUT_EMISSION": {
+    "id": 30006,
+    "displayName": "Out Emission",
+    "enumName": "NT_OUT_EMISSION"
+  },
+  "NT_OUT_ENUM": {
+    "id": 30016,
+    "displayName": "Out Enum",
+    "enumName": "NT_OUT_ENUM"
+  },
+  "NT_OUT_ENVIRONMENT": {
+    "id": 30009,
+    "displayName": "Out Environment",
+    "enumName": "NT_OUT_ENVIRONMENT"
+  },
+  "NT_OUT_FILM_SETTINGS": {
+    "id": 30015,
+    "displayName": "Out Film Settings",
+    "enumName": "NT_OUT_FILM_SETTINGS"
+  },
+  "NT_OUT_FLOAT": {
+    "id": 30002,
+    "displayName": "Out Float",
+    "enumName": "NT_OUT_FLOAT"
+  },
+  "NT_OUT_GEOMETRY": {
+    "id": 30012,
+    "displayName": "Out Geometry",
+    "enumName": "NT_OUT_GEOMETRY"
+  },
+  "NT_OUT_IMAGER": {
+    "id": 30010,
+    "displayName": "Out Imager",
+    "enumName": "NT_OUT_IMAGER"
+  },
+  "NT_OUT_INT": {
+    "id": 30003,
+    "displayName": "Out Int",
+    "enumName": "NT_OUT_INT"
+  },
+  "NT_OUT_KERNEL": {
+    "id": 30011,
+    "displayName": "Out Kernel",
+    "enumName": "NT_OUT_KERNEL"
+  },
+  "NT_OUT_LUT": {
+    "id": 30028,
+    "displayName": "Out Lut",
+    "enumName": "NT_OUT_LUT"
+  },
+  "NT_OUT_MATERIAL": {
+    "id": 30007,
+    "displayName": "Out Material",
+    "enumName": "NT_OUT_MATERIAL"
+  },
+  "NT_OUT_MATERIAL_LAYER": {
+    "id": 30033,
+    "displayName": "Out Material Layer",
+    "enumName": "NT_OUT_MATERIAL_LAYER"
+  },
+  "NT_OUT_MEDIUM": {
+    "id": 30013,
+    "displayName": "Out Medium",
+    "enumName": "NT_OUT_MEDIUM"
+  },
+  "NT_OUT_OBJECTLAYER": {
+    "id": 30017,
+    "displayName": "Out Objectlayer",
+    "enumName": "NT_OUT_OBJECTLAYER"
+  },
+  "NT_OUT_OCIO_COLOR_SPACE": {
+    "id": 30036,
+    "displayName": "Out Ocio Color Space",
+    "enumName": "NT_OUT_OCIO_COLOR_SPACE"
+  },
+  "NT_OUT_OCIO_LOOK": {
+    "id": 30035,
+    "displayName": "Out Ocio Look",
+    "enumName": "NT_OUT_OCIO_LOOK"
+  },
+  "NT_OUT_OCIO_VIEW": {
+    "id": 30034,
+    "displayName": "Out Ocio View",
+    "enumName": "NT_OUT_OCIO_VIEW"
+  },
+  "NT_OUT_OFFSET": {
+    "id": 30000,
+    "displayName": "Out Offset",
+    "enumName": "NT_OUT_OFFSET"
+  },
+  "NT_OUT_OUTPUT_AOV": {
+    "id": 30038,
+    "displayName": "Out Output Aov",
+    "enumName": "NT_OUT_OUTPUT_AOV"
+  },
+  "NT_OUT_OUTPUT_AOV_GROUP": {
+    "id": 30037,
+    "displayName": "Out Output Aov Group",
+    "enumName": "NT_OUT_OUTPUT_AOV_GROUP"
+  },
+  "NT_OUT_OUTPUT_AOV_LAYER": {
+    "id": 30040,
+    "displayName": "Out Output Aov Layer",
+    "enumName": "NT_OUT_OUTPUT_AOV_LAYER"
+  },
+  "NT_OUT_PHASEFUNCTION": {
+    "id": 30014,
+    "displayName": "Out Phasefunction",
+    "enumName": "NT_OUT_PHASEFUNCTION"
+  },
+  "NT_OUT_POSTPROCESSING": {
+    "id": 30018,
+    "displayName": "Out Postprocessing",
+    "enumName": "NT_OUT_POSTPROCESSING"
+  },
+  "NT_OUT_POST_VOLUME": {
+    "id": 30045,
+    "displayName": "Out Post Volume",
+    "enumName": "NT_OUT_POST_VOLUME"
+  },
+  "NT_OUT_PROJECTION": {
+    "id": 30021,
+    "displayName": "Out Projection",
+    "enumName": "NT_OUT_PROJECTION"
+  },
+  "NT_OUT_RENDERTARGET": {
+    "id": 30019,
+    "displayName": "Out Rendertarget",
+    "enumName": "NT_OUT_RENDERTARGET"
+  },
+  "NT_OUT_RENDER_JOB": {
+    "id": 30029,
+    "displayName": "Out Render Job",
+    "enumName": "NT_OUT_RENDER_JOB"
+  },
+  "NT_OUT_RENDER_LAYER": {
+    "id": 30025,
+    "displayName": "Out Render Layer",
+    "enumName": "NT_OUT_RENDER_LAYER"
+  },
+  "NT_OUT_RENDER_PASSES": {
+    "id": 30024,
+    "displayName": "Out Render Passes",
+    "enumName": "NT_OUT_RENDER_PASSES"
+  },
+  "NT_OUT_ROUND_EDGES": {
+    "id": 30032,
+    "displayName": "Out Round Edges",
+    "enumName": "NT_OUT_ROUND_EDGES"
+  },
+  "NT_OUT_STRING": {
+    "id": 30023,
+    "displayName": "Out String",
+    "enumName": "NT_OUT_STRING"
+  },
+  "NT_OUT_TEXTURE": {
+    "id": 30005,
+    "displayName": "Out Texture",
+    "enumName": "NT_OUT_TEXTURE"
+  },
+  "NT_OUT_TEX_COMPOSITE_LAYER": {
+    "id": 30039,
+    "displayName": "Out Tex Composite Layer",
+    "enumName": "NT_OUT_TEX_COMPOSITE_LAYER"
+  },
+  "NT_OUT_TOON_RAMP": {
+    "id": 30030,
+    "displayName": "Out Toon Ramp",
+    "enumName": "NT_OUT_TOON_RAMP"
+  },
+  "NT_OUT_TRACE_SET_VISIBILITY_RULE": {
+    "id": 30047,
+    "displayName": "Out Trace Set Visibility Rule",
+    "enumName": "NT_OUT_TRACE_SET_VISIBILITY_RULE"
+  },
+  "NT_OUT_TRACE_SET_VISIBILITY_RULE_GROUP": {
+    "id": 30046,
+    "displayName": "Out Trace Set Visibility Rule Group",
+    "enumName": "NT_OUT_TRACE_SET_VISIBILITY_RULE_GROUP"
+  },
+  "NT_OUT_TRANSFORM": {
+    "id": 30004,
+    "displayName": "Out Transform",
+    "enumName": "NT_OUT_TRANSFORM"
+  },
+  "NT_OUT_VOLUME_RAMP": {
+    "id": 30026,
+    "displayName": "Out Volume Ramp",
+    "enumName": "NT_OUT_VOLUME_RAMP"
+  },
+  "NT_PROGRAMMABLE_GRAPH_INPUT": {
+    "id": 85,
+    "displayName": "Programmable Graph Input",
+    "enumName": "NT_PROGRAMMABLE_GRAPH_INPUT"
+  },
+  "NT_PROJECT_SETTINGS": {
+    "id": 70,
+    "displayName": "Project Settings",
+    "enumName": "NT_PROJECT_SETTINGS"
+  },
+  "NT_RENDER_AOV_GROUP": {
+    "id": 179,
+    "displayName": "Render Aov Group",
+    "enumName": "NT_RENDER_AOV_GROUP"
+  },
+  "NT_RNDR_VERSION": {
+    "id": 356,
+    "displayName": "Rndr Version",
+    "enumName": "NT_RNDR_VERSION"
+  },
+  "NT_SPLIT_PANE": {
+    "id": 72,
+    "displayName": "Split Pane",
+    "enumName": "NT_SPLIT_PANE"
+  },
+  "NT_UNKNOWN": {
+    "id": 0,
+    "displayName": "Unknown",
+    "enumName": "NT_UNKNOWN"
+  },
+  "NT_VEC_ROTATION": {
+    "id": 294,
+    "displayName": "Vec Rotation",
+    "enumName": "NT_VEC_ROTATION"
+  },
+  "NT_WORK_PANE": {
+    "id": 73,
+    "displayName": "Work Pane",
+    "enumName": "NT_WORK_PANE"
+  },
+  "NT_IMAGER_CAMERA": {
+    "id": 15,
+    "displayName": "Imager Camera",
+    "enumName": "NT_IMAGER_CAMERA"
+  },
+  "NT_POSTPROCESSING": {
+    "id": 61,
+    "displayName": "Postprocessing",
+    "enumName": "NT_POSTPROCESSING"
+  },
+  "NT_POST_VOLUME": {
+    "id": 404,
+    "displayName": "Post Volume",
+    "enumName": "NT_POST_VOLUME"
+  },
+  "NT_BLENDING_SETTINGS": {
+    "id": 382,
+    "displayName": "Blending Settings",
+    "enumName": "NT_BLENDING_SETTINGS"
+  },
+  "NT_COMPOSITE_AOV_LAYER": {
+    "id": 319,
+    "displayName": "Composite Aov Layer",
+    "enumName": "NT_COMPOSITE_AOV_LAYER"
+  },
+  "NT_OUTPUT_AOV": {
+    "id": 393,
+    "displayName": "Output Aov",
+    "enumName": "NT_OUTPUT_AOV"
+  },
+  "NT_OUTPUT_AOV_CLAMP": {
+    "id": 374,
+    "displayName": "Output Aov Clamp",
+    "enumName": "NT_OUTPUT_AOV_CLAMP"
+  },
+  "NT_OUTPUT_AOV_COLOR": {
+    "id": 177,
+    "displayName": "Output Aov Color",
+    "enumName": "NT_OUTPUT_AOV_COLOR"
+  },
+  "NT_OUTPUT_AOV_COLOR_CORRECTION": {
+    "id": 373,
+    "displayName": "Output Aov Color Correction",
+    "enumName": "NT_OUTPUT_AOV_COLOR_CORRECTION"
+  },
+  "NT_OUTPUT_AOV_COMPOSITE": {
+    "id": 166,
+    "displayName": "Output Aov Composite",
+    "enumName": "NT_OUTPUT_AOV_COMPOSITE"
+  },
+  "NT_OUTPUT_AOV_CRYPTOMATTE_MASK": {
+    "id": 355,
+    "displayName": "Output Aov Cryptomatte Mask",
+    "enumName": "NT_OUTPUT_AOV_CRYPTOMATTE_MASK"
+  },
+  "NT_OUTPUT_AOV_GROUP": {
+    "id": 167,
+    "displayName": "Output Aov Group",
+    "enumName": "NT_OUTPUT_AOV_GROUP"
+  },
+  "NT_OUTPUT_AOV_IMAGE": {
+    "id": 168,
+    "displayName": "Output Aov Image",
+    "enumName": "NT_OUTPUT_AOV_IMAGE"
+  },
+  "NT_OUTPUT_AOV_LAYER_ADD_BLOOM": {
+    "id": 454,
+    "displayName": "Output Aov Layer Add Bloom",
+    "enumName": "NT_OUTPUT_AOV_LAYER_ADD_BLOOM"
+  },
+  "NT_OUTPUT_AOV_LAYER_ADD_CHROMATIC_ABERRATION": {
+    "id": 457,
+    "displayName": "Output Aov Layer Add Chromatic Aberration",
+    "enumName": "NT_OUTPUT_AOV_LAYER_ADD_CHROMATIC_ABERRATION"
+  },
+  "NT_OUTPUT_AOV_LAYER_ADD_GLARE": {
+    "id": 455,
+    "displayName": "Output Aov Layer Add Glare",
+    "enumName": "NT_OUTPUT_AOV_LAYER_ADD_GLARE"
+  },
+  "NT_OUTPUT_AOV_LAYER_ADD_LENS_FLARE": {
+    "id": 456,
+    "displayName": "Output Aov Layer Add Lens Flare",
+    "enumName": "NT_OUTPUT_AOV_LAYER_ADD_LENS_FLARE"
+  },
+  "NT_OUTPUT_AOV_LAYER_ADD_VIGNETTE": {
+    "id": 397,
+    "displayName": "Output Aov Layer Add Vignette",
+    "enumName": "NT_OUTPUT_AOV_LAYER_ADD_VIGNETTE"
+  },
+  "NT_OUTPUT_AOV_LAYER_ADJUST_BRIGHTNESS": {
+    "id": 399,
+    "displayName": "Output Aov Layer Adjust Brightness",
+    "enumName": "NT_OUTPUT_AOV_LAYER_ADJUST_BRIGHTNESS"
+  },
+  "NT_OUTPUT_AOV_LAYER_ADJUST_CONTRAST": {
+    "id": 384,
+    "displayName": "Output Aov Layer Adjust Contrast",
+    "enumName": "NT_OUTPUT_AOV_LAYER_ADJUST_CONTRAST"
+  },
+  "NT_OUTPUT_AOV_LAYER_ADJUST_HUE": {
+    "id": 410,
+    "displayName": "Output Aov Layer Adjust Hue",
+    "enumName": "NT_OUTPUT_AOV_LAYER_ADJUST_HUE"
+  },
+  "NT_OUTPUT_AOV_LAYER_ADJUST_OPACITY": {
+    "id": 395,
+    "displayName": "Output Aov Layer Adjust Opacity",
+    "enumName": "NT_OUTPUT_AOV_LAYER_ADJUST_OPACITY"
+  },
+  "NT_OUTPUT_AOV_LAYER_ADJUST_SATURATION": {
+    "id": 396,
+    "displayName": "Output Aov Layer Adjust Saturation",
+    "enumName": "NT_OUTPUT_AOV_LAYER_ADJUST_SATURATION"
+  },
+  "NT_OUTPUT_AOV_LAYER_ADJUST_WHITE_BALANCE": {
+    "id": 398,
+    "displayName": "Output Aov Layer Adjust White Balance",
+    "enumName": "NT_OUTPUT_AOV_LAYER_ADJUST_WHITE_BALANCE"
+  },
+  "NT_OUTPUT_AOV_LAYER_APPLY_CAMERA_RESPONSE_CURVE": {
+    "id": 452,
+    "displayName": "Output Aov Layer Apply Camera Response Curve",
+    "enumName": "NT_OUTPUT_AOV_LAYER_APPLY_CAMERA_RESPONSE_CURVE"
+  },
+  "NT_OUTPUT_AOV_LAYER_APPLY_CUSTOM_CURVE": {
+    "id": 448,
+    "displayName": "Output Aov Layer Apply Custom Curve",
+    "enumName": "NT_OUTPUT_AOV_LAYER_APPLY_CUSTOM_CURVE"
+  },
+  "NT_OUTPUT_AOV_LAYER_APPLY_GAMMA_CURVE": {
+    "id": 409,
+    "displayName": "Output Aov Layer Apply Gamma Curve",
+    "enumName": "NT_OUTPUT_AOV_LAYER_APPLY_GAMMA_CURVE"
+  },
+  "NT_OUTPUT_AOV_LAYER_APPLY_IMAGER_AND_POST_PROCESSING": {
+    "id": 469,
+    "displayName": "Output Aov Layer Apply Imager And Post Processing",
+    "enumName": "NT_OUTPUT_AOV_LAYER_APPLY_IMAGER_AND_POST_PROCESSING"
+  },
+  "NT_OUTPUT_AOV_LAYER_APPLY_LUT": {
+    "id": 451,
+    "displayName": "Output Aov Layer Apply Lut",
+    "enumName": "NT_OUTPUT_AOV_LAYER_APPLY_LUT"
+  },
+  "NT_OUTPUT_AOV_LAYER_APPLY_OCIO_LOOK": {
+    "id": 453,
+    "displayName": "Output Aov Layer Apply Ocio Look",
+    "enumName": "NT_OUTPUT_AOV_LAYER_APPLY_OCIO_LOOK"
+  },
+  "NT_OUTPUT_AOV_LAYER_BLEND_CRYPTOMATTE_MASK": {
+    "id": 507,
+    "displayName": "Output Aov Layer Blend Cryptomatte Mask",
+    "enumName": "NT_OUTPUT_AOV_LAYER_BLEND_CRYPTOMATTE_MASK"
+  },
+  "NT_OUTPUT_AOV_LAYER_BLEND_IMAGE": {
+    "id": 389,
+    "displayName": "Output Aov Layer Blend Image",
+    "enumName": "NT_OUTPUT_AOV_LAYER_BLEND_IMAGE"
+  },
+  "NT_OUTPUT_AOV_LAYER_BLEND_LAYERS": {
+    "id": 385,
+    "displayName": "Output Aov Layer Blend Layers",
+    "enumName": "NT_OUTPUT_AOV_LAYER_BLEND_LAYERS"
+  },
+  "NT_OUTPUT_AOV_LAYER_BLEND_LIGHT_MIXER": {
+    "id": 445,
+    "displayName": "Output Aov Layer Blend Light Mixer",
+    "enumName": "NT_OUTPUT_AOV_LAYER_BLEND_LIGHT_MIXER"
+  },
+  "NT_OUTPUT_AOV_LAYER_BLEND_RENDER_AOV": {
+    "id": 391,
+    "displayName": "Output Aov Layer Blend Render Aov",
+    "enumName": "NT_OUTPUT_AOV_LAYER_BLEND_RENDER_AOV"
+  },
+  "NT_OUTPUT_AOV_LAYER_BLEND_SHARED_SURFACE": {
+    "id": 449,
+    "displayName": "Output Aov Layer Blend Shared Surface",
+    "enumName": "NT_OUTPUT_AOV_LAYER_BLEND_SHARED_SURFACE"
+  },
+  "NT_OUTPUT_AOV_LAYER_BLEND_SOLID_COLOR": {
+    "id": 392,
+    "displayName": "Output Aov Layer Blend Solid Color",
+    "enumName": "NT_OUTPUT_AOV_LAYER_BLEND_SOLID_COLOR"
+  },
+  "NT_OUTPUT_AOV_LAYER_BLEND_TEXTURE": {
+    "id": 447,
+    "displayName": "Output Aov Layer Blend Texture",
+    "enumName": "NT_OUTPUT_AOV_LAYER_BLEND_TEXTURE"
+  },
+  "NT_OUTPUT_AOV_LAYER_BLUR": {
+    "id": 458,
+    "displayName": "Output Aov Layer Blur",
+    "enumName": "NT_OUTPUT_AOV_LAYER_BLUR"
+  },
+  "NT_OUTPUT_AOV_LAYER_BOOST_HIGHLIGHTS": {
+    "id": 466,
+    "displayName": "Output Aov Layer Boost Highlights",
+    "enumName": "NT_OUTPUT_AOV_LAYER_BOOST_HIGHLIGHTS"
+  },
+  "NT_OUTPUT_AOV_LAYER_CLAMP": {
+    "id": 383,
+    "displayName": "Output Aov Layer Clamp",
+    "enumName": "NT_OUTPUT_AOV_LAYER_CLAMP"
+  },
+  "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_ACES": {
+    "id": 406,
+    "displayName": "Output Aov Layer Convert For Sdr Display Aces",
+    "enumName": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_ACES"
+  },
+  "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_AGX": {
+    "id": 434,
+    "displayName": "Output Aov Layer Convert For Sdr Display Agx",
+    "enumName": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_AGX"
+  },
+  "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_BASIC": {
+    "id": 400,
+    "displayName": "Output Aov Layer Convert For Sdr Display Basic",
+    "enumName": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_BASIC"
+  },
+  "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_OCIO": {
+    "id": 405,
+    "displayName": "Output Aov Layer Convert For Sdr Display Ocio",
+    "enumName": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_OCIO"
+  },
+  "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_SMOOTH": {
+    "id": 459,
+    "displayName": "Output Aov Layer Convert For Sdr Display Smooth",
+    "enumName": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_SMOOTH"
+  },
+  "NT_OUTPUT_AOV_LAYER_DISCARD_CHECKPOINT": {
+    "id": 463,
+    "displayName": "Output Aov Layer Discard Checkpoint",
+    "enumName": "NT_OUTPUT_AOV_LAYER_DISCARD_CHECKPOINT"
+  },
+  "NT_OUTPUT_AOV_LAYER_DITHER": {
+    "id": 468,
+    "displayName": "Output Aov Layer Dither",
+    "enumName": "NT_OUTPUT_AOV_LAYER_DITHER"
+  },
+  "NT_OUTPUT_AOV_LAYER_GROUP": {
+    "id": 388,
+    "displayName": "Output Aov Layer Group",
+    "enumName": "NT_OUTPUT_AOV_LAYER_GROUP"
+  },
+  "NT_OUTPUT_AOV_LAYER_INVERT": {
+    "id": 411,
+    "displayName": "Output Aov Layer Invert",
+    "enumName": "NT_OUTPUT_AOV_LAYER_INVERT"
+  },
+  "NT_OUTPUT_AOV_LAYER_LOAD_CHECKPOINT": {
+    "id": 462,
+    "displayName": "Output Aov Layer Load Checkpoint",
+    "enumName": "NT_OUTPUT_AOV_LAYER_LOAD_CHECKPOINT"
+  },
+  "NT_OUTPUT_AOV_LAYER_MAP_RANGE": {
+    "id": 390,
+    "displayName": "Output Aov Layer Map Range",
+    "enumName": "NT_OUTPUT_AOV_LAYER_MAP_RANGE"
+  },
+  "NT_OUTPUT_AOV_LAYER_MASK_WITH_CRYPTOMATTE": {
+    "id": 387,
+    "displayName": "Output Aov Layer Mask With Cryptomatte",
+    "enumName": "NT_OUTPUT_AOV_LAYER_MASK_WITH_CRYPTOMATTE"
+  },
+  "NT_OUTPUT_AOV_LAYER_MASK_WITH_LAYERS": {
+    "id": 386,
+    "displayName": "Output Aov Layer Mask With Layers",
+    "enumName": "NT_OUTPUT_AOV_LAYER_MASK_WITH_LAYERS"
+  },
+  "NT_OUTPUT_AOV_LAYER_OPEN_IMAGE_DENOISE": {
+    "id": 442,
+    "displayName": "Output Aov Layer Open Image Denoise",
+    "enumName": "NT_OUTPUT_AOV_LAYER_OPEN_IMAGE_DENOISE"
+  },
+  "NT_OUTPUT_AOV_LAYER_REMOVE_HOT_PIXELS": {
+    "id": 394,
+    "displayName": "Output Aov Layer Remove Hot Pixels",
+    "enumName": "NT_OUTPUT_AOV_LAYER_REMOVE_HOT_PIXELS"
+  },
+  "NT_OUTPUT_AOV_LAYER_SAVE_CHECKPOINT": {
+    "id": 461,
+    "displayName": "Output Aov Layer Save Checkpoint",
+    "enumName": "NT_OUTPUT_AOV_LAYER_SAVE_CHECKPOINT"
+  },
+  "NT_OUTPUT_AOV_LAYER_SHARPEN": {
+    "id": 464,
+    "displayName": "Output Aov Layer Sharpen",
+    "enumName": "NT_OUTPUT_AOV_LAYER_SHARPEN"
+  },
+  "NT_OUTPUT_AOV_LAYER_UNBLEND": {
+    "id": 506,
+    "displayName": "Output Aov Layer Unblend",
+    "enumName": "NT_OUTPUT_AOV_LAYER_UNBLEND"
+  },
+  "NT_OUTPUT_AOV_LIGHT_MIXING": {
+    "id": 376,
+    "displayName": "Output Aov Light Mixing",
+    "enumName": "NT_OUTPUT_AOV_LIGHT_MIXING"
+  },
+  "NT_OUTPUT_AOV_MAP_RANGE": {
+    "id": 375,
+    "displayName": "Output Aov Map Range",
+    "enumName": "NT_OUTPUT_AOV_MAP_RANGE"
+  },
+  "NT_OUTPUT_AOV_RENDER": {
+    "id": 169,
+    "displayName": "Output Aov Render",
+    "enumName": "NT_OUTPUT_AOV_RENDER"
+  },
+  "NT_OUTPUT_AOV_SHARED_SURFACE": {
+    "id": 450,
+    "displayName": "Output Aov Shared Surface",
+    "enumName": "NT_OUTPUT_AOV_SHARED_SURFACE"
+  },
+  "NT_PROJ_BOX": {
+    "id": 79,
+    "displayName": "Proj Box",
+    "enumName": "NT_PROJ_BOX"
+  },
+  "NT_PROJ_COLOR_TO_UVW": {
+    "id": 258,
+    "displayName": "Proj Color To Uvw",
+    "enumName": "NT_PROJ_COLOR_TO_UVW"
+  },
+  "NT_PROJ_CYLINDRICAL": {
+    "id": 74,
+    "displayName": "Proj Cylindrical",
+    "enumName": "NT_PROJ_CYLINDRICAL"
+  },
+  "NT_PROJ_DISTORTED_MESH_UV": {
+    "id": 322,
+    "displayName": "Proj Distorted Mesh Uv",
+    "enumName": "NT_PROJ_DISTORTED_MESH_UV"
+  },
+  "NT_PROJ_DISTORTED_UVW": {
+    "id": 485,
+    "displayName": "Proj Distorted Uvw",
+    "enumName": "NT_PROJ_DISTORTED_UVW"
+  },
+  "NT_PROJ_INSTANCE_POSITION": {
+    "id": 303,
+    "displayName": "Proj Instance Position",
+    "enumName": "NT_PROJ_INSTANCE_POSITION"
+  },
+  "NT_PROJ_LINEAR": {
+    "id": 75,
+    "displayName": "Proj Linear",
+    "enumName": "NT_PROJ_LINEAR"
+  },
+  "NT_PROJ_MATCAP": {
+    "id": 338,
+    "displayName": "Proj Matcap",
+    "enumName": "NT_PROJ_MATCAP"
+  },
+  "NT_PROJ_OSL": {
+    "id": 125,
+    "displayName": "Proj Osl",
+    "enumName": "NT_PROJ_OSL"
+  },
+  "NT_PROJ_OSL_UV": {
+    "id": 127,
+    "displayName": "Proj Osl Uv",
+    "enumName": "NT_PROJ_OSL_UV"
+  },
+  "NT_PROJ_PERSPECTIVE": {
+    "id": 76,
+    "displayName": "Proj Perspective",
+    "enumName": "NT_PROJ_PERSPECTIVE"
+  },
+  "NT_PROJ_SAMPLE_POSITION": {
+    "id": 317,
+    "displayName": "Proj Sample Position",
+    "enumName": "NT_PROJ_SAMPLE_POSITION"
+  },
+  "NT_PROJ_SPHERICAL": {
+    "id": 77,
+    "displayName": "Proj Spherical",
+    "enumName": "NT_PROJ_SPHERICAL"
+  },
+  "NT_PROJ_TRIPLANAR": {
+    "id": 111,
+    "displayName": "Proj Triplanar",
+    "enumName": "NT_PROJ_TRIPLANAR"
+  },
+  "NT_PROJ_UVW": {
+    "id": 78,
+    "displayName": "Proj Uvw",
+    "enumName": "NT_PROJ_UVW"
+  },
+  "NT_AOV_ALPHA": {
+    "id": 486,
+    "displayName": "Aov Alpha",
+    "enumName": "NT_AOV_ALPHA"
+  },
+  "NT_AOV_AMBIENT_OCCLUSION": {
+    "id": 183,
+    "displayName": "Aov Ambient Occlusion",
+    "enumName": "NT_AOV_AMBIENT_OCCLUSION"
+  },
+  "NT_AOV_BAKING_GROUP_ID": {
+    "id": 184,
+    "displayName": "Aov Baking Group Id",
+    "enumName": "NT_AOV_BAKING_GROUP_ID"
+  },
+  "NT_AOV_BIAS_CURR_COLOR": {
+    "id": 498,
+    "displayName": "Aov Bias Curr Color",
+    "enumName": "NT_AOV_BIAS_CURR_COLOR"
+  },
+  "NT_AOV_CAMERA_MASK": {
+    "id": 471,
+    "displayName": "Aov Camera Mask",
+    "enumName": "NT_AOV_CAMERA_MASK"
+  },
+  "NT_AOV_CRYPTOMATTE": {
+    "id": 185,
+    "displayName": "Aov Cryptomatte",
+    "enumName": "NT_AOV_CRYPTOMATTE"
+  },
+  "NT_AOV_CUSTOM": {
+    "id": 186,
+    "displayName": "Aov Custom",
+    "enumName": "NT_AOV_CUSTOM"
+  },
+  "NT_AOV_DENOISE_ALBEDO": {
+    "id": 440,
+    "displayName": "Aov Denoise Albedo",
+    "enumName": "NT_AOV_DENOISE_ALBEDO"
+  },
+  "NT_AOV_DENOISE_HIT_DISTANCE": {
+    "id": 180,
+    "displayName": "Aov Denoise Hit Distance",
+    "enumName": "NT_AOV_DENOISE_HIT_DISTANCE"
+  },
+  "NT_AOV_DENOISE_NORMAL": {
+    "id": 182,
+    "displayName": "Aov Denoise Normal",
+    "enumName": "NT_AOV_DENOISE_NORMAL"
+  },
+  "NT_AOV_DENOISE_ROUGHNESS": {
+    "id": 181,
+    "displayName": "Aov Denoise Roughness",
+    "enumName": "NT_AOV_DENOISE_ROUGHNESS"
+  },
+  "NT_AOV_DIFFUSE": {
+    "id": 188,
+    "displayName": "Aov Diffuse",
+    "enumName": "NT_AOV_DIFFUSE"
+  },
+  "NT_AOV_DIFFUSE_DIRECT": {
+    "id": 189,
+    "displayName": "Aov Diffuse Direct",
+    "enumName": "NT_AOV_DIFFUSE_DIRECT"
+  },
+  "NT_AOV_DIFFUSE_DIRECT_DENOISER_OUTPUT": {
+    "id": 190,
+    "displayName": "Aov Diffuse Direct Denoiser Output",
+    "enumName": "NT_AOV_DIFFUSE_DIRECT_DENOISER_OUTPUT"
+  },
+  "NT_AOV_DIFFUSE_FILTER": {
+    "id": 191,
+    "displayName": "Aov Diffuse Filter",
+    "enumName": "NT_AOV_DIFFUSE_FILTER"
+  },
+  "NT_AOV_DIFFUSE_FILTER_INFO": {
+    "id": 192,
+    "displayName": "Aov Diffuse Filter Info",
+    "enumName": "NT_AOV_DIFFUSE_FILTER_INFO"
+  },
+  "NT_AOV_DIFFUSE_FILTER_RGB": {
+    "id": 499,
+    "displayName": "Aov Diffuse Filter Rgb",
+    "enumName": "NT_AOV_DIFFUSE_FILTER_RGB"
+  },
+  "NT_AOV_DIFFUSE_INDIRECT": {
+    "id": 193,
+    "displayName": "Aov Diffuse Indirect",
+    "enumName": "NT_AOV_DIFFUSE_INDIRECT"
+  },
+  "NT_AOV_DIFFUSE_INDIRECT_DENOISER_OUTPUT": {
+    "id": 194,
+    "displayName": "Aov Diffuse Indirect Denoiser Output",
+    "enumName": "NT_AOV_DIFFUSE_INDIRECT_DENOISER_OUTPUT"
+  },
+  "NT_AOV_EMISSION_DENOISER_OUTPUT": {
+    "id": 195,
+    "displayName": "Aov Emission Denoiser Output",
+    "enumName": "NT_AOV_EMISSION_DENOISER_OUTPUT"
+  },
+  "NT_AOV_EMIT": {
+    "id": 196,
+    "displayName": "Aov Emit",
+    "enumName": "NT_AOV_EMIT"
+  },
+  "NT_AOV_ENVIRONMENT": {
+    "id": 197,
+    "displayName": "Aov Environment",
+    "enumName": "NT_AOV_ENVIRONMENT"
+  },
+  "NT_AOV_GAUSSIAN_SPLAT": {
+    "id": 495,
+    "displayName": "Aov Gaussian Splat",
+    "enumName": "NT_AOV_GAUSSIAN_SPLAT"
+  },
+  "NT_AOV_GAUSSIAN_SPLAT_INFO": {
+    "id": 496,
+    "displayName": "Aov Gaussian Splat Info",
+    "enumName": "NT_AOV_GAUSSIAN_SPLAT_INFO"
+  },
+  "NT_AOV_GEOMETRIC_NORMAL": {
+    "id": 198,
+    "displayName": "Aov Geometric Normal",
+    "enumName": "NT_AOV_GEOMETRIC_NORMAL"
+  },
+  "NT_AOV_GLOBAL_TEX": {
+    "id": 199,
+    "displayName": "Aov Global Tex",
+    "enumName": "NT_AOV_GLOBAL_TEX"
+  },
+  "NT_AOV_IOR": {
+    "id": 200,
+    "displayName": "Aov Ior",
+    "enumName": "NT_AOV_IOR"
+  },
+  "NT_AOV_IRRADIANCE": {
+    "id": 201,
+    "displayName": "Aov Irradiance",
+    "enumName": "NT_AOV_IRRADIANCE"
+  },
+  "NT_AOV_LAYER_BLACK_SHADOWS": {
+    "id": 202,
+    "displayName": "Aov Layer Black Shadows",
+    "enumName": "NT_AOV_LAYER_BLACK_SHADOWS"
+  },
+  "NT_AOV_LAYER_REFLECTIONS": {
+    "id": 203,
+    "displayName": "Aov Layer Reflections",
+    "enumName": "NT_AOV_LAYER_REFLECTIONS"
+  },
+  "NT_AOV_LAYER_SHADOWS": {
+    "id": 204,
+    "displayName": "Aov Layer Shadows",
+    "enumName": "NT_AOV_LAYER_SHADOWS"
+  },
+  "NT_AOV_LIGHT": {
+    "id": 205,
+    "displayName": "Aov Light",
+    "enumName": "NT_AOV_LIGHT"
+  },
+  "NT_AOV_LIGHT_DIRECT": {
+    "id": 206,
+    "displayName": "Aov Light Direct",
+    "enumName": "NT_AOV_LIGHT_DIRECT"
+  },
+  "NT_AOV_LIGHT_DIRECTION": {
+    "id": 207,
+    "displayName": "Aov Light Direction",
+    "enumName": "NT_AOV_LIGHT_DIRECTION"
+  },
+  "NT_AOV_LIGHT_INDIRECT": {
+    "id": 208,
+    "displayName": "Aov Light Indirect",
+    "enumName": "NT_AOV_LIGHT_INDIRECT"
+  },
+  "NT_AOV_LIGHT_PASS_ID": {
+    "id": 209,
+    "displayName": "Aov Light Pass Id",
+    "enumName": "NT_AOV_LIGHT_PASS_ID"
+  },
+  "NT_AOV_MATERIAL_ID": {
+    "id": 210,
+    "displayName": "Aov Material Id",
+    "enumName": "NT_AOV_MATERIAL_ID"
+  },
+  "NT_AOV_MOTION_VECTOR": {
+    "id": 211,
+    "displayName": "Aov Motion Vector",
+    "enumName": "NT_AOV_MOTION_VECTOR"
+  },
+  "NT_AOV_NOISE_BEAUTY": {
+    "id": 212,
+    "displayName": "Aov Noise Beauty",
+    "enumName": "NT_AOV_NOISE_BEAUTY"
+  },
+  "NT_AOV_NOISE_DIFFUSE_DIRECT": {
+    "id": 213,
+    "displayName": "Aov Noise Diffuse Direct",
+    "enumName": "NT_AOV_NOISE_DIFFUSE_DIRECT"
+  },
+  "NT_AOV_NOISE_DIFFUSE_INDIRECT": {
+    "id": 214,
+    "displayName": "Aov Noise Diffuse Indirect",
+    "enumName": "NT_AOV_NOISE_DIFFUSE_INDIRECT"
+  },
+  "NT_AOV_NOISE_REFLECTION_DIRECT": {
+    "id": 215,
+    "displayName": "Aov Noise Reflection Direct",
+    "enumName": "NT_AOV_NOISE_REFLECTION_DIRECT"
+  },
+  "NT_AOV_NOISE_REFLECTION_INDIRECT": {
+    "id": 216,
+    "displayName": "Aov Noise Reflection Indirect",
+    "enumName": "NT_AOV_NOISE_REFLECTION_INDIRECT"
+  },
+  "NT_AOV_OBJECT_ID": {
+    "id": 217,
+    "displayName": "Aov Object Id",
+    "enumName": "NT_AOV_OBJECT_ID"
+  },
+  "NT_AOV_OBJECT_LAYER_COLOR": {
+    "id": 218,
+    "displayName": "Aov Object Layer Color",
+    "enumName": "NT_AOV_OBJECT_LAYER_COLOR"
+  },
+  "NT_AOV_OPACITY": {
+    "id": 219,
+    "displayName": "Aov Opacity",
+    "enumName": "NT_AOV_OPACITY"
+  },
+  "NT_AOV_POSITION": {
+    "id": 220,
+    "displayName": "Aov Position",
+    "enumName": "NT_AOV_POSITION"
+  },
+  "NT_AOV_POSTFX_MEDIA": {
+    "id": 379,
+    "displayName": "Aov Postfx Media",
+    "enumName": "NT_AOV_POSTFX_MEDIA"
+  },
+  "NT_AOV_POST_PROCESSING": {
+    "id": 221,
+    "displayName": "Aov Post Processing",
+    "enumName": "NT_AOV_POST_PROCESSING"
+  },
+  "NT_AOV_PRIMARY_HIT_DATA": {
+    "id": 412,
+    "displayName": "Aov Primary Hit Data",
+    "enumName": "NT_AOV_PRIMARY_HIT_DATA"
+  },
+  "NT_AOV_PRIMARY_HIT_DISTANCE": {
+    "id": 500,
+    "displayName": "Aov Primary Hit Distance",
+    "enumName": "NT_AOV_PRIMARY_HIT_DISTANCE"
+  },
+  "NT_AOV_PRIMARY_HIT_NORMAL": {
+    "id": 501,
+    "displayName": "Aov Primary Hit Normal",
+    "enumName": "NT_AOV_PRIMARY_HIT_NORMAL"
+  },
+  "NT_AOV_PRIMARY_HIT_ROUGHNESS": {
+    "id": 502,
+    "displayName": "Aov Primary Hit Roughness",
+    "enumName": "NT_AOV_PRIMARY_HIT_ROUGHNESS"
+  },
+  "NT_AOV_PRIMARY_ZDEPTH": {
+    "id": 378,
+    "displayName": "Aov Primary Zdepth",
+    "enumName": "NT_AOV_PRIMARY_ZDEPTH"
+  },
+  "NT_AOV_PRIMITIVE_TYPE": {
+    "id": 273,
+    "displayName": "Aov Primitive Type",
+    "enumName": "NT_AOV_PRIMITIVE_TYPE"
+  },
+  "NT_AOV_REFLECTION": {
+    "id": 222,
+    "displayName": "Aov Reflection",
+    "enumName": "NT_AOV_REFLECTION"
+  },
+  "NT_AOV_REFLECTION_DIRECT": {
+    "id": 223,
+    "displayName": "Aov Reflection Direct",
+    "enumName": "NT_AOV_REFLECTION_DIRECT"
+  },
+  "NT_AOV_REFLECTION_DIRECT_DENOISER_OUTPUT": {
+    "id": 224,
+    "displayName": "Aov Reflection Direct Denoiser Output",
+    "enumName": "NT_AOV_REFLECTION_DIRECT_DENOISER_OUTPUT"
+  },
+  "NT_AOV_REFLECTION_FILTER": {
+    "id": 225,
+    "displayName": "Aov Reflection Filter",
+    "enumName": "NT_AOV_REFLECTION_FILTER"
+  },
+  "NT_AOV_REFLECTION_FILTER_INFO": {
+    "id": 226,
+    "displayName": "Aov Reflection Filter Info",
+    "enumName": "NT_AOV_REFLECTION_FILTER_INFO"
+  },
+  "NT_AOV_REFLECTION_FILTER_RGB": {
+    "id": 503,
+    "displayName": "Aov Reflection Filter Rgb",
+    "enumName": "NT_AOV_REFLECTION_FILTER_RGB"
+  },
+  "NT_AOV_REFLECTION_INDIRECT": {
+    "id": 227,
+    "displayName": "Aov Reflection Indirect",
+    "enumName": "NT_AOV_REFLECTION_INDIRECT"
+  },
+  "NT_AOV_REFLECTION_INDIRECT_DENOISER_OUTPUT": {
+    "id": 228,
+    "displayName": "Aov Reflection Indirect Denoiser Output",
+    "enumName": "NT_AOV_REFLECTION_INDIRECT_DENOISER_OUTPUT"
+  },
+  "NT_AOV_REFRACTION": {
+    "id": 229,
+    "displayName": "Aov Refraction",
+    "enumName": "NT_AOV_REFRACTION"
+  },
+  "NT_AOV_REFRACTION_FILTER": {
+    "id": 230,
+    "displayName": "Aov Refraction Filter",
+    "enumName": "NT_AOV_REFRACTION_FILTER"
+  },
+  "NT_AOV_REFRACTION_FILTER_INFO": {
+    "id": 231,
+    "displayName": "Aov Refraction Filter Info",
+    "enumName": "NT_AOV_REFRACTION_FILTER_INFO"
+  },
+  "NT_AOV_REMAINDER_DENOISER_OUTPUT": {
+    "id": 232,
+    "displayName": "Aov Remainder Denoiser Output",
+    "enumName": "NT_AOV_REMAINDER_DENOISER_OUTPUT"
+  },
+  "NT_AOV_RENDER_LAYER_ID": {
+    "id": 233,
+    "displayName": "Aov Render Layer Id",
+    "enumName": "NT_AOV_RENDER_LAYER_ID"
+  },
+  "NT_AOV_RENDER_LAYER_MASK": {
+    "id": 234,
+    "displayName": "Aov Render Layer Mask",
+    "enumName": "NT_AOV_RENDER_LAYER_MASK"
+  },
+  "NT_AOV_ROUGHNESS": {
+    "id": 235,
+    "displayName": "Aov Roughness",
+    "enumName": "NT_AOV_ROUGHNESS"
+  },
+  "NT_AOV_SAMPLE_OFFSET": {
+    "id": 370,
+    "displayName": "Aov Sample Offset",
+    "enumName": "NT_AOV_SAMPLE_OFFSET"
+  },
+  "NT_AOV_SCREENSPACE_MOTION": {
+    "id": 368,
+    "displayName": "Aov Screenspace Motion",
+    "enumName": "NT_AOV_SCREENSPACE_MOTION"
+  },
+  "NT_AOV_SECONDARY_RAY_LENGTHS": {
+    "id": 369,
+    "displayName": "Aov Secondary Ray Lengths",
+    "enumName": "NT_AOV_SECONDARY_RAY_LENGTHS"
+  },
+  "NT_AOV_SHADING_NORMAL": {
+    "id": 236,
+    "displayName": "Aov Shading Normal",
+    "enumName": "NT_AOV_SHADING_NORMAL"
+  },
+  "NT_AOV_SHADOW": {
+    "id": 237,
+    "displayName": "Aov Shadow",
+    "enumName": "NT_AOV_SHADOW"
+  },
+  "NT_AOV_SMOOTH_NORMAL": {
+    "id": 253,
+    "displayName": "Aov Smooth Normal",
+    "enumName": "NT_AOV_SMOOTH_NORMAL"
+  },
+  "NT_AOV_SSS": {
+    "id": 238,
+    "displayName": "Aov Sss",
+    "enumName": "NT_AOV_SSS"
+  },
+  "NT_AOV_TANGENT_NORMAL": {
+    "id": 239,
+    "displayName": "Aov Tangent Normal",
+    "enumName": "NT_AOV_TANGENT_NORMAL"
+  },
+  "NT_AOV_TANGENT_U": {
+    "id": 240,
+    "displayName": "Aov Tangent U",
+    "enumName": "NT_AOV_TANGENT_U"
+  },
+  "NT_AOV_TIME": {
+    "id": 408,
+    "displayName": "Aov Time",
+    "enumName": "NT_AOV_TIME"
+  },
+  "NT_AOV_TRACE_CLOCK": {
+    "id": 241,
+    "displayName": "Aov Trace Clock",
+    "enumName": "NT_AOV_TRACE_CLOCK"
+  },
+  "NT_AOV_TRANSMISSION": {
+    "id": 244,
+    "displayName": "Aov Transmission",
+    "enumName": "NT_AOV_TRANSMISSION"
+  },
+  "NT_AOV_TRANSMISSION_FILTER": {
+    "id": 242,
+    "displayName": "Aov Transmission Filter",
+    "enumName": "NT_AOV_TRANSMISSION_FILTER"
+  },
+  "NT_AOV_TRANSMISSION_FILTER_INFO": {
+    "id": 243,
+    "displayName": "Aov Transmission Filter Info",
+    "enumName": "NT_AOV_TRANSMISSION_FILTER_INFO"
+  },
+  "NT_AOV_TRANSPARENCY_MASK": {
+    "id": 504,
+    "displayName": "Aov Transparency Mask",
+    "enumName": "NT_AOV_TRANSPARENCY_MASK"
+  },
+  "NT_AOV_UV_COORD": {
+    "id": 245,
+    "displayName": "Aov Uv Coord",
+    "enumName": "NT_AOV_UV_COORD"
+  },
+  "NT_AOV_VOLUME": {
+    "id": 246,
+    "displayName": "Aov Volume",
+    "enumName": "NT_AOV_VOLUME"
+  },
+  "NT_AOV_VOLUME_DENOISER_OUTPUT": {
+    "id": 247,
+    "displayName": "Aov Volume Denoiser Output",
+    "enumName": "NT_AOV_VOLUME_DENOISER_OUTPUT"
+  },
+  "NT_AOV_VOLUME_EMISSION": {
+    "id": 248,
+    "displayName": "Aov Volume Emission",
+    "enumName": "NT_AOV_VOLUME_EMISSION"
+  },
+  "NT_AOV_VOLUME_EMISSION_DENOISER_OUTPUT": {
+    "id": 249,
+    "displayName": "Aov Volume Emission Denoiser Output",
+    "enumName": "NT_AOV_VOLUME_EMISSION_DENOISER_OUTPUT"
+  },
+  "NT_AOV_VOLUME_MASK": {
+    "id": 250,
+    "displayName": "Aov Volume Mask",
+    "enumName": "NT_AOV_VOLUME_MASK"
+  },
+  "NT_AOV_VOLUME_Z_DEPTH_BACK": {
+    "id": 252,
+    "displayName": "Aov Volume Z Depth Back",
+    "enumName": "NT_AOV_VOLUME_Z_DEPTH_BACK"
+  },
+  "NT_AOV_VOLUME_Z_DEPTH_FRONT": {
+    "id": 251,
+    "displayName": "Aov Volume Z Depth Front",
+    "enumName": "NT_AOV_VOLUME_Z_DEPTH_FRONT"
+  },
+  "NT_AOV_WIREFRAME": {
+    "id": 254,
+    "displayName": "Aov Wireframe",
+    "enumName": "NT_AOV_WIREFRAME"
+  },
+  "NT_AOV_Z_DEPTH": {
+    "id": 255,
+    "displayName": "Aov Z Depth",
+    "enumName": "NT_AOV_Z_DEPTH"
+  },
+  "NT_RENDER_JOB_GROUP": {
+    "id": 105,
+    "displayName": "Render Job Group",
+    "enumName": "NT_RENDER_JOB_GROUP"
+  },
+  "NT_ANIMATION_SETTINGS": {
+    "id": 99,
+    "displayName": "Animation Settings",
+    "enumName": "NT_ANIMATION_SETTINGS"
+  },
+  "NT_FILM_SETTINGS": {
+    "id": 100,
+    "displayName": "Film Settings",
+    "enumName": "NT_FILM_SETTINGS"
+  },
+  "NT_IMAGE_RESOLUTION": {
+    "id": 12,
+    "displayName": "Image Resolution",
+    "enumName": "NT_IMAGE_RESOLUTION"
+  },
+  "NT_RENDER_LAYER": {
+    "id": 90,
+    "displayName": "Render Layer",
+    "enumName": "NT_RENDER_LAYER"
+  },
+  "NT_RENDER_PASSES": {
+    "id": 86,
+    "displayName": "Render Passes",
+    "enumName": "NT_RENDER_PASSES"
+  },
+  "NT_ROUND_EDGES": {
+    "id": 137,
+    "displayName": "Round Edges",
+    "enumName": "NT_ROUND_EDGES"
+  },
+  "NT_TEX_COMPOSITE": {
+    "id": 176,
+    "displayName": "Tex Composite",
+    "enumName": "NT_TEX_COMPOSITE"
+  },
+  "NT_TEX_COMPOSITE_LAYER": {
+    "id": 318,
+    "displayName": "Tex Composite Layer",
+    "enumName": "NT_TEX_COMPOSITE_LAYER"
+  },
+  "NT_TEX_COMPOSITE_LAYER_ADJUST_BRIGHTNESS": {
+    "id": 415,
+    "displayName": "Tex Composite Layer Adjust Brightness",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_ADJUST_BRIGHTNESS"
+  },
+  "NT_TEX_COMPOSITE_LAYER_ADJUST_COLOR_BALANCE": {
+    "id": 431,
+    "displayName": "Tex Composite Layer Adjust Color Balance",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_ADJUST_COLOR_BALANCE"
+  },
+  "NT_TEX_COMPOSITE_LAYER_ADJUST_CONTRAST": {
+    "id": 414,
+    "displayName": "Tex Composite Layer Adjust Contrast",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_ADJUST_CONTRAST"
+  },
+  "NT_TEX_COMPOSITE_LAYER_ADJUST_EXPOSURE": {
+    "id": 428,
+    "displayName": "Tex Composite Layer Adjust Exposure",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_ADJUST_EXPOSURE"
+  },
+  "NT_TEX_COMPOSITE_LAYER_ADJUST_HUE": {
+    "id": 413,
+    "displayName": "Tex Composite Layer Adjust Hue",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_ADJUST_HUE"
+  },
+  "NT_TEX_COMPOSITE_LAYER_ADJUST_LIGHTNESS": {
+    "id": 423,
+    "displayName": "Tex Composite Layer Adjust Lightness",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_ADJUST_LIGHTNESS"
+  },
+  "NT_TEX_COMPOSITE_LAYER_ADJUST_SATURATION": {
+    "id": 417,
+    "displayName": "Tex Composite Layer Adjust Saturation",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_ADJUST_SATURATION"
+  },
+  "NT_TEX_COMPOSITE_LAYER_ADJUST_SATURATION_HSL": {
+    "id": 424,
+    "displayName": "Tex Composite Layer Adjust Saturation Hsl",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_ADJUST_SATURATION_HSL"
+  },
+  "NT_TEX_COMPOSITE_LAYER_ADJUST_WHITE_BALANCE": {
+    "id": 429,
+    "displayName": "Tex Composite Layer Adjust White Balance",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_ADJUST_WHITE_BALANCE"
+  },
+  "NT_TEX_COMPOSITE_LAYER_APPLY_CUSTOM_CURVE": {
+    "id": 441,
+    "displayName": "Tex Composite Layer Apply Custom Curve",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_APPLY_CUSTOM_CURVE"
+  },
+  "NT_TEX_COMPOSITE_LAYER_APPLY_GAMMA_CURVE": {
+    "id": 416,
+    "displayName": "Tex Composite Layer Apply Gamma Curve",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_APPLY_GAMMA_CURVE"
+  },
+  "NT_TEX_COMPOSITE_LAYER_APPLY_GRADIENT_MAP": {
+    "id": 433,
+    "displayName": "Tex Composite Layer Apply Gradient Map",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_APPLY_GRADIENT_MAP"
+  },
+  "NT_TEX_COMPOSITE_LAYER_APPLY_LUT": {
+    "id": 435,
+    "displayName": "Tex Composite Layer Apply Lut",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_APPLY_LUT"
+  },
+  "NT_TEX_COMPOSITE_LAYER_CHANNEL_MIXER": {
+    "id": 425,
+    "displayName": "Tex Composite Layer Channel Mixer",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_CHANNEL_MIXER"
+  },
+  "NT_TEX_COMPOSITE_LAYER_CLAMP": {
+    "id": 418,
+    "displayName": "Tex Composite Layer Clamp",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_CLAMP"
+  },
+  "NT_TEX_COMPOSITE_LAYER_COMPARISON": {
+    "id": 430,
+    "displayName": "Tex Composite Layer Comparison",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_COMPARISON"
+  },
+  "NT_TEX_COMPOSITE_LAYER_GRAYSCALE": {
+    "id": 426,
+    "displayName": "Tex Composite Layer Grayscale",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_GRAYSCALE"
+  },
+  "NT_TEX_COMPOSITE_LAYER_GROUP": {
+    "id": 422,
+    "displayName": "Tex Composite Layer Group",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_GROUP"
+  },
+  "NT_TEX_COMPOSITE_LAYER_MAP_RANGE": {
+    "id": 421,
+    "displayName": "Tex Composite Layer Map Range",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_MAP_RANGE"
+  },
+  "NT_TEX_COMPOSITE_LAYER_MASK_WITH_LAYERS": {
+    "id": 432,
+    "displayName": "Tex Composite Layer Mask With Layers",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_MASK_WITH_LAYERS"
+  },
+  "NT_TEX_COMPOSITE_LAYER_MATH_BINARY": {
+    "id": 420,
+    "displayName": "Tex Composite Layer Math Binary",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_MATH_BINARY"
+  },
+  "NT_TEX_COMPOSITE_LAYER_MATH_UNARY": {
+    "id": 419,
+    "displayName": "Tex Composite Layer Math Unary",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_MATH_UNARY"
+  },
+  "NT_TEX_COMPOSITE_LAYER_THRESHOLD": {
+    "id": 427,
+    "displayName": "Tex Composite Layer Threshold",
+    "enumName": "NT_TEX_COMPOSITE_LAYER_THRESHOLD"
+  },
+  "NT_TEX_ADD": {
+    "id": 106,
+    "displayName": "Tex Add",
+    "enumName": "NT_TEX_ADD"
+  },
+  "NT_TEX_ALPHAIMAGE": {
+    "id": 35,
+    "displayName": "Tex Alphaimage",
+    "enumName": "NT_TEX_ALPHAIMAGE"
+  },
+  "NT_TEX_BAKED_IMAGE": {
+    "id": 115,
+    "displayName": "Tex Baked Image",
+    "enumName": "NT_TEX_BAKED_IMAGE"
+  },
+  "NT_TEX_C4D_NOISE": {
+    "id": 162,
+    "displayName": "Tex C4d Noise",
+    "enumName": "NT_TEX_C4D_NOISE"
+  },
+  "NT_TEX_CAPTURE": {
+    "id": 323,
+    "displayName": "Tex Capture",
+    "enumName": "NT_TEX_CAPTURE"
+  },
+  "NT_TEX_CELLNOISE": {
+    "id": 275,
+    "displayName": "Tex Cellnoise",
+    "enumName": "NT_TEX_CELLNOISE"
+  },
+  "NT_TEX_CHAINMAIL": {
+    "id": 263,
+    "displayName": "Tex Chainmail",
+    "enumName": "NT_TEX_CHAINMAIL"
+  },
+  "NT_TEX_CHANNEL_INVERT": {
+    "id": 174,
+    "displayName": "Tex Channel Invert",
+    "enumName": "NT_TEX_CHANNEL_INVERT"
+  },
+  "NT_TEX_CHANNEL_MAP": {
+    "id": 175,
+    "displayName": "Tex Channel Map",
+    "enumName": "NT_TEX_CHANNEL_MAP"
+  },
+  "NT_TEX_CHANNEL_MERGE": {
+    "id": 172,
+    "displayName": "Tex Channel Merge",
+    "enumName": "NT_TEX_CHANNEL_MERGE"
+  },
+  "NT_TEX_CHANNEL_PICK": {
+    "id": 171,
+    "displayName": "Tex Channel Pick",
+    "enumName": "NT_TEX_CHANNEL_PICK"
+  },
+  "NT_TEX_CHAOS": {
+    "id": 170,
+    "displayName": "Tex Chaos",
+    "enumName": "NT_TEX_CHAOS"
+  },
+  "NT_TEX_CHECKS": {
+    "id": 45,
+    "displayName": "Tex Checks",
+    "enumName": "NT_TEX_CHECKS"
+  },
+  "NT_TEX_CIRCLE_SPIRAL": {
+    "id": 325,
+    "displayName": "Tex Circle Spiral",
+    "enumName": "NT_TEX_CIRCLE_SPIRAL"
+  },
+  "NT_TEX_CLAMP": {
+    "id": 41,
+    "displayName": "Tex Clamp",
+    "enumName": "NT_TEX_CLAMP"
+  },
+  "NT_TEX_COLORCORRECTION": {
+    "id": 51,
+    "displayName": "Tex Colorcorrection",
+    "enumName": "NT_TEX_COLORCORRECTION"
+  },
+  "NT_TEX_COLOR_KEY": {
+    "id": 354,
+    "displayName": "Tex Color Key",
+    "enumName": "NT_TEX_COLOR_KEY"
+  },
+  "NT_TEX_COLOR_SPACE_CONVERSION": {
+    "id": 364,
+    "displayName": "Tex Color Space Conversion",
+    "enumName": "NT_TEX_COLOR_SPACE_CONVERSION"
+  },
+  "NT_TEX_COLOR_SQUARES": {
+    "id": 265,
+    "displayName": "Tex Color Squares",
+    "enumName": "NT_TEX_COLOR_SQUARES"
+  },
+  "NT_TEX_COLOUR_VERTEXATTRIBUTE": {
+    "id": 135,
+    "displayName": "Tex Colour Vertexattribute",
+    "enumName": "NT_TEX_COLOUR_VERTEXATTRIBUTE"
+  },
+  "NT_TEX_COMPARE": {
+    "id": 107,
+    "displayName": "Tex Compare",
+    "enumName": "NT_TEX_COMPARE"
+  },
+  "NT_TEX_COSINEMIX": {
+    "id": 40,
+    "displayName": "Tex Cosinemix",
+    "enumName": "NT_TEX_COSINEMIX"
+  },
+  "NT_TEX_CURVATURE": {
+    "id": 271,
+    "displayName": "Tex Curvature",
+    "enumName": "NT_TEX_CURVATURE"
+  },
+  "NT_TEX_DECAL": {
+    "id": 478,
+    "displayName": "Tex Decal",
+    "enumName": "NT_TEX_DECAL"
+  },
+  "NT_TEX_DIGITS": {
+    "id": 367,
+    "displayName": "Tex Digits",
+    "enumName": "NT_TEX_DIGITS"
+  },
+  "NT_TEX_DIRT": {
+    "id": 63,
+    "displayName": "Tex Dirt",
+    "enumName": "NT_TEX_DIRT"
+  },
+  "NT_TEX_DPDU": {
+    "id": 335,
+    "displayName": "Tex Dpdu",
+    "enumName": "NT_TEX_DPDU"
+  },
+  "NT_TEX_DPDV": {
+    "id": 336,
+    "displayName": "Tex Dpdv",
+    "enumName": "NT_TEX_DPDV"
+  },
+  "NT_TEX_FALLOFF": {
+    "id": 50,
+    "displayName": "Tex Falloff",
+    "enumName": "NT_TEX_FALLOFF"
+  },
+  "NT_TEX_FAN_SPIRAL": {
+    "id": 341,
+    "displayName": "Tex Fan Spiral",
+    "enumName": "NT_TEX_FAN_SPIRAL"
+  },
+  "NT_TEX_FBM_FLOW_NOISE": {
+    "id": 344,
+    "displayName": "Tex Fbm Flow Noise",
+    "enumName": "NT_TEX_FBM_FLOW_NOISE"
+  },
+  "NT_TEX_FBM_NOISE": {
+    "id": 345,
+    "displayName": "Tex Fbm Noise",
+    "enumName": "NT_TEX_FBM_NOISE"
+  },
+  "NT_TEX_FIELD_ANGULAR": {
+    "id": 304,
+    "displayName": "Tex Field Angular",
+    "enumName": "NT_TEX_FIELD_ANGULAR"
+  },
+  "NT_TEX_FIELD_PLANAR": {
+    "id": 305,
+    "displayName": "Tex Field Planar",
+    "enumName": "NT_TEX_FIELD_PLANAR"
+  },
+  "NT_TEX_FIELD_SHAPE": {
+    "id": 306,
+    "displayName": "Tex Field Shape",
+    "enumName": "NT_TEX_FIELD_SHAPE"
+  },
+  "NT_TEX_FIELD_SPHERICAL": {
+    "id": 307,
+    "displayName": "Tex Field Spherical",
+    "enumName": "NT_TEX_FIELD_SPHERICAL"
+  },
+  "NT_TEX_FLAKES": {
+    "id": 267,
+    "displayName": "Tex Flakes",
+    "enumName": "NT_TEX_FLAKES"
+  },
+  "NT_TEX_FLOAT": {
+    "id": 31,
+    "displayName": "Tex Float",
+    "enumName": "NT_TEX_FLOAT"
+  },
+  "NT_TEX_FLOAT3_TO_COLOR": {
+    "id": 321,
+    "displayName": "Tex Float3 To Color",
+    "enumName": "NT_TEX_FLOAT3_TO_COLOR"
+  },
+  "NT_TEX_FLOATIMAGE": {
+    "id": 36,
+    "displayName": "Tex Floatimage",
+    "enumName": "NT_TEX_FLOATIMAGE"
+  },
+  "NT_TEX_FLOATS_TO_COLOR": {
+    "id": 320,
+    "displayName": "Tex Floats To Color",
+    "enumName": "NT_TEX_FLOATS_TO_COLOR"
+  },
+  "NT_TEX_FLOAT_TO_GREYSCALE": {
+    "id": 324,
+    "displayName": "Tex Float To Greyscale",
+    "enumName": "NT_TEX_FLOAT_TO_GREYSCALE"
+  },
+  "NT_TEX_FLOAT_VERTEXATTRIBUTE": {
+    "id": 136,
+    "displayName": "Tex Float Vertexattribute",
+    "enumName": "NT_TEX_FLOAT_VERTEXATTRIBUTE"
+  },
+  "NT_TEX_FRACTAL": {
+    "id": 268,
+    "displayName": "Tex Fractal",
+    "enumName": "NT_TEX_FRACTAL"
+  },
+  "NT_TEX_FRACTAL_FLOW_NOISE": {
+    "id": 346,
+    "displayName": "Tex Fractal Flow Noise",
+    "enumName": "NT_TEX_FRACTAL_FLOW_NOISE"
+  },
+  "NT_TEX_FRACTAL_NOISE": {
+    "id": 347,
+    "displayName": "Tex Fractal Noise",
+    "enumName": "NT_TEX_FRACTAL_NOISE"
+  },
+  "NT_TEX_GAUSSIANSPECTRUM": {
+    "id": 32,
+    "displayName": "Tex Gaussianspectrum",
+    "enumName": "NT_TEX_GAUSSIANSPECTRUM"
+  },
+  "NT_TEX_GLOWING_CIRCLE": {
+    "id": 270,
+    "displayName": "Tex Glowing Circle",
+    "enumName": "NT_TEX_GLOWING_CIRCLE"
+  },
+  "NT_TEX_GRADIENT": {
+    "id": 49,
+    "displayName": "Tex Gradient",
+    "enumName": "NT_TEX_GRADIENT"
+  },
+  "NT_TEX_GRADIENT_GENERATOR": {
+    "id": 332,
+    "displayName": "Tex Gradient Generator",
+    "enumName": "NT_TEX_GRADIENT_GENERATOR"
+  },
+  "NT_TEX_HAGELSLAG": {
+    "id": 269,
+    "displayName": "Tex Hagelslag",
+    "enumName": "NT_TEX_HAGELSLAG"
+  },
+  "NT_TEX_HALFTONE": {
+    "id": 497,
+    "displayName": "Tex Halftone",
+    "enumName": "NT_TEX_HALFTONE"
+  },
+  "NT_TEX_IMAGE": {
+    "id": 34,
+    "displayName": "Tex Image",
+    "enumName": "NT_TEX_IMAGE"
+  },
+  "NT_TEX_IMAGE_ADJUSTMENT": {
+    "id": 360,
+    "displayName": "Tex Image Adjustment",
+    "enumName": "NT_TEX_IMAGE_ADJUSTMENT"
+  },
+  "NT_TEX_IMAGE_TILES": {
+    "id": 131,
+    "displayName": "Tex Image Tiles",
+    "enumName": "NT_TEX_IMAGE_TILES"
+  },
+  "NT_TEX_IMAGE_TILE_SET": {
+    "id": 484,
+    "displayName": "Tex Image Tile Set",
+    "enumName": "NT_TEX_IMAGE_TILE_SET"
+  },
+  "NT_TEX_INSTANCE_COLOR": {
+    "id": 113,
+    "displayName": "Tex Instance Color",
+    "enumName": "NT_TEX_INSTANCE_COLOR"
+  },
+  "NT_TEX_INSTANCE_HIGHLIGHT": {
+    "id": 365,
+    "displayName": "Tex Instance Highlight",
+    "enumName": "NT_TEX_INSTANCE_HIGHLIGHT"
+  },
+  "NT_TEX_INSTANCE_RANGE": {
+    "id": 114,
+    "displayName": "Tex Instance Range",
+    "enumName": "NT_TEX_INSTANCE_RANGE"
+  },
+  "NT_TEX_INVERT": {
+    "id": 46,
+    "displayName": "Tex Invert",
+    "enumName": "NT_TEX_INVERT"
+  },
+  "NT_TEX_IRIDESCENT": {
+    "id": 187,
+    "displayName": "Tex Iridescent",
+    "enumName": "NT_TEX_IRIDESCENT"
+  },
+  "NT_TEX_JITTERED_COLOR_CORRECTION": {
+    "id": 362,
+    "displayName": "Tex Jittered Color Correction",
+    "enumName": "NT_TEX_JITTERED_COLOR_CORRECTION"
+  },
+  "NT_TEX_LIGHT_FIELD_ARRAY": {
+    "id": 437,
+    "displayName": "Tex Light Field Array",
+    "enumName": "NT_TEX_LIGHT_FIELD_ARRAY"
+  },
+  "NT_TEX_LIGHT_FIELD_CUBE": {
+    "id": 436,
+    "displayName": "Tex Light Field Cube",
+    "enumName": "NT_TEX_LIGHT_FIELD_CUBE"
+  },
+  "NT_TEX_LIGHT_FIELD_PLANE": {
+    "id": 407,
+    "displayName": "Tex Light Field Plane",
+    "enumName": "NT_TEX_LIGHT_FIELD_PLANE"
+  },
+  "NT_TEX_MANDELBULB": {
+    "id": 349,
+    "displayName": "Tex Mandelbulb",
+    "enumName": "NT_TEX_MANDELBULB"
+  },
+  "NT_TEX_MARBLE": {
+    "id": 47,
+    "displayName": "Tex Marble",
+    "enumName": "NT_TEX_MARBLE"
+  },
+  "NT_TEX_MATH_BINARY": {
+    "id": 339,
+    "displayName": "Tex Math Binary",
+    "enumName": "NT_TEX_MATH_BINARY"
+  },
+  "NT_TEX_MATH_UNARY": {
+    "id": 340,
+    "displayName": "Tex Math Unary",
+    "enumName": "NT_TEX_MATH_UNARY"
+  },
+  "NT_TEX_MATRIX": {
+    "id": 353,
+    "displayName": "Tex Matrix",
+    "enumName": "NT_TEX_MATRIX"
+  },
+  "NT_TEX_MATRIX_VALUE": {
+    "id": 475,
+    "displayName": "Tex Matrix Value",
+    "enumName": "NT_TEX_MATRIX_VALUE"
+  },
+  "NT_TEX_MIX": {
+    "id": 38,
+    "displayName": "Tex Mix",
+    "enumName": "NT_TEX_MIX"
+  },
+  "NT_TEX_MOIRE_MOSAIC": {
+    "id": 264,
+    "displayName": "Tex Moire Mosaic",
+    "enumName": "NT_TEX_MOIRE_MOSAIC"
+  },
+  "NT_TEX_MULTIPLY": {
+    "id": 39,
+    "displayName": "Tex Multiply",
+    "enumName": "NT_TEX_MULTIPLY"
+  },
+  "NT_TEX_MX_ABSVAL": {
+    "id": 50033,
+    "displayName": "Tex Mx Absval",
+    "enumName": "NT_TEX_MX_ABSVAL"
+  },
+  "NT_TEX_MX_ACOS": {
+    "id": 50043,
+    "displayName": "Tex Mx Acos",
+    "enumName": "NT_TEX_MX_ACOS"
+  },
+  "NT_TEX_MX_ADD": {
+    "id": 50024,
+    "displayName": "Tex Mx Add",
+    "enumName": "NT_TEX_MX_ADD"
+  },
+  "NT_TEX_MX_AND": {
+    "id": 50113,
+    "displayName": "Tex Mx And",
+    "enumName": "NT_TEX_MX_AND"
+  },
+  "NT_TEX_MX_ASIN": {
+    "id": 50042,
+    "displayName": "Tex Mx Asin",
+    "enumName": "NT_TEX_MX_ASIN"
+  },
+  "NT_TEX_MX_ATAN2": {
+    "id": 50044,
+    "displayName": "Tex Mx Atan2",
+    "enumName": "NT_TEX_MX_ATAN2"
+  },
+  "NT_TEX_MX_BITANGENT": {
+    "id": 50019,
+    "displayName": "Tex Mx Bitangent",
+    "enumName": "NT_TEX_MX_BITANGENT"
+  },
+  "NT_TEX_MX_BUMP": {
+    "id": 50124,
+    "displayName": "Tex Mx Bump",
+    "enumName": "NT_TEX_MX_BUMP"
+  },
+  "NT_TEX_MX_BURN": {
+    "id": 50084,
+    "displayName": "Tex Mx Burn",
+    "enumName": "NT_TEX_MX_BURN"
+  },
+  "NT_TEX_MX_CEIL": {
+    "id": 50036,
+    "displayName": "Tex Mx Ceil",
+    "enumName": "NT_TEX_MX_CEIL"
+  },
+  "NT_TEX_MX_CELLNOISE2D": {
+    "id": 50012,
+    "displayName": "Tex Mx Cellnoise2d",
+    "enumName": "NT_TEX_MX_CELLNOISE2D"
+  },
+  "NT_TEX_MX_CELLNOISE3D": {
+    "id": 50013,
+    "displayName": "Tex Mx Cellnoise3d",
+    "enumName": "NT_TEX_MX_CELLNOISE3D"
+  },
+  "NT_TEX_MX_CLAMP": {
+    "id": 50048,
+    "displayName": "Tex Mx Clamp",
+    "enumName": "NT_TEX_MX_CLAMP"
+  },
+  "NT_TEX_MX_COLORCORRECT": {
+    "id": 50118,
+    "displayName": "Tex Mx Colorcorrect",
+    "enumName": "NT_TEX_MX_COLORCORRECT"
+  },
+  "NT_TEX_MX_COMBINE2": {
+    "id": 50102,
+    "displayName": "Tex Mx Combine2",
+    "enumName": "NT_TEX_MX_COMBINE2"
+  },
+  "NT_TEX_MX_COMBINE2_COLOR3FLOAT": {
+    "id": 50070,
+    "displayName": "Tex Mx Combine2 Color3float",
+    "enumName": "NT_TEX_MX_COMBINE2_COLOR3FLOAT"
+  },
+  "NT_TEX_MX_COMBINE2_VECTOR2FLOAT": {
+    "id": 50029,
+    "displayName": "Tex Mx Combine2 Vector2float",
+    "enumName": "NT_TEX_MX_COMBINE2_VECTOR2FLOAT"
+  },
+  "NT_TEX_MX_COMBINE2_VECTOR2VECTOR2": {
+    "id": 50071,
+    "displayName": "Tex Mx Combine2 Vector2vector2",
+    "enumName": "NT_TEX_MX_COMBINE2_VECTOR2VECTOR2"
+  },
+  "NT_TEX_MX_COMBINE2_VECTOR3FLOAT": {
+    "id": 50031,
+    "displayName": "Tex Mx Combine2 Vector3float",
+    "enumName": "NT_TEX_MX_COMBINE2_VECTOR3FLOAT"
+  },
+  "NT_TEX_MX_COMBINE3": {
+    "id": 50103,
+    "displayName": "Tex Mx Combine3",
+    "enumName": "NT_TEX_MX_COMBINE3"
+  },
+  "NT_TEX_MX_COMBINE4": {
+    "id": 50104,
+    "displayName": "Tex Mx Combine4",
+    "enumName": "NT_TEX_MX_COMBINE4"
+  },
+  "NT_TEX_MX_CONSTANT": {
+    "id": 50003,
+    "displayName": "Tex Mx Constant",
+    "enumName": "NT_TEX_MX_CONSTANT"
+  },
+  "NT_TEX_MX_CONTRAST": {
+    "id": 50075,
+    "displayName": "Tex Mx Contrast",
+    "enumName": "NT_TEX_MX_CONTRAST"
+  },
+  "NT_TEX_MX_CONVERT": {
+    "id": 50109,
+    "displayName": "Tex Mx Convert",
+    "enumName": "NT_TEX_MX_CONVERT"
+  },
+  "NT_TEX_MX_COS": {
+    "id": 50040,
+    "displayName": "Tex Mx Cos",
+    "enumName": "NT_TEX_MX_COS"
+  },
+  "NT_TEX_MX_CREATEMATRIX": {
+    "id": 50120,
+    "displayName": "Tex Mx Creatematrix",
+    "enumName": "NT_TEX_MX_CREATEMATRIX"
+  },
+  "NT_TEX_MX_CREATEMATRIX3X3": {
+    "id": 50121,
+    "displayName": "Tex Mx Creatematrix3x3",
+    "enumName": "NT_TEX_MX_CREATEMATRIX3X3"
+  },
+  "NT_TEX_MX_CROSSPRODUCT": {
+    "id": 50054,
+    "displayName": "Tex Mx Crossproduct",
+    "enumName": "NT_TEX_MX_CROSSPRODUCT"
+  },
+  "NT_TEX_MX_DETERMINANT": {
+    "id": 50061,
+    "displayName": "Tex Mx Determinant",
+    "enumName": "NT_TEX_MX_DETERMINANT"
+  },
+  "NT_TEX_MX_DIFFERENCE": {
+    "id": 50083,
+    "displayName": "Tex Mx Difference",
+    "enumName": "NT_TEX_MX_DIFFERENCE"
+  },
+  "NT_TEX_MX_DISJOINTOVER": {
+    "id": 50088,
+    "displayName": "Tex Mx Disjointover",
+    "enumName": "NT_TEX_MX_DISJOINTOVER"
+  },
+  "NT_TEX_MX_DISTANCE": {
+    "id": 50135,
+    "displayName": "Tex Mx Distance",
+    "enumName": "NT_TEX_MX_DISTANCE"
+  },
+  "NT_TEX_MX_DIVIDE": {
+    "id": 50028,
+    "displayName": "Tex Mx Divide",
+    "enumName": "NT_TEX_MX_DIVIDE"
+  },
+  "NT_TEX_MX_DODGE": {
+    "id": 50085,
+    "displayName": "Tex Mx Dodge",
+    "enumName": "NT_TEX_MX_DODGE"
+  },
+  "NT_TEX_MX_DOTPRODUCT": {
+    "id": 50053,
+    "displayName": "Tex Mx Dotproduct",
+    "enumName": "NT_TEX_MX_DOTPRODUCT"
+  },
+  "NT_TEX_MX_EXP": {
+    "id": 50047,
+    "displayName": "Tex Mx Exp",
+    "enumName": "NT_TEX_MX_EXP"
+  },
+  "NT_TEX_MX_EXTRACT2": {
+    "id": 50101,
+    "displayName": "Tex Mx Extract2",
+    "enumName": "NT_TEX_MX_EXTRACT2"
+  },
+  "NT_TEX_MX_EXTRACT3": {
+    "id": 50111,
+    "displayName": "Tex Mx Extract3",
+    "enumName": "NT_TEX_MX_EXTRACT3"
+  },
+  "NT_TEX_MX_EXTRACT4": {
+    "id": 50105,
+    "displayName": "Tex Mx Extract4",
+    "enumName": "NT_TEX_MX_EXTRACT4"
+  },
+  "NT_TEX_MX_FACINGRATIO": {
+    "id": 50127,
+    "displayName": "Tex Mx Facingratio",
+    "enumName": "NT_TEX_MX_FACINGRATIO"
+  },
+  "NT_TEX_MX_FLOOR": {
+    "id": 50035,
+    "displayName": "Tex Mx Floor",
+    "enumName": "NT_TEX_MX_FLOOR"
+  },
+  "NT_TEX_MX_FRACT": {
+    "id": 50125,
+    "displayName": "Tex Mx Fract",
+    "enumName": "NT_TEX_MX_FRACT"
+  },
+  "NT_TEX_MX_FRACTAL3D": {
+    "id": 50011,
+    "displayName": "Tex Mx Fractal3d",
+    "enumName": "NT_TEX_MX_FRACTAL3D"
+  },
+  "NT_TEX_MX_FRAME": {
+    "id": 50021,
+    "displayName": "Tex Mx Frame",
+    "enumName": "NT_TEX_MX_FRAME"
+  },
+  "NT_TEX_MX_GEOMCOLOR": {
+    "id": 50129,
+    "displayName": "Tex Mx Geomcolor",
+    "enumName": "NT_TEX_MX_GEOMCOLOR"
+  },
+  "NT_TEX_MX_GEOMPROPVALUE": {
+    "id": 50130,
+    "displayName": "Tex Mx Geompropvalue",
+    "enumName": "NT_TEX_MX_GEOMPROPVALUE"
+  },
+  "NT_TEX_MX_HEIGHTTONORMAL": {
+    "id": 50128,
+    "displayName": "Tex Mx Heighttonormal",
+    "enumName": "NT_TEX_MX_HEIGHTTONORMAL"
+  },
+  "NT_TEX_MX_HSVADJUST": {
+    "id": 50077,
+    "displayName": "Tex Mx Hsvadjust",
+    "enumName": "NT_TEX_MX_HSVADJUST"
+  },
+  "NT_TEX_MX_HSVTORGB": {
+    "id": 50074,
+    "displayName": "Tex Mx Hsvtorgb",
+    "enumName": "NT_TEX_MX_HSVTORGB"
+  },
+  "NT_TEX_MX_IFEQUAL": {
+    "id": 50099,
+    "displayName": "Tex Mx Ifequal",
+    "enumName": "NT_TEX_MX_IFEQUAL"
+  },
+  "NT_TEX_MX_IFEQUAL_B": {
+    "id": 50134,
+    "displayName": "Tex Mx Ifequal B",
+    "enumName": "NT_TEX_MX_IFEQUAL_B"
+  },
+  "NT_TEX_MX_IFEQUAL_BOOL": {
+    "id": 50132,
+    "displayName": "Tex Mx Ifequal Bool",
+    "enumName": "NT_TEX_MX_IFEQUAL_BOOL"
+  },
+  "NT_TEX_MX_IFGREATER": {
+    "id": 50097,
+    "displayName": "Tex Mx Ifgreater",
+    "enumName": "NT_TEX_MX_IFGREATER"
+  },
+  "NT_TEX_MX_IFGREATEREQ": {
+    "id": 50098,
+    "displayName": "Tex Mx Ifgreatereq",
+    "enumName": "NT_TEX_MX_IFGREATEREQ"
+  },
+  "NT_TEX_MX_IFGREATEREQ_BOOL": {
+    "id": 50133,
+    "displayName": "Tex Mx Ifgreatereq Bool",
+    "enumName": "NT_TEX_MX_IFGREATEREQ_BOOL"
+  },
+  "NT_TEX_MX_IFGREATER_BOOL": {
+    "id": 50131,
+    "displayName": "Tex Mx Ifgreater Bool",
+    "enumName": "NT_TEX_MX_IFGREATER_BOOL"
+  },
+  "NT_TEX_MX_IMAGE": {
+    "id": 50001,
+    "displayName": "Tex Mx Image",
+    "enumName": "NT_TEX_MX_IMAGE"
+  },
+  "NT_TEX_MX_IN": {
+    "id": 50089,
+    "displayName": "Tex Mx In",
+    "enumName": "NT_TEX_MX_IN"
+  },
+  "NT_TEX_MX_INSIDE": {
+    "id": 50094,
+    "displayName": "Tex Mx Inside",
+    "enumName": "NT_TEX_MX_INSIDE"
+  },
+  "NT_TEX_MX_INVERT": {
+    "id": 50063,
+    "displayName": "Tex Mx Invert",
+    "enumName": "NT_TEX_MX_INVERT"
+  },
+  "NT_TEX_MX_INVERTMATRIX": {
+    "id": 50062,
+    "displayName": "Tex Mx Invertmatrix",
+    "enumName": "NT_TEX_MX_INVERTMATRIX"
+  },
+  "NT_TEX_MX_LN": {
+    "id": 50046,
+    "displayName": "Tex Mx Ln",
+    "enumName": "NT_TEX_MX_LN"
+  },
+  "NT_TEX_MX_LUMINANCE": {
+    "id": 50072,
+    "displayName": "Tex Mx Luminance",
+    "enumName": "NT_TEX_MX_LUMINANCE"
+  },
+  "NT_TEX_MX_MAGNITUDE": {
+    "id": 50052,
+    "displayName": "Tex Mx Magnitude",
+    "enumName": "NT_TEX_MX_MAGNITUDE"
+  },
+  "NT_TEX_MX_MASK": {
+    "id": 50090,
+    "displayName": "Tex Mx Mask",
+    "enumName": "NT_TEX_MX_MASK"
+  },
+  "NT_TEX_MX_MATTE": {
+    "id": 50091,
+    "displayName": "Tex Mx Matte",
+    "enumName": "NT_TEX_MX_MATTE"
+  },
+  "NT_TEX_MX_MAX": {
+    "id": 50050,
+    "displayName": "Tex Mx Max",
+    "enumName": "NT_TEX_MX_MAX"
+  },
+  "NT_TEX_MX_MIN": {
+    "id": 50049,
+    "displayName": "Tex Mx Min",
+    "enumName": "NT_TEX_MX_MIN"
+  },
+  "NT_TEX_MX_MINUS": {
+    "id": 50082,
+    "displayName": "Tex Mx Minus",
+    "enumName": "NT_TEX_MX_MINUS"
+  },
+  "NT_TEX_MX_MIX": {
+    "id": 50096,
+    "displayName": "Tex Mx Mix",
+    "enumName": "NT_TEX_MX_MIX"
+  },
+  "NT_TEX_MX_MODULO": {
+    "id": 50032,
+    "displayName": "Tex Mx Modulo",
+    "enumName": "NT_TEX_MX_MODULO"
+  },
+  "NT_TEX_MX_MULTIPLY": {
+    "id": 50030,
+    "displayName": "Tex Mx Multiply",
+    "enumName": "NT_TEX_MX_MULTIPLY"
+  },
+  "NT_TEX_MX_NOISE2D": {
+    "id": 50009,
+    "displayName": "Tex Mx Noise2d",
+    "enumName": "NT_TEX_MX_NOISE2D"
+  },
+  "NT_TEX_MX_NOISE3D": {
+    "id": 50010,
+    "displayName": "Tex Mx Noise3d",
+    "enumName": "NT_TEX_MX_NOISE3D"
+  },
+  "NT_TEX_MX_NORMAL": {
+    "id": 50017,
+    "displayName": "Tex Mx Normal",
+    "enumName": "NT_TEX_MX_NORMAL"
+  },
+  "NT_TEX_MX_NORMALIZE": {
+    "id": 50051,
+    "displayName": "Tex Mx Normalize",
+    "enumName": "NT_TEX_MX_NORMALIZE"
+  },
+  "NT_TEX_MX_NORMALMAP": {
+    "id": 50059,
+    "displayName": "Tex Mx Normalmap",
+    "enumName": "NT_TEX_MX_NORMALMAP"
+  },
+  "NT_TEX_MX_NOT": {
+    "id": 50112,
+    "displayName": "Tex Mx Not",
+    "enumName": "NT_TEX_MX_NOT"
+  },
+  "NT_TEX_MX_OR": {
+    "id": 50114,
+    "displayName": "Tex Mx Or",
+    "enumName": "NT_TEX_MX_OR"
+  },
+  "NT_TEX_MX_OUT": {
+    "id": 50092,
+    "displayName": "Tex Mx Out",
+    "enumName": "NT_TEX_MX_OUT"
+  },
+  "NT_TEX_MX_OUTSIDE": {
+    "id": 50095,
+    "displayName": "Tex Mx Outside",
+    "enumName": "NT_TEX_MX_OUTSIDE"
+  },
+  "NT_TEX_MX_OVER": {
+    "id": 50093,
+    "displayName": "Tex Mx Over",
+    "enumName": "NT_TEX_MX_OVER"
+  },
+  "NT_TEX_MX_OVERLAY": {
+    "id": 50087,
+    "displayName": "Tex Mx Overlay",
+    "enumName": "NT_TEX_MX_OVERLAY"
+  },
+  "NT_TEX_MX_PLACE2D": {
+    "id": 50066,
+    "displayName": "Tex Mx Place2d",
+    "enumName": "NT_TEX_MX_PLACE2D"
+  },
+  "NT_TEX_MX_PLUS": {
+    "id": 50081,
+    "displayName": "Tex Mx Plus",
+    "enumName": "NT_TEX_MX_PLUS"
+  },
+  "NT_TEX_MX_POSITION": {
+    "id": 50016,
+    "displayName": "Tex Mx Position",
+    "enumName": "NT_TEX_MX_POSITION"
+  },
+  "NT_TEX_MX_POWER": {
+    "id": 50038,
+    "displayName": "Tex Mx Power",
+    "enumName": "NT_TEX_MX_POWER"
+  },
+  "NT_TEX_MX_PREMULT": {
+    "id": 50079,
+    "displayName": "Tex Mx Premult",
+    "enumName": "NT_TEX_MX_PREMULT"
+  },
+  "NT_TEX_MX_RAMP4": {
+    "id": 50006,
+    "displayName": "Tex Mx Ramp4",
+    "enumName": "NT_TEX_MX_RAMP4"
+  },
+  "NT_TEX_MX_RAMPLR": {
+    "id": 50004,
+    "displayName": "Tex Mx Ramplr",
+    "enumName": "NT_TEX_MX_RAMPLR"
+  },
+  "NT_TEX_MX_RAMPTB": {
+    "id": 50005,
+    "displayName": "Tex Mx Ramptb",
+    "enumName": "NT_TEX_MX_RAMPTB"
+  },
+  "NT_TEX_MX_RANDOMCOLOR": {
+    "id": 50123,
+    "displayName": "Tex Mx Randomcolor",
+    "enumName": "NT_TEX_MX_RANDOMCOLOR"
+  },
+  "NT_TEX_MX_RANDOMFLOAT": {
+    "id": 50122,
+    "displayName": "Tex Mx Randomfloat",
+    "enumName": "NT_TEX_MX_RANDOMFLOAT"
+  },
+  "NT_TEX_MX_RANGE": {
+    "id": 50076,
+    "displayName": "Tex Mx Range",
+    "enumName": "NT_TEX_MX_RANGE"
+  },
+  "NT_TEX_MX_REFLECT": {
+    "id": 50116,
+    "displayName": "Tex Mx Reflect",
+    "enumName": "NT_TEX_MX_REFLECT"
+  },
+  "NT_TEX_MX_REFRACT": {
+    "id": 50117,
+    "displayName": "Tex Mx Refract",
+    "enumName": "NT_TEX_MX_REFRACT"
+  },
+  "NT_TEX_MX_REMAP": {
+    "id": 50068,
+    "displayName": "Tex Mx Remap",
+    "enumName": "NT_TEX_MX_REMAP"
+  },
+  "NT_TEX_MX_RGBTOHSV": {
+    "id": 50073,
+    "displayName": "Tex Mx Rgbtohsv",
+    "enumName": "NT_TEX_MX_RGBTOHSV"
+  },
+  "NT_TEX_MX_ROTATE2D": {
+    "id": 50064,
+    "displayName": "Tex Mx Rotate2d",
+    "enumName": "NT_TEX_MX_ROTATE2D"
+  },
+  "NT_TEX_MX_ROTATE3D": {
+    "id": 50065,
+    "displayName": "Tex Mx Rotate3d",
+    "enumName": "NT_TEX_MX_ROTATE3D"
+  },
+  "NT_TEX_MX_ROUND": {
+    "id": 50037,
+    "displayName": "Tex Mx Round",
+    "enumName": "NT_TEX_MX_ROUND"
+  },
+  "NT_TEX_MX_SAFEPOWER": {
+    "id": 50067,
+    "displayName": "Tex Mx Safepower",
+    "enumName": "NT_TEX_MX_SAFEPOWER"
+  },
+  "NT_TEX_MX_SATURATE": {
+    "id": 50078,
+    "displayName": "Tex Mx Saturate",
+    "enumName": "NT_TEX_MX_SATURATE"
+  },
+  "NT_TEX_MX_SCREEN": {
+    "id": 50086,
+    "displayName": "Tex Mx Screen",
+    "enumName": "NT_TEX_MX_SCREEN"
+  },
+  "NT_TEX_MX_SEPARATE2": {
+    "id": 50106,
+    "displayName": "Tex Mx Separate2",
+    "enumName": "NT_TEX_MX_SEPARATE2"
+  },
+  "NT_TEX_MX_SEPARATE3": {
+    "id": 50107,
+    "displayName": "Tex Mx Separate3",
+    "enumName": "NT_TEX_MX_SEPARATE3"
+  },
+  "NT_TEX_MX_SEPARATE4": {
+    "id": 50108,
+    "displayName": "Tex Mx Separate4",
+    "enumName": "NT_TEX_MX_SEPARATE4"
+  },
+  "NT_TEX_MX_SIGN": {
+    "id": 50034,
+    "displayName": "Tex Mx Sign",
+    "enumName": "NT_TEX_MX_SIGN"
+  },
+  "NT_TEX_MX_SIN": {
+    "id": 50039,
+    "displayName": "Tex Mx Sin",
+    "enumName": "NT_TEX_MX_SIN"
+  },
+  "NT_TEX_MX_SMOOTHSTEP": {
+    "id": 50069,
+    "displayName": "Tex Mx Smoothstep",
+    "enumName": "NT_TEX_MX_SMOOTHSTEP"
+  },
+  "NT_TEX_MX_SPLITLR": {
+    "id": 50007,
+    "displayName": "Tex Mx Splitlr",
+    "enumName": "NT_TEX_MX_SPLITLR"
+  },
+  "NT_TEX_MX_SPLITTB": {
+    "id": 50008,
+    "displayName": "Tex Mx Splittb",
+    "enumName": "NT_TEX_MX_SPLITTB"
+  },
+  "NT_TEX_MX_SQRT": {
+    "id": 50045,
+    "displayName": "Tex Mx Sqrt",
+    "enumName": "NT_TEX_MX_SQRT"
+  },
+  "NT_TEX_MX_SUBTRACT": {
+    "id": 50026,
+    "displayName": "Tex Mx Subtract",
+    "enumName": "NT_TEX_MX_SUBTRACT"
+  },
+  "NT_TEX_MX_SWITCH": {
+    "id": 50100,
+    "displayName": "Tex Mx Switch",
+    "enumName": "NT_TEX_MX_SWITCH"
+  },
+  "NT_TEX_MX_TAN": {
+    "id": 50041,
+    "displayName": "Tex Mx Tan",
+    "enumName": "NT_TEX_MX_TAN"
+  },
+  "NT_TEX_MX_TANGENT": {
+    "id": 50018,
+    "displayName": "Tex Mx Tangent",
+    "enumName": "NT_TEX_MX_TANGENT"
+  },
+  "NT_TEX_MX_TEXCOORD": {
+    "id": 50020,
+    "displayName": "Tex Mx Texcoord",
+    "enumName": "NT_TEX_MX_TEXCOORD"
+  },
+  "NT_TEX_MX_TILEDIMAGE": {
+    "id": 50002,
+    "displayName": "Tex Mx Tiledimage",
+    "enumName": "NT_TEX_MX_TILEDIMAGE"
+  },
+  "NT_TEX_MX_TIME": {
+    "id": 50022,
+    "displayName": "Tex Mx Time",
+    "enumName": "NT_TEX_MX_TIME"
+  },
+  "NT_TEX_MX_TRANSFORMMATRIX": {
+    "id": 50058,
+    "displayName": "Tex Mx Transformmatrix",
+    "enumName": "NT_TEX_MX_TRANSFORMMATRIX"
+  },
+  "NT_TEX_MX_TRANSFORMMATRIX3X3": {
+    "id": 50027,
+    "displayName": "Tex Mx Transformmatrix3x3",
+    "enumName": "NT_TEX_MX_TRANSFORMMATRIX3X3"
+  },
+  "NT_TEX_MX_TRANSFORMNORMAL": {
+    "id": 50057,
+    "displayName": "Tex Mx Transformnormal",
+    "enumName": "NT_TEX_MX_TRANSFORMNORMAL"
+  },
+  "NT_TEX_MX_TRANSFORMPOINT": {
+    "id": 50055,
+    "displayName": "Tex Mx Transformpoint",
+    "enumName": "NT_TEX_MX_TRANSFORMPOINT"
+  },
+  "NT_TEX_MX_TRANSFORMVECTOR": {
+    "id": 50056,
+    "displayName": "Tex Mx Transformvector",
+    "enumName": "NT_TEX_MX_TRANSFORMVECTOR"
+  },
+  "NT_TEX_MX_TRANSPOSE": {
+    "id": 50060,
+    "displayName": "Tex Mx Transpose",
+    "enumName": "NT_TEX_MX_TRANSPOSE"
+  },
+  "NT_TEX_MX_TRIANGLEWAVE": {
+    "id": 50119,
+    "displayName": "Tex Mx Trianglewave",
+    "enumName": "NT_TEX_MX_TRIANGLEWAVE"
+  },
+  "NT_TEX_MX_TRIPLANARPROJECTION": {
+    "id": 50110,
+    "displayName": "Tex Mx Triplanarprojection",
+    "enumName": "NT_TEX_MX_TRIPLANARPROJECTION"
+  },
+  "NT_TEX_MX_UNPREMULT": {
+    "id": 50080,
+    "displayName": "Tex Mx Unpremult",
+    "enumName": "NT_TEX_MX_UNPREMULT"
+  },
+  "NT_TEX_MX_UPDIRECTION": {
+    "id": 50023,
+    "displayName": "Tex Mx Updirection",
+    "enumName": "NT_TEX_MX_UPDIRECTION"
+  },
+  "NT_TEX_MX_VIEWDIRECTION": {
+    "id": 50126,
+    "displayName": "Tex Mx Viewdirection",
+    "enumName": "NT_TEX_MX_VIEWDIRECTION"
+  },
+  "NT_TEX_MX_WORLEYNOISE2D": {
+    "id": 50014,
+    "displayName": "Tex Mx Worleynoise2d",
+    "enumName": "NT_TEX_MX_WORLEYNOISE2D"
+  },
+  "NT_TEX_MX_WORLEYNOISE3D": {
+    "id": 50015,
+    "displayName": "Tex Mx Worleynoise3d",
+    "enumName": "NT_TEX_MX_WORLEYNOISE3D"
+  },
+  "NT_TEX_MX_XOR": {
+    "id": 50115,
+    "displayName": "Tex Mx Xor",
+    "enumName": "NT_TEX_MX_XOR"
+  },
+  "NT_TEX_NOISE": {
+    "id": 87,
+    "displayName": "Tex Noise",
+    "enumName": "NT_TEX_NOISE"
+  },
+  "NT_TEX_NORMAL": {
+    "id": 327,
+    "displayName": "Tex Normal",
+    "enumName": "NT_TEX_NORMAL"
+  },
+  "NT_TEX_OBJECT_LAYER_COLOR": {
+    "id": 363,
+    "displayName": "Tex Object Layer Color",
+    "enumName": "NT_TEX_OBJECT_LAYER_COLOR"
+  },
+  "NT_TEX_OSL": {
+    "id": 117,
+    "displayName": "Tex Osl",
+    "enumName": "NT_TEX_OSL"
+  },
+  "NT_TEX_OUTPUT_AOV_PARAMETER": {
+    "id": 446,
+    "displayName": "Tex Output Aov Parameter",
+    "enumName": "NT_TEX_OUTPUT_AOV_PARAMETER"
+  },
+  "NT_TEX_PIXEL_FLOW": {
+    "id": 313,
+    "displayName": "Tex Pixel Flow",
+    "enumName": "NT_TEX_PIXEL_FLOW"
+  },
+  "NT_TEX_POSITION": {
+    "id": 328,
+    "displayName": "Tex Position",
+    "enumName": "NT_TEX_POSITION"
+  },
+  "NT_TEX_PROCEDURAL_EFFECTS": {
+    "id": 262,
+    "displayName": "Tex Procedural Effects",
+    "enumName": "NT_TEX_PROCEDURAL_EFFECTS"
+  },
+  "NT_TEX_RAIN_BUMP": {
+    "id": 314,
+    "displayName": "Tex Rain Bump",
+    "enumName": "NT_TEX_RAIN_BUMP"
+  },
+  "NT_TEX_RANDOMCOLOR": {
+    "id": 81,
+    "displayName": "Tex Randomcolor",
+    "enumName": "NT_TEX_RANDOMCOLOR"
+  },
+  "NT_TEX_RANDOM_MAP": {
+    "id": 333,
+    "displayName": "Tex Random Map",
+    "enumName": "NT_TEX_RANDOM_MAP"
+  },
+  "NT_TEX_RANGE": {
+    "id": 334,
+    "displayName": "Tex Range",
+    "enumName": "NT_TEX_RANGE"
+  },
+  "NT_TEX_RAY_DIRECTION": {
+    "id": 326,
+    "displayName": "Tex Ray Direction",
+    "enumName": "NT_TEX_RAY_DIRECTION"
+  },
+  "NT_TEX_RAY_SWITCH": {
+    "id": 173,
+    "displayName": "Tex Ray Switch",
+    "enumName": "NT_TEX_RAY_SWITCH"
+  },
+  "NT_TEX_READ_VDB": {
+    "id": 256,
+    "displayName": "Tex Read Vdb",
+    "enumName": "NT_TEX_READ_VDB"
+  },
+  "NT_TEX_RELATIVE_DISTANCE": {
+    "id": 329,
+    "displayName": "Tex Relative Distance",
+    "enumName": "NT_TEX_RELATIVE_DISTANCE"
+  },
+  "NT_TEX_RGB": {
+    "id": 33,
+    "displayName": "Tex Rgb",
+    "enumName": "NT_TEX_RGB"
+  },
+  "NT_TEX_RGBA": {
+    "id": 474,
+    "displayName": "Tex Rgba",
+    "enumName": "NT_TEX_RGBA"
+  },
+  "NT_TEX_RGFRACTAL": {
+    "id": 48,
+    "displayName": "Tex Rgfractal",
+    "enumName": "NT_TEX_RGFRACTAL"
+  },
+  "NT_TEX_ROT_FRACTAL": {
+    "id": 351,
+    "displayName": "Tex Rot Fractal",
+    "enumName": "NT_TEX_ROT_FRACTAL"
+  },
+  "NT_TEX_SAMPLE_POSITION": {
+    "id": 337,
+    "displayName": "Tex Sample Position",
+    "enumName": "NT_TEX_SAMPLE_POSITION"
+  },
+  "NT_TEX_SAWWAVE": {
+    "id": 42,
+    "displayName": "Tex Sawwave",
+    "enumName": "NT_TEX_SAWWAVE"
+  },
+  "NT_TEX_SCRATCHES": {
+    "id": 315,
+    "displayName": "Tex Scratches",
+    "enumName": "NT_TEX_SCRATCHES"
+  },
+  "NT_TEX_SIDE": {
+    "id": 89,
+    "displayName": "Tex Side",
+    "enumName": "NT_TEX_SIDE"
+  },
+  "NT_TEX_SINEWAVE": {
+    "id": 44,
+    "displayName": "Tex Sinewave",
+    "enumName": "NT_TEX_SINEWAVE"
+  },
+  "NT_TEX_SINE_WAVE_FAN": {
+    "id": 352,
+    "displayName": "Tex Sine Wave Fan",
+    "enumName": "NT_TEX_SINE_WAVE_FAN"
+  },
+  "NT_TEX_SNOW": {
+    "id": 316,
+    "displayName": "Tex Snow",
+    "enumName": "NT_TEX_SNOW"
+  },
+  "NT_TEX_SPOTLIGHT": {
+    "id": 158,
+    "displayName": "Tex Spotlight",
+    "enumName": "NT_TEX_SPOTLIGHT"
+  },
+  "NT_TEX_STAR_FIELD": {
+    "id": 366,
+    "displayName": "Tex Star Field",
+    "enumName": "NT_TEX_STAR_FIELD"
+  },
+  "NT_TEX_STRIPES": {
+    "id": 266,
+    "displayName": "Tex Stripes",
+    "enumName": "NT_TEX_STRIPES"
+  },
+  "NT_TEX_SUBTRACT": {
+    "id": 108,
+    "displayName": "Tex Subtract",
+    "enumName": "NT_TEX_SUBTRACT"
+  },
+  "NT_TEX_TILE_PATTERNS": {
+    "id": 261,
+    "displayName": "Tex Tile Patterns",
+    "enumName": "NT_TEX_TILE_PATTERNS"
+  },
+  "NT_TEX_TRANSFORMED_UV": {
+    "id": 473,
+    "displayName": "Tex Transformed Uv",
+    "enumName": "NT_TEX_TRANSFORMED_UV"
+  },
+  "NT_TEX_TRANSFORM_TO_MATRIX": {
+    "id": 476,
+    "displayName": "Tex Transform To Matrix",
+    "enumName": "NT_TEX_TRANSFORM_TO_MATRIX"
+  },
+  "NT_TEX_TRIANGLEWAVE": {
+    "id": 43,
+    "displayName": "Tex Trianglewave",
+    "enumName": "NT_TEX_TRIANGLEWAVE"
+  },
+  "NT_TEX_TRIPLANAR": {
+    "id": 109,
+    "displayName": "Tex Triplanar",
+    "enumName": "NT_TEX_TRIPLANAR"
+  },
+  "NT_TEX_TRIPPER": {
+    "id": 342,
+    "displayName": "Tex Tripper",
+    "enumName": "NT_TEX_TRIPPER"
+  },
+  "NT_TEX_TURBULENCE": {
+    "id": 22,
+    "displayName": "Tex Turbulence",
+    "enumName": "NT_TEX_TURBULENCE"
+  },
+  "NT_TEX_UV": {
+    "id": 330,
+    "displayName": "Tex Uv",
+    "enumName": "NT_TEX_UV"
+  },
+  "NT_TEX_UVW_TRANSFORM": {
+    "id": 118,
+    "displayName": "Tex Uvw Transform",
+    "enumName": "NT_TEX_UVW_TRANSFORM"
+  },
+  "NT_TEX_VOLUME_CLOUD": {
+    "id": 348,
+    "displayName": "Tex Volume Cloud",
+    "enumName": "NT_TEX_VOLUME_CLOUD"
+  },
+  "NT_TEX_VORONOI_SMOOTH_CONTOURS": {
+    "id": 260,
+    "displayName": "Tex Voronoi Smooth Contours",
+    "enumName": "NT_TEX_VORONOI_SMOOTH_CONTOURS"
+  },
+  "NT_TEX_W": {
+    "id": 104,
+    "displayName": "Tex W",
+    "enumName": "NT_TEX_W"
+  },
+  "NT_TEX_WAVE_PATTERN": {
+    "id": 350,
+    "displayName": "Tex Wave Pattern",
+    "enumName": "NT_TEX_WAVE_PATTERN"
+  },
+  "NT_TEX_WOODGRAIN": {
+    "id": 343,
+    "displayName": "Tex Woodgrain",
+    "enumName": "NT_TEX_WOODGRAIN"
+  },
+  "NT_TEX_Z_DEPTH": {
+    "id": 331,
+    "displayName": "Tex Z Depth",
+    "enumName": "NT_TEX_Z_DEPTH"
+  },
+  "NT_SUN_DIRECTION": {
+    "id": 30,
+    "displayName": "Sun Direction",
+    "enumName": "NT_SUN_DIRECTION"
+  },
+  "NT_TRANSFORM_2D": {
+    "id": 66,
+    "displayName": "Transform 2d",
+    "enumName": "NT_TRANSFORM_2D"
+  },
+  "NT_TRANSFORM_2D_FROM_UV": {
+    "id": 465,
+    "displayName": "Transform 2d From Uv",
+    "enumName": "NT_TRANSFORM_2D_FROM_UV"
+  },
+  "NT_TRANSFORM_3D": {
+    "id": 27,
+    "displayName": "Transform 3d",
+    "enumName": "NT_TRANSFORM_3D"
+  },
+  "NT_TRANSFORM_LOOKAT": {
+    "id": 283,
+    "displayName": "Transform Lookat",
+    "enumName": "NT_TRANSFORM_LOOKAT"
+  },
+  "NT_TRANSFORM_ROTATION": {
+    "id": 29,
+    "displayName": "Transform Rotation",
+    "enumName": "NT_TRANSFORM_ROTATION"
+  },
+  "NT_TRANSFORM_SCALE": {
+    "id": 28,
+    "displayName": "Transform Scale",
+    "enumName": "NT_TRANSFORM_SCALE"
+  },
+  "NT_TRANSFORM_VALUE": {
+    "id": 67,
+    "displayName": "Transform Value",
+    "enumName": "NT_TRANSFORM_VALUE"
+  },
+  "NT_BIT_MASK": {
+    "id": 132,
+    "displayName": "Bit Mask",
+    "enumName": "NT_BIT_MASK"
+  },
+  "NT_LUT_CUSTOM": {
+    "id": 103,
+    "displayName": "Lut Custom",
+    "enumName": "NT_LUT_CUSTOM"
+  },
+  "NT_OBJECTLAYER": {
+    "id": 65,
+    "displayName": "Objectlayer",
+    "enumName": "NT_OBJECTLAYER"
+  },
+  "NT_OBJECTLAYER_MAP": {
+    "id": 64,
+    "displayName": "Objectlayer Map",
+    "enumName": "NT_OBJECTLAYER_MAP"
+  },
+  "NT_OCIO_COLOR_SPACE": {
+    "id": 163,
+    "displayName": "Ocio Color Space",
+    "enumName": "NT_OCIO_COLOR_SPACE"
+  },
+  "NT_OCIO_LOOK": {
+    "id": 161,
+    "displayName": "Ocio Look",
+    "enumName": "NT_OCIO_LOOK"
+  },
+  "NT_OCIO_VIEW": {
+    "id": 160,
+    "displayName": "Ocio View",
+    "enumName": "NT_OCIO_VIEW"
+  },
+  "NT_TOON_RAMP": {
+    "id": 122,
+    "displayName": "Toon Ramp",
+    "enumName": "NT_TOON_RAMP"
+  },
+  "NT_TRACE_SET_VISIBILITY_RULE": {
+    "id": 483,
+    "displayName": "Trace Set Visibility Rule",
+    "enumName": "NT_TRACE_SET_VISIBILITY_RULE"
+  },
+  "NT_TRACE_SET_VISIBILITY_RULE_GROUP": {
+    "id": 482,
+    "displayName": "Trace Set Visibility Rule Group",
+    "enumName": "NT_TRACE_SET_VISIBILITY_RULE_GROUP"
+  },
+  "NT_VOLUME_RAMP": {
+    "id": 95,
+    "displayName": "Volume Ramp",
+    "enumName": "NT_VOLUME_RAMP"
+  },
+  "NT_IN_ANIMATION_SETTINGS": {
+    "id": 20027,
+    "displayName": "In Animation Settings",
+    "enumName": "NT_IN_ANIMATION_SETTINGS"
+  },
+  "NT_IN_BIT_MASK": {
+    "id": 20031,
+    "displayName": "In Bit Mask",
+    "enumName": "NT_IN_BIT_MASK"
+  },
+  "NT_IN_BLENDING_SETTINGS": {
+    "id": 20044,
+    "displayName": "In Blending Settings",
+    "enumName": "NT_IN_BLENDING_SETTINGS"
+  },
+  "NT_IN_BOOL": {
+    "id": 20001,
+    "displayName": "In Bool",
+    "enumName": "NT_IN_BOOL"
+  },
+  "NT_IN_CAMERA": {
+    "id": 20008,
+    "displayName": "In Camera",
+    "enumName": "NT_IN_CAMERA"
+  },
+  "NT_IN_DISPLACEMENT": {
+    "id": 20022,
+    "displayName": "In Displacement",
+    "enumName": "NT_IN_DISPLACEMENT"
+  },
+  "NT_IN_EMISSION": {
+    "id": 20006,
+    "displayName": "In Emission",
+    "enumName": "NT_IN_EMISSION"
+  },
+  "NT_IN_ENUM": {
+    "id": 20016,
+    "displayName": "In Enum",
+    "enumName": "NT_IN_ENUM"
+  },
+  "NT_IN_ENVIRONMENT": {
+    "id": 20009,
+    "displayName": "In Environment",
+    "enumName": "NT_IN_ENVIRONMENT"
+  },
+  "NT_IN_FILM_SETTINGS": {
+    "id": 20015,
+    "displayName": "In Film Settings",
+    "enumName": "NT_IN_FILM_SETTINGS"
+  },
+  "NT_IN_FLOAT": {
+    "id": 20002,
+    "displayName": "In Float",
+    "enumName": "NT_IN_FLOAT"
+  },
+  "NT_IN_GEOMETRY": {
+    "id": 20012,
+    "displayName": "In Geometry",
+    "enumName": "NT_IN_GEOMETRY"
+  },
+  "NT_IN_IMAGER": {
+    "id": 20010,
+    "displayName": "In Imager",
+    "enumName": "NT_IN_IMAGER"
+  },
+  "NT_IN_INT": {
+    "id": 20003,
+    "displayName": "In Int",
+    "enumName": "NT_IN_INT"
+  },
+  "NT_IN_KERNEL": {
+    "id": 20011,
+    "displayName": "In Kernel",
+    "enumName": "NT_IN_KERNEL"
+  },
+  "NT_IN_LUT": {
+    "id": 20028,
+    "displayName": "In Lut",
+    "enumName": "NT_IN_LUT"
+  },
+  "NT_IN_MATERIAL": {
+    "id": 20007,
+    "displayName": "In Material",
+    "enumName": "NT_IN_MATERIAL"
+  },
+  "NT_IN_MATERIAL_LAYER": {
+    "id": 20033,
+    "displayName": "In Material Layer",
+    "enumName": "NT_IN_MATERIAL_LAYER"
+  },
+  "NT_IN_MEDIUM": {
+    "id": 20013,
+    "displayName": "In Medium",
+    "enumName": "NT_IN_MEDIUM"
+  },
+  "NT_IN_OBJECTLAYER": {
+    "id": 20017,
+    "displayName": "In Objectlayer",
+    "enumName": "NT_IN_OBJECTLAYER"
+  },
+  "NT_IN_OCIO_COLOR_SPACE": {
+    "id": 20036,
+    "displayName": "In Ocio Color Space",
+    "enumName": "NT_IN_OCIO_COLOR_SPACE"
+  },
+  "NT_IN_OCIO_LOOK": {
+    "id": 20035,
+    "displayName": "In Ocio Look",
+    "enumName": "NT_IN_OCIO_LOOK"
+  },
+  "NT_IN_OCIO_VIEW": {
+    "id": 20034,
+    "displayName": "In Ocio View",
+    "enumName": "NT_IN_OCIO_VIEW"
+  },
+  "NT_IN_OFFSET": {
+    "id": 20000,
+    "displayName": "In Offset",
+    "enumName": "NT_IN_OFFSET"
+  },
+  "NT_IN_OUTPUT_AOV": {
+    "id": 20038,
+    "displayName": "In Output Aov",
+    "enumName": "NT_IN_OUTPUT_AOV"
+  },
+  "NT_IN_OUTPUT_AOV_GROUP": {
+    "id": 20037,
+    "displayName": "In Output Aov Group",
+    "enumName": "NT_IN_OUTPUT_AOV_GROUP"
+  },
+  "NT_IN_OUTPUT_AOV_LAYER": {
+    "id": 20040,
+    "displayName": "In Output Aov Layer",
+    "enumName": "NT_IN_OUTPUT_AOV_LAYER"
+  },
+  "NT_IN_PHASEFUNCTION": {
+    "id": 20014,
+    "displayName": "In Phasefunction",
+    "enumName": "NT_IN_PHASEFUNCTION"
+  },
+  "NT_IN_POSTPROCESSING": {
+    "id": 20018,
+    "displayName": "In Postprocessing",
+    "enumName": "NT_IN_POSTPROCESSING"
+  },
+  "NT_IN_POST_VOLUME": {
+    "id": 20045,
+    "displayName": "In Post Volume",
+    "enumName": "NT_IN_POST_VOLUME"
+  },
+  "NT_IN_PROJECTION": {
+    "id": 20021,
+    "displayName": "In Projection",
+    "enumName": "NT_IN_PROJECTION"
+  },
+  "NT_IN_RENDERTARGET": {
+    "id": 20019,
+    "displayName": "In Rendertarget",
+    "enumName": "NT_IN_RENDERTARGET"
+  },
+  "NT_IN_RENDER_JOB": {
+    "id": 20029,
+    "displayName": "In Render Job",
+    "enumName": "NT_IN_RENDER_JOB"
+  },
+  "NT_IN_RENDER_LAYER": {
+    "id": 20025,
+    "displayName": "In Render Layer",
+    "enumName": "NT_IN_RENDER_LAYER"
+  },
+  "NT_IN_RENDER_PASSES": {
+    "id": 20024,
+    "displayName": "In Render Passes",
+    "enumName": "NT_IN_RENDER_PASSES"
+  },
+  "NT_IN_ROUND_EDGES": {
+    "id": 20032,
+    "displayName": "In Round Edges",
+    "enumName": "NT_IN_ROUND_EDGES"
+  },
+  "NT_IN_STRING": {
+    "id": 20023,
+    "displayName": "In String",
+    "enumName": "NT_IN_STRING"
+  },
+  "NT_IN_TEXTURE": {
+    "id": 20005,
+    "displayName": "In Texture",
+    "enumName": "NT_IN_TEXTURE"
+  },
+  "NT_IN_TEX_COMPOSITE_LAYER": {
+    "id": 20039,
+    "displayName": "In Tex Composite Layer",
+    "enumName": "NT_IN_TEX_COMPOSITE_LAYER"
+  },
+  "NT_IN_TOON_RAMP": {
+    "id": 20030,
+    "displayName": "In Toon Ramp",
+    "enumName": "NT_IN_TOON_RAMP"
+  },
+  "NT_IN_TRACE_SET_VISIBILITY_RULE": {
+    "id": 20047,
+    "displayName": "In Trace Set Visibility Rule",
+    "enumName": "NT_IN_TRACE_SET_VISIBILITY_RULE"
+  },
+  "NT_IN_TRACE_SET_VISIBILITY_RULE_GROUP": {
+    "id": 20046,
+    "displayName": "In Trace Set Visibility Rule Group",
+    "enumName": "NT_IN_TRACE_SET_VISIBILITY_RULE_GROUP"
+  },
+  "NT_IN_TRANSFORM": {
+    "id": 20004,
+    "displayName": "In Transform",
+    "enumName": "NT_IN_TRANSFORM"
+  },
+  "NT_IN_VOLUME_RAMP": {
+    "id": 20026,
+    "displayName": "In Volume Ramp",
+    "enumName": "NT_IN_VOLUME_RAMP"
+  },
+  "NT_SWITCH_ANIMATION_SETTINGS": {
+    "id": 40027,
+    "displayName": "Switch Animation Settings",
+    "enumName": "NT_SWITCH_ANIMATION_SETTINGS"
+  },
+  "NT_SWITCH_BIT_MASK": {
+    "id": 40031,
+    "displayName": "Switch Bit Mask",
+    "enumName": "NT_SWITCH_BIT_MASK"
+  },
+  "NT_SWITCH_BLENDING_SETTINGS": {
+    "id": 40044,
+    "displayName": "Switch Blending Settings",
+    "enumName": "NT_SWITCH_BLENDING_SETTINGS"
+  },
+  "NT_SWITCH_BOOL": {
+    "id": 40001,
+    "displayName": "Switch Bool",
+    "enumName": "NT_SWITCH_BOOL"
+  },
+  "NT_SWITCH_CAMERA": {
+    "id": 40008,
+    "displayName": "Switch Camera",
+    "enumName": "NT_SWITCH_CAMERA"
+  },
+  "NT_SWITCH_DISPLACEMENT": {
+    "id": 40022,
+    "displayName": "Switch Displacement",
+    "enumName": "NT_SWITCH_DISPLACEMENT"
+  },
+  "NT_SWITCH_EMISSION": {
+    "id": 40006,
+    "displayName": "Switch Emission",
+    "enumName": "NT_SWITCH_EMISSION"
+  },
+  "NT_SWITCH_ENUM": {
+    "id": 40016,
+    "displayName": "Switch Enum",
+    "enumName": "NT_SWITCH_ENUM"
+  },
+  "NT_SWITCH_ENVIRONMENT": {
+    "id": 40009,
+    "displayName": "Switch Environment",
+    "enumName": "NT_SWITCH_ENVIRONMENT"
+  },
+  "NT_SWITCH_FILM_SETTINGS": {
+    "id": 40015,
+    "displayName": "Switch Film Settings",
+    "enumName": "NT_SWITCH_FILM_SETTINGS"
+  },
+  "NT_SWITCH_FLOAT": {
+    "id": 40002,
+    "displayName": "Switch Float",
+    "enumName": "NT_SWITCH_FLOAT"
+  },
+  "NT_SWITCH_GEOMETRY": {
+    "id": 40012,
+    "displayName": "Switch Geometry",
+    "enumName": "NT_SWITCH_GEOMETRY"
+  },
+  "NT_SWITCH_IMAGER": {
+    "id": 40010,
+    "displayName": "Switch Imager",
+    "enumName": "NT_SWITCH_IMAGER"
+  },
+  "NT_SWITCH_INT": {
+    "id": 40003,
+    "displayName": "Switch Int",
+    "enumName": "NT_SWITCH_INT"
+  },
+  "NT_SWITCH_INTERNAL": {
+    "id": 381,
+    "displayName": "Switch Internal",
+    "enumName": "NT_SWITCH_INTERNAL"
+  },
+  "NT_SWITCH_KERNEL": {
+    "id": 40011,
+    "displayName": "Switch Kernel",
+    "enumName": "NT_SWITCH_KERNEL"
+  },
+  "NT_SWITCH_LUT": {
+    "id": 40028,
+    "displayName": "Switch Lut",
+    "enumName": "NT_SWITCH_LUT"
+  },
+  "NT_SWITCH_MATERIAL": {
+    "id": 40007,
+    "displayName": "Switch Material",
+    "enumName": "NT_SWITCH_MATERIAL"
+  },
+  "NT_SWITCH_MATERIAL_LAYER": {
+    "id": 40033,
+    "displayName": "Switch Material Layer",
+    "enumName": "NT_SWITCH_MATERIAL_LAYER"
+  },
+  "NT_SWITCH_MEDIUM": {
+    "id": 40013,
+    "displayName": "Switch Medium",
+    "enumName": "NT_SWITCH_MEDIUM"
+  },
+  "NT_SWITCH_OBJECTLAYER": {
+    "id": 40017,
+    "displayName": "Switch Objectlayer",
+    "enumName": "NT_SWITCH_OBJECTLAYER"
+  },
+  "NT_SWITCH_OCIO_COLOR_SPACE": {
+    "id": 40036,
+    "displayName": "Switch Ocio Color Space",
+    "enumName": "NT_SWITCH_OCIO_COLOR_SPACE"
+  },
+  "NT_SWITCH_OCIO_LOOK": {
+    "id": 40035,
+    "displayName": "Switch Ocio Look",
+    "enumName": "NT_SWITCH_OCIO_LOOK"
+  },
+  "NT_SWITCH_OCIO_VIEW": {
+    "id": 40034,
+    "displayName": "Switch Ocio View",
+    "enumName": "NT_SWITCH_OCIO_VIEW"
+  },
+  "NT_SWITCH_OFFSET": {
+    "id": 40000,
+    "displayName": "Switch Offset",
+    "enumName": "NT_SWITCH_OFFSET"
+  },
+  "NT_SWITCH_OUTPUT_AOV": {
+    "id": 40038,
+    "displayName": "Switch Output Aov",
+    "enumName": "NT_SWITCH_OUTPUT_AOV"
+  },
+  "NT_SWITCH_OUTPUT_AOV_GROUP": {
+    "id": 40037,
+    "displayName": "Switch Output Aov Group",
+    "enumName": "NT_SWITCH_OUTPUT_AOV_GROUP"
+  },
+  "NT_SWITCH_OUTPUT_AOV_LAYER": {
+    "id": 40040,
+    "displayName": "Switch Output Aov Layer",
+    "enumName": "NT_SWITCH_OUTPUT_AOV_LAYER"
+  },
+  "NT_SWITCH_PHASEFUNCTION": {
+    "id": 40014,
+    "displayName": "Switch Phasefunction",
+    "enumName": "NT_SWITCH_PHASEFUNCTION"
+  },
+  "NT_SWITCH_POSTPROCESSING": {
+    "id": 40018,
+    "displayName": "Switch Postprocessing",
+    "enumName": "NT_SWITCH_POSTPROCESSING"
+  },
+  "NT_SWITCH_POST_VOLUME": {
+    "id": 40045,
+    "displayName": "Switch Post Volume",
+    "enumName": "NT_SWITCH_POST_VOLUME"
+  },
+  "NT_SWITCH_PROJECTION": {
+    "id": 40021,
+    "displayName": "Switch Projection",
+    "enumName": "NT_SWITCH_PROJECTION"
+  },
+  "NT_SWITCH_RENDERTARGET": {
+    "id": 40019,
+    "displayName": "Switch Rendertarget",
+    "enumName": "NT_SWITCH_RENDERTARGET"
+  },
+  "NT_SWITCH_RENDER_JOB": {
+    "id": 40029,
+    "displayName": "Switch Render Job",
+    "enumName": "NT_SWITCH_RENDER_JOB"
+  },
+  "NT_SWITCH_RENDER_LAYER": {
+    "id": 40025,
+    "displayName": "Switch Render Layer",
+    "enumName": "NT_SWITCH_RENDER_LAYER"
+  },
+  "NT_SWITCH_RENDER_PASSES": {
+    "id": 40024,
+    "displayName": "Switch Render Passes",
+    "enumName": "NT_SWITCH_RENDER_PASSES"
+  },
+  "NT_SWITCH_ROUND_EDGES": {
+    "id": 40032,
+    "displayName": "Switch Round Edges",
+    "enumName": "NT_SWITCH_ROUND_EDGES"
+  },
+  "NT_SWITCH_STRING": {
+    "id": 40023,
+    "displayName": "Switch String",
+    "enumName": "NT_SWITCH_STRING"
+  },
+  "NT_SWITCH_TEXTURE": {
+    "id": 40005,
+    "displayName": "Switch Texture",
+    "enumName": "NT_SWITCH_TEXTURE"
+  },
+  "NT_SWITCH_TEX_COMPOSITE_LAYER": {
+    "id": 40039,
+    "displayName": "Switch Tex Composite Layer",
+    "enumName": "NT_SWITCH_TEX_COMPOSITE_LAYER"
+  },
+  "NT_SWITCH_TOON_RAMP": {
+    "id": 40030,
+    "displayName": "Switch Toon Ramp",
+    "enumName": "NT_SWITCH_TOON_RAMP"
+  },
+  "NT_SWITCH_TRACE_SET_VISIBILITY_RULE": {
+    "id": 40047,
+    "displayName": "Switch Trace Set Visibility Rule",
+    "enumName": "NT_SWITCH_TRACE_SET_VISIBILITY_RULE"
+  },
+  "NT_SWITCH_TRACE_SET_VISIBILITY_RULE_GROUP": {
+    "id": 40046,
+    "displayName": "Switch Trace Set Visibility Rule Group",
+    "enumName": "NT_SWITCH_TRACE_SET_VISIBILITY_RULE_GROUP"
+  },
+  "NT_SWITCH_TRANSFORM": {
+    "id": 40004,
+    "displayName": "Switch Transform",
+    "enumName": "NT_SWITCH_TRANSFORM"
+  },
+  "NT_SWITCH_VOLUME_RAMP": {
+    "id": 40026,
+    "displayName": "Switch Volume Ramp",
+    "enumName": "NT_SWITCH_VOLUME_RAMP"
+  },
+  "NT_RENDERTARGET": {
+    "id": 56,
+    "displayName": "Rendertarget",
+    "enumName": "NT_RENDERTARGET"
+  }
+}
