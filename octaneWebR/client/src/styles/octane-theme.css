@@ -1341,12 +1341,13 @@ html, body {
 
 .context-menu-category {
     position: relative;
-    padding: 2px 12px;
+    padding: 1px 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: space-between;
     white-space: nowrap;
+    line-height: 1.2;
 }
 
 .context-menu-category::after {
@@ -1407,12 +1408,13 @@ html, body {
 
 /* Context menu items - consistent styling for main menu and all submenus */
 .context-menu-item {
-    padding: 2px 12px;
+    padding: 1px 12px;
     cursor: pointer;
     white-space: nowrap;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
+    line-height: 1.2;
 }
 
 .context-menu-item:hover {
@@ -1575,8 +1577,8 @@ select {
 }
 
 .node-type-color {
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     border-radius: 2px;
     flex-shrink: 0;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1584,8 +1586,8 @@ select {
 
 /* Node type icon - actual PNG icons from Octane */
 .node-type-icon {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     flex-shrink: 0;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
