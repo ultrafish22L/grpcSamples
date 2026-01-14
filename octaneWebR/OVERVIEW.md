@@ -2,6 +2,17 @@
 
 **Complete architectural documentation for octaneWebR: React/TypeScript UI clone of Octane Render Studio SE**
 
+**Last Updated**: 2025-01-20
+
+---
+
+## 📚 **Related Documentation**
+
+- **[MANUAL_COMPARISON.md](./MANUAL_COMPARISON.md)** - Complete feature-by-feature comparison vs Octane SE manual (215 features cataloged)
+- **[WORKFLOW.md](./WORKFLOW.md)** - Development workflow and best practices
+- **[OCTANE_STANDALONE_IMPLEMENTATION_PLAN.md](./OCTANE_STANDALONE_IMPLEMENTATION_PLAN.md)** - Detailed task-by-task implementation roadmap
+- **[OCTANE_API_REFERENCE.md](./OCTANE_API_REFERENCE.md)** - gRPC API patterns and examples
+
 ---
 
 ## 📋 **Table of Contents**

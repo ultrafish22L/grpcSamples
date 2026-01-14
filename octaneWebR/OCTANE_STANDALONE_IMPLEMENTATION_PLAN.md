@@ -47,28 +47,62 @@ Example:
 
 ---
 
-## Current State Assessment
+## Current State Assessment (Updated: 2025-01-20)
 
-### ✅ Already Implemented (Core)
+**See `MANUAL_COMPARISON.md` for complete feature-by-feature breakdown**
+
+### ✅ Already Implemented (Core) - 71/215 features (33%)
 - **Node Graph Editor** with ReactFlow v12
-  - ✅ Pin connections/disconnections synced to Octane (NEW: 2025-01-20)
+  - ✅ Node creation via right-click (755 node types in 25 categories)
+  - ✅ Pin connections/disconnections synced to Octane
   - ✅ Edge reconnections with drag-and-drop
-  - ✅ Node creation via right-click context menu
   - ✅ Node/edge deletion propagated to Octane
-  - ✅ Proper edge colors from pin types
+  - ✅ Minimap navigation with yellow thumbnail
+  - ✅ Box selection with Shift-to-add
+  - ✅ Connection cutter (Ctrl+drag)
+  - ✅ Multi-connect (Ctrl+connect)
+  - ✅ Search dialog (Ctrl+F)
+  - ✅ Pin hover tooltips with full info
+  - ✅ Show in Outliner context menu
 - **Scene Outliner** with hierarchical tree view
-- **Node Inspector** with real-time parameter editing (all types supported)
+  - ✅ LocalDB browser with category hierarchy
+  - ✅ Double-click to load packages
+  - ✅ Tree expand/collapse with persistence
+  - ✅ Node icons from OctaneIconMapper
+- **Node Inspector** with real-time parameter editing
+  - ✅ All parameter types (bool, int, float, vector, color, enum, string)
+  - ✅ Real-time sync to Octane on change
 - **Render Viewport** with callback streaming
-- **Camera Controls** (orbit, pan, zoom synced to Octane)
+  - ✅ Real-time OnNewImage callback rendering
+  - ✅ Mouse orbit/pan/zoom synced to Octane
+  - ✅ HDR/LDR buffer processing with isolation
+  - ✅ Camera initialization from Octane
+  - ✅ Rate-limited camera updates (10Hz)
 - **Menu System** (File/Edit/View/Window/Help with file dialogs)
+  - ✅ New/Open/Save/SaveAs scene operations
+  - ✅ Recent files list
+  - ✅ Help menu with documentation links
 
-### 🟡 Partially Implemented
-- Material/texture preview (basic, needs enhancement)
-- Node grouping (limited functionality)
-- Drag and drop support (needs enhancement)
+### 🟨 Partially Implemented - 48/215 features (22.3%)
+- **Copy/Paste nodes** - Code exists, needs testing
+- **Menu actions** - Many placeholders, need API wiring
+- **Render toolbar** - UI complete, stats are placeholders
+- **Inspector quick buttons** - Planned but not implemented
+- **LiveDB tab** - UI exists, not functional
+- **Import/Export** - Limited format support
+- **Visibility toggles** - Icons exist, no API integration
 
-### ❌ Not Implemented
-- Most advanced features listed below in each section
+### ❌ Not Implemented - 96/215 features (44.7%)
+- **Node grouping/ungrouping** - Critical gap, documented in manual
+- **Application Settings** - Completely missing (0/9 settings tabs)
+- **Viewport pickers** - Material/Object/Focus/Target pickers
+- **Render statistics** - No real data from Octane
+- **Animation system** - Timeline, keyframes, playback
+- **Undo/Redo system** - Not implemented
+- **Drag & drop files** - ORBX/mesh/texture files
+- **Panel docking** - No customization
+- **Keyboard shortcuts** - Many standard shortcuts missing
+- **Scripting** - Batch render, daylight/turntable animation
 
 ---
 

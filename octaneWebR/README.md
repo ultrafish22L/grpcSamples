@@ -223,6 +223,7 @@ Browsers cannot natively speak gRPC (HTTP/2 binary protocol). The Vite plugin ac
 
 ## 📚 **Documentation**
 
+- **[MANUAL_COMPARISON.md](./MANUAL_COMPARISON.md)** 🆕 - Complete feature comparison vs Octane SE manual (215 features cataloged)
 - **[WORKFLOW.md](./WORKFLOW.md)** ⭐ - Complete development workflow and prime directive
 - **[OVERVIEW.md](./OVERVIEW.md)** - Architecture deep dive and design philosophy
 - **[QUICKSTART.md](./QUICKSTART.md)** - New developer onboarding guide
