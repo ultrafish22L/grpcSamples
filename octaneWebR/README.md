@@ -33,10 +33,12 @@ Open **http://localhost:43929** (or port shown in terminal)
 - ✅ **Real-time Scene Management** - Interactive scene outliner with hierarchical tree view
 - ✅ **Node Graph Editor** - ReactFlow v12-based visual node graph with:
   - ✅ Node creation via right-click context menu
-  - ✅ Pin connections/disconnections synced to Octane (NEW!)
+  - ✅ Pin connections/disconnections synced to Octane
   - ✅ Edge reconnections with drag-and-drop
   - ✅ Node/edge deletion propagated to Octane
   - ✅ Proper edge colors from pin types
+  - ✅ Box selection with Shift multi-select (NEW!)
+  - ✅ Search dialog (Ctrl+F) for nodes and pins (NEW!)
 - ✅ **Node Inspector** - View and edit node properties with real-time Octane sync
 - ✅ **Parameter Editing** - All types supported (bool, int, float, vectors, colors, enums, strings)
 - ✅ **Live Rendering** - Real-time callback-based viewport with camera controls
@@ -82,6 +84,17 @@ Browser (React App) → Vite Dev Server (gRPC-Web Plugin) → Octane LiveLink (1
 
 ## 🎯 Recent Achievements
 
+- ✅ **2025-01-21**: Implemented Search Dialog (Ctrl+F) per Octane SE manual
+  - Real-time search for node names, types, and pin names
+  - Click to select individual node, or Select All for multiple
+  - Keyboard shortcuts: Enter to select all, Escape to close
+  - Portal rendering with auto-focus on input field
+- ✅ **2025-01-21**: Implemented Box Selection and Multi-Select
+  - Drag in empty space to create selection box
+  - Shift key adds nodes to existing selection
+  - Ctrl+click toggles individual node selection
+- ✅ **2025-01-21**: Node context menu styling cleanup (removed emoji icons)
+- ✅ **2025-01-21**: Major documentation updates to prevent feature hallucination
 - ✅ **2025-01-20**: Fixed pin connections not propagating to Octane
   - `onConnect` now calls `client.connectPinByIndex()` for new connections
   - `onReconnect` implements full disconnect-then-connect sync

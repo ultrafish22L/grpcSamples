@@ -157,11 +157,13 @@ Example:
   - **Commit**: "Add save to LocalDB with thumbnail preview"
 
 #### 1.4 Search & Discovery ⭐⭐⭐⭐
-- [ ] **TASK 1.4.1**: Search dialog (Ctrl+F) for nodes and pins
-  - **UI**: Search overlay with results highlighting
+- [x] **TASK 1.4.1**: Search dialog (Ctrl+F) for nodes and pins ✅ **COMPLETED** (Commit: 768d4340)
+  - **UI**: Search dialog with real-time filtering and results list
   - **gRPC API**: None (client-side search)
   - **Dependencies**: None
-  - **Commit**: "Implement node/pin search with Ctrl+F"
+  - **Status**: Ctrl+F opens search dialog, searches node names/types/pins, selects matching nodes
+  - **Manual Reference**: "Node Graph Editor Navigation" > "Search Dialog"
+  - **Commit**: "Implement Search Dialog (Ctrl+F) per Octane SE manual"
 
 #### 1.5 Visual Features ⭐⭐⭐
 - [ ] **TASK 1.5.1**: Node pin hover tooltips (show material name)
