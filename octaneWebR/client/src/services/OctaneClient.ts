@@ -1037,6 +1037,21 @@ export class OctaneClient extends EventEmitter {
     }
   }
 
+  /**
+   * Get render statistics from Octane
+   * Returns comprehensive render progress data including samples, time, resolution, etc.
+   * @returns Render statistics object or null if unavailable
+   */
+  async getRenderStatistics(): Promise<any> {
+    try {
+      const response = await this.callApi('ApiRenderEngine', 'getRenderStatistics', 0, {});
+      return response?.statistics || null;
+    } catch (error: any) {
+      console.error('❌ Failed to get render statistics:', error.message);
+      return null;
+    }
+  }
+
   // Node Creation API
   /**
    * Create a new node of the specified type in the scene

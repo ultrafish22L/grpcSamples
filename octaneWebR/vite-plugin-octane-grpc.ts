@@ -114,12 +114,14 @@ class OctaneGrpcClient {
       // Load with dependencies for complex services
       const protoFiles = [protoFilePath];
       
-      // ApiRenderEngine needs common.proto and callback.proto
+      // ApiRenderEngine needs common.proto, callback.proto, and octanerenderpasses.proto
       if (serviceName === 'ApiRenderEngine') {
         const commonProto = path.join(PROTO_PATH, 'common.proto');
         const callbackProto = path.join(PROTO_PATH, 'callback.proto');
+        const renderPassesProto = path.join(PROTO_PATH, 'octanerenderpasses.proto');
         if (fs.existsSync(commonProto)) protoFiles.unshift(commonProto);
         if (fs.existsSync(callbackProto)) protoFiles.push(callbackProto);
+        if (fs.existsSync(renderPassesProto)) protoFiles.push(renderPassesProto);
       }
       
       // StreamCallbackService needs common.proto and apirender.proto

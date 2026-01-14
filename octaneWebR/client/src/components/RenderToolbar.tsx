@@ -97,18 +97,40 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
     initializeRenderSettings();
   }, [connected, client]);
 
-  // Update render stats periodically (placeholder - will be updated from callback data)
+  // Fetch and update render statistics periodically
   useEffect(() => {
     if (!connected) return;
     
-    // TODO: Subscribe to render statistics updates from Octane
-    // For now, this is a placeholder
-    const interval = setInterval(() => {
-      // Placeholder for real-time stats updates
-    }, 1000);
+    const updateStats = async () => {
+      try {
+        const stats = await client.getRenderStatistics();
+        if (stats) {
+          // Parse the statistics object from Octane
+          // The statistics object contains setSize (resolution), usedSize, etc.
+          const width = stats.setSize?.x || stats.setSize?.[0] || renderStats.resolution.split('x')[0];
+          const height = stats.setSize?.y || stats.setSize?.[1] || renderStats.resolution.split('x')[1];
+          const resolution = `${width}x${height}`;
+          
+          // Update render stats with real data
+          setRenderStats(prev => ({
+            ...prev,
+            resolution,
+            // Add more fields as we parse the statistics object
+          }));
+        }
+      } catch (error) {
+        console.error('Failed to fetch render statistics:', error);
+      }
+    };
+
+    // Initial fetch
+    updateStats();
+    
+    // Poll every 1 second for real-time updates
+    const interval = setInterval(updateStats, 1000);
 
     return () => clearInterval(interval);
-  }, [connected]);
+  }, [connected, client]);
 
   // ========================================
   // TOOLBAR ACTIONS
