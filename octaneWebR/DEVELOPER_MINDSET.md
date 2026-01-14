@@ -475,11 +475,73 @@ You judge the quality. AI implements to your specs.
 
 ---
 
+## 🚨 Truth Discipline: No Feature Hallucination
+
+**The Octane SE manual is the ONLY source of truth.**
+
+### The Temptation
+
+You'll see code. Components. Features. Files.  
+Your mind will assume: "This exists, so it must need work."
+
+**WRONG.**
+
+### The Reality Check
+
+**Before proposing ANY task:**
+
+1. **Check the manual** - https://docs.otoy.com/standaloneSE/
+2. **Find the feature** - Screenshot? Description? Documented behavior?
+3. **If not in manual** - Feature probably shouldn't exist
+
+**Example of hallucination (WRONG)**:
+- See `EdgeContextMenu.tsx` in code
+- Assume: "Octane SE must have edge context menus"
+- Propose: "Let's style the edge context menu"
+- **PROBLEM**: Octane SE has NO edge context menus!
+
+**Correct approach**:
+- See `EdgeContextMenu.tsx` in code
+- Check manual: No edge context menu documented
+- Conclude: This file may be leftover code
+- Ask: "Does Octane SE have edge context menus? Not seeing it in manual."
+
+### Your Directive to AI
+
+**Good:**
+- "AI: Check Octane SE manual section X. What features are documented?"
+- "AI: I don't see feature Y in the manual. Can you verify?"
+- "AI: Implement feature Z as described in manual section A.B.C"
+
+**Bad:**
+- "AI: Look at existing code and propose similar tasks"
+- "AI: Find features that need styling work"
+- "AI: Assume what Octane SE probably has"
+
+### The Discipline
+
+**ALWAYS:**
+- ✅ Verify feature exists in Octane SE manual before implementing
+- ✅ Reference specific manual sections in task descriptions
+- ✅ Ask user when feature existence is uncertain
+- ✅ Challenge AI when it proposes features not in manual
+
+**NEVER:**
+- ❌ Assume features exist because code exists
+- ❌ Implement features not documented in manual
+- ❌ Let AI propose tasks based on code inspection alone
+- ❌ Work on "similar" features without manual verification
+
+**Manual is truth. Code is implementation. Manual wins every time.**
+
+---
+
 ## 📚 References
 
 - **Technical Workflow**: See `WORKFLOW.md`
 - **Implementation Plan**: See `OCTANE_STANDALONE_IMPLEMENTATION_PLAN.md`
 - **Current Status**: See `CURRENT_BLOCKER.md`
 - **Quick Start**: See `QUICKSTART.md`
+- **Octane SE Manual**: https://docs.otoy.com/standaloneSE/CoverPage.html ⭐ SOURCE OF TRUTH
 
 When in doubt, reference the docs. When the docs aren't enough, **make them better**.

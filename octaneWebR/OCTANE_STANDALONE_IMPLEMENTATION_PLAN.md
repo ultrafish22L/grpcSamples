@@ -14,6 +14,31 @@ See `OCTANE_API_REFERENCE.md` for complete API documentation.
 
 ---
 
+# CRITICAL: Always Check Octane SE Manual for Features
+
+**Before implementing any feature, verify it exists in Octane SE manual!**
+
+Common mistake: Assuming features exist based on existing code or intuition.
+
+Example:
+- ❌ WRONG: `EdgeContextMenu.tsx` exists, so style it to match Octane SE
+- ✅ CORRECT: Check manual first - Octane SE has NO edge context menu (not documented)
+
+**Octane SE Manual**: https://docs.otoy.com/standaloneSE/CoverPage.html
+
+**Manual is the ONLY source of truth for what features should exist.**
+
+---
+
+## 📋 Code Cleanup Notes
+
+**Files that may not match Octane SE manual:**
+- `EdgeContextMenu.tsx` - Edge/connection context menus not documented in Octane SE manual
+  - Consider removing or verifying with user if Octane SE actually has this feature
+  - If it doesn't exist in Octane SE, delete the component
+
+---
+
 # OctaneWebR - Complete Octane Standalone Implementation Plan
 
 **Goal:** Match Octane Standalone UI exactly and implement all functional features described in the [Octane Standalone Documentation](https://docs.otoy.com/standaloneSE/CoverPage.html)
@@ -72,11 +97,13 @@ See `OCTANE_API_REFERENCE.md` for complete API documentation.
   - **Commit**: "Implement auto-pan when dragging nodes beyond viewport"
 
 #### 1.2 Node Operations ⭐⭐⭐⭐⭐
-- [ ] **TASK 1.2.1**: Box selection with drag (Shift to add to selection)
-  - **UI**: Visual selection rectangle
-  - **gRPC API**: None
+- [x] **TASK 1.2.1**: Box selection with drag (Shift to add to selection) ✅ **COMPLETED** (Commit: 2ef16647)
+  - **UI**: Visual selection rectangle by dragging in empty space
+  - **gRPC API**: None (client-side only)
   - **Dependencies**: None
-  - **Commit**: "Add box selection and multi-select with Shift"
+  - **Status**: Enabled selectionOnDrag, selectNodesOnDrag, and multiSelectionKeyCode="Shift" in ReactFlow
+  - **Manual Reference**: "The Graph Editor" > "Selecting Multiple Nodes"
+  - **Commit**: "Implement box selection and multi-select per Octane SE manual"
 
 - [ ] **TASK 1.2.2**: Copy/Paste nodes (Ctrl+C/Ctrl+V) with connections
   - **UI**: Keyboard shortcuts + right-click menu
