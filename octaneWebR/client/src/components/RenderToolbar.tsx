@@ -10,8 +10,9 @@ import { useOctane } from '../hooks/useOctane';
 interface RenderStats {
   samples: number;
   time: string;
-  status: 'rendering' | 'finished' | 'paused' | 'stopped' | 'error';
+  status: 'rendering' | 'finished' | 'paused' | 'stopped' | 'waiting' | 'error';
   resolution: string;
+  samplesPerSecond: number;
   meshCount: number;
   gpu: string;
   version: string;
@@ -48,6 +49,7 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
     time: '00:00:00',
     status: 'finished',
     resolution: '1920x1080',
+    samplesPerSecond: 0.0,
     meshCount: 1,
     gpu: 'NVIDIA GeForce RTX 4090 (RT)',
     version: '1:48.21.2',
@@ -104,18 +106,57 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
     const handleStatistics = (data: any) => {
       try {
         // Parse the statistics object from Octane callback
-        // The statistics object contains setSize (resolution), usedSize, etc.
+        // RenderResultStatistics proto fields:
+        // - setSize (uint32_2) - resolution
+        // - beautySamplesPerPixel (uint32) - samples
+        // - renderTime (double) - seconds elapsed
+        // - state (RenderState enum) - 0=stopped, 1=waiting, 2=rendering, 3=paused, 4=finished
+        // - beautySamplesPerSecond (double) - samples per second
         const stats = data.statistics;
         if (stats) {
+          // Parse resolution from setSize
           const width = stats.setSize?.x || stats.setSize?.[0] || renderStats.resolution.split('x')[0];
           const height = stats.setSize?.y || stats.setSize?.[1] || renderStats.resolution.split('x')[1];
           const resolution = `${width}x${height}`;
+          
+          // Parse samples (beautySamplesPerPixel)
+          const samples = stats.beautySamplesPerPixel !== undefined ? stats.beautySamplesPerPixel : renderStats.samples;
+          
+          // Parse render time (renderTime in seconds) and format as HH:MM:SS
+          let timeStr = renderStats.time;
+          if (stats.renderTime !== undefined) {
+            const totalSeconds = Math.floor(stats.renderTime);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+            timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+          }
+          
+          // Parse render state (state enum)
+          // RSTATE_STOPPED=0, RSTATE_WAITING_FOR_DATA=1, RSTATE_RENDERING=2, RSTATE_PAUSED=3, RSTATE_FINISHED=4
+          let status: 'rendering' | 'finished' | 'paused' | 'stopped' | 'waiting' | 'error' = renderStats.status;
+          if (stats.state !== undefined) {
+            switch (stats.state) {
+              case 0: status = 'stopped'; break;
+              case 1: status = 'waiting'; break;
+              case 2: status = 'rendering'; break;
+              case 3: status = 'paused'; break;
+              case 4: status = 'finished'; break;
+              default: status = 'error'; break;
+            }
+          }
+          
+          // Parse samples per second (beautySamplesPerSecond)
+          const samplesPerSecond = stats.beautySamplesPerSecond !== undefined ? stats.beautySamplesPerSecond : renderStats.samplesPerSecond;
           
           // Update render stats with real data from callback
           setRenderStats(prev => ({
             ...prev,
             resolution,
-            // Add more fields as we parse the statistics object
+            samples,
+            time: timeStr,
+            status,
+            samplesPerSecond,
           }));
         }
       } catch (error) {
@@ -478,7 +519,12 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
       {/* Render Statistics Bar - Matching Octane format exactly */}
       <div className="render-stats-bar">
         <div className="render-stats-left">
-          <span id="render-samples-display">{Math.floor(renderStats.samples)}/1 @/pv</span>
+          <span id="render-samples-display">
+            {renderStats.samples.toFixed(1)} spp
+            {renderStats.status === 'rendering' && renderStats.samplesPerSecond > 0 && (
+              <span className="samples-per-second"> ({renderStats.samplesPerSecond.toFixed(2)} sps)</span>
+            )}
+          </span>
           <span className="stats-separator">, </span>
           <span id="render-time-display">{renderStats.time}</span>
           <span> </span>
@@ -487,12 +533,13 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
           </span>
         </div>
         <div className="render-stats-right">
-          <span id="render-resolution-display">{renderStats.resolution} pti </span>
+          <span id="render-resolution-display">{renderStats.resolution}</span>
+          <span className="stats-separator">, </span>
           <span id="render-mesh-count">{renderStats.meshCount} mesh</span>
           <span className="stats-separator">, </span>
           <span id="render-gpu-info">{renderStats.gpu}</span>
           <span className="stats-separator">, </span>
-          <span id="render-memory-combined">{renderStats.version}/{renderStats.memory}</span>
+          <span id="render-memory-combined">{renderStats.version} / {renderStats.memory}</span>
         </div>
       </div>
 
