@@ -87,6 +87,10 @@ Browser (React App) → Vite Dev Server (gRPC-Web Plugin) → Octane LiveLink (1
 
 ## 🎯 Recent Achievements
 
+- ✅ **2025-01-21**: Implemented Enhanced Pin Hover Tooltips (TASK 1.5.1)
+  - **Rich Input Pin Tooltips**: Display pin name, description, type, group, connected node name, and connection status
+  - **Rich Output Pin Tooltips**: Display node name, description, output type, category, and special node flags
+  - **Complete API Data Integration**: Leverage all available Octane gRPC data from ApiNodePinInfo and ApiNodeInfo
 - ✅ **2025-01-21**: Implemented 3 advanced Node Graph Editor features per Octane SE manual
   - **Copy/Paste (Ctrl+C/Ctrl+V)**: Copy selected nodes with connections preserved, paste creates new instances via API
   - **Connection Cutter (Ctrl+Drag)**: Hold Ctrl and drag to cut multiple edges at once with visual red line feedback
