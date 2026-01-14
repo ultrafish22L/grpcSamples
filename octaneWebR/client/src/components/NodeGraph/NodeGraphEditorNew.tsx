@@ -69,6 +69,10 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   // Search dialog state
   const [searchDialogVisible, setSearchDialogVisible] = useState(false);
 
+  // Copy/paste clipboard state
+  const [copiedNodes, setCopiedNodes] = useState<Node<OctaneNodeData>[]>([]);
+  const [copiedEdges, setCopiedEdges] = useState<Edge[]>([]);
+
   // Track connection line color during drag (matches source pin color)
   const [connectionLineColor, setConnectionLineColor] = useState('#ffc107');
   const connectingEdgeRef = useRef<Edge | null>(null); // Track if creating new connection vs reconnecting
@@ -260,15 +264,120 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   }, [nodes, fitView]);
 
   /**
-   * Keyboard shortcut handler: Ctrl+F opens search dialog
-   * Per Octane SE manual: "Pressing CTRL+F brings up the Search Dialog"
+   * Handle paste operation
+   * Creates new nodes via API and recreates connections
+   */
+  const handlePasteNodes = useCallback(async () => {
+    if (copiedNodes.length === 0 || !client) return;
+
+    console.log(`📋 Pasting ${copiedNodes.length} node(s)...`);
+
+    try {
+      // Map old node IDs to new node handles
+      const oldToNewHandleMap = new Map<string, number>();
+
+      // Create new nodes via API
+      for (const copiedNode of copiedNodes) {
+        const nodeData = copiedNode.data as OctaneNodeData;
+        const nodeTypeName = nodeData.sceneNode.nodeInfo?.nodeTypeName;
+        
+        if (!nodeTypeName) {
+          console.warn('⚠️ Cannot paste node without type name:', nodeData.sceneNode.name);
+          continue;
+        }
+
+        // Look up numeric node type ID
+        const nodeTypeId = NodeType[nodeTypeName];
+        if (!nodeTypeId) {
+          console.warn('⚠️ Unknown node type:', nodeTypeName);
+          continue;
+        }
+
+        // Create node via API
+        const newHandle = await client.createNode(nodeTypeName, nodeTypeId);
+        
+        if (newHandle) {
+          oldToNewHandleMap.set(copiedNode.id, newHandle);
+          console.log(`✅ Created ${nodeTypeName} with handle ${newHandle}`);
+        }
+      }
+
+      // Wait for scene to update
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Recreate connections between pasted nodes
+      for (const copiedEdge of copiedEdges) {
+        const newSourceHandle = oldToNewHandleMap.get(copiedEdge.source);
+        const newTargetHandle = oldToNewHandleMap.get(copiedEdge.target);
+
+        if (!newSourceHandle || !newTargetHandle) continue;
+
+        // Extract target pin index from edge ID
+        const targetHandleId = copiedEdge.targetHandle || 'input-0';
+        
+        // Parse pin index from handle ID (e.g., "input-0" -> 0)
+        const targetPinIndex = parseInt(targetHandleId.split('-')[1], 10);
+
+        if (isNaN(targetPinIndex)) continue;
+
+        // Connect the pins
+        await client.connectPinByIndex(newTargetHandle, targetPinIndex, newSourceHandle);
+        console.log(`🔗 Connected ${newSourceHandle} → ${newTargetHandle}[${targetPinIndex}]`);
+      }
+
+      console.log(`✅ Pasted ${copiedNodes.length} node(s) successfully`);
+      
+      // Note: Scene will auto-refresh via sceneTree prop update from parent
+    } catch (error) {
+      console.error('❌ Failed to paste nodes:', error);
+    }
+  }, [copiedNodes, copiedEdges, client]);
+
+  /**
+   * Keyboard shortcut handlers
+   * Per Octane SE manual: 
+   * - "Pressing CTRL+F brings up the Search Dialog"
+   * - "copy and paste operations...by simple keyboard shortcuts Ctrl+C for copy and Ctrl+V for paste"
    */
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Ctrl+F or Cmd+F on Mac
-      if ((event.ctrlKey || event.metaKey) && event.key === 'f') {
-        event.preventDefault(); // Prevent browser's default find
+      // Ignore if typing in input field
+      const target = event.target as HTMLElement;
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+        return;
+      }
+
+      const modifier = event.ctrlKey || event.metaKey;
+
+      // Ctrl+F: Search dialog
+      if (modifier && event.key === 'f') {
+        event.preventDefault();
         setSearchDialogVisible(true);
+      }
+
+      // Ctrl+C: Copy selected nodes
+      if (modifier && event.key === 'c') {
+        event.preventDefault();
+        const selectedNodes = nodes.filter((n) => n.selected);
+        if (selectedNodes.length === 0) return;
+
+        // Store selected nodes and edges between them
+        const selectedNodeIds = selectedNodes.map((n) => n.id);
+        const relatedEdges = edges.filter(
+          (e) => selectedNodeIds.includes(e.source) && selectedNodeIds.includes(e.target)
+        );
+
+        setCopiedNodes(selectedNodes);
+        setCopiedEdges(relatedEdges);
+        console.log(`📋 Copied ${selectedNodes.length} node(s)`);
+      }
+
+      // Ctrl+V: Paste nodes
+      if (modifier && event.key === 'v') {
+        event.preventDefault();
+        if (copiedNodes.length === 0) return;
+        
+        handlePasteNodes();
       }
     };
 
@@ -276,7 +385,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [nodes, edges, copiedNodes, copiedEdges]);
 
   /**
    * Handle search dialog node selection
