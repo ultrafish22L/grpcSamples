@@ -40,11 +40,12 @@ interface RenderToolbarProps {
   onToggleWorldCoord?: () => void;
   onCopyToClipboard?: () => void;
   onSaveRender?: () => void;
+  onExportPasses?: () => void;
   onViewportLockChange?: (locked: boolean) => void;
   onPickingModeChange?: (mode: 'none' | 'focus' | 'whiteBalance' | 'material' | 'object' | 'cameraTarget' | 'renderRegion' | 'filmRegion') => void;
 }
 
-export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClipboard, onSaveRender, onViewportLockChange, onPickingModeChange }: RenderToolbarProps) {
+export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClipboard, onSaveRender, onExportPasses, onViewportLockChange, onPickingModeChange }: RenderToolbarProps) {
   const { connected, client } = useOctane();
   
   const [renderStats, setRenderStats] = useState<RenderStats>({
@@ -445,8 +446,12 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
         }
         break;
       case 'export-passes':
-        console.log('Export render passes');
-        // TODO: Show render passes export window
+        console.log('📤 Export render passes');
+        if (onExportPasses) {
+          onExportPasses();
+        } else {
+          console.warn('⚠️ onExportPasses handler not provided');
+        }
         break;
       case 'background-image':
         console.log('Set background image');

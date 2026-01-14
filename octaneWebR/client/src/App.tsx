@@ -25,6 +25,8 @@ import { NodeInspector } from './components/NodeInspector';
 import { NodeInspectorControls } from './components/NodeInspectorControls';
 import { NodeGraphEditor } from './components/NodeGraph';
 import { MaterialDatabase } from './components/MaterialDatabase';
+import { SaveRenderDialog } from './components/SaveRenderDialog';
+import { ExportPassesDialog } from './components/ExportPassesDialog';
 import { SceneNode } from './services/OctaneClient';
 import { NodeType } from './constants/OctaneTypes';
 
@@ -38,6 +40,8 @@ function AppContent() {
   const [viewportLocked, setViewportLocked] = useState(false); // Lock viewport controls
   const [pickingMode, setPickingMode] = useState<'none' | 'focus' | 'whiteBalance' | 'material' | 'object' | 'cameraTarget' | 'renderRegion' | 'filmRegion'>('none');
   const [materialDatabaseVisible, setMaterialDatabaseVisible] = useState(false);
+  const [saveRenderDialogOpen, setSaveRenderDialogOpen] = useState(false);
+  const [exportPassesDialogOpen, setExportPassesDialogOpen] = useState(false);
   const { panelSizes, handleSplitterMouseDown, containerRef, isDragging } = useResizablePanels();
   const viewportRef = useRef<CallbackRenderViewportHandle>(null);
 
@@ -98,18 +102,14 @@ function AppContent() {
     }
   };
 
-  // Save render to disk handler
-  const handleSaveRender = async () => {
-    if (!viewportRef.current) {
-      console.warn('⚠️ Viewport not available for save render');
-      return;
-    }
+  // Save render to disk handler - opens dialog for format selection
+  const handleSaveRender = () => {
+    setSaveRenderDialogOpen(true);
+  };
 
-    try {
-      await viewportRef.current.saveRenderToDisk();
-    } catch (error) {
-      console.error('❌ Failed to save render:', error);
-    }
+  // Export render passes handler - opens dialog
+  const handleExportPasses = () => {
+    setExportPassesDialogOpen(true);
   };
 
   // Viewport lock change handler
@@ -266,6 +266,7 @@ function AppContent() {
             onToggleWorldCoord={() => setShowWorldCoord(!showWorldCoord)} 
             onCopyToClipboard={handleCopyToClipboard}
             onSaveRender={handleSaveRender}
+            onExportPasses={handleExportPasses}
             onViewportLockChange={handleViewportLockChange}
             onPickingModeChange={handlePickingModeChange}
           />
@@ -347,6 +348,18 @@ function AppContent() {
       <MaterialDatabase
         visible={materialDatabaseVisible}
         onClose={handleMaterialDatabaseClose}
+      />
+
+      {/* Save Render Dialog */}
+      <SaveRenderDialog
+        isOpen={saveRenderDialogOpen}
+        onClose={() => setSaveRenderDialogOpen(false)}
+      />
+
+      {/* Export Passes Dialog */}
+      <ExportPassesDialog
+        isOpen={exportPassesDialogOpen}
+        onClose={() => setExportPassesDialogOpen(false)}
       />
     </div>
   );

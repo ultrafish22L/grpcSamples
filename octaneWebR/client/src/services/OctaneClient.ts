@@ -1531,6 +1531,150 @@ export class OctaneClient extends EventEmitter {
     }
   }
 
+  /**
+   * Save current render to disk
+   * Based on Octane SE Manual - The Render Viewport > Save Render button
+   * @param filePath - Full path where to save the image
+   * @param format - Image format: 'PNG' | 'JPG' | 'EXR' | 'TIFF'
+   * @param renderPassId - Which pass to save (0 = beauty pass)
+   * @returns Success status
+   */
+  async saveRender(
+    filePath: string,
+    format: 'PNG' | 'JPG' | 'EXR' | 'TIFF' = 'PNG',
+    renderPassId: number = 0
+  ): Promise<boolean> {
+    try {
+      // Map format string to ImageSaveFormat enum
+      // From octaneenums_pb2.py:
+      // IMAGE_SAVE_FORMAT_PNG = 0
+      // IMAGE_SAVE_FORMAT_JPG = 1
+      // IMAGE_SAVE_FORMAT_EXR = 2
+      // IMAGE_SAVE_FORMAT_TIFF = 3
+      const formatMap: Record<string, number> = {
+        'PNG': 0,
+        'JPG': 1,
+        'EXR': 2,
+        'TIFF': 3
+      };
+      
+      const imageSaveFormat = formatMap[format];
+      
+      // Call ApiRenderEngine.saveImage1
+      // This is the convenience overload that uses default color space
+      const response = await this.callApi('ApiRenderEngine', 'saveImage1', null, {
+        renderPassId,
+        fullPath: filePath,
+        imageSaveFormat,
+        colorSpace: 1, // NAMED_COLOR_SPACE_SRGB = 1
+        premultipliedAlphaType: 0, // PREMULTIPLIED_ALPHA_TYPE_STRAIGHT = 0
+        exrCompressionType: 4, // EXR_COMPRESSION_TYPE_ZIP = 4 (good default)
+        exrCompressionLevel: 4.5, // Default compression level
+        asynchronous: false // Wait for completion
+      });
+      
+      const success = response?.result ?? false;
+      
+      if (success) {
+        console.log(`✅ Render saved successfully: ${filePath}`);
+      } else {
+        console.error(`❌ Failed to save render: ${filePath}`);
+      }
+      
+      return success;
+    } catch (error: any) {
+      console.error('❌ Error saving render:', error.message);
+      return false;
+    }
+  }
+
+  /**
+   * Get render result buffer for copy to clipboard
+   * @returns Image data as base64 encoded PNG, or null on failure
+   */
+  async grabRenderForClipboard(): Promise<string | null> {
+    try {
+      // Grab render result from Octane
+      const response = await this.callApi('ApiRenderEngine', 'grabRenderResult', {});
+      
+      if (!response?.result || !response.renderImages?.data?.length) {
+        console.error('❌ No render images available');
+        return null;
+      }
+      
+      // Get first render image (beauty pass)
+      const renderImage = response.renderImages.data[0];
+      
+      if (!renderImage?.buffer?.data) {
+        console.error('❌ No image buffer data');
+        return null;
+      }
+      
+      // Buffer data is base64 encoded
+      const base64Data = renderImage.buffer.data;
+      
+      // Release the render result (free memory in Octane)
+      await this.callApi('ApiRenderEngine', 'releaseRenderResult', {});
+      
+      return base64Data;
+    } catch (error: any) {
+      console.error('❌ Error grabbing render for clipboard:', error.message);
+      return null;
+    }
+  }
+
+  /**
+   * Export all render passes to disk
+   * Based on Octane SE Manual - The Render Viewport > Export Render Passes button
+   * @param outputDirectory - Directory where to save the passes
+   * @param filenamePrefix - Prefix for all pass filenames
+   * @param format - Image format for all passes
+   * @returns Success status
+   */
+  async exportRenderPasses(
+    outputDirectory: string,
+    filenamePrefix: string = 'render',
+    format: 'PNG' | 'JPG' | 'EXR' | 'TIFF' = 'PNG'
+  ): Promise<boolean> {
+    try {
+      // Map format string to ImageSaveFormat enum
+      const formatMap: Record<string, number> = {
+        'PNG': 0,
+        'JPG': 1,
+        'EXR': 2,
+        'TIFF': 3
+      };
+      
+      const imageSaveFormat = formatMap[format];
+      
+      // Call ApiRenderEngine.saveRenderPasses1
+      // This saves all enabled passes as discrete files
+      const response = await this.callApi('ApiRenderEngine', 'saveRenderPasses1', null, {
+        outputDirectory,
+        filenamePrefix,
+        imageSaveFormat,
+        colorSpace: 1, // NAMED_COLOR_SPACE_SRGB = 1
+        premultipliedAlphaType: 0, // PREMULTIPLIED_ALPHA_TYPE_STRAIGHT = 0
+        exrCompressionType: 4, // EXR_COMPRESSION_TYPE_ZIP = 4
+        exrCompressionLevel: 4.5,
+        asynchronous: false
+      });
+      
+      const success = response?.result ?? false;
+      
+      if (success) {
+        console.log(`✅ Render passes exported successfully to: ${outputDirectory}`);
+      } else {
+        console.error(`❌ Failed to export render passes to: ${outputDirectory}`);
+      }
+      
+      return success;
+    } catch (error: any) {
+      console.error('❌ Error exporting render passes:', error.message);
+      return false;
+    }
+  }
+
   // State getters
   getScene(): Scene {
     return this.scene;
