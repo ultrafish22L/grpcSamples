@@ -37,8 +37,11 @@ Open **http://localhost:43929** (or port shown in terminal)
   - ✅ Edge reconnections with drag-and-drop
   - ✅ Node/edge deletion propagated to Octane
   - ✅ Proper edge colors from pin types
-  - ✅ Box selection with Shift multi-select (NEW!)
-  - ✅ Search dialog (Ctrl+F) for nodes and pins (NEW!)
+  - ✅ Box selection with Shift multi-select
+  - ✅ Search dialog (Ctrl+F) for nodes and pins
+  - ✅ Copy/Paste nodes (Ctrl+C/Ctrl+V) with connections preserved (NEW!)
+  - ✅ Connection Cutter (Ctrl+Drag) to cut multiple edges at once (NEW!)
+  - ✅ Multi-Connect (Ctrl+Connect) to connect multiple selected nodes (NEW!)
 - ✅ **Node Inspector** - View and edit node properties with real-time Octane sync
 - ✅ **Parameter Editing** - All types supported (bool, int, float, vectors, colors, enums, strings)
 - ✅ **Live Rendering** - Real-time callback-based viewport with camera controls
@@ -84,6 +87,10 @@ Browser (React App) → Vite Dev Server (gRPC-Web Plugin) → Octane LiveLink (1
 
 ## 🎯 Recent Achievements
 
+- ✅ **2025-01-21**: Implemented 3 advanced Node Graph Editor features per Octane SE manual
+  - **Copy/Paste (Ctrl+C/Ctrl+V)**: Copy selected nodes with connections preserved, paste creates new instances via API
+  - **Connection Cutter (Ctrl+Drag)**: Hold Ctrl and drag to cut multiple edges at once with visual red line feedback
+  - **Multi-Connect (Ctrl+Connect)**: Select multiple nodes, hold Ctrl while connecting to connect all selected nodes
 - ✅ **2025-01-21**: Implemented Search Dialog (Ctrl+F) per Octane SE manual
   - Real-time search for node names, types, and pin names
   - Click to select individual node, or Select All for multiple
