@@ -1,18 +1,34 @@
-# OctaneWebR Development Workflow - Prime Directive
+# OctaneWebR Development Workflow
 
 **Mission**: Create a pixel-perfect React/TypeScript clone of Octane Render Studio Standalone Edition with complete functional parity through real-time gRPC API integration.
 
 ---
 
-## 🎯 **Core Principles (Non-Negotiable)**
+## 🤖 AUTONOMOUS DEVELOPMENT MODE (ACTIVE)
 
-### 1. **Manual as Single Source of Truth**
+**Process**: Continuous autonomous loop picking tasks from Octane SE manual:
+
+1. **Pick** unimplemented feature from [Octane SE Manual](https://docs.otoy.com/standaloneSE/CoverPage.html)
+2. **Implement** with TypeScript/React
+3. **Build** (`npm run build`) - check for TypeScript errors
+4. **Test** (`npm run dev`) - verify functionality works
+5. **Commit** with clear description
+6. **Push** to origin/main
+7. **Repeat** - immediately pick next task
+
+**No waiting for approval** - continue until explicitly stopped or blocked.
+
+---
+
+## 🎯 Core Principles (Non-Negotiable)
+
+### 1. Manual as Single Source of Truth
 - **Reference**: [Octane SE Manual](https://docs.otoy.com/standaloneSE/CoverPage.html)
 - **Rule**: If a feature is NOT documented in the manual, DO NOT implement it
 - **Why**: Prevents hallucinating features that don't exist in Octane SE
 - **Verification**: Always cite manual section when implementing features
 
-### 2. **Real Octane API Only (No Mocks)**
+### 2. Real Octane API Only (No Mocks)
 - **Rule**: Every feature must use real gRPC API calls to live Octane instance
 - **Proto Files**: `/grpcSamples/sdk/src/api/grpc/protodef/*.proto`
 - **Verification**: Check proto files before implementing any API call
@@ -362,25 +378,25 @@ cat octaneinfos.proto | grep -A 20 "ApiNodeInfo"
 │  OctaneWebR Development Workflow - Quick Reference      │
 ├─────────────────────────────────────────────────────────┤
 │                                                          │
-│  1. ⏸️  WAIT for task assignment from user              │
-│  2. 📖 VERIFY feature exists in Octane SE manual        │
+│  1. 🔍 PICK unimplemented feature from Octane SE manual │
+│  2. 📖 VERIFY feature exists in manual documentation    │
 │  3. 🔍 CHECK proto files for required API methods       │
 │  4. 💻 IMPLEMENT focused code changes                   │
 │  5. 🔨 BUILD with `npm run build` (must pass)           │
-│  6. 🧪 TEST with `npm run dev` (optional)               │
+│  6. 🧪 TEST with `npm run dev` (verify works)           │
 │  7. 📝 COMMIT with descriptive message                  │
 │  8. 🚀 PUSH to origin/main                              │
 │  9. 📚 UPDATE README.md with achievement                │
-│  10. ✅ REPORT completion and STOP                      │
+│  10. ✅ IMMEDIATELY pick next task and REPEAT           │
 │                                                          │
-│  Then repeat: Go back to step 1 ⏸️                     │
+│  Continue loop autonomously until stopped/blocked       │
 │                                                          │
 ├─────────────────────────────────────────────────────────┤
 │  ⚠️  CRITICAL RULES                                     │
 │  • Manual is single source of truth                     │
 │  • Never use mocks, only real Octane API               │
 │  • Always check proto files for API names              │
-│  • One task at a time, wait for approval               │
+│  • Autonomous mode - no approval needed                │
 │  • Build must pass before commit                       │
 └─────────────────────────────────────────────────────────┘
 ```

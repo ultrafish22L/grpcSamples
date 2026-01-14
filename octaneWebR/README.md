@@ -2,6 +2,9 @@
 
 **Pixel-perfect React/TypeScript UI clone of Octane Render Studio Standalone Edition with complete gRPC API integration**
 
+> 🤖 **AUTONOMOUS DEVELOPMENT MODE ACTIVE**  
+> Continuously implementing features from [Octane SE Manual](https://docs.otoy.com/standaloneSE/CoverPage.html) in autonomous loop: Pick → Implement → Build → Test → Commit → Push → Repeat
+
 ---
 
 ## 🎯 **Project Mission**

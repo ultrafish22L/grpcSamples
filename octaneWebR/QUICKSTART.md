@@ -2,6 +2,8 @@
 
 **Get up and running with octaneWebR in 10 minutes**
 
+> 🤖 **AUTONOMOUS DEVELOPMENT MODE ACTIVE** - This project continuously implements features from [Octane SE Manual](https://docs.otoy.com/standaloneSE/CoverPage.html) in autonomous loop
+
 ---
 
 ## 🎯 **Prerequisites Checklist**
