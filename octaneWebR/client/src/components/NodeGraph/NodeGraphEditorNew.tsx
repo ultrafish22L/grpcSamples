@@ -932,8 +932,9 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         edgesReconnectable={true} // Enable edge reconnection by dragging
         reconnectRadius={50} // Allow clicking within 50px of edge to start reconnect (larger area)
         panOnDrag={[1, 2]} // Only pan with middle/right mouse button, not left button
-        selectionOnDrag={false}
-        selectNodesOnDrag={false}
+        selectionOnDrag={true} // Enable box selection by dragging in empty space (Octane SE manual)
+        selectNodesOnDrag={true} // Enable multi-select with Shift key (Octane SE manual)
+        multiSelectionKeyCode="Shift" // Shift key adds to selection (Octane SE manual)
         nodeTypes={nodeTypes}
         minZoom={0.1}
         maxZoom={4}
