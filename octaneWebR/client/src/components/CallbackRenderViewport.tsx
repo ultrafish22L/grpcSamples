@@ -599,6 +599,10 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
           setRegionStart({ x: canvasX, y: canvasY });
           setRegionEnd({ x: canvasX, y: canvasY });
           canvas.style.cursor = 'crosshair';
+        } else if (pickingMode !== 'none') {
+          // PICKING MODES: Store last mouse position for click detection
+          lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+          canvas.style.cursor = 'crosshair';
         } else {
           // CAMERA MODE: Orbit
           isDraggingRef.current = true;
@@ -659,7 +663,7 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
       // REGION SELECTION MODE: Complete region and apply to Octane
       if (isSelectingRegion && regionStart && regionEnd) {
         setIsSelectingRegion(false);
-        canvas.style.cursor = pickingMode === 'renderRegion' ? 'crosshair' : 'grab';
+        canvas.style.cursor = pickingMode !== 'none' ? 'crosshair' : 'grab';
         
         // Calculate normalized coordinates (0.0 to 1.0)
         const canvasWidth = canvas.width;
@@ -705,12 +709,50 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
         setRegionEnd(null);
         return;
       }
+
+      // PICKING MODES: Handle click-based pickers (white balance, camera target, etc.)
+      if (!isDraggingRef.current && !isPanningRef.current && pickingMode !== 'renderRegion' && pickingMode !== 'none') {
+        const rect = canvas.getBoundingClientRect();
+        const canvasX = Math.floor((lastMousePosRef.current.x - rect.left) / rect.width * canvas.width);
+        const canvasY = Math.floor((lastMousePosRef.current.y - rect.top) / rect.height * canvas.height);
+
+        console.log(`🎯 ${pickingMode} picker activated at (${canvasX}, ${canvasY})`);
+
+        try {
+          if (pickingMode === 'whiteBalance') {
+            const whitePoint = await client.pickWhitePoint(canvasX, canvasY);
+            if (whitePoint) {
+              console.log('✅ White balance set:', whitePoint);
+              // TODO: Apply white point to camera/renderer settings
+            }
+          } else if (pickingMode === 'cameraTarget') {
+            const pickInfo = await client.pickSceneInfo(canvasX, canvasY);
+            console.log('🎯 Camera target pick:', pickInfo);
+            // TODO: Set camera target from pick intersection
+          } else if (pickingMode === 'focus') {
+            const pickInfo = await client.pickSceneInfo(canvasX, canvasY);
+            console.log('🎯 Focus pick:', pickInfo);
+            // TODO: Set camera focus distance from pick
+          } else if (pickingMode === 'material') {
+            const pickInfo = await client.pickSceneInfo(canvasX, canvasY);
+            console.log('🎨 Material pick:', pickInfo);
+            // TODO: Select/inspect material from pick
+          } else if (pickingMode === 'object') {
+            const pickInfo = await client.pickSceneInfo(canvasX, canvasY);
+            console.log('📦 Object pick:', pickInfo);
+            // TODO: Select object from pick
+          }
+        } catch (error: any) {
+          console.error(`❌ Picking failed (${pickingMode}):`, error.message);
+        }
+        return;
+      }
       
       // CAMERA MODE: Complete orbit/pan
       if (isDraggingRef.current || isPanningRef.current) {
         isDraggingRef.current = false;
         isPanningRef.current = false;
-        canvas.style.cursor = pickingMode === 'renderRegion' ? 'crosshair' : 'grab';
+        canvas.style.cursor = pickingMode !== 'none' ? 'crosshair' : 'grab';
         
         // Send final camera position immediately to ensure accuracy
         updateOctaneCameraImmediate();
@@ -742,8 +784,8 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
     // Set cursor based on viewport lock state and picking mode
     if (viewportLocked) {
       canvas.style.cursor = 'not-allowed';
-    } else if (pickingMode === 'renderRegion') {
-      canvas.style.cursor = 'crosshair';
+    } else if (pickingMode !== 'none') {
+      canvas.style.cursor = 'crosshair';  // All picking modes use crosshair cursor
     } else {
       canvas.style.cursor = 'grab';
     }

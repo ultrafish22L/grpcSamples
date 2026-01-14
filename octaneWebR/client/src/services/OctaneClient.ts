@@ -1106,6 +1106,52 @@ export class OctaneClient extends EventEmitter {
     }
   }
 
+  /**
+   * Pick white balance point from rendered image
+   * Samples color at (x, y) and calculates white point for color correction
+   * @param x - Pixel X coordinate in image space
+   * @param y - Pixel Y coordinate in image space
+   * @returns White point RGB values { x: R, y: G, z: B }
+   */
+  async pickWhitePoint(x: number, y: number): Promise<{ x: number; y: number; z: number } | null> {
+    try {
+      const response = await this.callApi('ApiRenderEngine', 'pickWhitePoint', null, { x, y });
+      if (response?.result && response?.whitePoint) {
+        console.log(`✅ White point picked at (${x}, ${y}):`, response.whitePoint);
+        return response.whitePoint;
+      } else {
+        console.warn('⚠️ No white point returned from pick');
+        return null;
+      }
+    } catch (error: any) {
+      console.error('❌ Failed to pick white point:', error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Pick scene intersection information at viewport coordinates
+   * Returns material, object, and geometry information at the clicked point
+   * @param x - Pixel X coordinate in image space
+   * @param y - Pixel Y coordinate in image space
+   * @returns Pick intersection data including materials, objects, geometry
+   */
+  async pickSceneInfo(x: number, y: number): Promise<any> {
+    try {
+      const response = await this.callApi('ApiRenderEngine', 'pick', null, {
+        x,
+        y,
+        filterDuplicateMaterialPins: true,
+        intersectionsSize: 10  // Maximum 10 intersections
+      });
+      console.log(`🎯 Scene pick at (${x}, ${y}):`, response);
+      return response;
+    } catch (error: any) {
+      console.error('❌ Failed to pick scene info:', error.message);
+      throw error;
+    }
+  }
+
   // Node Creation API
   /**
    * Create a new node of the specified type in the scene
