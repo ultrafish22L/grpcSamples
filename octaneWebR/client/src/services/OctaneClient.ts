@@ -931,6 +931,23 @@ export class OctaneClient extends EventEmitter {
     await this.callApi('ApiRenderEngine', 'setClayMode', null, { mode });
   }
 
+  /**
+   * Get current sub-sampling mode from Octane
+   * @returns Sub-sample mode: 1 = NONE, 2 = 2x2, 4 = 4x4
+   */
+  async getSubSampleMode(): Promise<number> {
+    const response = await this.callApi('ApiRenderEngine', 'getSubSampleMode', {});
+    return response?.result ?? 1;
+  }
+
+  /**
+   * Set sub-sampling mode in Octane
+   * @param mode - Sub-sample mode: 1 = NONE, 2 = 2x2, 4 = 4x4
+   */
+  async setSubSampleMode(mode: number): Promise<void> {
+    await this.callApi('ApiRenderEngine', 'setSubSampleMode', null, { mode });
+  }
+
   // Node Creation API
   /**
    * Create a new node of the specified type in the scene

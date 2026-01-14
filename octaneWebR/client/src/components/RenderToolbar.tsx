@@ -68,21 +68,28 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
     viewportResolutionLock: false
   });
 
-  // Initialize clay mode from Octane on connect
+  // Initialize rendering settings from Octane on connect
   useEffect(() => {
     if (!connected) return;
 
-    const initializeClayMode = async () => {
+    const initializeRenderSettings = async () => {
       try {
+        // Initialize clay mode
         const clayModeValue = await client.getClayMode();
         setState(prev => ({ ...prev, clayMode: clayModeValue !== 0 }));
         console.log('🎨 Clay mode initialized:', clayModeValue === 0 ? 'OFF' : 'ON');
+
+        // Initialize sub-sampling mode
+        const subSampleValue = await client.getSubSampleMode();
+        const subSamplingMode = subSampleValue === 2 ? '2x2' : subSampleValue === 4 ? '4x4' : 'none';
+        setState(prev => ({ ...prev, subSampling: subSamplingMode }));
+        console.log('📐 Sub-sampling initialized:', subSamplingMode.toUpperCase());
       } catch (err) {
-        console.error('❌ Failed to get clay mode:', err);
+        console.error('❌ Failed to initialize render settings:', err);
       }
     };
 
-    initializeClayMode();
+    initializeRenderSettings();
   }, [connected, client]);
 
   // Update render stats periodically (placeholder - will be updated from callback data)
@@ -203,18 +210,28 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
         });
         break;
       case 'subsample-2x2':
-        setState(prev => ({
-          ...prev,
-          subSampling: prev.subSampling === '2x2' ? 'none' : '2x2'
-        }));
-        // TODO: API call to set sub-sampling
+        const new2x2Mode = state.subSampling === '2x2' ? 'none' : '2x2';
+        setState(prev => ({ ...prev, subSampling: new2x2Mode }));
+        console.log(`📐 Sub-sampling 2x2: ${new2x2Mode === '2x2' ? 'ON' : 'OFF'}`);
+        // SUBSAMPLEMODE_NONE = 1, SUBSAMPLEMODE_2X2 = 2
+        client.setSubSampleMode(new2x2Mode === '2x2' ? 2 : 1).then(() => {
+          console.log('✅ Sub-sampling mode updated in Octane');
+        }).catch(err => {
+          console.error('❌ Failed to set sub-sampling mode:', err);
+          setState(prev => ({ ...prev, subSampling: state.subSampling }));
+        });
         break;
       case 'subsample-4x4':
-        setState(prev => ({
-          ...prev,
-          subSampling: prev.subSampling === '4x4' ? 'none' : '4x4'
-        }));
-        // TODO: API call to set sub-sampling
+        const new4x4Mode = state.subSampling === '4x4' ? 'none' : '4x4';
+        setState(prev => ({ ...prev, subSampling: new4x4Mode }));
+        console.log(`📐 Sub-sampling 4x4: ${new4x4Mode === '4x4' ? 'ON' : 'OFF'}`);
+        // SUBSAMPLEMODE_NONE = 1, SUBSAMPLEMODE_4X4 = 4
+        client.setSubSampleMode(new4x4Mode === '4x4' ? 4 : 1).then(() => {
+          console.log('✅ Sub-sampling mode updated in Octane');
+        }).catch(err => {
+          console.error('❌ Failed to set sub-sampling mode:', err);
+          setState(prev => ({ ...prev, subSampling: state.subSampling }));
+        });
         break;
       case 'decal-wireframe':
         setState(prev => ({ ...prev, decalWireframe: !prev.decalWireframe }));
