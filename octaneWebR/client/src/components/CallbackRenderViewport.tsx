@@ -8,7 +8,7 @@
  * - Automatic render triggering when connected
  */
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, forwardRef, useImperativeHandle } from 'react';
 import { useOctane } from '../hooks/useOctane';
 
 interface OctaneImageData {
@@ -45,7 +45,12 @@ interface CallbackRenderViewportProps {
   showWorldCoord?: boolean;
 }
 
-export function CallbackRenderViewport({ showWorldCoord = true }: CallbackRenderViewportProps) {
+export interface CallbackRenderViewportHandle {
+  copyToClipboard: () => Promise<void>;
+}
+
+export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, CallbackRenderViewportProps>(
+  function CallbackRenderViewport({ showWorldCoord = true }, ref) {
   const { client, connected } = useOctane();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -121,6 +126,48 @@ export function CallbackRenderViewport({ showWorldCoord = true }: CallbackRender
       console.warn('   Using default camera settings');
     }
   }, [client]);
+
+  /**
+   * Copy current render to clipboard
+   * Copies the canvas as PNG image in LDR format
+   */
+  const copyToClipboard = useCallback(async () => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      console.warn('⚠️  Cannot copy to clipboard: canvas not available');
+      return;
+    }
+
+    try {
+      console.log('📋 Copying render to clipboard...');
+      
+      // Convert canvas to blob
+      const blob = await new Promise<Blob | null>((resolve) => {
+        canvas.toBlob(resolve, 'image/png');
+      });
+
+      if (!blob) {
+        throw new Error('Failed to convert canvas to blob');
+      }
+
+      // Copy to clipboard using Clipboard API
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'image/png': blob
+        })
+      ]);
+
+      console.log('✅ Render copied to clipboard');
+    } catch (error: any) {
+      console.error('❌ Failed to copy to clipboard:', error.message);
+      throw error;
+    }
+  }, []);
+
+  // Expose methods to parent via ref
+  useImperativeHandle(ref, () => ({
+    copyToClipboard
+  }), [copyToClipboard]);
 
   /**
    * Update Octane camera from current state
@@ -635,4 +682,4 @@ export function CallbackRenderViewport({ showWorldCoord = true }: CallbackRender
       </div>
     </div>
   );
-}
+});

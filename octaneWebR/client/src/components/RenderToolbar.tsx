@@ -35,9 +35,10 @@ interface ToolbarState {
 interface RenderToolbarProps {
   className?: string;
   onToggleWorldCoord?: () => void;
+  onCopyToClipboard?: () => void;
 }
 
-export function RenderToolbar({ className = '', onToggleWorldCoord }: RenderToolbarProps) {
+export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClipboard }: RenderToolbarProps) {
   const { connected, client } = useOctane();
   
   const [renderStats, setRenderStats] = useState<RenderStats>({
@@ -200,8 +201,12 @@ export function RenderToolbar({ className = '', onToggleWorldCoord }: RenderTool
 
       // Output Controls
       case 'copy-clipboard':
-        console.log('Copy to clipboard');
-        // TODO: Copy current render to clipboard
+        console.log('📋 Copy render to clipboard');
+        if (onCopyToClipboard) {
+          onCopyToClipboard();
+        } else {
+          console.warn('⚠️ onCopyToClipboard handler not provided');
+        }
         break;
       case 'save-render':
         console.log('Save render');

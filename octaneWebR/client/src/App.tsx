@@ -13,12 +13,12 @@
  * - Status Bar (bottom)
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { OctaneProvider, useOctane } from './hooks/useOctane';
 import { useResizablePanels } from './hooks/useResizablePanels';
 import { MenuBar } from './components/MenuBar';
 import { ConnectionStatus } from './components/ConnectionStatus';
-import { CallbackRenderViewport } from './components/CallbackRenderViewport';
+import { CallbackRenderViewport, CallbackRenderViewportHandle } from './components/CallbackRenderViewport';
 import { RenderToolbar } from './components/RenderToolbar';
 import { SceneOutliner } from './components/SceneOutliner';
 import { NodeInspector } from './components/NodeInspector';
@@ -35,6 +35,7 @@ function AppContent() {
   const [isSyncing, setIsSyncing] = useState(false);
   const [showWorldCoord, setShowWorldCoord] = useState(true); // Display world coordinate axis
   const { panelSizes, handleSplitterMouseDown, containerRef, isDragging } = useResizablePanels();
+  const viewportRef = useRef<CallbackRenderViewportHandle>(null);
 
   // Scene tree change handler
   const handleSceneTreeChange = (tree: SceneNode[]) => {
@@ -76,6 +77,20 @@ function AppContent() {
       }
     } catch (error) {
       console.error('❌ Error creating node:', error);
+    }
+  };
+
+  // Copy render to clipboard handler
+  const handleCopyToClipboard = async () => {
+    if (!viewportRef.current) {
+      console.warn('⚠️ Viewport not available for clipboard copy');
+      return;
+    }
+
+    try {
+      await viewportRef.current.copyToClipboard();
+    } catch (error) {
+      console.error('❌ Failed to copy to clipboard:', error);
     }
   };
 
@@ -186,7 +201,7 @@ function AppContent() {
           
           <div className="viewport-container">
             {connected ? (
-              <CallbackRenderViewport showWorldCoord={showWorldCoord} />
+              <CallbackRenderViewport ref={viewportRef} showWorldCoord={showWorldCoord} />
             ) : (
               <div className="viewport-overlay">
                 <div className="viewport-info">
@@ -198,7 +213,10 @@ function AppContent() {
           </div>
           
           {/* Render Toolbar - Official Octane viewport controls */}
-          <RenderToolbar onToggleWorldCoord={() => setShowWorldCoord(!showWorldCoord)} />
+          <RenderToolbar 
+            onToggleWorldCoord={() => setShowWorldCoord(!showWorldCoord)} 
+            onCopyToClipboard={handleCopyToClipboard}
+          />
         </section>
 
         {/* Center-Right Splitter - spans ALL rows (full height) */}
