@@ -308,14 +308,14 @@ export function RenderToolbar({ className = '' }: RenderToolbarProps) {
     // Camera & View Controls
     { id: 'recenter-view', icon: '⌖', tooltip: 'Recenter View - Centers the render view display area in the Render Viewport.' },
     { id: 'reset-camera', icon: '⌂', tooltip: 'Reset Camera - Resets the camera back to the original position.' },
-    { id: 'camera-presets', icon: '📷', tooltip: 'Camera View Presets - Provides preset camera views of the scene.' },
+    { id: 'camera-presets', icon: '◉', tooltip: 'Camera View Presets - Provides preset camera views of the scene.' },
     
     { type: 'separator' },
     
     // Render Controls
     { id: 'stop-render', icon: '■', tooltip: 'Stop Render - Aborts the rendering process and frees all resources.', important: true },
     { id: 'restart-render', icon: '↻', tooltip: 'Restart Render - Halts and restarts the rendering process at zero samples.', important: true },
-    { id: 'pause-render', icon: '⏸', tooltip: 'Pause Render - Pauses the rendering without losing rendered data.', important: true },
+    { id: 'pause-render', icon: '❚❚', tooltip: 'Pause Render - Pauses the rendering without losing rendered data.', important: true },
     { id: 'start-render', icon: '▶', tooltip: 'Start Render - Starts or resumes the rendering process.', important: true },
     { id: 'real-time-render', icon: '⚡', tooltip: 'Real Time Rendering - Uses more GPU memory for interactive experience.' },
     
@@ -323,15 +323,15 @@ export function RenderToolbar({ className = '' }: RenderToolbarProps) {
     
     // Picking Tools
     { id: 'focus-picker', icon: '◎', tooltip: 'Auto Focus Picking Mode - Click on scene to focus camera on that point.' },
-    { id: 'white-balance-picker', icon: '⚪', tooltip: 'White Balance Picking Mode - Select part of scene for white point colors.' },
+    { id: 'white-balance-picker', icon: '○', tooltip: 'White Balance Picking Mode - Select part of scene for white point colors.' },
     { id: 'material-picker', icon: '●', tooltip: 'Material Picker - Select rendered scene to inspect material.' },
-    { id: 'object-picker', icon: '▢', tooltip: 'Object Picker - Select objects to inspect attributes.' },
+    { id: 'object-picker', icon: '□', tooltip: 'Object Picker - Select objects to inspect attributes.' },
     { id: 'camera-target-picker', icon: '⊙', tooltip: 'Camera Target Picker - Set center of rotation and zooming.' },
     
     { type: 'separator' },
     
     // Region Tools
-    { id: 'render-region-picker', icon: '◊', tooltip: 'Render Region Picker - Specify a region in viewport to view changes.' },
+    { id: 'render-region-picker', icon: '◇', tooltip: 'Render Region Picker - Specify a region in viewport to view changes.' },
     { id: 'film-region-picker', icon: '▭', tooltip: 'Film Region Picker - Set region for Film Settings parameters.' },
     
     { type: 'separator' },
@@ -340,31 +340,31 @@ export function RenderToolbar({ className = '' }: RenderToolbarProps) {
     { id: 'clay-mode', icon: '◐', tooltip: 'Clay Mode - Shows model details without complex texturing.' },
     { id: 'subsample-2x2', icon: '▦', tooltip: 'Sub-Sampling 2×2 - Smoother navigation by reducing render resolution.' },
     { id: 'subsample-4x4', icon: '▣', tooltip: 'Sub-Sampling 4×4 - Maximum navigation smoothness.' },
-    { id: 'decal-wireframe', icon: '🔲', tooltip: 'Decal Wireframe - Toggles wireframe along decal boundaries.' },
+    { id: 'decal-wireframe', icon: '▢', tooltip: 'Decal Wireframe - Toggles wireframe along decal boundaries.' },
     { id: 'render-priority', icon: '⚙', tooltip: 'Render Priority Settings - Set GPU render priority.' },
     
     { type: 'separator' },
     
     // Output Controls
-    { id: 'copy-clipboard', icon: '📋', tooltip: 'Copy to Clipboard - Copies current render in LDR format.' },
-    { id: 'save-render', icon: '💾', tooltip: 'Save Render - Saves current render to disk.' },
-    { id: 'export-passes', icon: '📤', tooltip: 'Export Render Passes - Brings up Render Passes Export window.' },
-    { id: 'background-image', icon: '🖼', tooltip: 'Set Background Image - Places background image in viewport.' },
+    { id: 'copy-clipboard', icon: '⎘', tooltip: 'Copy to Clipboard - Copies current render in LDR format.' },
+    { id: 'save-render', icon: '⬇', tooltip: 'Save Render - Saves current render to disk.' },
+    { id: 'export-passes', icon: '⇪', tooltip: 'Export Render Passes - Brings up Render Passes Export window.' },
+    { id: 'background-image', icon: '▣', tooltip: 'Set Background Image - Places background image in viewport.' },
     
     { type: 'separator' },
     
     // Viewport Controls
-    { id: 'viewport-resolution-lock', icon: '🔗', tooltip: 'Viewport Resolution Lock - Adjusts render resolution to viewport size.' },
-    { id: 'lock-viewport', icon: '🔐', tooltip: 'Lock Viewport - Prevents accidental changes or render restarts.' },
+    { id: 'viewport-resolution-lock', icon: '⊡', tooltip: 'Viewport Resolution Lock - Adjusts render resolution to viewport size.' },
+    { id: 'lock-viewport', icon: '⚿', tooltip: 'Lock Viewport - Prevents accidental changes or render restarts.' },
     
     { type: 'separator' },
     
     // Object Manipulation
-    { id: 'object-control-alignment', icon: '🌐', tooltip: 'Object Control Alignment - World or local coordinate system.' },
+    { id: 'object-control-alignment', icon: '⊕', tooltip: 'Object Control Alignment - World or local coordinate system.' },
     { id: 'translate-gizmo', icon: '↔', tooltip: 'Placement Translation Tool - Move objects along axes.' },
-    { id: 'rotate-gizmo', icon: '🔄', tooltip: 'Placement Rotation Tool - Rotate objects around axes.' },
-    { id: 'scale-gizmo', icon: '⚖', tooltip: 'Placement Scale Tool - Scale objects uniformly or per axis.' },
-    { id: 'world-coordinate', icon: '🧭', tooltip: 'Display World Coordinate - Shows world axis in viewport corner.' }
+    { id: 'rotate-gizmo', icon: '⟲', tooltip: 'Placement Rotation Tool - Rotate objects around axes.' },
+    { id: 'scale-gizmo', icon: '◳', tooltip: 'Placement Scale Tool - Scale objects uniformly or per axis.' },
+    { id: 'world-coordinate', icon: '⊞', tooltip: 'Display World Coordinate - Shows world axis in viewport corner.' }
   ];
 
   return (
