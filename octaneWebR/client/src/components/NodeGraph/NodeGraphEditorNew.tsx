@@ -33,6 +33,7 @@ import { OctaneNode, OctaneNodeData } from './OctaneNode';
 import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
 import { NodeTypeContextMenu } from './NodeTypeContextMenu';
 import { NodeContextMenu } from './NodeContextMenu';
+import { SearchDialog } from './SearchDialog';
 import { NodeType } from '../../constants/OctaneTypes';
 
 interface NodeGraphEditorProps {
@@ -64,6 +65,9 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
   const [contextMenuType, setContextMenuType] = useState<'node' | 'add'>('add'); // 'node' = right-click on node, 'add' = right-click on empty space
   const [contextMenuNodeId, setContextMenuNodeId] = useState<string | null>(null); // Track which node was right-clicked
+
+  // Search dialog state
+  const [searchDialogVisible, setSearchDialogVisible] = useState(false);
 
   // Track connection line color during drag (matches source pin color)
   const [connectionLineColor, setConnectionLineColor] = useState('#ffc107');
@@ -254,6 +258,46 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
       }, 100);
     }
   }, [nodes, fitView]);
+
+  /**
+   * Keyboard shortcut handler: Ctrl+F opens search dialog
+   * Per Octane SE manual: "Pressing CTRL+F brings up the Search Dialog"
+   */
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Ctrl+F or Cmd+F on Mac
+      if ((event.ctrlKey || event.metaKey) && event.key === 'f') {
+        event.preventDefault(); // Prevent browser's default find
+        setSearchDialogVisible(true);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  /**
+   * Handle search dialog node selection
+   */
+  const handleSearchSelectNodes = useCallback((nodeIds: string[]) => {
+    setNodes((nds) =>
+      nds.map((node) => ({
+        ...node,
+        selected: nodeIds.includes(node.id),
+      }))
+    );
+
+    // Also notify parent component if callback provided
+    if (nodeIds.length > 0 && onNodeSelect) {
+      const selectedNode = nodes.find(n => n.id === nodeIds[0]);
+      if (selectedNode) {
+        const data = selectedNode.data as OctaneNodeData;
+        onNodeSelect(data.sceneNode);
+      }
+    }
+  }, [setNodes, nodes, onNodeSelect]);
 
   /**
    * Handle connection start - capture source handle color for drag line
@@ -908,6 +952,14 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           onClose={handleCloseContextMenu}
         />
       )}
+
+      {/* Search Dialog - Ctrl+F */}
+      <SearchDialog
+        visible={searchDialogVisible}
+        nodes={nodes}
+        onClose={() => setSearchDialogVisible(false)}
+        onSelectNodes={handleSearchSelectNodes}
+      />
 
       <ReactFlow
         nodes={nodes}
