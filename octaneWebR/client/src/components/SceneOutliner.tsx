@@ -24,15 +24,33 @@ interface SceneTreeItemProps {
   depth: number;
   onSelect: (node: SceneNode) => void;
   selectedHandle: number | null;
+  expandAllSignal?: number;
+  collapseAllSignal?: number;
 }
 
-function SceneTreeItem({ node, depth, onSelect, selectedHandle }: SceneTreeItemProps) {
+function SceneTreeItem({ node, depth, onSelect, selectedHandle, expandAllSignal, collapseAllSignal }: SceneTreeItemProps) {
     // Scene root and Render target start expanded by default
   const [expanded, setExpanded] = useState(
     node.type === 'SceneRoot' || node.type === 'PT_RENDERTARGET'
   );
   const hasChildren = node.children && node.children.length > 0;
   const isSelected = selectedHandle === node.handle;
+
+  // Respond to expand/collapse all signals
+  useEffect(() => {
+    if (expandAllSignal && expandAllSignal > 0 && hasChildren) {
+      setExpanded(true);
+    }
+  }, [expandAllSignal, hasChildren]);
+
+  useEffect(() => {
+    if (collapseAllSignal && collapseAllSignal > 0) {
+      // Don't collapse the Scene root
+      if (node.type !== 'SceneRoot') {
+        setExpanded(false);
+      }
+    }
+  }, [collapseAllSignal, node.type]);
 
   return (
     <>
@@ -78,6 +96,8 @@ function SceneTreeItem({ node, depth, onSelect, selectedHandle }: SceneTreeItemP
             depth={depth + 1}
             onSelect={onSelect}
             selectedHandle={selectedHandle}
+            expandAllSignal={expandAllSignal}
+            collapseAllSignal={collapseAllSignal}
           />
         );
       })}
@@ -186,6 +206,8 @@ export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange, o
   const [localDBRoot, setLocalDBRoot] = useState<LocalDBCategory | null>(null);
   const [localDBLoading, setLocalDBLoading] = useState(false);
   const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
+  const [expandAllSignal, setExpandAllSignal] = useState(0);
+  const [collapseAllSignal, setCollapseAllSignal] = useState(0);
 
   const handleNodeSelect = (node: SceneNode) => {
     onNodeSelect?.(node);
@@ -345,12 +367,36 @@ export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange, o
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, client]);
 
+  const handleExpandAll = () => {
+    setExpandAllSignal(prev => prev + 1);
+  };
+
+  const handleCollapseAll = () => {
+    setCollapseAllSignal(prev => prev + 1);
+  };
+
   return (
     <div className="scene-outliner">
       {/* Scene Outliner Button Bar (above tabs) */}
       <div className="scene-outliner-button-bar">
-        <button className="outliner-btn" title="Expand tree" data-action="expand-tree">⊞</button>
-        <button className="outliner-btn" title="Collapse tree" data-action="collapse-tree">⊟</button>
+        <button 
+          className="outliner-btn" 
+          title="Expand all nodes" 
+          data-action="expand-tree"
+          onClick={handleExpandAll}
+          disabled={loading || !connected || sceneTree.length === 0}
+        >
+          ⊞
+        </button>
+        <button 
+          className="outliner-btn" 
+          title="Collapse all nodes" 
+          data-action="collapse-tree"
+          onClick={handleCollapseAll}
+          disabled={loading || !connected || sceneTree.length === 0}
+        >
+          ⊟
+        </button>
         <button 
           className="outliner-btn refresh-tree-btn" 
           title="Refresh tree" 
@@ -411,6 +457,8 @@ export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange, o
                 depth={0}
                 onSelect={handleNodeSelect}
                 selectedHandle={selectedNode?.handle || null}
+                expandAllSignal={expandAllSignal}
+                collapseAllSignal={collapseAllSignal}
               />
             </div>
           ) : (
