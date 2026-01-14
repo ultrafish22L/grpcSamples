@@ -16,14 +16,17 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # EXACT GRID PARAMETERS from user measurements
 ICON_SIZE = 16
-ROW_SPACING = 19  # Next row starts at Y=21, first row at Y=2, so spacing is 21-2=19
-COL_SPACING = 233  # Next column starts at X=236, first column at X=3, so spacing is 236-3=233
+ROW_SPACING = 19  # Consistent spacing between rows
+COL_SPACING = 233  # Consistent spacing between columns
 NUM_COLUMNS = 6
 
-# Starting position for first icon (top-left)
-# First icon occupies pixels 3-19 horizontally, 2-18 vertically
-START_X = 3  # First column starts at pixel 3
-START_Y = 2  # First row starts at pixel 2
+# Starting positions for each screenshot (different scroll positions)
+# IMG1: User provided measurements - pixels 3-19 horizontally, 2-18 vertically
+# IMG2: Auto-detected - same X, but scrolled down 13 pixels
+GRID_PARAMS = {
+    'img1': {'START_X': 3, 'START_Y': 2},   # From user measurements
+    'img2': {'START_X': 3, 'START_Y': 15},  # Auto-detected
+}
 
 # Don't auto-detect, use exact measurements
 AUTO_DETECT_START = False
@@ -174,23 +177,15 @@ def main():
     img1 = Image.open(SCREENSHOT_1)
     print(f"   Size: {img1.width}x{img1.height}")
     
-    # Detect or use manual start position
-    if AUTO_DETECT_START:
-        print("   🔍 Auto-detecting first icon position...")
-        start_x, start_y = detect_first_icon_position(img1)
-        if start_x is not None:
-            print(f"   ✅ Detected start position: ({start_x}, {start_y})")
-        else:
-            print(f"   ⚠️  Auto-detection failed, using manual: ({START_X}, {START_Y})")
-            start_x, start_y = START_X, START_Y
-    else:
-        start_x, start_y = START_X, START_Y
-        print(f"   Using manual start position: ({start_x}, {start_y})")
+    # Use img1-specific parameters
+    start_x1 = GRID_PARAMS['img1']['START_X']
+    start_y1 = GRID_PARAMS['img1']['START_Y']
+    print(f"   Using start position for img1: ({start_x1}, {start_y1})")
     
     # Extract icons
     print(f"   📦 Extracting icons...")
     print(f"      Grid: {NUM_COLUMNS} columns × row_spacing={ROW_SPACING}px × col_spacing={COL_SPACING}px")
-    icons1 = extract_icon_grid(img1, start_x, start_y)
+    icons1 = extract_icon_grid(img1, start_x1, start_y1)
     print(f"   ✅ Extracted {len(icons1)} icons")
     
     # Create debug visualization
@@ -209,12 +204,10 @@ def main():
     img2 = Image.open(SCREENSHOT_2)
     print(f"   Size: {img2.width}x{img2.height}")
     
-    if AUTO_DETECT_START:
-        start_x2, start_y2 = detect_first_icon_position(img2)
-        if start_x2 is None:
-            start_x2, start_y2 = start_x, start_y
-    else:
-        start_x2, start_y2 = start_x, start_y
+    # Use img2-specific parameters
+    start_x2 = GRID_PARAMS['img2']['START_X']
+    start_y2 = GRID_PARAMS['img2']['START_Y']
+    print(f"   Using start position for img2: ({start_x2}, {start_y2})")
     
     icons2 = extract_icon_grid(img2, start_x2, start_y2)
     print(f"   ✅ Extracted {len(icons2)} icons")
