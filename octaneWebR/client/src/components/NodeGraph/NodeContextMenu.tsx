@@ -112,8 +112,7 @@ export function NodeContextMenu({
         className="context-menu-item"
         onClick={() => handleMenuItemClick(onDeleteSelected)}
       >
-        <span>🗑️</span>
-        <span>Delete Selected {selectedNodeCount > 1 ? `(${selectedNodeCount})` : ''}</span>
+        Delete Selected {selectedNodeCount > 1 ? `(${selectedNodeCount})` : ''}
       </div>
 
       {/* Separator */}
@@ -124,8 +123,7 @@ export function NodeContextMenu({
         className="context-menu-item"
         onClick={() => handleMenuItemClick(onSaveAsMacro)}
       >
-        <span>💾</span>
-        <span>Save as Macro</span>
+        Save as Macro
       </div>
 
       {/* Render Node */}
@@ -133,8 +131,7 @@ export function NodeContextMenu({
         className="context-menu-item"
         onClick={() => handleMenuItemClick(onRenderNode)}
       >
-        <span>🎬</span>
-        <span>Render Node</span>
+        Render Node
       </div>
 
       {/* Separator */}
@@ -145,8 +142,7 @@ export function NodeContextMenu({
         className={`context-menu-item ${selectedNodeCount < 2 ? 'disabled' : ''}`}
         onClick={() => handleMenuItemClick(onGroupItems, selectedNodeCount < 2)}
       >
-        <span>📦</span>
-        <span>Group Items</span>
+        Group Items
       </div>
 
       {/* Separator */}
@@ -157,8 +153,7 @@ export function NodeContextMenu({
         className="context-menu-item"
         onClick={() => handleMenuItemClick(onShowInOutliner)}
       >
-        <span>🔍</span>
-        <span>Show in Outliner</span>
+        Show in Outliner
       </div>
     </div>,
     document.body
