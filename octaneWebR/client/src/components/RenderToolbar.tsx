@@ -336,9 +336,20 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
         });
         break;
       case 'real-time-render':
-        setState(prev => ({ ...prev, realTimeMode: !prev.realTimeMode }));
-        console.log(`Real-time mode: ${!state.realTimeMode ? 'ON' : 'OFF'}`);
-        // TODO: API call to toggle real-time rendering
+        const newRealTimeMode = !state.realTimeMode;
+        setState(prev => ({ ...prev, realTimeMode: newRealTimeMode }));
+        console.log(`⚡ Real-time mode: ${newRealTimeMode ? 'ON' : 'OFF'}`);
+        // Real-time mode uses high priority for interactive experience
+        // Set render priority: high for real-time, normal for standard
+        const rtPriority = newRealTimeMode ? 2 : 1; // 0=low, 1=normal, 2=high
+        client.callApi('ApiRenderEngine', 'setRenderPriority', { priority: rtPriority }).then(() => {
+          const priorityName = newRealTimeMode ? 'HIGH' : 'NORMAL';
+          console.log(`✅ Real-time mode ${newRealTimeMode ? 'enabled' : 'disabled'} - priority set to ${priorityName}`);
+          setState(prev => ({ ...prev, renderPriority: newRealTimeMode ? 'high' : 'normal' }));
+        }).catch(err => {
+          console.error('❌ Failed to set real-time rendering priority:', err);
+          setState(prev => ({ ...prev, realTimeMode: state.realTimeMode })); // Revert on error
+        });
         break;
 
       // Picking Tools
