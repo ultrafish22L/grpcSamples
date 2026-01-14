@@ -15,6 +15,14 @@ interface NodeTypeContextMenuProps {
   onClose: () => void;
 }
 
+/**
+ * Get icon path for a node type
+ * Icons are stored in /icons/nodes/{NODE_TYPE}.png
+ */
+function getNodeIcon(nodeType: string): string {
+  return `/icons/nodes/${nodeType}.png`;
+}
+
 export function NodeTypeContextMenu({
   x,
   y,
@@ -259,9 +267,21 @@ export function NodeTypeContextMenu({
                 onClick={() => handleNodeTypeClick(nodeType)}
                 title={nodeType}
               >
+                <img
+                  src={getNodeIcon(nodeType)}
+                  alt=""
+                  className="node-type-icon"
+                  onError={(e) => {
+                    // Fallback to colored square if icon doesn't exist
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const fallback = target.nextElementSibling as HTMLSpanElement;
+                    if (fallback) fallback.style.display = 'block';
+                  }}
+                />
                 <span
                   className="node-type-color"
-                  style={{ backgroundColor: info.color }}
+                  style={{ backgroundColor: info.color, display: 'none' }}
                 />
                 {info.name}
               </div>

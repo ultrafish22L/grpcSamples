@@ -14,6 +14,8 @@
  *   const iconUrl = getNodeIcon("NT_MAT_DIFFUSE");
  */
 
+import React from 'react';
+
 export type NodeTypeString = string; // NT_* enum values (e.g., "NT_MAT_DIFFUSE")
 export type GraphTypeString = string; // GT_* enum values (e.g., "GT_STANDARD")
 
@@ -61,7 +63,7 @@ export function isValidGraphType(graphType: string): boolean {
  * Parse node type from numeric enum value (if you have a mapping)
  * This would require the OctaneTypes constants to be imported
  */
-export function getNodeTypeString(nodeTypeValue: number): NodeTypeString | null {
+export function getNodeTypeString(_nodeTypeValue: number): NodeTypeString | null {
   // TODO: Import OctaneTypes constants and create reverse mapping
   // For now, return null - implement when needed
   return null;
@@ -70,8 +72,6 @@ export function getNodeTypeString(nodeTypeValue: number): NodeTypeString | null 
 /**
  * React component for displaying node icons
  */
-import React from 'react';
-
 export interface NodeIconProps {
   nodeType: NodeTypeString;
   size?: number;
