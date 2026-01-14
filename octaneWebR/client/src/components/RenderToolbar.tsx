@@ -97,21 +97,21 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
     initializeRenderSettings();
   }, [connected, client]);
 
-  // Fetch and update render statistics periodically
+  // Listen for real-time render statistics from WebSocket callbacks
   useEffect(() => {
     if (!connected) return;
     
-    const updateStats = async () => {
+    const handleStatistics = (data: any) => {
       try {
-        const stats = await client.getRenderStatistics();
+        // Parse the statistics object from Octane callback
+        // The statistics object contains setSize (resolution), usedSize, etc.
+        const stats = data.statistics;
         if (stats) {
-          // Parse the statistics object from Octane
-          // The statistics object contains setSize (resolution), usedSize, etc.
           const width = stats.setSize?.x || stats.setSize?.[0] || renderStats.resolution.split('x')[0];
           const height = stats.setSize?.y || stats.setSize?.[1] || renderStats.resolution.split('x')[1];
           const resolution = `${width}x${height}`;
           
-          // Update render stats with real data
+          // Update render stats with real data from callback
           setRenderStats(prev => ({
             ...prev,
             resolution,
@@ -119,17 +119,16 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
           }));
         }
       } catch (error) {
-        console.error('Failed to fetch render statistics:', error);
+        console.error('Failed to process render statistics:', error);
       }
     };
 
-    // Initial fetch
-    updateStats();
-    
-    // Poll every 1 second for real-time updates
-    const interval = setInterval(updateStats, 1000);
+    // Subscribe to OnNewStatistics callback
+    client.on('OnNewStatistics', handleStatistics);
 
-    return () => clearInterval(interval);
+    return () => {
+      client.off('OnNewStatistics', handleStatistics);
+    };
   }, [connected, client]);
 
   // ========================================

@@ -30,6 +30,7 @@ class OctaneGrpcClient {
   private packageDefinition: protoLoader.PackageDefinition | null = null;
   private protoDescriptor: grpc.GrpcObject | null = null;
   private callbacks: Set<(data: any) => void> = new Set();
+  private statisticsCallbacks: Set<(data: any) => void> = new Set();
   private callbackId: number = 0;
   private isCallbackRegistered: boolean = false;
   private pollingInterval: NodeJS.Timeout | null = null;
@@ -272,8 +273,9 @@ class OctaneGrpcClient {
 
     try {
       this.callbackId = Math.floor(Math.random() * 1000000);
-      console.log(`📡 Registering OnNewImage callback with ID: ${this.callbackId}`);
+      console.log(`📡 Registering callbacks (OnNewImage, OnNewStatistics) with ID: ${this.callbackId}`);
 
+      // Register OnNewImage callback
       await this.callMethod('ApiRenderEngine', 'setOnNewImageCallback', {
         callback: {
           callbackSource: 'grpc',
@@ -282,13 +284,22 @@ class OctaneGrpcClient {
         userData: 0
       });
 
-      console.log(`✅ Callback registered with Octane`);
+      // Register OnNewStatistics callback
+      await this.callMethod('ApiRenderEngine', 'setOnNewStatisticsCallback', {
+        callback: {
+          callbackSource: 'grpc',
+          callbackId: this.callbackId
+        },
+        userData: 0
+      });
+
+      console.log(`✅ Callbacks registered with Octane`);
       this.isCallbackRegistered = true;
       
       // Start streaming callbacks
       this.startCallbackStreaming();
     } catch (error: any) {
-      console.error('❌ Failed to register callback:', error.message);
+      console.error('❌ Failed to register callbacks:', error.message);
       console.error('   (Callbacks will not work until Octane is running and LiveLink is enabled)');
     }
   }
@@ -334,7 +345,14 @@ class OctaneGrpcClient {
           } else if (callbackRequest.renderFailure) {
             console.log('❌ Render failure callback received');
           } else if (callbackRequest.newStatistics) {
-            // Statistics callbacks are frequent - logging disabled to prevent flooding
+            // OnNewStatisticsRequest contains render statistics
+            const statsData = {
+              callback_source: callbackRequest.newStatistics.callback_source,
+              callback_id: callbackRequest.newStatistics.callback_id,
+              user_data: callbackRequest.newStatistics.user_data,
+              statistics: callbackRequest.newStatistics.statistics
+            };
+            this.notifyStatisticsCallbacks(statsData);
           } else if (callbackRequest.projectManagerChanged) {
             console.log('🔄 Project manager changed callback received');
           }
@@ -422,6 +440,24 @@ class OctaneGrpcClient {
     });
   }
 
+  private notifyStatisticsCallbacks(data: any): void {
+    this.statisticsCallbacks.forEach(callback => {
+      try {
+        callback(data);
+      } catch (error) {
+        console.error('❌ Error in statistics callback handler:', error);
+      }
+    });
+  }
+
+  addStatisticsCallback(callback: (data: any) => void): void {
+    this.statisticsCallbacks.add(callback);
+  }
+
+  removeStatisticsCallback(callback: (data: any) => void): void {
+    this.statisticsCallbacks.delete(callback);
+  }
+
   close(): void {
     this.channel.close();
     this.services.clear();
@@ -472,11 +508,21 @@ export function octaneGrpcPlugin(): Plugin {
           }
         };
         
+        const statisticsHandler = (data: any) => {
+          try {
+            ws.send(JSON.stringify({ type: 'newStatistics', data }));
+          } catch (error) {
+            console.error('❌ Error sending statistics WebSocket message:', error);
+          }
+        };
+        
         grpcClient?.registerCallback(callbackHandler);
+        grpcClient?.addStatisticsCallback(statisticsHandler);
         
         ws.on('close', () => {
           console.log('🔌 WebSocket client disconnected');
           grpcClient?.unregisterCallback(callbackHandler);
+          grpcClient?.removeStatisticsCallback(statisticsHandler);
         });
         
         ws.on('message', (message: string) => {

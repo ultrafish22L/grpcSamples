@@ -136,6 +136,8 @@ export class OctaneClient extends EventEmitter {
           const message = JSON.parse(event.data);
           if (message.type === 'newImage') {
             this.emit('OnNewImage', message.data);
+          } else if (message.type === 'newStatistics') {
+            this.emit('OnNewStatistics', message.data);
           }
         } catch (error: any) {
           console.error('❌ WebSocket message error:', error.message);
