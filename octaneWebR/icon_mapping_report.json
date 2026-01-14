@@ -1,0 +1,3768 @@
+[
+  {
+    "extracted_file": "octane_allitems1_0000.png",
+    "node_enum": "NT_ANIMATION_SETTINGS",
+    "node_name": "Animation Settings",
+    "source": "octane_allitems1.png",
+    "position": "row=0, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0001.png",
+    "node_enum": "NT_ANNOTATION",
+    "node_name": "Annotation",
+    "source": "octane_allitems1.png",
+    "position": "row=0, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0002.png",
+    "node_enum": "NT_AOV_ALPHA",
+    "node_name": "Aov Alpha",
+    "source": "octane_allitems1.png",
+    "position": "row=0, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0003.png",
+    "node_enum": "NT_AOV_AMBIENT_OCCLUSION",
+    "node_name": "Aov Ambient Occlusion",
+    "source": "octane_allitems1.png",
+    "position": "row=0, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0004.png",
+    "node_enum": "NT_AOV_BAKING_GROUP_ID",
+    "node_name": "Aov Baking Group Id",
+    "source": "octane_allitems1.png",
+    "position": "row=0, col=4"
+  },
+  {
+    "extracted_file": "octane_allitems1_0005.png",
+    "node_enum": "NT_AOV_BIAS_CURR_COLOR",
+    "node_name": "Aov Bias Curr Color",
+    "source": "octane_allitems1.png",
+    "position": "row=0, col=5"
+  },
+  {
+    "extracted_file": "octane_allitems1_0006.png",
+    "node_enum": "NT_AOV_CAMERA_MASK",
+    "node_name": "Aov Camera Mask",
+    "source": "octane_allitems1.png",
+    "position": "row=1, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0007.png",
+    "node_enum": "NT_AOV_CRYPTOMATTE",
+    "node_name": "Aov Cryptomatte",
+    "source": "octane_allitems1.png",
+    "position": "row=1, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0008.png",
+    "node_enum": "NT_AOV_CUSTOM",
+    "node_name": "Aov Custom",
+    "source": "octane_allitems1.png",
+    "position": "row=1, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0009.png",
+    "node_enum": "NT_AOV_DENOISE_ALBEDO",
+    "node_name": "Aov Denoise Albedo",
+    "source": "octane_allitems1.png",
+    "position": "row=2, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0010.png",
+    "node_enum": "NT_AOV_DENOISE_HIT_DISTANCE",
+    "node_name": "Aov Denoise Hit Distance",
+    "source": "octane_allitems1.png",
+    "position": "row=2, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0011.png",
+    "node_enum": "NT_AOV_DENOISE_NORMAL",
+    "node_name": "Aov Denoise Normal",
+    "source": "octane_allitems1.png",
+    "position": "row=2, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0012.png",
+    "node_enum": "NT_AOV_DENOISE_ROUGHNESS",
+    "node_name": "Aov Denoise Roughness",
+    "source": "octane_allitems1.png",
+    "position": "row=3, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0013.png",
+    "node_enum": "NT_AOV_DIFFUSE",
+    "node_name": "Aov Diffuse",
+    "source": "octane_allitems1.png",
+    "position": "row=3, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0014.png",
+    "node_enum": "NT_AOV_DIFFUSE_DIRECT",
+    "node_name": "Aov Diffuse Direct",
+    "source": "octane_allitems1.png",
+    "position": "row=3, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0015.png",
+    "node_enum": "NT_AOV_DIFFUSE_DIRECT_DENOISER_OUTPUT",
+    "node_name": "Aov Diffuse Direct Denoiser Output",
+    "source": "octane_allitems1.png",
+    "position": "row=4, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0016.png",
+    "node_enum": "NT_AOV_DIFFUSE_FILTER",
+    "node_name": "Aov Diffuse Filter",
+    "source": "octane_allitems1.png",
+    "position": "row=4, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0017.png",
+    "node_enum": "NT_AOV_DIFFUSE_FILTER_INFO",
+    "node_name": "Aov Diffuse Filter Info",
+    "source": "octane_allitems1.png",
+    "position": "row=4, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0018.png",
+    "node_enum": "NT_AOV_DIFFUSE_FILTER_RGB",
+    "node_name": "Aov Diffuse Filter Rgb",
+    "source": "octane_allitems1.png",
+    "position": "row=5, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0019.png",
+    "node_enum": "NT_AOV_DIFFUSE_INDIRECT",
+    "node_name": "Aov Diffuse Indirect",
+    "source": "octane_allitems1.png",
+    "position": "row=5, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0020.png",
+    "node_enum": "NT_AOV_DIFFUSE_INDIRECT_DENOISER_OUTPUT",
+    "node_name": "Aov Diffuse Indirect Denoiser Output",
+    "source": "octane_allitems1.png",
+    "position": "row=5, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0021.png",
+    "node_enum": "NT_AOV_EMISSION_DENOISER_OUTPUT",
+    "node_name": "Aov Emission Denoiser Output",
+    "source": "octane_allitems1.png",
+    "position": "row=6, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0022.png",
+    "node_enum": "NT_AOV_EMIT",
+    "node_name": "Aov Emit",
+    "source": "octane_allitems1.png",
+    "position": "row=6, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0023.png",
+    "node_enum": "NT_AOV_ENVIRONMENT",
+    "node_name": "Aov Environment",
+    "source": "octane_allitems1.png",
+    "position": "row=6, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0024.png",
+    "node_enum": "NT_AOV_GAUSSIAN_SPLAT",
+    "node_name": "Aov Gaussian Splat",
+    "source": "octane_allitems1.png",
+    "position": "row=7, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0025.png",
+    "node_enum": "NT_AOV_GAUSSIAN_SPLAT_INFO",
+    "node_name": "Aov Gaussian Splat Info",
+    "source": "octane_allitems1.png",
+    "position": "row=7, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0026.png",
+    "node_enum": "NT_AOV_GEOMETRIC_NORMAL",
+    "node_name": "Aov Geometric Normal",
+    "source": "octane_allitems1.png",
+    "position": "row=7, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0027.png",
+    "node_enum": "NT_AOV_GLOBAL_TEX",
+    "node_name": "Aov Global Tex",
+    "source": "octane_allitems1.png",
+    "position": "row=7, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0028.png",
+    "node_enum": "NT_AOV_IOR",
+    "node_name": "Aov Ior",
+    "source": "octane_allitems1.png",
+    "position": "row=8, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0029.png",
+    "node_enum": "NT_AOV_IRRADIANCE",
+    "node_name": "Aov Irradiance",
+    "source": "octane_allitems1.png",
+    "position": "row=8, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0030.png",
+    "node_enum": "NT_AOV_LAYER_BLACK_SHADOWS",
+    "node_name": "Aov Layer Black Shadows",
+    "source": "octane_allitems1.png",
+    "position": "row=8, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0031.png",
+    "node_enum": "NT_AOV_LAYER_REFLECTIONS",
+    "node_name": "Aov Layer Reflections",
+    "source": "octane_allitems1.png",
+    "position": "row=8, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0032.png",
+    "node_enum": "NT_AOV_LAYER_SHADOWS",
+    "node_name": "Aov Layer Shadows",
+    "source": "octane_allitems1.png",
+    "position": "row=9, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0033.png",
+    "node_enum": "NT_AOV_LIGHT",
+    "node_name": "Aov Light",
+    "source": "octane_allitems1.png",
+    "position": "row=9, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0034.png",
+    "node_enum": "NT_AOV_LIGHT_DIRECT",
+    "node_name": "Aov Light Direct",
+    "source": "octane_allitems1.png",
+    "position": "row=9, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0035.png",
+    "node_enum": "NT_AOV_LIGHT_DIRECTION",
+    "node_name": "Aov Light Direction",
+    "source": "octane_allitems1.png",
+    "position": "row=10, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0036.png",
+    "node_enum": "NT_AOV_LIGHT_INDIRECT",
+    "node_name": "Aov Light Indirect",
+    "source": "octane_allitems1.png",
+    "position": "row=10, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0037.png",
+    "node_enum": "NT_AOV_LIGHT_PASS_ID",
+    "node_name": "Aov Light Pass Id",
+    "source": "octane_allitems1.png",
+    "position": "row=10, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0038.png",
+    "node_enum": "NT_AOV_MATERIAL_ID",
+    "node_name": "Aov Material Id",
+    "source": "octane_allitems1.png",
+    "position": "row=11, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0039.png",
+    "node_enum": "NT_AOV_MOTION_VECTOR",
+    "node_name": "Aov Motion Vector",
+    "source": "octane_allitems1.png",
+    "position": "row=11, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0040.png",
+    "node_enum": "NT_AOV_NOISE_BEAUTY",
+    "node_name": "Aov Noise Beauty",
+    "source": "octane_allitems1.png",
+    "position": "row=11, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0041.png",
+    "node_enum": "NT_AOV_NOISE_DIFFUSE_DIRECT",
+    "node_name": "Aov Noise Diffuse Direct",
+    "source": "octane_allitems1.png",
+    "position": "row=12, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0042.png",
+    "node_enum": "NT_AOV_NOISE_DIFFUSE_INDIRECT",
+    "node_name": "Aov Noise Diffuse Indirect",
+    "source": "octane_allitems1.png",
+    "position": "row=12, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0043.png",
+    "node_enum": "NT_AOV_NOISE_REFLECTION_DIRECT",
+    "node_name": "Aov Noise Reflection Direct",
+    "source": "octane_allitems1.png",
+    "position": "row=12, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0044.png",
+    "node_enum": "NT_AOV_NOISE_REFLECTION_INDIRECT",
+    "node_name": "Aov Noise Reflection Indirect",
+    "source": "octane_allitems1.png",
+    "position": "row=13, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0045.png",
+    "node_enum": "NT_AOV_OBJECT_ID",
+    "node_name": "Aov Object Id",
+    "source": "octane_allitems1.png",
+    "position": "row=13, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0046.png",
+    "node_enum": "NT_AOV_OBJECT_LAYER_COLOR",
+    "node_name": "Aov Object Layer Color",
+    "source": "octane_allitems1.png",
+    "position": "row=13, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0047.png",
+    "node_enum": "NT_AOV_OPACITY",
+    "node_name": "Aov Opacity",
+    "source": "octane_allitems1.png",
+    "position": "row=14, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0048.png",
+    "node_enum": "NT_AOV_POSITION",
+    "node_name": "Aov Position",
+    "source": "octane_allitems1.png",
+    "position": "row=14, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0049.png",
+    "node_enum": "NT_AOV_POST_PROCESSING",
+    "node_name": "Aov Post Processing",
+    "source": "octane_allitems1.png",
+    "position": "row=14, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0050.png",
+    "node_enum": "NT_AOV_POSTFX_MEDIA",
+    "node_name": "Aov Postfx Media",
+    "source": "octane_allitems1.png",
+    "position": "row=14, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0051.png",
+    "node_enum": "NT_AOV_PRIMARY_HIT_DATA",
+    "node_name": "Aov Primary Hit Data",
+    "source": "octane_allitems1.png",
+    "position": "row=15, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0052.png",
+    "node_enum": "NT_AOV_PRIMARY_HIT_DISTANCE",
+    "node_name": "Aov Primary Hit Distance",
+    "source": "octane_allitems1.png",
+    "position": "row=15, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0053.png",
+    "node_enum": "NT_AOV_PRIMARY_HIT_NORMAL",
+    "node_name": "Aov Primary Hit Normal",
+    "source": "octane_allitems1.png",
+    "position": "row=15, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0054.png",
+    "node_enum": "NT_AOV_PRIMARY_HIT_ROUGHNESS",
+    "node_name": "Aov Primary Hit Roughness",
+    "source": "octane_allitems1.png",
+    "position": "row=15, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0055.png",
+    "node_enum": "NT_AOV_PRIMARY_ZDEPTH",
+    "node_name": "Aov Primary Zdepth",
+    "source": "octane_allitems1.png",
+    "position": "row=16, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0056.png",
+    "node_enum": "NT_AOV_PRIMITIVE_TYPE",
+    "node_name": "Aov Primitive Type",
+    "source": "octane_allitems1.png",
+    "position": "row=16, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0057.png",
+    "node_enum": "NT_AOV_REFLECTION",
+    "node_name": "Aov Reflection",
+    "source": "octane_allitems1.png",
+    "position": "row=16, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0058.png",
+    "node_enum": "NT_AOV_REFLECTION_DIRECT",
+    "node_name": "Aov Reflection Direct",
+    "source": "octane_allitems1.png",
+    "position": "row=16, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0059.png",
+    "node_enum": "NT_AOV_REFLECTION_DIRECT_DENOISER_OUTPUT",
+    "node_name": "Aov Reflection Direct Denoiser Output",
+    "source": "octane_allitems1.png",
+    "position": "row=17, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0060.png",
+    "node_enum": "NT_AOV_REFLECTION_FILTER",
+    "node_name": "Aov Reflection Filter",
+    "source": "octane_allitems1.png",
+    "position": "row=17, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0061.png",
+    "node_enum": "NT_AOV_REFLECTION_FILTER_INFO",
+    "node_name": "Aov Reflection Filter Info",
+    "source": "octane_allitems1.png",
+    "position": "row=17, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0062.png",
+    "node_enum": "NT_AOV_REFLECTION_FILTER_RGB",
+    "node_name": "Aov Reflection Filter Rgb",
+    "source": "octane_allitems1.png",
+    "position": "row=18, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0063.png",
+    "node_enum": "NT_AOV_REFLECTION_INDIRECT",
+    "node_name": "Aov Reflection Indirect",
+    "source": "octane_allitems1.png",
+    "position": "row=18, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0064.png",
+    "node_enum": "NT_AOV_REFLECTION_INDIRECT_DENOISER_OUTPUT",
+    "node_name": "Aov Reflection Indirect Denoiser Output",
+    "source": "octane_allitems1.png",
+    "position": "row=18, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0065.png",
+    "node_enum": "NT_AOV_REFRACTION",
+    "node_name": "Aov Refraction",
+    "source": "octane_allitems1.png",
+    "position": "row=19, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0066.png",
+    "node_enum": "NT_AOV_REFRACTION_FILTER",
+    "node_name": "Aov Refraction Filter",
+    "source": "octane_allitems1.png",
+    "position": "row=19, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0067.png",
+    "node_enum": "NT_AOV_REFRACTION_FILTER_INFO",
+    "node_name": "Aov Refraction Filter Info",
+    "source": "octane_allitems1.png",
+    "position": "row=19, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0068.png",
+    "node_enum": "NT_AOV_REMAINDER_DENOISER_OUTPUT",
+    "node_name": "Aov Remainder Denoiser Output",
+    "source": "octane_allitems1.png",
+    "position": "row=20, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0069.png",
+    "node_enum": "NT_AOV_RENDER_LAYER_ID",
+    "node_name": "Aov Render Layer Id",
+    "source": "octane_allitems1.png",
+    "position": "row=20, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0070.png",
+    "node_enum": "NT_AOV_RENDER_LAYER_MASK",
+    "node_name": "Aov Render Layer Mask",
+    "source": "octane_allitems1.png",
+    "position": "row=20, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0071.png",
+    "node_enum": "NT_AOV_ROUGHNESS",
+    "node_name": "Aov Roughness",
+    "source": "octane_allitems1.png",
+    "position": "row=21, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0072.png",
+    "node_enum": "NT_AOV_SAMPLE_OFFSET",
+    "node_name": "Aov Sample Offset",
+    "source": "octane_allitems1.png",
+    "position": "row=21, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0073.png",
+    "node_enum": "NT_AOV_SCREENSPACE_MOTION",
+    "node_name": "Aov Screenspace Motion",
+    "source": "octane_allitems1.png",
+    "position": "row=21, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0074.png",
+    "node_enum": "NT_AOV_SECONDARY_RAY_LENGTHS",
+    "node_name": "Aov Secondary Ray Lengths",
+    "source": "octane_allitems1.png",
+    "position": "row=22, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0075.png",
+    "node_enum": "NT_AOV_SHADING_NORMAL",
+    "node_name": "Aov Shading Normal",
+    "source": "octane_allitems1.png",
+    "position": "row=22, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0076.png",
+    "node_enum": "NT_AOV_SHADOW",
+    "node_name": "Aov Shadow",
+    "source": "octane_allitems1.png",
+    "position": "row=22, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0077.png",
+    "node_enum": "NT_AOV_SMOOTH_NORMAL",
+    "node_name": "Aov Smooth Normal",
+    "source": "octane_allitems1.png",
+    "position": "row=22, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0078.png",
+    "node_enum": "NT_AOV_SSS",
+    "node_name": "Aov Sss",
+    "source": "octane_allitems1.png",
+    "position": "row=23, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0079.png",
+    "node_enum": "NT_AOV_TANGENT_NORMAL",
+    "node_name": "Aov Tangent Normal",
+    "source": "octane_allitems1.png",
+    "position": "row=23, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0080.png",
+    "node_enum": "NT_AOV_TANGENT_U",
+    "node_name": "Aov Tangent U",
+    "source": "octane_allitems1.png",
+    "position": "row=23, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0081.png",
+    "node_enum": "NT_AOV_TIME",
+    "node_name": "Aov Time",
+    "source": "octane_allitems1.png",
+    "position": "row=23, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0082.png",
+    "node_enum": "NT_AOV_TRACE_CLOCK",
+    "node_name": "Aov Trace Clock",
+    "source": "octane_allitems1.png",
+    "position": "row=24, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0083.png",
+    "node_enum": "NT_AOV_TRANSMISSION",
+    "node_name": "Aov Transmission",
+    "source": "octane_allitems1.png",
+    "position": "row=24, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0084.png",
+    "node_enum": "NT_AOV_TRANSMISSION_FILTER",
+    "node_name": "Aov Transmission Filter",
+    "source": "octane_allitems1.png",
+    "position": "row=24, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0085.png",
+    "node_enum": "NT_AOV_TRANSMISSION_FILTER_INFO",
+    "node_name": "Aov Transmission Filter Info",
+    "source": "octane_allitems1.png",
+    "position": "row=24, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0086.png",
+    "node_enum": "NT_AOV_TRANSPARENCY_MASK",
+    "node_name": "Aov Transparency Mask",
+    "source": "octane_allitems1.png",
+    "position": "row=25, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0087.png",
+    "node_enum": "NT_AOV_UV_COORD",
+    "node_name": "Aov Uv Coord",
+    "source": "octane_allitems1.png",
+    "position": "row=25, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0088.png",
+    "node_enum": "NT_AOV_VOLUME",
+    "node_name": "Aov Volume",
+    "source": "octane_allitems1.png",
+    "position": "row=25, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0089.png",
+    "node_enum": "NT_AOV_VOLUME_DENOISER_OUTPUT",
+    "node_name": "Aov Volume Denoiser Output",
+    "source": "octane_allitems1.png",
+    "position": "row=25, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0090.png",
+    "node_enum": "NT_AOV_VOLUME_EMISSION",
+    "node_name": "Aov Volume Emission",
+    "source": "octane_allitems1.png",
+    "position": "row=26, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0091.png",
+    "node_enum": "NT_AOV_VOLUME_EMISSION_DENOISER_OUTPUT",
+    "node_name": "Aov Volume Emission Denoiser Output",
+    "source": "octane_allitems1.png",
+    "position": "row=26, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0092.png",
+    "node_enum": "NT_AOV_VOLUME_MASK",
+    "node_name": "Aov Volume Mask",
+    "source": "octane_allitems1.png",
+    "position": "row=26, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0093.png",
+    "node_enum": "NT_AOV_VOLUME_Z_DEPTH_BACK",
+    "node_name": "Aov Volume Z Depth Back",
+    "source": "octane_allitems1.png",
+    "position": "row=26, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0094.png",
+    "node_enum": "NT_AOV_VOLUME_Z_DEPTH_FRONT",
+    "node_name": "Aov Volume Z Depth Front",
+    "source": "octane_allitems1.png",
+    "position": "row=27, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0095.png",
+    "node_enum": "NT_AOV_WIREFRAME",
+    "node_name": "Aov Wireframe",
+    "source": "octane_allitems1.png",
+    "position": "row=27, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0096.png",
+    "node_enum": "NT_AOV_Z_DEPTH",
+    "node_name": "Aov Z Depth",
+    "source": "octane_allitems1.png",
+    "position": "row=27, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0097.png",
+    "node_enum": "NT_BIT_MASK",
+    "node_name": "Bit Mask",
+    "source": "octane_allitems1.png",
+    "position": "row=28, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0098.png",
+    "node_enum": "NT_BLENDING_SETTINGS",
+    "node_name": "Blending Settings",
+    "source": "octane_allitems1.png",
+    "position": "row=28, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0099.png",
+    "node_enum": "NT_BOOL",
+    "node_name": "Bool",
+    "source": "octane_allitems1.png",
+    "position": "row=28, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0100.png",
+    "node_enum": "NT_BOOL_LOGIC_OPERATOR",
+    "node_name": "Bool Logic Operator",
+    "source": "octane_allitems1.png",
+    "position": "row=28, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0101.png",
+    "node_enum": "NT_CAM_BAKING",
+    "node_name": "Cam Baking",
+    "source": "octane_allitems1.png",
+    "position": "row=29, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0102.png",
+    "node_enum": "NT_CAM_OSL",
+    "node_name": "Cam Osl",
+    "source": "octane_allitems1.png",
+    "position": "row=29, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0103.png",
+    "node_enum": "NT_CAM_OSL_BAKING",
+    "node_name": "Cam Osl Baking",
+    "source": "octane_allitems1.png",
+    "position": "row=29, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0104.png",
+    "node_enum": "NT_CAM_PANORAMIC",
+    "node_name": "Cam Panoramic",
+    "source": "octane_allitems1.png",
+    "position": "row=29, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0105.png",
+    "node_enum": "NT_CAM_SIMULATED_LENS",
+    "node_name": "Cam Simulated Lens",
+    "source": "octane_allitems1.png",
+    "position": "row=30, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0106.png",
+    "node_enum": "NT_CAM_THINLENS",
+    "node_name": "Cam Thinlens",
+    "source": "octane_allitems1.png",
+    "position": "row=30, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0107.png",
+    "node_enum": "NT_CAM_UNIVERSAL",
+    "node_name": "Cam Universal",
+    "source": "octane_allitems1.png",
+    "position": "row=30, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0108.png",
+    "node_enum": "NT_COMPOSITE_AOV_LAYER",
+    "node_name": "Composite Aov Layer",
+    "source": "octane_allitems1.png",
+    "position": "row=30, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0109.png",
+    "node_enum": "NT_DIRECTORY",
+    "node_name": "Directory",
+    "source": "octane_allitems1.png",
+    "position": "row=31, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0110.png",
+    "node_enum": "NT_DISPLACEMENT",
+    "node_name": "Displacement",
+    "source": "octane_allitems1.png",
+    "position": "row=31, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0111.png",
+    "node_enum": "NT_EMIS_BLACKBODY",
+    "node_name": "Emis Blackbody",
+    "source": "octane_allitems1.png",
+    "position": "row=31, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0112.png",
+    "node_enum": "NT_EMIS_TEXTURE",
+    "node_name": "Emis Texture",
+    "source": "octane_allitems1.png",
+    "position": "row=31, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0113.png",
+    "node_enum": "NT_ENUM",
+    "node_name": "Enum",
+    "source": "octane_allitems1.png",
+    "position": "row=32, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0114.png",
+    "node_enum": "NT_ENV_DAYLIGHT",
+    "node_name": "Env Daylight",
+    "source": "octane_allitems1.png",
+    "position": "row=32, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0115.png",
+    "node_enum": "NT_ENV_PLANETARY",
+    "node_name": "Env Planetary",
+    "source": "octane_allitems1.png",
+    "position": "row=32, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0116.png",
+    "node_enum": "NT_ENV_TEXTURE",
+    "node_name": "Env Texture",
+    "source": "octane_allitems1.png",
+    "position": "row=32, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0117.png",
+    "node_enum": "NT_FILE",
+    "node_name": "File",
+    "source": "octane_allitems1.png",
+    "position": "row=33, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0118.png",
+    "node_enum": "NT_FILM_SETTINGS",
+    "node_name": "Film Settings",
+    "source": "octane_allitems1.png",
+    "position": "row=33, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0119.png",
+    "node_enum": "NT_FLOAT",
+    "node_name": "Float",
+    "source": "octane_allitems1.png",
+    "position": "row=33, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0120.png",
+    "node_enum": "NT_FLOAT_COMPONENT_MERGER",
+    "node_name": "Float Component Merger",
+    "source": "octane_allitems1.png",
+    "position": "row=33, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0121.png",
+    "node_enum": "NT_FLOAT_COMPONENT_PICKER",
+    "node_name": "Float Component Picker",
+    "source": "octane_allitems1.png",
+    "position": "row=34, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0122.png",
+    "node_enum": "NT_FLOAT_IF",
+    "node_name": "Float If",
+    "source": "octane_allitems1.png",
+    "position": "row=34, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0123.png",
+    "node_enum": "NT_FLOAT_MATH_BINARY",
+    "node_name": "Float Math Binary",
+    "source": "octane_allitems1.png",
+    "position": "row=34, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0124.png",
+    "node_enum": "NT_FLOAT_MATH_UNARY",
+    "node_name": "Float Math Unary",
+    "source": "octane_allitems1.png",
+    "position": "row=34, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0125.png",
+    "node_enum": "NT_FLOAT_RANGE",
+    "node_name": "Float Range",
+    "source": "octane_allitems1.png",
+    "position": "row=35, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0126.png",
+    "node_enum": "NT_FLOAT_RELATIONAL_OPERATOR",
+    "node_name": "Float Relational Operator",
+    "source": "octane_allitems1.png",
+    "position": "row=35, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0127.png",
+    "node_enum": "NT_FLOAT_TIME",
+    "node_name": "Float Time",
+    "source": "octane_allitems1.png",
+    "position": "row=35, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0128.png",
+    "node_enum": "NT_FLOAT_TO_INT",
+    "node_name": "Float To Int",
+    "source": "octane_allitems1.png",
+    "position": "row=35, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0129.png",
+    "node_enum": "NT_GEO_DECAL",
+    "node_name": "Geo Decal",
+    "source": "octane_allitems1.png",
+    "position": "row=36, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0130.png",
+    "node_enum": "NT_GEO_EXPORTER",
+    "node_name": "Geo Exporter",
+    "source": "octane_allitems1.png",
+    "position": "row=36, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0131.png",
+    "node_enum": "NT_GEO_GAUSSIAN_SPLAT",
+    "node_name": "Geo Gaussian Splat",
+    "source": "octane_allitems1.png",
+    "position": "row=36, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0132.png",
+    "node_enum": "NT_GEO_GROUP",
+    "node_name": "Geo Group",
+    "source": "octane_allitems1.png",
+    "position": "row=37, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0133.png",
+    "node_enum": "NT_GEO_JOINT",
+    "node_name": "Geo Joint",
+    "source": "octane_allitems1.png",
+    "position": "row=37, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0134.png",
+    "node_enum": "NT_GEO_MESH",
+    "node_name": "Geo Mesh",
+    "source": "octane_allitems1.png",
+    "position": "row=37, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0135.png",
+    "node_enum": "NT_GEO_MESH_VOLUME",
+    "node_name": "Geo Mesh Volume",
+    "source": "octane_allitems1.png",
+    "position": "row=38, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0136.png",
+    "node_enum": "NT_GEO_MESH_VOLUME_SDF",
+    "node_name": "Geo Mesh Volume Sdf",
+    "source": "octane_allitems1.png",
+    "position": "row=38, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0137.png",
+    "node_enum": "NT_GEO_OBJECT",
+    "node_name": "Geo Object",
+    "source": "octane_allitems1.png",
+    "position": "row=38, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0138.png",
+    "node_enum": "NT_GEO_OSL",
+    "node_name": "Geo Osl",
+    "source": "octane_allitems1.png",
+    "position": "row=38, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0139.png",
+    "node_enum": "NT_GEO_PLACEMENT",
+    "node_name": "Geo Placement",
+    "source": "octane_allitems1.png",
+    "position": "row=39, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0140.png",
+    "node_enum": "NT_GEO_PLANE",
+    "node_name": "Geo Plane",
+    "source": "octane_allitems1.png",
+    "position": "row=39, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0141.png",
+    "node_enum": "NT_GEO_SCATTER",
+    "node_name": "Geo Scatter",
+    "source": "octane_allitems1.png",
+    "position": "row=39, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0142.png",
+    "node_enum": "NT_GEO_SDF_ARRAY_CIRCULAR",
+    "node_name": "Geo Sdf Array Circular",
+    "source": "octane_allitems1.png",
+    "position": "row=39, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0143.png",
+    "node_enum": "NT_GEO_SDF_ARRAY_LINEAR",
+    "node_name": "Geo Sdf Array Linear",
+    "source": "octane_allitems1.png",
+    "position": "row=40, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0144.png",
+    "node_enum": "NT_GEO_SDF_AVOID",
+    "node_name": "Geo Sdf Avoid",
+    "source": "octane_allitems1.png",
+    "position": "row=40, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0145.png",
+    "node_enum": "NT_GEO_SDF_BOX",
+    "node_name": "Geo Sdf Box",
+    "source": "octane_allitems1.png",
+    "position": "row=40, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0146.png",
+    "node_enum": "NT_GEO_SDF_CAPSULE",
+    "node_name": "Geo Sdf Capsule",
+    "source": "octane_allitems1.png",
+    "position": "row=41, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0147.png",
+    "node_enum": "NT_GEO_SDF_CLIP",
+    "node_name": "Geo Sdf Clip",
+    "source": "octane_allitems1.png",
+    "position": "row=41, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0148.png",
+    "node_enum": "NT_GEO_SDF_CONE",
+    "node_name": "Geo Sdf Cone",
+    "source": "octane_allitems1.png",
+    "position": "row=41, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0149.png",
+    "node_enum": "NT_GEO_SDF_CYLINDER",
+    "node_name": "Geo Sdf Cylinder",
+    "source": "octane_allitems1.png",
+    "position": "row=42, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0150.png",
+    "node_enum": "NT_GEO_SDF_DISPLACEMENT",
+    "node_name": "Geo Sdf Displacement",
+    "source": "octane_allitems1.png",
+    "position": "row=42, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0151.png",
+    "node_enum": "NT_GEO_SDF_DOMAIN",
+    "node_name": "Geo Sdf Domain",
+    "source": "octane_allitems1.png",
+    "position": "row=42, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0152.png",
+    "node_enum": "NT_GEO_SDF_INK",
+    "node_name": "Geo Sdf Ink",
+    "source": "octane_allitems1.png",
+    "position": "row=43, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0153.png",
+    "node_enum": "NT_GEO_SDF_INSET",
+    "node_name": "Geo Sdf Inset",
+    "source": "octane_allitems1.png",
+    "position": "row=43, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0154.png",
+    "node_enum": "NT_GEO_SDF_INTERSECT",
+    "node_name": "Geo Sdf Intersect",
+    "source": "octane_allitems1.png",
+    "position": "row=43, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0155.png",
+    "node_enum": "NT_GEO_SDF_MIRROR",
+    "node_name": "Geo Sdf Mirror",
+    "source": "octane_allitems1.png",
+    "position": "row=44, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0156.png",
+    "node_enum": "NT_GEO_SDF_OFFSET",
+    "node_name": "Geo Sdf Offset",
+    "source": "octane_allitems1.png",
+    "position": "row=44, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0157.png",
+    "node_enum": "NT_GEO_SDF_PRISM",
+    "node_name": "Geo Sdf Prism",
+    "source": "octane_allitems1.png",
+    "position": "row=44, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0158.png",
+    "node_enum": "NT_GEO_SDF_PULL",
+    "node_name": "Geo Sdf Pull",
+    "source": "octane_allitems1.png",
+    "position": "row=45, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0159.png",
+    "node_enum": "NT_GEO_SDF_PUSH",
+    "node_name": "Geo Sdf Push",
+    "source": "octane_allitems1.png",
+    "position": "row=45, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0160.png",
+    "node_enum": "NT_GEO_SDF_REPEL",
+    "node_name": "Geo Sdf Repel",
+    "source": "octane_allitems1.png",
+    "position": "row=45, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0161.png",
+    "node_enum": "NT_GEO_SDF_SPHERE",
+    "node_name": "Geo Sdf Sphere",
+    "source": "octane_allitems1.png",
+    "position": "row=46, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0162.png",
+    "node_enum": "NT_GEO_SDF_SUBTRACT",
+    "node_name": "Geo Sdf Subtract",
+    "source": "octane_allitems1.png",
+    "position": "row=46, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0163.png",
+    "node_enum": "NT_GEO_SDF_TORUS",
+    "node_name": "Geo Sdf Torus",
+    "source": "octane_allitems1.png",
+    "position": "row=46, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0164.png",
+    "node_enum": "NT_GEO_SDF_TUBE",
+    "node_name": "Geo Sdf Tube",
+    "source": "octane_allitems1.png",
+    "position": "row=47, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0165.png",
+    "node_enum": "NT_GEO_SDF_UNION",
+    "node_name": "Geo Sdf Union",
+    "source": "octane_allitems1.png",
+    "position": "row=47, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0166.png",
+    "node_enum": "NT_GEO_UNIT_VOLUME",
+    "node_name": "Geo Unit Volume",
+    "source": "octane_allitems1.png",
+    "position": "row=47, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0167.png",
+    "node_enum": "NT_GEO_VOLUME",
+    "node_name": "Geo Volume",
+    "source": "octane_allitems1.png",
+    "position": "row=48, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0168.png",
+    "node_enum": "NT_GEO_VOLUME_SDF",
+    "node_name": "Geo Volume Sdf",
+    "source": "octane_allitems1.png",
+    "position": "row=48, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0169.png",
+    "node_enum": "NT_IMAGE_RESOLUTION",
+    "node_name": "Image Resolution",
+    "source": "octane_allitems1.png",
+    "position": "row=48, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0170.png",
+    "node_enum": "NT_IMAGER_CAMERA",
+    "node_name": "Imager Camera",
+    "source": "octane_allitems1.png",
+    "position": "row=49, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0171.png",
+    "node_enum": "NT_IMPORT_ALEMBIC_PREFS",
+    "node_name": "Import Alembic Prefs",
+    "source": "octane_allitems1.png",
+    "position": "row=49, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0172.png",
+    "node_enum": "NT_IMPORT_FBX_PREFS",
+    "node_name": "Import Fbx Prefs",
+    "source": "octane_allitems1.png",
+    "position": "row=49, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0173.png",
+    "node_enum": "NT_IMPORT_IMAGE_PREFS",
+    "node_name": "Import Image Prefs",
+    "source": "octane_allitems1.png",
+    "position": "row=50, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0174.png",
+    "node_enum": "NT_IMPORT_MATERIALX_PREFS",
+    "node_name": "Import Materialx Prefs",
+    "source": "octane_allitems1.png",
+    "position": "row=50, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0175.png",
+    "node_enum": "NT_IMPORT_OBJ_PREFS",
+    "node_name": "Import Obj Prefs",
+    "source": "octane_allitems1.png",
+    "position": "row=50, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0176.png",
+    "node_enum": "NT_IMPORT_USD_PREFS",
+    "node_name": "Import Usd Prefs",
+    "source": "octane_allitems1.png",
+    "position": "row=50, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0177.png",
+    "node_enum": "NT_IMPORT_VDB_PREFS",
+    "node_name": "Import Vdb Prefs",
+    "source": "octane_allitems1.png",
+    "position": "row=51, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0178.png",
+    "node_enum": "NT_IN_ANIMATION_SETTINGS",
+    "node_name": "In Animation Settings",
+    "source": "octane_allitems1.png",
+    "position": "row=51, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0179.png",
+    "node_enum": "NT_IN_BIT_MASK",
+    "node_name": "In Bit Mask",
+    "source": "octane_allitems1.png",
+    "position": "row=51, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0180.png",
+    "node_enum": "NT_IN_BLENDING_SETTINGS",
+    "node_name": "In Blending Settings",
+    "source": "octane_allitems1.png",
+    "position": "row=51, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0181.png",
+    "node_enum": "NT_IN_BOOL",
+    "node_name": "In Bool",
+    "source": "octane_allitems1.png",
+    "position": "row=52, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0182.png",
+    "node_enum": "NT_IN_CAMERA",
+    "node_name": "In Camera",
+    "source": "octane_allitems1.png",
+    "position": "row=52, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0183.png",
+    "node_enum": "NT_IN_DISPLACEMENT",
+    "node_name": "In Displacement",
+    "source": "octane_allitems1.png",
+    "position": "row=52, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0184.png",
+    "node_enum": "NT_IN_EMISSION",
+    "node_name": "In Emission",
+    "source": "octane_allitems1.png",
+    "position": "row=53, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0185.png",
+    "node_enum": "NT_IN_ENUM",
+    "node_name": "In Enum",
+    "source": "octane_allitems1.png",
+    "position": "row=53, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0186.png",
+    "node_enum": "NT_IN_ENVIRONMENT",
+    "node_name": "In Environment",
+    "source": "octane_allitems1.png",
+    "position": "row=53, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0187.png",
+    "node_enum": "NT_IN_FILM_SETTINGS",
+    "node_name": "In Film Settings",
+    "source": "octane_allitems1.png",
+    "position": "row=53, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0188.png",
+    "node_enum": "NT_IN_FLOAT",
+    "node_name": "In Float",
+    "source": "octane_allitems1.png",
+    "position": "row=54, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0189.png",
+    "node_enum": "NT_IN_GEOMETRY",
+    "node_name": "In Geometry",
+    "source": "octane_allitems1.png",
+    "position": "row=54, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0190.png",
+    "node_enum": "NT_IN_IMAGER",
+    "node_name": "In Imager",
+    "source": "octane_allitems1.png",
+    "position": "row=54, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0191.png",
+    "node_enum": "NT_IN_INT",
+    "node_name": "In Int",
+    "source": "octane_allitems1.png",
+    "position": "row=54, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0192.png",
+    "node_enum": "NT_IN_KERNEL",
+    "node_name": "In Kernel",
+    "source": "octane_allitems1.png",
+    "position": "row=55, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0193.png",
+    "node_enum": "NT_IN_LUT",
+    "node_name": "In Lut",
+    "source": "octane_allitems1.png",
+    "position": "row=55, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0194.png",
+    "node_enum": "NT_IN_MATERIAL",
+    "node_name": "In Material",
+    "source": "octane_allitems1.png",
+    "position": "row=55, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0195.png",
+    "node_enum": "NT_IN_MATERIAL_LAYER",
+    "node_name": "In Material Layer",
+    "source": "octane_allitems1.png",
+    "position": "row=55, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0196.png",
+    "node_enum": "NT_IN_MEDIUM",
+    "node_name": "In Medium",
+    "source": "octane_allitems1.png",
+    "position": "row=56, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0197.png",
+    "node_enum": "NT_IN_OBJECTLAYER",
+    "node_name": "In Objectlayer",
+    "source": "octane_allitems1.png",
+    "position": "row=56, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0198.png",
+    "node_enum": "NT_IN_OCIO_COLOR_SPACE",
+    "node_name": "In Ocio Color Space",
+    "source": "octane_allitems1.png",
+    "position": "row=56, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0199.png",
+    "node_enum": "NT_IN_OCIO_LOOK",
+    "node_name": "In Ocio Look",
+    "source": "octane_allitems1.png",
+    "position": "row=56, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0200.png",
+    "node_enum": "NT_IN_OCIO_VIEW",
+    "node_name": "In Ocio View",
+    "source": "octane_allitems1.png",
+    "position": "row=57, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0201.png",
+    "node_enum": "NT_IN_OFFSET",
+    "node_name": "In Offset",
+    "source": "octane_allitems1.png",
+    "position": "row=57, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0202.png",
+    "node_enum": "NT_IN_OUTPUT_AOV",
+    "node_name": "In Output Aov",
+    "source": "octane_allitems1.png",
+    "position": "row=57, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0203.png",
+    "node_enum": "NT_IN_OUTPUT_AOV_GROUP",
+    "node_name": "In Output Aov Group",
+    "source": "octane_allitems1.png",
+    "position": "row=58, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0204.png",
+    "node_enum": "NT_IN_OUTPUT_AOV_LAYER",
+    "node_name": "In Output Aov Layer",
+    "source": "octane_allitems1.png",
+    "position": "row=58, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0205.png",
+    "node_enum": "NT_IN_PHASEFUNCTION",
+    "node_name": "In Phasefunction",
+    "source": "octane_allitems1.png",
+    "position": "row=58, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0206.png",
+    "node_enum": "NT_IN_POST_VOLUME",
+    "node_name": "In Post Volume",
+    "source": "octane_allitems1.png",
+    "position": "row=59, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0207.png",
+    "node_enum": "NT_IN_POSTPROCESSING",
+    "node_name": "In Postprocessing",
+    "source": "octane_allitems1.png",
+    "position": "row=59, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0208.png",
+    "node_enum": "NT_IN_PROJECTION",
+    "node_name": "In Projection",
+    "source": "octane_allitems1.png",
+    "position": "row=59, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0209.png",
+    "node_enum": "NT_IN_RENDER_JOB",
+    "node_name": "In Render Job",
+    "source": "octane_allitems1.png",
+    "position": "row=59, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0210.png",
+    "node_enum": "NT_IN_RENDER_LAYER",
+    "node_name": "In Render Layer",
+    "source": "octane_allitems1.png",
+    "position": "row=60, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0211.png",
+    "node_enum": "NT_IN_RENDER_PASSES",
+    "node_name": "In Render Passes",
+    "source": "octane_allitems1.png",
+    "position": "row=60, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0212.png",
+    "node_enum": "NT_IN_RENDERTARGET",
+    "node_name": "In Rendertarget",
+    "source": "octane_allitems1.png",
+    "position": "row=60, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0213.png",
+    "node_enum": "NT_IN_ROUND_EDGES",
+    "node_name": "In Round Edges",
+    "source": "octane_allitems1.png",
+    "position": "row=61, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0214.png",
+    "node_enum": "NT_IN_STRING",
+    "node_name": "In String",
+    "source": "octane_allitems1.png",
+    "position": "row=61, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0215.png",
+    "node_enum": "NT_IN_TEX_COMPOSITE_LAYER",
+    "node_name": "In Tex Composite Layer",
+    "source": "octane_allitems1.png",
+    "position": "row=61, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0216.png",
+    "node_enum": "NT_IN_TEXTURE",
+    "node_name": "In Texture",
+    "source": "octane_allitems1.png",
+    "position": "row=62, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0217.png",
+    "node_enum": "NT_IN_TOON_RAMP",
+    "node_name": "In Toon Ramp",
+    "source": "octane_allitems1.png",
+    "position": "row=62, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0218.png",
+    "node_enum": "NT_IN_TRACE_SET_VISIBILITY_RULE",
+    "node_name": "In Trace Set Visibility Rule",
+    "source": "octane_allitems1.png",
+    "position": "row=62, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0219.png",
+    "node_enum": "NT_IN_TRACE_SET_VISIBILITY_RULE_GROUP",
+    "node_name": "In Trace Set Visibility Rule Group",
+    "source": "octane_allitems1.png",
+    "position": "row=63, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0220.png",
+    "node_enum": "NT_IN_TRANSFORM",
+    "node_name": "In Transform",
+    "source": "octane_allitems1.png",
+    "position": "row=63, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0221.png",
+    "node_enum": "NT_IN_VOLUME_RAMP",
+    "node_name": "In Volume Ramp",
+    "source": "octane_allitems1.png",
+    "position": "row=63, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0222.png",
+    "node_enum": "NT_INT",
+    "node_name": "Int",
+    "source": "octane_allitems1.png",
+    "position": "row=64, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0223.png",
+    "node_enum": "NT_INT_COMPONENT_MERGER",
+    "node_name": "Int Component Merger",
+    "source": "octane_allitems1.png",
+    "position": "row=64, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0224.png",
+    "node_enum": "NT_INT_COMPONENT_PICKER",
+    "node_name": "Int Component Picker",
+    "source": "octane_allitems1.png",
+    "position": "row=64, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0225.png",
+    "node_enum": "NT_INT_FRAME_INDEX",
+    "node_name": "Int Frame Index",
+    "source": "octane_allitems1.png",
+    "position": "row=65, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0226.png",
+    "node_enum": "NT_INT_IF",
+    "node_name": "Int If",
+    "source": "octane_allitems1.png",
+    "position": "row=65, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0227.png",
+    "node_enum": "NT_INT_RELATIONAL_OPERATOR",
+    "node_name": "Int Relational Operator",
+    "source": "octane_allitems1.png",
+    "position": "row=65, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0228.png",
+    "node_enum": "NT_INT_TO_FLOAT",
+    "node_name": "Int To Float",
+    "source": "octane_allitems1.png",
+    "position": "row=66, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0229.png",
+    "node_enum": "NT_KERN_DIRECTLIGHTING",
+    "node_name": "Kern Directlighting",
+    "source": "octane_allitems1.png",
+    "position": "row=66, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0230.png",
+    "node_enum": "NT_KERN_INFO",
+    "node_name": "Kern Info",
+    "source": "octane_allitems1.png",
+    "position": "row=66, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0231.png",
+    "node_enum": "NT_KERN_MATPREVIEW",
+    "node_name": "Kern Matpreview",
+    "source": "octane_allitems1.png",
+    "position": "row=67, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0232.png",
+    "node_enum": "NT_KERN_PATHTRACING",
+    "node_name": "Kern Pathtracing",
+    "source": "octane_allitems1.png",
+    "position": "row=67, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0233.png",
+    "node_enum": "NT_KERN_PHOTONTRACING",
+    "node_name": "Kern Photontracing",
+    "source": "octane_allitems1.png",
+    "position": "row=67, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0234.png",
+    "node_enum": "NT_KERN_PMC",
+    "node_name": "Kern Pmc",
+    "source": "octane_allitems1.png",
+    "position": "row=68, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0235.png",
+    "node_enum": "NT_LIGHT_ANALYTIC",
+    "node_name": "Light Analytic",
+    "source": "octane_allitems1.png",
+    "position": "row=68, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0236.png",
+    "node_enum": "NT_LIGHT_ANALYTIC_INTERNAL",
+    "node_name": "Light Analytic Internal",
+    "source": "octane_allitems1.png",
+    "position": "row=68, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0237.png",
+    "node_enum": "NT_LIGHT_DIRECTIONAL",
+    "node_name": "Light Directional",
+    "source": "octane_allitems1.png",
+    "position": "row=68, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0238.png",
+    "node_enum": "NT_LIGHT_QUAD",
+    "node_name": "Light Quad",
+    "source": "octane_allitems1.png",
+    "position": "row=69, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0239.png",
+    "node_enum": "NT_LIGHT_SPHERE",
+    "node_name": "Light Sphere",
+    "source": "octane_allitems1.png",
+    "position": "row=69, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0240.png",
+    "node_enum": "NT_LIGHT_VOLUME_SPOT",
+    "node_name": "Light Volume Spot",
+    "source": "octane_allitems1.png",
+    "position": "row=69, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0241.png",
+    "node_enum": "NT_LOCAL_APP_PREFS",
+    "node_name": "Local App Prefs",
+    "source": "octane_allitems1.png",
+    "position": "row=69, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0242.png",
+    "node_enum": "NT_LUT_CUSTOM",
+    "node_name": "Lut Custom",
+    "source": "octane_allitems1.png",
+    "position": "row=70, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0243.png",
+    "node_enum": "NT_MAT_CLIPPING",
+    "node_name": "Mat Clipping",
+    "source": "octane_allitems1.png",
+    "position": "row=70, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0244.png",
+    "node_enum": "NT_MAT_COMPOSITE",
+    "node_name": "Mat Composite",
+    "source": "octane_allitems1.png",
+    "position": "row=70, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0245.png",
+    "node_enum": "NT_MAT_DIFFUSE",
+    "node_name": "Mat Diffuse",
+    "source": "octane_allitems1.png",
+    "position": "row=71, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0246.png",
+    "node_enum": "NT_MAT_DIFFUSE_LAYER",
+    "node_name": "Mat Diffuse Layer",
+    "source": "octane_allitems1.png",
+    "position": "row=71, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0247.png",
+    "node_enum": "NT_MAT_GLOSSY",
+    "node_name": "Mat Glossy",
+    "source": "octane_allitems1.png",
+    "position": "row=71, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0248.png",
+    "node_enum": "NT_MAT_HAIR",
+    "node_name": "Mat Hair",
+    "source": "octane_allitems1.png",
+    "position": "row=72, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0249.png",
+    "node_enum": "NT_MAT_LAYER",
+    "node_name": "Mat Layer",
+    "source": "octane_allitems1.png",
+    "position": "row=72, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0250.png",
+    "node_enum": "NT_MAT_LAYER_GROUP",
+    "node_name": "Mat Layer Group",
+    "source": "octane_allitems1.png",
+    "position": "row=72, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0251.png",
+    "node_enum": "NT_MAT_MAP",
+    "node_name": "Mat Map",
+    "source": "octane_allitems1.png",
+    "position": "row=72, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0252.png",
+    "node_enum": "NT_MAT_METAL",
+    "node_name": "Mat Metal",
+    "source": "octane_allitems1.png",
+    "position": "row=73, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0253.png",
+    "node_enum": "NT_MAT_METALLIC_LAYER",
+    "node_name": "Mat Metallic Layer",
+    "source": "octane_allitems1.png",
+    "position": "row=73, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0254.png",
+    "node_enum": "NT_MAT_MIX",
+    "node_name": "Mat Mix",
+    "source": "octane_allitems1.png",
+    "position": "row=73, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0255.png",
+    "node_enum": "NT_MAT_NULL",
+    "node_name": "Mat Null",
+    "source": "octane_allitems1.png",
+    "position": "row=73, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0256.png",
+    "node_enum": "NT_MAT_OPEN_PBR_SURFACE",
+    "node_name": "Mat Open Pbr Surface",
+    "source": "octane_allitems1.png",
+    "position": "row=74, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0257.png",
+    "node_enum": "NT_MAT_OSL",
+    "node_name": "Mat Osl",
+    "source": "octane_allitems1.png",
+    "position": "row=74, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0258.png",
+    "node_enum": "NT_MAT_PORTAL",
+    "node_name": "Mat Portal",
+    "source": "octane_allitems1.png",
+    "position": "row=74, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0259.png",
+    "node_enum": "NT_MAT_SHADOW_CATCHER",
+    "node_name": "Mat Shadow Catcher",
+    "source": "octane_allitems1.png",
+    "position": "row=75, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0260.png",
+    "node_enum": "NT_MAT_SHEEN_LAYER",
+    "node_name": "Mat Sheen Layer",
+    "source": "octane_allitems1.png",
+    "position": "row=75, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0261.png",
+    "node_enum": "NT_MAT_SPECULAR",
+    "node_name": "Mat Specular",
+    "source": "octane_allitems1.png",
+    "position": "row=75, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0262.png",
+    "node_enum": "NT_MAT_SPECULAR_LAYER",
+    "node_name": "Mat Specular Layer",
+    "source": "octane_allitems1.png",
+    "position": "row=75, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems1_0263.png",
+    "node_enum": "NT_MAT_STANDARD_SURFACE",
+    "node_name": "Mat Standard Surface",
+    "source": "octane_allitems1.png",
+    "position": "row=76, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0264.png",
+    "node_enum": "NT_MAT_TOON",
+    "node_name": "Mat Toon",
+    "source": "octane_allitems1.png",
+    "position": "row=76, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0265.png",
+    "node_enum": "NT_MAT_UNIVERSAL",
+    "node_name": "Mat Universal",
+    "source": "octane_allitems1.png",
+    "position": "row=76, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0266.png",
+    "node_enum": "NT_MATERIALX_RANGE_END",
+    "node_name": "Materialx Range End",
+    "source": "octane_allitems1.png",
+    "position": "row=77, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems1_0267.png",
+    "node_enum": "NT_MATERIALX_RANGE_START",
+    "node_name": "Materialx Range Start",
+    "source": "octane_allitems1.png",
+    "position": "row=77, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems1_0268.png",
+    "node_enum": "NT_MED_ABSORPTION",
+    "node_name": "Med Absorption",
+    "source": "octane_allitems1.png",
+    "position": "row=77, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems1_0269.png",
+    "node_enum": "NT_MED_RANDOMWALK",
+    "node_name": "Med Randomwalk",
+    "source": "octane_allitems1.png",
+    "position": "row=77, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0000.png",
+    "node_enum": "NT_MED_SCATTERING",
+    "node_name": "Med Scattering",
+    "source": "octane_allitems2.png",
+    "position": "row=0, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0001.png",
+    "node_enum": "NT_MED_STANDARD_VOLUME",
+    "node_name": "Med Standard Volume",
+    "source": "octane_allitems2.png",
+    "position": "row=0, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0002.png",
+    "node_enum": "NT_MED_VOLUME",
+    "node_name": "Med Volume",
+    "source": "octane_allitems2.png",
+    "position": "row=0, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0003.png",
+    "node_enum": "NT_METADATA",
+    "node_name": "Metadata",
+    "source": "octane_allitems2.png",
+    "position": "row=0, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0004.png",
+    "node_enum": "NT_OBJECTLAYER",
+    "node_name": "Objectlayer",
+    "source": "octane_allitems2.png",
+    "position": "row=1, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0005.png",
+    "node_enum": "NT_OBJECTLAYER_MAP",
+    "node_name": "Objectlayer Map",
+    "source": "octane_allitems2.png",
+    "position": "row=1, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0006.png",
+    "node_enum": "NT_OCIO_COLOR_SPACE",
+    "node_name": "Ocio Color Space",
+    "source": "octane_allitems2.png",
+    "position": "row=1, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0007.png",
+    "node_enum": "NT_OCIO_LOOK",
+    "node_name": "Ocio Look",
+    "source": "octane_allitems2.png",
+    "position": "row=2, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0008.png",
+    "node_enum": "NT_OCIO_VIEW",
+    "node_name": "Ocio View",
+    "source": "octane_allitems2.png",
+    "position": "row=2, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0009.png",
+    "node_enum": "NT_OUT_ANIMATION_SETTINGS",
+    "node_name": "Out Animation Settings",
+    "source": "octane_allitems2.png",
+    "position": "row=2, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0010.png",
+    "node_enum": "NT_OUT_BIT_MASK",
+    "node_name": "Out Bit Mask",
+    "source": "octane_allitems2.png",
+    "position": "row=3, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0011.png",
+    "node_enum": "NT_OUT_BLENDING_SETTINGS",
+    "node_name": "Out Blending Settings",
+    "source": "octane_allitems2.png",
+    "position": "row=3, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0012.png",
+    "node_enum": "NT_OUT_BOOL",
+    "node_name": "Out Bool",
+    "source": "octane_allitems2.png",
+    "position": "row=3, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0013.png",
+    "node_enum": "NT_OUT_CAMERA",
+    "node_name": "Out Camera",
+    "source": "octane_allitems2.png",
+    "position": "row=3, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0014.png",
+    "node_enum": "NT_OUT_DISPLACEMENT",
+    "node_name": "Out Displacement",
+    "source": "octane_allitems2.png",
+    "position": "row=4, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0015.png",
+    "node_enum": "NT_OUT_EMISSION",
+    "node_name": "Out Emission",
+    "source": "octane_allitems2.png",
+    "position": "row=4, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0016.png",
+    "node_enum": "NT_OUT_ENUM",
+    "node_name": "Out Enum",
+    "source": "octane_allitems2.png",
+    "position": "row=4, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0017.png",
+    "node_enum": "NT_OUT_ENVIRONMENT",
+    "node_name": "Out Environment",
+    "source": "octane_allitems2.png",
+    "position": "row=4, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0018.png",
+    "node_enum": "NT_OUT_FILM_SETTINGS",
+    "node_name": "Out Film Settings",
+    "source": "octane_allitems2.png",
+    "position": "row=5, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0019.png",
+    "node_enum": "NT_OUT_FLOAT",
+    "node_name": "Out Float",
+    "source": "octane_allitems2.png",
+    "position": "row=5, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0020.png",
+    "node_enum": "NT_OUT_GEOMETRY",
+    "node_name": "Out Geometry",
+    "source": "octane_allitems2.png",
+    "position": "row=5, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0021.png",
+    "node_enum": "NT_OUT_IMAGER",
+    "node_name": "Out Imager",
+    "source": "octane_allitems2.png",
+    "position": "row=6, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0022.png",
+    "node_enum": "NT_OUT_INT",
+    "node_name": "Out Int",
+    "source": "octane_allitems2.png",
+    "position": "row=6, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0023.png",
+    "node_enum": "NT_OUT_KERNEL",
+    "node_name": "Out Kernel",
+    "source": "octane_allitems2.png",
+    "position": "row=6, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0024.png",
+    "node_enum": "NT_OUT_LUT",
+    "node_name": "Out Lut",
+    "source": "octane_allitems2.png",
+    "position": "row=7, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0025.png",
+    "node_enum": "NT_OUT_MATERIAL",
+    "node_name": "Out Material",
+    "source": "octane_allitems2.png",
+    "position": "row=7, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0026.png",
+    "node_enum": "NT_OUT_MATERIAL_LAYER",
+    "node_name": "Out Material Layer",
+    "source": "octane_allitems2.png",
+    "position": "row=7, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0027.png",
+    "node_enum": "NT_OUT_MEDIUM",
+    "node_name": "Out Medium",
+    "source": "octane_allitems2.png",
+    "position": "row=8, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0028.png",
+    "node_enum": "NT_OUT_OBJECTLAYER",
+    "node_name": "Out Objectlayer",
+    "source": "octane_allitems2.png",
+    "position": "row=8, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0029.png",
+    "node_enum": "NT_OUT_OCIO_COLOR_SPACE",
+    "node_name": "Out Ocio Color Space",
+    "source": "octane_allitems2.png",
+    "position": "row=8, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0030.png",
+    "node_enum": "NT_OUT_OCIO_LOOK",
+    "node_name": "Out Ocio Look",
+    "source": "octane_allitems2.png",
+    "position": "row=9, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0031.png",
+    "node_enum": "NT_OUT_OCIO_VIEW",
+    "node_name": "Out Ocio View",
+    "source": "octane_allitems2.png",
+    "position": "row=9, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0032.png",
+    "node_enum": "NT_OUT_OFFSET",
+    "node_name": "Out Offset",
+    "source": "octane_allitems2.png",
+    "position": "row=9, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0033.png",
+    "node_enum": "NT_OUT_OUTPUT_AOV",
+    "node_name": "Out Output Aov",
+    "source": "octane_allitems2.png",
+    "position": "row=10, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0034.png",
+    "node_enum": "NT_OUT_OUTPUT_AOV_GROUP",
+    "node_name": "Out Output Aov Group",
+    "source": "octane_allitems2.png",
+    "position": "row=10, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0035.png",
+    "node_enum": "NT_OUT_OUTPUT_AOV_LAYER",
+    "node_name": "Out Output Aov Layer",
+    "source": "octane_allitems2.png",
+    "position": "row=10, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0036.png",
+    "node_enum": "NT_OUT_PHASEFUNCTION",
+    "node_name": "Out Phasefunction",
+    "source": "octane_allitems2.png",
+    "position": "row=11, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0037.png",
+    "node_enum": "NT_OUT_POST_VOLUME",
+    "node_name": "Out Post Volume",
+    "source": "octane_allitems2.png",
+    "position": "row=11, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0038.png",
+    "node_enum": "NT_OUT_POSTPROCESSING",
+    "node_name": "Out Postprocessing",
+    "source": "octane_allitems2.png",
+    "position": "row=11, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0039.png",
+    "node_enum": "NT_OUT_PROJECTION",
+    "node_name": "Out Projection",
+    "source": "octane_allitems2.png",
+    "position": "row=12, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0040.png",
+    "node_enum": "NT_OUT_RENDER_JOB",
+    "node_name": "Out Render Job",
+    "source": "octane_allitems2.png",
+    "position": "row=12, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0041.png",
+    "node_enum": "NT_OUT_RENDER_LAYER",
+    "node_name": "Out Render Layer",
+    "source": "octane_allitems2.png",
+    "position": "row=12, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0042.png",
+    "node_enum": "NT_OUT_RENDER_PASSES",
+    "node_name": "Out Render Passes",
+    "source": "octane_allitems2.png",
+    "position": "row=13, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0043.png",
+    "node_enum": "NT_OUT_RENDERTARGET",
+    "node_name": "Out Rendertarget",
+    "source": "octane_allitems2.png",
+    "position": "row=13, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0044.png",
+    "node_enum": "NT_OUT_ROUND_EDGES",
+    "node_name": "Out Round Edges",
+    "source": "octane_allitems2.png",
+    "position": "row=13, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0045.png",
+    "node_enum": "NT_OUT_STRING",
+    "node_name": "Out String",
+    "source": "octane_allitems2.png",
+    "position": "row=14, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0046.png",
+    "node_enum": "NT_OUT_TEX_COMPOSITE_LAYER",
+    "node_name": "Out Tex Composite Layer",
+    "source": "octane_allitems2.png",
+    "position": "row=14, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0047.png",
+    "node_enum": "NT_OUT_TEXTURE",
+    "node_name": "Out Texture",
+    "source": "octane_allitems2.png",
+    "position": "row=14, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0048.png",
+    "node_enum": "NT_OUT_TOON_RAMP",
+    "node_name": "Out Toon Ramp",
+    "source": "octane_allitems2.png",
+    "position": "row=15, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0049.png",
+    "node_enum": "NT_OUT_TRACE_SET_VISIBILITY_RULE",
+    "node_name": "Out Trace Set Visibility Rule",
+    "source": "octane_allitems2.png",
+    "position": "row=15, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0050.png",
+    "node_enum": "NT_OUT_TRACE_SET_VISIBILITY_RULE_GROUP",
+    "node_name": "Out Trace Set Visibility Rule Group",
+    "source": "octane_allitems2.png",
+    "position": "row=15, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0051.png",
+    "node_enum": "NT_OUT_TRANSFORM",
+    "node_name": "Out Transform",
+    "source": "octane_allitems2.png",
+    "position": "row=15, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0052.png",
+    "node_enum": "NT_OUT_VOLUME_RAMP",
+    "node_name": "Out Volume Ramp",
+    "source": "octane_allitems2.png",
+    "position": "row=16, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0053.png",
+    "node_enum": "NT_OUTPUT_AOV",
+    "node_name": "Output Aov",
+    "source": "octane_allitems2.png",
+    "position": "row=16, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0054.png",
+    "node_enum": "NT_OUTPUT_AOV_CLAMP",
+    "node_name": "Output Aov Clamp",
+    "source": "octane_allitems2.png",
+    "position": "row=16, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0055.png",
+    "node_enum": "NT_OUTPUT_AOV_COLOR",
+    "node_name": "Output Aov Color",
+    "source": "octane_allitems2.png",
+    "position": "row=17, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0056.png",
+    "node_enum": "NT_OUTPUT_AOV_COLOR_CORRECTION",
+    "node_name": "Output Aov Color Correction",
+    "source": "octane_allitems2.png",
+    "position": "row=17, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0057.png",
+    "node_enum": "NT_OUTPUT_AOV_COMPOSITE",
+    "node_name": "Output Aov Composite",
+    "source": "octane_allitems2.png",
+    "position": "row=17, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0058.png",
+    "node_enum": "NT_OUTPUT_AOV_CRYPTOMATTE_MASK",
+    "node_name": "Output Aov Cryptomatte Mask",
+    "source": "octane_allitems2.png",
+    "position": "row=17, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0059.png",
+    "node_enum": "NT_OUTPUT_AOV_GROUP",
+    "node_name": "Output Aov Group",
+    "source": "octane_allitems2.png",
+    "position": "row=18, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0060.png",
+    "node_enum": "NT_OUTPUT_AOV_IMAGE",
+    "node_name": "Output Aov Image",
+    "source": "octane_allitems2.png",
+    "position": "row=18, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0061.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_ADD_BLOOM",
+    "node_name": "Output Aov Layer Add Bloom",
+    "source": "octane_allitems2.png",
+    "position": "row=18, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0062.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_ADD_CHROMATIC_ABERRATION",
+    "node_name": "Output Aov Layer Add Chromatic Aberration",
+    "source": "octane_allitems2.png",
+    "position": "row=18, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0063.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_ADD_GLARE",
+    "node_name": "Output Aov Layer Add Glare",
+    "source": "octane_allitems2.png",
+    "position": "row=19, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0064.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_ADD_LENS_FLARE",
+    "node_name": "Output Aov Layer Add Lens Flare",
+    "source": "octane_allitems2.png",
+    "position": "row=19, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0065.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_ADD_VIGNETTE",
+    "node_name": "Output Aov Layer Add Vignette",
+    "source": "octane_allitems2.png",
+    "position": "row=19, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0066.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_ADJUST_BRIGHTNESS",
+    "node_name": "Output Aov Layer Adjust Brightness",
+    "source": "octane_allitems2.png",
+    "position": "row=19, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0067.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_ADJUST_CONTRAST",
+    "node_name": "Output Aov Layer Adjust Contrast",
+    "source": "octane_allitems2.png",
+    "position": "row=20, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0068.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_ADJUST_HUE",
+    "node_name": "Output Aov Layer Adjust Hue",
+    "source": "octane_allitems2.png",
+    "position": "row=20, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0069.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_ADJUST_OPACITY",
+    "node_name": "Output Aov Layer Adjust Opacity",
+    "source": "octane_allitems2.png",
+    "position": "row=20, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0070.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_ADJUST_SATURATION",
+    "node_name": "Output Aov Layer Adjust Saturation",
+    "source": "octane_allitems2.png",
+    "position": "row=20, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0071.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_ADJUST_WHITE_BALANCE",
+    "node_name": "Output Aov Layer Adjust White Balance",
+    "source": "octane_allitems2.png",
+    "position": "row=21, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0072.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_APPLY_CAMERA_RESPONSE_CURVE",
+    "node_name": "Output Aov Layer Apply Camera Response Curve",
+    "source": "octane_allitems2.png",
+    "position": "row=21, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0073.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_APPLY_CUSTOM_CURVE",
+    "node_name": "Output Aov Layer Apply Custom Curve",
+    "source": "octane_allitems2.png",
+    "position": "row=21, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0074.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_APPLY_GAMMA_CURVE",
+    "node_name": "Output Aov Layer Apply Gamma Curve",
+    "source": "octane_allitems2.png",
+    "position": "row=21, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0075.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_APPLY_IMAGER_AND_POST_PROCESSING",
+    "node_name": "Output Aov Layer Apply Imager And Post Processing",
+    "source": "octane_allitems2.png",
+    "position": "row=22, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0076.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_APPLY_LUT",
+    "node_name": "Output Aov Layer Apply Lut",
+    "source": "octane_allitems2.png",
+    "position": "row=22, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0077.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_APPLY_OCIO_LOOK",
+    "node_name": "Output Aov Layer Apply Ocio Look",
+    "source": "octane_allitems2.png",
+    "position": "row=22, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0078.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_BLEND_CRYPTOMATTE_MASK",
+    "node_name": "Output Aov Layer Blend Cryptomatte Mask",
+    "source": "octane_allitems2.png",
+    "position": "row=23, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0079.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_BLEND_IMAGE",
+    "node_name": "Output Aov Layer Blend Image",
+    "source": "octane_allitems2.png",
+    "position": "row=23, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0080.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_BLEND_LAYERS",
+    "node_name": "Output Aov Layer Blend Layers",
+    "source": "octane_allitems2.png",
+    "position": "row=23, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0081.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_BLEND_LIGHT_MIXER",
+    "node_name": "Output Aov Layer Blend Light Mixer",
+    "source": "octane_allitems2.png",
+    "position": "row=24, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0082.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_BLEND_RENDER_AOV",
+    "node_name": "Output Aov Layer Blend Render Aov",
+    "source": "octane_allitems2.png",
+    "position": "row=24, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0083.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_BLEND_SHARED_SURFACE",
+    "node_name": "Output Aov Layer Blend Shared Surface",
+    "source": "octane_allitems2.png",
+    "position": "row=24, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0084.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_BLEND_SOLID_COLOR",
+    "node_name": "Output Aov Layer Blend Solid Color",
+    "source": "octane_allitems2.png",
+    "position": "row=24, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0085.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_BLEND_TEXTURE",
+    "node_name": "Output Aov Layer Blend Texture",
+    "source": "octane_allitems2.png",
+    "position": "row=25, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0086.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_BLUR",
+    "node_name": "Output Aov Layer Blur",
+    "source": "octane_allitems2.png",
+    "position": "row=25, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0087.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_BOOST_HIGHLIGHTS",
+    "node_name": "Output Aov Layer Boost Highlights",
+    "source": "octane_allitems2.png",
+    "position": "row=25, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0088.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_CLAMP",
+    "node_name": "Output Aov Layer Clamp",
+    "source": "octane_allitems2.png",
+    "position": "row=26, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0089.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_ACES",
+    "node_name": "Output Aov Layer Convert For Sdr Display Aces",
+    "source": "octane_allitems2.png",
+    "position": "row=26, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0090.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_AGX",
+    "node_name": "Output Aov Layer Convert For Sdr Display Agx",
+    "source": "octane_allitems2.png",
+    "position": "row=26, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0091.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_BASIC",
+    "node_name": "Output Aov Layer Convert For Sdr Display Basic",
+    "source": "octane_allitems2.png",
+    "position": "row=27, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0092.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_OCIO",
+    "node_name": "Output Aov Layer Convert For Sdr Display Ocio",
+    "source": "octane_allitems2.png",
+    "position": "row=27, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0093.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_CONVERT_FOR_SDR_DISPLAY_SMOOTH",
+    "node_name": "Output Aov Layer Convert For Sdr Display Smooth",
+    "source": "octane_allitems2.png",
+    "position": "row=27, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0094.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_DISCARD_CHECKPOINT",
+    "node_name": "Output Aov Layer Discard Checkpoint",
+    "source": "octane_allitems2.png",
+    "position": "row=28, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0095.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_DITHER",
+    "node_name": "Output Aov Layer Dither",
+    "source": "octane_allitems2.png",
+    "position": "row=28, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0096.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_GROUP",
+    "node_name": "Output Aov Layer Group",
+    "source": "octane_allitems2.png",
+    "position": "row=28, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0097.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_INVERT",
+    "node_name": "Output Aov Layer Invert",
+    "source": "octane_allitems2.png",
+    "position": "row=29, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0098.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_LOAD_CHECKPOINT",
+    "node_name": "Output Aov Layer Load Checkpoint",
+    "source": "octane_allitems2.png",
+    "position": "row=29, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0099.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_MAP_RANGE",
+    "node_name": "Output Aov Layer Map Range",
+    "source": "octane_allitems2.png",
+    "position": "row=29, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0100.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_MASK_WITH_CRYPTOMATTE",
+    "node_name": "Output Aov Layer Mask With Cryptomatte",
+    "source": "octane_allitems2.png",
+    "position": "row=30, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0101.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_MASK_WITH_LAYERS",
+    "node_name": "Output Aov Layer Mask With Layers",
+    "source": "octane_allitems2.png",
+    "position": "row=30, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0102.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_OPEN_IMAGE_DENOISE",
+    "node_name": "Output Aov Layer Open Image Denoise",
+    "source": "octane_allitems2.png",
+    "position": "row=30, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0103.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_REMOVE_HOT_PIXELS",
+    "node_name": "Output Aov Layer Remove Hot Pixels",
+    "source": "octane_allitems2.png",
+    "position": "row=31, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0104.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_SAVE_CHECKPOINT",
+    "node_name": "Output Aov Layer Save Checkpoint",
+    "source": "octane_allitems2.png",
+    "position": "row=31, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0105.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_SHARPEN",
+    "node_name": "Output Aov Layer Sharpen",
+    "source": "octane_allitems2.png",
+    "position": "row=31, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0106.png",
+    "node_enum": "NT_OUTPUT_AOV_LAYER_UNBLEND",
+    "node_name": "Output Aov Layer Unblend",
+    "source": "octane_allitems2.png",
+    "position": "row=32, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0107.png",
+    "node_enum": "NT_OUTPUT_AOV_LIGHT_MIXING",
+    "node_name": "Output Aov Light Mixing",
+    "source": "octane_allitems2.png",
+    "position": "row=32, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0108.png",
+    "node_enum": "NT_OUTPUT_AOV_MAP_RANGE",
+    "node_name": "Output Aov Map Range",
+    "source": "octane_allitems2.png",
+    "position": "row=32, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0109.png",
+    "node_enum": "NT_OUTPUT_AOV_RENDER",
+    "node_name": "Output Aov Render",
+    "source": "octane_allitems2.png",
+    "position": "row=33, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0110.png",
+    "node_enum": "NT_OUTPUT_AOV_SHARED_SURFACE",
+    "node_name": "Output Aov Shared Surface",
+    "source": "octane_allitems2.png",
+    "position": "row=33, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0111.png",
+    "node_enum": "NT_PHASE_SCHLICK",
+    "node_name": "Phase Schlick",
+    "source": "octane_allitems2.png",
+    "position": "row=33, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0112.png",
+    "node_enum": "NT_POST_VOLUME",
+    "node_name": "Post Volume",
+    "source": "octane_allitems2.png",
+    "position": "row=33, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0113.png",
+    "node_enum": "NT_POSTPROCESSING",
+    "node_name": "Postprocessing",
+    "source": "octane_allitems2.png",
+    "position": "row=34, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0114.png",
+    "node_enum": "NT_PROGRAMMABLE_GRAPH_INPUT",
+    "node_name": "Programmable Graph Input",
+    "source": "octane_allitems2.png",
+    "position": "row=34, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0115.png",
+    "node_enum": "NT_PROJ_BOX",
+    "node_name": "Proj Box",
+    "source": "octane_allitems2.png",
+    "position": "row=34, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0116.png",
+    "node_enum": "NT_PROJ_COLOR_TO_UVW",
+    "node_name": "Proj Color To Uvw",
+    "source": "octane_allitems2.png",
+    "position": "row=35, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0117.png",
+    "node_enum": "NT_PROJ_CYLINDRICAL",
+    "node_name": "Proj Cylindrical",
+    "source": "octane_allitems2.png",
+    "position": "row=35, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0118.png",
+    "node_enum": "NT_PROJ_DISTORTED_MESH_UV",
+    "node_name": "Proj Distorted Mesh Uv",
+    "source": "octane_allitems2.png",
+    "position": "row=35, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0119.png",
+    "node_enum": "NT_PROJ_DISTORTED_UVW",
+    "node_name": "Proj Distorted Uvw",
+    "source": "octane_allitems2.png",
+    "position": "row=36, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0120.png",
+    "node_enum": "NT_PROJ_INSTANCE_POSITION",
+    "node_name": "Proj Instance Position",
+    "source": "octane_allitems2.png",
+    "position": "row=36, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0121.png",
+    "node_enum": "NT_PROJ_LINEAR",
+    "node_name": "Proj Linear",
+    "source": "octane_allitems2.png",
+    "position": "row=36, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0122.png",
+    "node_enum": "NT_PROJ_MATCAP",
+    "node_name": "Proj Matcap",
+    "source": "octane_allitems2.png",
+    "position": "row=37, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0123.png",
+    "node_enum": "NT_PROJ_OSL",
+    "node_name": "Proj Osl",
+    "source": "octane_allitems2.png",
+    "position": "row=37, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0124.png",
+    "node_enum": "NT_PROJ_OSL_UV",
+    "node_name": "Proj Osl Uv",
+    "source": "octane_allitems2.png",
+    "position": "row=37, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0125.png",
+    "node_enum": "NT_PROJ_PERSPECTIVE",
+    "node_name": "Proj Perspective",
+    "source": "octane_allitems2.png",
+    "position": "row=37, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0126.png",
+    "node_enum": "NT_PROJ_SAMPLE_POSITION",
+    "node_name": "Proj Sample Position",
+    "source": "octane_allitems2.png",
+    "position": "row=38, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0127.png",
+    "node_enum": "NT_PROJ_SPHERICAL",
+    "node_name": "Proj Spherical",
+    "source": "octane_allitems2.png",
+    "position": "row=38, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0128.png",
+    "node_enum": "NT_PROJ_TRIPLANAR",
+    "node_name": "Proj Triplanar",
+    "source": "octane_allitems2.png",
+    "position": "row=38, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0129.png",
+    "node_enum": "NT_PROJ_UVW",
+    "node_name": "Proj Uvw",
+    "source": "octane_allitems2.png",
+    "position": "row=38, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0130.png",
+    "node_enum": "NT_PROJECT_SETTINGS",
+    "node_name": "Project Settings",
+    "source": "octane_allitems2.png",
+    "position": "row=39, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0131.png",
+    "node_enum": "NT_RENDER_AOV_GROUP",
+    "node_name": "Render Aov Group",
+    "source": "octane_allitems2.png",
+    "position": "row=39, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0132.png",
+    "node_enum": "NT_RENDER_JOB_GROUP",
+    "node_name": "Render Job Group",
+    "source": "octane_allitems2.png",
+    "position": "row=39, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0133.png",
+    "node_enum": "NT_RENDER_LAYER",
+    "node_name": "Render Layer",
+    "source": "octane_allitems2.png",
+    "position": "row=39, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0134.png",
+    "node_enum": "NT_RENDER_PASSES",
+    "node_name": "Render Passes",
+    "source": "octane_allitems2.png",
+    "position": "row=40, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0135.png",
+    "node_enum": "NT_RENDERTARGET",
+    "node_name": "Rendertarget",
+    "source": "octane_allitems2.png",
+    "position": "row=40, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0136.png",
+    "node_enum": "NT_RNDR_VERSION",
+    "node_name": "Rndr Version",
+    "source": "octane_allitems2.png",
+    "position": "row=40, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0137.png",
+    "node_enum": "NT_ROUND_EDGES",
+    "node_name": "Round Edges",
+    "source": "octane_allitems2.png",
+    "position": "row=40, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0138.png",
+    "node_enum": "NT_SCATTER_SURFACE",
+    "node_name": "Scatter Surface",
+    "source": "octane_allitems2.png",
+    "position": "row=41, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0139.png",
+    "node_enum": "NT_SCATTER_VOLUME",
+    "node_name": "Scatter Volume",
+    "source": "octane_allitems2.png",
+    "position": "row=41, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0140.png",
+    "node_enum": "NT_SPLIT_PANE",
+    "node_name": "Split Pane",
+    "source": "octane_allitems2.png",
+    "position": "row=41, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0141.png",
+    "node_enum": "NT_STRING",
+    "node_name": "String",
+    "source": "octane_allitems2.png",
+    "position": "row=42, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0142.png",
+    "node_enum": "NT_SUN_DIRECTION",
+    "node_name": "Sun Direction",
+    "source": "octane_allitems2.png",
+    "position": "row=42, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0143.png",
+    "node_enum": "NT_SWITCH_ANIMATION_SETTINGS",
+    "node_name": "Switch Animation Settings",
+    "source": "octane_allitems2.png",
+    "position": "row=42, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0144.png",
+    "node_enum": "NT_SWITCH_BIT_MASK",
+    "node_name": "Switch Bit Mask",
+    "source": "octane_allitems2.png",
+    "position": "row=43, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0145.png",
+    "node_enum": "NT_SWITCH_BLENDING_SETTINGS",
+    "node_name": "Switch Blending Settings",
+    "source": "octane_allitems2.png",
+    "position": "row=43, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0146.png",
+    "node_enum": "NT_SWITCH_BOOL",
+    "node_name": "Switch Bool",
+    "source": "octane_allitems2.png",
+    "position": "row=43, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0147.png",
+    "node_enum": "NT_SWITCH_CAMERA",
+    "node_name": "Switch Camera",
+    "source": "octane_allitems2.png",
+    "position": "row=44, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0148.png",
+    "node_enum": "NT_SWITCH_DISPLACEMENT",
+    "node_name": "Switch Displacement",
+    "source": "octane_allitems2.png",
+    "position": "row=44, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0149.png",
+    "node_enum": "NT_SWITCH_EMISSION",
+    "node_name": "Switch Emission",
+    "source": "octane_allitems2.png",
+    "position": "row=44, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0150.png",
+    "node_enum": "NT_SWITCH_ENUM",
+    "node_name": "Switch Enum",
+    "source": "octane_allitems2.png",
+    "position": "row=45, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0151.png",
+    "node_enum": "NT_SWITCH_ENVIRONMENT",
+    "node_name": "Switch Environment",
+    "source": "octane_allitems2.png",
+    "position": "row=45, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0152.png",
+    "node_enum": "NT_SWITCH_FILM_SETTINGS",
+    "node_name": "Switch Film Settings",
+    "source": "octane_allitems2.png",
+    "position": "row=45, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0153.png",
+    "node_enum": "NT_SWITCH_FLOAT",
+    "node_name": "Switch Float",
+    "source": "octane_allitems2.png",
+    "position": "row=46, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0154.png",
+    "node_enum": "NT_SWITCH_GEOMETRY",
+    "node_name": "Switch Geometry",
+    "source": "octane_allitems2.png",
+    "position": "row=46, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0155.png",
+    "node_enum": "NT_SWITCH_IMAGER",
+    "node_name": "Switch Imager",
+    "source": "octane_allitems2.png",
+    "position": "row=46, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0156.png",
+    "node_enum": "NT_SWITCH_INT",
+    "node_name": "Switch Int",
+    "source": "octane_allitems2.png",
+    "position": "row=47, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0157.png",
+    "node_enum": "NT_SWITCH_INTERNAL",
+    "node_name": "Switch Internal",
+    "source": "octane_allitems2.png",
+    "position": "row=47, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0158.png",
+    "node_enum": "NT_SWITCH_KERNEL",
+    "node_name": "Switch Kernel",
+    "source": "octane_allitems2.png",
+    "position": "row=47, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0159.png",
+    "node_enum": "NT_SWITCH_LUT",
+    "node_name": "Switch Lut",
+    "source": "octane_allitems2.png",
+    "position": "row=48, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0160.png",
+    "node_enum": "NT_SWITCH_MATERIAL",
+    "node_name": "Switch Material",
+    "source": "octane_allitems2.png",
+    "position": "row=48, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0161.png",
+    "node_enum": "NT_SWITCH_MATERIAL_LAYER",
+    "node_name": "Switch Material Layer",
+    "source": "octane_allitems2.png",
+    "position": "row=48, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0162.png",
+    "node_enum": "NT_SWITCH_MEDIUM",
+    "node_name": "Switch Medium",
+    "source": "octane_allitems2.png",
+    "position": "row=49, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0163.png",
+    "node_enum": "NT_SWITCH_OBJECTLAYER",
+    "node_name": "Switch Objectlayer",
+    "source": "octane_allitems2.png",
+    "position": "row=49, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0164.png",
+    "node_enum": "NT_SWITCH_OCIO_COLOR_SPACE",
+    "node_name": "Switch Ocio Color Space",
+    "source": "octane_allitems2.png",
+    "position": "row=49, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0165.png",
+    "node_enum": "NT_SWITCH_OCIO_LOOK",
+    "node_name": "Switch Ocio Look",
+    "source": "octane_allitems2.png",
+    "position": "row=49, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0166.png",
+    "node_enum": "NT_SWITCH_OCIO_VIEW",
+    "node_name": "Switch Ocio View",
+    "source": "octane_allitems2.png",
+    "position": "row=50, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0167.png",
+    "node_enum": "NT_SWITCH_OFFSET",
+    "node_name": "Switch Offset",
+    "source": "octane_allitems2.png",
+    "position": "row=50, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0168.png",
+    "node_enum": "NT_SWITCH_OUTPUT_AOV",
+    "node_name": "Switch Output Aov",
+    "source": "octane_allitems2.png",
+    "position": "row=50, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0169.png",
+    "node_enum": "NT_SWITCH_OUTPUT_AOV_GROUP",
+    "node_name": "Switch Output Aov Group",
+    "source": "octane_allitems2.png",
+    "position": "row=51, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0170.png",
+    "node_enum": "NT_SWITCH_OUTPUT_AOV_LAYER",
+    "node_name": "Switch Output Aov Layer",
+    "source": "octane_allitems2.png",
+    "position": "row=51, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0171.png",
+    "node_enum": "NT_SWITCH_PHASEFUNCTION",
+    "node_name": "Switch Phasefunction",
+    "source": "octane_allitems2.png",
+    "position": "row=51, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0172.png",
+    "node_enum": "NT_SWITCH_POST_VOLUME",
+    "node_name": "Switch Post Volume",
+    "source": "octane_allitems2.png",
+    "position": "row=51, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0173.png",
+    "node_enum": "NT_SWITCH_POSTPROCESSING",
+    "node_name": "Switch Postprocessing",
+    "source": "octane_allitems2.png",
+    "position": "row=52, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0174.png",
+    "node_enum": "NT_SWITCH_PROJECTION",
+    "node_name": "Switch Projection",
+    "source": "octane_allitems2.png",
+    "position": "row=52, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0175.png",
+    "node_enum": "NT_SWITCH_RENDER_JOB",
+    "node_name": "Switch Render Job",
+    "source": "octane_allitems2.png",
+    "position": "row=52, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0176.png",
+    "node_enum": "NT_SWITCH_RENDER_LAYER",
+    "node_name": "Switch Render Layer",
+    "source": "octane_allitems2.png",
+    "position": "row=53, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0177.png",
+    "node_enum": "NT_SWITCH_RENDER_PASSES",
+    "node_name": "Switch Render Passes",
+    "source": "octane_allitems2.png",
+    "position": "row=53, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0178.png",
+    "node_enum": "NT_SWITCH_RENDERTARGET",
+    "node_name": "Switch Rendertarget",
+    "source": "octane_allitems2.png",
+    "position": "row=53, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0179.png",
+    "node_enum": "NT_SWITCH_ROUND_EDGES",
+    "node_name": "Switch Round Edges",
+    "source": "octane_allitems2.png",
+    "position": "row=54, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0180.png",
+    "node_enum": "NT_SWITCH_STRING",
+    "node_name": "Switch String",
+    "source": "octane_allitems2.png",
+    "position": "row=54, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0181.png",
+    "node_enum": "NT_SWITCH_TEX_COMPOSITE_LAYER",
+    "node_name": "Switch Tex Composite Layer",
+    "source": "octane_allitems2.png",
+    "position": "row=54, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0182.png",
+    "node_enum": "NT_SWITCH_TEXTURE",
+    "node_name": "Switch Texture",
+    "source": "octane_allitems2.png",
+    "position": "row=55, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0183.png",
+    "node_enum": "NT_SWITCH_TOON_RAMP",
+    "node_name": "Switch Toon Ramp",
+    "source": "octane_allitems2.png",
+    "position": "row=55, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0184.png",
+    "node_enum": "NT_SWITCH_TRACE_SET_VISIBILITY_RULE",
+    "node_name": "Switch Trace Set Visibility Rule",
+    "source": "octane_allitems2.png",
+    "position": "row=55, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0185.png",
+    "node_enum": "NT_SWITCH_TRACE_SET_VISIBILITY_RULE_GROUP",
+    "node_name": "Switch Trace Set Visibility Rule Group",
+    "source": "octane_allitems2.png",
+    "position": "row=56, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0186.png",
+    "node_enum": "NT_SWITCH_TRANSFORM",
+    "node_name": "Switch Transform",
+    "source": "octane_allitems2.png",
+    "position": "row=56, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0187.png",
+    "node_enum": "NT_SWITCH_VOLUME_RAMP",
+    "node_name": "Switch Volume Ramp",
+    "source": "octane_allitems2.png",
+    "position": "row=56, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0188.png",
+    "node_enum": "NT_TEX_ADD",
+    "node_name": "Tex Add",
+    "source": "octane_allitems2.png",
+    "position": "row=57, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0189.png",
+    "node_enum": "NT_TEX_ALPHAIMAGE",
+    "node_name": "Tex Alphaimage",
+    "source": "octane_allitems2.png",
+    "position": "row=57, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0190.png",
+    "node_enum": "NT_TEX_BAKED_IMAGE",
+    "node_name": "Tex Baked Image",
+    "source": "octane_allitems2.png",
+    "position": "row=57, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0191.png",
+    "node_enum": "NT_TEX_C4D_NOISE",
+    "node_name": "Tex C4d Noise",
+    "source": "octane_allitems2.png",
+    "position": "row=58, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0192.png",
+    "node_enum": "NT_TEX_CAPTURE",
+    "node_name": "Tex Capture",
+    "source": "octane_allitems2.png",
+    "position": "row=58, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0193.png",
+    "node_enum": "NT_TEX_CELLNOISE",
+    "node_name": "Tex Cellnoise",
+    "source": "octane_allitems2.png",
+    "position": "row=58, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0194.png",
+    "node_enum": "NT_TEX_CHAINMAIL",
+    "node_name": "Tex Chainmail",
+    "source": "octane_allitems2.png",
+    "position": "row=59, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0195.png",
+    "node_enum": "NT_TEX_CHANNEL_INVERT",
+    "node_name": "Tex Channel Invert",
+    "source": "octane_allitems2.png",
+    "position": "row=59, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0196.png",
+    "node_enum": "NT_TEX_CHANNEL_MAP",
+    "node_name": "Tex Channel Map",
+    "source": "octane_allitems2.png",
+    "position": "row=59, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0197.png",
+    "node_enum": "NT_TEX_CHANNEL_MERGE",
+    "node_name": "Tex Channel Merge",
+    "source": "octane_allitems2.png",
+    "position": "row=60, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0198.png",
+    "node_enum": "NT_TEX_CHANNEL_PICK",
+    "node_name": "Tex Channel Pick",
+    "source": "octane_allitems2.png",
+    "position": "row=60, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0199.png",
+    "node_enum": "NT_TEX_CHAOS",
+    "node_name": "Tex Chaos",
+    "source": "octane_allitems2.png",
+    "position": "row=60, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0200.png",
+    "node_enum": "NT_TEX_CHECKS",
+    "node_name": "Tex Checks",
+    "source": "octane_allitems2.png",
+    "position": "row=60, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0201.png",
+    "node_enum": "NT_TEX_CIRCLE_SPIRAL",
+    "node_name": "Tex Circle Spiral",
+    "source": "octane_allitems2.png",
+    "position": "row=61, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0202.png",
+    "node_enum": "NT_TEX_CLAMP",
+    "node_name": "Tex Clamp",
+    "source": "octane_allitems2.png",
+    "position": "row=61, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0203.png",
+    "node_enum": "NT_TEX_COLOR_KEY",
+    "node_name": "Tex Color Key",
+    "source": "octane_allitems2.png",
+    "position": "row=61, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0204.png",
+    "node_enum": "NT_TEX_COLOR_SPACE_CONVERSION",
+    "node_name": "Tex Color Space Conversion",
+    "source": "octane_allitems2.png",
+    "position": "row=61, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0205.png",
+    "node_enum": "NT_TEX_COLOR_SQUARES",
+    "node_name": "Tex Color Squares",
+    "source": "octane_allitems2.png",
+    "position": "row=62, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0206.png",
+    "node_enum": "NT_TEX_COLORCORRECTION",
+    "node_name": "Tex Colorcorrection",
+    "source": "octane_allitems2.png",
+    "position": "row=62, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0207.png",
+    "node_enum": "NT_TEX_COLOUR_VERTEXATTRIBUTE",
+    "node_name": "Tex Colour Vertexattribute",
+    "source": "octane_allitems2.png",
+    "position": "row=62, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0208.png",
+    "node_enum": "NT_TEX_COMPARE",
+    "node_name": "Tex Compare",
+    "source": "octane_allitems2.png",
+    "position": "row=62, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0209.png",
+    "node_enum": "NT_TEX_COMPOSITE",
+    "node_name": "Tex Composite",
+    "source": "octane_allitems2.png",
+    "position": "row=63, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0210.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER",
+    "node_name": "Tex Composite Layer",
+    "source": "octane_allitems2.png",
+    "position": "row=63, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0211.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_ADJUST_BRIGHTNESS",
+    "node_name": "Tex Composite Layer Adjust Brightness",
+    "source": "octane_allitems2.png",
+    "position": "row=63, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0212.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_ADJUST_COLOR_BALANCE",
+    "node_name": "Tex Composite Layer Adjust Color Balance",
+    "source": "octane_allitems2.png",
+    "position": "row=63, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0213.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_ADJUST_CONTRAST",
+    "node_name": "Tex Composite Layer Adjust Contrast",
+    "source": "octane_allitems2.png",
+    "position": "row=64, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0214.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_ADJUST_EXPOSURE",
+    "node_name": "Tex Composite Layer Adjust Exposure",
+    "source": "octane_allitems2.png",
+    "position": "row=64, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0215.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_ADJUST_HUE",
+    "node_name": "Tex Composite Layer Adjust Hue",
+    "source": "octane_allitems2.png",
+    "position": "row=64, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0216.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_ADJUST_LIGHTNESS",
+    "node_name": "Tex Composite Layer Adjust Lightness",
+    "source": "octane_allitems2.png",
+    "position": "row=65, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0217.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_ADJUST_SATURATION",
+    "node_name": "Tex Composite Layer Adjust Saturation",
+    "source": "octane_allitems2.png",
+    "position": "row=65, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0218.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_ADJUST_SATURATION_HSL",
+    "node_name": "Tex Composite Layer Adjust Saturation Hsl",
+    "source": "octane_allitems2.png",
+    "position": "row=65, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0219.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_ADJUST_WHITE_BALANCE",
+    "node_name": "Tex Composite Layer Adjust White Balance",
+    "source": "octane_allitems2.png",
+    "position": "row=66, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0220.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_APPLY_CUSTOM_CURVE",
+    "node_name": "Tex Composite Layer Apply Custom Curve",
+    "source": "octane_allitems2.png",
+    "position": "row=66, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0221.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_APPLY_GAMMA_CURVE",
+    "node_name": "Tex Composite Layer Apply Gamma Curve",
+    "source": "octane_allitems2.png",
+    "position": "row=66, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0222.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_APPLY_GRADIENT_MAP",
+    "node_name": "Tex Composite Layer Apply Gradient Map",
+    "source": "octane_allitems2.png",
+    "position": "row=67, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0223.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_APPLY_LUT",
+    "node_name": "Tex Composite Layer Apply Lut",
+    "source": "octane_allitems2.png",
+    "position": "row=67, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0224.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_CHANNEL_MIXER",
+    "node_name": "Tex Composite Layer Channel Mixer",
+    "source": "octane_allitems2.png",
+    "position": "row=67, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0225.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_CLAMP",
+    "node_name": "Tex Composite Layer Clamp",
+    "source": "octane_allitems2.png",
+    "position": "row=68, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0226.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_COMPARISON",
+    "node_name": "Tex Composite Layer Comparison",
+    "source": "octane_allitems2.png",
+    "position": "row=68, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0227.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_GRAYSCALE",
+    "node_name": "Tex Composite Layer Grayscale",
+    "source": "octane_allitems2.png",
+    "position": "row=68, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0228.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_GROUP",
+    "node_name": "Tex Composite Layer Group",
+    "source": "octane_allitems2.png",
+    "position": "row=69, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0229.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_MAP_RANGE",
+    "node_name": "Tex Composite Layer Map Range",
+    "source": "octane_allitems2.png",
+    "position": "row=69, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0230.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_MASK_WITH_LAYERS",
+    "node_name": "Tex Composite Layer Mask With Layers",
+    "source": "octane_allitems2.png",
+    "position": "row=69, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0231.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_MATH_BINARY",
+    "node_name": "Tex Composite Layer Math Binary",
+    "source": "octane_allitems2.png",
+    "position": "row=69, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0232.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_MATH_UNARY",
+    "node_name": "Tex Composite Layer Math Unary",
+    "source": "octane_allitems2.png",
+    "position": "row=69, col=4"
+  },
+  {
+    "extracted_file": "octane_allitems2_0233.png",
+    "node_enum": "NT_TEX_COMPOSITE_LAYER_THRESHOLD",
+    "node_name": "Tex Composite Layer Threshold",
+    "source": "octane_allitems2.png",
+    "position": "row=70, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0234.png",
+    "node_enum": "NT_TEX_COSINEMIX",
+    "node_name": "Tex Cosinemix",
+    "source": "octane_allitems2.png",
+    "position": "row=70, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0235.png",
+    "node_enum": "NT_TEX_CURVATURE",
+    "node_name": "Tex Curvature",
+    "source": "octane_allitems2.png",
+    "position": "row=70, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0236.png",
+    "node_enum": "NT_TEX_DECAL",
+    "node_name": "Tex Decal",
+    "source": "octane_allitems2.png",
+    "position": "row=70, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0237.png",
+    "node_enum": "NT_TEX_DIGITS",
+    "node_name": "Tex Digits",
+    "source": "octane_allitems2.png",
+    "position": "row=70, col=4"
+  },
+  {
+    "extracted_file": "octane_allitems2_0238.png",
+    "node_enum": "NT_TEX_DIRT",
+    "node_name": "Tex Dirt",
+    "source": "octane_allitems2.png",
+    "position": "row=71, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0239.png",
+    "node_enum": "NT_TEX_DPDU",
+    "node_name": "Tex Dpdu",
+    "source": "octane_allitems2.png",
+    "position": "row=71, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0240.png",
+    "node_enum": "NT_TEX_DPDV",
+    "node_name": "Tex Dpdv",
+    "source": "octane_allitems2.png",
+    "position": "row=71, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0241.png",
+    "node_enum": "NT_TEX_FALLOFF",
+    "node_name": "Tex Falloff",
+    "source": "octane_allitems2.png",
+    "position": "row=71, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0242.png",
+    "node_enum": "NT_TEX_FAN_SPIRAL",
+    "node_name": "Tex Fan Spiral",
+    "source": "octane_allitems2.png",
+    "position": "row=72, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0243.png",
+    "node_enum": "NT_TEX_FBM_FLOW_NOISE",
+    "node_name": "Tex Fbm Flow Noise",
+    "source": "octane_allitems2.png",
+    "position": "row=72, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0244.png",
+    "node_enum": "NT_TEX_FBM_NOISE",
+    "node_name": "Tex Fbm Noise",
+    "source": "octane_allitems2.png",
+    "position": "row=72, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0245.png",
+    "node_enum": "NT_TEX_FIELD_ANGULAR",
+    "node_name": "Tex Field Angular",
+    "source": "octane_allitems2.png",
+    "position": "row=72, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0246.png",
+    "node_enum": "NT_TEX_FIELD_PLANAR",
+    "node_name": "Tex Field Planar",
+    "source": "octane_allitems2.png",
+    "position": "row=73, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0247.png",
+    "node_enum": "NT_TEX_FIELD_SHAPE",
+    "node_name": "Tex Field Shape",
+    "source": "octane_allitems2.png",
+    "position": "row=73, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0248.png",
+    "node_enum": "NT_TEX_FIELD_SPHERICAL",
+    "node_name": "Tex Field Spherical",
+    "source": "octane_allitems2.png",
+    "position": "row=73, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0249.png",
+    "node_enum": "NT_TEX_FLAKES",
+    "node_name": "Tex Flakes",
+    "source": "octane_allitems2.png",
+    "position": "row=73, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0250.png",
+    "node_enum": "NT_TEX_FLOAT",
+    "node_name": "Tex Float",
+    "source": "octane_allitems2.png",
+    "position": "row=74, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0251.png",
+    "node_enum": "NT_TEX_FLOAT_TO_GREYSCALE",
+    "node_name": "Tex Float To Greyscale",
+    "source": "octane_allitems2.png",
+    "position": "row=74, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0252.png",
+    "node_enum": "NT_TEX_FLOAT_VERTEXATTRIBUTE",
+    "node_name": "Tex Float Vertexattribute",
+    "source": "octane_allitems2.png",
+    "position": "row=74, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0253.png",
+    "node_enum": "NT_TEX_FLOAT3_TO_COLOR",
+    "node_name": "Tex Float3 To Color",
+    "source": "octane_allitems2.png",
+    "position": "row=74, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0254.png",
+    "node_enum": "NT_TEX_FLOATIMAGE",
+    "node_name": "Tex Floatimage",
+    "source": "octane_allitems2.png",
+    "position": "row=74, col=4"
+  },
+  {
+    "extracted_file": "octane_allitems2_0255.png",
+    "node_enum": "NT_TEX_FLOATS_TO_COLOR",
+    "node_name": "Tex Floats To Color",
+    "source": "octane_allitems2.png",
+    "position": "row=75, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0256.png",
+    "node_enum": "NT_TEX_FRACTAL",
+    "node_name": "Tex Fractal",
+    "source": "octane_allitems2.png",
+    "position": "row=75, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0257.png",
+    "node_enum": "NT_TEX_FRACTAL_FLOW_NOISE",
+    "node_name": "Tex Fractal Flow Noise",
+    "source": "octane_allitems2.png",
+    "position": "row=75, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0258.png",
+    "node_enum": "NT_TEX_FRACTAL_NOISE",
+    "node_name": "Tex Fractal Noise",
+    "source": "octane_allitems2.png",
+    "position": "row=75, col=4"
+  },
+  {
+    "extracted_file": "octane_allitems2_0259.png",
+    "node_enum": "NT_TEX_GAUSSIANSPECTRUM",
+    "node_name": "Tex Gaussianspectrum",
+    "source": "octane_allitems2.png",
+    "position": "row=76, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0260.png",
+    "node_enum": "NT_TEX_GLOWING_CIRCLE",
+    "node_name": "Tex Glowing Circle",
+    "source": "octane_allitems2.png",
+    "position": "row=76, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0261.png",
+    "node_enum": "NT_TEX_GRADIENT",
+    "node_name": "Tex Gradient",
+    "source": "octane_allitems2.png",
+    "position": "row=76, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0262.png",
+    "node_enum": "NT_TEX_GRADIENT_GENERATOR",
+    "node_name": "Tex Gradient Generator",
+    "source": "octane_allitems2.png",
+    "position": "row=76, col=3"
+  },
+  {
+    "extracted_file": "octane_allitems2_0263.png",
+    "node_enum": "NT_TEX_HAGELSLAG",
+    "node_name": "Tex Hagelslag",
+    "source": "octane_allitems2.png",
+    "position": "row=76, col=4"
+  },
+  {
+    "extracted_file": "octane_allitems2_0264.png",
+    "node_enum": "NT_TEX_HALFTONE",
+    "node_name": "Tex Halftone",
+    "source": "octane_allitems2.png",
+    "position": "row=77, col=0"
+  },
+  {
+    "extracted_file": "octane_allitems2_0265.png",
+    "node_enum": "NT_TEX_IMAGE",
+    "node_name": "Tex Image",
+    "source": "octane_allitems2.png",
+    "position": "row=77, col=1"
+  },
+  {
+    "extracted_file": "octane_allitems2_0266.png",
+    "node_enum": "NT_TEX_IMAGE_ADJUSTMENT",
+    "node_name": "Tex Image Adjustment",
+    "source": "octane_allitems2.png",
+    "position": "row=77, col=2"
+  },
+  {
+    "extracted_file": "octane_allitems2_0267.png",
+    "node_enum": "NT_TEX_IMAGE_TILE_SET",
+    "node_name": "Tex Image Tile Set",
+    "source": "octane_allitems2.png",
+    "position": "row=77, col=3"
+  }
+]
