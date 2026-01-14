@@ -948,6 +948,95 @@ export class OctaneClient extends EventEmitter {
     await this.callApi('ApiRenderEngine', 'setSubSampleMode', null, { mode });
   }
 
+  /**
+   * Helper: Get Film Settings node handle from Render Target
+   * @returns Film Settings node handle, or null if not found
+   */
+  private async getFilmSettingsNode(): Promise<number | null> {
+    try {
+      // Get render target
+      const renderTargetResponse = await this.callApi('ApiRenderEngine', 'getRenderTargetNode', {});
+      if (!renderTargetResponse?.result?.handle) {
+        console.warn('⚠️ No render target found');
+        return null;
+      }
+      
+      const renderTargetHandle = renderTargetResponse.result.handle;
+      
+      // Get Film Settings connected to render target (typically pin 15)
+      const filmSettingsResponse = await this.callApi('ApiNode', 'connectedNode', renderTargetHandle, { pinIndex: 15 });
+      if (!filmSettingsResponse?.result?.handle) {
+        console.warn('⚠️ No Film Settings node found');
+        return null;
+      }
+      
+      return filmSettingsResponse.result.handle;
+    } catch (error: any) {
+      console.error('❌ Failed to get Film Settings node:', error.message);
+      return null;
+    }
+  }
+
+  /**
+   * Get viewport resolution lock state from Octane Film Settings
+   * @returns true if viewport resolution is locked, false otherwise
+   */
+  async getViewportResolutionLock(): Promise<boolean> {
+    try {
+      const filmSettingsHandle = await this.getFilmSettingsNode();
+      if (!filmSettingsHandle) {
+        return false;
+      }
+
+      // P_LOCK_RENDER_AOVS = 61460 (0xf014)
+      // Find the attribute index
+      const attrIndexResponse = await this.callApi('ApiItem', 'findAttr', filmSettingsHandle, { attrId: 61460 });
+      if (attrIndexResponse?.result === undefined || attrIndexResponse.result < 0) {
+        console.warn('⚠️ P_LOCK_RENDER_AOVS attribute not found');
+        return false;
+      }
+
+      const attrIndex = attrIndexResponse.result;
+
+      // Get the boolean value using the attribute index as pin index
+      const valueResponse = await this.callApi('ApiNode', 'getPinBoolIx', filmSettingsHandle, { pinIx: attrIndex });
+      return valueResponse?.result ?? false;
+    } catch (error: any) {
+      console.error('❌ Failed to get viewport resolution lock:', error.message);
+      return false;
+    }
+  }
+
+  /**
+   * Set viewport resolution lock in Octane Film Settings
+   * @param locked - true to lock viewport resolution, false to unlock
+   */
+  async setViewportResolutionLock(locked: boolean): Promise<void> {
+    try {
+      const filmSettingsHandle = await this.getFilmSettingsNode();
+      if (!filmSettingsHandle) {
+        throw new Error('Film Settings node not found');
+      }
+
+      // P_LOCK_RENDER_AOVS = 61460 (0xf014)
+      const attrIndexResponse = await this.callApi('ApiItem', 'findAttr', filmSettingsHandle, { attrId: 61460 });
+      if (attrIndexResponse?.result === undefined || attrIndexResponse.result < 0) {
+        throw new Error('P_LOCK_RENDER_AOVS attribute not found');
+      }
+
+      const attrIndex = attrIndexResponse.result;
+
+      // Set the boolean value
+      await this.callApi('ApiNode', 'setPinValueIx', filmSettingsHandle, {
+        pinIx: attrIndex,
+        value: locked
+      });
+    } catch (error: any) {
+      console.error('❌ Failed to set viewport resolution lock:', error.message);
+      throw error;
+    }
+  }
+
   // Node Creation API
   /**
    * Create a new node of the specified type in the scene

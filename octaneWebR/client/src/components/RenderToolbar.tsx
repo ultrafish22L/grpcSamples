@@ -84,6 +84,11 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
         const subSamplingMode = subSampleValue === 2 ? '2x2' : subSampleValue === 4 ? '4x4' : 'none';
         setState(prev => ({ ...prev, subSampling: subSamplingMode }));
         console.log('📐 Sub-sampling initialized:', subSamplingMode.toUpperCase());
+
+        // Initialize viewport resolution lock
+        const resolutionLock = await client.getViewportResolutionLock();
+        setState(prev => ({ ...prev, viewportResolutionLock: resolutionLock }));
+        console.log('🔒 Viewport resolution lock initialized:', resolutionLock ? 'ON' : 'OFF');
       } catch (err) {
         console.error('❌ Failed to initialize render settings:', err);
       }
@@ -271,9 +276,16 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
 
       // Viewport Controls
       case 'viewport-resolution-lock':
-        setState(prev => ({ ...prev, viewportResolutionLock: !prev.viewportResolutionLock }));
-        console.log(`Viewport resolution lock: ${!state.viewportResolutionLock ? 'ON' : 'OFF'}`);
-        // TODO: API call to toggle viewport resolution lock
+        const newResLockState = !state.viewportResolutionLock;
+        setState(prev => ({ ...prev, viewportResolutionLock: newResLockState }));
+        console.log(`🔒 Viewport resolution lock: ${newResLockState ? 'ON' : 'OFF'}`);
+        client.setViewportResolutionLock(newResLockState).then(() => {
+          console.log('✅ Viewport resolution lock updated in Octane');
+        }).catch(err => {
+          console.error('❌ Failed to set viewport resolution lock:', err);
+          // Revert UI state on error
+          setState(prev => ({ ...prev, viewportResolutionLock: !newResLockState }));
+        });
         break;
       case 'lock-viewport':
         const newLockState = !state.viewportLocked;
