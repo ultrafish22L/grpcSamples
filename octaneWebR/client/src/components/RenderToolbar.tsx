@@ -37,7 +37,7 @@ interface RenderToolbarProps {
 }
 
 export function RenderToolbar({ className = '' }: RenderToolbarProps) {
-  const { connected } = useOctane();
+  const { connected, client } = useOctane();
   
   const [renderStats, setRenderStats] = useState<RenderStats>({
     samples: 1.0,
@@ -101,24 +101,36 @@ export function RenderToolbar({ className = '' }: RenderToolbarProps) {
 
       // Render Controls
       case 'stop-render':
-        console.log('Stop render');
-        setState(prev => ({ ...prev, renderStats: { ...renderStats, status: 'stopped' } }));
-        // TODO: API call to stop rendering
+        console.log('🛑 Stop render');
+        client.stopRender().then(() => {
+          setRenderStats(prev => ({ ...prev, status: 'stopped' }));
+        }).catch(err => {
+          console.error('❌ Failed to stop render:', err);
+        });
         break;
       case 'restart-render':
-        console.log('Restart render');
-        setRenderStats(prev => ({ ...prev, samples: 0, time: '00:00:00', status: 'rendering' }));
-        // TODO: API call to restart rendering
+        console.log('🔄 Restart render');
+        client.restartRender().then(() => {
+          setRenderStats(prev => ({ ...prev, samples: 0, time: '00:00:00', status: 'rendering' }));
+        }).catch(err => {
+          console.error('❌ Failed to restart render:', err);
+        });
         break;
       case 'pause-render':
-        console.log('Pause render');
-        setRenderStats(prev => ({ ...prev, status: 'paused' }));
-        // TODO: API call to pause rendering
+        console.log('⏸️ Pause render');
+        client.pauseRender().then(() => {
+          setRenderStats(prev => ({ ...prev, status: 'paused' }));
+        }).catch(err => {
+          console.error('❌ Failed to pause render:', err);
+        });
         break;
       case 'start-render':
-        console.log('Start render');
-        setRenderStats(prev => ({ ...prev, status: 'rendering' }));
-        // TODO: API call to start/resume rendering
+        console.log('▶️ Start render');
+        client.startRender().then(() => {
+          setRenderStats(prev => ({ ...prev, status: 'rendering' }));
+        }).catch(err => {
+          console.error('❌ Failed to start render:', err);
+        });
         break;
       case 'real-time-render':
         setState(prev => ({ ...prev, realTimeMode: !prev.realTimeMode }));

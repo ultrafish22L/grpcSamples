@@ -850,16 +850,45 @@ export class OctaneClient extends EventEmitter {
     await this.callApi('ApiSceneOutliner', 'setNodeVisibility', { handle, visible });
   }
 
-  // Render API
+  // Render Control API
+  // Based on Octane SE Manual - The Render Viewport section
+  // https://docs.otoy.com/standaloneSE/TheRenderViewport.html
+  
+  /**
+   * Start or resume rendering
+   * If paused, resumes from current state. Otherwise starts new render.
+   */
   async startRender(): Promise<void> {
-    await this.callApi('ApiRenderView', 'startRender', {});
+    await this.callApi('ApiRenderEngine', 'continueRendering', {});
     this.renderState.isRendering = true;
     this.emit('renderStateChanged', this.renderState);
   }
 
+  /**
+   * Stop rendering - Aborts the rendering process and frees all resources
+   */
   async stopRender(): Promise<void> {
-    await this.callApi('ApiRenderView', 'stopRender', {});
+    await this.callApi('ApiRenderEngine', 'stopRendering', {});
     this.renderState.isRendering = false;
+    this.emit('renderStateChanged', this.renderState);
+  }
+
+  /**
+   * Pause rendering - Pauses without losing rendered data, keeps GPU memory intact
+   */
+  async pauseRender(): Promise<void> {
+    await this.callApi('ApiRenderEngine', 'pauseRendering', {});
+    this.renderState.isRendering = false;
+    this.emit('renderStateChanged', this.renderState);
+  }
+
+  /**
+   * Restart rendering - Halts and restarts at zero samples, keeps loaded contents in memory
+   */
+  async restartRender(): Promise<void> {
+    await this.callApi('ApiRenderEngine', 'restartRendering', {});
+    this.renderState.isRendering = true;
+    this.renderState.samples = 0;
     this.emit('renderStateChanged', this.renderState);
   }
 
