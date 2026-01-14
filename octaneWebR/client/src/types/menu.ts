@@ -53,6 +53,7 @@ export type MenuAction =
   | 'window.sceneOutliner'
   | 'window.nodeInspector'
   | 'window.nodeGraph'
+  | 'window.materialDatabase'
   | 'window.resetLayout'
   | 'window.fullscreen'
   | 'view.refresh'

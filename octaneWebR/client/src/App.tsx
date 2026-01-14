@@ -24,6 +24,7 @@ import { SceneOutliner } from './components/SceneOutliner';
 import { NodeInspector } from './components/NodeInspector';
 import { NodeInspectorControls } from './components/NodeInspectorControls';
 import { NodeGraphEditor } from './components/NodeGraph';
+import { MaterialDatabase } from './components/MaterialDatabase';
 import { SceneNode } from './services/OctaneClient';
 import { NodeType } from './constants/OctaneTypes';
 
@@ -36,6 +37,7 @@ function AppContent() {
   const [showWorldCoord, setShowWorldCoord] = useState(true); // Display world coordinate axis
   const [viewportLocked, setViewportLocked] = useState(false); // Lock viewport controls
   const [pickingMode, setPickingMode] = useState<'none' | 'focus' | 'whiteBalance' | 'material' | 'object' | 'cameraTarget' | 'renderRegion' | 'filmRegion'>('none');
+  const [materialDatabaseVisible, setMaterialDatabaseVisible] = useState(false);
   const { panelSizes, handleSplitterMouseDown, containerRef, isDragging } = useResizablePanels();
   const viewportRef = useRef<CallbackRenderViewportHandle>(null);
 
@@ -122,6 +124,17 @@ function AppContent() {
     console.log(`🎯 App.tsx: Picking mode changed to: ${mode}`);
   };
 
+  // Material Database handlers
+  const handleMaterialDatabaseOpen = () => {
+    console.log('💎 Opening Material Database');
+    setMaterialDatabaseVisible(true);
+  };
+
+  const handleMaterialDatabaseClose = () => {
+    console.log('💎 Closing Material Database');
+    setMaterialDatabaseVisible(false);
+  };
+
   useEffect(() => {
     // Auto-connect on mount
     console.log('🚀 OctaneWebR starting...');
@@ -176,7 +189,10 @@ function AppContent() {
     <div className="app-container">
       {/* Top Menu Bar */}
       <header className="menu-bar">
-        <MenuBar onSceneRefresh={handleSceneRefresh} />
+        <MenuBar 
+          onSceneRefresh={handleSceneRefresh}
+          onMaterialDatabaseOpen={handleMaterialDatabaseOpen}
+        />
         
         {/* Connection Status & Controls */}
         <ConnectionStatus />
@@ -326,6 +342,12 @@ function AppContent() {
           <span className="status-item">FPS: <span id="fps-counter">0</span></span>
         </div>
       </footer>
+
+      {/* Material Database Modal */}
+      <MaterialDatabase
+        visible={materialDatabaseVisible}
+        onClose={handleMaterialDatabaseClose}
+      />
     </div>
   );
 }

@@ -14,9 +14,10 @@ import { MenuAction } from '../types/menu';
 
 interface MenuBarProps {
   onSceneRefresh?: () => void;
+  onMaterialDatabaseOpen?: () => void;
 }
 
-export function MenuBar({ onSceneRefresh }: MenuBarProps) {
+export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen }: MenuBarProps) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [activeMenuAnchor, setActiveMenuAnchor] = useState<HTMLElement | null>(null);
   const menuBarRef = useRef<HTMLDivElement>(null);
@@ -218,6 +219,10 @@ export function MenuBar({ onSceneRefresh }: MenuBarProps) {
         break;
 
       // Window menu actions
+      case 'window.materialDatabase':
+        onMaterialDatabaseOpen?.();
+        break;
+
       case 'window.resetLayout':
         console.log('Reset layout not yet implemented');
         showNotification('Reset layout not yet implemented', 'info');

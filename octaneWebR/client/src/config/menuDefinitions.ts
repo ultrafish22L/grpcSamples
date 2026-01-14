@@ -82,6 +82,8 @@ export function getMenuDefinitions(recentFiles: string[] = []): MenuDefinition {
       { label: 'Node Inspector', action: 'window.nodeInspector', icon: '🔍' },
       { label: 'Node Graph', action: 'window.nodeGraph', icon: '🕸️' },
       { type: 'separator' },
+      { label: 'Material Database', action: 'window.materialDatabase', icon: '💎' },
+      { type: 'separator' },
       { label: 'Reset Layout', action: 'window.resetLayout', icon: '🔄' },
       { label: 'Fullscreen', action: 'window.fullscreen', shortcut: 'F11', icon: '⛶' }
     ],
