@@ -32,6 +32,7 @@ interface ToolbarState {
   activeGizmo: 'none' | 'translate' | 'rotate' | 'scale';
   viewportResolutionLock: boolean;
   showCameraPresetsMenu: boolean;
+  showRenderPriorityMenu: boolean;
 }
 
 interface RenderToolbarProps {
@@ -70,7 +71,8 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
     objectControlMode: 'world',
     activeGizmo: 'none',
     viewportResolutionLock: false,
-    showCameraPresetsMenu: false
+    showCameraPresetsMenu: false,
+    showRenderPriorityMenu: false
   });
 
   // Initialize rendering settings from Octane on connect
@@ -190,6 +192,41 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [state.showCameraPresetsMenu]);
+
+  // Close render priority menu when clicking outside
+  useEffect(() => {
+    if (!state.showRenderPriorityMenu) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      // Check if click is outside render priority menu
+      if (!target.closest('.render-priority-menu') && !target.closest('#render-priority')) {
+        setState(prev => ({ ...prev, showRenderPriorityMenu: false }));
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [state.showRenderPriorityMenu]);
+
+  // ========================================
+  // RENDER PRIORITY HANDLERS
+  // ========================================
+
+  const applyRenderPriority = async (priority: 'low' | 'normal' | 'high') => {
+    console.log(`⚙️ Setting render priority: ${priority.toUpperCase()}`);
+    
+    try {
+      // Map priority to API values (assuming 0=low, 1=normal, 2=high based on common conventions)
+      const priorityValue = priority === 'low' ? 0 : priority === 'normal' ? 1 : 2;
+      
+      await client.callApi('ApiRenderEngine', 'setRenderPriority', { priority: priorityValue });
+      setState(prev => ({ ...prev, renderPriority: priority, showRenderPriorityMenu: false }));
+      console.log(`✅ Render priority set to ${priority.toUpperCase()}`);
+    } catch (err) {
+      console.error(`❌ Failed to set render priority to ${priority}:`, err);
+    }
+  };
 
   // ========================================
   // CAMERA PRESET HANDLERS
@@ -373,8 +410,8 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
         // TODO: API call to toggle decal wireframe
         break;
       case 'render-priority':
-        console.log('Show render priority menu');
-        // TODO: Show priority menu dropdown
+        setState(prev => ({ ...prev, showRenderPriorityMenu: !prev.showRenderPriorityMenu }));
+        console.log('⚙️ Render priority menu:', !state.showRenderPriorityMenu ? 'OPEN' : 'CLOSED');
         break;
 
       // Output Controls
@@ -666,6 +703,33 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
               </button>
               <button onClick={() => applyCameraPreset('Bottom')} className="camera-preset-item">
                 Bottom View
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Render Priority Menu - Dropdown for GPU render priority */}
+        {state.showRenderPriorityMenu && (
+          <div className="render-priority-menu">
+            <div className="render-priority-menu-header">Render Priority Settings</div>
+            <div className="render-priority-menu-items">
+              <button 
+                onClick={() => applyRenderPriority('low')} 
+                className={`render-priority-item ${state.renderPriority === 'low' ? 'active' : ''}`}
+              >
+                Low Priority
+              </button>
+              <button 
+                onClick={() => applyRenderPriority('normal')} 
+                className={`render-priority-item ${state.renderPriority === 'normal' ? 'active' : ''}`}
+              >
+                Normal Priority
+              </button>
+              <button 
+                onClick={() => applyRenderPriority('high')} 
+                className={`render-priority-item ${state.renderPriority === 'high' ? 'active' : ''}`}
+              >
+                High Priority
               </button>
             </div>
           </div>

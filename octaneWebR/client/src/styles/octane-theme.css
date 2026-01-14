@@ -939,6 +939,69 @@ html, body {
     background-color: var(--octane-bg-active);
 }
 
+/* Render Priority Menu */
+.render-priority-menu {
+    position: absolute;
+    top: 60px; /* Position below toolbar */
+    left: 200px; /* Position after camera menu area */
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    min-width: 200px;
+    overflow: hidden;
+}
+
+.render-priority-menu-header {
+    background-color: var(--octane-bg-header);
+    color: var(--octane-text-primary);
+    padding: 8px 12px;
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    border-bottom: 1px solid var(--octane-border);
+}
+
+.render-priority-menu-items {
+    padding: 4px 0;
+}
+
+.render-priority-item {
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--octane-text-secondary);
+    padding: 8px 12px;
+    text-align: left;
+    font-size: var(--font-size-small);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: block;
+    position: relative;
+}
+
+.render-priority-item:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+.render-priority-item:active {
+    background-color: var(--octane-bg-active);
+}
+
+.render-priority-item.active {
+    background-color: rgba(64, 128, 255, 0.15);
+    color: var(--octane-accent-blue);
+    font-weight: 600;
+}
+
+.render-priority-item.active::after {
+    content: '✓';
+    position: absolute;
+    right: 12px;
+    color: var(--octane-accent-blue);
+}
+
 /* Legacy render controls (keep for compatibility) */
 .render-controls {
     background-color: var(--octane-bg-header);
