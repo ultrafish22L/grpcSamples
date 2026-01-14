@@ -92,8 +92,12 @@ export function RenderToolbar({ className = '', onToggleWorldCoord }: RenderTool
         // TODO: API call to recenter viewport
         break;
       case 'reset-camera':
-        console.log('Reset camera');
-        // TODO: API call to reset camera position
+        console.log('📷 Reset camera to original position');
+        client.resetCamera().then(() => {
+          console.log('✅ Camera reset successful');
+        }).catch(err => {
+          console.error('❌ Failed to reset camera:', err);
+        });
         break;
       case 'camera-presets':
         console.log('Show camera presets menu');

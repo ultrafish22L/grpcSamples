@@ -59,6 +59,9 @@ export class OctaneClient extends EventEmitter {
   private iconCache: Map<string, string> = new Map();
   private iconFetchQueue: Set<string> = new Set();
   private iconFetchInProgress: boolean = false;
+  
+  // Original camera state (captured on connect/scene load)
+  private originalCameraState: any = null;
 
   constructor(serverUrl?: string) {
     super();
@@ -98,6 +101,14 @@ export class OctaneClient extends EventEmitter {
       console.log('✅ Setting connected = true, emitting connected event');
       this.emit('connected');
       console.log('✅ Connected to OctaneWebR server');
+      
+      // Capture initial camera state for reset functionality
+      try {
+        this.originalCameraState = await this.getCamera();
+        console.log('📷 Captured original camera state:', this.originalCameraState);
+      } catch (error: any) {
+        console.warn('⚠️ Could not capture initial camera state:', error.message);
+      }
       
       return true;
     } catch (error: any) {
@@ -247,6 +258,17 @@ export class OctaneClient extends EventEmitter {
       position: { x: posX, y: posY, z: posZ },
       target: { x: targetX, y: targetY, z: targetZ }
     });
+  }
+  
+  async resetCamera(): Promise<void> {
+    // Reset camera to original position captured at connection time
+    if (!this.originalCameraState) {
+      console.warn('⚠️ No original camera state stored - fetching current as fallback');
+      this.originalCameraState = await this.getCamera();
+    }
+    
+    console.log('📷 Resetting camera to original state:', this.originalCameraState);
+    await this.callApi('LiveLink', 'SetCamera', this.originalCameraState);
   }
 
   // Icon API - Query node icons from Octane
