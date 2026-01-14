@@ -2207,6 +2207,19 @@ body.drag-over .drop-indicator {
     color: white;
 }
 
+/* LocalDB package item styling */
+.scene-tab-content .tree-node.package-item {
+    cursor: pointer;
+}
+
+.scene-tab-content .tree-node.package-item:hover {
+    background-color: var(--octane-accent-blue-dim);
+}
+
+.scene-tab-content .tree-node.package-item:active {
+    background-color: var(--octane-accent-blue);
+}
+
 /* Database-specific node styling */
 .scene-tab-content .node-content {
     display: flex;

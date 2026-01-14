@@ -1080,6 +1080,168 @@ export class OctaneClient extends EventEmitter {
     console.log('✅ Pin disconnected in Octane');
   }
 
+  // ==================== LocalDB Methods ====================
+  
+  /**
+   * Get the root category of LocalDB
+   * Returns category handle that can be used to browse subcategories/packages
+   */
+  async getLocalDBRoot(): Promise<number | null> {
+    try {
+      const response = await this.callApi('ApiLocalDB', 'root', null, {});
+      if (response?.result?.handle) {
+        console.log(`✅ LocalDB root category handle: ${response.result.handle}`);
+        return response.result.handle;
+      }
+      return null;
+    } catch (error) {
+      console.error('❌ Failed to get LocalDB root:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get the name of a category
+   */
+  async getCategoryName(categoryHandle: number): Promise<string> {
+    try {
+      const response = await this.callApi('ApiLocalDB_Category', 'name', categoryHandle, {});
+      return response?.result || 'Unknown Category';
+    } catch (error) {
+      console.error(`❌ Failed to get category name for handle ${categoryHandle}:`, error);
+      return 'Error';
+    }
+  }
+
+  /**
+   * Get number of subcategories in a category
+   */
+  async getSubCategoryCount(categoryHandle: number): Promise<number> {
+    try {
+      const response = await this.callApi('ApiLocalDB_Category', 'subCategoryCount', categoryHandle, {});
+      return response?.result || 0;
+    } catch (error) {
+      console.error(`❌ Failed to get subcategory count:`, error);
+      return 0;
+    }
+  }
+
+  /**
+   * Get a subcategory by index
+   */
+  async getSubCategory(categoryHandle: number, index: number): Promise<number | null> {
+    try {
+      const response = await this.callApi('ApiLocalDB_Category', 'subCategory', categoryHandle, { index });
+      if (response?.result?.handle) {
+        return response.result.handle;
+      }
+      return null;
+    } catch (error) {
+      console.error(`❌ Failed to get subcategory at index ${index}:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Get number of packages in a category
+   */
+  async getPackageCount(categoryHandle: number): Promise<number> {
+    try {
+      const response = await this.callApi('ApiLocalDB_Category', 'packageCount', categoryHandle, {});
+      return response?.result || 0;
+    } catch (error) {
+      console.error(`❌ Failed to get package count:`, error);
+      return 0;
+    }
+  }
+
+  /**
+   * Get a package by index
+   */
+  async getPackage(categoryHandle: number, index: number): Promise<number | null> {
+    try {
+      const response = await this.callApi('ApiLocalDB_Category', 'package', categoryHandle, { index });
+      if (response?.result?.handle) {
+        return response.result.handle;
+      }
+      return null;
+    } catch (error) {
+      console.error(`❌ Failed to get package at index ${index}:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Get the name of a package
+   */
+  async getPackageName(packageHandle: number): Promise<string> {
+    try {
+      const response = await this.callApi('ApiLocalDB_Package', 'name1', packageHandle, {});
+      return response?.result || 'Unknown Package';
+    } catch (error) {
+      console.error(`❌ Failed to get package name:`, error);
+      return 'Error';
+    }
+  }
+
+  /**
+   * Check if package has a thumbnail
+   */
+  async packageHasThumbnail(packageHandle: number): Promise<boolean> {
+    try {
+      const response = await this.callApi('ApiLocalDB_Package', 'hasThumbnail', packageHandle, {});
+      return response?.result || false;
+    } catch (error) {
+      console.error(`❌ Failed to check package thumbnail:`, error);
+      return false;
+    }
+  }
+
+  /**
+   * Load a package into the current graph
+   * @param packageHandle - Handle to the package
+   * @param destinationGraphHandle - Handle to destination graph (optional, uses current graph if not provided)
+   */
+  async loadPackage(packageHandle: number, destinationGraphHandle?: number): Promise<boolean> {
+    try {
+      // If no destination graph specified, use current render target's graph
+      let graphHandle = destinationGraphHandle;
+      if (!graphHandle) {
+        // Get current render target
+        const renderTargetResponse = await this.callApi('ApiScene', 'firstItem', null, { type: 11 }); // PT_RENDERTARGET = 11
+        if (renderTargetResponse?.result?.handle) {
+          const renderTargetHandle = renderTargetResponse.result.handle;
+          // Get graph from render target (pin 0 is typically the graph pin)
+          const graphResponse = await this.callApi('ApiNode', 'connectedNode', renderTargetHandle, { pinIndex: 0 });
+          if (graphResponse?.result?.handle) {
+            graphHandle = graphResponse.result.handle;
+          }
+        }
+      }
+
+      if (!graphHandle) {
+        console.error('❌ No graph found to load package into');
+        return false;
+      }
+
+      const response = await this.callApi('ApiLocalDB_Package', 'loadPackage', packageHandle, {
+        destinationGraph: { handle: graphHandle }
+      });
+
+      if (response?.result) {
+        console.log(`✅ Package loaded into graph (handle: ${graphHandle})`);
+        // Refresh scene tree to show new nodes
+        this.scene.tree = await this.buildSceneTree();
+        this.emit('sceneTreeUpdated', this.scene.tree);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error(`❌ Failed to load package:`, error);
+      return false;
+    }
+  }
+
   // State getters
   getScene(): Scene {
     return this.scene;

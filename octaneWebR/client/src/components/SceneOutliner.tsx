@@ -94,10 +94,97 @@ interface SceneOutlinerProps {
 
 type TabType = 'scene' | 'livedb' | 'localdb';
 
+interface LocalDBCategory {
+  handle: number;
+  name: string;
+  subcategories: LocalDBCategory[];
+  packages: LocalDBPackage[];
+  loaded: boolean;
+}
+
+interface LocalDBPackage {
+  handle: number;
+  name: string;
+}
+
+// LocalDB tree item component
+interface LocalDBTreeItemProps {
+  category: LocalDBCategory;
+  depth: number;
+  onLoadCategory: (category: LocalDBCategory) => void;
+  onLoadPackage: (pkg: LocalDBPackage) => void;
+}
+
+function LocalDBTreeItem({ category, depth, onLoadCategory, onLoadPackage }: LocalDBTreeItemProps) {
+  const [expanded, setExpanded] = useState(depth === 0); // Root starts expanded
+  const hasChildren = category.subcategories.length > 0 || category.packages.length > 0;
+
+  const handleToggle = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!expanded && !category.loaded) {
+      // Load children when expanding for the first time
+      await onLoadCategory(category);
+    }
+    setExpanded(!expanded);
+  };
+
+  return (
+    <>
+      <div className={`tree-node level-${depth}`}>
+        <div className="node-content">
+          {hasChildren || !category.loaded ? (
+            <span
+              className={`node-toggle ${expanded ? 'expanded' : 'collapsed'}`}
+              onClick={handleToggle}
+            >
+              {expanded ? '−' : '+'}
+            </span>
+          ) : (
+            <span className="node-spacer"></span>
+          )}
+          <span className="node-icon">📁</span>
+          <span className="node-name">{category.name}</span>
+        </div>
+      </div>
+      {expanded && (
+        <>
+          {/* Render subcategories */}
+          {category.subcategories.map((subcat) => (
+            <LocalDBTreeItem
+              key={subcat.handle}
+              category={subcat}
+              depth={depth + 1}
+              onLoadCategory={onLoadCategory}
+              onLoadPackage={onLoadPackage}
+            />
+          ))}
+          {/* Render packages */}
+          {category.packages.map((pkg) => (
+            <div
+              key={pkg.handle}
+              className={`tree-node level-${depth + 1} package-item`}
+              onDoubleClick={() => onLoadPackage(pkg)}
+              title="Double-click to load package into scene"
+            >
+              <div className="node-content">
+                <span className="node-spacer"></span>
+                <span className="node-icon">📦</span>
+                <span className="node-name">{pkg.name}</span>
+              </div>
+            </div>
+          ))}
+        </>
+      )}
+    </>
+  );
+}
+
 export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange, onSyncStateChange }: SceneOutlinerProps) {
   const { client, connected } = useOctane();
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('scene');
+  const [localDBRoot, setLocalDBRoot] = useState<LocalDBCategory | null>(null);
+  const [localDBLoading, setLocalDBLoading] = useState(false);
   const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
 
   const handleNodeSelect = (node: SceneNode) => {
@@ -147,6 +234,98 @@ export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange, o
     }
   };
 
+  // Load LocalDB categories and packages
+  const loadLocalDB = async () => {
+    if (!client) return;
+    
+    setLocalDBLoading(true);
+    try {
+      const rootHandle = await client.getLocalDBRoot();
+      if (!rootHandle) {
+        console.warn('⚠️ LocalDB not available or empty');
+        setLocalDBRoot(null);
+        return;
+      }
+
+      const rootName = await client.getCategoryName(rootHandle);
+      const root: LocalDBCategory = {
+        handle: rootHandle,
+        name: rootName,
+        subcategories: [],
+        packages: [],
+        loaded: false
+      };
+
+      // Load root level categories and packages
+      await loadCategoryChildren(root);
+      setLocalDBRoot(root);
+      console.log('✅ LocalDB loaded:', root);
+    } catch (error) {
+      console.error('❌ Failed to load LocalDB:', error);
+      setLocalDBRoot(null);
+    } finally {
+      setLocalDBLoading(false);
+    }
+  };
+
+  // Load children (subcategories and packages) for a category
+  const loadCategoryChildren = async (category: LocalDBCategory) => {
+    if (!client || category.loaded) return;
+
+    try {
+      // Load subcategories
+      const subCatCount = await client.getSubCategoryCount(category.handle);
+      for (let i = 0; i < subCatCount; i++) {
+        const subCatHandle = await client.getSubCategory(category.handle, i);
+        if (subCatHandle) {
+          const subCatName = await client.getCategoryName(subCatHandle);
+          category.subcategories.push({
+            handle: subCatHandle,
+            name: subCatName,
+            subcategories: [],
+            packages: [],
+            loaded: false
+          });
+        }
+      }
+
+      // Load packages
+      const pkgCount = await client.getPackageCount(category.handle);
+      for (let i = 0; i < pkgCount; i++) {
+        const pkgHandle = await client.getPackage(category.handle, i);
+        if (pkgHandle) {
+          const pkgName = await client.getPackageName(pkgHandle);
+          category.packages.push({
+            handle: pkgHandle,
+            name: pkgName
+          });
+        }
+      }
+
+      category.loaded = true;
+    } catch (error) {
+      console.error('❌ Failed to load category children:', error);
+    }
+  };
+
+  // Handle package double-click to load into scene
+  const handlePackageLoad = async (pkg: LocalDBPackage) => {
+    if (!client) return;
+    
+    try {
+      console.log(`Loading package: ${pkg.name}`);
+      const success = await client.loadPackage(pkg.handle);
+      if (success) {
+        alert(`✅ Package "${pkg.name}" loaded successfully!\n\nCheck the Node Graph to see the loaded nodes.`);
+      } else {
+        alert(`❌ Failed to load package "${pkg.name}"`);
+      }
+    } catch (error) {
+      console.error('❌ Failed to load package:', error);
+      alert(`❌ Error loading package: ${error}`);
+    }
+  };
+
   // Auto-load on connect (only once when connected becomes true)
   useEffect(() => {
     if (connected && client) {
@@ -157,6 +336,14 @@ export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange, o
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connected, client]);
+
+  // Load LocalDB when Local DB tab becomes active
+  useEffect(() => {
+    if (activeTab === 'localdb' && !localDBRoot && !localDBLoading && client) {
+      loadLocalDB();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, client]);
 
   return (
     <div className="scene-outliner">
@@ -242,7 +429,30 @@ export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange, o
       {/* Tab Content: Local DB */}
       <div className={`scene-tab-content ${activeTab === 'localdb' ? 'active' : ''}`} data-content="localdb">
         <div className="db-content">
-          <div className="db-status">Local DB - No local materials found</div>
+          {localDBLoading && (
+            <div className="scene-loading">Loading LocalDB...</div>
+          )}
+          {!localDBLoading && !localDBRoot && (
+            <div className="db-status">
+              Local DB - No materials found
+              <br />
+              <small>Add materials to your LocalDB directory to see them here</small>
+            </div>
+          )}
+          {!localDBLoading && localDBRoot && (
+            <div className="scene-tree">
+              <LocalDBTreeItem
+                category={localDBRoot}
+                depth={0}
+                onLoadCategory={async (cat) => {
+                  await loadCategoryChildren(cat);
+                  // Force re-render by updating state
+                  setLocalDBRoot({ ...localDBRoot });
+                }}
+                onLoadPackage={handlePackageLoad}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
