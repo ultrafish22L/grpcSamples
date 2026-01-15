@@ -951,6 +951,36 @@ export class OctaneClient extends EventEmitter {
   }
 
   /**
+   * Pick objects/materials at viewport pixel coordinates
+   * Shoots a viewing ray from the camera through the specified pixel and records all
+   * intersections with the scene ordered by distance from camera.
+   * Based on Octane SE Manual - Render Viewport > Material Picker / Object Picker
+   * @param x - X coordinate in viewport (pixels from left)
+   * @param y - Y coordinate in viewport (pixels from top)
+   * @returns Array of intersections, each containing node, material pin index, depth, position, normals, etc.
+   */
+  async pick(x: number, y: number): Promise<any[]> {
+    try {
+      console.log(`🎯 Picking at viewport position (${x}, ${y})...`);
+      const response = await this.callApi('ApiRenderEngine', 'pick', null, {
+        position: { x, y }
+      });
+      
+      if (!response?.intersections || response.intersections.length === 0) {
+        console.log('🎯 Pick: No intersections found');
+        return [];
+      }
+      
+      console.log(`🎯 Pick: Found ${response.intersections.length} intersection(s)`);
+      console.log('🎯 Pick result:', response.intersections);
+      return response.intersections;
+    } catch (error: any) {
+      console.error('❌ Failed to pick at viewport position:', error.message);
+      return [];
+    }
+  }
+
+  /**
    * Helper: Get Film Settings node handle from Render Target
    * @returns Film Settings node handle, or null if not found
    */

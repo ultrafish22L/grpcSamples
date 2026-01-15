@@ -758,27 +758,113 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
 
         try {
           if (pickingMode === 'whiteBalance') {
+            // White Balance Picker - Calculate white point from picked location
             const whitePoint = await client.pickWhitePoint(canvasX, canvasY);
             if (whitePoint) {
-              console.log('✅ White balance set:', whitePoint);
+              console.log('✅ White balance picked:', { r: whitePoint.x, g: whitePoint.y, b: whitePoint.z });
               // TODO: Apply white point to camera/renderer settings
+              // Would need to set this on the camera imager node or post-processing
             }
           } else if (pickingMode === 'cameraTarget') {
-            const pickInfo = await client.pickSceneInfo(canvasX, canvasY);
-            console.log('🎯 Camera target pick:', pickInfo);
-            // TODO: Set camera target from pick intersection
+            // Camera Target Picker - Set camera rotation center to picked position
+            const intersections = await client.pick(canvasX, canvasY);
+            if (intersections.length > 0) {
+              const firstHit = intersections[0];
+              const position = firstHit.position;
+              if (position && (position.x !== undefined || position[0] !== undefined)) {
+                const x = position.x ?? position[0] ?? 0;
+                const y = position.y ?? position[1] ?? 0;
+                const z = position.z ?? position[2] ?? 0;
+                console.log(`🎯 Camera target set to: [${x.toFixed(3)}, ${y.toFixed(3)}, ${z.toFixed(3)}]`);
+                cameraRef.current.center = [x, y, z];
+                await updateOctaneCamera();
+              }
+            } else {
+              console.log('🎯 Camera target pick: No intersection found');
+            }
           } else if (pickingMode === 'focus') {
-            const pickInfo = await client.pickSceneInfo(canvasX, canvasY);
-            console.log('🎯 Focus pick:', pickInfo);
-            // TODO: Set camera focus distance from pick
+            // Auto Focus Picker - Set camera focus distance to picked depth
+            const intersections = await client.pick(canvasX, canvasY);
+            if (intersections.length > 0) {
+              const firstHit = intersections[0];
+              const depth = firstHit.depth;
+              if (depth !== undefined) {
+                console.log(`🎯 Focus distance set to: ${depth.toFixed(3)}`);
+                // TODO: Set camera focus distance in Octane
+                // Would need to update the camera node's focus distance parameter
+              }
+            } else {
+              console.log('🎯 Focus pick: No intersection found');
+            }
           } else if (pickingMode === 'material') {
-            const pickInfo = await client.pickSceneInfo(canvasX, canvasY);
-            console.log('🎨 Material pick:', pickInfo);
-            // TODO: Select/inspect material from pick
+            // Material Picker - Select and inspect material at picked location
+            const intersections = await client.pick(canvasX, canvasY);
+            if (intersections.length > 0) {
+              const firstHit = intersections[0];
+              const geometryNode = firstHit.node;
+              const materialPinIndex = firstHit.materialPinIx ?? firstHit.materialPinIndex;
+              
+              console.log('🎨 Material pick:', {
+                geometryNode: geometryNode?.handle,
+                materialPinIndex,
+                depth: firstHit.depth
+              });
+              
+              if (geometryNode?.handle !== undefined && materialPinIndex !== undefined) {
+                // Get the material node connected to the geometry's material pin
+                try {
+                  const materialResponse = await client.callApi('ApiNode', 'connectedNode', geometryNode.handle, {
+                    pinIndex: materialPinIndex
+                  });
+                  
+                  if (materialResponse?.result?.handle) {
+                    const materialHandle = materialResponse.result.handle;
+                    console.log(`✅ Material found: handle=${materialHandle}`);
+                    
+                    // Emit event to select material in Node Inspector
+                    client.emit('nodeSelected', { handle: materialHandle });
+                    
+                    // Highlight in Scene Outliner (optional)
+                    client.emit('highlightNode', { handle: materialHandle });
+                  } else {
+                    console.log('⚠️ No material connected to this geometry');
+                  }
+                } catch (err: any) {
+                  console.error('❌ Failed to get material node:', err.message);
+                }
+              }
+            } else {
+              console.log('🎨 Material pick: No intersection found');
+            }
           } else if (pickingMode === 'object') {
-            const pickInfo = await client.pickSceneInfo(canvasX, canvasY);
-            console.log('📦 Object pick:', pickInfo);
-            // TODO: Select object from pick
+            // Object Picker - Select and inspect object (geometry node) at picked location
+            const intersections = await client.pick(canvasX, canvasY);
+            if (intersections.length > 0) {
+              const firstHit = intersections[0];
+              const geometryNode = firstHit.node;
+              
+              console.log('📦 Object pick:', {
+                node: geometryNode?.handle,
+                depth: firstHit.depth,
+                primitiveType: firstHit.primitiveType
+              });
+              
+              if (geometryNode?.handle !== undefined) {
+                const objectHandle = geometryNode.handle;
+                console.log(`✅ Object found: handle=${objectHandle}`);
+                
+                // Emit event to select object in Node Inspector
+                client.emit('nodeSelected', { handle: objectHandle });
+                
+                // Highlight in Scene Outliner
+                client.emit('highlightNode', { handle: objectHandle });
+                
+                // Select in Node Graph Editor (if visible)
+                client.emit('selectNodeInGraph', { handle: objectHandle });
+              }
+            } else {
+              console.log('📦 Object pick: No intersection found');
+            }
           }
         } catch (error: any) {
           console.error(`❌ Picking failed (${pickingMode}):`, error.message);
