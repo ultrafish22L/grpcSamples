@@ -2,7 +2,7 @@
 
 **Complete architectural documentation for octaneWebR: React/TypeScript UI clone of Octane Render Studio SE**
 
-> 🤖 **AUTONOMOUS DEVELOPMENT MODE ACTIVE** - Continuously implementing features from [Octane SE Manual](https://docs.otoy.com/standaloneSE/CoverPage.html)
+> 🤖 **AUTONOMOUS DEVELOPMENT MODE INACTIVE FOR NOW** - Continuously implementing features from [Octane SE Manual](https://docs.otoy.com/standaloneSE/CoverPage.html)
 
 **Last Updated**: 2025-01-21
 

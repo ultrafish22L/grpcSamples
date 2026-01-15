@@ -4,7 +4,7 @@
 
 ---
 
-## 🤖 AUTONOMOUS DEVELOPMENT MODE (ACTIVE)
+## 🤖 AUTONOMOUS DEVELOPMENT MODE (INACTIVE FOR NOW)
 
 **Process**: Continuous autonomous loop picking tasks from Octane SE manual:
 
