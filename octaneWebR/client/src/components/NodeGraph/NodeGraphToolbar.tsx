@@ -67,7 +67,7 @@ export function NodeGraphToolbar({ onSearchOpen }: NodeGraphToolbarProps) {
         onClick={handleMacroPreview}
         title="Show Material Preview"
       >
-        <svg width="16" height="16" viewBox="0 0 16 16">
+        <svg width="14" height="14" viewBox="0 0 16 16">
           <rect x="2" y="2" width="3" height="12" fill="currentColor" opacity="0.8" />
           <rect x="6" y="2" width="3" height="12" fill="currentColor" opacity="0.5" />
           <rect x="10" y="2" width="3" height="12" fill="currentColor" opacity="0.8" />
@@ -80,7 +80,7 @@ export function NodeGraphToolbar({ onSearchOpen }: NodeGraphToolbarProps) {
         onClick={handleNodeLibrary}
         title="Node Library"
       >
-        <svg width="16" height="16" viewBox="0 0 16 16">
+        <svg width="14" height="14" viewBox="0 0 16 16">
           <rect x="1" y="1" width="6" height="6" fill="currentColor" />
           <rect x="9" y="1" width="6" height="6" fill="currentColor" />
           <rect x="1" y="9" width="6" height="6" fill="currentColor" />
@@ -94,7 +94,7 @@ export function NodeGraphToolbar({ onSearchOpen }: NodeGraphToolbarProps) {
         onClick={handleLiveDB}
         title="LiveDB Material Database"
       >
-        <svg width="16" height="16" viewBox="0 0 16 16">
+        <svg width="14" height="14" viewBox="0 0 16 16">
           <path d="M8 2 L14 6 L8 10 L2 6 Z" fill="currentColor" />
           <path d="M2 8 L8 12 L14 8" fill="none" stroke="currentColor" strokeWidth="1.5" />
         </svg>
@@ -106,7 +106,7 @@ export function NodeGraphToolbar({ onSearchOpen }: NodeGraphToolbarProps) {
         onClick={handleImageImport}
         title="Import Image"
       >
-        <svg width="16" height="16" viewBox="0 0 16 16">
+        <svg width="14" height="14" viewBox="0 0 16 16">
           <rect x="1" y="1" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" />
           <circle cx="5" cy="5" r="2" fill="currentColor" />
           <path d="M1 11 L6 6 L10 10 L15 5" fill="none" stroke="currentColor" strokeWidth="1.5" />
@@ -119,7 +119,7 @@ export function NodeGraphToolbar({ onSearchOpen }: NodeGraphToolbarProps) {
         onClick={handleMaterialPaint}
         title="Material Paint Tool"
       >
-        <svg width="16" height="16" viewBox="0 0 16 16">
+        <svg width="14" height="14" viewBox="0 0 16 16">
           <path d="M4 12 L1 15 L3 13 L4 14 Z" fill="currentColor" />
           <path d="M5 11 L11 5 C11.5 4.5 12.5 4.5 13 5 C13.5 5.5 13.5 6.5 13 7 L7 13 L5 11 Z" fill="currentColor" />
           <circle cx="12" cy="6" r="1.5" fill="rgba(255,255,255,0.3)" />
@@ -132,7 +132,7 @@ export function NodeGraphToolbar({ onSearchOpen }: NodeGraphToolbarProps) {
         onClick={handleFrameView}
         title="Frame All Nodes (F)"
       >
-        <svg width="16" height="16" viewBox="0 0 16 16">
+        <svg width="14" height="14" viewBox="0 0 16 16">
           <path d="M1 1 L1 6 M1 1 L6 1" stroke="currentColor" strokeWidth="2" fill="none" />
           <path d="M15 1 L15 6 M15 1 L10 1" stroke="currentColor" strokeWidth="2" fill="none" />
           <path d="M1 15 L1 10 M1 15 L6 15" stroke="currentColor" strokeWidth="2" fill="none" />
@@ -146,7 +146,7 @@ export function NodeGraphToolbar({ onSearchOpen }: NodeGraphToolbarProps) {
         onClick={handleCutConnections}
         title="Cut Connections (Ctrl+Drag)"
       >
-        <svg width="16" height="16" viewBox="0 0 16 16">
+        <svg width="14" height="14" viewBox="0 0 16 16">
           <circle cx="4" cy="4" r="3" fill="none" stroke="currentColor" strokeWidth="1.5" />
           <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="1.5" />
           <line x1="6" y1="6" x2="10" y2="10" stroke="currentColor" strokeWidth="2" />
@@ -160,7 +160,7 @@ export function NodeGraphToolbar({ onSearchOpen }: NodeGraphToolbarProps) {
         onClick={handleGridSnap}
         title="Toggle Grid Snap"
       >
-        <svg width="16" height="16" viewBox="0 0 16 16">
+        <svg width="14" height="14" viewBox="0 0 16 16">
           <circle cx="3" cy="3" r="1" fill="currentColor" />
           <circle cx="8" cy="3" r="1" fill="currentColor" />
           <circle cx="13" cy="3" r="1" fill="currentColor" />
@@ -179,7 +179,7 @@ export function NodeGraphToolbar({ onSearchOpen }: NodeGraphToolbarProps) {
         onClick={handleAutoLayout}
         title="Auto-Layout Nodes"
       >
-        <svg width="16" height="16" viewBox="0 0 16 16">
+        <svg width="14" height="14" viewBox="0 0 16 16">
           <rect x="1" y="1" width="5" height="3" fill="currentColor" />
           <rect x="10" y="1" width="5" height="3" fill="currentColor" />
           <rect x="1" y="6" width="5" height="3" fill="currentColor" />
@@ -195,7 +195,7 @@ export function NodeGraphToolbar({ onSearchOpen }: NodeGraphToolbarProps) {
         onClick={onSearchOpen}
         title="Search Nodes (Ctrl+F)"
       >
-        <svg width="16" height="16" viewBox="0 0 16 16">
+        <svg width="14" height="14" viewBox="0 0 16 16">
           <circle cx="6" cy="6" r="4" fill="none" stroke="currentColor" strokeWidth="2" />
           <line x1="9" y1="9" x2="14" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
         </svg>
