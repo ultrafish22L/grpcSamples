@@ -23,6 +23,7 @@ import {
   OnConnectStart,
   OnConnectEnd,
   EdgeChange,
+  SelectionMode,
 } from '@xyflow/react';
 import { OnReconnectEnd } from '@xyflow/system';
 import '@xyflow/react/dist/style.css';
@@ -1416,7 +1417,8 @@ function NodeGraphEditorInner({
         reconnectRadius={50} // Allow clicking within 50px of edge to start reconnect (larger area)
         panOnDrag={[1, 2]} // Only pan with middle/right mouse button, not left button
         selectionOnDrag={true} // Enable box selection by dragging in empty space (Octane SE manual)
-        selectNodesOnDrag={true} // Enable multi-select with Shift key (Octane SE manual)
+        selectNodesOnDrag={false} // Don't interfere with box selection - let selectionOnDrag handle it
+        selectionMode={SelectionMode.Partial} // Select nodes when box overlaps them (partial or full)
         multiSelectionKeyCode="Shift" // Shift key adds to selection (Octane SE manual)
         nodeTypes={nodeTypes}
         minZoom={0.1}
