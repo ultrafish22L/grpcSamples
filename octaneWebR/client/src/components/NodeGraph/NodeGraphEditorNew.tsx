@@ -1441,7 +1441,7 @@ function NodeGraphEditorInner({
         {/* Grid background matching Octane style - toggleable via toolbar */}
         <Background 
           variant={BackgroundVariant.Lines} 
-          gap={gridVisible ? 20 : 0} 
+          gap={gridVisible ? 60 : 0} 
           size={gridVisible ? 1 : 0} 
           color="#2a2a2a"
         />
