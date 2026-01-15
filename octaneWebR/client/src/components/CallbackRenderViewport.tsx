@@ -50,6 +50,7 @@ interface CallbackRenderViewportProps {
 export interface CallbackRenderViewportHandle {
   copyToClipboard: () => Promise<void>;
   saveRenderToDisk: () => Promise<void>;
+  recenterView: () => void;
 }
 
 export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, CallbackRenderViewportProps>(
@@ -65,6 +66,11 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
   const [isSelectingRegion, setIsSelectingRegion] = useState(false);
   const [regionStart, setRegionStart] = useState<{ x: number; y: number } | null>(null);
   const [regionEnd, setRegionEnd] = useState<{ x: number; y: number } | null>(null);
+  
+  // 2D Canvas transform state (for Ctrl+zoom and Ctrl+pan)
+  // Octane SE Manual: When viewport resolution lock is disabled, Ctrl+wheel zooms and Ctrl+drag pans the display
+  const [canvasTransform, setCanvasTransform] = useState({ scale: 1.0, offsetX: 0, offsetY: 0 });
+  const is2DPanningRef = useRef(false);  // Ctrl+left drag = 2D canvas pan
   
   // Camera state for mouse controls
   const cameraRef = useRef<CameraState>({
@@ -219,11 +225,22 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
     }
   }, []);
 
+  /**
+   * Recenter View - Resets 2D canvas pan/zoom to default centered view
+   * Octane SE Manual: "Centers the render view display area in the Render Viewport.
+   * This re-centers the render view display area without affecting the current zoom level."
+   */
+  const recenterView = useCallback(() => {
+    console.log('⌖ Recenter view - resetting 2D canvas transform');
+    setCanvasTransform({ scale: 1.0, offsetX: 0, offsetY: 0 });
+  }, []);
+
   // Expose methods to parent via ref
   useImperativeHandle(ref, () => ({
     copyToClipboard,
-    saveRenderToDisk
-  }), [copyToClipboard, saveRenderToDisk]);
+    saveRenderToDisk,
+    recenterView
+  }), [copyToClipboard, saveRenderToDisk, recenterView]);
 
   /**
    * Update Octane camera from current state
@@ -593,8 +610,15 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
       const canvasY = e.clientY - rect.top;
       
       if (e.button === 0) { // Left button
+        // CTRL+LEFT: 2D Canvas Pan (Octane SE Manual: Control key + left mouse button pans the rendered display)
+        if (e.ctrlKey || e.metaKey) {
+          is2DPanningRef.current = true;
+          lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+          canvas.style.cursor = 'move';
+          e.preventDefault();
+        }
         // REGION SELECTION MODE: Start region picking
-        if (pickingMode === 'renderRegion') {
+        else if (pickingMode === 'renderRegion') {
           setIsSelectingRegion(true);
           setRegionStart({ x: canvasX, y: canvasY });
           setRegionEnd({ x: canvasX, y: canvasY });
@@ -626,6 +650,20 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
       // REGION SELECTION MODE: Update region end point
       if (isSelectingRegion) {
         setRegionEnd({ x: canvasX, y: canvasY });
+        return;
+      }
+      
+      // 2D CANVAS PAN MODE: Update canvas offset (no camera movement)
+      if (is2DPanningRef.current) {
+        const deltaX = e.clientX - lastMousePosRef.current.x;
+        const deltaY = e.clientY - lastMousePosRef.current.y;
+        lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+        
+        setCanvasTransform(prev => ({
+          ...prev,
+          offsetX: prev.offsetX + deltaX,
+          offsetY: prev.offsetY + deltaY
+        }));
         return;
       }
       
@@ -748,6 +786,13 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
         return;
       }
       
+      // 2D CANVAS PAN MODE: Complete pan
+      if (is2DPanningRef.current) {
+        is2DPanningRef.current = false;
+        canvas.style.cursor = pickingMode !== 'none' ? 'crosshair' : 'grab';
+        return;
+      }
+      
       // CAMERA MODE: Complete orbit/pan
       if (isDraggingRef.current || isPanningRef.current) {
         isDraggingRef.current = false;
@@ -767,6 +812,19 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
       e.preventDefault();
       if (viewportLocked) return; // Viewport locked - ignore wheel input
       
+      // CTRL+WHEEL: 2D Canvas Zoom (Octane SE Manual: Control key + mouse wheel zooms the rendered display)
+      if (e.ctrlKey || e.metaKey) {
+        const zoomSpeed = 0.0005;
+        const zoomFactor = 1 - (e.deltaY * zoomSpeed);
+        
+        setCanvasTransform(prev => {
+          const newScale = Math.max(0.1, Math.min(10.0, prev.scale * zoomFactor));
+          return { ...prev, scale: newScale };
+        });
+        return;
+      }
+      
+      // NORMAL WHEEL: 3D Camera Zoom (changes camera distance)
       const zoomSpeed = 0.1;
       cameraRef.current.radius += e.deltaY * zoomSpeed;
       cameraRef.current.radius = Math.max(1.0, Math.min(100.0, cameraRef.current.radius));
@@ -830,7 +888,10 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
           style={{
             border: '1px solid #444',
             imageRendering: 'pixelated',
-            display: frameCount > 0 ? 'block' : 'none'
+            display: frameCount > 0 ? 'block' : 'none',
+            transform: `translate(${canvasTransform.offsetX}px, ${canvasTransform.offsetY}px) scale(${canvasTransform.scale})`,
+            transformOrigin: 'center center',
+            transition: 'none'
           }}
         />
         

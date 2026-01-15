@@ -124,6 +124,12 @@ function AppContent() {
     console.log(`🎯 App.tsx: Picking mode changed to: ${mode}`);
   };
 
+  // Recenter view handler - resets 2D canvas pan/zoom
+  const handleRecenterView = () => {
+    console.log('⌖ App.tsx: Recenter view requested');
+    viewportRef.current?.recenterView();
+  };
+
   // Material Database handlers
   const handleMaterialDatabaseOpen = () => {
     console.log('💎 Opening Material Database');
@@ -267,6 +273,7 @@ function AppContent() {
             onCopyToClipboard={handleCopyToClipboard}
             onSaveRender={handleSaveRender}
             onExportPasses={handleExportPasses}
+            onRecenterView={handleRecenterView}
             onViewportLockChange={handleViewportLockChange}
             onPickingModeChange={handlePickingModeChange}
           />

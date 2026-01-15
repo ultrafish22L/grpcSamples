@@ -41,11 +41,12 @@ interface RenderToolbarProps {
   onCopyToClipboard?: () => void;
   onSaveRender?: () => void;
   onExportPasses?: () => void;
+  onRecenterView?: () => void;
   onViewportLockChange?: (locked: boolean) => void;
   onPickingModeChange?: (mode: 'none' | 'focus' | 'whiteBalance' | 'material' | 'object' | 'cameraTarget' | 'renderRegion' | 'filmRegion') => void;
 }
 
-export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClipboard, onSaveRender, onExportPasses, onViewportLockChange, onPickingModeChange }: RenderToolbarProps) {
+export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClipboard, onSaveRender, onExportPasses, onRecenterView, onViewportLockChange, onPickingModeChange }: RenderToolbarProps) {
   const { connected, client } = useOctane();
   
   const [renderStats, setRenderStats] = useState<RenderStats>({
@@ -287,8 +288,8 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
     switch (actionId) {
       // Camera & View Controls
       case 'recenter-view':
-        console.log('Recenter view');
-        // TODO: API call to recenter viewport
+        console.log('⌖ Recenter view - resetting 2D canvas transform');
+        onRecenterView?.();
         break;
       case 'reset-camera':
         console.log('📷 Reset camera to original position');
