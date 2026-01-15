@@ -14,6 +14,7 @@ import { PreferencesDialog } from './PreferencesDialog';
 import { BatchRenderingDialog } from './BatchRenderingDialog';
 import { DaylightAnimationDialog } from './DaylightAnimationDialog';
 import { TurntableAnimationDialog } from './TurntableAnimationDialog';
+import { AboutDialog } from './AboutDialog';
 import { getMenuDefinitions } from '../config/menuDefinitions';
 import { MenuAction } from '../types/menu';
 
@@ -40,6 +41,7 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
   const [isBatchRenderingDialogOpen, setIsBatchRenderingDialogOpen] = useState(false);
   const [isDaylightAnimationDialogOpen, setIsDaylightAnimationDialogOpen] = useState(false);
   const [isTurntableAnimationDialogOpen, setIsTurntableAnimationDialogOpen] = useState(false);
+  const [isAboutDialogOpen, setIsAboutDialogOpen] = useState(false);
   const menuBarRef = useRef<HTMLDivElement>(null);
 
   const { openFileDialog } = useFileDialog();
@@ -312,8 +314,14 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
         window.open('https://docs.otoy.com/standaloneSE/CoverPage.html', '_blank');
         break;
 
+      case 'help.bug':
+        window.open('https://github.com/ultrafish22L/grpcSamples/issues/new', '_blank');
+        console.log('🐛 Opening GitHub issues for bug report');
+        break;
+
       case 'help.about':
-        alert('OctaneWebR - React + TypeScript port of octaneWeb\n\nA browser-based interface for OTOY Octane Render via LiveLink gRPC API');
+        setIsAboutDialogOpen(true);
+        console.log('ℹ️ Opening About dialog');
         break;
 
       default:
@@ -450,6 +458,12 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
       <TurntableAnimationDialog
         isOpen={isTurntableAnimationDialogOpen}
         onClose={() => setIsTurntableAnimationDialogOpen(false)}
+      />
+
+      {/* About Dialog */}
+      <AboutDialog
+        isOpen={isAboutDialogOpen}
+        onClose={() => setIsAboutDialogOpen(false)}
       />
     </nav>
   );
