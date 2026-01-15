@@ -22,7 +22,7 @@
     
     /* Octane Accent Colors */
     --octane-accent: #ff8c00;          /* Primary accent - Octane orange */
-    --octane-accent-yellow: #ffc107;   /* Selection yellow/gold - matches Octane */
+    --octane-accent-blue: #4a90e2;     /* Selection blue */
     --octane-accent-orange: #ff8c00;   /* Warning/active orange */
     --octane-accent-green: #5cb85c;    /* Success green */
     --octane-accent-red: #d9534f;      /* Error red */
@@ -166,11 +166,7 @@ html, body {
     display: grid;
     grid-template-rows: var(--menu-height) 1fr var(--status-bar-height);
     height: 100vh;
-    width: 100vw;
     background-color: var(--octane-bg-primary);
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
 }
 
 /* Menu Bar */
@@ -247,7 +243,7 @@ html, body {
 .app-layout {
     display: grid;
     grid-template-columns: 200px 4px 1fr 4px 320px; /* Will be overridden by inline styles */
-    grid-template-rows: 770px 4px 1fr; /* Will be overridden by inline styles: top-height, splitter, bottom */
+    grid-template-rows: 1fr 4px 350px; /* Will be overridden by inline styles */
     width: 100%;
     max-width: 100%;
     height: 100%;
@@ -255,8 +251,6 @@ html, body {
     background-color: var(--octane-bg-primary);
     overflow: hidden; /* Prevent layout overflow */
     gap: 0; /* No gaps between grid areas */
-    margin: 0;
-    padding: 0;
 }
 
 /* Panel Base Styles 
@@ -681,58 +675,6 @@ html, body {
     object-fit: contain; /* Maintain aspect ratio while filling space */
 }
 
-/* Callback Render Viewport - Octane-style centered with scrollbars */
-.callback-render-viewport {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    background: var(--octane-bg-secondary);
-}
-
-.viewport-canvas-container {
-    flex: 1;
-    overflow: auto; /* Add scrollbars when canvas exceeds viewport */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    background: var(--octane-bg-secondary);
-}
-
-.viewport-canvas-container .render-canvas {
-    /* Display at actual pixel size (1:1) - dimensions set in JS */
-    max-width: none;
-    max-height: none;
-    flex-shrink: 0; /* Prevent flex container from shrinking the canvas */
-}
-
-.viewport-placeholder {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #aaa;
-    font-size: 14px;
-    text-align: center;
-    z-index: 1;
-}
-
-.viewport-status {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    padding: 6px 12px;
-    background: var(--octane-bg-primary);
-    border-top: 1px solid var(--octane-border);
-    font-size: 12px;
-    color: var(--octane-text-secondary);
-}
-
-.viewport-status .frame-count {
-    margin-left: auto;
-}
-
 .viewport-overlay {
     position: absolute;
     top: 0;
@@ -890,118 +832,6 @@ html, body {
     flex-shrink: 0;
 }
 
-/* Camera Presets Menu */
-.camera-presets-menu {
-    position: absolute;
-    top: 60px; /* Position below toolbar */
-    left: 10px;
-    background-color: var(--octane-bg-secondary);
-    border: 1px solid var(--octane-border);
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    z-index: 1000;
-    min-width: 180px;
-    overflow: hidden;
-}
-
-.camera-presets-menu-header {
-    background-color: var(--octane-bg-header);
-    color: var(--octane-text-primary);
-    padding: 8px 12px;
-    font-size: var(--font-size-small);
-    font-weight: 600;
-    border-bottom: 1px solid var(--octane-border);
-}
-
-.camera-presets-menu-items {
-    padding: 4px 0;
-}
-
-.camera-preset-item {
-    width: 100%;
-    background: none;
-    border: none;
-    color: var(--octane-text-secondary);
-    padding: 8px 12px;
-    text-align: left;
-    font-size: var(--font-size-small);
-    cursor: pointer;
-    transition: all 0.15s ease;
-    display: block;
-}
-
-.camera-preset-item:hover {
-    background-color: var(--octane-bg-hover);
-    color: var(--octane-text-primary);
-}
-
-.camera-preset-item:active {
-    background-color: var(--octane-bg-active);
-}
-
-/* Render Priority Menu */
-.render-priority-menu {
-    position: absolute;
-    top: 60px; /* Position below toolbar */
-    left: 200px; /* Position after camera menu area */
-    background-color: var(--octane-bg-secondary);
-    border: 1px solid var(--octane-border);
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    z-index: 1000;
-    min-width: 200px;
-    overflow: hidden;
-}
-
-.render-priority-menu-header {
-    background-color: var(--octane-bg-header);
-    color: var(--octane-text-primary);
-    padding: 8px 12px;
-    font-size: var(--font-size-small);
-    font-weight: 600;
-    border-bottom: 1px solid var(--octane-border);
-}
-
-.render-priority-menu-items {
-    padding: 4px 0;
-}
-
-.render-priority-item {
-    width: 100%;
-    background: none;
-    border: none;
-    color: var(--octane-text-secondary);
-    padding: 8px 12px;
-    text-align: left;
-    font-size: var(--font-size-small);
-    cursor: pointer;
-    transition: all 0.15s ease;
-    display: block;
-    position: relative;
-}
-
-.render-priority-item:hover {
-    background-color: var(--octane-bg-hover);
-    color: var(--octane-text-primary);
-}
-
-.render-priority-item:active {
-    background-color: var(--octane-bg-active);
-}
-
-.render-priority-item.active {
-    background-color: rgba(64, 128, 255, 0.15);
-    color: var(--octane-accent-blue);
-    font-weight: 600;
-}
-
-.render-priority-item.active::after {
-    content: '✓';
-    position: absolute;
-    right: 12px;
-    color: var(--octane-accent-blue);
-}
-
 /* Legacy render controls (keep for compatibility) */
 .render-controls {
     background-color: var(--octane-bg-header);
@@ -1043,15 +873,34 @@ html, body {
 
 /* Bottom Panel - Node Graph Editor */
 .bottom-panel {
-    /* Grid column controlled by inline style in App.tsx */
+    grid-column: 1 / -1; /* Span all columns */
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* Changed to row for vertical button bar layout */
     border-top: 1px solid var(--octane-border);
     background-color: var(--octane-bg-secondary);
     height: 100%; /* Use full allocated grid space */
-    min-height: 200px; /* Minimum height for ReactFlow */
-    width: 100%; /* Use full width of grid area */
     overflow: hidden; /* Prevent overflow beyond allocated space */
+    height: var(--bottom-panel-height);    
+    min-height: var(--bottom-panel-min-height);    
+}
+
+/* Node Graph Vertical Controls (Left Side) */
+.node-graph-controls-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--octane-bg-darker);
+    padding: 2px;
+    width: 26px;
+    min-width: 26px;
+}
+
+/* Main Node Graph Content (Right Side) */
+.node-graph-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 80px;
 }
 
 .node-graph-header {
@@ -1061,7 +910,6 @@ html, body {
     display: flex;
     flex-direction: row;    
     align-items: center;
-    justify-content: space-between;
     height: var(--panel-header-height);
 }
 
@@ -1071,36 +919,12 @@ html, body {
     color: var(--octane-text-primary);
 }
 
-.node-graph-controls {
-    display: flex;
-    gap: 2px;
-}
-
-.node-btn {
-    background: none;
-    border: 1px solid var(--octane-border);
-    color: var(--octane-text-secondary);
-    padding: 2px 6px;
-    font-size: var(--font-size-xs);
-    cursor: pointer;
-    border-radius: var(--border-radius);
-    transition: all 0.15s ease;
-}
-
-.node-btn:hover {
-    background-color: var(--octane-bg-hover);
-    color: var(--octane-text-primary);
-}
-
 .node-graph-container {
     flex: 1; /* Take remaining space in the node graph section */
     position: relative;
     background-color: var(--octane-bg-darker);
     overflow: hidden; /* Prevent scrollbars and contain canvas */
     contain: layout style paint; /* CSS containment for better performance */
-    width: 100%; /* Explicit width for ReactFlow */
-    height: 100%; /* Explicit height for ReactFlow */
-    min-height: 150px; /* Minimum height for ReactFlow */
 }
 
 .node-graph {
@@ -1133,8 +957,6 @@ html, body {
     flex-direction: column;
     position: relative; /* Ensure proper stacking context */
     z-index: 10; /* Higher z-index than center panel */
-    height: 100%; /* Fill grid area height */
-    width: 100%; /* Fill grid area width */
     /* Width controlled by grid layout - no explicit width needed */
 }
 
@@ -1229,8 +1051,6 @@ html, body {
     height: var(--status-bar-height);
     font-size: var(--font-size-small);
     color: var(--octane-text-secondary);
-    margin: 0;
-    width: 100%;
 }
 
 .status-left, .status-center, .status-right {
@@ -1329,39 +1149,35 @@ html, body {
     border: 1px solid #555555 !important;
     border-radius: 2px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
-    font-family: var(--font-family);
+    ffont-family: var(--font-family);
     font-size: var(--font-size-normal);
     color: #ffffff !important;
     min-width: 180px;
-    max-height: 80vh;
+    max-height: 400px;
     overflow-y: auto;
     z-index: 10000;
-    padding: 2px 0;
 }
 
 .context-menu-category {
     position: relative;
-    padding: 1px 12px;
+    padding: 6px 12px;
     cursor: pointer;
+    border-bottom: 1px solid var(--octane-border-dark);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    white-space: nowrap;
-    line-height: 1.2;
-}
-
-.context-menu-category::after {
-    content: '▶';
-    font-size: 10px;
-    color: var(--octane-text-muted);
-    margin-left: 8px;
 }
 
 .context-menu-category:hover {
     background: var(--octane-bg-hover);
 }
 
-/* Single-column submenu for category submenus (Cameras, Materials, etc.) */
+.context-menu-category::after {
+    content: '▶';
+    font-size: var(--font-size-xs);
+    color: var(--octane-text-muted);
+}
+
 .context-submenu {
     display: none;
     position: fixed;
@@ -1369,97 +1185,49 @@ html, body {
     border: 1px solid #555555 !important;
     border-radius: 2px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
-    font-family: var(--font-family);
-    font-size: var(--font-size-normal);
-    color: #ffffff !important;
     min-width: 200px;
-    max-height: 80vh;
+    max-height: 300px;
     overflow-y: auto;
     z-index: 10001;
-    padding: 2px 0;
 }
 
-/* Multi-column submenu for "All items" - 6 columns like Octane SE */
-.context-submenu-multicolumn {
-    display: none;
-    position: fixed;
-    background: #3c3c3c !important;
-    border: 1px solid #555555 !important;
-    border-radius: 2px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
-    font-family: var(--font-family);
-    font-size: var(--font-size-normal);
-    color: #ffffff !important;
-    max-height: 80vh;
-    max-width: 90vw;
-    overflow-y: auto;
-    z-index: 10001;
-    column-count: 6;
-    column-gap: 0;
-    column-rule: 1px solid var(--octane-border-dark);
-    padding: 4px 0;
-}
 
-.context-submenu-multicolumn .context-menu-item {
-    break-inside: avoid;
-    column-break-inside: avoid;
-    page-break-inside: avoid;
-}
 
-/* Context menu items - consistent styling for main menu and all submenus */
 .context-menu-item {
-    padding: 1px 12px;
+    padding: 6px 12px;
     cursor: pointer;
     white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    line-height: 1.2;
+    border-bottom: 1px solid var(--octane-border-dark);
+}
+
+.context-menu-item:last-child {
+    border-bottom: none;
 }
 
 .context-menu-item:hover {
-    background: var(--octane-bg-hover);
+    background: var(--octane-accent-blue);
+    color: white;
 }
 
-.context-menu-item.disabled {
-    color: var(--octane-text-disabled);
-    cursor: not-allowed;
-}
-
-.context-menu-item.disabled:hover {
-    background: transparent;
-}
-
-/* Context menu separator */
-.context-menu-separator {
-    height: 1px;
-    background-color: var(--octane-border);
-    margin: 2px 0;
-}
-
-/* Scrollbar styling for context menu and submenus */
+/* Scrollbar styling for context menu */
 .node-context-menu::-webkit-scrollbar,
-.context-submenu::-webkit-scrollbar,
-.context-submenu-multicolumn::-webkit-scrollbar {
+.context-submenu::-webkit-scrollbar {
     width: 8px;
 }
 
 .node-context-menu::-webkit-scrollbar-track,
-.context-submenu::-webkit-scrollbar-track,
-.context-submenu-multicolumn::-webkit-scrollbar-track {
+.context-submenu::-webkit-scrollbar-track {
     background: var(--octane-bg-darker);
 }
 
 .node-context-menu::-webkit-scrollbar-thumb,
-.context-submenu::-webkit-scrollbar-thumb,
-.context-submenu-multicolumn::-webkit-scrollbar-thumb {
+.context-submenu::-webkit-scrollbar-thumb {
     background: var(--octane-border);
     border-radius: 4px;
 }
 
 .node-context-menu::-webkit-scrollbar-thumb:hover,
-.context-submenu::-webkit-scrollbar-thumb:hover,
-.context-submenu-multicolumn::-webkit-scrollbar-thumb:hover {
+.context-submenu::-webkit-scrollbar-thumb:hover {
     background: var(--octane-border-light);
 }
 
@@ -1524,71 +1292,59 @@ select {
     padding-right: 28px;
 }
 
-/* ==================== Node Graph Toolbar ==================== */
+/* =================================================================
+   Context Menu Styles
+   ================================================================= */
 
-.node-graph-toolbar {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    display: flex;
-    gap: 4px;
-    background-color: rgba(0, 0, 0, 0.8);
-    padding: 4px;
-    border-radius: 4px;
-    z-index: 100;
+.context-menu {
+    position: fixed;
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    padding: 4px 0;
+    min-width: 200px;
+    z-index: 10000;
+    pointer-events: auto;
 }
 
-.node-graph-tool {
-    width: 28px;
-    height: 28px;
-    background: none;
-    border: 1px solid var(--octane-border);
-    color: var(--octane-text-secondary);
+.context-menu-item {
+    padding: 6px 16px;
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
     cursor: pointer;
-    border-radius: 4px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    transition: all 0.2s ease;
+    justify-content: space-between;
+    transition: background-color 0.1s ease;
+    white-space: nowrap;
 }
 
-.node-graph-tool:hover:not(:disabled) {
+.context-menu-item:hover {
     background-color: var(--octane-bg-hover);
-    border-color: var(--octane-border-light);
-    color: var(--octane-text-primary);
 }
 
-.node-graph-tool:active:not(:disabled) {
-    background-color: var(--octane-bg-selected);
-}
-
-.node-graph-tool:disabled {
-    opacity: 0.4;
+.context-menu-item.disabled {
+    color: var(--octane-text-disabled);
     cursor: not-allowed;
 }
 
-/* ==================== Node Type Context Menu ==================== */
-
-.category-arrow {
-    font-size: 10px;
-    opacity: 0.6;
-    margin-left: auto;
+.context-menu-item.disabled:hover {
+    background-color: transparent;
 }
 
-.node-type-color {
-    width: 14px;
-    height: 14px;
-    border-radius: 2px;
-    flex-shrink: 0;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+.context-menu-separator {
+    height: 1px;
+    background-color: var(--octane-border);
+    margin: 4px 0;
 }
 
-/* Node type icon - actual PNG icons from Octane */
-.node-type-icon {
-    width: 14px;
-    height: 14px;
-    flex-shrink: 0;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
+.context-menu-label {
+    flex: 1;
+}
+
+.context-menu-shortcut {
+    margin-left: 24px;
+    color: var(--octane-text-muted);
+    font-size: var(--font-size-xs);
 }
