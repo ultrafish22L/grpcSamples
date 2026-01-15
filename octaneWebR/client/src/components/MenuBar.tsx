@@ -218,6 +218,31 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen }: MenuBarProps
         showNotification('Redo not yet implemented', 'info');
         break;
 
+      // Script menu actions
+      case 'script.batchRender':
+        console.log('Batch Rendering not yet implemented');
+        showNotification('Batch Rendering dialog coming soon', 'info');
+        break;
+
+      case 'script.daylightAnimation':
+        console.log('Daylight Animation not yet implemented');
+        showNotification('Daylight Animation dialog coming soon', 'info');
+        break;
+
+      case 'script.turntableAnimation':
+        console.log('Turntable Animation not yet implemented');
+        showNotification('Turntable Animation dialog coming soon', 'info');
+        break;
+
+      // View menu actions
+      case 'view.renderViewport':
+      case 'view.nodeInspector':
+      case 'view.graphEditor':
+      case 'view.sceneOutliner':
+        console.log('Panel visibility toggles not yet implemented');
+        showNotification('Panel visibility controls coming soon', 'info');
+        break;
+
       // Window menu actions
       case 'window.materialDatabase':
         onMaterialDatabaseOpen?.();
@@ -298,7 +323,7 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen }: MenuBarProps
   // Register keyboard shortcuts
   useKeyboardShortcuts(keyboardShortcuts);
 
-  const menuItems = ['file', 'edit', 'script', 'module', 'cloud', 'window', 'help'];
+  const menuItems = ['file', 'edit', 'script', 'view', 'window', 'help'];
 
   return (
     <nav ref={menuBarRef} className="main-menu">

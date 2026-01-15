@@ -42,10 +42,7 @@ export function getMenuDefinitions(recentFiles: string[] = []): MenuDefinition {
       { type: 'separator' },
       { label: 'Save as default', action: 'file.saveAsDefault' },
       { type: 'separator' },
-      { label: 'Preferences...', action: 'file.preferences', shortcut: 'Ctrl+,' },
-      { label: 'Activation status...', action: 'file.activationStatus' },
-      { type: 'separator' },
-      { label: 'Quit', action: 'file.quit', shortcut: 'Ctrl+Q' }
+      { label: 'Preferences...', action: 'file.preferences', shortcut: 'Ctrl+,' }
     ],
     edit: [
       { label: 'Undo', action: 'edit.undo', shortcut: 'Ctrl+Z', icon: '↶' },
@@ -59,32 +56,22 @@ export function getMenuDefinitions(recentFiles: string[] = []): MenuDefinition {
       { label: 'Select All', action: 'edit.selectAll', shortcut: 'Ctrl+A', icon: '☑️' }
     ],
     script: [
-      { label: 'Run Script...', action: 'script.run', icon: '▶️' },
-      { label: 'Script Editor', action: 'script.editor', icon: '📝' },
-      { type: 'separator' },
-      { label: 'Reload Scripts', action: 'script.reload', icon: '🔄' }
+      { label: 'Batch Rendering...', action: 'script.batchRender', icon: '🎬' },
+      { label: 'Daylight Animation...', action: 'script.daylightAnimation', icon: '☀️' },
+      { label: 'Turntable Animation...', action: 'script.turntableAnimation', icon: '🔄' }
     ],
-    module: [
-      { label: 'Module Manager', action: 'module.manager', icon: '🧩' },
-      { label: 'Install Module...', action: 'module.install', icon: '📦' },
+    view: [
+      { label: 'Render Viewport', action: 'view.renderViewport', icon: '🖼️' },
+      { label: 'Node Inspector', action: 'view.nodeInspector', icon: '🔍' },
+      { label: 'Graph Editor', action: 'view.graphEditor', icon: '🕸️' },
+      { label: 'Scene Outliner', action: 'view.sceneOutliner', icon: '🌳' },
       { type: 'separator' },
-      { label: 'Refresh Modules', action: 'module.refresh', icon: '🔄' }
-    ],
-    cloud: [
-      { label: 'Cloud Render', action: 'cloud.render', icon: '☁️' },
-      { label: 'Account Settings', action: 'cloud.account', icon: '👤' },
-      { type: 'separator' },
-      { label: 'Upload Scene', action: 'cloud.upload', icon: '📤' },
-      { label: 'Download Results', action: 'cloud.download', icon: '📥' }
+      { label: 'Refresh Scene', action: 'view.refresh', shortcut: 'F5', icon: '🔄' }
     ],
     window: [
-      { label: 'Scene Outliner', action: 'window.sceneOutliner', icon: '🌳' },
-      { label: 'Node Inspector', action: 'window.nodeInspector', icon: '🔍' },
-      { label: 'Node Graph', action: 'window.nodeGraph', icon: '🕸️' },
-      { type: 'separator' },
       { label: 'Material Database', action: 'window.materialDatabase', icon: '💎' },
       { type: 'separator' },
-      { label: 'Reset Layout', action: 'window.resetLayout', icon: '🔄' },
+      { label: 'Reset Layout', action: 'window.resetLayout', icon: '↺' },
       { label: 'Fullscreen', action: 'window.fullscreen', shortcut: 'F11', icon: '⛶' }
     ],
     help: [
