@@ -127,6 +127,84 @@ interface LocalDBPackage {
   name: string;
 }
 
+interface LiveDBCategory {
+  id: number;
+  name: string;
+  parentID: number;
+  typeID: number;
+  expanded: boolean;
+  materials: LiveDBMaterial[];
+  loaded: boolean;
+}
+
+interface LiveDBMaterial {
+  id: number;
+  name: string;
+  nickname: string;
+  copyright: string;
+  previewUrl?: string;
+}
+
+// LiveDB tree item component
+interface LiveDBTreeItemProps {
+  category: LiveDBCategory;
+  depth: number;
+  onToggleCategory: (category: LiveDBCategory) => void;
+  onDownloadMaterial: (material: LiveDBMaterial) => void;
+}
+
+function LiveDBTreeItem({ category, depth, onToggleCategory, onDownloadMaterial }: LiveDBTreeItemProps) {
+  const handleToggle = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onToggleCategory(category);
+  };
+
+  return (
+    <>
+      <div className={`tree-node level-${depth}`}>
+        <div className="node-content">
+          <span
+            className={`node-toggle ${category.expanded ? 'expanded' : 'collapsed'}`}
+            onClick={handleToggle}
+          >
+            {category.expanded ? '−' : '+'}
+          </span>
+          <span className="node-icon">📁</span>
+          <span className="node-name">{category.name}</span>
+        </div>
+      </div>
+      {category.expanded && category.loaded && (
+        <>
+          {/* Render materials in this category */}
+          {category.materials.map((material) => (
+            <div
+              key={material.id}
+              className={`tree-node level-${depth + 1} material-item`}
+              onDoubleClick={() => onDownloadMaterial(material)}
+              title={`Double-click to download: ${material.name}\n${material.copyright ? `© ${material.copyright}` : ''}`}
+            >
+              <div className="node-content">
+                <span className="node-spacer"></span>
+                {material.previewUrl ? (
+                  <img 
+                    src={material.previewUrl} 
+                    alt={material.name}
+                    className="material-thumbnail"
+                    style={{ width: '16px', height: '16px', objectFit: 'cover', marginRight: '4px' }}
+                  />
+                ) : (
+                  <span className="node-icon">🎨</span>
+                )}
+                <span className="node-name">{material.name}</span>
+              </div>
+            </div>
+          ))}
+        </>
+      )}
+    </>
+  );
+}
+
 // LocalDB tree item component
 interface LocalDBTreeItemProps {
   category: LocalDBCategory;
@@ -205,6 +283,8 @@ export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange, o
   const [activeTab, setActiveTab] = useState<TabType>('scene');
   const [localDBRoot, setLocalDBRoot] = useState<LocalDBCategory | null>(null);
   const [localDBLoading, setLocalDBLoading] = useState(false);
+  const [liveDBCategories, setLiveDBCategories] = useState<LiveDBCategory[]>([]);
+  const [liveDBLoading, setLiveDBLoading] = useState(false);
   const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
   const [expandAllSignal, setExpandAllSignal] = useState(0);
   const [collapseAllSignal, setCollapseAllSignal] = useState(0);
@@ -348,6 +428,89 @@ export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange, o
     }
   };
 
+  // Load LiveDB categories
+  const loadLiveDB = async () => {
+    if (!client) return;
+    
+    setLiveDBLoading(true);
+    try {
+      const rawCategories = await client.getLiveDBCategories();
+      if (!rawCategories || rawCategories.length === 0) {
+        console.warn('⚠️ LiveDB not available or empty');
+        setLiveDBCategories([]);
+        return;
+      }
+
+      // Convert to LiveDBCategory format
+      const categories: LiveDBCategory[] = rawCategories.map(cat => ({
+        id: cat.id,
+        name: cat.name,
+        parentID: cat.parentID,
+        typeID: cat.typeID,
+        expanded: false,
+        materials: [],
+        loaded: false
+      }));
+
+      setLiveDBCategories(categories);
+      console.log(`✅ LiveDB loaded with ${categories.length} categories`);
+    } catch (error) {
+      console.error('❌ Failed to load LiveDB:', error);
+      setLiveDBCategories([]);
+    } finally {
+      setLiveDBLoading(false);
+    }
+  };
+
+  // Toggle LiveDB category expansion and load materials if needed
+  const handleLiveDBCategoryToggle = async (category: LiveDBCategory) => {
+    if (!client) return;
+
+    // If not loaded yet, load materials for this category
+    if (!category.loaded && !category.expanded) {
+      try {
+        console.log(`Loading materials for category: ${category.name}`);
+        const materials = await client.getLiveDBMaterials(category.id);
+        
+        // Load preview thumbnails for first few materials (limit to avoid overwhelming the server)
+        const materialsWithPreviews = await Promise.all(
+          materials.slice(0, 10).map(async (mat) => {
+            const preview = await client.getLiveDBMaterialPreview(mat.id, 128, 0);
+            return { ...mat, previewUrl: preview || undefined };
+          })
+        );
+
+        // Update the category
+        category.materials = [...materialsWithPreviews, ...materials.slice(10)];
+        category.loaded = true;
+      } catch (error) {
+        console.error(`❌ Failed to load materials for category ${category.name}:`, error);
+      }
+    }
+
+    // Toggle expanded state
+    category.expanded = !category.expanded;
+    setLiveDBCategories([...liveDBCategories]); // Force re-render
+  };
+
+  // Handle LiveDB material download
+  const handleLiveDBMaterialDownload = async (material: LiveDBMaterial) => {
+    if (!client) return;
+    
+    try {
+      console.log(`Downloading material: ${material.name}`);
+      const materialHandle = await client.downloadLiveDBMaterial(material.id);
+      if (materialHandle) {
+        alert(`✅ Material "${material.name}" downloaded successfully!\n\nCheck the Node Graph to see the material nodes.`);
+      } else {
+        alert(`❌ Failed to download material "${material.name}"`);
+      }
+    } catch (error) {
+      console.error('❌ Failed to download material:', error);
+      alert(`❌ Error downloading material: ${error}`);
+    }
+  };
+
   // Auto-load on connect (only once when connected becomes true)
   useEffect(() => {
     if (connected && client) {
@@ -363,6 +526,14 @@ export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange, o
   useEffect(() => {
     if (activeTab === 'localdb' && !localDBRoot && !localDBLoading && client) {
       loadLocalDB();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, client]);
+
+  // Load LiveDB when Live DB tab becomes active
+  useEffect(() => {
+    if (activeTab === 'livedb' && liveDBCategories.length === 0 && !liveDBLoading && client) {
+      loadLiveDB();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, client]);
@@ -470,7 +641,29 @@ export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange, o
       {/* Tab Content: Live DB */}
       <div className={`scene-tab-content ${activeTab === 'livedb' ? 'active' : ''}`} data-content="livedb">
         <div className="db-content">
-          <div className="db-status">Live DB - Connect to access online materials</div>
+          {liveDBLoading && (
+            <div className="scene-loading">Loading LiveDB...</div>
+          )}
+          {!liveDBLoading && liveDBCategories.length === 0 && (
+            <div className="db-status">
+              Live DB - No online materials available
+              <br />
+              <small>Check your internet connection or Octane account</small>
+            </div>
+          )}
+          {!liveDBLoading && liveDBCategories.length > 0 && (
+            <div className="scene-tree">
+              {liveDBCategories.map((category) => (
+                <LiveDBTreeItem
+                  key={category.id}
+                  category={category}
+                  depth={0}
+                  onToggleCategory={handleLiveDBCategoryToggle}
+                  onDownloadMaterial={handleLiveDBMaterialDownload}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
       

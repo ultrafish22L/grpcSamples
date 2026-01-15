@@ -1531,6 +1531,185 @@ export class OctaneClient extends EventEmitter {
     }
   }
 
+  // ==================== LiveDB Methods ====================
+  
+  /**
+   * Get list of categories from LiveDB (online materials database)
+   * Based on Octane SE Manual - Materials Database > LiveDB
+   * @returns Array of categories with id, parentID, typeID, and name
+   */
+  async getLiveDBCategories(): Promise<Array<{ id: number; name: string; parentID: number; typeID: number }>> {
+    try {
+      console.log('📂 Fetching LiveDB categories...');
+      const response = await this.callApi('ApiDBMaterialManager', 'getCategories', null, {});
+      
+      if (response?.result && response?.list?.handle) {
+        // Get category array handle
+        const arrayHandle = response.list.handle;
+        
+        // Get array count
+        const countResponse = await this.callApi('ApiDBMaterialManager_DBCategoryArray', 'getCount', arrayHandle, {});
+        const count = countResponse?.result || 0;
+        console.log(`📂 Found ${count} LiveDB categories`);
+        
+        const categories = [];
+        for (let i = 0; i < count; i++) {
+          const catResponse = await this.callApi('ApiDBMaterialManager_DBCategoryArray', 'getCategory', arrayHandle, { index: i });
+          if (catResponse?.result?.categories?.[0]) {
+            const cat = catResponse.result.categories[0];
+            categories.push({
+              id: cat.id || 0,
+              name: cat.name || 'Unknown',
+              parentID: cat.parentID || 0,
+              typeID: cat.typeID || 0
+            });
+          }
+        }
+        
+        console.log(`✅ Loaded ${categories.length} LiveDB categories`);
+        return categories;
+      }
+      
+      console.warn('⚠️ No LiveDB categories returned');
+      return [];
+    } catch (error) {
+      console.error('❌ Failed to get LiveDB categories:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get list of materials in a LiveDB category
+   * Based on Octane SE Manual - Materials Database > LiveDB
+   * @param categoryId - Category ID from getLiveDBCategories
+   * @returns Array of materials with id, name, nickname, copyright
+   */
+  async getLiveDBMaterials(categoryId: number): Promise<Array<{ id: number; name: string; nickname: string; copyright: string }>> {
+    try {
+      console.log(`📦 Fetching LiveDB materials for category ${categoryId}...`);
+      const response = await this.callApi('ApiDBMaterialManager', 'getMaterials', null, { categoryId });
+      
+      if (response?.result && response?.list?.handle) {
+        // Get material array handle
+        const arrayHandle = response.list.handle;
+        
+        // Get array count
+        const countResponse = await this.callApi('ApiDBMaterialManager_DBMaterialArray', 'getCount1', arrayHandle, {});
+        const count = countResponse?.result || 0;
+        console.log(`📦 Found ${count} materials in category ${categoryId}`);
+        
+        const materials = [];
+        for (let i = 0; i < count; i++) {
+          const matResponse = await this.callApi('ApiDBMaterialManager_DBMaterialArray', 'getMaterial', arrayHandle, { index: i });
+          if (matResponse?.result?.materials?.[0]) {
+            const mat = matResponse.result.materials[0];
+            materials.push({
+              id: mat.id || 0,
+              name: mat.name || 'Unknown',
+              nickname: mat.nickname || '',
+              copyright: mat.copyright || ''
+            });
+          }
+        }
+        
+        console.log(`✅ Loaded ${materials.length} materials`);
+        return materials;
+      }
+      
+      console.warn('⚠️ No materials returned for category');
+      return [];
+    } catch (error) {
+      console.error(`❌ Failed to get LiveDB materials:`, error);
+      return [];
+    }
+  }
+
+  /**
+   * Get preview thumbnail for a LiveDB material
+   * Based on Octane SE Manual - Materials Database > LiveDB
+   * @param materialId - Material ID from getLiveDBMaterials
+   * @param requestedSize - Requested thumbnail size (e.g., 256)
+   * @param view - Thumbnail view type (0 = material ball, 1 = flat)
+   * @returns Base64 data URI of preview image, or null if not available
+   */
+  async getLiveDBMaterialPreview(materialId: number, requestedSize: number = 256, view: number = 0): Promise<string | null> {
+    try {
+      console.log(`🖼️ Fetching preview for material ${materialId}...`);
+      const response = await this.callApi('ApiDBMaterialManager', 'getMaterialPreview', null, {
+        materialId,
+        requestedSize,
+        view
+      });
+      
+      if (response?.result?.data) {
+        // Convert buffer to base64 data URI
+        const buffer = response.result.data;
+        const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+        return `data:image/png;base64,${base64}`;
+      }
+      
+      return null;
+    } catch (error) {
+      console.error(`❌ Failed to get material preview:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Download a material from LiveDB and add it to the scene
+   * Based on Octane SE Manual - Materials Database > LiveDB
+   * @param materialId - Material ID from getLiveDBMaterials
+   * @param destinationGraphHandle - Handle to destination graph (optional, uses current graph if not provided)
+   * @returns Handle to the downloaded material node, or null on failure
+   */
+  async downloadLiveDBMaterial(materialId: number, destinationGraphHandle?: number): Promise<number | null> {
+    try {
+      console.log(`⬇️ Downloading LiveDB material ${materialId}...`);
+      
+      // If no destination graph specified, use current render target's graph
+      let graphHandle = destinationGraphHandle;
+      if (!graphHandle) {
+        // Get current render target
+        const renderTargetResponse = await this.callApi('ApiScene', 'firstItem', null, { type: 11 }); // PT_RENDERTARGET = 11
+        if (renderTargetResponse?.result?.handle) {
+          const renderTargetHandle = renderTargetResponse.result.handle;
+          // Get graph from render target (pin 0 is typically the graph pin)
+          const graphResponse = await this.callApi('ApiNode', 'connectedNode', renderTargetHandle, { pinIndex: 0 });
+          if (graphResponse?.result?.handle) {
+            graphHandle = graphResponse.result.handle;
+          }
+        }
+      }
+
+      if (!graphHandle) {
+        console.error('❌ No graph found to download material into');
+        return null;
+      }
+
+      const response = await this.callApi('ApiDBMaterialManager', 'downloadMaterial', null, {
+        materialId,
+        destinationGraph: { handle: graphHandle }
+      });
+
+      if (response?.result && response?.outputNode?.handle) {
+        const outputHandle = response.outputNode.handle;
+        console.log(`✅ Material downloaded (handle: ${outputHandle})`);
+        
+        // Refresh scene tree to show new nodes
+        this.scene.tree = await this.buildSceneTree();
+        this.emit('sceneTreeUpdated', this.scene.tree);
+        
+        return outputHandle;
+      }
+      
+      console.warn('⚠️ Material download succeeded but no output node returned');
+      return null;
+    } catch (error) {
+      console.error(`❌ Failed to download LiveDB material:`, error);
+      return null;
+    }
+  }
+
   /**
    * Save current render to disk
    * Based on Octane SE Manual - The Render Viewport > Save Render button
