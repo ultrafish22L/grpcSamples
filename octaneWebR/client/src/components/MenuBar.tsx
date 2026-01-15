@@ -12,12 +12,21 @@ import { MenuDropdown } from './MenuDropdown';
 import { getMenuDefinitions } from '../config/menuDefinitions';
 import { MenuAction } from '../types/menu';
 
+interface PanelVisibility {
+  renderViewport: boolean;
+  nodeInspector: boolean;
+  graphEditor: boolean;
+  sceneOutliner: boolean;
+}
+
 interface MenuBarProps {
   onSceneRefresh?: () => void;
   onMaterialDatabaseOpen?: () => void;
+  panelVisibility?: PanelVisibility;
+  onTogglePanelVisibility?: (panel: 'renderViewport' | 'nodeInspector' | 'graphEditor' | 'sceneOutliner') => void;
 }
 
-export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen }: MenuBarProps) {
+export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTogglePanelVisibility }: MenuBarProps) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [activeMenuAnchor, setActiveMenuAnchor] = useState<HTMLElement | null>(null);
   const menuBarRef = useRef<HTMLDivElement>(null);
@@ -26,10 +35,10 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen }: MenuBarProps
   const { recentFiles, addRecentFile, clearRecentFiles, getRecentFilePaths } = useRecentFiles();
   const { client, connected } = useOctane();
 
-  // Get menu definitions with current recent files
+  // Get menu definitions with current recent files and panel visibility
   const menuDefinitions = useMemo(() => {
-    return getMenuDefinitions(getRecentFilePaths());
-  }, [recentFiles, getRecentFilePaths]);
+    return getMenuDefinitions(getRecentFilePaths(), panelVisibility);
+  }, [recentFiles, getRecentFilePaths, panelVisibility]);
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -236,11 +245,23 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen }: MenuBarProps
 
       // View menu actions
       case 'view.renderViewport':
+        onTogglePanelVisibility?.('renderViewport');
+        console.log('👁️ Toggled Render Viewport visibility');
+        break;
+      
       case 'view.nodeInspector':
+        onTogglePanelVisibility?.('nodeInspector');
+        console.log('👁️ Toggled Node Inspector visibility');
+        break;
+      
       case 'view.graphEditor':
+        onTogglePanelVisibility?.('graphEditor');
+        console.log('👁️ Toggled Graph Editor visibility');
+        break;
+      
       case 'view.sceneOutliner':
-        console.log('Panel visibility toggles not yet implemented');
-        showNotification('Panel visibility controls coming soon', 'info');
+        onTogglePanelVisibility?.('sceneOutliner');
+        console.log('👁️ Toggled Scene Outliner visibility');
         break;
 
       // Window menu actions
@@ -288,7 +309,9 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen }: MenuBarProps
     showWarnNotConnected,
     showNotification,
     closeMenu,
-    onSceneRefresh
+    onSceneRefresh,
+    onMaterialDatabaseOpen,
+    onTogglePanelVisibility
   ]);
 
   // Global keyboard shortcuts for file operations

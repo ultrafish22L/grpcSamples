@@ -121,6 +121,9 @@ export function MenuDropdown({
         onMouseEnter={(e) => handleItemMouseEnter(item, e.currentTarget)}
         onMouseLeave={handleItemMouseLeave}
       >
+        {item.checked !== undefined && (
+          <span className="context-menu-check">{item.checked ? '✓' : ' '}</span>
+        )}
         {item.icon && <span className="context-menu-icon">{item.icon}</span>}
         <span className="context-menu-label">{item.label}</span>
         {item.shortcut && <span className="context-menu-shortcut">{item.shortcut}</span>}

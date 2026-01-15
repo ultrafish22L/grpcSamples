@@ -42,6 +42,15 @@ function AppContent() {
   const [materialDatabaseVisible, setMaterialDatabaseVisible] = useState(false);
   const [saveRenderDialogOpen, setSaveRenderDialogOpen] = useState(false);
   const [exportPassesDialogOpen, setExportPassesDialogOpen] = useState(false);
+  
+  // Panel visibility state
+  const [panelVisibility, setPanelVisibility] = useState({
+    renderViewport: true,
+    nodeInspector: true,
+    graphEditor: true,
+    sceneOutliner: true
+  });
+  
   const { panelSizes, handleSplitterMouseDown, containerRef, isDragging } = useResizablePanels();
   const viewportRef = useRef<CallbackRenderViewportHandle>(null);
 
@@ -141,6 +150,15 @@ function AppContent() {
     setMaterialDatabaseVisible(false);
   };
 
+  // Panel visibility toggle handler
+  const handleTogglePanelVisibility = (panel: 'renderViewport' | 'nodeInspector' | 'graphEditor' | 'sceneOutliner') => {
+    setPanelVisibility(prev => ({
+      ...prev,
+      [panel]: !prev[panel]
+    }));
+    console.log(`👁️ Toggled ${panel} visibility`);
+  };
+
   useEffect(() => {
     // Auto-connect on mount
     console.log('🚀 OctaneWebR starting...');
@@ -198,6 +216,8 @@ function AppContent() {
         <MenuBar 
           onSceneRefresh={handleSceneRefresh}
           onMaterialDatabaseOpen={handleMaterialDatabaseOpen}
+          panelVisibility={panelVisibility}
+          onTogglePanelVisibility={handleTogglePanelVisibility}
         />
         
         {/* Connection Status & Controls */}
@@ -209,131 +229,157 @@ function AppContent() {
         ref={containerRef}
         className={`app-layout ${isDragging ? 'resizing' : ''}`}
         style={{
-          gridTemplateColumns: `${panelSizes.left}px 4px 1fr 4px ${panelSizes.right}px`,
-          gridTemplateRows: `${panelSizes.top}px 4px 1fr`,
+          gridTemplateColumns: panelVisibility.sceneOutliner && panelVisibility.nodeInspector
+            ? `${panelSizes.left}px 4px 1fr 4px ${panelSizes.right}px`
+            : panelVisibility.sceneOutliner
+            ? `${panelSizes.left}px 4px 1fr`
+            : panelVisibility.nodeInspector
+            ? `1fr 4px ${panelSizes.right}px`
+            : '1fr',
+          gridTemplateRows: panelVisibility.renderViewport && panelVisibility.graphEditor
+            ? `${panelSizes.top}px 4px 1fr`
+            : panelVisibility.renderViewport
+            ? '1fr'
+            : panelVisibility.graphEditor
+            ? '1fr'
+            : '1fr',
         }}
       >
         
         {/* Left Panel: Scene Outliner - spans ALL rows (full height to bottom) */}
-        <aside className="left-panel panel" style={{ gridRow: '1 / -1' }}>
-          <div className="panel-header">
-            <h3>Scene outliner</h3>
-          </div>
-          <div className="panel-content">
-            <SceneOutliner 
-              key={sceneRefreshTrigger}
-              selectedNode={selectedNode}
-              onNodeSelect={setSelectedNode}
-              onSceneTreeChange={handleSceneTreeChange}
-              onSyncStateChange={handleSyncStateChange}
-            />
-          </div>
-        </aside>
+        {panelVisibility.sceneOutliner && (
+          <>
+            <aside className="left-panel panel" style={{ gridRow: '1 / -1' }}>
+              <div className="panel-header">
+                <h3>Scene outliner</h3>
+              </div>
+              <div className="panel-content">
+                <SceneOutliner 
+                  key={sceneRefreshTrigger}
+                  selectedNode={selectedNode}
+                  onNodeSelect={setSelectedNode}
+                  onSceneTreeChange={handleSceneTreeChange}
+                  onSyncStateChange={handleSyncStateChange}
+                />
+              </div>
+            </aside>
 
-        {/* Left Splitter - spans ALL rows (full height) */}
-        <div 
-          className="panel-splitter vertical left-splitter"
-          onMouseDown={() => handleSplitterMouseDown('left')}
-          style={{ gridRow: '1 / -1' }}
-        />
+            {/* Left Splitter - spans ALL rows (full height) */}
+            <div 
+              className="panel-splitter vertical left-splitter"
+              onMouseDown={() => handleSplitterMouseDown('left')}
+              style={{ gridRow: '1 / -1' }}
+            />
+          </>
+        )}
 
         {/* Center Panel: Render Viewport - ROW 1, COLUMN 3 (top section of center column) */}
-        <section className="center-panel" style={{ gridColumn: '3 / 4', gridRow: '1 / 2' }}>
-          <div className="viewport-header">
-            <div className="viewport-title">Render viewport - Render target @ 100%</div>
-            <div className="viewport-controls">
-              <button className="viewport-btn" title="Fit to Window">⊞</button>
-              <button className="viewport-btn" title="Actual Size">1:1</button>
-              <button className="viewport-btn" title="Zoom In">🔍+</button>
-              <button className="viewport-btn" title="Zoom Out">🔍-</button>
+        {panelVisibility.renderViewport && (
+          <section className="center-panel" style={{ gridColumn: '3 / 4', gridRow: '1 / 2' }}>
+            <div className="viewport-header">
+              <div className="viewport-title">Render viewport - Render target @ 100%</div>
+              <div className="viewport-controls">
+                <button className="viewport-btn" title="Fit to Window">⊞</button>
+                <button className="viewport-btn" title="Actual Size">1:1</button>
+                <button className="viewport-btn" title="Zoom In">🔍+</button>
+                <button className="viewport-btn" title="Zoom Out">🔍-</button>
+              </div>
             </div>
-          </div>
-          
-          <div className="viewport-container">
-            {connected ? (
-              <CallbackRenderViewport 
-                ref={viewportRef} 
-                showWorldCoord={showWorldCoord} 
-                viewportLocked={viewportLocked}
-                pickingMode={pickingMode}
-              />
-            ) : (
-              <div className="viewport-overlay">
-                <div className="viewport-info">
-                  <h2>Connecting to Octane...</h2>
-                  <p>Ensure Octane LiveLink is enabled (Help → LiveLink)</p>
+            
+            <div className="viewport-container">
+              {connected ? (
+                <CallbackRenderViewport 
+                  ref={viewportRef} 
+                  showWorldCoord={showWorldCoord} 
+                  viewportLocked={viewportLocked}
+                  pickingMode={pickingMode}
+                />
+              ) : (
+                <div className="viewport-overlay">
+                  <div className="viewport-info">
+                    <h2>Connecting to Octane...</h2>
+                    <p>Ensure Octane LiveLink is enabled (Help → LiveLink)</p>
+                  </div>
+                </div>
+              )}
+            </div>
+            
+            {/* Render Toolbar - Official Octane viewport controls */}
+            <RenderToolbar 
+              onToggleWorldCoord={() => setShowWorldCoord(!showWorldCoord)} 
+              onCopyToClipboard={handleCopyToClipboard}
+              onSaveRender={handleSaveRender}
+              onExportPasses={handleExportPasses}
+              onRecenterView={handleRecenterView}
+              onViewportLockChange={handleViewportLockChange}
+              onPickingModeChange={handlePickingModeChange}
+            />
+          </section>
+        )}
+
+        {/* Center-Right Splitter & Right Panel: Node Inspector - spans ALL rows (full height) */}
+        {panelVisibility.nodeInspector && (
+          <>
+            <div 
+              className="panel-splitter vertical center-right-splitter"
+              onMouseDown={() => handleSplitterMouseDown('right')}
+              style={{ gridRow: '1 / -1' }}
+            />
+
+            <aside className="right-panel panel" style={{ gridRow: '1 / -1' }}>
+              <div className="panel-header">
+                <h3>Node inspector</h3>
+              </div>
+              <div className="panel-content">
+                <div className="node-inspector-layout">
+                  <NodeInspectorControls 
+                    sceneTree={sceneTree}
+                    onNodeSelect={setSelectedNode}
+                  />
+                  <div className="node-inspector-main">
+                    <NodeInspector node={selectedNode} />
+                  </div>
                 </div>
               </div>
-            )}
-          </div>
-          
-          {/* Render Toolbar - Official Octane viewport controls */}
-          <RenderToolbar 
-            onToggleWorldCoord={() => setShowWorldCoord(!showWorldCoord)} 
-            onCopyToClipboard={handleCopyToClipboard}
-            onSaveRender={handleSaveRender}
-            onExportPasses={handleExportPasses}
-            onRecenterView={handleRecenterView}
-            onViewportLockChange={handleViewportLockChange}
-            onPickingModeChange={handlePickingModeChange}
-          />
-        </section>
+            </aside>
+          </>
+        )}
 
-        {/* Center-Right Splitter - spans ALL rows (full height) */}
-        <div 
-          className="panel-splitter vertical center-right-splitter"
-          onMouseDown={() => handleSplitterMouseDown('right')}
-          style={{ gridRow: '1 / -1' }}
-        />
-
-        {/* Right Panel: Node Inspector - spans ALL rows (full height to bottom) */}
-        <aside className="right-panel panel" style={{ gridRow: '1 / -1' }}>
-          <div className="panel-header">
-            <h3>Node inspector</h3>
-          </div>
-          <div className="panel-content">
-            <div className="node-inspector-layout">
-              <NodeInspectorControls 
-                sceneTree={sceneTree}
-                onNodeSelect={setSelectedNode}
+        {/* Horizontal Splitter & Bottom Panel: Node Graph Editor - ROW 2 & 3, COLUMN 3 ONLY */}
+        {panelVisibility.graphEditor && (
+          <>
+            {panelVisibility.renderViewport && (
+              <div 
+                className="panel-splitter horizontal top-bottom-splitter"
+                onMouseDown={() => handleSplitterMouseDown('top')}
+                style={{ gridColumn: '3 / 4' }}
               />
-              <div className="node-inspector-main">
-                <NodeInspector node={selectedNode} />
+            )}
+
+            <section className="bottom-panel panel" style={{ gridColumn: '3 / 4' }}>
+              <div className="node-graph-header">
+                <h3>Node graph editor</h3>
+                <div className="node-graph-controls">
+                  <button 
+                    className="node-btn" 
+                    title={isSyncing ? "Cannot add node while syncing" : "Add Node"} 
+                    onClick={handleAddNode}
+                    disabled={!connected || isSyncing}
+                  >+</button>
+                  <button className="node-btn" title="Delete Node">🗑</button>
+                  <button className="node-btn" title="Fit All">⊞</button>
+                </div>
               </div>
-            </div>
-          </div>
-        </aside>
-
-        {/* Horizontal Splitter - ROW 2, COLUMN 3 ONLY (under Viewport only) */}
-        <div 
-          className="panel-splitter horizontal top-bottom-splitter"
-          onMouseDown={() => handleSplitterMouseDown('top')}
-          style={{ gridColumn: '3 / 4' }}
-        />
-
-        {/* Bottom Panel: Node Graph Editor - ROW 3, COLUMN 3 ONLY (under Viewport only) */}
-        <section className="bottom-panel panel" style={{ gridColumn: '3 / 4' }}>
-          <div className="node-graph-header">
-            <h3>Node graph editor</h3>
-            <div className="node-graph-controls">
-              <button 
-                className="node-btn" 
-                title={isSyncing ? "Cannot add node while syncing" : "Add Node"} 
-                onClick={handleAddNode}
-                disabled={!connected || isSyncing}
-              >+</button>
-              <button className="node-btn" title="Delete Node">🗑</button>
-              <button className="node-btn" title="Fit All">⊞</button>
-            </div>
-          </div>
-          <div className="node-graph-container">
-            <NodeGraphEditor 
-              sceneTree={sceneTree} 
-              selectedNode={selectedNode}
-              onNodeSelect={setSelectedNode} 
-            />
-          </div>
-        </section>
+              <div className="node-graph-container">
+                <NodeGraphEditor 
+                  sceneTree={sceneTree} 
+                  selectedNode={selectedNode}
+                  onNodeSelect={setSelectedNode} 
+                />
+              </div>
+            </section>
+          </>
+        )}
         
       </main>
 

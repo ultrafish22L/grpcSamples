@@ -9,6 +9,7 @@ export interface MenuItem {
   shortcut?: string;
   icon?: string;
   enabled?: boolean;
+  checked?: boolean;  // For toggle menu items (e.g., panel visibility)
   submenu?: MenuItem[];
   data?: any;
 }

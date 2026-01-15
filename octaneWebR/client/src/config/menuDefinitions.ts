@@ -5,7 +5,14 @@
 
 import { MenuDefinition, MenuItem } from '../types/menu';
 
-export function getMenuDefinitions(recentFiles: string[] = []): MenuDefinition {
+interface PanelVisibility {
+  renderViewport: boolean;
+  nodeInspector: boolean;
+  graphEditor: boolean;
+  sceneOutliner: boolean;
+}
+
+export function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelVisibility): MenuDefinition {
   // Build recent files submenu
   const recentFilesSubmenu: MenuItem[] = recentFiles.length > 0
     ? [
@@ -61,10 +68,30 @@ export function getMenuDefinitions(recentFiles: string[] = []): MenuDefinition {
       { label: 'Turntable Animation...', action: 'script.turntableAnimation', icon: '🔄' }
     ],
     view: [
-      { label: 'Render Viewport', action: 'view.renderViewport', icon: '🖼️' },
-      { label: 'Node Inspector', action: 'view.nodeInspector', icon: '🔍' },
-      { label: 'Graph Editor', action: 'view.graphEditor', icon: '🕸️' },
-      { label: 'Scene Outliner', action: 'view.sceneOutliner', icon: '🌳' },
+      { 
+        label: 'Render Viewport', 
+        action: 'view.renderViewport', 
+        icon: '🖼️',
+        checked: panelVisibility?.renderViewport ?? true
+      },
+      { 
+        label: 'Node Inspector', 
+        action: 'view.nodeInspector', 
+        icon: '🔍',
+        checked: panelVisibility?.nodeInspector ?? true
+      },
+      { 
+        label: 'Graph Editor', 
+        action: 'view.graphEditor', 
+        icon: '🕸️',
+        checked: panelVisibility?.graphEditor ?? true
+      },
+      { 
+        label: 'Scene Outliner', 
+        action: 'view.sceneOutliner', 
+        icon: '🌳',
+        checked: panelVisibility?.sceneOutliner ?? true
+      },
       { type: 'separator' },
       { label: 'Refresh Scene', action: 'view.refresh', shortcut: 'F5', icon: '🔄' }
     ],
