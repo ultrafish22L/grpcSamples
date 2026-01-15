@@ -4131,3 +4131,75 @@ body.drag-over .drop-indicator {
 .btn-secondary:hover:not(:disabled) {
     background: var(--octane-bg-secondary);
 }
+
+/* ========================================
+ * KEYBOARD SHORTCUTS DIALOG
+ * ======================================== */
+.keyboard-shortcuts-dialog {
+    max-width: 600px;
+    min-width: 500px;
+}
+
+.keyboard-shortcuts-dialog .modal-body {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 16px 20px;
+}
+
+.shortcuts-section {
+    margin-bottom: 24px;
+}
+
+.shortcuts-section:last-child {
+    margin-bottom: 0;
+}
+
+.shortcuts-section h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--octane-text-primary);
+    margin: 0 0 12px 0;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--octane-border);
+}
+
+.shortcuts-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.shortcuts-table tr {
+    border-bottom: 1px solid var(--octane-border-subtle);
+}
+
+.shortcuts-table tr:last-child {
+    border-bottom: none;
+}
+
+.shortcuts-table td {
+    padding: 8px 12px;
+}
+
+.shortcut-keys {
+    width: 180px;
+    text-align: left;
+}
+
+.shortcut-keys kbd {
+    display: inline-block;
+    padding: 3px 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), inset 0 0 0 2px rgba(255, 255, 255, 0.05);
+    color: var(--octane-text-primary);
+    white-space: nowrap;
+}
+
+.shortcut-description {
+    font-size: 12px;
+    color: var(--octane-text-secondary);
+}

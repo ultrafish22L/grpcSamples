@@ -9,6 +9,7 @@ import { useRecentFiles } from '../hooks/useRecentFiles';
 import { useOctane } from '../hooks/useOctane';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import { MenuDropdown } from './MenuDropdown';
+import { KeyboardShortcutsDialog } from './KeyboardShortcutsDialog';
 import { getMenuDefinitions } from '../config/menuDefinitions';
 import { MenuAction } from '../types/menu';
 
@@ -30,6 +31,7 @@ interface MenuBarProps {
 export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTogglePanelVisibility, onResetLayout }: MenuBarProps) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [activeMenuAnchor, setActiveMenuAnchor] = useState<HTMLElement | null>(null);
+  const [isShortcutsDialogOpen, setIsShortcutsDialogOpen] = useState(false);
   const menuBarRef = useRef<HTMLDivElement>(null);
 
   const { openFileDialog } = useFileDialog();
@@ -289,6 +291,10 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
         break;
 
       // Help menu actions
+      case 'help.shortcuts':
+        setIsShortcutsDialogOpen(true);
+        break;
+
       case 'help.docs':
         window.open('https://docs.otoy.com/standaloneSE/CoverPage.html', '_blank');
         break;
@@ -373,6 +379,12 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
           onClose={closeMenu}
         />
       )}
+
+      {/* Keyboard Shortcuts Dialog */}
+      <KeyboardShortcutsDialog
+        isOpen={isShortcutsDialogOpen}
+        onClose={() => setIsShortcutsDialogOpen(false)}
+      />
     </nav>
   );
 }
