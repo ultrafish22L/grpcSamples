@@ -1338,29 +1338,7 @@ input:checked + .slider:before {
     pointer-events: auto;
 }
 
-.context-menu-item {
-    padding: 6px 12px;
-    font-size: var(--font-size-small);
-    color: var(--octane-text-primary);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: background-color 0.15s ease;
-}
-
-.context-menu-item:hover {
-    background-color: var(--octane-bg-hover);
-}
-
-.context-menu-item.disabled {
-    color: var(--octane-text-disabled);
-    cursor: not-allowed;
-}
-
-.context-menu-item.disabled:hover {
-    background-color: transparent;
-}
+/* Context menu item styles moved to octane-theme.css for consistency */
 
 .context-menu-separator {
     height: 1px;
