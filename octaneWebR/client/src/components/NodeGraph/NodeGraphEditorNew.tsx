@@ -4,7 +4,7 @@
  * Maintains all functionality from octaneWeb's NodeGraphEditor.js
  */
 
-import { useEffect, useCallback, useRef, useState, useMemo } from 'react';
+import { useEffect, useCallback, useRef, useState } from 'react';
 import {
   ReactFlow,
   Node,
@@ -217,25 +217,20 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   }, [client]); // Add client dependency for scene map access
 
   /**
-   * Memoized scene graph conversion - only recalculates when sceneTree changes
-   * P0.2 Performance Optimization: Prevents O(n²) recalculation on every render
-   */
-  const graphData = useMemo(() => {
-    if (!sceneTree || sceneTree.length === 0) {
-      return { nodes: [], edges: [] };
-    }
-    
-    console.log('🔄 [Performance] Converting scene to graph (memoized)');
-    return convertSceneToGraph(sceneTree);
-  }, [sceneTree, convertSceneToGraph]);
-
-  /**
-   * Update ReactFlow state when graph data changes
+   * Load scene graph when sceneTree changes
    */
   useEffect(() => {
-    setNodes(graphData.nodes);
-    setEdges(graphData.edges);
-  }, [graphData, setNodes, setEdges]);
+    if (!sceneTree || sceneTree.length === 0) {
+      setNodes([]);
+      setEdges([]);
+      return;
+    }
+
+    const { nodes: graphNodes, edges: graphEdges } = convertSceneToGraph(sceneTree);
+    
+    setNodes(graphNodes);
+    setEdges(graphEdges);
+  }, [sceneTree, convertSceneToGraph, setNodes, setEdges]);
 
   /**
    * Synchronize node selection when selectedNode changes externally (e.g., from SceneOutliner)

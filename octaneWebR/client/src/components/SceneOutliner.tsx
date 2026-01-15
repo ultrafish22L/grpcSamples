@@ -1,11 +1,9 @@
 /**
  * Scene Outliner Component (React TypeScript)
  * Hierarchical tree view of Octane scene
- * P0.3 Performance Optimization: Virtual scrolling for large scenes (10K+ nodes)
  */
 
-import { useEffect, useState, useMemo } from 'react';
-import { FixedSizeList } from 'react-window';
+import { useEffect, useState } from 'react';
 import { useOctane } from '../hooks/useOctane';
 import { SceneNode } from '../services/OctaneClient';
 import { ContextMenu, ContextMenuItem } from './ContextMenu';
@@ -66,113 +64,76 @@ const getNodeIcon = (node: SceneNode): string => {
   return '⚪';
 };
 
-/**
- * Flat tree node for virtual scrolling
- */
-interface FlatTreeNode {
+interface SceneTreeItemProps {
   node: SceneNode;
   depth: number;
-  hasChildren: boolean;
-  isExpanded: boolean;
+  onSelect: (node: SceneNode) => void;
+  selectedHandle: number | null;
+  onContextMenu: (node: SceneNode, x: number, y: number) => void;
 }
 
-/**
- * Flatten hierarchical tree to list for virtual scrolling
- * Only includes visible nodes (respects expand/collapse state)
- */
-function flattenTree(
-  nodes: SceneNode[], 
-  depth: number, 
-  expandedSet: Set<number | undefined>
-): FlatTreeNode[] {
-  const result: FlatTreeNode[] = [];
-  
-  for (const node of nodes) {
-    const hasChildren = !!(node.children && node.children.length > 0);
-    const isExpanded = expandedSet.has(node.handle);
-    
-    result.push({
-      node,
-      depth,
-      hasChildren,
-      isExpanded,
-    });
-    
-    // Recursively add children if expanded
-    if (isExpanded && hasChildren) {
-      result.push(...flattenTree(node.children!, depth + 1, expandedSet));
-    }
-  }
-  
-  return result;
-}
-
-/**
- * Virtual scrolling row component
- */
-interface TreeRowProps {
-  index: number;
-  style: React.CSSProperties;
-  data: {
-    flatNodes: FlatTreeNode[];
-    selectedHandle: number | null;
-    onSelect: (node: SceneNode) => void;
-    onToggleExpand: (handle: number | undefined) => void;
-    onContextMenu: (node: SceneNode, x: number, y: number) => void;
-  };
-}
-
-function TreeRow({ index, style, data }: TreeRowProps) {
-  const { flatNodes, selectedHandle, onSelect, onToggleExpand, onContextMenu } = data;
-  const { node, depth, hasChildren, isExpanded } = flatNodes[index];
+function SceneTreeItem({ node, depth, onSelect, selectedHandle, onContextMenu }: SceneTreeItemProps) {
+  // Scene root starts expanded by default
+  const [expanded, setExpanded] = useState(node.type === 'SceneRoot');
+  const hasChildren = node.children && node.children.length > 0;
   const isSelected = selectedHandle === node.handle;
 
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    // Don't show context menu for synthetic Scene root
     if (node.type !== 'SceneRoot') {
       onContextMenu(node, e.clientX, e.clientY);
     }
   };
 
   return (
-    <div
-      style={{
-        ...style,
-        paddingLeft: `${depth * 20}px`,
-      }}
-      className={`tree-node level-${depth} ${isSelected ? 'selected' : ''}`}
-      data-handle={node.handle}
-      onClick={() => {
-        if (node.type !== 'SceneRoot') {
-          onSelect(node);
-        }
-      }}
-      onContextMenu={handleContextMenu}
-    >
-      <div className="node-content">
-        {hasChildren ? (
-          <span
-            className={`node-toggle ${isExpanded ? 'expanded' : 'collapsed'}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              onToggleExpand(node.handle);
-            }}
-          >
-            {isExpanded ? '−' : '+'}
-          </span>
-        ) : (
-          <span className="node-spacer"></span>
-        )}
-        <span className="node-icon">{getNodeIcon(node)}</span>
-        <span className="node-name">
-          {node.name}
-          {node.type !== 'SceneRoot' && node.type && (
-            <span className="node-type-label"> Type {node.type}</span>
+    <>
+      <div
+        className={`tree-node level-${depth} ${isSelected ? 'selected' : ''}`}
+        data-handle={node.handle}
+        onClick={() => {
+          // Don't select the synthetic Scene root
+          if (node.type !== 'SceneRoot') {
+            onSelect(node);
+          }
+        }}
+        onContextMenu={handleContextMenu}
+      >
+        <div className="node-content">
+          {hasChildren ? (
+            <span
+              className={`node-toggle ${expanded ? 'expanded' : 'collapsed'}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                setExpanded(!expanded);
+              }}
+            >
+              {expanded ? '−' : '+'}
+            </span>
+          ) : (
+            <span className="node-spacer"></span>
           )}
-        </span>
+          <span className="node-icon">{getNodeIcon(node)}</span>
+          <span className="node-name">
+            {node.name}
+            {node.type !== 'SceneRoot' && node.type && (
+              <span className="node-type-label"> Type {node.type}</span>
+            )}
+          </span>
+        </div>
       </div>
-    </div>
+      {expanded && hasChildren && node.children!.map(child => (
+        <SceneTreeItem
+          key={child.handle}
+          node={child}
+          depth={depth + 1}
+          onSelect={onSelect}
+          selectedHandle={selectedHandle}
+          onContextMenu={onContextMenu}
+        />
+      ))}
+    </>
   );
 }
 
@@ -189,26 +150,10 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
   const [activeTab, setActiveTab] = useState<TabType>('scene');
   const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
   const [contextMenu, setContextMenu] = useState<{ node: SceneNode; x: number; y: number } | null>(null);
-  
-  // P0.3: Track expanded nodes for virtual scrolling
-  // Scene root (handle 0) starts expanded by default
-  const [expandedNodes, setExpandedNodes] = useState<Set<number | undefined>>(new Set([0]));
 
   const handleNodeSelect = (node: SceneNode) => {
     setSelectedNode(node);
     onNodeSelect?.(node);
-  };
-
-  const handleToggleExpand = (handle: number | undefined) => {
-    setExpandedNodes(prev => {
-      const next = new Set(prev);
-      if (next.has(handle)) {
-        next.delete(handle);
-      } else {
-        next.add(handle);
-      }
-      return next;
-    });
   };
 
   const handleContextMenu = (node: SceneNode, x: number, y: number) => {
@@ -308,28 +253,6 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connected, client]);
 
-  // P0.3: Memoized flat tree for virtual scrolling
-  // Only recalculates when tree or expanded state changes
-  const flatTree = useMemo(() => {
-    if (sceneTree.length === 0) return [];
-    
-    // Create synthetic Scene root with children
-    const syntheticRoot: SceneNode = {
-      handle: 0,
-      name: 'Scene',
-      type: 'SceneRoot',
-      typeEnum: 0,
-      children: sceneTree
-    };
-    
-    console.log('🔄 [Performance] Flattening tree for virtual scroll (memoized)');
-    return flattenTree([syntheticRoot], 0, expandedNodes);
-  }, [sceneTree, expandedNodes]);
-
-  // Calculate container height for virtual list
-  const containerHeight = 400; // Adjust based on your layout
-  const rowHeight = 24; // Height per tree row
-
   return (
     <div className="scene-outliner">
       {/* Scene Outliner Button Bar (above tabs) */}
@@ -382,24 +305,22 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
             <div className="scene-loading">Not connected</div>
           ) : loading ? (
             <div className="scene-loading">Loading scene...</div>
-          ) : flatTree.length > 0 ? (
+          ) : sceneTree.length > 0 ? (
             <div className="scene-mesh-list">
-              {/* P0.3: Virtual scrolling for large scenes (10K+ nodes) */}
-              <FixedSizeList
-                height={containerHeight}
-                itemCount={flatTree.length}
-                itemSize={rowHeight}
-                width="100%"
-                itemData={{
-                  flatNodes: flatTree,
-                  selectedHandle: selectedNode?.handle || null,
-                  onSelect: handleNodeSelect,
-                  onToggleExpand: handleToggleExpand,
-                  onContextMenu: handleContextMenu,
+              {/* Create a synthetic Scene root node with children */}
+              <SceneTreeItem
+                node={{
+                  handle: 0,
+                  name: 'Scene',
+                  type: 'SceneRoot',
+                  typeEnum: 0,
+                  children: sceneTree
                 }}
-              >
-                {TreeRow}
-              </FixedSizeList>
+                depth={0}
+                onSelect={handleNodeSelect}
+                selectedHandle={selectedNode?.handle || null}
+                onContextMenu={handleContextMenu}
+              />
             </div>
           ) : (
             <div className="scene-loading">Click refresh to load scene</div>
