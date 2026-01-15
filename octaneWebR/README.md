@@ -81,6 +81,13 @@ All essential features working with real-time Octane synchronization:
 - ✅ **Camera Controls** - Mouse orbit, pan, zoom synced to Octane
 - ✅ **HDR Display** - High dynamic range image rendering
 - ✅ **Viewport Toolbar** - Play/pause, resolution, render mode controls
+- ✅ **Picking Tools** - Material/Object/Focus/Camera Target/White Balance pickers
+  - Material Picker: Click to inspect material, auto-select in Node Inspector
+  - Object Picker: Click to inspect geometry node, highlight in Scene Outliner
+  - Camera Target Picker: Click to set camera rotation center
+  - Auto Focus Picker: Click to set camera focus distance
+  - White Balance Picker: Click to calculate white point
+  - All pickers use real Octane gRPC `pick()` API with ray-based scene intersection
 
 #### **Menu System** (Top Menu Bar)
 - ✅ **File Menu** - Open, Save, Import, Export with file dialogs
@@ -106,6 +113,17 @@ All essential features working with real-time Octane synchronization:
 ---
 
 ## 🎯 **Recent Achievements** (Last 7 Days)
+
+### **2025-01-21**: Viewport Picking Tools
+- ✅ **Interactive Picking System**
+  - Material Picker: Click viewport to inspect material, auto-select in Node Inspector
+  - Object Picker: Click viewport to inspect geometry, highlight in Scene Outliner
+  - Camera Target Picker: Click to set camera rotation center
+  - Auto Focus Picker: Click to set camera focus distance
+  - White Balance Picker: Click to calculate white point from scene
+  - All pickers use real Octane gRPC `pick()` API for ray-based scene intersection
+  - Crosshair cursor feedback for all picking modes
+  - Event system integration: `nodeSelected`, `highlightNode`, `selectNodeInGraph`
 
 ### **2026-01-14**: Global Keyboard Shortcuts
 - ✅ **File Operation Shortcuts**
