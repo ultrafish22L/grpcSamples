@@ -63,6 +63,8 @@ All essential features working with real-time Octane synchronization:
 - ✅ **Selection Sync** - Bidirectional selection sync with Node Graph Editor
 - ✅ **Node Icons** - Type-specific icons for materials, geometry, textures
 - ✅ **Tree Updates** - Real-time updates when scene changes
+- ✅ **LiveDB Tab** - Browse and download online materials from OTOY material library
+- ✅ **LocalDB Tab** - Access and load locally saved materials/node groups
 
 #### **Node Inspector** (Parameter Editor)
 - ✅ **Real-time Editing** - All parameter types supported with Octane sync
