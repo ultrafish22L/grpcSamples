@@ -10,22 +10,22 @@
   flex: 1;
   display: flex;
   overflow: hidden;
-  background: #3a3a3a; /* Darker gray matching Octane SE */
+  background: #4a4a4a; /* Lighter gray matching Octane SE */
 }
 
-/* ReactFlow background override - darker gray like Octane SE */
+/* ReactFlow background override - lighter gray like Octane SE */
 .node-graph-container .react-flow {
-  background: #3a3a3a;
+  background: #4a4a4a;
 }
 
-/* ReactFlow background pattern (grid) - darker, more visible */
+/* ReactFlow background pattern (grid) - lighter gray base */
 .node-graph-container .react-flow__background {
-  background: #3a3a3a;
+  background: #4a4a4a;
 }
 
-/* Grid lines - darker and more visible like Octane SE */
+/* Grid lines - dark and visible like Octane SE */
 .node-graph-container .react-flow__background line {
-  stroke: #505050 !important; /* Darker grid lines */
+  stroke: #2a2a2a !important; /* Dark grid lines on lighter background */
 }
 
 /* NodeGraphEditor takes full remaining space after toolbar */

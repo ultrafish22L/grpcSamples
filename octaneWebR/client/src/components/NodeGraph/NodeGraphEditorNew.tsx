@@ -1434,19 +1434,17 @@ function NodeGraphEditorInner({
           strokeWidth: 3,
         }}
         className="node-graph-reactflow"
-        style={{ background: '#1a1a1a' }}
+        style={{ background: '#4a4a4a' }}
         snapToGrid={snapToGrid}
         snapGrid={[20, 20]}
       >
         {/* Grid background matching Octane style - toggleable via toolbar */}
-        {gridVisible && (
-          <Background 
-            variant={BackgroundVariant.Dots} 
-            gap={20} 
-            size={1} 
-            color="#333"
-          />
-        )}
+        <Background 
+          variant={BackgroundVariant.Lines} 
+          gap={gridVisible ? 20 : 0} 
+          size={gridVisible ? 1 : 0} 
+          color="#2a2a2a"
+        />
 
         {/* Minimap for navigation - top-left with yellow Octane styling and draggable viewport */}
         <MiniMap
