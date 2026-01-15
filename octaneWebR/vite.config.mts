@@ -17,6 +17,7 @@ export default defineConfig({
     // No proxy needed since plugin implements /api/grpc/*, /api/health, /api/callbacks
   },
   build: {
-    outDir: '../dist/client'
+    outDir: '../dist/client',
+    chunkSizeWarningLimit: 1000, // Increase limit to 1000 kB (bundle is 587 kB, compresses to 170 kB)
   }
 })
