@@ -4821,3 +4821,77 @@ body.drag-over .drop-indicator {
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+/* ============================================
+   Save Package Dialog
+   ============================================ */
+
+.save-package-dialog {
+    width: 600px;
+    max-width: 90vw;
+    max-height: 85vh;
+}
+
+.save-package-dialog .dialog-body {
+    max-height: calc(85vh - 140px);
+    overflow-y: auto;
+}
+
+.save-package-dialog .slider-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.save-package-dialog .slider-group input[type="range"] {
+    flex: 1;
+}
+
+.save-package-dialog .slider-group input[type="number"] {
+    width: 70px;
+}
+
+.save-package-dialog .slider-group span {
+    color: var(--octane-text-secondary);
+    min-width: 25px;
+}
+
+.save-package-dialog .range-group .range-inputs {
+    display: flex;
+    gap: 15px;
+}
+
+.save-package-dialog .range-group .range-inputs > div {
+    flex: 1;
+}
+
+.save-package-dialog .range-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.save-package-dialog .unit {
+    color: var(--octane-text-secondary);
+    margin-left: 5px;
+}
+
+.save-package-dialog .dialog-info-box {
+    background: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: 4px;
+    padding: 12px;
+    margin-top: 15px;
+}
+
+.save-package-dialog .dialog-info-box strong {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--octane-accent);
+}
+
+.save-package-dialog .dialog-info-box p {
+    margin: 0;
+    color: var(--octane-text-secondary);
+    font-size: var(--font-size-small);
+    line-height: 1.5;
+}

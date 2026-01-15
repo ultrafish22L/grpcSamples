@@ -15,6 +15,7 @@ import { BatchRenderingDialog } from './BatchRenderingDialog';
 import { DaylightAnimationDialog } from './DaylightAnimationDialog';
 import { TurntableAnimationDialog } from './TurntableAnimationDialog';
 import { AboutDialog } from './AboutDialog';
+import { SavePackageDialog } from './SavePackageDialog';
 import { getMenuDefinitions } from '../config/menuDefinitions';
 import { MenuAction } from '../types/menu';
 
@@ -42,6 +43,7 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
   const [isDaylightAnimationDialogOpen, setIsDaylightAnimationDialogOpen] = useState(false);
   const [isTurntableAnimationDialogOpen, setIsTurntableAnimationDialogOpen] = useState(false);
   const [isAboutDialogOpen, setIsAboutDialogOpen] = useState(false);
+  const [isSavePackageDialogOpen, setIsSavePackageDialogOpen] = useState(false);
   const menuBarRef = useRef<HTMLDivElement>(null);
 
   const { openFileDialog } = useFileDialog();
@@ -227,6 +229,11 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
             }
           }
         }
+        break;
+
+      case 'file.saveAsPackage':
+        setIsSavePackageDialogOpen(true);
+        console.log('📦 Opening Save as Package dialog');
         break;
 
       case 'file.preferences':
@@ -464,6 +471,12 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
       <AboutDialog
         isOpen={isAboutDialogOpen}
         onClose={() => setIsAboutDialogOpen(false)}
+      />
+
+      {/* Save Package Dialog */}
+      <SavePackageDialog
+        isOpen={isSavePackageDialogOpen}
+        onClose={() => setIsSavePackageDialogOpen(false)}
       />
     </nav>
   );
