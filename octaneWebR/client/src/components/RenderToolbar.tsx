@@ -6,6 +6,7 @@
 
 import { useState, useEffect } from 'react';
 import { useOctane } from '../hooks/useOctane';
+import { GPUStatisticsDialog } from './GPUStatisticsDialog';
 
 interface RenderStats {
   samples: number;
@@ -76,6 +77,52 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
     showCameraPresetsMenu: false,
     showRenderPriorityMenu: false
   });
+
+  // GPU Statistics Dialog state
+  const [showGPUStatsDialog, setShowGPUStatsDialog] = useState(false);
+  const [gpuStatsPosition, setGPUStatsPosition] = useState<{ x: number; y: number } | undefined>(undefined);
+
+  // Fetch live GPU data on connection
+  useEffect(() => {
+    if (!connected) return;
+
+    const fetchGPUData = async () => {
+      try {
+        // Get Octane version
+        const version = await client.getOctaneVersion();
+        
+        // Get primary GPU device info
+        const deviceCount = await client.getDeviceCount();
+        let gpuName = 'Unknown GPU';
+        let totalMemory = '0 GB';
+        
+        if (deviceCount > 0) {
+          // Get first device (primary GPU)
+          gpuName = await client.getDeviceName(0);
+          
+          // Get memory info
+          const memoryUsage = await client.getMemoryUsage(0);
+          if (memoryUsage) {
+            const totalGB = (memoryUsage.totalDeviceMemory / (1024 * 1024 * 1024)).toFixed(1);
+            totalMemory = `${totalGB} GB`;
+          }
+        }
+        
+        setRenderStats(prev => ({
+          ...prev,
+          gpu: gpuName,
+          version: version,
+          memory: totalMemory
+        }));
+        
+        console.log('🖥️ GPU data loaded:', { gpu: gpuName, version, memory: totalMemory });
+      } catch (error: any) {
+        console.error('❌ Failed to fetch GPU data:', error.message);
+      }
+    };
+
+    fetchGPUData();
+  }, [connected, client]);
 
   // Initialize rendering settings from Octane on connect
   useEffect(() => {
@@ -642,11 +689,23 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
     { id: 'world-coordinate', icon: '⊞', tooltip: 'Display World Coordinate - Shows world axis in viewport corner.' }
   ];
 
+  // Handle right-click on render progress indicator or GPU info bar
+  const handleStatsContextMenu = (event: React.MouseEvent) => {
+    event.preventDefault();
+    setGPUStatsPosition({ x: event.clientX, y: event.clientY });
+    setShowGPUStatsDialog(true);
+  };
+
   return (
     <div className={`render-toolbar-container ${className}`}>
       {/* Render Statistics Bar - Matching Octane format exactly */}
       <div className="render-stats-bar">
-        <div className="render-stats-left">
+        <div 
+          className="render-stats-left" 
+          onContextMenu={handleStatsContextMenu}
+          style={{ cursor: 'context-menu' }}
+          title="Right-click for GPU resource statistics"
+        >
           <span id="render-samples-display">
             {renderStats.samples.toFixed(1)} spp
             {renderStats.status === 'rendering' && renderStats.samplesPerSecond > 0 && (
@@ -660,7 +719,12 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
             ({renderStats.status})
           </span>
         </div>
-        <div className="render-stats-right">
+        <div 
+          className="render-stats-right"
+          onContextMenu={handleStatsContextMenu}
+          style={{ cursor: 'context-menu' }}
+          title="Right-click for GPU resource statistics"
+        >
           <span id="render-resolution-display">{renderStats.resolution}</span>
           <span className="stats-separator">, </span>
           <span id="render-mesh-count">{renderStats.meshCount} mesh</span>
@@ -754,6 +818,13 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
           </div>
         )}
       </div>
+
+      {/* GPU Statistics Dialog */}
+      <GPUStatisticsDialog
+        isOpen={showGPUStatsDialog}
+        onClose={() => setShowGPUStatsDialog(false)}
+        position={gpuStatsPosition}
+      />
     </div>
   );
 }

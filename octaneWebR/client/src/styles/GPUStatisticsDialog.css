@@ -1,0 +1,193 @@
+/**
+ * GPUStatisticsDialog.css
+ * Styling for GPU resource statistics dialog
+ * Matches Octane SE dark theme
+ */
+
+.gpu-statistics-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+}
+
+.gpu-statistics-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  max-width: 90vw;
+  max-height: 80vh;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.gpu-statistics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: #1e1e1e;
+  border-bottom: 1px solid #444;
+}
+
+.gpu-statistics-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.gpu-statistics-close {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.gpu-statistics-close:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+.gpu-statistics-content {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.gpu-statistics-section {
+  margin-bottom: 24px;
+}
+
+.gpu-statistics-section:last-child {
+  margin-bottom: 0;
+}
+
+.gpu-statistics-section h3 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  border-bottom: 1px solid #444;
+  padding-bottom: 8px;
+}
+
+.gpu-statistics-section h4 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #cccccc;
+}
+
+.gpu-statistics-value {
+  font-size: 14px;
+  color: #aaaaaa;
+  padding: 8px 12px;
+  background-color: #1e1e1e;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+}
+
+.gpu-statistics-device {
+  background-color: #333;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.gpu-statistics-device:last-child {
+  margin-bottom: 0;
+}
+
+.gpu-statistics-device > h3 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  border-bottom: 1px solid #555;
+  padding-bottom: 8px;
+}
+
+.gpu-statistics-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.gpu-statistics-table tbody tr {
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.gpu-statistics-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.gpu-statistics-table td {
+  padding: 8px 12px;
+  color: #cccccc;
+}
+
+.gpu-statistics-table td:first-child {
+  color: #999999;
+  font-weight: 500;
+  width: 50%;
+}
+
+.gpu-statistics-table td:last-child {
+  text-align: right;
+  font-family: 'Courier New', monospace;
+  color: #ffffff;
+}
+
+.gpu-statistics-loading {
+  text-align: center;
+  padding: 40px 20px;
+  color: #aaaaaa;
+  font-size: 14px;
+}
+
+.gpu-statistics-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #aaaaaa;
+  font-size: 14px;
+}
+
+/* Scrollbar styling */
+.gpu-statistics-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.gpu-statistics-content::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+.gpu-statistics-content::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 5px;
+}
+
+.gpu-statistics-content::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}

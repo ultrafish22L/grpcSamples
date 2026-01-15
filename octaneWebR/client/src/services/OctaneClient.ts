@@ -1085,6 +1085,140 @@ export class OctaneClient extends EventEmitter {
   }
 
   /**
+   * Get number of GPU devices available in Octane
+   * @returns Number of devices
+   */
+  async getDeviceCount(): Promise<number> {
+    try {
+      const response = await this.callApi('ApiRenderEngine', 'getDeviceCount', {});
+      return response?.result ?? 0;
+    } catch (error: any) {
+      console.error('❌ Failed to get device count:', error.message);
+      return 0;
+    }
+  }
+
+  /**
+   * Get name of a specific GPU device
+   * @param deviceIndex - Index of the device (0-based)
+   * @returns Device name string
+   */
+  async getDeviceName(deviceIndex: number): Promise<string> {
+    try {
+      const response = await this.callApi('ApiRenderEngine', 'getDeviceName', null, { deviceIndex });
+      return response?.result ?? 'Unknown Device';
+    } catch (error: any) {
+      console.error(`❌ Failed to get device name for device ${deviceIndex}:`, error.message);
+      return 'Unknown Device';
+    }
+  }
+
+  /**
+   * Get memory usage statistics for a specific device
+   * @param deviceIndex - Index of the device (0-based)
+   * @returns Memory usage object with used, free, total, outOfCore, peerToPeer bytes
+   */
+  async getMemoryUsage(deviceIndex: number): Promise<{
+    usedDeviceMemory: number;
+    freeDeviceMemory: number;
+    totalDeviceMemory: number;
+    outOfCoreMemory: number;
+    peerToPeerBytesUsed: number;
+  } | null> {
+    try {
+      const response = await this.callApi('ApiRenderEngine', 'getMemoryUsage', null, { deviceIndex });
+      return response?.result ?? null;
+    } catch (error: any) {
+      console.error(`❌ Failed to get memory usage for device ${deviceIndex}:`, error.message);
+      return null;
+    }
+  }
+
+  /**
+   * Get resource statistics for a specific device
+   * @param deviceIndex - Index of the device (0-based)
+   * @returns Resource statistics with data sizes for runtime, film, geometry, etc.
+   */
+  async getResourceStatistics(deviceIndex: number): Promise<{
+    runtimeDataSize: number;
+    filmDataSize: number;
+    geometryDataSize: number;
+    nodeSystemDataSize: number;
+    imagesDataSize: number;
+    compositorDataSize: number;
+    denoiserDataSize: number;
+  } | null> {
+    try {
+      const response = await this.callApi('ApiRenderEngine', 'getResourceStatistics', null, { deviceIndex });
+      return response?.result ?? null;
+    } catch (error: any) {
+      console.error(`❌ Failed to get resource statistics for device ${deviceIndex}:`, error.message);
+      return null;
+    }
+  }
+
+  /**
+   * Get geometry statistics from Octane
+   * @param deviceIndex - Index of the device (0-based)
+   * @returns Geometry statistics with triangle counts, voxel counts, etc.
+   */
+  async getGeometryStatistics(deviceIndex: number): Promise<{
+    triCount: number;
+    dispTriCount: number;
+    hairSegCount: number;
+    voxelCount: number;
+    gaussianSplatCount: number;
+    sphereCount: number;
+    instanceCount: number;
+    emitPriCount: number;
+    emitInstanceCount: number;
+    analyticLiCount: number;
+  } | null> {
+    try {
+      const response = await this.callApi('ApiRenderEngine', 'getGeometryStatistics', null, { deviceIndex });
+      return response?.result ?? null;
+    } catch (error: any) {
+      console.error(`❌ Failed to get geometry statistics for device ${deviceIndex}:`, error.message);
+      return null;
+    }
+  }
+
+  /**
+   * Get texture statistics from Octane
+   * @param deviceIndex - Index of the device (0-based)
+   * @returns Texture statistics with used texture counts by format
+   */
+  async getTexturesStatistics(deviceIndex: number): Promise<{
+    usedRgba32Textures: number;
+    usedRgba64Textures: number;
+    usedY8Textures: number;
+    usedY16Textures: number;
+    usedVirtualTextures: number;
+  } | null> {
+    try {
+      const response = await this.callApi('ApiRenderEngine', 'getTexturesStatistics', null, { deviceIndex });
+      return response?.result ?? null;
+    } catch (error: any) {
+      console.error(`❌ Failed to get textures statistics for device ${deviceIndex}:`, error.message);
+      return null;
+    }
+  }
+
+  /**
+   * Get Octane version string
+   * @returns Version string (e.g., "2024.1.0")
+   */
+  async getOctaneVersion(): Promise<string> {
+    try {
+      const response = await this.callApi('ApiInfo', 'octaneVersion', {});
+      return response?.result ?? 'Unknown';
+    } catch (error: any) {
+      console.error('❌ Failed to get Octane version:', error.message);
+      return 'Unknown';
+    }
+  }
+
+  /**
    * Get current render region settings from Octane
    * @returns Render region object with {active, regionMin, regionMax, featherWidth}
    */
