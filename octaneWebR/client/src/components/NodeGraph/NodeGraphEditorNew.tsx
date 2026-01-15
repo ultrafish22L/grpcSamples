@@ -34,6 +34,7 @@ import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
 import { NodeTypeContextMenu } from './NodeTypeContextMenu';
 import { NodeContextMenu } from './NodeContextMenu';
 import { SearchDialog } from './SearchDialog';
+import { NodeGraphToolbar } from './NodeGraphToolbar';
 import { NodeType } from '../../constants/OctaneTypes';
 
 interface NodeGraphEditorProps {
@@ -1366,6 +1367,9 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onMouseUp={handlePaneMouseUp}
         style={{ width: '100%', height: '100%', position: 'relative' }}
       >
+        {/* Node Graph Toolbar - Figure 10 vertical buttons */}
+        <NodeGraphToolbar onSearchOpen={() => setSearchDialogVisible(true)} />
+
         <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -1418,7 +1422,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           color="#333"
         />
 
-        {/* Minimap for navigation - top-left with yellow Octane styling */}
+        {/* Minimap for navigation - top-left with yellow Octane styling and draggable viewport */}
         <MiniMap
           position="top-left"
           nodeColor={(node) => {
@@ -1428,11 +1432,16 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
               : '#666';
           }}
           style={{
-            background: 'rgba(60, 60, 30, 0.8)',
+            background: 'rgba(60, 60, 30, 0.9)',
             border: '2px solid rgba(200, 180, 80, 0.8)',
             borderRadius: 4,
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
           }}
-          maskColor="rgba(0, 0, 0, 0.6)"
+          maskColor="rgba(0, 0, 0, 0.7)"
+          maskStrokeColor="rgba(255, 215, 0, 0.9)"
+          maskStrokeWidth={2}
+          pannable={true}
+          zoomable={false}
         />
       </ReactFlow>
       </div>
