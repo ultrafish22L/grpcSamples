@@ -348,6 +348,29 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
       shift: true,
       description: 'Save scene as',
       handler: () => handleMenuAction('file.saveAs')
+    },
+    {
+      key: 'F5',
+      description: 'Refresh scene',
+      handler: () => handleMenuAction('view.refresh')
+    },
+    {
+      key: 'F1',
+      description: 'Open documentation',
+      handler: () => handleMenuAction('help.docs')
+    },
+    {
+      key: 'F11',
+      description: 'Toggle fullscreen',
+      handler: () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(err => {
+            console.error('Failed to enter fullscreen:', err);
+          });
+        } else {
+          document.exitFullscreen();
+        }
+      }
     }
   ], [handleMenuAction]);
 

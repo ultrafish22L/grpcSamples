@@ -26,32 +26,19 @@ const SHORTCUTS: ShortcutSection[] = [
       { keys: 'Ctrl+O', description: 'Open scene' },
       { keys: 'Ctrl+S', description: 'Save scene' },
       { keys: 'Ctrl+Shift+S', description: 'Save scene as' },
-      { keys: 'Ctrl+,', description: 'Preferences' },
-    ]
-  },
-  {
-    title: 'Edit',
-    shortcuts: [
-      { keys: 'Ctrl+Z', description: 'Undo' },
-      { keys: 'Ctrl+Y', description: 'Redo' },
-      { keys: 'Ctrl+X', description: 'Cut' },
-      { keys: 'Ctrl+C', description: 'Copy' },
-      { keys: 'Ctrl+V', description: 'Paste' },
-      { keys: 'Del', description: 'Delete' },
-      { keys: 'Ctrl+A', description: 'Select All' },
     ]
   },
   {
     title: 'View',
     shortcuts: [
       { keys: 'F5', description: 'Refresh scene' },
-      { keys: 'F11', description: 'Fullscreen' },
+      { keys: 'F11', description: 'Toggle fullscreen' },
     ]
   },
   {
     title: 'Help',
     shortcuts: [
-      { keys: 'F1', description: 'Documentation' },
+      { keys: 'F1', description: 'Open documentation' },
     ]
   },
 ];
