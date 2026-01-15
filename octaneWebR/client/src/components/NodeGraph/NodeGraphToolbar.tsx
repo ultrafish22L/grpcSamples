@@ -1,7 +1,7 @@
 /**
  * Node Graph Editor Toolbar Component
- * Vertical toolbar on left side matching Octane SE Figure 10
- * Provides quick access to common node graph operations
+ * Vertical toolbar on left side matching Octane SE
+ * Docked toolbar with compact icon buttons (Figure 10 from manual)
  */
 
 import { useCallback } from 'react';
@@ -15,119 +15,189 @@ interface NodeGraphToolbarProps {
 export function NodeGraphToolbar({ onSearchOpen }: NodeGraphToolbarProps) {
   const { fitView, zoomIn, zoomOut, getNodes } = useReactFlow();
 
-  // Frame all nodes (zoom to fit all)
-  const handleFrameAll = useCallback(() => {
+  const handleMacroPreview = useCallback(() => {
+    console.log('Show Macro/Material Preview');
+    // TODO: Implement material preview
+  }, []);
+
+  const handleNodeLibrary = useCallback(() => {
+    console.log('Node Library');
+    // TODO: Open node library
+  }, []);
+
+  const handleLiveDB = useCallback(() => {
+    console.log('LiveDB Access');
+    // TODO: Open LiveDB
+  }, []);
+
+  const handleImageImport = useCallback(() => {
+    console.log('Import Image');
+    // TODO: Image import dialog
+  }, []);
+
+  const handleMaterialPaint = useCallback(() => {
+    console.log('Material Paint Tool');
+    // TODO: Material painting
+  }, []);
+
+  const handleFrameView = useCallback(() => {
     fitView({ padding: 0.2, duration: 300 });
   }, [fitView]);
 
-  // Frame selected nodes
-  const handleFrameSelected = useCallback(() => {
-    const selectedNodes = getNodes().filter(node => node.selected);
-    if (selectedNodes.length === 0) {
-      console.log('No nodes selected to frame');
-      return;
-    }
+  const handleCutConnections = useCallback(() => {
+    console.log('Cut Connections Tool (Ctrl+Drag)');
+    // Connection cutter is handled by interaction mode
+  }, []);
 
-    // Use fitView with nodes parameter to automatically center and zoom
-    fitView({
-      padding: 0.2,
-      duration: 300,
-      nodes: selectedNodes,
-    });
-  }, [getNodes, fitView]);
-
-  const handleZoomIn = useCallback(() => {
-    zoomIn({ duration: 200 });
-  }, [zoomIn]);
-
-  const handleZoomOut = useCallback(() => {
-    zoomOut({ duration: 200 });
-  }, [zoomOut]);
+  const handleGridSnap = useCallback(() => {
+    console.log('Toggle Grid Snap');
+    // TODO: Toggle grid snapping
+  }, []);
 
   const handleAutoLayout = useCallback(() => {
-    console.log('Auto-layout feature - organizing nodes...');
-    // TODO: Implement auto-layout algorithm
-    alert('Auto-layout feature coming soon!\n\nThis will automatically organize nodes in a clean layout.');
+    console.log('Auto-Layout');
+    // TODO: Auto-layout algorithm
   }, []);
 
   return (
     <div className="node-graph-toolbar">
+      {/* Material Preview / Macro View */}
       <button
         className="toolbar-button"
-        onClick={handleFrameAll}
-        title="Frame All (Fit all nodes in view)"
+        onClick={handleMacroPreview}
+        title="Show Material Preview"
       >
-        <svg width="20" height="20" viewBox="0 0 20 20">
-          <rect x="2" y="2" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" />
-          <rect x="5" y="5" width="3" height="3" fill="currentColor" />
-          <rect x="12" y="5" width="3" height="3" fill="currentColor" />
-          <rect x="5" y="12" width="3" height="3" fill="currentColor" />
-          <rect x="12" y="12" width="3" height="3" fill="currentColor" />
+        <svg width="16" height="16" viewBox="0 0 16 16">
+          <rect x="2" y="2" width="3" height="12" fill="currentColor" opacity="0.8" />
+          <rect x="6" y="2" width="3" height="12" fill="currentColor" opacity="0.5" />
+          <rect x="10" y="2" width="3" height="12" fill="currentColor" opacity="0.8" />
         </svg>
       </button>
 
+      {/* Node Library / Grid */}
       <button
         className="toolbar-button"
-        onClick={handleFrameSelected}
-        title="Frame Selected (Fit selected nodes in view)"
+        onClick={handleNodeLibrary}
+        title="Node Library"
       >
-        <svg width="20" height="20" viewBox="0 0 20 20">
-          <rect x="2" y="2" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="2,2" />
-          <rect x="7" y="7" width="6" height="6" fill="currentColor" />
+        <svg width="16" height="16" viewBox="0 0 16 16">
+          <rect x="1" y="1" width="6" height="6" fill="currentColor" />
+          <rect x="9" y="1" width="6" height="6" fill="currentColor" />
+          <rect x="1" y="9" width="6" height="6" fill="currentColor" />
+          <rect x="9" y="9" width="6" height="6" fill="currentColor" />
         </svg>
       </button>
 
-      <div className="toolbar-separator" />
-
+      {/* LiveDB / Material Database */}
       <button
         className="toolbar-button"
-        onClick={handleZoomIn}
-        title="Zoom In"
+        onClick={handleLiveDB}
+        title="LiveDB Material Database"
       >
-        <svg width="20" height="20" viewBox="0 0 20 20">
-          <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeWidth="2" />
-          <line x1="13" y1="13" x2="18" y2="18" stroke="currentColor" strokeWidth="2" />
-          <line x1="8" y1="5" x2="8" y2="11" stroke="currentColor" strokeWidth="2" />
-          <line x1="5" y1="8" x2="11" y2="8" stroke="currentColor" strokeWidth="2" />
+        <svg width="16" height="16" viewBox="0 0 16 16">
+          <path d="M8 2 L14 6 L8 10 L2 6 Z" fill="currentColor" />
+          <path d="M2 8 L8 12 L14 8" fill="none" stroke="currentColor" strokeWidth="1.5" />
         </svg>
       </button>
 
+      {/* Image Import */}
       <button
         className="toolbar-button"
-        onClick={handleZoomOut}
-        title="Zoom Out"
+        onClick={handleImageImport}
+        title="Import Image"
       >
-        <svg width="20" height="20" viewBox="0 0 20 20">
-          <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeWidth="2" />
-          <line x1="13" y1="13" x2="18" y2="18" stroke="currentColor" strokeWidth="2" />
-          <line x1="5" y1="8" x2="11" y2="8" stroke="currentColor" strokeWidth="2" />
+        <svg width="16" height="16" viewBox="0 0 16 16">
+          <rect x="1" y="1" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          <circle cx="5" cy="5" r="2" fill="currentColor" />
+          <path d="M1 11 L6 6 L10 10 L15 5" fill="none" stroke="currentColor" strokeWidth="1.5" />
         </svg>
       </button>
 
-      <div className="toolbar-separator" />
-
+      {/* Material Paint Tool */}
       <button
         className="toolbar-button"
-        onClick={onSearchOpen}
-        title="Search Nodes (Ctrl+F)"
+        onClick={handleMaterialPaint}
+        title="Material Paint Tool"
       >
-        <svg width="20" height="20" viewBox="0 0 20 20">
-          <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeWidth="2" />
-          <line x1="13" y1="13" x2="18" y2="18" stroke="currentColor" strokeWidth="2" />
+        <svg width="16" height="16" viewBox="0 0 16 16">
+          <path d="M4 12 L1 15 L3 13 L4 14 Z" fill="currentColor" />
+          <path d="M5 11 L11 5 C11.5 4.5 12.5 4.5 13 5 C13.5 5.5 13.5 6.5 13 7 L7 13 L5 11 Z" fill="currentColor" />
+          <circle cx="12" cy="6" r="1.5" fill="rgba(255,255,255,0.3)" />
         </svg>
       </button>
 
+      {/* Frame View / Fit to Screen */}
+      <button
+        className="toolbar-button"
+        onClick={handleFrameView}
+        title="Frame All Nodes (F)"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16">
+          <path d="M1 1 L1 6 M1 1 L6 1" stroke="currentColor" strokeWidth="2" fill="none" />
+          <path d="M15 1 L15 6 M15 1 L10 1" stroke="currentColor" strokeWidth="2" fill="none" />
+          <path d="M1 15 L1 10 M1 15 L6 15" stroke="currentColor" strokeWidth="2" fill="none" />
+          <path d="M15 15 L15 10 M15 15 L10 15" stroke="currentColor" strokeWidth="2" fill="none" />
+        </svg>
+      </button>
+
+      {/* Cut Connections Tool */}
+      <button
+        className="toolbar-button"
+        onClick={handleCutConnections}
+        title="Cut Connections (Ctrl+Drag)"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16">
+          <circle cx="4" cy="4" r="3" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          <line x1="6" y1="6" x2="10" y2="10" stroke="currentColor" strokeWidth="2" />
+          <line x1="8" y1="8" x2="8" y2="8" stroke="red" strokeWidth="3" strokeLinecap="round" />
+        </svg>
+      </button>
+
+      {/* Grid Snap */}
+      <button
+        className="toolbar-button"
+        onClick={handleGridSnap}
+        title="Toggle Grid Snap"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16">
+          <circle cx="3" cy="3" r="1" fill="currentColor" />
+          <circle cx="8" cy="3" r="1" fill="currentColor" />
+          <circle cx="13" cy="3" r="1" fill="currentColor" />
+          <circle cx="3" cy="8" r="1" fill="currentColor" />
+          <circle cx="8" cy="8" r="1" fill="currentColor" />
+          <circle cx="13" cy="8" r="1" fill="currentColor" />
+          <circle cx="3" cy="13" r="1" fill="currentColor" />
+          <circle cx="8" cy="13" r="1" fill="currentColor" />
+          <circle cx="13" cy="13" r="1" fill="currentColor" />
+        </svg>
+      </button>
+
+      {/* Auto-Layout */}
       <button
         className="toolbar-button"
         onClick={handleAutoLayout}
         title="Auto-Layout Nodes"
       >
-        <svg width="20" height="20" viewBox="0 0 20 20">
-          <rect x="2" y="2" width="6" height="6" fill="currentColor" />
-          <rect x="12" y="2" width="6" height="6" fill="currentColor" />
-          <rect x="7" y="12" width="6" height="6" fill="currentColor" />
-          <line x1="5" y1="8" x2="10" y2="12" stroke="currentColor" strokeWidth="2" />
-          <line x1="15" y1="8" x2="10" y2="12" stroke="currentColor" strokeWidth="2" />
+        <svg width="16" height="16" viewBox="0 0 16 16">
+          <rect x="1" y="1" width="5" height="3" fill="currentColor" />
+          <rect x="10" y="1" width="5" height="3" fill="currentColor" />
+          <rect x="1" y="6" width="5" height="3" fill="currentColor" />
+          <rect x="10" y="6" width="5" height="3" fill="currentColor" />
+          <rect x="1" y="11" width="5" height="3" fill="currentColor" />
+          <rect x="10" y="11" width="5" height="3" fill="currentColor" />
+        </svg>
+      </button>
+
+      {/* Search */}
+      <button
+        className="toolbar-button"
+        onClick={onSearchOpen}
+        title="Search Nodes (Ctrl+F)"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16">
+          <circle cx="6" cy="6" r="4" fill="none" stroke="currentColor" strokeWidth="2" />
+          <line x1="9" y1="9" x2="14" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
         </svg>
       </button>
     </div>
