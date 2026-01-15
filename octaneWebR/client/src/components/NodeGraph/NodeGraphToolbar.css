@@ -4,6 +4,36 @@
  * Docked on left side matching Octane SE
  */
 
+/* Node Graph Container - contains toolbar + editor */
+.node-graph-container {
+  position: relative;
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  background: #3a3a3a; /* Darker gray matching Octane SE */
+}
+
+/* ReactFlow background override - darker gray like Octane SE */
+.node-graph-container .react-flow {
+  background: #3a3a3a;
+}
+
+/* ReactFlow background pattern (grid) - darker, more visible */
+.node-graph-container .react-flow__background {
+  background: #3a3a3a;
+}
+
+/* Grid lines - darker and more visible like Octane SE */
+.node-graph-container .react-flow__background line {
+  stroke: #505050 !important; /* Darker grid lines */
+}
+
+/* NodeGraphEditor takes full remaining space after toolbar */
+.node-graph-container > div:not(.node-graph-toolbar) {
+  flex: 1;
+  position: relative;
+}
+
 .node-graph-toolbar {
   position: absolute;
   left: 0;

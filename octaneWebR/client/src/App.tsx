@@ -382,7 +382,9 @@ function AppContent() {
             <section className="bottom-panel panel" style={{ gridColumn: '3 / 4' }}>
               <div className="node-graph-header">
                 <h3>Node graph editor</h3>
-                {/* Node Graph Toolbar - Figure 10 vertical buttons, always visible */}
+              </div>
+              <div className="node-graph-container">
+                {/* Node Graph Toolbar - Figure 10 vertical buttons, docked left */}
                 <NodeGraphToolbar
                   gridVisible={gridVisible}
                   setGridVisible={setGridVisible}
@@ -390,8 +392,6 @@ function AppContent() {
                   setSnapToGrid={setSnapToGrid}
                   onRecenterView={recenterViewCallback || undefined}
                 />
-              </div>
-              <div className="node-graph-container">
                 <NodeGraphEditor 
                   sceneTree={sceneTree} 
                   selectedNode={selectedNode}
