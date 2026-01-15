@@ -13,18 +13,26 @@ interface PanelSizes {
   bottom: number;   // Calculated from window height - top
 }
 
+const DEFAULT_PANEL_SIZES: PanelSizes = {
+  left: 260,    // Scene Outliner width 
+  center: 0,    // Will be calculated
+  right: 440,   // Node Inspector width
+  top: 770,     // Top row height (viewport + inspector)
+  bottom: 0,    // Will be calculated from window height - top
+};
+
 export function useResizablePanels() {
-  const [panelSizes, setPanelSizes] = useState<PanelSizes>({
-    left: 260,    // Scene Outliner width 
-    center: 0,    // Will be calculated
-    right: 440,   // Node Inspector width
-    top: 770,     // Top row height (viewport + inspector)
-    bottom: 0,    // Will be calculated from window height - top
-  });
+  const [panelSizes, setPanelSizes] = useState<PanelSizes>(DEFAULT_PANEL_SIZES);
 
   const [isDragging, setIsDragging] = useState(false);
   const [dragType, setDragType] = useState<'left' | 'right' | 'top' | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Reset panel sizes to default
+  const resetPanelSizes = useCallback(() => {
+    console.log('↺ Resetting panel sizes to defaults');
+    setPanelSizes(DEFAULT_PANEL_SIZES);
+  }, []);
 
   // Handle mouse down on splitter
   const handleSplitterMouseDown = useCallback((type: 'left' | 'right' | 'top') => {
@@ -112,5 +120,6 @@ export function useResizablePanels() {
     handleSplitterMouseDown,
     containerRef,
     isDragging,
+    resetPanelSizes,
   };
 }

@@ -24,9 +24,10 @@ interface MenuBarProps {
   onMaterialDatabaseOpen?: () => void;
   panelVisibility?: PanelVisibility;
   onTogglePanelVisibility?: (panel: 'renderViewport' | 'nodeInspector' | 'graphEditor' | 'sceneOutliner') => void;
+  onResetLayout?: () => void;
 }
 
-export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTogglePanelVisibility }: MenuBarProps) {
+export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTogglePanelVisibility, onResetLayout }: MenuBarProps) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [activeMenuAnchor, setActiveMenuAnchor] = useState<HTMLElement | null>(null);
   const menuBarRef = useRef<HTMLDivElement>(null);
@@ -270,8 +271,8 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
         break;
 
       case 'window.resetLayout':
-        console.log('Reset layout not yet implemented');
-        showNotification('Reset layout not yet implemented', 'info');
+        onResetLayout?.();
+        showNotification('Layout reset to defaults', 'success');
         break;
 
       case 'window.fullscreen':
@@ -311,7 +312,8 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
     closeMenu,
     onSceneRefresh,
     onMaterialDatabaseOpen,
-    onTogglePanelVisibility
+    onTogglePanelVisibility,
+    onResetLayout
   ]);
 
   // Global keyboard shortcuts for file operations

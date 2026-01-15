@@ -51,7 +51,7 @@ function AppContent() {
     sceneOutliner: true
   });
   
-  const { panelSizes, handleSplitterMouseDown, containerRef, isDragging } = useResizablePanels();
+  const { panelSizes, handleSplitterMouseDown, containerRef, isDragging, resetPanelSizes } = useResizablePanels();
   const viewportRef = useRef<CallbackRenderViewportHandle>(null);
 
   // Scene tree change handler
@@ -159,6 +159,22 @@ function AppContent() {
     console.log(`👁️ Toggled ${panel} visibility`);
   };
 
+  // Reset layout handler - resets all panels to visible and default sizes
+  const handleResetLayout = () => {
+    console.log('↺ Resetting layout to defaults');
+    
+    // Reset all panels to visible
+    setPanelVisibility({
+      renderViewport: true,
+      nodeInspector: true,
+      graphEditor: true,
+      sceneOutliner: true
+    });
+    
+    // Reset panel sizes to defaults
+    resetPanelSizes();
+  };
+
   useEffect(() => {
     // Auto-connect on mount
     console.log('🚀 OctaneWebR starting...');
@@ -218,6 +234,7 @@ function AppContent() {
           onMaterialDatabaseOpen={handleMaterialDatabaseOpen}
           panelVisibility={panelVisibility}
           onTogglePanelVisibility={handleTogglePanelVisibility}
+          onResetLayout={handleResetLayout}
         />
         
         {/* Connection Status & Controls */}
