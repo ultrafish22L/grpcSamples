@@ -55,6 +55,7 @@ function AppContent() {
   // Node Graph Editor toolbar state (Figure 10 buttons)
   const [gridVisible, setGridVisible] = useState(true);
   const [snapToGrid, setSnapToGrid] = useState(false);
+  const [recenterViewCallback, setRecenterViewCallback] = useState<(() => void) | null>(null);
   
   const { panelSizes, handleSplitterMouseDown, containerRef, isDragging, resetPanelSizes } = useResizablePanels();
   const viewportRef = useRef<CallbackRenderViewportHandle>(null);
@@ -387,6 +388,7 @@ function AppContent() {
                   setGridVisible={setGridVisible}
                   snapToGrid={snapToGrid}
                   setSnapToGrid={setSnapToGrid}
+                  onRecenterView={recenterViewCallback || undefined}
                 />
               </div>
               <div className="node-graph-container">
@@ -398,6 +400,7 @@ function AppContent() {
                   setGridVisible={setGridVisible}
                   snapToGrid={snapToGrid}
                   setSnapToGrid={setSnapToGrid}
+                  onRecenterViewReady={(callback) => setRecenterViewCallback(() => callback)}
                 />
               </div>
             </section>

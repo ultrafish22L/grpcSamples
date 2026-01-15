@@ -16,7 +16,6 @@
  */
 
 import { useCallback, useState } from 'react';
-import { useReactFlow } from '@xyflow/react';
 import './NodeGraphToolbar.css';
 
 interface NodeGraphToolbarProps {
@@ -24,15 +23,16 @@ interface NodeGraphToolbarProps {
   setGridVisible: (visible: boolean) => void;
   snapToGrid: boolean;
   setSnapToGrid: (snap: boolean) => void;
+  onRecenterView?: () => void; // Optional callback for recenter (from ReactFlow fitView)
 }
 
 export function NodeGraphToolbar({ 
   gridVisible, 
   setGridVisible, 
   snapToGrid, 
-  setSnapToGrid 
+  setSnapToGrid,
+  onRecenterView
 }: NodeGraphToolbarProps) {
-  const { fitView } = useReactFlow();
   
   // Toggle states for preview scenes (managed locally)
   const [renderTargetPreview, setRenderTargetPreview] = useState(false);
@@ -43,8 +43,10 @@ export function NodeGraphToolbar({
   // 1. Recenter View
   const handleRecenterView = useCallback(() => {
     console.log('🎯 Recenter View');
-    fitView({ padding: 0.2, duration: 300 });
-  }, [fitView]);
+    if (onRecenterView) {
+      onRecenterView();
+    }
+  }, [onRecenterView]);
 
   // 2. Re-arrange Graph with Sub-graph
   const handleRearrangeWithSubgraph = useCallback(() => {

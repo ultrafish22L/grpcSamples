@@ -44,6 +44,7 @@ interface NodeGraphEditorProps {
   setGridVisible: (visible: boolean) => void;
   snapToGrid: boolean;
   setSnapToGrid: (snap: boolean) => void;
+  onRecenterViewReady?: (callback: () => void) => void; // Pass fitView callback to parent
 }
 
 // Define custom node types
@@ -61,10 +62,20 @@ function NodeGraphEditorInner({
   gridVisible,
   setGridVisible,
   snapToGrid,
-  setSnapToGrid
+  setSnapToGrid,
+  onRecenterViewReady
 }: NodeGraphEditorProps) {
   const { client, connected } = useOctane();
   const { fitView } = useReactFlow();
+
+  // Provide fitView callback to parent on mount
+  useEffect(() => {
+    if (onRecenterViewReady) {
+      onRecenterViewReady(() => {
+        fitView({ padding: 0.2, duration: 300 });
+      });
+    }
+  }, [fitView, onRecenterViewReady]);
   
   const [nodes, setNodes, onNodesChange] = useNodesState<Node<OctaneNodeData>>([]);
   const [edges, setEdges, onEdgesChangeBase] = useEdgesState<Edge>([]);
@@ -1472,7 +1483,8 @@ export function NodeGraphEditor({
   gridVisible,
   setGridVisible,
   snapToGrid,
-  setSnapToGrid
+  setSnapToGrid,
+  onRecenterViewReady
 }: NodeGraphEditorProps) {
   return (
     <ReactFlowProvider>
@@ -1484,6 +1496,7 @@ export function NodeGraphEditor({
         setGridVisible={setGridVisible}
         snapToGrid={snapToGrid}
         setSnapToGrid={setSnapToGrid}
+        onRecenterViewReady={onRecenterViewReady}
       />
     </ReactFlowProvider>
   );
