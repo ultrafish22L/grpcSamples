@@ -1,7 +1,7 @@
 /**
  * Node Context Menu Component
  * Context menu displayed when right-clicking on nodes in the graph editor
- * Provides options: Delete Selected, Save as Macro, Render Node, Group Items, Show in Outliner
+ * Provides full node operations matching Octane SE
  * 
  * ReactFlow v12 Best Practices:
  * - Uses createPortal for proper rendering outside parent DOM
@@ -18,11 +18,17 @@ interface NodeContextMenuProps {
   x: number;
   y: number;
   selectedNodeCount: number;
-  onDeleteSelected: () => void;
-  onSaveAsMacro: () => void;
   onRenderNode: () => void;
+  onSaveAsMacro: () => void;
+  onCut: () => void;
+  onCopy: () => void;
+  onPaste: () => void;
+  onDeleteSelected: () => void;
+  onCollapseItems: () => void;
+  onExpandItems: () => void;
   onGroupItems: () => void;
   onShowInOutliner: () => void;
+  onShowInLuaBrowser: () => void;
   onClose: () => void;
 }
 
@@ -30,11 +36,17 @@ export function NodeContextMenu({
   x,
   y,
   selectedNodeCount,
-  onDeleteSelected,
-  onSaveAsMacro,
   onRenderNode,
+  onSaveAsMacro,
+  onCut,
+  onCopy,
+  onPaste,
+  onDeleteSelected,
+  onCollapseItems,
+  onExpandItems,
   onGroupItems,
   onShowInOutliner,
+  onShowInLuaBrowser,
   onClose,
 }: NodeContextMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
@@ -107,37 +119,80 @@ export function NodeContextMenu({
         zIndex: 10000,
       }}
     >
-      {/* Delete Selected Nodes */}
-      <div
-        className="context-menu-item"
-        onClick={() => handleMenuItemClick(onDeleteSelected)}
-      >
-        Delete Selected {selectedNodeCount > 1 ? `(${selectedNodeCount})` : ''}
-      </div>
-
-      {/* Separator */}
-      <div className="context-menu-separator" />
-
-      {/* Save as Macro */}
-      <div
-        className="context-menu-item"
-        onClick={() => handleMenuItemClick(onSaveAsMacro)}
-      >
-        Save as Macro
-      </div>
-
-      {/* Render Node */}
+      {/* Render */}
       <div
         className="context-menu-item"
         onClick={() => handleMenuItemClick(onRenderNode)}
       >
-        Render Node
+        Render
+      </div>
+
+      {/* Save... */}
+      <div
+        className="context-menu-item"
+        onClick={() => handleMenuItemClick(onSaveAsMacro)}
+      >
+        Save...
       </div>
 
       {/* Separator */}
       <div className="context-menu-separator" />
 
-      {/* Group Items - disabled if less than 2 nodes selected */}
+      {/* Cut */}
+      <div
+        className="context-menu-item"
+        onClick={() => handleMenuItemClick(onCut)}
+      >
+        Cut
+      </div>
+
+      {/* Copy */}
+      <div
+        className="context-menu-item"
+        onClick={() => handleMenuItemClick(onCopy)}
+      >
+        Copy
+      </div>
+
+      {/* Paste */}
+      <div
+        className="context-menu-item"
+        onClick={() => handleMenuItemClick(onPaste)}
+      >
+        Paste
+      </div>
+
+      {/* Separator */}
+      <div className="context-menu-separator" />
+
+      {/* Delete */}
+      <div
+        className="context-menu-item"
+        onClick={() => handleMenuItemClick(onDeleteSelected)}
+      >
+        Delete
+      </div>
+
+      {/* Separator */}
+      <div className="context-menu-separator" />
+
+      {/* Collapse items */}
+      <div
+        className="context-menu-item"
+        onClick={() => handleMenuItemClick(onCollapseItems)}
+      >
+        Collapse items
+      </div>
+
+      {/* Expand items */}
+      <div
+        className="context-menu-item"
+        onClick={() => handleMenuItemClick(onExpandItems)}
+      >
+        Expand items
+      </div>
+
+      {/* Group Items */}
       <div
         className={`context-menu-item ${selectedNodeCount < 2 ? 'disabled' : ''}`}
         onClick={() => handleMenuItemClick(onGroupItems, selectedNodeCount < 2)}
@@ -154,6 +209,14 @@ export function NodeContextMenu({
         onClick={() => handleMenuItemClick(onShowInOutliner)}
       >
         Show in Outliner
+      </div>
+
+      {/* Show in Lua API browser */}
+      <div
+        className="context-menu-item"
+        onClick={() => handleMenuItemClick(onShowInLuaBrowser)}
+      >
+        Show in Lua API browser
       </div>
     </div>,
     document.body

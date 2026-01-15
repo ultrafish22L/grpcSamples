@@ -1148,6 +1148,68 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   /**
    * Node context menu action handlers
    */
+  const handleCut = useCallback(() => {
+    const selectedNodes = nodes.filter((n) => n.selected);
+    if (selectedNodes.length === 0) {
+      console.warn('⚠️ No nodes selected for cut');
+      return;
+    }
+    console.log('✂️ Cut - Selected nodes:', selectedNodes.length);
+    // TODO: Implement cut (copy to clipboard + delete)
+    // Requires: Clipboard API + node serialization
+    alert('Cut feature requires clipboard API integration\n\nComing soon!');
+  }, [nodes]);
+
+  const handleCopy = useCallback(() => {
+    const selectedNodes = nodes.filter((n) => n.selected);
+    if (selectedNodes.length === 0) {
+      console.warn('⚠️ No nodes selected for copy');
+      return;
+    }
+    console.log('📋 Copy - Selected nodes:', selectedNodes.length);
+    // TODO: Implement copy to clipboard
+    // Requires: Clipboard API + node serialization
+    alert('Copy feature requires clipboard API integration\n\nComing soon!');
+  }, [nodes]);
+
+  const handlePaste = useCallback(() => {
+    console.log('📋 Paste at position:', contextMenuPosition);
+    // TODO: Implement paste from clipboard
+    // Requires: Clipboard API + node deserialization + creation
+    alert('Paste feature requires clipboard API integration\n\nComing soon!');
+  }, [contextMenuPosition]);
+
+  const handleCollapseItems = useCallback(() => {
+    const selectedNodes = nodes.filter((n) => n.selected);
+    if (selectedNodes.length === 0) {
+      console.warn('⚠️ No nodes selected for collapse');
+      return;
+    }
+    console.log('📉 Collapse items - Selected nodes:', selectedNodes.length);
+    // TODO: Implement node collapse (minimize/fold node view)
+    // Requires: Node state management for collapsed state
+    alert('Collapse items feature requires node folding API\n\nComing soon!');
+  }, [nodes]);
+
+  const handleExpandItems = useCallback(() => {
+    const selectedNodes = nodes.filter((n) => n.selected);
+    if (selectedNodes.length === 0) {
+      console.warn('⚠️ No nodes selected for expand');
+      return;
+    }
+    console.log('📈 Expand items - Selected nodes:', selectedNodes.length);
+    // TODO: Implement node expand (show all pins/parameters)
+    // Requires: Node state management for expanded state
+    alert('Expand items feature requires node expansion API\n\nComing soon!');
+  }, [nodes]);
+
+  const handleShowInLuaBrowser = useCallback(() => {
+    console.log('🔍 Show in Lua API browser - Node ID:', contextMenuNodeId);
+    // TODO: Implement Lua API browser integration
+    // Requires: LUA API documentation viewer/browser component
+    alert('Lua API browser integration coming soon!');
+  }, [contextMenuNodeId]);
+
   const handleDeleteSelected = useCallback(async () => {
     const selectedNodes = nodes.filter((n) => n.selected);
     
@@ -1252,11 +1314,17 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
           x={contextMenuPosition.x}
           y={contextMenuPosition.y}
           selectedNodeCount={nodes.filter((n) => n.selected).length}
-          onDeleteSelected={handleDeleteSelected}
-          onSaveAsMacro={handleSaveAsMacro}
           onRenderNode={handleRenderNode}
+          onSaveAsMacro={handleSaveAsMacro}
+          onCut={handleCut}
+          onCopy={handleCopy}
+          onPaste={handlePaste}
+          onDeleteSelected={handleDeleteSelected}
+          onCollapseItems={handleCollapseItems}
+          onExpandItems={handleExpandItems}
           onGroupItems={handleGroupItems}
           onShowInOutliner={handleShowInOutliner}
+          onShowInLuaBrowser={handleShowInLuaBrowser}
           onClose={handleCloseContextMenu}
         />
       )}
