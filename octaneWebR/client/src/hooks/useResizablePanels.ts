@@ -17,12 +17,22 @@ const DEFAULT_PANEL_SIZES: PanelSizes = {
   left: 260,    // Scene Outliner width 
   center: 0,    // Will be calculated
   right: 440,   // Node Inspector width
-  top: 770,     // Top row height (viewport + inspector)
+  top: 0,       // Will be calculated as 60% of window height on mount
   bottom: 0,    // Will be calculated from window height - top
 };
 
+// Calculate initial top panel height as 60% of available height
+const getInitialTopHeight = (): number => {
+  // Subtract menu bar (30px) and status bar (25px) from window height
+  const availableHeight = window.innerHeight - 30 - 25;
+  return Math.floor(availableHeight * 0.6); // 60% for render viewport
+};
+
 export function useResizablePanels() {
-  const [panelSizes, setPanelSizes] = useState<PanelSizes>(DEFAULT_PANEL_SIZES);
+  const [panelSizes, setPanelSizes] = useState<PanelSizes>({
+    ...DEFAULT_PANEL_SIZES,
+    top: getInitialTopHeight(),
+  });
 
   const [isDragging, setIsDragging] = useState(false);
   const [dragType, setDragType] = useState<'left' | 'right' | 'top' | null>(null);
@@ -30,8 +40,11 @@ export function useResizablePanels() {
 
   // Reset panel sizes to default
   const resetPanelSizes = useCallback(() => {
-    console.log('↺ Resetting panel sizes to defaults');
-    setPanelSizes(DEFAULT_PANEL_SIZES);
+    console.log('↺ Resetting panel sizes to defaults (60% render viewport, 40% node graph)');
+    setPanelSizes({
+      ...DEFAULT_PANEL_SIZES,
+      top: getInitialTopHeight(),
+    });
   }, []);
 
   // Handle mouse down on splitter
