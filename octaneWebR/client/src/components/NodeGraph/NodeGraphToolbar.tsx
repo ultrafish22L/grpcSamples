@@ -19,16 +19,26 @@ import { useCallback, useState } from 'react';
 import { useReactFlow } from '@xyflow/react';
 import './NodeGraphToolbar.css';
 
-export function NodeGraphToolbar() {
+interface NodeGraphToolbarProps {
+  gridVisible: boolean;
+  setGridVisible: (visible: boolean) => void;
+  snapToGrid: boolean;
+  setSnapToGrid: (snap: boolean) => void;
+}
+
+export function NodeGraphToolbar({ 
+  gridVisible, 
+  setGridVisible, 
+  snapToGrid, 
+  setSnapToGrid 
+}: NodeGraphToolbarProps) {
   const { fitView } = useReactFlow();
   
-  // Toggle states for preview scenes and grid options
+  // Toggle states for preview scenes (managed locally)
   const [renderTargetPreview, setRenderTargetPreview] = useState(false);
   const [meshPreview, setMeshPreview] = useState(false);
   const [materialPreview, setMaterialPreview] = useState(false);
   const [texturePreview, setTexturePreview] = useState(false);
-  const [gridSnap, setGridSnap] = useState(false);
-  const [gridVisible, setGridVisible] = useState(true);
 
   // 1. Recenter View
   const handleRecenterView = useCallback(() => {
@@ -90,23 +100,17 @@ export function NodeGraphToolbar() {
 
   // 8. Snap Items To Grid
   const handleToggleGridSnap = useCallback(() => {
-    setGridSnap(prev => {
-      const newState = !prev;
-      console.log(`🧲 Snap Items To Grid: ${newState ? 'ON' : 'OFF'}`);
-      return newState;
-    });
-    // TODO: Toggle grid snapping
-  }, []);
+    const newState = !snapToGrid;
+    setSnapToGrid(newState);
+    console.log(`🧲 Snap Items To Grid: ${newState ? 'ON' : 'OFF'}`);
+  }, [snapToGrid, setSnapToGrid]);
 
   // 9. View/Hide Graph Editor Grid
   const handleToggleGrid = useCallback(() => {
-    setGridVisible(prev => {
-      const newState = !prev;
-      console.log(`📊 Graph Editor Grid: ${newState ? 'SHOW' : 'HIDE'}`);
-      return newState;
-    });
-    // TODO: Toggle grid visibility
-  }, []);
+    const newState = !gridVisible;
+    setGridVisible(newState);
+    console.log(`📊 Graph Editor Grid: ${newState ? 'SHOW' : 'HIDE'}`);
+  }, [gridVisible, setGridVisible]);
 
   return (
     <div className="node-graph-toolbar">
@@ -212,7 +216,7 @@ export function NodeGraphToolbar() {
 
       {/* 8. Snap Items To Grid - Grid with snap icon */}
       <button
-        className={`toolbar-button ${gridSnap ? 'active' : ''}`}
+        className={`toolbar-button ${snapToGrid ? 'active' : ''}`}
         onClick={handleToggleGridSnap}
         title="Snap Items To Grid"
       >

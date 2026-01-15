@@ -87,6 +87,10 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   const [connectionLineColor, setConnectionLineColor] = useState('#ffc107');
   const connectingEdgeRef = useRef<Edge | null>(null); // Track if creating new connection vs reconnecting
 
+  // Grid visibility and snap-to-grid state (Figure 10 toolbar buttons)
+  const [gridVisible, setGridVisible] = useState(true);
+  const [snapToGrid, setSnapToGrid] = useState(false);
+
   /**
    * Convert scene tree to ReactFlow nodes and edges
    * Following octaneWeb's NodeGraphEditor.js pattern:
@@ -1368,7 +1372,12 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         style={{ width: '100%', height: '100%', position: 'relative' }}
       >
         {/* Node Graph Toolbar - Figure 10 vertical buttons (Search via Ctrl+F keyboard shortcut) */}
-        <NodeGraphToolbar />
+        <NodeGraphToolbar 
+          gridVisible={gridVisible}
+          setGridVisible={setGridVisible}
+          snapToGrid={snapToGrid}
+          setSnapToGrid={setSnapToGrid}
+        />
 
         <ReactFlow
         nodes={nodes}
@@ -1413,14 +1422,18 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         }}
         className="node-graph-reactflow"
         style={{ background: '#1a1a1a' }}
+        snapToGrid={snapToGrid}
+        snapGrid={[20, 20]}
       >
-        {/* Grid background matching Octane style */}
-        <Background 
-          variant={BackgroundVariant.Dots} 
-          gap={20} 
-          size={1} 
-          color="#333"
-        />
+        {/* Grid background matching Octane style - toggleable via toolbar */}
+        {gridVisible && (
+          <Background 
+            variant={BackgroundVariant.Dots} 
+            gap={20} 
+            size={1} 
+            color="#333"
+          />
+        )}
 
         {/* Minimap for navigation - top-left with yellow Octane styling and draggable viewport */}
         <MiniMap
