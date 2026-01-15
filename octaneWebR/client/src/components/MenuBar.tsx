@@ -338,21 +338,9 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
         break;
 
       // Window menu actions
-      case 'window.materialDatabase':
-        onMaterialDatabaseOpen?.();
-        break;
-
-      case 'window.resetLayout':
+      case 'window.resetWorkspace':
         onResetLayout?.();
-        showNotification('Layout reset to defaults', 'success');
-        break;
-
-      case 'window.fullscreen':
-        if (document.fullscreenElement) {
-          document.exitFullscreen();
-        } else {
-          document.documentElement.requestFullscreen();
-        }
+        showNotification('Workspace reset to defaults', 'success');
         break;
 
       case 'view.refresh':
@@ -471,7 +459,7 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
   // Register keyboard shortcuts
   useKeyboardShortcuts(keyboardShortcuts);
 
-  const menuItems = ['file', 'edit', 'script', 'view', 'window', 'help'];
+  const menuItems = ['file', 'edit', 'render', 'script', 'view', 'window', 'help'];
 
   return (
     <nav ref={menuBarRef} className="main-menu">

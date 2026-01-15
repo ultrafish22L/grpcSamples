@@ -49,7 +49,11 @@ export function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?:
       { type: 'separator' },
       { label: 'Save as default', action: 'file.saveAsDefault' },
       { type: 'separator' },
-      { label: 'Preferences...', action: 'file.preferences', shortcut: 'Ctrl+,' }
+      { label: 'Preferences...', action: 'file.preferences', shortcut: 'Ctrl+,' },
+      { type: 'separator' },
+      { label: 'Activation status...', action: 'file.activationStatus' },
+      { type: 'separator' },
+      { label: 'Quit', action: 'file.quit', shortcut: 'Ctrl+Q' }
     ],
     edit: [
       { label: 'Undo', action: 'edit.undo', shortcut: 'Ctrl+Z', icon: '↶' },
@@ -61,6 +65,12 @@ export function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?:
       { label: 'Delete', action: 'edit.delete', shortcut: 'Del', icon: '🗑️' },
       { type: 'separator' },
       { label: 'Select All', action: 'edit.selectAll', shortcut: 'Ctrl+A', icon: '☑️' }
+    ],
+    render: [
+      { label: 'Upload scene snapshot', action: 'render.uploadSnapshot' },
+      { label: 'Render', action: 'render.render' },
+      { label: 'Open Render Network...', action: 'render.openRenderNetwork' },
+      { label: 'Open Render Network (external)...', action: 'render.openRenderNetworkExternal' }
     ],
     script: [
       { label: 'Batch Rendering...', action: 'script.batchRender', icon: '🎬' },
@@ -96,10 +106,24 @@ export function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?:
       { label: 'Refresh Scene', action: 'view.refresh', shortcut: 'F5', icon: '🔄' }
     ],
     window: [
-      { label: 'Material Database', action: 'window.materialDatabase', icon: '💎' },
+      { label: 'Reset workspace', action: 'window.resetWorkspace' },
+      { label: 'Save workspace layout...', action: 'window.saveWorkspaceLayout' },
+      { label: 'Load workspace layout...', action: 'window.loadWorkspaceLayout' },
+      { label: 'Rescan layout folder', action: 'window.rescanLayoutFolder' },
+      { label: 'Save as default layout', action: 'window.saveAsDefaultLayout' },
+      { label: 'Load default layout', action: 'window.loadDefaultLayout' },
       { type: 'separator' },
-      { label: 'Reset Layout', action: 'window.resetLayout', icon: '↺' },
-      { label: 'Fullscreen', action: 'window.fullscreen', shortcut: 'F11', icon: '⛶' }
+      { label: 'Create log window', action: 'window.createLogWindow' },
+      { label: 'Create graph editor', action: 'window.createGraphEditor' },
+      { label: 'Create scene viewport', action: 'window.createSceneViewport' },
+      { label: 'Create scene outliner', action: 'window.createSceneOutliner' },
+      { type: 'separator' },
+      { label: 'Create scene graph export', action: 'window.createSceneGraphExport' },
+      { type: 'separator' },
+      { label: 'Create script editor', action: 'window.createScriptEditor' },
+      { label: 'Create OSL editor', action: 'window.createOSLEditor' },
+      { label: 'Create Lua API browser', action: 'window.createLuaAPIBrowser' },
+      { label: 'Create USD stage editor', action: 'window.createUSDStageEditor' }
     ],
     help: [
       { label: 'Documentation', action: 'help.docs', shortcut: 'F1', icon: '📚' },
