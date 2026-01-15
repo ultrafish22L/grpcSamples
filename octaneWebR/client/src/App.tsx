@@ -4,28 +4,176 @@
  * 
  * Layout Structure (matching octaneWeb exactly):
  * - Menu Bar (top)
- * - App Layout (grid):
- *   - Left Panel: Scene Outliner
- *   - Center Panel: Render Viewport + Render Toolbar
- *   - Right Panel: Node Inspector
- *   - Bottom Panel: Node Graph Editor
+ * - App Layout (5-column x 3-row grid):
+ *   - Column 1 (full height): Scene Outliner
+ *   - Column 2 (full height): Left vertical splitter
+ *   - Column 3 (2 rows): Render Viewport (top) + horizontal splitter + Node Graph Editor (bottom)
+ *   - Column 4 (full height): Right vertical splitter
+ *   - Column 5 (full height): Node Inspector
  * - Status Bar (bottom)
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { OctaneProvider, useOctane } from './hooks/useOctane';
 import { useResizablePanels } from './hooks/useResizablePanels';
+import { MenuBar } from './components/MenuBar';
 import { ConnectionStatus } from './components/ConnectionStatus';
-import { CallbackRenderViewport } from './components/CallbackRenderViewport';
+import { CallbackRenderViewport, CallbackRenderViewportHandle } from './components/CallbackRenderViewport';
+import { RenderToolbar } from './components/RenderToolbar';
 import { SceneOutliner } from './components/SceneOutliner';
 import { NodeInspector } from './components/NodeInspector';
-import { NodeGraphEditor } from './components/NodeGraphEditor';
+import { NodeInspectorControls } from './components/NodeInspectorControls';
+import { NodeGraphEditor } from './components/NodeGraph';
+import { MaterialDatabase } from './components/MaterialDatabase';
+import { SaveRenderDialog } from './components/SaveRenderDialog';
+import { ExportPassesDialog } from './components/ExportPassesDialog';
 import { SceneNode } from './services/OctaneClient';
+import { NodeType } from './constants/OctaneTypes';
 
 function AppContent() {
-  const { connect, connected } = useOctane();
+  const { client, connect, connected } = useOctane();
   const [selectedNode, setSelectedNode] = useState<SceneNode | null>(null);
-  const { panelSizes, handleSplitterMouseDown, containerRef, isDragging } = useResizablePanels();
+  const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
+  const [sceneRefreshTrigger, setSceneRefreshTrigger] = useState(0);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [showWorldCoord, setShowWorldCoord] = useState(true); // Display world coordinate axis
+  const [viewportLocked, setViewportLocked] = useState(false); // Lock viewport controls
+  const [pickingMode, setPickingMode] = useState<'none' | 'focus' | 'whiteBalance' | 'material' | 'object' | 'cameraTarget' | 'renderRegion' | 'filmRegion'>('none');
+  const [materialDatabaseVisible, setMaterialDatabaseVisible] = useState(false);
+  const [saveRenderDialogOpen, setSaveRenderDialogOpen] = useState(false);
+  const [exportPassesDialogOpen, setExportPassesDialogOpen] = useState(false);
+  
+  // Panel visibility state
+  const [panelVisibility, setPanelVisibility] = useState({
+    renderViewport: true,
+    nodeInspector: true,
+    graphEditor: true,
+    sceneOutliner: true
+  });
+  
+  const { panelSizes, handleSplitterMouseDown, containerRef, isDragging, resetPanelSizes } = useResizablePanels();
+  const viewportRef = useRef<CallbackRenderViewportHandle>(null);
+
+  // Scene tree change handler
+  const handleSceneTreeChange = (tree: SceneNode[]) => {
+    setSceneTree(tree);
+  };
+
+  // Scene sync state handler
+  const handleSyncStateChange = (syncing: boolean) => {
+    setIsSyncing(syncing);
+    console.log(syncing ? '🔄 Scene sync started...' : '✅ Scene sync complete');
+  };
+
+  // Scene refresh handler for MenuBar
+  const handleSceneRefresh = () => {
+    setSceneRefreshTrigger(prev => prev + 1);
+  };
+
+  // Add Node button handler - creates geometric plane primitive
+  const handleAddNode = async () => {
+    if (!connected || !client) {
+      console.log('⚠️ Cannot create node: not connected to Octane');
+      return;
+    }
+
+    if (isSyncing) {
+      console.log('⚠️ Cannot create node: scene is currently syncing');
+      return;
+    }
+
+    console.log('➕ Creating geometric plane primitive...');
+    
+    try {
+      const createdHandle = await client.createNode('NT_GEO_PLANE', NodeType.NT_GEO_PLANE);
+      if (createdHandle) {
+        console.log('✅ Geometric plane created with handle:', createdHandle);
+        // Note: UI will auto-refresh via sceneUpdated event listener
+      } else {
+        console.error('❌ Failed to create geometric plane');
+      }
+    } catch (error) {
+      console.error('❌ Error creating node:', error);
+    }
+  };
+
+  // Copy render to clipboard handler
+  const handleCopyToClipboard = async () => {
+    if (!viewportRef.current) {
+      console.warn('⚠️ Viewport not available for clipboard copy');
+      return;
+    }
+
+    try {
+      await viewportRef.current.copyToClipboard();
+    } catch (error) {
+      console.error('❌ Failed to copy to clipboard:', error);
+    }
+  };
+
+  // Save render to disk handler - opens dialog for format selection
+  const handleSaveRender = () => {
+    setSaveRenderDialogOpen(true);
+  };
+
+  // Export render passes handler - opens dialog
+  const handleExportPasses = () => {
+    setExportPassesDialogOpen(true);
+  };
+
+  // Viewport lock change handler
+  const handleViewportLockChange = (locked: boolean) => {
+    setViewportLocked(locked);
+    console.log(`🔒 App.tsx: Viewport lock ${locked ? 'enabled' : 'disabled'}`);
+  };
+
+  // Picking mode change handler
+  const handlePickingModeChange = (mode: 'none' | 'focus' | 'whiteBalance' | 'material' | 'object' | 'cameraTarget' | 'renderRegion' | 'filmRegion') => {
+    setPickingMode(mode);
+    console.log(`🎯 App.tsx: Picking mode changed to: ${mode}`);
+  };
+
+  // Recenter view handler - resets 2D canvas pan/zoom
+  const handleRecenterView = () => {
+    console.log('⌖ App.tsx: Recenter view requested');
+    viewportRef.current?.recenterView();
+  };
+
+  // Material Database handlers
+  const handleMaterialDatabaseOpen = () => {
+    console.log('💎 Opening Material Database');
+    setMaterialDatabaseVisible(true);
+  };
+
+  const handleMaterialDatabaseClose = () => {
+    console.log('💎 Closing Material Database');
+    setMaterialDatabaseVisible(false);
+  };
+
+  // Panel visibility toggle handler
+  const handleTogglePanelVisibility = (panel: 'renderViewport' | 'nodeInspector' | 'graphEditor' | 'sceneOutliner') => {
+    setPanelVisibility(prev => ({
+      ...prev,
+      [panel]: !prev[panel]
+    }));
+    console.log(`👁️ Toggled ${panel} visibility`);
+  };
+
+  // Reset layout handler - resets all panels to visible and default sizes
+  const handleResetLayout = () => {
+    console.log('↺ Resetting layout to defaults');
+    
+    // Reset all panels to visible
+    setPanelVisibility({
+      renderViewport: true,
+      nodeInspector: true,
+      graphEditor: true,
+      sceneOutliner: true
+    });
+    
+    // Reset panel sizes to defaults
+    resetPanelSizes();
+  };
 
   useEffect(() => {
     // Auto-connect on mount
@@ -36,22 +184,58 @@ function AppContent() {
       } else {
         console.log('⚠️ Could not connect to server');
       }
+    }).catch(error => {
+      console.error('❌ App.tsx: connect() threw error:', error);
     });
   }, [connect]);
+
+  // Listen for scene updates (node deletions, additions, etc.)
+  useEffect(() => {
+    if (!client) return;
+
+    const handleSceneUpdated = (scene: any) => {
+      console.log('🔄 Scene updated - refreshing UI components');
+      
+      // Update scene tree from client's internal state
+      const updatedTree = scene.tree || [];
+      setSceneTree(updatedTree);
+      
+      // Trigger SceneOutliner refresh (force re-mount to sync its internal state)
+      setSceneRefreshTrigger(prev => prev + 1);
+      
+      // If selected node was deleted, clear selection (Node Inspector behavior)
+      setSelectedNode(current => {
+        if (current && !scene.map?.has(current.handle)) {
+          console.log('⚠️ Selected node was deleted - clearing selection');
+          return null;
+        }
+        return current;
+      });
+    };
+
+    // Listen for scene updates (emitted by deleteNodeOptimized, etc.)
+    client.on('sceneUpdated', handleSceneUpdated);
+    
+    console.log('✅ Listening for sceneUpdated events');
+
+    // Cleanup listener on unmount
+    return () => {
+      client.off('sceneUpdated', handleSceneUpdated);
+      console.log('🔇 Stopped listening for sceneUpdated events');
+    };
+  }, [client]); // Only re-register when client changes, not on every selection
 
   return (
     <div className="app-container">
       {/* Top Menu Bar */}
       <header className="menu-bar">
-        <nav className="main-menu">
-          <div className="menu-item" data-menu="file">File</div>
-          <div className="menu-item" data-menu="edit">Edit</div>
-          <div className="menu-item" data-menu="script">Script</div>
-          <div className="menu-item" data-menu="module">Module</div>
-          <div className="menu-item" data-menu="cloud">Cloud</div>
-          <div className="menu-item" data-menu="window">Window</div>
-          <div className="menu-item" data-menu="help">Help</div>
-        </nav>
+        <MenuBar 
+          onSceneRefresh={handleSceneRefresh}
+          onMaterialDatabaseOpen={handleMaterialDatabaseOpen}
+          panelVisibility={panelVisibility}
+          onTogglePanelVisibility={handleTogglePanelVisibility}
+          onResetLayout={handleResetLayout}
+        />
         
         {/* Connection Status & Controls */}
         <ConnectionStatus />
@@ -62,101 +246,157 @@ function AppContent() {
         ref={containerRef}
         className={`app-layout ${isDragging ? 'resizing' : ''}`}
         style={{
-          gridTemplateColumns: `${panelSizes.left}px 4px 1fr 4px ${panelSizes.right}px`,
-          gridTemplateRows: `1fr 4px ${panelSizes.bottom}px`,
+          gridTemplateColumns: panelVisibility.sceneOutliner && panelVisibility.nodeInspector
+            ? `${panelSizes.left}px 4px 1fr 4px ${panelSizes.right}px`
+            : panelVisibility.sceneOutliner
+            ? `${panelSizes.left}px 4px 1fr`
+            : panelVisibility.nodeInspector
+            ? `1fr 4px ${panelSizes.right}px`
+            : '1fr',
+          gridTemplateRows: panelVisibility.renderViewport && panelVisibility.graphEditor
+            ? `${panelSizes.top}px 4px 1fr`
+            : panelVisibility.renderViewport
+            ? '1fr'
+            : panelVisibility.graphEditor
+            ? '1fr'
+            : '1fr',
         }}
       >
         
         {/* Left Panel: Scene Outliner - spans ALL rows (full height to bottom) */}
-        <aside className="left-panel panel" style={{ gridRow: '1 / -1' }}>
-          <div className="panel-header">
-            <h3>Scene outliner</h3>
-          </div>
-          <div className="panel-content">
-            <SceneOutliner onNodeSelect={setSelectedNode} />
-          </div>
-        </aside>
+        {panelVisibility.sceneOutliner && (
+          <>
+            <aside className="left-panel panel" style={{ gridRow: '1 / -1' }}>
+              <div className="panel-header">
+                <h3>Scene outliner</h3>
+              </div>
+              <div className="panel-content">
+                <SceneOutliner 
+                  key={sceneRefreshTrigger}
+                  selectedNode={selectedNode}
+                  onNodeSelect={setSelectedNode}
+                  onSceneTreeChange={handleSceneTreeChange}
+                  onSyncStateChange={handleSyncStateChange}
+                />
+              </div>
+            </aside>
 
-        {/* Left Splitter - spans ALL rows (full height) */}
-        <div 
-          className="panel-splitter vertical left-splitter"
-          onMouseDown={() => handleSplitterMouseDown('left')}
-          style={{ gridRow: '1 / -1' }}
-        />
+            {/* Left Splitter - spans ALL rows (full height) */}
+            <div 
+              className="panel-splitter vertical left-splitter"
+              onMouseDown={() => handleSplitterMouseDown('left')}
+              style={{ gridRow: '1 / -1' }}
+            />
+          </>
+        )}
 
-        {/* Center Panel: Render Viewport */}
-        <section className="center-panel">
-          <div className="viewport-header">
-            <div className="viewport-title">Render viewport - Render target @ 100%</div>
-            <div className="viewport-controls">
-              <button className="viewport-btn" title="Fit to Window">⊞</button>
-              <button className="viewport-btn" title="Actual Size">1:1</button>
-              <button className="viewport-btn" title="Zoom In">🔍+</button>
-              <button className="viewport-btn" title="Zoom Out">🔍-</button>
+        {/* Center Panel: Render Viewport - ROW 1, COLUMN 3 (top section of center column) */}
+        {panelVisibility.renderViewport && (
+          <section className="center-panel" style={{ gridColumn: '3 / 4', gridRow: '1 / 2' }}>
+            <div className="viewport-header">
+              <div className="viewport-title">Render viewport - Render target @ 100%</div>
+              <div className="viewport-controls">
+                <button className="viewport-btn" title="Fit to Window">⊞</button>
+                <button className="viewport-btn" title="Actual Size">1:1</button>
+                <button className="viewport-btn" title="Zoom In">🔍+</button>
+                <button className="viewport-btn" title="Zoom Out">🔍-</button>
+              </div>
             </div>
-          </div>
-          
-          <div className="viewport-container">
-            {connected ? (
-              <CallbackRenderViewport />
-            ) : (
-              <div className="viewport-overlay">
-                <div className="viewport-info">
-                  <h2>Connecting to Octane...</h2>
-                  <p>Ensure Octane LiveLink is enabled (Help → LiveLink)</p>
+            
+            <div className="viewport-container">
+              {connected ? (
+                <CallbackRenderViewport 
+                  ref={viewportRef} 
+                  showWorldCoord={showWorldCoord} 
+                  viewportLocked={viewportLocked}
+                  pickingMode={pickingMode}
+                />
+              ) : (
+                <div className="viewport-overlay">
+                  <div className="viewport-info">
+                    <h2>Connecting to Octane...</h2>
+                    <p>Ensure Octane LiveLink is enabled (Help → LiveLink)</p>
+                  </div>
+                </div>
+              )}
+            </div>
+            
+            {/* Render Toolbar - Official Octane viewport controls */}
+            <RenderToolbar 
+              onToggleWorldCoord={() => setShowWorldCoord(!showWorldCoord)} 
+              onCopyToClipboard={handleCopyToClipboard}
+              onSaveRender={handleSaveRender}
+              onExportPasses={handleExportPasses}
+              onRecenterView={handleRecenterView}
+              onViewportLockChange={handleViewportLockChange}
+              onPickingModeChange={handlePickingModeChange}
+            />
+          </section>
+        )}
+
+        {/* Center-Right Splitter & Right Panel: Node Inspector - spans ALL rows (full height) */}
+        {panelVisibility.nodeInspector && (
+          <>
+            <div 
+              className="panel-splitter vertical center-right-splitter"
+              onMouseDown={() => handleSplitterMouseDown('right')}
+              style={{ gridRow: '1 / -1' }}
+            />
+
+            <aside className="right-panel panel" style={{ gridRow: '1 / -1' }}>
+              <div className="panel-header">
+                <h3>Node inspector</h3>
+              </div>
+              <div className="panel-content">
+                <div className="node-inspector-layout">
+                  <NodeInspectorControls 
+                    sceneTree={sceneTree}
+                    onNodeSelect={setSelectedNode}
+                  />
+                  <div className="node-inspector-main">
+                    <NodeInspector node={selectedNode} />
+                  </div>
                 </div>
               </div>
+            </aside>
+          </>
+        )}
+
+        {/* Horizontal Splitter & Bottom Panel: Node Graph Editor - ROW 2 & 3, COLUMN 3 ONLY */}
+        {panelVisibility.graphEditor && (
+          <>
+            {panelVisibility.renderViewport && (
+              <div 
+                className="panel-splitter horizontal top-bottom-splitter"
+                onMouseDown={() => handleSplitterMouseDown('top')}
+                style={{ gridColumn: '3 / 4' }}
+              />
             )}
-          </div>
-          
-          {/* Render Toolbar will go here */}
-          <div className="render-toolbar-container">
-            {/* TODO: Port RenderToolbar component */}
-          </div>
-        </section>
 
-        {/* Right Splitter - spans ALL rows (full height) */}
-        <div 
-          className="panel-splitter vertical right-splitter"
-          onMouseDown={() => handleSplitterMouseDown('right')}
-          style={{ gridRow: '1 / -1' }}
-        />
-
-        {/* Right Panel: Node Inspector - spans ALL rows (full height to bottom) */}
-        <aside className="right-panel panel" style={{ gridRow: '1 / -1' }}>
-          <div className="panel-header">
-            <h3>Node inspector</h3>
-          </div>
-          <div className="panel-content">
-            <NodeInspector node={selectedNode} />
-          </div>
-        </aside>
-
-        {/* Horizontal Splitter - only in CENTER column (under render viewport) */}
-        <div 
-          className="panel-splitter horizontal bottom-splitter"
-          onMouseDown={() => handleSplitterMouseDown('bottom')}
-        />
-
-        {/* Bottom Panel: Node Graph Editor - only in CENTER column (same width as viewport) */}
-        <section className="bottom-panel panel">
-          {/* Vertical Quick Access Buttons (Left Side) */}
-          <div className="node-graph-controls-vertical">
-            <button className="quick-btn" title="Add Node">+</button>
-            <button className="quick-btn" title="Delete Node">🗑</button>
-            <button className="quick-btn" title="Fit All">⊞</button>
-          </div>
-
-          {/* Main Node Graph Content (Right Side) */}
-          <div className="node-graph-main">
-            <div className="node-graph-header">
-              <h3>Node graph editor</h3>
-            </div>
-            <div className="node-graph-container">
-              <NodeGraphEditor selectedNode={selectedNode} />
-            </div>
-          </div>
-        </section>
+            <section className="bottom-panel panel" style={{ gridColumn: '3 / 4' }}>
+              <div className="node-graph-header">
+                <h3>Node graph editor</h3>
+                <div className="node-graph-controls">
+                  <button 
+                    className="node-btn" 
+                    title={isSyncing ? "Cannot add node while syncing" : "Add Node"} 
+                    onClick={handleAddNode}
+                    disabled={!connected || isSyncing}
+                  >+</button>
+                  <button className="node-btn" title="Delete Node">🗑</button>
+                  <button className="node-btn" title="Fit All">⊞</button>
+                </div>
+              </div>
+              <div className="node-graph-container">
+                <NodeGraphEditor 
+                  sceneTree={sceneTree} 
+                  selectedNode={selectedNode}
+                  onNodeSelect={setSelectedNode} 
+                />
+              </div>
+            </section>
+          </>
+        )}
         
       </main>
 
@@ -173,6 +413,24 @@ function AppContent() {
           <span className="status-item">FPS: <span id="fps-counter">0</span></span>
         </div>
       </footer>
+
+      {/* Material Database Modal */}
+      <MaterialDatabase
+        visible={materialDatabaseVisible}
+        onClose={handleMaterialDatabaseClose}
+      />
+
+      {/* Save Render Dialog */}
+      <SaveRenderDialog
+        isOpen={saveRenderDialogOpen}
+        onClose={() => setSaveRenderDialogOpen(false)}
+      />
+
+      {/* Export Passes Dialog */}
+      <ExportPassesDialog
+        isOpen={exportPassesDialogOpen}
+        onClose={() => setExportPassesDialogOpen(false)}
+      />
     </div>
   );
 }

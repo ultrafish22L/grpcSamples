@@ -6,45 +6,7 @@
 import { useEffect, useState } from 'react';
 import { useOctane } from '../hooks/useOctane';
 import { SceneNode } from '../services/OctaneClient';
-import { ContextMenu, ContextMenuItem } from './ContextMenu';
-
-// Node icon mapping based on Octane API type strings (e.g., 'PT_GEOMETRY')
-// Reference: octaneWeb/js/utils/OctaneIconMapper.js
-// API returns string types like 'PT_GEOMETRY', not numeric enums
-const NODE_ICON_MAP: Record<string, string> = {
-  // Parameter types
-  'PT_BOOL': '☑️',
-  'PT_FLOAT': '🔢',
-  'PT_INT': '🔢',
-  'PT_ENUM': '📋',
-  'PT_RGB': '🎨',
-  'PT_STRING': '📝',
-  'PT_TRANSFORM': '🔄',
-  
-  // Scene node types
-  'PT_RENDER_TARGET': '🎯',
-  'PT_RENDERTARGET': '🎯',  // Fallback without underscore
-  'PT_MESH': '🫖',
-  'PT_GEOMETRY': '🫖',
-  'PT_CAMERA': '📷',
-  'PT_LIGHT': '💡',
-  'PT_MATERIAL': '🎨',
-  'PT_EMISSION': '💡',
-  'PT_TEXTURE': '🖼️',
-  'PT_DISPLACEMENT': '〰️',
-  'PT_ENVIRONMENT': '🌍',
-  'PT_MEDIUM': '💨',
-  
-  // Settings and configuration types
-  'PT_FILM_SETTINGS': '🎬',
-  'PT_ANIMATION_SETTINGS': '⏱️',
-  'PT_KERNEL': '🔧',
-  'PT_RENDER_LAYER': '🎭',
-  'PT_RENDER_PASSES': '📊',
-  'PT_OUTPUT_AOV_GROUP': '📤',
-  'PT_IMAGER': '📷',
-  'PT_POSTPROCESSING': '⚙️',
-};
+import { OctaneIconMapper } from '../utils/OctaneIconMapper';
 
 const getNodeIcon = (node: SceneNode): string => {
   // Special case: Scene root
@@ -52,16 +14,9 @@ const getNodeIcon = (node: SceneNode): string => {
     return '📁'; // Folder icon for scene root
   }
   
-  // API returns string types like 'PT_GEOMETRY', not numeric enums
-  const outType = node.type || '';
-  
-  // Check if we have an icon mapping
-  if (NODE_ICON_MAP[outType]) {
-    return NODE_ICON_MAP[outType];
-  }
-  
-  // Default icon for unknown types
-  return '⚪';
+  // Use OctaneIconMapper for consistent icon mapping
+  const outType = String(node.type || node.outType || 'unknown');
+  return OctaneIconMapper.getNodeIcon(outType, node.name);
 };
 
 interface SceneTreeItemProps {
@@ -69,23 +24,33 @@ interface SceneTreeItemProps {
   depth: number;
   onSelect: (node: SceneNode) => void;
   selectedHandle: number | null;
-  onContextMenu: (node: SceneNode, x: number, y: number) => void;
+  expandAllSignal?: number;
+  collapseAllSignal?: number;
 }
 
-function SceneTreeItem({ node, depth, onSelect, selectedHandle, onContextMenu }: SceneTreeItemProps) {
-  // Scene root starts expanded by default
-  const [expanded, setExpanded] = useState(node.type === 'SceneRoot');
+function SceneTreeItem({ node, depth, onSelect, selectedHandle, expandAllSignal, collapseAllSignal }: SceneTreeItemProps) {
+    // Scene root and Render target start expanded by default
+  const [expanded, setExpanded] = useState(
+    node.type === 'SceneRoot' || node.type === 'PT_RENDERTARGET'
+  );
   const hasChildren = node.children && node.children.length > 0;
   const isSelected = selectedHandle === node.handle;
 
-  const handleContextMenu = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    // Don't show context menu for synthetic Scene root
-    if (node.type !== 'SceneRoot') {
-      onContextMenu(node, e.clientX, e.clientY);
+  // Respond to expand/collapse all signals
+  useEffect(() => {
+    if (expandAllSignal && expandAllSignal > 0 && hasChildren) {
+      setExpanded(true);
     }
-  };
+  }, [expandAllSignal, hasChildren]);
+
+  useEffect(() => {
+    if (collapseAllSignal && collapseAllSignal > 0) {
+      // Don't collapse the Scene root
+      if (node.type !== 'SceneRoot') {
+        setExpanded(false);
+      }
+    }
+  }, [collapseAllSignal, node.type]);
 
   return (
     <>
@@ -98,7 +63,6 @@ function SceneTreeItem({ node, depth, onSelect, selectedHandle, onContextMenu }:
             onSelect(node);
           }
         }}
-        onContextMenu={handleContextMenu}
       >
         <div className="node-content">
           {hasChildren ? (
@@ -115,150 +79,495 @@ function SceneTreeItem({ node, depth, onSelect, selectedHandle, onContextMenu }:
             <span className="node-spacer"></span>
           )}
           <span className="node-icon">{getNodeIcon(node)}</span>
-          <span className="node-name">
-            {node.name}
-            {node.type !== 'SceneRoot' && node.type && (
-              <span className="node-type-label"> Type {node.type}</span>
-            )}
-          </span>
+          <span className="node-name">{node.name}</span>
         </div>
       </div>
-      {expanded && hasChildren && node.children!.map(child => (
-        <SceneTreeItem
-          key={child.handle}
-          node={child}
-          depth={depth + 1}
-          onSelect={onSelect}
-          selectedHandle={selectedHandle}
-          onContextMenu={onContextMenu}
-        />
-      ))}
+      {expanded && hasChildren && node.children!.map((child, index) => {
+        // Generate unique key: use handle + pin index for NO_ITEM nodes (handle=0)
+        // Pin index comes from pinInfo.ix, fallback to array index
+        const uniqueKey = child.handle !== 0 
+          ? child.handle 
+          : `${node.handle}_pin${child.pinInfo?.ix ?? index}`;
+        
+        return (
+          <SceneTreeItem
+            key={uniqueKey}
+            node={child}
+            depth={depth + 1}
+            onSelect={onSelect}
+            selectedHandle={selectedHandle}
+            expandAllSignal={expandAllSignal}
+            collapseAllSignal={collapseAllSignal}
+          />
+        );
+      })}
     </>
   );
 }
 
 interface SceneOutlinerProps {
+  selectedNode?: SceneNode | null;
   onNodeSelect?: (node: SceneNode | null) => void;
+  onSceneTreeChange?: (sceneTree: SceneNode[]) => void;
+  onSyncStateChange?: (syncing: boolean) => void;
 }
 
 type TabType = 'scene' | 'livedb' | 'localdb';
 
-export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
+interface LocalDBCategory {
+  handle: number;
+  name: string;
+  subcategories: LocalDBCategory[];
+  packages: LocalDBPackage[];
+  loaded: boolean;
+}
+
+interface LocalDBPackage {
+  handle: number;
+  name: string;
+}
+
+interface LiveDBCategory {
+  id: number;
+  name: string;
+  parentID: number;
+  typeID: number;
+  expanded: boolean;
+  materials: LiveDBMaterial[];
+  loaded: boolean;
+}
+
+interface LiveDBMaterial {
+  id: number;
+  name: string;
+  nickname: string;
+  copyright: string;
+  previewUrl?: string;
+}
+
+// LiveDB tree item component
+interface LiveDBTreeItemProps {
+  category: LiveDBCategory;
+  depth: number;
+  onToggleCategory: (category: LiveDBCategory) => void;
+  onDownloadMaterial: (material: LiveDBMaterial) => void;
+}
+
+function LiveDBTreeItem({ category, depth, onToggleCategory, onDownloadMaterial }: LiveDBTreeItemProps) {
+  const handleToggle = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onToggleCategory(category);
+  };
+
+  return (
+    <>
+      <div className={`tree-node level-${depth}`}>
+        <div className="node-content">
+          <span
+            className={`node-toggle ${category.expanded ? 'expanded' : 'collapsed'}`}
+            onClick={handleToggle}
+          >
+            {category.expanded ? '−' : '+'}
+          </span>
+          <span className="node-icon">📁</span>
+          <span className="node-name">{category.name}</span>
+        </div>
+      </div>
+      {category.expanded && category.loaded && (
+        <>
+          {/* Render materials in this category */}
+          {category.materials.map((material) => (
+            <div
+              key={material.id}
+              className={`tree-node level-${depth + 1} material-item`}
+              onDoubleClick={() => onDownloadMaterial(material)}
+              title={`Double-click to download: ${material.name}\n${material.copyright ? `© ${material.copyright}` : ''}`}
+            >
+              <div className="node-content">
+                <span className="node-spacer"></span>
+                {material.previewUrl ? (
+                  <img 
+                    src={material.previewUrl} 
+                    alt={material.name}
+                    className="material-thumbnail"
+                    style={{ width: '16px', height: '16px', objectFit: 'cover', marginRight: '4px' }}
+                  />
+                ) : (
+                  <span className="node-icon">🎨</span>
+                )}
+                <span className="node-name">{material.name}</span>
+              </div>
+            </div>
+          ))}
+        </>
+      )}
+    </>
+  );
+}
+
+// LocalDB tree item component
+interface LocalDBTreeItemProps {
+  category: LocalDBCategory;
+  depth: number;
+  onLoadCategory: (category: LocalDBCategory) => void;
+  onLoadPackage: (pkg: LocalDBPackage) => void;
+}
+
+function LocalDBTreeItem({ category, depth, onLoadCategory, onLoadPackage }: LocalDBTreeItemProps) {
+  const [expanded, setExpanded] = useState(depth === 0); // Root starts expanded
+  const hasChildren = category.subcategories.length > 0 || category.packages.length > 0;
+
+  const handleToggle = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!expanded && !category.loaded) {
+      // Load children when expanding for the first time
+      await onLoadCategory(category);
+    }
+    setExpanded(!expanded);
+  };
+
+  return (
+    <>
+      <div className={`tree-node level-${depth}`}>
+        <div className="node-content">
+          {hasChildren || !category.loaded ? (
+            <span
+              className={`node-toggle ${expanded ? 'expanded' : 'collapsed'}`}
+              onClick={handleToggle}
+            >
+              {expanded ? '−' : '+'}
+            </span>
+          ) : (
+            <span className="node-spacer"></span>
+          )}
+          <span className="node-icon">📁</span>
+          <span className="node-name">{category.name}</span>
+        </div>
+      </div>
+      {expanded && (
+        <>
+          {/* Render subcategories */}
+          {category.subcategories.map((subcat) => (
+            <LocalDBTreeItem
+              key={subcat.handle}
+              category={subcat}
+              depth={depth + 1}
+              onLoadCategory={onLoadCategory}
+              onLoadPackage={onLoadPackage}
+            />
+          ))}
+          {/* Render packages */}
+          {category.packages.map((pkg) => (
+            <div
+              key={pkg.handle}
+              className={`tree-node level-${depth + 1} package-item`}
+              onDoubleClick={() => onLoadPackage(pkg)}
+              title="Double-click to load package into scene"
+            >
+              <div className="node-content">
+                <span className="node-spacer"></span>
+                <span className="node-icon">📦</span>
+                <span className="node-name">{pkg.name}</span>
+              </div>
+            </div>
+          ))}
+        </>
+      )}
+    </>
+  );
+}
+
+export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange, onSyncStateChange }: SceneOutlinerProps) {
   const { client, connected } = useOctane();
-  const [selectedNode, setSelectedNode] = useState<SceneNode | null>(null);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('scene');
+  const [localDBRoot, setLocalDBRoot] = useState<LocalDBCategory | null>(null);
+  const [localDBLoading, setLocalDBLoading] = useState(false);
+  const [liveDBCategories, setLiveDBCategories] = useState<LiveDBCategory[]>([]);
+  const [liveDBLoading, setLiveDBLoading] = useState(false);
   const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
-  const [contextMenu, setContextMenu] = useState<{ node: SceneNode; x: number; y: number } | null>(null);
+  const [expandAllSignal, setExpandAllSignal] = useState(0);
+  const [collapseAllSignal, setCollapseAllSignal] = useState(0);
 
   const handleNodeSelect = (node: SceneNode) => {
-    setSelectedNode(node);
     onNodeSelect?.(node);
   };
 
-  const handleContextMenu = (node: SceneNode, x: number, y: number) => {
-    setContextMenu({ node, x, y });
-  };
-
-  const handleContextMenuClose = () => {
-    setContextMenu(null);
-  };
-
-  const handleContextMenuAction = (action: string) => {
-    console.log(`Scene Outliner context menu action: ${action}`, contextMenu?.node);
-    // TODO: Implement context menu actions
-    switch (action) {
-      case 'render':
-        console.log('Render action - to be implemented');
-        break;
-      case 'save':
-        console.log('Save action - to be implemented');
-        break;
-      case 'cut':
-        console.log('Cut action - to be implemented');
-        break;
-      case 'copy':
-        console.log('Copy action - to be implemented');
-        break;
-      case 'paste':
-        console.log('Paste action - to be implemented');
-        break;
-      case 'delete':
-        console.log('Delete action - to be implemented');
-        break;
-      case 'show-in-graph':
-        console.log('Show in Graph Editor - to be implemented');
-        break;
-      case 'show-in-lua':
-        console.log('Show in Lua API browser - to be implemented');
-        break;
-    }
-  };
-
-  const sceneOutlinerContextMenuItems: ContextMenuItem[] = [
-    { label: 'Render', action: 'render' },
-    { label: 'Save...', action: 'save' },
-    { label: '', action: '', separator: true },
-    { label: 'Cut', action: 'cut', shortcut: 'Ctrl+X' },
-    { label: 'Copy', action: 'copy', shortcut: 'Ctrl+C' },
-    { label: 'Paste', action: 'paste', shortcut: 'Ctrl+V', disabled: true },
-    { label: '', action: '', separator: true },
-    { label: 'Delete', action: 'delete', shortcut: 'Del' },
-    { label: '', action: '', separator: true },
-    { label: 'Show in Graph Editor', action: 'show-in-graph' },
-    { label: 'Show in Lua API browser', action: 'show-in-lua' },
-  ];
-
   const loadSceneTree = async () => {
-    if (!connected) {
-      console.log('⚠️ Cannot load scene: not connected');
-      return;
-    }
-    if (!client) {
-      console.log('⚠️ Cannot load scene: no client');
+    if (!connected || !client) {
       return;
     }
 
     console.log('🔄 Loading scene tree from Octane...');
     setLoading(true);
+    onSyncStateChange?.(true);
     
     try {
-      // Use the new buildSceneTree method that properly recurses
       const tree = await client.buildSceneTree();
+      
       setSceneTree(tree);
+      onSceneTreeChange?.(tree);
       
       console.log(`✅ Loaded ${tree.length} top-level items`);
-      
-      // Debug: Log the typeEnum values for each item
-      tree.forEach((item, idx) => {
-        console.log(`📊 Scene item ${idx}: ${item.name} typeEnum=${item.typeEnum} type=${item.type}`);
-      });
+
+      // Auto-select render target node after scene is loaded
+      const findRenderTarget = (nodes: SceneNode[]): SceneNode | null => {
+        for (const node of nodes) {
+          if (node.type === 'PT_RENDERTARGET' || node.type === 'PT_RENDER_TARGET') {
+            return node;
+          }
+          if (node.children) {
+            const found = findRenderTarget(node.children);
+            if (found) return found;
+          }
+        }
+        return null;
+      };
+
+      const renderTarget = findRenderTarget(tree);
+      if (renderTarget) {
+        handleNodeSelect(renderTarget);
+      }
     } catch (error: any) {
       console.error('❌ Failed to load scene tree:', error);
-      console.error('Error stack:', error.stack);
     } finally {
       setLoading(false);
+      onSyncStateChange?.(false);
+    }
+  };
+
+  // Load LocalDB categories and packages
+  const loadLocalDB = async () => {
+    if (!client) return;
+    
+    setLocalDBLoading(true);
+    try {
+      const rootHandle = await client.getLocalDBRoot();
+      if (!rootHandle) {
+        console.warn('⚠️ LocalDB not available or empty');
+        setLocalDBRoot(null);
+        return;
+      }
+
+      const rootName = await client.getCategoryName(rootHandle);
+      const root: LocalDBCategory = {
+        handle: rootHandle,
+        name: rootName,
+        subcategories: [],
+        packages: [],
+        loaded: false
+      };
+
+      // Load root level categories and packages
+      await loadCategoryChildren(root);
+      setLocalDBRoot(root);
+      console.log('✅ LocalDB loaded:', root);
+    } catch (error) {
+      console.error('❌ Failed to load LocalDB:', error);
+      setLocalDBRoot(null);
+    } finally {
+      setLocalDBLoading(false);
+    }
+  };
+
+  // Load children (subcategories and packages) for a category
+  const loadCategoryChildren = async (category: LocalDBCategory) => {
+    if (!client || category.loaded) return;
+
+    try {
+      // Load subcategories
+      const subCatCount = await client.getSubCategoryCount(category.handle);
+      for (let i = 0; i < subCatCount; i++) {
+        const subCatHandle = await client.getSubCategory(category.handle, i);
+        if (subCatHandle) {
+          const subCatName = await client.getCategoryName(subCatHandle);
+          category.subcategories.push({
+            handle: subCatHandle,
+            name: subCatName,
+            subcategories: [],
+            packages: [],
+            loaded: false
+          });
+        }
+      }
+
+      // Load packages
+      const pkgCount = await client.getPackageCount(category.handle);
+      for (let i = 0; i < pkgCount; i++) {
+        const pkgHandle = await client.getPackage(category.handle, i);
+        if (pkgHandle) {
+          const pkgName = await client.getPackageName(pkgHandle);
+          category.packages.push({
+            handle: pkgHandle,
+            name: pkgName
+          });
+        }
+      }
+
+      category.loaded = true;
+    } catch (error) {
+      console.error('❌ Failed to load category children:', error);
+    }
+  };
+
+  // Handle package double-click to load into scene
+  const handlePackageLoad = async (pkg: LocalDBPackage) => {
+    if (!client) return;
+    
+    try {
+      console.log(`Loading package: ${pkg.name}`);
+      const success = await client.loadPackage(pkg.handle);
+      if (success) {
+        alert(`✅ Package "${pkg.name}" loaded successfully!\n\nCheck the Node Graph to see the loaded nodes.`);
+      } else {
+        alert(`❌ Failed to load package "${pkg.name}"`);
+      }
+    } catch (error) {
+      console.error('❌ Failed to load package:', error);
+      alert(`❌ Error loading package: ${error}`);
+    }
+  };
+
+  // Load LiveDB categories
+  const loadLiveDB = async () => {
+    if (!client) return;
+    
+    setLiveDBLoading(true);
+    try {
+      const rawCategories = await client.getLiveDBCategories();
+      if (!rawCategories || rawCategories.length === 0) {
+        console.warn('⚠️ LiveDB not available or empty');
+        setLiveDBCategories([]);
+        return;
+      }
+
+      // Convert to LiveDBCategory format
+      const categories: LiveDBCategory[] = rawCategories.map(cat => ({
+        id: cat.id,
+        name: cat.name,
+        parentID: cat.parentID,
+        typeID: cat.typeID,
+        expanded: false,
+        materials: [],
+        loaded: false
+      }));
+
+      setLiveDBCategories(categories);
+      console.log(`✅ LiveDB loaded with ${categories.length} categories`);
+    } catch (error) {
+      console.error('❌ Failed to load LiveDB:', error);
+      setLiveDBCategories([]);
+    } finally {
+      setLiveDBLoading(false);
+    }
+  };
+
+  // Toggle LiveDB category expansion and load materials if needed
+  const handleLiveDBCategoryToggle = async (category: LiveDBCategory) => {
+    if (!client) return;
+
+    // If not loaded yet, load materials for this category
+    if (!category.loaded && !category.expanded) {
+      try {
+        console.log(`Loading materials for category: ${category.name}`);
+        const materials = await client.getLiveDBMaterials(category.id);
+        
+        // Load preview thumbnails for first few materials (limit to avoid overwhelming the server)
+        const materialsWithPreviews = await Promise.all(
+          materials.slice(0, 10).map(async (mat) => {
+            const preview = await client.getLiveDBMaterialPreview(mat.id, 128, 0);
+            return { ...mat, previewUrl: preview || undefined };
+          })
+        );
+
+        // Update the category
+        category.materials = [...materialsWithPreviews, ...materials.slice(10)];
+        category.loaded = true;
+      } catch (error) {
+        console.error(`❌ Failed to load materials for category ${category.name}:`, error);
+      }
+    }
+
+    // Toggle expanded state
+    category.expanded = !category.expanded;
+    setLiveDBCategories([...liveDBCategories]); // Force re-render
+  };
+
+  // Handle LiveDB material download
+  const handleLiveDBMaterialDownload = async (material: LiveDBMaterial) => {
+    if (!client) return;
+    
+    try {
+      console.log(`Downloading material: ${material.name}`);
+      const materialHandle = await client.downloadLiveDBMaterial(material.id);
+      if (materialHandle) {
+        alert(`✅ Material "${material.name}" downloaded successfully!\n\nCheck the Node Graph to see the material nodes.`);
+      } else {
+        alert(`❌ Failed to download material "${material.name}"`);
+      }
+    } catch (error) {
+      console.error('❌ Failed to download material:', error);
+      alert(`❌ Error downloading material: ${error}`);
     }
   };
 
   // Auto-load on connect (only once when connected becomes true)
   useEffect(() => {
-    console.log('🔍 SceneOutliner useEffect triggered:', { connected, hasClient: !!client });
     if (connected && client) {
-      console.log('🎬 Auto-loading scene tree on connect');
       loadSceneTree();
-    } else {
-      console.log('⏳ Waiting for connection...');
+    } else if (client && !loading) {
+      // Fallback: Force load scene tree even if connected state is false
+      loadSceneTree();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connected, client]);
+
+  // Load LocalDB when Local DB tab becomes active
+  useEffect(() => {
+    if (activeTab === 'localdb' && !localDBRoot && !localDBLoading && client) {
+      loadLocalDB();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, client]);
+
+  // Load LiveDB when Live DB tab becomes active
+  useEffect(() => {
+    if (activeTab === 'livedb' && liveDBCategories.length === 0 && !liveDBLoading && client) {
+      loadLiveDB();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, client]);
+
+  const handleExpandAll = () => {
+    setExpandAllSignal(prev => prev + 1);
+  };
+
+  const handleCollapseAll = () => {
+    setCollapseAllSignal(prev => prev + 1);
+  };
 
   return (
     <div className="scene-outliner">
       {/* Scene Outliner Button Bar (above tabs) */}
       <div className="scene-outliner-button-bar">
-        <button className="outliner-btn" title="Expand tree" data-action="expand-tree">⊞</button>
-        <button className="outliner-btn" title="Collapse tree" data-action="collapse-tree">⊟</button>
+        <button 
+          className="outliner-btn" 
+          title="Expand all nodes" 
+          data-action="expand-tree"
+          onClick={handleExpandAll}
+          disabled={loading || !connected || sceneTree.length === 0}
+        >
+          ⊞
+        </button>
+        <button 
+          className="outliner-btn" 
+          title="Collapse all nodes" 
+          data-action="collapse-tree"
+          onClick={handleCollapseAll}
+          disabled={loading || !connected || sceneTree.length === 0}
+        >
+          ⊟
+        </button>
         <button 
           className="outliner-btn refresh-tree-btn" 
           title="Refresh tree" 
@@ -310,7 +619,7 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
               {/* Create a synthetic Scene root node with children */}
               <SceneTreeItem
                 node={{
-                  handle: 0,
+                  handle: -1, // Use -1 for synthetic root to avoid collision with NO_ITEM (0)
                   name: 'Scene',
                   type: 'SceneRoot',
                   typeEnum: 0,
@@ -319,7 +628,8 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
                 depth={0}
                 onSelect={handleNodeSelect}
                 selectedHandle={selectedNode?.handle || null}
-                onContextMenu={handleContextMenu}
+                expandAllSignal={expandAllSignal}
+                collapseAllSignal={collapseAllSignal}
               />
             </div>
           ) : (
@@ -331,27 +641,61 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
       {/* Tab Content: Live DB */}
       <div className={`scene-tab-content ${activeTab === 'livedb' ? 'active' : ''}`} data-content="livedb">
         <div className="db-content">
-          <div className="db-status">Live DB - Connect to access online materials</div>
+          {liveDBLoading && (
+            <div className="scene-loading">Loading LiveDB...</div>
+          )}
+          {!liveDBLoading && liveDBCategories.length === 0 && (
+            <div className="db-status">
+              Live DB - No online materials available
+              <br />
+              <small>Check your internet connection or Octane account</small>
+            </div>
+          )}
+          {!liveDBLoading && liveDBCategories.length > 0 && (
+            <div className="scene-tree">
+              {liveDBCategories.map((category) => (
+                <LiveDBTreeItem
+                  key={category.id}
+                  category={category}
+                  depth={0}
+                  onToggleCategory={handleLiveDBCategoryToggle}
+                  onDownloadMaterial={handleLiveDBMaterialDownload}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
       
       {/* Tab Content: Local DB */}
       <div className={`scene-tab-content ${activeTab === 'localdb' ? 'active' : ''}`} data-content="localdb">
         <div className="db-content">
-          <div className="db-status">Local DB - No local materials found</div>
+          {localDBLoading && (
+            <div className="scene-loading">Loading LocalDB...</div>
+          )}
+          {!localDBLoading && !localDBRoot && (
+            <div className="db-status">
+              Local DB - No materials found
+              <br />
+              <small>Add materials to your LocalDB directory to see them here</small>
+            </div>
+          )}
+          {!localDBLoading && localDBRoot && (
+            <div className="scene-tree">
+              <LocalDBTreeItem
+                category={localDBRoot}
+                depth={0}
+                onLoadCategory={async (cat) => {
+                  await loadCategoryChildren(cat);
+                  // Force re-render by updating state
+                  setLocalDBRoot({ ...localDBRoot });
+                }}
+                onLoadPackage={handlePackageLoad}
+              />
+            </div>
+          )}
         </div>
       </div>
-
-      {/* Context Menu */}
-      {contextMenu && (
-        <ContextMenu
-          items={sceneOutlinerContextMenuItems}
-          x={contextMenu.x}
-          y={contextMenu.y}
-          onClose={handleContextMenuClose}
-          onItemClick={handleContextMenuAction}
-        />
-      )}
     </div>
   );
 }
