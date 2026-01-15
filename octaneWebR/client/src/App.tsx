@@ -24,6 +24,7 @@ import { SceneOutliner } from './components/SceneOutliner';
 import { NodeInspector } from './components/NodeInspector';
 import { NodeInspectorControls } from './components/NodeInspectorControls';
 import { NodeGraphEditor } from './components/NodeGraph';
+import { NodeGraphToolbar } from './components/NodeGraph/NodeGraphToolbar';
 import { MaterialDatabase } from './components/MaterialDatabase';
 import { SaveRenderDialog } from './components/SaveRenderDialog';
 import { ExportPassesDialog } from './components/ExportPassesDialog';
@@ -50,6 +51,10 @@ function AppContent() {
     graphEditor: true,
     sceneOutliner: true
   });
+
+  // Node Graph Editor toolbar state (Figure 10 buttons)
+  const [gridVisible, setGridVisible] = useState(true);
+  const [snapToGrid, setSnapToGrid] = useState(false);
   
   const { panelSizes, handleSplitterMouseDown, containerRef, isDragging, resetPanelSizes } = useResizablePanels();
   const viewportRef = useRef<CallbackRenderViewportHandle>(null);
@@ -376,22 +381,23 @@ function AppContent() {
             <section className="bottom-panel panel" style={{ gridColumn: '3 / 4' }}>
               <div className="node-graph-header">
                 <h3>Node graph editor</h3>
-                <div className="node-graph-controls">
-                  <button 
-                    className="node-btn" 
-                    title={isSyncing ? "Cannot add node while syncing" : "Add Node"} 
-                    onClick={handleAddNode}
-                    disabled={!connected || isSyncing}
-                  >+</button>
-                  <button className="node-btn" title="Delete Node">🗑</button>
-                  <button className="node-btn" title="Fit All">⊞</button>
-                </div>
+                {/* Node Graph Toolbar - Figure 10 vertical buttons, always visible */}
+                <NodeGraphToolbar
+                  gridVisible={gridVisible}
+                  setGridVisible={setGridVisible}
+                  snapToGrid={snapToGrid}
+                  setSnapToGrid={setSnapToGrid}
+                />
               </div>
               <div className="node-graph-container">
                 <NodeGraphEditor 
                   sceneTree={sceneTree} 
                   selectedNode={selectedNode}
-                  onNodeSelect={setSelectedNode} 
+                  onNodeSelect={setSelectedNode}
+                  gridVisible={gridVisible}
+                  setGridVisible={setGridVisible}
+                  snapToGrid={snapToGrid}
+                  setSnapToGrid={setSnapToGrid}
                 />
               </div>
             </section>

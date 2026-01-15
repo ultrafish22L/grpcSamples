@@ -34,13 +34,16 @@ import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
 import { NodeTypeContextMenu } from './NodeTypeContextMenu';
 import { NodeContextMenu } from './NodeContextMenu';
 import { SearchDialog } from './SearchDialog';
-import { NodeGraphToolbar } from './NodeGraphToolbar';
 import { NodeType } from '../../constants/OctaneTypes';
 
 interface NodeGraphEditorProps {
   sceneTree: SceneNode[];
   selectedNode?: SceneNode | null;
   onNodeSelect?: (node: SceneNode | null) => void;
+  gridVisible: boolean;
+  setGridVisible: (visible: boolean) => void;
+  snapToGrid: boolean;
+  setSnapToGrid: (snap: boolean) => void;
 }
 
 // Define custom node types
@@ -51,7 +54,15 @@ const nodeTypes = {
 /**
  * Inner component with ReactFlow context access
  */
-function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGraphEditorProps) {
+function NodeGraphEditorInner({ 
+  sceneTree, 
+  selectedNode, 
+  onNodeSelect,
+  gridVisible,
+  setGridVisible,
+  snapToGrid,
+  setSnapToGrid
+}: NodeGraphEditorProps) {
   const { client, connected } = useOctane();
   const { fitView } = useReactFlow();
   
@@ -86,10 +97,6 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
   // Track connection line color during drag (matches source pin color)
   const [connectionLineColor, setConnectionLineColor] = useState('#ffc107');
   const connectingEdgeRef = useRef<Edge | null>(null); // Track if creating new connection vs reconnecting
-
-  // Grid visibility and snap-to-grid state (Figure 10 toolbar buttons)
-  const [gridVisible, setGridVisible] = useState(true);
-  const [snapToGrid, setSnapToGrid] = useState(false);
 
   /**
    * Convert scene tree to ReactFlow nodes and edges
@@ -1371,14 +1378,7 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onMouseUp={handlePaneMouseUp}
         style={{ width: '100%', height: '100%', position: 'relative' }}
       >
-        {/* Node Graph Toolbar - Figure 10 vertical buttons (Search via Ctrl+F keyboard shortcut) */}
-        <NodeGraphToolbar 
-          gridVisible={gridVisible}
-          setGridVisible={setGridVisible}
-          snapToGrid={snapToGrid}
-          setSnapToGrid={setSnapToGrid}
-        />
-
+        {/* Node Graph Toolbar moved to App.tsx - always visible in node-graph-header */}
         <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -1465,10 +1465,26 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
 /**
  * Main component wrapped with ReactFlow provider
  */
-export function NodeGraphEditor({ sceneTree, selectedNode, onNodeSelect }: NodeGraphEditorProps) {
+export function NodeGraphEditor({ 
+  sceneTree, 
+  selectedNode, 
+  onNodeSelect,
+  gridVisible,
+  setGridVisible,
+  snapToGrid,
+  setSnapToGrid
+}: NodeGraphEditorProps) {
   return (
     <ReactFlowProvider>
-      <NodeGraphEditorInner sceneTree={sceneTree} selectedNode={selectedNode} onNodeSelect={onNodeSelect} />
+      <NodeGraphEditorInner 
+        sceneTree={sceneTree} 
+        selectedNode={selectedNode} 
+        onNodeSelect={onNodeSelect}
+        gridVisible={gridVisible}
+        setGridVisible={setGridVisible}
+        snapToGrid={snapToGrid}
+        setSnapToGrid={setSnapToGrid}
+      />
     </ReactFlowProvider>
   );
 }
