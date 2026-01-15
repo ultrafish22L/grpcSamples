@@ -10,6 +10,7 @@ import { useOctane } from '../hooks/useOctane';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import { MenuDropdown } from './MenuDropdown';
 import { KeyboardShortcutsDialog } from './KeyboardShortcutsDialog';
+import { PreferencesDialog } from './PreferencesDialog';
 import { getMenuDefinitions } from '../config/menuDefinitions';
 import { MenuAction } from '../types/menu';
 
@@ -32,6 +33,7 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [activeMenuAnchor, setActiveMenuAnchor] = useState<HTMLElement | null>(null);
   const [isShortcutsDialogOpen, setIsShortcutsDialogOpen] = useState(false);
+  const [isPreferencesDialogOpen, setIsPreferencesDialogOpen] = useState(false);
   const menuBarRef = useRef<HTMLDivElement>(null);
 
   const { openFileDialog } = useFileDialog();
@@ -219,6 +221,11 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
         }
         break;
 
+      case 'file.preferences':
+        setIsPreferencesDialogOpen(true);
+        console.log('🔧 Opening Preferences dialog');
+        break;
+
       // Edit menu actions
       case 'edit.undo':
         console.log('Undo not yet implemented');
@@ -350,6 +357,12 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
       handler: () => handleMenuAction('file.saveAs')
     },
     {
+      key: ',',
+      ctrl: true,
+      description: 'Open preferences',
+      handler: () => handleMenuAction('file.preferences')
+    },
+    {
       key: 'F5',
       description: 'Refresh scene',
       handler: () => handleMenuAction('view.refresh')
@@ -407,6 +420,12 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
       <KeyboardShortcutsDialog
         isOpen={isShortcutsDialogOpen}
         onClose={() => setIsShortcutsDialogOpen(false)}
+      />
+
+      {/* Preferences Dialog */}
+      <PreferencesDialog
+        isOpen={isPreferencesDialogOpen}
+        onClose={() => setIsPreferencesDialogOpen(false)}
       />
     </nav>
   );
