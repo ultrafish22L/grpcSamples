@@ -6,6 +6,7 @@
 import { useEffect, useState } from 'react';
 import { useOctane } from '../hooks/useOctane';
 import { SceneNode } from '../services/OctaneClient';
+import { ContextMenu, ContextMenuItem } from './ContextMenu';
 
 // Node icon mapping based on Octane API type strings (e.g., 'PT_GEOMETRY')
 // Reference: octaneWeb/js/utils/OctaneIconMapper.js
@@ -68,13 +69,23 @@ interface SceneTreeItemProps {
   depth: number;
   onSelect: (node: SceneNode) => void;
   selectedHandle: number | null;
+  onContextMenu: (node: SceneNode, x: number, y: number) => void;
 }
 
-function SceneTreeItem({ node, depth, onSelect, selectedHandle }: SceneTreeItemProps) {
+function SceneTreeItem({ node, depth, onSelect, selectedHandle, onContextMenu }: SceneTreeItemProps) {
   // Scene root starts expanded by default
   const [expanded, setExpanded] = useState(node.type === 'SceneRoot');
   const hasChildren = node.children && node.children.length > 0;
   const isSelected = selectedHandle === node.handle;
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // Don't show context menu for synthetic Scene root
+    if (node.type !== 'SceneRoot') {
+      onContextMenu(node, e.clientX, e.clientY);
+    }
+  };
 
   return (
     <>
@@ -87,6 +98,7 @@ function SceneTreeItem({ node, depth, onSelect, selectedHandle }: SceneTreeItemP
             onSelect(node);
           }
         }}
+        onContextMenu={handleContextMenu}
       >
         <div className="node-content">
           {hasChildren ? (
@@ -118,6 +130,7 @@ function SceneTreeItem({ node, depth, onSelect, selectedHandle }: SceneTreeItemP
           depth={depth + 1}
           onSelect={onSelect}
           selectedHandle={selectedHandle}
+          onContextMenu={onContextMenu}
         />
       ))}
     </>
@@ -136,11 +149,65 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('scene');
   const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
+  const [contextMenu, setContextMenu] = useState<{ node: SceneNode; x: number; y: number } | null>(null);
 
   const handleNodeSelect = (node: SceneNode) => {
     setSelectedNode(node);
     onNodeSelect?.(node);
   };
+
+  const handleContextMenu = (node: SceneNode, x: number, y: number) => {
+    setContextMenu({ node, x, y });
+  };
+
+  const handleContextMenuClose = () => {
+    setContextMenu(null);
+  };
+
+  const handleContextMenuAction = (action: string) => {
+    console.log(`Scene Outliner context menu action: ${action}`, contextMenu?.node);
+    // TODO: Implement context menu actions
+    switch (action) {
+      case 'render':
+        console.log('Render action - to be implemented');
+        break;
+      case 'save':
+        console.log('Save action - to be implemented');
+        break;
+      case 'cut':
+        console.log('Cut action - to be implemented');
+        break;
+      case 'copy':
+        console.log('Copy action - to be implemented');
+        break;
+      case 'paste':
+        console.log('Paste action - to be implemented');
+        break;
+      case 'delete':
+        console.log('Delete action - to be implemented');
+        break;
+      case 'show-in-graph':
+        console.log('Show in Graph Editor - to be implemented');
+        break;
+      case 'show-in-lua':
+        console.log('Show in Lua API browser - to be implemented');
+        break;
+    }
+  };
+
+  const sceneOutlinerContextMenuItems: ContextMenuItem[] = [
+    { label: 'Render', action: 'render' },
+    { label: 'Save...', action: 'save' },
+    { label: '', action: '', separator: true },
+    { label: 'Cut', action: 'cut', shortcut: 'Ctrl+X' },
+    { label: 'Copy', action: 'copy', shortcut: 'Ctrl+C' },
+    { label: 'Paste', action: 'paste', shortcut: 'Ctrl+V', disabled: true },
+    { label: '', action: '', separator: true },
+    { label: 'Delete', action: 'delete', shortcut: 'Del' },
+    { label: '', action: '', separator: true },
+    { label: 'Show in Graph Editor', action: 'show-in-graph' },
+    { label: 'Show in Lua API browser', action: 'show-in-lua' },
+  ];
 
   const loadSceneTree = async () => {
     if (!connected) {
@@ -252,6 +319,7 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
                 depth={0}
                 onSelect={handleNodeSelect}
                 selectedHandle={selectedNode?.handle || null}
+                onContextMenu={handleContextMenu}
               />
             </div>
           ) : (
@@ -273,6 +341,17 @@ export function SceneOutliner({ onNodeSelect }: SceneOutlinerProps) {
           <div className="db-status">Local DB - No local materials found</div>
         </div>
       </div>
+
+      {/* Context Menu */}
+      {contextMenu && (
+        <ContextMenu
+          items={sceneOutlinerContextMenuItems}
+          x={contextMenu.x}
+          y={contextMenu.y}
+          onClose={handleContextMenuClose}
+          onItemClick={handleContextMenuAction}
+        />
+      )}
     </div>
   );
 }

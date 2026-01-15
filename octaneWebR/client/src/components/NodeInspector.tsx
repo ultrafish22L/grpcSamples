@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { SceneNode } from '../services/OctaneClient';
 import { useOctane } from '../hooks/useOctane';
+import { ContextMenu, ContextMenuItem } from './ContextMenu';
 
 interface NodeInspectorProps {
   node: SceneNode | null;
@@ -51,11 +52,13 @@ function ParameterGroup({
 function NodeParameter({ 
   node, 
   level, 
-  onToggle 
+  onToggle,
+  onContextMenu
 }: { 
   node: SceneNode; 
   level: number; 
   onToggle: (nodeId: string) => void;
+  onContextMenu: (node: SceneNode, x: number, y: number) => void;
 }) {
   const { client } = useOctane();
   const [paramValue, setParamValue] = useState<ParameterValue | null>(null);
@@ -187,6 +190,12 @@ function NodeParameter({
     }
   };
 
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onContextMenu(node, e.clientX, e.clientY);
+  };
+
   const indentClass = level === 0 ? 'node-indent-0' : 'node-indent';
   
   return (
@@ -194,6 +203,7 @@ function NodeParameter({
       <div 
         className={isEndNode ? 'node-box-parameter' : 'node-box'}
         data-node-handle={node.handle}
+        onContextMenu={handleContextMenu}
       >
         {isEndNode ? (
           // Parameters use blue icon styling (matching reference screenshot)
@@ -232,6 +242,7 @@ function NodeParameter({
                       node={child}
                       level={level + 1}
                       onToggle={onToggle}
+                      onContextMenu={onContextMenu}
                     />
                   ))}
                 </ParameterGroup>
@@ -243,6 +254,7 @@ function NodeParameter({
                   node={child}
                   level={level + 1}
                   onToggle={onToggle}
+                  onContextMenu={onContextMenu}
                 />
               ));
             }
@@ -302,10 +314,70 @@ function groupChildren(children: SceneNode[]): Array<{ groupName: string | null;
 }
 
 export function NodeInspector({ node }: NodeInspectorProps) {
+  const [contextMenu, setContextMenu] = useState<{ node: SceneNode; x: number; y: number } | null>(null);
+
   // NOTE: Node expansion state is managed internally by NodeParameter component
   const handleToggle = (_nodeId: string) => {
     // Placeholder for future centralized expansion state management
   };
+
+  const handleContextMenu = (paramNode: SceneNode, x: number, y: number) => {
+    setContextMenu({ node: paramNode, x, y });
+  };
+
+  const handleContextMenuClose = () => {
+    setContextMenu(null);
+  };
+
+  const handleContextMenuAction = (action: string) => {
+    console.log(`Node Inspector context menu action: ${action}`, contextMenu?.node);
+    // TODO: Implement context menu actions
+    switch (action) {
+      case 'save':
+        console.log('Save action - to be implemented');
+        break;
+      case 'cut':
+        console.log('Cut action - to be implemented');
+        break;
+      case 'copy':
+        console.log('Copy action - to be implemented');
+        break;
+      case 'paste':
+        console.log('Paste action - to be implemented');
+        break;
+      case 'delete':
+        console.log('Delete action - to be implemented');
+        break;
+      case 'expand':
+        console.log('Expand action - to be implemented');
+        break;
+      case 'show-in-outliner':
+        console.log('Show in Outliner - to be implemented');
+        break;
+      case 'show-in-graph':
+        console.log('Show in Graph Editor - to be implemented');
+        break;
+      case 'show-in-lua':
+        console.log('Show in Lua API browser - to be implemented');
+        break;
+    }
+  };
+
+  const nodeInspectorContextMenuItems: ContextMenuItem[] = [
+    { label: 'Save...', action: 'save' },
+    { label: '', action: '', separator: true },
+    { label: 'Cut', action: 'cut', shortcut: 'Ctrl+X' },
+    { label: 'Copy', action: 'copy', shortcut: 'Ctrl+C' },
+    { label: 'Paste', action: 'paste', shortcut: 'Ctrl+V', disabled: true },
+    { label: '', action: '', separator: true },
+    { label: 'Delete', action: 'delete', shortcut: 'Del' },
+    { label: '', action: '', separator: true },
+    { label: 'Expand', action: 'expand' },
+    { label: '', action: '', separator: true },
+    { label: 'Show in Outliner', action: 'show-in-outliner' },
+    { label: 'Show in Graph Editor', action: 'show-in-graph' },
+    { label: 'Show in Lua API browser', action: 'show-in-lua' },
+  ];
 
   if (!node) {
     return (
@@ -322,8 +394,20 @@ export function NodeInspector({ node }: NodeInspectorProps) {
           node={node} 
           level={0} 
           onToggle={handleToggle}
+          onContextMenu={handleContextMenu}
         />
       </div>
+
+      {/* Context Menu */}
+      {contextMenu && (
+        <ContextMenu
+          items={nodeInspectorContextMenuItems}
+          x={contextMenu.x}
+          y={contextMenu.y}
+          onClose={handleContextMenuClose}
+          onItemClick={handleContextMenuAction}
+        />
+      )}
     </div>
   );
 }

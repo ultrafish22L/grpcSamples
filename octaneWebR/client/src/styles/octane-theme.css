@@ -875,13 +875,32 @@ html, body {
 .bottom-panel {
     grid-column: 1 / -1; /* Span all columns */
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* Changed to row for vertical button bar layout */
     border-top: 1px solid var(--octane-border);
     background-color: var(--octane-bg-secondary);
     height: 100%; /* Use full allocated grid space */
     overflow: hidden; /* Prevent overflow beyond allocated space */
     height: var(--bottom-panel-height);    
     min-height: var(--bottom-panel-min-height);    
+}
+
+/* Node Graph Vertical Controls (Left Side) */
+.node-graph-controls-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--octane-bg-darker);
+    padding: 2px;
+    width: 26px;
+    min-width: 26px;
+}
+
+/* Main Node Graph Content (Right Side) */
+.node-graph-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 80px;
 }
 
 .node-graph-header {
@@ -891,34 +910,12 @@ html, body {
     display: flex;
     flex-direction: row;    
     align-items: center;
-    justify-content: space-between;
     height: var(--panel-header-height);
 }
 
 .node-graph-header h3 {
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-normal);
-    color: var(--octane-text-primary);
-}
-
-.node-graph-controls {
-    display: flex;
-    gap: 2px;
-}
-
-.node-btn {
-    background: none;
-    border: 1px solid var(--octane-border);
-    color: var(--octane-text-secondary);
-    padding: 2px 6px;
-    font-size: var(--font-size-xs);
-    cursor: pointer;
-    border-radius: var(--border-radius);
-    transition: all 0.15s ease;
-}
-
-.node-btn:hover {
-    background-color: var(--octane-bg-hover);
     color: var(--octane-text-primary);
 }
 
@@ -1293,4 +1290,61 @@ select {
     background-position: right 8px center;
     background-size: 12px;
     padding-right: 28px;
+}
+
+/* =================================================================
+   Context Menu Styles
+   ================================================================= */
+
+.context-menu {
+    position: fixed;
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    padding: 4px 0;
+    min-width: 200px;
+    z-index: 10000;
+    pointer-events: auto;
+}
+
+.context-menu-item {
+    padding: 6px 16px;
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background-color 0.1s ease;
+    white-space: nowrap;
+}
+
+.context-menu-item:hover {
+    background-color: var(--octane-bg-hover);
+}
+
+.context-menu-item.disabled {
+    color: var(--octane-text-disabled);
+    cursor: not-allowed;
+}
+
+.context-menu-item.disabled:hover {
+    background-color: transparent;
+}
+
+.context-menu-separator {
+    height: 1px;
+    background-color: var(--octane-border);
+    margin: 4px 0;
+}
+
+.context-menu-label {
+    flex: 1;
+}
+
+.context-menu-shortcut {
+    margin-left: 24px;
+    color: var(--octane-text-muted);
+    font-size: var(--font-size-xs);
 }

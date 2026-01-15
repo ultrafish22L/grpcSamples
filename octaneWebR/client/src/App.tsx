@@ -140,16 +140,21 @@ function AppContent() {
 
         {/* Bottom Panel: Node Graph Editor - only in CENTER column (same width as viewport) */}
         <section className="bottom-panel panel">
-          <div className="node-graph-header">
-            <h3>Node graph editor</h3>
-            <div className="node-graph-controls">
-              <button className="node-btn" title="Add Node">+</button>
-              <button className="node-btn" title="Delete Node">🗑</button>
-              <button className="node-btn" title="Fit All">⊞</button>
-            </div>
+          {/* Vertical Quick Access Buttons (Left Side) */}
+          <div className="node-graph-controls-vertical">
+            <button className="quick-btn" title="Add Node">+</button>
+            <button className="quick-btn" title="Delete Node">🗑</button>
+            <button className="quick-btn" title="Fit All">⊞</button>
           </div>
-          <div className="node-graph-container">
-            <NodeGraphEditor selectedNode={selectedNode} />
+
+          {/* Main Node Graph Content (Right Side) */}
+          <div className="node-graph-main">
+            <div className="node-graph-header">
+              <h3>Node graph editor</h3>
+            </div>
+            <div className="node-graph-container">
+              <NodeGraphEditor selectedNode={selectedNode} />
+            </div>
           </div>
         </section>
         
