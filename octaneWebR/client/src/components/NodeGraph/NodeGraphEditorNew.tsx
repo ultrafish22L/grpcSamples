@@ -1367,8 +1367,8 @@ function NodeGraphEditorInner({ sceneTree, selectedNode, onNodeSelect }: NodeGra
         onMouseUp={handlePaneMouseUp}
         style={{ width: '100%', height: '100%', position: 'relative' }}
       >
-        {/* Node Graph Toolbar - Figure 10 vertical buttons */}
-        <NodeGraphToolbar onSearchOpen={() => setSearchDialogVisible(true)} />
+        {/* Node Graph Toolbar - Figure 10 vertical buttons (Search via Ctrl+F keyboard shortcut) */}
+        <NodeGraphToolbar />
 
         <ReactFlow
         nodes={nodes}

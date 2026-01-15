@@ -1,203 +1,248 @@
 /**
  * Node Graph Editor Toolbar Component
- * Vertical toolbar on left side matching Octane SE
- * Docked toolbar with compact icon buttons (Figure 10 from manual)
+ * Matches Octane SE Manual Figure 10 - The Graph Editor buttons
+ * https://docs.otoy.com/standaloneSE/TheGraphEditor.html
+ * 
+ * Documented buttons (converted to vertical layout, docked left):
+ * 1. Recenter View
+ * 2. Re-arrange Graph with Sub-graph
+ * 3. Re-arrange Graph
+ * 4. View/Hide Render Target Preview Scene
+ * 5. View/Hide Mesh Preview Scene
+ * 6. View/Hide Material Preview Scene
+ * 7. View/Hide Texture Preview Scene
+ * 8. Snap Items To Grid
+ * 9. View/Hide Graph Editor Grid
  */
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useReactFlow } from '@xyflow/react';
 import './NodeGraphToolbar.css';
 
-interface NodeGraphToolbarProps {
-  onSearchOpen: () => void;
-}
+export function NodeGraphToolbar() {
+  const { fitView } = useReactFlow();
+  
+  // Toggle states for preview scenes and grid options
+  const [renderTargetPreview, setRenderTargetPreview] = useState(false);
+  const [meshPreview, setMeshPreview] = useState(false);
+  const [materialPreview, setMaterialPreview] = useState(false);
+  const [texturePreview, setTexturePreview] = useState(false);
+  const [gridSnap, setGridSnap] = useState(false);
+  const [gridVisible, setGridVisible] = useState(true);
 
-export function NodeGraphToolbar({ onSearchOpen }: NodeGraphToolbarProps) {
-  const { fitView, zoomIn, zoomOut, getNodes } = useReactFlow();
-
-  const handleMacroPreview = useCallback(() => {
-    console.log('Show Macro/Material Preview');
-    // TODO: Implement material preview
-  }, []);
-
-  const handleNodeLibrary = useCallback(() => {
-    console.log('Node Library');
-    // TODO: Open node library
-  }, []);
-
-  const handleLiveDB = useCallback(() => {
-    console.log('LiveDB Access');
-    // TODO: Open LiveDB
-  }, []);
-
-  const handleImageImport = useCallback(() => {
-    console.log('Import Image');
-    // TODO: Image import dialog
-  }, []);
-
-  const handleMaterialPaint = useCallback(() => {
-    console.log('Material Paint Tool');
-    // TODO: Material painting
-  }, []);
-
-  const handleFrameView = useCallback(() => {
+  // 1. Recenter View
+  const handleRecenterView = useCallback(() => {
+    console.log('🎯 Recenter View');
     fitView({ padding: 0.2, duration: 300 });
   }, [fitView]);
 
-  const handleCutConnections = useCallback(() => {
-    console.log('Cut Connections Tool (Ctrl+Drag)');
-    // Connection cutter is handled by interaction mode
+  // 2. Re-arrange Graph with Sub-graph
+  const handleRearrangeWithSubgraph = useCallback(() => {
+    console.log('🔄 Re-arrange Graph with Sub-graph');
+    // TODO: Auto-layout including sub-graphs
   }, []);
 
-  const handleGridSnap = useCallback(() => {
-    console.log('Toggle Grid Snap');
+  // 3. Re-arrange Graph
+  const handleRearrangeGraph = useCallback(() => {
+    console.log('📐 Re-arrange Graph');
+    // TODO: Auto-layout algorithm
+  }, []);
+
+  // 4. View/Hide Render Target Preview Scene
+  const handleToggleRenderTargetPreview = useCallback(() => {
+    setRenderTargetPreview(prev => {
+      const newState = !prev;
+      console.log(`📹 Render Target Preview: ${newState ? 'SHOW' : 'HIDE'}`);
+      return newState;
+    });
+    // TODO: Show/hide render target preview
+  }, []);
+
+  // 5. View/Hide Mesh Preview Scene
+  const handleToggleMeshPreview = useCallback(() => {
+    setMeshPreview(prev => {
+      const newState = !prev;
+      console.log(`🔷 Mesh Preview: ${newState ? 'SHOW' : 'HIDE'}`);
+      return newState;
+    });
+    // TODO: Show/hide mesh preview
+  }, []);
+
+  // 6. View/Hide Material Preview Scene
+  const handleToggleMaterialPreview = useCallback(() => {
+    setMaterialPreview(prev => {
+      const newState = !prev;
+      console.log(`🎨 Material Preview: ${newState ? 'SHOW' : 'HIDE'}`);
+      return newState;
+    });
+    // TODO: Show/hide material preview
+  }, []);
+
+  // 7. View/Hide Texture Preview Scene
+  const handleToggleTexturePreview = useCallback(() => {
+    setTexturePreview(prev => {
+      const newState = !prev;
+      console.log(`🖼️ Texture Preview: ${newState ? 'SHOW' : 'HIDE'}`);
+      return newState;
+    });
+    // TODO: Show/hide texture preview
+  }, []);
+
+  // 8. Snap Items To Grid
+  const handleToggleGridSnap = useCallback(() => {
+    setGridSnap(prev => {
+      const newState = !prev;
+      console.log(`🧲 Snap Items To Grid: ${newState ? 'ON' : 'OFF'}`);
+      return newState;
+    });
     // TODO: Toggle grid snapping
   }, []);
 
-  const handleAutoLayout = useCallback(() => {
-    console.log('Auto-Layout');
-    // TODO: Auto-layout algorithm
+  // 9. View/Hide Graph Editor Grid
+  const handleToggleGrid = useCallback(() => {
+    setGridVisible(prev => {
+      const newState = !prev;
+      console.log(`📊 Graph Editor Grid: ${newState ? 'SHOW' : 'HIDE'}`);
+      return newState;
+    });
+    // TODO: Toggle grid visibility
   }, []);
 
   return (
     <div className="node-graph-toolbar">
-      {/* Material Preview / Macro View */}
+      {/* 1. Recenter View - Red crosshairs/target icon */}
       <button
         className="toolbar-button"
-        onClick={handleMacroPreview}
-        title="Show Material Preview"
+        onClick={handleRecenterView}
+        title="Recenter View"
       >
         <svg width="14" height="14" viewBox="0 0 16 16">
-          <rect x="2" y="2" width="3" height="12" fill="currentColor" opacity="0.8" />
-          <rect x="6" y="2" width="3" height="12" fill="currentColor" opacity="0.5" />
-          <rect x="10" y="2" width="3" height="12" fill="currentColor" opacity="0.8" />
+          <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" />
+          <line x1="8" y1="10" x2="8" y2="14" stroke="currentColor" strokeWidth="2" />
+          <line x1="2" y1="8" x2="6" y2="8" stroke="currentColor" strokeWidth="2" />
+          <line x1="10" y1="8" x2="14" y2="8" stroke="currentColor" strokeWidth="2" />
+          <circle cx="8" cy="8" r="1.5" fill="currentColor" />
         </svg>
       </button>
 
-      {/* Node Library / Grid */}
+      {/* 2. Re-arrange Graph with Sub-graph - Grid with nodes icon */}
       <button
         className="toolbar-button"
-        onClick={handleNodeLibrary}
-        title="Node Library"
+        onClick={handleRearrangeWithSubgraph}
+        title="Re-arrange Graph with Sub-graph"
       >
         <svg width="14" height="14" viewBox="0 0 16 16">
-          <rect x="1" y="1" width="6" height="6" fill="currentColor" />
-          <rect x="9" y="1" width="6" height="6" fill="currentColor" />
-          <rect x="1" y="9" width="6" height="6" fill="currentColor" />
-          <rect x="9" y="9" width="6" height="6" fill="currentColor" />
+          <rect x="1" y="1" width="5" height="4" fill="currentColor" opacity="0.6" />
+          <rect x="10" y="1" width="5" height="4" fill="currentColor" opacity="0.6" />
+          <rect x="1" y="6" width="5" height="4" fill="currentColor" opacity="0.6" />
+          <rect x="10" y="6" width="5" height="4" fill="currentColor" opacity="0.6" />
+          <rect x="1" y="11" width="5" height="4" fill="currentColor" opacity="0.6" />
+          <rect x="10" y="11" width="5" height="4" fill="currentColor" opacity="0.6" />
         </svg>
       </button>
 
-      {/* LiveDB / Material Database */}
+      {/* 3. Re-arrange Graph - Simple grid pattern */}
       <button
         className="toolbar-button"
-        onClick={handleLiveDB}
-        title="LiveDB Material Database"
+        onClick={handleRearrangeGraph}
+        title="Re-arrange Graph"
       >
         <svg width="14" height="14" viewBox="0 0 16 16">
-          <path d="M8 2 L14 6 L8 10 L2 6 Z" fill="currentColor" />
-          <path d="M2 8 L8 12 L14 8" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          <rect x="2" y="2" width="4" height="4" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          <rect x="10" y="2" width="4" height="4" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          <rect x="2" y="10" width="4" height="4" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          <rect x="10" y="10" width="4" height="4" fill="none" stroke="currentColor" strokeWidth="1.5" />
         </svg>
       </button>
 
-      {/* Image Import */}
+      {/* 4. View/Hide Render Target Preview Scene - Camera/render icon */}
       <button
-        className="toolbar-button"
-        onClick={handleImageImport}
-        title="Import Image"
+        className={`toolbar-button ${renderTargetPreview ? 'active' : ''}`}
+        onClick={handleToggleRenderTargetPreview}
+        title="View/Hide Render Target Preview Scene"
+      >
+        <svg width="14" height="14" viewBox="0 0 16 16">
+          <rect x="1" y="4" width="14" height="9" rx="1" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          <circle cx="8" cy="9" r="2.5" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          <rect x="5" y="2" width="6" height="2" fill="currentColor" />
+          <circle cx="12" cy="6" r="0.8" fill="currentColor" />
+        </svg>
+      </button>
+
+      {/* 5. View/Hide Mesh Preview Scene - Mesh/geometry icon */}
+      <button
+        className={`toolbar-button ${meshPreview ? 'active' : ''}`}
+        onClick={handleToggleMeshPreview}
+        title="View/Hide Mesh Preview Scene"
+      >
+        <svg width="14" height="14" viewBox="0 0 16 16">
+          <polygon points="8,2 14,6 14,11 8,14 2,11 2,6" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          <line x1="8" y1="2" x2="8" y2="14" stroke="currentColor" strokeWidth="1" />
+          <line x1="2" y1="6" x2="14" y2="6" stroke="currentColor" strokeWidth="1" />
+          <line x1="2" y1="11" x2="14" y2="11" stroke="currentColor" strokeWidth="1" />
+        </svg>
+      </button>
+
+      {/* 6. View/Hide Material Preview Scene - Sphere/material icon */}
+      <button
+        className={`toolbar-button ${materialPreview ? 'active' : ''}`}
+        onClick={handleToggleMaterialPreview}
+        title="View/Hide Material Preview Scene"
+      >
+        <svg width="14" height="14" viewBox="0 0 16 16">
+          <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          <ellipse cx="8" cy="8" rx="6" ry="2" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.5" />
+          <ellipse cx="8" cy="8" rx="2" ry="6" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.5" />
+          <circle cx="6" cy="6" r="1.5" fill="currentColor" opacity="0.3" />
+        </svg>
+      </button>
+
+      {/* 7. View/Hide Texture Preview Scene - Texture pattern icon */}
+      <button
+        className={`toolbar-button ${texturePreview ? 'active' : ''}`}
+        onClick={handleToggleTexturePreview}
+        title="View/Hide Texture Preview Scene"
       >
         <svg width="14" height="14" viewBox="0 0 16 16">
           <rect x="1" y="1" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" />
-          <circle cx="5" cy="5" r="2" fill="currentColor" />
-          <path d="M1 11 L6 6 L10 10 L15 5" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          <path d="M1 5 L5 1 M1 9 L9 1 M1 13 L13 1 M5 15 L15 5 M9 15 L15 9 M13 15 L15 13" stroke="currentColor" strokeWidth="1" opacity="0.6" />
         </svg>
       </button>
 
-      {/* Material Paint Tool */}
+      {/* 8. Snap Items To Grid - Grid with snap icon */}
       <button
-        className="toolbar-button"
-        onClick={handleMaterialPaint}
-        title="Material Paint Tool"
+        className={`toolbar-button ${gridSnap ? 'active' : ''}`}
+        onClick={handleToggleGridSnap}
+        title="Snap Items To Grid"
       >
         <svg width="14" height="14" viewBox="0 0 16 16">
-          <path d="M4 12 L1 15 L3 13 L4 14 Z" fill="currentColor" />
-          <path d="M5 11 L11 5 C11.5 4.5 12.5 4.5 13 5 C13.5 5.5 13.5 6.5 13 7 L7 13 L5 11 Z" fill="currentColor" />
-          <circle cx="12" cy="6" r="1.5" fill="rgba(255,255,255,0.3)" />
+          <circle cx="3" cy="3" r="1" fill="currentColor" opacity="0.4" />
+          <circle cx="8" cy="3" r="1" fill="currentColor" opacity="0.4" />
+          <circle cx="13" cy="3" r="1" fill="currentColor" opacity="0.4" />
+          <circle cx="3" cy="8" r="1" fill="currentColor" opacity="0.4" />
+          <circle cx="8" cy="8" r="1" fill="currentColor" opacity="0.4" />
+          <circle cx="13" cy="8" r="1" fill="currentColor" opacity="0.4" />
+          <circle cx="3" cy="13" r="1" fill="currentColor" opacity="0.4" />
+          <circle cx="8" cy="13" r="1" fill="currentColor" opacity="0.4" />
+          <circle cx="13" cy="13" r="1" fill="currentColor" opacity="0.4" />
+          <rect x="6.5" y="6.5" width="3" height="3" fill="none" stroke="currentColor" strokeWidth="1.5" />
         </svg>
       </button>
 
-      {/* Frame View / Fit to Screen */}
+      {/* 9. View/Hide Graph Editor Grid - Grid pattern icon */}
       <button
-        className="toolbar-button"
-        onClick={handleFrameView}
-        title="Frame All Nodes (F)"
+        className={`toolbar-button ${gridVisible ? 'active' : ''}`}
+        onClick={handleToggleGrid}
+        title="View/Hide Graph Editor Grid"
       >
         <svg width="14" height="14" viewBox="0 0 16 16">
-          <path d="M1 1 L1 6 M1 1 L6 1" stroke="currentColor" strokeWidth="2" fill="none" />
-          <path d="M15 1 L15 6 M15 1 L10 1" stroke="currentColor" strokeWidth="2" fill="none" />
-          <path d="M1 15 L1 10 M1 15 L6 15" stroke="currentColor" strokeWidth="2" fill="none" />
-          <path d="M15 15 L15 10 M15 15 L10 15" stroke="currentColor" strokeWidth="2" fill="none" />
-        </svg>
-      </button>
-
-      {/* Cut Connections Tool */}
-      <button
-        className="toolbar-button"
-        onClick={handleCutConnections}
-        title="Cut Connections (Ctrl+Drag)"
-      >
-        <svg width="14" height="14" viewBox="0 0 16 16">
-          <circle cx="4" cy="4" r="3" fill="none" stroke="currentColor" strokeWidth="1.5" />
-          <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="1.5" />
-          <line x1="6" y1="6" x2="10" y2="10" stroke="currentColor" strokeWidth="2" />
-          <line x1="8" y1="8" x2="8" y2="8" stroke="red" strokeWidth="3" strokeLinecap="round" />
-        </svg>
-      </button>
-
-      {/* Grid Snap */}
-      <button
-        className="toolbar-button"
-        onClick={handleGridSnap}
-        title="Toggle Grid Snap"
-      >
-        <svg width="14" height="14" viewBox="0 0 16 16">
-          <circle cx="3" cy="3" r="1" fill="currentColor" />
-          <circle cx="8" cy="3" r="1" fill="currentColor" />
-          <circle cx="13" cy="3" r="1" fill="currentColor" />
-          <circle cx="3" cy="8" r="1" fill="currentColor" />
-          <circle cx="8" cy="8" r="1" fill="currentColor" />
-          <circle cx="13" cy="8" r="1" fill="currentColor" />
-          <circle cx="3" cy="13" r="1" fill="currentColor" />
-          <circle cx="8" cy="13" r="1" fill="currentColor" />
-          <circle cx="13" cy="13" r="1" fill="currentColor" />
-        </svg>
-      </button>
-
-      {/* Auto-Layout */}
-      <button
-        className="toolbar-button"
-        onClick={handleAutoLayout}
-        title="Auto-Layout Nodes"
-      >
-        <svg width="14" height="14" viewBox="0 0 16 16">
-          <rect x="1" y="1" width="5" height="3" fill="currentColor" />
-          <rect x="10" y="1" width="5" height="3" fill="currentColor" />
-          <rect x="1" y="6" width="5" height="3" fill="currentColor" />
-          <rect x="10" y="6" width="5" height="3" fill="currentColor" />
-          <rect x="1" y="11" width="5" height="3" fill="currentColor" />
-          <rect x="10" y="11" width="5" height="3" fill="currentColor" />
-        </svg>
-      </button>
-
-      {/* Search */}
-      <button
-        className="toolbar-button"
-        onClick={onSearchOpen}
-        title="Search Nodes (Ctrl+F)"
-      >
-        <svg width="14" height="14" viewBox="0 0 16 16">
-          <circle cx="6" cy="6" r="4" fill="none" stroke="currentColor" strokeWidth="2" />
-          <line x1="9" y1="9" x2="14" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          <line x1="0" y1="4" x2="16" y2="4" stroke="currentColor" strokeWidth="0.5" />
+          <line x1="0" y1="8" x2="16" y2="8" stroke="currentColor" strokeWidth="0.5" />
+          <line x1="0" y1="12" x2="16" y2="12" stroke="currentColor" strokeWidth="0.5" />
+          <line x1="4" y1="0" x2="4" y2="16" stroke="currentColor" strokeWidth="0.5" />
+          <line x1="8" y1="0" x2="8" y2="16" stroke="currentColor" strokeWidth="0.5" />
+          <line x1="12" y1="0" x2="12" y2="16" stroke="currentColor" strokeWidth="0.5" />
         </svg>
       </button>
     </div>
