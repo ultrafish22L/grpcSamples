@@ -68,9 +68,14 @@ function NodeGraphEditorInner({
   const { client, connected } = useOctane();
   const { fitView } = useReactFlow();
 
-  // Provide fitView callback to parent on mount
+  // Track whether initial fitView has been called (should only happen once after initial scene sync)
+  const hasInitialFitView = useRef(false);
+  const hasProvidedCallback = useRef(false);
+
+  // Provide fitView callback to parent on mount (only once)
   useEffect(() => {
-    if (onRecenterViewReady) {
+    if (onRecenterViewReady && !hasProvidedCallback.current) {
+      hasProvidedCallback.current = true;
       onRecenterViewReady(() => {
         fitView({ padding: 0.2, duration: 300 });
       });
@@ -79,9 +84,6 @@ function NodeGraphEditorInner({
   
   const [nodes, setNodes, onNodesChange] = useNodesState<Node<OctaneNodeData>>([]);
   const [edges, setEdges, onEdgesChangeBase] = useEdgesState<Edge>([]);
-  
-  // Track whether initial fitView has been called (should only happen once after initial scene sync)
-  const hasInitialFitView = useRef(false);
   
   // Context menu state
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
