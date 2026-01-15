@@ -236,6 +236,31 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
         console.log('📦 Opening Save as Package dialog');
         break;
 
+      case 'file.saveAsDefault':
+        if (!connected) {
+          showWarnNotConnected('save default scene');
+          return;
+        }
+        try {
+          // Save current scene as default startup scene
+          const defaultScenePath = 'default.ocs';
+          const response = await client.callApi('ApiProjectManager', 'saveProjectAs', {
+            path: defaultScenePath
+          });
+          if (response && response.result) {
+            // Store the default scene path in localStorage for future reference
+            localStorage.setItem('octaneWebR_defaultScene', defaultScenePath);
+            showNotification('Current scene saved as default', 'success');
+            console.log('✅ Default scene saved:', defaultScenePath);
+          } else {
+            showNotification('Failed to save default scene', 'error');
+          }
+        } catch (error) {
+          console.error('Failed to save default scene:', error);
+          showNotification('Failed to save default scene', 'error');
+        }
+        break;
+
       case 'file.preferences':
         setIsPreferencesDialogOpen(true);
         console.log('🔧 Opening Preferences dialog');
