@@ -18,6 +18,7 @@ import { AboutDialog } from './AboutDialog';
 import { SavePackageDialog } from './SavePackageDialog';
 import { getMenuDefinitions } from '../config/menuDefinitions';
 import { MenuAction } from '../types/menu';
+import { commandHistory } from '../services/CommandHistory';
 
 interface PanelVisibility {
   renderViewport: boolean;
@@ -268,13 +269,35 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
 
       // Edit menu actions
       case 'edit.undo':
-        console.log('Undo not yet implemented');
-        showNotification('Undo not yet implemented', 'info');
+        try {
+          const undoDescription = commandHistory.getUndoDescription();
+          const success = await commandHistory.undo();
+          if (success) {
+            showNotification(`Undone: ${undoDescription}`, 'success');
+            console.log('↶ Undo successful');
+          } else {
+            showNotification('Nothing to undo', 'info');
+          }
+        } catch (error) {
+          console.error('Undo failed:', error);
+          showNotification('Undo failed', 'error');
+        }
         break;
 
       case 'edit.redo':
-        console.log('Redo not yet implemented');
-        showNotification('Redo not yet implemented', 'info');
+        try {
+          const redoDescription = commandHistory.getRedoDescription();
+          const success = await commandHistory.redo();
+          if (success) {
+            showNotification(`Redone: ${redoDescription}`, 'success');
+            console.log('↷ Redo successful');
+          } else {
+            showNotification('Nothing to redo', 'info');
+          }
+        } catch (error) {
+          console.error('Redo failed:', error);
+          showNotification('Redo failed', 'error');
+        }
         break;
 
       // Script menu actions
@@ -375,7 +398,7 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
     onResetLayout
   ]);
 
-  // Global keyboard shortcuts for file operations
+  // Global keyboard shortcuts for file and edit operations
   const keyboardShortcuts = useMemo(() => [
     {
       key: 'n',
@@ -407,6 +430,18 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
       ctrl: true,
       description: 'Open preferences',
       handler: () => handleMenuAction('file.preferences')
+    },
+    {
+      key: 'z',
+      ctrl: true,
+      description: 'Undo',
+      handler: () => handleMenuAction('edit.undo')
+    },
+    {
+      key: 'y',
+      ctrl: true,
+      description: 'Redo',
+      handler: () => handleMenuAction('edit.redo')
     },
     {
       key: 'F5',

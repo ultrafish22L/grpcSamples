@@ -1,0 +1,132 @@
+/**
+ * Command History System
+ * Implements undo/redo functionality using the Command pattern
+ */
+
+export interface Command {
+  execute(): Promise<void> | void;
+  undo(): Promise<void> | void;
+  description: string;
+}
+
+export class CommandHistory {
+  private history: Command[] = [];
+  private currentIndex: number = -1;
+  private maxHistorySize: number = 50;
+
+  /**
+   * Execute a command and add it to history
+   */
+  async executeCommand(command: Command): Promise<void> {
+    // Remove any commands after current index (redo stack)
+    if (this.currentIndex < this.history.length - 1) {
+      this.history = this.history.slice(0, this.currentIndex + 1);
+    }
+
+    // Execute the command
+    await command.execute();
+
+    // Add to history
+    this.history.push(command);
+    this.currentIndex++;
+
+    // Limit history size
+    if (this.history.length > this.maxHistorySize) {
+      this.history.shift();
+      this.currentIndex--;
+    }
+
+    console.log(`✓ Executed: ${command.description}`);
+    console.log(`History: ${this.currentIndex + 1}/${this.history.length}`);
+  }
+
+  /**
+   * Undo the last command
+   */
+  async undo(): Promise<boolean> {
+    if (!this.canUndo()) {
+      console.warn('Cannot undo: no commands in history');
+      return false;
+    }
+
+    const command = this.history[this.currentIndex];
+    await command.undo();
+    this.currentIndex--;
+
+    console.log(`↶ Undone: ${command.description}`);
+    console.log(`History: ${this.currentIndex + 1}/${this.history.length}`);
+    return true;
+  }
+
+  /**
+   * Redo the next command
+   */
+  async redo(): Promise<boolean> {
+    if (!this.canRedo()) {
+      console.warn('Cannot redo: no commands to redo');
+      return false;
+    }
+
+    this.currentIndex++;
+    const command = this.history[this.currentIndex];
+    await command.execute();
+
+    console.log(`↷ Redone: ${command.description}`);
+    console.log(`History: ${this.currentIndex + 1}/${this.history.length}`);
+    return true;
+  }
+
+  /**
+   * Check if undo is available
+   */
+  canUndo(): boolean {
+    return this.currentIndex >= 0;
+  }
+
+  /**
+   * Check if redo is available
+   */
+  canRedo(): boolean {
+    return this.currentIndex < this.history.length - 1;
+  }
+
+  /**
+   * Get current undo description
+   */
+  getUndoDescription(): string | null {
+    if (!this.canUndo()) return null;
+    return this.history[this.currentIndex].description;
+  }
+
+  /**
+   * Get current redo description
+   */
+  getRedoDescription(): string | null {
+    if (!this.canRedo()) return null;
+    return this.history[this.currentIndex + 1].description;
+  }
+
+  /**
+   * Clear all history
+   */
+  clear(): void {
+    this.history = [];
+    this.currentIndex = -1;
+    console.log('Command history cleared');
+  }
+
+  /**
+   * Get history info for debugging
+   */
+  getHistoryInfo(): { current: number; total: number; canUndo: boolean; canRedo: boolean } {
+    return {
+      current: this.currentIndex + 1,
+      total: this.history.length,
+      canUndo: this.canUndo(),
+      canRedo: this.canRedo(),
+    };
+  }
+}
+
+// Singleton instance
+export const commandHistory = new CommandHistory();
