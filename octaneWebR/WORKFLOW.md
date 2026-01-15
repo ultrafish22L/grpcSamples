@@ -4,19 +4,20 @@
 
 ---
 
-## 🤖 AUTONOMOUS DEVELOPMENT MODE (ACTIVE)
+## 🎯 TASK-BASED DEVELOPMENT (ACTIVE)
 
-**Process**: Continuous autonomous loop picking tasks from Octane SE manual:
+**Process**: Task-by-task development with explicit approval:
 
-1. **Pick** unimplemented feature from [Octane SE Manual](https://docs.otoy.com/standaloneSE/CoverPage.html)
-2. **Implement** with TypeScript/React
-3. **Build** (`npm run build`) - check for TypeScript errors
-4. **Test** (`npm run dev`) - verify functionality works
-5. **Commit** with clear description
-6. **Push** to origin/main
-7. **Repeat** - immediately pick next task
+1. **Wait** for explicit task assignment from project lead
+2. **Verify** feature exists in [Octane SE Manual](https://docs.otoy.com/standaloneSE/CoverPage.html)
+3. **Implement** with TypeScript/React best practices
+4. **Build** (`npm run build`) - check for TypeScript errors
+5. **Test** (`npm run dev`) - check logs for errors (minimal visual debugging)
+6. **Commit** with clear description
+7. **Push** to origin/main (if authorized)
+8. **Report** completion and STOP - wait for next assignment
 
-**No waiting for approval** - continue until explicitly stopped or blocked.
+**Always stop and ask for next task** - never start work without approval.
 
 ---
 
@@ -50,8 +51,8 @@
 
 ### **STEP 1: Task Assignment** ⏸️ STOP AND WAIT
 - **Action**: Wait for user to assign specific task
-- **Format**: User will provide task from `OCTANE_STANDALONE_IMPLEMENTATION_PLAN.md`
-- **Example**: "Implement TASK 1.5.1 - Enhanced pin tooltips"
+- **Format**: User will provide task from `CODE_REVIEW.md` priority list
+- **Example**: "Implement P1.1 - Context menu handlers for Scene Outliner"
 - ⚠️ **DO NOT** start any work without explicit task assignment
 
 ### **STEP 2: Manual Verification** 📖 VERIFY FIRST

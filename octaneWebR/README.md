@@ -2,8 +2,7 @@
 
 **Pixel-perfect React/TypeScript UI clone of Octane Render Studio Standalone Edition with complete gRPC API integration**
 
-> 🤖 **AUTONOMOUS DEVELOPMENT MODE ACTIVE**  
-> Continuously implementing features from [Octane SE Manual](https://docs.otoy.com/standaloneSE/CoverPage.html) in autonomous loop: Pick → Implement → Build → Test → Commit → Push → Repeat
+A production-ready web-based UI for Octane Render that looks and behaves identically to Octane Standalone, connecting to real Octane instances via gRPC LiveLink API.
 
 ---
 
@@ -274,12 +273,11 @@ Browsers cannot natively speak gRPC (HTTP/2 binary protocol). The Vite plugin ac
 
 ## 📚 **Documentation**
 
-- **[MANUAL_COMPARISON.md](./MANUAL_COMPARISON.md)** 🆕 - Complete feature comparison vs Octane SE manual (215 features cataloged)
-- **[WORKFLOW.md](./WORKFLOW.md)** ⭐ - Complete development workflow and prime directive
+- **[CODE_REVIEW.md](./CODE_REVIEW.md)** 🆕 - Current priorities and development status
+- **[WORKFLOW.md](./WORKFLOW.md)** ⭐ - Complete development workflow and guidelines
 - **[OVERVIEW.md](./OVERVIEW.md)** - Architecture deep dive and design philosophy
 - **[QUICKSTART.md](./QUICKSTART.md)** - New developer onboarding guide
-- **[OCTANE_STANDALONE_IMPLEMENTATION_PLAN.md](./OCTANE_STANDALONE_IMPLEMENTATION_PLAN.md)** - Feature roadmap by phase
-- **[OCTANE_API_REFERENCE.md](./OCTANE_API_REFERENCE.md)** - gRPC API patterns and examples
+- **[GAP_ANALYSIS.md](./GAP_ANALYSIS.md)** - Feature comparison with Octane SE manual
 
 ---
 
