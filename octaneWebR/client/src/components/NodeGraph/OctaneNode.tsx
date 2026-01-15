@@ -35,6 +35,7 @@ type OctaneNodeProps = {
 
 /**
  * Custom node component matching Octane Studio styling
+ * Memoized with custom comparison to prevent unnecessary re-renders
  */
 export const OctaneNode = memo((props: OctaneNodeProps) => {
   const { data, selected, id } = props;
@@ -249,6 +250,54 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
       })()}
     </div>
   );
+}, (prevProps, nextProps) => {
+  // Custom comparison: only re-render if these props actually changed
+  // Returns true if props are equal (skip re-render), false if different (re-render)
+  
+  // Check if selection state changed
+  if (prevProps.selected !== nextProps.selected) {
+    return false; // Re-render
+  }
+  
+  // Check if node ID changed (shouldn't happen, but safe check)
+  if (prevProps.id !== nextProps.id) {
+    return false; // Re-render
+  }
+  
+  // Check if scene node handle changed (indicates different node)
+  if (prevProps.data.sceneNode.handle !== nextProps.data.sceneNode.handle) {
+    return false; // Re-render
+  }
+  
+  // Check if node name changed
+  if (prevProps.data.sceneNode.name !== nextProps.data.sceneNode.name) {
+    return false; // Re-render
+  }
+  
+  // Check if node color changed
+  if (prevProps.data.sceneNode.nodeInfo?.nodeColor !== nextProps.data.sceneNode.nodeInfo?.nodeColor) {
+    return false; // Re-render
+  }
+  
+  // Check if inputs count changed
+  if ((prevProps.data.inputs?.length || 0) !== (nextProps.data.inputs?.length || 0)) {
+    return false; // Re-render
+  }
+  
+  // Check if any input connection changed
+  const prevInputs = prevProps.data.inputs || [];
+  const nextInputs = nextProps.data.inputs || [];
+  for (let i = 0; i < prevInputs.length; i++) {
+    if (prevInputs[i].handle !== nextInputs[i].handle) {
+      return false; // Re-render (connection changed)
+    }
+    if (prevInputs[i].connectedNodeName !== nextInputs[i].connectedNodeName) {
+      return false; // Re-render (connected node name changed)
+    }
+  }
+  
+  // All checks passed - props are equal, skip re-render
+  return true;
 });
 
 OctaneNode.displayName = 'OctaneNode';
