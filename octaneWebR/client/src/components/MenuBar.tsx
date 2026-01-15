@@ -11,6 +11,7 @@ import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import { MenuDropdown } from './MenuDropdown';
 import { KeyboardShortcutsDialog } from './KeyboardShortcutsDialog';
 import { PreferencesDialog } from './PreferencesDialog';
+import { BatchRenderingDialog } from './BatchRenderingDialog';
 import { getMenuDefinitions } from '../config/menuDefinitions';
 import { MenuAction } from '../types/menu';
 
@@ -34,6 +35,7 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
   const [activeMenuAnchor, setActiveMenuAnchor] = useState<HTMLElement | null>(null);
   const [isShortcutsDialogOpen, setIsShortcutsDialogOpen] = useState(false);
   const [isPreferencesDialogOpen, setIsPreferencesDialogOpen] = useState(false);
+  const [isBatchRenderingDialogOpen, setIsBatchRenderingDialogOpen] = useState(false);
   const menuBarRef = useRef<HTMLDivElement>(null);
 
   const { openFileDialog } = useFileDialog();
@@ -239,8 +241,8 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
 
       // Script menu actions
       case 'script.batchRender':
-        console.log('Batch Rendering not yet implemented');
-        showNotification('Batch Rendering dialog coming soon', 'info');
+        setIsBatchRenderingDialogOpen(true);
+        console.log('🎬 Opening Batch Rendering dialog');
         break;
 
       case 'script.daylightAnimation':
@@ -426,6 +428,12 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
       <PreferencesDialog
         isOpen={isPreferencesDialogOpen}
         onClose={() => setIsPreferencesDialogOpen(false)}
+      />
+
+      {/* Batch Rendering Dialog */}
+      <BatchRenderingDialog
+        isOpen={isBatchRenderingDialogOpen}
+        onClose={() => setIsBatchRenderingDialogOpen(false)}
       />
     </nav>
   );
