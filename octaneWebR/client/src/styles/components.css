@@ -4597,3 +4597,62 @@ body.drag-over .drop-indicator {
     background: var(--octane-accent-hover);
     border-color: var(--octane-accent-hover);
 }
+
+/* ========================================
+ * DAYLIGHT ANIMATION DIALOG
+ * ======================================== */
+.daylight-animation-dialog {
+    width: 600px;
+    max-width: 90vw;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--octane-bg-primary);
+    border: 1px solid var(--octane-border);
+    border-radius: 6px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.daylight-animation-dialog .modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.dialog-description {
+    margin: 0 0 20px 0;
+    padding: 12px;
+    background: var(--octane-bg-secondary);
+    border-left: 3px solid var(--octane-accent);
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--octane-text-secondary);
+    border-radius: 4px;
+}
+
+.field-unit {
+    margin-left: 8px;
+    font-size: 12px;
+    color: var(--octane-text-secondary);
+}
+
+/* ========================================
+ * TURNTABLE ANIMATION DIALOG
+ * ======================================== */
+.turntable-animation-dialog {
+    width: 600px;
+    max-width: 90vw;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--octane-bg-primary);
+    border: 1px solid var(--octane-border);
+    border-radius: 6px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.turntable-animation-dialog .modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}

@@ -12,6 +12,8 @@ import { MenuDropdown } from './MenuDropdown';
 import { KeyboardShortcutsDialog } from './KeyboardShortcutsDialog';
 import { PreferencesDialog } from './PreferencesDialog';
 import { BatchRenderingDialog } from './BatchRenderingDialog';
+import { DaylightAnimationDialog } from './DaylightAnimationDialog';
+import { TurntableAnimationDialog } from './TurntableAnimationDialog';
 import { getMenuDefinitions } from '../config/menuDefinitions';
 import { MenuAction } from '../types/menu';
 
@@ -36,6 +38,8 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
   const [isShortcutsDialogOpen, setIsShortcutsDialogOpen] = useState(false);
   const [isPreferencesDialogOpen, setIsPreferencesDialogOpen] = useState(false);
   const [isBatchRenderingDialogOpen, setIsBatchRenderingDialogOpen] = useState(false);
+  const [isDaylightAnimationDialogOpen, setIsDaylightAnimationDialogOpen] = useState(false);
+  const [isTurntableAnimationDialogOpen, setIsTurntableAnimationDialogOpen] = useState(false);
   const menuBarRef = useRef<HTMLDivElement>(null);
 
   const { openFileDialog } = useFileDialog();
@@ -246,13 +250,13 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
         break;
 
       case 'script.daylightAnimation':
-        console.log('Daylight Animation not yet implemented');
-        showNotification('Daylight Animation dialog coming soon', 'info');
+        setIsDaylightAnimationDialogOpen(true);
+        console.log('☀️ Opening Daylight Animation dialog');
         break;
 
       case 'script.turntableAnimation':
-        console.log('Turntable Animation not yet implemented');
-        showNotification('Turntable Animation dialog coming soon', 'info');
+        setIsTurntableAnimationDialogOpen(true);
+        console.log('🔄 Opening Turntable Animation dialog');
         break;
 
       // View menu actions
@@ -434,6 +438,18 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
       <BatchRenderingDialog
         isOpen={isBatchRenderingDialogOpen}
         onClose={() => setIsBatchRenderingDialogOpen(false)}
+      />
+
+      {/* Daylight Animation Dialog */}
+      <DaylightAnimationDialog
+        isOpen={isDaylightAnimationDialogOpen}
+        onClose={() => setIsDaylightAnimationDialogOpen(false)}
+      />
+
+      {/* Turntable Animation Dialog */}
+      <TurntableAnimationDialog
+        isOpen={isTurntableAnimationDialogOpen}
+        onClose={() => setIsTurntableAnimationDialogOpen(false)}
       />
     </nav>
   );
