@@ -2651,19 +2651,7 @@ body.drag-over .drop-indicator {
 
 
 /* Parameter Rows */
-.parameter-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 6px 8px;
-    margin-bottom: 4px;
-    border-radius: var(--border-radius-md);
-    min-height: 24px;
-}
-
-.parameter-row:hover {
-    background: var(--octane-bg-hover);
-}
+/* .parameter-row moved to layout.css (consolidated) */
 
 .parameter-label {
     display: flex;

@@ -219,12 +219,20 @@ body.resizing .panel-splitter {
 }
 
 /* Parameter Controls */
+/* Parameter row - consolidated from components.css and layout.css */
 .parameter-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-xl);
-    margin-bottom: 6px;
+    display: flex; /* Changed from grid to flex for better control */
     align-items: center;
+    justify-content: space-between;
+    padding: 6px 8px;
+    margin-bottom: 4px;
+    border-radius: var(--border-radius-md);
+    min-height: 24px;
+    gap: var(--spacing-xl); /* Keep gap from grid version */
+}
+
+.parameter-row:hover {
+    background: var(--octane-bg-hover);
 }
 
 .parameter-label {
