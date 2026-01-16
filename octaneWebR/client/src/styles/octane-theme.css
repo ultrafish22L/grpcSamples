@@ -1,7 +1,25 @@
 /**
- * OctaneWeb Professional Theme
- * Pixel-perfect recreation of Octane Render Studio's interface
- * Based on the native application's dark theme and layout
+ * Octane Render Studio Standalone Edition - Official Dark Theme
+ * 
+ * Pixel-perfect recreation of Octane Render Studio SE interface
+ * Reference: https://docs.otoy.com/standaloneSE/
+ * 
+ * THEME SCOPE:
+ * - Dark theme only (Octane SE has no light mode)
+ * - All colors matched to official Octane SE screenshots
+ * - CSS variables provide single source of truth for theme
+ * 
+ * STRUCTURE:
+ * 1. Color palette (backgrounds, text, accents, borders)
+ * 2. Spacing & sizing variables (padding, margins, dimensions)
+ * 3. Typography (font-size, font-weight, line-height)
+ * 4. Visual effects (opacity, shadows, transitions, z-index)
+ * 5. Component-specific styles (global scope)
+ * 
+ * MAINTENANCE:
+ * - Do NOT add light theme variants
+ * - All color changes must reference Octane SE screenshots
+ * - Use CSS variables consistently across all components
  */
 
 :root {
