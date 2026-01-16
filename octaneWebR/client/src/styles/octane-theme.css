@@ -413,7 +413,7 @@ html, body {
     padding: 4px 8px;
     background-color: var(--octane-bg-primary);
     border: 1px solid var(--octane-border);
-    border-radius: 3px;
+    border-radius: var(--border-radius); /* Standardized to 2px */
     color: var(--octane-text-primary);
     font-size: var(--font-size-small);
 }
@@ -489,7 +489,7 @@ html, body {
 
 .node-toggle:hover {
     background-color: var(--octane-bg-selected);
-    border-radius: 2px;
+    border-radius: var(--border-radius);
 }
 
 .node-icon {
@@ -902,7 +902,7 @@ html, body {
     font-family: var(--font-family-mono);
     font-weight: var(--font-weight-normal);
     cursor: pointer;
-    border-radius: 2px;
+    border-radius: var(--border-radius);
     transition: all 0.15s ease;
     width: 22px;
     height: 22px;
@@ -1632,7 +1632,7 @@ select {
 .node-type-color {
     width: 16px; /* Increased from 14px to match Octane SE reference */
     height: 16px;
-    border-radius: 2px;
+    border-radius: var(--border-radius);
     flex-shrink: 0;
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
