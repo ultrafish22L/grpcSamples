@@ -1,7 +1,7 @@
 /**
  * GPUStatisticsDialog.css
  * Styling for GPU resource statistics dialog
- * Matches Octane SE dark theme
+ * Matches Octane SE dark theme - Uses CSS variables for theme support
  */
 
 .gpu-statistics-backdrop {
@@ -22,8 +22,8 @@
   width: 700px;
   max-width: 90vw;
   max-height: 80vh;
-  background-color: #2a2a2a;
-  border: 1px solid #444;
+  background-color: var(--octane-viewport-bg);
+  border: 1px solid var(--octane-border);
   border-radius: 6px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
   z-index: 9999;
@@ -37,21 +37,21 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  background-color: #1e1e1e;
-  border-bottom: 1px solid #444;
+  background-color: var(--octane-bg-darker);
+  border-bottom: 1px solid var(--octane-border);
 }
 
 .gpu-statistics-header h2 {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--octane-text-primary);
 }
 
 .gpu-statistics-close {
   background: none;
   border: none;
-  color: #aaa;
+  color: var(--octane-text-secondary);
   font-size: 28px;
   line-height: 1;
   cursor: pointer;
@@ -66,8 +66,8 @@
 }
 
 .gpu-statistics-close:hover {
-  background-color: #444;
-  color: #fff;
+  background-color: var(--octane-bg-hover);
+  color: var(--octane-text-primary);
 }
 
 .gpu-statistics-content {
@@ -88,8 +88,8 @@
   margin: 0 0 12px 0;
   font-size: 16px;
   font-weight: 600;
-  color: #ffffff;
-  border-bottom: 1px solid #444;
+  color: var(--octane-text-primary);
+  border-bottom: 1px solid var(--octane-border);
   padding-bottom: 8px;
 }
 
@@ -97,20 +97,20 @@
   margin: 0 0 10px 0;
   font-size: 14px;
   font-weight: 600;
-  color: #cccccc;
+  color: var(--octane-text-secondary);
 }
 
 .gpu-statistics-value {
   font-size: 14px;
-  color: #aaaaaa;
+  color: var(--octane-text-secondary);
   padding: 8px 12px;
-  background-color: #1e1e1e;
+  background-color: var(--octane-bg-darker);
   border-radius: 4px;
   font-family: 'Courier New', monospace;
 }
 
 .gpu-statistics-device {
-  background-color: #333;
+  background-color: var(--octane-border-dark);
   border-radius: 6px;
   padding: 16px;
   margin-bottom: 20px;
@@ -124,8 +124,8 @@
   margin: 0 0 16px 0;
   font-size: 16px;
   font-weight: 600;
-  color: #ffffff;
-  border-bottom: 1px solid #555;
+  color: var(--octane-text-primary);
+  border-bottom: 1px solid var(--octane-border);
   padding-bottom: 8px;
 }
 
@@ -136,7 +136,7 @@
 }
 
 .gpu-statistics-table tbody tr {
-  border-bottom: 1px solid #3a3a3a;
+  border-bottom: 1px solid var(--octane-node-bg);
 }
 
 .gpu-statistics-table tbody tr:last-child {
@@ -145,11 +145,11 @@
 
 .gpu-statistics-table td {
   padding: 8px 12px;
-  color: #cccccc;
+  color: var(--octane-text-secondary);
 }
 
 .gpu-statistics-table td:first-child {
-  color: #999999;
+  color: var(--octane-text-muted);
   font-weight: 500;
   width: 50%;
 }
@@ -157,20 +157,20 @@
 .gpu-statistics-table td:last-child {
   text-align: right;
   font-family: 'Courier New', monospace;
-  color: #ffffff;
+  color: var(--octane-text-primary);
 }
 
 .gpu-statistics-loading {
   text-align: center;
   padding: 40px 20px;
-  color: #aaaaaa;
+  color: var(--octane-text-secondary);
   font-size: 14px;
 }
 
 .gpu-statistics-empty {
   text-align: center;
   padding: 40px 20px;
-  color: #aaaaaa;
+  color: var(--octane-text-secondary);
   font-size: 14px;
 }
 
@@ -180,14 +180,14 @@
 }
 
 .gpu-statistics-content::-webkit-scrollbar-track {
-  background: #1e1e1e;
+  background: var(--octane-bg-darker);
 }
 
 .gpu-statistics-content::-webkit-scrollbar-thumb {
-  background: #555;
+  background: var(--octane-border);
   border-radius: 5px;
 }
 
 .gpu-statistics-content::-webkit-scrollbar-thumb:hover {
-  background: #666;
+  background: var(--octane-border-light);
 }
