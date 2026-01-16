@@ -1437,7 +1437,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
           strokeWidth: 3,
         }}
         className="node-graph-reactflow"
-        style={{ background: '#4a4a4a' }}
+        style={{ background: '#505050' }}
         snapToGrid={snapToGrid}
         snapGrid={[20, 20]}
       >
@@ -1446,7 +1446,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
           variant={BackgroundVariant.Lines} 
           gap={gridVisible ? 60 : 0} 
           size={gridVisible ? 1 : 0} 
-          color="#2a2a2a"
+          color="#323232"
         />
 
         {/* Minimap for navigation - top-left with yellow Octane styling and draggable viewport */}
