@@ -4,7 +4,7 @@
  * Invoked by right-clicking on render progress indicator or GPU quick information bar
  */
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useOctane } from '../hooks/useOctane';
 import '../styles/GPUStatisticsDialog.css';
 
@@ -51,7 +51,7 @@ interface GPUStatisticsDialogProps {
   position?: { x: number; y: number };
 }
 
-export function GPUStatisticsDialog({ isOpen, onClose, position }: GPUStatisticsDialogProps) {
+function GPUStatisticsDialog({ isOpen, onClose, position }: GPUStatisticsDialogProps) {
   const { client, connected } = useOctane();
   const [devices, setDevices] = useState<DeviceStatistics[]>([]);
   const [loading, setLoading] = useState(true);
@@ -345,3 +345,6 @@ export function GPUStatisticsDialog({ isOpen, onClose, position }: GPUStatistics
     </>
   );
 }
+
+export const GPUStatisticsDialogMemoized = React.memo(GPUStatisticsDialog);
+export { GPUStatisticsDialogMemoized as GPUStatisticsDialog };

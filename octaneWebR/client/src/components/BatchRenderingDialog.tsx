@@ -4,14 +4,14 @@
  * Matches Octane SE: Script > Batch Rendering...
  */
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 interface BatchRenderingDialogProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
+function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
   const [selectedFormat, setSelectedFormat] = useState('PNG 8bit sRGB');
   const [colorSpace, setColorSpace] = useState('sRGB');
   const [frameRate, setFrameRate] = useState(24);
@@ -321,3 +321,6 @@ export function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogPr
     </div>
   );
 }
+
+export const BatchRenderingDialogMemoized = React.memo(BatchRenderingDialog);
+export { BatchRenderingDialogMemoized as BatchRenderingDialog };

@@ -1018,7 +1018,7 @@ function groupChildren(children: SceneNode[]): Array<{ groupName: string | null;
   return groups;
 }
 
-export function NodeInspector({ node }: NodeInspectorProps) {
+export const NodeInspector = React.memo(function NodeInspector({ node }: NodeInspectorProps) {
   // NOTE: Node expansion state is managed internally by NodeParameter component
   const handleToggle = (_nodeId: string) => {
     // Placeholder for future centralized expansion state management
@@ -1060,4 +1060,4 @@ export function NodeInspector({ node }: NodeInspectorProps) {
       </div>
     </div>
   );
-}
+});

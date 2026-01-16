@@ -3,7 +3,7 @@
  * Hierarchical tree view of Octane scene
  */
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useOctane } from '../hooks/useOctane';
 import { SceneNode } from '../services/OctaneClient';
 import { OctaneIconMapper } from '../utils/OctaneIconMapper';
@@ -277,7 +277,7 @@ function LocalDBTreeItem({ category, depth, onLoadCategory, onLoadPackage }: Loc
   );
 }
 
-export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange, onSyncStateChange }: SceneOutlinerProps) {
+export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange, onSyncStateChange }: SceneOutlinerProps) {
   const { client, connected } = useOctane();
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('scene');
@@ -698,4 +698,4 @@ export function SceneOutliner({ selectedNode, onNodeSelect, onSceneTreeChange, o
       </div>
     </div>
   );
-}
+});

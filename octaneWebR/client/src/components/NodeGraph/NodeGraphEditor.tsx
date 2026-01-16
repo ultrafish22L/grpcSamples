@@ -4,7 +4,7 @@
  * Maintains all functionality from octaneWeb's NodeGraphEditor.js
  */
 
-import { useEffect, useCallback, useRef, useState } from 'react';
+import React, { useEffect, useCallback, useRef, useState } from 'react';
 import {
   ReactFlow,
   Node,
@@ -55,8 +55,9 @@ const nodeTypes = {
 
 /**
  * Inner component with ReactFlow context access
+ * Memoized for performance (1500+ line component)
  */
-function NodeGraphEditorInner({ 
+const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({ 
   sceneTree, 
   selectedNode, 
   onNodeSelect,
@@ -1473,12 +1474,13 @@ function NodeGraphEditorInner({
       </div>
     </>
   );
-}
+});
 
 /**
  * Main component wrapped with ReactFlow provider
+ * Memoized for performance
  */
-export function NodeGraphEditor({ 
+export const NodeGraphEditor = React.memo(function NodeGraphEditor({ 
   sceneTree, 
   selectedNode, 
   onNodeSelect,
@@ -1502,4 +1504,4 @@ export function NodeGraphEditor({
       />
     </ReactFlowProvider>
   );
-}
+});

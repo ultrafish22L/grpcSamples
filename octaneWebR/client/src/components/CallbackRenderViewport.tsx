@@ -8,7 +8,7 @@
  * - Automatic render triggering when connected
  */
 
-import { useEffect, useRef, useState, useCallback, forwardRef, useImperativeHandle } from 'react';
+import React, { useEffect, useRef, useState, useCallback, forwardRef, useImperativeHandle } from 'react';
 import { useOctane } from '../hooks/useOctane';
 
 interface OctaneImageData {
@@ -53,7 +53,7 @@ export interface CallbackRenderViewportHandle {
   recenterView: () => void;
 }
 
-export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, CallbackRenderViewportProps>(
+export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewportHandle, CallbackRenderViewportProps>(
   function CallbackRenderViewport({ showWorldCoord = true, viewportLocked = false, pickingMode = 'none' }, ref) {
   const { client, connected } = useOctane();
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -1035,4 +1035,4 @@ export const CallbackRenderViewport = forwardRef<CallbackRenderViewportHandle, C
       </div>
     </div>
   );
-});
+}));

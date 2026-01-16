@@ -4,7 +4,7 @@
  * Based on: https://docs.otoy.com/standaloneSE/ThePackagerandtheORBXFile.html
  */
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useOctane } from '../hooks/useOctane';
 
 interface SavePackageDialogProps {
@@ -24,7 +24,7 @@ interface PackageSettings {
   exportNestedReferenceGraphs: boolean;
 }
 
-export function SavePackageDialog({ isOpen, onClose }: SavePackageDialogProps) {
+function SavePackageDialog({ isOpen, onClose }: SavePackageDialogProps) {
   const { client, connected } = useOctane();
   const [filename, setFilename] = useState('scene.orbx');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -323,3 +323,6 @@ export function SavePackageDialog({ isOpen, onClose }: SavePackageDialogProps) {
     </div>
   );
 }
+
+export const SavePackageDialogMemoized = React.memo(SavePackageDialog);
+export { SavePackageDialogMemoized as SavePackageDialog };

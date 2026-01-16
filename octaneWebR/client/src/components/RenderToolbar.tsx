@@ -4,7 +4,7 @@
  * Located below the render viewport, above the node graph editor
  */
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useOctane } from '../hooks/useOctane';
 import { GPUStatisticsDialog } from './GPUStatisticsDialog';
 
@@ -47,7 +47,7 @@ interface RenderToolbarProps {
   onPickingModeChange?: (mode: 'none' | 'focus' | 'whiteBalance' | 'material' | 'object' | 'cameraTarget' | 'renderRegion' | 'filmRegion') => void;
 }
 
-export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClipboard, onSaveRender, onExportPasses, onRecenterView, onViewportLockChange, onPickingModeChange }: RenderToolbarProps) {
+export const RenderToolbar = React.memo(function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClipboard, onSaveRender, onExportPasses, onRecenterView, onViewportLockChange, onPickingModeChange }: RenderToolbarProps) {
   const { connected, client } = useOctane();
   
   const [renderStats, setRenderStats] = useState<RenderStats>({
@@ -827,4 +827,4 @@ export function RenderToolbar({ className = '', onToggleWorldCoord, onCopyToClip
       />
     </div>
   );
-}
+});

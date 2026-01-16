@@ -3,7 +3,7 @@
  * Main application menu bar with dropdowns and file operations
  */
 
-import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { useFileDialog } from '../hooks/useFileDialog';
 import { useRecentFiles } from '../hooks/useRecentFiles';
 import { useOctane } from '../hooks/useOctane';
@@ -35,7 +35,7 @@ interface MenuBarProps {
   onResetLayout?: () => void;
 }
 
-export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTogglePanelVisibility, onResetLayout }: MenuBarProps) {
+function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTogglePanelVisibility, onResetLayout }: MenuBarProps) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [activeMenuAnchor, setActiveMenuAnchor] = useState<HTMLElement | null>(null);
   const [isShortcutsDialogOpen, setIsShortcutsDialogOpen] = useState(false);
@@ -529,3 +529,6 @@ export function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibilit
     </nav>
   );
 }
+
+export const MenuBarMemoized = React.memo(MenuBar);
+export { MenuBarMemoized as MenuBar };
