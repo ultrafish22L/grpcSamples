@@ -16,7 +16,6 @@
  */
 
 import { useCallback, useState } from 'react';
-import './NodeGraphToolbar.css';
 
 interface NodeGraphToolbarProps {
   gridVisible: boolean;

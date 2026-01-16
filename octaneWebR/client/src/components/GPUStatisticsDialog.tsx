@@ -6,7 +6,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useOctane } from '../hooks/useOctane';
-import '../styles/GPUStatisticsDialog.css';
 
 interface DeviceStatistics {
   index: number;

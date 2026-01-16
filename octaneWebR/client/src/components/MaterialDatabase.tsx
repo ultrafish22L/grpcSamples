@@ -11,7 +11,6 @@
 
 import { useState, useEffect } from 'react';
 import { useOctane } from '../hooks/useOctane';
-import '../styles/MaterialDatabase.css';
 
 interface MaterialCategory {
   name: string;
