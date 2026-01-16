@@ -564,7 +564,7 @@ body.resizing .react-flow__edge-interaction {
 /* ReactFlow Handle (Pin) Styling - Solid appearance like Octane */
 .react-flow__handle {
     /* Minimal shadow for depth - no inset shadows to keep solid appearance */
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 2px var(--octane-overlay-subtle);
     
     /* Moderate desaturation - original darker look */
     filter: saturate(0.5) brightness(0.7);
@@ -577,8 +577,8 @@ body.resizing .react-flow__edge-interaction {
 .react-flow__handle:hover {
     filter: saturate(0.6) brightness(0.8);
     box-shadow: 
-        0 1px 2px rgba(0, 0, 0, 0.4),
-        0 0 4px rgba(255, 255, 255, 0.2); /* Subtle outer glow */
+        0 1px 2px var(--octane-shadow-medium),
+        0 0 4px var(--octane-highlight-medium); /* Subtle outer glow */
 }
 
 /* Connected handles - maintain muted appearance */
@@ -590,15 +590,15 @@ body.resizing .react-flow__edge-interaction {
 .octane-node {
     /* Much darker gradient - half as bright to match Octane reference */
     background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.042) 0%,  /* 0.084 / 2 = 0.042 */
-        rgba(0, 0, 0, 0.053) 100%        /* 0.105 / 2 = 0.053 */
+        var(--octane-highlight-ultra-subtle) 0%,  /* 0.084 / 2 = 0.042 */
+        var(--octane-shadow-ultra-subtle) 100%    /* 0.105 / 2 = 0.053 */
     );
     
     /* Stronger 3D button effect - dimmer highlights to match darker background */
     box-shadow: 
-        inset 0 2px 1px rgba(255, 255, 255, 0.053),   /* 0.105 / 2 = 0.053 */
-        inset 0 -2px 1px rgba(0, 0, 0, 0.4),         
-        0 2px 3px rgba(0, 0, 0, 0.6);                
+        inset 0 2px 1px var(--octane-highlight-subtle),   /* 0.105 / 2 = 0.053 */
+        inset 0 -2px 1px var(--octane-overlay-light),         
+        0 2px 3px var(--octane-shadow-heavy);                
     
     /* Only desaturation - NO brightness filter to keep text bright */
     filter: saturate(1.0);
@@ -610,10 +610,10 @@ body.resizing .react-flow__edge-interaction {
 /* Selected node - slightly more prominent */
 .octane-node.selected {
     box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.15),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 var(--octane-highlight),
+        inset 0 -1px 0 var(--octane-shadow-light),
         0 0 0 2px var(--octane-accent-yellow),
-        0 2px 4px rgba(0, 0, 0, 0.6);
+        0 2px 4px var(--octane-shadow-heavy);
 }
 
 /* ReactFlow Edge (Connection Line) Styling - Muted Colors */

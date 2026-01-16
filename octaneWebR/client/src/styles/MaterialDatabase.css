@@ -10,7 +10,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--octane-overlay-medium);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,7 +28,7 @@
   max-height: 700px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 40px var(--octane-overlay-semi);
   color: var(--octane-text-primary);
 }
 
@@ -137,7 +137,7 @@
 .material-database-controls select:focus {
   outline: none;
   border-color: var(--octane-accent-blue);
-  box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.2);
+  box-shadow: 0 0 0 2px var(--octane-info-border-alpha-alt);
 }
 
 /* Error Display */
@@ -187,7 +187,7 @@
 
 .material-card:hover {
   border-color: var(--octane-accent-blue);
-  box-shadow: 0 4px 12px rgba(74, 158, 255, 0.2);
+  box-shadow: 0 4px 12px var(--octane-info-border-alpha-alt);
   transform: translateY(-2px);
 }
 

@@ -45,6 +45,52 @@
     --octane-node-bg: #d8d8d8;           /* Node backgrounds */
     --octane-connection-line: #666666;   /* Node connections - darker for visibility */
     --octane-parameter-bg: #f0f0f0;      /* Parameter backgrounds */
+    
+    /* Light Mode Transparent Overlays & Shadows (adjusted for light backgrounds) */
+    --octane-overlay-darkest: rgba(0, 0, 0, 0.6);    /* Dark overlays (lighter than dark theme) */
+    --octane-overlay-dark: rgba(0, 0, 0, 0.5);       /* Modal overlays */
+    --octane-overlay-medium-dark: rgba(0, 0, 0, 0.45); /* Medium-dark overlays */
+    --octane-overlay-medium: rgba(0, 0, 0, 0.4);     /* Medium overlays */
+    --octane-overlay-semi: rgba(0, 0, 0, 0.3);       /* Semi-transparent overlays */
+    --octane-overlay-light: rgba(0, 0, 0, 0.2);      /* Light overlays */
+    --octane-overlay-subtle: rgba(0, 0, 0, 0.15);    /* Subtle overlays */
+    --octane-overlay-very-subtle: rgba(0, 0, 0, 0.1); /* Very subtle overlays */
+    
+    /* Light Mode Shadow Variants (lighter for better visibility) */
+    --octane-shadow-heavy: rgba(0, 0, 0, 0.3);       /* Heavy shadows */
+    --octane-shadow-medium: rgba(0, 0, 0, 0.2);      /* Medium shadows */
+    --octane-shadow-light: rgba(0, 0, 0, 0.12);      /* Light drop shadows */
+    --octane-shadow-subtle: rgba(0, 0, 0, 0.08);     /* Very light shadows */
+    --octane-shadow-ultra-subtle: rgba(0, 0, 0, 0.04); /* Ultra-subtle shadows */
+    
+    /* Light Mode Highlights (inverted - use dark overlays for depth) */
+    --octane-highlight-bright: rgba(0, 0, 0, 0.15);  /* Dark highlights for contrast */
+    --octane-highlight-strong: rgba(0, 0, 0, 0.12);  /* Strong highlights */
+    --octane-highlight-medium: rgba(0, 0, 0, 0.08);  /* Medium highlights */
+    --octane-highlight: rgba(0, 0, 0, 0.06);         /* Standard highlights */
+    --octane-highlight-soft: rgba(0, 0, 0, 0.03);    /* Soft highlights */
+    --octane-highlight-subtle: rgba(0, 0, 0, 0.02);  /* Subtle highlights */
+    --octane-highlight-ultra-subtle: rgba(0, 0, 0, 0.015); /* Ultra-subtle highlights */
+    --octane-highlight-barely: rgba(0, 0, 0, 0.01);  /* Barely visible highlights */
+    
+    /* Light Mode State-Based Transparent Colors */
+    --octane-error-bg-alpha: rgba(220, 53, 69, 0.15);     /* Error background (more visible) */
+    --octane-error-border-alpha: rgba(220, 53, 69, 0.4);  /* Error border (darker) */
+    --octane-error-bg-bright: rgba(255, 0, 0, 0.12);      /* Bright error background */
+    
+    --octane-success-bg-alpha: rgba(40, 167, 69, 0.15);   /* Success background */
+    --octane-success-border-alpha: rgba(40, 167, 69, 0.4); /* Success border */
+    
+    --octane-info-bg-alpha: rgba(64, 128, 255, 0.12);     /* Info background */
+    --octane-info-bg-alpha-medium: rgba(64, 128, 255, 0.18); /* Medium info overlay */
+    --octane-info-border-alpha: rgba(64, 128, 255, 0.25); /* Info border */
+    --octane-info-border-alpha-alt: rgba(74, 158, 255, 0.25); /* Alternate info border */
+    
+    --octane-warning-bg-alpha: rgba(255, 165, 0, 0.15);   /* Warning background */
+    --octane-warning-bg-alpha-alt: rgba(255, 120, 0, 0.15); /* Alternate warning */
+    
+    /* Light Mode Special Background Overlays */
+    --octane-bg-semi-transparent: rgba(245, 245, 245, 0.95); /* Semi-transparent light background */
 }
 
 /* Light theme specific overrides for context menus */

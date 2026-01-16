@@ -174,7 +174,7 @@
 }
 
 .scene-node.selected .scene-node-handle {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--octane-highlight-strong);
 }
 
 .scene-node-visibility {
@@ -421,14 +421,14 @@
 }
 
 .scene-error {
-    background-color: rgba(220, 53, 69, 0.1);
-    border: 1px solid rgba(220, 53, 69, 0.3);
+    background-color: var(--octane-error-bg-alpha);
+    border: 1px solid var(--octane-error-border-alpha);
     color: var(--octane-text-primary);
 }
 
 .scene-success {
-    background-color: rgba(40, 167, 69, 0.1);
-    border: 1px solid rgba(40, 167, 69, 0.3);
+    background-color: var(--octane-success-bg-alpha);
+    border: 1px solid var(--octane-success-border-alpha);
     color: var(--octane-text-primary);
 }
 
@@ -848,7 +848,7 @@ input:checked + .slider:before {
 }
 
 .octane-parameter-row:hover {
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: var(--octane-highlight-barely);
 }
 
 .octane-parameter-icon {
@@ -1194,7 +1194,7 @@ input:checked + .slider:before {
     position: absolute;
     bottom: 16px;
     right: 16px;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: var(--octane-overlay-dark);
     border-radius: var(--border-radius);
     padding: 8px;
     display: flex;
@@ -1239,7 +1239,7 @@ input:checked + .slider:before {
     right: 16px;
     width: 150px;
     height: 100px;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: var(--octane-overlay-dark);
     border: 1px solid var(--octane-border);
     border-radius: var(--border-radius);
 }
@@ -1250,7 +1250,7 @@ input:checked + .slider:before {
     left: 8px;
     display: flex;
     gap: 4px;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: var(--octane-overlay-dark);
     padding: 4px;
     border-radius: var(--border-radius);
 }
@@ -1483,7 +1483,7 @@ input:checked + .slider:before {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: var(--octane-overlay-dark);
     z-index: 15000;
     display: none;
     align-items: center;
@@ -1536,7 +1536,7 @@ body.drag-over .drop-indicator {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--octane-overlay-semi);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2118,7 +2118,7 @@ body.drag-over .drop-indicator {
 .preview-sphere {
     font-size: var(--font-size-huge);
     opacity: 0.8;
-    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
+    filter: drop-shadow(2px 2px 4px var(--octane-overlay-semi));
 }
 
 .preview-controls {
@@ -2257,7 +2257,7 @@ body.drag-over .drop-indicator {
     top: 10px;
     right: 10px;
     width: 180px;
-    background: rgba(42, 42, 42, 0.95);
+    background: var(--octane-bg-semi-transparent);
     border: 1px solid var(--octane-border);
     border-radius: 4px;
     padding: 10px;
@@ -3176,9 +3176,9 @@ body.drag-over .drop-indicator {
     align-items: center;
     justify-content: center;
     font-size: var(--font-size-small);
-    border: 1px solid rgba(255, 255, 255, 0.2); /* More visible border */
-    background: rgba(0, 0, 0, 0.3); /* Subtle background for better contrast */
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+    border: 1px solid var(--octane-highlight-medium); /* More visible border */
+    background: var(--octane-overlay-subtle); /* Subtle background for better contrast */
+    box-shadow: 0 1px 2px var(--octane-overlay-subtle); /* Subtle shadow for depth */
 }
 
 .node-inspector .panel-content,
@@ -3287,7 +3287,7 @@ body.drag-over .drop-indicator {
 .octane-node-inspector .node-parameter-controls .parameter-dropdown:focus {
     outline: none;
     border-color: var(--octane-accent);
-    box-shadow: 0 0 0 2px rgba(255, 165, 0, 0.2);
+    box-shadow: 0 0 0 2px var(--octane-warning-bg-alpha);
 }
 
 /* Child nodes container - ONLY for Node Inspector */
@@ -3311,7 +3311,7 @@ body.drag-over .drop-indicator {
 }
 
 .octane-parameter-row:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--octane-highlight-soft);
 }
 
 .octane-parameter-label {
@@ -3361,7 +3361,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-primary);
     border: 1px solid var(--octane-bg-header);
     border-radius: 2px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0 1px 3px var(--octane-shadow-heavy);
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -3396,7 +3396,7 @@ body.drag-over .drop-indicator {
     padding: 0 8px;
     font-family: var(--font-family-mono);
     text-align: right;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0 1px 3px var(--octane-shadow-heavy);
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -3406,7 +3406,7 @@ body.drag-over .drop-indicator {
     outline: none;
     border-color: var(--octane-accent);
     background: var(--octane-border-dark);
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--octane-accent);
+    box-shadow: inset 0 1px 3px var(--octane-shadow-heavy), 0 0 0 1px var(--octane-accent);
 }
 
 /* Number input with spinners */
@@ -3473,7 +3473,7 @@ body.drag-over .drop-indicator {
     font-size: var(--font-size-small);
     padding: 1px 4px;
     text-align: right;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0 1px 3px var(--octane-shadow-heavy);
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -3483,7 +3483,7 @@ body.drag-over .drop-indicator {
     outline: none;
     border-color: var(--octane-accent);
     background: var(--octane-border-dark);
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--octane-accent);
+    box-shadow: inset 0 1px 3px var(--octane-shadow-heavy), 0 0 0 1px var(--octane-accent);
 }
 
 .octane-color-input {
@@ -3495,7 +3495,7 @@ body.drag-over .drop-indicator {
     cursor: pointer;
     padding: 0;
     background: var(--octane-bg-primary);
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0 1px 3px var(--octane-shadow-heavy);
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -3522,7 +3522,7 @@ body.drag-over .drop-indicator {
     cursor: pointer;
     display: grid;
     text-align: right;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0 1px 3px var(--octane-shadow-heavy);
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -3532,7 +3532,7 @@ body.drag-over .drop-indicator {
     outline: none;
     border-color: var(--octane-accent);
     background: var(--octane-border-dark);
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--octane-accent);
+    box-shadow: inset 0 1px 3px var(--octane-shadow-heavy), 0 0 0 1px var(--octane-accent);
 }
 
 /* Vector control styles */
@@ -3827,7 +3827,7 @@ body.drag-over .drop-indicator {
     position: absolute;
     bottom: 10px;
     right: 10px;
-    background: rgba(0, 0, 0, 0.7);
+    background: var(--octane-overlay-medium);
     padding: 8px 12px;
     border-radius: 4px;
     display: flex;
@@ -3858,7 +3858,7 @@ body.drag-over .drop-indicator {
 
 /* Node Graph Tooltip */
 .node-graph-tooltip {
-    background: rgba(0, 0, 0, 0.9);
+    background: var(--octane-overlay-darkest);
     color: var(--octane-text-primary);
     padding: 6px 10px;
     border-radius: 4px;
@@ -3874,7 +3874,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-secondary);
     border: 1px solid var(--octane-border);
     border-radius: 4px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 12px var(--octane-overlay-semi);
     z-index: 10000;
     min-width: 150px;
     overflow: hidden;
@@ -3889,7 +3889,7 @@ body.drag-over .drop-indicator {
     left: 10px;
     display: flex;
     gap: 8px;
-    background: rgba(0, 0, 0, 0.7);
+    background: var(--octane-overlay-medium);
     padding: 6px;
     border-radius: 4px;
     border: 1px solid var(--octane-border);
@@ -3932,7 +3932,7 @@ body.drag-over .drop-indicator {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.75);
+    background: var(--octane-overlay-medium-dark);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3943,7 +3943,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-primary);
     border: 1px solid var(--octane-border);
     border-radius: 6px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 8px 24px var(--octane-overlay-dark);
     min-width: 400px;
     max-width: 600px;
     max-height: 80vh;
@@ -4028,7 +4028,7 @@ body.drag-over .drop-indicator {
 .form-control:focus {
     outline: none;
     border-color: var(--octane-accent);
-    box-shadow: 0 0 0 2px rgba(255, 120, 0, 0.2);
+    box-shadow: 0 0 0 2px var(--octane-warning-bg-alpha-alt);
 }
 
 .form-control:disabled {
@@ -4069,7 +4069,7 @@ body.drag-over .drop-indicator {
 .error-message {
     margin-top: 12px;
     padding: 8px 10px;
-    background: rgba(255, 0, 0, 0.1);
+    background: var(--octane-error-bg-bright);
     border-left: 3px solid var(--octane-accent-red);
     border-radius: 3px;
     color: var(--octane-accent-red);
@@ -4172,7 +4172,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-secondary);
     border: 1px solid var(--octane-border);
     border-radius: 3px;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), inset 0 0 0 2px rgba(255, 255, 255, 0.05);
+    box-shadow: 0 1px 0 var(--octane-overlay-very-subtle), inset 0 0 0 2px var(--octane-highlight-soft);
     color: var(--octane-text-primary);
     white-space: nowrap;
 }
@@ -4194,7 +4194,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-primary);
     border: 1px solid var(--octane-border);
     border-radius: 6px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 40px var(--octane-overlay-semi);
 }
 
 .preferences-header {
@@ -4441,7 +4441,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-primary);
     border: 1px solid var(--octane-border);
     border-radius: 6px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 40px var(--octane-overlay-semi);
 }
 
 .batch-rendering-dialog .modal-body {
@@ -4588,7 +4588,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-primary);
     border: 1px solid var(--octane-border);
     border-radius: 6px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 40px var(--octane-overlay-semi);
 }
 
 .daylight-animation-dialog .modal-body {
@@ -4626,7 +4626,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-primary);
     border: 1px solid var(--octane-border);
     border-radius: 6px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 40px var(--octane-overlay-semi);
 }
 
 .turntable-animation-dialog .modal-body {
@@ -4647,7 +4647,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-primary);
     border: 1px solid var(--octane-border);
     border-radius: 6px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 40px var(--octane-overlay-semi);
 }
 
 .about-dialog .modal-body {
@@ -4801,7 +4801,7 @@ body.drag-over .drop-indicator {
     border-color: var(--octane-accent);
     color: white;
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px var(--octane-overlay-very-subtle);
 }
 
 /* ============================================
