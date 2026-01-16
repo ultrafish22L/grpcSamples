@@ -76,12 +76,38 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
         borderRadius: 4,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
         position: 'relative',
-        padding: '0 10px',
+        padding: '0 10px 0 32px',
         cursor: 'grab',
       }}
     >
+      {/* Node type icon box - fitted on left like Node Inspector */}
+      {sceneNode.type && (
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: 24,
+            backgroundColor: nodeColor,
+            borderRadius: '4px 0 0 4px',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            borderRight: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.3)',
+          }}
+        >
+          <NodeIcon 
+            nodeType={sceneNode.type} 
+            size={16}
+            title={sceneNode.type}
+          />
+        </div>
+      )}
+      
       {/* Input handles on top */}
       {inputs.map((input: any, index: number) => {
         const socketColor = input.pinInfo?.pinColor !== undefined
@@ -164,38 +190,21 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
         );
       })}
 
-      {/* Node icon and title */}
+      {/* Node title */}
       <div
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 6,
           color: '#fff',
           fontSize: 11,
           fontFamily: 'Arial, sans-serif',
+          textAlign: 'center',
           whiteSpace: 'nowrap',
           overflow: 'hidden',
+          textOverflow: 'ellipsis',
           userSelect: 'none',
+          width: '100%',
         }}
       >
-        {/* Node type icon */}
-        {sceneNode.type && (
-          <NodeIcon 
-            nodeType={sceneNode.type} 
-            size={16}
-            title={sceneNode.type}
-          />
-        )}
-        
-        {/* Node title */}
-        <div
-          style={{
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}
-        >
-          {sceneNode.name || sceneNode.type}
-        </div>
+        {sceneNode.name || sceneNode.type}
       </div>
 
       {/* Output handle on bottom */}
