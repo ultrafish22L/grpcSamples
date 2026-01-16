@@ -7,7 +7,6 @@ import { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { SceneNode } from '../../services/OctaneClient';
 import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
-import { NodeIcon } from '../../utils/IconLoader';
 
 /**
  * Convert hex color to HSL
@@ -146,6 +145,8 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
       onContextMenu(event, id);
     }
   };
+  const typeStr = String(sceneNode.type || sceneNode.outType || 'unknown');
+  const icon = sceneNode.icon || OctaneIconMapper.getNodeIcon(typeStr, sceneNode.name);
 
   return (
     <div
@@ -186,11 +187,7 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
             boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.4)',
           }}
         >
-          <NodeIcon 
-            nodeType={sceneNode.type} 
-            size={16}
-            title={sceneNode.type}
-          />
+        <span className="node-icon">{icon}</span>
         </div>
       )}
       
