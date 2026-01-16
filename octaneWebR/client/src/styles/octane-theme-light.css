@@ -1,0 +1,101 @@
+/**
+ * OctaneWeb Light Theme
+ * Light mode variant for professional workflows
+ * Inverts dark theme colors while maintaining contrast ratios
+ */
+
+[data-theme="light"] {
+    /* Light Mode Background Colors */
+    --octane-bg-primary: #f5f5f5;        /* Main background - light gray */
+    --octane-bg-secondary: #e8e8e8;      /* Panel backgrounds */
+    --octane-bg-parameter: #d8d8d8;      /* Parameter backgrounds */
+    --octane-bg-darker: #ffffff;         /* Lighter panels (inverted) */
+    --octane-bg-header: #e0e0e0;         /* Header/menu backgrounds */
+    --octane-bg-selected: #d0d0d0;       /* Selected items */
+    --octane-bg-hover: #dcdcdc;          /* Hover states */
+    
+    /* Light Mode Text Colors */
+    --octane-text-primary: #1a1a1a;      /* Primary text - dark */
+    --octane-text-secondary: #333333;    /* Secondary text */
+    --octane-text-muted: #666666;        /* Muted text */
+    --octane-text-disabled: #999999;     /* Disabled text */
+    
+    /* Accent Colors (remain similar for brand consistency) */
+    --octane-accent: #ff8c00;            /* Primary accent - Octane orange */
+    --octane-accent-yellow: #f5b800;     /* Selection yellow/gold - slightly darker for visibility */
+    --octane-accent-orange: #ff8c00;     /* Warning/active orange */
+    --octane-accent-green: #4a9e4a;      /* Success green - slightly darker */
+    --octane-accent-red: #c74440;        /* Error red - slightly darker */
+    --octane-accent-blue: #2a8bc9;       /* Info/link blue - slightly darker */
+    
+    /* Light Mode UI Elements */
+    --octane-border: #b8b8b8;            /* Standard borders - darker for visibility */
+    --octane-border-light: #a0a0a0;      /* Light borders */
+    --octane-border-dark: #cccccc;       /* Dark borders (lighter in light mode) */
+    --octane-border-darker: #e5e5e5;     /* Darker borders/backgrounds */
+    --octane-border-medium: #b8b8b8;     /* Medium borders */
+    --octane-shadow: rgba(0, 0, 0, 0.15); /* Drop shadows - lighter */
+    
+    /* Error States */
+    --octane-error-bg: #ffe5e5;          /* Error background (light red) */
+    --octane-error-border: #ffc0c0;      /* Error border (light red) */
+    
+    /* Light Mode Specific Colors */
+    --octane-viewport-bg: #e0e0e0;       /* Viewport background */
+    --octane-node-bg: #d8d8d8;           /* Node backgrounds */
+    --octane-connection-line: #666666;   /* Node connections - darker for visibility */
+    --octane-parameter-bg: #f0f0f0;      /* Parameter backgrounds */
+}
+
+/* Light theme specific overrides for context menus */
+[data-theme="light"] .node-context-menu,
+[data-theme="light"] .context-submenu,
+[data-theme="light"] .context-submenu-multicolumn {
+    background: var(--octane-bg-secondary) !important;
+    border: 1px solid var(--octane-border) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    color: var(--octane-text-primary) !important;
+}
+
+/* Light theme toolbar */
+[data-theme="light"] .node-graph-toolbar {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Light theme scrollbar */
+[data-theme="light"] ::-webkit-scrollbar-track {
+    background: var(--octane-bg-secondary);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+    background: var(--octane-border);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--octane-border-dark);
+}
+
+/* Light theme status dot adjustments */
+[data-theme="light"] .status-dot {
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Light theme input controls - better visibility */
+[data-theme="light"] input[type="number"],
+[data-theme="light"] input[type="text"],
+[data-theme="light"] select {
+    background-color: var(--octane-parameter-bg);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-primary);
+}
+
+[data-theme="light"] input[type="number"]:focus,
+[data-theme="light"] input[type="text"]:focus,
+[data-theme="light"] select:focus {
+    border-color: var(--octane-accent);
+    box-shadow: 0 0 0 1px var(--octane-accent);
+}
+
+[data-theme="light"] select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+}

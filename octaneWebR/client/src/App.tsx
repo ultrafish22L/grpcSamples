@@ -18,6 +18,7 @@ import { OctaneProvider, useOctane } from './hooks/useOctane';
 import { useResizablePanels } from './hooks/useResizablePanels';
 import { MenuBar } from './components/MenuBar';
 import { ConnectionStatus } from './components/ConnectionStatus';
+import { ThemeSwitcher } from './components/ThemeSwitcher';
 import { CallbackRenderViewport, CallbackRenderViewportHandle } from './components/CallbackRenderViewport';
 import { RenderToolbar } from './components/RenderToolbar';
 import { SceneOutliner } from './components/SceneOutliner';
@@ -246,7 +247,10 @@ function AppContent() {
         />
         
         {/* Connection Status & Controls */}
-        <ConnectionStatus />
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+          <ThemeSwitcher />
+          <ConnectionStatus />
+        </div>
       </header>
 
       {/* Main Application Layout */}
