@@ -1,21 +1,21 @@
-# Package octaneWebR as Electron Desktop Application
+﻿# Package octaneWebR as Electron Desktop Application
 # Creates native executables for Windows, macOS, and Linux
 
-Write-Host "╔═══════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║      Building octaneWebR Electron Desktop App     ║" -ForegroundColor Cyan
-Write-Host "╚═══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "+===================================================+" -ForegroundColor Cyan
+Write-Host "|      Building octaneWebR Electron Desktop App     |" -ForegroundColor Cyan
+Write-Host "+===================================================+" -ForegroundColor Cyan
 Write-Host ""
 
-Write-Host "⚠️  This script will set up Electron packaging." -ForegroundColor Yellow
+Write-Host "[Warning]  This script will set up Electron packaging." -ForegroundColor Yellow
 Write-Host "    Run this script to install Electron dependencies." -ForegroundColor Yellow
 Write-Host ""
 
 # Step 1: Install Electron and builder
-Write-Host "📦 Installing Electron dependencies..." -ForegroundColor Green
+Write-Host "[Package] Installing Electron dependencies..." -ForegroundColor Green
 npm install --save-dev electron electron-builder
 
 # Step 2: Create Electron main process
-Write-Host "📝 Creating Electron configuration..." -ForegroundColor Green
+Write-Host "[Config] Creating Electron configuration..." -ForegroundColor Green
 
 New-Item -ItemType Directory -Force -Path "electron" | Out-Null
 
@@ -69,7 +69,7 @@ app.on('activate', () => {
 Set-Content -Path "electron/main.js" -Value $mainJsContent
 
 # Step 3: Update package.json with Electron scripts
-Write-Host "📝 Adding Electron scripts to package.json..." -ForegroundColor Green
+Write-Host "[Config] Adding Electron scripts to package.json..." -ForegroundColor Green
 
 $updatePackageJson = @'
 const fs = require('fs');
@@ -120,7 +120,7 @@ packageJson.build = {
 };
 
 fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
-console.log('✅ package.json updated with Electron configuration');
+console.log('[OK] package.json updated with Electron configuration');
 '@
 
 $updatePackageJson | node
@@ -211,17 +211,17 @@ sudo dpkg -i octaneWebR_X.X.X_amd64.deb
 - No Node.js/npm needed (bundled with app)
 
 ## Advantages of Electron Distribution
-✅ Native desktop application
-✅ No browser required
-✅ Auto-updates support (can be added)
-✅ Native OS integration (taskbar, dock, etc.)
-✅ File system access (for future features)
-✅ Native menus and dialogs
+[OK] Native desktop application
+[OK] No browser required
+[OK] Auto-updates support (can be added)
+[OK] Native OS integration (taskbar, dock, etc.)
+[OK] File system access (for future features)
+[OK] Native menus and dialogs
 
 ## Disadvantages
-❌ Large file size (~100MB+ per platform)
-❌ More complex build process
-❌ Platform-specific builds required
+[Error] Large file size (~100MB+ per platform)
+[Error] More complex build process
+[Error] Platform-specific builds required
 
 ---
 
@@ -232,9 +232,9 @@ Subsequent builds are faster (~1-2 minutes).
 Set-Content -Path "ELECTRON-PACKAGING.md" -Value $electronPackagingMd
 
 Write-Host ""
-Write-Host "✅ Electron packaging setup complete!" -ForegroundColor Green
+Write-Host "[OK] Electron packaging setup complete!" -ForegroundColor Green
 Write-Host ""
-Write-Host "📋 Next steps:" -ForegroundColor Cyan
+Write-Host "[Steps] Next steps:" -ForegroundColor Cyan
 Write-Host "   1. Read ELECTRON-PACKAGING.md for detailed instructions"
 Write-Host "   2. Test development build:"
 Write-Host "      - Terminal 1: npm run dev"
@@ -245,5 +245,5 @@ Write-Host "      - npm run electron:build:win    (Windows only)"
 Write-Host "      - npm run electron:build:mac    (macOS only)"
 Write-Host "      - npm run electron:build:linux  (Linux only)"
 Write-Host ""
-Write-Host "📦 Built apps will be in: dist/electron/" -ForegroundColor Yellow
+Write-Host "[Package] Built apps will be in: dist/electron/" -ForegroundColor Yellow
 Write-Host ""
