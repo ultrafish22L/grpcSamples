@@ -1393,7 +1393,7 @@ html, body {
 
 .context-menu-category {
     position: relative;
-    padding: 1px 12px;
+    padding: 1px 8px; /* Reduced from 12px to 8px for tighter columns matching Octane SE */
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -1460,7 +1460,7 @@ html, body {
 
 /* Context menu items - consistent styling for main menu and all submenus */
 .context-menu-item {
-    padding: 1px 12px;
+    padding: 1px 8px; /* Reduced from 12px to 8px for tighter columns matching Octane SE */
     cursor: pointer;
     white-space: nowrap;
     display: flex;
