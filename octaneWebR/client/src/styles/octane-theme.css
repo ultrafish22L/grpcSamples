@@ -41,7 +41,13 @@
     --bottom-panel-min-height: 200px;      /* Node graph height */
     --octane-border-light: #666666;    /* Light borders */
     --octane-border-dark: #333333;     /* Dark borders */
+    --octane-border-darker: #1a1a1a;   /* Darker borders/backgrounds */
+    --octane-border-medium: #555555;   /* Medium borders (same as --octane-border) */
     --octane-shadow: rgba(0, 0, 0, 0.3); /* Drop shadows */
+    
+    /* Error States */
+    --octane-error-bg: #3a1a1a;        /* Error background (dark red) */
+    --octane-error-border: #5a2a2a;    /* Error border (medium red) */
     
     /* Octane Specific Colors */
     --octane-viewport-bg: #2a2a2a;     /* Viewport background */
