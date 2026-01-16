@@ -398,17 +398,17 @@ html, body {
     user-select: none;
     font-size: var(--font-size-small);
     font-family: var(--font-family);
-    color: #cccccc;
+    color: var(--octane-text-secondary);
     padding: 1px 0;
 }
 
 .tree-node:hover {
-    background-color: #404040;
+    background-color: var(--octane-bg-header);
 }
 
 .tree-node.selected {
-    background-color: #d4a017 !important;
-    color: #000000 !important;
+    background-color: var(--octane-accent-yellow) !important;
+    color: var(--octane-bg-darker) !important;
 }
 
 /* Scene node content layout */
@@ -426,7 +426,7 @@ html, body {
     align-items: center;
     justify-content: center;
     font-size: var(--font-size-tiny);
-    color: #888888;
+    color: var(--octane-connection-line);
     cursor: pointer;
     margin-right: 2px;
 }
@@ -442,7 +442,7 @@ html, body {
 }
 
 .node-toggle:hover {
-    background-color: #4a4a4a;
+    background-color: var(--octane-bg-selected);
     border-radius: 2px;
 }
 
@@ -463,7 +463,7 @@ html, body {
 
 .node-handle {
     font-size: var(--font-size-xs);
-    color: #888888;
+    color: var(--octane-connection-line);
     margin-left: 4px;
 }
 
@@ -474,7 +474,7 @@ html, body {
     align-items: center;
     justify-content: center;
     font-size: var(--font-size-xs);
-    color: #888888;
+    color: var(--octane-connection-line);
     cursor: pointer;
     margin-left: auto;
 }
@@ -718,7 +718,7 @@ html, body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #aaa;
+    color: var(--octane-text-secondary);
     font-size: 14px;
     text-align: center;
     z-index: 1;
@@ -1331,13 +1331,13 @@ html, body {
 /* Node Graph Context Menu */
 .node-context-menu {
     position: fixed;
-    background: #3c3c3c !important;
-    border: 1px solid #555555 !important;
+    background: var(--octane-bg-secondary) !important;
+    border: 1px solid var(--octane-border) !important;
     border-radius: 2px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
     font-family: var(--font-family);
     font-size: var(--font-size-normal);
-    color: #ffffff !important;
+    color: var(--octane-text-primary) !important;
     min-width: 180px;
     max-height: 80vh;
     overflow-y: auto;
@@ -1371,13 +1371,13 @@ html, body {
 .context-submenu {
     display: none;
     position: fixed;
-    background: #3c3c3c !important;
-    border: 1px solid #555555 !important;
+    background: var(--octane-bg-secondary) !important;
+    border: 1px solid var(--octane-border) !important;
     border-radius: 2px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
     font-family: var(--font-family);
     font-size: var(--font-size-normal);
-    color: #ffffff !important;
+    color: var(--octane-text-primary) !important;
     min-width: 200px;
     max-height: 80vh;
     overflow-y: auto;
@@ -1389,13 +1389,13 @@ html, body {
 .context-submenu-multicolumn {
     display: none;
     position: fixed;
-    background: #3c3c3c !important;
-    border: 1px solid #555555 !important;
+    background: var(--octane-bg-secondary) !important;
+    border: 1px solid var(--octane-border) !important;
     border-radius: 2px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
     font-family: var(--font-family);
     font-size: var(--font-size-normal);
-    color: #ffffff !important;
+    color: var(--octane-text-primary) !important;
     max-height: 80vh;
     max-width: 90vw;
     overflow-y: auto;

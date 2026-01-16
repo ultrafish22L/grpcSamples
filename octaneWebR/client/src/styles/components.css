@@ -194,16 +194,16 @@
 /* Node type specific icons */
 .scene-node-icon.scene { color: inherit; }
 .scene-node-icon.scene::before { content: "🌍"; }
-.scene-node-icon.render-target::before { content: "🎯"; color: #ff4444; }
+.scene-node-icon.render-target::before { content: "🎯"; color: var(--octane-accent-red); }
 .scene-node-icon.camera::before { content: "📷"; }
-.scene-node-icon.light::before { content: "💡"; color: #ffff44; }
+.scene-node-icon.light::before { content: "💡"; color: var(--octane-text-primary)f44; }
 .scene-node-icon.geometry::before { content: "🔷"; }
 .scene-node-icon.material::before { content: "🎨"; }
 .scene-node-icon.texture::before { content: "🖼️"; }
 .scene-node-icon.group::before { content: "📂"; }
 .scene-node-icon.mesh::before { content: "▲"; }
-.scene-node-icon.transform::before { content: "🔄"; color: #44ff44; }
-.scene-node-icon.environment::before { content: "🌅"; color: #44aaff; }
+.scene-node-icon.transform::before { content: "🔄"; color: var(--octane-accent-green); }
+.scene-node-icon.environment::before { content: "🌅"; color: var(--octane-accent-blue); }
 .scene-node-icon.object::before { content: "⬜"; }
 .scene-node-icon.node::before { content: "⚪"; }
 .scene-node-icon.unknown::before { content: "❓"; }
@@ -284,8 +284,8 @@
     margin-left: 2px;
     font-size: var(--font-size-xs);
     flex-shrink: 0;
-    background: #4a90e2; /* Blue background like official Octane */
-    border: 1px solid #5a9ff2;
+    background: var(--octane-accent-blue); /* Blue background like official Octane */
+    border: 1px solid var(--octane-accent-blue);
     border-radius: 4px; /* Slightly smaller rounded blue background */
     color: white;
     display: flex;
@@ -336,9 +336,9 @@
 .parameter-spinner-btn {
     width: 12px;
     height: 16px;
-    background: #555;
-    border: 1px solid #666;
-    color: #ccc;
+    background: var(--octane-border);
+    border: 1px solid var(--octane-text-disabled);
+    color: var(--octane-text-secondary);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -360,17 +360,17 @@
 }
 
 .parameter-spinner-btn:hover {
-    background: #666;
-    color: #fff;
+    background: var(--octane-text-disabled);
+    color: var(--octane-text-primary);
 }
 
 .parameter-dropdown {
     min-width: 80px;
     padding: 1px 4px;
     background: var(--octane-bg-primary);
-    border: 1px solid #555;
+    border: 1px solid var(--octane-border);
     border-radius: 2px;
-    color: #fff;
+    color: var(--octane-text-primary);
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-normal);
 }
@@ -378,7 +378,7 @@
 .parameter-checkbox {
     width: 14px;
     height: 14px;
-    accent-color: #4a90e2;
+    accent-color: var(--octane-accent-blue);
     border-radius: 1px;
 }
 
@@ -387,11 +387,11 @@
     height: 16px;
     padding: 0 2px;
     background: var(--octane-bg-primary);
-    border: 1px solid #555;
+    border: 1px solid var(--octane-border);
     border-left: none;
     border-right: none;
     border-radius: 0;
-    color: #fff;
+    color: var(--octane-text-primary);
     font-size: var(--font-size-small);
     text-align: center;
     font-family: var(--font-family-mono);
@@ -401,13 +401,13 @@
 
 .parameter-number-input:focus {
     outline: none;
-    background: #333;
-    border-color: #4a90e2;
+    background: var(--octane-border-dark);
+    border-color: var(--octane-accent-blue);
 }
 
 .parameter-unit {
     font-size: var(--font-size-xs);
-    color: #999;
+    color: var(--octane-text-muted);
     margin-left: 3px;
     font-weight: var(--font-weight-normal);
 }
@@ -475,7 +475,7 @@
 }
 
 .retry-btn:hover {
-    background-color: #c82333;
+    background-color: var(--octane-accent-red);
 }
 
 .scene-loading {
@@ -583,15 +583,15 @@ input:checked + .slider:before {
     align-items: center;
     gap: 2px;
     padding: 2px 4px;
-    background-color: #3a3a3a;
-    border-bottom: 1px solid #2a2a2a;
+    background-color: var(--octane-node-bg);
+    border-bottom: 1px solid var(--octane-viewport-bg);
     min-height: 24px;
 }
 
 .toolbar-btn {
     background: none;
     border: none;
-    color: #cccccc;
+    color: var(--octane-text-secondary);
     cursor: pointer;
     padding: 2px 4px;
     border-radius: 2px;
@@ -604,8 +604,8 @@ input:checked + .slider:before {
 }
 
 .toolbar-btn:hover {
-    background-color: #4a4a4a;
-    color: #ffffff;
+    background-color: var(--octane-bg-selected);
+    color: var(--octane-text-primary);
 }
 
 .toolbar-spacer {
@@ -637,8 +637,8 @@ input:checked + .slider:before {
     align-items: center;
     justify-content: space-between;
     padding: 6px 8px;
-    background-color: #2b2b2b;
-    border-bottom: 1px solid #444;
+    background-color: var(--octane-bg-primary);
+    border-bottom: 1px solid var(--octane-bg-header);
     font-size: 11px;
     color: var(--octane-text-primary);
 }
@@ -655,8 +655,8 @@ input:checked + .slider:before {
 }
 
 .inspector-target-select {
-    background-color: #333;
-    border: 1px solid #444;
+    background-color: var(--octane-border-dark);
+    border: 1px solid var(--octane-bg-header);
     color: var(--octane-text-primary);
     padding: 2px 20px 2px 6px;
     font-size: 11px;
@@ -671,7 +671,7 @@ input:checked + .slider:before {
     right: 4px;
     pointer-events: none;
     font-size: 8px;
-    color: #666;
+    color: var(--octane-text-disabled);
 }
 
 /* Octane Node Inspector Header (matching reference screenshot) */
@@ -687,8 +687,8 @@ input:checked + .slider:before {
     align-items: center;
     justify-content: space-between;
     padding: 6px 8px;
-    background-color: #2b2b2b;
-    border-bottom: 1px solid #444;
+    background-color: var(--octane-bg-primary);
+    border-bottom: 1px solid var(--octane-bg-header);
     font-size: 11px;
     color: var(--octane-text-primary);
     flex-shrink: 0;
@@ -712,8 +712,8 @@ input:checked + .slider:before {
 }
 
 .octane-inspector-target-select {
-    background-color: #333;
-    border: 1px solid #444;
+    background-color: var(--octane-border-dark);
+    border: 1px solid var(--octane-bg-header);
     color: var(--octane-text-primary);
     padding: 2px 20px 2px 6px;
     font-size: 11px;
@@ -728,7 +728,7 @@ input:checked + .slider:before {
     right: 4px;
     pointer-events: none;
     font-size: 8px;
-    color: #666;
+    color: var(--octane-text-disabled);
 }
 
 .octane-inspector-dropdown-inline {
@@ -867,7 +867,7 @@ input:checked + .slider:before {
     content: '';
     width: 10px;
     height: 10px;
-    background: #4a9eff;
+    background: var(--octane-accent-blue);
     border-radius: 50%;
     display: block;
     position: relative;
@@ -951,8 +951,8 @@ input:checked + .slider:before {
 
 /* Parameter Number Inputs (matching reference screenshot exactly) */
 .parameter-number-input {
-    background-color: #2a2a2a;
-    border: 1px solid #3a3a3a;
+    background-color: var(--octane-viewport-bg);
+    border: 1px solid var(--octane-node-bg);
     color: var(--octane-text-primary);
     padding: 0px 3px;
     font-size: 9px;
@@ -966,30 +966,30 @@ input:checked + .slider:before {
 
 .parameter-number-input:focus {
     outline: none;
-    border-color: #4a9eff;
-    background-color: #333;
+    border-color: var(--octane-accent-blue);
+    background-color: var(--octane-border-dark);
 }
 
 /* Parameter Color Bars (matching reference screenshot) */
 .parameter-color-bar {
     width: 100px;
     height: 12px;
-    border: 1px solid #3a3a3a;
+    border: 1px solid var(--octane-node-bg);
     border-radius: 1px;
     cursor: pointer;
     display: block;
 }
 
 .parameter-color-bar:hover {
-    border-color: #4a9eff;
+    border-color: var(--octane-accent-blue);
 }
 
 /* Parameter Checkboxes (matching reference screenshot) */
 .parameter-checkbox {
     width: 12px;
     height: 12px;
-    background-color: #2a2a2a;
-    border: 1px solid #3a3a3a;
+    background-color: var(--octane-viewport-bg);
+    border: 1px solid var(--octane-node-bg);
     border-radius: 1px;
     cursor: pointer;
     appearance: none;
@@ -1000,19 +1000,19 @@ input:checked + .slider:before {
 }
 
 .parameter-checkbox:hover {
-    border-color: #4a9eff;
+    border-color: var(--octane-accent-blue);
 }
 
 .parameter-checkbox:checked {
-    background-color: #2a2a2a;
-    border-color: #4a9eff;
+    background-color: var(--octane-viewport-bg);
+    border-color: var(--octane-accent-blue);
 }
 
 .parameter-checkbox:checked::after {
     content: '✓';
     font-size: 8px;
     font-weight: bold;
-    color: #4a9eff;
+    color: var(--octane-accent-blue);
     position: absolute;
     top: 50%;
     left: 50%;
@@ -1030,7 +1030,7 @@ input:checked + .slider:before {
 .parameter-spinner-btn {
     background: none;
     border: none;
-    color: #666;
+    color: var(--octane-text-disabled);
     font-size: 6px;
     width: 12px;
     height: 8px;
@@ -1042,7 +1042,7 @@ input:checked + .slider:before {
 }
 
 .parameter-spinner-btn:hover {
-    color: #999;
+    color: var(--octane-text-muted);
 }
 
 /* Parameter Sliders */
@@ -1103,8 +1103,8 @@ input:checked + .slider:before {
 .parameter-checkbox-custom {
     width: 14px;
     height: 14px;
-    background-color: #2b2b2b;
-    border: 1px solid #444;
+    background-color: var(--octane-bg-primary);
+    border: 1px solid var(--octane-bg-header);
     border-radius: 2px;
     cursor: pointer;
     display: flex;
@@ -1112,16 +1112,16 @@ input:checked + .slider:before {
     justify-content: center;
     transition: all 0.15s ease;
     font-size: 10px;
-    color: #4a9eff;
+    color: var(--octane-accent-blue);
 }
 
 .parameter-checkbox:hover + .parameter-checkbox-custom {
-    border-color: #4a9eff;
+    border-color: var(--octane-accent-blue);
 }
 
 .parameter-checkbox:checked + .parameter-checkbox-custom {
-    background-color: #2b2b2b;
-    border-color: #4a9eff;
+    background-color: var(--octane-bg-primary);
+    border-color: var(--octane-accent-blue);
 }
 
 .parameter-checkbox:checked + .parameter-checkbox-custom::after {
@@ -1129,7 +1129,7 @@ input:checked + .slider:before {
     font-size: 10px;
     font-weight: bold;
     line-height: 1;
-    color: #4a9eff;
+    color: var(--octane-accent-blue);
 }
 
 /* Parameter Dropdowns */
@@ -1161,7 +1161,7 @@ input:checked + .slider:before {
 .parameter-color-preview {
     width: 100%;
     height: 16px;
-    border: 1px solid #444;
+    border: 1px solid var(--octane-bg-header);
     border-radius: 2px;
     cursor: pointer;
     position: relative;
@@ -1624,7 +1624,7 @@ body.drag-over .drop-indicator {
 }
 
 .modal-button.primary:hover {
-    background-color: #3a7bc8;
+    background-color: var(--octane-accent-blue);
 }
 
 /* Tooltip Components */
@@ -2104,10 +2104,10 @@ body.drag-over .drop-indicator {
 .preview-viewport {
     position: relative;
     height: 120px;
-    background: linear-gradient(45deg, #333 25%, transparent 25%), 
-                linear-gradient(-45deg, #333 25%, transparent 25%), 
-                linear-gradient(45deg, transparent 75%, #333 75%), 
-                linear-gradient(-45deg, transparent 75%, #333 75%);
+    background: linear-gradient(45deg, var(--octane-border-dark) 25%, transparent 25%), 
+                linear-gradient(-45deg, var(--octane-border-dark) 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, var(--octane-border-dark) 75%), 
+                linear-gradient(-45deg, transparent 75%, var(--octane-border-dark) 75%);
     background-size: 20px 20px;
     background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
     display: flex;
@@ -2258,19 +2258,19 @@ body.drag-over .drop-indicator {
     right: 10px;
     width: 180px;
     background: rgba(42, 42, 42, 0.95);
-    border: 1px solid #555;
+    border: 1px solid var(--octane-border);
     border-radius: 4px;
     padding: 10px;
     z-index: 100;
 }
 
 .palette-header {
-    color: #fff;
+    color: var(--octane-text-primary);
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-bold7);
     margin-bottom: 10px;
     text-align: center;
-    border-bottom: 1px solid #555;
+    border-bottom: 1px solid var(--octane-border);
     padding-bottom: 5px;
 }
 
@@ -2288,7 +2288,7 @@ body.drag-over .drop-indicator {
 }
 
 .node-type-label {
-    color: #ccc;
+    color: var(--octane-text-secondary);
     font-size: var(--font-size-small);
     flex: 1;
 }
@@ -2314,8 +2314,8 @@ body.drag-over .drop-indicator {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #444;
-    border: 1px solid #666;
+    background-color: var(--octane-bg-header);
+    border: 1px solid var(--octane-text-disabled);
     border-radius: 18px;
     transition: all 0.2s ease;
 }
@@ -2327,7 +2327,7 @@ body.drag-over .drop-indicator {
     width: 14px;
     left: 2px;
     top: 1px;
-    background-color: #888;
+    background-color: var(--octane-connection-line);
     border-radius: 50%;
     transition: all 0.2s ease;
 }
@@ -2343,7 +2343,7 @@ body.drag-over .drop-indicator {
 }
 
 .slider-switch:hover .slider {
-    border-color: #777;
+    border-color: var(--octane-border-light);
 }
 
 .slider-switch input:checked:hover + .slider {
@@ -3269,9 +3269,9 @@ body.drag-over .drop-indicator {
 .node-inspector .node-parameter-controls .parameter-dropdown,
 .octane-node-inspector .node-parameter-controls .parameter-dropdown {
     background: var(--octane-bg-primary);
-    border: 1px solid #444;
+    border: 1px solid var(--octane-bg-header);
     border-radius: 6px;
-    color: #e0e0e0;
+    color: var(--octane-bg-header);
     padding: 4px 8px;
     font-size: var(--font-size-small);
     min-width: 120px;
@@ -3359,7 +3359,7 @@ body.drag-over .drop-indicator {
     margin: 0;
     cursor: pointer;
     background: var(--octane-bg-primary);
-    border: 1px solid #444;
+    border: 1px solid var(--octane-bg-header);
     border-radius: 2px;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
     appearance: none;
@@ -3389,9 +3389,9 @@ body.drag-over .drop-indicator {
     min-width: 36px;
     height: 18px;
     background: var(--octane-bg-primary);
-    border: 1px solid #444;
+    border: 1px solid var(--octane-bg-header);
     border-radius: 4px;
-    color: #e0e0e0;
+    color: var(--octane-bg-header);
     font-size: var(--font-size-small);
     padding: 0 8px;
     font-family: var(--font-family-mono);
@@ -3405,7 +3405,7 @@ body.drag-over .drop-indicator {
 .octane-number-input:focus {
     outline: none;
     border-color: var(--octane-accent);
-    background: #333;
+    background: var(--octane-border-dark);
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--octane-accent);
 }
 
@@ -3432,9 +3432,9 @@ body.drag-over .drop-indicator {
 .parameter-spinner-btn {
     width: 14px;
     height: 9px;
-    background: #555;
-    border: 1px solid #666;
-    color: #ccc;
+    background: var(--octane-border);
+    border: 1px solid var(--octane-text-disabled);
+    color: var(--octane-text-secondary);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -3455,21 +3455,21 @@ body.drag-over .drop-indicator {
 }
 
 .parameter-spinner-btn:hover {
-    background: #666;
-    color: #fff;
+    background: var(--octane-text-disabled);
+    color: var(--octane-text-primary);
 }
 
 .parameter-spinner-btn:active {
-    background: #777;
+    background: var(--octane-border-light);
 }
 
 .octane-text-input {
     width: 80px;
     height: 18px;
     background: var(--octane-bg-primary);
-    border: 1px solid #444;
+    border: 1px solid var(--octane-bg-header);
     border-radius: 2px;
-    color: #e0e0e0;
+    color: var(--octane-bg-header);
     font-size: var(--font-size-small);
     padding: 1px 4px;
     text-align: right;
@@ -3482,7 +3482,7 @@ body.drag-over .drop-indicator {
 .octane-text-input:focus {
     outline: none;
     border-color: var(--octane-accent);
-    background: #333;
+    background: var(--octane-border-dark);
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--octane-accent);
 }
 
@@ -3490,7 +3490,7 @@ body.drag-over .drop-indicator {
     width: 180px;
     min-width: 60px;
     height: 18px;
-    border: 1px solid #444;
+    border: 1px solid var(--octane-bg-header);
     border-radius: 2px;
     cursor: pointer;
     padding: 0;
@@ -3513,9 +3513,9 @@ body.drag-over .drop-indicator {
 .octane-dropdown {
     height: 18px;
     background: var(--octane-bg-primary);
-    border: 1px solid #444;
+    border: 1px solid var(--octane-bg-header);
     border-radius: 2px;
-    color: #e0e0e0;
+    color: var(--octane-bg-header);
     font-size: var(--font-size-small);
     padding: 0 4px;
     min-width: 80px;
@@ -3531,7 +3531,7 @@ body.drag-over .drop-indicator {
 .octane-dropdown:focus {
     outline: none;
     border-color: var(--octane-accent);
-    background: #333;
+    background: var(--octane-border-dark);
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--octane-accent);
 }
 
@@ -3548,9 +3548,9 @@ body.drag-over .drop-indicator {
     width: 45px;
     height: 18px;
     background: var(--octane-bg-primary);
-    border: 1px solid #444;
+    border: 1px solid var(--octane-bg-header);
     border-radius: 2px;
-    color: #e0e0e0;
+    color: var(--octane-bg-header);
     font-size: var(--font-size-small);
     padding: 1px 3px;
     text-align: right;
@@ -3563,7 +3563,7 @@ body.drag-over .drop-indicator {
 .octane-vector-input:focus {
     outline: none;
     border-color: var(--octane-accent);
-    background: #333;
+    background: var(--octane-border-dark);
 }
 
 .vector-separator {
@@ -3789,7 +3789,7 @@ body.drag-over .drop-indicator {
     height: 100%;
     position: relative;
     overflow: hidden;
-    background: #1a1a1a;
+    background: var(--octane-border-darker);
 }
 
 .node-graph-empty {
@@ -3836,7 +3836,7 @@ body.drag-over .drop-indicator {
 }
 
 .zoom-info {
-    color: #aaa;
+    color: var(--octane-text-secondary);
     font-size: 11px;
     font-family: monospace;
 }
@@ -3859,7 +3859,7 @@ body.drag-over .drop-indicator {
 /* Node Graph Tooltip */
 .node-graph-tooltip {
     background: rgba(0, 0, 0, 0.9);
-    color: #fff;
+    color: var(--octane-text-primary);
     padding: 6px 10px;
     border-radius: 4px;
     font-size: 12px;
@@ -4070,9 +4070,9 @@ body.drag-over .drop-indicator {
     margin-top: 12px;
     padding: 8px 10px;
     background: rgba(255, 0, 0, 0.1);
-    border-left: 3px solid #ff4444;
+    border-left: 3px solid var(--octane-accent-red);
     border-radius: 3px;
-    color: #ff8888;
+    color: var(--octane-accent-red);
     font-size: 11px;
 }
 
