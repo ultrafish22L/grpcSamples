@@ -1629,8 +1629,8 @@ select {
 }
 
 .node-type-color {
-    width: 14px;
-    height: 14px;
+    width: 16px; /* Increased from 14px to match Octane SE reference */
+    height: 16px;
     border-radius: 2px;
     flex-shrink: 0;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1638,9 +1638,9 @@ select {
 
 /* Node type icon - actual PNG icons from Octane */
 .node-type-icon {
-    width: 14px;
-    height: 14px;
+    width: 16px; /* Increased from 14px to match Octane SE reference */
+    height: 16px;
     flex-shrink: 0;
-    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -webkit-optimize-contrast; /* Keep icons crisp at 16x16 */
     image-rendering: crisp-edges;
 }
