@@ -11,7 +11,7 @@
 .panel-splitter {
     background-color: var(--octane-border, #3a3a3a);
     cursor: col-resize;
-    z-index: 100;
+    z-index: var(--z-dropdown);
     transition: background-color 0.2s ease;
     pointer-events: auto;
     user-select: none;
@@ -425,7 +425,7 @@ body.resizing .panel-splitter {
 .node-graph-connection {
     position: absolute;
     pointer-events: none;
-    z-index: 1;
+    z-index: var(--z-low);
 }
 
 .node-graph-connection path {

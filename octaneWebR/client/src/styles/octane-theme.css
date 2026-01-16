@@ -165,6 +165,21 @@
     --opacity-strong: 0.7;     /* Mostly visible */
     --opacity-heavy: 0.8;      /* Slightly transparent */
     --opacity-full: 1;         /* Fully opaque */
+    
+    /* Z-Index Layering System */
+    --z-base: 0;               /* Base layer (default) */
+    --z-low: 1;                /* Low layer (basic stacking, tabs, panels) */
+    --z-tab-active: 2;         /* Active tab above others */
+    --z-background: 5;         /* Background elements above base */
+    --z-panel: 10;             /* Panels and sections */
+    --z-dropdown: 100;         /* Dropdown menus and selects */
+    --z-modal-bg: 1000;        /* Modal background overlays */
+    --z-dialog-overlay: 9998;  /* Dialog backdrop overlay */
+    --z-dialog: 9999;          /* Dialog windows */
+    --z-context-menu: 10000;   /* Context menus and tooltips */
+    --z-dropdown-content: 10001; /* Dropdown content above context menus */
+    --z-search-dialog: 15000;  /* Search dialog above standard dialogs */
+    --z-notification: 20000;   /* Notifications and toasts (highest layer) */
 }
 
 /* Global Reset and Base Styles */
@@ -198,7 +213,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10000;
+    z-index: var(--z-context-menu);
 }
 
 .loading-content {
@@ -662,7 +677,7 @@ html, body {
     padding: 0; /* Ensure no padding */
     max-width: 100%; /* Prevent extending beyond grid area */
     position: relative; /* Ensure it stays within grid bounds */
-    z-index: 1; /* Lower z-index than right panel */
+    z-index: var(--z-low); /* Lower z-index than right panel */
 }
 
 /* Render Canvas */
@@ -803,7 +818,7 @@ html, body {
     color: var(--octane-text-secondary);
     font-size: var(--font-size-large); /* 14px */
     text-align: center;
-    z-index: 1;
+    z-index: var(--z-low);
 }
 
 .viewport-status {
@@ -828,7 +843,7 @@ html, body {
     right: 0;
     bottom: 0;
     pointer-events: none;
-    z-index: 5; /* Stay behind canvas but above background */
+    z-index: var(--z-background); /* Stay behind canvas but above background */
 }
 
 .viewport-info {
@@ -987,7 +1002,7 @@ html, body {
     border: 1px solid var(--octane-border);
     border-radius: var(--border-radius);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    z-index: 1000;
+    z-index: var(--z-modal-bg);
     min-width: 180px;
     overflow: hidden;
 }
@@ -1036,7 +1051,7 @@ html, body {
     border: 1px solid var(--octane-border);
     border-radius: var(--border-radius);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    z-index: 1000;
+    z-index: var(--z-modal-bg);
     min-width: 200px;
     overflow: hidden;
 }
@@ -1220,7 +1235,7 @@ html, body {
     display: flex;
     flex-direction: column;
     position: relative; /* Ensure proper stacking context */
-    z-index: 10; /* Higher z-index than center panel */
+    z-index: var(--z-panel); /* Higher z-index than center panel */
     height: 100%; /* Fill grid area height */
     width: 100%; /* Fill grid area width */
     /* Width controlled by grid layout - no explicit width needed */
@@ -1370,7 +1385,7 @@ html, body {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 9999;
+    z-index: var(--z-dialog);
 }
 
 /* Responsive Design */
@@ -1423,7 +1438,7 @@ html, body {
     min-width: 180px;
     max-height: 80vh;
     overflow-y: auto;
-    z-index: 10000;
+    z-index: var(--z-context-menu);
     padding: 2px 0;
 }
 
@@ -1463,7 +1478,7 @@ html, body {
     min-width: 200px;
     max-height: 80vh;
     overflow-y: auto;
-    z-index: 10001;
+    z-index: var(--z-dropdown-content);
     padding: 2px 0;
 }
 
@@ -1481,7 +1496,7 @@ html, body {
     max-height: 80vh;
     max-width: 90vw;
     overflow-y: auto;
-    z-index: 10001;
+    z-index: var(--z-dropdown-content);
     column-count: 6;
     column-gap: var(--spacing-xl); /* Minimal gap to make column-rule visible */
     column-rule: 1px solid var(--octane-border-dark); /* Vertical divider lines between columns */
@@ -1624,7 +1639,7 @@ select {
     background-color: rgba(0, 0, 0, 0.8);
     padding: 4px;
     border-radius: 4px;
-    z-index: 100;
+    z-index: var(--z-dropdown);
 }
 
 .node-graph-tool {

@@ -1024,7 +1024,7 @@ input:checked + .slider:before {
     display: flex;
     flex-direction: column;
     margin-left: -14px;
-    z-index: 1;
+    z-index: var(--z-low);
 }
 
 .parameter-spinner-btn {
@@ -1334,7 +1334,7 @@ input:checked + .slider:before {
     box-shadow: 0 4px 8px var(--octane-shadow);
     padding: 4px 0;
     min-width: 150px;
-    z-index: 10000;
+    z-index: var(--z-context-menu);
     pointer-events: auto;
 }
 
@@ -1374,7 +1374,7 @@ input:checked + .slider:before {
 
 /* Submenu Styles */
 .context-menu.submenu {
-    z-index: 10001;
+    z-index: var(--z-dropdown-content);
 }
 
 .context-menu.submenu::before {
@@ -1392,7 +1392,7 @@ input:checked + .slider:before {
     position: fixed;
     top: 60px;
     right: 20px;
-    z-index: 20000;
+    z-index: var(--z-notification);
     pointer-events: none;
 }
 
@@ -1484,7 +1484,7 @@ input:checked + .slider:before {
     right: 0;
     bottom: 0;
     background-color: var(--octane-overlay-dark);
-    z-index: 15000;
+    z-index: var(--z-search-dialog);
     display: none;
     align-items: center;
     justify-content: center;
@@ -1540,7 +1540,7 @@ body.drag-over .drop-indicator {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10000;
+    z-index: var(--z-context-menu);
     pointer-events: auto;
 }
 
@@ -1637,7 +1637,7 @@ body.drag-over .drop-indicator {
     border-radius: var(--border-radius);
     border: 1px solid var(--octane-border);
     box-shadow: 0 2px 4px var(--octane-shadow);
-    z-index: 10001;
+    z-index: var(--z-dropdown-content);
     pointer-events: none;
     white-space: nowrap;
     max-width: 200px;
@@ -1896,13 +1896,13 @@ body.drag-over .drop-indicator {
     text-align: center;
     position: relative;
     margin-right: -1px; /* Overlap borders for connected appearance */
-    z-index: 0;
+    z-index: var(--z-base);
 }
 
 .scene-tab:hover {
     background: var(--octane-bg-hover);
     color: var(--octane-text-primary);
-    z-index: 1; /* Hover tab appears above others */
+    z-index: var(--z-low); /* Hover tab appears above others */
 }
 
 .scene-tab.active {
@@ -1910,7 +1910,7 @@ body.drag-over .drop-indicator {
     color: var(--octane-text-primary);
     border-color: var(--octane-border);
     border-bottom: 1px solid var(--octane-bg-primary); /* Active tab connects to content area */
-    z-index: 2; /* Active tab appears above all others */
+    z-index: var(--z-tab-active); /* Active tab appears above all others */
     font-weight: var(--font-weight-header);
 }
 
@@ -2015,7 +2015,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-hover);
     color: var(--octane-text-primary);
     border-color: var(--octane-accent-blue);
-    z-index: 1;
+    z-index: var(--z-low);
 }
 
 .quick-btn:active {
@@ -2261,7 +2261,7 @@ body.drag-over .drop-indicator {
     border: 1px solid var(--octane-border);
     border-radius: 4px;
     padding: 10px;
-    z-index: 100;
+    z-index: var(--z-dropdown);
 }
 
 .palette-header {
@@ -3864,7 +3864,7 @@ body.drag-over .drop-indicator {
     border-radius: 4px;
     font-size: var(--font-size-normal);
     white-space: nowrap;
-    z-index: 10000;
+    z-index: var(--z-context-menu);
     pointer-events: none;
     border: 1px solid var(--octane-border);
 }
@@ -3875,7 +3875,7 @@ body.drag-over .drop-indicator {
     border: 1px solid var(--octane-border);
     border-radius: 4px;
     box-shadow: 0 4px 12px var(--octane-overlay-semi);
-    z-index: 10000;
+    z-index: var(--z-context-menu);
     min-width: 150px;
     overflow: hidden;
 }
@@ -3936,7 +3936,7 @@ body.drag-over .drop-indicator {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10000;
+    z-index: var(--z-dialog-overlay);
 }
 
 .modal-dialog {
