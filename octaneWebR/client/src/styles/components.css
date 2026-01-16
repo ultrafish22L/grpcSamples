@@ -390,12 +390,7 @@
     border-color: var(--octane-accent-blue);
 }
 
-.parameter-unit {
-    font-size: var(--font-size-xs);
-    color: var(--octane-text-muted);
-    margin-left: 3px;
-    font-weight: var(--font-weight-normal);
-}
+/* Removed duplicate - consolidated at line ~2760 */
 
 /* Scene Outliner Error States */
 .scene-error, .scene-success {
@@ -2765,6 +2760,7 @@ body.drag-over .drop-indicator {
     color: white;
 }
 
+/* CONSOLIDATED: Merged 3 duplicate definitions */
 .parameter-unit {
     font-size: var(--font-size-small);
     color: var(--octane-text-tertiary);
@@ -3521,11 +3517,7 @@ body.drag-over .drop-indicator {
     justify-content: space-between;
 }
 
-.parameter-unit {
-    font-size: var(--font-size-small);
-    color: var(--octane-text-tertiary);
-    margin-left: 2px;
-}
+/* Removed duplicate - consolidated at line ~2760 */
 
 /* Hover states */
 
