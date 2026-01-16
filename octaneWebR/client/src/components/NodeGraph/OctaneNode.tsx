@@ -81,7 +81,7 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
         cursor: 'grab',
       }}
     >
-      {/* Node type icon box - fitted on left like Node Inspector */}
+      {/* Node type icon box - fitted gray box on left side */}
       {sceneNode.type && (
         <div
           style={{
@@ -90,14 +90,14 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
             top: 0,
             bottom: 0,
             width: 24,
-            backgroundColor: nodeColor,
+            backgroundColor: '#555',
             borderRadius: '4px 0 0 4px',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
             borderRight: 'none',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.3)',
+            boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.4)',
           }}
         >
           <NodeIcon 
