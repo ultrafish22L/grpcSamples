@@ -53,7 +53,7 @@
   border: none;
   color: var(--octane-text-secondary);
   font-size: var(--font-size-header);
-  line-height: 1;
+  line-height: var(--line-height-none);
   cursor: pointer;
   padding: 0;
   width: 30px;
