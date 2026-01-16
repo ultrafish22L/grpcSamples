@@ -27,6 +27,7 @@
     --octane-accent-green: #5cb85c;    /* Success green */
     --octane-accent-red: #d9534f;      /* Error red */
     --octane-accent-blue: #3a9bd9;     /* Info/link blue */
+    --octane-selection-highlight: #9a6000; /* Subtle dark orange for scene outliner selection - matches Octane SE */
     
     /* Octane UI Elements */
     --octane-border: #555555;          /* Standard borders */
@@ -453,8 +454,8 @@ html, body {
 }
 
 .tree-node.selected {
-    background-color: var(--octane-accent-yellow) !important;
-    color: var(--octane-bg-darker) !important;
+    background-color: var(--octane-selection-highlight) !important; /* Subtle dark orange matching Octane SE */
+    color: var(--octane-text-primary) !important; /* Keep text white for readability */
 }
 
 /* Scene node content layout */
