@@ -1465,7 +1465,7 @@ html, body {
     white-space: nowrap;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 3px; /* Reduced from 4px for tighter icon-to-text spacing matching Octane SE */
     line-height: 1.2;
 }
 
