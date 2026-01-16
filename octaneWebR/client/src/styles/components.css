@@ -2700,23 +2700,7 @@ body.drag-over .drop-indicator {
     gap: var(--spacing-md);
 }
 
-.parameter-number-input {
-    width: 60px;
-    height: 20px;
-    background: var(--octane-bg-secondary);
-    border: 1px solid var(--octane-border);
-    border-radius: var(--border-radius-md);
-    color: var(--octane-text-primary);
-    font-size: var(--font-size-small);
-    padding: 0 6px;
-    text-align: right;
-}
-
-.parameter-number-input:focus {
-    outline: none;
-    border-color: var(--octane-accent);
-    background: var(--octane-bg-primary);
-}
+/* Removed duplicate - consolidated in Numeric Input Controls section at line ~3588 */
 
 .parameter-controls {
     display: flex;
