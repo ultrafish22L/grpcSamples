@@ -22,15 +22,12 @@ Before you begin, ensure you have:
 ## 🚀 **Step 1: Install & Run Octane**
 
 ### **Start Octane Render**
-1. Launch Octane Render application
-2. Open any scene (or create new empty scene)
-3. **Enable LiveLink**:
-   - Go to **Help → LiveLink** in menu
-   - Ensure LiveLink is **enabled** (checkmark visible)
-   - Default port is **51022** (note this)
-
-### **Verify Octane is Running**
-You should see a small LiveLink icon in Octane's interface showing it's active.
+1. Launch Octane Render from octaneGRPC/octane.exe
+2. Enable grpc server
+   - Click Enable
+   - Set address to 127.0.0.1:51022
+   - Restart Octane
+3. Open any scene (or create new empty scene)
 
 ---
 
