@@ -79,8 +79,8 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
+  0%, 100% { opacity: var(--opacity-full); }
+  50% { opacity: var(--opacity-moderate); }
 }
 
 .status-text {
@@ -261,7 +261,7 @@ body {
 }
 
 .outliner-header button:disabled {
-  opacity: 0.5;
+  opacity: var(--opacity-medium);
   cursor: not-allowed;
 }
 

@@ -180,7 +180,7 @@
 .scene-node-visibility {
     margin-left: 6px;
     cursor: pointer;
-    opacity: 0.6;
+    opacity: var(--opacity-moderate);
     font-size: var(--font-size-small);
     width: 14px;
     text-align: center;
@@ -188,7 +188,7 @@
 }
 
 .scene-node-visibility:hover {
-    opacity: 1;
+    opacity: var(--opacity-full);
 }
 
 /* Node type specific icons */
@@ -533,7 +533,7 @@
 }
 
 .switch input {
-    opacity: 0;
+    opacity: var(--opacity-invisible);
     width: 0;
     height: 0;
 }
@@ -574,7 +574,7 @@ input:checked + .slider:before {
 }
 
 .slider:hover {
-    opacity: 0.8;
+    opacity: var(--opacity-heavy);
 }
 
 /* Scene Outliner Components - Exact Octane Match */
@@ -1094,7 +1094,7 @@ input:checked + .slider:before {
 
 .parameter-checkbox {
     position: absolute;
-    opacity: 0;
+    opacity: var(--opacity-invisible);
     cursor: pointer;
     width: 14px;
     height: 14px;
@@ -1173,7 +1173,7 @@ input:checked + .slider:before {
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0;
+    opacity: var(--opacity-invisible);
     cursor: pointer;
     border: none;
     background: none;
@@ -1468,11 +1468,11 @@ input:checked + .slider:before {
 @keyframes slideInRight {
     from {
         transform: translateX(100%);
-        opacity: 0;
+        opacity: var(--opacity-invisible);
     }
     to {
         transform: translateX(0);
-        opacity: 1;
+        opacity: var(--opacity-full);
     }
 }
 
@@ -1708,13 +1708,13 @@ body.drag-over .drop-indicator {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from { opacity: var(--opacity-invisible); }
+    to { opacity: var(--opacity-full); }
 }
 
 @keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
+    from { opacity: var(--opacity-full); }
+    to { opacity: var(--opacity-invisible); }
 }
 
 @keyframes slideInLeft {
@@ -1737,7 +1737,7 @@ body.drag-over .drop-indicator {
 }
 
 .disabled {
-    opacity: 0.5;
+    opacity: var(--opacity-medium);
     pointer-events: none;
     cursor: not-allowed;
 }
@@ -1862,7 +1862,7 @@ body.drag-over .drop-indicator {
     color: var(--octane-text-disabled);
     border-color: var(--octane-border);
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: var(--opacity-medium);
 }
 
 .outliner-btn.disabled:hover {
@@ -2117,7 +2117,7 @@ body.drag-over .drop-indicator {
 
 .preview-sphere {
     font-size: var(--font-size-huge);
-    opacity: 0.8;
+    opacity: var(--opacity-heavy);
     filter: drop-shadow(2px 2px 4px var(--octane-overlay-semi));
 }
 
@@ -2303,7 +2303,7 @@ body.drag-over .drop-indicator {
 }
 
 .slider-switch input {
-    opacity: 0;
+    opacity: var(--opacity-invisible);
     width: 0;
     height: 0;
 }
@@ -2936,7 +2936,7 @@ body.drag-over .drop-indicator {
 .parameter-color-picker {
     width: 0;
     height: 0;
-    opacity: 0;
+    opacity: var(--opacity-invisible);
     position: absolute;
     pointer-events: none;
 }
@@ -3918,7 +3918,7 @@ body.drag-over .drop-indicator {
 }
 
 .toolbar-btn:disabled {
-    opacity: 0.4;
+    opacity: var(--opacity-light);
     cursor: not-allowed;
 }
 
@@ -4032,7 +4032,7 @@ body.drag-over .drop-indicator {
 }
 
 .form-control:disabled {
-    opacity: 0.5;
+    opacity: var(--opacity-medium);
     cursor: not-allowed;
 }
 
@@ -4087,7 +4087,7 @@ body.drag-over .drop-indicator {
 }
 
 .btn:disabled {
-    opacity: 0.5;
+    opacity: var(--opacity-medium);
     cursor: not-allowed;
 }
 

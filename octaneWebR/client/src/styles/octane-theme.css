@@ -155,6 +155,16 @@
     --spacing-3xl: 12px;       /* Triple extra large */
     --spacing-4xl: 15px;       /* 4x extra large */
     --spacing-5xl: 16px;       /* 5x extra large */
+    
+    /* Opacity System */
+    --opacity-invisible: 0;    /* Completely invisible */
+    --opacity-faint: 0.1;      /* Barely visible */
+    --opacity-light: 0.4;      /* Light transparency */
+    --opacity-medium: 0.5;     /* Half transparent */
+    --opacity-moderate: 0.6;   /* Moderate visibility */
+    --opacity-strong: 0.7;     /* Mostly visible */
+    --opacity-heavy: 0.8;      /* Slightly transparent */
+    --opacity-full: 1;         /* Fully opaque */
 }
 
 /* Global Reset and Base Styles */
@@ -317,8 +327,8 @@ html, body {
 }
 
 @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+    0%, 100% { opacity: var(--opacity-full); }
+    50% { opacity: var(--opacity-medium); }
 }
 
 /* Main Layout */
@@ -634,11 +644,11 @@ html, body {
     justify-content: center;
     font-size: var(--font-size-small);
     cursor: pointer;
-    opacity: 0.7;
+    opacity: var(--opacity-strong);
 }
 
 .tree-node-visibility:hover {
-    opacity: 1;
+    opacity: var(--opacity-full);
 }
 
 /* Center Panel - 3D Canvas/Viewport */
@@ -683,7 +693,7 @@ html, body {
 .viewport-error .error-icon {
     font-size: 4rem;
     margin-bottom: 1rem;
-    opacity: 0.7;
+    opacity: var(--opacity-strong);
 }
 
 .viewport-error .error-title {
@@ -695,7 +705,7 @@ html, body {
 
 .viewport-error .error-message {
     font-size: 1rem;
-    opacity: 0.8;
+    opacity: var(--opacity-heavy);
     max-width: 400px;
     line-height: var(--line-height-normal);
 }
@@ -1643,7 +1653,7 @@ select {
 }
 
 .node-graph-tool:disabled {
-    opacity: 0.4;
+    opacity: var(--opacity-light);
     cursor: not-allowed;
 }
 
@@ -1651,7 +1661,7 @@ select {
 
 .category-arrow {
     font-size: var(--font-size-xxs);
-    opacity: 0.6;
+    opacity: var(--opacity-moderate);
     margin-left: auto;
 }
 
