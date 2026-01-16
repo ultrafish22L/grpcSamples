@@ -1022,7 +1022,7 @@ export class OctaneClient extends EventEmitter {
 
       // P_LOCK_RENDER_AOVS = 61460 (0xf014)
       // Find the attribute index
-      const attrIndexResponse = await this.callApi('ApiItem', 'findAttr', filmSettingsHandle, { attrId: 61460 });
+      const attrIndexResponse = await this.callApi('ApiItem', 'findAttr', filmSettingsHandle, { id: 61460 });
       if (attrIndexResponse?.result === undefined || attrIndexResponse.result < 0) {
         console.warn('⚠️ P_LOCK_RENDER_AOVS attribute not found');
         return false;
@@ -1051,7 +1051,7 @@ export class OctaneClient extends EventEmitter {
       }
 
       // P_LOCK_RENDER_AOVS = 61460 (0xf014)
-      const attrIndexResponse = await this.callApi('ApiItem', 'findAttr', filmSettingsHandle, { attrId: 61460 });
+      const attrIndexResponse = await this.callApi('ApiItem', 'findAttr', filmSettingsHandle, { id: 61460 });
       if (attrIndexResponse?.result === undefined || attrIndexResponse.result < 0) {
         throw new Error('P_LOCK_RENDER_AOVS attribute not found');
       }
