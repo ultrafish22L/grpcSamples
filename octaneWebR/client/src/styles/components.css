@@ -24,7 +24,7 @@
 
 .scene-outliner-controls {
     display: flex;
-    gap: 2px;
+    gap: var(--spacing-xs);
 }
 
 .scene-outliner-controls button {
@@ -313,7 +313,7 @@
 .color-parameter {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--spacing-lg);
     margin-left: auto;
 }
 
@@ -329,7 +329,7 @@
 .parameter-control-group {
     display: flex;
     align-items: center;
-    gap: 0;
+    gap: var(--spacing-none);
     position: relative;
 }
 
@@ -489,7 +489,7 @@
 .connection-controls {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--spacing-2xl);
     margin-right: 15px;
 }
 
@@ -515,7 +515,7 @@
 .switch-container {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--spacing-lg);
 }
 
 .switch-label {
@@ -581,7 +581,7 @@ input:checked + .slider:before {
 .scene-outliner-toolbar {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: var(--spacing-xs);
     padding: 2px 4px;
     background-color: var(--octane-node-bg);
     border-bottom: 1px solid var(--octane-viewport-bg);
@@ -787,7 +787,7 @@ input:checked + .slider:before {
 .parameter-section-header {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--spacing-lg);
     padding: 6px 12px;
     background-color: var(--octane-bg-secondary);
     cursor: pointer;
@@ -813,7 +813,7 @@ input:checked + .slider:before {
 .parameter-subsection-header {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-xl);
     padding: 6px 20px;
     background-color: var(--octane-bg-primary);
     border-bottom: 1px solid var(--octane-border);
@@ -921,12 +921,12 @@ input:checked + .slider:before {
 .parameter-input-container {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--spacing-lg);
     min-width: 120px;
 }
 
 .parameter-input-container.dual-input {
-    gap: 2px;
+    gap: var(--spacing-xs);
 }
 
 .parameter-input-container.dual-input .parameter-number-input {
@@ -937,11 +937,11 @@ input:checked + .slider:before {
 .parameter-control-wrapper {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: var(--spacing-xs);
 }
 
 .parameter-control-wrapper.parameter-vector3 {
-    gap: 1px;
+    gap: var(--spacing-xxs);
 }
 
 .parameter-control-wrapper.parameter-vector3 .parameter-vector-component {
@@ -1199,7 +1199,7 @@ input:checked + .slider:before {
     padding: 8px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--spacing-md);
 }
 
 .viewport-nav-btn {
@@ -1249,7 +1249,7 @@ input:checked + .slider:before {
     top: 8px;
     left: 8px;
     display: flex;
-    gap: 4px;
+    gap: var(--spacing-md);
     background-color: var(--octane-overlay-dark);
     padding: 4px;
     border-radius: var(--border-radius);
@@ -1428,7 +1428,7 @@ input:checked + .slider:before {
     display: flex;
     align-items: center;
     padding: 12px 16px;
-    gap: 10px;
+    gap: var(--spacing-2xl);
 }
 
 .notification-icon {
@@ -1598,7 +1598,7 @@ body.drag-over .drop-indicator {
     padding: 12px 16px;
     border-top: 1px solid var(--octane-border);
     display: flex;
-    gap: 8px;
+    gap: var(--spacing-xl);
     justify-content: flex-end;
 }
 
@@ -1782,7 +1782,7 @@ body.drag-over .drop-indicator {
 /* Scene Outliner Control Bar - Based on Official OTOY Documentation */
 .scene-outliner-controls {
     display: flex;
-    gap: 2px;
+    gap: var(--spacing-xs);
     align-items: center;
 }
 
@@ -1819,7 +1819,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-secondary);
     border-bottom: 1px solid var(--octane-border);
     padding: 2px 4px;
-    gap: 1px;
+    gap: var(--spacing-xxs);
     align-items: center;
     justify-content: flex-start;
 }
@@ -1877,7 +1877,7 @@ body.drag-over .drop-indicator {
     background: var(--octane-bg-primary);
     border-bottom: 1px solid var(--octane-border);
     padding: 0;
-    gap: 0;
+    gap: var(--spacing-none);
     align-items: stretch;
     position: relative;
 }
@@ -1978,7 +1978,7 @@ body.drag-over .drop-indicator {
 .node-inspector-controls-vertical {
     display: flex;
     flex-direction: column;
-    gap: 1px;
+    gap: var(--spacing-xxs);
     background: var(--octane-bg-darker);
     padding: 2px 2px 2px 2px;
     width: 26px;
@@ -2126,7 +2126,7 @@ body.drag-over .drop-indicator {
     bottom: 4px;
     right: 4px;
     display: flex;
-    gap: 2px;
+    gap: var(--spacing-xs);
 }
 
 .preview-mode-btn {
@@ -2202,7 +2202,7 @@ body.drag-over .drop-indicator {
 .scene-tab-content .node-content {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--spacing-md);
     width: 100%;
 }
 
@@ -2277,7 +2277,7 @@ body.drag-over .drop-indicator {
 .node-type-selector {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--spacing-xl);
 }
 
 .node-type-item {
@@ -2392,7 +2392,7 @@ body.drag-over .drop-indicator {
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--spacing-md);
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-header);
     border-bottom: 1px solid var(--octane-border);
@@ -2421,7 +2421,7 @@ body.drag-over .drop-indicator {
     align-items: center;
     padding: 2px 8px;
     min-height: 20px;
-    gap: 6px;
+    gap: var(--spacing-lg);
 }
 
 .param-row:hover {
@@ -2456,7 +2456,7 @@ body.drag-over .drop-indicator {
 .param-control {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--spacing-md);
     flex: 1;
 }
 
@@ -2511,7 +2511,7 @@ body.drag-over .drop-indicator {
 
 .param-dual-input {
     display: flex;
-    gap: 4px;
+    gap: var(--spacing-md);
     flex: 1;
 }
 
@@ -2537,7 +2537,7 @@ body.drag-over .drop-indicator {
 .param-grid {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    gap: 1px;
+    gap: var(--spacing-xxs);
     flex: 1;
     max-width: 200px;
 }
@@ -2577,7 +2577,7 @@ body.drag-over .drop-indicator {
 .file-info {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: var(--spacing-xs);
     margin-left: 20px;
 }
 
@@ -2699,7 +2699,7 @@ body.drag-over .drop-indicator {
 .parameter-numeric-slider-container {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-xl);
     width: 100%;
 }
 
@@ -2776,7 +2776,7 @@ body.drag-over .drop-indicator {
 .parameter-numeric-input-container {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--spacing-md);
 }
 
 .parameter-number-input {
@@ -2800,7 +2800,7 @@ body.drag-over .drop-indicator {
 .parameter-controls {
     display: flex;
     flex-direction: column;
-    gap: 1px;
+    gap: var(--spacing-xxs);
 }
 
 .param-increment,
@@ -2922,7 +2922,7 @@ body.drag-over .drop-indicator {
 .parameter-color-container {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--spacing-lg);
 }
 
 .parameter-color-preview {
@@ -2964,14 +2964,14 @@ body.drag-over .drop-indicator {
 .parameter-vector2-container,
 .parameter-vector3-container {
     display: flex;
-    gap: 6px;
+    gap: var(--spacing-lg);
     align-items: center;
 }
 
 .parameter-vector-input {
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: var(--spacing-sm);
 }
 
 .parameter-vector-input label {
@@ -3066,7 +3066,7 @@ body.drag-over .drop-indicator {
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: var(--spacing-xs);
     font-size: var(--font-size-small);
     color: var(--octane-text-primary);
 }
@@ -3086,7 +3086,7 @@ body.drag-over .drop-indicator {
 .inspector-group-label {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: var(--spacing-xs);
     cursor: pointer;
     user-select: none;
     width: 100%;
@@ -3221,7 +3221,7 @@ body.drag-over .drop-indicator {
     user-select: none;
     width: 100%;
     min-height: 20px;
-    gap: 0;
+    gap: var(--spacing-none);
 }
 
 .node-inspector .node-label:hover,
@@ -3263,7 +3263,7 @@ body.drag-over .drop-indicator {
     flex: 1; /* Fill remaining space to the right */
     display: flex;
     align-items: center;
-    gap: 0px;
+    gap: var(--spacing-none);
 }
 
 .node-inspector .node-parameter-controls .parameter-dropdown,
@@ -3307,7 +3307,7 @@ body.drag-over .drop-indicator {
     background: transparent;
     border-radius: 2px;
     transition: background-color 0.15s ease;
-    gap: 12px;
+    gap: var(--spacing-3xl);
 }
 
 .octane-parameter-row:hover {
@@ -3317,7 +3317,7 @@ body.drag-over .drop-indicator {
 .octane-parameter-label {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--spacing-lg);
     flex: 0 0 auto;
     min-width: 120px;
     max-width: 180px;
@@ -3344,7 +3344,7 @@ body.drag-over .drop-indicator {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 4px;
+    gap: var(--spacing-md);
     flex-shrink: 0;
     max-width: 200px;
 }
@@ -3413,7 +3413,7 @@ body.drag-over .drop-indicator {
 .parameter-number-with-spinner {
     display: flex;
     align-items: center;
-    gap: 0;
+    gap: var(--spacing-none);
     position: relative;
     flex: 1;
 }
@@ -3426,7 +3426,7 @@ body.drag-over .drop-indicator {
 .parameter-spinner-container {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: var(--spacing-none);
 }
 
 .parameter-spinner-btn {
@@ -3540,7 +3540,7 @@ body.drag-over .drop-indicator {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 2px;
+    gap: var(--spacing-xs);
     flex-direction: row;
 }
 
@@ -3665,7 +3665,7 @@ body.drag-over .drop-indicator {
     display: inline-flex;
     width: 100%; /* Stretch to fill parent node-parameter-controls */
     align-items: center;
-    gap: 4px;
+    gap: var(--spacing-md);
 }
 
 /* Checkbox Controls - Match octaneWeb exactly */
@@ -3728,7 +3728,7 @@ body.drag-over .drop-indicator {
 
 /* Vector Controls */
 .parameter-vector-container {
-    gap: 2px;
+    gap: var(--spacing-xs);
 }
 
 .parameter-vector-input {
@@ -3753,7 +3753,7 @@ body.drag-over .drop-indicator {
 /* Color Controls */
 .parameter-color-container {
     align-items: center;
-    gap: 4px;
+    gap: var(--spacing-md);
 }
 
 .parameter-color-preview {
@@ -3800,7 +3800,7 @@ body.drag-over .drop-indicator {
     align-items: center;
     justify-content: center;
     color: var(--octane-text-secondary);
-    gap: 12px;
+    gap: var(--spacing-3xl);
 }
 
 .node-graph-empty p {
@@ -3832,7 +3832,7 @@ body.drag-over .drop-indicator {
     border-radius: 4px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--spacing-2xl);
 }
 
 .zoom-info {
@@ -3888,7 +3888,7 @@ body.drag-over .drop-indicator {
     top: 10px;
     left: 10px;
     display: flex;
-    gap: 8px;
+    gap: var(--spacing-xl);
     background: var(--octane-overlay-medium);
     padding: 6px;
     border-radius: 4px;
@@ -3996,7 +3996,7 @@ body.drag-over .drop-indicator {
 .modal-footer {
     display: flex;
     justify-content: flex-end;
-    gap: 8px;
+    gap: var(--spacing-xl);
     padding: 12px 16px;
     border-top: 1px solid var(--octane-border);
     background: var(--octane-bg-secondary);
@@ -4239,7 +4239,7 @@ body.drag-over .drop-indicator {
 .preferences-tabs {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: var(--spacing-xs);
     padding: 12px 8px;
     background: var(--octane-bg-secondary);
     border-right: 1px solid var(--octane-border);
@@ -4305,7 +4305,7 @@ body.drag-over .drop-indicator {
 .preference-checkbox {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-xl);
     margin: 8px 0;
     cursor: pointer;
     font-size: var(--font-size-medium);
@@ -4319,7 +4319,7 @@ body.drag-over .drop-indicator {
 .preference-field {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: var(--spacing-lg);
     margin: 8px 0;
 }
 
@@ -4407,7 +4407,7 @@ body.drag-over .drop-indicator {
 .preferences-footer {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
+    gap: var(--spacing-2xl);
     padding: 16px 20px;
     border-top: 1px solid var(--octane-border);
     background: var(--octane-bg-secondary);
@@ -4500,7 +4500,7 @@ body.drag-over .drop-indicator {
 .form-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 12px;
+    gap: var(--spacing-3xl);
     margin-bottom: 12px;
 }
 
@@ -4534,7 +4534,7 @@ body.drag-over .drop-indicator {
 .checkbox-label {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-xl);
     font-size: var(--font-size-medium);
     color: var(--octane-text-primary);
     cursor: pointer;
@@ -4547,7 +4547,7 @@ body.drag-over .drop-indicator {
 
 .folder-select {
     display: flex;
-    gap: 8px;
+    gap: var(--spacing-xl);
 }
 
 .folder-select input {
@@ -4659,7 +4659,7 @@ body.drag-over .drop-indicator {
 .about-content {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--spacing-5xl);
 }
 
 .about-logo {
@@ -4727,7 +4727,7 @@ body.drag-over .drop-indicator {
 .tech-badges {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: var(--spacing-lg);
     justify-content: center;
 }
 
@@ -4748,7 +4748,7 @@ body.drag-over .drop-indicator {
     margin: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 8px;
+    gap: var(--spacing-xl);
 }
 
 .about-features li {
@@ -4777,7 +4777,7 @@ body.drag-over .drop-indicator {
 .about-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: var(--spacing-xl);
     justify-content: center;
     padding: 12px 0 0 0;
     border-top: 1px solid var(--octane-border);
@@ -4822,7 +4822,7 @@ body.drag-over .drop-indicator {
 .save-package-dialog .slider-group {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--spacing-2xl);
 }
 
 .save-package-dialog .slider-group input[type="range"] {
@@ -4840,7 +4840,7 @@ body.drag-over .drop-indicator {
 
 .save-package-dialog .range-group .range-inputs {
     display: flex;
-    gap: 15px;
+    gap: var(--spacing-4xl);
 }
 
 .save-package-dialog .range-group .range-inputs > div {

@@ -68,7 +68,7 @@
 /* Tabs */
 .material-database-tabs {
   display: flex;
-  gap: 4px;
+  gap: var(--spacing-md);
   padding: 8px 16px;
   background: var(--octane-bg-primary);
   border-bottom: 1px solid var(--octane-border-dark);
@@ -101,7 +101,7 @@
 .material-database-controls {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--spacing-3xl);
   padding: 12px 16px;
   background: var(--octane-bg-darker);
   border-bottom: 1px solid var(--octane-border-dark);
@@ -173,7 +173,7 @@
 .material-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 16px;
+  gap: var(--spacing-5xl);
 }
 
 .material-card {

@@ -219,7 +219,7 @@ body.resizing .panel-splitter {
 .parameter-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    gap: var(--spacing-xl);
     margin-bottom: 6px;
     align-items: center;
 }
@@ -234,7 +234,7 @@ body.resizing .panel-splitter {
 .parameter-control {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--spacing-md);
     border-radius: 4px;
 }
 
@@ -453,7 +453,7 @@ body.resizing .panel-splitter {
     
     .parameter-row {
         grid-template-columns: 1fr;
-        gap: 4px;
+        gap: var(--spacing-md);
     }
     
     .parameter-label {
