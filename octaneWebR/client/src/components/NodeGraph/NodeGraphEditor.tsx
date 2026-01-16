@@ -1454,7 +1454,7 @@ function NodeGraphEditorInner({
           nodeColor={(node) => {
             const data = node.data as OctaneNodeData;
             return data.sceneNode.nodeInfo?.nodeColor
-              ? '#' + data.sceneNode.nodeInfo.nodeColor.toString(16).padStart(6, '0')
+              ? OctaneIconMapper.formatColorValue(data.sceneNode.nodeInfo.nodeColor)
               : '#666';
           }}
           style={{
