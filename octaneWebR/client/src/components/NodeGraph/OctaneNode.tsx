@@ -7,6 +7,7 @@ import { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { SceneNode } from '../../services/OctaneClient';
 import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
+import { NodeIcon } from '../../utils/IconLoader';
 
 export interface OctaneNodeData extends Record<string, unknown> {
   sceneNode: SceneNode;
@@ -163,20 +164,38 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
         );
       })}
 
-      {/* Node title */}
+      {/* Node icon and title */}
       <div
         style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 6,
           color: '#fff',
           fontSize: 11,
           fontFamily: 'Arial, sans-serif',
-          textAlign: 'center',
           whiteSpace: 'nowrap',
           overflow: 'hidden',
-          textOverflow: 'ellipsis',
           userSelect: 'none',
         }}
       >
-        {sceneNode.name || sceneNode.type}
+        {/* Node type icon */}
+        {sceneNode.type && (
+          <NodeIcon 
+            nodeType={sceneNode.type} 
+            size={16}
+            title={sceneNode.type}
+          />
+        )}
+        
+        {/* Node title */}
+        <div
+          style={{
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
+          {sceneNode.name || sceneNode.type}
+        </div>
       </div>
 
       {/* Output handle on bottom */}
