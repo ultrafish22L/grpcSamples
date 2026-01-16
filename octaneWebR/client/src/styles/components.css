@@ -1240,6 +1240,7 @@ input:checked + .slider:before {
     border-radius: var(--border-radius);
 }
 
+/* Node graph toolbar - consolidated from octane-theme.css and components.css duplicates */
 .node-graph-toolbar {
     position: absolute;
     top: 8px;
@@ -1249,6 +1250,7 @@ input:checked + .slider:before {
     background-color: var(--octane-overlay-dark);
     padding: 4px;
     border-radius: var(--border-radius);
+    z-index: var(--z-dropdown); /* Added from octane-theme.css */
 }
 
 .node-graph-tool {
@@ -3878,18 +3880,7 @@ body.drag-over .drop-indicator {
 
 /* Note: .context-menu-item styles are defined in octane-theme.css to ensure consistent styling */
 
-/* Node Graph Toolbar (override existing) */
-.node-graph-toolbar {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    display: flex;
-    gap: var(--spacing-xl);
-    background: var(--octane-overlay-medium);
-    padding: 6px;
-    border-radius: var(--border-radius-base);
-    border: 1px solid var(--octane-border);
-}
+/* Duplicate .node-graph-toolbar deleted (was override at line 3884) */
 
 .toolbar-btn {
     background: var(--octane-bg-hover);
@@ -4913,16 +4904,8 @@ body.drag-over .drop-indicator {
   position: relative;
 }
 
-.node-graph-toolbar {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  background: var(--octane-bg-darker);
-  padding: 2px 2px 2px 2px;
-  width: 26px;
-  min-width: 26px;
-  flex-shrink: 0;
-}
+/* Duplicate .node-graph-toolbar deleted (was vertical variant at line 4907)
+   NOTE: If vertical toolbar is needed, create new class .node-graph-toolbar-vertical */
 
 .toolbar-button {
   background: var(--octane-bg-primary);

@@ -1666,17 +1666,7 @@ select {
 
 /* ==================== Node Graph Toolbar ==================== */
 
-.node-graph-toolbar {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    display: flex;
-    gap: var(--spacing-md);
-    background-color: rgba(0, 0, 0, 0.8);
-    padding: 4px;
-    border-radius: var(--border-radius-base);
-    z-index: var(--z-dropdown);
-}
+/* .node-graph-toolbar moved to components.css (consolidated) */
 
 .node-graph-tool {
     width: 28px;
