@@ -13,6 +13,7 @@
     --octane-bg-header: #404040;       /* Header/menu backgrounds - matches Octane SE */
     --octane-bg-selected: #4a4a4a;     /* Selected items */
     --octane-bg-hover: #484848;        /* Hover states */
+    --octane-bg-active: #525252;       /* Active/pressed states - slightly lighter than hover */
     
     /* Octane Text Colors */
     --octane-text-primary: #ffffff;    /* Primary text */
