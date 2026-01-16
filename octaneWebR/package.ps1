@@ -54,8 +54,8 @@ switch ($choice) {
             Write-Host "✅ Electron setup complete!" -ForegroundColor Green
             Write-Host ""
             Write-Host "📋 Next steps:" -ForegroundColor Cyan
-            Write-Host "   • Read ELECTRON-PACKAGING.md for detailed instructions"
-            Write-Host "   • Run build commands:"
+            Write-Host "   - Read ELECTRON-PACKAGING.md for detailed instructions"
+            Write-Host "   - Run build commands:"
             Write-Host "     - npm run electron:build:win    (Windows)"
             Write-Host "     - npm run electron:build:mac    (macOS)"
             Write-Host "     - npm run electron:build:linux  (Linux)"

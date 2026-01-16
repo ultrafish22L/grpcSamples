@@ -138,9 +138,9 @@ QUICK START:
    (Help → LiveLink in Octane menu)
 
 2. Run the launcher:
-   • Windows (PowerShell): .\start-server.ps1
-   • Windows (Command): start-server.bat
-   • Linux/Mac: ./start-server.sh
+   - Windows (PowerShell): .\start-server.ps1
+   - Windows (Command): start-server.bat
+   - Linux/Mac: ./start-server.sh
 
 3. Open browser to: http://localhost:43930
 
@@ -164,9 +164,9 @@ FEATURES:
 ✓ Complete menu system matching Octane SE
 
 TROUBLESHOOTING:
-• Cannot connect: Ensure Octane LiveLink is enabled
-• Port in use: Change port in launcher script
-• Blank screen: Clear browser cache, check console for errors
+- Cannot connect: Ensure Octane LiveLink is enabled
+- Port in use: Change port in launcher script
+- Blank screen: Clear browser cache, check console for errors
 
 For more info: https://github.com/ultrafish22L/grpcSamples
 '@
@@ -182,15 +182,15 @@ Write-Host ""
 Write-Host "✅ Production package created successfully!" -ForegroundColor Green
 Write-Host ""
 Write-Host "📦 Distribution files:" -ForegroundColor Cyan
-Write-Host "   • dist/production/          (ready to deploy)"
-Write-Host "   • octaneWebR-production.zip (portable package)"
+Write-Host "   - dist/production/          (ready to deploy)"
+Write-Host "   - octaneWebR-production.zip (portable package)"
 Write-Host ""
 Write-Host "📋 Package contents:" -ForegroundColor Cyan
-Write-Host "   • index.html + assets       (built app)"
-Write-Host "   • start-server.ps1          (PowerShell launcher)"
-Write-Host "   • start-server.bat          (Windows CMD launcher)"
-Write-Host "   • start-server.sh           (Linux/Mac launcher)"
-Write-Host "   • README.txt                (user instructions)"
+Write-Host "   - index.html + assets       (built app)"
+Write-Host "   - start-server.ps1          (PowerShell launcher)"
+Write-Host "   - start-server.bat          (Windows CMD launcher)"
+Write-Host "   - start-server.sh           (Linux/Mac launcher)"
+Write-Host "   - README.txt                (user instructions)"
 Write-Host ""
 Write-Host "🚀 To test production build:" -ForegroundColor Yellow
 Write-Host "   cd dist/production"
