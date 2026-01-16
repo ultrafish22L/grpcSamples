@@ -247,14 +247,6 @@
     margin-left: 0;
 }
 
-/* Scene loading states */
-.scene-loading {
-    padding: 20px;
-    text-align: center;
-    color: var(--octane-text-secondary);
-    font-style: italic;
-}
-
 /* Node Inspector Styling */
 .node-inspector-header {
     padding: 8px 12px;
@@ -469,13 +461,6 @@
 
 .retry-btn:hover {
     background-color: var(--octane-accent-red);
-}
-
-.scene-loading {
-    padding: 20px;
-    text-align: center;
-    color: var(--octane-text-secondary);
-    font-style: italic;
 }
 
 /* Connection Controls */
