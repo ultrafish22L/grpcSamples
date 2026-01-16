@@ -49,7 +49,7 @@ export function AboutDialog({ isOpen, onClose }: AboutDialogProps) {
         <div className="modal-body">
           <div className="about-content">
             <div className="about-logo">
-              <div className="app-icon">🎨</div>
+              <img src="/octane-logo-small.png" alt="OctaneRender Logo" className="app-icon" />
               <h1>OctaneWebR</h1>
               <p className="version">Version 1.0.0</p>
             </div>
@@ -59,71 +59,33 @@ export function AboutDialog({ isOpen, onClose }: AboutDialogProps) {
                 <strong>OctaneWebR</strong> is a pixel-perfect React/TypeScript UI clone of 
                 Octane Render Studio Standalone Edition with real-time gRPC connectivity.
               </p>
-              <p>
-                Built with modern web technologies to provide a browser-based interface for 
-                OctaneRender with full feature parity to the standalone application.
-              </p>
             </div>
 
             <div className="about-tech-stack">
-              <h3>Technology Stack</h3>
               <div className="tech-badges">
                 <span className="tech-badge">React 18</span>
-                <span className="tech-badge">TypeScript 5.6</span>
-                <span className="tech-badge">Vite 6</span>
-                <span className="tech-badge">ReactFlow v12</span>
+                <span className="tech-badge">TypeScript</span>
+                <span className="tech-badge">ReactFlow</span>
                 <span className="tech-badge">gRPC-Web</span>
               </div>
             </div>
 
-            <div className="about-features">
-              <h3>Core Features</h3>
-              <ul>
-                <li>✅ Real-time Scene Management</li>
-                <li>✅ Node Graph Editor with visual node creation</li>
-                <li>✅ Node Inspector with parameter editing</li>
-                <li>✅ Live Rendering with callback-based viewport</li>
-                <li>✅ Camera Controls synced to Octane</li>
-                <li>✅ Professional OTOY-branded UI</li>
-                <li>✅ Full TypeScript type safety</li>
-              </ul>
-            </div>
-
             <div className="about-credits">
-              <h3>Credits</h3>
-              <p>
-                <strong>OctaneRender®</strong> and <strong>OTOY®</strong> and their logos are 
-                registered trademarks of OTOY Inc.
-              </p>
               <p className="copyright">
-                © OTOY Inc. 2014-2025. All rights reserved.
+                © OTOY Inc. 2014-2025. All rights reserved.<br />
+                <strong>OctaneRender®</strong> and <strong>OTOY®</strong> are registered trademarks of OTOY Inc.
               </p>
             </div>
 
             <div className="about-links">
-              <a
-                href="https://home.otoy.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="about-link"
-              >
-                🌐 OTOY Home
+              <a href="https://home.otoy.com" target="_blank" rel="noopener noreferrer" className="about-link">
+                OTOY Home
               </a>
-              <a
-                href="https://docs.otoy.com/standaloneSE/CoverPage.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="about-link"
-              >
-                📚 Documentation
+              <a href="https://docs.otoy.com/standaloneSE/CoverPage.html" target="_blank" rel="noopener noreferrer" className="about-link">
+                Documentation
               </a>
-              <a
-                href="https://github.com/ultrafish22L/grpcSamples"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="about-link"
-              >
-                💻 GitHub Repository
+              <a href="https://github.com/ultrafish22L/grpcSamples" target="_blank" rel="noopener noreferrer" className="about-link">
+                GitHub
               </a>
             </div>
           </div>
