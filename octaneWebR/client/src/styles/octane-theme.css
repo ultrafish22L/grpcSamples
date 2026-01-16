@@ -1447,8 +1447,8 @@ html, body {
     overflow-y: auto;
     z-index: 10001;
     column-count: 6;
-    column-gap: 0;
-    column-rule: 1px solid var(--octane-border-dark);
+    column-gap: 8px; /* Minimal gap to make column-rule visible */
+    column-rule: 1px solid var(--octane-border-dark); /* Vertical divider lines between columns */
     padding: 4px 0;
 }
 
