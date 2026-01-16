@@ -9,6 +9,89 @@ import { SceneNode } from '../../services/OctaneClient';
 import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
 import { NodeIcon } from '../../utils/IconLoader';
 
+/**
+ * Convert hex color to HSL
+ */
+function hexToHsl(hex: string): { h: number; s: number; l: number } {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  if (!result) return { h: 0, s: 0, l: 0 };
+  
+  let r = parseInt(result[1], 16) / 255;
+  let g = parseInt(result[2], 16) / 255;
+  let b = parseInt(result[3], 16) / 255;
+  
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0, s = 0;
+  const l = (max + min) / 2;
+  
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    
+    switch (max) {
+      case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+      case g: h = ((b - r) / d + 2) / 6; break;
+      case b: h = ((r - g) / d + 4) / 6; break;
+    }
+  }
+  
+  return { h: h * 360, s: s * 100, l: l * 100 };
+}
+
+/**
+ * Convert HSL to hex color
+ */
+function hslToHex(h: number, s: number, l: number): string {
+  h = h / 360;
+  s = s / 100;
+  l = l / 100;
+  
+  let r, g, b;
+  
+  if (s === 0) {
+    r = g = b = l;
+  } else {
+    const hue2rgb = (p: number, q: number, t: number) => {
+      if (t < 0) t += 1;
+      if (t > 1) t -= 1;
+      if (t < 1/6) return p + (q - p) * 6 * t;
+      if (t < 1/2) return q;
+      if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+      return p;
+    };
+    
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    r = hue2rgb(p, q, h + 1/3);
+    g = hue2rgb(p, q, h);
+    b = hue2rgb(p, q, h - 1/3);
+  }
+  
+  const toHex = (x: number) => {
+    const hex = Math.round(x * 255).toString(16);
+    return hex.length === 1 ? '0' + hex : hex;
+  };
+  
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+/**
+ * Desaturate a color (make it more muted)
+ */
+function desaturateColor(hex: string, amount: number = 0.5): string {
+  const hsl = hexToHsl(hex);
+  return hslToHex(hsl.h, hsl.s * amount, hsl.l);
+}
+
+/**
+ * Fully saturate a color (make it vibrant)
+ */
+function saturateColor(hex: string): string {
+  const hsl = hexToHsl(hex);
+  return hslToHex(hsl.h, 100, hsl.l);
+}
+
 export interface OctaneNodeData extends Record<string, unknown> {
   sceneNode: SceneNode;
   inputs?: Array<{
@@ -41,10 +124,11 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
   const { data, selected, id } = props;
   const { sceneNode, inputs = [], output, onContextMenu } = data;
   
-  // Get node color from nodeInfo
-  const nodeColor = sceneNode.nodeInfo?.nodeColor 
+  // Get node color from nodeInfo - desaturate for muted appearance
+  const rawNodeColor = sceneNode.nodeInfo?.nodeColor 
     ? OctaneIconMapper.formatColorValue(sceneNode.nodeInfo.nodeColor)
     : '#666';
+  const nodeColor = desaturateColor(rawNodeColor, 0.4); // 40% saturation for muted look
 
   // Calculate dynamic width based on inputs
   const inputCount = inputs.length;
@@ -110,9 +194,10 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
       
       {/* Input handles on top */}
       {inputs.map((input: any, index: number) => {
-        const socketColor = input.pinInfo?.pinColor !== undefined
+        const rawSocketColor = input.pinInfo?.pinColor !== undefined
           ? OctaneIconMapper.formatColorValue(input.pinInfo.pinColor)
-          : 'rgba(243, 220, 222, 1)';
+          : '#f3dcde';
+        const socketColor = saturateColor(rawSocketColor); // Fully saturated for vibrant pins
         
         const inputSpacing = calculatedWidth / (inputs.length + 1);
         const socketX = inputSpacing * (index + 1) - calculatedWidth / 2;
@@ -209,9 +294,10 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
 
       {/* Output handle on bottom */}
       {output && (() => {
-        const outputColor = sceneNode.nodeInfo?.nodeColor !== undefined
+        const rawOutputColor = sceneNode.nodeInfo?.nodeColor !== undefined
           ? OctaneIconMapper.formatColorValue(sceneNode.nodeInfo.nodeColor)
-          : 'rgba(243, 220, 222, 1)';
+          : '#f3dcde';
+        const outputColor = saturateColor(rawOutputColor); // Fully saturated for vibrant pins
         
         // Build enhanced output tooltip
         // Using all available data from Octane's ApiNodeInfo
