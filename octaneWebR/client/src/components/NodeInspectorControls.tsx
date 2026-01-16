@@ -4,7 +4,7 @@
  * Port of octaneWeb/js/components/NodeInspectorControls.js
  */
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { SceneNode } from '../services/OctaneClient';
 
 interface NodeInspectorControlsProps {
@@ -25,7 +25,7 @@ export function NodeInspectorControls({
   /**
    * Find node by type in scene tree (recursive search)
    */
-  const findNodeByType = (nodes: SceneNode[], targetType: string): SceneNode | null => {
+  const findNodeByType = useCallback((nodes: SceneNode[], targetType: string): SceneNode | null => {
     for (const node of nodes) {
       // Match by type or name
       if (node.type === targetType || node.outType === targetType || node.name === targetType) {
@@ -38,12 +38,12 @@ export function NodeInspectorControls({
       }
     }
     return null;
-  };
+  }, []);
 
   /**
    * Find node by name pattern (case-insensitive)
    */
-  const findNodeByName = (nodes: SceneNode[], namePattern: string): SceneNode | null => {
+  const findNodeByName = useCallback((nodes: SceneNode[], namePattern: string): SceneNode | null => {
     const pattern = namePattern.toLowerCase();
     for (const node of nodes) {
       if (node.name?.toLowerCase().includes(pattern)) {
@@ -55,12 +55,12 @@ export function NodeInspectorControls({
       }
     }
     return null;
-  };
+  }, []);
 
   /**
    * Jump to specific node type
    */
-  const jumpToNode = (buttonId: string, nodeType: string) => {
+  const jumpToNode = useCallback((buttonId: string, nodeType: string) => {
     console.log(`🎯 Jumping to ${nodeType} node`);
     
     // Update active button state
@@ -119,17 +119,33 @@ export function NodeInspectorControls({
     } else {
       console.warn(`⚠️ Could not find ${nodeType} node in scene tree`);
     }
-  };
+  }, [sceneTree, onNodeSelect, findNodeByType, findNodeByName]);
 
-  const handleExpandAll = () => {
+  const handleExpandAll = useCallback(() => {
     console.log('📂 Expanding all nodes');
     if (onExpandAll) onExpandAll();
-  };
+  }, [onExpandAll]);
 
-  const handleCollapseAll = () => {
+  const handleCollapseAll = useCallback(() => {
     console.log('📁 Collapsing all nodes');
     if (onCollapseAll) onCollapseAll();
-  };
+  }, [onCollapseAll]);
+
+  // Memoized button click handlers
+  const handleRenderTargetClick = useCallback(() => jumpToNode('rendertarget', 'PT_RENDERTARGET'), [jumpToNode]);
+  const handleCameraClick = useCallback(() => jumpToNode('camera', 'Camera'), [jumpToNode]);
+  const handleEnvironmentClick = useCallback(() => jumpToNode('environment', 'Environment'), [jumpToNode]);
+  const handleGeometryClick = useCallback(() => jumpToNode('geometry', 'PT_GEOMETRY'), [jumpToNode]);
+  const handleAnimationClick = useCallback(() => jumpToNode('animation', 'Animation'), [jumpToNode]);
+  const handleRenderLayerClick = useCallback(() => jumpToNode('render-layer', 'Render Layer'), [jumpToNode]);
+  const handleAovGroupClick = useCallback(() => jumpToNode('aov-group', 'AOV Group'), [jumpToNode]);
+  const handlePostProcessingClick = useCallback(() => jumpToNode('post-processing', 'Post Processing'), [jumpToNode]);
+  const handleCameraAltClick = useCallback(() => jumpToNode('camera-alt', 'Camera'), [jumpToNode]);
+  const handleVisibleEnvironmentClick = useCallback(() => jumpToNode('visible-environment', 'Visible Environment'), [jumpToNode]);
+  const handleFilmClick = useCallback(() => jumpToNode('film', 'Film'), [jumpToNode]);
+  const handleKernelClick = useCallback(() => jumpToNode('kernel', 'Kernel'), [jumpToNode]);
+  const handleRenderAovClick = useCallback(() => jumpToNode('render-aov', 'Render AOV'), [jumpToNode]);
+  const handleCameraImagerClick = useCallback(() => jumpToNode('camera-imager', 'Imager'), [jumpToNode]);
 
   return (
     <div className="node-inspector-controls-vertical">
@@ -145,7 +161,7 @@ export function NodeInspectorControls({
       <button 
         className={`quick-btn ${activeButton === 'rendertarget' ? 'active' : ''}`}
         title="Render Target" 
-        onClick={() => jumpToNode('rendertarget', 'PT_RENDERTARGET')}
+        onClick={handleRenderTargetClick}
       >
         📄
       </button>
@@ -153,7 +169,7 @@ export function NodeInspectorControls({
       <button 
         className={`quick-btn ${activeButton === 'camera' ? 'active' : ''}`}
         title="Camera Settings" 
-        onClick={() => jumpToNode('camera', 'Camera')}
+        onClick={handleCameraClick}
       >
         📷
       </button>
@@ -161,7 +177,7 @@ export function NodeInspectorControls({
       <button 
         className={`quick-btn ${activeButton === 'environment' ? 'active' : ''}`}
         title="Environment Settings" 
-        onClick={() => jumpToNode('environment', 'Environment')}
+        onClick={handleEnvironmentClick}
       >
         🌍
       </button>
@@ -169,7 +185,7 @@ export function NodeInspectorControls({
       <button 
         className={`quick-btn ${activeButton === 'geometry' ? 'active' : ''}`}
         title="Current Geometry" 
-        onClick={() => jumpToNode('geometry', 'PT_GEOMETRY')}
+        onClick={handleGeometryClick}
       >
         🔷
       </button>
@@ -177,7 +193,7 @@ export function NodeInspectorControls({
       <button 
         className={`quick-btn ${activeButton === 'animation' ? 'active' : ''}`}
         title="Animation Settings" 
-        onClick={() => jumpToNode('animation', 'Animation')}
+        onClick={handleAnimationClick}
       >
         🎬
       </button>
@@ -185,7 +201,7 @@ export function NodeInspectorControls({
       <button 
         className={`quick-btn ${activeButton === 'render-layer' ? 'active' : ''}`}
         title="Active Render Layer" 
-        onClick={() => jumpToNode('render-layer', 'Render Layer')}
+        onClick={handleRenderLayerClick}
       >
         🎭
       </button>
@@ -193,7 +209,7 @@ export function NodeInspectorControls({
       <button 
         className={`quick-btn ${activeButton === 'aov-group' ? 'active' : ''}`}
         title="AOV Group" 
-        onClick={() => jumpToNode('aov-group', 'AOV Group')}
+        onClick={handleAovGroupClick}
       >
         🔵
       </button>
@@ -201,7 +217,7 @@ export function NodeInspectorControls({
       <button 
         className={`quick-btn ${activeButton === 'post-processing' ? 'active' : ''}`}
         title="Post Processing" 
-        onClick={() => jumpToNode('post-processing', 'Post Processing')}
+        onClick={handlePostProcessingClick}
       >
         🎨
       </button>
@@ -221,7 +237,7 @@ export function NodeInspectorControls({
       <button 
         className={`quick-btn ${activeButton === 'camera-alt' ? 'active' : ''}`}
         title="Camera Settings" 
-        onClick={() => jumpToNode('camera-alt', 'Camera')}
+        onClick={handleCameraAltClick}
       >
         📸
       </button>
@@ -229,7 +245,7 @@ export function NodeInspectorControls({
       <button 
         className={`quick-btn ${activeButton === 'visible-environment' ? 'active' : ''}`}
         title="Visible Environment Settings" 
-        onClick={() => jumpToNode('visible-environment', 'Visible Environment')}
+        onClick={handleVisibleEnvironmentClick}
       >
         🌐
       </button>
@@ -237,7 +253,7 @@ export function NodeInspectorControls({
       <button 
         className={`quick-btn ${activeButton === 'film' ? 'active' : ''}`}
         title="Film Settings" 
-        onClick={() => jumpToNode('film', 'Film')}
+        onClick={handleFilmClick}
       >
         🎞️
       </button>
@@ -245,7 +261,7 @@ export function NodeInspectorControls({
       <button 
         className={`quick-btn ${activeButton === 'kernel' ? 'active' : ''}`}
         title="Current kernel" 
-        onClick={() => jumpToNode('kernel', 'Kernel')}
+        onClick={handleKernelClick}
       >
         ⚙️
       </button>
@@ -253,7 +269,7 @@ export function NodeInspectorControls({
       <button 
         className={`quick-btn ${activeButton === 'render-aov' ? 'active' : ''}`}
         title="Render AOV Node" 
-        onClick={() => jumpToNode('render-aov', 'Render AOV')}
+        onClick={handleRenderAovClick}
       >
         🔴
       </button>
@@ -261,7 +277,7 @@ export function NodeInspectorControls({
       <button 
         className={`quick-btn ${activeButton === 'camera-imager' ? 'active' : ''}`}
         title="Camera Imager" 
-        onClick={() => jumpToNode('camera-imager', 'Imager')}
+        onClick={handleCameraImagerClick}
       >
         📹
       </button>

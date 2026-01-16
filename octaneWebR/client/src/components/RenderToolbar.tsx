@@ -4,7 +4,7 @@
  * Located below the render viewport, above the node graph editor
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useOctane } from '../hooks/useOctane';
 import { GPUStatisticsDialog } from './GPUStatisticsDialog';
 
@@ -262,7 +262,7 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
   // RENDER PRIORITY HANDLERS
   // ========================================
 
-  const applyRenderPriority = async (priority: 'low' | 'normal' | 'high') => {
+  const applyRenderPriority = useCallback(async (priority: 'low' | 'normal' | 'high') => {
     console.log(`⚙️ Setting render priority: ${priority.toUpperCase()}`);
     
     try {
@@ -275,13 +275,13 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
     } catch (err) {
       console.error(`❌ Failed to set render priority to ${priority}:`, err);
     }
-  };
+  }, [client]);
 
   // ========================================
   // CAMERA PRESET HANDLERS
   // ========================================
 
-  const applyCameraPreset = async (presetName: string) => {
+  const applyCameraPreset = useCallback(async (presetName: string) => {
     console.log(`📷 Applying camera preset: ${presetName}`);
     
     const distance = 10; // Distance from origin for camera position
@@ -323,13 +323,13 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
     } catch (err) {
       console.error(`❌ Failed to apply camera preset "${presetName}":`, err);
     }
-  };
+  }, [client]);
 
   // ========================================
   // TOOLBAR ACTIONS
   // ========================================
 
-  const handleToolbarAction = (actionId: string) => {
+  const handleToolbarAction = useCallback((actionId: string) => {
     console.log(`🔧 RenderToolbar action: ${actionId}`);
 
     switch (actionId) {
@@ -555,7 +555,7 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
       default:
         console.warn(`Unknown toolbar action: ${actionId}`);
     }
-  };
+  }, [client, state.worldCoordinateDisplay, onRecenterView, onCopyToClipboard, onSaveRender, onExportPasses, onViewportLockChange, onPickingModeChange, onToggleWorldCoord]);
 
   const togglePickingMode = (mode: ToolbarState['currentPickingMode']) => {
     const newMode = state.currentPickingMode === mode ? 'none' : mode;
@@ -689,12 +689,25 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
     { id: 'world-coordinate', icon: '⊞', tooltip: 'Display World Coordinate - Shows world axis in viewport corner.' }
   ];
 
+  // Memoized camera preset handlers
+  const handleFrontPresetClick = useCallback(() => applyCameraPreset('Front'), [applyCameraPreset]);
+  const handleBackPresetClick = useCallback(() => applyCameraPreset('Back'), [applyCameraPreset]);
+  const handleLeftPresetClick = useCallback(() => applyCameraPreset('Left'), [applyCameraPreset]);
+  const handleRightPresetClick = useCallback(() => applyCameraPreset('Right'), [applyCameraPreset]);
+  const handleTopPresetClick = useCallback(() => applyCameraPreset('Top'), [applyCameraPreset]);
+  const handleBottomPresetClick = useCallback(() => applyCameraPreset('Bottom'), [applyCameraPreset]);
+
+  // Memoized render priority handlers
+  const handleLowPriorityClick = useCallback(() => applyRenderPriority('low'), [applyRenderPriority]);
+  const handleNormalPriorityClick = useCallback(() => applyRenderPriority('normal'), [applyRenderPriority]);
+  const handleHighPriorityClick = useCallback(() => applyRenderPriority('high'), [applyRenderPriority]);
+
   // Handle right-click on render progress indicator or GPU info bar
-  const handleStatsContextMenu = (event: React.MouseEvent) => {
+  const handleStatsContextMenu = useCallback((event: React.MouseEvent) => {
     event.preventDefault();
     setGPUStatsPosition({ x: event.clientX, y: event.clientY });
     setShowGPUStatsDialog(true);
-  };
+  }, []);
 
   return (
     <div className={`render-toolbar-container ${className}`}>
@@ -769,22 +782,22 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
           <div className="camera-presets-menu">
             <div className="camera-presets-menu-header">Camera View Presets</div>
             <div className="camera-presets-menu-items">
-              <button onClick={() => applyCameraPreset('Front')} className="camera-preset-item">
+              <button onClick={handleFrontPresetClick} className="camera-preset-item">
                 Front View
               </button>
-              <button onClick={() => applyCameraPreset('Back')} className="camera-preset-item">
+              <button onClick={handleBackPresetClick} className="camera-preset-item">
                 Back View
               </button>
-              <button onClick={() => applyCameraPreset('Left')} className="camera-preset-item">
+              <button onClick={handleLeftPresetClick} className="camera-preset-item">
                 Left View
               </button>
-              <button onClick={() => applyCameraPreset('Right')} className="camera-preset-item">
+              <button onClick={handleRightPresetClick} className="camera-preset-item">
                 Right View
               </button>
-              <button onClick={() => applyCameraPreset('Top')} className="camera-preset-item">
+              <button onClick={handleTopPresetClick} className="camera-preset-item">
                 Top View
               </button>
-              <button onClick={() => applyCameraPreset('Bottom')} className="camera-preset-item">
+              <button onClick={handleBottomPresetClick} className="camera-preset-item">
                 Bottom View
               </button>
             </div>
@@ -797,19 +810,19 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
             <div className="render-priority-menu-header">Render Priority Settings</div>
             <div className="render-priority-menu-items">
               <button 
-                onClick={() => applyRenderPriority('low')} 
+                onClick={handleLowPriorityClick} 
                 className={`render-priority-item ${state.renderPriority === 'low' ? 'active' : ''}`}
               >
                 Low Priority
               </button>
               <button 
-                onClick={() => applyRenderPriority('normal')} 
+                onClick={handleNormalPriorityClick} 
                 className={`render-priority-item ${state.renderPriority === 'normal' ? 'active' : ''}`}
               >
                 Normal Priority
               </button>
               <button 
-                onClick={() => applyRenderPriority('high')} 
+                onClick={handleHighPriorityClick} 
                 className={`render-priority-item ${state.renderPriority === 'high' ? 'active' : ''}`}
               >
                 High Priority

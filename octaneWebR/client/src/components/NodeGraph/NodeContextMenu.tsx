@@ -11,7 +11,7 @@
  * - Proper disabled state prevents clicks
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 
 interface NodeContextMenuProps {
@@ -101,11 +101,24 @@ export function NodeContextMenu({
     }
   }, [x, y]);
 
-  const handleMenuItemClick = (action: () => void, disabled = false) => {
+  const handleMenuItemClick = useCallback((action: () => void, disabled = false) => {
     if (disabled) return;
     action();
     onClose();
-  };
+  }, [onClose]);
+
+  // Memoized menu item handlers
+  const handleRenderClick = useCallback(() => handleMenuItemClick(onRenderNode), [handleMenuItemClick, onRenderNode]);
+  const handleSaveClick = useCallback(() => handleMenuItemClick(onSaveAsMacro), [handleMenuItemClick, onSaveAsMacro]);
+  const handleCutClick = useCallback(() => handleMenuItemClick(onCut), [handleMenuItemClick, onCut]);
+  const handleCopyClick = useCallback(() => handleMenuItemClick(onCopy), [handleMenuItemClick, onCopy]);
+  const handlePasteClick = useCallback(() => handleMenuItemClick(onPaste), [handleMenuItemClick, onPaste]);
+  const handleDeleteClick = useCallback(() => handleMenuItemClick(onDeleteSelected), [handleMenuItemClick, onDeleteSelected]);
+  const handleCollapseClick = useCallback(() => handleMenuItemClick(onCollapseItems), [handleMenuItemClick, onCollapseItems]);
+  const handleExpandClick = useCallback(() => handleMenuItemClick(onExpandItems), [handleMenuItemClick, onExpandItems]);
+  const handleGroupClick = useCallback(() => handleMenuItemClick(onGroupItems, selectedNodeCount < 2), [handleMenuItemClick, onGroupItems, selectedNodeCount]);
+  const handleShowInOutlinerClick = useCallback(() => handleMenuItemClick(onShowInOutliner), [handleMenuItemClick, onShowInOutliner]);
+  const handleShowInLuaBrowserClick = useCallback(() => handleMenuItemClick(onShowInLuaBrowser), [handleMenuItemClick, onShowInLuaBrowser]);
 
   // Render to document.body using portal
   return createPortal(
@@ -122,7 +135,7 @@ export function NodeContextMenu({
       {/* Render */}
       <div
         className="context-menu-item"
-        onClick={() => handleMenuItemClick(onRenderNode)}
+        onClick={handleRenderClick}
       >
         Render
       </div>
@@ -130,7 +143,7 @@ export function NodeContextMenu({
       {/* Save... */}
       <div
         className="context-menu-item"
-        onClick={() => handleMenuItemClick(onSaveAsMacro)}
+        onClick={handleSaveClick}
       >
         Save...
       </div>
@@ -141,7 +154,7 @@ export function NodeContextMenu({
       {/* Cut */}
       <div
         className="context-menu-item"
-        onClick={() => handleMenuItemClick(onCut)}
+        onClick={handleCutClick}
       >
         Cut
       </div>
@@ -149,7 +162,7 @@ export function NodeContextMenu({
       {/* Copy */}
       <div
         className="context-menu-item"
-        onClick={() => handleMenuItemClick(onCopy)}
+        onClick={handleCopyClick}
       >
         Copy
       </div>
@@ -157,7 +170,7 @@ export function NodeContextMenu({
       {/* Paste */}
       <div
         className="context-menu-item"
-        onClick={() => handleMenuItemClick(onPaste)}
+        onClick={handlePasteClick}
       >
         Paste
       </div>
@@ -168,7 +181,7 @@ export function NodeContextMenu({
       {/* Delete */}
       <div
         className="context-menu-item"
-        onClick={() => handleMenuItemClick(onDeleteSelected)}
+        onClick={handleDeleteClick}
       >
         Delete
       </div>
@@ -179,7 +192,7 @@ export function NodeContextMenu({
       {/* Collapse items */}
       <div
         className="context-menu-item"
-        onClick={() => handleMenuItemClick(onCollapseItems)}
+        onClick={handleCollapseClick}
       >
         Collapse items
       </div>
@@ -187,7 +200,7 @@ export function NodeContextMenu({
       {/* Expand items */}
       <div
         className="context-menu-item"
-        onClick={() => handleMenuItemClick(onExpandItems)}
+        onClick={handleExpandClick}
       >
         Expand items
       </div>
@@ -195,7 +208,7 @@ export function NodeContextMenu({
       {/* Group Items */}
       <div
         className={`context-menu-item ${selectedNodeCount < 2 ? 'disabled' : ''}`}
-        onClick={() => handleMenuItemClick(onGroupItems, selectedNodeCount < 2)}
+        onClick={handleGroupClick}
       >
         Group Items
       </div>
@@ -206,7 +219,7 @@ export function NodeContextMenu({
       {/* Show in Outliner */}
       <div
         className="context-menu-item"
-        onClick={() => handleMenuItemClick(onShowInOutliner)}
+        onClick={handleShowInOutlinerClick}
       >
         Show in Outliner
       </div>
@@ -214,7 +227,7 @@ export function NodeContextMenu({
       {/* Show in Lua API browser */}
       <div
         className="context-menu-item"
-        onClick={() => handleMenuItemClick(onShowInLuaBrowser)}
+        onClick={handleShowInLuaBrowserClick}
       >
         Show in Lua API browser
       </div>
