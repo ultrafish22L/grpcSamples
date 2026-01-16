@@ -29,14 +29,13 @@ import { MaterialDatabase } from './components/MaterialDatabase';
 import { SaveRenderDialog } from './components/SaveRenderDialog';
 import { ExportPassesDialog } from './components/ExportPassesDialog';
 import { SceneNode } from './services/OctaneClient';
-import { NodeType } from './constants/OctaneTypes';
 
 function AppContent() {
   const { client, connect, connected } = useOctane();
   const [selectedNode, setSelectedNode] = useState<SceneNode | null>(null);
   const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
   const [sceneRefreshTrigger, setSceneRefreshTrigger] = useState(0);
-  const [isSyncing, setIsSyncing] = useState(false);
+  const [_isSyncing, setIsSyncing] = useState(false);
   const [showWorldCoord, setShowWorldCoord] = useState(true); // Display world coordinate axis
   const [viewportLocked, setViewportLocked] = useState(false); // Lock viewport controls
   const [pickingMode, setPickingMode] = useState<'none' | 'focus' | 'whiteBalance' | 'material' | 'object' | 'cameraTarget' | 'renderRegion' | 'filmRegion'>('none');
@@ -76,7 +75,9 @@ function AppContent() {
     setSceneRefreshTrigger(prev => prev + 1);
   };
 
-  // Add Node button handler - creates geometric plane primitive
+  // Add Node button handler - creates geometric plane primitive (reserved for future use)
+  // Commented out - not currently used but kept for future reference
+  /*
   const handleAddNode = async () => {
     if (!connected || !client) {
       console.log('⚠️ Cannot create node: not connected to Octane');
@@ -102,6 +103,7 @@ function AppContent() {
       console.error('❌ Error creating node:', error);
     }
   };
+  */
 
   // Copy render to clipboard handler
   const handleCopyToClipboard = async () => {

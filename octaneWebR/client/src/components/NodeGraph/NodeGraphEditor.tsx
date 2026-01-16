@@ -61,9 +61,9 @@ function NodeGraphEditorInner({
   selectedNode, 
   onNodeSelect,
   gridVisible,
-  setGridVisible,
+  setGridVisible: _setGridVisible,
   snapToGrid,
-  setSnapToGrid,
+  setSnapToGrid: _setSnapToGrid,
   onRecenterViewReady
 }: NodeGraphEditorProps) {
   const { client, connected } = useOctane();
