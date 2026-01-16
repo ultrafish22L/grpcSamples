@@ -1304,18 +1304,18 @@ html, body {
 
 /* Scrollbars */
 ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+    width: 10px; /* Reduced from 12px for more refined appearance matching Octane SE */
+    height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background-color: var(--octane-bg-secondary);
+    background-color: var(--octane-bg-darker); /* Darker track for subtle appearance */
 }
 
 ::-webkit-scrollbar-thumb {
     background-color: var(--octane-border);
-    border-radius: 6px;
-    border: 2px solid var(--octane-bg-secondary);
+    border-radius: 2px; /* Reduced from 6px to match Octane's minimal radius */
+    border: 1px solid var(--octane-bg-darker); /* Thinner border matching track color */
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -1323,7 +1323,7 @@ html, body {
 }
 
 ::-webkit-scrollbar-corner {
-    background-color: var(--octane-bg-secondary);
+    background-color: var(--octane-bg-darker); /* Match darker track */
 }
 
 /* Context Menus and Modals */
