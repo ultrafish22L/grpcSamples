@@ -773,11 +773,7 @@ input:checked + .slider:before {
     color: var(--octane-text-muted);
 }
 
-.inspector-content {
-    padding: 0;
-    overflow-y: auto;
-    height: calc(100% - 40px);
-}
+/* .inspector-content moved to layout.css (consolidated) */
 
 /* Parameter Sections */
 .parameter-section {

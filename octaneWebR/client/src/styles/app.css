@@ -328,13 +328,7 @@ body {
   margin: 0 0 10px 0;
 }
 
-.inspector-content {
-  flex: 1;
-  overflow-y: auto;
-  background: var(--octane-bg-darker);
-  border-radius: var(--border-radius-base);
-  padding: 10px;
-}
+/* .inspector-content moved to layout.css (consolidated) */
 
 .property-group {
   margin-bottom: 15px;

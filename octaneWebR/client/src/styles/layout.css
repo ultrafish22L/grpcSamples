@@ -167,10 +167,13 @@ body.resizing .panel-splitter {
     border-bottom-color: var(--octane-accent-yellow);
 }
 
+/* Inspector content area - consolidated from app.css, components.css, layout.css */
 .inspector-content {
     flex: 1;
     overflow: auto;
     padding: 8px;
+    background: var(--octane-bg-darker);
+    border-radius: var(--border-radius-base);
 }
 
 /* Parameter Groups */
