@@ -1066,37 +1066,7 @@ input:checked + .slider:before {
     cursor: pointer;
 }
 
-.parameter-checkbox-custom {
-    width: 14px;
-    height: 14px;
-    background-color: var(--octane-bg-primary);
-    border: 1px solid var(--octane-bg-header);
-    border-radius: var(--border-radius-sm);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.15s ease;
-    font-size: var(--font-size-xxs);
-    color: var(--octane-accent-blue);
-}
-
-.parameter-checkbox:hover + .parameter-checkbox-custom {
-    border-color: var(--octane-accent-blue);
-}
-
-.parameter-checkbox:checked + .parameter-checkbox-custom {
-    background-color: var(--octane-bg-primary);
-    border-color: var(--octane-accent-blue);
-}
-
-.parameter-checkbox:checked + .parameter-checkbox-custom::after {
-    content: '✓';
-    font-size: var(--font-size-xxs);
-    font-weight: bold;
-    line-height: var(--line-height-none);
-    color: var(--octane-accent-blue);
-}
+/* Removed duplicate - consolidated at line ~3600 */
 
 /* Parameter Dropdowns */
 .parameter-dropdown {
@@ -2809,31 +2779,7 @@ body.drag-over .drop-indicator {
     cursor: pointer;
 }
 
-.parameter-checkbox-custom {
-    width: 16px;
-    height: 16px;
-    background: var(--octane-bg-primary);
-    border: 1px solid var(--octane-border);
-    border-radius: var(--border-radius-md);
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.parameter-checkbox:checked + .parameter-checkbox-custom {
-    background: var(--octane-bg-primary);
-}
-
-.parameter-checkbox:checked + .parameter-checkbox-custom::after {
-    content: '✓';
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-bold7);
-}
-
-.parameter-checkbox-container:hover .parameter-checkbox-custom {
-    border-color: var(--octane-accent);
-}
+/* Removed duplicate - consolidated at line ~3570 */
 
 /* Dropdown Controls */
 .parameter-dropdown-container {
@@ -2981,10 +2927,6 @@ body.drag-over .drop-indicator {
 .parameter-dropdown,
 .parameter-text-input {
     transition: border-color 0.2s ease, background-color 0.2s ease;
-}
-
-.parameter-checkbox-custom {
-    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 /* Parameter Value Indicators */
@@ -3627,6 +3569,7 @@ body.drag-over .drop-indicator {
     cursor: pointer;
 }
 
+/* CONSOLIDATED: Merged 4 duplicate definitions into one comprehensive definition */
 .parameter-checkbox-custom {
     width: 16px;
     height: 16px;
@@ -3634,7 +3577,19 @@ body.drag-over .drop-indicator {
     border-radius: var(--border-radius-md);
     background: var(--octane-bg-primary);
     position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: all 0.2s ease;
+}
+
+.parameter-checkbox:hover + .parameter-checkbox-custom {
+    border-color: var(--octane-accent);
+}
+
+.parameter-checkbox-container:hover .parameter-checkbox-custom {
+    border-color: var(--octane-accent);
 }
 
 .parameter-checkbox:checked + .parameter-checkbox-custom {
