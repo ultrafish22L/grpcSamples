@@ -24,7 +24,7 @@
   max-height: 80vh;
   background-color: var(--octane-viewport-bg);
   border: 1px solid var(--octane-border);
-  border-radius: 6px;
+  border-radius: var(--border-radius-lg);
   box-shadow: 0 10px 40px var(--octane-overlay-semi);
   z-index: var(--z-dialog);
   display: flex;
@@ -61,7 +61,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: var(--border-radius-base);
   transition: background-color 0.2s, color 0.2s;
 }
 
@@ -105,13 +105,13 @@
   color: var(--octane-text-secondary);
   padding: 8px 12px;
   background-color: var(--octane-bg-darker);
-  border-radius: 4px;
+  border-radius: var(--border-radius-base);
   font-family: 'Courier New', monospace;
 }
 
 .gpu-statistics-device {
   background-color: var(--octane-border-dark);
-  border-radius: 6px;
+  border-radius: var(--border-radius-lg);
   padding: 16px;
   margin-bottom: 20px;
 }
@@ -185,7 +185,7 @@
 
 .gpu-statistics-content::-webkit-scrollbar-thumb {
   background: var(--octane-border);
-  border-radius: 5px;
+  border-radius: var(--border-radius-lg);
 }
 
 .gpu-statistics-content::-webkit-scrollbar-thumb:hover {

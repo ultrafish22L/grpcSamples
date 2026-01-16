@@ -235,7 +235,7 @@ body.resizing .panel-splitter {
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
-    border-radius: 4px;
+    border-radius: var(--border-radius-base);
 }
 
 .parameter-input {
@@ -275,7 +275,7 @@ body.resizing .panel-splitter {
     flex: 1;
     height: 4px;
     background-color: var(--octane-bg-secondary);
-    border-radius: 2px;
+    border-radius: var(--border-radius-sm);
     position: relative;
     cursor: pointer;
 }
@@ -283,7 +283,7 @@ body.resizing .panel-splitter {
 .parameter-slider-track {
     height: 100%;
     background-color: var(--octane-accent-yellow);
-    border-radius: 2px;
+    border-radius: var(--border-radius-sm);
     transition: width 0.1s ease;
 }
 
@@ -294,7 +294,7 @@ body.resizing .panel-splitter {
     height: 12px;
     background-color: var(--octane-text-primary);
     border: 1px solid var(--octane-border);
-    border-radius: 50%;
+    border-radius: var(--border-radius-circle);
     cursor: grab;
     transition: transform 0.1s ease;
 }
