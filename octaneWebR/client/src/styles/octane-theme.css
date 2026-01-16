@@ -26,6 +26,7 @@
     --octane-accent-orange: #ff8c00;   /* Warning/active orange */
     --octane-accent-green: #5cb85c;    /* Success green */
     --octane-accent-red: #d9534f;      /* Error red */
+    --octane-accent-blue: #3a9bd9;     /* Info/link blue */
     
     /* Octane UI Elements */
     --octane-border: #555555;          /* Standard borders */
@@ -52,7 +53,6 @@
     --menu-height: 40px;
     --panel-header-height: 28px;
     --status-bar-height: 22px;
-    --splitter-size: 4px;
     --border-radius: 2px;
 
     --param-max-weight: 288px;
