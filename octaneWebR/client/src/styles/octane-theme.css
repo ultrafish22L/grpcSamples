@@ -1382,7 +1382,7 @@ html, body {
     border-radius: 2px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
     font-family: var(--font-family);
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-small); /* 11px for compact appearance matching Octane SE */
     color: var(--octane-text-primary) !important;
     min-width: 180px;
     max-height: 80vh;
@@ -1422,7 +1422,7 @@ html, body {
     border-radius: 2px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
     font-family: var(--font-family);
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-small); /* 11px for compact appearance matching Octane SE */
     color: var(--octane-text-primary) !important;
     min-width: 200px;
     max-height: 80vh;
@@ -1440,7 +1440,7 @@ html, body {
     border-radius: 2px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
     font-family: var(--font-family);
-    font-size: var(--font-size-normal);
+    font-size: var(--font-size-small); /* 11px for compact appearance matching Octane SE */
     color: var(--octane-text-primary) !important;
     max-height: 80vh;
     max-width: 90vw;
