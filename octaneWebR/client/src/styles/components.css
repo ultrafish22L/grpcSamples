@@ -2897,22 +2897,7 @@ body.drag-over .drop-indicator {
     width: 100%;
 }
 
-.parameter-text-input {
-    width: 100%;
-    height: 20px;
-    background: var(--octane-bg-secondary);
-    border: 1px solid var(--octane-border);
-    border-radius: var(--border-radius-md);
-    color: var(--octane-text-primary);
-    font-size: var(--font-size-small);
-    padding: 0 6px;
-}
-
-.parameter-text-input:focus {
-    outline: none;
-    border-color: var(--octane-accent);
-    background: var(--octane-bg-primary);
-}
+/* Removed duplicate - overridden by multi-selector at line ~3605 in Numeric Input Controls section */
 
 /* Parameter Animation Effects */
 .parameter-row {
@@ -2920,8 +2905,7 @@ body.drag-over .drop-indicator {
 }
 
 .parameter-number-input,
-.parameter-dropdown,
-.parameter-text-input {
+.parameter-dropdown {
     transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
@@ -3612,6 +3596,7 @@ body.drag-over .drop-indicator {
     color: var(--octane-text-primary);
     font-size: var(--font-size-small);
     font-family: var(--font-family);
+    transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .parameter-number-input:focus,
