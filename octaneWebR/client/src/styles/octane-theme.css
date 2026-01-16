@@ -115,17 +115,23 @@
     --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     --font-family-mono: 'Segoe UI Symbol', 'Segoe UI', monospace;
     --font-family-monoC: 'Consolas', 'Monaco', 'Courier New', monospace;
-    --font-size-micro: 7px;
-    --font-size-tiny: 8px;
-    --font-size-xs: 9px;
-    --font-size-small: 11px;
-    --font-size-normal: 12px;
-    --font-size-large: 14px;
-    --font-size-xl: 16px;
-    --font-size-xxl: 18px;
-    --font-size-icon: 24px;
-    --font-size-title: 32px;
-    --font-size-huge: 48px;
+    --font-size-nano: 6px;     /* Ultra-small text/icons */
+    --font-size-micro: 7px;    /* Micro text */
+    --font-size-tiny: 8px;     /* Tiny text */
+    --font-size-xs: 9px;       /* Extra small */
+    --font-size-xxs: 10px;     /* For arrows and small icons */
+    --font-size-small: 11px;   /* Compact UI text */
+    --font-size-normal: 12px;  /* Standard body text */
+    --font-size-medium: 13px;  /* Medium text */
+    --font-size-large: 14px;   /* Large UI text */
+    --font-size-xl: 16px;      /* Extra large */
+    --font-size-xxl: 18px;     /* Double extra large */
+    --font-size-xlarge: 20px;  /* Very large text */
+    --font-size-icon: 24px;    /* Standard icon size */
+    --font-size-xxlarge: 26px; /* Extra extra large */
+    --font-size-header: 28px;  /* Header text */
+    --font-size-title: 32px;   /* Title text */
+    --font-size-huge: 48px;    /* Huge text */
     --font-weight-light: 50;
     --font-weight-normal: 400;
     --font-weight-bold: 600;
@@ -1406,7 +1412,7 @@ html, body {
 
 .context-menu-category::after {
     content: '▶';
-    font-size: 10px;
+    font-size: var(--font-size-xxs); /* 10px - arrow icon */
     color: var(--octane-text-muted);
     margin-left: 8px;
 }
@@ -1604,7 +1610,7 @@ select {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: var(--font-size-xl);
     transition: all 0.2s ease;
 }
 
@@ -1626,7 +1632,7 @@ select {
 /* ==================== Node Type Context Menu ==================== */
 
 .category-arrow {
-    font-size: 10px;
+    font-size: var(--font-size-xxs);
     opacity: 0.6;
     margin-left: auto;
 }

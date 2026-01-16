@@ -44,7 +44,7 @@
 
 .material-database-header h2 {
   margin: 0;
-  font-size: 16px;
+  font-size: var(--font-size-xl);
   font-weight: 600;
   color: var(--octane-text-primary);
 }
@@ -53,7 +53,7 @@
   background: transparent;
   border: none;
   color: var(--octane-text-muted);
-  font-size: 20px;
+  font-size: var(--font-size-xlarge);
   cursor: pointer;
   padding: 4px 8px;
   line-height: 1;
@@ -81,7 +81,7 @@
   border-radius: 4px 4px 0 0;
   color: var(--octane-text-muted);
   cursor: pointer;
-  font-size: 13px;
+  font-size: var(--font-size-medium);
   font-weight: 500;
   transition: all 0.2s;
 }
@@ -108,7 +108,7 @@
 }
 
 .material-database-controls label {
-  font-size: 13px;
+  font-size: var(--font-size-medium);
   color: var(--octane-text-secondary);
   font-weight: 500;
 }
@@ -121,7 +121,7 @@
   border: 1px solid var(--octane-border);
   border-radius: 4px;
   color: var(--octane-text-primary);
-  font-size: 13px;
+  font-size: var(--font-size-medium);
   cursor: pointer;
 }
 
@@ -146,7 +146,7 @@
   background: var(--octane-error-bg);
   border-bottom: 1px solid var(--octane-error-border);
   color: var(--octane-accent-red);
-  font-size: 13px;
+  font-size: var(--font-size-medium);
 }
 
 /* Content Area */
@@ -166,7 +166,7 @@
   justify-content: center;
   height: 100%;
   color: var(--octane-text-disabled);
-  font-size: 14px;
+  font-size: var(--font-size-large);
 }
 
 /* Material Grid */
@@ -209,13 +209,13 @@
 
 .material-preview-placeholder {
   color: var(--octane-border-medium);
-  font-size: 12px;
+  font-size: var(--font-size-normal);
   text-align: center;
 }
 
 .material-name {
   padding: 10px;
-  font-size: 12px;
+  font-size: var(--font-size-normal);
   color: var(--octane-text-secondary);
   text-align: center;
   overflow: hidden;
@@ -231,7 +231,7 @@
 }
 
 .material-database-info {
-  font-size: 12px;
+  font-size: var(--font-size-normal);
   color: var(--octane-text-muted);
   font-style: italic;
 }

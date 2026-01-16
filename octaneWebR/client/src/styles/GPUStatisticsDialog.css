@@ -43,7 +43,7 @@
 
 .gpu-statistics-header h2 {
   margin: 0;
-  font-size: 18px;
+  font-size: var(--font-size-xxl);
   font-weight: 600;
   color: var(--octane-text-primary);
 }
@@ -52,7 +52,7 @@
   background: none;
   border: none;
   color: var(--octane-text-secondary);
-  font-size: 28px;
+  font-size: var(--font-size-header);
   line-height: 1;
   cursor: pointer;
   padding: 0;
@@ -86,7 +86,7 @@
 
 .gpu-statistics-section h3 {
   margin: 0 0 12px 0;
-  font-size: 16px;
+  font-size: var(--font-size-xl);
   font-weight: 600;
   color: var(--octane-text-primary);
   border-bottom: 1px solid var(--octane-border);
@@ -95,13 +95,13 @@
 
 .gpu-statistics-section h4 {
   margin: 0 0 10px 0;
-  font-size: 14px;
+  font-size: var(--font-size-large);
   font-weight: 600;
   color: var(--octane-text-secondary);
 }
 
 .gpu-statistics-value {
-  font-size: 14px;
+  font-size: var(--font-size-large);
   color: var(--octane-text-secondary);
   padding: 8px 12px;
   background-color: var(--octane-bg-darker);
@@ -122,7 +122,7 @@
 
 .gpu-statistics-device > h3 {
   margin: 0 0 16px 0;
-  font-size: 16px;
+  font-size: var(--font-size-xl);
   font-weight: 600;
   color: var(--octane-text-primary);
   border-bottom: 1px solid var(--octane-border);
@@ -132,7 +132,7 @@
 .gpu-statistics-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: var(--font-size-medium);
 }
 
 .gpu-statistics-table tbody tr {
@@ -164,14 +164,14 @@
   text-align: center;
   padding: 40px 20px;
   color: var(--octane-text-secondary);
-  font-size: 14px;
+  font-size: var(--font-size-large);
 }
 
 .gpu-statistics-empty {
   text-align: center;
   padding: 40px 20px;
   color: var(--octane-text-secondary);
-  font-size: 14px;
+  font-size: var(--font-size-large);
 }
 
 /* Scrollbar styling */

@@ -40,14 +40,14 @@ body {
 }
 
 .app-title h1 {
-  font-size: 24px;
+  font-size: var(--font-size-icon);
   font-weight: 600;
   color: var(--octane-accent);
   margin: 0;
 }
 
 .app-subtitle {
-  font-size: 12px;
+  font-size: var(--font-size-normal);
   color: var(--octane-text-muted);
   margin-left: 10px;
 }
@@ -84,7 +84,7 @@ body {
 }
 
 .status-text {
-  font-size: 13px;
+  font-size: var(--font-size-medium);
   color: var(--octane-text-secondary);
 }
 
@@ -145,7 +145,7 @@ body {
 
 .status-message p {
   color: var(--octane-text-secondary);
-  font-size: 14px;
+  font-size: var(--font-size-large);
 }
 
 /* Side Panel */
@@ -164,7 +164,7 @@ body {
 }
 
 .panel-section h3 {
-  font-size: 14px;
+  font-size: var(--font-size-large);
   font-weight: 600;
   color: var(--octane-accent);
   margin-bottom: 10px;
@@ -188,7 +188,7 @@ body {
   padding: 8px 20px;
   background: var(--octane-viewport-bg);
   border-top: 1px solid var(--octane-border);
-  font-size: 12px;
+  font-size: var(--font-size-normal);
   color: var(--octane-text-muted);
   height: 35px;
 }
@@ -219,7 +219,7 @@ body {
   padding: 8px 12px;
   background: var(--octane-viewport-bg);
   border-top: 1px solid var(--octane-border);
-  font-size: 12px;
+  font-size: var(--font-size-normal);
   color: var(--octane-text-secondary);
   font-family: monospace;
 }
@@ -253,7 +253,7 @@ body {
   color: var(--octane-text-secondary);
   border-radius: 3px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: var(--font-size-normal);
 }
 
 .outliner-header button:hover:not(:disabled) {
@@ -283,7 +283,7 @@ body {
   padding: 4px 8px;
   cursor: pointer;
   border-radius: 3px;
-  font-size: 13px;
+  font-size: var(--font-size-medium);
 }
 
 .tree-node:hover {
@@ -312,7 +312,7 @@ body {
 }
 
 .tree-type {
-  font-size: 11px;
+  font-size: var(--font-size-small);
   color: var(--octane-text-muted);
   font-style: italic;
 }
@@ -341,7 +341,7 @@ body {
 }
 
 .property-group h4 {
-  font-size: 12px;
+  font-size: var(--font-size-normal);
   color: var(--octane-accent);
   margin: 0 0 8px 0;
   text-transform: uppercase;
@@ -353,7 +353,7 @@ body {
   justify-content: space-between;
   padding: 6px 0;
   border-bottom: 1px solid var(--octane-viewport-bg);
-  font-size: 13px;
+  font-size: var(--font-size-medium);
 }
 
 .property label {
@@ -367,7 +367,7 @@ body {
 
 .raw-data {
   font-family: 'Courier New', monospace;
-  font-size: 11px;
+  font-size: var(--font-size-small);
   color: var(--octane-text-muted);
   background: var(--octane-border-darker);
   padding: 8px;
