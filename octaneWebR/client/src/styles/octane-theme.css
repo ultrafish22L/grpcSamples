@@ -1493,7 +1493,7 @@ html, body {
 .node-context-menu::-webkit-scrollbar,
 .context-submenu::-webkit-scrollbar,
 .context-submenu-multicolumn::-webkit-scrollbar {
-    width: 8px;
+    width: 8px; /* Narrower than global for compact menus */
 }
 
 .node-context-menu::-webkit-scrollbar-track,
@@ -1506,7 +1506,8 @@ html, body {
 .context-submenu::-webkit-scrollbar-thumb,
 .context-submenu-multicolumn::-webkit-scrollbar-thumb {
     background: var(--octane-border);
-    border-radius: 4px;
+    border-radius: 2px; /* Reduced from 4px to match global minimal radius */
+    border: 1px solid var(--octane-bg-darker); /* Add subtle border for consistency */
 }
 
 .node-context-menu::-webkit-scrollbar-thumb:hover,
