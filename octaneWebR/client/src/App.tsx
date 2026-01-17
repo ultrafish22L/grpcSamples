@@ -135,6 +135,19 @@ function AppContent() {
     console.log(`🔒 App.tsx: Viewport lock ${locked ? 'enabled' : 'disabled'}`);
   };
 
+  // Toggle viewport lock handler (for context menu)
+  const handleToggleLockViewport = () => {
+    setViewportLocked(prev => !prev);
+    console.log(`🔒 App.tsx: Viewport lock toggled to ${!viewportLocked ? 'enabled' : 'disabled'}`);
+  };
+
+  // Set background image handler (for context menu)
+  const handleSetBackgroundImage = () => {
+    console.log('🖼️  Set Background Image - TODO: Implement file picker');
+    // TODO: Implement file picker and set background image
+    alert('Set Background Image: Feature coming soon!\n\nThis will allow you to set a background image visible through alpha channel.');
+  };
+
   // Picking mode change handler
   const handlePickingModeChange = (mode: 'none' | 'focus' | 'whiteBalance' | 'material' | 'object' | 'cameraTarget' | 'renderRegion' | 'filmRegion') => {
     setPickingMode(mode);
@@ -314,6 +327,9 @@ function AppContent() {
                   showWorldCoord={showWorldCoord} 
                   viewportLocked={viewportLocked}
                   pickingMode={pickingMode}
+                  onExportPasses={handleExportPasses}
+                  onSetBackgroundImage={handleSetBackgroundImage}
+                  onToggleLockViewport={handleToggleLockViewport}
                 />
               ) : (
                 <div className="viewport-overlay">

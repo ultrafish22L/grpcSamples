@@ -10,6 +10,7 @@
 
 import React, { useEffect, useRef, useState, useCallback, forwardRef, useImperativeHandle } from 'react';
 import { useOctane } from '../hooks/useOctane';
+import { ViewportContextMenu } from './CallbackRenderViewport/ViewportContextMenu';
 
 interface OctaneImageData {
   type: number | string;  // Can be numeric (0, 1) or string enum ("IMAGE_TYPE_LDR_RGBA", etc.)
@@ -45,6 +46,9 @@ interface CallbackRenderViewportProps {
   showWorldCoord?: boolean;
   viewportLocked?: boolean;
   pickingMode?: 'none' | 'focus' | 'whiteBalance' | 'material' | 'object' | 'cameraTarget' | 'renderRegion' | 'filmRegion';
+  onExportPasses?: () => void;
+  onSetBackgroundImage?: () => void;
+  onToggleLockViewport?: () => void;
 }
 
 export interface CallbackRenderViewportHandle {
@@ -54,7 +58,14 @@ export interface CallbackRenderViewportHandle {
 }
 
 export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewportHandle, CallbackRenderViewportProps>(
-  function CallbackRenderViewport({ showWorldCoord = true, viewportLocked = false, pickingMode = 'none' }, ref) {
+  function CallbackRenderViewport({ 
+    showWorldCoord = true, 
+    viewportLocked = false, 
+    pickingMode = 'none',
+    onExportPasses,
+    onSetBackgroundImage,
+    onToggleLockViewport
+  }, ref) {
   const { client, connected } = useOctane();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -66,6 +77,10 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
   const [isSelectingRegion, setIsSelectingRegion] = useState(false);
   const [regionStart, setRegionStart] = useState<{ x: number; y: number } | null>(null);
   const [regionEnd, setRegionEnd] = useState<{ x: number; y: number } | null>(null);
+  
+  // Context menu state (for right-click menu)
+  const [contextMenuVisible, setContextMenuVisible] = useState(false);
+  const [contextMenuPos, setContextMenuPos] = useState({ x: 0, y: 0 });
   
   // 2D Canvas transform state (for Ctrl+zoom and Ctrl+pan)
   // Octane SE Manual: When viewport resolution lock is disabled, Ctrl+wheel zooms and Ctrl+drag pans the display
@@ -84,6 +99,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
   // Mouse drag state
   const isDraggingRef = useRef(false);  // Left button = orbit
   const isPanningRef = useRef(false);   // Right button = pan
+  const hasRightDraggedRef = useRef(false);  // Track if right-click involved dragging
   const lastMousePosRef = useRef({ x: 0, y: 0 });
   
   // Camera update rate limiting (10 Hz = 100ms between updates)
@@ -234,6 +250,53 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
     console.log('⌖ Recenter view - resetting 2D canvas transform');
     setCanvasTransform({ scale: 1.0, offsetX: 0, offsetY: 0 });
   }, []);
+
+  /**
+   * Context menu handlers
+   */
+  const handleCloseContextMenu = useCallback(() => {
+    setContextMenuVisible(false);
+  }, []);
+
+  const handleContextCopyToClipboard = useCallback(async () => {
+    try {
+      await copyToClipboard();
+    } catch (error) {
+      console.error('Context menu: Copy failed', error);
+    }
+  }, [copyToClipboard]);
+
+  const handleContextSaveRender = useCallback(async () => {
+    try {
+      await saveRenderToDisk();
+    } catch (error) {
+      console.error('Context menu: Save failed', error);
+    }
+  }, [saveRenderToDisk]);
+
+  const handleContextExportPasses = useCallback(() => {
+    if (onExportPasses) {
+      onExportPasses();
+    } else {
+      console.warn('Export Passes handler not provided');
+    }
+  }, [onExportPasses]);
+
+  const handleContextSetBackgroundImage = useCallback(() => {
+    if (onSetBackgroundImage) {
+      onSetBackgroundImage();
+    } else {
+      console.warn('Set Background Image handler not provided');
+    }
+  }, [onSetBackgroundImage]);
+
+  const handleContextToggleLockViewport = useCallback(() => {
+    if (onToggleLockViewport) {
+      onToggleLockViewport();
+    } else {
+      console.warn('Toggle Lock Viewport handler not provided');
+    }
+  }, [onToggleLockViewport]);
 
   // Expose methods to parent via ref
   useImperativeHandle(ref, () => ({
@@ -635,6 +698,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
         }
       } else if (e.button === 2) { // Right button = PAN (always available)
         isPanningRef.current = true;
+        hasRightDraggedRef.current = false;  // Reset drag tracking
         lastMousePosRef.current = { x: e.clientX, y: e.clientY };
         canvas.style.cursor = 'move';
         e.preventDefault(); // Prevent context menu
@@ -686,6 +750,11 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
         // RIGHT CLICK: Pan camera target in X/Y screen space (no Z depth)
         // Pan speed scales with distance from target
         const panSpeed = cameraRef.current.radius * 0.001;
+
+        // Track that mouse has moved (dragged) while right button is down
+        if (Math.abs(deltaX) > 1 || Math.abs(deltaY) > 1) {
+          hasRightDraggedRef.current = true;
+        }
 
         // Update target position - X and Y only (no Z)
         cameraRef.current.center[0] -= deltaX * panSpeed;  // Horizontal (X)
@@ -881,9 +950,19 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
       
       // CAMERA MODE: Complete orbit/pan
       if (isDraggingRef.current || isPanningRef.current) {
+        const wasPanning = isPanningRef.current;
         isDraggingRef.current = false;
         isPanningRef.current = false;
         canvas.style.cursor = pickingMode !== 'none' ? 'crosshair' : 'grab';
+        
+        // Show context menu if right-click without drag (Octane SE behavior)
+        if (wasPanning && !hasRightDraggedRef.current) {
+          const x = lastMousePosRef.current.x;
+          const y = lastMousePosRef.current.y;
+          setContextMenuPos({ x, y });
+          setContextMenuVisible(true);
+          return;
+        }
         
         // Send final camera position immediately to ensure accuracy
         updateOctaneCameraImmediate();
@@ -1033,6 +1112,20 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
           />
         )}
       </div>
+      
+      {/* Viewport Context Menu - Octane SE Manual: Right-click (without drag) menu */}
+      <ViewportContextMenu
+        visible={contextMenuVisible}
+        x={contextMenuPos.x}
+        y={contextMenuPos.y}
+        onClose={handleCloseContextMenu}
+        onCopyToClipboard={handleContextCopyToClipboard}
+        onSaveRender={handleContextSaveRender}
+        onExportPasses={handleContextExportPasses}
+        onSetBackgroundImage={handleContextSetBackgroundImage}
+        onToggleLockViewport={handleContextToggleLockViewport}
+        viewportLocked={viewportLocked}
+      />
     </div>
   );
 }));
