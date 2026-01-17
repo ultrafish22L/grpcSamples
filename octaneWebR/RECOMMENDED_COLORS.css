@@ -1,0 +1,113 @@
+/* ================================================================
+   RECOMMENDED COLOR PALETTE - OCTANE SE EXACT MATCH
+   Based on analysis of octane-reference.png
+   
+   See COLOR_PALETTE_EXACT.md for detailed analysis and sampling data
+   ================================================================ */
+
+:root {
+  /* ===================================================
+     BACKGROUNDS - Dark gray palette
+     =================================================== */
+  
+  --octane-bg-primary: #3c3c3c;         /* Main panel background (lighter than current) */
+  --octane-bg-secondary: #2d2d2d;       /* Secondary/darker background */
+  --octane-bg-darker: #252525;          /* Node graph, darkest areas */
+  --octane-bg-header: #313131;          /* Menu bar, section headers */
+  
+  
+  /* ===================================================
+     INTERACTIVE STATES - Very subtle highlights
+     =================================================== */
+  
+  --octane-bg-hover: rgba(255,255,255,0.03);     /* Very subtle hover (barely visible) */
+  --octane-bg-selected: #454545;                 /* Selected items (subtle highlight) */
+  --octane-bg-active: rgba(255,255,255,0.08);    /* Pressed/active state */
+  
+  
+  /* ===================================================
+     SECTION BACKGROUNDS - Subtle variations
+     =================================================== */
+  
+  --octane-bg-section-header: #333333;  /* Section headers (slightly darker) */
+  --octane-bg-input: #2d2d2d;           /* Input fields background */
+  --octane-bg-dropdown: #363636;        /* Dropdown menus */
+  --octane-bg-viewport: #808080;        /* Viewport chrome/status area */
+  
+  
+  /* ===================================================
+     TEXT COLORS - Light gray, not pure white
+     =================================================== */
+  
+  --octane-text-primary: #d0d0d0;       /* Main text (light gray, NOT #fff) */
+  --octane-text-secondary: #999999;     /* Secondary text (medium gray) */
+  --octane-text-muted: #808080;         /* Muted text (darker gray) */
+  --octane-text-disabled: #666666;      /* Disabled text (very dark gray) */
+  
+  
+  /* ===================================================
+     BORDERS - Very subtle, barely visible
+     =================================================== */
+  
+  --octane-border: #404040;             /* Standard borders (very subtle) */
+  --octane-border-light: #505050;       /* Slightly more visible borders */
+  --octane-border-input: #505050;       /* Input field borders */
+  --octane-border-dark: #303030;        /* Darker borders */
+  --octane-splitter: #3a3a3a;           /* Panel splitters (nearly invisible) */
+  
+  
+  /* ===================================================
+     ACCENT COLORS - Muted blue and orange
+     =================================================== */
+  
+  --octane-accent-blue: #4060a0;        /* Blue accent (sliders, focus) */
+  --octane-accent-orange: #d88030;      /* Orange selection highlight */
+  --octane-accent-blue-hover: #5080c0;  /* Blue hover state */
+  --octane-accent-blue-dim: #3d4d5d;    /* Dimmed blue (checkbox checked) */
+  
+  
+  /* ===================================================
+     CONTROL BACKGROUNDS - Specific UI elements
+     =================================================== */
+  
+  /* Checkboxes */
+  --octane-checkbox-bg: #2d2d2d;        /* Checkbox background */
+  --octane-checkbox-border: #505050;    /* Checkbox border */
+  --octane-checkbox-checked: #3d4d5d;   /* Checked state (subtle blue tint) */
+  
+  /* Sliders */
+  --octane-slider-track: #2d2d2d;       /* Slider track background */
+  --octane-slider-fill: #4060a0;        /* Slider fill (blue) */
+  --octane-slider-thumb: #808080;       /* Slider thumb (medium gray) */
+  
+  /* Dropdowns */
+  --octane-dropdown-bg: #363636;        /* Dropdown background */
+  --octane-dropdown-hover: #404040;     /* Dropdown item hover */
+  --octane-dropdown-selected: #454545;  /* Dropdown item selected */
+}
+
+
+/* ================================================================
+   KEY CHANGES FROM CURRENT IMPLEMENTATION
+   ================================================================
+   
+   BACKGROUNDS:
+   - bg-primary:   #2b2b2b → #3c3c3c (+17 lighter)
+   - bg-secondary: #3c3c3c → #2d2d2d (-15 darker, roles swapped)
+   - bg-darker:    #323232 → #252525 (-13 darker)
+   - bg-header:    #404040 → #313131 (-15 darker)
+   
+   TEXT:
+   - text-primary:   #ffffff → #d0d0d0 (-47 dimmer) **CRITICAL**
+   - text-secondary: #cccccc → #999999 (-51 darker) **CRITICAL**
+   - text-muted:     #999999 → #808080 (-25 darker)
+   
+   BORDERS:
+   - border:       #555555 → #404040 (-21 darker, more subtle) **CRITICAL**
+   - border-light: #666666 → #505050 (-22 darker)
+   
+   INTERACTIVE:
+   - bg-hover:    #484848 → rgba(255,255,255,0.03) **CRITICAL** (much subtler)
+   - bg-selected: #4a4a4a → #454545 (-5 darker)
+   
+   ================================================================ */
