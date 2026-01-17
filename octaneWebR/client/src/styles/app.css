@@ -144,3 +144,592 @@ body {
 }
 
 /* .inspector-content moved to layout.css (consolidated) */
+
+/* ========================================
+   LAYOUT SYSTEM (merged from layout.css)
+   ======================================== */
+
+/**
+ * OctaneWeb Layout System
+ * Responsive grid layout with resizable panels matching Octane Studio
+ */
+
+/* Resizable Panel System */
+.resizable-panel {
+    position: relative;
+}
+
+.panel-splitter {
+    background-color: var(--octane-border, #3a3a3a);
+    cursor: col-resize;
+    z-index: var(--z-dropdown);
+    transition: background-color 0.2s ease;
+    pointer-events: auto;
+    user-select: none;
+}
+
+.panel-splitter:hover {
+    background-color: var(--octane-accent-yellow, #ffc107);
+}
+
+.panel-splitter.vertical {
+    width: 4px;
+    height: 100%;
+    cursor: col-resize;
+}
+
+.panel-splitter.horizontal {
+    width: 100%;
+    height: 4px;
+    cursor: row-resize;
+}
+
+.panel-splitter.vertical:hover {
+    pointer-events: auto;
+}
+
+.panel-splitter.horizontal {
+    height: var(--splitter-size, 4px);
+    width: 100%;
+    cursor: row-resize;
+    pointer-events: auto;
+}
+
+/* Bottom splitter positioned in grid layout */
+#bottom-splitter {
+    position: relative;
+    background-color: var(--octane-border);
+    margin: 0;
+}
+
+#bottom-splitter:hover,
+#bottom-splitter.dragging {
+    background-color: var(--octane-accent-yellow);
+}
+
+.panel-splitter.dragging {
+    background-color: var(--octane-accent-yellow);
+}
+
+/* Panel Resize States */
+.panel.resizing {
+    pointer-events: none;
+    user-select: none;
+}
+
+body.resizing {
+    user-select: none;
+}
+
+body.resizing * {
+    pointer-events: none;
+}
+
+body.resizing .panel-splitter {
+    pointer-events: auto;
+}
+
+.app-layout.resizing {
+    cursor: col-resize;
+}
+
+.app-layout.resizing * {
+    pointer-events: none;
+}
+
+
+.inspector-content {
+    flex: 1;
+    overflow: auto;
+    padding: 8px;
+    background: var(--octane-bg-darker);
+    border-radius: var(--border-radius-base);
+}
+
+
+.scene-tree {
+    font-size: var(--font-size-small);
+}
+
+/* Node Graph Layout */
+
+@media (max-width: 1400px) {
+    .app-layout {
+        grid-template-columns: 180px 1fr 280px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .app-layout {
+        grid-template-columns: 160px 1fr 250px;
+    }
+    
+    .parameter-row {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .parameter-label {
+        text-align: left;
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 900px) {
+    .app-layout {
+        grid-template-columns: 140px 1fr 220px;
+    }
+    
+    .node-graph-section {
+        height: 150px;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr;
+    }
+    
+    .left-panel, .right-panel {
+        height: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--octane-border);
+    }
+    
+    .panel-splitter.vertical {
+        display: none;
+    }
+    
+    .node-graph-section {
+        height: 120px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .app-container {
+        display: block;
+    }
+    
+    .menu-bar, .status-bar {
+        display: none;
+    }
+    
+    .app-layout {
+        display: block;
+        height: auto;
+    }
+    
+    .panel {
+        border: 1px solid var(--octane-text-primary);
+        margin-bottom: 20px;
+        break-inside: avoid;
+    }
+
+/* Ensure ReactFlow edges are clickable and interactive */
+.react-flow__edge {
+    pointer-events: all !important;
+    cursor: pointer !important;
+}
+
+.react-flow__edge path {
+    pointer-events: all !important;
+    cursor: pointer !important;
+}
+
+.react-flow__edge-path {
+    pointer-events: all !important;
+    cursor: pointer !important;
+}
+
+/* ReactFlow uses invisible interaction layer for wider click area */
+.react-flow__edge-interaction {
+    pointer-events: all !important;
+    cursor: pointer !important;
+}
+
+/* Increase hit area for easier edge selection */
+.react-flow__edge path {
+    stroke-width: 2;
+}
+
+.react-flow__edge:hover path,
+.react-flow__edge.selected path {
+    stroke-width: 3;
+}
+
+/* Override any parent pointer-events blocking */
+.react-flow__edges {
+    pointer-events: auto !important;
+}
+
+/* CRITICAL: Ensure edges work even during body.resizing */
+body.resizing .react-flow__edge,
+body.resizing .react-flow__edge path,
+body.resizing .react-flow__edge-path,
+body.resizing .react-flow__edge-interaction {
+    pointer-events: all !important;
+    cursor: pointer !important;
+}
+
+/* ReactFlow Handle (Pin) Styling - Solid appearance like Octane */
+.react-flow__handle {
+    /* Minimal shadow for depth - no inset shadows to keep solid appearance */
+    box-shadow: 0 1px 2px var(--octane-overlay-subtle);
+    
+    /* Moderate desaturation - original darker look */
+    filter: saturate(0.5) brightness(0.7);
+    
+    /* Ensure smooth rendering */
+    transition: all 0.15s ease;
+}
+
+/* Hover state - slightly brighter but still muted */
+.react-flow__handle:hover {
+    filter: saturate(0.6) brightness(0.8);
+    box-shadow: 
+        0 1px 2px var(--octane-shadow-medium),
+        0 0 4px var(--octane-highlight-medium); /* Subtle outer glow */
+}
+
+/* Connected handles - maintain muted appearance */
+.react-flow__handle.connected {
+    filter: saturate(0.6) brightness(0.75);
+}
+
+/* Octane Node Body Styling - Match Reference 3D Button Effect */
+.octane-node {
+    /* Much darker gradient - half as bright to match Octane reference */
+    background: linear-gradient(180deg, 
+        var(--octane-highlight-ultra-subtle) 0%,  /* 0.084 / 2 = 0.042 */
+        var(--octane-shadow-ultra-subtle) 100%    /* 0.105 / 2 = 0.053 */
+    );
+    
+    /* Stronger 3D button effect - dimmer highlights to match darker background */
+    box-shadow: 
+        inset 0 2px 1px var(--octane-highlight-subtle),   /* 0.105 / 2 = 0.053 */
+        inset 0 -2px 1px var(--octane-overlay-light),         
+        0 2px 3px var(--octane-shadow-heavy);                
+    
+    /* Only desaturation - NO brightness filter to keep text bright */
+    filter: saturate(1.0);
+    
+    /* Smooth transitions */
+    transition: all 0.15s ease;
+}
+
+/* Selected node - slightly more prominent */
+.octane-node.selected {
+    box-shadow: 
+        inset 0 1px 0 var(--octane-highlight),
+        inset 0 -1px 0 var(--octane-shadow-light),
+        0 0 0 2px var(--octane-accent-yellow),
+        0 2px 4px var(--octane-shadow-heavy);
+}
+
+/* ReactFlow Edge (Connection Line) Styling - Muted Colors */
+.react-flow__edge path {
+    /* Moderate desaturation - original darker look */
+    filter: saturate(0.5) brightness(0.7);
+}
+
+
+/* ========================================
+   SHARED COMPONENTS (from components.css)
+   ======================================== */
+
+/**
+ * OctaneWeb Component Styles
+ * Specific styling for individual UI components
+/* Context Menu Components */
+.context-menu {
+    position: absolute;
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px var(--octane-shadow);
+    padding: 4px 0;
+    min-width: 150px;
+    z-index: var(--z-context-menu);
+    pointer-events: auto;
+}
+
+/* Context menu item styles moved to octane-theme.css for consistency */
+
+.context-menu-separator {
+    height: 1px;
+    background-color: var(--octane-border);
+    margin: 4px 0;
+}
+
+.context-menu-icon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-small);
+}
+
+.context-menu-shortcut {
+    margin-left: auto;
+    color: var(--octane-text-muted);
+    font-size: var(--font-size-small);
+}
+
+.context-menu-arrow {
+    margin-left: auto;
+    color: var(--octane-text-muted);
+    font-size: var(--font-size-small);
+    transition: transform 0.15s ease;
+}
+
+.context-menu-item.has-submenu:hover .context-menu-arrow {
+    color: var(--octane-text-primary);
+}
+
+/* Submenu Styles */
+.context-menu.submenu {
+    z-index: var(--z-dropdown-content);
+}
+
+.context-menu.submenu::before {
+    content: '';
+    position: absolute;
+    left: -1px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: var(--octane-border);
+}
+
+/* Drop Indicator for File Manager */
+.drop-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--octane-overlay-dark);
+    z-index: var(--z-search-dialog);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.drop-indicator-content {
+    background-color: var(--octane-bg-secondary);
+    border: 2px dashed var(--octane-accent-blue);
+    border-radius: var(--border-radius-large);
+    padding: 40px;
+    text-align: center;
+    color: var(--octane-text-primary);
+}
+
+.drop-indicator-icon {
+    font-size: var(--font-size-huge);
+    margin-bottom: 16px;
+}
+
+.drop-indicator-text {
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 8px;
+}
+
+.drop-indicator-formats {
+    font-size: var(--font-size-small);
+    color: var(--octane-text-muted);
+}
+
+/* Drag Over State */
+body.drag-over {
+    pointer-events: none;
+}
+
+body.drag-over * {
+    pointer-events: none;
+}
+
+body.drag-over .drop-indicator {
+    pointer-events: auto;
+}
+
+/* Modal Dialog Components */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--octane-overlay-semi);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-context-menu);
+    pointer-events: auto;
+}
+
+.modal-dialog {
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 16px var(--octane-shadow);
+    min-width: 300px;
+    max-width: 80vw;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Removed duplicate - consolidated .modal-header at line ~3762 (later definition applies due to CSS cascade) */
+
+.modal-title {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-bold);
+    color: var(--octane-text-primary);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--octane-text-secondary);
+    cursor: pointer;
+    font-size: var(--font-size-xl);
+    padding: 4px;
+    border-radius: var(--border-radius);
+    transition: all 0.15s ease;
+}
+
+.modal-close:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+.modal-content {
+    padding: 16px;
+    flex: 1;
+    overflow: auto;
+    color: var(--octane-text-primary);
+}
+
+/* Removed duplicate - consolidated .modal-footer at line ~3808 (later definition applies due to CSS cascade) */
+
+.modal-button {
+    background-color: var(--octane-bg-header);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-primary);
+    padding: 6px 12px;
+    font-size: var(--font-size-small);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.modal-button:hover {
+    background-color: var(--octane-bg-hover);
+}
+
+.modal-button.primary {
+    background-color: var(--octane-accent-blue);
+    border-color: var(--octane-accent-blue);
+    color: white;
+}
+
+.modal-button.primary:hover {
+    background-color: var(--octane-accent-blue);
+}
+
+/* Tooltip Components */
+.tooltip {
+    position: absolute;
+    background-color: var(--octane-bg-darker);
+    color: var(--octane-text-primary);
+    padding: 4px 8px;
+    font-size: var(--font-size-small);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--octane-border);
+    box-shadow: 0 2px 4px var(--octane-shadow);
+    z-index: var(--z-dropdown-content);
+    pointer-events: none;
+    white-space: nowrap;
+    max-width: 200px;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.tooltip::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid var(--octane-border);
+}
+
+.tooltip::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid var(--octane-bg-darker);
+}
+
+/* Progress Components */
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background-color: var(--octane-bg-secondary);
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: var(--octane-accent-blue);
+    border-radius: var(--border-radius-sm);
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    font-size: var(--font-size-small);
+    color: var(--octane-text-secondary);
+    text-align: center;
+    margin-top: 4px;
+}
+
+/* ===== OFFICIAL OTOY CONTROL BARS ===== */
+
+.control-btn {
+    background: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-secondary);
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-small);
+    width: 18px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+}
+
+.control-btn:hover {
+    background: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+    border-color: var(--octane-accent-blue);
+}
+
+.control-btn:active {
+    background: var(--octane-accent-blue);
+    color: white;
+}
