@@ -23,52 +23,92 @@
  */
 
 :root {
-    /* Octane Studio Color Palette - Matched to Octane SE screenshot */
-    --octane-bg-primary: #2b2b2b;      /* Main background - matches Octane SE */
-    --octane-bg-secondary: #3c3c3c;    /* Panel backgrounds */
-    --octane-bg-parameter: #4c4c4c;    /* Panel backgrounds */
-    --octane-bg-darker: #323232;       /* Scene Outliner, side panels - LIGHTENED to match Octane SE */
-    --octane-bg-header: #404040;       /* Header/menu backgrounds - matches Octane SE */
-    --octane-bg-selected: #4a4a4a;     /* Selected items */
-    --octane-bg-hover: #484848;        /* Hover states */
-    --octane-bg-active: #525252;       /* Active/pressed states - slightly lighter than hover */
+    /* ===================================================
+       BACKGROUNDS - Exact match to Octane SE
+       Based on color analysis of octane-reference.png
+       =================================================== */
+    --octane-bg-primary: #3c3c3c;         /* Main panel background (was #2b2b2b, +17 lighter) */
+    --octane-bg-secondary: #2d2d2d;       /* Secondary/darker background (was #3c3c3c, roles swapped) */
+    --octane-bg-darker: #252525;          /* Node graph, darkest areas (was #323232, -13 darker) */
+    --octane-bg-header: #313131;          /* Menu bar, section headers (was #404040, -15 darker) */
+    --octane-bg-parameter: #2d2d2d;       /* Parameter backgrounds (matched to secondary) */
     
-    /* Octane Text Colors */
-    --octane-text-primary: #ffffff;    /* Primary text */
-    --octane-text-secondary: #cccccc;  /* Secondary text */
-    --octane-text-muted: #999999;      /* Muted text */
-    --octane-text-disabled: #666666;   /* Disabled text */
+    /* ===================================================
+       INTERACTIVE STATES - Very subtle, exact match
+       =================================================== */
+    --octane-bg-hover: rgba(255,255,255,0.03);     /* Very subtle hover (was #484848, MUCH subtler now) */
+    --octane-bg-selected: #454545;                 /* Selected items (was #4a4a4a, -5 darker) */
+    --octane-bg-active: rgba(255,255,255,0.08);    /* Active/pressed state (subtle overlay) */
     
-    /* Octane Accent Colors */
-    --octane-accent: #ff8c00;          /* Primary accent - Octane orange */
-    --octane-accent-yellow: #ffc107;   /* Selection yellow/gold - matches Octane */
-    --octane-accent-orange: #ff8c00;   /* Warning/active orange */
-    --octane-accent-green: #5cb85c;    /* Success green */
-    --octane-accent-red: #d9534f;      /* Error red */
-    --octane-accent-blue: #3a9bd9;     /* Info/link blue */
-    --octane-selection-highlight: #9a6000; /* Subtle dark orange for scene outliner selection - matches Octane SE */
+    /* ===================================================
+       TEXT COLORS - Light gray, not pure white
+       =================================================== */
+    --octane-text-primary: #d0d0d0;       /* Main text (was #ffffff, -47 dimmer) **CRITICAL** */
+    --octane-text-secondary: #999999;     /* Secondary text (was #cccccc, -51 darker) */
+    --octane-text-muted: #808080;         /* Muted text (darker gray) */
+    --octane-text-disabled: #666666;      /* Disabled text (unchanged) */
     
-    /* Octane UI Elements */
-    --octane-border: #555555;          /* Standard borders */
+    /* ===================================================
+       ACCENT COLORS - Muted tones
+       =================================================== */
+    --octane-accent: #d88030;             /* Primary accent - muted orange (was #ff8c00) */
+    --octane-accent-yellow: #ffc107;      /* Selection yellow/gold */
+    --octane-accent-orange: #d88030;      /* Warning/active orange (muted) */
+    --octane-accent-green: #5cb85c;       /* Success green */
+    --octane-accent-red: #d9534f;         /* Error red */
+    --octane-accent-blue: #4060a0;        /* Info/link blue (was #3a9bd9, more muted) */
+    --octane-selection-highlight: #9a6000; /* Subtle dark orange for scene outliner selection */
+    
+    /* ===================================================
+       BORDERS - Very subtle, barely visible
+       =================================================== */
+    --octane-border: #404040;             /* Standard borders (was #555555, -21 darker) **CRITICAL** */
+    --octane-border-light: #505050;       /* Slightly more visible (was #666666, -22 darker) */
+    --octane-border-dark: #303030;        /* Dark borders (was #333333) */
+    --octane-border-darker: #1a1a1a;      /* Darker borders/backgrounds (unchanged) */
+    --octane-border-medium: #404040;      /* Medium borders (matched to standard) */
+    --octane-shadow: rgba(0, 0, 0, 0.3);  /* Drop shadows */
     
     /* Panel Resize Variables */
-    --splitter-size: 4px;              /* Resize handle thickness */
-    --left-panel-min-width: 140px;         /* Scene outliner width */
-    --octane-border-light: #666666;    /* Light borders */
-    --octane-border-dark: #333333;     /* Dark borders */
-    --octane-border-darker: #1a1a1a;   /* Darker borders/backgrounds */
-    --octane-border-medium: #555555;   /* Medium borders (same as --octane-border) */
-    --octane-shadow: rgba(0, 0, 0, 0.3); /* Drop shadows */
+    --splitter-size: 4px;                 /* Resize handle thickness */
+    --left-panel-min-width: 140px;        /* Scene outliner width */
+    --octane-splitter: #3a3a3a;           /* Panel splitters (nearly invisible) */
     
     /* Error States */
     --octane-error-bg: #3a1a1a;        /* Error background (dark red) */
     --octane-error-border: #5a2a2a;    /* Error border (medium red) */
     
-    /* Octane Specific Colors */
-    --octane-viewport-bg: #2a2a2a;     /* Viewport background */
-    --octane-node-bg: #3a3a3a;         /* Node backgrounds */
-    --octane-connection-line: #888888; /* Node connections */
-    --octane-parameter-bg: #2a2a2a;    /* Parameter backgrounds - LIGHTENED to match Octane SE */
+    /* ===================================================
+       COMPONENT-SPECIFIC BACKGROUNDS
+       =================================================== */
+    --octane-viewport-bg: #808080;        /* Viewport chrome area (was #2a2a2a, much lighter) */
+    --octane-node-bg: #3c3c3c;            /* Node backgrounds (matched to primary) */
+    --octane-connection-line: #888888;    /* Node connections (unchanged) */
+    
+    /* ===================================================
+       CONTROL BACKGROUNDS - Specific UI elements
+       =================================================== */
+    /* Checkboxes */
+    --octane-checkbox-bg: #2d2d2d;        /* Checkbox background */
+    --octane-checkbox-border: #505050;    /* Checkbox border */
+    --octane-checkbox-checked: #3d4d5d;   /* Checked state (subtle blue tint) */
+    
+    /* Sliders */
+    --octane-slider-track: #2d2d2d;       /* Slider track background */
+    --octane-slider-fill: #4060a0;        /* Slider fill (blue) */
+    --octane-slider-thumb: #808080;       /* Slider thumb (medium gray) */
+    
+    /* Dropdowns */
+    --octane-dropdown-bg: #363636;        /* Dropdown background */
+    --octane-dropdown-hover: #404040;     /* Dropdown item hover */
+    --octane-dropdown-selected: #454545;  /* Dropdown item selected */
+    
+    /* Input fields */
+    --octane-input-bg: #2d2d2d;           /* Input field background */
+    --octane-input-border: #505050;       /* Input field border */
+    
+    /* Section headers */
+    --octane-section-header-bg: #333333;  /* Section headers (slightly darker than primary) */
     
     /* Transparent Overlays & Shadows */
     --octane-overlay-darkest: rgba(0, 0, 0, 0.9);   /* Very dark overlays */
