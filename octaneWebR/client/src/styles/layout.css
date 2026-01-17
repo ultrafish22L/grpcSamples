@@ -328,7 +328,10 @@ body.resizing .panel-splitter {
     display: flex;
     align-items: center;
     padding: 2px 4px;
+    margin: 0;
+    height: 18px;
     cursor: pointer;
+    user-select: none;
     border-radius: var(--border-radius);
     transition: background-color 0.15s ease;
 }
@@ -358,15 +361,7 @@ body.resizing .panel-splitter {
     transform: rotate(-90deg);
 }
 
-.scene-node-icon {
-    width: 16px;
-    height: 16px;
-    margin-right: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--font-size-normal);
-}
+/* .scene-node-icon - see components.css:148 (includes all icon type variations) */
 
 .scene-node-label {
     flex: 1;

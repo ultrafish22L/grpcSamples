@@ -88,29 +88,11 @@
     color: var(--octane-text-primary);
 }
 
-.scene-node {
-    cursor: pointer;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    padding: 1px 6px;
-    margin: 0;
-    height: 18px;
-}
-
-.scene-node:hover {
-    background-color: var(--octane-bg-hover);
-}
-
-.scene-node.selected {
-    background-color: var(--octane-accent-red);
-    color: white;
-}
-
-.scene-node-indent {
-    width: 12px;
-    flex-shrink: 0;
-}
+/* Scene node structural styles - see layout.css:327 */
+/* .scene-node */
+/* .scene-node:hover */
+/* .scene-node.selected */
+/* .scene-node-indent */
 
 .scene-node-expand {
     width: 12px;
@@ -148,9 +130,12 @@
 }
 
 .scene-node-icon {
-    width: 14px;
-    text-align: center;
+    width: 16px;
+    height: 16px;
     margin-right: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: var(--font-size-small);
     flex-shrink: 0;
 }
@@ -177,19 +162,8 @@
     color: var(--octane-highlight-strong);
 }
 
-.scene-node-visibility {
-    margin-left: 6px;
-    cursor: pointer;
-    opacity: var(--opacity-moderate);
-    font-size: var(--font-size-small);
-    width: 14px;
-    text-align: center;
-    flex-shrink: 0;
-}
-
-.scene-node-visibility:hover {
-    opacity: var(--opacity-full);
-}
+/* .scene-node-visibility - see layout.css:379 */
+/* .scene-node-visibility:hover - see layout.css:392 */
 
 /* Node type specific icons */
 .scene-node-icon.scene { color: inherit; }
@@ -2751,13 +2725,7 @@ body.drag-over .drop-indicator {
     margin-left: 4px;
     min-width: 20px;
 }
-
-/* Checkbox Controls */
-.parameter-checkbox-container {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
+/* Checkbox Controls - see line 1058 for .parameter-checkbox-container */
 
 /* Removed duplicate - consolidated at line ~3570 */
 
@@ -3312,10 +3280,7 @@ body.drag-over .drop-indicator {
     border-radius: 0 0 var(--border-radius-base) 0;
 }
 
-.parameter-spinner-btn:hover {
-    background: var(--octane-text-disabled);
-    color: var(--octane-text-primary);
-}
+/* .parameter-spinner-btn:hover - see line 354 */
 
 .parameter-spinner-btn:active {
     background: var(--octane-border-light);
@@ -3521,13 +3486,7 @@ body.drag-over .drop-indicator {
     align-items: center;
     gap: var(--spacing-md);
 }
-
-/* Checkbox Controls - Match octaneWeb exactly */
-.parameter-checkbox-container {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
+/* Checkbox Controls - Match octaneWeb exactly (see line 1058 for .parameter-checkbox-container) */
 
 /* CONSOLIDATED: Merged 4 duplicate definitions into one comprehensive definition */
 .parameter-checkbox-custom {
